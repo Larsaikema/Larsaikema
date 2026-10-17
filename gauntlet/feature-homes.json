@@ -99,7 +99,7 @@
     },
     "product.print-upload": {
       "status": "theme",
-      "where": "sections/main-product.liquid bedrukken block (properties[Logo] file, 'later aanleveren'), assets/product-form.js FormData"
+      "where": "snippets/product-print.liquid (bedrukken block of sections/main-product.liquid: several files via one multiple input, list with remove + drag and drop, type and per-file size checks, max files/MB as block settings, 'later aanleveren'), assets/product-form.js (properties[Logo], [Logo 2] … in a multipart /cart/add.js; add-ons follow and the uploaded line is removed again if they fail). Shopify caps uploads at 20 MB per file, so 128 MB files go via 'later aanleveren'"
     },
     "product.print-side": {
       "status": "theme",
@@ -139,7 +139,7 @@
     },
     "product.accessory-cross-sell": {
       "status": "theme",
-      "where": "sections/main-product.liquid addons block (custom.addons) + product-recommendations"
+      "where": "sections/main-product.liquid addons block (custom.addons) + product-recommendations; cart drawer and cart page 'Vergeet niet' via snippets/cart-related.liquid (add-ons of the cart products, then collection products whose custom.past_op names a cart product)"
     },
     "product.whats-included": {
       "status": "theme",

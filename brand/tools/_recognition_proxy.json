@@ -1,0 +1,41 @@
+{
+ "method": "Silhouette proxy for the 'bank/landmark icon' reading: render each shape black-on-white, fit to an NxN box\n(aspect kept, centred), threshold, and compare with a generic landmark pictogram and a generic house pictogram\n(both drawn here from their usual description: pediment + slab + columns + base; roof + walls + door).\nScore = IoU of the binary masks (1 = identical silhouette). Not a substitute for the human test.",
+ "rows": [
+  {
+   "shape": "v6 tent-A (letter)",
+   "landmark_16": 0.58,
+   "house_16": 0.71,
+   "landmark_32": 0.53,
+   "house_32": 0.63,
+   "landmark_64": 0.52,
+   "house_64": 0.6
+  },
+  {
+   "shape": "v6 beeldmerk (tent + statafel)",
+   "landmark_16": 0.58,
+   "house_16": 0.56,
+   "landmark_32": 0.57,
+   "house_32": 0.51,
+   "landmark_64": 0.54,
+   "house_64": 0.49
+  },
+  {
+   "shape": "v7 tent-A (letter = beeldmerk)",
+   "landmark_16": 0.49,
+   "house_16": 0.66,
+   "landmark_32": 0.39,
+   "house_32": 0.59,
+   "landmark_64": 0.41,
+   "house_64": 0.63
+  },
+  {
+   "shape": "v7 mark-klein",
+   "landmark_16": 0.49,
+   "house_16": 0.66,
+   "landmark_32": 0.43,
+   "house_32": 0.63,
+   "landmark_64": 0.43,
+   "house_64": 0.65
+  }
+ ]
+}

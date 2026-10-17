@@ -1,150 +1,157 @@
-"""Fill tools/brand.template.md -> brand.md and tools/technisch.template.md -> technisch.md (v5) with tables from
-tokens.json and the measurements in tools/.
-    python3 build_md.py <brand-dir>"""
+"""Fill brand.template.md and technisch.template.md with the measured tables (v7).
+
+    python3 build_md.py <brand-dir>
+
+Every number in the tables comes from tools/logo-meta.json, tokens.json, tools/_contrast.json, tools/_repro.json or
+tools/_recognition_proxy.json, so the book cannot drift from the files.
+"""
 import json, os, re, sys
-T = os.path.dirname(os.path.abspath(__file__))
-B = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(T)
-TOOLS = os.path.join(B, 'tools')
-sys.path.insert(0, T)
-from contrast import cr
-tok = json.load(open(os.path.join(B, 'tokens.json')))
-con = json.load(open(os.path.join(TOOLS, '_contrast.json')))
-rep = json.load(open(os.path.join(TOOLS, '_repro.json')))
-meta = json.load(open(os.path.join(TOOLS, 'logo-meta.json')))
-rchk = json.load(open(os.path.join(TOOLS, '_render_check.json')))
+B = sys.argv[1]
+T = os.path.join(B, 'tools')
+META = json.load(open(os.path.join(T, 'logo-meta.json')))
+TOK = json.load(open(os.path.join(B, 'tokens.json')))
+CON = json.load(open(os.path.join(T, '_contrast.json')))
+REP = json.load(open(os.path.join(T, '_repro.json')))
+REC = json.load(open(os.path.join(T, '_recognition_proxy.json')))
 
-def nl(x, d=2): return (f'{x:.{d}f}').replace('.', ',')
-def n0(x): return f'{x:.0f}'
-NAMES = {'tint-zand': 'tint op Zand', 'tint-wit': 'tint op Wit', 'tint-duin': 'tint op Duin', 'tint-steen': 'tint op Steen',
-         'tintd-polder': 'tint op Polder', 'tintd-inkt': 'tint op Inkt'}
-def name(k): return NAMES.get(k, k.replace('-', ' '))
-H = {k: v['value'] for k, v in tok['color'].items()}
-H.update({k: v['value'] for k, v in tok['color_derived'].items()})
-def hx(n): return 'transparant' if n == 'transparent' else name(n)
-def cap(s): return s[:1].upper() + s[1:]
+def nl(v, d=2):
+    if isinstance(v, int): return f'{v}'
+    s = f'{v:.{d}f}'.rstrip('0').rstrip('.') if d else f'{v:.0f}'
+    return s.replace('.', ',')
+def r2(v): return f'{v:.2f}'.replace('.', ',')
 
-# ---------------------------------------------------------------- palette, contrast, schemes
-pal = ['| Kleur | Hex | Familie | Rol |', '|---|---|---|---|']
-pal += [f"| **{cap(name(k))}** | `{v['value']}` | {v['family']} | {v['role']} |" for k, v in tok['color'].items()]
-pal.append('')
-pal.append('Afgeleid (alleen schermen, hover van de omlijnde knop): ' + ', '.join(f"{name(k)} `{v['value']}`" for k, v in tok['color_derived'].items()) + '.')
+V = {}
+wm = META['wordmark']; p = META['params']; tm = META['tent']
+V['CAP'] = '700'
+rows = ['| Vorm | Eenheden | % van de kapitaalhoogte |', '|---|---:|---:|']
+for k, v in META['strokes_units'].items():
+    rows.append(f'| {k} | {nl(v, 1)} | {nl(v / 7, 1)} % |')
+V['T_STROKES'] = '\n'.join(rows)
+rows = ['| Hoek | Gemeten |', '|---|---:|']
+for k, v in META['angles_deg'].items():
+    rows.append(f'| {k} | {nl(v, 1)}° |')
+V['T_ANGLES'] = '\n'.join(rows)
+rows = ['| Tussen | logo.svg: kortste afstand | logo.svg: wit per regel | logo-klein: kortste afstand |', '|---|---:|---:|---:|']
+names = {'K|LA': 'K – LA', 'LA|P': 'LA – P', 'P|K': 'P – K', 'LA|tent': 'A – tent', 'tent|R': 'tent – R'}
+seen = set()
+for gp, gk in zip(wm['primary']['letter_gaps'], wm['klein']['letter_gaps']):
+    if gp['pair'] in seen: continue
+    seen.add(gp['pair'])
+    rows.append(f"| {names.get(gp['pair'], gp['pair'])} | {nl(gp['units'], 0)} | {nl(gp['white_units'], 0)} | {nl(gk['units'], 0)} |")
+V['T_GAPS'] = '\n'.join(rows)
+rows = ['| Hoogte (eenheden) | Tent-A | Gewone A |', '|---|---:|---:|',
+        f"| piek / top | {nl(tm['peak_y'], 0)} geometrisch, {nl(700 + wm['primary']['peak_above_cap_units'], 1)} na de afronding | 700 (vlakke top) |",
+        f"| bovenkant luifel = bovenkant dwarsbalk | {tm['valance_top']} | {tm['a_crossbar'][1]} |",
+        f"| onderkant luifelband (tussen de schulpen) | {nl(tm['cusps'], 1)} | – |",
+        f"| onderkant schulpen = onderkant dwarsbalk | {nl(tm['scallop_tips'], 1)} | {nl(tm['a_crossbar'][0], 1)} |",
+        f"| breedte | {tm['width']} | {p['W_A']} |"]
+V['T_TENT'] = '\n'.join(rows)
+V['PEAK_OVER'] = nl(wm['primary']['peak_above_cap_units'], 1)
+V['PEAK_PCT'] = nl(wm['primary']['peak_above_cap_units'] / 7, 1)
+V['PITCH'] = nl(META['angles_deg']['tentdak, koorde top-hoek (vanaf horizontaal)'], 1)
+V['POLE_RATIO'] = nl(tm['pole_to_stem'], 2)
+V['ASPECT'] = nl(wm['primary']['aspect'], 2)
+V['W_UNITS'] = nl(wm['primary']['width_units'], 0)
+V['W_UNITS_KLEIN'] = nl(wm['klein']['width_units'], 0)
+V['STROKE_P'] = nl(wm['primary']['thinnest_stroke_units'], 0); V['GAP_P'] = nl(wm['primary']['smallest_opening_units'], 0)
+V['STROKE_K'] = nl(wm['klein']['thinnest_stroke_units'], 0); V['GAP_K'] = nl(wm['klein']['smallest_opening_units'], 0)
+V['A_COUNTER'] = nl(wm['primary']['a_counter_width_units'], 0)
+V['SWITCH_P'] = META['switch']['logo.svg']; V['SWITCH_K'] = META['switch']['logo-klein']
+methods = [m for m in wm['primary']['min_width_mm'] if m != 'Scherm (px)']
+ASSUME = {'Borduren (satijnsteek)': '1,2 / 1,0', 'Flock-transfer (geplot)': '1,5 / 1,5', 'Flex-/snijfolie (textiel)': '1,0 / 1,0',
+          'Snijfolie bus/bord': '1,5 / 1,5', 'Zeefdruk textiel': '0,5 / 0,6', 'DTF-transfer': '0,5 / 0,5', 'Sublimatie (luifel, rok)': '0,3 / 0,3',
+          'Offset/digitaal papier': '0,15 / 0,15'}
+rows = ['| Methode | Kleinste lijn / opening (aanname, mm) | logo.svg | logo-klein | beeldmerk | beeldmerk klein |', '|---|---|---:|---:|---:|---:|']
+for m in methods:
+    rows.append(f"| {m} | {ASSUME[m]} | {wm['primary']['min_width_mm'][m]} mm | {wm['klein']['min_width_mm'][m]} mm | {META['mark']['min_width_mm'][m]} mm | {META['mark']['min_width_mm_klein'][m]} mm |")
+rows.append(f"| Scherm, technisch minimum (1x) | 1,6 px / 1 px | {wm['primary']['min_width_mm']['Scherm (px)']} px | {wm['klein']['min_width_mm']['Scherm (px)']} px | {META['mark']['min_width_mm']['Scherm (px)']} px | {META['mark']['min_width_mm_klein']['Scherm (px)']} px |")
+V['T_MINSIZE'] = '\n'.join(rows)
+V['EMB_P'] = str(wm['primary']['min_width_mm']['Borduren (satijnsteek)']); V['EMB_K'] = str(wm['klein']['min_width_mm']['Borduren (satijnsteek)'])
+V['EMB_M'] = str(META['mark']['min_width_mm']['Borduren (satijnsteek)']); V['EMB_MK'] = str(META['mark']['min_width_mm_klein']['Borduren (satijnsteek)'])
+V['FLOCK_K'] = str(wm['klein']['min_width_mm']['Flock-transfer (geplot)'])
+V['SUB_P'] = str(wm['primary']['min_width_mm']['Sublimatie (luifel, rok)'])
 
-def lab(n): return cap(name(n))
-def res(x): return ('AAA' if x['aaa'] else 'AA') if x['kind'] == 'text' else ('AA groot' if x['kind'] == 'large' else '≥ 3:1')
-rows = ['**Tekst** (eis 4,5:1; display-tekst ≥ 24 px vet 3:1)', '', '| Tekst op vlak | Gebruik | Ratio | Resultaat |', '|---|---|---:|---|']
-rows += [f"| {lab(x['fg'])} op {name(x['bg'])} | {x['use']} | {nl(x['ratio'])}:1 | {res(x)} |" for x in con['rows'] if x['kind'] in ('text', 'large')]
-rows += ['', '**UI-delen** (knopvlakken, randen, focusringen, iconen en stippen; eis 3:1)', '', '| Vorm tegen vlak | Gebruik | Ratio | Resultaat |', '|---|---|---:|---|']
-rows += [f"| {lab(x['fg'])} tegen {name(x['bg'])} | {x['use']} | {nl(x['ratio'])}:1 | {res(x)} |" for x in con['rows'] if x['kind'] == 'ui']
-for x in con.get('info_rows', []):
-    rows.append(f"| {lab(x['fg'])} tegen {name(x['bg'])} | {x['use']} | {nl(x['ratio'])}:1 | herkenbaar door de Zand-ring (Zand op Klaproos {nl(cr(H['zand'], H['klaproos']))}:1, Polder op Zand {nl(cr(H['polder'], H['zand']))}:1) |")
-forb = '\n'.join(f"| {name(f['fg'])} | {name(f['bg'])} | {f['use']} | {nl(f['ratio'])}:1 |" for f in con['forbidden'])
+# palette
+rows = ['| Kleur | Hex | Betekenis | Rol |', '|---|---|---|---|']
+for k, v in TOK['color'].items():
+    rows.append(f"| **{k.capitalize()}** | `{v['value']}` | {v['family']} | {v['role']} |")
+V['T_PALETTE'] = '\n'.join(rows)
+V['T_DERIVED'] = ', '.join(f"{k} `{v['value']}` ({v['role']})" for k, v in TOK['color_derived'].items())
+# schemes
+LBL = {'buy': 'koopknop', 'primary': 'hoofdknop', 'secondary': 'omlijnd'}
+rows = ['| Schema | Achtergrond / tekst | Koopknop: rust → hover | Hoofdknop: rust → hover | Omlijnd: rust → hover | Kleinste label / vorm |', '|---|---|---|---|---|---|']
+by = {}
+for c in CON['scheme_checks']: by.setdefault(c['scheme'], []).append(c)
+for sid, s in TOK['color_schemes'].items():
+    ch = by[sid]
+    buy = f"{s['buy']['bg']} met {s['buy']['label']} → + rand {s['buy_hover']['border']}" if 'buy' in s else '— (hier wordt niet gekocht)'
+    pr = f"{s['primary']['bg']} met {s['primary']['label']} → {s['primary_hover']['bg']}" + (f" + rand {s['primary_hover']['border']}" if s['primary_hover']['border'] != s['primary_hover']['bg'] else '')
+    se = f"{s['secondary']['label']}-rand → {s['secondary_hover']['bg']}"
+    rows.append(f"| {sid} · {s['naam']} | {s['background']} / {s['text']} ({r2(s['text_ratio'])}:1) | {buy} | {pr} | {se} | {r2(min(c['label_ratio'] for c in ch))}:1 / {r2(min(c['shape_ratio'] for c in ch))}:1 |")
+V['T_SCHEMES'] = '\n'.join(rows)
+V['N_SCHEME_CHECKS'] = str(len(CON['scheme_checks']))
+V['N_SCHEME_FAILS'] = str(sum(not c['pass'] for c in CON['scheme_checks']))
+def lvl(r):
+    if r['kind'] == 'text': return 'AAA' if r['ratio'] >= 7 else 'AA'
+    if r['kind'] == 'large': return 'AA groot' if r['ratio'] < 4.5 else 'AA'
+    return '≥ 3:1'
+rows = ['| Tekst op vlak | Waar | Ratio | Niveau |', '|---|---|---:|---|']
+for r in CON['rows']:
+    if r['kind'] in ('text', 'large'):
+        rows.append(f"| {r['fg'].capitalize()} op {r['bg']} | {r['use']} | {r2(r['ratio'])}:1 | {lvl(r)} |")
+V['T_CONTRAST_TEXT'] = '\n'.join(rows)
+rows = ['| Vorm tegen vlak | Waar | Ratio | Eis 3:1 |', '|---|---|---:|---|']
+for r in CON['rows']:
+    if r['kind'] == 'ui':
+        rows.append(f"| {r['fg'].capitalize()} tegen {r['bg']} | {r['use']} | {r2(r['ratio'])}:1 | {'ja' if r['pass'] else 'NEE'} |")
+V['T_CONTRAST_UI'] = '\n'.join(rows)
+rows = ['| Voorgrond | Achtergrond | Wat niet | Ratio |', '|---|---|---|---:|']
+for f in CON['forbidden']:
+    rows.append(f"| {f['fg']} | {f['bg']} | {f['use']} | {r2(f['ratio'])}:1 |")
+V['T_FORBIDDEN'] = '\n'.join(rows)
+V['N_PAIRS'] = str(len(CON['rows'])); V['N_FAILS'] = str(sum(not r['pass'] for r in CON['rows']))
+rows = ['| Vlakken | ΔE<sub>00</sub> | Contrast |', '|---|---:|---:|']
+for k, v in CON['surfaces'].items(): rows.append(f"| {k} | {nl(v['de2000'], 1)} | {r2(v['contrast'])}:1 |")
+V['T_SURFACES'] = '\n'.join(rows)
+sep = CON['separation']
+rows = ['| Merkkleur tegen | ΔE<sub>00</sub> | Hue (CIELAB) |', '|---|---:|---:|', f"| Lampion zelf | – | {nl(sep['lampion_hue'], 1)}° |"]
+for k, v in sep['lampion_vs_stock'].items(): rows.append(f"| {k} | {nl(v['de2000'], 1)} | {nl(v['hue'], 1)}° |")
+rows.append(f"| Zon | {nl(sep['lampion_vs_zon']['de2000'], 1)} | |"); rows.append(f"| Oker | {nl(sep['lampion_vs_oker']['de2000'], 1)} | |"); rows.append(f"| Bordeaux | {nl(sep['lampion_vs_bordeaux']['de2000'], 1)} | |")
+rows.append(f"| ter vergelijking: v6 Klaproos | | {nl(sep['klaproos_v6_hue'], 1)}° |")
+V['T_SEPARATION'] = '\n'.join(rows)
+V['DE_RENDER'] = nl(sep['lampion_vs_stock']['rood (render, gemeten)']['de2000'], 1)
+V['DE_ROK'] = nl(sep['lampion_vs_stock']['oranje stretchrok (catalogus)']['de2000'], 1)
+# reproduction
+rows = ['| Kleur | sRGB | CMYK gestreken (FOGRA39) | CMYK ongestreken (FOGRA29) | Pantone C | Pantone U | Pantone TCX (textiel) | RAL Classic | Oracal 651 |', '|---|---|---|---|---|---|---|---|---|']
+for k, e in REP['colors'].items():
+    c1, c2 = e['cmyk_fogra39'], e['cmyk_fogra29']
+    rows.append(f"| **{k.capitalize()}** | `{e['hex']}` | C{c1[0]} M{c1[1]} Y{c1[2]} K{c1[3]} | C{c2[0]} M{c2[1]} Y{c2[2]} K{c2[3]} | {e['pantone_c'][0]['name']} (ΔE {nl(e['pantone_c'][0]['de'], 1)}) | {e['pantone_u'][0]['name']} (ΔE {nl(e['pantone_u'][0]['de'], 1)}) | {e['pantone_tcx'][0]['name']} (ΔE {nl(e['pantone_tcx'][0]['de'], 1)}) | {e['ral_b'][0]['name'].split(' (')[0]} ({nl(e['ral_b'][0]['de'], 1)}) | {e['oracal651'][0]['name'].replace('ORACAL ', '')} (ΔE {nl(e['oracal651'][0]['de'], 1)}) |")
+V['T_REPRO'] = '\n'.join(rows)
+rows = ['| Kleur | Madeira Polyneon 40 | Isacord 40 | Gunold Poly | Alternatief (2e keus) |', '|---|---|---|---|---|']
+for k, e in REP['colors'].items():
+    f = lambda key, i=0: f"{e[key][i]['name'].replace('Madeira Polyneon ', '').replace('Isacord ', '').replace('Gunold Poly ', '')} (ΔE {nl(e[key][i]['de'], 1)})"
+    rows.append(f"| **{k.capitalize()}** | {f('madeira')} | {f('isacord')} | {f('gunold')} | Madeira {f('madeira', 1)} |")
+V['T_THREADS'] = '\n'.join(rows)
+srcs = []
+for k, s_ in REP['sources'].items():
+    url = f"https://github.com/{s_['repo'].split('github.com/')[1]}/blob/{s_['commit']}/{s_['file'].split(' · ')[0]}" if 'repo' in s_ else ''
+    srcs.append(f"- {s_.get('what', k)}: {url}")
+V['L_REPRO_SOURCES'] = '\n'.join(srcs)
+lg = TOK['logo']
+V['HEADER_D'] = lg['header']['desktop']; V['HEADER_M'] = lg['header']['mobile_390']
+rows = ['| Vorm | landmark 16 px | landmark 32 px | landmark 64 px | huis 16 px | huis 32 px | huis 64 px |', '|---|---:|---:|---:|---:|---:|---:|']
+for r in REC['rows']:
+    rows.append(f"| {r['shape']} | {nl(r['landmark_16'])} | {nl(r['landmark_32'])} | {nl(r['landmark_64'])} | {nl(r['house_16'])} | {nl(r['house_32'])} | {nl(r['house_64'])} |")
+V['T_RECOG'] = '\n'.join(rows)
+r6 = REC['rows'][0]; r7 = REC['rows'][2]
+V['REC_L32_6'] = nl(r6['landmark_32']); V['REC_L32_7'] = nl(r7['landmark_32']); V['REC_H32_6'] = nl(r6['house_32']); V['REC_H32_7'] = nl(r7['house_32'])
 
-SC = tok['color_schemes']; chk = {(c['scheme'], c['state']): c for c in con['scheme_checks']}
-sl = ['| Schema | Achtergrond / tekst | Primair: rust → hover → ingedrukt | Omlijnd: rust → hover | Kleinste label / vorm |', '|---|---|---|---|---|']
-for sid, s in SC.items():
-    def b(st):
-        x = s[st]
-        lab = f"{hx(x['bg'])} met {name(x['label'])}"
-        if x['border'] != x['bg']: lab += f", rand {name(x['border'])}"
-        if x.get('inset'): lab += ' + inzet-schaduw'
-        return lab
-    sts = ('primary', 'primary_hover', 'primary_active', 'secondary', 'secondary_hover')
-    labs = [chk[(sid, st)]['label_ratio'] for st in sts]; shps = [chk[(sid, st)]['shape_ratio'] for st in sts]
-    sl.append(f"| {sid} · {s['naam']} | {name(s['background'])} / {name(s['text'])} ({nl(s['text_ratio'])}:1) | {b('primary')} → {b('primary_hover')} → {b('primary_active')} | {b('secondary')} → {b('secondary_hover')} | {nl(min(labs))}:1 / {nl(min(shps))}:1 |")
-n_checks = len(con['scheme_checks']); n_fail = sum(1 for c in con['scheme_checks'] if not c['pass'])
-
-# ---------------------------------------------------------------- reproduction
-def cmyk(v): return ' '.join(f'{c}{x}' for c, x in zip('CMYK', v))
-rr = []
-for k in ('klaproos', 'zon', 'polder', 'inkt', 'zand'):
-    e = rep['colors'][k]
-    rr.append(f"| **{k.capitalize()}** | `{e['hex']}` | {nl(e['lab_d50'][0],1)} / {nl(e['lab_d50'][1],1)} / {nl(e['lab_d50'][2],1)} | {cmyk(e['cmyk_fogra39'])} | {cmyk(e['cmyk_fogra29'])} | "
-              f"{e['pantone_c'][0]['name']} (ΔE {nl(e['pantone_c'][0]['de'],1)}); alt. {e['pantone_c'][1]['name']} ({nl(e['pantone_c'][1]['de'],1)}) | "
-              f"{e['pantone_tcx'][0]['name']} (ΔE {nl(e['pantone_tcx'][0]['de'],1)}) | "
-              f"{e['ral_b'][0]['name'].split(' (')[0]} ({nl(e['ral_b'][0]['de'],1)}) / {e['ral_a'][0]['name']} ({nl(e['ral_a'][0]['de'],1)}) | "
-              f"{e['oracal651'][0]['name'].replace('ORACAL ', '')} (ΔE {nl(e['oracal651'][0]['de'],1)}) |")
-S = rep['sources']
-src = 'Datasets (alle onofficieel; aantallen: ' + ', '.join(f"{k} {n}" for k, n in rep['counts'].items()) + '):\n\n' + '\n'.join(f"- {v['what']}: {v['repo']}/blob/{v['commit']}/{v['file']}" for k, v in S.items())
-
-# ---------------------------------------------------------------- logo measurements
-WM, MK, GR = meta['wordmark'], meta['mark'], meta['grouping']
-def mm(x): return nl(x, 2).rstrip('0').rstrip(',')
-ms = []
-for m, d in WM['primary']['min_sizes'].items():
-    if m == 'scherm': continue
-    ms.append(f"| {d['label']} | {mm(d['stroke_mm'])} / {mm(d['gap_mm'])} mm | {d['min_width_mm']} mm | {WM['klein']['min_sizes'][m]['min_width_mm']} mm | {MK['primary']['min_sizes'][m]['min_width_mm']} mm | {MK['klein']['min_sizes'][m]['min_width_mm']} mm |")
-ms.append(f"| Scherm (1x) | 2 px / 1,5 px | {WM['primary']['min_sizes']['scherm']['min_width_px']} px | {WM['klein']['min_sizes']['scherm']['min_width_px']} px | {MK['primary']['min_sizes']['scherm']['min_width_px']} px | {MK['klein']['min_sizes']['scherm']['min_width_px']} px |")
-def F(x): return f"{n0(x['smallest_stroke_units'])} / {n0(x['smallest_gap_units'])}"
-feat = (f"Gemeten (`tools/logo-meta.json`): logo.svg kleinste lijn {n0(WM['primary']['smallest_stroke_units'])} (tentpoot), kleinste opening "
-        f"{n0(WM['primary']['smallest_gap_units'])} (k–l) op {n0(WM['primary']['width_units'])} breed; logo-klein {F(WM['klein'])} op {n0(WM['klein']['width_units'])}; "
-        f"mark {F(MK['primary'])} op {n0(MK['primary']['width_units'])}; mark-klein {F(MK['klein'])} op {n0(MK['klein']['width_units'])}. Lijn = de kleinste van "
-        f"bouwmaat en rastermeting; opening = de kleinste van alle afstanden tussen losse vormen en de rastermeting.")
-strokes = '| Lijn | Eenheden | × STOK |\n|---|---:|---:|\n' + '\n'.join(f"| {k} | {v} | {nl(v / 130, 2)} |" for k, v in meta['strokes'].items())
-LEGMIN = GR['v5']['leg_letter_min'] - 0.5
-def pretty(b, units=0):
-    parts = [p.strip() for p in b.split('–')]
-    out, idx = [], []
-    for p in parts:
-        m = re.match(r'([a-z])(\d+)$', p)
-        if m: out.append(m.group(1)); idx.append(int(m.group(2)))
-        else: out.append({'frame': 'poot', 'dak': 'dak', 'tent': 'tent'}.get(p, p))
-    if 'frame' in parts and 'dak' in parts: return 'band – dak (opening)'
-    if len(idx) == 2: return f"{out[0]}–{out[1]} ({'klap' if max(idx) <= 4 else 'klaar' if min(idx) >= 5 else 'klap|klaar'})"
-    if 'frame' in parts and idx: return f"{[o for o in out if o != 'poot'][0]} – {'poot' if units >= LEGMIN else 'luifelband (erboven)'}"
-    return ' – '.join(out)
-gaps = '| Tussen | Eenheden |\n|---|---:|\n' + '\n'.join(f"| {pretty(x['between'], x['units'])} | {n0(x['units'])} |" for x in WM['primary']['gaps_between_shapes'][:10])
-def chk2(x): return (n0(x['thinnest_units']) if x['thinnest_units'] else '–'), (n0(x['narrowest_units']) if x['narrowest_units'] else '–')
-v4w, v4m = GR['v4_raster']['wordmark'], GR['v4_raster']['mark']
-a, b_ = chk2(v4w); c, d = chk2(WM['primary']['raster_check']); e_, f_ = chk2(v4m); g_, h_ = chk2(MK['primary']['raster_check'])
-ck, dk = chk2(WM['klein']['raster_check'])
-rcheck = ('| Bestand | Dunste vorm | Nauwste opening | Waar |\n|---|---:|---:|---|\n'
-          f"| v4 logo.svg | {a} | {b_} | tentpoot (65); a–poot (56) |\n"
-          f"| v5 logo.svg | {c} | {d} | tentpoot (65); k–l en de kom van de a (de poten staan nu verder weg) |\n"
-          f"| v5 logo-klein | {ck} | {dk} | tentpoot (100); dak–band (100) |\n"
-          f"| v4 mark.svg | {e_} | {f_} | poot, paal; band–dak |\n"
-          f"| v5 mark.svg | {g_} | {h_} | poot; band–dak |")
-r = rchk['tent-3x3-klaproos-hero.webp']
-rc = f"| v5 `img/tent-3x3-klaproos-hero.webp` | {r['lit']['hex']} (ΔE {nl(r['lit']['de2000'],1)}) | {r['mid']['hex']} (ΔE {nl(r['mid']['de2000'],1)}) | {r['shade']['hex']} (ΔE {nl(r['shade']['de2000'],1)}) | {r['target']['hex']} |"
-
-# ---------------------------------------------------------------- misc numbers
-minp = WM['primary']['min_sizes']['scherm']['min_width_px']
-lg = meta['spacing']['tent_legs_primary']; lk = meta['spacing']['tent_legs_klein']
-hdr = tok['logo']['header']
-def hsize(sv): return sv.split(' inline, ')[1]
-zak = open(os.path.join(B, 'svg', 'logo-zakelijk.svg')).read()
-zvb = re.search(r'viewBox="([^"]+)"', zak).group(1); zw, zh = map(float, zvb.split()[2:])
-zak_w = 584; zak_h = round(zak_w * zh / zw)
-xh48 = lambda hu: nl(48 * 500 / hu, 1)
-ct = tok['color_derived']
-M = {
-  '{{PALETTE}}': '\n'.join(pal), '{{CONTRAST}}': '\n'.join(rows), '{{FORBIDDEN}}': forb, '{{PAIRS_N}}': str(len(con['rows'])),
-  '{{SCHEMES}}': '\n'.join(sl), '{{SCHEME_N}}': str(n_checks), '{{SCHEME_FAIL}}': str(n_fail),
-  '{{SEP_DE}}': nl(con['separation']['klaproos_vs_bordeaux']['de2000'], 1), '{{ZS_DE}}': nl(con['surfaces']['zand–steen']['de2000'], 1),
-  '{{REPRO}}': '\n'.join(rr), '{{SOURCES}}': src, '{{MINSIZES}}': '\n'.join(ms), '{{FEATURES}}': feat, '{{RENDERCHECK}}': rc,
-  '{{STROKES}}': strokes, '{{GAPS}}': gaps, '{{RCHECK}}': rcheck,
-  '{{MIN_TIP}}': nl(WM['primary']['corners']['min_tip_deg'], 0), '{{MIN_NOTCH}}': nl(WM['primary']['corners']['min_notch_deg'], 0),
-  '{{TRACY_N}}': str(meta['spacing']['tracy_n']),
-  '{{LEG_OUT}}': str(lg['out']), '{{LEG_IN}}': str(lg['in_round']), '{{LEG_IN2}}': str(lg['in_straight']),
-  '{{KLEIN_LEGS}}': f"l–poot {lk['out']}, poot–a {lk['in_round']}, a–poot {lk['in_straight']}, poot–r {lk['out']} (letters recht–recht {lk['letter_ss']})",
-  '{{LEG_MIN}}': n0(GR['v5']['leg_letter_min']),
-  '{{V4_LEG}}': n0(GR['v4']['leg_letter_min']), '{{V4_RATIO}}': nl(GR['v4']['ratio']), '{{V5_LEG}}': n0(GR['v5']['leg_letter_min']), '{{V5_RATIO}}': nl(GR['v5']['ratio']),
-  '{{V5K_LEG}}': n0(GR['v5_klein']['leg_letter_min']), '{{V5K_RATIO}}': nl(GR['v5_klein']['ratio']),
-  '{{ASPECT_V4}}': nl(GR['bbox_aspect']['v4']), '{{ASPECT_V5}}': nl(GR['bbox_aspect']['v5']),
-  '{{XH48_V4}}': xh48(GR['v4_height_units']), '{{XH48_V5}}': xh48(WM['primary']['height_units']),
-  '{{MIN_LOGO_PX}}': str(minp), '{{MIN_LOGO_PX_1}}': str(minp - 1), '{{MIN_KLEIN_PX}}': str(WM['klein']['min_sizes']['scherm']['min_width_px']),
-  '{{MIN_MARK_PX}}': str(MK['primary']['min_sizes']['scherm']['min_width_px']),
-  '{{HEADER_DESK}}': hsize(hdr['desktop']), '{{HEADER_MOB}}': hsize(hdr['mobile_390']),
-  '{{EMB_LOGO}}': str(WM['primary']['min_sizes']['borduren']['min_width_mm']), '{{FLOCK_LOGO}}': str(WM['primary']['min_sizes']['flock']['min_width_mm']),
-  '{{EMB_KLEIN}}': str(WM['klein']['min_sizes']['borduren']['min_width_mm']), '{{SUB_LOGO}}': str(WM['primary']['min_sizes']['sublimatie']['min_width_mm']),
-  '{{UNC_DE}}': nl(rep['colors']['klaproos']['fogra29_proof_de'], 1), '{{K_ALBEDO}}': tok['render']['klaproos_albedo'],
-  '{{ZAK_VB}}': zvb, '{{ZAK_WH}}': f'`width="{zak_w}" height="{zak_h}"`',
-  '{{TINT_ZAND}}': ct['tint-zand']['value'], '{{TINT_WIT}}': ct['tint-wit']['value'], '{{TINT_DUIN}}': ct['tint-duin']['value'], '{{TINT_STEEN}}': ct['tint-steen']['value'],
-  '{{TINTD_POLDER}}': ct['tintd-polder']['value'], '{{TINTD_INKT}}': ct['tintd-inkt']['value'],
-}
-for tpl, out in (('brand.template.md', 'brand.md'), ('technisch.template.md', 'technisch.md')):
-    md = open(os.path.join(T, tpl)).read()
-    for k, v in M.items(): md = md.replace(k, v)
-    left = re.findall(r'\{\{[A-Z_0-9]+\}\}', md)
-    if left: sys.exit(f'{tpl}: unfilled {left}')
-    open(os.path.join(B, out), 'w').write(md)
-    print(out, len(md.encode()), 'bytes')
+for name in ('brand', 'technisch'):
+    src = open(os.path.join(T, f'{name}.template.md')).read()
+    def sub(m):
+        k = m.group(1)
+        if k not in V: raise KeyError(k)
+        return V[k]
+    out = re.sub(r'\{\{([A-Z0-9_]+)\}\}', sub, src)
+    open(os.path.join(B, f'{name}.md'), 'w').write(out)
+    print(name, len(out))

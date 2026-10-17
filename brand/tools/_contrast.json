@@ -5,21 +5,9 @@
    "bg": "zand",
    "fg_hex": "#1D2420",
    "bg_hex": "#FBF6EC",
-   "use": "Lopende tekst op pagina",
+   "use": "Lopende tekst, koppen, prijzen op de pagina",
    "kind": "text",
    "ratio": 14.71,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "inkt",
-   "bg": "duin",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#F2E8D5",
-   "use": "Tekst op heroband en chips",
-   "kind": "text",
-   "ratio": 13.04,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -29,7 +17,7 @@
    "bg": "wit",
    "fg_hex": "#1D2420",
    "bg_hex": "#FFFFFF",
-   "use": "Tekst op kaarten, velden, meldingen",
+   "use": "Tekst op kaarten, velden, meldingen, chips",
    "kind": "text",
    "ratio": 15.84,
    "need": 4.5,
@@ -38,12 +26,12 @@
   },
   {
    "fg": "inkt",
-   "bg": "steen",
+   "bg": "linnen",
    "fg_hex": "#1D2420",
-   "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-blokken, tabellen, badges op het beeldvlak",
+   "bg_hex": "#ECE4D6",
+   "use": "Tekst op het beeldvlak, de heroband, de gekozen optie, Met jouw logo, Zakelijk",
    "kind": "text",
-   "ratio": 13.54,
+   "ratio": 12.55,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -62,36 +50,36 @@
   },
   {
    "fg": "inkt",
-   "bg": "lijn",
+   "bg": "lampion",
    "fg_hex": "#1D2420",
-   "bg_hex": "#E4D6BE",
-   "use": "Tekst op een Lijn-chip of scheiding",
+   "bg_hex": "#E66414",
+   "use": "Label van de koopknop, tekst op de luifelbalk en campagneband, cijfer in de winkelwagenteller",
    "kind": "text",
-   "ratio": 11.06,
+   "ratio": 4.68,
    "need": 4.5,
    "pass": true,
-   "aaa": true
+   "aaa": false
   },
   {
-   "fg": "kiezel",
-   "bg": "zand",
-   "fg_hex": "#5D625C",
-   "bg_hex": "#FBF6EC",
-   "use": "Specs, btw-regel",
+   "fg": "inkt",
+   "bg": "tint-lampion",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#EA813F",
+   "use": "Link of omlijnde knop op een Lampion-band, hover",
    "kind": "text",
-   "ratio": 5.79,
+   "ratio": 5.82,
    "need": 4.5,
    "pass": true,
    "aaa": false
   },
   {
    "fg": "kiezel",
-   "bg": "duin",
+   "bg": "zand",
    "fg_hex": "#5D625C",
-   "bg_hex": "#F2E8D5",
-   "use": "Specs op Duin",
+   "bg_hex": "#FBF6EC",
+   "use": "Specregel en btw-regel op de pagina",
    "kind": "text",
-   "ratio": 5.13,
+   "ratio": 5.79,
    "need": 4.5,
    "pass": true,
    "aaa": false
@@ -101,7 +89,7 @@
    "bg": "wit",
    "fg_hex": "#5D625C",
    "bg_hex": "#FFFFFF",
-   "use": "Specs op kaart, van-prijs",
+   "use": "Specregel, van-prijs en niet-leverbaar label op de kaart",
    "kind": "text",
    "ratio": 6.24,
    "need": 4.5,
@@ -110,12 +98,12 @@
   },
   {
    "fg": "kiezel",
-   "bg": "steen",
+   "bg": "linnen",
    "fg_hex": "#5D625C",
-   "bg_hex": "#EFEDE8",
-   "use": "Specs in Zakelijk, bijschrift op beeldvlak",
+   "bg_hex": "#ECE4D6",
+   "use": "Bijschrift op het beeldvlak, specs in Zakelijk",
    "kind": "text",
-   "ratio": 5.33,
+   "ratio": 4.94,
    "need": 4.5,
    "pass": true,
    "aaa": false
@@ -125,7 +113,7 @@
    "bg": "zand",
    "fg_hex": "#154F3E",
    "bg_hex": "#FBF6EC",
-   "use": "Op voorraad, links in Zakelijk",
+   "use": "Op voorraad op de pagina",
    "kind": "text",
    "ratio": 8.78,
    "need": 4.5,
@@ -137,7 +125,7 @@
    "bg": "wit",
    "fg_hex": "#154F3E",
    "bg_hex": "#FFFFFF",
-   "use": "Op voorraad op kaart, succesmelding (kop)",
+   "use": "Op voorraad op de kaart, kop van de succesmelding",
    "kind": "text",
    "ratio": 9.46,
    "need": 4.5,
@@ -146,60 +134,12 @@
   },
   {
    "fg": "polder",
-   "bg": "duin",
+   "bg": "linnen",
    "fg_hex": "#154F3E",
-   "bg_hex": "#F2E8D5",
-   "use": "Op voorraad op Duin",
+   "bg_hex": "#ECE4D6",
+   "use": "Op voorraad in Zakelijk",
    "kind": "text",
-   "ratio": 7.78,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "polder",
-   "bg": "steen",
-   "fg_hex": "#154F3E",
-   "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-koppen, badge Staffelprijs",
-   "kind": "text",
-   "ratio": 8.09,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "bordeaux",
-   "bg": "wit",
-   "fg_hex": "#8A1538",
-   "bg_hex": "#FFFFFF",
-   "use": "Foutmelding (kop), veldfout onder invoerveld",
-   "kind": "text",
-   "ratio": 9.35,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "bordeaux",
-   "bg": "zand",
-   "fg_hex": "#8A1538",
-   "bg_hex": "#FBF6EC",
-   "use": "Veldfout op pagina",
-   "kind": "text",
-   "ratio": 8.68,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "bordeaux",
-   "bg": "steen",
-   "fg_hex": "#8A1538",
-   "bg_hex": "#EFEDE8",
-   "use": "Veldfout in Zakelijk-formulier",
-   "kind": "text",
-   "ratio": 8.0,
+   "ratio": 7.49,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -209,7 +149,7 @@
    "bg": "zand",
    "fg_hex": "#865800",
    "bg_hex": "#FBF6EC",
-   "use": "Leverbaar over 2–3 weken",
+   "use": "Leverbaar over 2–3 weken op de pagina",
    "kind": "text",
    "ratio": 5.72,
    "need": 4.5,
@@ -221,7 +161,7 @@
    "bg": "wit",
    "fg_hex": "#865800",
    "bg_hex": "#FFFFFF",
-   "use": "Levertijd op kaart, let-op-melding (kop)",
+   "use": "Levertijd op de kaart, kop van de let-op-melding",
    "kind": "text",
    "ratio": 6.16,
    "need": 4.5,
@@ -230,60 +170,72 @@
   },
   {
    "fg": "oker",
-   "bg": "duin",
+   "bg": "linnen",
    "fg_hex": "#865800",
-   "bg_hex": "#F2E8D5",
-   "use": "Levertijd op Duin",
-   "kind": "text",
-   "ratio": 5.07,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "oker",
-   "bg": "steen",
-   "fg_hex": "#865800",
-   "bg_hex": "#EFEDE8",
+   "bg_hex": "#ECE4D6",
    "use": "Levertijd in Zakelijk",
    "kind": "text",
-   "ratio": 5.26,
+   "ratio": 4.88,
    "need": 4.5,
    "pass": true,
    "aaa": false
   },
   {
-   "fg": "wit",
-   "bg": "klaproos",
-   "fg_hex": "#FFFFFF",
-   "bg_hex": "#C83812",
-   "use": "Primaire knop",
+   "fg": "bordeaux",
+   "bg": "wit",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FFFFFF",
+   "use": "Kop van de foutmelding, veldfout onder een veld",
    "kind": "text",
-   "ratio": 5.21,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "wit",
-   "bg": "klaproos-donker",
-   "fg_hex": "#FFFFFF",
-   "bg_hex": "#982A0E",
-   "use": "Primaire knop: hover en ingedrukt",
-   "kind": "text",
-   "ratio": 7.86,
+   "ratio": 9.35,
    "need": 4.5,
    "pass": true,
    "aaa": true
   },
   {
-   "fg": "zand",
-   "bg": "polder",
-   "fg_hex": "#FBF6EC",
-   "bg_hex": "#154F3E",
-   "use": "Zakelijk-knop, Toegevoegd, footer, utility-balk, badge Nieuw",
+   "fg": "bordeaux",
+   "bg": "zand",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FBF6EC",
+   "use": "Veldfout op de pagina",
    "kind": "text",
-   "ratio": 8.78,
+   "ratio": 8.68,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "bordeaux",
+   "bg": "linnen",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#ECE4D6",
+   "use": "Veldfout in een Zakelijk-formulier",
+   "kind": "text",
+   "ratio": 7.41,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "wit",
+   "bg": "inkt",
+   "fg_hex": "#FFFFFF",
+   "bg_hex": "#1D2420",
+   "use": "Label van de Inkt-knop",
+   "kind": "text",
+   "ratio": 15.84,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "wit",
+   "bg": "inkt-hover",
+   "fg_hex": "#FFFFFF",
+   "bg_hex": "#414641",
+   "use": "Label van de Inkt-knop bij hover",
+   "kind": "text",
+   "ratio": 9.65,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -293,7 +245,7 @@
    "bg": "polder",
    "fg_hex": "#FFFFFF",
    "bg_hex": "#154F3E",
-   "use": "Polder-knop met wit label",
+   "use": "Knopstand Toegevoegd",
    "kind": "text",
    "ratio": 9.46,
    "need": 4.5,
@@ -302,12 +254,24 @@
   },
   {
    "fg": "zand",
-   "bg": "polder-donker",
+   "bg": "inkt",
    "fg_hex": "#FBF6EC",
-   "bg_hex": "#0E3A2D",
-   "use": "Zakelijk-knop: hover en ingedrukt",
+   "bg_hex": "#1D2420",
+   "use": "Tekst in footer en donkere band",
    "kind": "text",
-   "ratio": 11.73,
+   "ratio": 14.71,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "zand-hover",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#E5E1D8",
+   "use": "Label van de Zand-knop op Inkt bij hover",
+   "kind": "text",
+   "ratio": 12.14,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -317,7 +281,7 @@
    "bg": "tint-zand",
    "fg_hex": "#1D2420",
    "bg_hex": "#E9E5DC",
-   "use": "Omlijnde knop, hover op pagina",
+   "use": "Omlijnde knop en optiechip, hover op de pagina",
    "kind": "text",
    "ratio": 12.6,
    "need": 4.5,
@@ -328,47 +292,83 @@
    "fg": "inkt",
    "bg": "tint-wit",
    "fg_hex": "#1D2420",
-   "bg_hex": "#EDEDED",
-   "use": "Omlijnde knop, hover op kaart",
+   "bg_hex": "#F1F2F2",
+   "use": "Omlijnde knop en optiechip, hover op de kaart",
    "kind": "text",
-   "ratio": 13.53,
+   "ratio": 14.13,
    "need": 4.5,
    "pass": true,
    "aaa": true
   },
   {
    "fg": "inkt",
-   "bg": "tint-duin",
+   "bg": "tint-linnen",
    "fg_hex": "#1D2420",
-   "bg_hex": "#E1D8C7",
-   "use": "Omlijnde knop, hover op Duin",
+   "bg_hex": "#DBD5C7",
+   "use": "Omlijnde knop, hover op Linnen",
    "kind": "text",
-   "ratio": 11.2,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "inkt",
-   "bg": "tint-steen",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#DEDDD8",
-   "use": "Omlijnde knop, hover in Zakelijk",
-   "kind": "text",
-   "ratio": 11.65,
+   "ratio": 10.83,
    "need": 4.5,
    "pass": true,
    "aaa": true
   },
   {
    "fg": "zand",
-   "bg": "inkt",
+   "bg": "tintd-inkt",
    "fg_hex": "#FBF6EC",
-   "bg_hex": "#1D2420",
-   "use": "Badge Met jouw logo, donkere banden",
+   "bg_hex": "#383D38",
+   "use": "Omlijnde knop, hover op Inkt",
    "kind": "text",
-   "ratio": 14.71,
+   "ratio": 10.3,
    "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "lampion",
+   "bg": "zand",
+   "fg_hex": "#E66414",
+   "bg_hex": "#FBF6EC",
+   "use": "Koopknop tegen de pagina; logo-tent op Zand",
+   "kind": "ui",
+   "ratio": 3.15,
+   "need": 3.0,
+   "pass": true,
+   "aaa": false
+  },
+  {
+   "fg": "lampion",
+   "bg": "wit",
+   "fg_hex": "#E66414",
+   "bg_hex": "#FFFFFF",
+   "use": "Koopknop tegen de kaart en de drawer; teller",
+   "kind": "ui",
+   "ratio": 3.39,
+   "need": 3.0,
+   "pass": true,
+   "aaa": false
+  },
+  {
+   "fg": "lampion",
+   "bg": "inkt",
+   "fg_hex": "#E66414",
+   "bg_hex": "#1D2420",
+   "use": "Logo-tent op Inkt (logo-inverse.svg, footer); beeldmerk; teller op een donkere header",
+   "kind": "ui",
+   "ratio": 4.68,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "lampion",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#E66414",
+   "use": "Hover-rand van de koopknop, focusring en Inkt-knop op een Lampion-band",
+   "kind": "ui",
+   "ratio": 4.68,
+   "need": 3.0,
    "pass": true,
    "aaa": true
   },
@@ -377,57 +377,57 @@
    "bg": "zand",
    "fg_hex": "#1D2420",
    "bg_hex": "#FBF6EC",
-   "use": "Zand-knop op Polder en Inkt (Inkt label)",
-   "kind": "text",
+   "use": "Inkt-knop, omlijnde knop en focusring tegen de pagina",
+   "kind": "ui",
    "ratio": 14.71,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "zon",
-   "bg": "inkt",
-   "fg_hex": "#FFC23A",
-   "bg_hex": "#1D2420",
-   "use": "Actie en logo-tent op Inkt",
-   "kind": "text",
-   "ratio": 9.83,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "zon",
-   "bg": "polder",
-   "fg_hex": "#FFC23A",
-   "bg_hex": "#154F3E",
-   "use": "Actie en logo-tent op Polder",
-   "kind": "text",
-   "ratio": 5.87,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "zand",
-   "fg_hex": "#C83812",
-   "bg_hex": "#FBF6EC",
-   "use": "Display-kop op pagina (≥ 24 px vet)",
-   "kind": "large",
-   "ratio": 4.84,
    "need": 3.0,
    "pass": true,
    "aaa": true
   },
   {
-   "fg": "klaproos",
+   "fg": "inkt",
    "bg": "wit",
-   "fg_hex": "#C83812",
+   "fg_hex": "#1D2420",
    "bg_hex": "#FFFFFF",
-   "use": "Display-kop op kaart (≥ 24 px vet)",
-   "kind": "large",
-   "ratio": 5.21,
+   "use": "Inkt-knop, gekozen optierand en focusring op Wit",
+   "kind": "ui",
+   "ratio": 15.84,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "linnen",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#ECE4D6",
+   "use": "Inkt-knop en focusring op Linnen",
+   "kind": "ui",
+   "ratio": 12.55,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt-hover",
+   "bg": "zand",
+   "fg_hex": "#414641",
+   "bg_hex": "#FBF6EC",
+   "use": "Inkt-knop bij hover tegen de pagina",
+   "kind": "ui",
+   "ratio": 8.95,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt-hover",
+   "bg": "wit",
+   "fg_hex": "#414641",
+   "bg_hex": "#FFFFFF",
+   "use": "Inkt-knop bij hover tegen de kaart",
+   "kind": "ui",
+   "ratio": 9.65,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -437,7 +437,7 @@
    "bg": "wit",
    "fg_hex": "#5D625C",
    "bg_hex": "#FFFFFF",
-   "use": "Rand invoerveld, stippelrand uitgeschakelde knop",
+   "use": "Rand van invoerveld en optiechip",
    "kind": "ui",
    "ratio": 6.24,
    "need": 3.0,
@@ -449,7 +449,7 @@
    "bg": "zand",
    "fg_hex": "#5D625C",
    "bg_hex": "#FBF6EC",
-   "use": "Rand invoerveld op pagina",
+   "use": "Rand van invoerveld op de pagina",
    "kind": "ui",
    "ratio": 5.79,
    "need": 3.0,
@@ -458,118 +458,22 @@
   },
   {
    "fg": "kiezel",
-   "bg": "duin",
+   "bg": "linnen",
    "fg_hex": "#5D625C",
-   "bg_hex": "#F2E8D5",
-   "use": "Rand invoerveld / uitgeschakeld op Duin",
+   "bg_hex": "#ECE4D6",
+   "use": "Rand van invoerveld in Zakelijk",
    "kind": "ui",
-   "ratio": 5.13,
+   "ratio": 4.94,
    "need": 3.0,
    "pass": true,
    "aaa": true
   },
   {
-   "fg": "kiezel",
-   "bg": "steen",
-   "fg_hex": "#5D625C",
-   "bg_hex": "#EFEDE8",
-   "use": "Rand invoerveld in Zakelijk",
-   "kind": "ui",
-   "ratio": 5.33,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "klaproos",
-   "bg": "zand",
-   "fg_hex": "#C83812",
-   "bg_hex": "#FBF6EC",
-   "use": "Primaire knop tegen pagina",
-   "kind": "ui",
-   "ratio": 4.84,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "klaproos",
-   "bg": "duin",
-   "fg_hex": "#C83812",
-   "bg_hex": "#F2E8D5",
-   "use": "Primaire knop tegen Duin",
-   "kind": "ui",
-   "ratio": 4.29,
-   "need": 3.0,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "wit",
-   "fg_hex": "#C83812",
-   "bg_hex": "#FFFFFF",
-   "use": "Primaire knop tegen kaart",
-   "kind": "ui",
-   "ratio": 5.21,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "klaproos",
+   "fg": "zand",
    "bg": "inkt",
-   "fg_hex": "#C83812",
+   "fg_hex": "#FBF6EC",
    "bg_hex": "#1D2420",
-   "use": "Primaire knop op Inkt-vlak",
-   "kind": "ui",
-   "ratio": 3.04,
-   "need": 3.0,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos-donker",
-   "bg": "zand",
-   "fg_hex": "#982A0E",
-   "bg_hex": "#FBF6EC",
-   "use": "Primaire knop hover tegen pagina",
-   "kind": "ui",
-   "ratio": 7.29,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "klaproos-donker",
-   "bg": "wit",
-   "fg_hex": "#982A0E",
-   "bg_hex": "#FFFFFF",
-   "use": "Primaire knop hover tegen kaart",
-   "kind": "ui",
-   "ratio": 7.86,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "klaproos-donker",
-   "bg": "duin",
-   "fg_hex": "#982A0E",
-   "bg_hex": "#F2E8D5",
-   "use": "Primaire knop hover tegen Duin",
-   "kind": "ui",
-   "ratio": 6.47,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "inkt",
-   "bg": "zand",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#FBF6EC",
-   "use": "Omlijnde knop, focusring op licht",
+   "use": "Zand-knop, focusring en randen op Inkt",
    "kind": "ui",
    "ratio": 14.71,
    "need": 3.0,
@@ -577,49 +481,13 @@
    "aaa": true
   },
   {
-   "fg": "inkt",
-   "bg": "wit",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#FFFFFF",
-   "use": "Focusring op kaart",
+   "fg": "zand-hover",
+   "bg": "inkt",
+   "fg_hex": "#E5E1D8",
+   "bg_hex": "#1D2420",
+   "use": "Zand-knop bij hover op Inkt",
    "kind": "ui",
-   "ratio": 15.84,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "inkt",
-   "bg": "duin",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#F2E8D5",
-   "use": "Focusring op Duin",
-   "kind": "ui",
-   "ratio": 13.04,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "inkt",
-   "bg": "steen",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#EFEDE8",
-   "use": "Focusring, omlijnde knop in Zakelijk",
-   "kind": "ui",
-   "ratio": 13.54,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "polder",
-   "bg": "zand",
-   "fg_hex": "#154F3E",
-   "bg_hex": "#FBF6EC",
-   "use": "Toegevoegd tegen pagina",
-   "kind": "ui",
-   "ratio": 8.78,
+   "ratio": 12.14,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -629,7 +497,7 @@
    "bg": "wit",
    "fg_hex": "#154F3E",
    "bg_hex": "#FFFFFF",
-   "use": "Toegevoegd tegen kaart, voorraadstip",
+   "use": "Voorraadstip, knopstand Toegevoegd tegen de kaart",
    "kind": "ui",
    "ratio": 9.46,
    "need": 3.0,
@@ -638,60 +506,12 @@
   },
   {
    "fg": "polder",
-   "bg": "steen",
+   "bg": "zand",
    "fg_hex": "#154F3E",
-   "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-knop tegen Steen",
-   "kind": "ui",
-   "ratio": 8.09,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "polder-donker",
-   "bg": "steen",
-   "fg_hex": "#0E3A2D",
-   "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-knop hover tegen Steen",
-   "kind": "ui",
-   "ratio": 10.8,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "zand",
-   "bg": "polder",
-   "fg_hex": "#FBF6EC",
-   "bg_hex": "#154F3E",
-   "use": "Focusring, Zand-knop en hover-rand op Polder",
+   "bg_hex": "#FBF6EC",
+   "use": "Voorraadstip en Toegevoegd tegen de pagina",
    "kind": "ui",
    "ratio": 8.78,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "zand",
-   "bg": "inkt",
-   "fg_hex": "#FBF6EC",
-   "bg_hex": "#1D2420",
-   "use": "Focusring en hover-rand op Inkt",
-   "kind": "ui",
-   "ratio": 14.71,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "bordeaux",
-   "bg": "wit",
-   "fg_hex": "#8A1538",
-   "bg_hex": "#FFFFFF",
-   "use": "Linkerrand + icoon foutmelding, rand veld met fout",
-   "kind": "ui",
-   "ratio": 9.35,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -701,7 +521,7 @@
    "bg": "wit",
    "fg_hex": "#865800",
    "bg_hex": "#FFFFFF",
-   "use": "Linkerrand + icoon let-op, halve stip levertijd",
+   "use": "Halve stip levertijd, icoon en linkerrand let-op",
    "kind": "ui",
    "ratio": 6.16,
    "need": 3.0,
@@ -713,7 +533,7 @@
    "bg": "zand",
    "fg_hex": "#865800",
    "bg_hex": "#FBF6EC",
-   "use": "Halve stip levertijd op pagina",
+   "use": "Halve stip levertijd op de pagina",
    "kind": "ui",
    "ratio": 5.72,
    "need": 3.0,
@@ -721,68 +541,96 @@
    "aaa": true
   },
   {
-   "fg": "zand",
-   "bg": "klaproos",
-   "fg_hex": "#FBF6EC",
-   "bg_hex": "#C83812",
-   "use": "Logo in Zand op Klaproos-doek of -vlak (grafisch)",
+   "fg": "bordeaux",
+   "bg": "wit",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FFFFFF",
+   "use": "Icoon en linkerrand foutmelding, rand van een veld met fout",
    "kind": "ui",
-   "ratio": 4.84,
+   "ratio": 9.35,
    "need": 3.0,
    "pass": true,
    "aaa": true
-  }
- ],
- "info_rows": [
+  },
   {
-   "fg": "polder",
-   "bg": "klaproos",
-   "fg_hex": "#154F3E",
-   "bg_hex": "#C83812",
-   "use": "Winkelwagen-stip in het favicon (met 1,5 px Zand-ring)",
-   "kind": "ui-info",
-   "ratio": 1.82,
-   "need": 1.0,
+   "fg": "bordeaux",
+   "bg": "zand",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FBF6EC",
+   "use": "Rand van een veld met fout op de pagina",
+   "kind": "ui",
+   "ratio": 8.68,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zon",
+   "bg": "inkt",
+   "fg_hex": "#FFC23A",
+   "bg_hex": "#1D2420",
+   "use": "Actie-badge op een donker vlak",
+   "kind": "ui",
+   "ratio": 9.83,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zand",
+   "bg": "lampion",
+   "fg_hex": "#FBF6EC",
+   "bg_hex": "#E66414",
+   "use": "Hover-rand van de Inkt-knop op een Lampion-band",
+   "kind": "ui",
+   "ratio": 3.15,
+   "need": 3.0,
    "pass": true,
    "aaa": false
   }
  ],
  "forbidden": [
   {
+   "fg": "lampion",
+   "bg": "zand",
+   "use": "Lampion als tekstkleur, ook in koppen (daar een luifelstreep)",
+   "ratio": 3.15
+  },
+  {
+   "fg": "lampion",
+   "bg": "wit",
+   "use": "Lampion-tekst op Wit",
+   "ratio": 3.39
+  },
+  {
+   "fg": "zand",
+   "bg": "lampion",
+   "use": "Zand- of witte tekst op Lampion (daar altijd Inkt)",
+   "ratio": 3.15
+  },
+  {
+   "fg": "wit",
+   "bg": "lampion",
+   "use": "Witte tekst op Lampion",
+   "ratio": 3.39
+  },
+  {
+   "fg": "lampion",
+   "bg": "linnen",
+   "use": "Lampion-vlak of koopknop op Linnen (vorm valt weg)",
+   "ratio": 2.68
+  },
+  {
    "fg": "zon",
    "bg": "zand",
-   "use": "Zon als tekst of rand op licht",
+   "use": "Zon als tekst, rand of icoon op licht",
    "ratio": 1.5
   },
   {
    "fg": "zon",
-   "bg": "wit",
-   "use": "Zon als tekst of rand op wit",
-   "ratio": 1.61
-  },
-  {
-   "fg": "klaproos",
-   "bg": "duin",
-   "use": "Klaproos als tekst op Duin (ook niet als kop)",
-   "ratio": 4.29
-  },
-  {
-   "fg": "klaproos",
-   "bg": "steen",
-   "use": "Klaproos als tekst op Steen",
-   "ratio": 4.45
-  },
-  {
-   "fg": "klaproos",
-   "bg": "inkt",
-   "use": "Klaproos-tekst op Inkt",
-   "ratio": 3.04
-  },
-  {
-   "fg": "klaproos",
-   "bg": "polder",
-   "use": "Klaproos op Polder (ook als knop of tent)",
-   "ratio": 1.82
+   "bg": "lampion",
+   "use": "Zon naast of op Lampion als onderscheid",
+   "ratio": 2.1
   },
   {
    "fg": "kiezel",
@@ -791,103 +639,120 @@
    "ratio": 2.54
   },
   {
-   "fg": "kiezel",
-   "bg": "polder",
-   "use": "Kiezel op Polder",
-   "ratio": 1.52
-  },
-  {
    "fg": "polder",
    "bg": "inkt",
-   "use": "Polder op Inkt (knop verdwijnt)",
+   "use": "Polder op Inkt",
    "ratio": 1.67
   },
   {
-   "fg": "wit",
-   "bg": "bordeaux",
-   "use": "Bordeaux als gevuld vlak (fout is nooit een knop)",
-   "ratio": 9.35
-  },
-  {
-   "fg": "zon",
-   "bg": "klaproos",
-   "use": "Zon-tent op Klaproos (logo op Klaproos is één kleur Zand)",
-   "ratio": 3.23
-  },
-  {
-   "fg": "klaproos-donker",
+   "fg": "oker",
    "bg": "inkt",
-   "use": "Klaproos donker als hover op Inkt (vorm verdwijnt: daar hover = Zand-rand)",
-   "ratio": 2.02
+   "use": "Oker op donker",
+   "ratio": 2.57
   },
   {
-   "fg": "polder",
-   "bg": "polder-donker",
-   "use": "Polder donker als vlak naast Polder (alleen als knopstand)",
-   "ratio": 1.34
+   "fg": "lijn",
+   "bg": "wit",
+   "use": "Lijn als enige grens van iets klikbaars",
+   "ratio": 1.5
+  },
+  {
+   "fg": "bordeaux",
+   "bg": "inkt",
+   "use": "Bordeaux op donker",
+   "ratio": 1.69
   }
  ],
  "separation": {
-  "klaproos_vs_bordeaux": {
-   "de2000": 23.8,
-   "hue_klaproos": 43.5,
-   "hue_bordeaux": 12.6,
-   "contrast": 1.8
+  "lampion_vs_stock": {
+   "rood (catalogus)": {
+    "de2000": 23.9,
+    "hue": 33.7
+   },
+   "rood (render, gemeten)": {
+    "de2000": 21.6,
+    "hue": 35.1
+   },
+   "oranje stretchrok (catalogus)": {
+    "de2000": 1.2,
+    "hue": 54.2
+   }
   },
-  "klaproos_vs_hover": {
-   "de2000": 10.5,
-   "contrast": 1.51
+  "lampion_hue": 53.2,
+  "klaproos_v6_hue": 43.5,
+  "lampion_vs_zon": {
+   "de2000": 29.2
   },
-  "klaproos_vs_zon": {
-   "de2000": 42.1
+  "lampion_vs_bordeaux": {
+   "de2000": 36.8
+  },
+  "lampion_vs_oker": {
+   "de2000": 23.9
+  },
+  "inkt_vs_inkt_hover": {
+   "de2000": 11.1,
+   "contrast": 1.64
+  },
+  "polder_vs_inkt": {
+   "de2000": 18.5,
+   "contrast": 1.67
   }
  },
  "surfaces": {
-  "zand–duin": {
-   "de2000": 4.7,
-   "contrast": 1.13
-  },
-  "zand–steen": {
-   "de2000": 3.0,
-   "contrast": 1.09
-  },
   "zand–wit": {
    "de2000": 5.1,
    "contrast": 1.08
   },
-  "duin–steen": {
-   "de2000": 6.1,
-   "contrast": 1.04
-  },
-  "duin–wit": {
-   "de2000": 9.6,
-   "contrast": 1.22
-  },
-  "steen–wit": {
-   "de2000": 4.4,
+  "zand–linnen": {
+   "de2000": 4.2,
    "contrast": 1.17
+  },
+  "wit–linnen": {
+   "de2000": 8.6,
+   "contrast": 1.26
   }
  },
  "scheme_checks": [
   {
    "scheme": "scheme-1",
+   "state": "buy",
+   "label_ratio": 4.68,
+   "shape_ratio": 3.15,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-1",
+   "state": "buy_hover",
+   "label_ratio": 4.68,
+   "shape_ratio": 14.71,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-1",
+   "state": "buy_active",
+   "label_ratio": 4.68,
+   "shape_ratio": 14.71,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-1",
    "state": "primary",
-   "label_ratio": 5.21,
-   "shape_ratio": 4.84,
+   "label_ratio": 15.84,
+   "shape_ratio": 14.71,
    "pass": true
   },
   {
    "scheme": "scheme-1",
    "state": "primary_hover",
-   "label_ratio": 7.86,
-   "shape_ratio": 7.29,
+   "label_ratio": 9.65,
+   "shape_ratio": 8.95,
    "pass": true
   },
   {
    "scheme": "scheme-1",
    "state": "primary_active",
-   "label_ratio": 7.86,
-   "shape_ratio": 7.29,
+   "label_ratio": 15.84,
+   "shape_ratio": 14.71,
    "pass": true
   },
   {
@@ -906,23 +771,44 @@
   },
   {
    "scheme": "scheme-2",
+   "state": "buy",
+   "label_ratio": 4.68,
+   "shape_ratio": 3.39,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-2",
+   "state": "buy_hover",
+   "label_ratio": 4.68,
+   "shape_ratio": 15.84,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-2",
+   "state": "buy_active",
+   "label_ratio": 4.68,
+   "shape_ratio": 15.84,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-2",
    "state": "primary",
-   "label_ratio": 5.21,
-   "shape_ratio": 5.21,
+   "label_ratio": 15.84,
+   "shape_ratio": 15.84,
    "pass": true
   },
   {
    "scheme": "scheme-2",
    "state": "primary_hover",
-   "label_ratio": 7.86,
-   "shape_ratio": 7.86,
+   "label_ratio": 9.65,
+   "shape_ratio": 9.65,
    "pass": true
   },
   {
    "scheme": "scheme-2",
    "state": "primary_active",
-   "label_ratio": 7.86,
-   "shape_ratio": 7.86,
+   "label_ratio": 15.84,
+   "shape_ratio": 15.84,
    "pass": true
   },
   {
@@ -935,133 +821,133 @@
   {
    "scheme": "scheme-2",
    "state": "secondary_hover",
-   "label_ratio": 13.53,
+   "label_ratio": 14.13,
    "shape_ratio": 15.84,
    "pass": true
   },
   {
    "scheme": "scheme-3",
    "state": "primary",
-   "label_ratio": 5.21,
-   "shape_ratio": 4.29,
+   "label_ratio": 15.84,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-3",
    "state": "primary_hover",
-   "label_ratio": 7.86,
-   "shape_ratio": 6.47,
+   "label_ratio": 9.65,
+   "shape_ratio": 7.64,
    "pass": true
   },
   {
    "scheme": "scheme-3",
    "state": "primary_active",
-   "label_ratio": 7.86,
-   "shape_ratio": 6.47,
+   "label_ratio": 15.84,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-3",
    "state": "secondary",
-   "label_ratio": 13.04,
-   "shape_ratio": 13.04,
+   "label_ratio": 12.55,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-3",
    "state": "secondary_hover",
-   "label_ratio": 11.2,
-   "shape_ratio": 13.04,
+   "label_ratio": 10.83,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "primary",
-   "label_ratio": 8.78,
-   "shape_ratio": 8.09,
+   "label_ratio": 15.84,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "primary_hover",
-   "label_ratio": 11.73,
-   "shape_ratio": 10.8,
+   "label_ratio": 9.65,
+   "shape_ratio": 7.64,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "primary_active",
-   "label_ratio": 11.73,
-   "shape_ratio": 10.8,
+   "label_ratio": 15.84,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "secondary",
-   "label_ratio": 13.54,
-   "shape_ratio": 13.54,
+   "label_ratio": 12.55,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "secondary_hover",
-   "label_ratio": 11.65,
-   "shape_ratio": 13.54,
+   "label_ratio": 10.83,
+   "shape_ratio": 12.55,
    "pass": true
   },
   {
    "scheme": "scheme-5",
+   "state": "primary",
+   "label_ratio": 15.84,
+   "shape_ratio": 4.68,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-5",
+   "state": "primary_hover",
+   "label_ratio": 15.84,
+   "shape_ratio": 4.68,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-5",
+   "state": "primary_active",
+   "label_ratio": 15.84,
+   "shape_ratio": 4.68,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-5",
+   "state": "secondary",
+   "label_ratio": 4.68,
+   "shape_ratio": 4.68,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-5",
+   "state": "secondary_hover",
+   "label_ratio": 5.82,
+   "shape_ratio": 4.68,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-6",
    "state": "primary",
    "label_ratio": 14.71,
-   "shape_ratio": 8.78,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-5",
-   "state": "primary_hover",
-   "label_ratio": 9.83,
-   "shape_ratio": 5.87,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-5",
-   "state": "primary_active",
-   "label_ratio": 9.83,
-   "shape_ratio": 5.87,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-5",
-   "state": "secondary",
-   "label_ratio": 8.78,
-   "shape_ratio": 8.78,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-5",
-   "state": "secondary_hover",
-   "label_ratio": 6.41,
-   "shape_ratio": 8.78,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-6",
-   "state": "primary",
-   "label_ratio": 5.21,
-   "shape_ratio": 3.04,
-   "pass": true
-  },
-  {
-   "scheme": "scheme-6",
-   "state": "primary_hover",
-   "label_ratio": 5.21,
    "shape_ratio": 14.71,
    "pass": true
   },
   {
    "scheme": "scheme-6",
+   "state": "primary_hover",
+   "label_ratio": 12.14,
+   "shape_ratio": 12.14,
+   "pass": true
+  },
+  {
+   "scheme": "scheme-6",
    "state": "primary_active",
-   "label_ratio": 7.86,
+   "label_ratio": 14.71,
    "shape_ratio": 14.71,
    "pass": true
   },
@@ -1079,5 +965,14 @@
    "shape_ratio": 14.71,
    "pass": true
   }
- ]
+ ],
+ "derived": {
+  "inkt-hover": "#414641",
+  "zand-hover": "#E5E1D8",
+  "tint-zand": "#E9E5DC",
+  "tint-wit": "#F1F2F2",
+  "tint-linnen": "#DBD5C7",
+  "tintd-inkt": "#383D38",
+  "tint-lampion": "#EA813F"
+ }
 }

@@ -1,0 +1,71 @@
+{%- comment -%}
+  Collapsible tab of the main product (description, grouped specs, levering & retour, downloads, FAQ, safety, own text).
+  Renders nothing when the chosen source is empty. Params: product, block, current_variant.
+{%- endcomment -%}
+{%- capture tab_body -%}
+  {%- case block.settings.source -%}
+    {%- when 'description' -%}
+      {%- if product.description != blank -%}<div class="rte">{{ product.description }}</div>{%- endif -%}
+    {%- when 'specs' -%}
+      {%- assign specs = product.metafields.custom.specificaties.value -%}
+      {%- if specs != blank and specs.size > 0 -%}
+        {%- assign groups = specs | map: 'groep' | uniq -%}
+        <div class="specs">
+          {%- for g in groups -%}
+            <table class="specs__table">
+              {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
+              <tbody>
+                {%- for row in specs -%}
+                  {%- if row.groep == g and row.waarde != blank -%}<tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde }}</td></tr>{%- endif -%}
+                {%- endfor -%}
+              </tbody>
+            </table>
+          {%- endfor -%}
+          {%- if current_variant.sku != blank or product.metafields.custom.verpakt != blank or product.metafields.custom.gewicht_kg != blank -%}
+            <table class="specs__table">
+              <tbody>
+                {%- if product.metafields.custom.gewicht_kg != blank -%}<tr><th scope="row">{{ 'product.weight' | t }}</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' }} kg</td></tr>{%- endif -%}
+                {%- if product.metafields.custom.verpakt != blank -%}<tr><th scope="row">{{ 'product.packed' | t }}</th><td>{{ product.metafields.custom.verpakt.value }}</td></tr>{%- endif -%}
+                {%- if current_variant.sku != blank -%}<tr><th scope="row">{{ 'product.sku' | t }}</th><td data-dynamic="sku">{{ current_variant.sku }}</td></tr>{%- endif -%}
+              </tbody>
+            </table>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- when 'delivery' -%}
+      <div class="rte">{{ 'product.delivery_returns_html' | t: days: settings.return_days }}</div>
+      {%- if settings.shipping_page != blank -%}<p><a class="link" href="{{ settings.shipping_page }}">{{ 'delivery.label' | t }}</a></p>{%- endif -%}
+    {%- when 'downloads' -%}
+      {%- assign files = product.metafields.custom.downloads.value -%}
+      {%- if files != blank and files.size > 0 -%}
+        <script src="{{ 'download-size.js' | asset_url }}" defer></script>
+        <ul class="downloads" role="list" data-downloads>
+          {%- for f in files -%}
+            {%- render 'download-link', file: f -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- when 'faq' -%}
+      {%- assign faq = product.metafields.custom.faq.value -%}
+      {%- if faq != blank and faq.size > 0 -%}
+        <dl class="pdp-faq">
+          {%- for item in faq -%}<dt>{{ item.vraag }}</dt><dd>{{ item.antwoord }}</dd>{%- endfor -%}
+        </dl>
+      {%- endif -%}
+    {%- when 'safety' -%}
+      {%- assign ptype = product.type | downcase -%}
+      {%- if ptype contains 'tent' or product.tags contains 'partytent' -%}
+        <p>{{ 'product.safety_note' | t }}</p>
+        {%- if block.settings.page != blank -%}<p><a class="link" href="{{ block.settings.page.url }}">{{ block.settings.page.title }}</a></p>{%- endif -%}
+      {%- endif -%}
+    {%- when 'custom' -%}
+      {%- if block.settings.content != blank -%}<div class="rte">{{ block.settings.content }}</div>{%- endif -%}
+      {%- if block.settings.page != blank -%}<div class="rte">{{ block.settings.page.content }}</div>{%- endif -%}
+  {%- endcase -%}
+{%- endcapture -%}
+{%- if tab_body != blank -%}
+  <details class="accordion product__tab" id="{{ block.settings.heading | handleize }}" {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+    <summary><span>{{ block.settings.heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
+    <div class="accordion__body">{{ tab_body }}</div>
+  </details>
+{%- endif -%}

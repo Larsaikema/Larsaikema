@@ -1,0 +1,456 @@
+{
+ "note": "Create these definitions BEFORE importing products.csv: Shopify imports a metafield column only when its definition exists. Reference types (product/page/variant/file) are not in the CSV; the seed script sets them from product-references.json after products exist. Link option Kleur to the category metafield shopify.color-pattern (swatches) after import.",
+ "definitions": [
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "kenmerk_kort",
+   "name": "Kenmerk kort",
+   "type": "single_line_text_field",
+   "description": "Eén regel spec op de productkaart",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "usps",
+   "name": "USP's",
+   "type": "list.single_line_text_field",
+   "description": "3–4 productvoordelen onder de koopknop",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "specificaties",
+   "name": "Specificaties",
+   "type": "json",
+   "description": "[{\"groep\",\"label\",\"waarde\"}] → gegroepeerde spec-tabel",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "staffelkorting",
+   "name": "Staffelkorting",
+   "type": "json",
+   "description": "[{\"vanaf\":10,\"korting\":5}] → staffeltabel (echte korting = automatische korting)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "addons",
+   "name": "Add-ons",
+   "type": "list.product_reference",
+   "description": "Accessoires als vinkjes op de productpagina (fallback; per variant: addon_varianten)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "addon_modus",
+   "name": "Add-on-modus",
+   "type": "single_line_text_field",
+   "description": "per-stuk (standaard): add-on-aantal × hoofdaantal · per-regel: per orderregel (per meter / m²)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "validations": [
+    {
+     "name": "choices",
+     "value": "[\"per-stuk\", \"per-regel\"]"
+    }
+   ]
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "past_op",
+   "name": "Past op",
+   "type": "list.product_reference",
+   "description": "Compatibiliteit",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "levertijd",
+   "name": "Levertijd",
+   "type": "single_line_text_field",
+   "description": "Overschrijft de standaard leverbelofte (geen drukproef-levertijd)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "verzending",
+   "name": "Verzending",
+   "type": "single_line_text_field",
+   "description": "pakket (standaard) of pallet",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "validations": [
+    {
+     "name": "choices",
+     "value": "[\"pakket\", \"pallet\"]"
+    }
+   ]
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "bedrukbaar",
+   "name": "Bedrukbaar",
+   "type": "boolean",
+   "description": "Toont het logo-upload/drukpositie-blok",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "use_as_filter": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "drukopties",
+   "name": "Drukopties",
+   "type": "json",
+   "description": "posities, aanlevering, levertijd, min_aantal, optie, zonder",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "downloads",
+   "name": "Downloads",
+   "type": "list.file_reference",
+   "description": "Handleiding / productblad (pdf)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "faq",
+   "name": "FAQ",
+   "type": "json",
+   "description": "[{\"vraag\",\"antwoord\"}] → FAQ-accordeon + FAQPage JSON-LD",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "vergelijk_groep",
+   "name": "Vergelijkgroep",
+   "type": "single_line_text_field",
+   "description": "Vergelijkingstabel",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "gewicht_kg",
+   "name": "Gewicht (kg)",
+   "type": "number_decimal",
+   "description": "Spec + verzending",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "verpakt",
+   "name": "Verpakt",
+   "type": "single_line_text_field",
+   "description": "Verpakkingsmaten",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "garantie",
+   "name": "Garantie",
+   "type": "single_line_text_field",
+   "description": "Garantie (claim, eigenaar bevestigt)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "included",
+   "name": "Wat zit erin",
+   "type": "list.single_line_text_field",
+   "description": "Checklist wat er in de doos zit",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "excluded",
+   "name": "Niet inbegrepen",
+   "type": "list.single_line_text_field",
+   "description": "Doorgestreept: niet inbegrepen",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "availability_status",
+   "name": "Beschikbaarheid",
+   "type": "single_line_text_field",
+   "description": "leeg · binnenkort · pre-order · permanent-uitverkocht",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "validations": [
+    {
+     "name": "choices",
+     "value": "[\"binnenkort\", \"pre-order\", \"permanent-uitverkocht\"]"
+    }
+   ]
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "alternatieven",
+   "name": "Alternatieven",
+   "type": "list.product_reference",
+   "description": "Vervangers bij permanent-uitverkocht",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "verzendkosten",
+   "name": "Verzendkosten",
+   "type": "single_line_text_field",
+   "description": "Overschrijft de verzendkostenregel op de productpagina",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "maatgids",
+   "name": "Maatgids",
+   "type": "page_reference",
+   "description": "Maatadviespagina (link bij de maatkeuze)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "configurator",
+   "name": "Configurator",
+   "type": "json",
+   "description": "Maatwerk-configurator (prijs per eenheid)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "maatwerk",
+   "name": "Maatwerk",
+   "type": "boolean",
+   "description": "Toont de melding maatwerk: niet retour",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "componenten",
+   "name": "Componenten",
+   "type": "list.variant_reference",
+   "description": "Pakketinhoud (fallback op productniveau; normaal per variant)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "component_aantallen",
+   "name": "Component-aantallen",
+   "type": "list.number_integer",
+   "description": "Aantal per component, zelfde volgorde",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "andere_maten",
+   "name": "Andere maten",
+   "type": "list.product_reference",
+   "description": "Zustermaten (één product per maat), maatwisselaar",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCTVARIANT",
+   "namespace": "custom",
+   "key": "componenten",
+   "name": "Componenten",
+   "type": "list.variant_reference",
+   "description": "Pakketinhoud: de exacte componentvarianten",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCTVARIANT",
+   "namespace": "custom",
+   "key": "component_aantallen",
+   "name": "Component-aantallen",
+   "type": "list.number_integer",
+   "description": "Aantal per component, zelfde volgorde",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCTVARIANT",
+   "namespace": "custom",
+   "key": "addon_varianten",
+   "name": "Add-on-varianten",
+   "type": "list.variant_reference",
+   "description": "De add-ons die bij deze variant horen (zelfde maat/kleur, juiste aantal)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCTVARIANT",
+   "namespace": "custom",
+   "key": "addon_aantallen",
+   "name": "Add-on-aantallen",
+   "type": "list.number_integer",
+   "description": "Aantal per add-on voor 1 stuk van het hoofdproduct, zelfde volgorde",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "COLLECTION",
+   "namespace": "custom",
+   "key": "intro",
+   "name": "Intro",
+   "type": "multi_line_text_field",
+   "description": "Korte intro onder de collectietitel",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "COLLECTION",
+   "namespace": "custom",
+   "key": "seo_tekst",
+   "name": "SEO-tekst",
+   "type": "rich_text_field",
+   "description": "Koopgids onder het grid (inklapbaar)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "COLLECTION",
+   "namespace": "custom",
+   "key": "kenmerken",
+   "name": "Kenmerken",
+   "type": "list.single_line_text_field",
+   "description": "Chips/USP’s bovenaan de collectie",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "ARTICLE",
+   "namespace": "custom",
+   "key": "producten",
+   "name": "Producten",
+   "type": "list.product_reference",
+   "description": "Producten uit dit artikel",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  }
+ ]
+}

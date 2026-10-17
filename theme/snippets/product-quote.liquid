@@ -1,0 +1,48 @@
+{%- comment -%}
+  Inline offerte form on the product page (feature product.quote-form): a {% form 'contact' %} with the product and the
+  chosen variant prefilled (variant-picker.js keeps [data-quote-variant] in step), company, KvK and btw fields, quantity
+  (default: the Zakelijk nudge quantity) and a delivery date. It sits in an accordion like the other tabs; the Zakelijk
+  nudge links to it (#ProductQuote). After sending, the page reloads with the accordion open and the confirmation.
+  Params: product, block, section_id, current_variant.
+{%- endcomment -%}
+{%- liquid
+  assign quote_id = 'ProductQuote-' | append: section_id
+  assign heading = block.settings.heading | default: 'Offerte voor dit product'
+  assign variant_label = ''
+  unless product.has_only_default_variant
+    assign variant_label = current_variant.title
+  endunless
+-%}
+{%- form 'contact', id: quote_id, class: 'pdp-quote' -%}
+  {%- assign quote_posted = false -%}
+  {%- if form.posted_successfully? or form.errors -%}{%- assign quote_posted = true -%}{%- endif -%}
+  <details class="accordion product__tab pdp-quote__details" id="ProductQuote" {{ block.shopify_attributes }}{% if quote_posted %} open{% endif %}>
+    <summary><span>{{ heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
+    <div class="accordion__body">
+      {%- if form.posted_successfully? -%}
+        <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'quote.success' | t }}</strong></span></p>
+      {%- else -%}
+        {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
+        {%- if block.settings.text != blank -%}<p class="text-sm muted">{{ block.settings.text }}</p>{%- endif -%}
+        <input type="hidden" name="contact[Onderwerp]" value="{{ 'quote.subject_product' | t: title: product.title | escape }}">
+        <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}">
+        <input type="hidden" name="contact[Uitvoering]" value="{{ variant_label | escape }}" data-quote-variant>
+        <input type="hidden" name="contact[Productlink]" value="{{ shop.url }}{{ product.url }}">
+        <p class="pdp-quote__product"><strong>{{ product.title }}</strong> <span data-quote-variant-text>{{ variant_label }}</span></p>
+        <div class="form-grid form-grid--2">
+          <div class="field"><label class="field__label" for="PQ-qty-{{ section_id }}">{{ 'quote.line_qty' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="PQ-qty-{{ section_id }}" type="number" min="1" inputmode="numeric" name="contact[Aantal]" value="{{ settings.b2b_nudge_qty | default: 10 }}" required></div>
+          <div class="field"><label class="field__label" for="PQ-date-{{ section_id }}">{{ 'quote.delivery_date' | t }}</label><input class="input" id="PQ-date-{{ section_id }}" type="date" name="contact[Gewenste leverdatum]"></div>
+          <div class="field"><label class="field__label" for="PQ-company-{{ section_id }}">{{ 'forms.company' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="PQ-company-{{ section_id }}" name="contact[Bedrijfsnaam]" autocomplete="organization" required></div>
+          <div class="field"><label class="field__label" for="PQ-name-{{ section_id }}">{{ 'forms.contact_person' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="PQ-name-{{ section_id }}" name="contact[name]" autocomplete="name" required></div>
+          <div class="field"><label class="field__label" for="PQ-email-{{ section_id }}">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="PQ-email-{{ section_id }}" type="email" name="contact[email]" autocomplete="email" required></div>
+          <div class="field"><label class="field__label" for="PQ-phone-{{ section_id }}">{{ 'forms.phone' | t }}</label><input class="input" id="PQ-phone-{{ section_id }}" type="tel" name="contact[phone]" autocomplete="tel"></div>
+          <div class="field"><label class="field__label" for="PQ-kvk-{{ section_id }}">{{ 'forms.kvk' | t }}</label><input class="input" id="PQ-kvk-{{ section_id }}" name="contact[KvK-nummer]" inputmode="numeric"></div>
+          <div class="field"><label class="field__label" for="PQ-btw-{{ section_id }}">{{ 'forms.btw' | t }}</label><input class="input" id="PQ-btw-{{ section_id }}" name="contact[Btw-nummer]"></div>
+          <div class="field field--full"><label class="field__label" for="PQ-body-{{ section_id }}">{{ 'quote.notes' | t }}</label><textarea class="textarea" id="PQ-body-{{ section_id }}" name="contact[body]" rows="3" placeholder="{{ 'quote.notes_placeholder' | t | escape }}"></textarea></div>
+        </div>
+        <div class="form-actions"><button type="submit" class="btn">{{ 'quote.submit' | t }}</button></div>
+        {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
+      {%- endif -%}
+    </div>
+  </details>
+{%- endform -%}

@@ -113,10 +113,11 @@ uniform float uExposure;
 uniform float uShadowStrength;
 uniform float uWeight;
 uniform int uToneMap;        // 0 neutral, 1 agx, 2 aces, 3 linear
+uniform float uShoulder;     // neutral: start of the highlight compression (Khronos default 0.76)
 uniform float uEdgeFade;     // floor shadows fade to the exact backdrop within this fraction of the frame
 varying vec2 vUv;
 vec3 neutralTM( vec3 color ) {
-  const float StartCompression = 0.8 - 0.04; const float Desaturation = 0.15;
+  float StartCompression = uShoulder; const float Desaturation = 0.15;
   float x = min( color.r, min( color.g, color.b ) );
   float offset = x < 0.08 ? x - 6.25 * x * x : 0.04;
   color -= offset;
@@ -190,6 +191,8 @@ uniform float uAOStrength;
 uniform float uKeyShare;
 uniform sampler2D uContact;  // blurred contact-shadow term (1 = touching)
 uniform float uContactStrength;
+uniform sampler2D uContactW; // wide, soft contact/AO halo (incl. contact proxies along wall hems)
+uniform float uContactWStrength;
 uniform float uShadowFloor;  // lowest received-light ratio of the soft shadow (soft knee), 0 = off
 uniform float uSplit;        // 1: the knee softens only the key shadow; sky occlusion multiplies after it
 varying vec3 vWorldPos;
@@ -208,7 +211,8 @@ void main() {
   }
   // split model: enclosed floor (inside walls) keeps getting darker after the knee
   if ( uSplit > 0.5 ) soft *= skyPart;
-  float ratio = soft * ( 1.0 - uContactStrength * c );
+  float cw = ( inside && uContactWStrength > 0.0 ) ? texture2D( uContactW, aoUv ).r : 0.0;
+  float ratio = soft * ( 1.0 - uContactStrength * c ) * ( 1.0 - uContactWStrength * cw );
   gl_FragColor = vec4( vec3( ratio ), 0.25 ); // alpha 0.25 marks 'floor'
 }`;
 
@@ -275,7 +279,7 @@ export function productAlbedo(root) {
   let sum = 0, area = 0;
   const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
   root.traverse((o) => {
-    if (!o.isMesh || !o.visible) return;
+    if (!o.isMesh || !o.visible || o.userData.contactProxy) return;
     const m = Array.isArray(o.material) ? o.material[0] : o.material;
     let L = 0.25;
     if (m.color && !m.map && (m.metalness ?? 0) < 0.5) L = 0.2126 * m.color.r + 0.7152 * m.color.g + 0.0722 * m.color.b;
@@ -368,7 +372,7 @@ export class Studio {
 
     // ground shadow catcher
     const gm = new THREE.ShaderMaterial({
-      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 } },
+      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 } },
       vertexShader: groundVS,
       fragmentShader: groundFS,
     });
@@ -383,7 +387,7 @@ export class Studio {
     this.quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const quadGeo = new THREE.PlaneGeometry(2, 2);
     this.compositeMat = new THREE.ShaderMaterial({
-      uniforms: { tFrame: { value: null }, uBg: { value: new THREE.Vector3() }, uExposure: { value: 1 }, uShadowStrength: { value: 0.9 }, uWeight: { value: 1 }, uToneMap: { value: 0 }, uEdgeFade: { value: 0.07 } },
+      uniforms: { tFrame: { value: null }, uBg: { value: new THREE.Vector3() }, uExposure: { value: 1 }, uShadowStrength: { value: 0.9 }, uWeight: { value: 1 }, uToneMap: { value: 0 }, uShoulder: { value: 0.76 }, uEdgeFade: { value: 0.07 } },
       vertexShader: quadVS, fragmentShader: compositeFS,
       blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor,
       depthTest: false, depthWrite: false,
@@ -494,9 +498,9 @@ export class Studio {
       if (!this.contactRTs || this.contactRTs[0].width !== cr) {
         this.contactRTs?.forEach((t) => t.dispose());
         const mk = (depth) => new THREE.WebGLRenderTarget(cr, cr, { type: THREE.HalfFloatType, depthBuffer: depth, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
-        this.contactRTs = [mk(true), mk(false), mk(false)];
+        this.contactRTs = [mk(true), mk(false), mk(false), mk(false)];
       }
-      const [hRT, aRT, bRT] = this.contactRTs;
+      const [hRT, aRT, bRT, wRT] = this.contactRTs;
       const cc = this.contactCam;
       const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
       cc.left = x0 - cx; cc.right = x1 - cx; cc.bottom = z0 - cz; cc.top = z1 - cz;
@@ -522,11 +526,44 @@ export class Studio {
         this.blurMat.uniforms.tSrc.value = bRT.texture; this.blurMat.uniforms.uDir.value.set(0, C.blur / cr);
         r.setRenderTarget(aRT); r.render(qs, this.quadCam);
       }
+      // wide, soft halo: a second height pass that also sees the contact proxies (layer 3:
+      // invisible ground-hugging strips a model adds along e.g. wall hems), exp(-h/h0w),
+      // blurred to a Gaussian of `sigma` metres with doubling tap spacing (no banding)
+      const Wd = C.wide;
+      if (Wd && Wd.strength > 0) {
+        cc.layers.enable(3);
+        this.aoScene.overrideMaterial = this.heightMat;
+        r.setRenderTarget(hRT); r.setClearColor(new THREE.Color(100, 100, 100), 1); r.clear(true, true, false);
+        const sh2 = r.shadowMap.enabled; r.shadowMap.enabled = false;
+        r.render(this.aoScene, cc);
+        r.shadowMap.enabled = sh2;
+        this.aoScene.overrideMaterial = prevOverride;
+        cc.layers.set(0);
+        quad.material = this.contactMat;
+        this.contactMat.uniforms.tH.value = hRT.texture; this.contactMat.uniforms.uH0.value = Wd.h0 ?? 0.05;
+        r.setRenderTarget(wRT); r.render(qs, this.quadCam);
+        quad.material = this.blurMat;
+        const texel = (x1 - x0) / cr;
+        const target = (Wd.sigma ?? 0.03) / texel;
+        let varAcc = 0;
+        for (let k = 1; varAcc < target * target && k <= 64; k *= 2) {
+          this.blurMat.uniforms.tSrc.value = wRT.texture; this.blurMat.uniforms.uDir.value.set(k / cr, 0);
+          r.setRenderTarget(bRT); r.render(qs, this.quadCam);
+          this.blurMat.uniforms.tSrc.value = bRT.texture; this.blurMat.uniforms.uDir.value.set(0, k / cr);
+          r.setRenderTarget(wRT); r.render(qs, this.quadCam);
+          varAcc += 2.85 * k * k;
+        }
+        this.groundMat.uniforms.uContactW.value = wRT.texture;
+        this.groundMat.uniforms.uContactWStrength.value = Wd.strength;
+      } else {
+        this.groundMat.uniforms.uContactWStrength.value = 0;
+      }
       quad.geometry.dispose();
       this.groundMat.uniforms.uContact.value = aRT.texture;
       this.groundMat.uniforms.uContactStrength.value = C.strength;
     } else {
       this.groundMat.uniforms.uContactStrength.value = 0;
+      this.groundMat.uniforms.uContactWStrength.value = 0;
     }
     if (parent) parent.add(root); else this.aoScene.remove(root);
     const gu = this.groundMat.uniforms;
@@ -641,6 +678,8 @@ export class Studio {
     this.compositeMat.uniforms.uExposure.value = exposure;
     this.compositeMat.uniforms.uShadowStrength.value = R.shadowStrength;
     this.compositeMat.uniforms.uToneMap.value = { neutral: 0, agx: 1, aces: 2, linear: 3 }[R.toneMapping] ?? 0;
+    // neutral only: a later shoulder keeps more of the top range linear (white products)
+    this.compositeMat.uniforms.uShoulder.value = R.shoulder ?? 0.76;
     this.compositeMat.uniforms.tFrame.value = this.rt.texture;
     this.outputMat.uniforms.tAccum.value = this.accum.texture;
 

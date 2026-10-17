@@ -1,8 +1,24 @@
+<script src="{{ 'slider.js' | asset_url }}" defer></script>
 {%- liquid
   assign c = section.settings.collection
   assign limit = section.settings.limit
 -%}
-<section class="section featured-collection color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}"{% if section.settings.exclude_in_cart %} data-cart-dependent data-section-id="{{ section.id }}"{% endif %}>
+{%- liquid
+  # 'Vergeet niet' on the cart page: items that fit the cart; the section disappears when nothing fits
+  assign cart_dependent = false
+  if section.settings.exclude_in_cart or section.settings.cart_related
+    assign cart_dependent = true
+  endif
+  if section.settings.cart_related
+    capture related_probe
+      render 'cart-related', collection: c, limit: 1, style: 'row', fallback: section.settings.cart_fallback
+    endcapture
+  endif
+-%}
+{%- if section.settings.cart_related and related_probe == blank -%}
+<div hidden data-cart-dependent data-section-id="{{ section.id }}"></div>
+{%- else -%}
+<section class="section featured-collection color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}"{% if cart_dependent %} data-cart-dependent data-section-id="{{ section.id }}"{% endif %}>
   <div class="page-width">
     <div class="section-head">
       <div>
@@ -21,7 +37,10 @@
       </div>
     </div>
     <ul class="slider{% if section.settings.desktop_grid %} slider--desktop-grid{% endif %} product-row" id="Slider-{{ section.id }}" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
-      {%- if c != blank and c.products_count > 0 -%}
+      {%- if section.settings.cart_related -%}
+        {%- capture related_items -%}{%- render 'cart-related', collection: c, limit: limit, style: 'card', sizes: '(min-width: 990px) 320px, 68vw', fallback: section.settings.cart_fallback -%}{%- endcapture -%}
+        {{ related_items }}
+      {%- elsif c != blank and c.products_count > 0 -%}
         {%- liquid
           assign in_cart = ''
           if section.settings.exclude_in_cart
@@ -44,6 +63,7 @@
     </ul>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -60,7 +80,10 @@
     { "type": "checkbox", "id": "desktop_grid", "label": "Raster op desktop (anders schuiven)", "default": true },
     { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk alles" },
     { "type": "checkbox", "id": "hide_sold_out", "label": "Uitverkochte producten overslaan", "default": false },
-    { "type": "checkbox", "id": "exclude_in_cart", "label": "Producten uit de winkelwagen overslaan", "default": false, "info": "Handig op de winkelwagenpagina." }
+    { "type": "checkbox", "id": "exclude_in_cart", "label": "Producten uit de winkelwagen overslaan", "default": false, "info": "Handig op de winkelwagenpagina." },
+    { "type": "header", "content": "Winkelwagenpagina" },
+    { "type": "checkbox", "id": "cart_related", "label": "Afstemmen op de winkelwagen", "default": false, "info": "Toont de add-ons (custom.addons) van wat in de winkelwagen ligt en producten uit de collectie die erop passen (custom.past_op). Past niets, dan verdwijnt de sectie." },
+    { "type": "checkbox", "id": "cart_fallback", "label": "Aanvullen met de collectie als niets past", "default": false }
   ],
   "presets": [{ "name": "Uitgelichte collectie" }]
 }

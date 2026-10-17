@@ -4,8 +4,8 @@ from urllib.parse import quote_plus
 ONDERDELEN_TYPES = ['Zijwand', 'Zijwandenset', 'Dakzeil', 'Verzwaring', 'Verankering', 'Tas & wielset', 'Regengoot & koppeling', 'Frame-onderdeel']
 TEXTIEL_TYPES = ['Statafelrok', 'Topcover', 'Statafelhoes met strik', 'Strik', 'Statafelkleed', 'Tafelhoes', 'Beschermplaat']
 TENT_TYPES = ['Easy-up partytent', 'Partytent', 'Opslagtent', 'Stretchtent', 'Stertent', 'Opblaasbare tent']
-MEUBEL_TYPES = ['Barkruk', 'Stoel', 'Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank', 'Transportkar', 'Meubelonderdeel']
-LICHT_TYPES = ['Prikkabel', 'LED-lamp', 'Lichtslang', 'Kerstverlichting', 'Verlichting onderdeel']
+MEUBEL_TYPES = ['Barkruk', 'Kruk', 'Stoel', 'Bank', 'Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank', 'Transportkar', 'Meubelonderdeel']
+LICHT_TYPES = ['Prikkabel', 'LED-lamp', 'Lichtslang', 'Kerstverlichting', 'Tentverlichting', 'Verlichting onderdeel']
 
 def r(col, rel, cond):
     return {'column': col, 'relation': rel, 'condition': cond}
@@ -42,12 +42,15 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen):
     col('stertenten', 'Stertenten', 'partytenten', [r('type', 'starts_with', 'Stertent')], brief='Stertenten met één of twee masten plus zijwanden.')
     col('opblaasbare-tenten', 'Opblaasbare tenten', 'partytenten', [r('type', 'starts_with', 'Opblaasbare tent')],
         brief='Opblaasbare promotie- en partytenten, in kleur of met full colour dak; pompen en wanden.')
+    col('ster-en-opblaasbare-tenten', 'Ster- en opblaasbare tenten', 'partytenten', [r('type', 'starts_with', 'Stertent'), r('type', 'starts_with', 'Opblaasbare tent')], True,
+        ext=True, brief='Blikvangers voor events: stertenten met één of twee masten en opblaasbare tenten, met hun wanden, luifels en pompen.',
+        kenmerken=['Stertent Ø 8 tot 13 × 21 m', 'Opblaasbaar in 5–10 minuten', 'Effen of full colour', 'Wanden en luifels passend'])
     col('overkappingen-en-schaduwdoeken', 'Overkappingen en schaduwdoeken', 'partytenten', types(['Schaduwdoek', 'Overkapping']), True, ext=True,
         brief='Schaduwdoeken, verandazeil op maat, zijwanden voor overkappingen en een aluminium tuinpaviljoen.')
     col('bedrukte-partytenten', 'Bedrukte partytenten', 'partytenten', products=bedrukte_tenten,
         brief='Met jouw logo of in full colour: luifel, dak, zijwand, opblaasbaar; drukproef vooraf en levertijd na akkoord.',
         kenmerken=['Logo uploaden bij bestellen', 'Eerst een drukproef', 'Vanaf 1 stuk', 'Staffel vanaf 10'])
-    col('accessoires', 'Accessoires', None, types(ONDERDELEN_TYPES + ['Verwarming', 'Afzetpaal', 'Marktkraam', 'Loper']), True,
+    col('accessoires', 'Accessoires', None, types(ONDERDELEN_TYPES + ['Verwarming', 'Tentverlichting', 'Afzetpaal', 'Marktkraam', 'Loper']), True,
         brief='Alles om je tent compleet te maken en je evenement in te richten: wanden, verankering, tassen, verwarming, afzetpalen.')
     col('partytent-onderdelen', 'Partytent-onderdelen', 'accessoires', types(ONDERDELEN_TYPES), True,
         brief='Wanden, daken, verankering, tassen, goten en frame-onderdelen voor easy-up en buizenframe; pasvorm per lijn.')
@@ -76,7 +79,8 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen):
         brief='Voordelige combinaties (statafels met rokken en kar, tentpakketten); pakketprijs t.o.v. losse prijs.')
     col('meubilair', 'Meubilair', None, types(MEUBEL_TYPES), True,
         brief='Barkrukken, stoelen, klaptafels, biertafelsets, terrastafels en transportkarren.')
-    col('verlichting', 'Verlichting', None, types(LICHT_TYPES), True, brief='Prikkabels, LED-lampen, lichtslangen, kerstverlichting en onderdelen.')
+    col('verlichting', 'Verlichting', None, types(LICHT_TYPES) + [r('title', 'starts_with', 'Prikkabelset')], True,
+        brief='Prikkabels (ook als set met lampen), LED-lampen, lichtslangen, kerstverlichting, tentverlichting en onderdelen.')
     col('zakelijk', 'Zakelijk', None, [r('tag', 'equals', 'zakelijk')],
         brief='Selectie voor horeca, verhuur, events en verenigingen: staffels, offerte, op factuur [claim].')
     col('all', 'Alle producten', None, [r('vendor', 'equals', 'Klapklaar')], sort='best-selling', brief='Het hele assortiment.')
@@ -85,8 +89,9 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen):
 def f(handle, opt, val):
     return f'/collections/{handle}?filter.v.option.{opt}={quote_plus(val)}'
 
-def t(handle, ptype):
-    return f'/collections/{handle}?filter.p.product_type={quote_plus(ptype)}'
+def t(handle, *ptypes):
+    """Collection filtered on one or more product types (repeated filter.p.product_type = OR in Shopify filtering)."""
+    return f'/collections/{handle}?' + '&'.join(f'filter.p.product_type={quote_plus(pt)}' for pt in ptypes)
 
 def L(title, type_, handle=None, url=None, items=None):
     d = {'title': title, 'type': type_}
@@ -102,7 +107,7 @@ def P(title, h):
     return L(title, 'product', h)
 
 def build_menus():
-    maten = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m']
+    maten = ['2 x 2 m', '3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
     main = [
         L('Partytenten', 'collection', 'partytenten', items=[
             L('Easy-up partytenten', 'collection', 'easy-up-partytenten', items=[
@@ -115,9 +120,10 @@ def build_menus():
             L('Stretchtenten', 'collection', 'stretchtenten', items=[
                 P('Stretchtent compleet', 'stretchtent-compleet'), P('Stretchdoek op maat', 'stretchdoek-op-maat'), P('Hypar schaduwzeil', 'hypar-schaduwzeil-stretch'),
                 P('Zijwanden', 'zijwand-stretchtent'), P('Palen en onderdelen', 'onderdelen-stretchtent')]),
-            L('Ster- en opblaasbare tenten', 'collection', 'stertenten', items=[
-                P('Stertent enkele mast', 'stertent-enkele-mast'), P('Stertent dubbele mast', 'stertent-dubbele-mast'),
-                L('Opblaasbare tenten', 'collection', 'opblaasbare-tenten'), P('Opblaasbare promotietent', 'opblaasbare-promotietent')]),
+            L('Ster- en opblaasbare tenten', 'collection', 'ster-en-opblaasbare-tenten', items=[
+                L('Stertenten', 'collection', 'stertenten'), P('Stertent enkele mast', 'stertent-enkele-mast'), P('Stertent dubbele mast', 'stertent-dubbele-mast'),
+                L('Opblaasbare tenten', 'collection', 'opblaasbare-tenten'), P('Opblaasbare promotietent', 'opblaasbare-promotietent'),
+                P('Opblaasbare zeshoektent', 'opblaasbare-zeshoektent')]),
             L('Overkappingen en schaduwdoeken', 'collection', 'overkappingen-en-schaduwdoeken', items=[
                 P('Schaduwdoeken', 'schaduwdoek'), P('Overkappingzeil op maat', 'overkappingzeil-op-maat'), P('Tuinpaviljoen', 'tuinpaviljoen-aluminium')]),
         ]),
@@ -127,7 +133,7 @@ def build_menus():
                 P('Vierkant stapelbaar', 'statafel-vierkant-stapelbaar'), P('Rechthoekig', 'statafel-rechthoekig-inklapbaar'), P('Wijnvat', 'statafel-wijnvat-houtlook')]),
             L('Per maat', 'collection', 'statafels', items=[L(m, 'http', url=f('statafels', 'maat', m)) for m in ['Ø70 cm', 'Ø80 cm', 'Ø85 cm']] +
               [L('Hoeveel statafels heb ik nodig?', 'article', 'advies/hoeveel-statafels-per-gast')]),
-            L('Transport en onderdelen', 'http', url=t('meubilair', 'Transportkar'), items=[
+            L('Transport en onderdelen', 'http', url=t('meubilair', 'Transportkar', 'Meubelonderdeel'), items=[
                 P('Transportkar statafels', 'transportkar-statafels'), P('Los statafelblad', 'los-statafelblad'), P('Voetdoppen', 'voetdoppen-set-van-4')]),
             L('Statafelpakketten', 'collection', 'actiepakketten', items=[
                 P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('4 statafels met rokken', 'pakket-4-statafels-met-stretchrokken'),
@@ -137,7 +143,7 @@ def build_menus():
             L('Stretchrokken', 'collection', 'stretch-statafelrokken', items=[P('Statafelrok stretch', 'statafelrok-stretch'), P('Losse topcover', 'topcover-stretch-statafel')]),
             L('Hoezen met strik', 'collection', 'statafelhoezen-met-strik', items=[P('Statafelhoes met strik', 'statafelhoes-met-strik'), P('Losse strik', 'losse-strik-statafelhoes')]),
             L('Statafelkleden', 'collection', 'statafelkleden', items=[P('Statafelkleed', 'statafelkleed'), P('Kleed tot de grond', 'statafelkleed-rond-tot-de-grond')]),
-            L('Tafelhoezen en bescherming', 'http', url=t('statafelrokken', 'Tafelhoes'), items=[
+            L('Tafelhoezen en bescherming', 'http', url=t('statafelrokken', 'Tafelhoes', 'Beschermplaat'), items=[
                 P('Stretchhoes klaptafel', 'stretchhoes-klaptafel'), P('Hoes biertafelset', 'hoes-biertafelset'), P('Beschermplaat', 'beschermplaat-statafel')]),
             L('Welke maat past?', 'page', 'maatadvies-statafelrokken', items=[L('Maatadvies', 'page', 'maatadvies-statafelrokken'), L('Welke statafelrok past?', 'article', 'advies/welke-statafelrok-past')]),
         ]),
@@ -155,27 +161,33 @@ def build_menus():
                 L('Zijwanden', 'collection', 'zijwanden'), L('Gewichten en verankering', 'collection', 'gewichten-en-verankering'), L('Tassen en wielsets', 'collection', 'tassen-en-wielsets'),
                 L('Dakzeilen', 'http', url=t('partytent-onderdelen', 'Dakzeil')), L('Regengoten en koppelingen', 'http', url=t('partytent-onderdelen', 'Regengoot & koppeling')),
                 L('Frame-onderdelen', 'http', url=t('partytent-onderdelen', 'Frame-onderdeel'))]),
-            L('Verwarming', 'http', url=t('accessoires', 'Verwarming'), items=[P('Elektrische heater', 'elektrische-heater-partytent'), P('Terrasheater op gas', 'terrasheater-gas-13-kw')]),
-            L('Evenement', 'http', url=t('accessoires', 'Afzetpaal'), items=[P('Afzetpalen', 'afzetpaal-met-trekband'), P('Marktkraam', 'marktkraam-2-m'), P('Loper', 'loper-per-meter')]),
+            L('Verwarming', 'http', url=t('accessoires', 'Verwarming'), items=[P('Elektrische heater', 'elektrische-heater-partytent'), P('Terrasheater op gas', 'terrasheater-gas-13-kw'),
+                                                                              P('Loungeheater op gas', 'loungeheater-gas'), P('Flameheater op gas', 'flameheater-gas-9-kw')]),
+            L('Evenement', 'http', url=t('accessoires', 'Afzetpaal', 'Marktkraam', 'Loper'), items=[P('Afzetpalen', 'afzetpaal-met-trekband'), P('Marktkraam', 'marktkraam-2-m'), P('Loper', 'loper-per-meter')]),
         ]),
         L('Meubilair', 'collection', 'meubilair', items=[
-            L('Tafels', 'http', url=t('meubilair', 'Klaptafel'), items=[P('Klaptafel rechthoekig', 'klaptafel-hdpe-rechthoekig'), P('Klaptafel rond', 'klaptafel-hdpe-rond'),
+            L('Tafels', 'http', url=t('meubilair', 'Klaptafel', 'Terrastafel', 'Biertafelset'), items=[P('Klaptafel rechthoekig', 'klaptafel-hdpe-rechthoekig'), P('Klaptafel rond', 'klaptafel-hdpe-rond'),
                                                                         P('Terrastafel', 'terrastafel-inklapbaar'), P('Biertafelset', 'biertafelset')]),
-            L('Zitten', 'http', url=t('meubilair', 'Barkruk'), items=[P('Barkruk metaal', 'barkruk-stapelbaar-metaal'), P('Barkruk hout', 'barkruk-houten-zitting'),
-                                                                     P('Klapstoel', 'klapstoel'), P('Cross back stoel', 'stapelstoel-cross-back'), P('Bierbank', 'bierbank-220')]),
+            L('Barkrukken', 'http', url=t('meubilair', 'Barkruk'), items=[P('Barkruk metaal', 'barkruk-stapelbaar-metaal'), P('Barkruk hout', 'barkruk-houten-zitting'),
+                                                                         P('Barkruk velours', 'barkruk-velours-stapelbaar'), P('Barkruk PE-rotan', 'barkruk-pe-rotan'),
+                                                                         P('Barkruk draad', 'barkruk-draad-stapelbaar')]),
+            L('Stoelen, krukken en banken', 'http', url=t('meubilair', 'Stoel', 'Kruk', 'Bank', 'Bierbank'), items=[
+                P('Klapstoel', 'klapstoel'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
+                P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank-220')]),
             L('Transportkarren', 'http', url=t('meubilair', 'Transportkar'), items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels en stoelen', 'transportkar-klaptafels-en-stoelen')]),
         ]),
         L('Verlichting', 'collection', 'verlichting', items=[
-            L('Prikkabels', 'http', url=t('verlichting', 'Prikkabel'), items=[P('Prikkabel E27', 'prikkabel-e27'), P('Prikkabel op maat', 'prikkabel-op-maat'), P('Set met lampen', 'prikkabelset-led')]),
-            L('Lampen en slangen', 'http', url=t('verlichting', 'LED-lamp'), items=[P('LED-lampen', 'led-lamp-e27'), P('LED-lichtslang', 'led-lichtslang'), P('Kerstverlichting', 'kerstverlichting-10-m')]),
+            L('Prikkabels', 'http', url=t('verlichting', 'Prikkabel', 'Actiepakket'), items=[P('Prikkabel E27', 'prikkabel-e27'), P('Prikkabel op maat', 'prikkabel-op-maat'), P('Set met lampen', 'prikkabelset-led')]),
+            L('Lampen en slangen', 'http', url=t('verlichting', 'LED-lamp', 'Lichtslang', 'Kerstverlichting', 'Tentverlichting'), items=[
+                P('LED-lampen', 'led-lamp-e27'), P('LED-lichtslang', 'led-lichtslang'), P('Kerstverlichting', 'kerstverlichting-10-m'), P('LED-vloedlicht voor easy-up', 'led-vloedlicht-easy-up')]),
             L('Onderdelen', 'http', url=t('verlichting', 'Verlichting onderdeel'), items=[P('Fittingen, dimmers, timers', 'onderdelen-prikkabel-en-lichtslang')]),
         ]),
         L('Actie', 'collection', 'actiepakketten', items=[
             L('Statafelpakketten', 'collection', 'actiepakketten', items=[P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('Terraspakket', 'terraspakket-statafel-barkrukken'),
                                                                          P('Met rokken en kar', 'pakket-statafels-stretchrokken-transportkar')]),
-            L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium 3 × 3 m', 'starterspakket-easy-up-premium-3x3'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
+            L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium', 'starterspakket-easy-up-premium'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
             L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'),
-                                                                      P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
+                                                                      P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar'), P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
         ]),
         L('Zakelijk', 'page', 'zakelijk', items=[
             L('Klapklaar Zakelijk', 'page', 'zakelijk', items=[L('Zo bestel je zakelijk', 'page', 'zakelijk'), L('Offerte aanvragen', 'page', 'offerte'),
@@ -192,7 +204,8 @@ def build_menus():
         {'handle': 'footer-klantenservice', 'title': 'Hulp', 'items': [
             L('Contact', 'page', 'contact'), L('Veelgestelde vragen', 'page', 'veelgestelde-vragen'), L('Verzenden en bezorgen', 'page', 'verzenden-en-bezorgen'),
             L('Retourneren', 'page', 'retourneren'), L('Garantie', 'page', 'garantie'), L('Betaalmethoden', 'page', 'betaalmethoden'),
-            L('Maatadvies statafelrokken', 'page', 'maatadvies-statafelrokken'), L('Offerte aanvragen', 'page', 'offerte'), L('Mijn account', 'http', url='/account')]},
+            L('Maatadvies statafelrokken', 'page', 'maatadvies-statafelrokken'), L('Offerte aanvragen', 'page', 'offerte'), P('Cadeaubon', 'cadeaubon'),
+            L('Mijn account', 'http', url='/account')]},
         {'handle': 'footer-klapklaar', 'title': 'Over Klapklaar', 'items': [
             L('Over ons', 'page', 'over-ons'), L('Zakelijk', 'page', 'zakelijk'), L('Bedrukken', 'page', 'bedrukken'), L('Advies & inspiratie', 'blog', 'advies')]},
         {'handle': 'footer-juridisch', 'title': 'Juridisch', 'items': [

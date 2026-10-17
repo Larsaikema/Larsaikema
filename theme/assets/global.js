@@ -41,6 +41,7 @@
     if (excl) return stored === 'incl' ? Math.round(cents / f) : cents;
     return stored === 'excl' ? Math.round(cents * f) : cents;
   };
+  KK.escape = (str) => String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   KK.t = (key, vars = {}) => Object.entries(vars).reduce((s, [k, v]) => s.split(`__${k.toUpperCase()}__`).join(v), KK.strings[key] || '');
 
   /** Section Rendering API: returns {id: html}. */
@@ -82,7 +83,10 @@
   };
 
   /* ---------- cart count + favicon ---------- */
-  KK.updateCartCount = (count) => {
+  /** shown count: a made-to-measure line (quantity = billed m², property _eenheid) counts as 1 item */
+  KK.cartCount = (c) => (c && c.items ? c.items.reduce((n, i) => n + (i.properties && i.properties._eenheid ? 1 : i.quantity), 0) : 0);
+  KK.updateCartCount = (cartOrCount) => {
+    const count = typeof cartOrCount === 'number' ? cartOrCount : KK.cartCount(cartOrCount);
     document.querySelectorAll('[data-cart-count]').forEach((el) => {
       el.textContent = count;
       el.hidden = !count;
@@ -118,6 +122,18 @@
     document.addEventListener('keydown', KK._trap);
   };
   KK.releaseFocus = () => KK._trap && document.removeEventListener('keydown', KK._trap);
+  /** Make everything outside el inert (a modal that is not a <dialog>); returns a function that undoes it. */
+  KK.inertOutside = (el, keep = []) => {
+    const touched = [];
+    for (let node = el; node && node.parentElement && node !== document.body; node = node.parentElement) {
+      [...node.parentElement.children].forEach((sib) => {
+        if (sib === node || sib.inert || keep.includes(sib) || sib.id === 'Toast' || /^(SCRIPT|STYLE|LINK|TEMPLATE)$/.test(sib.tagName)) return;
+        sib.inert = true;
+        touched.push(sib);
+      });
+    }
+    return () => touched.forEach((sib) => (sib.inert = false));
+  };
 
   /* ---------- dialogs (drawers / modals) ---------- */
   KK.openDialog = (dialog, opener) => {
@@ -241,6 +257,31 @@
     }
   );
 
+  /* predictive-search.js loads on first use of the search field (pointer, touch or focus), not with every page */
+  document.querySelectorAll('predictive-search[data-src]').forEach((el) => {
+    const load = () => {
+      if (customElements.get('predictive-search') || document.querySelector(`script[src="${el.dataset.src}"]`)) return;
+      const sc = document.createElement('script');
+      sc.src = el.dataset.src;
+      document.head.append(sc);
+    };
+    ['pointerenter', 'touchstart', 'focusin'].forEach((ev) => el.addEventListener(ev, load, { once: true, passive: true }));
+  });
+
+  /* long placeholder when it fits, else the short one ('Zoek op product of maat'): never a cut-off hint */
+  const fitPlaceholder = (el) => {
+    const long = el.dataset.placeholderLong || (el.dataset.placeholderLong = el.placeholder);
+    const cs = getComputedStyle(el);
+    const ctx = (fitPlaceholder.ctx ||= document.createElement('canvas').getContext('2d'));
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const room = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 4;
+    el.placeholder = room <= 0 || ctx.measureText(long).width <= room ? long : el.dataset.placeholderShort;
+  };
+  const fitAll = () => document.querySelectorAll('input[data-placeholder-short]').forEach(fitPlaceholder);
+  const fitObserver = new ResizeObserver(fitAll);
+  document.querySelectorAll('input[data-placeholder-short]').forEach((el) => fitObserver.observe(el));
+  document.fonts?.ready.then(fitAll);
+
   define(
     'sticky-header',
     class extends HTMLElement {
@@ -248,20 +289,28 @@
         this.mode = this.dataset.sticky;
         this.section = this.closest('.section-header');
         this.last = 0;
-        const setH = () => document.documentElement.style.setProperty('--header-h', `${this.offsetHeight}px`);
+        // --header-h = the part of the header that covers the page right now (sticky offsets, scroll-padding):
+        // 0 when the header does not stick or has slid away (scroll-up mode)
+        const setH = () =>
+          document.documentElement.style.setProperty('--header-h', `${this.mode === 'none' || this.classList.contains('is-hidden') ? 0 : this.offsetHeight}px`);
         setH();
         new ResizeObserver(setH).observe(this);
         if (this.mode === 'none') return;
         this.onScroll = () => {
           const y = window.scrollY;
           this.classList.toggle('is-scrolled', y > 8);
-          if (this.mode === 'scroll-up') {
+          if (this.mode === 'scroll-up' && Math.abs(y - this.last) > 4) {
             const hide = y > this.last && y > this.offsetHeight * 2 && !this.querySelector('.is-open, [aria-expanded="true"]');
-            this.classList.toggle('is-hidden', hide);
+            if (hide !== this.classList.contains('is-hidden')) {
+              this.classList.toggle('is-hidden', hide);
+              setH();
+            }
           }
-          this.last = y;
+          if (Math.abs(y - this.last) > 4 || y < 8) this.last = y;
         };
         addEventListener('scroll', this.onScroll, { passive: true });
+        // keyboard focus inside a slid-away header brings it back
+        this.addEventListener('focusin', () => this.classList.contains('is-hidden') && (this.classList.remove('is-hidden'), setH()));
         this.onScroll();
       }
       disconnectedCallback() {
@@ -340,11 +389,14 @@
     }
   );
 
-  /* btw toggle: Particulier (incl) / Zakelijk (excl). Remembered per browser. */
+  /* btw toggle: Particulier (incl) / Zakelijk (excl). Remembered per browser; the Zakelijk pages (default excl, brand §6)
+     keep their own key so a consumer choice elsewhere does not override that default. */
   KK.setVat = (mode) => {
-    document.documentElement.dataset.vat = mode;
+    const html = document.documentElement;
+    html.dataset.vat = mode;
     try {
       localStorage.setItem('kk:vat', mode);
+      if (html.dataset.vatScope === 'zakelijk') localStorage.setItem('kk:vat:zakelijk', mode);
     } catch (e) {}
     document.querySelectorAll('[data-vat-set]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vatSet === mode)));
     KK.emit('vat:change', mode);
@@ -374,72 +426,4 @@
     true
   );
 
-  /* copy-to-clipboard buttons */
-  document.addEventListener('click', async (e) => {
-    const b = e.target.closest('[data-copy]');
-    if (!b) return;
-    try {
-      await navigator.clipboard.writeText(b.dataset.copy);
-      const old = b.innerHTML;
-      b.textContent = b.dataset.copied || KK.strings.copied;
-      setTimeout(() => (b.innerHTML = old), 1600);
-    } catch (err) {}
-  });
-
-  /* file size for download links (Liquid does not expose it): one HEAD request once the link is on screen */
-  if ('IntersectionObserver' in window) {
-    const sizeIO = new IntersectionObserver((entries) =>
-      entries.forEach(async (e) => {
-        if (!e.isIntersecting) return;
-        sizeIO.unobserve(e.target);
-        try {
-          const r = await fetch(e.target.href, { method: 'HEAD' });
-          const len = Number(r.headers.get('content-length'));
-          const out = e.target.querySelector('[data-file-size]');
-          if (!r.ok || !len || !out) return;
-          const mb = len / 1048576;
-          out.textContent = ` · ${mb >= 1 ? `${mb.toLocaleString('nl', { maximumFractionDigits: 1 })} MB` : `${Math.max(1, Math.round(len / 1024))} kB`}`;
-        } catch (err) {}
-      })
-    );
-    document.querySelectorAll('[data-file-size-src]').forEach((a) => sizeIO.observe(a));
-  }
-
-  /* scroll sliders with prev/next buttons */
-  document.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-slider-btn]');
-    if (!b) return;
-    const slider = document.getElementById(b.getAttribute('aria-controls'));
-    if (!slider) return;
-    const item = slider.firstElementChild;
-    const step = item ? item.getBoundingClientRect().width + 24 : slider.clientWidth * 0.8;
-    slider.scrollBy({ left: b.dataset.sliderBtn === 'next' ? step : -step, behavior: 'smooth' });
-  });
 })();
-
-/* lazy product recommendations (Section Rendering API) */
-customElements.get('product-recommendations') ||
-  customElements.define(
-    'product-recommendations',
-    class extends HTMLElement {
-      connectedCallback() {
-        if (this.children.length || !this.dataset.url) return;
-        const io = new IntersectionObserver(
-          async ([e]) => {
-            if (!e.isIntersecting) return;
-            io.disconnect();
-            try {
-              const html = await (await fetch(this.dataset.url)).text();
-              const fresh = window.KK.parse(html).querySelector('product-recommendations');
-              if (fresh && fresh.children.length) this.innerHTML = fresh.innerHTML;
-              else this.hidden = true;
-            } catch (err) {
-              this.hidden = true;
-            }
-          },
-          { rootMargin: '0px 0px 400px 0px' }
-        );
-        io.observe(this);
-      }
-    }
-  );

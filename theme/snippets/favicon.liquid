@@ -1,7 +1,7 @@
 {%- comment -%}
-  Favicons (brand v4 §3.7 + §12): own 16 and 32 px drawings plus 192 px and the iOS icon, as PNG. No
+  Favicons (brand v6 §3.7, technisch.md 6.5; PNGs copied from brand/img and brand/): own 16 and 32 px drawings plus 192 px and the iOS icon, as PNG. No
   type="image/svg+xml" link: with an SVG favicon browsers scale one drawing for every size and the 16 px drawing is
-  never used. While the cart holds something the 16/32 links show the cart state (Polder dot); global.js
+  never used. While the cart holds something the 16/32 links show the cart state (Inkt dot with a Zand ring); global.js
   (KK.updateCartCount) swaps both hrefs after AJAX cart changes using KK.favicons.
   settings.favicon (image picker) replaces the brand drawings.
 {%- endcomment -%}
@@ -19,7 +19,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon' | append: fav | append: '-16.png' | asset_url }}" data-favicon="16">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon' | append: fav | append: '-32.png' | asset_url }}" data-favicon="32">
   <link rel="icon" type="image/png" sizes="192x192" href="{{ 'favicon-192.png' | asset_url }}">
-  <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ 'apple-touch-icon-180.png' | asset_url }}">
   {%- if cart_state -%}
   <script>
     window.KK = window.KK || {};

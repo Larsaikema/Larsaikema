@@ -37,6 +37,10 @@
                         <input class="input" id="QL-{{ i }}-qty" type="number" min="1" inputmode="numeric" name="contact[Regel {{ i }} - aantal]" data-line-qty{% if forloop.first %} required{% endif %}>
                       </div>
                       <button type="button" class="icon-btn quote-line__remove" data-remove-line aria-label="{{ 'quote.remove_line' | t }}"{% if forloop.first %} hidden{% endif %}>{%- render 'icon', icon: 'trash', class: 'icon--sm' -%}</button>
+                      <div class="field quote-line__details">
+                        <label class="field__label" for="QL-{{ i }}-details">{{ 'quote.line_details' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+                        <input class="input" id="QL-{{ i }}-details" name="contact[Regel {{ i }} - details]" data-line-details>
+                      </div>
                     </div>
                   {%- endfor -%}
                 </div>
@@ -54,6 +58,7 @@
                     <div class="field quote-line__variant"><label class="field__label" for="QL-__N__-variant">{{ 'quote.line_variant' | t }}</label><input class="input" id="QL-__N__-variant" name="contact[Regel __N__ - uitvoering]" data-line-variant></div>
                     <div class="field"><label class="field__label" for="QL-__N__-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="QL-__N__-qty" type="number" min="1" inputmode="numeric" name="contact[Regel __N__ - aantal]" data-line-qty></div>
                     <button type="button" class="icon-btn quote-line__remove" data-remove-line aria-label="{{ 'quote.remove_line' | t }}">{%- render 'icon', icon: 'trash', class: 'icon--sm' -%}</button>
+                    <div class="field quote-line__details"><label class="field__label" for="QL-__N__-details">{{ 'quote.line_details' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label><input class="input" id="QL-__N__-details" name="contact[Regel __N__ - details]" data-line-details></div>
                   </div>
                 </template>
               </fieldset>
@@ -62,12 +67,12 @@
                 <legend>{{ 'quote.print' | t }}</legend>
                 <div class="radio-row">
                   <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_none' | t }}" checked><span>{{ 'quote.print_none' | t }}</span></label>
-                  <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_yes' | t }}"><span>{{ 'quote.print_yes' | t }}</span></label>
+                  <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_yes' | t }}" data-print-yes><span>{{ 'quote.print_yes' | t }}</span></label>
                   <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_unsure' | t }}"><span>{{ 'quote.print_unsure' | t }}</span></label>
                 </div>
                 <div class="field" style="margin-top:14px">
                   <label class="field__label" for="Q-logo">{{ 'quote.logo_link' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
-                  <input class="input" id="Q-logo" type="url" name="contact[Link naar logo]" placeholder="https://" aria-describedby="Q-logo-help">
+                  <input class="input" id="Q-logo" type="url" name="contact[Link naar logo]" data-logo-link placeholder="https://" aria-describedby="Q-logo-help">
                   <p class="field__help" id="Q-logo-help">{{ 'quote.logo_link_help' | t }}</p>
                 </div>
               </fieldset>
@@ -86,7 +91,7 @@
                   <div class="field field--full"><label class="field__label" for="Q-body">{{ 'quote.notes' | t }}</label><textarea class="textarea" id="Q-body" name="contact[body]" rows="4"></textarea></div>
                 </div>
               </fieldset>
-              <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'quote.submit' | t }}</button></div>
+              <div class="form-actions"><button type="submit" class="btn">{{ 'quote.submit' | t }}</button></div>
               {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
             </quote-form>
           {%- endif -%}

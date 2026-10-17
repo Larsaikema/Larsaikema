@@ -1,0 +1,7 @@
+{%- comment -%}
+  One sibling size (custom.andere_maten) as an option pill that links to that product. Params: sp (product), label,
+  variant_id (the sibling variant with the same colour/uitvoering, or ''), available (bool), vmap (JSON: key -> [id, available]).
+{%- endcomment -%}
+<a class="vp__pill vp__pill--link{% unless available %} is-unavailable{% endunless %}" href="{{ sp.url }}{% if variant_id != '' %}?variant={{ variant_id }}{% endif %}" data-sibling data-url="{{ sp.url }}" data-sibling-variants="{{ vmap | strip | escape }}">
+  {{- label -}}<span class="visually-hidden" data-unavailable-text{% if available %} hidden{% endif %}>, {{ 'product.option_unavailable' | t }}</span>
+</a>

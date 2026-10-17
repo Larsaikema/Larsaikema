@@ -35,14 +35,15 @@
         "layout": "image-right",
         "image": "shopify://shop_images/scene-hero.webp",
         "eyebrow": "Partytenten · Statafels · Met jouw logo",
-        "heading": "Uitklappen. Neerzetten. Feest.",
+        "heading": "Uitklappen. Neerzetten. *Feest.*",
         "text": "<p>Easy-up tenten, statafels met rokken, verlichting en meubilair. Voor je tuinfeest, je club of je evenement.</p>",
         "button_1_label": "Bekijk partytenten",
         "button_1_link": "shopify://collections/partytenten",
         "button_2_label": "Naar statafels",
         "button_2_link": "shopify://collections/statafels",
         "subline": "<p>Voor bedrijf, club of verhuur? <a href=\"/pages/offerte\">Vraag een offerte op maat aan.</a></p>",
-        "product": "partytent-easy-up-premium",
+        "product": "easy-up-partytent-premium-3x3",
+        "product_collection": "easy-up-premium",
         "product_label": "Easy-up partytent Premium",
         "image_alt": "Easy-up partytent in Klaproos met voorbeeldopdruk op de luifel, daaronder twee statafels met een zwarte en een witte stretch rok"
       }
@@ -191,10 +192,9 @@
           "type": "buttons",
           "settings": {
             "label_1": "Ontwerp je tent",
-            "link_1": "shopify://products/partytent-met-logo",
+            "link_1": "shopify://collections/bedrukte-partytenten",
             "label_2": "Zo werkt bedrukken",
-            "link_2": "shopify://pages/bedrukken",
-            "style_1": "secondary"
+            "link_2": "shopify://pages/bedrukken"
           }
         }
       },
@@ -207,9 +207,10 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp",
+        "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
         "badge": "Voorbeeldopdruk",
-        "layout": "image-left"
+        "layout": "image-left",
+        "fallback_image": "tent-logo"
       }
     },
     "featured-rokken": {

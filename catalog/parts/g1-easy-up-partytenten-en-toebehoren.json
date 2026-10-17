@@ -90,7 +90,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Afmetingen",
@@ -180,21 +180,21 @@
       "description": "Easy-up partytent 3x3 m met 40 mm stalen frame, 320 g/m² dak en beschermhoes. 9 m², 4 poten, 27 kg. 7 kleuren, zijwanden passend."
     },
     "image_alts": {
-      "easy-up-partytent-premium-3x3-klaproos-hero.webp": "Easy-up partytent Premium 3 × 3 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-premium-3x3-rood-hero.webp": "Easy-up partytent Premium 3 × 3 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-wit-hero.webp": "Easy-up partytent Premium 3 × 3 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-zwart-hero.webp": "Easy-up partytent Premium 3 × 3 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-antraciet-hero.webp": "Easy-up partytent Premium 3 × 3 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-blauw-hero.webp": "Easy-up partytent Premium 3 × 3 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-groen-hero.webp": "Easy-up partytent Premium 3 × 3 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-premium-3x3-zandkleur-hero.webp": "Easy-up partytent Premium 3 × 3 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-premium-3x3-klaproos-detail.webp": "Easy-up partytent Premium 3 × 3 m, Klaproos, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
-      "easy-up-partytent-premium-3x3-klaproos-front.webp": "Easy-up partytent Premium 3 × 3 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-premium-3x3-rood-detail.webp": "Easy-up partytent Premium 3 × 3 m, Rood, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
+      "easy-up-partytent-premium-3x3-rood-front.webp": "Easy-up partytent Premium 3 × 3 m, Rood, vooraanzicht",
       "easy-up-partytent-premium-3x3-wit-zijwanden-hero.webp": "Easy-up partytent Premium 3 × 3 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -269,7 +269,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Afmetingen",
@@ -359,21 +359,21 @@
       "description": "Easy-up partytent 3x4,5 m met 40 mm stalen frame, 320 g/m² dak en beschermhoes. 13,5 m², 6 poten, 34 kg. 7 kleuren, zijwanden passend."
     },
     "image_alts": {
-      "easy-up-partytent-premium-3x4-5-klaproos-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-premium-3x4-5-rood-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-wit-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-zwart-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-antraciet-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-blauw-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-groen-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-premium-3x4-5-zandkleur-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-premium-3x4-5-klaproos-detail.webp": "Easy-up partytent Premium 3 × 4,5 m, Klaproos, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
-      "easy-up-partytent-premium-3x4-5-klaproos-front.webp": "Easy-up partytent Premium 3 × 4,5 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-premium-3x4-5-rood-detail.webp": "Easy-up partytent Premium 3 × 4,5 m, Rood, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
+      "easy-up-partytent-premium-3x4-5-rood-front.webp": "Easy-up partytent Premium 3 × 4,5 m, Rood, vooraanzicht",
       "easy-up-partytent-premium-3x4-5-wit-zijwanden-hero.webp": "Easy-up partytent Premium 3 × 4,5 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -448,7 +448,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Afmetingen",
@@ -538,21 +538,21 @@
       "description": "Easy-up partytent 3x6 m met 40 mm stalen frame, 320 g/m² dak en beschermhoes. 18 m², 6 poten, 41 kg. 7 kleuren, zijwanden passend."
     },
     "image_alts": {
-      "easy-up-partytent-premium-3x6-klaproos-hero.webp": "Easy-up partytent Premium 3 × 6 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-premium-3x6-rood-hero.webp": "Easy-up partytent Premium 3 × 6 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-wit-hero.webp": "Easy-up partytent Premium 3 × 6 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-zwart-hero.webp": "Easy-up partytent Premium 3 × 6 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-antraciet-hero.webp": "Easy-up partytent Premium 3 × 6 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-blauw-hero.webp": "Easy-up partytent Premium 3 × 6 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-groen-hero.webp": "Easy-up partytent Premium 3 × 6 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-premium-3x6-zandkleur-hero.webp": "Easy-up partytent Premium 3 × 6 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-premium-3x6-klaproos-detail.webp": "Easy-up partytent Premium 3 × 6 m, Klaproos, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
-      "easy-up-partytent-premium-3x6-klaproos-front.webp": "Easy-up partytent Premium 3 × 6 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-premium-3x6-rood-detail.webp": "Easy-up partytent Premium 3 × 6 m, Rood, close-up van het nylon hoekstuk, de stalen schaar en de luifelzoom",
+      "easy-up-partytent-premium-3x6-rood-front.webp": "Easy-up partytent Premium 3 × 6 m, Rood, vooraanzicht",
       "easy-up-partytent-premium-3x6-wit-zijwanden-hero.webp": "Easy-up partytent Premium 3 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -627,7 +627,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart"
+        "waarde": "Rood, Wit, Zwart"
       },
       {
         "groep": "Afmetingen",
@@ -717,17 +717,17 @@
       "description": "Easy-up partytent 2x2 m met 50 mm aluminium frame, polyester dak 320 g/m². Met wieltas, spanbanden en haringen. 4 m², 4 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-2x2-klaproos-hero.webp": "Easy-up partytent Professional 2 × 2 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-2x2-rood-hero.webp": "Easy-up partytent Professional 2 × 2 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-2x2-wit-hero.webp": "Easy-up partytent Professional 2 × 2 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-2x2-zwart-hero.webp": "Easy-up partytent Professional 2 × 2 m, Zwart, schuin vooraanzicht",
-      "easy-up-partytent-professional-2x2-klaproos-detail.webp": "Easy-up partytent Professional 2 × 2 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-2x2-klaproos-front.webp": "Easy-up partytent Professional 2 × 2 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-2x2-rood-detail.webp": "Easy-up partytent Professional 2 × 2 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-2x2-rood-front.webp": "Easy-up partytent Professional 2 × 2 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-2x2-wit-zijwanden-hero.webp": "Easy-up partytent Professional 2 × 2 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -809,7 +809,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -904,21 +904,21 @@
       "description": "Easy-up partytent 3x3 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 9 m², 4 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-3x3-klaproos-hero.webp": "Easy-up partytent Professional 3 × 3 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-3x3-rood-hero.webp": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-wit-hero.webp": "Easy-up partytent Professional 3 × 3 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-zwart-hero.webp": "Easy-up partytent Professional 3 × 3 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-antraciet-hero.webp": "Easy-up partytent Professional 3 × 3 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-blauw-hero.webp": "Easy-up partytent Professional 3 × 3 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-groen-hero.webp": "Easy-up partytent Professional 3 × 3 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-3x3-zandkleur-hero.webp": "Easy-up partytent Professional 3 × 3 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-3x3-klaproos-detail.webp": "Easy-up partytent Professional 3 × 3 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-3x3-klaproos-front.webp": "Easy-up partytent Professional 3 × 3 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-3x3-rood-detail.webp": "Easy-up partytent Professional 3 × 3 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-3x3-rood-front.webp": "Easy-up partytent Professional 3 × 3 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp": "Easy-up partytent Professional 3 × 3 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1000,7 +1000,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -1095,21 +1095,21 @@
       "description": "Easy-up partytent 3x4,5 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 13,5 m², 6 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-3x4-5-klaproos-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-3x4-5-rood-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-wit-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-zwart-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-antraciet-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-blauw-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-groen-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-3x4-5-zandkleur-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-3x4-5-klaproos-detail.webp": "Easy-up partytent Professional 3 × 4,5 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-3x4-5-klaproos-front.webp": "Easy-up partytent Professional 3 × 4,5 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-3x4-5-rood-detail.webp": "Easy-up partytent Professional 3 × 4,5 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-3x4-5-rood-front.webp": "Easy-up partytent Professional 3 × 4,5 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-3x4-5-wit-zijwanden-hero.webp": "Easy-up partytent Professional 3 × 4,5 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1191,7 +1191,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -1286,21 +1286,21 @@
       "description": "Easy-up partytent 3x6 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 18 m², 6 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-3x6-klaproos-hero.webp": "Easy-up partytent Professional 3 × 6 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-3x6-rood-hero.webp": "Easy-up partytent Professional 3 × 6 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-wit-hero.webp": "Easy-up partytent Professional 3 × 6 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-zwart-hero.webp": "Easy-up partytent Professional 3 × 6 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-antraciet-hero.webp": "Easy-up partytent Professional 3 × 6 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-blauw-hero.webp": "Easy-up partytent Professional 3 × 6 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-groen-hero.webp": "Easy-up partytent Professional 3 × 6 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-3x6-zandkleur-hero.webp": "Easy-up partytent Professional 3 × 6 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-3x6-klaproos-detail.webp": "Easy-up partytent Professional 3 × 6 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-3x6-klaproos-front.webp": "Easy-up partytent Professional 3 × 6 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-3x6-rood-detail.webp": "Easy-up partytent Professional 3 × 6 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-3x6-rood-front.webp": "Easy-up partytent Professional 3 × 6 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp": "Easy-up partytent Professional 3 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1381,7 +1381,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -1476,21 +1476,21 @@
       "description": "Easy-up partytent 4x4 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 16 m², 4 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-4x4-klaproos-hero.webp": "Easy-up partytent Professional 4 × 4 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-4x4-rood-hero.webp": "Easy-up partytent Professional 4 × 4 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-wit-hero.webp": "Easy-up partytent Professional 4 × 4 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-zwart-hero.webp": "Easy-up partytent Professional 4 × 4 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-antraciet-hero.webp": "Easy-up partytent Professional 4 × 4 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-blauw-hero.webp": "Easy-up partytent Professional 4 × 4 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-groen-hero.webp": "Easy-up partytent Professional 4 × 4 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-4x4-zandkleur-hero.webp": "Easy-up partytent Professional 4 × 4 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-4x4-klaproos-detail.webp": "Easy-up partytent Professional 4 × 4 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-4x4-klaproos-front.webp": "Easy-up partytent Professional 4 × 4 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-4x4-rood-detail.webp": "Easy-up partytent Professional 4 × 4 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-4x4-rood-front.webp": "Easy-up partytent Professional 4 × 4 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp": "Easy-up partytent Professional 4 × 4 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1572,7 +1572,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -1667,21 +1667,21 @@
       "description": "Easy-up partytent 4x6 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 24 m², 6 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-4x6-klaproos-hero.webp": "Easy-up partytent Professional 4 × 6 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-4x6-rood-hero.webp": "Easy-up partytent Professional 4 × 6 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-wit-hero.webp": "Easy-up partytent Professional 4 × 6 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-zwart-hero.webp": "Easy-up partytent Professional 4 × 6 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-antraciet-hero.webp": "Easy-up partytent Professional 4 × 6 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-blauw-hero.webp": "Easy-up partytent Professional 4 × 6 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-groen-hero.webp": "Easy-up partytent Professional 4 × 6 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-4x6-zandkleur-hero.webp": "Easy-up partytent Professional 4 × 6 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-4x6-klaproos-detail.webp": "Easy-up partytent Professional 4 × 6 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-4x6-klaproos-front.webp": "Easy-up partytent Professional 4 × 6 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-4x6-rood-detail.webp": "Easy-up partytent Professional 4 × 6 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-4x6-rood-front.webp": "Easy-up partytent Professional 4 × 6 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-4x6-wit-zijwanden-hero.webp": "Easy-up partytent Professional 4 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1763,7 +1763,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur"
       },
       {
         "groep": "Dak",
@@ -1858,21 +1858,21 @@
       "description": "Easy-up partytent 4x8 m met 50 mm aluminium frame, dak van polyester of heavy duty PVC. Met wieltas, spanbanden en haringen. 32 m², 6 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-4x8-klaproos-hero.webp": "Easy-up partytent Professional 4 × 8 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-4x8-rood-hero.webp": "Easy-up partytent Professional 4 × 8 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-wit-hero.webp": "Easy-up partytent Professional 4 × 8 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-zwart-hero.webp": "Easy-up partytent Professional 4 × 8 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-antraciet-hero.webp": "Easy-up partytent Professional 4 × 8 m, Antraciet, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-blauw-hero.webp": "Easy-up partytent Professional 4 × 8 m, Blauw, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-groen-hero.webp": "Easy-up partytent Professional 4 × 8 m, Groen, schuin vooraanzicht",
       "easy-up-partytent-professional-4x8-zandkleur-hero.webp": "Easy-up partytent Professional 4 × 8 m, Zandkleur, schuin vooraanzicht",
-      "easy-up-partytent-professional-4x8-klaproos-detail.webp": "Easy-up partytent Professional 4 × 8 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-4x8-klaproos-front.webp": "Easy-up partytent Professional 4 × 8 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-4x8-rood-detail.webp": "Easy-up partytent Professional 4 × 8 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-4x8-rood-front.webp": "Easy-up partytent Professional 4 × 8 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-4x8-wit-zijwanden-hero.webp": "Easy-up partytent Professional 4 × 8 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -1949,7 +1949,7 @@
       {
         "groep": "Dak",
         "label": "Kleuren polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet"
+        "waarde": "Rood, Wit, Zwart, Antraciet"
       },
       {
         "groep": "Afmetingen",
@@ -2039,18 +2039,18 @@
       "description": "Easy-up partytent 5x5 m met 50 mm aluminium frame, polyester dak 320 g/m². Met wieltas, spanbanden en haringen. 25 m², 8 poten."
     },
     "image_alts": {
-      "easy-up-partytent-professional-5x5-klaproos-hero.webp": "Easy-up partytent Professional 5 × 5 m, Klaproos, schuin vooraanzicht",
+      "easy-up-partytent-professional-5x5-rood-hero.webp": "Easy-up partytent Professional 5 × 5 m, Rood, schuin vooraanzicht",
       "easy-up-partytent-professional-5x5-wit-hero.webp": "Easy-up partytent Professional 5 × 5 m, Wit, schuin vooraanzicht",
       "easy-up-partytent-professional-5x5-zwart-hero.webp": "Easy-up partytent Professional 5 × 5 m, Zwart, schuin vooraanzicht",
       "easy-up-partytent-professional-5x5-antraciet-hero.webp": "Easy-up partytent Professional 5 × 5 m, Antraciet, schuin vooraanzicht",
-      "easy-up-partytent-professional-5x5-klaproos-detail.webp": "Easy-up partytent Professional 5 × 5 m, Klaproos, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
-      "easy-up-partytent-professional-5x5-klaproos-front.webp": "Easy-up partytent Professional 5 × 5 m, Klaproos, vooraanzicht",
+      "easy-up-partytent-professional-5x5-rood-detail.webp": "Easy-up partytent Professional 5 × 5 m, Rood, close-up van het aluminium hoekstuk, de schaar en de luifelzoom",
+      "easy-up-partytent-professional-5x5-rood-front.webp": "Easy-up partytent Professional 5 × 5 m, Rood, vooraanzicht",
       "easy-up-partytent-professional-5x5-wit-zijwanden-hero.webp": "Easy-up partytent Professional 5 × 5 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht"
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
       "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
-      "Kleur 'Klaproos' vraagt een lab-dip van de leverancier (brand.md §4.4).",
+      "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
@@ -2059,7 +2059,7 @@
     ]
   },
   "dakzeil-easy-up": {
-    "body_html": "<p>Een nieuw dak voor je Klapklaar-frame: omdat het oude versleten of beschadigd is, of omdat je een andere kleur wilt. Verhuurders houden zo één frame met een wit en een zwart dak achter de hand. Je kiest de maat van je tent, het doek en de kleur.</p><h3>Wat je krijgt</h3><ul><li>Dak met luifel rondom, in de maat van je tent (2 × 2 tot 5 × 5 m)</li><li><strong>Polyester:</strong> 500D, PVC-gecoat, 320 g/m², in maximaal 7 kleuren</li><li><strong>Heavy duty PVC:</strong> 580 g/m², thermisch gelast, in wit en zwart, voor 3 × 3 tot en met 4 × 8 m</li><li>Klittenband op de hoeken om het dak aan de poten vast te zetten</li></ul><p><strong>Niet inbegrepen:</strong> frame en zijwanden.</p><h3>Zo wissel je het dak</h3><ol><li>Zet de tent half open, zonder de poten uit te schuiven. Zo kun je overal bij het dak.</li><li>Maak het klittenband aan de poten los en til het oude dak van het frame.</li><li>Leg het nieuwe dak erover met de hoeknaden op de hoeken, en trek het recht.</li><li>Maak het klittenband vast, trek het frame helemaal open en zet de tent op hoogte.</li></ol><h3>Goed om te weten</h3><ul><li><strong>Pasvorm:</strong> het dak past op Klapklaar easy-ups Premium en Professional van dezelfde maat. Op frames van andere merken kunnen luifel, hoeken en klittenband net anders vallen; daar kunnen we niet beloven dat het past.</li><li><strong>Heavy duty PVC is zwaarder:</strong> 3 × 3 m weegt ca. 6,8 kg tegen 3,8 kg in polyester. Het past op beide lijnen, maar we raden het aan op het aluminium Professional-frame.</li><li><strong>Kleur:</strong> doek verbleekt in de zon. Een nieuw dak naast zijwanden van een paar seizoenen oud kan dus net iets anders ogen.</li><li>De maten 2 × 2 en 5 × 5 m zijn er alleen in polyester; 2 × 2 m in Klaproos, wit en zwart, 5 × 5 m ook in antraciet.</li></ul>",
+    "body_html": "<p>Een nieuw dak voor je Klapklaar-frame: omdat het oude versleten of beschadigd is, of omdat je een andere kleur wilt. Verhuurders houden zo één frame met een wit en een zwart dak achter de hand. Je kiest de maat van je tent, het doek en de kleur.</p><h3>Wat je krijgt</h3><ul><li>Dak met luifel rondom, in de maat van je tent (2 × 2 tot 5 × 5 m)</li><li><strong>Polyester:</strong> 500D, PVC-gecoat, 320 g/m², in maximaal 7 kleuren</li><li><strong>Heavy duty PVC:</strong> 580 g/m², thermisch gelast, in wit en zwart, voor 3 × 3 tot en met 4 × 8 m</li><li>Klittenband op de hoeken om het dak aan de poten vast te zetten</li></ul><p><strong>Niet inbegrepen:</strong> frame en zijwanden.</p><h3>Zo wissel je het dak</h3><ol><li>Zet de tent half open, zonder de poten uit te schuiven. Zo kun je overal bij het dak.</li><li>Maak het klittenband aan de poten los en til het oude dak van het frame.</li><li>Leg het nieuwe dak erover met de hoeknaden op de hoeken, en trek het recht.</li><li>Maak het klittenband vast, trek het frame helemaal open en zet de tent op hoogte.</li></ol><h3>Goed om te weten</h3><ul><li><strong>Pasvorm:</strong> het dak past op Klapklaar easy-ups Premium en Professional van dezelfde maat. Op frames van andere merken kunnen luifel, hoeken en klittenband net anders vallen; daar kunnen we niet beloven dat het past.</li><li><strong>Heavy duty PVC is zwaarder:</strong> 3 × 3 m weegt ca. 6,8 kg tegen 3,8 kg in polyester. Het past op beide lijnen, maar we raden het aan op het aluminium Professional-frame.</li><li><strong>Kleur:</strong> doek verbleekt in de zon. Een nieuw dak naast zijwanden van een paar seizoenen oud kan dus net iets anders ogen.</li><li>De maten 2 × 2 en 5 × 5 m zijn er alleen in polyester; 2 × 2 m in rood, wit en zwart, 5 × 5 m ook in antraciet.</li></ul>",
     "kenmerk_kort": "Vervangend dak met luifel · 320 g/m² of PVC 580 g/m²",
     "included": [
       "Dak met luifel rondom, in de gekozen maat"
@@ -2113,7 +2113,7 @@
       {
         "groep": "Kleuren",
         "label": "Polyester",
-        "waarde": "Klaproos, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur (2 x 2 m: Klaproos, Wit, Zwart; 5 x 5 m: ook Antraciet)"
+        "waarde": "Rood, Wit, Zwart, Antraciet, Blauw, Groen, Zandkleur (2 x 2 m: Rood, Wit, Zwart; 5 x 5 m: ook Antraciet)"
       },
       {
         "groep": "Kleuren",
@@ -2169,19 +2169,20 @@
       "description": "Vervangend dak voor je easy-up van 2x2 tot 5x5 m: polyester 320 g/m² in 7 kleuren of heavy duty PVC 580 g/m². Past op Klapklaar Premium en Professional."
     },
     "image_alts": {
-      "dakzeil-easy-up-klaproos-hero.webp": "Dakzeil easy-up partytent, Klaproos, met luifel rondom",
+      "dakzeil-easy-up-rood-hero.webp": "Dakzeil easy-up partytent, Rood, met luifel rondom",
       "dakzeil-easy-up-wit-hero.webp": "Dakzeil easy-up partytent, Wit, met luifel rondom",
       "dakzeil-easy-up-zwart-hero.webp": "Dakzeil easy-up partytent, Zwart, met luifel rondom",
       "dakzeil-easy-up-antraciet-hero.webp": "Dakzeil easy-up partytent, Antraciet, met luifel rondom",
       "dakzeil-easy-up-blauw-hero.webp": "Dakzeil easy-up partytent, Blauw, met luifel rondom",
       "dakzeil-easy-up-groen-hero.webp": "Dakzeil easy-up partytent, Groen, met luifel rondom",
       "dakzeil-easy-up-zandkleur-hero.webp": "Dakzeil easy-up partytent, Zandkleur, met luifel rondom",
-      "dakzeil-easy-up-klaproos-gevouwen.webp": "Dakzeil easy-up partytent, Klaproos, opgevouwen"
+      "dakzeil-easy-up-rood-gevouwen.webp": "Dakzeil easy-up partytent, Rood, opgevouwen"
     },
     "claims": [
       "Pasvorm alleen op Klapklaar-frames (bewust geen belofte voor andere merken).",
       "Doekgewichten per m² afgeleid uit variantgewichten; bevestigen met leverancier.",
-      "'Brandvertragend' alleen met certificaat."
+      "'Brandvertragend' alleen met certificaat.",
+      "Prijzen polyester 3x3 € 119, 3x4,5 € 149, 4x4 € 159, 3x6 € 199, 4x6 € 229, 5x5 € 249, 4x8 € 279; heavy duty PVC 3x3 € 219, 3x4,5 € 279, 3x6 € 359: zo is los frame + dak nooit goedkoper dan de complete tent (validate.py controleert dat). Outmate: polyester 3x3 € 129, 4x8 € 319; HD 3x3 € 219."
     ]
   },
   "los-frame-easy-up-premium": {
@@ -2286,7 +2287,8 @@
     },
     "claims": [
       "Framegewichten ca. 23/28/33 kg = tent (27/34/41 kg) min dak; skeleton-variantgewichten 3x4,5 (30 kg) en 3x6 (37 kg) wijken af: rechttrekken of als verzendgewicht incl. verpakking laten bevestigen.",
-      "Garantie 1 jaar op het frame (metafield): eigenaar bevestigen."
+      "Garantie 1 jaar op het frame (metafield): eigenaar bevestigen.",
+      "Prijzen 3x3 € 169, 3x4,5 € 219, 3x6 € 259 (Outmate 179/225/269): frame + polyester dak blijft boven de tentprijs."
     ]
   },
   "los-frame-easy-up-professional": {
@@ -2748,7 +2750,7 @@
     ]
   },
   "regengoot-partytent": {
-    "body_html": "<p>Zet je twee tenten naast elkaar, dan loopt de regen precies in de naad. Deze goot vangt het water tussen de twee daken op en voert het af naar de uiteinden. Voor easy-ups en voor tenten met een buizenframe.</p><h3>Wat je krijgt</h3><ul><li>Goot van waterdicht PVC-doek</li><li>Klittenband langs beide randen, over de volle lengte</li><li>Lengte 3, 4, 4,5, 6 of 8 m, in wit of zwart</li></ul><h3>Zo werkt het</h3><ol><li>Zet de twee tenten op dezelfde hoogte tegen elkaar en koppel de poten, bijvoorbeeld met de <a href=\"/products/koppelset-easy-up\">koppelset</a>.</li><li>Leg de goot tussen de twee dakranden, met de open kant naar boven.</li><li>Maak het klittenband aan beide kanten vast aan de dakrand van elke tent.</li><li>Laat één uiteinde iets lager hangen; daar loopt het water uit.</li></ol><h3>Goed om te weten</h3><ul><li>De lengte is de zijde waarop je de tenten tegen elkaar zet. Twee 3 × 6 m-tenten met de lange kant tegen elkaar: 6 m. Met de korte kant: 3 m.</li><li>Bij lichte regen is een <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a> genoeg; die dekt de kier af. Regent het flink, dan wil je een goot die het water wegvoert.</li><li>Zet een emmer of een stuk grind onder het lage uiteinde, dan spat het niet op je vloer of gras.</li><li>Laat de goot na een bui leeglopen voor je de tenten afbreekt, en berg hem droog op.</li></ul>",
+    "body_html": "<p>Zet je twee tenten naast elkaar, dan loopt de regen precies in de naad. Deze goot vangt het water tussen de twee daken op en voert het af naar de uiteinden. Voor easy-ups en voor tenten met een buizenframe.</p><h3>Wat je krijgt</h3><ul><li>Goot van waterdicht PVC-doek</li><li>Klittenband langs beide randen, over de volle lengte</li><li>Lengte 2, 3, 4, 4,5, 5, 6, 8 of 10 m, in wit of zwart</li></ul><h3>Zo werkt het</h3><ol><li>Zet de twee tenten op dezelfde hoogte tegen elkaar en koppel de poten, bijvoorbeeld met de <a href=\"/products/koppelset-easy-up\">koppelset</a>.</li><li>Leg de goot tussen de twee dakranden, met de open kant naar boven.</li><li>Maak het klittenband aan beide kanten vast aan de dakrand van elke tent.</li><li>Laat één uiteinde iets lager hangen; daar loopt het water uit.</li></ol><h3>Goed om te weten</h3><ul><li>De lengte is de zijde waarop je de tenten tegen elkaar zet. Twee 3 × 6 m-tenten met de lange kant tegen elkaar: 6 m. Met de korte kant: 3 m. Voor de 2 × 2 en 5 × 5 m easy-up zijn er goten van 2 en 5 m, voor buizenframe-tenten van 10 m lang een goot van 10 m.</li><li>Bij lichte regen is een <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a> genoeg; die dekt de kier af. Regent het flink, dan wil je een goot die het water wegvoert.</li><li>Zet een emmer of een stuk grind onder het lage uiteinde, dan spat het niet op je vloer of gras.</li><li>Laat de goot na een bui leeglopen voor je de tenten afbreekt, en berg hem droog op.</li></ul>",
     "kenmerk_kort": "PVC-goot tussen twee tenten · klittenband",
     "included": [
       "1 regengoot in de gekozen lengte"
@@ -2759,7 +2761,7 @@
     "usps": [
       "Vangt het water tussen twee tenten op",
       "Klittenband over de volle lengte",
-      "3 tot 8 m, wit of zwart",
+      "2 tot 10 m, wit of zwart",
       "Ook voor buizenframe-tenten"
     ],
     "specificaties": [
@@ -2776,7 +2778,7 @@
       {
         "groep": "Maten",
         "label": "Lengtes",
-        "waarde": "3, 4, 4,5, 6 en 8 m"
+        "waarde": "2, 3, 4, 4,5, 5, 6, 8 en 10 m"
       },
       {
         "groep": "Kleuren",
@@ -2786,7 +2788,7 @@
       {
         "groep": "Gewicht",
         "label": "Per goot",
-        "waarde": "0,5 kg (3 m) tot 1,0 kg (8 m)"
+        "waarde": "0,4 kg (2 m) tot 1,3 kg (10 m)"
       },
       {
         "groep": "Pasvorm",
@@ -2809,8 +2811,8 @@
       }
     ],
     "seo": {
-      "title": "Regengoot partytent, 3 tot 8 m | Klapklaar",
-      "description": "Regengoot voor tussen twee partytenten: PVC-doek met klittenband, 3, 4, 4,5, 6 of 8 m, wit of zwart. Voor easy-ups en tenten met buizenframe."
+      "title": "Regengoot partytent, 2 tot 10 m | Klapklaar",
+      "description": "Regengoot voor tussen twee partytenten: PVC-doek met klittenband, van 2 tot 10 m lang, wit of zwart. Voor easy-ups en tenten met buizenframe."
     },
     "image_alts": {
       "regengoot-partytent-wit-hero.webp": "Regengoot partytent, wit, 3 m",
@@ -2818,7 +2820,8 @@
       "regengoot-partytent-tussen-twee-tenten.webp": "Regengoot partytent, wit, tussen twee easy-ups van 3 × 3 m (tenten niet inbegrepen)"
     },
     "claims": [
-      "Pasvorm op buizenframe-tenten staat in copy_brief maar niet in past_op (alleen easy-ups): past_op aanvullen met buizenframe-handles of tekst inkorten."
+      "Lengtes 2, 5 en 10 m toegevoegd zodat elke tentzijde een goot heeft (2 × 2 en 5 × 5 m easy-up, 10 m buizenframe): prijzen € 19,95 / € 36,95 / € 74,95, eigenaar beoordeelt.",
+      "Pasvorm op buizenframe-tenten (tekst): klittenband om de dakbuis; bevestigen met de leverancier."
     ]
   },
   "koppelset-easy-up": {
@@ -2957,126 +2960,6 @@
       "Materiaal (320 g/m² polyester) is een definitie: bevestigen met leverancier."
     ]
   },
-  "starterspakket-easy-up-premium-3x3": {
-    "body_html": "<p>Alles voor je eerste tuinfeest in één keer: de Easy-up Premium 3 × 3 m, een zijwandenset in dezelfde kleur en een set spanbanden en haringen. Goedkoper dan los, en je hoeft niet uit te zoeken wat bij elkaar past.</p><h3>Wat je krijgt</h3><ul><li><a href=\"/products/easy-up-partytent-premium-3x3\">Easy-up partytent Premium 3 × 3 m</a>: stalen frame van 40 mm met 4 poten, dak van 320 g/m², beschermhoes</li><li><a href=\"/products/zijwandenset-easy-up\">Zijwandenset 3 × 3 m</a> in dezelfde kleur: 1 dichte wand, 2 wanden met raam en 1 wand met deur</li><li><a href=\"/products/spanbanden-en-haringen-easy-up\">Set spanbanden en haringen</a>: 4 spanbanden van ca. 3 m, 4 haringen van 30 cm en een opbergzak</li></ul><p><strong>Niet inbegrepen:</strong> voetgewichten. Die heb je nodig op tegels of een terras.</p><h3>Opzetten</h3><ol><li>Zet de tent op: met z’n tweeën uitlopen tot het frame half open staat, dak recht trekken, helemaal openen en de poten op hoogte zetten.</li><li>Zet de tent vast: een haring door elke voetplaat en een spanband vanaf elke hoek.</li><li>Hang de wanden op met het klittenband aan dakrand en poten. Zet de deur aan de kant waar je naar binnen loopt en de dichte wand aan de windkant.</li></ol><p>Met twee personen staat het geheel in ongeveer een halfuur. Klaar is Kees.</p><h3>Goed om te weten</h3><ul><li>Met zijwanden vangt de tent meer wind. Zet hem extra goed vast en haal bij harde wind eerst de wanden en dan het dak eraf.</li><li>Op tegels, asfalt of een vloer gebruik je <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewichten van 15 kg</a> per poot: de set van 4.</li><li>Wanden en dak hebben in het pakket dezelfde kleur. Wil je combineren, bestel de tent en de wanden dan los.</li><li>Berg tent en wanden alleen droog op.</li></ul>",
-    "kenmerk_kort": "Easy-up Premium 3 × 3 m + zijwandenset + spanbanden en haringen",
-    "included": [
-      "Easy-up partytent Premium 3 × 3 m met beschermhoes",
-      "Zijwandenset 3 × 3 m (4 wanden) in dezelfde kleur",
-      "4 spanbanden, 4 haringen en opbergzak"
-    ],
-    "excluded": [
-      "Voetgewichten (los te bestellen)"
-    ],
-    "usps": [
-      "Tent, 4 zijwanden en verankering in één keer",
-      "Wanden in dezelfde kleur als het dak",
-      "Goedkoper dan los besteld",
-      "Beschermhoes inbegrepen"
-    ],
-    "specificaties": [
-      {
-        "groep": "Pakket",
-        "label": "Tent",
-        "waarde": "Easy-up partytent Premium 3 x 3 m"
-      },
-      {
-        "groep": "Pakket",
-        "label": "Zijwanden",
-        "waarde": "Zijwandenset 3 x 3 m: 1 dicht, 2 met raam, 1 met deur"
-      },
-      {
-        "groep": "Pakket",
-        "label": "Verankering",
-        "waarde": "4 spanbanden ca. 3 m, 4 haringen 30 cm, opbergzak"
-      },
-      {
-        "groep": "Frame",
-        "label": "Materiaal",
-        "waarde": "Staal, zwart gepoedercoat, zeskant 40 mm"
-      },
-      {
-        "groep": "Frame",
-        "label": "Aantal poten",
-        "waarde": "4"
-      },
-      {
-        "groep": "Dak en wanden",
-        "label": "Materiaal",
-        "waarde": "500D polyester, PVC-gecoat, 320 g/m²"
-      },
-      {
-        "groep": "Dak en wanden",
-        "label": "Bevestiging wanden",
-        "waarde": "Klittenband aan dakrand en poten"
-      },
-      {
-        "groep": "Afmetingen",
-        "label": "Maat",
-        "waarde": "3 x 3 m"
-      },
-      {
-        "groep": "Afmetingen",
-        "label": "Doorloophoogte",
-        "waarde": "170–200 cm"
-      },
-      {
-        "groep": "Afmetingen",
-        "label": "Wandhoogte",
-        "waarde": "ca. 200 cm"
-      },
-      {
-        "groep": "Afmetingen",
-        "label": "Capaciteit",
-        "waarde": "ca. 13 staand / 9 zittend"
-      },
-      {
-        "groep": "Gewicht",
-        "label": "Totaal",
-        "waarde": "ca. 33,6 kg"
-      },
-      {
-        "groep": "Levering",
-        "label": "Niet inbegrepen",
-        "waarde": "Voetgewichten"
-      }
-    ],
-    "faq": [
-      {
-        "vraag": "Wat bespaar ik met het pakket?",
-        "antwoord": "Bij de huidige prijzen betaal je los voor de tent, de zijwandenset en de spanbanden met haringen samen € 495,95. In het pakket betaal je € 449, dus € 46,95 minder."
-      },
-      {
-        "vraag": "Kan ik de wanden in een andere kleur kiezen?",
-        "antwoord": "In het pakket hebben tent en wanden dezelfde kleur. Wil je bijvoorbeeld een Klaproos dak met witte wanden, bestel de tent en de zijwandenset dan los."
-      },
-      {
-        "vraag": "Is dit genoeg om de tent op mijn terras vast te zetten?",
-        "antwoord": "Op gras wel: de haringen en spanbanden zitten erbij. Op tegels of asfalt kun je geen haringen gebruiken; dan heb je 4 voetgewichten van 15 kg nodig."
-      },
-      {
-        "vraag": "Kan ik later een tweede tent koppelen?",
-        "antwoord": "Ja. Met de koppelset voor 40 mm zet je twee Premium-tenten tegen elkaar, en met een regengoot of verbindingsstrook blijft de naad droog."
-      }
-    ],
-    "seo": {
-      "title": "Starterspakket easy-up Premium 3 x 3 m | Klapklaar",
-      "description": "Easy-up partytent 3x3 m met zijwandenset in dezelfde kleur en spanbanden met haringen. Alles voor je tuinfeest, goedkoper dan los. 7 kleuren."
-    },
-    "image_alts": {
-      "starterspakket-easy-up-premium-3x3-klaproos-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Klaproos, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-wit-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Wit, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-zwart-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Zwart, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-antraciet-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Antraciet, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-blauw-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Blauw, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-groen-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Groen, met zijwanden, schuin vooraanzicht",
-      "starterspakket-easy-up-premium-3x3-zandkleur-hero.webp": "Starterspakket easy-up Premium 3 × 3 m, Zandkleur, met zijwanden, schuin vooraanzicht"
-    },
-    "claims": [
-      "FAQ noemt bedragen (los € 495,95, pakket € 449, besparing € 46,95) uit bundle-data: bijwerken bij elke prijswijziging, of FAQ-antwoord vervangen door 'zie Los/in het pakket bij de prijs'.",
-      "Opzettijd 'ongeveer een halfuur' incl. wanden: bevestigen na proefopbouw."
-    ]
-  },
   "compleet-pakket-easy-up-professional": {
     "body_html": "<p>Voor wie zakelijk direct van start wil: een Easy-up Professional, een zijwandenset in dezelfde kleur en een voetgewicht van 15 kg voor elke poot, in één bestelling. Je kiest 3 × 3 m, 4 × 4 m of 3 × 6 m en de kleur.</p><h3>Wat je krijgt</h3><ul><li>Easy-up partytent Professional in de gekozen maat, met polyester dak van 320 g/m²: aluminium frame van 50 mm, wieltas, 4 spanbanden en 4 haringen</li><li><a href=\"/products/zijwandenset-easy-up\">Zijwandenset</a> in dezelfde kleur: 1 dichte wand, 2 wanden met raam en 1 wand met deur</li><li><a href=\"/products/voetgewicht-easy-up-15-kg\">Voetgewichten van 15 kg</a> (2 gietijzeren platen van 7,5 kg per poot): 4 stuks bij 3 × 3 en 4 × 4 m, 6 stuks bij 3 × 6 m</li></ul><h3>Opzetten</h3><ol><li>Zet de tent op: uitlopen tot het frame half open staat, dak recht trekken, helemaal openen en de poten op hoogte zetten.</li><li>Zet bij elke poot de twee platen om de poot op de voetplaat.</li><li>Hang de wanden op met het klittenband aan dakrand en poten: de deur aan de kant waar je naar binnen loopt, de dichte wand aan de windkant.</li></ol><p>Klaar is Kees: binnen, droog en met 15 kg op elke poot.</p><h3>Goed om te weten</h3><ul><li>Het pakket komt met een polyester dak. Wil je heavy duty PVC, stel je set dan los samen of vraag een offerte aan.</li><li>Op gras kun je ook de haringen en spanbanden uit de doos gebruiken; op tegels, asfalt en beursvloeren zijn de gewichten de verankering.</li><li>Met zijwanden vangt de tent meer wind. Haal bij harde wind eerst de wanden en dan het dak eraf.</li><li>Door de gewichten is het pakket zwaar: ca. 102 kg (3 × 3 m), 117 kg (4 × 4 m) of 156 kg (3 × 6 m).</li></ul>",
     "kenmerk_kort": "Professional-tent + zijwandenset + voetgewichten (15 kg per poot)",
@@ -3173,7 +3056,7 @@
       "description": "Easy-up Professional met zijwandenset en voetgewichten van 15 kg per poot, in 3x3, 4x4 of 3x6 m. Zakelijk startklaar, goedkoper dan los besteld."
     },
     "image_alts": {
-      "compleet-pakket-easy-up-professional-klaproos-hero.webp": "Compleet pakket easy-up Professional, Klaproos, met zijwanden en voetgewichten, schuin vooraanzicht",
+      "compleet-pakket-easy-up-professional-rood-hero.webp": "Compleet pakket easy-up Professional, Rood, met zijwanden en voetgewichten, schuin vooraanzicht",
       "compleet-pakket-easy-up-professional-wit-hero.webp": "Compleet pakket easy-up Professional, Wit, met zijwanden en voetgewichten, schuin vooraanzicht",
       "compleet-pakket-easy-up-professional-zwart-hero.webp": "Compleet pakket easy-up Professional, Zwart, met zijwanden en voetgewichten, schuin vooraanzicht",
       "compleet-pakket-easy-up-professional-antraciet-hero.webp": "Compleet pakket easy-up Professional, Antraciet, met zijwanden en voetgewichten, schuin vooraanzicht",
@@ -3184,6 +3067,122 @@
     "claims": [
       "FAQ noemt bedragen per maat uit bundle-data (957/859, 1.137/1.019, 1.453/1.299): bijwerken bij elke prijswijziging.",
       "'Palletzending' volgt uit verzending=pallet; tarieven/werkwijze in docs/claims-to-confirm.md."
+    ]
+  },
+  "starterspakket-easy-up-premium": {
+    "body_html": "<p>Alles voor je eerste tuinfeest in één keer: een Easy-up Premium, een zijwandenset in dezelfde kleur en de spanbanden met haringen om hem vast te zetten. In 3 × 3, 3 × 4,5 of 3 × 6 m, goedkoper dan los, en je hoeft niet uit te zoeken wat bij elkaar past.</p><h3>Wat je krijgt</h3><ul><li>Easy-up partytent Premium in de gekozen maat: stalen frame van 40 mm, dak van 320 g/m², beschermhoes (<a href=\"/products/easy-up-partytent-premium-3x3\">3 × 3 m</a>, <a href=\"/products/easy-up-partytent-premium-3x4-5\">3 × 4,5 m</a> of <a href=\"/products/easy-up-partytent-premium-3x6\">3 × 6 m</a>)</li><li><a href=\"/products/zijwandenset-easy-up\">Zijwandenset</a> in dezelfde maat en kleur: korte zijden 1 dicht en 1 met deur, lange zijden 2 met raam</li><li><a href=\"/products/spanbanden-en-haringen-easy-up\">Spanbanden en haringen</a>: 1 set bij 3 × 3 m (4 poten), 2 sets bij 3 × 4,5 en 3 × 6 m (6 poten), zodat elke poot een band krijgt</li></ul><p><strong>Niet inbegrepen:</strong> voetgewichten. Die heb je nodig op tegels of een terras; je vinkt ze hieronder aan in de set die bij je maat past.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Maat</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">3 × 3 m</th><td>Los € 495,95 · in het pakket € 449,00</td><td>€ 46,95</td></tr><tr><th scope=\"row\">3 × 4,5 m</th><td>Los € 613,90 · in het pakket € 549,00</td><td>€ 64,90</td></tr><tr><th scope=\"row\">3 × 6 m</th><td>Los € 753,90 · in het pakket € 669,00</td><td>€ 84,90</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige prijzen van dezelfde onderdelen.</p><h3>Opzetten</h3><ol><li>Zet de tent op: met z’n tweeën uitlopen tot het frame half open staat, dak recht trekken, helemaal openen en de poten op hoogte zetten.</li><li>Zet de tent vast: een haring door elke voetplaat en een spanband vanaf elke poot.</li><li>Hang de wanden op met het klittenband aan dakrand en poten. Zet de deur aan de kant waar je naar binnen loopt en de dichte wand aan de windkant.</li></ol><p>Met twee personen staat de 3 × 3 m met wanden in ongeveer een halfuur. Klaar is Kees.</p><h3>Goed om te weten</h3><ul><li>Met zijwanden vangt de tent meer wind. Zet hem extra goed vast en haal bij harde wind eerst de wanden en dan het dak eraf.</li><li>Op tegels, asfalt of een vloer gebruik je <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewichten van 15 kg</a> per poot: de set van 4 bij 3 × 3 m, de set van 6 bij 3 × 4,5 en 3 × 6 m.</li><li>Wanden en dak hebben in het pakket dezelfde kleur. Wil je combineren, bestel de tent en de wanden dan los.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs.</li><li>Berg tent en wanden alleen droog op.</li></ul>",
+    "kenmerk_kort": "Easy-up Premium + zijwandenset + spanbanden · 3 maten",
+    "included": [
+      "Easy-up partytent Premium in de gekozen maat, met beschermhoes",
+      "Zijwandenset (4 wanden) in dezelfde maat en kleur",
+      "Spanbanden en haringen: 1 set (3 × 3 m) of 2 sets (3 × 4,5 en 3 × 6 m)"
+    ],
+    "excluded": [
+      "Voetgewichten (los te bestellen)"
+    ],
+    "usps": [
+      "Tent, 4 zijwanden en verankering in één keer",
+      "In 3 × 3, 3 × 4,5 of 3 × 6 m",
+      "Goedkoper dan los besteld",
+      "Wanden in dezelfde kleur als het dak"
+    ],
+    "specificaties": [
+      {
+        "groep": "Pakket",
+        "label": "Tent",
+        "waarde": "Easy-up partytent Premium 3 x 3, 3 x 4,5 of 3 x 6 m"
+      },
+      {
+        "groep": "Pakket",
+        "label": "Zijwanden",
+        "waarde": "Zijwandenset in dezelfde maat: 1 dicht, 2 met raam, 1 met deur"
+      },
+      {
+        "groep": "Pakket",
+        "label": "Verankering",
+        "waarde": "Per set 4 spanbanden ca. 3 m, 4 haringen 30 cm en opbergzak; 2 sets bij 6 poten"
+      },
+      {
+        "groep": "Frame",
+        "label": "Materiaal",
+        "waarde": "Staal, zwart gepoedercoat, zeskant 40 mm"
+      },
+      {
+        "groep": "Frame",
+        "label": "Aantal poten",
+        "waarde": "4 (3 x 3 m) of 6 (3 x 4,5 en 3 x 6 m)"
+      },
+      {
+        "groep": "Dak en wanden",
+        "label": "Materiaal",
+        "waarde": "500D polyester, PVC-gecoat, 320 g/m²"
+      },
+      {
+        "groep": "Dak en wanden",
+        "label": "Bevestiging wanden",
+        "waarde": "Klittenband aan dakrand en poten"
+      },
+      {
+        "groep": "Afmetingen",
+        "label": "Doorloophoogte",
+        "waarde": "170–200 cm"
+      },
+      {
+        "groep": "Afmetingen",
+        "label": "Wandhoogte",
+        "waarde": "ca. 200 cm"
+      },
+      {
+        "groep": "Afmetingen",
+        "label": "Capaciteit",
+        "waarde": "3 x 3 m ca. 13 staand / 9 zittend · 3 x 4,5 m ca. 20 / 13 · 3 x 6 m ca. 27 / 18"
+      },
+      {
+        "groep": "Gewicht",
+        "label": "Totaal",
+        "waarde": "3 x 3 m ca. 33,6 kg · 3 x 4,5 m ca. 43,2 kg · 3 x 6 m ca. 51,4 kg"
+      },
+      {
+        "groep": "Levering",
+        "label": "Niet inbegrepen",
+        "waarde": "Voetgewichten"
+      }
+    ],
+    "faq": [
+      {
+        "vraag": "Wat bespaar ik met het pakket?",
+        "antwoord": "Bij de huidige prijzen: 3 × 3 m los € 495,95, in het pakket € 449 (€ 46,95 minder); 3 × 4,5 m los € 613,90, in het pakket € 549 (€ 64,90 minder); 3 × 6 m los € 753,90, in het pakket € 669 (€ 84,90 minder)."
+      },
+      {
+        "vraag": "Waarom zitten er bij 3 × 4,5 en 3 × 6 m twee sets spanbanden in?",
+        "antwoord": "Die tenten hebben 6 poten. Met twee sets krijgt ook elke middenpoot een band naar de grond."
+      },
+      {
+        "vraag": "Kan ik de wanden in een andere kleur kiezen?",
+        "antwoord": "In het pakket hebben tent en wanden dezelfde kleur. Wil je bijvoorbeeld een rood dak met witte wanden, bestel de tent en de zijwandenset dan los."
+      },
+      {
+        "vraag": "Is dit genoeg om de tent op mijn terras vast te zetten?",
+        "antwoord": "Op gras wel: de haringen en spanbanden zitten erbij. Op tegels of asfalt heb je voetgewichten van 15 kg per poot nodig: de set van 4 of 6, passend bij je maat."
+      }
+    ],
+    "seo": {
+      "title": "Starterspakket easy-up Premium 3x3, 3x4,5 en 3x6 | Klapklaar",
+      "description": "Easy-up partytent Premium met zijwandenset in dezelfde kleur en spanbanden met haringen. In 3x3, 3x4,5 of 3x6 m, goedkoper dan los. 7 kleuren."
+    },
+    "image_alts": {
+      "starterspakket-easy-up-premium-rood-hero.webp": "Starterspakket easy-up Premium, Rood, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-wit-hero.webp": "Starterspakket easy-up Premium, Wit, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-zwart-hero.webp": "Starterspakket easy-up Premium, Zwart, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-antraciet-hero.webp": "Starterspakket easy-up Premium, Antraciet, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-blauw-hero.webp": "Starterspakket easy-up Premium, Blauw, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-groen-hero.webp": "Starterspakket easy-up Premium, Groen, tent met zijwanden, schuin vooraanzicht",
+      "starterspakket-easy-up-premium-zandkleur-hero.webp": "Starterspakket easy-up Premium, Zandkleur, tent met zijwanden, schuin vooraanzicht"
+    },
+    "claims": [
+      "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): bijwerken bij elke prijswijziging.",
+      "Opzettijd 3 × 3 m met wanden ongeveer een halfuur: bevestigen na proefopbouw.",
+      "Capaciteit en gewichten per maat: afgeleid van de losse producten."
     ]
   },
   "_collections": {

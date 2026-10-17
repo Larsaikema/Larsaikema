@@ -3,13 +3,18 @@
   (sections=cart-drawer) after every add / change. The <dialog> stays in the DOM; JS swaps its contents.
 {%- endcomment -%}
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{%- capture kk_count -%}{% render 'cart-count' %}{%- endcapture -%}{%- assign kk_count = kk_count | plus: 0 -%}
 <cart-drawer class="cart-drawer-wrap">
-  <dialog class="drawer cart-drawer" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-item-count="{{ cart.item_count }}">
+  <dialog class="drawer cart-drawer" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-item-count="{{ kk_count }}">
     <div class="drawer__head">
       <h2 class="drawer__title h3" id="CartDrawerTitle">
-        {%- if cart.item_count > 0 -%}{{ 'cart.title_count' | t: count: cart.item_count }}{%- else -%}{{ 'cart.title' | t }}{%- endif -%}
+        {%- if cart.item_count > 0 -%}{{ 'cart.title_count' | t: count: kk_count }}{%- else -%}{{ 'cart.title' | t }}{%- endif -%}
       </h2>
       <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'general.close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
+    </div>
+    <div class="cart-added notice notice--success" data-cart-added role="status" hidden>
+      {%- render 'icon', icon: 'check' -%}
+      <p><strong>{{ 'cart.added_title' | t }}</strong><span data-cart-added-line></span></p>
     </div>
     {%- if cart.item_count > 0 -%}
       {%- render 'cart-free-shipping' -%}
@@ -23,40 +28,12 @@
             </ul>
           </cart-items>
         </form>
-        {%- assign upsell = settings.cart_upsell_collection -%}
-        {%- if upsell != blank and upsell.products_count > 0 -%}
-          {%- assign in_cart = cart.items | map: 'product_id' -%}
-          {%- capture upsell_items -%}
-            {%- assign shown = 0 -%}
-            {%- for p in upsell.products -%}
-              {%- if in_cart contains p.id or p.available == false -%}{%- continue -%}{%- endif -%}
-              {%- if shown >= settings.cart_upsell_limit -%}{%- break -%}{%- endif -%}
-              {%- assign shown = shown | plus: 1 -%}
-              <li class="upsell__item">
-                <a class="upsell__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
-                  {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 160', sizes: '64px' }}{%- endif -%}
-                </a>
-                <div class="upsell__info">
-                  <a class="upsell__title" href="{{ p.url }}">{{ p.title }}</a>
-                  <span class="upsell__price">{% if p.price_varies %}{{ 'price.from' | t }} {% endif %}{{ p.price | money }}</span>
-                </div>
-                {%- if p.has_only_default_variant -%}
-                  {%- form 'product', p, data-product-form: '', class: 'upsell__form' -%}
-                    <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
-                    <button type="submit" name="add" class="icon-btn upsell__add" aria-label="{{ 'card.quick_add_label' | t: title: p.title | escape }}">{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</button>
-                  {%- endform -%}
-                {%- else -%}
-                  <a class="icon-btn upsell__add" href="{{ p.url }}" aria-label="{{ 'card.choose' | t }}: {{ p.title | escape }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}</a>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          {%- endcapture -%}
-          {%- if shown > 0 -%}
-            <section class="upsell" aria-labelledby="UpsellTitle">
-              <h3 class="upsell__heading h4" id="UpsellTitle">{{ 'cart.upsell_title' | t }}</h3>
-              <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
-            </section>
-          {%- endif -%}
+        {%- capture upsell_items -%}{%- render 'cart-related', collection: settings.cart_upsell_collection, limit: settings.cart_upsell_limit, style: 'row', fallback: settings.cart_upsell_fallback -%}{%- endcapture -%}
+        {%- if upsell_items != blank -%}
+          <section class="upsell" aria-labelledby="UpsellTitle">
+            <h3 class="upsell__heading h4" id="UpsellTitle">{{ 'cart.upsell_title' | t }}</h3>
+            <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
+          </section>
         {%- endif -%}
       </div>
       <div class="drawer__foot">

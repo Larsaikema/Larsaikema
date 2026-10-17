@@ -1,0 +1,30 @@
+{%- comment -%}
+  Brand render shipped with the theme (assets/fallback-*.webp), shown while an image setting is still empty, so a fresh
+  install looks finished before any image is uploaded. Params: key ('scene-hero' | 'scene-zakelijk' | 'tent-logo' |
+  'rok-logo' | 'tent-front' | 'none'), alt, class, priority (bool: LCP image), placeholder (placeholder_svg name when key is
+  none). Asset images are not resized by Shopify, so each file is a single, already compressed WebP (18–56 kB).
+{%- endcomment -%}
+{%- liquid
+  case key
+    when 'scene-hero'
+      assign fb_w = 1800
+      assign fb_h = 1100
+    when 'scene-zakelijk'
+      assign fb_w = 1800
+      assign fb_h = 1100
+    when 'tent-logo', 'tent-front'
+      assign fb_w = 1400
+      assign fb_h = 1400
+    when 'rok-logo'
+      assign fb_w = 1200
+      assign fb_h = 1200
+    else
+      assign fb_w = 0
+  endcase
+-%}
+{%- if fb_w > 0 -%}
+  {%- assign fb_file = 'fallback-' | append: key | append: '.webp' -%}
+  <img src="{{ fb_file | asset_url }}" alt="{{ alt | escape }}" width="{{ fb_w }}" height="{{ fb_h }}"{% if class %} class="{{ class }}"{% endif %} {% if priority %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+{%- else -%}
+  {{ placeholder | default: 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+{%- endif -%}

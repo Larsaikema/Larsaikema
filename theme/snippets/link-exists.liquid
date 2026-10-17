@@ -1,0 +1,43 @@
+{%- comment -%}
+  Outputs 'false' when a storefront URL from a section setting points at a page, product, collection, blog or article that
+  does not exist in this store (a template link to a handle that was renamed or never imported), else 'true'.
+  Sections use it to hide such a link instead of sending shoppers to a 404. External and other URLs count as existing.
+  Params: url (string).
+{%- endcomment -%}
+{%- liquid
+  assign le = true
+  assign le_path = url | append: '' | split: '?' | first | split: '#' | first
+  if routes.root_url != '/'
+    assign le_path = le_path | remove_first: routes.root_url
+  endif
+  assign le_segs = le_path | split: '/'
+  assign le_kind = ''
+  unless le_path contains '://' or le_segs.size < 3
+    assign le_kind = le_segs[1]
+  endunless
+  assign le_h = le_segs[2]
+  case le_kind
+    when 'pages'
+      if pages[le_h].id == blank
+        assign le = false
+      endif
+    when 'products'
+      if all_products[le_h].id == blank
+        assign le = false
+      endif
+    when 'collections'
+      if le_h != 'all' and collections[le_h].id == blank
+        assign le = false
+      endif
+    when 'blogs'
+      if le_segs.size > 3 and le_segs[3] != 'tagged'
+        assign le_key = le_h | append: '/' | append: le_segs[3]
+        if articles[le_key].id == blank
+          assign le = false
+        endif
+      elsif blogs[le_h].id == blank
+        assign le = false
+      endif
+  endcase
+  echo le
+-%}

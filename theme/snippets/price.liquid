@@ -9,7 +9,6 @@
   A sale price sits in the Zon label (brand book 4.2); the compare-at price is Kiezel and struck through.
 {%- endcomment -%}
 {%- liquid
-  assign target = variant | default: product.selected_or_first_available_variant
   if variant
     assign p = variant.price
     assign cp = variant.compare_at_price
@@ -43,7 +42,6 @@
   endif
 -%}
 <div class="price{% if size == 'lg' %} price--lg{% endif %}{% if on_sale %} price--sale{% endif %}"{% if id %} id="{{ id }}"{% endif %} data-price="{{ p }}" data-price-excl="{{ p_excl }}">
-  {%- if product.available == false and variant == blank -%}{%- assign sold = true -%}{%- endif -%}
   <div class="price__main" data-vat-mode="incl">
     {%- if show_from -%}<span class="price__from">{{ 'price.from' | t }}</span>{%- endif -%}
     <span class="price__value{% if on_sale %} price__value--sale{% endif %}">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_fmt }}</span>

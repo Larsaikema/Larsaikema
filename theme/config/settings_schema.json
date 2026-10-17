@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk inline (merkboek §3.4 en §12): op desktop svg/logo-inline.svg, onder 750 px svg/logo-klein-inline.svg. De letters volgen de tekstkleur van het kleurschema, de tent de kleur 'Logo-tent' van het schema (Klaproos op licht, Polder op Zakelijk-pagina's, Zon op Polder en Inkt)."
+        "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk v7 inline (KLAPKLAAR in getekende kapitalen, de tweede A van KLAAR is een partytent; merkboek §3.4): vanaf 750 px svg/logo-inline.svg, daaronder svg/logo-klein-inline.svg. De letters volgen de tekstkleur van het kleurschema, de tent de kleur 'Tent in het logo' van het schema: Lampion op Zand, Wit en Inkt; Inkt (één kleur) op Linnen, Lampion en Zakelijk."
       },
       {
         "type": "image_picker",
@@ -22,29 +22,29 @@
       {
         "type": "range",
         "id": "logo_width",
-        "min": 150,
+        "min": 160,
         "max": 260,
         "step": 2,
         "unit": "px",
         "label": "Logobreedte desktop",
         "default": 200,
-        "info": "Merkboek: 200 px (x-hoogte 23 px). Niet smaller dan 149 px, anders sluit het logo dicht."
+        "info": "Merkboek: 200 px op desktop (kapitaalhoogte 27,9 px). Niet smaller dan 160 px."
       },
       {
         "type": "range",
         "id": "logo_width_mobile",
-        "min": 98,
-        "max": 148,
+        "min": 96,
+        "max": 158,
         "step": 2,
         "unit": "px",
         "label": "Logobreedte mobiel (logo-klein)",
-        "default": 124,
-        "info": "Merkboek: logo-klein op 124 px. Bereik 97–148 px."
+        "default": 132,
+        "info": "Merkboek: logo-klein op 132 px (kapitaalhoogte 17,7 px). Bereik 96–159 px."
       },
       {
         "type": "checkbox",
         "id": "logo_tent_mono",
-        "label": "Tent in de kleur van de letters (eenkleurig)",
+        "label": "Tent overal in de kleur van de letters (één kleur)",
         "default": false
       },
       {
@@ -60,57 +60,24 @@
     "settings": [
       {
         "type": "header",
-        "content": "Merkkleuren"
+        "content": "Palet"
       },
       {
         "type": "paragraph",
-        "content": "Dertien kleuren, één rol per kleur (merkboek v4 §4 en tokens.json). Klaproos alleen als vlak: de tent in het logo en de koopknop. Zon voor actie en de tent op donker. Polder voor alles wat ‘klaar’ is. Fouten zijn Bordeaux en nooit een vlak. Alle standaardcombinaties halen WCAG AA."
+        "content": "Elf kleuren met elk één betekenis (merkboek v7 §4, brand/tokens.json). Lampion is het merk en de aankoop: de tent in het logo, de luifelbalk, campagnebanden en in de winkel alleen de koopknop en de winkelwagenteller. Inkt is tekst en de hoofdknop voor al het andere. Zand, Wit en Linnen zijn de vlakken. Zon = voordeel, Polder = klaar, Oker = wachten, Bordeaux = fout. Welke kleur wat doet, stel je in bij 'Rollen' en in de kleurschema's, niet in de code."
       },
       {
         "type": "color",
-        "id": "color_klaproos",
-        "label": "Klaproos (koopknop, tent in het logo)",
-        "default": "#C83812"
-      },
-      {
-        "type": "color",
-        "id": "color_klaproos_donker",
-        "label": "Klaproos donker (hover en ingedrukt van de koopknop)",
-        "default": "#982A0E"
-      },
-      {
-        "type": "color",
-        "id": "color_zon",
-        "label": "Zon (actie-badge, actieprijs, tent op donker)",
-        "default": "#FFC23A"
-      },
-      {
-        "type": "color",
-        "id": "color_polder",
-        "label": "Polder (footer, utility-balk, Zakelijk-knop, op voorraad, toegevoegd)",
-        "default": "#154F3E"
-      },
-      {
-        "type": "color",
-        "id": "color_polder_donker",
-        "label": "Polder donker (hover van de Zakelijk-knop)",
-        "default": "#0E3A2D"
+        "id": "color_lampion",
+        "label": "Lampion (merk: logo-tent, luifelbalk, campagneband; koopknop en teller)",
+        "default": "#E66414",
+        "info": "Nooit tekst, nooit een badge, nooit een vlak op Linnen."
       },
       {
         "type": "color",
         "id": "color_inkt",
-        "label": "Inkt (tekst, koppen, links, omlijnde knop)",
+        "label": "Inkt (tekst, koppen, links, hoofdknop)",
         "default": "#1D2420"
-      },
-      {
-        "type": "color",
-        "id": "color_kiezel",
-        "label": "Kiezel (secundaire tekst, veldranden, uitgeschakeld)",
-        "default": "#5D625C"
-      },
-      {
-        "type": "header",
-        "content": "Vlakken"
       },
       {
         "type": "color",
@@ -120,44 +87,124 @@
       },
       {
         "type": "color",
-        "id": "color_duin",
-        "label": "Duin (warm vlak: hero, chips)",
-        "default": "#F2E8D5"
-      },
-      {
-        "type": "color",
-        "id": "color_steen",
-        "label": "Steen (productbeeld, Zakelijk, staffel- en spec-tabellen)",
-        "default": "#EFEDE8",
-        "info": "Ligt dicht bij Zand: het thema zet Steen altijd in een witte kaart of met een 1 px Lijn-rand."
-      },
-      {
-        "type": "color",
         "id": "color_wit",
-        "label": "Wit (kaarten, velden, drawers, meldingen)",
+        "label": "Wit (kaarten, velden, chips, drawers, meldingen)",
         "default": "#FFFFFF"
       },
       {
         "type": "color",
-        "id": "color_lijn",
-        "label": "Lijn (scheidingslijnen, rand om kaarten en meldingen)",
-        "default": "#E4D6BE"
-      },
-      {
-        "type": "header",
-        "content": "Status"
+        "id": "color_linnen",
+        "label": "Linnen (beeldvlak, heroband, staffel- en spectabellen, gekozen optie, Zakelijk)",
+        "default": "#ECE4D6"
       },
       {
         "type": "color",
-        "id": "color_bordeaux",
-        "label": "Fout (tekst, icoon, rand; nooit een vlak)",
-        "default": "#8A1538"
+        "id": "color_lijn",
+        "label": "Lijn (scheidingslijnen, 1 px rand om kaarten, rand van niet-leverbaar)",
+        "default": "#DDD2BF"
+      },
+      {
+        "type": "color",
+        "id": "color_kiezel",
+        "label": "Kiezel (secundaire tekst, randen van velden en optiechips)",
+        "default": "#5D625C"
+      },
+      {
+        "type": "color",
+        "id": "color_zon",
+        "label": "Zon (alleen voordeel: Actie-badge, actieprijs, menu-item Actie)",
+        "default": "#FFC23A",
+        "info": "Altijd met Inkt-tekst. Nooit als tekst, rand of icoon op een licht vlak."
+      },
+      {
+        "type": "color",
+        "id": "color_polder",
+        "label": "Polder (alleen klaar: op voorraad, Toegevoegd, gelukt)",
+        "default": "#154F3E"
       },
       {
         "type": "color",
         "id": "color_oker",
-        "label": "Let op en levertijd (tekst, halve stip, rand)",
+        "label": "Oker (alleen wachten: levertijd, let op)",
         "default": "#865800"
+      },
+      {
+        "type": "color",
+        "id": "color_bordeaux",
+        "label": "Bordeaux (alleen fout: tekst, icoon, rand; nooit een vlak)",
+        "default": "#8A1538"
+      },
+      {
+        "type": "header",
+        "content": "Rollen"
+      },
+      {
+        "type": "paragraph",
+        "content": "Bij een nieuwe merkversie pas je hier en in de kleurschema's de kleur per rol aan; de code leest alleen deze instellingen. De koopknop zelf staat per kleurschema ('Koopknop')."
+      },
+      {
+        "type": "color",
+        "id": "color_cart_count",
+        "label": "Teller op de winkelwagen",
+        "default": "#E66414"
+      },
+      {
+        "type": "color",
+        "id": "color_cart_count_label",
+        "label": "Teller op de winkelwagen: cijfer",
+        "default": "#1D2420"
+      },
+      {
+        "type": "color",
+        "id": "color_badge_new",
+        "label": "Badge Nieuw: vlak",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_badge_new_label",
+        "label": "Badge Nieuw: tekst en rand",
+        "default": "#1D2420"
+      },
+      {
+        "type": "color",
+        "id": "color_badge_logo",
+        "label": "Badge Met jouw logo: vlak",
+        "default": "#ECE4D6"
+      },
+      {
+        "type": "color",
+        "id": "color_badge_logo_label",
+        "label": "Badge Met jouw logo: tekst",
+        "default": "#1D2420"
+      },
+      {
+        "type": "color",
+        "id": "color_option_selected",
+        "label": "Gekozen optie (maat, btw-schakelaar): vlak",
+        "default": "#ECE4D6",
+        "info": "Gekozen opties zijn geen gevuld Inkt (merkboek v7 §4.3): een licht vlak met een Inkt-rand en vinkje."
+      },
+      {
+        "type": "color",
+        "id": "color_menu_deal",
+        "label": "Menu-item Actie: label",
+        "default": "#FFC23A",
+        "info": "Het label achter het menu-item uit 'Menu-item met actielabel' (Header). Altijd met Inkt-tekst."
+      },
+      {
+        "type": "color",
+        "id": "color_accent_line",
+        "label": "Luifelstreep onder een kopwoord",
+        "default": "#E66414",
+        "info": "Een onderstreept woord in de hero-kop (tussen *sterretjes*) krijgt deze streep van 0,14 em."
+      },
+      {
+        "type": "checkbox",
+        "id": "logo_zakelijk_mono",
+        "label": "Zakelijk-pagina's: logo in één kleur",
+        "default": true,
+        "info": "Merkboek §3.6: op Zakelijk, offerte en factuur is de tent de kleur van de letters (Inkt)."
       },
       {
         "type": "paragraph",
@@ -166,6 +213,10 @@
       {
         "type": "header",
         "content": "Kleurschema's"
+      },
+      {
+        "type": "paragraph",
+        "content": "1 Pagina (Zand) · 2 Kaart en drawer (Wit) · 3 Linnen (beeldvlak, heroband) · 4 Zakelijk (Linnen, logo één kleur) · 5 Lampion (luifelbalk, campagneband) · 6 Inkt (footer, donkere band). Kopen gebeurt alleen op 1 en 2."
       },
       {
         "type": "color_scheme_group",
@@ -198,38 +249,38 @@
           {
             "type": "color",
             "id": "primary_button",
-            "label": "Primaire knop",
-            "default": "#C83812"
+            "label": "Hoofdknop",
+            "default": "#1D2420"
           },
           {
             "type": "color",
             "id": "primary_button_label",
-            "label": "Primaire knop: tekst",
+            "label": "Hoofdknop: tekst",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "primary_button_hover",
-            "label": "Primaire knop: hover",
-            "default": "#982A0E"
+            "label": "Hoofdknop: hover",
+            "default": "#414641"
           },
           {
             "type": "color",
             "id": "primary_button_hover_label",
-            "label": "Primaire knop: tekst bij hover",
+            "label": "Hoofdknop: tekst bij hover",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "primary_button_hover_border",
-            "label": "Primaire knop: rand bij hover",
-            "default": "#982A0E"
+            "label": "Hoofdknop: rand bij hover",
+            "default": "#414641"
           },
           {
             "type": "color",
             "id": "primary_button_active",
-            "label": "Primaire knop: ingedrukt",
-            "default": "#982A0E"
+            "label": "Hoofdknop: ingedrukt",
+            "default": "#1D2420"
           },
           {
             "type": "color",
@@ -242,6 +293,24 @@
             "id": "secondary_button_hover",
             "label": "Omlijnde knop: hover (lichte tint)",
             "default": "#E9E5DC"
+          },
+          {
+            "type": "color",
+            "id": "buy_button",
+            "label": "Koopknop (In mijn winkelwagen, Afrekenen)",
+            "default": "#E66414"
+          },
+          {
+            "type": "color",
+            "id": "buy_button_label",
+            "label": "Koopknop: tekst",
+            "default": "#1D2420"
+          },
+          {
+            "type": "color",
+            "id": "buy_button_hover_border",
+            "label": "Koopknop: rand bij hover",
+            "default": "#1D2420"
           },
           {
             "type": "color",
@@ -259,7 +328,7 @@
             "type": "color",
             "id": "logo_tent",
             "label": "Tent in het logo",
-            "default": "#C83812"
+            "default": "#E66414"
           }
         ],
         "role": {
@@ -794,7 +863,8 @@
       {
         "type": "collection",
         "id": "cart_upsell_collection",
-        "label": "Upsell-collectie ('Vergeet niet')"
+        "label": "Upsell-collectie ('Vergeet niet')",
+        "info": "Eerst de add-ons (custom.addons) van wat in de winkelwagen ligt, daarna producten uit deze collectie die erop passen (custom.past_op)."
       },
       {
         "type": "range",
@@ -804,6 +874,12 @@
         "step": 1,
         "label": "Aantal upsell-producten",
         "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_upsell_fallback",
+        "label": "Aanvullen met de collectie als niets past",
+        "default": false
       },
       {
         "type": "checkbox",
@@ -864,8 +940,8 @@
         "type": "textarea",
         "id": "swatch_colors",
         "label": "Kleurnamen en hexcodes",
-        "default": "Wit: #F3F3F0\nOffwhite: #EEEADF\nCrème: #ECE3CF\nChampagne: #E4D6BC\nIvoor: #EFE9DA\nZwart: #1D1E20\nAntraciet: #3F4247\nGrijs: #6E7276\nDonkergrijs: #4A4D52\nLichtgrijs: #B9BBBD\nZilver: #BFC2C5\nBlauw: #1E4E9E\nKoningsblauw: #2048A8\nDonkerblauw: #1B2A4C\nNavy: #1B2A4A\nMarineblauw: #1B2A4C\nLichtblauw: #78A9D6\nTurquoise: #159FA3\nRood: #B5161E\nKlaproos: #C83812\nBordeaux: #6B1A27\nRoze: #E27BA9\nFuchsia: #C2206E\nPaars: #57297F\nLila: #A893C8\nGroen: #1F6C3C\nDonkergroen: #1E3B2B\nLichtgroen: #7DB744\nLimoen: #9CC93A\nOlijf: #6A6B3A\nMint: #A6D9C2\nOranje: #E2681B\nGeel: #F1C21A\nGoud: #C49A45\nBeige: #D8CBB2\nZandkleur: #CDBB98\nTaupe: #8B7D6E\nBruin: #6A4A33\nCamel: #B98A57\nBerken: #D9B98C\nHoutlook: #8A6A48\nTransparant: #E9EEF0",
-        "info": "Eén kleur per regel, 'Naam: #hex'. Elke kleur uit de catalogus moet hier staan."
+        "default": "Wit: #F3F3F0\nOffwhite: #EEEADF\nCrème: #ECE3CF\nChampagne: #E4D6BC\nIvoor: #EFE9DA\nZwart: #1D1E20\nAntraciet: #3F4247\nGrijs: #6E7276\nDonkergrijs: #4A4D52\nLichtgrijs: #B9BBBD\nZilver: #BFC2C5\nBlauw: #1E4E9E\nKoningsblauw: #2048A8\nDonkerblauw: #1B2A4C\nNavy: #1B2A4A\nMarineblauw: #1B2A4C\nLichtblauw: #78A9D6\nTurquoise: #159FA3\nRood: #B5161E\nBordeaux: #6B1A27\nRoze: #E27BA9\nFuchsia: #C2206E\nPaars: #57297F\nLila: #A893C8\nGroen: #1F6C3C\nDonkergroen: #1E3B2B\nLichtgroen: #7DB744\nLimoen: #9CC93A\nOlijf: #6A6B3A\nMint: #A6D9C2\nOranje: #E2681B\nGeel: #F1C21A\nGoud: #C49A45\nBeige: #D8CBB2\nZandkleur: #CDBB98\nTaupe: #8B7D6E\nBruin: #6A4A33\nCamel: #B98A57\nBerken: #D9B98C\nHoutlook: #8A6A48\nTransparant: #E9EEF0",
+        "info": "Eén kleur per regel, 'Naam: #hex'. Elke kleur uit de catalogus moet hier staan. Productkleuren heten naar het doek (Rood, Oranje, Zwart, Wit), nooit naar een merkkleur zoals Lampion of Klaproos (merkboek §4.2)."
       }
     ]
   },

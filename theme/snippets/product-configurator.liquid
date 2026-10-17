@@ -1,0 +1,48 @@
+{%- comment -%}
+  Made-to-measure configurator (custom.configurator, see catalog/CONTRACT.md). Params: product, block, section_id, form_id,
+  cfg (configurator value), cfg_unit, current_variant, is_maatwerk. product-configurator.js sets quantity = billed units.
+{%- endcomment -%}
+<product-configurator class="config" data-form-id="{{ form_id }}" data-unit="{{ cfg_unit | escape }}" data-min="{{ cfg.min_afname | default: 0 }}" data-mode="{{ cfg.type | default: 'oppervlakte' }}" {{ block.shopify_attributes }}>
+  <fieldset class="config__fields">
+    <legend class="config__legend">{%- render 'icon', icon: 'ruler' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.config_title' | t }}{% endif %}</legend>
+    <p class="config__help text-sm muted">{{ 'product.config_help' | t }}</p>
+    <div class="config__grid">
+      {%- for f in cfg.velden -%}
+        {%- capture f_id -%}Cfg-{{ section_id }}-{{ forloop.index }}{%- endcapture -%}
+        <div class="field config__field">
+          <label class="field__label" for="{{ f_id }}">{{ f.label }} <span class="muted">({{ f.min | replace: '.', ',' }}–{{ f.max | replace: '.', ',' }} {{ f.eenheid }})</span></label>
+          <div class="input-unit">
+            <input class="input" type="number" inputmode="decimal" id="{{ f_id }}" min="{{ f.min }}" max="{{ f.max }}" step="{{ f.stap | default: 0.1 }}" value="{{ f.standaard | default: f.min }}" required data-config-field data-label="{{ f.label | escape }}" data-unit="{{ f.eenheid | escape }}" aria-describedby="{{ f_id }}-error">
+            <span class="input-unit__suffix" aria-hidden="true">{{ f.eenheid }}</span>
+          </div>
+          <p class="field__error" id="{{ f_id }}-error" data-config-error hidden>{{ 'product.config_invalid' | t: min: f.min, max: f.max, unit: f.eenheid }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- for k in cfg.keuzes -%}
+      <div class="field">
+        <label class="field__label" for="CfgChoice-{{ section_id }}-{{ forloop.index }}">{{ k.label }}</label>
+        <select class="select" id="CfgChoice-{{ section_id }}-{{ forloop.index }}" name="properties[{{ k.label | escape }}]" form="{{ form_id }}">
+          {%- for o in k.opties -%}<option value="{{ o | escape }}">{{ o }}</option>{%- endfor -%}
+        </select>
+      </div>
+    {%- endfor -%}
+    <input type="hidden" name="properties[Afmeting]" form="{{ form_id }}" data-config-size-prop>
+    <input type="hidden" name="properties[Oppervlakte]" form="{{ form_id }}" data-config-area-prop>
+    <input type="hidden" name="properties[_eenheid]" value="{{ cfg_unit | escape }}" form="{{ form_id }}">
+    {%- if is_maatwerk -%}<input type="hidden" name="properties[_maatwerk]" value="ja" form="{{ form_id }}">{%- endif -%}
+    <dl class="config__summary" aria-live="polite">
+      <div><dt>{{ 'product.config_area' | t }}</dt><dd data-config-area>–</dd></div>
+      <div><dt>{{ 'product.config_unit_price' | t: unit: cfg_unit }}</dt><dd data-config-unit-price>{{ current_variant.price | money }}</dd></div>
+      <div class="config__total"><dt>{{ 'product.config_total' | t }}</dt><dd data-config-total>–</dd></div>
+    </dl>
+    {%- if cfg.min_afname > 0 -%}<p class="config__note text-sm muted">{{ 'product.config_min' | t: min: cfg.min_afname, unit: cfg_unit }}</p>{%- endif -%}
+    {%- if cfg.tolerantie != blank -%}<p class="config__note text-sm muted">{{ 'product.config_tolerance' | t: value: cfg.tolerantie }}</p>{%- endif -%}
+  </fieldset>
+  {%- if is_maatwerk -%}
+    <div class="notice notice--warn config__notice" id="Maatwerk-{{ section_id }}">
+      {%- render 'icon', icon: 'alert' -%}
+      <div><strong>{{ 'product.maatwerk_title' | t }}</strong>{{ 'product.maatwerk_text' | t }}</div>
+    </div>
+  {%- endif -%}
+</product-configurator>

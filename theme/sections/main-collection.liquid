@@ -3,7 +3,6 @@
 {%- liquid
   assign per_page = section.settings.per_page
   assign intro = collection.metafields.custom.intro.value
-  assign subs = collection.metafields.custom.subcollections.value
   assign seo = collection.metafields.custom.seo_tekst
   assign active_filters = 0
   for f in collection.filters
@@ -33,22 +32,21 @@
         </ul>
       {%- endif -%}
     </div>
-    {%- comment -%} Sub-collection chips: custom.subcollections, else the children of this collection in the main menu {%- endcomment -%}
+    {%- comment -%}
+      Sub-collection chips: the children of this collection in the chosen menu (main-menu, catalog/CONTRACT.md: category →
+      subcategory → links), so the owner edits them in Navigation; no extra metafield needed.
+    {%- endcomment -%}
     {%- capture sub_chips -%}
-      {%- if subs != blank -%}
-        {%- for sc in subs -%}<a class="chip" href="{{ sc.url }}">{{ sc.title }}</a>{%- endfor -%}
-      {%- else -%}
-        {%- for l1 in section.settings.menu.links -%}
-          {%- if l1.url == collection.url and l1.links != blank -%}
-            {%- for l2 in l1.links -%}<a class="chip" href="{{ l2.url }}">{{ l2.title }}</a>{%- endfor -%}{%- break -%}
+      {%- for l1 in section.settings.menu.links -%}
+        {%- if l1.url == collection.url and l1.links != blank -%}
+          {%- for l2 in l1.links -%}<a class="chip" href="{{ l2.url }}">{{ l2.title }}</a>{%- endfor -%}{%- break -%}
+        {%- endif -%}
+        {%- for l2 in l1.links -%}
+          {%- if l2.url == collection.url and l2.links != blank -%}
+            {%- for l3 in l2.links -%}<a class="chip" href="{{ l3.url }}">{{ l3.title }}</a>{%- endfor -%}
           {%- endif -%}
-          {%- for l2 in l1.links -%}
-            {%- if l2.url == collection.url and l2.links != blank -%}
-              {%- for l3 in l2.links -%}<a class="chip" href="{{ l3.url }}">{{ l3.title }}</a>{%- endfor -%}
-            {%- endif -%}
-          {%- endfor -%}
         {%- endfor -%}
-      {%- endif -%}
+      {%- endfor -%}
     {%- endcapture -%}
     {%- if sub_chips != blank -%}
       <nav class="collection-head__subs chips chips--scroll" aria-label="{{ 'collection.subcollections' | t }}">{{ sub_chips }}</nav>
@@ -90,7 +88,7 @@
         </div>
         <div class="facets-panel__foot">
           <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facets-clear>{{ 'collection.clear_all' | t }}</a>
-          <button type="button" class="btn btn--secondary" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
+          <button type="button" class="btn" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
         </div>
       </aside>
       <div class="facets-backdrop" data-facets-close hidden></div>
@@ -181,7 +179,7 @@
     { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Producten per pagina", "default": 24 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 3 },
     { "type": "checkbox", "id": "show_description", "label": "Collectiebeschrijving tonen als er geen intro is", "default": true },
-    { "type": "link_list", "id": "menu", "label": "Menu voor subcategorieën", "default": "main-menu", "info": "Gebruikt als custom.subcollections leeg is." },
+    { "type": "link_list", "id": "menu", "label": "Menu voor subcategorieën", "default": "main-menu", "info": "De chips onder de titel zijn de onderliggende links van deze collectie in dit menu." },
     { "type": "checkbox", "id": "enable_filtering", "label": "Filters", "default": true, "info": "Filters stel je in met de app Search & Discovery." },
     { "type": "checkbox", "id": "enable_sorting", "label": "Sorteren", "default": true },
     { "type": "header", "content": "Zakelijk-tegel in het raster" },

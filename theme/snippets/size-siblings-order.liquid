@@ -1,0 +1,45 @@
+{%- comment -%}
+  Sizes of one product line split into separate products (custom.andere_maten, catalog/CONTRACT.md) in display order:
+  outputs a comma-separated list of indexes, 0 = the product itself, n = siblings[n-1], sorted by surface (3 x 4,5 m ->
+  13,5) or diameter (Ø80 cm -> 80), with the price as the fallback key. Params: product, siblings, size_names.
+{%- endcomment -%}
+{%- liquid
+  assign order_keys = ''
+  assign last_i = siblings.size
+  for i in (0..last_i)
+    if i == 0
+      assign sp = product
+    else
+      assign j = i | minus: 1
+      assign sp = siblings[j]
+    endif
+    capture sl
+      render 'size-label', p: sp, size_names: size_names
+    endcapture
+    assign norm = sl | downcase | replace: '×', 'x' | replace: ',', '.' | remove: 'ø'
+    assign parts = norm | split: 'x'
+    assign area = 1.0
+    assign got = false
+    for part in parts
+      assign num = part | remove: 'cm' | remove: 'm' | strip
+      assign n = num | plus: 0
+      if n > 0
+        assign area = area | times: n
+        assign got = true
+      endif
+    endfor
+    if got == false
+      assign area = sp.price | divided_by: 100.0
+    endif
+    assign k = area | times: 100 | round | plus: 10000000
+    assign order_keys = order_keys | append: k | append: ':' | append: i | append: ','
+  endfor
+  assign sorted_keys = order_keys | split: ',' | sort
+  for k in sorted_keys
+    assign idx = k | split: ':' | last
+    echo idx
+    unless forloop.last
+      echo ','
+    endunless
+  endfor
+-%}

@@ -108,6 +108,13 @@
           "settings": {
             "heading": "Wat zit erin"
           }
+        },
+        "quote_form": {
+          "type": "quote_form",
+          "settings": {
+            "heading": "Offerte voor dit product",
+            "text": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw."
+          }
         }
       },
       "block_order": [
@@ -129,7 +136,8 @@
         "tab_safety",
         "tab_delivery",
         "tab_downloads",
-        "tab_faq"
+        "tab_faq",
+        "quote_form"
       ],
       "settings": {
         "sticky_bar": true,
@@ -151,7 +159,7 @@
         "text": "Zelfde idee, ander gebruik. Vergelijk frame, dak en gewicht.",
         "collection": "easy-up-partytenten",
         "max": 3,
-        "guide_link": "shopify://pages/verschil-partytenten",
+        "guide_link": "shopify://blogs/advies/easy-up-premium-of-professional",
         "guide_label": "Lees het hele verschil"
       }
     }

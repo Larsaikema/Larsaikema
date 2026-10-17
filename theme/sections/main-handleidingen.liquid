@@ -1,3 +1,4 @@
+<script src="{{ 'download-size.js' | asset_url }}" defer></script>
 {%- comment -%}
   Handleidingen (feature content.manuals-hub): every product in the chosen collection (default: all products)
   that has files in custom.downloads, grouped by product type, with a client-side search and type filter.
@@ -69,7 +70,7 @@
     <aside class="panel panel--steen manuals__help">
       <h2 class="panel__title">{{ section.settings.help_heading }}</h2>
       <p>{{ section.settings.help_text }}</p>
-      {%- if section.settings.help_link != blank -%}<a class="btn btn--secondary" href="{{ section.settings.help_link }}">{{ section.settings.help_label }}</a>{%- endif -%}
+      {%- if section.settings.help_link != blank -%}<a class="btn" href="{{ section.settings.help_link }}">{{ section.settings.help_label }}</a>{%- endif -%}
     </aside>
   </manuals-hub>
 </div>

@@ -20,7 +20,8 @@ def simple(h, title, ptype, tags, options, variants, images, mf, covers, family,
 def build():
     EU = eu_all()
     # ------------------------------------------------------------ verzwaring & verankering
-    VG = [('Set van 4', 159.0, 60000, 'S4'), ('Set van 6', 235.0, 90000, 'S6'), ('1 stuk', 42.95, 15000, '1')]
+    # one voetgewicht per poot: set of 4 (2x2, 3x3, 4x4), 6 (3x4,5, 3x6, 4x6, 4x8), 8 (5x5)
+    VG = [('Set van 4', 159.0, 60000, 'S4'), ('Set van 6', 235.0, 90000, 'S6'), ('Set van 8', 309.0, 120000, 'S8'), ('1 stuk', 42.95, 15000, '1')]
     simple('voetgewicht-easy-up-15-kg', 'Voetgewicht easy-up 15 kg', 'Verzwaring', ['gebruik:evenement', 'gebruik:markt', 'zakelijk'],
            [opt('Uitvoering', [v[0] for v in VG])], [variant(f'KK-GEW-VG15-{c}', [n], p, g, inv(12 if c == '1' else 6, c + 'vg')) for n, p, g, c in VG],
            [img('voetgewicht-easy-up-15-kg-hero.webp', 'hero', 1, 'gewichten', {'count': 2, 'stacks': 4}, 'hero', None, 'existing', alt='set van 4 (2 platen van 7,5 kg per poot)'),
@@ -31,7 +32,7 @@ def build():
                               sp('Pasvorm', 'Poten', 'Zeskant 40 en 50 mm'), sp('Afmetingen', 'Plaat', 'Ø 25 cm, 3,4 cm dik')],
             'gewicht_kg': 15, 'verpakt': '27 x 27 x 8 cm per paar platen', 'garantie': None},
            ['easy-up-accessoires.easy-up-bevestiging'], 'verankering',
-           'Gewicht voor op verharde grond waar haringen niet kunnen: hoeveel per poot, stapelen, set van 4 voor 4 poten en set van 6 voor 3 × 4,5 / 3 × 6 / 4 × 6 / 4 × 8.',
+           'Gewicht voor op verharde grond waar haringen niet kunnen: hoeveel per poot, stapelen, set van 4 voor 4 poten, set van 6 voor 3 × 4,5 / 3 × 6 / 4 × 6 / 4 × 8 en set van 8 voor 5 × 5.',
            ['voetgewicht partytent 15 kg', 'tentgewicht easy up'], {'outmate': '€49,95 per stuk', 'band': 'stalen voetplaat €50–€55 per stuk', 'ours': {v[0]: v[1] for v in VG}})
     simple('zandzakken-partytent-set-van-4', 'Zandzakken voor partytent (set van 4)', 'Verzwaring', ['gebruik:tuinfeest', 'gebruik:markt'], [],
            [variant('KK-GEW-ZAND-4', [], 17.95, 1200, 40)],
@@ -40,14 +41,25 @@ def build():
             'specificaties': [sp('Zak', 'Vulling', 'Zand of grind, ca. 10 kg per zak (niet inbegrepen)'), sp('Zak', 'Bevestiging', 'Klittenband rond de poot')]},
            ['easy-up-accessoires.easy-up-bevestiging'], 'verankering', 'Lichte, goedkope verzwaring die je ter plekke vult; eerlijk: zand zit er niet in.',
            ['zandzakken partytent', 'gewichten partytent goedkoop'], {'outmate': '€19,99', 'band': '€21–€25', 'ours': 17.95})
-    simple('spanbanden-en-haringen-easy-up', 'Spanbanden en haringen voor easy-up (set)', 'Verankering', ['gebruik:tuinfeest', 'gebruik:markt'], [],
+    simple('watergewichtzakken-4x20-kg', 'Watergewichtzakken 4 × 20 kg', 'Verzwaring', ['gebruik:evenement', 'gebruik:markt', 'zakelijk'], [],
+           [variant('KK-GEW-WATER-4X20', [], 89.0, 3600, 20)],
+           [img('watergewichtzakken-4x20-kg-hero.webp', 'hero', 1, 'waterBag', {'count': 4, 'color': 'zwart', 'filled': True}, 'hero', None, 'needs-model',
+                alt='vier gevulde watergewichtzakken')],
+           {'kenmerk_kort': '4 zakken van 20 kg · vullen met water · klittenband om de poot', 'past_op': EU, 'verzending': 'pakket', 'gewicht_kg': 3.6,
+            'staffelkorting': ST_GEWICHT,
+            'specificaties': [sp('Zak', 'Vulling', 'Water, ca. 20 liter = 20 kg per zak (niet inbegrepen)'), sp('Zak', 'Materiaal', 'PVC 650 g/m², gelaste naden'),
+                              sp('Zak', 'Bevestiging', 'Klittenband en gesp rond de poot of het luchtframe'), sp('Gewicht', 'Leeg', '0,9 kg per zak')]},
+           ['easy-up-accessoires.easy-up-bevestiging', 'opblaasbare-tenten.air-accessoires'], 'verankering',
+           'Zware verzwaring die je pas ter plekke vult: 20 kg water per zak, leeg licht te vervoeren; voor opblaasbare tenten en easy-ups op verharding.',
+           ['watergewicht partytent', 'waterzak tent', 'watergewichten opblaasbare tent'], {'outmate': 'watergewichtzakken 4x20 kg €99', 'ours': 89.0})
+    simple('spanbanden-en-haringen-easy-up','Spanbanden en haringen voor easy-up (set)', 'Verankering', ['gebruik:tuinfeest', 'gebruik:markt'], [],
            [variant('KK-VER-SPH-44', [], 17.95, 1400, 50)],
            [img('spanbanden-en-haringen-easy-up-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'zwart', 'position': [-0.15, 0, 0]},
                                                                                           {'model': 'haringen', 'count': 4, 'length': 0.3, 'position': [0.2, 0, 0]}]}, 'hero', None, 'existing')],
            {'kenmerk_kort': '4 spanbanden ca. 3 m + 4 haringen 30 cm + opbergzak', 'past_op': EU, 'verzending': 'pakket', 'gewicht_kg': 1.4},
            ['easy-up-accessoires.easy-up-bevestiging'], 'verankering', 'Basisverankering op gras: banden van dakhoek naar haring; altijd gebruiken, ook als het rustig lijkt.',
            ['haringen easy up', 'spanbanden partytent'], {'outmate': '€19,99', 'ours': 17.95})
-    SB = {'3 m breed': 18.95, '4 m breed': 21.95, '5 m breed': 24.95, '6 m breed': 27.95}
+    SB = {'3 m breed': 18.95, '4 m breed': 21.95, '5 m breed': 24.95, '6 m breed': 27.95, '8 m breed': 32.95}
     simple('stormbandenset-partytent', 'Stormbandenset partytent', 'Verankering', ['gebruik:evenement'], [opt('Maat', list(SB))],
            [variant(f'KK-VER-STB-{code(m.split()[0] + " m")}', [m], p, 1800 + 200 * i, inv(10, m + 'stb')) for i, (m, p) in enumerate(SB.items())],
            [img('stormbandenset-partytent-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'oranje', 'length': 12, 'position': [-0.15, 0, 0]},
@@ -98,7 +110,7 @@ def build():
             'specificaties': [sp('Wiel', 'Diameter', '10 cm, rubber'), sp('Wiel', 'Rem', 'Ja, op alle 4'), sp('Pasvorm', 'Poten', 'Zeskant 40 en 50 mm, met vleugelbout')]},
            ['easy-up-accessoires.easy-up-transport'], 'tassen', 'Wielen onder de poten om de opgezette tent te verplaatsen (bv. op een beurs); altijd remmen vast en verzwaren.',
            ['wielen easy up', 'wielset partytent'], {'outmate': '€35', 'ours': 32.95})
-    OT = {'3 m breed': 54.95, '4 m breed': 59.95, '5 m breed': 69.95, '6 m breed': 79.95}
+    OT = {'3 m breed': 54.95, '4 m breed': 59.95, '5 m breed': 69.95, '6 m breed': 79.95, '8 m breed': 94.95}
     simple('opbergtassenset-partytent', 'Opbergtassenset partytent buizenframe', 'Tas & wielset', ['gebruik:evenement'], [opt('Maat', list(OT))],
            [variant(f'KK-TAS-OTS-{code(m.split()[0] + " m")}', [m], p, 2500 + 400 * i, inv(6, m + 'ots')) for i, (m, p) in enumerate(OT.items())],
            [img('opbergtassenset-partytent-hero.webp', 'hero', 1, 'tubeBag', {'count': 3, 'color': 'zwart'}, 'hero', None, 'needs-model')],
@@ -107,7 +119,8 @@ def build():
            ['opbergtas partytent', 'tas partytent buizen'], {'outmate': '3 m breed €65 · 4 m breed €69', 'ours': OT})
 
     # ------------------------------------------------------------ goten & koppelingen
-    RG = {'3 m': 24.95, '4 m': 29.95, '4,5 m': 32.95, '6 m': 42.95, '8 m': 59.95}
+    # 2 m (easy-up 2 x 2), 5 m (5 x 5) and 10 m (buizenframe 5 x 10 / 6 x 10) so every tent side has a gutter
+    RG = {'2 m': 19.95, '3 m': 24.95, '4 m': 29.95, '4,5 m': 32.95, '5 m': 36.95, '6 m': 42.95, '8 m': 59.95, '10 m': 74.95}
     RGK = ['Wit', 'Zwart']
     vs = [variant(f'KK-GOOT-RG-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 500 + 120 * i, inv(8, m + k)) for i, (m, p) in enumerate(RG.items()) for k in RGK]
     imgs, vmap = kleur_images('regengoot-partytent', RGK, 'rainGutter', lambda k: {'length': 3, 'color': render_color(k)}, 'Wit',
@@ -121,7 +134,7 @@ def build():
            {'kenmerk_kort': 'PVC-goot tussen twee tenten · klittenband', 'past_op': EU, 'verzending': 'pakket'},
            ['easy-up-accessoires.easy-up-goten', 'partytent-onderdelen-accessoires.regengoten-partytent'], 'goten',
            'Water tussen twee tenten afvoeren; lengte = zijde waarop je koppelt; voor easy-ups én buizenframe-tenten.',
-           ['regengoot partytent', 'regengoot easy up'], {'outmate': '3 m €29 · 4,5 m €37,50 · 6 m €49 · 8 m €84', 'ours': RG}, vmap=vmap)
+           ['regengoot partytent', 'regengoot easy up'], {'outmate': '3 m €29 · 4,5 m €37,50 · 6 m €49 · 8 m €84 (lengtes 3–10 m)', 'ours': RG}, vmap=vmap)
     simple('koppelset-easy-up', 'Koppelset easy-up voor 2 tenten', 'Regengoot & koppeling', ['gebruik:evenement'],
            [opt('Uitvoering', ['Professional (50 mm)', 'Premium (40 mm)'])],
            [variant('KK-GOOT-KOP-PRO', ['Professional (50 mm)'], 11.95, 400, 25), variant('KK-GOOT-KOP-PRM', ['Premium (40 mm)'], 9.95, 300, 25)],
@@ -143,14 +156,16 @@ def build():
          {'3 x 4 m': (249, 279), '3 x 6 m': (309, 349), '4 x 4 m': (299, 335), '4 x 6 m': (349, 389), '4 x 8 m': (399, 439), '5 x 10 m': (479, 525)},
          'Instap voor een paar keer per jaar: PE-doek, zijwanden met ramen; niet voor lang laten staan.', ['gebruik:tuinfeest']),
         ('partytent-pvc-500-comfort', 'Partytent PVC 500 Comfort', 'pvc-classic', 'C5', 'PVC 500 g/m², brandvertragend, gelaste naden', 3.5,
-         {'3 x 6 m': (479, 529), '4 x 6 m': (509, 559), '4 x 8 m': (589, None), '5 x 8 m': (649, 729), '6 x 6 m': (619, 729), '6 x 8 m': (699, 725), '6 x 12 m': (1049, None)},
+         {'3 x 4 m': (399, None), '3 x 6 m': (479, 529), '3 x 8 m': (539, None), '4 x 6 m': (509, 559), '4 x 8 m': (589, None), '5 x 8 m': (649, 729),
+          '5 x 10 m': (789, None), '5 x 12 m': (899, None), '6 x 6 m': (619, 729), '6 x 8 m': (699, 725), '6 x 10 m': (919, None), '6 x 12 m': (1049, None)},
          'PVC voor regelmatig gebruik: stevig doek, brandvertragend; kortere evenementen.', ['gebruik:tuinfeest', 'gebruik:evenement']),
         ('partytent-pvc-550-premium', 'Partytent PVC 550 Premium brandvertragend', 'pvc-premium', 'P55', 'PVC 550 g/m², brandvertragend, gelaste naden, treksterkte 860 N', 3.8,
-         {'3 x 3 m': (399, 439), '3 x 6 m': (549, 589), '3 x 8 m': (719, 789), '4 x 4 m': (529, 579), '4 x 6 m': (669, 719), '4 x 8 m': (799, 869),
-          '5 x 8 m': (879, 949), '6 x 6 m': (799, 875), '6 x 8 m': (879, 949), '6 x 12 m': (1379, 1499), '8 x 12 m': (1699, 1850)},
+         {'3 x 3 m': (399, 439), '3 x 4 m': (459, None), '3 x 6 m': (549, 589), '3 x 8 m': (719, 789), '4 x 4 m': (529, 579), '4 x 6 m': (669, 719),
+          '4 x 8 m': (799, 869), '5 x 6 m': (749, None), '5 x 8 m': (879, 949), '6 x 6 m': (799, 875), '6 x 8 m': (879, 949), '6 x 12 m': (1379, 1499),
+          '8 x 12 m': (1699, 1850)},
          'Het werkpaard: 550 g/m² PVC met grondframe en nokversteviging, ook voor weken laten staan.', ['zakelijk', 'gebruik:evenement']),
         ('partytent-pvc-550-compleet', 'Partytent PVC 550 compleet met toebehoren', 'pvc-ultimate', 'P55C', 'PVC 550 g/m², brandvertragend', 3.9,
-         {'4 x 4 m': (579, 599), '4 x 6 m': (719, 729), '4 x 8 m': (849, 915), '5 x 10 m': (1099, 1129)},
+         {'3 x 4 m': (499, 539), '4 x 4 m': (579, 599), '4 x 6 m': (719, 729), '4 x 8 m': (849, 915), '5 x 10 m': (1099, 1129)},
          'Premium-tent met stormbandenset en opbergtassen erbij: alles in één bestelling.', ['zakelijk', 'gebruik:evenement']),
         ('partytent-pvc-620-professional', 'Partytent PVC 620 Professional', 'pvc-professional', 'P62', 'PVC 620 g/m², brandvertragend, gelaste naden, treksterkte 930 N', 4.3,
          {'4 x 6 m': (869, None), '4 x 8 m': (979, 1049), '5 x 10 m': (1199, 1275), '6 x 12 m': (1599, 1725)},

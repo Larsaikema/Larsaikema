@@ -1,0 +1,80 @@
+{%- comment -%}
+  'Vergeet niet' items that fit what is in the cart (drawer upsell + cart page row). Outputs <li> items only; the caller
+  captures the output and hides its wrapper when it is blank.
+  Order: 1. the add-ons (custom.addons) of the cart products, 2. products from `collection` whose custom.past_op names a
+  cart product (weights for the tent in the cart, a rok for the statafel). Products already in the cart and sold-out
+  products are skipped. With an empty cart, or with `fallback: true` when nothing fits, the collection fills the list.
+  Params: collection, limit (default 3), style ('row' compact drawer row | 'card' product card), sizes (card image sizes)
+{%- endcomment -%}
+{%- liquid
+  assign max = limit | default: 3
+  assign in_cart = cart.items | map: 'product_id'
+  assign picked = ''
+  assign shown = 0
+  for item in cart.items
+    for p in item.product.metafields.custom.addons.value
+      assign key = ',' | append: p.id | append: ','
+      if shown >= max
+        break
+      endif
+      if in_cart contains p.id or p.available == false or picked contains key
+        continue
+      endif
+      assign picked = picked | append: key
+      assign shown = shown | plus: 1
+    endfor
+  endfor
+  if shown < max and collection != blank
+    for p in collection.products limit: 50
+      assign key = ',' | append: p.id | append: ','
+      if shown >= max
+        break
+      endif
+      if in_cart contains p.id or p.available == false or picked contains key
+        continue
+      endif
+      assign fits = false
+      for f in p.metafields.custom.past_op.value
+        if in_cart contains f.id
+          assign fits = true
+          break
+        endif
+      endfor
+      if fits or cart.item_count == 0
+        assign picked = picked | append: key
+        assign shown = shown | plus: 1
+      endif
+    endfor
+  endif
+  if shown == 0 and fallback and collection != blank
+    for p in collection.products limit: 50
+      if shown >= max
+        break
+      endif
+      if in_cart contains p.id or p.available == false
+        continue
+      endif
+      assign picked = picked | append: ',' | append: p.id | append: ','
+      assign shown = shown | plus: 1
+    endfor
+  endif
+-%}
+{%- comment -%} second pass renders in the chosen order (add-ons first, then fitting collection products) {%- endcomment -%}
+{%- for item in cart.items -%}
+  {%- for p in item.product.metafields.custom.addons.value -%}
+    {%- assign key = ',' | append: p.id | append: ',' -%}
+    {%- if picked contains key -%}
+      {%- render 'cart-related-item', p: p, style: style, sizes: sizes -%}
+      {%- assign picked = picked | remove: key -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if collection != blank and picked contains ',' -%}
+  {%- for p in collection.products limit: 50 -%}
+    {%- assign key = ',' | append: p.id | append: ',' -%}
+    {%- if picked contains key -%}
+      {%- render 'cart-related-item', p: p, style: style, sizes: sizes -%}
+      {%- assign picked = picked | remove: key -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

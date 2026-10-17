@@ -945,6 +945,14 @@
           "src": "zijwand-raam.png",
           "alt": "Partytent met zijwanden met ramen"
         }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "past_op",
+          "type": "list.product_reference",
+          "value": "[\"partytent-easy-up-premium\", \"partytent-easy-up-professional\", \"easy-up-partytent-premium\", \"easy-up-partytent-professional-3x6\"]"
+        }
       ]
     },
     {
@@ -986,6 +994,14 @@
         {
           "src": "gewichten-set.png",
           "alt": "Vier tegelgewichten van 10 kilo"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "past_op",
+          "type": "list.product_reference",
+          "value": "[\"partytent-easy-up-premium\", \"partytent-easy-up-professional\", \"partytent-met-logo\", \"easy-up-partytent-premium\", \"easy-up-partytent-professional-3x6\", \"partytent-easy-up-basic-3x3\"]"
         }
       ]
     },
@@ -1414,7 +1430,7 @@
           "name": "Kleur",
           "values": [
             {
-              "name": "Klaproos"
+              "name": "Rood"
             },
             {
               "name": "Wit"
@@ -1451,8 +1467,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x3-klaproos-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-hero.webp",
+          "option1": "Rood",
           "option2": "3 x 3 m"
         },
         {
@@ -1466,8 +1482,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x3-klaproos-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-hero.webp",
+          "option1": "Rood",
           "option2": "3 x 4,5 m"
         },
         {
@@ -1481,8 +1497,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x6-klaproos-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-hero.webp",
+          "option1": "Rood",
           "option2": "3 x 6 m"
         },
         {
@@ -1578,16 +1594,8 @@
       ],
       "images": [
         {
-          "src": "tent-3x3-klaproos-hero.webp",
-          "alt": "Easy-up partytent Premium 3 × 3 m Klaproos, schuin vooraanzicht"
-        },
-        {
-          "src": "tent-3x3-klaproos-front.webp",
-          "alt": "Easy-up partytent Premium 3 × 3 m Klaproos, vooraanzicht"
-        },
-        {
-          "src": "tent-3x6-klaproos-hero.webp",
-          "alt": "Easy-up partytent Premium 3 × 6 m Klaproos, schuin vooraanzicht"
+          "src": "tent-3x3-rood-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m rood, schuin vooraanzicht"
         },
         {
           "src": "tent-3x3-wit-hero.webp",
@@ -2010,7 +2018,7 @@
           "name": "Kleur",
           "values": [
             {
-              "name": "Klaproos"
+              "name": "Rood"
             },
             {
               "name": "Wit"
@@ -2047,8 +2055,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x3-klaproos-logo-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-logo-hero.webp",
+          "option1": "Rood",
           "option2": "Logo op de luifel"
         },
         {
@@ -2062,8 +2070,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x3-klaproos-logo-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-logo-hero.webp",
+          "option1": "Rood",
           "option2": "Logo op luifel en dak"
         },
         {
@@ -2077,8 +2085,8 @@
           "weight_unit": "kg",
           "requires_shipping": true,
           "taxable": true,
-          "image": "tent-3x3-klaproos-logo-hero.webp",
-          "option1": "Klaproos",
+          "image": "tent-3x3-rood-logo-hero.webp",
+          "option1": "Rood",
           "option2": "Zonder logo"
         },
         {
@@ -2174,12 +2182,12 @@
       ],
       "images": [
         {
-          "src": "tent-3x3-klaproos-logo-hero.webp",
-          "alt": "Easy-up partytent 3 × 3 m Klaproos met voorbeeldopdruk Klapklaar op de luifel"
+          "src": "tent-3x3-rood-logo-hero.webp",
+          "alt": "Easy-up partytent 3 × 3 m rood met voorbeeldopdruk Klapklaar op de luifel"
         },
         {
-          "src": "tent-3x3-klaproos-hero.webp",
-          "alt": "Easy-up partytent 3 × 3 m Klaproos zonder opdruk, schuin vooraanzicht"
+          "src": "tent-3x3-rood-hero.webp",
+          "alt": "Easy-up partytent 3 × 3 m rood zonder opdruk, schuin vooraanzicht"
         }
       ],
       "metafields": [
@@ -2644,6 +2652,12 @@
           "key": "faq",
           "type": "json",
           "value": "[{\"vraag\": \"Past deze rok op mijn statafel?\", \"antwoord\": \"Hij past op statafels met een blad van Ø 80 tot 85 cm en een hoogte van 105 tot 115 cm. Meet het blad van rand tot rand.\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "past_op",
+          "type": "list.product_reference",
+          "value": "[\"statafel-inklapbaar-80\"]"
         }
       ]
     },
@@ -2671,9 +2685,6 @@
             },
             {
               "name": "Wit"
-            },
-            {
-              "name": "Full colour bedrukt"
             }
           ]
         },
@@ -2748,36 +2759,6 @@
           "taxable": true,
           "image": "statafelrok-stretch-zwart-print-hero.webp",
           "option1": "Wit",
-          "option2": "2 kanten"
-        },
-        {
-          "sku": "KK-ROKLOGO-FULL-1KANT",
-          "price": 5995,
-          "compare_at_price": null,
-          "inventory_quantity": 0,
-          "inventory_management": "shopify",
-          "inventory_policy": "continue",
-          "weight": 0.6,
-          "weight_unit": "kg",
-          "requires_shipping": true,
-          "taxable": true,
-          "image": "statafelrok-stretch-zwart-print-hero.webp",
-          "option1": "Full colour bedrukt",
-          "option2": "1 kant"
-        },
-        {
-          "sku": "KK-ROKLOGO-FULL-2KANTE",
-          "price": 6995,
-          "compare_at_price": null,
-          "inventory_quantity": 0,
-          "inventory_management": "shopify",
-          "inventory_policy": "continue",
-          "weight": 0.6,
-          "weight_unit": "kg",
-          "requires_shipping": true,
-          "taxable": true,
-          "image": "statafelrok-stretch-zwart-print-hero.webp",
-          "option1": "Full colour bedrukt",
           "option2": "2 kanten"
         }
       ],
@@ -3265,6 +3246,393 @@
           "value": "[\"partytent-easy-up-premium\", \"partytent-easy-up-professional\"]"
         }
       ]
+    },
+    {
+      "handle": "easy-up-partytent-premium-3x3",
+      "title": "Easy-up partytent Premium 3 x 3 m",
+      "vendor": "Klapklaar",
+      "product_type": "Easy-up partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "premium",
+        "gebruik:tuinfeest"
+      ],
+      "created_at": "2026-09-20T10:00:00+02:00",
+      "published_at": "2026-09-20T10:00:00+02:00",
+      "body_html": "<p>De Premium in 3 × 3 m: stalen frame met 40 mm hexagonpoten en een dak van 320 g/m² polyester. Andere maten kies je bovenaan bij Maat.</p>",
+      "options": [
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3 x 3 m"
+            }
+          ]
+        },
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Rood"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUP-3X3-ROO",
+          "option1": "3 x 3 m",
+          "option2": "Rood",
+          "price": 27900,
+          "inventory_quantity": 34,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-rood-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X3-WIT",
+          "option1": "3 x 3 m",
+          "option2": "Wit",
+          "price": 27900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-wit-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X3-ZWA",
+          "option1": "3 x 3 m",
+          "option2": "Zwart",
+          "price": 27900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-zwart-hero.webp"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-rood-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m rood, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m wit, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-zwart-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m zwart, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "40 mm staal · 320 g/m² dakdoek"
+        },
+        {
+          "namespace": "custom",
+          "key": "andere_maten",
+          "type": "list.product_reference",
+          "value": "[\"easy-up-partytent-premium-3x4-5\", \"easy-up-partytent-premium-3x6\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "maatgids",
+          "type": "page_reference",
+          "value": "maatadvies-partytenten"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 5, \"korting\": 5}, {\"vanaf\": 10, \"korting\": 8}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "vergelijk_groep",
+          "type": "single_line_text_field",
+          "value": "easy-up"
+        },
+        {
+          "namespace": "custom",
+          "key": "verzending",
+          "type": "single_line_text_field",
+          "value": "pakket"
+        }
+      ]
+    },
+    {
+      "handle": "easy-up-partytent-premium-3x4-5",
+      "title": "Easy-up partytent Premium 3 x 4,5 m",
+      "vendor": "Klapklaar",
+      "product_type": "Easy-up partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "premium",
+        "gebruik:tuinfeest"
+      ],
+      "created_at": "2026-09-20T10:00:00+02:00",
+      "published_at": "2026-09-20T10:00:00+02:00",
+      "body_html": "<p>De Premium in 3 × 4,5 m: stalen frame met 40 mm hexagonpoten en een dak van 320 g/m² polyester. Andere maten kies je bovenaan bij Maat.</p>",
+      "options": [
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3 x 4,5 m"
+            }
+          ]
+        },
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Rood"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUP-3X4-5-ROO",
+          "option1": "3 x 4,5 m",
+          "option2": "Rood",
+          "price": 35900,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-rood-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X4-5-WIT",
+          "option1": "3 x 4,5 m",
+          "option2": "Wit",
+          "price": 35900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-wit-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X4-5-ZWA",
+          "option1": "3 x 4,5 m",
+          "option2": "Zwart",
+          "price": 35900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-zwart-hero.webp"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-rood-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 4,5 m rood, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 4,5 m wit, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-zwart-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 4,5 m zwart, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "40 mm staal · 320 g/m² dakdoek"
+        },
+        {
+          "namespace": "custom",
+          "key": "andere_maten",
+          "type": "list.product_reference",
+          "value": "[\"easy-up-partytent-premium-3x3\", \"easy-up-partytent-premium-3x6\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "maatgids",
+          "type": "page_reference",
+          "value": "maatadvies-partytenten"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 5, \"korting\": 5}, {\"vanaf\": 10, \"korting\": 8}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "vergelijk_groep",
+          "type": "single_line_text_field",
+          "value": "easy-up"
+        },
+        {
+          "namespace": "custom",
+          "key": "verzending",
+          "type": "single_line_text_field",
+          "value": "pakket"
+        }
+      ]
+    },
+    {
+      "handle": "easy-up-partytent-premium-3x6",
+      "title": "Easy-up partytent Premium 3 x 6 m",
+      "vendor": "Klapklaar",
+      "product_type": "Easy-up partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "premium",
+        "gebruik:tuinfeest"
+      ],
+      "created_at": "2026-09-20T10:00:00+02:00",
+      "published_at": "2026-09-20T10:00:00+02:00",
+      "body_html": "<p>De Premium in 3 × 6 m: stalen frame met 40 mm hexagonpoten en een dak van 320 g/m² polyester. Andere maten kies je bovenaan bij Maat.</p>",
+      "options": [
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3 x 6 m"
+            }
+          ]
+        },
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Rood"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUP-3X6-ROO",
+          "option1": "3 x 6 m",
+          "option2": "Rood",
+          "price": 41900,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-rood-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X6-WIT",
+          "option1": "3 x 6 m",
+          "option2": "Wit",
+          "price": 41900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-wit-hero.webp"
+        },
+        {
+          "sku": "KK-EUP-3X6-ZWA",
+          "option1": "3 x 6 m",
+          "option2": "Zwart",
+          "price": 41900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "image": "tent-3x3-zwart-hero.webp"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-rood-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 6 m rood, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 6 m wit, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-zwart-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 6 m zwart, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "40 mm staal · 320 g/m² dakdoek"
+        },
+        {
+          "namespace": "custom",
+          "key": "andere_maten",
+          "type": "list.product_reference",
+          "value": "[\"easy-up-partytent-premium-3x3\", \"easy-up-partytent-premium-3x4-5\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "maatgids",
+          "type": "page_reference",
+          "value": "maatadvies-partytenten"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 5, \"korting\": 5}, {\"vanaf\": 10, \"korting\": 8}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "vergelijk_groep",
+          "type": "single_line_text_field",
+          "value": "easy-up"
+        },
+        {
+          "namespace": "custom",
+          "key": "verzending",
+          "type": "single_line_text_field",
+          "value": "pakket"
+        }
+      ]
     }
   ],
   "collections": [
@@ -3273,7 +3641,7 @@
       "title": "Partytenten",
       "body_html": "<p>Easy-up partytenten en stretchtenten voor elk feest en evenement.</p>",
       "image": {
-        "src": "tent-3x3-klaproos-hero.webp",
+        "src": "tent-3x3-rood-hero.webp",
         "alt": "Partytenten"
       },
       "sort_order": "best-selling",
@@ -3303,12 +3671,6 @@
           "key": "seo_tekst",
           "type": "rich_text_field",
           "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Een partytent kopen: waar let je op?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Kijk eerst naar het frame: staal is zwaarder en goedkoper, aluminium is licht en roest niet. Daarna het dak: hoe hoger het gewicht in g/m², hoe steviger het doek.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Elke tent heeft gewichten of haringen nodig. Reken op minimaal 10 kg per poot op verharde grond.\"}]}]}"
-        },
-        {
-          "namespace": "custom",
-          "key": "subcollections",
-          "type": "list.collection_reference",
-          "value": "[\"easy-up-partytenten\", \"stretchtenten\", \"bedrukte-partytenten\", \"accessoires\"]"
         }
       ]
     },
@@ -3339,12 +3701,6 @@
           "key": "kenmerken",
           "type": "list.single_line_text_field",
           "value": "[\"Klapt plat\", \"Ø 80 cm\", \"Staffelprijs vanaf 10 stuks\"]"
-        },
-        {
-          "namespace": "custom",
-          "key": "subcollections",
-          "type": "list.collection_reference",
-          "value": "[\"statafelrokken\", \"statafelhoezen-met-strik\", \"bedrukte-statafelhoezen\", \"actiepakketten\"]"
         }
       ]
     },
@@ -3376,12 +3732,6 @@
           "key": "kenmerken",
           "type": "list.single_line_text_field",
           "value": "[\"Voor Ø 70–85 cm\", \"Wasbaar op 40 °C\", \"Staffelprijs vanaf 10 stuks\"]"
-        },
-        {
-          "namespace": "custom",
-          "key": "subcollections",
-          "type": "list.collection_reference",
-          "value": "[\"statafelhoezen-met-strik\", \"bedrukte-statafelhoezen\"]"
         }
       ]
     },
@@ -3451,12 +3801,6 @@
           "key": "seo_tekst",
           "type": "rich_text_field",
           "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Welke easy-up partytent past bij jou?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Gebruik je hem een paar keer per jaar in de tuin, dan is de Premium met stalen frame genoeg. Sta je elke week op de markt of verhuur je tenten, kies dan de Professional: aluminium, lichter en roestvrij.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Maat kiezen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een 3 × 3 m tent biedt ruimte aan ongeveer 8 staande gasten of 2 marktkramen. Met 3 × 6 m heb je plek voor een buffet en een paar statafels.\"}]}]}"
-        },
-        {
-          "namespace": "custom",
-          "key": "subcollections",
-          "type": "list.collection_reference",
-          "value": "[\"easy-up-premium\", \"easy-up-professional\", \"bedrukte-partytenten\"]"
         }
       ],
       "products": [
@@ -3465,10 +3809,13 @@
         "partytent-met-logo",
         "easy-up-partytent-premium",
         "easy-up-partytent-professional-3x6",
-        "partytent-easy-up-basic-3x3"
+        "partytent-easy-up-basic-3x3",
+        "easy-up-partytent-premium-3x3",
+        "easy-up-partytent-premium-3x4-5",
+        "easy-up-partytent-premium-3x6"
       ],
       "image": {
-        "src": "tent-3x3-klaproos-hero.webp",
+        "src": "tent-3x3-rood-hero.webp",
         "alt": "Easy-up partytenten"
       }
     },
@@ -3486,7 +3833,10 @@
       ],
       "products": [
         "partytent-easy-up-premium",
-        "easy-up-partytent-premium"
+        "easy-up-partytent-premium",
+        "easy-up-partytent-premium-3x3",
+        "easy-up-partytent-premium-3x4-5",
+        "easy-up-partytent-premium-3x6"
       ],
       "image": {
         "src": "tent-3x3-wit-hero.webp",
@@ -3537,7 +3887,7 @@
         "bedrukte-partytent-3x3"
       ],
       "image": {
-        "src": "tent-3x3-klaproos-logo-hero.webp",
+        "src": "tent-3x3-rood-logo-hero.webp",
         "alt": "Bedrukte partytenten"
       }
     },
@@ -3712,11 +4062,6 @@
                   "title": "Premium partytent",
                   "type": "product",
                   "handle": "partytent-easy-up-premium"
-                },
-                {
-                  "title": "Premium of Professional?",
-                  "type": "page",
-                  "handle": "verschil-partytenten"
                 }
               ]
             },
@@ -4374,8 +4719,8 @@
           "body_html": "<p>Hoe beter je bestand, hoe scherper de opdruk. Dit werkt het best.</p><h2>Vectorbestand</h2><p>Een PDF, AI, EPS of SVG is ideaal: die kun je eindeloos vergroten.</p><h2>Geen vector?</h2><p>Stuur een PNG van minimaal 2000 px breed. Wij maken hem drukklaar en je ziet het resultaat eerst in de drukproef.</p><h2>Kleuren</h2><p>Geef je Pantone- of HEX-kleuren door als je die hebt. Dan matchen we je huisstijl zo goed mogelijk.</p>",
           "summary_html": "<p>Hoe beter je bestand, hoe scherper de opdruk. Dit werkt het best.</p>",
           "image": {
-            "src": "tent-3x3-klaproos-logo-hero.webp",
-            "alt": "Easy-up in Klaproos met voorbeeldopdruk op de luifel"
+            "src": "tent-3x3-rood-logo-hero.webp",
+            "alt": "Rode easy-up met voorbeeldopdruk Klapklaar op de luifel"
           },
           "tags": [
             "bedrukken",
@@ -4388,6 +4733,30 @@
               "key": "producten",
               "type": "list.product_reference",
               "value": "[\"partytent-met-logo\", \"statafelrok-met-logo\"]"
+            }
+          ]
+        },
+        {
+          "handle": "easy-up-premium-of-professional",
+          "title": "Easy-up Premium of Professional: wat is het verschil?",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Antwoord eerst: kies de Premium voor af en toe een feest, de Professional als hij elke week opgaat of zakelijk gebruikt wordt.</p><h2>Frame</h2><p>De Premium heeft een stalen frame met 40 mm poten. De Professional heeft 50 mm aluminium: lichter om te dragen en sterker in de hoeken.</p><h2>Dak</h2><p>Premium: 320 g/m² polyester, PVC-gecoat. Professional: 520 g/m² PVC, ook leverbaar als heavy duty.</p><h2>Wat ze delen</h2><p>Dezelfde maten, zijwanden, gewichten en tassen passen op beide lijnen.</p>",
+          "summary_html": "<p>Antwoord eerst: kies de Premium voor af en toe een feest, de Professional als hij elke week opgaat of zakelijk gebruikt wordt.</p>",
+          "image": {
+            "src": "tent-3x3-wit-professional-hero.webp",
+            "alt": "Easy-up Professional 3 × 3 m wit, schuin vooraanzicht"
+          },
+          "tags": [
+            "partytent",
+            "vergelijken"
+          ],
+          "published_at": "2026-10-03T09:00:00+02:00",
+          "metafields": [
+            {
+              "namespace": "custom",
+              "key": "producten",
+              "type": "list.product_reference",
+              "value": "[\"partytent-easy-up-premium\", \"partytent-easy-up-professional\"]"
             }
           ]
         }

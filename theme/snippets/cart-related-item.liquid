@@ -1,0 +1,25 @@
+{%- comment -%}
+  One 'Vergeet niet' item. Params: p (product), style ('row': compact drawer row with quick add | 'card': product card),
+  sizes (card image sizes).
+{%- endcomment -%}
+{%- if style == 'card' -%}
+  <li>{%- render 'product-card', product: p, sizes: sizes -%}</li>
+{%- else -%}
+  <li class="upsell__item">
+    <a class="upsell__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+      {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 160', sizes: '64px' }}{%- endif -%}
+    </a>
+    <div class="upsell__info">
+      <a class="upsell__title" href="{{ p.url }}">{{ p.title }}</a>
+      <span class="upsell__price">{% if p.price_varies %}{{ 'price.from' | t }} {% endif %}{%- render 'vat-money', cents: p.price -%}</span>
+    </div>
+    {%- if p.has_only_default_variant -%}
+      {%- form 'product', p, data-product-form: '', class: 'upsell__form' -%}
+        <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+        <button type="submit" name="add" class="icon-btn upsell__add" aria-label="{{ 'card.quick_add_label' | t: title: p.title | escape }}">{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</button>
+      {%- endform -%}
+    {%- else -%}
+      <a class="icon-btn upsell__add" href="{{ p.url }}" aria-label="{{ 'card.choose' | t }}: {{ p.title | escape }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}</a>
+    {%- endif -%}
+  </li>
+{%- endif -%}

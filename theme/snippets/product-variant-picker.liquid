@@ -1,0 +1,168 @@
+{%- comment -%}
+  Variant picker of the main product (colour swatches as a native radio group, other options as pills). Params: product,
+  block (section block: size_option_names, size_guide_page), section_id, is_print (bool). The variants JSON feeds
+  variant-picker.js; 'print' says per variant whether the logo-upload block applies (snippets/print-active).
+
+  Size switch across products (feature product.size-switch): a line that is split into one product per size links
+  its sizes with custom.andere_maten (list.product_reference, catalog/CONTRACT.md). Those sizes are shown as pills in
+  the size option, sorted by size (snippets/size-siblings-order): the current size is the chosen pill, the others are
+  links to the sibling product with the same other options (colour, uitvoering) preselected via ?variant=.
+  variant-picker.js keeps those links in step when the colour changes.
+{%- endcomment -%}
+{%- liquid
+  assign swatch_names = settings.swatch_option_names | downcase | split: ','
+  # Maatgids + size help belong to the size option only (Maat, Tafelmaat, Diameter, ...), never to colour.
+  assign size_names_lc = block.settings.size_option_names | default: 'Maat, Tafelmaat, Diameter, Afmeting, Formaat' | downcase | replace: ', ', ',' | replace: ' ,', ',' | strip | split: ','
+  assign guide_page = product.metafields.custom.maatgids.value | default: block.settings.size_guide_page
+  assign current_variant = product.selected_or_first_available_variant
+  assign size_index = -1
+  for option in product.options_with_values
+    assign on = option.name | downcase | strip
+    if size_names_lc contains on
+      assign size_index = forloop.index0
+      break
+    endif
+  endfor
+
+  assign siblings = product.metafields.custom.andere_maten.value
+  assign has_siblings = false
+  if siblings != blank and siblings.size > 0
+    assign has_siblings = true
+  endif
+  assign sib_before = ''
+  assign sib_after = ''
+  if has_siblings
+    capture sib_order
+      render 'size-siblings-order', product: product, siblings: siblings, size_names: size_names_lc
+    endcapture
+    # key of the current variant without its size: 'Kleur=Wit|Uitvoering=Polyester|'
+    capture cur_key
+      for option in product.options_with_values
+        assign on = option.name | downcase | strip
+        unless size_names_lc contains on
+          echo option.name | append: '=' | append: current_variant.options[forloop.index0] | append: '|'
+        endunless
+      endfor
+    endcapture
+    capture key_names
+      echo '['
+      for option in product.options_with_values
+        assign on = option.name | downcase | strip
+        if size_names_lc contains on
+          echo 'null'
+        else
+          echo option.name | json
+        endif
+        unless forloop.last
+          echo ','
+        endunless
+      endfor
+      echo ']'
+    endcapture
+    capture sib_pills
+      assign sib_idx = sib_order | split: ','
+      for si in sib_idx
+        assign sin = si | plus: 0
+        if sin == 0
+          echo '__SELF__'
+          continue
+        endif
+        assign sj = sin | minus: 1
+        assign sp = siblings[sj]
+        if sp == blank
+          continue
+        endif
+        capture sp_label
+          render 'size-label', p: sp, size_names: size_names_lc
+        endcapture
+        if sp_label == blank
+          assign sp_label = sp.title
+        endif
+        assign m_id = ''
+        assign m_av = sp.available
+        capture vmap
+          echo '{'
+          for v in sp.variants
+            capture vk
+              for option in sp.options_with_values
+                assign on = option.name | downcase | strip
+                unless size_names_lc contains on
+                  echo option.name | append: '=' | append: v.options[forloop.index0] | append: '|'
+                endunless
+              endfor
+            endcapture
+            if vk == cur_key and m_id == ''
+              assign m_id = v.id
+              assign m_av = v.available
+            endif
+            echo vk | json | append: ':[' | append: v.id | append: ',' | append: v.available | append: ']'
+            unless forloop.last
+              echo ','
+            endunless
+          endfor
+          echo '}'
+        endcapture
+        render 'size-sibling-link', sp: sp, label: sp_label, variant_id: m_id, available: m_av, vmap: vmap
+      endfor
+    endcapture
+    assign sib_parts = sib_pills | split: '__SELF__'
+    assign sib_before = sib_parts[0]
+    assign sib_after = sib_parts[1]
+  endif
+-%}
+<variant-picker class="vp js-only" data-section-id="{{ section_id }}"{% if has_siblings %} data-key-names="{{ key_names | escape }}"{% endif %} {{ block.shopify_attributes }}>
+  {%- if has_siblings and size_index == -1 -%}
+    {%- capture self_label -%}{%- render 'size-label', p: product, size_names: size_names_lc -%}{%- endcapture -%}
+    {%- if self_label == blank -%}{%- assign self_label = product.title -%}{%- endif -%}
+    <div class="vp__option" role="group" aria-labelledby="SizeSiblings-{{ section_id }}">
+      <p class="vp__legend" id="SizeSiblings-{{ section_id }}"><span class="vp__name">{{ 'product.size_label' | t }}:</span> <span class="vp__selected">{{ self_label }}</span></p>
+      <div class="vp__values">{{ sib_before }}<span class="vp__pill" aria-current="true">{{ self_label }}</span>{{ sib_after }}</div>
+    </div>
+  {%- endif -%}
+  {%- unless product.has_only_default_variant -%}
+  {%- for option in product.options_with_values -%}
+    {%- assign opt_name = option.name | downcase | strip -%}
+    {%- assign is_swatch = false -%}
+    {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_name -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
+    {%- assign option_index = forloop.index0 -%}
+    {%- assign with_siblings = false -%}
+    {%- if has_siblings and option_index == size_index -%}{%- assign with_siblings = true -%}{%- endif -%}
+    <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}">
+      <legend class="vp__legend">
+        <span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value }}</span>
+        {%- if option_index == size_index and guide_page != blank -%}
+          <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
+        {%- endif -%}
+      </legend>
+      <div class="vp__values">
+        {%- if with_siblings -%}{{ sib_before }}{%- endif -%}
+        {%- for value in option.values -%}
+          {%- capture input_id -%}Opt-{{ section_id }}-{{ option_index }}-{{ forloop.index0 }}{%- endcapture -%}
+          <input class="vp__input" type="radio" id="{{ input_id }}" name="option-{{ section_id }}-{{ option_index }}" value="{{ value | escape }}"{% if value.selected %} checked{% endif %}{% unless value.available %} data-unavailable{% endunless %}>
+          {%- if is_swatch -%}
+            {%- capture sw_style -%}{%- render 'swatch', value: value, mode: 'css' -%}{%- endcapture -%}
+            <label for="{{ input_id }}" class="vp__swatch{% unless value.available %} is-unavailable{% endunless %}" title="{{ value | escape }}">
+              <span class="swatch" style="{{ sw_style }}"></span>
+              <span class="visually-hidden">{{ value }}{% unless value.available %}, {{ 'product.option_unavailable' | t }}{% endunless %}</span>
+            </label>
+          {%- else -%}
+            <label for="{{ input_id }}" class="vp__pill{% unless value.available %} is-unavailable{% endunless %}">
+              {{ value }}{% unless value.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless %}
+            </label>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if with_siblings -%}{{ sib_after }}{%- endif -%}
+      </div>
+      {%- if option_index == size_index and guide_page != blank -%}
+        <p class="vp__help text-sm muted">{{ 'product.size_guide_help' | t }}</p>
+      {%- endif -%}
+    </fieldset>
+  {%- endfor -%}
+  {%- endunless -%}
+  <script type="application/json" data-variants>
+    [{%- for v in product.variants -%}
+      {%- capture v_print -%}{%- if is_print -%}{%- render 'print-active', product: product, variant: v -%}{%- else -%}false{%- endif -%}{%- endcapture -%}
+      {"id":{{ v.id }},"options":{{ v.options | json }},"available":{{ v.available | json }},"price":{{ v.price }},"compare_at_price":{{ v.compare_at_price | default: 0 }},"media_id":{{ v.featured_media.id | default: 0 }},"print":{{ v_print }}}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}]
+  </script>
+</variant-picker>

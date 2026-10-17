@@ -106,16 +106,25 @@
           this.querySelector('[data-facets-open]')?.setAttribute('aria-expanded', 'true');
           this.querySelector('.facets-backdrop')?.removeAttribute('hidden');
           const panel = this.querySelector('[data-facets-panel]');
-          panel?.setAttribute('role', 'dialog');
-          panel?.setAttribute('aria-modal', 'true');
-          panel?.focus();
-          if (panel) KK.trapFocus(panel);
+          if (!panel) return;
+          panel.setAttribute('role', 'dialog');
+          panel.setAttribute('aria-modal', 'true');
+          // the page behind the drawer is inert (not only Tab-trapped); the backdrop stays clickable
+          this.restoreInert?.();
+          this.restoreInert = KK.inertOutside(panel, [this.querySelector('.facets-backdrop')]);
+          KK.trapFocus(panel);
+          // the panel becomes visible in the same frame; retry once the style has settled (reduced motion included)
+          const focus = () => panel.focus({ preventScroll: true });
+          focus();
+          if (document.activeElement !== panel) requestAnimationFrame(() => (focus(), document.activeElement !== panel && setTimeout(focus, 80)));
         }
         close() {
           if (!this.classList.contains('is-drawer-open')) return;
           this.classList.remove('is-drawer-open');
           document.body.classList.remove('is-locked');
           KK.releaseFocus();
+          this.restoreInert?.();
+          this.restoreInert = null;
           const panel = this.querySelector('[data-facets-panel]');
           panel?.removeAttribute('role');
           panel?.removeAttribute('aria-modal');

@@ -37,10 +37,12 @@
     "rotator_pause": "Wisselende berichten pauzeren",
     "rotator_play": "Wisselende berichten hervatten",
     "rotator_next": "Volgend bericht",
-    "placeholder_product": "Product"
+    "placeholder_product": "Product",
+    "zakelijk": "Zakelijk"
   },
   "header": {
     "search_placeholder": "Zoek op product, maat of artikelnummer",
+    "search_placeholder_short": "Zoek op product of maat",
     "search_label": "Zoeken",
     "search_open": "Zoeken openen",
     "search_submit": "Zoek",
@@ -111,12 +113,12 @@
     "staffel_next_html": "Nog {{ qty }} erbij voor {{ discount }}% korting",
     "staffel_note": "De korting zie je terug in je winkelwagen.",
     "addons_title": "Handig erbij",
-    "addons_help": "Vink aan en het gaat in één keer mee.",
+    "addons_help": "Vink aan, dan gaat alles in één keer mee.",
     "print_title": "Met jouw logo",
     "print_intro": "Upload je logo, je krijgt eerst een drukproef ter akkoord.",
-    "print_upload": "Logo uploaden (PDF, AI, EPS, SVG of PNG)",
-    "print_upload_help": "Geen vectorbestand? Stuur een PNG van minimaal 2000 px breed, dan maken wij hem drukklaar.",
-    "print_file_too_big": "Dit bestand is groter dan 20 MB. Stuur een kleinere versie of mail hem naar ons.",
+    "print_upload": "Logo uploaden",
+    "print_upload_help": "Geen vectorbestand? Stuur een PNG van minimaal 2000 px breed, dan maken wij je logo drukklaar.",
+    "print_file_too_big": "{{ name }} is groter dan {{ size }} MB. Stuur een kleinere versie, of kies ‘Ik lever mijn logo later aan’ en mail je bestand na je bestelling.",
     "print_later": "Ik lever mijn logo later aan",
     "print_position": "Drukpositie",
     "print_remark": "Opmerking bij de bedrukking",
@@ -137,7 +139,7 @@
     "gallery_thumb": "Toon afbeelding {{ index }}",
     "gallery_close": "Vergroting sluiten",
     "gallery_label": "Productafbeeldingen",
-    "sticky_buy": "Bestellen",
+    "sticky_buy": "In mijn winkelwagen",
     "error_add": "Oeps, dat ging mis. We konden het product niet toevoegen. Probeer het nog een keer.",
     "breadcrumb_all": "Alle producten",
     "vendor": "Merk",
@@ -149,10 +151,15 @@
     "recommendations": "Vaak samen bekeken",
     "complementary": "Vergeet niet",
     "print_required": "Upload je logo, of kies ‘Ik lever mijn logo later aan’.",
-    "notify_title": "Mail me als hij terug is",
+    "notify_title": "Mail me als dit weer op voorraad is",
     "notify_button": "Mail me",
-    "notify_success": "Top, we mailen je zodra hij er weer is.",
-    "print_choose": "Kies een bestand (max. 20 MB)",
+    "notify_success": "Top, we mailen je zodra dit weer op voorraad is.",
+    "print_choose": "Kies je bestanden of sleep ze hierheen",
+    "print_limits": "PDF, AI, EPS, SVG, PNG of JPG · tot {{ files }} bestanden van max. {{ size }} MB",
+    "print_files_label": "Gekozen bestanden",
+    "print_file_type": "{{ name }} kunnen we niet gebruiken. Kies een PDF, AI, EPS, SVG, PNG of JPG.",
+    "print_too_many": "Je kunt maximaal {{ max }} bestanden toevoegen.",
+    "print_file_remove": "{{ name }} verwijderen",
     "status_discontinued": "Permanent uitverkocht",
     "status_discontinued_text": "Deze verkopen we niet meer. De pagina blijft staan, zodat je makkelijk een vervanger vindt.",
     "status_alternatives": "Kies een vervanger",
@@ -185,12 +192,13 @@
     "download_type": "{{ type }}-bestand",
     "variant_select": "Kies je uitvoering",
     "weight": "Gewicht",
-    "packed": "Verpakt"
+    "packed": "Verpakt",
+    "size_label": "Maat"
   },
   "delivery": {
     "label": "Levering",
     "ships_today_html": "Vóór <strong>{{ time }}</strong> besteld, vandaag verzonden",
-    "countdown_html": "Bestel binnen <strong>{{ time }}</strong>, dan gaat hij vandaag de deur uit",
+    "countdown_html": "Bestel binnen <strong>{{ time }}</strong>, dan gaat je bestelling vandaag de deur uit",
     "arrives_html": "Verwacht in huis: <strong>{{ date }}</strong>",
     "ships_on_html": "Verzonden op <strong>{{ date }}</strong>",
     "pallet": "Levering per pallet, op afspraak",
@@ -222,7 +230,9 @@
     "badge_discontinued": "Uit het assortiment",
     "badge_coming": "Binnenkort",
     "badge_custom": "Op maat",
-    "configure": "Stel je maat samen"
+    "configure": "Stel je maat samen",
+    "sizes_html": "{{ count }} maten: {{ sizes }}",
+    "choose_size": "Kies je maat"
   },
   "collection": {
     "products_count": {
@@ -286,6 +296,7 @@
     "view_cart": "Naar winkelwagen",
     "remove": "Verwijderen",
     "remove_label": "{{ title }} verwijderen",
+    "quantity_label": "Aantal: {{ title }}",
     "note_label": "Opmerking bij je bestelling (bv. leverdatum of locatie)",
     "free_shipping_remaining_html": "Nog <strong>{{ amount }}</strong> tot gratis verzending",
     "free_shipping_reached": "Je verzending is gratis",
@@ -329,7 +340,8 @@
     "suggestions": "Zoeksuggesties",
     "view_all_html": "Alle resultaten voor ‘{{ terms }}’",
     "popular": "Populair",
-    "other_results": "Pagina's en advies"
+    "other_results": "Pagina's en advies",
+    "suggestions_for": "Suggesties voor ‘{{ terms }}’"
   },
   "forms": {
     "name": "Naam",
@@ -379,7 +391,10 @@
     "success": "Klaar! Je offerteaanvraag is binnen. We sturen je binnen één werkdag een offerte.",
     "company_title": "Je gegevens",
     "prefilled_cart": "We hebben je winkelwagen alvast ingevuld.",
-    "prefilled_product": "We hebben het product alvast ingevuld."
+    "prefilled_product": "We hebben het product alvast ingevuld.",
+    "line_details": "Details (maat, opdruk, bestanden)",
+    "subject_product": "Offerteaanvraag: {{ title }}",
+    "notes_placeholder": "Bijvoorbeeld: met ons logo, levering op locatie, ook in een andere maat"
   },
   "newsletter": {
     "label": "Je e-mailadres",
@@ -412,7 +427,7 @@
     "comment_body": "Je reactie",
     "comment_submit": "Plaats reactie",
     "comment_success": "Bedankt, je reactie staat erbij.",
-    "comment_success_moderated": "Bedankt! We plaatsen je reactie zodra we hem gelezen hebben.",
+    "comment_success_moderated": "Bedankt! We plaatsen je reactie zodra we die gelezen hebben.",
     "comment_moderated_note": "We lezen reacties eerst, daarna komen ze online."
   },
   "not_found": {

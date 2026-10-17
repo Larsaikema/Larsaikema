@@ -37,13 +37,13 @@
     async count() {
       const r = await fetch(`${KK.routes.cart}.js`, { headers: { Accept: 'application/json' } });
       const c = await r.json();
-      KK.updateCartCount(c.item_count);
+      KK.updateCartCount(c);
       return c;
     },
 
-    /** body: FormData (file uploads) or {items:[...]} */
-    async add(body) {
-      const ids = cart.sectionIds();
+    /** body: FormData (file uploads) or {items:[...]}; quiet: no section re-render/count/event (a follow-up call does that) */
+    async add(body, { quiet = false } = {}) {
+      const ids = quiet ? [] : cart.sectionIds();
       let init;
       if (body instanceof FormData) {
         if (ids.length) {
@@ -57,22 +57,26 @@
       const r = await fetch(`${KK.routes.cartAdd}.js`, init);
       const data = await r.json().catch(() => ({}));
       if (!r.ok || data.status) {
-        const err = new Error(data.description || data.message || KK.strings.addError);
+        // 422 descriptions are Shopify's localized stock messages; anything else (404 'Cannot find variant', 5xx) gets ours
+        const err = new Error((r.status === 422 && data.description) || KK.strings.addError);
         err.data = data;
         throw err;
       }
+      if (quiet) return data;
       cart.render(data.sections);
       const c = await cart.count();
       KK.emit('cart:added', { data, cart: c });
       return data;
     },
 
+    /** line: 1-based line number, or a line item key (string) */
     async change(line, quantity) {
       const ids = cart.sectionIds();
+      const target = typeof line === 'string' ? { id: line } : { line };
       const r = await fetch(`${KK.routes.cartChange}.js`, {
         method: 'POST',
         headers: json,
-        body: JSON.stringify({ line, quantity, sections: ids.join(','), sections_url: location.pathname }),
+        body: JSON.stringify({ ...target, quantity, sections: ids.join(','), sections_url: location.pathname }),
       });
       const data = await r.json().catch(() => ({}));
       if (!r.ok || data.status) {
@@ -81,7 +85,7 @@
         throw err;
       }
       cart.render(data.sections);
-      KK.updateCartCount(data.item_count);
+      KK.updateCartCount(data);
       KK.emit('cart:changed', data);
       return data;
     },
@@ -96,20 +100,32 @@
       else location.href = KK.routes.cart;
     },
 
-    /** called after a successful add from any product form */
-    afterAdd(title) {
+    /** 'Statafelrok stretch Ø 80 cm, Zwart · 1 ×' for the added line (brand v6 7.2); made to measure shows its units */
+    lineLabel(item) {
+      if (!item || !item.product_title) return '';
+      const unit = item.properties && item.properties._eenheid;
+      const variant = item.variant_title && item.variant_title !== 'Default Title' ? `, ${item.variant_title}` : '';
+      return `${item.product_title}${variant} · ${unit ? `${item.quantity} ${unit}` : `${item.quantity} ×`}`;
+    },
+
+    /** called after a successful add from any product form; item = the added line (cart/add.js response) */
+    afterAdd(title, item) {
       if (KK.cartType === 'page' || !document.getElementById('CartDrawer')) {
         location.href = KK.routes.cart;
         return;
       }
+      const line = cart.lineLabel(item) || title || '';
       // on the cart page the lines are already re-rendered in place: confirm with a toast instead of the drawer
       if (document.querySelector('.cart-page cart-items')) {
-        KK.toast(title ? KK.t('addedText', { title }) : KK.strings.added);
+        KK.toast(`<strong>${KK.escape(KK.strings.addedTitle)}</strong>${line ? `<br>${KK.escape(line)}` : ''}`);
         return;
       }
       cart.open();
-      const live = document.getElementById('CartDrawerTitle');
-      if (live && title) live.setAttribute('data-added', KK.t('addedText', { title }));
+      const box = document.querySelector('#CartDrawer [data-cart-added]');
+      if (box) {
+        box.querySelector('[data-cart-added-line]').textContent = line;
+        box.hidden = false;
+      }
     },
   });
 
@@ -131,8 +147,8 @@
     btn?.setAttribute('aria-busy', 'true');
     try {
       const fd = new FormData(form);
-      await cart.add({ items: [{ id: Number(fd.get('id')), quantity: Number(fd.get('quantity') || 1) }] });
-      cart.afterAdd(form.closest('.card, .upsell__item')?.querySelector('a[href*="/products/"]:not([tabindex])')?.textContent?.trim());
+      const res = await cart.add({ items: [{ id: Number(fd.get('id')), quantity: Number(fd.get('quantity') || 1) }] });
+      cart.afterAdd(form.closest('.card, .upsell__item')?.querySelector('a[href*="/products/"]:not([tabindex])')?.textContent?.trim(), res.items ? res.items[0] : res);
     } catch (err) {
       KK.toast(err.message || KK.strings.addError, 'error');
     } finally {
@@ -153,7 +169,7 @@
             if (input) this.onChange(input);
           });
           this.addEventListener('click', (e) => {
-            const rm = e.target.closest('button[name="remove"]');
+            const rm = e.target.closest('[data-cart-remove]');
             if (!rm) return;
             e.preventDefault();
             this.update(rm.dataset.line, 0, rm);

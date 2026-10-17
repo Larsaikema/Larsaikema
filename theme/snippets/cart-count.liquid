@@ -1,0 +1,17 @@
+{%- comment -%}
+  Outputs the item count shown to shoppers (header bubble, drawer and cart titles). A made-to-measure line from the
+  configurator has quantity = billed units (m²) and the private property _eenheid; it counts as 1 item, not 20.
+  Use: {%- capture kk_count -%}{% render 'cart-count' %}{%- endcapture -%}{%- assign kk_count = kk_count | plus: 0 -%}
+  JS twin: KK.cartCount (assets/global.js).
+{%- endcomment -%}
+{%- liquid
+  assign n = 0
+  for item in cart.items
+    if item.properties._eenheid != blank
+      assign n = n | plus: 1
+    else
+      assign n = n | plus: item.quantity
+    endif
+  endfor
+  echo n
+-%}

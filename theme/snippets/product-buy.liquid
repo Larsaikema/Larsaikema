@@ -1,0 +1,125 @@
+{%- comment -%}
+  Buy area of the main product: the product form (variant id, quantity, add button with live total, dynamic checkout),
+  the 'Mail me als dit weer op voorraad is' form, or for a permanently discontinued product the alternatives.
+  Params: product, block, section_id, form_id, current_variant, is_config, cfg, avail_status, is_discontinued,
+  print_active, druk, is_maatwerk.
+{%- endcomment -%}
+{%- if is_discontinued -%}
+  {%- liquid
+    assign alts = product.metafields.custom.alternatieven.value
+    if alts == blank
+      assign alts = product.metafields.custom.past_op.value
+    endif
+  -%}
+  <div class="discontinued" {{ block.shopify_attributes }}>
+    <div class="notice notice--info">
+      {%- render 'icon', icon: 'info' -%}
+      <div><strong>{{ 'product.status_discontinued' | t }}</strong>{{ 'product.status_discontinued_text' | t }}</div>
+    </div>
+    {%- if alts != blank -%}
+      <p class="discontinued__title">{{ 'product.status_alternatives' | t }}</p>
+      <ul class="mini-cards" role="list">
+        {%- for a in alts limit: 3 -%}
+          <li>
+            <a class="mini-card" href="{{ a.url }}">
+              <span class="mini-card__media">{%- if a.featured_media -%}{{ a.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 160', sizes: '72px' }}{%- endif -%}</span>
+              <span class="mini-card__body">
+                <span class="mini-card__title">{{ a.title }}</span>
+                {%- if a.metafields.custom.kenmerk_kort != blank -%}<span class="mini-card__spec">{{ a.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
+                {%- render 'price', product: a -%}
+              </span>
+              {%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+{%- else -%}
+<product-form class="buy" data-form-id="{{ form_id }}" {{ block.shopify_attributes }}>
+  {%- form 'product', product, id: form_id, class: 'buy__form', novalidate: 'novalidate', data-product-form: 'main' -%}
+    {%- comment -%}
+      One id field. Without JavaScript the radios (outside the form) cannot set it, so it is a visible
+      select of all variants; with JavaScript it is hidden and variant-picker.js keeps it in sync.
+    {%- endcomment -%}
+    {%- if product.has_only_default_variant -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+    {%- else -%}
+      <div class="field buy__variant-select no-js-only">
+        <label class="field__label" for="VariantSelect-{{ section_id }}">{{ 'product.variant_select' | t }}</label>
+        <select class="select" id="VariantSelect-{{ section_id }}" name="id" data-variant-id>
+          {%- for v in product.variants -%}
+            <option value="{{ v.id }}"{% if v.id == current_variant.id %} selected{% endif %}>{{ v.title }} – {{ v.price | money }}{% unless v.available %} ({{ 'product.sold_out' | t }}){% endunless %}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- endif -%}
+    <div class="buy__row" data-dynamic="buy">
+      {%- if is_config -%}
+        <input type="hidden" name="quantity" value="{{ cfg.min_afname | default: 1 }}" data-config-qty>
+      {%- else -%}
+        {%- assign qty_id = 'Quantity-' | append: section_id -%}
+        <div class="buy__qty" data-buy-qty{% unless current_variant.available %} hidden{% endunless %}>
+          {%- render 'quantity-input', id: qty_id, min: current_variant.quantity_rule.min, step: current_variant.quantity_rule.increment, max: current_variant.quantity_rule.max, value: current_variant.quantity_rule.min -%}
+        </div>
+      {%- endif -%}
+      {%- liquid
+        assign is_preorder = false
+        if current_variant.available and current_variant.inventory_management != blank and current_variant.inventory_quantity <= 0
+          assign is_preorder = true
+        endif
+        if avail_status == 'pre-order' and current_variant.available
+          assign is_preorder = true
+        endif
+        assign is_coming = false
+        if avail_status == 'binnenkort' and current_variant.available == false
+          assign is_coming = true
+        endif
+        # made to order with a known lead time (configurator, custom.levertijd, print with drukopties.levertijd):
+        # the delivery block states the lead time, so the button stays 'In mijn winkelwagen'
+        if is_config or product.metafields.custom.levertijd != blank
+          assign is_preorder = false
+        endif
+        if print_active and druk.levertijd != blank
+          assign is_preorder = false
+        endif
+      -%}
+      <button type="submit" name="add" class="btn btn--buy btn--block buy__add" data-add-button data-price="{{ current_variant.price }}" data-preorder="{{ is_preorder }}"{% if is_maatwerk %} aria-describedby="Maatwerk-{{ section_id }}"{% endif %}{% unless current_variant.available %} disabled{% endunless %}>
+        {%- render 'icon', icon: 'cart', class: 'icon--sm buy__icon' -%}
+        {%- render 'icon', icon: 'check', class: 'icon--sm buy__icon-done' -%}
+        <span data-add-label>
+          {%- if is_coming -%}
+            {{ 'product.status_coming' | t }}
+          {%- elsif current_variant.available == false -%}
+            {{ 'product.sold_out' | t }}
+          {%- elsif is_preorder -%}
+            {{ 'product.pre_order' | t }}
+          {%- else -%}
+            {{ 'product.add_to_cart' | t }}
+          {%- endif -%}
+        </span>
+      </button>
+    </div>
+    {%- if block.settings.show_dynamic_checkout and is_config == false -%}{{ form | payment_button }}{%- endif -%}
+    <p class="notice notice--error buy__error" role="alert" data-form-error hidden></p>
+  {%- endform -%}
+  <div data-dynamic="notify">
+    {%- unless current_variant.available -%}
+      {%- assign notify_id = 'Notify-' | append: section_id -%}
+      {%- form 'contact', id: notify_id, class: 'notify' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span>{{ 'product.notify_success' | t }}</span></p>
+        {%- else -%}
+          <input type="hidden" name="contact[Onderwerp]" value="{{ 'product.notify_title' | t | escape }}">
+          <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}{% unless product.has_only_default_variant %} – {{ current_variant.title | escape }}{% endunless %} ({{ current_variant.sku }})">
+          <label class="field__label" for="NotifyEmail-{{ section_id }}">{{ 'product.notify_title' | t }}</label>
+          <div class="notify__row">
+            <input class="input" type="email" id="NotifyEmail-{{ section_id }}" name="contact[email]" autocomplete="email" required placeholder="{{ 'newsletter.label' | t }}">
+            <button type="submit" class="btn">{{ 'product.notify_button' | t }}</button>
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    {%- endunless -%}
+  </div>
+</product-form>
+{%- endif -%}

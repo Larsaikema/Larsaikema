@@ -1,5 +1,5 @@
 {{ 'section-pages.css' | asset_url | stylesheet_tag }}
-{%- comment -%} Klapklaar Zakelijk (brand.md §6): Linnen surfaces, Polder buttons, no festive flags. {%- endcomment -%}
+{%- comment -%} Klapklaar Zakelijk (brand.md v6 §6): Linnen + Inkt, one-colour logo with the ZAKELIJK label, Inkt buttons, no festive flags. {%- endcomment -%}
 {%- liquid
   assign form_id = 'B2BForm-' | append: section.id
   assign quote_url = settings.quote_page | default: '/pages/offerte'
@@ -10,7 +10,7 @@
     {%- render 'breadcrumbs' -%}
     <div class="b2b-hero__grid">
       <div>
-        <img class="b2b-hero__logo" src="{{ 'logo-zakelijk.svg' | asset_url }}" alt="Klapklaar Zakelijk" width="629" height="131" loading="eager">
+        <p class="b2b-hero__logo">{%- render 'logo', variant: 'zakelijk' -%}</p>
         <h1>{{ section.settings.heading | default: page.title }}</h1>
         <div class="rte text-lg">{{ section.settings.intro }}</div>
         <div class="btn-row" style="margin-top:24px">
@@ -91,7 +91,7 @@
             </div>
             <div class="field field--full"><label class="field__label" for="B2B-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="B2B-body" name="contact[body]" rows="4"></textarea></div>
           </div>
-          <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'forms.send' | t }}</button><a class="link" href="{{ quote_url }}">{{ settings.b2b_cta_label }}</a></div>
+          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button><a class="link" href="{{ quote_url }}">{{ settings.b2b_cta_label }}</a></div>
         {%- endif -%}
       {%- endform -%}
     </div>

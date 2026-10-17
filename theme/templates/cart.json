@@ -13,7 +13,8 @@
         "columns": 4,
         "link_label": "Alle accessoires",
         "hide_sold_out": true,
-        "exclude_in_cart": true
+        "exclude_in_cart": true,
+        "cart_related": true
       }
     }
   },

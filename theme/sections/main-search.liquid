@@ -1,14 +1,6 @@
 {{ 'section-main-collection.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'facets.js' | asset_url }}" defer></script>
-{%- liquid
-  assign terms_esc = search.terms | escape
-  assign product_results = 0
-  for item in search.results
-    if item.object_type == 'product'
-      assign product_results = product_results | plus: 1
-    endif
-  endfor
--%}
+{%- assign terms_esc = search.terms | escape -%}
 <div class="collection-head color-scheme-1">
   <div class="page-width collection-head__inner">
     {%- render 'breadcrumbs' -%}
@@ -52,7 +44,7 @@
           </div>
           <div class="facets-panel__foot">
             <a class="btn btn--outline" href="{{ routes.search_url }}?q={{ search.terms | url_encode }}" data-facets-clear>{{ 'collection.clear_all' | t }}</a>
-            <button type="button" class="btn btn--secondary" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: search.results_count }}</button>
+            <button type="button" class="btn" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: search.results_count }}</button>
           </div>
         </aside>
         <div class="facets-backdrop" data-facets-close hidden></div>
@@ -66,16 +58,29 @@
               <div class="btn-row"><a class="btn btn--outline" href="{{ routes.collections_url }}">{{ 'general.view_all' | t }}</a></div>
             </div>
           {%- else -%}
-            <ul class="grid product-grid" role="list" style="--cols: 3; --cols-tablet: 3">
-              {%- for item in search.results -%}
-                {%- if item.object_type == 'product' -%}
-                  <li>{%- render 'product-card', product: item, sizes: '(min-width: 990px) 30vw, 50vw' -%}</li>
-                {%- endif -%}
-              {%- endfor -%}
-            </ul>
-            {%- assign other_count = search.results.size | minus: product_results -%}
-            {%- if other_count > 0 -%}
-              <h2 class="h3 search-other__title">{{ 'search.other_results' | t }}</h2>
+            {%- comment -%} counted inside paginate: these are the results of the page being shown {%- endcomment -%}
+            {%- liquid
+              assign page_products = 0
+              assign page_others = 0
+              for item in search.results
+                if item.object_type == 'product'
+                  assign page_products = page_products | plus: 1
+                else
+                  assign page_others = page_others | plus: 1
+                endif
+              endfor
+            -%}
+            {%- if page_products > 0 -%}
+              <ul class="grid product-grid" role="list" style="--cols: 3; --cols-tablet: 3">
+                {%- for item in search.results -%}
+                  {%- if item.object_type == 'product' -%}
+                    <li>{%- render 'product-card', product: item, sizes: '(min-width: 990px) 30vw, 50vw' -%}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if page_others > 0 -%}
+              <h2 class="h3 search-other__title{% if page_products == 0 %} search-other__title--first{% endif %}">{{ 'search.other_results' | t }}</h2>
               <ul class="search-other" role="list">
                 {%- for item in search.results -%}
                   {%- unless item.object_type == 'product' -%}
@@ -109,8 +114,9 @@
   .search-page__form{display:flex;gap:8px;max-width:640px;margin-top:16px}
   .search-page__form .input{flex:1;min-width:0}
   .search-other__title{margin:40px 0 12px}
+  .search-other__title--first{margin-top:0}
   .search-other{list-style:none;display:grid;gap:10px}
-  .search-other__item{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:var(--radius-card);background:#fff;text-decoration:none}
+  .search-other__item{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:var(--radius-card);background:var(--c-wit);border:1px solid var(--c-lijn);text-decoration:none}
   .search-other__item .eyebrow{margin:0;color:var(--c-kiezel)}
   .search-other__title-text{font-weight:var(--font-body-weight-bold);font-size:17px}
   .search-other__item:hover .search-other__title-text{text-decoration:underline}

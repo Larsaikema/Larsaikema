@@ -1,166 +1,161 @@
 # Klapklaar · technische bijlage
 
-Versie 5 · 17 oktober 2026 · bij [`brand.md`](brand.md)
+Versie 7 · 17 oktober 2026 · bij [`brand.md`](brand.md)
 
-Deze bijlage is voor ontwerpers, drukkers en de theme-bouwer. Hier staan de constructie en metingen van het logo, alle bestanden,
-de minimummaten per productiemethode, de kleurreferenties per materiaal, de renders, de overdracht aan de Shopify-theme, de
-wijzigingen sinds v4, de bronnen en hoe je alles opnieuw bouwt. Regels en uitleg staan in brand.md; waarden staan in `tokens.json`.
+Voor ontwerpers, drukkers en de theme-bouwer: de constructie en metingen van het logo, alle bestanden, minimummaten per
+productiemethode, kleur- en garenreferenties per materiaal, de renders, de overdracht aan de Shopify-theme, het werklog, de bronnen,
+het herbouwen en het protocol van de logotest. Regels en uitleg staan in brand.md; waarden staan in `tokens.json`.
 
 ## 1. Logo-constructie
 
-`tools/kk.py` construeert elke vorm uit lijnen en kubische Bézier-curves (geen fontcontouren). `tools/build.py` schrijft de
-SVG’s en `tools/measure.py` meet wat doek en druk ermee doen. Eenheden: x-hoogte 500.
+`tools/kkgeo.py` construeert elke vorm als veelhoek met afgeronde hoeken (kubische Béziers, handvatfactor 0,62 bij 90°) en, voor de
+tent, met krommen (`rpath`). Geen fontcontouren. `tools/logo.py` schrijft alle SVG’s en meet ze (`tools/logo-meta.json`). Eenheden:
+kapitaalhoogte {{CAP}}.
 
-| Maat | Waarde | Waarvoor |
-|---|---:|---|
-| x-hoogte | 500 | |
-| stokhoogte k, l | 712 | bovenrand luifelband = stokhoogte |
-| onderstok p | −165 | plat (v4: −196 met een schuine snede) |
-| STOK | 130 | letterstokken, luifelband |
-| DUN | 65 | tentpoten, dakrand, opening tussen dak en band |
-| dakhelling | 24° (koorde) | ook de snede van k, l en de armen van k en r |
-| doorhang van het dak | controlepunten 0,10 × halve breedte onder de koorde | max. doorhang ≈ 0,075 × halve breedte |
-| doorhang op het pixelraster | favicon 16 px: 3 px hoog dak | optische correctie, geen nieuwe hoek |
+**Diktes**
 
-**Lijndiktes** (eenheden, loodrecht op de lijn):
+{{T_STROKES}}
 
-{{STROKES}}
+**Hoeken** (gemeten aan de constructielijnen)
 
-**Spatiëring.** Tracy-methode: rechte zijkant {{TRACY_N}}, ronde zijkant 0,45 daarvan, de open kant van de k 0. Dat geeft recht–recht
-88, rond–recht 64 en k–l 44. De tentpoten staan **verder** van de letters dan de letters van elkaar: 1,30 × de recht–recht-afstand
-aan een rechte zijkant en 1,15 × aan de ronde kant van de a. logo.svg: l–poot {{LEG_OUT}}, poot–a {{LEG_IN}}, a–poot {{LEG_IN2}},
-poot–r {{LEG_OUT}}. logo-klein (+36 letterruimte): {{KLEIN_LEGS}}.
+{{T_ANGLES}}
 
-**Kortste afstand tussen losse vormen** in logo.svg (exact, tussen de contouren):
+**De tent-A.** Breedte 604. Alle hoogtes hangen aan de gewone A:
 
-{{GAPS}}
+{{T_TENT}}
 
-**Groeperen de poten met de letters?** Kleinste afstand poot–letter gedeeld door de recht–recht-letterafstand van dezelfde versie.
-Onder 1 vallen de poten in één kleur en bij kleine maten of onscherpte samen met de letters (‘klIaaIr’).
+- **Dak:** van de luifelhoeken (y 250) naar de piek (y 726), elke rand een kubische kromme die halverwege 11 eenheden naar binnen
+  buigt (gespannen doek); koorde van hoek naar piek {{PITCH}}° (v6: 35°). Piek afgerond met radius 12; de werkelijke top ligt na de
+  afronding {{PEAK_OVER}} eenheden boven de kapitaalhoogte. Geen dakrand, geen naad: dak en luifel zijn één vorm.
+- **Luifel:** loodrecht van y 250 tot y 181,4 aan de buitenkant; tussen de palen drie schulpen (parabolisch, 40 diep) tot y 141,4.
+- **Palen:** 70 breed ({{POLE_RATIO}} × de stok van 142), recht, 18 binnen de luifelhoek.
+- **logo-klein:** palen 86, twee schulpen, 34 eenheden extra ruimte per letterpaar. **mark-klein:** palen 96, twee schulpen.
 
-| Versie | Kleinste poot–letter | Recht–recht letters | Verhouding |
-|---|---:|---:|---:|
-| v4 logo.svg | {{V4_LEG}} | 88 | {{V4_RATIO}} |
-| v5 logo.svg | {{V5_LEG}} | 88 | {{V5_RATIO}} |
-| v5 logo-klein | {{V5K_LEG}} | 124 | {{V5K_RATIO}} |
+**L en A.** De voet van de L loopt over in het linkerbeen van de A: één contour, geen overlap. De A begint 100 eenheden vóór het einde
+van de voet; de voet eindigt binnen het been.
 
-**Stof- en druktest.** `measure.py` rastert het logo op 2 eenheden per pixel en doet twee morfologische tests. *Openen* met een schijf
-vindt lijnen die smaller zijn dan de schijf en punten scherper dan ~50°. *Sluiten* vindt kieren die smaller zijn dan de schijf en
-inkepingen scherper dan ~40°.
+**Lock-upletters.** Z, E, F, I, J, T, N, S, Y, de punt en de plus volgen dezelfde regels: stok 142, balk 118 (E/F-middenbalk ×0,96),
+diagonaal 146 loodrecht gemeten (N, Z, Y), bogen van S en J met dezelfde buitenradius (168) en binnenradius als de P-boog, buishoek 18.
+In de lock-ups staan ze op 40 % (ZAKELIJK) en 16 % (descriptor) van de logohoogte, met 60–70 eenheden extra letterruimte.
 
-{{RCHECK}}
+**Letterafstanden** (`kkgeo.KERN`, per paar op het oog gezet en gemeten)
 
-Hoeken (rechte randen): kleinste buitenhoek {{MIN_TIP}}° (de teen van de k), kleinste inkeping {{MIN_NOTCH}}° (het kruis van de k).
+{{T_GAPS}}
 
-**Bounding box.** Zonder paal en vlag en met de kortere p is het logo breder ten opzichte van zijn hoogte: {{ASPECT_V4}} (v4) → {{ASPECT_V5}}
-(v5). In een header met een vaste logohoogte van 48 px is de x-hoogte nu {{XH48_V5}} px (v4: {{XH48_V4}} px).
+**Metingen voor productie.** logo.svg: breedte {{W_UNITS}}, dunste vorm {{STROKE_P}} (de luifelband tussen de palen), kleinste opening
+{{GAP_P}}. logo-klein: breedte {{W_UNITS_KLEIN}}, dunste vorm {{STROKE_K}}, kleinste opening {{GAP_K}}. Het bovenste binnenvlak van de
+gewone A is {{A_COUNTER}} breed op een kwart van zijn hoogte. Alle hoeken tussen rechte randen zijn ≥ 90° of afgerond; inkepingen, zoals
+het kruis van de K en de punten tussen de schulpen, zijn scherp gelaten.
 
 ## 2. Bestanden
 
 | Bestand | Inhoud | Gebruik |
 |---|---|---|
-| `logo.svg` | Inkt-letters, Klaproos-tent | standaard, op licht |
-| `logo-inverse.svg` | Zand-letters, Zon-tent | op Polder en Inkt |
-| `mark.svg` | de k onder de tent, Zand op een Klaproos-vlak (512) | avatar, app-icoon |
+| `logo.svg` | Inkt-letters, Lampion-tent | standaard, op Zand en Wit |
+| `logo-inverse.svg` | Zand-letters, Lampion-tent | op Inkt |
+| `mark.svg` | tent-A, Lampion op Inkt (512) | avatar, app-icoon |
 | `favicon.svg` | 32-pixeltekening | bron van `favicon-32.png` |
 | `favicon-32.png`, `favicon-192.png` | favicon 32 px; beeldmerk 192 px (PWA, Android) | theme-assets |
 | `svg/logo-inline.svg`, `svg/logo-klein-inline.svg` | letters `currentColor`, tent `class="kk-tent"` | bron van `handoff/logo.liquid` |
-| `svg/logo-on-klaproos.svg` | één kleur Zand | op Klaproos |
-| `svg/logo-mono.svg`, `svg/logo-klein-mono.svg` | één pad, `currentColor` | eenkleurig |
-| `svg/logo-klein.svg`, `svg/logo-klein-inverse.svg` | klein werk | {{MIN_KLEIN_PX}}–{{MIN_LOGO_PX_1}} px, klein borduurwerk |
-| `svg/logo-luifel.svg`, `svg/logo-luifel-inverse.svg` | woordmerk met de balk ‘PARTYTENTEN · STATAFELS’ | luifel, bus, marktplaatstegel |
-| `svg/logo-zakelijk.svg` | Inkt-letters, Polder-tent, Polder-label ‘ZAKELIJK’ | offertes, facturen, B2B |
-| `svg/mark-polder.svg`, `svg/mark-zand.svg`, `svg/mark-mono.svg`, `svg/mark-klein.svg`, `svg/mark-klein-mono.svg` | varianten van het beeldmerk | |
-| `svg/print-wordmark.svg`, `svg/print-wordmark-klein.svg`, `svg/print-mark.svg`, `svg/print-mark-klein.svg` | drukbestanden: één kleur (zwart = drukkleur), één pad | drukker, borduurder, belettering |
+| `svg/logo-klein.svg`, `svg/logo-klein-inverse.svg` | palen 86, twee schulpen, meer letterruimte | 96–159 px, klein borduur- en flockwerk |
+| `svg/logo-on-lampion.svg`, `svg/logo-klein-on-lampion.svg` | één kleur Inkt | op Lampion |
+| `svg/logo-mono.svg`, `svg/logo-klein-mono.svg` | één pad, `currentColor` | eenkleurig, op Linnen en foto |
+| `svg/logo-luifel.svg`, `svg/logo-luifel-inverse.svg` | woordmerk + Lampion-balk met getekende descriptor | luifel, bus, marktplaatstegel, social |
+| `svg/logo-zakelijk.svg`, `svg/logo-zakelijk-inverse.svg` | één kleur + getekend label ‘ZAKELIJK’ | offertes, facturen, B2B |
+| `svg/mark-lampion.svg`, `svg/mark-zand.svg`, `svg/mark-symbool.svg`, `svg/mark-mono.svg`, `svg/mark-klein.svg` | varianten van het beeldmerk | |
+| `svg/print-wordmark.svg`, `svg/print-wordmark-klein.svg`, `svg/print-luifel.svg`, `svg/print-mark.svg`, `svg/print-mark-klein.svg` | drukbestanden: één kleur (zwart = drukkleur) | drukker, borduurder, belettering |
 | `svg/favicon-16.svg`, `svg/favicon-cart.svg`, `svg/favicon-cart-16.svg`, `svg/apple-touch-icon.svg` | bronnen van de PNG’s | |
-| `img/favicon-16.png`, `img/favicon-cart-16.png`, `img/favicon-cart-32.png`, `img/apple-touch-icon-180.png`, `img/mark-512.png` | PNG’s | theme-assets, social |
-| `svg/vlaggenlijn.svg`, `svg/vlaggenlijn-inkt.svg` | vlaggenlijn voor licht (Klaproos) en voor Inkt (Klaproos, Zon, Zand) | sectiescheiding |
-| `img/*.webp` | productrenders en opstellingen | brand sheet, catalogus, feed |
+| `img/favicon-16.png`, `img/favicon-cart-16.png`, `img/favicon-cart-32.png`, `img/apple-touch-icon-180.png`, `img/mark-512.png`, `img/logo-email-320.png`, `img/logo-1200.png` | PNG’s | theme-assets, e-mail, social |
+| `svg/vlaggenlijn.svg`, `svg/vlaggenlijn-inkt.svg` | vlaggenlijn voor licht en voor Inkt | sectiescheiding |
+| `img/*.webp` | productrenders, opstellingen en toepassingen (bus, doos) op Linnen | brand sheet, campagnes, voorbeeld voor de catalogus |
 | `handoff/logo.liquid`, `handoff/favicon-head.liquid`, `handoff/favicon-cart.js` | kant-en-klaar voor de theme (§6) | |
-| `fonts/Figtree-VF.ttf`, `fonts/OFL-Figtree.txt` | Figtree (SIL OFL 1.1) | alleen als de Shopify-handle ontbreekt |
+| `fonts/Figtree-VF.ttf` | Figtree (SIL OFL 1.1) | alleen als de Shopify-handle ontbreekt |
 
 Alle SVG’s hebben een `viewBox` en een `<title>`, en geen `<text>`, `<image>`, `<use>`, `<style>` of externe verwijzingen
-(gecontroleerd met lxml: `tools/check_svg.py`, uitvoer `tools/_svg_check.json`). De paden zijn per constructie niet-overlappende
-contouren (buitenkant met de klok mee, binnenvormen ertegenin), dus geschikt voor plotter en snijfolie.
+(gecontroleerd met lxml: `tools/check_svg.py`, uitvoer `tools/_svg_check.json`). Contouren overlappen niet (buitenkant met de klok
+mee, binnenvormen ertegenin); alleen de tekst in de lock-ups is uitgespaard met `fill-rule="evenodd"`.
 
 ## 3. Minimummaten per methode
 
-Breedte van het hele logo of symbool. Minimale breedte = de vereiste lijn (of opening) gedeeld door het aandeel van de kleinste
-lijn (of opening) in de breedte; de grootste van de twee telt. {{FEATURES}}
+Breedte van het hele logo of symbool (het beeldmerk: de tent zonder vlak). Minimale breedte = vereiste lijn (of opening) gedeeld
+door het aandeel van de dunste vorm (of kleinste opening) in de breedte; de grootste van de twee telt. Op scherm geldt bovendien de
+visuele grens van brand.md §3.4 (logo.svg vanaf 160 px, logo-klein vanaf 96 px), die strenger is dan het technische minimum hieronder.
 
-| Methode | Kleinste lijn / opening (aanname) | logo.svg | logo-klein | mark | mark-klein |
-|---|---|---:|---:|---:|---:|
-{{MINSIZES}}
+{{T_MINSIZE}}
 
-**De mm-waarden per methode zijn werkaannames** (gangbare vuistregels voor satijnsteek, flock, flex, snijfolie, zeefdruk, DTF,
-sublimatie en offset), niet gecontroleerd met een leverancier. Leg deze tabel voor aan je borduurder, drukker en belettering, zet
-hun echte minimum in `tools/build.py` → `METHODS` en bouw opnieuw. De luifel-lock-up pas vanaf 160 mm breed.
+De mm-waarden per methode zijn werkaannames (gangbare vuistregels), niet gecontroleerd met een leverancier. Leg de tabel voor aan je
+borduurder, drukker en belettering, zet hun echte minimum in `tools/logo.py` → `METHODS` en bouw opnieuw.
 
 ## 4. Kleurreproductie
 
-Per kleur de dichtstbijzijnde stockkleur in elk systeem, met CIEDE2000 tegen de merkkleur. **Dit zijn digitale benaderingen uit open
-datasets, niet fysiek afgetekend.**
+Per kleur de dichtstbijzijnde stockkleur, met CIEDE2000 tegen de merkkleur. **Digitale benaderingen uit open datasets, niet fysiek
+afgetekend.** Linnen, Wit, Lijn, Kiezel, Oker en Bordeaux zijn schermkleuren en worden niet gedrukt.
 
-| Kleur | sRGB | CIELAB D50 | CMYK gestreken (FOGRA39) | CMYK ongestreken (FOGRA29) | Pantone C | Pantone TCX (textiel) | RAL Classic (bron B / bron A) | Oracal 651 |
-|---|---|---|---|---|---|---|---|---|
-{{REPRO}}
+{{T_REPRO}}
 
-- **Pantone U** (ongestreken papier): hetzelfde nummer met U, maar de U-staal oogt doffer en lichter. Kies op de Formula Guide
-  Uncoated naast de afgetekende C-staal.
-- **Ongestreken papier:** Klaproos verschuift in proces-CMYK zichtbaar (proef-ΔE<sub>00</sub> {{UNC_DE}} tegen het scherm). Druk
-  visitekaartjes en briefpapier op ongestreken papier als Pantone-steunkleur, of teken een drukproef af.
-- **RAL:** de twee bronnen verschillen per kleur. Vergelijk fysiek op de RAL K7-waaier voordat je frames, borden of een bus laat
-  lakken.
-- **Inkt in folie:** de dichtstbijzijnde Oracal-kleur is gewoon zwart, en voor belettering is dat de bedoeling (Oracal 070).
-- **Zand als drukkleur:** op doek als steunkleur (TCX-referentie). Op papier niet bedrukken, maar crème of naturel papier kiezen.
-- **Polder donker** (#0E3A2D) en **Klaproos donker** (#982A0E) zijn alleen knopstanden op schermen en worden nooit gedrukt.
+**Garen** (borduren; Ink/Stitch-paletten, sRGB-benadering per garennummer)
 
-**Toleranties (voorstel):** drukwerk op gestreken papier ΔE<sub>00</sub> ≤ 2 tegen de afgetekende Pantone C; textiel en folie
-ΔE<sub>00</sub> ≤ 3 tegen de afgetekende TCX-staal of folie.
+{{T_THREADS}}
+
+- **Lampion op papier:** 4010 C is de dichtste (ΔE 2,1); de klassieke **1595 C** ligt op ΔE 2,9 en is bij elke drukker voorradig.
+  Ongestreken haalt geen Pantone U-kleur Lampion binnen ΔE 5: druk briefpapier op gestreken papier of teken de U-drukproef af.
+- **Inkt ongestreken:** zo diep als Inkt komt geen U-kleur (beste ΔE ±16). Op ongestreken papier wordt Inkt Black 6 U of 100 K; dat is
+  bewust en mag.
+- **Polder en Zon op textiel:** geprint (sublimatie, DTF) via de TCX-referentie in de tabel; geborduurd met het garen uit de
+  garentabel (Polder: Madeira 1704 Evergreen of Isacord 5335; Zon: Isacord 1120 of Madeira 1980). Op doek nooit als vlak, alleen als
+  accent in een print die al meerkleurig is.
+- **Lampion op textiel:** geprint via 17-1349 TCX Exuberance; geborduurd Isacord 1310 of Madeira 1765. Op rood doek nooit Lampion
+  (twee warme tinten naast elkaar): daar is het logo één kleur Zand.
+- **Flex en flock** (Siser EasyWeed, Poli-Flex, Siser StripFlock en vergelijkbaar): in deze bouwomgeving is geen open kleurdata van
+  die series gevonden (GitHub-zoekopdrachten zonder resultaat, webzoeken niet beschikbaar). Kies daarom op de fysieke kleurkaart van
+  de leverancier: leg de afgetekende Pantone C ernaast in D50-licht en daglicht, kies de dichtste, en noteer serie en nummer in de
+  tabel hieronder. Voor één kleur Zand op donker doek is een gebroken wit gebruikelijk; voor Inkt een zwart.
+- **Doek is geen merkkleur.** Tenten, zijwanden en rokken komen in de stockkleuren van de leverancier.
+- **Folie:** geplot Lampion 651-036, Inkt 651-070, Zand 651-010; merkkleuren op de bus in geprinte wrap-folie.
+- **Karton:** één kleur Inkt (flexo) op bruin; Pantone Black 3 C als referentie.
+
+**Toleranties (voorstel):** drukwerk op gestreken papier ΔE<sub>00</sub> ≤ 2 tegen de afgetekende Pantone C; textiel, folie en garen
+ΔE<sub>00</sub> ≤ 3 tegen de afgetekende staal.
 
 **Aftekenen vóór de eerste productie**
 
-1. Bestel de waaiers: Pantone Formula Guide C + U, Pantone FHI Cotton TCX (of het staalboek van de doekleverancier), RAL K7 en de
-   Oracal 651/751-kleurkaart.
-2. Gebruik geen scherm en geen afdruk van dit document of van de brand sheet als kleurreferentie.
-3. Leg per kleur de drie dichtstbijzijnde stalen uit de tabel naast elkaar, in D50-licht (lichtbak) en in daglicht. Kies er één op
-   het oog, zonder scherm erbij.
-4. Vraag de doekleverancier om een lab-dip of stofstaal van Klaproos (doel: de gekozen TCX, ΔE<sub>00</sub> ≤ 3) en van de
-   opdrukkleur Zand op Klaproos en op Inkt.
-5. Noteer per kleur in de tabel hieronder en in `tokens.json` → `print.colors` wat gekozen is, door wie en wanneer. Bestel pas
-   daarna stockkleuren, doek en busbelettering.
+1. Bestel de waaiers: Pantone Formula Guide C + U, Pantone FHI (TCX), het staalboek van de doekleverancier, RAL K7, de Oracal
+   651-kleurkaart, de garenkaart van je borduurder en de flex/flock-kaart van je textieldrukker.
+2. Gebruik geen scherm en geen afdruk van dit document als kleurreferentie.
+3. Leg per kleur de dichtstbijzijnde stalen naast elkaar, in D50-licht en in daglicht, en kies op het oog.
+4. Noteer per kleur hieronder en in `tokens.json` → `print.colors` wat gekozen is, door wie en wanneer.
 
-| Kleur | Papier (Pantone C) | Textiel (TCX / lab-dip) | Lak (RAL) | Folie (Oracal) | Afgetekend door | Datum |
-|---|---|---|---|---|---|---|
-| Klaproos | | | | | | |
-| Zon | | | | | | |
-| Polder | | | | | | |
-| Inkt | | | | | | |
-| Zand | | | | | | |
+| Kleur | Papier (Pantone C/U) | Geprint textiel (TCX) | Garen | Flex/flock | Lak (RAL) | Folie | Afgetekend door | Datum |
+|---|---|---|---|---|---|---|---|---|
+| Lampion | | | | | | | | |
+| Inkt | | | | | | | | |
+| Zand | | | | | | | | |
+| Polder | | | | | | | | |
+| Zon | | | | | | | | |
 
-**Methode.** sRGB → CIELAB met de standaardformules (D65, Bradford naar D50); ΔE = CIEDE2000; code in `tools/color3.py`, uitvoer
-in `tools/_repro.json`. CMYK met Pillow/LittleCMS, relatief colorimetrisch met zwartpuntcompensatie, profielen Adobe ‘Coated
-FOGRA39 (ISO 12647-2:2004)’ en ‘Uncoated FOGRA29 (ISO 12647-2:2004)’. {{SOURCES}}
+**Methode.** sRGB → CIELAB (D65, Bradford naar D50), ΔE = CIEDE2000 (`tools/color3.py`, `tools/repro.py`, uitvoer
+`tools/_repro.json`). CMYK met Pillow/LittleCMS, relatief colorimetrisch met zwartpuntcompensatie (Adobe Coated FOGRA39 / Uncoated
+FOGRA29). Datasets (onofficieel):
 
-## 5. Productrenders
+{{L_REPRO_SOURCES}}
 
-- **Renderer:** `renders/` (three.js, headless Chromium). Opdruk vanaf een SVG-pad en de doekafwerking `mat` zitten in de patch
-  `tools/renders-svgprint.patch`, gemaakt tegen de werkkopie van `renders/` van 17-10-2026.
-- **Opdrachten:** `tools/make_jobs.py` schrijft `tools/render-jobs.jsonl` met de printpaden uit `tools/print-*.json` (gemaakt door
-  build.py). De v5-renders gebruiken het nieuwe woordmerk op de luifel en het nieuwe beeldmerk op de rok.
-- **Klaproos in de render:** ingangskleur {{K_ALBEDO}}, afwerking `mat`. Gemeten met `tools/measure_render.py`: de verzadigde
-  dakpixels, verdeeld in lichtheidsbanden en gemiddeld in lineair licht. Eis: het belichte vlak ligt binnen ΔE<sub>00</sub> 3 van de
-  staal.
+## 5. Renders
 
-| Beeld | Belicht vlak | Middentoon | Schaduwvlak | Staal |
-|---|---|---|---|---|
-{{RENDERCHECK}}
-
-De schaduwzijde is bewust donkerder: dat komt door het licht en is geen kleurfout.
+- **Renderer:** `renders/` (three.js in headless Chromium). Opdruk vanaf een SVG-pad zit in de patch `tools/renders-svgprint.patch`;
+  de modellen voor bus, doos en draagtas staan in `tools/brandApps.js`. Op een kopie van `renders/`:
+  `git apply --exclude='renders/js/materials.js' brand/tools/renders-svgprint.patch`, kopieer `brandApps.js` naar `models/` en
+  registreer `bestelbus` en `verpakking` in `models/index.js`.
+- **Opdrachten:** `tools/make_jobs.py` schrijft `tools/render-jobs.jsonl`: de opdruk uit `svg/print-wordmark.svg` en
+  `svg/print-mark.svg` (Zand op rood en zwart, Inkt op wit), de wrap uit `svg/logo-luifel.svg` (volle kleur), de doos uit
+  `svg/print-luifel.svg` en `svg/print-mark.svg` (Inkt), achtergrond Linnen `#ECE4D6`, tenten in stockkleuren.
+- **De standaardachtergrond in `renders/` is nog Steen `#EFEDE8` (v5).** Zet `--bg '#ECE4D6'` bij elke catalogusrender, of wijzig de
+  standaard in `renders/js/main.js` en `renders/js/engine.js`.
+- **Nieuw in v7:** de hero is een witte tent met het logo in Inkt (geen rode tent naast de oranje luifelbalk); bus, doos en draagtas
+  zijn 3D-renders in plaats van schema’s.
 
 ## 6. Overdracht aan de theme
 
-De theme (`theme/`) gebruikt nog brand v3 en v4. Dit verandert er; de bestanden in `handoff/` zijn klaar om over te nemen.
+De theme (`theme/`) gebruikt nog brand v5/v6. Dit verandert er; de bestanden in `handoff/` zijn klaar om over te nemen.
 
 ### 6.1 Assets kopiëren (bron → `theme/assets/`)
 
@@ -172,130 +167,152 @@ De theme (`theme/`) gebruikt nog brand v3 en v4. Dit verandert er; de bestanden 
 | `img/apple-touch-icon-180.png` | `apple-touch-icon-180.png` |
 | `img/favicon-cart-16.png` | `favicon-cart-16.png` |
 | `img/favicon-cart-32.png` | `favicon-cart-32.png` |
-| `svg/logo-zakelijk.svg` | `logo-zakelijk.svg` (nieuwe viewBox: {{ZAK_VB}}) |
-| `svg/vlaggenlijn.svg` | `vlaggenlijn.svg` (nieuwe viewBox: 0 0 240 44) |
-| `svg/vlaggenlijn-inkt.svg` | `vlaggenlijn-inkt.svg` |
+| `svg/logo-zakelijk.svg` | `logo-zakelijk.svg` |
+| `svg/vlaggenlijn.svg`, `svg/vlaggenlijn-inkt.svg` | `vlaggenlijn.svg`, `vlaggenlijn-inkt.svg` |
 
-**Verwijderen** uit `theme/assets/`: `favicon.svg`, `favicon-cart.svg` en `apple-touch-icon.png` (vervangen door
-`apple-touch-icon-180.png`).
+### 6.2 Instellingen en kleurschema’s
 
-### 6.2 Wat er in de theme moet veranderen
-
-| Bestand in `theme/` | Nu | Wordt |
-|---|---|---|
-| `layout/theme.liquid` r. 25–27 (de `else`-tak) | `favicon-32.png` + `<link type="image/svg+xml" href="favicon.svg" data-favicon>` + `apple-touch-icon.png` | inhoud van `handoff/favicon-head.liquid` |
-| `layout/theme.liquid` r. 72 | `faviconCart: {{ 'favicon-cart.svg' \| asset_url \| json }}` | weg; de favicons staan in `KK.favicons` (zie `handoff/favicon-head.liquid`) |
-| `layout/password.liquid` r. 8 | SVG-favicon | dezelfde vier `<link>`-regels als in theme.liquid |
-| `assets/global.js` r. 86–90 | wisselt één SVG-link | het blok uit `handoff/favicon-cart.js` |
-| `snippets/logo.liquid` | v3-paden (met vlag) | `handoff/logo.liquid` (zelfde parameters en klassen, v5-paden) |
-| `sections/page-zakelijk.liquid` r. 13 | `width="584" height="129"` | {{ZAK_WH}} |
-| `assets/base.css` r. 92 | `background:url("vlaggenlijn.svg") repeat-x center/160px 44px` | `…/240px 44px`; op Inkt `vlaggenlijn-inkt.svg`; nooit op Polder |
-| knopstijlen (`assets/base.css`) | hover per schema | `color_schemes` in `tokens.json`: primaire hover = Klaproos donker (Polder donker op Zakelijk), omlijnde hover = tint, ingedrukt = inzet-schaduw (§6.4) |
-| productkaart | — | `border.card` (1 px Lijn) om de kaart; het Steen-beeldvlak staat erin |
+- **Kleuren** (`config/settings_data.json` → `current`): de waarden in `tokens.json` → `shopify_color_settings`. Nieuw:
+  `color_lampion` `#E66414`; vervallen: `color_klaproos` (zet het tijdelijk op Lampion tot de CSS het niet meer gebruikt).
+- **Kleurschema’s:** de zes schema’s in `tokens.json` → `shopify_color_schemes`. Nieuw per schema: `buy_button` (Lampion),
+  `buy_button_label` (Inkt) en `buy_button_hover_border` (Inkt); op schema 3–6 is er geen koopknop (`null`). De primaire knop
+  (`primary_button`) is Inkt (op Inkt: Zand).
+- **Waar welk schema** (`tokens.json` → `shopify_scheme_use`): luifelbalk scheme-5 (Lampion, Inkt-tekst), header scheme-1, footer
+  scheme-6 (Inkt), Zakelijk scheme-4 (geen Lampion), heroband scheme-3, kaarten en productinfo scheme-2.
+- **Badges en statussen** (CSS): Nieuw = Wit met 1,5 px Inkt-rand; Met jouw logo = Linnen met Inkt en upload-icoon; Staffelprijs = Wit
+  met Kiezel-rand; Actie = Zon met Inkt; de winkelwagenteller Lampion met Inkt-cijfer. Polder alleen voor Op voorraad, Toegevoegd en
+  succes.
+- **Optiechips:** gekozen = Linnen vlak, 2 px Inkt-rand, vet label en vinkje; niet leverbaar = Lijn-rand en doorgestreept label
+  (tokens → `components.option-chip`). **Geen stippelrand** behalve de uploadzone.
 
 ### 6.3 Header-logo
 
-Neem `handoff/logo.liquid` over als `snippets/logo.liquid`. De letters zijn `fill="currentColor"` en de tent heeft
-`class="logo-svg__roof"` met `fill: var(--logo-roof, var(--c-klaproos))`, zoals nu. Zet `--logo-roof` op `var(--c-polder)` voor
-Zakelijk-pagina’s en op `var(--c-zon)` in schema 5 en 6 (de footer doet dat al). Breedte: desktop {{HEADER_DESK}}, mobiel
-{{HEADER_MOB}} (`settings.logo_width` en `logo_width_mobile`).
+Neem `handoff/logo.liquid` over als `snippets/logo.liquid` (zelfde parameters). De letters zijn `fill="currentColor"`, de tent heeft
+`class="logo-svg__roof"` met `fill: var(--logo-roof, var(--c-lampion))`; zet `--logo-roof` per schema op `logo_tent`. Breedte: desktop
+200 px, mobiel 132 px (`settings.logo_width` 200, `logo_width_mobile` 132). Onder 160 px breed toont de snippet logo-klein.
 
-### 6.4 Knoppen per kleurschema (CSS)
-
-Shopify-kleurschema’s hebben geen velden voor hover. Leg de waarden uit `tokens.json` → `shopify_color_schemes` vast als CSS-variabelen
-per schema:
+### 6.4 Knoppen (CSS)
 
 ```css
-.color-scheme-1, .color-scheme-2, .color-scheme-3 { --btn-bg:#C83812; --btn-fg:#FFFFFF; --btn-bg-hover:#982A0E; --btn-border-hover:#982A0E; --btn-bg-active:#982A0E; --btn2-fg:#1D2420; }
-.color-scheme-1 { --btn2-bg-hover:{{TINT_ZAND}}; }  .color-scheme-2 { --btn2-bg-hover:{{TINT_WIT}}; }  .color-scheme-3 { --btn2-bg-hover:{{TINT_DUIN}}; }
-.color-scheme-4 { --btn-bg:#154F3E; --btn-fg:#FBF6EC; --btn-bg-hover:#0E3A2D; --btn-border-hover:#0E3A2D; --btn-bg-active:#0E3A2D; --btn2-fg:#1D2420; --btn2-bg-hover:{{TINT_STEEN}}; }
-.color-scheme-5 { --btn-bg:#FBF6EC; --btn-fg:#1D2420; --btn-bg-hover:#FFC23A; --btn-border-hover:#FFC23A; --btn-bg-active:#FFC23A; --btn2-fg:#FBF6EC; --btn2-bg-hover:{{TINTD_POLDER}}; }
-.color-scheme-6 { --btn-bg:#C83812; --btn-fg:#FFFFFF; --btn-bg-hover:#C83812; --btn-border-hover:#FBF6EC; --btn-bg-active:#982A0E; --btn2-fg:#FBF6EC; --btn2-bg-hover:{{TINTD_INKT}}; }
+.color-scheme-1, .color-scheme-2, .color-scheme-3, .color-scheme-4 { --btn-bg:#1D2420; --btn-fg:#FFFFFF; --btn-bg-hover:#414641; --btn-border-hover:#414641; --btn2-fg:#1D2420; }
+.color-scheme-1 { --btn2-bg-hover:#E9E5DC; } .color-scheme-2 { --btn2-bg-hover:#F1F2F2; } .color-scheme-3, .color-scheme-4 { --btn2-bg-hover:#DBD5C7; }
+.color-scheme-5 { --btn-bg:#1D2420; --btn-fg:#FFFFFF; --btn-bg-hover:#1D2420; --btn-border-hover:#FBF6EC; --btn2-fg:#1D2420; --btn2-bg-hover:#EA813F; }
+.color-scheme-6 { --btn-bg:#FBF6EC; --btn-fg:#1D2420; --btn-bg-hover:#E5E1D8; --btn-border-hover:#E5E1D8; --btn2-fg:#FBF6EC; --btn2-bg-hover:#383D38; }
 
-.button { background:var(--btn-bg); color:var(--btn-fg); border:2px solid var(--btn-bg);
-          transition:background-color .14s cubic-bezier(.2,0,0,1), border-color .14s cubic-bezier(.2,0,0,1); }
+.button { background:var(--btn-bg); color:var(--btn-fg); border:2px solid var(--btn-bg); transition:background-color .14s cubic-bezier(.2,0,0,1), border-color .14s cubic-bezier(.2,0,0,1); }
 .button:hover { background:var(--btn-bg-hover); border-color:var(--btn-border-hover); }
-.button:active { background:var(--btn-bg-active); border-color:var(--btn-border-hover); box-shadow:inset 0 2px 0 rgba(0,0,0,.28); transform:translateY(1px); }
-
-/* omlijnde knop: twee klassen, zodat de regels hierboven hem nooit rood of donker maken */
+.button:active { box-shadow:inset 0 2px 0 rgba(0,0,0,.28); transform:translateY(1px); }
 .button.button--secondary { background:transparent; color:var(--btn2-fg); border-color:var(--btn2-fg); }
-.button.button--secondary:hover { background:var(--btn2-bg-hover); border-color:var(--btn2-fg); }
-.button.button--secondary:active { background:var(--btn2-bg-hover); border-color:var(--btn2-fg); box-shadow:inset 0 2px 0 rgba(0,0,0,.14); }
-
+.button.button--secondary:hover { background:var(--btn2-bg-hover); }
+/* de koopknop: alleen op scheme-1 en scheme-2, één per scherm */
+.button.button--buy { background:#E66414; border-color:#E66414; color:#1D2420; min-height:52px; gap:8px; }
+.button.button--buy:hover { background:#E66414; border-color:#E66414; box-shadow:inset 0 0 0 2px #1D2420; }
+.button.button--buy:active { box-shadow:inset 0 0 0 2px #1D2420, inset 0 2px 0 rgba(0,0,0,.28); }
+.button.is-done { background:#154F3E; border-color:#154F3E; color:#FFFFFF; box-shadow:none; }      /* Toegevoegd, 1,5 s */
+.button[aria-disabled="true"] { background:#FFFFFF; border:1.5px solid #DDD2BF; color:#5D625C; box-shadow:none; }
 .button:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+.cart-count { background:#E66414; color:#1D2420; }
+.option-chip[aria-checked="true"] { background:#ECE4D6; border:2px solid #1D2420; font-weight:700; }
+.option-chip.is-unavailable { border-color:#DDD2BF; color:#5D625C; text-decoration:line-through 1.5px; }
+.dropzone { border:1.5px dashed #5D625C; }   /* de enige stippelrand */
 @media (prefers-reduced-motion: reduce) { .button { transition:none; } .button:active { transform:none; } }
 ```
 
 ### 6.5 Favicon
 
-`handoff/favicon-head.liquid` zet de beginstand met `cart.item_count` en geeft de vier PNG-paden aan `KK.favicons`.
-`handoff/favicon-cart.js` vervangt het favicon-blok in `KK.updateCartCount(count)`. Geen `type="image/svg+xml"`-link: met een
-SVG-favicon kiest de browser die ene tekening voor elke maat, en dan wordt de 16-px-tekening nooit gebruikt.
+`handoff/favicon-head.liquid` zet de beginstand met `cart.item_count` en geeft de PNG-paden aan `KK.favicons`;
+`handoff/favicon-cart.js` wisselt ze in `KK.updateCartCount(count)`. Geen `type="image/svg+xml"`-link: anders gebruikt de browser één
+tekening voor elke maat en verdwijnt de 16-px-tekening.
 
 ### 6.6 Fonts en tokens
 
-- `config/settings_schema.json`: `type_header_font` standaard `figtree_n8`, `type_body_font` `figtree_n4`; 700 en 600 via
-  `font_modify`.
-- `tokens.json` → CSS custom properties: kleuren, `border.card`, `border.media`, radii, spacing, schaduwen (ook `button-pressed`) en
-  motion.
-- Iconen: neem de `<symbol>`’s uit `brand-sheet.html` over als snippet `icon-sprite.liquid`.
-- Actieprijs: Zon-label met `clip-path: polygon(0 0,100% 0,calc(100% - 9px) 50%,100% 100%,0 100%)`, Inkt-tekst, tabelcijfers.
+- `config/settings_schema.json`: `type_header_font` `figtree_n8`, `type_body_font` `figtree_n4` (900, 700 en 600 via `font_modify`).
+  De `font_picker` `type_accent_font` (Barlow Condensed) vervalt.
+- Iconen: neem de `<symbol>`’s uit `brand-sheet.html` over als snippet `icon-sprite.liquid` (tent- en statafel-icoon zijn nieuw).
+- Productbeelden: renderachtergrond Linnen (§5); het beeldvlak in de kaart is ook Linnen, zodat de render er naadloos in valt.
 
-## 7. Wat er in v5 veranderd is
+## 7. Werklog: van v6 naar v7
 
-| Kritiek op v4 | Wat v5 doet |
-|---|---|
-| Hover van de koopknop werd Inkt met Wit, de omlijnde knop werd bij hover Inkt met Zand: twee gelijke zwarte knoppen | Primaire hover = Klaproos donker #982A0E (Wit 7,86:1), ingedrukt = inzet-schaduw. Omlijnde hover = lichte tint (8% Inkt). Zakelijk: Polder donker. Per schema zijn rust en hover van beide knoppen alle vier verschillend (gecontroleerd in tokens.py) |
-| De vlaggenlijn Klaproos-Zon-Polder-Zon leest als een Pan-Afrikaanse of Rasta-vlag | Polder is eruit. Op licht één kleur Klaproos in twee lengtes (de vorm varieert, niet de kleur), op Inkt Klaproos, Zon en Zand. Nooit op Polder |
-| In één kleur groepeerden de poten met de letters (‘klIaaIr’) | Poot–letter is nu minstens 1,15 × de recht–recht-letterafstand in elke versie (v4: 0,64 ×). Zie §1 |
-| De brand book las als een technisch logboek | Gesplitst: brand.md (regels, voor iedereen) en technisch.md (deze bijlage). Geen omgevingsmeldingen in brand.md |
-| ‘Klaar! Hij staat erin.’ en ‘Mail me als hij terug is’ kloppen niet bij het-woorden | Regel 7 in brand.md §7: geen ‘hij/het’ in sjablonen. Nieuwe teksten ‘Staat in je winkelwagen.’ en ‘Mail me als dit weer op voorraad is’ |
-| Dak met paal en vlag leek een circustent of kermiskraam; de stompe vlag leek een bijl | Paal en vlag zijn weg. Zonder vlag las het rechte dak als een garage, dus het dak is nu van doek: de hellingen hangen door (koorde 24°). De klein-versie houdt de opening tussen dak en band (dicht las als een schuur) |
-| Diagonaal silhouet (hoge tent rechtsboven, lange p met schuine snede linksonder) | De vlag is weg, de p is korter (−165) en plat. Verhouding van de bounding box {{ASPECT_V4}} → {{ASPECT_V5}} |
-| Figtree is een veelgebruikte letter | Als bewuste keuze vastgelegd in brand.md §5 |
-| Zand en Steen liggen te dicht bij elkaar (ΔE 3,0) | `border.card` en `border.media` zijn token-default: Steen staat altijd in een Wit kaart met 1 px Lijn-rand |
-| Bestandsnamen in de overdracht klopten niet; de theme liet nog een SVG-favicon zien | §6: exacte bron- en assetnamen, wat er per regel in de theme verandert, en kant-en-klare bestanden in `handoff/` |
-| Naam niet getoetst, niet naast Outmate en Statafelshop gelegd | Nog steeds niet mogelijk vanuit de bouwomgeving (§8). In brand.md §11 staan nu een checklist en een vergelijkingsblad met beslisregel. De status blijft ‘goedgekeurd onder voorbehoud’ |
+| Kritiek op v6 | Wat v7 doet | Meting |
+|---|---|---|
+| Tent-A = portiek (35°-fronton, balk 84, zuilen 122) en klein ‘KLAPKLAnR’ | Steil dak met punt, luifel met schulpen, palen 70 | dak {{PITCH}}°, palen {{POLE_RATIO}} × stok (v6 0,86), landmark-IoU 32 px {{REC_L32_6}} → {{REC_L32_7}} (§10) |
+| Luifel op 37–50 % van boven, dwarsbalk A op 64–81 % | Luifel en schulpen precies op de dwarsbalk | luifel 141,4–250 = dwarsbalk 141,4–250 |
+| Geen overshoot op de punt | Piek boven de kapitaalhoogte | +{{PEAK_OVER}} eenheden ({{PEAK_PCT}} %) |
+| P–K 99 eenheden, de rest 82–85: ‘KLAP KLAAR’ | Kerning per paar | zie §1, P–K kleiner dan K–LA |
+| Inverse tent 3,04:1 | Lampion | 4,68:1 op Inkt |
+| Klaproos en stockrood bijna gelijk (8° hue) | Oranje merkkleur | ΔE<sub>00</sub> {{DE_RENDER}} van het renderrood |
+| Inkt-overload op de productpagina | Lampion-koopknop; chips, schakelaar en badges licht | één gevuld Lampion-vlak per productpagina |
+| Barlow Condensed naast het logo | Getekende lock-up-letters, Barlow weg | 0 fonts in de lock-ups |
+| Sheet brak eigen regels | Geen merkkleur als tekst; label zwart; stippelrand alleen upload | |
+| Garen, flex/flock, Pantone U ontbraken | Pantone U + Madeira/Isacord/Gunold voor 5 kleuren; flex/flock-procedure | §4 |
+| Bus en doos als platte schema’s | 3D-renders | `img/app-bestelbus.webp`, `img/app-verpakking.webp` |
+| Iconen tent (portiek) en statafel (I-balk) | Nieuwe tekeningen | `tools/icons.svg` |
+| Vergelijking leeg | Ingevuld waar bronnen zijn; logo en kleur van de concurrenten open | brand.md §12.2 |
 
 ## 8. Bronnen en logboek
 
-**Fonthandles.** shopify.dev is vanuit de bouwomgeving geblokkeerd. Shopify maakt `/cdn/fonts/<familie>/<handle>`-paden alleen voor
-fonts uit zijn eigen bibliotheek. Gevonden in de uitvoer van echte winkels (betrouwbaarheid: waarschijnlijk):
+**Fonthandles.** shopify.dev is vanuit de bouwomgeving geblokkeerd. Bewijs (betrouwbaarheid: waarschijnlijk):
 
-- `figtree_n4` en `figtree_n7`: https://github.com/mrshahbazdev/shopify-section-factory-clone/blob/f2b6217daa4961e435b959c3d5ec3bc5935c4982/app/sections/featured-collection-9.liquid
-- `figtree_n5` en `figtree_n6` op fonts.shopifycdn.com: https://github.com/duckduckgo/tracker-radar/blob/197a396da8b8cdf2df1ded141cb58f2507e446d5/domains/US/shopifycdn.com.json
-- `figtree_n8`: https://github.com/LM-3434/aquacorail.ca/blob/a84889e15bf7c7c81207cca64c4d681e144bc95c/assets/screen-settings.css
+- Kopie van Shopify’s tabel ‘Available fonts’ (bron: shopify.dev/docs/storefronts/themes/architecture/settings/fonts#available-fonts,
+  opgehaald 2026-09-22) met `figtree_n3`–`n9`:
+  https://github.com/itsmylife44/shopify-theme-builder/blob/0d6d758a5a1ea120e6f1d8caf40c06a29fa48f0f/skills/shopify-theme-builder/studio/server/shopify-fonts.json
+- Figtree op Shopify’s font-CDN (fonts.shopifycdn.com/figtree/…):
+  https://github.com/duckduckgo/tracker-radar/blob/197a396da8b8cdf2df1ded141cb58f2507e446d5/domains/US/shopifycdn.com.json
 
-**OpenType.** `Figtree[wght].ttf` heeft `tnum`, `pnum`, `case` en `frac`. Of de woff2-bestanden van Shopify die features houden, is
-niet getest. Zet `font-variant-numeric: tabular-nums` en controleer een staffeltabel in de theme-preview.
+**Naamtoets en vergelijking: niet gedaan.** Ook in deze ronde (17-10-2026) weigerde de bouwomgeving elke webzoekopdracht (‘web search
+budget is used up’), en outmate.nl en statafelshop.nl zijn geblokkeerd. Er is dus geen bewijs dat ‘Klapklaar’ vrij of bezet is, en
+geen visuele vergelijking met het logo en de kleuren van Outmate en Statafelshop. Wat wel uit bronnen vaststaat (naam, productnamen,
+claims, toon, platform) staat in brand.md §12.2. GitHub-codezoekopdrachten naar Siser EasyWeed- en Poli-Flex-kleurdata gaven geen
+bruikbaar resultaat.
 
-**Naamtoets en vergelijking: wat geprobeerd is.** In v4 en opnieuw in v5 (17-10-2026) weigerde de bouwomgeving de zoekopdracht
-(het zoekbudget voor deze sessie was op), en de registers (rdap.sidn.nl, rdap.dns.be) en DNS waren niet bereikbaar. outmate.nl en
-statafelshop.nl zijn vanuit de omgeving geblokkeerd, en hun logo’s en huisstijlkleuren staan niet in `reference/dossier.md`. Er is dus
-geen bewijs dat ‘Klapklaar’ vrij of bezet is, en geen visuele vergelijking. Dat gebeurt in brand.md §11.
-
-**Ondernemingen.** Outmate.nl: Outmate B.V., Staphorst (https://www.outmate.nl/contact/). Statafelshop.nl noemt Deadan.com bv als
-bedrijf (https://statafelshop.nl/bedrijfsgegevens). Beide via `reference/dossier.md`.
+**Ondernemingen.** Outmate.nl: Outmate B.V., Staphorst; Statafelshop.nl noemt Deadan.com bv (bronnen in `reference/dossier.md`).
 
 ## 9. Herbouwen
 
 ```bash
 cd brand/tools
-export VENDOR=<map met gfonts/ofl/figtree/Figtree[wght].ttf>
-python3 build.py ..                 # logo-, merk- en favicon-SVG's, metingen (logo-meta.json), printpaden
-python3 -I color3.py <colorsrc> ../tools/_repro.json '{"klaproos":"#C83812","zon":"#FFC23A","polder":"#154F3E","inkt":"#1D2420","zand":"#FBF6EC"}'
+python3 logo.py ..                  # alle logo-, merk-, lock-up-, favicon- en drukbestanden + logo-meta.json
+python3 -I repro.py <colorsrc> _repro.json   # Pantone C/U/TCX, RAL, Oracal, garen (bronnen in §4)
 python3 tokens.py ..                # tokens.json + _contrast.json (paren, knopstanden)
-python3 make_jobs.py ..             # render-jobs.jsonl met de printpaden van build.py
-# productbeelden: kopie van renders/ + patch (cd <kopie> && patch -p1 < brand/tools/renders-svgprint.patch)
-node <kopie>/render.mjs --batch render-jobs.jsonl --samples 32
-python3 finish_imgs.py ../img ..    # uitsnede + kleurmeting (_render_check.json)
-node rasterize.mjs ..               # favicon- en icoon-PNG's (Playwright)
+python3 recognition.py              # silhouettoets (_recognition_proxy.json)
+python3 make_jobs.py ..             # render-jobs.jsonl (Linnen, stockkleuren, printpaden, bus en doos)
+node <kopie van renders/ met de patch en brandApps.js>/render.mjs --batch render-jobs.jsonl --samples 32
+node rasterize.mjs ..               # PNG's (Playwright)
 python3 handoff.py ..               # handoff/logo.liquid, favicon-head.liquid, favicon-cart.js
 python3 build_md.py ..              # brand.md en technisch.md (tabellen uit tokens en metingen)
 python3 build_sheet.py .. && node shot.mjs file://$PWD/../brand-sheet.html ../brand-sheet.png 1440 900 1
-python3 check_svg.py ..             # viewBox, geen <text>, geen externe verwijzingen
+python3 check_svg.py ..             # viewBox, title, geen <text>, geen externe verwijzingen
+python3 compare.py '#hex'           # concurrentkleur tegen het palet (brand.md §12.2)
 ```
 
-`<colorsrc>` bevat de klonen van de bronnen in §4 (commits vermeld) en de twee ICC-profielen. Het font in `fonts/` (Figtree) valt
-onder de SIL Open Font License 1.1 (`fonts/OFL-Figtree.txt`). `tools/kk_v4.py` is alleen het archief van de v4-geometrie voor de
-vergelijking in §1.
+`<colorsrc>` bevat de klonen uit §4 (aj90909/unofficial-pantone-solid-coated-2024-v5, jacobbubu/color-books, pedroduke/pantone-tcx,
+ieskudero/ral-colors, office952/workos-vscode, inkstitch/inkstitch `palettes/`, ConRes/conres.io ICC-profielen). De fonts in `fonts/`
+vallen onder de SIL Open Font License 1.1.
+
+## 10. Logotest: leest de tent-A als partytent?
+
+**Silhouettoets (gedaan, grof).** `tools/recognition.py` legt het silhouet over een generiek landmark-pictogram (fronton, balk, vier
+zuilen, voet) en een generiek huis (dak, muren, deur), beide zelf getekend naar de gangbare vorm, op 16, 32 en 64 px. Score = IoU van
+de vlakken.
+
+{{T_RECOG}}
+
+**Mensentest (nog te doen).**
+
+1. **Deelnemers:** 20 mensen die het merk niet kennen, 18–70 jaar, half particulier en half zakelijk (bijvoorbeeld klanten en
+   collega’s van PartyHuren). Niemand die aan het merk werkte.
+2. **Beelden:** het beeldmerk op 16, 32 en 132 px (de laatste als het woordmerk-klein in een nagebootste mobiele header), plus twee
+   afleiders op dezelfde maten: het landmark- en het huisicoon uit de silhouettoets. Volgorde per persoon willekeurig.
+3. **Afname:** 5 seconden per beeld op een telefoon met normale helderheid, daarna het scherm uit. Vraag: ‘Wat zag je?’ (open vraag,
+   niet sturen). Bij het woordmerk ook: ‘Welk woord stond er?’.
+4. **Noteren:** letterlijk antwoord; codeer als tent/partytent/kraam, gebouw/bank/museum/tempel, huis/schuur, iets anders, weet niet.
+5. **Beslisregel:** het logo gaat op doek en bus als op 32 px ten minste 14 van de 20 mensen ‘tent’ (of partytent, kraam, circustent)
+   zeggen, hooguit 3 ‘gebouw/bank/museum/tempel’, en op 132 px ten minste 16 van de 20 ‘KLAPKLAAR’ lezen. Haalt 16 px het niet, dan
+   alleen het favicon aanpassen (zwaarder dak, één schulp).
+6. **Formulier:**
+
+| Nr. | 16 px | 32 px | 132 px: wat zag je | 132 px: welk woord | Landmark-icoon | Huis-icoon |
+|---|---|---|---|---|---|---|
+| 1 | | | | | | |
+| … | | | | | | |
+| 20 | | | | | | |

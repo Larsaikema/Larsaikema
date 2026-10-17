@@ -37,10 +37,12 @@
     "rotator_pause": "Pause rotating messages",
     "rotator_play": "Resume rotating messages",
     "rotator_next": "Next message",
-    "placeholder_product": "Product"
+    "placeholder_product": "Product",
+    "zakelijk": "Business"
   },
   "header": {
     "search_placeholder": "Search by product, size or item number",
+    "search_placeholder_short": "Search product or size",
     "search_label": "Search",
     "search_open": "Open search",
     "search_submit": "Search",
@@ -114,9 +116,9 @@
     "addons_help": "Tick it and it comes along in one go.",
     "print_title": "With your logo",
     "print_intro": "Upload your logo, you'll get a print proof to approve first.",
-    "print_upload": "Upload logo (PDF, AI, EPS, SVG or PNG)",
+    "print_upload": "Upload logo",
     "print_upload_help": "No vector file? Send a PNG at least 2000 px wide and we'll make it print-ready.",
-    "print_file_too_big": "This file is larger than 20 MB. Send a smaller version or email it to us.",
+    "print_file_too_big": "{{ name }} is larger than {{ size }} MB. Send a smaller version, or choose ‘I will send my logo later’ and email your file after ordering.",
     "print_later": "I'll send my logo later",
     "print_position": "Print position",
     "print_remark": "Note about the print",
@@ -137,7 +139,7 @@
     "gallery_thumb": "Show image {{ index }}",
     "gallery_close": "Close zoom",
     "gallery_label": "Product images",
-    "sticky_buy": "Order",
+    "sticky_buy": "Add to cart",
     "error_add": "Oops, something went wrong. We couldn't add the product. Please try again.",
     "breadcrumb_all": "All products",
     "vendor": "Brand",
@@ -152,7 +154,12 @@
     "notify_title": "Email me when it's back",
     "notify_button": "Email me",
     "notify_success": "Great, we'll email you as soon as it's back.",
-    "print_choose": "Choose a file (max. 20 MB)",
+    "print_choose": "Choose your files or drop them here",
+    "print_limits": "PDF, AI, EPS, SVG, PNG or JPG · up to {{ files }} files of max. {{ size }} MB",
+    "print_files_label": "Chosen files",
+    "print_file_type": "We cannot use {{ name }}. Choose a PDF, AI, EPS, SVG, PNG or JPG.",
+    "print_too_many": "You can add up to {{ max }} files.",
+    "print_file_remove": "Remove {{ name }}",
     "status_discontinued": "Discontinued",
     "status_discontinued_text": "We no longer sell this product. The page stays online so you can easily find a replacement.",
     "status_alternatives": "Choose a replacement",
@@ -185,7 +192,8 @@
     "download_type": "{{ type }} file",
     "variant_select": "Choose your option",
     "weight": "Weight",
-    "packed": "Packed size"
+    "packed": "Packed size",
+    "size_label": "Size"
   },
   "delivery": {
     "label": "Delivery",
@@ -222,7 +230,9 @@
     "badge_discontinued": "Discontinued",
     "badge_coming": "Coming soon",
     "badge_custom": "Made to measure",
-    "configure": "Choose your size"
+    "configure": "Choose your size",
+    "sizes_html": "{{ count }} sizes: {{ sizes }}",
+    "choose_size": "Choose your size"
   },
   "collection": {
     "products_count": {
@@ -286,6 +296,7 @@
     "view_cart": "View cart",
     "remove": "Remove",
     "remove_label": "Remove {{ title }}",
+    "quantity_label": "Quantity: {{ title }}",
     "note_label": "Note with your order (e.g. delivery date or location)",
     "free_shipping_remaining_html": "<strong>{{ amount }}</strong> to go for free shipping",
     "free_shipping_reached": "Your shipping is free",
@@ -329,7 +340,8 @@
     "suggestions": "Search suggestions",
     "view_all_html": "All results for ‘{{ terms }}’",
     "popular": "Popular",
-    "other_results": "Pages and advice"
+    "other_results": "Pages and advice",
+    "suggestions_for": "Suggestions for ‘{{ terms }}’"
   },
   "forms": {
     "name": "Name",
@@ -379,7 +391,10 @@
     "success": "Done! We've received your quote request. We'll send you a quote within one working day.",
     "company_title": "Your details",
     "prefilled_cart": "We've filled in your cart for you.",
-    "prefilled_product": "We've filled in the product for you."
+    "prefilled_product": "We've filled in the product for you.",
+    "line_details": "Details (size, print, files)",
+    "subject_product": "Quote request: {{ title }}",
+    "notes_placeholder": "For example: with our logo, delivery on site, also in another size"
   },
   "newsletter": {
     "label": "Your email address",

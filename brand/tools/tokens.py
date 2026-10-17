@@ -1,6 +1,15 @@
-"""Write brand/tokens.json (v5) and the WCAG tables (brand/tools/_contrast.json).
+"""Write brand/tokens.json (v7) and the WCAG tables (brand/tools/_contrast.json).
 
-    python3 tokens.py <brand-dir>      (needs <brand-dir>/tools/_repro.json and tools/logo-meta.json)
+    python3 tokens.py <brand-dir>      (needs tools/_repro.json and tools/logo-meta.json)
+
+v7 palette: eleven colours, one meaning each.
+  * Lampion (orange) is the brand and the purchase: the tent in the logo, the luifelbalk and campaign bands, and in
+    the shop only the koopknop (In mijn winkelwagen, Afrekenen) and the cart counter. Never text, never a state.
+    It replaces Klaproos: an orange is clearly apart from the red stock tents (CIEDE2000 > 20, hue 53 vs 35 deg)
+    and has >= 3:1 against both Zand and Inkt, so the logo tent no longer fades on the dark footer.
+  * Inkt is text, the hoofdknop for everything that is not buying (and the Zakelijk primary), links, focus and the
+    footer surface. Chips, toggles and badges are no longer solid Inkt.
+  * Polder = klaar, Zon = voordeel, Oker = wachten, Bordeaux = fout. Zand page, Wit what you touch, Linnen image plane.
 """
 import json, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -11,323 +20,329 @@ OUT = sys.argv[1]
 REPRO = json.load(open(os.path.join(OUT, 'tools', '_repro.json')))
 META = json.load(open(os.path.join(OUT, 'tools', 'logo-meta.json')))
 
-# name: (hex, role family, role) -- every colour has ONE role family. v5: 14 colours (v4 + Polder donker).
 COL = {
-  'klaproos':        ('#C83812', 'merk & kopen', 'Het merkrood, alleen als vlak: de tent in het logo, het Klaproos-dakdoek en de primaire knop (In mijn winkelwagen, Afrekenen). Eén gevulde Klaproos-knop per kolom; nooit op productkaarten in een raster (daar is de Klaproos-tent zelf het rood). Als tekst alleen koppen ≥ 24 px op Zand of Wit.'),
-  'klaproos-donker': ('#982A0E', 'merk & kopen', 'Hover van de primaire knop (de knop blijft rood als je erop wijst) en, met een inzet-schaduw, de ingedrukte stand.'),
-  'zon':             ('#FFC23A', 'voordeel & accent', 'Actie-badge en actieprijs-label (altijd met Inkt-tekst), de tent van het logo op Polder en Inkt, de vlaggenlijn op Inkt. Nooit tekst op licht, nooit een melding of stip.'),
-  'polder':          ('#154F3E', 'vertrouwen & klaar', 'Donkere vlakken (utility-balk, footer), de Zakelijk-knop, en alles wat ‘klaar’ betekent: Op voorraad (stip), Toegevoegd (knop), succesmelding, de winkelwagen-stip in het favicon.'),
-  'polder-donker':   ('#0E3A2D', 'vertrouwen & klaar', 'Alleen hover en ingedrukt van de Polder-knop (Klapklaar Zakelijk).'),
-  'inkt':            ('#1D2420', 'tekst', 'Tekst, koppen, links (onderstreept), omlijnde knop, focusring op licht, badge Met jouw logo.'),
-  'kiezel':          ('#5D625C', 'tekst', 'Secundaire tekst (specs, btw-regel, doorgestreepte van-prijs), randen van invoervelden, uitgeschakelde knop (stippelrand + label).'),
-  'zand':            ('#FBF6EC', 'vlak', 'Paginaachtergrond; tekst, knop en focusring op Polder en Inkt.'),
-  'duin':            ('#F2E8D5', 'vlak', 'Warm vlak: heroband, chips, geneste kaarten.'),
-  'steen':           ('#EFEDE8', 'vlak', 'Koel, rustig vlak: achtergrond van elke productrender en van Klapklaar Zakelijk, staffel- en specificatietabellen. Staat altijd in een Wit kaart of heeft een 1 px Lijn-rand (ligt te dicht bij Zand om los te staan).'),
-  'wit':             ('#FFFFFF', 'vlak', 'Productkaarten, invoervelden, drawers en meldingen; label op Klaproos- en Polder-knoppen.'),
-  'lijn':            ('#E4D6BE', 'vlak', 'Scheidingslijnen, de 1 px rand om kaarten, beeldvlakken en meldingen (draagt geen informatie).'),
-  'bordeaux':        ('#8A1538', 'fout', 'Fouten: kop, icoon en 4 px linkerrand van een foutmelding, tekst en rand van een veld met fout. Nooit een gevuld vlak, nooit een knop.'),
-  'oker':            ('#865800', 'wachten', 'Levertijd en let-op: ‘Leverbaar over 2–3 weken’ (tekst + halve stip), kop, icoon en linkerrand van een let-op-melding.'),
+  # merk
+  'lampion':  ('#E66414', 'merk en kopen', 'Het merk en de aankoop. Merk: de tent in het logo, de luifelbalk bovenaan elke pagina, campagnebanden (altijd met Inkt-tekst), de vlaggenlijn en de luifelstreep onder een kopwoord. Winkel: alleen de koopknop (‘In mijn winkelwagen’, ‘Afrekenen’) en de teller op de winkelwagen. Nooit tekst, nooit een status, nooit een badge, nooit een vlak op Linnen.'),
+  'inkt':     ('#1D2420', 'merk', 'Tekst en koppen; de hoofdknop voor alles wat geen kopen is (‘Bekijk partytenten’, ‘Offerte aanvragen’); omlijnde knoppen; links; focusring op licht; de footer en donkere banden.'),
+  'zand':     ('#FBF6EC', 'merk', 'Paginaachtergrond. Tekst, knoplabel en focusring op Inkt.'),
+  # neutraal
+  'wit':      ('#FFFFFF', 'neutraal', 'Alles wat je aanraakt: kaarten, invoervelden, optiechips, drawers, meldingen; label op de Inkt-knop.'),
+  'linnen':   ('#ECE4D6', 'neutraal', 'Het beeldvlak (achtergrond van elke render en foto), de heroband, staffel- en spectabellen, de gekozen optie, de badge Met jouw logo en de Zakelijk-blokken.'),
+  'lijn':     ('#DDD2BF', 'neutraal', 'Scheidingslijnen, de 1 px rand om kaarten en meldingen, de rand van een niet-leverbare optie. Decoratief: draagt nooit alleen informatie.'),
+  'kiezel':   ('#5D625C', 'neutraal', 'Secundaire tekst (specregel, btw-regel, doorgestreepte van-prijs, niet-leverbaar label), randen van invoervelden en optiechips.'),
+  # betekenis
+  'zon':      ('#FFC23A', 'voordeel', 'Alleen voordeel: Actie-badge, actieprijs-label, menu-item Actie. Altijd met Inkt-tekst. Nooit hover, nooit logo, nooit tekst op licht.'),
+  'polder':   ('#154F3E', 'klaar', 'Alleen ‘klaar’: Op voorraad (volle stip + tekst), de knopstand Toegevoegd, succesmelding. Geen vlakken, geen badges, geen knoppen in rust.'),
+  'oker':     ('#865800', 'wachten', 'Alleen wachten: ‘Leverbaar over 2–3 weken’ (halve stip + tekst) en de let-op-melding (drukproef wacht op akkoord).'),
+  'bordeaux': ('#8A1538', 'fout', 'Alleen fout: kop, icoon en 4 px linkerrand van een foutmelding, tekst en rand van een veld met fout. Nooit een gevuld vlak.'),
 }
 H = {k: v[0] for k, v in COL.items()}
 
 def mix(a, b, t):
     a = [int(a[i:i + 2], 16) for i in (1, 3, 5)]; b = [int(b[i:i + 2], 16) for i in (1, 3, 5)]
     return '#%02X%02X%02X' % tuple(round(x + (y - x) * t) for x, y in zip(a, b))
-# hover of the outline button on light schemes: the scheme background with 8% Inkt (CSS: color-mix(in srgb, bg, #1D2420 8%))
-TINT = {bg: mix(H[bg], H['inkt'], 0.08) for bg in ('zand', 'wit', 'duin', 'steen')}
-for bg, hx_ in TINT.items(): H[f'tint-{bg}'] = hx_
 
-# text/background pairs the system uses (fg, bg, use, kind)  kind: text (4.5) | large (>= 24 px bold, 3.0) | ui (3.0)
+# hover rules (computed, not palette colours)
+D = {
+  'inkt-hover':      (mix(H['inkt'], H['zand'], 0.16), 'color-mix(in srgb, var(--c-inkt) 84%, var(--c-zand))', 'hover van de Inkt-knop'),
+  'zand-hover':      (mix(H['zand'], H['inkt'], 0.10), 'color-mix(in srgb, var(--c-zand) 90%, var(--c-inkt))', 'hover van de Zand-knop op Inkt'),
+  'tint-zand':       (mix(H['zand'], H['inkt'], 0.08), 'color-mix(in srgb, var(--c-zand) 92%, var(--c-inkt))', 'hover van de omlijnde knop en de optiechip op Zand'),
+  'tint-wit':        (mix(H['wit'], H['inkt'], 0.06), 'color-mix(in srgb, var(--c-wit) 94%, var(--c-inkt))', 'hover van de omlijnde knop en de optiechip op Wit'),
+  'tint-linnen':     (mix(H['linnen'], H['inkt'], 0.08), 'color-mix(in srgb, var(--c-linnen) 92%, var(--c-inkt))', 'hover van de omlijnde knop op Linnen'),
+  'tintd-inkt':      (mix(H['inkt'], H['zand'], 0.12), 'color-mix(in srgb, var(--c-inkt) 88%, var(--c-zand))', 'hover van de omlijnde knop op Inkt'),
+  'tint-lampion':    (mix(H['lampion'], H['zand'], 0.20), 'color-mix(in srgb, var(--c-lampion) 80%, var(--c-zand))', 'hover van een link of omlijnde knop op een Lampion-band'),
+}
+for k, v in D.items(): H[k] = v[0]
+
 PAIRS = [
-  ('inkt', 'zand', 'Lopende tekst op pagina', 'text'), ('inkt', 'duin', 'Tekst op heroband en chips', 'text'),
-  ('inkt', 'wit', 'Tekst op kaarten, velden, meldingen', 'text'), ('inkt', 'steen', 'Zakelijk-blokken, tabellen, badges op het beeldvlak', 'text'),
-  ('inkt', 'zon', 'Actie-badge en actieprijs-label', 'text'), ('inkt', 'lijn', 'Tekst op een Lijn-chip of scheiding', 'text'),
-  ('kiezel', 'zand', 'Specs, btw-regel', 'text'), ('kiezel', 'duin', 'Specs op Duin', 'text'), ('kiezel', 'wit', 'Specs op kaart, van-prijs', 'text'),
-  ('kiezel', 'steen', 'Specs in Zakelijk, bijschrift op beeldvlak', 'text'),
-  ('polder', 'zand', 'Op voorraad, links in Zakelijk', 'text'), ('polder', 'wit', 'Op voorraad op kaart, succesmelding (kop)', 'text'), ('polder', 'duin', 'Op voorraad op Duin', 'text'),
-  ('polder', 'steen', 'Zakelijk-koppen, badge Staffelprijs', 'text'),
-  ('bordeaux', 'wit', 'Foutmelding (kop), veldfout onder invoerveld', 'text'), ('bordeaux', 'zand', 'Veldfout op pagina', 'text'), ('bordeaux', 'steen', 'Veldfout in Zakelijk-formulier', 'text'),
-  ('oker', 'zand', 'Leverbaar over 2–3 weken', 'text'), ('oker', 'wit', 'Levertijd op kaart, let-op-melding (kop)', 'text'), ('oker', 'duin', 'Levertijd op Duin', 'text'), ('oker', 'steen', 'Levertijd in Zakelijk', 'text'),
-  ('wit', 'klaproos', 'Primaire knop', 'text'), ('wit', 'klaproos-donker', 'Primaire knop: hover en ingedrukt', 'text'),
-  ('zand', 'polder', 'Zakelijk-knop, Toegevoegd, footer, utility-balk, badge Nieuw', 'text'), ('wit', 'polder', 'Polder-knop met wit label', 'text'),
-  ('zand', 'polder-donker', 'Zakelijk-knop: hover en ingedrukt', 'text'),
-  ('inkt', 'tint-zand', 'Omlijnde knop, hover op pagina', 'text'), ('inkt', 'tint-wit', 'Omlijnde knop, hover op kaart', 'text'),
-  ('inkt', 'tint-duin', 'Omlijnde knop, hover op Duin', 'text'), ('inkt', 'tint-steen', 'Omlijnde knop, hover in Zakelijk', 'text'),
-  ('zand', 'inkt', 'Badge Met jouw logo, donkere banden', 'text'), ('inkt', 'zand', 'Zand-knop op Polder en Inkt (Inkt label)', 'text'),
-  ('zon', 'inkt', 'Actie en logo-tent op Inkt', 'text'), ('zon', 'polder', 'Actie en logo-tent op Polder', 'text'),
-  ('klaproos', 'zand', 'Display-kop op pagina (≥ 24 px vet)', 'large'), ('klaproos', 'wit', 'Display-kop op kaart (≥ 24 px vet)', 'large'),
-  # non-text UI (3:1)
-  ('kiezel', 'wit', 'Rand invoerveld, stippelrand uitgeschakelde knop', 'ui'), ('kiezel', 'zand', 'Rand invoerveld op pagina', 'ui'), ('kiezel', 'duin', 'Rand invoerveld / uitgeschakeld op Duin', 'ui'), ('kiezel', 'steen', 'Rand invoerveld in Zakelijk', 'ui'),
-  ('klaproos', 'zand', 'Primaire knop tegen pagina', 'ui'), ('klaproos', 'duin', 'Primaire knop tegen Duin', 'ui'), ('klaproos', 'wit', 'Primaire knop tegen kaart', 'ui'),
-  ('klaproos', 'inkt', 'Primaire knop op Inkt-vlak', 'ui'),
-  ('klaproos-donker', 'zand', 'Primaire knop hover tegen pagina', 'ui'), ('klaproos-donker', 'wit', 'Primaire knop hover tegen kaart', 'ui'), ('klaproos-donker', 'duin', 'Primaire knop hover tegen Duin', 'ui'),
-  ('inkt', 'zand', 'Omlijnde knop, focusring op licht', 'ui'), ('inkt', 'wit', 'Focusring op kaart', 'ui'), ('inkt', 'duin', 'Focusring op Duin', 'ui'), ('inkt', 'steen', 'Focusring, omlijnde knop in Zakelijk', 'ui'),
-  ('polder', 'zand', 'Toegevoegd tegen pagina', 'ui'), ('polder', 'wit', 'Toegevoegd tegen kaart, voorraadstip', 'ui'), ('polder', 'steen', 'Zakelijk-knop tegen Steen', 'ui'),
-  ('polder-donker', 'steen', 'Zakelijk-knop hover tegen Steen', 'ui'),
-  ('zand', 'polder', 'Focusring, Zand-knop en hover-rand op Polder', 'ui'), ('zand', 'inkt', 'Focusring en hover-rand op Inkt', 'ui'),
-  ('bordeaux', 'wit', 'Linkerrand + icoon foutmelding, rand veld met fout', 'ui'),
-  ('oker', 'wit', 'Linkerrand + icoon let-op, halve stip levertijd', 'ui'), ('oker', 'zand', 'Halve stip levertijd op pagina', 'ui'),
-  ('zand', 'klaproos', 'Logo in Zand op Klaproos-doek of -vlak (grafisch)', 'ui'),
-  ('polder', 'klaproos', 'Winkelwagen-stip in het favicon (met 1,5 px Zand-ring)', 'ui-info'),
+  # text 4.5:1
+  ('inkt', 'zand', 'Lopende tekst, koppen, prijzen op de pagina', 'text'), ('inkt', 'wit', 'Tekst op kaarten, velden, meldingen, chips', 'text'),
+  ('inkt', 'linnen', 'Tekst op het beeldvlak, de heroband, de gekozen optie, Met jouw logo, Zakelijk', 'text'),
+  ('inkt', 'zon', 'Actie-badge en actieprijs-label', 'text'),
+  ('inkt', 'lampion', 'Label van de koopknop, tekst op de luifelbalk en campagneband, cijfer in de winkelwagenteller', 'text'),
+  ('inkt', 'tint-lampion', 'Link of omlijnde knop op een Lampion-band, hover', 'text'),
+  ('kiezel', 'zand', 'Specregel en btw-regel op de pagina', 'text'), ('kiezel', 'wit', 'Specregel, van-prijs en niet-leverbaar label op de kaart', 'text'),
+  ('kiezel', 'linnen', 'Bijschrift op het beeldvlak, specs in Zakelijk', 'text'),
+  ('polder', 'zand', 'Op voorraad op de pagina', 'text'), ('polder', 'wit', 'Op voorraad op de kaart, kop van de succesmelding', 'text'),
+  ('polder', 'linnen', 'Op voorraad in Zakelijk', 'text'),
+  ('oker', 'zand', 'Leverbaar over 2–3 weken op de pagina', 'text'), ('oker', 'wit', 'Levertijd op de kaart, kop van de let-op-melding', 'text'),
+  ('oker', 'linnen', 'Levertijd in Zakelijk', 'text'),
+  ('bordeaux', 'wit', 'Kop van de foutmelding, veldfout onder een veld', 'text'), ('bordeaux', 'zand', 'Veldfout op de pagina', 'text'),
+  ('bordeaux', 'linnen', 'Veldfout in een Zakelijk-formulier', 'text'),
+  ('wit', 'inkt', 'Label van de Inkt-knop', 'text'), ('wit', 'inkt-hover', 'Label van de Inkt-knop bij hover', 'text'),
+  ('wit', 'polder', 'Knopstand Toegevoegd', 'text'),
+  ('zand', 'inkt', 'Tekst in footer en donkere band', 'text'),
+  ('inkt', 'zand-hover', 'Label van de Zand-knop op Inkt bij hover', 'text'),
+  ('inkt', 'tint-zand', 'Omlijnde knop en optiechip, hover op de pagina', 'text'), ('inkt', 'tint-wit', 'Omlijnde knop en optiechip, hover op de kaart', 'text'),
+  ('inkt', 'tint-linnen', 'Omlijnde knop, hover op Linnen', 'text'), ('zand', 'tintd-inkt', 'Omlijnde knop, hover op Inkt', 'text'),
+  # UI 3:1
+  ('lampion', 'zand', 'Koopknop tegen de pagina; logo-tent op Zand', 'ui'), ('lampion', 'wit', 'Koopknop tegen de kaart en de drawer; teller', 'ui'),
+  ('lampion', 'inkt', 'Logo-tent op Inkt (logo-inverse.svg, footer); beeldmerk; teller op een donkere header', 'ui'),
+  ('inkt', 'lampion', 'Hover-rand van de koopknop, focusring en Inkt-knop op een Lampion-band', 'ui'),
+  ('inkt', 'zand', 'Inkt-knop, omlijnde knop en focusring tegen de pagina', 'ui'), ('inkt', 'wit', 'Inkt-knop, gekozen optierand en focusring op Wit', 'ui'),
+  ('inkt', 'linnen', 'Inkt-knop en focusring op Linnen', 'ui'),
+  ('inkt-hover', 'zand', 'Inkt-knop bij hover tegen de pagina', 'ui'), ('inkt-hover', 'wit', 'Inkt-knop bij hover tegen de kaart', 'ui'),
+  ('kiezel', 'wit', 'Rand van invoerveld en optiechip', 'ui'), ('kiezel', 'zand', 'Rand van invoerveld op de pagina', 'ui'),
+  ('kiezel', 'linnen', 'Rand van invoerveld in Zakelijk', 'ui'),
+  ('zand', 'inkt', 'Zand-knop, focusring en randen op Inkt', 'ui'), ('zand-hover', 'inkt', 'Zand-knop bij hover op Inkt', 'ui'),
+  ('polder', 'wit', 'Voorraadstip, knopstand Toegevoegd tegen de kaart', 'ui'), ('polder', 'zand', 'Voorraadstip en Toegevoegd tegen de pagina', 'ui'),
+  ('oker', 'wit', 'Halve stip levertijd, icoon en linkerrand let-op', 'ui'), ('oker', 'zand', 'Halve stip levertijd op de pagina', 'ui'),
+  ('bordeaux', 'wit', 'Icoon en linkerrand foutmelding, rand van een veld met fout', 'ui'), ('bordeaux', 'zand', 'Rand van een veld met fout op de pagina', 'ui'),
+  ('zon', 'inkt', 'Actie-badge op een donker vlak', 'ui'),
+  ('zand', 'lampion', 'Hover-rand van de Inkt-knop op een Lampion-band', 'ui'),
 ]
-FORBIDDEN = [('zon', 'zand', 'Zon als tekst of rand op licht'), ('zon', 'wit', 'Zon als tekst of rand op wit'),
-             ('klaproos', 'duin', 'Klaproos als tekst op Duin (ook niet als kop)'), ('klaproos', 'steen', 'Klaproos als tekst op Steen'),
-             ('klaproos', 'inkt', 'Klaproos-tekst op Inkt'), ('klaproos', 'polder', 'Klaproos op Polder (ook als knop of tent)'),
-             ('kiezel', 'inkt', 'Kiezel op donker'), ('kiezel', 'polder', 'Kiezel op Polder'), ('polder', 'inkt', 'Polder op Inkt (knop verdwijnt)'),
-             ('wit', 'bordeaux', 'Bordeaux als gevuld vlak (fout is nooit een knop)'), ('zon', 'klaproos', 'Zon-tent op Klaproos (logo op Klaproos is één kleur Zand)'),
-             ('klaproos-donker', 'inkt', 'Klaproos donker als hover op Inkt (vorm verdwijnt: daar hover = Zand-rand)'),
-             ('polder', 'polder-donker', 'Polder donker als vlak naast Polder (alleen als knopstand)')]
+FORBIDDEN = [('lampion', 'zand', 'Lampion als tekstkleur, ook in koppen (daar een luifelstreep)'), ('lampion', 'wit', 'Lampion-tekst op Wit'),
+             ('zand', 'lampion', 'Zand- of witte tekst op Lampion (daar altijd Inkt)'), ('wit', 'lampion', 'Witte tekst op Lampion'),
+             ('lampion', 'linnen', 'Lampion-vlak of koopknop op Linnen (vorm valt weg)'),
+             ('zon', 'zand', 'Zon als tekst, rand of icoon op licht'), ('zon', 'lampion', 'Zon naast of op Lampion als onderscheid'),
+             ('kiezel', 'inkt', 'Kiezel op donker'), ('polder', 'inkt', 'Polder op Inkt'), ('oker', 'inkt', 'Oker op donker'),
+             ('lijn', 'wit', 'Lijn als enige grens van iets klikbaars'), ('bordeaux', 'inkt', 'Bordeaux op donker')]
 
-NEED = {'text': 4.5, 'large': 3.0, 'ui': 3.0, 'ui-info': 1.0}
+NEED = {'text': 4.5, 'large': 3.0, 'ui': 3.0}
 rows = []
 for fg, bg, use, kind in PAIRS:
     r = cr(H[fg], H[bg])
     rows.append({'fg': fg, 'bg': bg, 'fg_hex': H[fg], 'bg_hex': H[bg], 'use': use, 'kind': kind, 'ratio': round(r, 2),
                  'need': NEED[kind], 'pass': r >= NEED[kind], 'aaa': r >= (7 if kind == 'text' else 4.5)})
-info_rows = [x for x in rows if x['kind'] == 'ui-info']
-rows = [x for x in rows if x['kind'] != 'ui-info']
 bad = [x for x in rows if not x['pass']]
 forb = [{'fg': a, 'bg': b, 'use': u, 'ratio': round(cr(H[a], H[b]), 2)} for a, b, u in FORBIDDEN]
 
 def sep(a, b): return round(de2000(lab65(H[a]), lab65(H[b])), 1)
+STOCK = {'rood (catalogus)': '#B5161E', 'rood (render, gemeten)': '#C30F1A', 'oranje stretchrok (catalogus)': '#E2681B'}
 separation = {
-  'klaproos_vs_bordeaux': {'de2000': sep('klaproos', 'bordeaux'), 'hue_klaproos': round(lab_hue(lab65(H['klaproos'])), 1), 'hue_bordeaux': round(lab_hue(lab65(H['bordeaux'])), 1), 'contrast': round(cr(H['klaproos'], H['bordeaux']), 2)},
-  'klaproos_vs_hover': {'de2000': sep('klaproos', 'klaproos-donker'), 'contrast': round(cr(H['klaproos'], H['klaproos-donker']), 2)},
-  'klaproos_vs_zon': {'de2000': sep('klaproos', 'zon')},
+  'lampion_vs_stock': {k: {'de2000': round(de2000(lab65(H['lampion']), lab65(v)), 1), 'hue': round(lab_hue(lab65(v)), 1)} for k, v in STOCK.items()},
+  'lampion_hue': round(lab_hue(lab65(H['lampion'])), 1), 'klaproos_v6_hue': round(lab_hue(lab65('#C83812')), 1),
+  'lampion_vs_zon': {'de2000': sep('lampion', 'zon')}, 'lampion_vs_bordeaux': {'de2000': sep('lampion', 'bordeaux')},
+  'lampion_vs_oker': {'de2000': sep('lampion', 'oker')}, 'inkt_vs_inkt_hover': {'de2000': sep('inkt', 'inkt-hover'), 'contrast': round(cr(H['inkt'], H['inkt-hover']), 2)},
+  'polder_vs_inkt': {'de2000': sep('polder', 'inkt'), 'contrast': round(cr(H['polder'], H['inkt']), 2)},
 }
-SURF = ['zand', 'duin', 'steen', 'wit']
+SURF = ['zand', 'wit', 'linnen']
 surfaces = {f'{a}–{b}': {'de2000': sep(a, b), 'contrast': round(cr(H[a], H[b]), 2)} for i, a in enumerate(SURF) for b in SURF[i + 1:]}
 
-# ---------------------------------------------------------------- colour schemes with explicit states
-# v5: hover keeps the button's identity. The primary button stays red (Klaproos donker) when you point at it; the
-# outline button gets a light tint, never a dark fill, so the two never look alike (v4: both turned Inkt).
-for d in ('polder', 'inkt'): H[f'tintd-{d}'] = mix(H[d], H['zand'], 0.12)   # outline-button hover on dark schemes
+# ------------------------------------------------------------------ colour schemes, every button state
 def btn(bg, label, border=None, inset=False):
     b = {'bg': bg, 'label': label, 'border': border or bg}
     if inset: b['inset'] = 'inset 0 2px 0 rgba(0,0,0,.28)'
     return b
-def light(bgname):
-    return {'primary': btn('klaproos', 'wit'), 'primary_hover': btn('klaproos-donker', 'wit'), 'primary_active': btn('klaproos-donker', 'wit', inset=True),
-            'secondary': btn('transparent', 'inkt', 'inkt'), 'secondary_hover': btn(f'tint-{bgname}', 'inkt', 'inkt')}
+BUY = {'buy': btn('lampion', 'inkt'), 'buy_hover': btn('lampion', 'inkt', 'inkt'), 'buy_active': btn('lampion', 'inkt', 'inkt', inset=True)}
+def light(bgname, buy=True):
+    s = {'primary': btn('inkt', 'wit'), 'primary_hover': btn('inkt-hover', 'wit'), 'primary_active': btn('inkt', 'wit', inset=True),
+         'secondary': btn('transparent', 'inkt', 'inkt'), 'secondary_hover': btn(f'tint-{bgname}', 'inkt', 'inkt')}
+    if buy: s.update(BUY)
+    return s
 SCHEMES = {
-  'scheme-1': {'naam': 'Pagina', 'background': 'zand', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', **light('zand')},
-  'scheme-2': {'naam': 'Kaart', 'background': 'wit', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', **light('wit')},
-  'scheme-3': {'naam': 'Duin', 'background': 'duin', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', **light('duin')},
-  'scheme-4': {'naam': 'Zakelijk (Steen)', 'background': 'steen', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt',
-               'primary': btn('polder', 'zand'), 'primary_hover': btn('polder-donker', 'zand'), 'primary_active': btn('polder-donker', 'zand', inset=True),
-               'secondary': btn('transparent', 'inkt', 'inkt'), 'secondary_hover': btn('tint-steen', 'inkt', 'inkt')},
-  'scheme-5': {'naam': 'Polder', 'background': 'polder', 'text': 'zand', 'muted': 'zand', 'focus': 'zand',
-               'primary': btn('zand', 'inkt'), 'primary_hover': btn('zon', 'inkt'), 'primary_active': btn('zon', 'inkt', inset=True),
-               'secondary': btn('transparent', 'zand', 'zand'), 'secondary_hover': btn('tintd-polder', 'zand', 'zand')},
-  'scheme-6': {'naam': 'Inkt', 'background': 'inkt', 'text': 'zand', 'muted': 'zand', 'focus': 'zand',
-               'primary': btn('klaproos', 'wit'), 'primary_hover': btn('klaproos', 'wit', 'zand'), 'primary_active': btn('klaproos-donker', 'wit', 'zand', inset=True),
+  'scheme-1': {'naam': 'Pagina', 'background': 'zand', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', 'border': 'kiezel', 'logo_tent': 'lampion', **light('zand')},
+  'scheme-2': {'naam': 'Kaart en drawer', 'background': 'wit', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', 'border': 'kiezel', 'logo_tent': 'lampion', **light('wit')},
+  'scheme-3': {'naam': 'Linnen (beeldvlak, heroband)', 'background': 'linnen', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', 'border': 'kiezel', 'logo_tent': 'lampion', **light('linnen', buy=False)},
+  'scheme-4': {'naam': 'Zakelijk (Linnen, logo één kleur, geen Lampion)', 'background': 'linnen', 'text': 'inkt', 'muted': 'kiezel', 'focus': 'inkt', 'border': 'kiezel', 'logo_tent': 'inkt', **light('linnen', buy=False)},
+  'scheme-5': {'naam': 'Lampion (luifelbalk, campagneband)', 'background': 'lampion', 'text': 'inkt', 'muted': 'inkt', 'focus': 'inkt', 'border': 'inkt', 'logo_tent': 'inkt',
+               'primary': btn('inkt', 'wit'), 'primary_hover': btn('inkt', 'wit', 'zand'), 'primary_active': btn('inkt', 'wit', 'zand', inset=True),
+               'secondary': btn('transparent', 'inkt', 'inkt'), 'secondary_hover': btn('tint-lampion', 'inkt', 'inkt')},
+  'scheme-6': {'naam': 'Inkt (footer, donkere band)', 'background': 'inkt', 'text': 'zand', 'muted': 'zand', 'focus': 'zand', 'border': 'zand', 'logo_tent': 'lampion',
+               'primary': btn('zand', 'inkt'), 'primary_hover': btn('zand-hover', 'inkt'), 'primary_active': btn('zand', 'inkt', inset=True),
                'secondary': btn('transparent', 'zand', 'zand'), 'secondary_hover': btn('tintd-inkt', 'zand', 'zand')},
 }
 def hx(n, bgname): return H[bgname] if n == 'transparent' else H[n]
 scheme_checks = []
+STATES = ('buy', 'buy_hover', 'buy_active', 'primary', 'primary_hover', 'primary_active', 'secondary', 'secondary_hover')
 for sid, s_ in SCHEMES.items():
     bgn = s_['background']
-    for state in ('primary', 'primary_hover', 'primary_active', 'secondary', 'secondary_hover'):
+    for state in STATES:
+        if state not in s_: continue
         b = s_[state]
         fill = hx(b['bg'], bgn); edge = hx(b['border'], bgn)
         lab = cr(H[b['label']], fill)
         shape = max(cr(fill, H[bgn]), cr(edge, H[bgn]))
-        scheme_checks.append({'scheme': sid, 'state': state, 'label_ratio': round(lab, 2), 'shape_ratio': round(shape, 2),
-                              'pass': lab >= 4.5 and shape >= 3.0})
-    rest, hov, sec, sech = s_['primary'], s_['primary_hover'], s_['secondary'], s_['secondary_hover']
+        scheme_checks.append({'scheme': sid, 'state': state, 'label_ratio': round(lab, 2), 'shape_ratio': round(shape, 2), 'pass': lab >= 4.5 and shape >= 3.0})
     look = lambda b: (hx(b['bg'], bgn), hx(b['border'], bgn), b['label'])
-    # the two buttons must never look alike in any pair of states the user can see at the same time
-    distinct = len({look(rest), look(hov), look(sec), look(sech)}) == 4
-    how = ('rand erbij' if rest['bg'] == hov['bg'] else 'donkerder, zelfde kleur' if hov['bg'].startswith(rest['bg']) else 'andere vulling')
-    s_['hover_change'] = {'fill_rest_vs_hover': round(cr(hx(rest['bg'], bgn), hx(hov['bg'], bgn)), 2), 'how': how,
-                          'secondary_hover': 'lichte tint + rand (nooit een donkere vulling)', 'all_four_states_distinct': distinct}
+    keys = [k for k in ('buy', 'primary', 'primary_hover', 'secondary', 'secondary_hover') if k in s_]
+    s_['all_states_distinct'] = len({look(s_[k]) for k in keys}) == len(keys)
     s_['text_ratio'] = round(cr(H[s_['text']], H[bgn]), 2)
-bad_s = [c for c in scheme_checks if not c['pass']] + [{'scheme': k, 'state': 'distinct', 'label_ratio': 0, 'shape_ratio': 0} for k, v in SCHEMES.items() if not v['hover_change']['all_four_states_distinct']]
+bad_s = [c for c in scheme_checks if not c['pass']] + [{'scheme': k, 'state': 'distinct'} for k, v in SCHEMES.items() if not v['all_states_distinct']]
 
 R = REPRO['colors']
 def ref(k):
     e = R[k]
-    return {
-      'srgb': e['hex'], 'lab_d50': e['lab_d50'],
-      'cmyk_coated_fogra39': e['cmyk_fogra39'], 'cmyk_uncoated_fogra29': e['cmyk_fogra29'],
-      'proof_de2000_coated': e.get('fogra39_proof_de'), 'proof_de2000_uncoated': e.get('fogra29_proof_de'),
-      'pantone_c': e['pantone_c'][0]['name'], 'pantone_c_de2000': e['pantone_c'][0]['de'],
-      'pantone_tcx': e['pantone_tcx'][0]['name'], 'pantone_tcx_de2000': e['pantone_tcx'][0]['de'],
-      'ral_classic': [e['ral_b'][0]['name'].split(' (')[0], e['ral_a'][0]['name']],
-      'ral_de2000': [e['ral_b'][0]['de'], e['ral_a'][0]['de']],
-      'oracal_651': e['oracal651'][0]['name'], 'oracal_de2000': e['oracal651'][0]['de'],
-      'status': 'digitale benadering, NIET fysiek afgetekend',
-    }
+    return {'srgb': e['hex'], 'lab_d50': e['lab_d50'], 'cmyk_coated_fogra39': e['cmyk_fogra39'], 'cmyk_uncoated_fogra29': e['cmyk_fogra29'],
+            'pantone_c': e['pantone_c'][0]['name'], 'pantone_c_de2000': e['pantone_c'][0]['de'],
+            'pantone_u': e['pantone_u'][0]['name'], 'pantone_u_de2000': e['pantone_u'][0]['de'],
+            'pantone_tcx': e['pantone_tcx'][0]['name'], 'pantone_tcx_de2000': e['pantone_tcx'][0]['de'],
+            'ral_classic': [e['ral_b'][0]['name'].split(' (')[0], e['ral_a'][0]['name']], 'ral_de2000': [e['ral_b'][0]['de'], e['ral_a'][0]['de']],
+            'oracal_651': e['oracal651'][0]['name'], 'oracal_de2000': e['oracal651'][0]['de'],
+            'thread': {'madeira_polyneon': [e['madeira'][0]['name'], e['madeira'][0]['de']], 'isacord': [e['isacord'][0]['name'], e['isacord'][0]['de']],
+                       'gunold_poly': [e['gunold'][0]['name'], e['gunold'][0]['de']]},
+            'status': 'digitale benadering, niet fysiek afgetekend'}
 
 wm, mk = META['wordmark'], META['mark']
-SW = lambda v: wm[v]['min_sizes']['scherm']['min_width_px']
-GR = META['grouping']
-# header sizes (px): chosen so the x-height of the logo is >= 20 px on desktop and >= 12 px on mobile
-WU = {'primary': wm['primary']['width_units'], 'klein': wm['klein']['width_units']}
-HU = {'primary': wm['primary']['height_units'], 'klein': wm['klein']['height_units']}
-HEADER = {'desktop_px': 200, 'mobile_px': 124}
-xh = lambda w, v: f'{w * 500 / WU[v]:.1f}'.replace('.', ',')
-hh = lambda w, v: f'{w * HU[v] / WU[v]:.0f}'
+HEADER = {'desktop_px': 200, 'mobile_px': 132}
+caph = lambda w, v: f'{w * 700 / wm[v]["width_units"]:.1f}'.replace('.', ',')
 tokens = {
-  '$schema_note': 'Klapklaar design tokens v5 (2026-10-17). 14 kleuren met één rol, kleurschema’s met rust/hover/ingedrukt/focus per schema, reproductiereferenties, Shopify font_picker-handles + fallbacks, radii, spacing, randen, schaduwen, motion, componentstaten, logo- en faviconregels. Uitleg: brand.md; maten en bronnen: technisch.md.',
+  '$schema_note': 'Klapklaar design tokens v7 (2026-10-17). Elf kleuren met één betekenis, zes kleurschema’s met koopknop/hoofdknop/omlijnd in rust, hover, ingedrukt en focus, reproductiereferenties (Pantone C/U/TCX, RAL, Oracal, borduurgaren), Shopify font_picker-handles + fallbacks, typeschaal, radii, spacing, randen, schaduwen, motion, componentstaten, logo- en faviconregels. Uitleg: brand.md; maten en bronnen: technisch.md.',
   'color': {k: {'value': v[0], 'family': v[1], 'role': v[2]} for k, v in COL.items()},
-  'color_derived': {**{f'tint-{bg}': {'value': TINT[bg], 'css': f'color-mix(in srgb, var(--color-{bg}) 92%, var(--color-inkt))', 'role': f'hover van de omlijnde knop op {bg}'} for bg in TINT},
-                    **{f'tintd-{d}': {'value': H[f'tintd-{d}'], 'css': f'color-mix(in srgb, var(--color-{d}) 88%, var(--color-zand))', 'role': f'hover van de omlijnde knop op {d}'} for d in ('polder', 'inkt')}},
-  'color_changes_v5': {'klaproos-donker': 'was alleen ingedrukt; nu ook hover (v4 maakte de primaire knop bij hover Inkt, gelijk aan de omlijnde knop bij hover)',
-                       'polder-donker #0E3A2D': 'nieuw: hover en ingedrukt van de Zakelijk-knop',
-                       'zon': 'rol ‘vlag & voordeel’ wordt ‘voordeel & accent’: het vlaggetje is uit het logo, Zon is ook hover van de Zand-knop op Polder',
-                       'tint-*': 'nieuw, afgeleid: lichte hover van de omlijnde knop (8% Inkt over de achtergrond)'},
+  'color_derived': {k: {'value': v[0], 'css': v[1], 'role': v[2]} for k, v in D.items()},
+  'color_migration_v6_to_v7': {
+    'klaproos #C83812': 'vervalt → lampion #E66414 (merk + koopknop)', 'tintd-klaproos #AD3514': 'vervalt → tint-lampion',
+    'primaire knop (kopen)': 'Inkt → Lampion met Inkt-label (koopknop); Inkt blijft de hoofdknop voor alles wat geen kopen is',
+    'luifelbalk': 'Klaproos met Zand-tekst → Lampion met Inkt-tekst', 'winkelwagenteller': 'Inkt → Lampion met Inkt-cijfer',
+    'gekozen optiechip': 'Inkt vlak → Linnen vlak met 2 px Inkt-rand en vinkje', 'btw-schakelaar': 'Inkt vlak → Wit segment met Inkt-rand op Linnen',
+    'badge Met jouw logo': 'Inkt → Linnen met Inkt-tekst en upload-icoon', 'niet leverbaar': 'stippelrand → Lijn-rand, doorgestreept label',
+    'stippelrand': 'alleen nog de uploadzone', 'campagneletter': 'Barlow Condensed → Figtree Black (lock-up-teksten zijn getekend)'},
   'color_semantic': {
-    'background': 'zand', 'surface': 'wit', 'surface-warm': 'duin', 'surface-cool': 'steen', 'media': 'steen', 'surface-zakelijk': 'steen',
-    'text': 'inkt', 'text-muted': 'kiezel', 'text-on-dark': 'zand', 'link': 'inkt', 'link-hover': 'inkt (onderstreping 3 px)',
-    'price': 'inkt', 'price-compare': 'kiezel', 'price-sale-bg': 'zon', 'price-sale-text': 'inkt',
-    'badge-actie': ['zon', 'inkt'], 'badge-nieuw': ['polder', 'zand'], 'badge-logo': ['inkt', 'zand', 'icoon logo-uploaden'], 'badge-staffel': ['steen', 'polder'],
+    'background': 'zand', 'surface': 'wit', 'media': 'linnen', 'surface-band': 'linnen', 'surface-zakelijk': 'linnen', 'surface-dark': 'inkt', 'brand-band': 'lampion',
+    'text': 'inkt', 'text-muted': 'kiezel', 'text-on-dark': 'zand', 'text-on-brand': 'inkt', 'link': 'inkt (onderstreept 1 px, hover 2 px)',
+    'button-buy': ['lampion', 'inkt'], 'button-buy-hover': 'lampion + 2 px Inkt-rand (inset)', 'button-primary': ['inkt', 'wit'], 'button-primary-hover': 'inkt-hover',
+    'button-done': ['polder', 'wit'], 'price': 'inkt', 'price-compare': 'kiezel (doorgestreept)', 'price-sale-bg': 'zon', 'price-sale-text': 'inkt',
+    'badge-actie': ['zon', 'inkt'], 'badge-nieuw': ['wit', 'inkt', 'rand 1,5 px inkt'], 'badge-logo': ['linnen', 'inkt', 'icoon upload'], 'badge-staffel': ['wit', 'inkt', 'rand 1,5 px kiezel', 'icoon stapel'],
     'stock-in': 'polder (volle stip + tekst)', 'stock-later': 'oker (halve stip + tekst)', 'stock-out': 'kiezel (open ring + tekst)',
     'error': 'bordeaux', 'notice': 'oker', 'success': 'polder', 'alert-surface': 'wit', 'alert-border': 'lijn',
-    'card': 'wit', 'card-border': 'lijn', 'media-in-card': 'steen', 'media-border': 'lijn (als het beeldvlak niet in een Wit kaart staat)',
-    'focus-on-light': 'inkt', 'focus-on-dark': 'zand', 'border-input': 'kiezel', 'divider': 'lijn',
-    'header-utility-bg': 'polder', 'footer-bg': 'polder', 'footer-text': 'zand', 'favicon-cart-dot': 'polder',
+    'card': 'wit', 'card-border': 'lijn', 'focus-on-light': 'inkt', 'focus-on-dark': 'zand', 'focus-on-brand': 'inkt', 'border-input': 'kiezel', 'divider': 'lijn',
+    'header-utility-bg': 'lampion', 'header-utility-text': 'inkt', 'footer-bg': 'inkt', 'footer-text': 'zand', 'cart-count': ['lampion', 'inkt'],
+    'favicon-cart-dot': ['zand', 'ring inkt'], 'accent-underline': 'luifelstreep: 0,14 em Lampion onder één woord van een kop vanaf 32 px',
+    'dashed': 'alleen de uploadzone (sleep hier je logo); niets anders is gestippeld',
   },
-  'surface_rule': 'Steen (beeldvlak, Zakelijk) ligt ΔE00 3,0 van Zand. Standaard staat een Steen-vlak daarom in een Wit kaart met een 1 px Lijn-rand (product-card), of loopt het als band over de volle breedte. Een los Steen-vlak op Zand krijgt altijd border.media. Dit is de default in de tokens, geen advies.',
   'color_separation': separation,
-  'surface_separation_de2000': surfaces,
+  'surface_separation': surfaces,
   'color_schemes': SCHEMES,
   'color_scheme_checks': {'rows': scheme_checks, 'fails': len(bad_s),
-                          'rule': 'Elke knopstand: label ≥ 4,5:1 op zijn vulling en vorm (vulling of rand) ≥ 3:1 tegen de schemaachtergrond. Hover houdt de identiteit van de knop: de primaire knop blijft rood (Klaproos donker), de omlijnde knop krijgt een lichte tint. Rust en hover van beide knoppen zijn alle vier verschillend.'},
-  'shopify_color_schemes': {sid: {'background': H[s['background']], 'text': H[s['text']],
-                                  'button': H[s['primary']['bg']], 'button_label': H[s['primary']['label']],
-                                  'button_hover': H[s['primary_hover']['bg']], 'button_hover_label': H[s['primary_hover']['label']], 'button_hover_border': H[s['primary_hover']['border']],
-                                  'button_active_shadow': s['primary_active'].get('inset', 'none'),
-                                  'secondary_button_label': H[s['secondary']['label']], 'secondary_button_border': H[s['secondary']['border']],
-                                  'secondary_button_hover_bg': H[s['secondary_hover']['bg']],
-                                  'border': H['kiezel'] if s['background'] not in ('polder', 'inkt') else H['zand']}
-                            for sid, s in SCHEMES.items()},
+      'rule': 'Elke knopstand: label ≥ 4,5:1 op zijn vulling, vorm (vulling of rand) ≥ 3:1 tegen de schemaachtergrond. Koopknop, hoofdknop (rust en hover) en omlijnde knop (rust en hover) zijn per schema allemaal verschillend. De koopknop bestaat alleen op Zand en Wit.'},
+  'shopify_color_schemes': {sid: {
+      'background': H[s['background']], 'background_gradient': '', 'foreground': H[s['text']], 'muted': H[s['muted']],
+      'primary_button': H[s['primary']['bg']], 'primary_button_label': H[s['primary']['label']],
+      'primary_button_hover': H[s['primary_hover']['bg']], 'primary_button_hover_label': H[s['primary_hover']['label']],
+      'primary_button_hover_border': H[s['primary_hover']['border']], 'primary_button_active': H[s['primary_active']['bg']],
+      'secondary_button_label': H[s['secondary']['label']], 'secondary_button_hover': H[s['secondary_hover']['bg']],
+      'buy_button': H[s['buy']['bg']] if 'buy' in s else None, 'buy_button_label': H[s['buy']['label']] if 'buy' in s else None,
+      'buy_button_hover_border': H[s['buy_hover']['border']] if 'buy' in s else None,
+      'border': H[s['border']], 'focus': H[s['focus']], 'logo_tent': H[s['logo_tent']]} for sid, s in SCHEMES.items()},
+  'shopify_color_settings': {f'color_{k}': v[0] for k, v in COL.items()},
+  'shopify_scheme_use': {'luifelbalk (utility-balk)': 'scheme-5', 'header': 'scheme-1', 'footer': 'scheme-6', 'Zakelijk-pagina’s, offerte, drukproef': 'scheme-4',
+                         'heroband, staffeltabellen': 'scheme-3', 'productkaarten, drawers, productinfo': 'scheme-2', 'campagneband': 'scheme-5'},
   'print': {
-    'note': 'Reproductiereferenties per kleur. Digitale dichtstbijzijnde stockkleur (CIEDE2000) uit open datasets; CMYK via Adobe Coated FOGRA39 / Uncoated FOGRA29 (relatief colorimetrisch + zwartpuntcompensatie). Vóór productie fysiek aftekenen (technisch.md 4).',
-    'tolerance_de2000': {'drukwerk_gestreken': 2.0, 'textiel_en_folie': 3.0},
-    'multi_colour_rule': f'Op doek, folie en papier raken twee kleuren elkaar nooit: letters en tent liggen minstens {round(GR["v5"]["leg_letter_min"])} eenheden uit elkaar (logo.svg). Er is dus geen overlap en geen trap nodig.',
-    'colors': {k: ref(k) for k in ('klaproos', 'zon', 'polder', 'inkt', 'zand')},
+    'note': 'Reproductiereferenties voor drukwerk, folie, lak en garen. Digitale dichtstbijzijnde stockkleur (CIEDE2000) uit open datasets; CMYK via Adobe Coated FOGRA39 / Uncoated FOGRA29. Vóór productie fysiek aftekenen (technisch.md §4). Doek is geen merkkleur: tenten en rokken komen in de stockkleuren van de leverancier.',
+    'tolerance_de2000': {'drukwerk_gestreken': 2.0, 'textiel_folie_garen': 3.0},
+    'one_colour_rule': 'Op doek, folie, borduursel en karton is het logo één kleur: Zand of wit op donker en rood doek, Inkt of zwart op wit doek, Inkt op kraft. Twee kleuren alleen in volledige druk (digitaal, offset, sublimatie, wrap).',
+    'vinyl_rule': 'Geplotte folie (Oracal 651): Lampion 651-036, Inkt 651-070, Zand 651-010. Merkkleuren op de bus in geprinte wrap-folie met drukproef (ΔE00 ≤ 3).',
+    'flex_flock': 'Geen open kleurdata voor Siser EasyWeed, Poli-Flex of StripFlock gevonden: kies op de fysieke kleurkaart van de leverancier tegen de afgetekende Pantone-referentie en noteer het nummer in technisch.md §4.',
+    'colors': {k: ref(k) for k in ('lampion', 'inkt', 'zand', 'polder', 'zon')},
     'sources': REPRO['sources'],
   },
   'font': {
-    'family': 'Figtree (één familie, vier gewichten)',
-    'why': 'Bewuste keuze: Figtree is een van de gangbaarste gratis sans-serifs in Shopify. Het onderscheid zit in het getekende woordmerk, de tent en de kleuren; de letter moet vooral prijzen, maten en specs rustig en leesbaar zetten (echte tabelcijfers, gewone nul voor Ø 80 cm). Een opvallende tweede letter zou met het woordmerk concurreren.',
-    'heading': {'family': 'Figtree', 'shopify_handle': 'figtree_n8', 'shopify_handle_h3': 'figtree_n7',
-                'css_fallback': '"Figtree", "Segoe UI", Roboto, Helvetica, Arial, sans-serif', 'weights': {'display/h1/h2': 800, 'h3/h4/kaarttitel': 700}},
-    'body': {'family': 'Figtree', 'shopify_handle': 'figtree_n4', 'variants': {'label/nav': 'figtree_n6', 'knop/prijs': 'figtree_n7', 'koppen': 'figtree_n8'},
+    'families': 'Figtree voor alle tekst. Het logo en de lock-up-teksten (ZAKELIJK, PARTYTENTEN · STATAFELS) zijn getekend en geen font.',
+    'heading': {'family': 'Figtree', 'shopify_handle': 'figtree_n8', 'shopify_handle_h3': 'figtree_n7', 'shopify_handle_campaign': 'figtree_n9', 'setting': 'type_header_font',
+                'css_fallback': '"Figtree", "Segoe UI", Roboto, Helvetica, Arial, sans-serif'},
+    'body': {'family': 'Figtree', 'shopify_handle': 'figtree_n4', 'variants': {'label/nav': 'figtree_n6', 'knop/prijs': 'figtree_n7'}, 'setting': 'type_body_font',
              'css_fallback': '"Figtree", "Segoe UI", Roboto, Helvetica, Arial, sans-serif'},
-    'settings_schema': {'type_header_font': 'figtree_n8', 'type_body_font': 'figtree_n4'},
+    'campaign': {'family': 'Figtree', 'weight': 900, 'how': 'font_modify: "weight", "900" op type_header_font; geen extra font_picker',
+                 'use': 'campagnekoppen in zinsopbouw (geen kapitalen), banners, social, actie. Kapitalen zijn voorbehouden aan het getekende logo.'},
     'evidence': {
-      'figtree_n4': 'https://github.com/mrshahbazdev/shopify-section-factory-clone/blob/f2b6217daa4961e435b959c3d5ec3bc5935c4982/app/sections/featured-collection-9.liquid (font_face-uitvoer met /cdn/fonts/figtree/figtree_n4…woff2)',
-      'figtree_n5_n6': 'https://github.com/duckduckgo/tracker-radar/blob/197a396da8b8cdf2df1ded141cb58f2507e446d5/domains/US/shopifycdn.com.json (fonts.shopifycdn.com/figtree/figtree_n5 en _n6)',
-      'figtree_n7': 'zelfde bestand als figtree_n4 (figtree_n7…woff2)',
-      'figtree_n8': 'https://github.com/LM-3434/aquacorail.ca/blob/a84889e15bf7c7c81207cca64c4d681e144bc95c/assets/screen-settings.css (//aquacorail.ca/cdn/fonts/figtree/figtree_n8…woff2)',
-      'status': 'waarschijnlijk: Shopify maakt /cdn/fonts/<familie>/<handle>-paden alleen voor fonts uit zijn bibliotheek; de officiële lijst (shopify.dev) kon niet worden gelezen. Controle: kies Figtree ExtraBold in de theme-editor.',
-    },
-    'opentype': {'tnum': 'aanwezig in Figtree[wght].ttf (GSUB tnum, pnum, case, frac); of de door Shopify geserveerde woff2 dezelfde features houdt is niet gecontroleerd: test font-variant-numeric in de theme-preview'},
-    'self_host_fallback': 'brand/fonts/Figtree-VF.ttf (SIL OFL 1.1) als theme-asset met @font-face en font-display: swap, alleen als de handle in de theme-editor ontbreekt',
+      'shopify_font_list_copy': 'https://github.com/itsmylife44/shopify-theme-builder/blob/0d6d758a5a1ea120e6f1d8caf40c06a29fa48f0f/skills/shopify-theme-builder/studio/server/shopify-fonts.json (kopie van de tabel “Available fonts” op shopify.dev, retrieved 2026-09-22; bevat figtree_n3–n9)',
+      'figtree_cdn': 'https://github.com/duckduckgo/tracker-radar/blob/197a396da8b8cdf2df1ded141cb58f2507e446d5/domains/US/shopifycdn.com.json (fonts.shopifycdn.com/figtree/…)',
+      'status': 'waarschijnlijk (secundaire kopie, shopify.dev zelf was niet bereikbaar). Controle in 1 minuut: kies Figtree in de theme-editor.'},
+    'self_host_fallback': 'brand/fonts/Figtree-VF.ttf (SIL OFL 1.1) als theme-asset, alleen als de handle in de theme-editor ontbreekt',
     'numeric': {'font-variant-numeric': 'tabular-nums', 'apply_to': ['prijzen', 'maten', 'aantallen', 'staffeltabellen', 'ordernummers', 'levertijden']},
-    'logo_rule': 'Het woordmerk heeft een eigen eenverdiepings-a. Tekst direct bij het logo (descriptor, ZAKELIJK) is altijd in kapitalen.',
+    'logo_rule': 'Het woordmerk is getekend, geen font. Tekst tegen het logo (descriptor, ZAKELIJK) is met dezelfde constructie getekend (tools/kkgeo.py).',
   },
   'type_scale': {
-    'display': {'weight': 800, 'size_desktop': 64, 'size_mobile': 40, 'line_height': 1.0, 'tracking': '-0.025em'},
-    'h1': {'weight': 800, 'size_desktop': 48, 'size_mobile': 34, 'line_height': 1.05, 'tracking': '-0.02em'},
-    'h2': {'weight': 800, 'size_desktop': 36, 'size_mobile': 28, 'line_height': 1.1, 'tracking': '-0.015em'},
-    'h3': {'weight': 700, 'size_desktop': 22, 'size_mobile': 20, 'line_height': 1.2, 'tracking': '-0.005em'},
-    'h4': {'weight': 700, 'size_desktop': 18, 'size_mobile': 17, 'line_height': 1.3, 'tracking': '0'},
-    'body-lg': {'weight': 400, 'size_desktop': 19, 'size_mobile': 17, 'line_height': 1.55},
-    'body': {'weight': 400, 'size_desktop': 17, 'size_mobile': 16, 'line_height': 1.55},
-    'small': {'weight': 400, 'size_desktop': 14, 'size_mobile': 14, 'line_height': 1.45},
-    'label': {'weight': 600, 'size_desktop': 15, 'size_mobile': 15, 'line_height': 1.3},
-    'eyebrow': {'weight': 700, 'size_desktop': 12.5, 'size_mobile': 12, 'line_height': 1.2, 'tracking': '0.08em', 'transform': 'uppercase'},
-    'price': {'weight': 700, 'size_desktop': 20, 'size_mobile': 19, 'line_height': 1.2, 'numeric': 'tabular-nums'},
-    'button': {'weight': 700, 'size_desktop': 16, 'size_mobile': 16, 'line_height': 1.0},
+    'campagne': {'font': 'heading', 'weight': 900, 'size_desktop': 80, 'size_mobile': 48, 'line_height': 0.95, 'tracking': '-0.035em', 'transform': 'none'},
+    'display': {'font': 'heading', 'weight': 800, 'size_desktop': 64, 'size_mobile': 40, 'line_height': 1.0, 'tracking': '-0.025em'},
+    'h1': {'font': 'heading', 'weight': 800, 'size_desktop': 48, 'size_mobile': 34, 'line_height': 1.05, 'tracking': '-0.02em'},
+    'h2': {'font': 'heading', 'weight': 800, 'size_desktop': 36, 'size_mobile': 28, 'line_height': 1.1, 'tracking': '-0.015em'},
+    'h3': {'font': 'heading', 'weight': 700, 'size_desktop': 22, 'size_mobile': 20, 'line_height': 1.2},
+    'h4': {'font': 'heading', 'weight': 700, 'size_desktop': 18, 'size_mobile': 17, 'line_height': 1.3},
+    'body-lg': {'font': 'body', 'weight': 400, 'size_desktop': 19, 'size_mobile': 17, 'line_height': 1.55},
+    'body': {'font': 'body', 'weight': 400, 'size_desktop': 17, 'size_mobile': 16, 'line_height': 1.55},
+    'small': {'font': 'body', 'weight': 400, 'size_desktop': 14, 'size_mobile': 14, 'line_height': 1.45},
+    'label': {'font': 'body', 'weight': 600, 'size_desktop': 15, 'size_mobile': 15, 'line_height': 1.3},
+    'eyebrow': {'font': 'body', 'weight': 700, 'size_desktop': 13, 'size_mobile': 12, 'line_height': 1.2, 'tracking': '0.08em', 'transform': 'uppercase'},
+    'price': {'font': 'body', 'weight': 700, 'size_desktop': 20, 'size_mobile': 19, 'line_height': 1.2, 'numeric': 'tabular-nums'},
+    'button': {'font': 'body', 'weight': 700, 'size_desktop': 16, 'size_mobile': 16, 'line_height': 1.0},
   },
-  'radius': {'none': 0, 'badge': 4, 'input': 8, 'button': 8, 'card': 12, 'media': 12, 'panel': 16, 'pill': 999},
+  'price_notation': {
+    'shop': 'In winkel, kaart, productpagina, winkelwagen, checkout, offerte en factuur altijd met centen: € 319,00 · € 1.145,00.',
+    'marketing': 'In hero-prijschip, banner, social, advertentie en e-mailkop mag ‘vanaf € 319’ zonder centen, alleen als de centen ,00 zijn. Nooit afronden (€ 318,95 blijft € 318,95), nooit ‘,-’.',
+    'format': '€ + spatie, punt voor duizendtallen, komma voor centen; maten 3 × 3 m (maalteken), Ø 80 cm, 320 g/m², 2–3 weken (en-dash); ‘incl. btw’ en ‘excl. btw’ klein.'},
+  'radius': {'none': 0, 'badge': 4, 'chip': 8, 'input': 8, 'button': 8, 'card': 12, 'media': 12, 'panel': 16, 'pill': 999},
   'spacing': {'unit': 4, 'scale': {'0': 0, '1': 4, '2': 8, '3': 12, '4': 16, '5': 20, '6': 24, '8': 32, '10': 40, '12': 48, '16': 64, '20': 80, '24': 96, '32': 128},
               'page_gutter': {'mobile': 16, 'tablet': 24, 'desktop': 40}, 'container_max': 1360, 'section_gap': {'mobile': 48, 'desktop': 96},
-              'grid_gap': {'mobile': 12, 'desktop': 24}, 'touch_target_min': 44},
+              'grid_gap': {'mobile': 12, 'desktop': 24}, 'touch_target_min': 44, 'grid_columns': {'mobile': 4, 'tablet': 8, 'desktop': 12}},
   'breakpoints': {'sm': 390, 'md': 750, 'lg': 990, 'xl': 1440},
-  'border': {'hairline': '1px solid #E4D6BE', 'card': '1px solid #E4D6BE', 'media': '1px solid #E4D6BE',
-             'input': '1.5px solid #5D625C', 'input-focus': '2px solid #1D2420', 'error': '2px solid #8A1538',
-             'button-outline': '2px solid currentColor', 'alert': '1px solid #E4D6BE + 4px linkerrand in de statuskleur', 'disabled': '2px dashed #5D625C'},
-  'shadow': {
-    'none': 'none',
-    'card-hover': '0 1px 2px rgba(29,36,32,.06), 0 10px 24px -14px rgba(29,36,32,.22)',
-    'sticky': '0 1px 0 rgba(29,36,32,.08), 0 6px 16px -10px rgba(29,36,32,.20)',
-    'drawer': '0 24px 64px -24px rgba(29,36,32,.38)',
-    'toast': '0 12px 32px -12px rgba(29,36,32,.35)',
-    'button-pressed': 'inset 0 2px 0 rgba(0,0,0,.28)',
-  },
-  'focus': {'outline': '3px solid var(--focus)', 'offset': '2px', 'on_light': H['inkt'], 'on_dark': H['zand']},
+  'border': {'hairline': f'1px solid {H["lijn"]}', 'card': f'1px solid {H["lijn"]}', 'input': f'1.5px solid {H["kiezel"]}', 'input-focus': f'2px solid {H["inkt"]}',
+             'chip': f'1.5px solid {H["kiezel"]}', 'chip-selected': f'2px solid {H["inkt"]} + vlak linnen + vinkje', 'chip-unavailable': f'1.5px solid {H["lijn"]} + label kiezel doorgestreept',
+             'error': f'2px solid {H["bordeaux"]}', 'button-outline': '2px solid currentColor', 'buy-hover': f'inset 0 0 0 2px {H["inkt"]}',
+             'alert': f'1px solid {H["lijn"]} + 4px linkerrand in de statuskleur', 'dropzone': f'1.5px dashed {H["kiezel"]} (de enige stippelrand)', 'disabled': f'1.5px solid {H["lijn"]}'},
+  'shadow': {'none': 'none', 'card-hover': '0 1px 2px rgba(29,36,32,.06), 0 10px 24px -14px rgba(29,36,32,.22)', 'sticky': '0 1px 0 rgba(29,36,32,.08), 0 6px 16px -10px rgba(29,36,32,.20)',
+             'drawer': '0 24px 64px -24px rgba(29,36,32,.38)', 'toast': '0 12px 32px -12px rgba(29,36,32,.35)', 'button-pressed': 'inset 0 2px 0 rgba(0,0,0,.28)'},
+  'focus': {'outline': '3px solid var(--focus)', 'offset': '2px', 'on_light': H['inkt'], 'on_dark': H['zand'], 'on_brand': H['inkt']},
   'components': {
-    'button-primary': {'default': 'zie color_schemes (Klaproos met Wit op licht)', 'hover': 'Klaproos donker #982A0E met Wit (de knop blijft rood); op Inkt: Klaproos + 2 px Zand-rand',
-                       'active': 'Klaproos donker + shadow.button-pressed + translateY(1px)',
-                       'focus-visible': {'outline': '3px focuskleur van het schema, offset 2px'},
-                       'disabled': {'bg': 'transparent', 'border': '2px dashed kiezel (licht) / zand (donker)', 'label': 'kiezel (licht) / zand (donker)', 'aria': 'aria-disabled="true"'},
-                       'busy': {'label': 'Toevoegen…', 'fill': 'ongewijzigd'},
-                       'done': {'bg': 'polder', 'label': 'zand', 'text': 'Toegevoegd', 'icon': 'vinkje', 'duration_ms': 1500, 'then': 'terug naar default'}},
-    'button-secondary': {'default': 'transparant, 2 px rand en label Inkt (licht) / Zand (donker)', 'hover': 'lichte tint (tint-<achtergrond>) + dezelfde rand: nooit een donkere vulling', 'active': 'tint + shadow.button-pressed'},
+    'button-buy': {'what': 'de ene koopknop per scherm: ‘In mijn winkelwagen’ (productpagina), ‘Naar winkelwagen’ (toast), ‘Afrekenen’ (winkelwagen, drawer)',
+                   'rest': 'Lampion vlak, Inkt label (figtree_n7, 16 px), winkelwagen-icoon links, hoogte 52 px', 'hover': 'zelfde vlak + 2 px Inkt-rand (inset)',
+                   'active': 'inzet-schaduw + 1 px omlaag', 'focus-visible': '3 px Inkt-ring, 2 px afstand', 'busy': '‘Toevoegen…’',
+                   'done': 'Polder met Wit label en vinkje ‘Toegevoegd’, 1,5 s', 'disabled': 'Wit, 1,5 px Lijn-rand, label Kiezel ‘Uitverkocht’, aria-disabled',
+                   'never': 'nooit op Linnen, Inkt of een Lampion-band; nooit twee koopknoppen op één scherm; in het productraster omlijnd'},
+    'button-primary': {'rest': 'Inkt met Wit label', 'hover': 'inkt-hover (Inkt 84% + Zand)', 'active': 'Inkt + shadow.button-pressed + translateY(1px)',
+                       'use': 'hoofdactie die geen kopen is: ‘Bekijk partytenten’, ‘Offerte aanvragen’, ‘Aanmelden’, ‘Ontwerp je hoes’'},
+    'button-secondary': {'rest': 'transparant, 2px rand en label Inkt', 'hover': 'tint + dezelfde rand', 'active': 'tint + shadow.button-pressed'},
     'add-to-cart': {'label': 'In mijn winkelwagen · {regeltotaal}', 'label_variant_missing': 'Kies je maat', 'label_soldout': 'Uitverkocht',
-                    'quantity': 'stepper − / + (44 px), totaal live in het label, tabular-nums',
-                    'toast': {'title': 'Staat in je winkelwagen.', 'body': '{producttitel}, {variant}, {aantal} ×', 'actions': ['Naar winkelwagen', 'Verder winkelen'], 'grammar': 'nooit ‘hij/het staat erin’: noem het product of zeg ‘Staat in je winkelwagen.’ (werkt voor de- én het-woorden)'}},
-    'product-card': {'card': 'Wit, border.card, radius.card', 'media': 'Steen binnen de kaart (nooit een los Steen-vlak op Zand)', 'quick_add': 'omlijnde Inkt-knop of icoonknop (+), hover tint-wit',
-                     'filled_klaproos_button': 'nooit: het product (vaak een Klaproos-tent) is het rood',
-                     'spec_line': 'kiezel, 1 regel', 'price': 'inkt tabular'},
-    'price-sale': {'shape': 'Zon-label met inkeping rechts, Inkt-tekst, tabular', 'compare': 'Kiezel, doorgestreept'},
-    'stock': {'in': {'text': 'Op voorraad', 'color': 'polder', 'marker': 'volle stip polder'},
-              'later': {'text': 'Leverbaar over 2–3 weken', 'color': 'oker', 'marker': 'halve stip oker'},
-              'out': {'text': 'Tijdelijk uitverkocht', 'color': 'kiezel', 'marker': 'open ring kiezel'}},
-    'alert': {'surface': 'wit', 'border': '1px lijn', 'accent': '4px linkerrand', 'error': 'bordeaux', 'notice': 'oker', 'success': 'polder',
-              'parts': 'icoon + vetgedrukte kop in de statuskleur, uitleg in Inkt'},
-    'trust': {'slots': ['betaalmethoden (Shopify payment_type_svg_tag, alleen ingeschakelde)', 'bel/app ons + openingstijden [claim]', 'KvK- en btw-nummer [claim]',
-                        'Thuiswinkel Waarborg (alleen met lidmaatschap) [claim]', 'reviewscore (alleen via review-app met echte data; anders niets)', 'herroepingsrecht 14 dagen, niet voor bedrukt maatwerk [claim]'],
-              'style': 'Inkt-iconen 24 px + label, rustig op Steen of in de footer op Polder; geen badges of sterren zonder bron'},
-    'bunting': {'light': 'svg/vlaggenlijn.svg (één kleur Klaproos, twee lengtes)', 'on_inkt': 'svg/vlaggenlijn-inkt.svg (Klaproos, Zon, Zand)',
-                'never': ['op Polder', 'met Polder erin (rood-geel-groen leest als een landsvlag)', 'in Zakelijk, offerte, checkout of bij een fout']},
+                    'quantity': 'stepper − / + (44 px, omlijnd), totaal live in het label, tabular-nums',
+                    'helper': 'Twijfel je over de maat? De maatgids rekent het voor je uit.', 'b2b_nudge': 'Zakelijk? Vanaf 10 stuks maken we een offerte op maat, op factuur. [claim]',
+                    'toast': {'title': 'Staat in je winkelwagen.', 'body': '{producttitel}, {variant} · {aantal} ×', 'actions': ['Naar winkelwagen (koopknop)', 'Verder winkelen (omlijnd)']}},
+    'option-chip': {'height': 44, 'radius': 8, 'rest': {'bg': 'wit', 'border': '1.5px kiezel', 'label': 'inkt (figtree_n6)'}, 'hover': {'bg': 'tint-wit', 'border': '1.5px inkt'},
+                    'selected': {'bg': 'linnen', 'border': '2px inkt', 'label': 'inkt (figtree_n7)', 'icon': 'vinkje 14 px links van het label', 'aria': 'aria-checked'},
+                    'unavailable': {'bg': 'wit', 'border': '1.5px lijn', 'label': 'kiezel, doorgestreept (line-through 1.5px)', 'sr': 'niet leverbaar'},
+                    'selected_unavailable': {'bg': 'linnen', 'border': '2px inkt', 'label': 'inkt doorgestreept', 'below': 'Uitverkocht – mail me als dit weer op voorraad is'}},
+    'btw-toggle': {'shape': 'segmented control, 36 px, radius pill', 'track': 'linnen', 'selected': 'Wit segment, 1.5 px Inkt-rand, label Inkt figtree_n7', 'unselected': 'label Kiezel figtree_n6', 'aria': 'radiogroup'},
+    'swatch': {'size': 32, 'ring_selected': '2px inkt met 2px tussenruimte', 'unavailable': 'diagonale streep Kiezel door de swatch', 'label': 'kleurnaam zichtbaar naast de groep: ‘Kleur: Rood’'},
+    'product-card': {'card': 'Wit, border.card, radius.card', 'media': 'Linnen, het product vult 80%', 'title': 'h4', 'spec_line': 'Kiezel, 1 regel (bv. ‘Aluminium frame · 320 g/m² dakdoek’)',
+                     'price': 'Inkt, tabular, met centen', 'quick_add': 'omlijnde Inkt-knop ‘In winkelwagen’ of ‘Kies je maat’ (geen koopknop in het raster)'},
+    'custom-print-card': {'badge': 'Met jouw logo (Linnen, Inkt-tekst, upload-icoon)', 'card': 'Wit kaart met Linnen voet; geen stippelrand', 'price': 'vanaf € 39,95 per stuk',
+                          'cta': 'Ontwerp je hoes / Ontwerp je tent (Inkt hoofdknop)', 'note': 'Upload je logo, je krijgt eerst een drukproef ter akkoord. Vanaf 10 st. staffelprijs. [claim]'},
+    'upload': {'zone': 'Wit, 1.5 px gestippelde Kiezel-rand, upload-icoon, ‘Sleep je logo hierheen of kies een bestand’', 'filled': 'bestandsnaam + ‘Vervangen’, rand wordt doorgetrokken Kiezel'},
+    'price-sale': {'shape': 'Zon-label, Inkt-tekst, tabular', 'compare': 'Kiezel, doorgestreept'},
+    'stock': {'in': {'text': 'Op voorraad', 'color': 'polder', 'marker': 'volle stip'}, 'later': {'text': 'Leverbaar over 2–3 weken', 'color': 'oker', 'marker': 'halve stip'},
+              'out': {'text': 'Tijdelijk uitverkocht', 'color': 'kiezel', 'marker': 'open ring'}},
+    'alert': {'surface': 'wit', 'border': '1px lijn', 'accent': '4px linkerrand', 'error': 'bordeaux', 'notice': 'oker', 'success': 'polder', 'parts': 'icoon + vetgedrukte kop in de statuskleur, uitleg in Inkt'},
+    'accent-underline': {'what': 'luifelstreep onder één woord in een kop vanaf 32 px', 'css': 'text-decoration: underline; text-decoration-color: var(--c-lampion); text-decoration-thickness: .14em; text-underline-offset: .12em; text-decoration-skip-ink: none'},
+    'bunting': {'light': 'svg/vlaggenlijn.svg (Lampion)', 'on_inkt': 'svg/vlaggenlijn-inkt.svg (Lampion en Zand)', 'never': ['in Zakelijk, offerte, checkout of bij een fout']},
   },
   'motion': {
     'duration': {'instant': 80, 'fast': 140, 'base': 220, 'slow': 320},
     'easing': {'standard': 'cubic-bezier(.2,0,0,1)', 'uitklap (enter)': 'cubic-bezier(.16,1,.3,1)', 'inklap (exit)': 'cubic-bezier(.4,0,1,1)'},
-    'patterns': {'drawer/accordion': 'uitklappen: height/transform 220 ms uitklap, geen bounce',
-                 'add-to-cart': 'label → "Toevoegen…" → Polder + vinkje + "Toegevoegd" (140 ms), na 1,5 s terug; toast "Staat in je winkelwagen." 220 ms van rechtsonder',
-                 'hover kaart': 'schaduw card-hover 140 ms; beeld schaal max 1,02',
-                 'hover knop': 'vulling/rand volgens het schema in 140 ms (standard); ingedrukt: inzet-schaduw + 1 px omlaag'},
-    'reduced_motion': 'prefers-reduced-motion: alle transform-animaties uit, alleen opacity ≤ 140 ms',
-  },
-  'icon': {'grid': 24, 'stroke': 2, 'stroke_small': 1.75, 'linecap': 'butt', 'linejoin': 'round', 'corner_radius': 2, 'color': 'currentColor', 'accent': 'geen: iconen zijn altijd één kleur (currentColor)'},
+    'patterns': {'drawer/accordion': 'uitklappen: height/transform 220 ms, geen bounce', 'add-to-cart': 'label → ‘Toevoegen…’ → Polder + vinkje ‘Toegevoegd’ (140 ms), na 1,5 s terug; toast 220 ms',
+                 'hover kaart': 'shadow.card-hover 140 ms; beeld schaal max 1,02', 'hover knop': 'vulling/rand 140 ms; ingedrukt: inzet-schaduw + 1 px omlaag'},
+    'reduced_motion': 'prefers-reduced-motion: geen transform-animaties, alleen opacity ≤ 140 ms'},
+  'icon': {'grid': 24, 'stroke': 2, 'stroke_small': 1.75, 'linecap': 'round', 'linejoin': 'round', 'color': 'currentColor', 'rule': 'lijniconen, één kleur, altijd met label of aria-label'},
   'logo': {
-    'construction': {'x_height': 500, 'stok': 130, 'dun': 65, 'pitch_deg': 24, 'roof_sag_k': 0.10, 'descender': -165,
-                     'leg_gap_vs_letter_gap': GR['v5']['ratio'], 'leg_gap_vs_letter_gap_v4': GR['v4']['ratio'], 'min_tip_deg': wm['primary']['corners']['min_tip_deg']},
-    'files': {'primary': 'logo.svg', 'inverse': 'logo-inverse.svg', 'inline_theme': 'svg/logo-inline.svg', 'klein': 'svg/logo-klein.svg', 'klein_inline_theme': 'svg/logo-klein-inline.svg',
-              'on_klaproos': 'svg/logo-on-klaproos.svg', 'mono': 'svg/logo-mono.svg', 'luifel': 'svg/logo-luifel.svg', 'zakelijk': 'svg/logo-zakelijk.svg',
-              'mark': 'mark.svg', 'mark_klein': 'svg/mark-klein.svg', 'print': ['svg/print-wordmark.svg', 'svg/print-wordmark-klein.svg', 'svg/print-mark.svg', 'svg/print-mark-klein.svg'],
+    'construction_units': {'cap_height': 700, **META['strokes_units']},
+    'angles_deg': META['angles_deg'],
+    'tent': META['tent'],
+    'files': {'primary': 'logo.svg', 'inverse': 'logo-inverse.svg', 'inline_theme': 'svg/logo-inline.svg', 'klein': 'svg/logo-klein.svg', 'klein_inverse': 'svg/logo-klein-inverse.svg',
+              'klein_inline_theme': 'svg/logo-klein-inline.svg', 'on_lampion': 'svg/logo-on-lampion.svg', 'mono': 'svg/logo-mono.svg', 'luifel': 'svg/logo-luifel.svg',
+              'zakelijk': 'svg/logo-zakelijk.svg', 'mark': 'mark.svg', 'mark_klein': 'svg/mark-klein.svg', 'mark_variants': ['svg/mark-lampion.svg', 'svg/mark-zand.svg', 'svg/mark-symbool.svg', 'svg/mark-mono.svg'],
+              'print': ['svg/print-wordmark.svg', 'svg/print-wordmark-klein.svg', 'svg/print-luifel.svg', 'svg/print-mark.svg', 'svg/print-mark-klein.svg'],
               'favicon_32': 'favicon.svg', 'favicon_16': 'svg/favicon-16.svg'},
-    'switch_screen_px': {'logo.svg': f'≥ {SW("primary")} px breed', 'svg/logo-klein.svg': f'{SW("klein")}–{SW("primary") - 1} px', 'mark.svg': f'≥ {mk["primary"]["min_sizes"]["scherm"]["min_width_px"]} px (symboolbreedte)', 'favicon': '16 / 32 px eigen tekening'},
-    'header': {'desktop': f'svg/logo-inline.svg inline, {HEADER["desktop_px"]} px breed ({hh(HEADER["desktop_px"], "primary")} px hoog, x-hoogte {xh(HEADER["desktop_px"], "primary")} px)',
-               'mobile_390': f'svg/logo-klein-inline.svg inline, {HEADER["mobile_px"]} px breed ({hh(HEADER["mobile_px"], "klein")} px hoog, x-hoogte {xh(HEADER["mobile_px"], "klein")} px)',
-               'css': 'handoff/logo.liquid: letters fill=currentColor, tent class="logo-svg__roof" met fill: var(--logo-roof, var(--c-klaproos)); de bronbestanden svg/logo-inline.svg gebruiken class="kk-tent"', 'tent_colour': {'scheme-1..3': 'klaproos', 'scheme-4 (Zakelijk)': 'polder', 'scheme-5/6': 'zon'}},
-    'min_sizes_mm': {v: {m: wm[v]['min_sizes'][m]['min_width_mm'] for m in wm[v]['min_sizes'] if m != 'scherm'} for v in ('primary', 'klein')},
-    'mark_min_sizes_mm': {v: {m: mk[v]['min_sizes'][m]['min_width_mm'] for m in mk[v]['min_sizes'] if m != 'scherm'} for v in ('primary', 'klein')},
-    'clearspace': 'x-hoogte van de a (1 x) rondom, gemeten vanaf de buitenkant van letters en tent',
+    'switch_screen_px': {'logo.svg': META['switch']['logo.svg'], 'svg/logo-klein.svg': META['switch']['logo-klein'], 'mark.svg': 'vanaf 40 px', 'svg/mark-klein.svg': '24–39 px', 'favicon': '16 en 32 px: eigen tekening'},
+    'header': {'desktop': f'svg/logo-inline.svg, {HEADER["desktop_px"]} px breed (kapitaalhoogte {caph(HEADER["desktop_px"], "primary")} px)',
+               'mobile_390': f'svg/logo-klein-inline.svg, {HEADER["mobile_px"]} px breed (kapitaalhoogte {caph(HEADER["mobile_px"], "klein")} px)',
+               'css': 'letters fill=currentColor; tent class="kk-tent", fill var(--logo-tent, #E66414); Zakelijk en één-kleur: currentColor'},
+    'min_width_mm': {'logo.svg': wm['primary']['min_width_mm'], 'logo-klein': wm['klein']['min_width_mm'], 'mark (symbool zonder vlak)': mk['min_width_mm'], 'mark-klein': mk['min_width_mm_klein']},
+    'clearspace': 'rondom minstens de halve letterhoogte (350 eenheden), gemeten vanaf de buitenkant van letters en tent; op scherm minimaal 12 px',
   },
   'favicon': {
     'theme_assets': {'favicon-16.png': 'brand/img/favicon-16.png', 'favicon-32.png': 'brand/favicon-32.png', 'favicon-192.png': 'brand/favicon-192.png',
                      'apple-touch-icon-180.png': 'brand/img/apple-touch-icon-180.png', 'favicon-cart-16.png': 'brand/img/favicon-cart-16.png', 'favicon-cart-32.png': 'brand/img/favicon-cart-32.png'},
-    'head': ['<link rel="icon" type="image/png" sizes="16x16" href="{{ \'favicon-16.png\' | asset_url }}" data-favicon="16">',
-             '<link rel="icon" type="image/png" sizes="32x32" href="{{ \'favicon-32.png\' | asset_url }}" data-favicon="32">',
-             '<link rel="icon" type="image/png" sizes="192x192" href="{{ \'favicon-192.png\' | asset_url }}">',
-             '<link rel="apple-touch-icon" href="{{ \'apple-touch-icon-180.png\' | asset_url }}">'],
-    'no_svg_link': 'Geen <link rel="icon" type="image/svg+xml"> en geen favicon.svg / favicon-cart.svg in de theme: browsers met SVG-favicon schalen dan één tekening voor alle maten en de 16-px-tekening wordt nooit gebruikt.',
-    'cart_state': {'assets': ['favicon-cart-16.png', 'favicon-cart-32.png'], 'liquid': 'eerste stand uit cart.item_count', 'js': 'in KK.updateCartCount(count) beide hrefs wisselen; code in technisch.md 6'},
-  },
-  'render': {'klaproos_albedo': '#AF2D03', 'finish': 'mat', 'backdrop': H['steen'], 'note': 'Ingangskleur voor de renderer zodat het belichte dakvlak als Klaproos uit de render komt (gemeten, technisch.md 5).'},
+    'drawings': {'32': 'tent op het pixelraster: steil dak (55°), luifel van 2,5 px met twee schulpen, palen van 3 px', '16': 'dak, luifel van 1,5 px met één schulp, palen van 2 px'},
+    'no_svg_link': 'Geen <link rel="icon" type="image/svg+xml">: dan schaalt de browser één tekening en wordt de 16-px-tekening nooit gebruikt.',
+    'cart_state': 'Zand-stip met Inkt-ring rechtsboven (favicon-cart-*.png); wisselen via handoff/favicon-cart.js'},
+  'render': {'backdrop': H['linnen'], 'tent_colour': 'stockkleur van de leverancier (renders/js/materials.js: rood #B5161E, zwart, wit), nooit Lampion',
+             'print_colour': {'op rood en zwart doek': H['zand'], 'op wit doek': H['inkt']},
+             'note': 'renders/render.mjs --bg "#ECE4D6"; de standaard in renders/ is nog #EFEDE8 (Steen, v5) en moet mee.'},
 }
 os.makedirs(OUT, exist_ok=True)
 json.dump(tokens, open(os.path.join(OUT, 'tokens.json'), 'w'), indent=2, ensure_ascii=False)
-json.dump({'rows': rows, 'info_rows': info_rows, 'forbidden': forb, 'separation': separation, 'surfaces': surfaces, 'scheme_checks': scheme_checks}, open(os.path.join(OUT, 'tools', '_contrast.json'), 'w'), indent=1, ensure_ascii=False)
+json.dump({'rows': rows, 'forbidden': forb, 'separation': separation, 'surfaces': surfaces, 'scheme_checks': scheme_checks, 'derived': {k: v[0] for k, v in D.items()}},
+          open(os.path.join(OUT, 'tools', '_contrast.json'), 'w'), indent=1, ensure_ascii=False)
 print('pairs', len(rows), 'fails', len(bad), [(b['fg'], b['bg'], b['ratio']) for b in bad])
-print('scheme checks', len(scheme_checks), 'fails', [(c['scheme'], c['state'], c['label_ratio'], c['shape_ratio']) for c in bad_s])
-print('hover', {k: v['hover_change'] for k, v in SCHEMES.items()})
-print('tints', TINT, H['tintd-polder'], H['tintd-inkt'])
-print('surfaces', surfaces)
+print('scheme checks', len(scheme_checks), 'fails', bad_s)
+print('derived', {k: v[0] for k, v in D.items()})
+print('separation', json.dumps(separation, ensure_ascii=False))
+print('forbidden', [(f['fg'], f['bg'], f['ratio']) for f in forb])

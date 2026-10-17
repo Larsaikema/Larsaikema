@@ -1,6 +1,7 @@
 {%- comment -%}
   Loaded lazily through /recommendations/products?section_id=…&product_id=…&intent=… (Section Rendering API).
 {%- endcomment -%}
+<script src="{{ 'product-recommendations.js' | asset_url }}" defer></script>
 <product-recommendations class="section recommendations color-{{ section.settings.color_scheme }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}&intent={{ section.settings.intent }}">
   {%- if recommendations.performed and recommendations.products_count > 0 -%}
     <div class="page-width">

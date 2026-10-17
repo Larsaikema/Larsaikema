@@ -34,7 +34,7 @@ PRO = {  # maat: (poly, hd, kg_poly, hd_extra_kg, verpakt, om_poly, om_hd)
     '4 x 8 m': (1249, 1499, 84, 14, '210 x 60 x 45 cm', 1449, 1769),
     '5 x 5 m': (1199, None, 66, 0, '210 x 45 x 45 cm', 1399, None),
 }
-PRO_KLEUREN = {'2 x 2 m': ['Klaproos', 'Wit', 'Zwart'], '5 x 5 m': ['Klaproos', 'Wit', 'Zwart', 'Antraciet']}
+PRO_KLEUREN = {'2 x 2 m': ['Rood', 'Wit', 'Zwart'], '5 x 5 m': ['Rood', 'Wit', 'Zwart', 'Antraciet']}
 
 def h_prem(m): return 'easy-up-partytent-premium-' + slug(m).replace('-m', '').replace('m', '')
 def h_pro(m): return 'easy-up-partytent-professional-' + slug(m).replace('-m', '').replace('m', '')
@@ -46,7 +46,7 @@ def tent_params(maat, line, k, **kw):
     p.update(kw)
     return p
 
-def tent_extra_imgs(handle, maat, line, k='Klaproos'):
+def tent_extra_imgs(handle, maat, line, k='Rood'):
     return [
         img(f'{handle}-{slug(k)}-detail.webp', 'detail', 2, 'easyUpTent', tent_params(maat, line, k), 'detail', k,
             alt=f'hoekstuk, schaar en luifelzoom, {k}'),
@@ -79,7 +79,7 @@ def build():
         for k in TENT_KLEUREN:
             sku = f'KK-EU-PRM-{code(m)}-{COLOR_CODE[k]}'
             variants.append(variant(sku, [m, k], price, kg * 1000, inv(8 if m == '3 x 3 m' else 5, sku, k)))
-        imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k, m=m: tent_params(m, 'premium', k), 'Klaproos',
+        imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k, m=m: tent_params(m, 'premium', k), 'Rood',
                                   tent_extra_imgs(h, m, 'premium'))
         dl, th = doorloop(m, 'premium')
         add({
@@ -128,7 +128,7 @@ def build():
                 pr = poly if u == 'Polyester' else hd
                 kgv = kg + (0 if u == 'Polyester' else hdkg)
                 variants.append(variant(sku, [m, u, k], pr, kgv * 1000, inv(6 if u == 'Polyester' else 3, sku, k)))
-        imgs, vmap = kleur_images(h, kleuren, 'easyUpTent', lambda k, m=m: tent_params(m, 'professional', k), 'Klaproos',
+        imgs, vmap = kleur_images(h, kleuren, 'easyUpTent', lambda k, m=m: tent_params(m, 'professional', k), 'Rood',
                                   tent_extra_imgs(h, m, 'professional'))
         dl, th = doorloop(m, 'professional')
         maxkg = kg + hdkg
@@ -171,7 +171,7 @@ def build():
 
     # ------------------------------------------------------------ printed easy-ups
     SIX = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m']
-    LOGO_K = ['Klaproos', 'Wit', 'Zwart', 'Blauw', 'Antraciet', 'Groen']
+    LOGO_K = ['Rood', 'Wit', 'Zwart', 'Blauw', 'Antraciet', 'Groen']
     def logo_params(m, line, k):
         p = tent_params(m, line, k)
         p['valancePrint'] = {'svg': 'brand/tools/print-wordmark.json', 'color': '#1D2420' if k == 'Wit' else '#FBF6EC',
@@ -183,8 +183,8 @@ def build():
         for k in LOGO_K:
             sku = f'KK-BDR-EUPRO-LOG-{code(m)}-{COLOR_CODE[k]}'
             variants.append(variant(sku, [m, k], PRO[m][0] + 150, (PRO[m][2]) * 1000, None, tracked=False))
-    imgs, vmap = kleur_images(h, LOGO_K, 'easyUpTent', lambda k: logo_params('3 x 3 m', 'professional', k), 'Klaproos',
-                              [img(f'{h}-klaproos-front.webp', 'front', 2, 'easyUpTent', logo_params('3 x 3 m', 'professional', 'Klaproos'), 'front', 'Klaproos', 'needs-patch',
+    imgs, vmap = kleur_images(h, LOGO_K, 'easyUpTent', lambda k: logo_params('3 x 3 m', 'professional', k), 'Rood',
+                              [img(f'{h}-rood-front.webp', 'front', 2, 'easyUpTent', logo_params('3 x 3 m', 'professional', 'Rood'), 'front', 'Rood', 'needs-patch',
                                    alt='met voorbeeldopdruk Klapklaar op de luifel')], status='needs-patch')
     add({'handle': h, 'title': 'Easy-up partytent Professional met jouw logo op de luifel', 'product_type': 'Easy-up partytent',
          'tags': ['bedrukbaar', 'zakelijk', 'gebruik:evenement', 'gebruik:markt', 'pallet'],
@@ -232,7 +232,7 @@ def build():
         for k in TENT_KLEUREN:
             sku = f'KK-BDR-EUPRM-LOG-{code(m)}-{COLOR_CODE[k]}'
             variants.append(variant(sku, [m, k], PL[m], PREM[m][1] * 1000, None, tracked=False))
-    imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k: logo_params('3 x 3 m', 'premium', k), 'Klaproos', status='needs-patch', p2=3)
+    imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k: logo_params('3 x 3 m', 'premium', k), 'Rood', status='needs-patch', p2=3)
     add({'handle': h, 'title': 'Easy-up partytent Premium met jouw logo op de luifel', 'product_type': 'Easy-up partytent',
          'tags': ['bedrukbaar', 'gebruik:markt', 'gebruik:evenement', 'pallet'],
          'options': [opt('Maat', list(PREM)), opt('Kleur', TENT_KLEUREN)], 'variants': variants,
@@ -280,7 +280,7 @@ def build():
              'price_ref': {'outmate': '3 m dicht/deur €69, raam €85; 6 m raam €135', 'band': '€50–€69 per 3 m wand', 'ours': {k: v[idx] for k, v in WALL.items()}}})
 
     HALF = {'3 m': 34.95, '4 m': 42.95, '4,5 m': 45.95, '6 m': 54.95}
-    HK = ['Wit', 'Zwart', 'Antraciet', 'Klaproos']
+    HK = ['Wit', 'Zwart', 'Antraciet', 'Rood']
     h = 'halve-zijwand-easy-up'
     variants = [variant(f'KK-ZW-EU-HA-{code(m)}-{COLOR_CODE[k]}', [m, k], pr, 600 + 200 * i, inv(6, f'h{m}{k}', k))
                 for i, (m, pr) in enumerate(HALF.items()) for k in HK]
@@ -363,8 +363,9 @@ def build():
          'seo_keywords': ['zijwanden pvc easy up set'], 'price_ref': {'outmate': '3x3 HD €199–€299 (snapshots)', 'ours': refs}})
 
     # ------------------------------------------------------------ roofs
-    DAK = {'2 x 2 m': (79, None), '3 x 3 m': (99, 189), '3 x 4,5 m': (135, 249), '3 x 6 m': (159, 299), '4 x 4 m': (149, 279),
-           '4 x 6 m': (199, 379), '4 x 8 m': (269, 529), '5 x 5 m': (229, None)}
+    # frame + dak is never cheaper than the complete tent (validate.py checks it); polyester 5-15% under Outmate (3x3 €129, 4x8 €319)
+    DAK = {'2 x 2 m': (79, None), '3 x 3 m': (119, 219), '3 x 4,5 m': (149, 279), '3 x 6 m': (199, 359), '4 x 4 m': (159, 279),
+           '4 x 6 m': (229, 379), '4 x 8 m': (279, 529), '5 x 5 m': (249, None)}
     h = 'dakzeil-easy-up'
     variants = []
     for m, (pp, ph) in DAK.items():
@@ -376,7 +377,7 @@ def build():
                 kg = m2(m) * (0.42 if u == 'Polyester' else 0.75)
                 variants.append(variant(sku, [m, u, k], pr, kg * 1000, inv(3, sku, k)))
     imgs, vmap = kleur_images(h, TENT_KLEUREN, 'canopyRoof', lambda k: {'w': 3, 'd': 3, 'color': render_color(k), 'material': 'polyester', 'display': 'draped', **render_finish(k)},
-                              'Klaproos', [img(f'{h}-klaproos-gevouwen.webp', 'detail', 3, 'canopyRoof', {'w': 3, 'd': 3, 'color': '#9B2502', 'finish': 'mat', 'display': 'folded'}, 'hero', 'Klaproos', 'needs-model')],
+                              'Rood', [img(f'{h}-rood-gevouwen.webp', 'detail', 3, 'canopyRoof', {'w': 3, 'd': 3, 'color': 'rood', 'display': 'folded'}, 'hero', 'Rood', 'needs-model')],
                               status='needs-model', p2=3)
     add({'handle': h, 'title': 'Dakzeil easy-up partytent', 'product_type': 'Dakzeil', 'tags': ['gebruik:tuinfeest', 'gebruik:evenement'],
          'options': [opt('Maat', list(DAK)), opt('Uitvoering', ['Polyester', 'Heavy duty PVC']), opt('Kleur', TENT_KLEUREN)], 'variants': variants,
@@ -422,7 +423,7 @@ def build():
          'seo_keywords': ['bedrukt dak partytent', 'dakzeil met logo'], 'price_ref': {'ours': BD}})
 
     # ------------------------------------------------------------ frames & parts
-    FP = {'3 x 3 m': 169, '3 x 4,5 m': 209, '3 x 6 m': 249}
+    FP = {'3 x 3 m': 169, '3 x 4,5 m': 219, '3 x 6 m': 259}
     h = 'los-frame-easy-up-premium'
     variants = [variant(f'KK-FRM-EU-PRM-{code(m)}', [m], pr, (PREM[m][1] - 4) * 1000, inv(3, m + 'fp')) for m, pr in FP.items()]
     add({'handle': h, 'title': 'Los frame easy-up Premium', 'product_type': 'Frame-onderdeel', 'tags': ['pallet'],

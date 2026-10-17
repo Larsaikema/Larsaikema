@@ -24,6 +24,11 @@
           });
           document.addEventListener('click', (e) => !this.contains(e.target) && this.close());
           this.addEventListener('focusout', (e) => !this.contains(e.relatedTarget) && setTimeout(() => !this.contains(document.activeElement) && this.close(), 0));
+          // loaded on first use (global.js): catch up with what was typed before the script arrived
+          if (this.term) {
+            this.clear && (this.clear.hidden = false);
+            if (document.activeElement === this.input) this.onInput();
+          }
         }
         get term() {
           return this.input.value.trim();

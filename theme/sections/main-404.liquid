@@ -12,7 +12,7 @@
     </form>
     <div class="btn-row">
       <a class="btn btn--outline" href="{{ routes.root_url }}">{{ 'not_found.home' | t }}</a>
-      <a class="btn btn--secondary" href="{{ section.settings.cta_link | default: routes.collections_url }}">{{ 'not_found.cta' | t }}</a>
+      <a class="btn" href="{{ section.settings.cta_link | default: routes.collections_url }}">{{ 'not_found.cta' | t }}</a>
     </div>
   </div>
 </div>

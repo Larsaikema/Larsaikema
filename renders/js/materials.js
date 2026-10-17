@@ -102,20 +102,31 @@ export function tentThread(color) {
     const L = lum(hex);
     const c = tentFabricBase(hex).clone();
     if (L > 0.5) c.multiplyScalar(0.72); else if (L < 0.1) c.lerp(new THREE.Color().setRGB(0.16, 0.16, 0.17), 0.8); else c.multiplyScalar(0.8);
-    return new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.55, sheen: 0.6, sheenRoughness: 0.4, sheenColor: new THREE.Color('#ffffff').multiplyScalar(0.3), side: THREE.DoubleSide, name: `thread ${hex}` });
+    const m = new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.7, specularIntensity: 0.3, sheen: 0.3, sheenRoughness: 0.5, sheenColor: c.clone().lerp(new THREE.Color('#ffffff'), 0.15), side: THREE.DoubleSide, name: `thread ${hex}` });
+    // tiny curved pillows: full-strength softbox reflections would sparkle as white specks
+    m.userData.envSpec = 0.25;
+    return m;
   });
 }
 
-// Polypropylene webbing (straps, velcro tabs) and moulded plastic hardware.
+// Polypropylene webbing (straps, zip tape): fine diagonal twill ribs (~1.2 mm), a soft
+// dark sheen. uv in metres along/across the strap.
 export function webbing(color = '#151617') {
   return cached(`webbing:${color}`, () => {
     const m = new THREE.MeshPhysicalMaterial({
-      color, roughness: 0.62, sheen: 0.5, sheenRoughness: 0.45, sheenColor: new THREE.Color('#5a5a5a'),
-      normalMap: TX.twillNormal().clone(), normalScale: new THREE.Vector2(0.5, 0.5), side: THREE.DoubleSide, name: `webbing ${color}`,
+      color, roughness: 0.6, sheen: 0.35, sheenRoughness: 0.5, sheenColor: new THREE.Color('#3c3d3f'),
+      normalMap: TX.twillNormal().clone(), normalScale: new THREE.Vector2(0.55, 0.55), side: THREE.DoubleSide, name: `webbing ${color}`,
     });
-    m.normalMap.repeat.set(120, 120); m.normalMap.needsUpdate = true;
+    m.normalMap.repeat.set(9, 9); m.normalMap.needsUpdate = true;
     return m;
   });
+}
+
+// Moulded acetal zip teeth: dark, smooth, satin-gloss (each tooth catches a highlight).
+export function zipTooth(color = '#151516') {
+  return cached(`ziptooth:${color}`, () => new THREE.MeshPhysicalMaterial({
+    color, roughness: 0.3, metalness: 0, specularIntensity: 0.8, clearcoat: 0.3, clearcoatRoughness: 0.25, name: `zip tooth ${color}`,
+  }));
 }
 
 // Stretch lycra/spandex: tight knit, pronounced sheen that glints along curvature.
@@ -247,6 +258,18 @@ export function castAluminium(tone = '#9DA2A7') {
 
 export function rubber(color = '#121212') {
   return cached(`rubber:${color}`, () => new THREE.MeshStandardMaterial({ color, roughness: 0.82, metalness: 0, name: 'rubber' }));
+}
+
+// Rubber-coated moulded weight plates: matte, fine moulded grain, faint sheen.
+export function mouldedRubber(color = '#242527') {
+  return cached(`mrubber:${color}`, () => {
+    const m = new THREE.MeshPhysicalMaterial({
+      color, roughness: 0.78, metalness: 0, specularIntensity: 0.45, sheen: 0.25, sheenRoughness: 0.6, sheenColor: new THREE.Color('#4a4b4d'),
+      normalMap: TX.stippleNormal({ size: 256, strength: 1.4, scale: 34, seed: 29 }).clone(), normalScale: new THREE.Vector2(0.22, 0.22), name: `moulded rubber ${color}`,
+    });
+    m.normalMap.repeat.set(70, 70); m.normalMap.needsUpdate = true;
+    return m;
+  });
 }
 
 export function hdpe(color = '#F1F1ED') {

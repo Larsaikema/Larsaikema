@@ -20,6 +20,67 @@ def build():
            {'kenmerk_kort': 'Zwart stalen frame · eiken-look zitting · stapelbaar', 'staffelkorting': ST_MEUBEL, 'verzending': 'pakket', 'gewicht_kg': 6.5},
            ['tafels-stoelen.barkrukken'], 'meubilair', 'Warmere uitstraling dan full-metaal; horeca en verhuur.', ['barkruk hout', 'barkruk houten zitting'],
            {'outmate': 'Hamburg met houten zitting (prijs onbekend)', 'ours': 49.95})
+    def seat(h, title, ptype, tags, kleuren, price, grams, sku, model, params, default, kenmerk, specs, covers, brief, kw, ref, base=30, extra_imgs=(), mf_extra=None):
+        vs = [variant(f'KK-MEU-{sku}-{COLOR_CODE[k]}', [k], price, grams, inv(base, k + sku, k)) for k in kleuren]
+        imgs, vmap = kleur_images(h, kleuren, model, lambda k: dict(params, color=render_color(k)), default, list(extra_imgs), status='needs-model', p2=3)
+        mf = {'kenmerk_kort': kenmerk, 'staffelkorting': ST_MEUBEL, 'verzending': 'pakket', 'gewicht_kg': round(grams / 1000, 1), 'specificaties': specs}
+        mf.update(mf_extra or {})
+        simple(h, title, ptype, tags, [opt('Kleur', kleuren)], vs, imgs, mf, covers, 'meubilair', brief, kw, ref, vmap=vmap)
+    seat('barkruk-velours-stapelbaar', 'Barkruk velours stapelbaar', 'Barkruk', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+         ['Grijs', 'Groen', 'Marineblauw', 'Camel'], 37.95, 6000, 'BKV', 'barStool', {'style': 'velours', 'height': 0.76, 'back': True}, 'Grijs',
+         'Velours zitting met rug · zithoogte 76 cm · stapelbaar tot 5 · binnen',
+         [sp('Kruk', 'Zithoogte', '76 cm (bij statafel 107–110 cm)'), sp('Kruk', 'Zitting', 'Gestoffeerd met velours, lage rugleuning'),
+          sp('Kruk', 'Frame', 'Staal, zwart gepoedercoat, voetsteun rondom'), sp('Stapelen', 'Aantal', 'Tot 5 stuks'), sp('Gebruik', 'Binnen', 'Ja, niet buiten laten staan')],
+         ['tafels-stoelen.barkrukken'], 'Zachte, warme barkruk voor binnen: receptie, lounge, bedrijfsfeest; velours in 4 kleuren; stapelbaar tot 5; staffel vanaf 10.',
+         ['barkruk velours', 'barkruk gestoffeerd', 'barkruk met rugleuning'], {'outmate': 'Mundo velours stapelbaar €167 per 4 (€41,75 p.st.) · Louis gestoffeerd €129–€139', 'ours': 37.95})
+    seat('barkruk-pe-rotan', 'Barkruk PE-rotan voor buiten', 'Barkruk', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'],
+         ['Zwart', 'Bruin', 'Grijs'], 84.95, 5000, 'BKR', 'barStool', {'style': 'rotan', 'height': 0.76, 'back': True}, 'Zwart',
+         'Aluminium frame · PE-rotan vlechtwerk · zithoogte 76 cm · buiten',
+         [sp('Kruk', 'Zithoogte', '76 cm'), sp('Kruk', 'Frame', 'Aluminium, gepoedercoat (roest niet)'), sp('Kruk', 'Zitting en rug', 'PE-rotan, UV-bestendig vlechtwerk'),
+          sp('Kruk', 'Voetsteun', 'Ja, aluminium'), sp('Gebruik', 'Buiten', 'Ja, regen- en UV-bestendig')],
+         ['tafels-stoelen.barkrukken'], 'Barkruk voor terras en buitenbar die buiten kan blijven staan: aluminium frame dat niet roest, PE-rotan dat tegen zon en regen kan.',
+         ['barkruk rotan', 'barkruk buiten', 'terras barkruk'], {'note': 'geen Outmate/Statafelshop-referentie; markt PE-rotan barkrukken ca. €79–€129', 'ours': 84.95}, base=12)
+    seat('barkruk-draad-stapelbaar', 'Barkruk draad stapelbaar', 'Barkruk', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+         ['Zwart', 'Wit'], 129.0, 7000, 'BKD', 'barStool', {'style': 'draad', 'height': 0.76}, 'Zwart',
+         'Gelast draadstaal · zithoogte 76 cm · stapelbaar tot 8 · binnen en buiten',
+         [sp('Kruk', 'Zithoogte', '76 cm'), sp('Kruk', 'Materiaal', 'Gelast staaldraad, gepoedercoat'), sp('Kruk', 'Rug', 'Lage rugleuning van draad'),
+          sp('Stapelen', 'Aantal', 'Tot 8 stuks'), sp('Gebruik', 'Binnen en buiten', 'Ja')],
+         ['tafels-stoelen.barkrukken'], 'Design-barkruk van draadstaal voor horeca en events, stapelbaar tot 8, binnen en buiten; zitkussen optioneel.',
+         ['draad barkruk', 'barkruk draadstoel', 'barkruk stapelbaar zwart'], {'outmate': 'Paxi draadstoel zwart €147,50 (stapelbaar tot 8)', 'ours': 129.0}, base=15,
+         mf_extra={'addons': ['zitkussen-stoel-en-barkruk']})
+    seat('kruk-laag-stapelbaar', 'Lage kruk stapelbaar', 'Kruk', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement', 'gebruik:tuinfeest'],
+         ['Zwart', 'Wit', 'Antraciet'], 27.95, 3500, 'KRL', 'barStool', {'style': 'metaal', 'height': 0.45}, 'Zwart',
+         'Zithoogte 45 cm · gepoedercoat staal · stapelbaar tot 10',
+         [sp('Kruk', 'Zithoogte', '45 cm (bij tafels van 72–76 cm)'), sp('Kruk', 'Materiaal', 'Staal, gepoedercoat'), sp('Stapelen', 'Aantal', 'Tot 10 stuks'),
+          sp('Gebruik', 'Binnen en buiten', 'Ja')],
+         ['tafels-stoelen.stoelen'], 'Lage kruk bij een gewone tafel, biertafel of als extra zitplek op een feest; stapelbaar, binnen en buiten.',
+         ['lage kruk', 'kruk stapelbaar', 'kruk metaal'], {'note': 'geen referentie bij Outmate/Statafelshop; markt €20–€35', 'ours': 27.95}, base=40)
+    seat('stapelstoel-metaal', 'Stapelstoel metaal', 'Stoel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+         ['Zwart', 'Wit', 'Antraciet'], 42.95, 4800, 'STM', 'chair', {'style': 'metaal'}, 'Zwart',
+         'Gepoedercoat staal · stapelbaar tot 10 · binnen en buiten',
+         [sp('Stoel', 'Zithoogte', '45 cm'), sp('Stoel', 'Materiaal', 'Staal, gepoedercoat'), sp('Stapelen', 'Aantal', 'Tot 10 stuks'),
+          sp('Gebruik', 'Binnen en buiten', 'Ja, met afwateringsgaatjes in de zitting')],
+         ['tafels-stoelen.stoelen'], 'Bistro-stapelstoel voor terras, kantine en verhuur; past bij onze lage kruk en metalen barkruk.',
+         ['stapelstoel metaal', 'bistrostoel', 'terrasstoel stapelbaar'], {'outmate': 'Hamburg stapelstoel zwart €48,50', 'ours': 42.95}, base=40,
+         mf_extra={'addons': ['zitkussen-stoel-en-barkruk']})
+    seat('banquetstoel-gestoffeerd', 'Banquetstoel gestoffeerd stapelbaar', 'Stoel', ['zakelijk', 'gebruik:evenement', 'gebruik:horeca'],
+         ['Zwart', 'Antraciet', 'Bordeaux', 'Marineblauw'], 49.95, 6500, 'BQS', 'chair', {'style': 'banquet'}, 'Zwart',
+         'Gestoffeerde zitting en rug · stalen frame · stapelbaar tot 10',
+         [sp('Stoel', 'Zithoogte', '46 cm'), sp('Stoel', 'Zitting en rug', 'Gestoffeerd, polyester stof, vlekbestendig behandeld'),
+          sp('Stoel', 'Frame', 'Staal, zwart gepoedercoat'), sp('Stapelen', 'Aantal', 'Tot 10 stuks'), sp('Gebruik', 'Binnen', 'Ja')],
+         ['tafels-stoelen.stoelen'], 'Klassieke congres- en diner-stapelstoel: gestoffeerd, stapelbaar tot 10, voor zalen, bruiloften en verhuur.',
+         ['banquetstoel', 'congresstoel stapelbaar', 'gestoffeerde stapelstoel'], {'outmate': 'Louis stapelstoel €122,55 bij 10–25 st (luxer model)', 'ours': 49.95}, base=30)
+    BNK = {'120 x 40 cm': 169.0, '180 x 40 cm': 219.0}
+    BNKK = ['Antraciet', 'Zandkleur']
+    vs = [variant(f'KK-MEU-BNK-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 12000 + 6000 * i, inv(6, m + k + 'bnk', k)) for i, (m, p) in enumerate(BNK.items()) for k in BNKK]
+    imgs, vmap = kleur_images('bank-houten-frame', BNKK, 'bench', lambda k: {'length': 1.8, 'frame': 'eiken', 'seat': render_color(k)}, 'Antraciet', status='needs-model', p2=3)
+    simple('bank-houten-frame', 'Bank met houten frame en gestoffeerde zitting', 'Bank', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+           [opt('Maat', list(BNK)), opt('Kleur', BNKK)], vs, imgs,
+           {'kenmerk_kort': 'Massief eiken frame · gestoffeerde zitting · 120 of 180 cm', 'staffelkorting': ST_MEUBEL, 'verzending': 'pallet',
+            'specificaties': [sp('Bank', 'Zithoogte', '46 cm'), sp('Bank', 'Frame', 'Massief eikenhout, geolied'), sp('Bank', 'Zitting', 'Schuimrubber met stoffen bekleding'),
+                              sp('Afmetingen', 'Maten', '120 x 40 cm (2 personen) of 180 x 40 cm (3 personen)')], 'garantie': '2 jaar'},
+           ['tafels-stoelen.banken'], 'meubilair', 'Bank voor lounge, receptie en horeca: warm eiken frame met gestoffeerde zitting; 2 of 3 zitplaatsen; binnen.',
+           ['bank horeca', 'zitbank hout', 'lounge bank'], {'statafelshop': 'Banken: houten frame, stoffen zitting (prijs niet gevonden)', 'ours': BNK}, vmap=vmap)
     KS = ['Wit', 'Zwart']
     vs = [variant(f'KK-MEU-KLS-{COLOR_CODE[k]}', [k], 17.95, 3200, inv(80, k + 'kls', k)) for k in KS]
     imgs, vmap = kleur_images('klapstoel', KS, 'chair', lambda k: {'style': 'klapstoel', 'color': render_color(k)}, 'Wit', status='needs-model', p2=3)
@@ -101,7 +162,7 @@ def build():
            [variant(f'KK-MEU-TKS-{c}', [n], p, kg * 1000, inv(4, c + 'tks')) for n, p, c, kg in TK2],
            [img('transportkar-statafels-hero.webp', 'hero', 1, 'trolley', {'kind': 'statafel', 'size': 'groot', 'loaded': 0}, 'hero', None, 'needs-model'),
             img('transportkar-statafels-gevuld.webp', 'in-gebruik', 2, 'trolley', {'kind': 'statafel', 'size': 'groot', 'loaded': 15}, 'hero', None, 'needs-model', alt='gevuld met 15 statafels (niet inbegrepen)')],
-           {'kenmerk_kort': 'Heavy duty wielen · grijs hamerslag · 5 of 15 ingeklapte statafels', 'verzending': 'pallet',
+           {'kenmerk_kort': 'Heavy duty wielen · grijs hamerslag · 5 of 15 ingeklapte statafels', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
             'past_op': ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80'],
             'specificaties': [sp('Kar', 'Groot', 'ca. 126 x 97 x 113 cm, tot 15 statafels Ø80'), sp('Kar', 'Klein', 'ca. 65 x 95 x 114 cm, tot 5 statafels')]},
            ['tafels-stoelen.trolleys'], 'meubilair', 'Statafels verplaatsen en opslaan zonder sjouwen; capaciteit per model.', ['transportkar statafels', 'trolley statafel'],
@@ -110,7 +171,7 @@ def build():
     simple('transportkar-klaptafels-en-stoelen', 'Transportkar voor klaptafels en stoelen', 'Transportkar', ['zakelijk', 'pallet'], [opt('Uitvoering', [t[0] for t in TK3])],
            [variant(f'KK-MEU-TKK-{c}', [n], p, kg * 1000, inv(3, c + 'tkk')) for n, p, c, kg in TK3],
            [img('transportkar-klaptafels-en-stoelen-hero.webp', 'hero', 1, 'trolley', {'kind': 'klaptafel', 'loaded': 0}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Zwenkwielen met rem · voor klaptafels, barkrukken of klapstoelen', 'verzending': 'pallet',
+           {'kenmerk_kort': 'Zwenkwielen met rem · voor klaptafels, barkrukken of klapstoelen', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
             'past_op': ['klaptafel-hdpe-rechthoekig', 'barkruk-stapelbaar-metaal', 'klapstoel']},
            ['tafels-stoelen.trolleys'], 'meubilair', 'Eén kar per meubeltype; capaciteit en afmetingen.', ['transportkar klaptafels', 'trolley stoelen'],
            {'outmate': 'trolley klaptafel rond 180 vanaf €482,50', 'ours': {t[0]: t[1] for t in TK3}})
@@ -122,18 +183,17 @@ def build():
     imgs, vmap = kleur_images('prikkabel-e27', PKK, 'prikkabel', lambda k: {'bulbs': 10, 'spacing': 1.0, 'sag': 0.25, 'on': True, 'cable': render_color(k)}, 'Zwart',
                               [img('prikkabel-e27-zwart-uit.webp', 'detail', 3, 'prikkabel', {'bulbs': 10, 'spacing': 1.0, 'sag': 0.25, 'on': False}, 'hero', 'Zwart', 'existing', alt='lampen uit')], status='existing', p2=3)
     simple('prikkabel-e27', 'Prikkabel E27', 'Prikkabel', ['gebruik:tuinfeest', 'gebruik:horeca', 'gebruik:evenement'], [opt('Maat', list(PK)), opt('Kleur', PKK)], vs, imgs,
-           {'kenmerk_kort': 'Fitting elke meter · IP44 · max. 25 W per fitting', 'verzending': 'pakket', 'addons': ['led-lamp-e27'],
+           {'kenmerk_kort': 'Fitting elke meter · IP44 · max. 25 W per fitting', 'verzending': 'pakket', 'addons': ['led-lamp-e27'], 'staffelkorting': ST_PRIK,
             'specificaties': [sp('Kabel', 'Spanning', '230 V, 16 A'), sp('Kabel', 'Fittingen', 'E27, elke 1 m'), sp('Kabel', 'Beschermingsklasse', 'IP44'), sp('Lamp', 'Max. vermogen', '25 W per fitting')]},
            ['verlichting.prikkabels'], 'verlichting', 'Sfeerverlichting voor tuin en terras: lengte = aantal fittingen, lampen apart (of als set); doorkoppelen binnen het maximum.',
            ['prikkabel', 'prikkabel 10 meter', 'lichtsnoer buiten'], {'outmate': '10 m €49 · 20 m €87 · 30 m €126', 'ours': {m: v[0] for m, v in PK.items()}}, vmap=vmap)
-    vs = [variant(f'KK-LCHT-PKM-{COLOR_CODE[k]}', [k], 4.49, 120, None, tracked=False, qrule={'min': 5, 'max': 200, 'increment': 1}) for k in PKK]
+    vs = [variant(f'KK-LCHT-PKM-{COLOR_CODE[k]}', [k], 4.49, 120, None, tracked=False, policy='continue', qrule={'min': 5, 'max': 200, 'increment': 1}) for k in PKK]
     simple('prikkabel-op-maat', 'Prikkabel op maat (per meter)', 'Prikkabel', ['zakelijk', 'gebruik:horeca'], [opt('Kleur', PKK)], vs,
            [img('prikkabel-op-maat-hero.webp', 'hero', 1, 'prikkabel', {'bulbs': 14, 'spacing': 0.5, 'sag': 0.2, 'on': True}, 'hero', 'Zwart', 'existing')],
            {'kenmerk_kort': 'Jouw lengte tot 200 m · fittingafstand naar keuze · gemonteerd', 'levertijd': 'Levertijd 3–5 werkdagen', 'verzending': 'pakket'},
            ['verlichting.prikkabels'], 'verlichting',
-           'Aantal = meters; afstand stekker–1e fitting, aantal fittingen, tussenafstand en eindstuk als regel-eigenschappen; maatwerk kan niet retour.',
-           ['prikkabel op maat'], {'outmate': 'op maat vanaf €9', 'ours': '€4,49 per meter, min. 5 m'},
-           extra={'line_item_properties': ['Afstand stekker tot 1e fitting (cm)', 'Aantal fittingen', 'Afstand tussen fittingen (cm)', 'Afstand laatste fitting tot eind (cm)', 'Eindstuk (eindkap / contrastekker / eindhaak)']})
+           'Lengte in de configurator (aantal = meters, min. 5 m); fittingafstand, aanloop en eindstuk als keuzes; maatwerk kan niet retour.',
+           ['prikkabel op maat'], {'outmate': 'op maat vanaf €9', 'ours': '€4,49 per meter, min. 5 m'})
     LL = [('Warm wit melkglas 1 W', 1.29, 'MW'), ('Warm wit helder 1 W', 1.29, 'HW'), ('Filament dimbaar 2 W', 1.79, 'FD'), ('Set van 5 gekleurde lampen', 4.95, 'S5')]
     simple('led-lamp-e27', 'LED-lamp E27 onbreekbaar', 'LED-lamp', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [l[0] for l in LL])],
            [variant(f'KK-LCHT-LED-{c}', [n], p, 40 if c != 'S5' else 200, inv(400, c + 'led')) for n, p, c in LL],
@@ -147,6 +207,7 @@ def build():
     imgs, vmap = kleur_images('led-lichtslang', LS, 'ropeLight', lambda k: {'color': render_color(k), 'length': 5, 'on': True}, 'Warm wit', status='needs-model', p2=3)
     simple('led-lichtslang', 'LED-lichtslang (per meter)', 'Lichtslang', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Kleur', LS)], vs, imgs,
            {'kenmerk_kort': '36 LEDs per meter · IP44 · 1,5 W per meter · hele meters', 'verzending': 'pakket', 'addons': ['onderdelen-prikkabel-en-lichtslang'],
+            'staffelkorting': ST_SLANG, 'addon_modus': 'per-regel',
             'specificaties': [sp('Slang', 'LEDs', '36 per meter'), sp('Slang', 'Diameter', '13 mm'), sp('Slang', 'Beschermingsklasse', 'IP44')]},
            ['verlichting.lichtslangen'], 'verlichting', 'Lichtslang per hele meter (aantal = meters); aansluitsnoer met stekker apart (onderdelen).',
            ['led lichtslang', 'lichtslang buiten'], {'outmate': 'warm wit €8,95–€9,99 per m; 20 m €58', 'ours': '€7,95 per meter'}, vmap=vmap)
@@ -156,6 +217,20 @@ def build():
            {'kenmerk_kort': 'Doorkoppelbaar · IP65 · 2200 K', 'verzending': 'pakket'},
            ['verlichting.kerstverlichting'], 'verlichting', 'Professionele kerstverlichting voor gevel, boom en terras; doorkoppelbaar.', ['kerstverlichting buiten', 'kerstverlichting doorkoppelbaar'],
            {'outmate': '€33,99 / €35', 'ours': {'Warm wit': 29.95, 'Warm wit fonkelend': 32.95}})
+    simple('led-vloedlicht-easy-up', 'LED-vloedlicht voor easy-up 30 W', 'Tentverlichting', ['zakelijk', 'gebruik:evenement', 'gebruik:markt'], [],
+           [variant('KK-LCHT-VL30', [], 74.95, 1400, 20)],
+           [img('led-vloedlicht-easy-up-hero.webp', 'hero', 1, 'floodLight', {'watt': 30, 'clamp': True}, 'hero', None, 'needs-model'),
+            img('led-vloedlicht-easy-up-in-tent.webp', 'in-gebruik', 3, 'items', {'items': [{'model': 'easyUpTent', 'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit'},
+                                                                                         {'model': 'floodLight', 'watt': 30, 'mountedOn': 'leg'}]}, 'low', None, 'needs-model',
+                alt='aan de poot van een easy-up (tent niet inbegrepen)')],
+           {'kenmerk_kort': '30 W · 2.400 lumen · klem voor poten tot 50 mm · IP65', 'verzending': 'pakket', 'past_op': [],
+            'specificaties': [sp('Lamp', 'Vermogen', '30 W LED'), sp('Lamp', 'Lichtstroom', 'ca. 2.400 lumen, 4000 K'), sp('Lamp', 'Beschermingsklasse', 'IP65'),
+                              sp('Bevestiging', 'Klem', 'Voor zeskantpoten van 40 en 50 mm, kantelbaar'), sp('Aansluiting', 'Kabel', '3 m met stekker, 230 V')],
+            'garantie': '1 jaar'},
+           ['easy-up-accessoires.easy-up-inrichting', 'verlichting.prikkabels'], 'verlichting',
+           'Werklicht en sfeerlicht in de tent: klemt aan de poot, 2.400 lumen; voor markt, opbouw in het donker en avondevenementen.',
+           ['led lamp partytent', 'verlichting easy up', 'vloedlicht tent'], {'outmate': 'Easy-up LED-vloedlicht 30 W €129', 'ours': 74.95,
+                                                                            'note': 'onder Outmate gezet: 30 W LED-vloedlicht is elders een standaardartikel (eigenaar beoordeelt)'})
     PO = [('E27-fitting zwart', 1.39, 'FZ'), ('E27-fitting wit', 1.49, 'FW'), ('Eindkap', 1.95, 'EK'), ('Stekkerdimmer tot 280 W', 9.95, 'SD'),
           ('Dimmer met afstandsbediening tot 500 W', 24.95, 'DA'), ('Tijdschakelaar', 7.95, 'TS'), ('Aansluitsnoer lichtslang met stekker', 9.95, 'AS'), ('Verlengkabel 10 m zwart', 12.95, 'VK')]
     simple('onderdelen-prikkabel-en-lichtslang', 'Onderdelen prikkabel en lichtslang', 'Verlichting onderdeel', [], [opt('Uitvoering', [p[0] for p in PO])],
@@ -167,13 +242,16 @@ def build():
 
     # ------------------------------------------------------------ verwarming
     simple('elektrische-heater-partytent', 'Elektrische heater voor partytent', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement'],
-           [opt('Uitvoering', ['1500 W met klem voor easy-up', '2100 W IP24 met beugel'])],
-           [variant('KK-VRW-EL-1500', ['1500 W met klem voor easy-up'], 109.0, 3500, 12), variant('KK-VRW-EL-2100', ['2100 W IP24 met beugel'], 149.0, 4200, 8)],
+           [opt('Uitvoering', ['1500 W met klem voor easy-up', '1500 W met afstandsbediening en LED-lamp', '2100 W IP24 met beugel'])],
+           [variant('KK-VRW-EL-1500', ['1500 W met klem voor easy-up'], 109.0, 3500, 12), variant('KK-VRW-EL-1500AB', ['1500 W met afstandsbediening en LED-lamp'], 119.0, 3800, 8),
+            variant('KK-VRW-EL-2100', ['2100 W IP24 met beugel'], 149.0, 4200, 8)],
            [img('elektrische-heater-partytent-hero.webp', 'hero', 1, 'heater', {'kind': 'elektrisch', 'watt': 1500, 'clamp': True}, 'hero', None, 'needs-model'),
             img('elektrische-heater-partytent-in-tent.webp', 'in-gebruik', 3, 'items', {'items': [{'model': 'easyUpTent', 'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit'},
                                                                                               {'model': 'heater', 'kind': 'elektrisch', 'mountedOn': 'leg'}]}, 'low', None, 'needs-model', alt='aan de poot van een easy-up (tent niet inbegrepen)')],
            {'kenmerk_kort': 'Infrarood · 3 standen · tot ca. 14–19 m²', 'verzending': 'pakket', 'past_op': [],
-            'specificaties': [sp('Heater', '1500 W', '600/900/1500 W, ca. 14 m², klem voor 40–50 mm poot'), sp('Heater', '2100 W', '900/1420/2100 W, max. 19 m², IP24')], 'garantie': '1 jaar'},
+            'specificaties': [sp('Heater', '1500 W', '600/900/1500 W, ca. 14 m², klem voor 40–50 mm poot'),
+                              sp('Heater', '1500 W met afstandsbediening', '3 standen, ca. 10 m², met LED-lamp, ophangbeugel'),
+                              sp('Heater', '2100 W', '900/1420/2100 W, max. 19 m², IP24')], 'garantie': '1 jaar'},
            ['verwarming.elektrisch', 'easy-up-accessoires.easy-up-inrichting'], 'verwarming', 'Warmte zonder gas in de tent; vermogen per m², afstand tot doek, alleen op een geaarde groep.',
            ['heater partytent', 'terrasverwarming elektrisch'], {'outmate': 'easy-up heater 1500 W €129', 'ours': {'1500 W': 109, '2100 W': 149}})
     simple('terrasheater-gas-13-kw', 'Terrasheater op gas 13 kW', 'Verwarming', ['gebruik:horeca', 'pallet'], [],
@@ -182,10 +260,32 @@ def build():
            {'kenmerk_kort': 'RVS · 13 kW · omvalbeveiliging · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar'},
            ['verwarming.gas'], 'verwarming', 'Klassieke paddenstoelheater voor buiten; nooit in een gesloten tent; gasfles en drukregelaar niet inbegrepen.',
            ['terrasheater gas', 'gasheater terras'], {'note': 'geen referentieprijs gevonden', 'ours': 179})
+    simple('loungeheater-gas', 'Loungeheater op gas', 'Verwarming', ['gebruik:horeca', 'gebruik:tuinfeest'],
+           [opt('Uitvoering', ['Staand model 9 kW', 'Tafelmodel 3 kW'])],
+           [variant('KK-VRW-LOUNGE-9', ['Staand model 9 kW'], 249.0, 16000, 6), variant('KK-VRW-LOUNGE-3', ['Tafelmodel 3 kW'], 109.0, 6500, 10)],
+           [img('loungeheater-gas-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'lounge'}, 'hero', None, 'needs-model'),
+            img('loungeheater-gas-tafelmodel.webp', 'variant', 3, 'heater', {'kind': 'gas', 'style': 'tafel'}, 'hero', None, 'needs-model', alt='tafelmodel')],
+           {'kenmerk_kort': 'Lage gasheater op zithoogte · staand 9 kW of tafelmodel 3 kW', 'verzending': 'pakket', 'garantie': '1 jaar',
+            'specificaties': [sp('Heater', 'Staand model', '9 kW, ca. 75 cm hoog, gasfles van max. 10 kg in de voet'),
+                              sp('Heater', 'Tafelmodel', '3 kW, op een tafel, met slang naar een losse gasfles'),
+                              sp('Gas', 'Brandstof', 'Propaan, drukregelaar 37 mbar meegeleverd'), sp('Veiligheid', 'Beveiliging', 'Thermokoppeling en omvalbeveiliging'),
+                              sp('Gebruik', 'Waar', 'Alleen buiten of in een open overkapping, nooit in een gesloten tent')]},
+           ['verwarming.gas'], 'verwarming', 'Warmte op zithoogte voor lounge en terras; staand of tafelmodel; nooit in een gesloten tent; gasfles apart.',
+           ['loungeheater', 'tafelheater gas', 'terrasverwarming gas'], {'outmate': 'area lounge heater en table lounge heater 3000 W (prijzen niet gevonden)', 'ours': {'staand': 249, 'tafel': 109}},
+           vmap={'Staand model 9 kW': 'loungeheater-gas-hero.webp', 'Tafelmodel 3 kW': 'loungeheater-gas-tafelmodel.webp'}, vby='Uitvoering')
+    simple('flameheater-gas-9-kw', 'Flameheater op gas 9 kW', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement', 'pallet'], [],
+           [variant('KK-VRW-FLAME-9', [], 329.0, 32000, 5)],
+           [img('flameheater-gas-9-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'flame'}, 'hero', None, 'needs-model')],
+           {'kenmerk_kort': 'Zichtbare vlam in glazen buis · 9 kW · ca. 225 cm hoog · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar',
+            'specificaties': [sp('Heater', 'Vermogen', '9 kW, traploos regelbaar'), sp('Heater', 'Hoogte', 'ca. 225 cm'), sp('Heater', 'Glazen buis', 'Gehard glas, vlam zichtbaar'),
+                              sp('Gas', 'Brandstof', 'Propaan, gasfles van max. 10 kg in de voet'), sp('Veiligheid', 'Beveiliging', 'Thermokoppeling en omvalbeveiliging'),
+                              sp('Gebruik', 'Waar', 'Alleen buiten, nooit in een tent of onder een laag dak')]},
+           ['verwarming.gas'], 'verwarming', 'Sfeer én warmte bij de ingang of op het terras: vlam in een glazen buis; afstand tot doek en dak; alleen buiten.',
+           ['flameheater', 'heater met vlam', 'piramide heater gas'], {'outmate': 'flame heater 9000 W (prijs niet gevonden)', 'ours': 329})
     simple('beschermhoes-terrasheater', 'Beschermhoes terrasheater', 'Verwarming', ['gebruik:horeca'], [],
            [variant('KK-VRW-HOES', [], 19.95, 700, 20)],
            [img('beschermhoes-terrasheater-hero.webp', 'hero', 1, 'heaterCover', {}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Waterdicht · met rits en trekkoord', 'verzending': 'pakket', 'past_op': ['terrasheater-gas-13-kw']},
+           {'kenmerk_kort': 'Waterdicht · met rits en trekkoord', 'verzending': 'pakket', 'past_op': ['terrasheater-gas-13-kw', 'flameheater-gas-9-kw']},
            ['verwarming.verwarming-accessoires'], 'verwarming', 'Houdt de heater droog en schoon buiten het seizoen.', ['hoes terrasheater'], {'ours': 19.95})
 
     # ------------------------------------------------------------ inrichting
@@ -197,20 +297,28 @@ def build():
            ['inrichting-evenement.afzetpalen'], 'inrichting', 'Rijen en entrees afzetten; koppelbaar in alle richtingen.', ['afzetpaal', 'afzetpalen trekband'], {'note': 'geen Outmate-prijs gevonden'})
     simple('afzetpaal-met-logo', 'Afzetpaal met jouw logo op de trekband', 'Afzetpaal', ['bedrukbaar', 'zakelijk', 'gebruik:evenement'], [opt('Uitvoering', ['RVS', 'Zwart'])],
            [variant(f'KK-BDR-AZP-{c}', [n], 69.95, 7500, None, tracked=False, qrule={'min': 10, 'max': None, 'increment': 1}) for n, c in [('RVS', 'RVS'), ('Zwart', 'ZWA')]],
-           [img('afzetpaal-met-logo-hero.webp', 'hero', 1, 'stanchion', {'finish': 'rvs', 'belt': 'klaproos', 'beltPrint': {'svg': 'brand/tools/print-wordmark-klein.json', 'color': '#FBF6EC'}, 'pair': True},
+           [img('afzetpaal-met-logo-hero.webp', 'hero', 1, 'stanchion', {'finish': 'rvs', 'belt': 'rood', 'beltPrint': {'svg': 'brand/tools/print-wordmark-klein.json', 'color': '#FBF6EC'}, 'pair': True},
                 'hero', None, 'needs-model', alt='met voorbeeldopdruk Klapklaar op de band')],
            {'kenmerk_kort': 'Jouw logo op de band · vanaf 10 stuks · drukproef vooraf', 'bedrukbaar': True,
             'drukopties': {'posities': ['Trekband (herhalend)'], 'aanlevering': AANLEVERING, 'levertijd': '2–3 weken na akkoord drukproef', 'min_aantal': 10},
             'staffelkorting': ST_BEDRUKT, 'levertijd': 'Levertijd 2–3 weken na akkoord drukproef', 'verzending': 'pakket'},
            ['inrichting-evenement.afzetpalen'], 'inrichting', 'Afzetten én zichtbaar zijn: logo herhalend op de band; minimaal 10 stuks.', ['afzetpaal bedrukt', 'afzetpaal logo'],
            {'outmate': 'bedrukte trekband min. 10 st (prijs niet gevonden)', 'ours': 69.95})
-    MK = ['Wit', 'Klaproos', 'Blauw', 'Groen']
-    vs = [variant(f'KK-INR-MKR-{COLOR_CODE[k]}', [k], 479.0, 45000, inv(4, k + 'mkr', k)) for k in MK]
-    imgs, vmap = kleur_images('marktkraam-2-m', MK, 'marketStall', lambda k: {'w': 2, 'canopyColor': render_color(k), **render_finish(k)}, 'Klaproos', status='needs-model', p2=3)
-    simple('marktkraam-2-m', 'Marktkraam 2 m gegalvaniseerd', 'Marktkraam', ['zakelijk', 'pallet', 'gebruik:markt'], [opt('Kleur', MK)], vs, imgs,
-           {'kenmerk_kort': 'Gegalvaniseerd frame · 2 m tafel · PVC-kap', 'verzending': 'pallet', 'garantie': '1 jaar'},
+    MK = ['Wit', 'Rood', 'Blauw', 'Groen']
+    MKU = ['Effen kap', 'Bedrukte kap']
+    vs = [variant(f'KK-INR-MKR-{COLOR_CODE[k]}', [MKU[0], k], 479.0, 45000, inv(4, k + 'mkr', k)) for k in MK]
+    vs.append(variant('KK-INR-MKR-BDR-WIT', [MKU[1], 'Wit'], 729.0, 46000, None, tracked=False))
+    imgs, vmap = kleur_images('marktkraam-2-m', MK, 'marketStall', lambda k: {'w': 2, 'canopyColor': render_color(k), **render_finish(k)}, 'Rood', status='needs-model', p2=3)
+    imgs.append(img('marktkraam-2-m-bedrukte-kap.webp', 'variant', 2, 'marketStall', {'w': 2, 'canopyColor': 'wit', 'canopyPrint': {'artwork': 'brand/img/voorbeeld-fullcolour.png'}},
+                    'hero', 'Wit', 'needs-model', alt='met een voorbeeldontwerp op de bedrukte kap'))
+    simple('marktkraam-2-m', 'Marktkraam 2 m gegalvaniseerd', 'Marktkraam', ['zakelijk', 'pallet', 'bedrukbaar', 'gebruik:markt'], [opt('Uitvoering', MKU), opt('Kleur', MK)], vs, imgs,
+           {'kenmerk_kort': 'Gegalvaniseerd frame · 2 m tafel · PVC-kap, effen of bedrukt', 'verzending': 'pallet', 'garantie': '1 jaar',
+            'staffelkorting': ST_MARKT, 'bedrukbaar': True,
+            'drukopties': {'posities': ['Kap (dak en randen, full colour)'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
+                           'optie': 'Uitvoering', 'zonder': ['Effen kap']}},
            ['inrichting-evenement.marktkramen'], 'inrichting', 'Voor scholen, verenigingen en markten: opzetten zonder gereedschap; kap in kleur, bedrukt via offerte.',
-           ['marktkraam kopen', 'marktkraam 2 meter'], {'outmate': '€533–€599', 'ours': 479}, vmap=vmap)
+           ['marktkraam kopen', 'marktkraam 2 meter', 'marktkraam bedrukt'], {'outmate': '€533–€599 (kap standaard of bedrukt)', 'ours': {'effen': 479, 'bedrukt': 729}}, vmap=vmap,
+           extra={'variant_image_sku': {'KK-INR-MKR-BDR-WIT': 'marktkraam-2-m-bedrukte-kap.webp'}})
     LP = [('1 m breed', 7.95), ('2 m breed', 14.95)]
     LK = ['Rood', 'Zwart', 'Antraciet']
     vs = [variant(f'KK-INR-LOP-{"1" if m.startswith("1") else "2"}-{COLOR_CODE[k]}', [m, k], p, 1200 if m.startswith('1') else 2400, None, tracked=False,

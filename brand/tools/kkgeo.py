@@ -1,16 +1,15 @@
-"""Klapklaar v6 letter geometry: constructed capitals, the second A of KLAAR is an easy-up.
+"""Klapklaar v7 letter geometry: constructed capitals; the second A of KLAAR is a party tent.
 
-Units: y up, baseline 0, cap height CAP = 700. A contour is a list of vertices (x, y, r) where r is the
-corner radius (0 = sharp). Outer contours run clockwise (y-up), counters counter-clockwise; nothing
-overlaps, so every file prints in one pass without trapping.
+Units: y up, baseline 0, cap height CAP = 700. Outer contours run clockwise (y-up), counters counter-clockwise;
+nothing overlaps, so every file prints in one pass without trapping.
 
-Design rules (measured values are written to logo-meta.json by logo.py; brand.md quotes those):
-  * heavy, slightly rounded capitals: stem STEM, bars BAR, every outside corner rounded with RC
-    ("bent aluminium tube"), notches sharp;
-  * the L of KL and the A of A(P) are joined: the L-foot runs into the A's left leg (one contour);
-  * the tent-A: straight roof at PITCH degrees with a rounded hub at the apex, a thin seam, the valance
-    band (= the crossbar) and two legs that splay a little, like a tent seen from close by. Its apex is
-    exactly on the cap line: the tent adds no height to the word.
+v7 changes (critic round 6):
+  * the tent-A is redrawn as an easy-up / party tent, not a portico: a steep canopy (57 deg) with a pointed peak
+    that overshoots the cap line, a scalloped valance whose band lines up with the A crossbar (same top, scallop
+    tips on the crossbar bottom), thin poles (66 = 46 % of a stem) set in from the valance corners, no eave;
+  * letter spacing is optical (equal white area per pair, tools/logo.py), not equal side bearings;
+  * the lock-up lettering (ZAKELIJK, PARTYTENTEN · STATAFELS) is drawn from the same construction, so there is no
+    second typeface next to the logo.
 """
 import math
 
@@ -65,6 +64,22 @@ def lerp(a, b, t): return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
 
 SQ = 0.62 / 0.5523          # squircle boost over a circular arc (bowls and tube corners)
 
+def _round(prev, v, nxt, r, lim1=0.5, lim2=0.5):
+    """corner at v between directions to prev and nxt; returns ('R', t1, c1, c2, t2) or ('P', v)."""
+    x, y = v
+    v1 = (prev[0] - x, prev[1] - y); v2 = (nxt[0] - x, nxt[1] - y)
+    l1 = math.hypot(*v1); l2 = math.hypot(*v2)
+    if r <= 0 or l1 < 1e-9 or l2 < 1e-9: return ('P', v)
+    u1 = (v1[0] / l1, v1[1] / l1); u2 = (v2[0] / l2, v2[1] / l2)
+    theta = math.acos(max(-1, min(1, u1[0] * u2[0] + u1[1] * u2[1])))
+    phi = math.pi - theta
+    if phi < 1e-3: return ('P', v)
+    d = r / math.tan(theta / 2)
+    d = min(d, l1 * lim1, l2 * lim2)
+    t1 = (x + u1[0] * d, y + u1[1] * d); t2 = (x + u2[0] * d, y + u2[1] * d)
+    h = min(4 / 3 * math.tan(phi / 4) / math.tan(phi / 2) * SQ, 0.95)
+    return ('R', t1, (t1[0] + (x - t1[0]) * h, t1[1] + (y - t1[1]) * h), (t2[0] + (x - t2[0]) * h, t2[1] + (y - t2[1]) * h), t2)
+
 def rpoly(verts):
     """[(x, y, r)] -> Path; each corner with r > 0 is rounded (tangent distance r / tan(theta/2))."""
     dd = []
@@ -76,20 +91,8 @@ def rpoly(verts):
     verts = dd; n = len(verts); pts = []
     for i in range(n):
         x, y, r = verts[i]
-        if r <= 0: pts.append(('P', (x, y))); continue
         px, py, pr = verts[i - 1]; nx, ny, nr = verts[(i + 1) % n]
-        v1 = (px - x, py - y); v2 = (nx - x, ny - y)
-        l1 = math.hypot(*v1); l2 = math.hypot(*v2)
-        u1 = (v1[0] / l1, v1[1] / l1); u2 = (v2[0] / l2, v2[1] / l2)
-        theta = math.acos(max(-1, min(1, u1[0] * u2[0] + u1[1] * u2[1])))
-        phi = math.pi - theta
-        if phi < 1e-3: pts.append(('P', (x, y))); continue
-        d = r / math.tan(theta / 2)
-        d = min(d, l1 * (0.5 if pr > 0 else 0.98), l2 * (0.5 if nr > 0 else 0.98))
-        t1 = (x + u1[0] * d, y + u1[1] * d); t2 = (x + u2[0] * d, y + u2[1] * d)
-        h = min(4 / 3 * math.tan(phi / 4) / math.tan(phi / 2) * SQ, 0.95)
-        pts.append(('R', t1, (t1[0] + (x - t1[0]) * h, t1[1] + (y - t1[1]) * h),
-                    (t2[0] + (x - t2[0]) * h, t2[1] + (y - t2[1]) * h), t2))
+        pts.append(_round((px, py), (x, y), (nx, ny), r, 0.5 if pr > 0 else 0.98, 0.5 if nr > 0 else 0.98))
     first = pts[0]
     p = Path(first[1] if first[0] == 'P' else first[4])
     for k in pts[1:] + pts[:1]:
@@ -97,25 +100,71 @@ def rpoly(verts):
         else: p.L(k[1]); p.C(k[2], k[3], k[4])
     return p
 
+def rpath(seq):
+    """Like rpoly but with curves: seq of ('V', x, y, r) and ('C', c1, c2) (a cubic from the vertex before to the
+    vertex after). A rounded vertex next to a curve uses the curve's control point as its tangent direction."""
+    n = len(seq)
+    V = [i for i, s in enumerate(seq) if s[0] == 'V']
+    out = {}
+    for i in V:
+        _, x, y, r = seq[i]
+        pi, ni = seq[(i - 1) % n], seq[(i + 1) % n]
+        prev = pi[2] if pi[0] == 'C' else (pi[1], pi[2])
+        nxt = ni[1] if ni[0] == 'C' else (ni[1], ni[2])
+        lim_p = 0.45 if pi[0] == 'C' else 0.5
+        lim_n = 0.45 if ni[0] == 'C' else 0.5
+        out[i] = _round(prev, (x, y), nxt, r, lim_p, lim_n)
+    def entry(i): k = out[i]; return k[1] if k[0] == 'P' else k[1]
+    def exitp(i): k = out[i]; return k[1] if k[0] == 'P' else k[4]
+    p = Path(exitp(V[0]))
+    i = V[0]
+    for _ in range(n):
+        j = (i + 1) % n
+        if seq[j][0] == 'C':
+            k = (j + 1) % n
+            p.C(seq[j][1], seq[j][2], entry(k))
+            kk = out[k]
+            if kk[0] == 'R': p.C(kk[2], kk[3], kk[4])
+            i = k
+        else:
+            p.L(entry(j))
+            kk = out[j]
+            if kk[0] == 'R': p.C(kk[2], kk[3], kk[4])
+            i = j
+        if i == V[0]: break
+    return p
+
 def _area(v):
     return sum(v[i][0] * v[(i + 1) % len(v)][1] - v[(i + 1) % len(v)][0] * v[i][1] for i in range(len(v))) / 2
 def outer(v): return rpoly(v if _area(v) < 0 else list(reversed(v)))
 def hole(v): return rpoly(v if _area(v) > 0 else list(reversed(v)))
+def orient(p, cw=True):
+    a = p.area()
+    return p if (a < 0) == cw else p.reversed()
 
 # ------------------------------------------------------------------ parameters (units, cap height 700)
 P = dict(
     STEM=142,       # vertical stems
-    BAR=118,        # horizontal bars: L-foot, P/R bowl top and bottom, A crossbar (x 0.92)
+    BAR=118,        # horizontal bars: L-foot, P/R bowl top and bottom, E/F/T/Z bars; A crossbar = BAR x 0.92
     ARM=130, LEG=136,   # K arm / K leg, measured perpendicular to the stroke
+    DIAG=146,       # N, Z, Y diagonals (perpendicular)
     RC=18,          # outside corner radius ("tube")
     W_K=552, W_L=452, W_P=524, W_R=556, YB=280, RO=168,
-    W_A=610, A_APEX=118, A_BAR=250,           # the regular A (flat apex)
+    W_A=610, A_APEX=118, A_BAR=250,           # the regular A (flat apex); crossbar 141.4-250
     LA_TUCK=100,    # how far the A's baseline corner sits left of the L-foot's end (L+A joined)
-    # tent-A
-    T_W=580, T_PITCH=35.0, T_EAVE=26, T_SEAM=26, T_BAND=84, T_LEG=122, T_SPLAY=0.14, T_HUB=26,
-    TRACK=24,
+    # tent-A (party tent seen from the front)
+    T_W=604,        # valance width
+    T_OVER=26,      # peak above the cap line (optical overshoot of a pointed apex; the tip rounding takes ~8 back)
+    T_TIP=12,       # tip rounding
+    T_SAG=11,        # the canopy edges bow in a little (tensioned cloth), units at mid-edge
+    T_SEAM=22,      # open seam between canopy and valance
+    T_SCAL=3, T_SCAL_D=40,    # scallops between the poles, depth
+    T_LEG=70,       # pole width (49 % of a stem)
+    T_INSET=18,     # poles sit inside the valance corners: the cloth hangs past the frame
+    TRACK=0,
+    # lock-up letters
+    W_E=468, W_F=452, W_T=548, W_N=606, W_S=520, W_J=470, W_Z=532, W_Y=600,
 )
-SB = dict(K=(48, 0), LA=(48, 4), P=(48, 26), R=(48, 0), A=(4, 4), T=(10, 10), L=(48, 0))
 
 # ------------------------------------------------------------------ glyphs
 class Glyph:
@@ -190,61 +239,222 @@ def glyph_LA(p=P):
     cn = hole([(xa + xin(bt), bt, 0), (xa + ia[0], ia[1], 6), (xa + W - xin(bt), bt, 0)])
     return Glyph([o, cn], xa + W, 'LA', info={'leg_deg': math.degrees(th), 'join_x': x_join})
 
-def glyph_tent(p=P, seam=True, leg=None):
-    W, E, G, B = p['T_W'], p['T_EAVE'], p['T_SEAM'], p['T_BAND']
-    LW = leg or p['T_LEG']; r = p['RC']; hub = p['T_HUB']
-    rise = (W / 2) * math.tan(math.radians(p['T_PITCH']))
-    ye = CAP - rise
-    rb = ye - E
-    band_top = rb - G if seam else rb
-    band_bot = band_top - B
-    sp = p['T_SPLAY'] * band_bot
+def tent_dims(p=P):
+    """the tent-A's key heights, all tied to the regular A: valance top = crossbar top, scallop tips = crossbar bottom."""
+    W = p['T_W']
+    val_top = p['A_BAR']
+    tips = p['A_BAR'] - p['BAR'] * 0.92
+    cusp = tips + p['T_SCAL_D']
+    roof_b = val_top + p['T_SEAM']
+    apex_y = CAP + p['T_OVER']
+    pitch = math.degrees(math.atan2(apex_y - roof_b, W / 2))
+    return dict(W=W, val_top=val_top, tips=tips, cusp=cusp, roof_b=roof_b, apex_y=apex_y, pitch=pitch)
+
+def glyph_tent(p=P, seam=False, leg=None, scallops=None, over=None, scal_d=None):
+    """the second A of KLAAR: canopy (steep, slightly bowed in, pointed peak above the cap line), open seam,
+    valance band (= the A crossbar) with scallops between the poles, two thin poles set in from the corners."""
+    q = dict(p)
+    if over is not None: q['T_OVER'] = over
+    if scal_d is not None: q['T_SCAL_D'] = scal_d
+    d = tent_dims(q)
+    W, LW, IN = d['W'], leg or q['T_LEG'], q['T_INSET']
+    n = q['T_SCAL'] if scallops is None else scallops
+    rc = q['RC'] * 0.5
     paths = []
+    # canopy
+    ab = d['roof_b'] if seam else d['val_top']
+    apex = (W / 2, d['apex_y'])
+    def bowed(a, b, sag):
+        m = lerp(a, b, 0.5)
+        dx, dy = b[0] - a[0], b[1] - a[1]; L = math.hypot(dx, dy)
+        nx, ny = dy / L, -dx / L                     # right-hand normal (inward for a clockwise roof)
+        c = (m[0] + nx * sag * 4 / 3, m[1] + ny * sag * 4 / 3)
+        return lerp(a, c, 2 / 3), lerp(b, c, 2 / 3)
+    seqs = []
     if seam:
-        paths.append(outer([(0, rb, r * 0.6), (0, ye, 0), (W / 2, CAP, hub), (W, ye, 0), (W, rb, r * 0.6)]))
-        top = [(0, band_top, r * 0.6), (W, band_top, r * 0.6)]
-    else:
-        top = [(0, ye, 0), (W / 2, CAP, hub), (W, ye, 0)]
-    verts = [(0, 0, r * 0.6), (sp, band_bot, 0), (0, band_bot, r * 0.6)] + top + [
-        (W, band_bot, r * 0.6), (W - sp, band_bot, 0), (W, 0, r * 0.6), (W - LW, 0, r * 0.6),
-        (W - sp - LW, band_bot, 0), (sp + LW, band_bot, 0), (LW, 0, r * 0.6)]
-    paths.append(outer(verts))
-    return Glyph(paths, W, 'T', kind='tent', info={
-        'pitch_deg': p['T_PITCH'], 'roof_eave_y': ye, 'roof_bottom_y': rb, 'band': (band_bot, band_top),
-        'seam': G if seam else 0, 'leg': LW, 'splay_deg': math.degrees(math.atan2(sp, band_bot)), 'band_h': B})
+        c1, c2 = bowed((0, ab), apex, q['T_SAG']); c3, c4 = bowed(apex, (W, ab), q['T_SAG'])
+        roof = rpath([('V', 0, ab, 4), ('C', c1, c2), ('V', apex[0], apex[1], q['T_TIP']), ('C', c3, c4), ('V', W, ab, 4)])
+        paths.append(orient(roof, True))
+    # valance + poles, one contour (clockwise in y-up: left edge up, top edge right, right edge down, bottom left)
+    vt = d['val_top']; cu = d['cusp']; tp = d['tips']
+    xl0, xl1 = IN, IN + LW                    # left pole
+    xr1, xr0 = W - IN, W - IN - LW            # right pole
+    seq = [('V', 0, cu, 4), ('V', 0, vt, 4 if seam else 0)]
+    if not seam:
+        c1, c2 = bowed((0, vt), apex, q['T_SAG']); c3, c4 = bowed(apex, (W, vt), q['T_SAG'])
+        seq += [('C', c1, c2), ('V', apex[0], apex[1], q['T_TIP']), ('C', c3, c4)]
+    seq += [('V', W, vt, 4 if seam else 0), ('V', W, cu, 4), ('V', xr1, cu, 0), ('V', xr1, 0, rc), ('V', xr0, 0, rc), ('V', xr0, cu, 0)]
+    # scallops from right to left between the poles
+    span = (xr0 - xl1) / n
+    for k in range(n):
+        x1 = xr0 - k * span; x0 = x1 - span; xm = (x0 + x1) / 2
+        C = (xm, cu - 2 * q['T_SCAL_D'])
+        seq.append(('C', lerp((x1, cu), C, 2 / 3), lerp((x0, cu), C, 2 / 3)))
+        if k < n - 1: seq.append(('V', x0, cu, 0))
+    seq += [('V', xl1, cu, 0), ('V', xl1, 0, rc), ('V', xl0, 0, rc), ('V', xl0, cu, 0)]
+    body = rpath(seq)
+    paths.append(orient(body, True))
+    return Glyph(paths, W, 'T', kind='tent', info=dict(d, leg=LW, inset=IN, seam=q['T_SEAM'] if seam else 0,
+                                                     scallops=n, scallop_depth=q['T_SCAL_D'], band=(cu, vt), band_h=vt - cu))
 
-def statafel(cx, h, tw=200, ww=54, bw=190, yw=None):
-    """stretch statafel (hourglass) seen from the front; floor at y = 0."""
-    yw = yw if yw is not None else h * 0.48
-    pth = Path((cx - tw / 2, h))
-    pth.L((cx + tw / 2, h))
-    pth.C((cx + tw / 2 - (tw - ww) / 2 * 0.15, h - (h - yw) * 0.55), (cx + ww / 2, yw + (h - yw) * 0.35), (cx + ww / 2, yw))
-    pth.C((cx + ww / 2, yw - yw * 0.45), (cx + bw / 2 - (bw - ww) / 2 * 0.35, yw * 0.12), (cx + bw / 2, 0))
-    pth.L((cx - bw / 2, 0))
-    pth.C((cx - bw / 2 + (bw - ww) / 2 * 0.35, yw * 0.12), (cx - ww / 2, yw - yw * 0.45), (cx - ww / 2, yw))
-    pth.C((cx - ww / 2, yw + (h - yw) * 0.35), (cx - tw / 2 + (tw - ww) / 2 * 0.15, h - (h - yw) * 0.55), (cx - tw / 2, h))
-    return pth if pth.area() < 0 else pth.reversed()
+# ------------------------------------------------------------------ lock-up letters (same construction)
+def glyph_L(p=P):
+    S, BAR, W, r = p['STEM'], p['BAR'], p['W_L'], p['RC']
+    return Glyph([outer([(0, 0, r), (0, CAP, r), (S, CAP, r), (S, BAR, 0), (W, BAR, r), (W, 0, r)])], W, 'L')
 
-WORD = ['K', 'LA', 'P', 'K', 'LA', 'T', 'R']
+def glyph_I(p=P):
+    S, r = p['STEM'], p['RC']
+    return Glyph([outer([(0, 0, r), (0, CAP, r), (S, CAP, r), (S, 0, r)])], S, 'I')
 
-def wordmark(p=P, seam=True, track=None, leg=None):
-    """returns (letters, tent, width, items)"""
-    track = p['TRACK'] if track is None else track
-    x = 0; letters = []; tent = []; items = []
-    for i, tok in enumerate(WORD):
-        g = {'K': glyph_K, 'LA': glyph_LA, 'P': glyph_P, 'R': glyph_R}.get(tok)
-        g = g(p) if g else glyph_tent(p, seam, leg)
-        lsb, rsb = SB[tok]
-        x += lsb
+def glyph_E(p=P, F=False):
+    S, B, r = p['STEM'], p['BAR'], p['RC']
+    W = p['W_F'] if F else p['W_E']
+    Bm = B * 0.96; ym = CAP * 0.5 + 6
+    Wm = W - 34
+    v = [(0, 0 if not F else 0, r), (0, CAP, r), (W, CAP, r), (W, CAP - B, r), (S, CAP - B, 0), (S, ym + Bm / 2, 0), (Wm, ym + Bm / 2, r),
+         (Wm, ym - Bm / 2, r), (S, ym - Bm / 2, 0)]
+    v += [(S, 0, r)] if F else [(S, B, 0), (W, B, r), (W, 0, r)]
+    return Glyph([outer(v)], W, 'F' if F else 'E')
+
+def glyph_T(p=P):
+    S, B, W, r = p['STEM'], p['BAR'], p['W_T'], p['RC']
+    x0 = (W - S) / 2
+    return Glyph([outer([(x0, 0, r), (x0, CAP - B, 0), (0, CAP - B, r), (0, CAP, r), (W, CAP, r), (W, CAP - B, r), (x0 + S, CAP - B, 0), (x0 + S, 0, r)])], W, 'T')
+
+def glyph_N(p=P):
+    S, W, D, r = p['STEM'], p['W_N'], p['DIAG'], p['RC']
+    # diagonal band from the top-left to the bottom-right; point-symmetric; solve the cap-line width for thickness D
+    y1 = 150
+    def thick(xT):
+        a, b = (xT, CAP), (W - S, y1)
+        c = (S, CAP - y1)
+        dx, dy = b[0] - a[0], b[1] - a[1]; L = math.hypot(dx, dy)
+        return abs((c[0] - a[0]) * dy - (c[1] - a[1]) * dx) / L
+    lo, hi = S, W - S
+    for _ in range(60):
+        m = (lo + hi) / 2
+        if thick(m) < D: lo = m
+        else: hi = m
+    xT = (lo + hi) / 2
+    o = outer([(0, 0, r), (0, CAP, r), (xT, CAP, 0), (W - S, y1, 0), (W - S, CAP, r), (W, CAP, r), (W, 0, r), (W - xT, 0, 0),
+               (S, CAP - y1, 0), (S, 0, r)])
+    return Glyph([o], W, 'N')
+
+def glyph_Z(p=P):
+    B, W, D, r = p['BAR'], p['W_Z'], p['DIAG'], p['RC']
+    # top bar, diagonal from the top bar's right end down to the bottom bar's left end
+    a = (W, CAP - B); b = (0, B)
+    dx, dy = b[0] - a[0], b[1] - a[1]; L = math.hypot(dx, dy)
+    w = D * L / abs(dy)                    # horizontal width of the diagonal band
+    o = outer([(0, CAP, r), (W, CAP, r), (W, CAP - B, 0), (w, B, 0), (W, B, r), (W, 0, r), (0, 0, r), (0, B, 0),
+               (W - w, CAP - B, 0), (0, CAP - B, r)])
+    return Glyph([o], W, 'Z')
+
+def glyph_Y(p=P):
+    S, W, D, r = p['STEM'], p['W_Y'], p['DIAG'], p['RC']
+    yj = 300                               # where the arms meet the stem
+    x0 = (W - S) / 2
+    th = math.atan2(CAP - yj, x0)          # arm angle (outer edges meet the stem edges at yj)
+    w = D / math.sin(th)
+    # inner crotch point: intersection of the inner edges of both arms
+    li = ((w, CAP), (x0 + w, yj)); ri = ((W - w, CAP), (x0 + S - w, yj))
+    cx = isect(li[0], li[1], ri[0], ri[1])
+    o = outer([(x0, 0, r), (x0, yj, 0), (0, CAP, r), (w, CAP, r), (cx[0], cx[1], 0), (W - w, CAP, r), (W, CAP, r), (x0 + S, yj, 0), (x0 + S, 0, r)])
+    return Glyph([o], W, 'Y')
+
+def glyph_S(p=P):
+    S, B, RO, r = p['STEM'], p['BAR'], p['RO'], p['RC']
+    W = p['W_S']
+    Bm = B * 1.0
+    ym = CAP * 0.5 + 8
+    Wt = W - 22                            # top terminal a little shorter than the bottom bowl
+    ri = max(RO - S * 0.9, 30)
+    o = outer([(Wt, CAP - B, 0), (Wt, CAP, r), (0, CAP, RO), (0, ym - Bm / 2, RO * 0.92), (W - S, ym - Bm / 2, 0),
+               (W - S, B, ri * 0.0), (0, B, 0), (0, 0, r), (W, 0, RO), (W, ym + Bm / 2, RO * 0.92), (S, ym + Bm / 2, 0), (S, CAP - B, 0)])
+    # inner corners of the bowls: round them like the P counter
+    o = outer([(Wt, CAP - B, 0), (Wt, CAP, r), (0, CAP, RO), (0, ym - Bm / 2, RO * 0.92), (W - S, ym - Bm / 2, ri), (W - S, B, ri),
+               (0, B, 0), (0, 0, r), (W, 0, RO), (W, ym + Bm / 2, RO * 0.92), (S, ym + Bm / 2, ri), (S, CAP - B, ri)])
+    return Glyph([o], W, 'S')
+
+def glyph_J(p=P):
+    S, B, RO, r = p['STEM'], p['BAR'], p['RO'], p['RC']
+    W = p['W_J']
+    yt = 236                               # the hook's terminal height
+    ri = max(RO - S * 0.9, 30)
+    o = outer([(W - S, CAP, r), (W, CAP, r), (W, 0, RO), (0, 0, RO), (0, yt, r), (S * 0.96, yt, r), (S * 0.96, B, ri), (W - S, B, ri)])
+    return Glyph([o], W, 'J')
+
+def glyph_dot(p=P):
+    s = p['BAR'] * 1.05; y = CAP / 2 - s / 2
+    return Glyph([outer([(0, y, 10), (0, y + s, 10), (s, y + s, 10), (s, y, 10)])], s, '·')
+
+def glyph_plus(p=P):
+    t = p['BAR'] * 0.9; L = 420; c = L / 2; y0 = CAP / 2 - c
+    o = outer([(c - t / 2, y0, 6), (c - t / 2, y0 + c - t / 2, 0), (0, y0 + c - t / 2, 6), (0, y0 + c + t / 2, 6), (c - t / 2, y0 + c + t / 2, 0),
+               (c - t / 2, y0 + L, 6), (c + t / 2, y0 + L, 6), (c + t / 2, y0 + c + t / 2, 0), (L, y0 + c + t / 2, 6), (L, y0 + c - t / 2, 6),
+               (c + t / 2, y0 + c - t / 2, 0), (c + t / 2, y0, 6)])
+    return Glyph([o], L, '+')
+
+GLYPHS = {'K': glyph_K, 'LA': glyph_LA, 'P': glyph_P, 'R': glyph_R, 'A': glyph_A, 'L': glyph_L, 'I': glyph_I,
+          'E': glyph_E, 'F': lambda p=P: glyph_E(p, True), 'T': glyph_T, 'N': glyph_N, 'Z': glyph_Z, 'Y': glyph_Y,
+          'S': glyph_S, 'J': glyph_J, '·': glyph_dot, '+': glyph_plus}
+
+# ------------------------------------------------------------------ spacing
+def profile(paths, n=141, y0=0, y1=CAP):
+    """leftmost / rightmost ink x for n scanlines between y0 and y1 (None where the scanline has no ink)."""
+    polys = [c.flatten(16) for c in paths]
+    out = []
+    for i in range(n):
+        y = y0 + (y1 - y0) * (i + 0.5) / n
+        xs = []
+        for poly in polys:
+            for k in range(len(poly)):
+                (xa, ya), (xb, yb) = poly[k], poly[(k + 1) % len(poly)]
+                if (ya <= y < yb) or (yb <= y < ya):
+                    xs.append(xa + (y - ya) * (xb - xa) / (yb - ya))
+        out.append((min(xs), max(xs)) if xs else None)
+    return out
+
+def white_area(pl, pr, offset, depth=0.30 * CAP):
+    """mean white per scanline between two glyphs (right glyph shifted by offset), white inside each glyph's
+    side capped at depth: the number brand.md quotes as 'optische ruimte'."""
+    maxr = max(q[1] for q in pl if q); minl = min(q[0] for q in pr if q)
+    v = []
+    for a, b in zip(pl, pr):
+        wa = min(maxr - (a[1] if a else -1e9), depth); wb = min((b[0] if b else 1e9) - minl, depth)
+        v.append(wa + wb + (minl + offset - maxr))
+    return sum(v) / len(v)
+
+def hgap(pl, pr, offset):
+    g = [b[0] + offset - a[1] for a, b in zip(pl, pr) if a and b]
+    return min(g)
+
+# Spacing is set by eye per pair, as the narrowest horizontal white between the two shapes (units). Shapes that
+# open up (K's wedge, A's diagonal, the tent's canopy and inset poles, the open space under the P bowl) sit closer
+# than two straight stems would; tools/logo.py writes both this gap and the white area per pair to logo-meta.json.
+KERN = {('K', 'LA'): 64, ('LA', 'P'): 60, ('P', 'K'): 66, ('LA', 'TENT'): 58, ('TENT', 'R'): 52}
+KERN_DEFAULT = 70
+
+def build_word(tokens, p=P, kern=None, extra=0, tent_kw=None):
+    """place glyphs; kern = {(a, b): narrowest gap}. Returns (letters, tent, width, items)."""
+    kern = dict(KERN, **(kern or {}))
+    gl = []
+    for tok in tokens:
+        g = glyph_tent(p, **(tent_kw or {})) if tok == 'TENT' else GLYPHS[tok](p)
+        gl.append((tok, g, profile(g.paths)))
+    x = 0; letters, tent, items = [], [], []
+    for i, (tok, g, pr) in enumerate(gl):
+        if i > 0:
+            ptok, px, pg, pps, ppr = items[-1]
+            want = kern.get((ptok, tok), KERN_DEFAULT) + extra
+            x = px + (want - hgap(ppr, pr, 0))
         ps = move(g.paths, x)
-        (tent if tok == 'T' else letters).extend(ps)
-        items.append((tok, x, g, ps))
-        x += g.adv + rsb + track
-    return letters, tent, x - track, items
+        (tent if tok == 'TENT' else letters).extend(ps)
+        items.append((tok, x, g, ps, pr))
+    xs = [q[0] for c in letters + tent for q in c.flatten(8)]
+    return letters, tent, max(xs) - min(xs), items
 
-def mark_geometry(p=P, seam=True, table=True):
-    """tent with a statafel under it, in tent units (origin = tent's left foot)."""
-    g = glyph_tent(p, seam)
-    bb = g.info['band'][0]
-    extra = [statafel(g.adv / 2, bb * 0.62, 200, 54, 190, bb * 0.30)] if table else []
-    return g, extra
+WORD = ['K', 'LA', 'P', 'K', 'LA', 'TENT', 'R']
+
+def wordmark(p=P, extra=0, tent_kw=None):
+    return build_word(WORD, p, extra=extra, tent_kw=dict({'seam': False}, **(tent_kw or {})))

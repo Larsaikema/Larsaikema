@@ -3,7 +3,7 @@
 import json, sys, os, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kk_base import *
-import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, kk_site as site
+import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, kk_addons, kk_site as site
 
 OUT, ASSORT = sys.argv[1], sys.argv[2]
 fam_easyup.build(); fam_acc.build(); fam_big.build(); fam_tafel.build(); fam_rest.build(); fam_set.build()
@@ -13,6 +13,12 @@ for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
     HANDLES[h]['metafields']['addons'] = [a for a in HANDLES[h]['metafields']['addons'] if a != 'beschermplaat-statafel']
     HANDLES[h].setdefault('complementary', []).append('beschermplaat-statafel')
 errors = []
+# add-ons per variant (custom.addon_varianten / addon_aantallen) + product-level union, then staffels on every bundle
+kk_addons.apply(errors)
+BUNDLE_STAFFELS = kk_addons.bundle_staffels()
+# accessories that also fit the inflatables
+HANDLES['watergewichtzakken-4x20-kg']['metafields']['past_op'] += ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']
+HANDLES['zitkussen-stoel-en-barkruk']['metafields']['past_op'] += ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal']
 for p in PRODUCTS:
     mf = p['metafields']
     for key in ['addons', 'past_op', 'andere_maten']:
@@ -51,8 +57,11 @@ for p in PRODUCTS:
         errors.append(f'{p["handle"]}: duplicate option combos')
     # variant image
     vmap, vby = p.get('variant_images'), p.get('variant_image_by')
+    vsku = p.pop('variant_image_sku', None) or {}
     for v in p['variants']:
-        if vmap and vby in names:
+        if v['sku'] in vsku:
+            v['image'] = vsku[v['sku']]  # e.g. the full colour variant of a product whose images follow Kleur
+        elif vmap and vby in names:
             v['image'] = vmap.get(v[f'option{names.index(vby) + 1}'])
         else:
             v['image'] = None
@@ -65,7 +74,9 @@ skus = collections.Counter(v['sku'] for p in PRODUCTS for v in p['variants'])
 errors += [f'duplicate sku {s}' for s, n in skus.items() if n > 1]
 
 # ---------------------------------------------------------------- collections
-bedrukte_tenten = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-tent'] + ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-zeshoektent']
+# only products with a print variant (custom.bedrukbaar): the zeshoek's printed roof is quoted, so it is not in here
+bedrukte_tenten = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-tent'] + ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro',
+                                                                                     'stertent-enkele-mast', 'stertent-dubbele-mast']
 bedrukte_hoezen = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-textiel']
 cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen)
 
@@ -112,11 +123,13 @@ bad_cov = [f'{p["handle"]}: {k}' for p in PRODUCTS for k in p['covers'] if k not
 errors += [f'uncovered {m}' for m in missing] + [f'bad cover key {b}' for b in bad_cov]
 
 # ---------------------------------------------------------------- copy groups
-EU_SETS = ['starterspakket-easy-up-premium-3x3', 'compleet-pakket-easy-up-professional']
+EU_SETS = ['starterspakket-easy-up-premium', 'compleet-pakket-easy-up-professional']
 STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar', 'pakket-statafels-stretchrokken-transportkar']
 G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank-220', 'los-statafelblad', 'voetdoppen-set-van-4']
 BF_TENTS = [p['handle'] for p in PRODUCTS if p['product_type'] == 'Partytent']
-SEATS = ['barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'klapstoel', 'stapelstoel-cross-back', 'zitkussen-stoel-en-barkruk']
+SEATS = ['barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'klapstoel', 'stapelstoel-cross-back', 'zitkussen-stoel-en-barkruk',
+         'barkruk-velours-stapelbaar', 'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'kruk-laag-stapelbaar', 'stapelstoel-metaal',
+         'banquetstoel-gestoffeerd', 'bank-houten-frame']
 def group_of(p):
     h, f = p['handle'], p['family']
     if f in ('easy-up-tent', 'frame', 'dakzeil', 'tassen', 'goten') or h in EU_SETS: return 'G1'
@@ -153,10 +166,16 @@ def walk(items, depth=1):
               'article': lambda: h in art_handles, 'blog': lambda: h == 'advies', 'policy': lambda: True, 'http': lambda: True}[tp]()
         if not ok: errors.append(f'menu link {it["title"]} -> {tp}:{h}')
         if tp == 'http' and 'filter.p.product_type=' in it['url']:
-            from urllib.parse import unquote_plus
-            ch, pt = it['url'].split('/collections/')[1].split('?filter.p.product_type=')
-            if not any(pt and unquote_plus(pt) == HANDLES[x]['product_type'] for x in membership if ch in membership[x]):
-                errors.append(f'menu filter {it["url"]} matches nothing')
+            from urllib.parse import urlsplit, parse_qs
+            u = urlsplit(it['url'])
+            ch = u.path.split('/collections/')[1]
+            for pt in parse_qs(u.query).get('filter.p.product_type', []):  # repeated param = OR (Shopify filtering)
+                if not any(pt == HANDLES[x]['product_type'] for x in membership if ch in membership[x]):
+                    errors.append(f'menu filter {it["url"]}: {pt} matches nothing in {ch}')
+            # every product the menu lists under this filter link must be on the filtered landing page
+            for child in it.get('items', []):
+                if child['type'] == 'product' and HANDLES[child['handle']]['product_type'] not in parse_qs(u.query).get('filter.p.product_type', []):
+                    errors.append(f'menu {it["title"]}: child {child["handle"]} ({HANDLES[child["handle"]]["product_type"]}) not in its filter')
         walk(it.get('items', []), depth + 1)
 MENUS = site.build_menus()
 for m in MENUS: walk(m['items'])
@@ -193,16 +212,15 @@ doc['meta'] = {
 doc['contract_extensions'] = [
     {'what': 'product metafield custom.andere_maten (list.product_reference)', 'why': 'Easy-up tents are one product per size (SEO + example title "Easy-up partytent Professional 3 x 6 m"); the PDP needs a size switcher to sibling products. Filled on all 11 easy-up tents.', 'theme': 'render size pills linking to these products (current one selected).'},
     {'what': 'collections partytenten-buizenframe, opslagtenten, overkappingen-en-schaduwdoeken, stretch-statafelrokken', 'why': 'Assortment categories without a contract handle; needed for menus and coverage. Generic collection template, no theme work.'},
-    {'what': 'Uitvoering values beyond the contract examples', 'why': 'Dakdoek (Polyester / Heavy duty PVC), pack sizes (Set van 4 / Set van 6 / 1 stuk), part names, print scope. Spelling fixed in this file.'},
+    {'what': 'Uitvoering values beyond the contract examples', 'why': 'Dakdoek (Polyester / Heavy duty PVC), pack sizes (Set van 4 / 6 / 8 / 1 stuk), part names, print scope (Effen doek / Full colour bedrukt, Effen kap / Bedrukte kap), Zonder / Met parasolgat. Spelling fixed in this file.'},
     {'what': 'Maat values beyond the contract list', 'why': '2 x 2 m, 5 x 5 m, buizenframe/stretch sizes (3 x 4 m, 10,5 x 15 m), lengths (3 m, 10 m), Ø8 m, 70 x 70 cm, 183 x 76 cm, Ø300 cm, "3 m breed". Same format rules.'},
     {'what': 'option name Bedrag on the gift card only', 'why': 'Gift-card denominations; not a product option the theme swatches.'},
-    {'what': 'drukopties.varianten (list of option values)', 'why': 'Inflatables: show the logo-upload block only when Uitvoering = "Full colour bedrukt dak".'},
-    {'what': 'product.line_item_properties (catalog-only hint)', 'why': 'Maatwerk products (stretchdoek, overkappingzeil, prikkabel op maat) need dimension fields as line-item properties; theme block to render them.'},
+    {'what': 'product.line_item_properties (catalog-only hint)', 'why': 'Kept on stretchdoek-op-maat as a fallback list; overkappingzeil and prikkabel op maat take their dimensions through custom.configurator instead.'},
 ]
 doc['theme_requirements'] = [
-    'swatch_colors default: add "Warm wit: #F4E3BC" and update "Klaproos" to #C83812 (brand.md v3; theme still has v2 #BE3A1D).',
+    'swatch_colors default: must list "Warm wit: #F4E3BC"; tents/walls use Kleur "Rood" (stock red, #B5161E), the brand colour name Klaproos is no option value (brand.md §4.5).',
     'Kleur values used (all must stay in swatch_colors): ' + ', '.join(sorted({v for p in PRODUCTS for o in p['options'] if o['name'] == 'Kleur' for v in o['values']})),
-    'Addons use addon.selected_or_first_available_variant: addon products are chosen so their FIRST variant is the sensible default (voetgewicht: Set van 4; statafelrok: Ø80-85 met topcover wit). Better: pick the addon variant whose shared option values (Maat, Kleur) match the current variant.',
+    'Addons: render the selected variant\'s custom.addon_varianten (+ addon_aantallen) and re-render on variant change; product custom.addons is only the fallback. Cart quantity = aantal × main quantity unless custom.addon_modus = per-regel.',
     'Products with a single-value Maat (easy-up per size) should show the value as a label plus the andere_maten switcher, not a one-pill picker.',
     'Bundles (product_type Actiepakket, tag set) carry bundle.componenten_per_variant; show "Los € X · in het pakket € Y" from it (no strikethrough).',
 ]
@@ -247,7 +265,9 @@ for p in PRODUCTS:
 doc['claims_to_confirm'] = {
     'per_product': claims,
     'general': ['Every price and staffel (owner review).', 'What is in the box: Premium = frame, dak, beschermhoes; Professional = frame, dak, wieltas, 4 spanbanden + 4 haringen.',
-                'Klaproos as a fabric colour needs a supplier lab-dip (brand.md §4.4/§8.3); otherwise rename the value to Rood.',
+                'Kleur Rood on tents, walls, roofs, inflatables and marktkraam = the supplier\'s stock red (brand.md §4.5: no own Klaproos dye lot); check the swatch against the real cloth.',
+                'Add-on defaults: betonblok (1 × 140 kg, stretch 1 × 500 kg) is a starting point, not a ballast calculation; haringen = 1 per staander (spanten om de 2 m).',
+                'Bundle staffels are derived from the component staffels (value-weighted, rounded up), so a bundle never loses to its parts at the same volume.',
                 'Specs (materials, g/m², weights, packed sizes, heights, capacity) are definitions to confirm with the supplier.',
                 'Brandvertragend / brandklasse statements need a supplier certificate.', 'Maatwerk and printed goods excluded from herroepingsrecht (check terms).',
                 'Pallet vs pakket split (31,5 kg rule) and shipping rates.'],

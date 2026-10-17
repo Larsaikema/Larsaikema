@@ -10,17 +10,18 @@ def cents(eur):
 COLOR_CODE = {
     'Wit': 'WIT', 'Zwart': 'ZWA', 'Antraciet': 'ANT', 'Grijs': 'GRS', 'Lichtgrijs': 'LGR', 'Zilver': 'ZIL',
     'Blauw': 'BLA', 'Marineblauw': 'MAR', 'Lichtblauw': 'LBL', 'Turquoise': 'TRQ', 'Rood': 'ROD',
-    'Klaproos': 'KLP', 'Bordeaux': 'BOR', 'Roze': 'ROZ', 'Fuchsia': 'FUC', 'Paars': 'PRS', 'Groen': 'GRN',
+    'Bordeaux': 'BOR', 'Roze': 'ROZ', 'Fuchsia': 'FUC', 'Paars': 'PRS', 'Groen': 'GRN',
     'Lichtgroen': 'LGN', 'Oranje': 'ORA', 'Geel': 'GEL', 'Goud': 'GOU', 'Beige': 'BEI', 'Zandkleur': 'ZND',
     'Taupe': 'TAU', 'Bruin': 'BRU', 'Camel': 'CAM', 'Crème': 'CRM', 'Champagne': 'CHA', 'Berken': 'BRK',
     'Houtlook': 'HLK', 'Transparant': 'TRP', 'Warm wit': 'WWT',
 }
 
-# Hex values: the theme's swatch_colors default (settings_schema.json), plus two requested changes.
+# Hex values: the theme's swatch_colors default (settings_schema.json). Tents, walls, roofs and inflatables are sold in the
+# supplier's stock red ('Rood'), never in brand Klaproos (brand.md §4.5: no own dye lot promised).
 SWATCH_HEX = {
     'Wit': '#F3F3F0', 'Zwart': '#1D1E20', 'Antraciet': '#3F4247', 'Grijs': '#6E7276', 'Lichtgrijs': '#B9BBBD',
     'Zilver': '#BFC2C5', 'Blauw': '#1E4E9E', 'Marineblauw': '#1B2A4C', 'Lichtblauw': '#78A9D6', 'Turquoise': '#159FA3',
-    'Rood': '#B5161E', 'Klaproos': '#C83812', 'Bordeaux': '#6B1A27', 'Roze': '#E27BA9', 'Fuchsia': '#C2206E',
+    'Rood': '#B5161E', 'Bordeaux': '#6B1A27', 'Roze': '#E27BA9', 'Fuchsia': '#C2206E',
     'Paars': '#57297F', 'Groen': '#1F6C3C', 'Lichtgroen': '#7DB744', 'Oranje': '#E2681B', 'Geel': '#F1C21A',
     'Goud': '#C49A45', 'Beige': '#D8CBB2', 'Zandkleur': '#CDBB98', 'Taupe': '#8B7D6E', 'Bruin': '#6A4A33',
     'Camel': '#B98A57', 'Crème': '#ECE3CF', 'Champagne': '#E4D6BC', 'Berken': '#D9B98C', 'Houtlook': '#8A6A48',
@@ -29,12 +30,12 @@ SWATCH_HEX = {
 
 def render_color(k):
     """Kleur value -> renderer colour param (renders/js/materials.js COLORS keys or hex)."""
-    m = {'Klaproos': '#9B2502', 'Crème': 'creme', 'Zandkleur': 'zand', 'Warm wit': '#F4E3BC',
+    m = {'Crème': 'creme', 'Zandkleur': 'zand', 'Warm wit': '#F4E3BC',
          'Houtlook': '#8A6A48', 'Berken': '#D9B98C', 'Transparant': '#E9EEF0'}
     return m.get(k, k.lower())
 
 def render_finish(k):
-    return {'finish': 'mat'} if k == 'Klaproos' else {}
+    return {}
 
 def slug(s):
     s = s.replace('Ø', 'd').replace('ø', 'd').replace('²', '2').replace(',', '-')
@@ -58,7 +59,7 @@ def code(s):
 def jit(*parts):
     return int(hashlib.md5('|'.join(map(str, parts)).encode()).hexdigest()[:8], 16)
 
-COLOR_WEIGHT = {'Wit': 1.5, 'Zwart': 1.4, 'Klaproos': 1.0, 'Antraciet': 1.0, 'Crème': 0.8, 'Blauw': 0.6,
+COLOR_WEIGHT = {'Wit': 1.5, 'Zwart': 1.4, 'Antraciet': 1.0, 'Crème': 0.8, 'Blauw': 0.6,
                 'Marineblauw': 0.7, 'Groen': 0.5, 'Zandkleur': 0.4, 'Rood': 0.7, 'Bordeaux': 0.6}
 
 def inv(base, sku, kleur=None, factor=1.0, zero_every=29):
@@ -139,11 +140,15 @@ ST_MEUBEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 8}, {'vanaf':
 ST_KLAPTAFEL = [{'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}, {'vanaf': 20, 'korting': 12}]
 ST_LAMP = [{'vanaf': 50, 'korting': 10}, {'vanaf': 100, 'korting': 20}]
 ST_GEWICHT = [{'vanaf': 3, 'korting': 5}, {'vanaf': 6, 'korting': 10}]
+ST_PRIK = [{'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}, {'vanaf': 25, 'korting': 12}]       # prikkabels (horeca, verhuur)
+ST_SLANG = [{'vanaf': 25, 'korting': 5}, {'vanaf': 50, 'korting': 10}, {'vanaf': 100, 'korting': 15}]   # per meter
+ST_KAR = [{'vanaf': 2, 'korting': 3}, {'vanaf': 5, 'korting': 6}]                                      # transportkarren
+ST_MARKT = [{'vanaf': 3, 'korting': 3}, {'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}]        # marktkramen (scholen, gemeenten)
 
 AANLEVERING = 'PDF, AI, EPS, SVG of PNG ≥ 300 dpi'
 LT_DRUK = '10–15 werkdagen na akkoord drukproef'
 
-TENT_KLEUREN = ['Klaproos', 'Wit', 'Zwart', 'Antraciet', 'Blauw', 'Groen', 'Zandkleur']
+TENT_KLEUREN = ['Rood', 'Wit', 'Zwart', 'Antraciet', 'Blauw', 'Groen', 'Zandkleur']
 HD_KLEUREN = ['Wit', 'Zwart']
 ROK_KLEUREN = ['Wit', 'Crème', 'Beige', 'Taupe', 'Zilver', 'Grijs', 'Antraciet', 'Zwart', 'Goud', 'Geel', 'Oranje',
                'Rood', 'Bordeaux', 'Roze', 'Fuchsia', 'Paars', 'Lichtblauw', 'Turquoise', 'Blauw', 'Marineblauw',

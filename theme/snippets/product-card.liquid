@@ -22,6 +22,48 @@
   if card_cfg != blank and card_cfg.velden != blank
     assign card_unit = card_cfg.eenheid | default: 'm²'
   endif
+  # the CTA names the first option a shopper can actually choose (more than one value), e.g. 'Kies je kleur' on a
+  # line split per size; sibling sizes (custom.andere_maten) are listed on the card and chosen on the product page
+  assign choose_opt = ''
+  for option in product.options_with_values
+    if option.values.size > 1
+      assign choose_opt = option.name | downcase | strip
+      break
+    endif
+  endfor
+  assign card_siblings = product.metafields.custom.andere_maten.value
+  assign card_sizes = ''
+  assign card_size_count = 0
+  if card_siblings != blank and card_siblings.size > 0
+    assign size_names_lc = 'maat,tafelmaat,diameter,afmeting,formaat' | split: ','
+    capture card_order
+      render 'size-siblings-order', product: product, siblings: card_siblings, size_names: size_names_lc
+    endcapture
+    assign card_idx = card_order | split: ','
+    assign card_size_count = card_idx.size
+    capture card_sizes
+      for ci in card_idx
+        assign cin = ci | plus: 0
+        if cin == 0
+          assign csp = product
+        else
+          assign cj = cin | minus: 1
+          assign csp = card_siblings[cj]
+        endif
+        capture cl
+          render 'size-label', p: csp, size_names: size_names_lc
+        endcapture
+        if cin == 0
+          echo '<strong class="nowrap">' | append: cl | append: '</strong>'
+        else
+          echo '<span class="nowrap">' | append: cl | append: '</span>'
+        endif
+        unless forloop.last
+          echo ' · '
+        endunless
+      endfor
+    endcapture
+  endif
 -%}
 <article class="card product-card{% unless product.available %} card--soldout{% endunless %}">
   <a class="card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
@@ -59,6 +101,9 @@
     {%- if settings.card_kenmerk and product.metafields.custom.kenmerk_kort != blank -%}
       <p class="card__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>
     {%- endif -%}
+    {%- if card_sizes != blank -%}
+      <p class="card__sizes">{{ 'card.sizes_html' | t: count: card_size_count, sizes: card_sizes }}</p>
+    {%- endif -%}
     {%- render 'rating', product: product -%}
     {%- if settings.card_swatches -%}
       {%- for option in product.options_with_values -%}
@@ -87,7 +132,7 @@
       {%- if settings.card_stock -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endif -%}
       {%- if quick -%}
         <div class="card__actions card__quick">
-          {%- if product.has_only_default_variant and product.available -%}
+          {%- if product.variants.size == 1 and product.available and card_sizes == blank -%}
             {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
               <input type="hidden" name="id" value="{{ first_variant.id }}">
               <input type="hidden" name="quantity" value="1">
@@ -98,9 +143,9 @@
           {%- elsif card_unit != '' and product.available -%}
             <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'card.configure' | t }}</a>
           {%- elsif product.available -%}
-            {%- assign first_opt = product.options.first | downcase -%}
-            {%- if product.options contains 'Maat' -%}{%- assign first_opt = 'maat' -%}{%- endif -%}
-            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'product.choose' | t: option: first_opt }}</a>
+            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">
+              {%- if choose_opt != '' -%}{{ 'product.choose' | t: option: choose_opt }}{%- else -%}{{ 'card.choose_size' | t }}{%- endif -%}
+            </a>
           {%- endif -%}
         </div>
       {%- endif -%}

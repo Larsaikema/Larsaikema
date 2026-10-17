@@ -13,7 +13,7 @@
         "newsletter": { "type": "newsletter", "settings": { "heading": "Eerst weten wanneer er actie is?", "text": "Eén mail als er iets te vieren valt. Afmelden kan altijd." } }
       },
       "block_order": ["brand", "menu-winkel", "menu-hulp", "menu-klapklaar", "contact", "newsletter"],
-      "settings": { "color_scheme": "scheme-5", "show_flags": false, "legal_menu": "footer-juridisch", "show_social": true, "show_payment": true, "show_localization": true }
+      "settings": { "color_scheme": "scheme-6", "show_flags": false, "legal_menu": "footer-juridisch", "show_social": true, "show_payment": true, "show_localization": true }
     }
   },
   "order": ["footer"]

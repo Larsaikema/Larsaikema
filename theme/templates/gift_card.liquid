@@ -13,15 +13,17 @@
     {{ content_for_header }}
     <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
     <script src="{{ 'global.js' | asset_url }}" defer></script>
+    <script src="{{ 'clipboard.js' | asset_url }}" defer></script>
     <style>
       .gc{max-width:560px;margin:0 auto;padding:32px 16px 48px;display:flex;flex-direction:column;gap:20px;text-align:center}
-      .gc__logo{width:150px;margin:0 auto;color:var(--c-inkt)}
-      .gc__card{position:relative;border-radius:var(--radius-panel);background:var(--c-klaproos);color:var(--c-zand);padding:28px 24px;text-align:left;--logo-roof:var(--c-zon);overflow:hidden}
-      .gc__card .logo-svg{width:120px;color:var(--c-zand)}
+      .gc__logo{width:180px;margin:0 auto;color:var(--c-inkt)}
+      .gc__card{position:relative;border-radius:var(--radius-panel);padding:28px 24px;text-align:left;overflow:hidden}
+      /* brand v6 3.6: on Klaproos the logo is one colour Zand (scheme-5 logo tent = Zand) */
+      .gc__card .logo-svg{width:160px;color:var(--fg)}
       .gc__amount{font-family:var(--font-heading);font-weight:var(--font-heading-weight-bold);font-size:44px;line-height:1;margin:28px 0 6px}
       .gc__balance{margin:0;opacity:.9}
       .gc__code{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
-      .gc__code code{font-size:20px;letter-spacing:.08em;padding:10px 16px;border-radius:var(--radius-input);background:#fff;border:1.5px dashed var(--c-kiezel);font-weight:700}
+      .gc__code code{font-size:20px;letter-spacing:.08em;padding:10px 16px;border-radius:var(--radius-input);background:var(--c-wit);border:1.5px solid var(--c-kiezel);font-weight:700}
       .gc__qr{display:flex;justify-content:center}
       .gc__qr img,.gc__qr canvas{width:120px;height:120px}
       @media print{.gc .btn{display:none}}
@@ -34,7 +36,7 @@
       {%- if gift_card.expired or gift_card.enabled == false -%}
         <p class="notice notice--error">{%- render 'icon', icon: 'alert' -%}<span>{% if gift_card.expired %}{%- assign gc_exp = gift_card.expires_on | date: format: 'date' -%}{{ 'gift_card.expired' | t: date: gc_exp }}{% else %}{{ 'gift_card.disabled' | t }}{% endif %}</span></p>
       {%- endif -%}
-      <div class="gc__card">
+      <div class="gc__card color-scheme-5">
         {%- render 'logo' -%}
         <p class="gc__amount">{{ gift_card.initial_value | money }}</p>
         {%- if gift_card.balance != gift_card.initial_value -%}{%- assign gc_balance = gift_card.balance | money -%}<p class="gc__balance">{{ 'gift_card.balance' | t: balance: gc_balance }}</p>{%- endif -%}

@@ -1,0 +1,65 @@
+{%- comment -%}
+  'Met jouw logo' block of the main product form (features product.print-upload, print-option-reveal, print-proof-flow).
+  Params: product, block (the section block), section_id, form_id, print_active (bool: current variant has print), druk
+  (custom.drukopties value).
+  Files: one <input type="file" multiple>. product-form.js keeps the chosen files in a list (add more, remove one,
+  drag and drop) and sends them as properties[Logo], properties[Logo 2] … in the multipart /cart/add.js request.
+  Without JavaScript the input posts its files with the product form (Shopify keeps the last one).
+  Max size per file and max number of files are block settings (Shopify's own upload limit is 20 MB per file).
+{%- endcomment -%}
+{%- liquid
+  assign max_files = block.settings.max_files | default: 5
+  assign max_mb = block.settings.max_mb | default: 20
+-%}
+<fieldset class="print" data-print aria-describedby="PrintIntro-{{ section_id }}"{% unless print_active %} hidden disabled{% endunless %} {{ block.shopify_attributes }}>
+  <legend class="print__legend">{%- render 'icon', icon: 'upload' -%}{{ 'product.print_title' | t }}</legend>
+  <p class="print__intro" id="PrintIntro-{{ section_id }}">{{ 'product.print_intro' | t }}</p>
+  {%- if block.settings.show_steps -%}
+    <div class="print__steps">
+      <p class="print__steps-title">{{ block.settings.steps_title }}</p>
+      <ol class="print__steps-list" role="list">
+        {%- if block.settings.step_1 != blank -%}<li><span class="print__step-num" aria-hidden="true">1</span><span>{{ block.settings.step_1 }}</span></li>{%- endif -%}
+        {%- if block.settings.step_2 != blank -%}<li><span class="print__step-num" aria-hidden="true">2</span><span>{{ block.settings.step_2 }}</span></li>{%- endif -%}
+        {%- if block.settings.step_3 != blank -%}<li><span class="print__step-num" aria-hidden="true">3</span><span>{{ block.settings.step_3 }}</span></li>{%- endif -%}
+        <li><span class="print__step-num" aria-hidden="true">4</span><span>{% if druk.levertijd != blank %}{{ 'product.print_step_delivery' | t: lead_time: druk.levertijd }}{% else %}{{ block.settings.step_4 }}{% endif %}</span></li>
+      </ol>
+      {%- if block.settings.page != blank -%}<a class="link text-sm" href="{{ block.settings.page.url }}">{{ 'product.print_more' | t }}</a>{%- endif -%}
+    </div>
+  {%- endif -%}
+  <div class="field print__upload" data-print-upload data-max-files="{{ max_files }}" data-max-mb="{{ max_mb }}">
+    <label class="field__label" for="PrintFile-{{ section_id }}">{{ 'product.print_upload' | t }}</label>
+    <label class="print__drop" for="PrintFile-{{ section_id }}" data-print-drop>
+      {%- render 'icon', icon: 'upload' -%}
+      <span class="print__drop-text">
+        <span class="print__drop-title">{{ 'product.print_choose' | t }}</span>
+        <span class="print__drop-limits">{{ 'product.print_limits' | t: files: max_files, size: max_mb }}</span>
+      </span>
+    </label>
+    <input class="print__file" type="file" id="PrintFile-{{ section_id }}" name="properties[Logo]" form="{{ form_id }}" accept=".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg" multiple aria-describedby="PrintHelp-{{ section_id }}">
+    <ul class="print__files" role="list" aria-label="{{ 'product.print_files_label' | t }}" aria-live="polite" data-print-files></ul>
+    <p class="field__help" id="PrintHelp-{{ section_id }}">{{ 'product.print_upload_help' | t }}</p>
+    <p class="field__error" role="alert" data-print-error hidden></p>
+  </div>
+  <label class="check print__later">
+    <input type="checkbox" name="properties[Logo]" value="{{ 'product.print_later_value' | t | escape }}" form="{{ form_id }}" data-print-later>
+    <span>{{ 'product.print_later' | t }}</span>
+  </label>
+  {%- if druk.posities and druk.posities.size > 0 -%}
+    <div class="field">
+      <label class="field__label" for="PrintPos-{{ section_id }}">{{ 'product.print_position' | t }}</label>
+      <select class="select" id="PrintPos-{{ section_id }}" name="properties[Drukpositie]" form="{{ form_id }}">
+        {%- for pos in druk.posities -%}<option value="{{ pos | escape }}">{{ pos }}</option>{%- endfor -%}
+      </select>
+    </div>
+  {%- endif -%}
+  <div class="field">
+    <label class="field__label" for="PrintNote-{{ section_id }}">{{ 'product.print_remark' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+    <textarea class="textarea" id="PrintNote-{{ section_id }}" name="properties[Opmerking bedrukking]" form="{{ form_id }}" rows="2"></textarea>
+  </div>
+  <dl class="print__specs">
+    {%- if druk.aanlevering -%}<div><dt>{{ 'product.print_specs' | t }}</dt><dd>{{ druk.aanlevering }}</dd></div>{%- endif -%}
+    {%- if druk.levertijd and block.settings.show_steps == false -%}<div><dt>{{ 'product.print_lead_time' | t }}</dt><dd>{{ druk.levertijd }}</dd></div>{%- endif -%}
+    {%- if druk.min_aantal > 1 -%}<div><dt>{{ 'product.staffel_qty' | t }}</dt><dd>{{ 'product.print_min' | t: count: druk.min_aantal }}</dd></div>{%- endif -%}
+  </dl>
+  {%- unless block.settings.show_steps -%}<p class="notice notice--warn">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>{%- endunless -%}
+</fieldset>

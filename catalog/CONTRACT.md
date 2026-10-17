@@ -8,7 +8,7 @@ seed script all follow this contract. Change it only deliberately, and update al
 | Option | Values (format) | Used on |
 |---|---|---|
 | `Maat` | `3 x 3 m`, `3 x 4,5 m`, `3 x 6 m`, `4 x 4 m`, `4 x 6 m`, `4 x 8 m` · tables `Ø80 cm` · covers `Ø80-85 cm` | tents, tables, covers, walls |
-| `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch) | everything with colour |
+| `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch, the name of the cloth colour; never a brand colour name such as `Lampion` or the old `Klaproos`, brand.md v7 §4.2) | everything with colour |
 | `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur` | where relevant |
 
 Colour swatches: the theme uses `value.swatch.color` when present (seed script links `Kleur` to the
@@ -23,8 +23,10 @@ Colour swatches: the theme uses `value.swatch.color` when present (seed script l
 | `usps` | list.single_line_text_field | 3–4 product USPs with check icons under the buy button |
 | `specificaties` | json | `[{"groep":"Frame","label":"Materiaal","waarde":"Aluminium 6063"}, …]` → spec table (grouped) |
 | `staffelkorting` | json | `[{"vanaf":10,"korting":5},{"vanaf":25,"korting":10}]` → staffel table + live "jouw prijs" hint. Real discount = Shopify automatic discount (docs). |
-| `addons` | list.product_reference | accessory upsells as checkboxes on PDP, added in the same `/cart/add.js` call |
+| `addons` | list.product_reference | accessory upsells as checkboxes on PDP, added in the same `/cart/add.js` call; fallback for variants without `addon_varianten` (see Variant metafields) and the source for cart recommendations |
+| `addon_modus` | single_line_text_field | `per-stuk` (default) or `per-regel`: the theme multiplies `addon_aantallen` by the main quantity, except for `per-regel` products (sold per meter or m², and configurator products), where the add-on quantity is per order line |
 | `past_op` | list.product_reference | compatibility ("Past op: Easy-up Premium 3 x 3 m") |
+| `andere_maten` | list.product_reference | the other sizes of a line that is split into one product per size (`easy-up-partytent-premium-3x3`, `-3x4-5`, `-3x6`); set on every product of the line, listing the others (the product itself may be left out). The PDP shows them as pills in the `Maat` option, sorted by size, each linking to the sibling variant with the same `Kleur`/`Uitvoering`; the card lists the sizes. Every sibling has a `Maat` option with its single size value. |
 | `levertijd` | single_line_text_field | overrides the default delivery promise ("Levertijd 2–3 weken") |
 | `verzending` | single_line_text_field | `pakket` (default) or `pallet` → delivery copy + shipping profile |
 | `bedrukbaar` | boolean | shows the logo-upload / drukpositie block (line-item properties) |
@@ -73,6 +75,19 @@ the components and shows "Je bespaart € x" only when the summed component pric
 Standard review-app metafields `reviews.rating` / `reviews.rating_count` are read when present; the catalog
 never sets them (no fabricated reviews).
 
+## Variant metafields (namespace `custom`)
+
+| key | type | purpose / theme use |
+|---|---|---|
+| `componenten` | list.variant_reference | bundle components of this bundle variant (see `componenten` above) |
+| `component_aantallen` | list.number_integer | quantity per component, same order |
+| `addon_varianten` | list.variant_reference | the add-on variants that belong to this variant: zijwandenset in the same `Maat` and `Kleur`, voetgewicht `Set van 6` for a tent with 6 poten, statafelrok `Ø60-70 cm` for a `Ø70 cm` statafel, hoes in the same `Maat` as the tafel. The catalog gives SKUs (like `componenten`); the seed script resolves them to GIDs. The PDP addons block renders the selected variant's list and swaps it (keeping ticked add-ons ticked) when the variant changes; product `addons` is only the fallback. |
+| `addon_aantallen` | list.number_integer | quantity per add-on for 1 unit of the main product, same order as `addon_varianten` (prikkabel 20 m → 20 LED-lampen, 3 × 6 m Premium → 2 sets spanbanden); cart quantity = aantal × main quantity unless `addon_modus` = `per-regel` |
+
+Every variant of a product with add-ons gets its own list, so the fallback (first variant of each add-on) is never what lands
+in the cart. An add-on that has no matching size or colour for a variant is left out for that variant instead of offering a
+wrong one (no 2 × 2 m zijwandenset, so the 2 × 2 m tent gets none).
+
 ## Collection metafields (namespace `custom`)
 
 | key | type | use |
@@ -90,7 +105,7 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 ## Collections (handles)
 
 `partytenten` (parent) · `easy-up-partytenten` · `easy-up-premium` · `easy-up-professional` · `stretchtenten` ·
-`opblaasbare-tenten` · `stertenten` · `bedrukte-partytenten` · `partytent-onderdelen` · `zijwanden` ·
+`opblaasbare-tenten` · `stertenten` · `ster-en-opblaasbare-tenten` (both lines, one menu landing page) · `bedrukte-partytenten` · `partytent-onderdelen` · `zijwanden` ·
 `gewichten-en-verankering` · `tassen-en-wielsets` · `statafels` · `statafelrokken` · `statafelhoezen-met-strik` ·
 `statafelkleden` · `bedrukte-statafelhoezen` · `actiepakketten` · `meubilair` · `verlichting` · `accessoires` ·
 `zakelijk` (smart: tag = zakelijk) · `all`.
@@ -106,7 +121,9 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 `bedrukken` → page.bedrukken · `veelgestelde-vragen` → page.faq · `verzenden-en-bezorgen` → page ·
 `retourneren` → page · `garantie` → page.garantie (garantie + klachtformulier) · `handleidingen` → page.handleidingen
 (lists every product with `downloads`) · `betaalmethoden` → page · `maatadvies-statafelrokken` → page ·
-`maatadvies-partytenten` → page ·
+`maatadvies-partytenten` → page · `verschil-partytenten` → page.vergelijking (comparison table from `vergelijk_groep`; the
+'Lees het hele verschil' links on product and collection pages point at the blog article `advies/easy-up-premium-of-professional`
+and are hidden when their target does not exist) ·
 `showroom-en-afhalen` → page (only if the owner confirms a pickup location; otherwise left unpublished).
 
 ## Blog

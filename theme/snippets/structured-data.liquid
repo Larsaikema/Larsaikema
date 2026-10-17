@@ -19,7 +19,8 @@
   "contactPoint": [{ "@type": "ContactPoint", "contactType": "customer service", "availableLanguage": ["nl"]{% if org_phone != blank %}, "telephone": {{ org_phone | json }}{% endif %}{% if org_email != blank %}, "email": {{ org_email | json }}{% endif %} }]
   {%- endif -%}
   {%- assign same_as = '' -%}
-  {%- for s in 'social_instagram,social_facebook,social_linkedin,social_youtube,social_tiktok,social_pinterest' | split: ',' -%}
+  {%- assign social_keys = 'social_instagram,social_facebook,social_linkedin,social_youtube,social_tiktok,social_pinterest' | split: ',' -%}
+  {%- for s in social_keys -%}
     {%- if settings[s] != blank -%}{%- assign same_as = same_as | append: settings[s] | append: '|' -%}{%- endif -%}
   {%- endfor -%}
   {%- if same_as != '' -%},

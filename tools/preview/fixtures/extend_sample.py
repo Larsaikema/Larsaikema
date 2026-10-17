@@ -6,7 +6,7 @@ upserts, by handle:
   - products that follow catalog/CONTRACT.md (options Maat/Kleur, metafields kenmerk_kort, usps, specificaties,
     staffelkorting, addons, past_op, levertijd, verzending, bedrukbaar, drukopties, faq, garantie …) with the
     3D renders from brand/img, renders/samples and $SCRATCH/renders-extra as images;
-  - contract collections (+ intro / kenmerken / seo_tekst / subcollections metafields);
+  - contract collections (+ intro / kenmerken / seo_tekst metafields; sub-collection chips come from main-menu);
   - main-menu with three levels, footer-* menus;
   - pages with template suffixes (zakelijk, offerte, bedrukken, faq, contact) and the service pages;
   - blog 'advies' with original how-to articles.
@@ -30,7 +30,8 @@ MAX_PX = 1400
 
 IMAGES = [
     "scene-hero.webp", "scene-hero-crop.webp",
-    "tent-3x3-klaproos-hero.webp", "tent-3x3-klaproos-logo-hero.webp", "tent-3x3-klaproos-front.webp", "tent-3x6-klaproos-hero.webp",
+    "tent-3x3-klaproos-hero.webp", "tent-3x3-klaproos-front.webp", "tent-3x6-klaproos-hero.webp",
+    "tent-3x3-rood-hero.webp", "tent-3x3-rood-logo-hero.webp", "tent-3x3-rood-logo-front.webp",
     "tent-3x3-wit-hero.webp", "tent-3x3-wit-front.webp", "tent-3x3-wit-detail.webp", "tent-3x3-zwart-hero.webp",
     "tent-3x6-zwart-zijwanden-hero.webp", "tent-3x6-zwart-zijwanden-detail.webp",
     "tent-3x3-rood-professional-gewichten-hero.webp", "tent-3x3-wit-professional-hero.webp", "tent-4x4-zwart-professional-hero.webp",
@@ -42,8 +43,13 @@ IMAGES = [
 
 
 def copy_images():
+    # The fixture images are a stable snapshot: an existing file is kept (brand/img is re-rendered per brand version,
+    # FORCE_IMAGES=1 refreshes them deliberately).
+    force = os.environ.get("FORCE_IMAGES") == "1"
     for name in IMAGES:
         dst = os.path.join(IMG_DIR, name)
+        if os.path.exists(dst) and not force:
+            continue
         cands = [os.path.join(d, name) for d in SOURCES if os.path.exists(os.path.join(d, name))]
         if not cands:
             if not os.path.exists(dst):
@@ -400,6 +406,48 @@ def products():
     return P
 
 
+SPLIT_SIZES = [("3x3", "3 x 3 m", 27900, 34), ("3x4-5", "3 x 4,5 m", 35900, 0), ("3x6", "3 x 6 m", 41900, 6)]
+
+
+def split_line_products():
+    """A line split into one product per size, linked with custom.andere_maten (catalog/CONTRACT.md), with the same
+    handles as the real catalog: exercises the size switch (product.size-switch) and the card CTA 'Kies je kleur'."""
+    out = []
+    handles = [f"easy-up-partytent-premium-{k}" for k, *_ in SPLIT_SIZES]
+    img = {"Rood": "tent-3x3-rood-hero.webp", "Wit": "tent-3x3-wit-hero.webp", "Zwart": "tent-3x3-zwart-hero.webp"}
+    for (key, size, price, stock), handle in zip(SPLIT_SIZES, handles):
+        siblings = [h for h in handles if h != handle]
+        out.append({
+            "handle": handle,
+            "title": f"Easy-up partytent Premium {size}",
+            "vendor": "Klapklaar", "product_type": "Easy-up partytent",
+            "tags": ["easy-up", "partytent", "premium", "gebruik:tuinfeest"],
+            "created_at": "2026-09-20T10:00:00+02:00", "published_at": "2026-09-20T10:00:00+02:00",
+            "body_html": f"<p>De Premium in {size.replace(' x ', ' × ')}: stalen frame met 40 mm hexagonpoten en een dak van 320 g/m² polyester. Andere maten kies je bovenaan bij Maat.</p>",
+            "options": [opt("Maat", [size]), opt("Kleur", ["Rood", "Wit", "Zwart"])],
+            "variants": [
+                {"sku": f"KK-EUP-{key.upper()}-{c[:3].upper()}", "option1": size, "option2": c, "price": price,
+                 "inventory_quantity": (stock if c == "Rood" else 9), "inventory_management": "shopify", "inventory_policy": "deny",
+                 "weight": 28, "weight_unit": "kg", "image": img[c]}
+                for c in ["Rood", "Wit", "Zwart"]
+            ],
+            "images": [{"src": img[c], "alt": f"Easy-up partytent Premium {size.replace(' x ', ' × ')} {c.lower()}, schuin vooraanzicht"} for c in ["Rood", "Wit", "Zwart"]],
+            "metafields": [
+                mf("kenmerk_kort", "single_line_text_field", "40 mm staal · 320 g/m² dakdoek"),
+                mf("andere_maten", "list.product_reference", siblings),
+                mf("maatgids", "page_reference", "maatadvies-partytenten"),
+                mf("staffelkorting", "json", [{"vanaf": 5, "korting": 5}, {"vanaf": 10, "korting": 8}]),
+                mf("vergelijk_groep", "single_line_text_field", "easy-up"),
+                mf("verzending", "single_line_text_field", "pakket"),
+            ],
+        })
+    return out
+
+
+COMPARISON_ARTICLE = ("easy-up-premium-of-professional", "Easy-up Premium of Professional: wat is het verschil?", "tent-3x3-wit-professional-hero.webp", ["partytent", "vergelijken"],
+    "<p>Antwoord eerst: kies de Premium voor af en toe een feest, de Professional als hij elke week opgaat of zakelijk gebruikt wordt.</p><h2>Frame</h2><p>De Premium heeft een stalen frame met 40 mm poten. De Professional heeft 50 mm aluminium: lichter om te dragen en sterker in de hoeken.</p><h2>Dak</h2><p>Premium: 320 g/m² polyester, PVC-gecoat. Professional: 520 g/m² PVC, ook leverbaar als heavy duty.</p><h2>Wat ze delen</h2><p>Dezelfde maten, zijwanden, gewichten en tassen passen op beide lijnen.</p>")
+
+
 def vid(handle, opts):
     """Variant id exactly as the preview store derives it (tools/preview/lib/store.rb + util.rb stable_id)."""
     seed = f"variant:{handle}:{'/'.join(opts or ['Default Title'])}"
@@ -564,7 +612,7 @@ def extra_products():
 def collections():
     C = []
 
-    def col(handle, title, prods=None, rules=None, image=None, intro=None, kenmerken=None, seo=None, subs=None, sort="manual"):
+    def col(handle, title, prods=None, rules=None, image=None, intro=None, kenmerken=None, seo=None, sort="manual"):
         c = {"handle": handle, "title": title, "sort_order": sort, "metafields": []}
         if prods is not None:
             c["products"] = prods
@@ -578,8 +626,6 @@ def collections():
             c["metafields"].append(mf("kenmerken", "list.single_line_text_field", kenmerken))
         if seo:
             c["metafields"].append(mf("seo_tekst", "rich_text_field", seo))
-        if subs:
-            c["metafields"].append(mf("subcollections", "list.collection_reference", subs))
         return c
 
     C.append(col("easy-up-partytenten", "Easy-up partytenten",
@@ -587,8 +633,7 @@ def collections():
                  image="tent-3x3-klaproos-hero.webp",
                  intro="Uitklappen, dak erover, klaar. Easy-up tenten van 3 × 3 tot 4 × 8 m, met een stalen of aluminium frame.",
                  kenmerken=["Staat in een paar minuten", "Staal of aluminium", "Zijwanden los erbij"],
-                 seo=rich(("h2", "Welke easy-up partytent past bij jou?"), ("p", "Gebruik je hem een paar keer per jaar in de tuin, dan is de Premium met stalen frame genoeg. Sta je elke week op de markt of verhuur je tenten, kies dan de Professional: aluminium, lichter en roestvrij."), ("h3", "Maat kiezen"), ("p", "Een 3 × 3 m tent biedt ruimte aan ongeveer 8 staande gasten of 2 marktkramen. Met 3 × 6 m heb je plek voor een buffet en een paar statafels.")),
-                 subs=["easy-up-premium", "easy-up-professional", "bedrukte-partytenten"]))
+                 seo=rich(("h2", "Welke easy-up partytent past bij jou?"), ("p", "Gebruik je hem een paar keer per jaar in de tuin, dan is de Premium met stalen frame genoeg. Sta je elke week op de markt of verhuur je tenten, kies dan de Professional: aluminium, lichter en roestvrij."), ("h3", "Maat kiezen"), ("p", "Een 3 × 3 m tent biedt ruimte aan ongeveer 8 staande gasten of 2 marktkramen. Met 3 × 6 m heb je plek voor een buffet en een paar statafels."))))
     C.append(col("easy-up-premium", "Easy-up Premium", prods=["partytent-easy-up-premium", "easy-up-partytent-premium"], image="tent-3x3-wit-hero.webp",
                  intro="Stalen frame met 40 mm poten en een dak van 320 g/m². Voor tuin, feest en markt."))
     C.append(col("easy-up-professional", "Easy-up Professional", prods=["partytent-easy-up-professional", "easy-up-partytent-professional-3x6"], image="tent-3x3-rood-professional-gewichten-hero.webp",
@@ -613,7 +658,6 @@ EXISTING_COLLECTION_EXTRAS = {
             mf("intro", "multi_line_text_field", "Easy-up, stretch of met jouw logo. Kies je maat, wij zorgen dat hij klaarstaat."),
             mf("kenmerken", "list.single_line_text_field", ["3 × 3 tot 4 × 8 m", "Staal of aluminium", "Zijwanden en gewichten los erbij"]),
             mf("seo_tekst", "rich_text_field", rich(("h2", "Een partytent kopen: waar let je op?"), ("p", "Kijk eerst naar het frame: staal is zwaarder en goedkoper, aluminium is licht en roest niet. Daarna het dak: hoe hoger het gewicht in g/m², hoe steviger het doek."), ("h3", "Vastzetten"), ("p", "Elke tent heeft gewichten of haringen nodig. Reken op minimaal 10 kg per poot op verharde grond."))),
-            mf("subcollections", "list.collection_reference", ["easy-up-partytenten", "stretchtenten", "bedrukte-partytenten", "accessoires"]),
         ],
     },
     "statafels": {
@@ -622,7 +666,6 @@ EXISTING_COLLECTION_EXTRAS = {
         "metafields": [
             mf("intro", "multi_line_text_field", "Statafels die plat klappen, met rokken en hoezen in elke kleur."),
             mf("kenmerken", "list.single_line_text_field", ["Klapt plat", "Ø 80 cm", "Staffelprijs vanaf 10 stuks"]),
-            mf("subcollections", "list.collection_reference", ["statafelrokken", "statafelhoezen-met-strik", "bedrukte-statafelhoezen", "actiepakketten"]),
         ],
     },
     "statafelrokken": {
@@ -631,12 +674,18 @@ EXISTING_COLLECTION_EXTRAS = {
         "metafields": [
             mf("intro", "multi_line_text_field", "Stretch of met strik, voor statafels van Ø 70 tot 85 cm. Strak zonder strijken."),
             mf("kenmerken", "list.single_line_text_field", ["Voor Ø 70–85 cm", "Wasbaar op 40 °C", "Staffelprijs vanaf 10 stuks"]),
-            mf("subcollections", "list.collection_reference", ["statafelhoezen-met-strik", "bedrukte-statafelhoezen"]),
         ],
     },
     "accessoires": {
         "metafields": [mf("intro", "multi_line_text_field", "Zijwanden, gewichten, verlichting en alles wat je tent compleet maakt.")],
     },
+}
+
+
+PAST_OP = {
+    "gewichten-set-4x10kg": ["partytent-easy-up-premium", "partytent-easy-up-professional", "partytent-met-logo", "easy-up-partytent-premium", "easy-up-partytent-professional-3x6", "partytent-easy-up-basic-3x3"],
+    "zijwand-3m": ["partytent-easy-up-premium", "partytent-easy-up-professional", "easy-up-partytent-premium", "easy-up-partytent-professional-3x6"],
+    "statafelhoes-met-strik-80": ["statafel-inklapbaar-80"],
 }
 
 
@@ -750,7 +799,7 @@ ARTICLES = [
      "<p>Een tent die droog en schoon wordt opgeborgen, gaat jaren mee.</p><h2>Altijd droog inpakken</h2><p>Pak het dak nooit nat in. Is het toch nat, laat het thuis dan uitgespreid drogen.</p><h2>Schoonmaken</h2><p>Lauw water en een zachte borstel. Geen hogedrukspuit: die beschadigt de coating.</p>"),
     ("partytent-verankeren-bij-wind", "Je partytent goed vastzetten", "tent-3x3-rood-professional-gewichten-hero.webp", ["veiligheid", "partytent"],
      "<p>Een tent zonder gewichten of haringen hoort niet buiten te staan. Zo zet je hem goed vast.</p><h2>Op gras</h2><p>Gebruik haringen door de voetplaten en span de scheerlijnen schuin naar buiten.</p><h2>Op tegels of asfalt</h2><p>Gebruik voetgewichten van minimaal 10 kg per poot. Bij een 3 × 6 m tent zet je er ook gewichten op de middelste poten.</p><h2>Bij harde wind</h2><p>Haal het dak eraf. Een dak vangt wind als een zeil.</p>"),
-    ("logo-aanleveren-voor-bedrukking", "Bedrukken: zo lever je je logo aan", "tent-3x3-klaproos-logo-hero.webp", ["bedrukken", "zakelijk"],
+    ("logo-aanleveren-voor-bedrukking", "Bedrukken: zo lever je je logo aan", "tent-3x3-rood-logo-hero.webp", ["bedrukken", "zakelijk"],
      "<p>Hoe beter je bestand, hoe scherper de opdruk. Dit werkt het best.</p><h2>Vectorbestand</h2><p>Een PDF, AI, EPS of SVG is ideaal: die kun je eindeloos vergroten.</p><h2>Geen vector?</h2><p>Stuur een PNG van minimaal 2000 px breed. Wij maken hem drukklaar en je ziet het resultaat eerst in de drukproef.</p><h2>Kleuren</h2><p>Geef je Pantone- of HEX-kleuren door als je die hebt. Dan matchen we je huisstijl zo goed mogelijk.</p>"),
 ]
 
@@ -762,6 +811,7 @@ ARTICLE_PRODUCTS = {
     "partytent-onderhouden-en-opbergen": ["partytent-easy-up-premium", "zijwand-3m"],
     "partytent-verankeren-bij-wind": ["gewichten-set-4x10kg", "partytent-easy-up-professional"],
     "logo-aanleveren-voor-bedrukking": ["partytent-met-logo", "statafelrok-met-logo"],
+    "easy-up-premium-of-professional": ["partytent-easy-up-premium", "partytent-easy-up-professional"],
 }
 ARTICLE_IMAGE_ALT = {
     "easy-up-partytent-opzetten": "Easy-up partytent 3 × 3 m Wit, schuin vooraanzicht",
@@ -769,13 +819,14 @@ ARTICLE_IMAGE_ALT = {
     "hoeveel-statafels-per-gast": "Statafel Ø 80 cm met berken blad",
     "partytent-onderhouden-en-opbergen": "Hoekstuk en schaarframe van een easy-up, detail",
     "partytent-verankeren-bij-wind": "Rode easy-up Professional met voetgewichten op elke poot",
-    "logo-aanleveren-voor-bedrukking": "Easy-up in Klaproos met voorbeeldopdruk op de luifel",
+    "logo-aanleveren-voor-bedrukking": "Rode easy-up met voorbeeldopdruk Klapklaar op de luifel",
+    "easy-up-premium-of-professional": "Easy-up Professional 3 × 3 m wit, schuin vooraanzicht",
 }
 
 
 def blog():
     arts = []
-    for i, (handle, title, img, tags, body) in enumerate(ARTICLES):
+    for i, (handle, title, img, tags, body) in enumerate(ARTICLES + [COMPARISON_ARTICLE]):
         a = {
             "handle": handle, "title": title, "author": "Team Klapklaar", "body_html": body,
             "summary_html": body.split("</p>")[0] + "</p>",
@@ -844,7 +895,7 @@ def main():
     path = os.path.join(HERE, "sample.json")
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
-    for p in products():
+    for p in products() + split_line_products():
         upsert(data["products"], p)
     for c in collections():
         upsert(data["collections"], c)
@@ -866,6 +917,54 @@ def main():
             mfs = [m for m in (prod.get("metafields") or []) if m.get("key") != "availability_status"]
             mfs.append(mf("availability_status", "single_line_text_field", "binnenkort"))
             prod["metafields"] = mfs
+    # compatibility (custom.past_op) on accessories: 'Vergeet niet' in the cart suggests what fits the cart
+    for prod in data["products"]:
+        fits = PAST_OP.get(prod["handle"])
+        if fits:
+            prod["metafields"] = [m for m in (prod.get("metafields") or []) if m.get("key") != "past_op"] + [mf("past_op", "list.product_reference", fits)]
+    # custom.subcollections is not in catalog/CONTRACT.md: drop it from older fixture runs
+    for c in data["collections"]:
+        if c.get("metafields"):
+            c["metafields"] = [m for m in c["metafields"] if m.get("key") != "subcollections"]
+    # split line in the easy-up collections (appended, so the existing grid order stays)
+    for c in data["collections"]:
+        if c["handle"] in ("easy-up-premium", "easy-up-partytenten") and "products" in c:
+            for h in [f"easy-up-partytent-premium-{k}" for k, *_ in SPLIT_SIZES]:
+                if h not in c["products"]:
+                    c["products"].append(h)
+    # brand v6 4.2: a product colour is named after the cloth (Rood), never after the brand colour (Klaproos)
+    # the old Klaproos renders (v5/v6 brand red) give way to the stock-red renders (brand v7 8.1: never the brand colour as cloth)
+    ren_img = {"tent-3x3-klaproos-logo-hero.webp": "tent-3x3-rood-logo-hero.webp", "tent-3x3-klaproos-logo-front.webp": "tent-3x3-rood-logo-front.webp",
+               "tent-3x3-klaproos-hero.webp": "tent-3x3-rood-hero.webp", "tent-3x3-klaproos-front.webp": "tent-3x3-rood-hero.webp",
+               "tent-3x6-klaproos-hero.webp": "tent-3x3-rood-hero.webp"}
+    for prod in data["products"]:
+        for o in prod.get("options") or []:
+            for v in o["values"]:
+                if v.get("name") == "Klaproos":
+                    v["name"] = "Rood"
+        for v in prod.get("variants") or []:
+            for k in ("option1", "option2", "option3"):
+                if v.get(k) == "Klaproos":
+                    v[k] = "Rood"
+            if v.get("image") in ren_img:
+                v["image"] = ren_img[v["image"]]
+        seen = set()
+        imgs = []
+        for im in prod.get("images") or []:
+            im["src"] = ren_img.get(im["src"], im["src"])
+            if im.get("alt"):
+                im["alt"] = im["alt"].replace("Klaproos", "rood")
+            if im["src"] not in seen:
+                seen.add(im["src"])
+                imgs.append(im)
+        if prod.get("images"):
+            prod["images"] = imgs
+        for m in prod.get("metafields") or []:
+            if isinstance(m.get("value"), str) and "Klaproos" in m["value"]:
+                m["value"] = m["value"].replace("Klaproos", "Rood")
+    for c in data["collections"]:
+        if c.get("image") and c["image"].get("src") in ren_img:
+            c["image"]["src"] = ren_img[c["image"]["src"]]
     for m in menus():
         upsert(data["menus"], m)
     for pg in pages():

@@ -5,13 +5,49 @@
     "announcement": {
       "type": "announcement-bar",
       "blocks": {
-        "usp-levering": { "type": "usp", "settings": { "icon": "truck", "text": "Snel in huis in NL & BE", "link": "shopify://pages/verzenden-en-bezorgen" } },
-        "countdown": { "type": "countdown", "settings": { "text": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden" } },
-        "usp-factuur": { "type": "usp", "settings": { "icon": "invoice", "text": "Zakelijk bestellen op factuur", "link": "shopify://pages/zakelijk" } },
-        "usp-logo": { "type": "usp", "settings": { "icon": "proof", "text": "Eigen logo? Eerst een drukproef", "link": "shopify://pages/bedrukken" } }
+        "usp-levering": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "text": "Snel in huis in NL & BE",
+            "link": "shopify://pages/verzenden-en-bezorgen"
+          }
+        },
+        "countdown": {
+          "type": "countdown",
+          "settings": {
+            "text": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden"
+          }
+        },
+        "usp-factuur": {
+          "type": "usp",
+          "settings": {
+            "icon": "invoice",
+            "text": "Zakelijk bestellen op factuur",
+            "link": "shopify://pages/zakelijk"
+          }
+        },
+        "usp-logo": {
+          "type": "usp",
+          "settings": {
+            "icon": "proof",
+            "text": "Eigen logo? Eerst een drukproef",
+            "link": "shopify://pages/bedrukken"
+          }
+        }
       },
-      "block_order": ["usp-levering", "countdown", "usp-factuur", "usp-logo"],
-      "settings": { "color_scheme": "scheme-5", "menu": "", "show_phone": true, "interval": 5 }
+      "block_order": [
+        "usp-levering",
+        "countdown",
+        "usp-factuur",
+        "usp-logo"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "menu": "",
+        "show_phone": true,
+        "interval": 5
+      }
     },
     "header": {
       "type": "header",
@@ -20,12 +56,13 @@
           "type": "promo",
           "settings": {
             "menu_item": "Partytenten",
-            "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp",
+            "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
             "eyebrow": "Met jouw logo",
             "heading": "Je eigen tent, met drukproef vooraf",
             "text": "Luifel of dak bedrukt. Eerst je akkoord, dan drukken we.",
             "link": "shopify://pages/bedrukken",
-            "link_label": "Zo werkt bedrukken"
+            "link_label": "Zo werkt bedrukken",
+            "fallback_image": "tent-logo"
           }
         },
         "promo-statafels": {
@@ -37,13 +74,26 @@
             "heading": "Statafelrokken met je logo",
             "text": "Stretch rok, logo op het voorpaneel. Vanaf 10 stuks staffelprijs.",
             "link": "shopify://collections/bedrukte-statafelhoezen",
-            "link_label": "Bekijk de rokken"
+            "link_label": "Bekijk de rokken",
+            "fallback_image": "rok-logo"
           }
         }
       },
-      "block_order": ["promo-partytenten", "promo-statafels"],
-      "settings": { "color_scheme": "scheme-2", "menu": "main-menu", "sticky": "always", "show_quote": true, "show_contact": true }
+      "block_order": [
+        "promo-partytenten",
+        "promo-statafels"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "menu": "main-menu",
+        "sticky": "scroll-up",
+        "show_quote": true,
+        "show_contact": true
+      }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

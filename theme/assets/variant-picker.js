@@ -7,7 +7,7 @@
       'variant-picker',
       class extends HTMLElement {
         connectedCallback() {
-          this.variants = JSON.parse(this.querySelector('[data-variants]').textContent);
+          this.variants = JSON.parse(this.querySelector('script[data-variants]').textContent);
           this.addEventListener('change', (e) => e.target.matches('.vp__input') && this.onChange(e.target));
         }
         selected() {
@@ -30,7 +30,22 @@
             const checked = fs.querySelector('input:checked');
             if (out && checked) out.textContent = checked.value;
           });
+          this.syncSiblings(v);
           this.closest('product-info')?.setVariant(v);
+        }
+        /* sibling sizes (custom.andere_maten): point each size link at the variant with the same colour/uitvoering */
+        syncSiblings(v) {
+          const links = this.querySelectorAll('[data-sibling]');
+          if (!links.length) return;
+          const names = JSON.parse(this.dataset.keyNames || '[]');
+          const key = names.map((n, i) => (n === null ? '' : `${n}=${v.options[i]}|`)).join('');
+          links.forEach((a) => {
+            const hit = JSON.parse(a.dataset.siblingVariants || '{}')[key];
+            a.href = hit ? `${a.dataset.url}?variant=${hit[0]}` : a.dataset.url;
+            const off = !!hit && !hit[1];
+            a.classList.toggle('is-unavailable', off);
+            a.querySelector('[data-unavailable-text]')?.toggleAttribute('hidden', !off);
+          });
         }
       }
     );
@@ -47,6 +62,16 @@
             const d = document.getElementById(decodeURIComponent(location.hash.slice(1)));
             if (d && d.tagName === 'DETAILS') d.open = true;
           }
+          // in-page links to an accordion (Zakelijk nudge -> #ProductQuote) open it and move focus to its summary
+          this.addEventListener('click', (e) => {
+            const a = e.target.closest('a[data-open-details]');
+            const d = a && document.getElementById(a.hash.slice(1));
+            if (!d || d.tagName !== 'DETAILS') return;
+            e.preventDefault();
+            d.open = true;
+            d.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+            d.querySelector('summary')?.focus({ preventScroll: true });
+          });
         }
         async setVariant(v) {
           this.variant = v;
@@ -57,6 +82,9 @@
           u.searchParams.set('variant', v.id);
           history.replaceState(history.state, '', u);
           if (v.media_id) this.querySelector('media-gallery')?.goToMedia(v.media_id);
+          const label = v.options.join(' / ');
+          this.querySelectorAll('[data-quote-variant]').forEach((i) => (i.value = label));
+          this.querySelectorAll('[data-quote-variant-text]').forEach((t) => (t.textContent = label));
           // print fields only for variants with print (feature product.print-option-reveal)
           const print = this.querySelector('[data-print]');
           if (print) {

@@ -34,13 +34,13 @@
     {%- when 'savings' -%}
       {%- if savings > 0 -%}
         <p class="bundle-save">
-          <span class="sale-label">{{ 'product.bundle_save_short' | t }} {%- render 'vat-money', cents: savings -%}</span>
+          <span class="sale-label">{{ 'product.bundle_save_short' | t }} {% render 'vat-money', cents: savings -%}</span>
           <span class="bundle-save__text">{{ 'product.bundle_vs_loose' | t }}</span>
         </p>
       {%- endif -%}
     {%- when 'card' -%}
       {%- if savings > 0 -%}
-        <p class="card__bundle"><span class="sale-label sale-label--sm">{{ 'product.bundle_save_short' | t }} {%- render 'vat-money', cents: savings -%}</span></p>
+        <p class="card__bundle"><span class="sale-label sale-label--sm">{{ 'product.bundle_save_short' | t }} {% render 'vat-money', cents: savings -%}</span></p>
       {%- endif -%}
     {%- else -%}
       <div class="bundle">
@@ -73,7 +73,7 @@
           <div class="bundle__sum-total"><dt>{{ 'product.bundle_price' | t }}</dt><dd>{%- render 'vat-money', cents: bv.price -%}</dd></div>
         </dl>
         {%- if savings > 0 -%}
-          <p class="bundle__save">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span>{{ 'product.bundle_save_prefix' | t }} {%- render 'vat-money', cents: savings, tag: 'strong' -%} {{ 'product.bundle_save_suffix' | t }}</span></p>
+          <p class="bundle__save">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span>{{ 'product.bundle_save_prefix' | t }} {% render 'vat-money', cents: savings, tag: 'strong' %} {{ 'product.bundle_save_suffix' | t }}</span></p>
         {%- endif -%}
       </div>
   {%- endcase -%}

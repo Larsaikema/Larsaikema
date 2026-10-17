@@ -75,7 +75,7 @@
     {%- endif -%}
   </dl>
   <p class="cart-summary__shipping text-sm muted">{% if cs_cost >= 0 %}{{ 'cart.shipping_note_estimate' | t }}{% else %}{{ 'cart.shipping_note' | t }}{% endif %}</p>
-  <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--block cart-summary__checkout">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
+  <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--buy btn--block cart-summary__checkout">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
   {%- if settings.cart_quote_link -%}
     <a class="cart-summary__quote link" href="{{ quote_url }}?from=cart">{{ 'cart.quote_link' | t }}</a>
   {%- endif -%}

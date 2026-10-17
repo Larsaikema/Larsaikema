@@ -7,6 +7,10 @@
   assign is_zakelijk = false
   if template.suffix == 'zakelijk' or template.suffix == 'offerte'
     assign is_zakelijk = true
+    # brand §6: on the Zakelijk route prices are excl. btw by default (the toggle still switches)
+    if settings.price_display == 'toggle'
+      assign vat_mode = 'excl'
+    endif
   endif
   assign is_b2b = false
   if customer and settings.b2b_customer_tag != blank and customer.tags contains settings.b2b_customer_tag
@@ -16,7 +20,7 @@
     endif
   endif
 -%}
-<html class="no-js" lang="{{ request.locale.iso_code }}" data-vat="{{ vat_mode }}" data-price-display="{{ settings.price_display }}"{% if is_b2b %} data-b2b{% endif %}>
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-vat="{{ vat_mode }}" data-price-display="{{ settings.price_display }}"{% if is_b2b %} data-b2b{% endif %}{% if is_zakelijk %} data-vat-scope="zakelijk"{% endif %}>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,10 +30,10 @@
     {%- render 'favicon', cart_state: true -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     {%- unless settings.type_header_font.system? -%}
-      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {{ settings.type_header_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {%- endunless -%}
     {%- unless settings.type_body_font.system? -%}
-      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
     {%- endunless -%}
 
     <title>
@@ -50,7 +54,7 @@
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       {%- if settings.price_display == 'toggle' and is_b2b == false %}
-      try { var kkVat = localStorage.getItem('kk:vat'); if (kkVat === 'incl' || kkVat === 'excl') document.documentElement.dataset.vat = kkVat; } catch (e) {}
+      try { var kkVat = localStorage.getItem({% if is_zakelijk %}'kk:vat:zakelijk'{% else %}'kk:vat'{% endif %}); if (kkVat === 'incl' || kkVat === 'excl') document.documentElement.dataset.vat = kkVat; } catch (e) {}
       {%- endif %}
       window.KK = Object.assign(window.KK || {}, {
         routes: {
@@ -83,7 +87,10 @@
           addError: {{ 'product.error_add' | t | json }},
           addedTitle: {{ 'cart.added_title' | t | json }},
           addedText: {{ 'cart.added_text' | t: title: '__TITLE__' | json }},
-          fileTooBig: {{ 'product.print_file_too_big' | t | json }},
+          fileTooBig: {{ 'product.print_file_too_big' | t: name: '__NAME__', size: '__SIZE__' | json }},
+          fileType: {{ 'product.print_file_type' | t: name: '__NAME__' | json }},
+          fileTooMany: {{ 'product.print_too_many' | t: max: '__MAX__' | json }},
+          fileRemove: {{ 'product.print_file_remove' | t: name: '__NAME__' | json }},
           countdown: {{ 'delivery.countdown_html' | t: time: '__TIME__' | json }},
           shipsToday: {{ 'delivery.ships_today_html' | t: time: '__TIME__' | json }},
           arrives: {{ 'delivery.arrives_html' | t: date: '__DATE__' | json }},

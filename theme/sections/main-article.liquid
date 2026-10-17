@@ -82,7 +82,7 @@
           <div class="field field--full"><label class="field__label" for="CommentBody">{{ 'blog.comment_body' | t }} <span class="required" aria-hidden="true">*</span></label><textarea class="textarea" id="CommentBody" name="comment[body]" rows="5" required>{{ form.body }}</textarea></div>
         </div>
         {%- if blog.moderated? -%}<p class="text-sm muted">{{ 'blog.comment_moderated_note' | t }}</p>{%- endif -%}
-        <button type="submit" class="btn btn--secondary">{{ 'blog.comment_submit' | t }}</button>
+        <button type="submit" class="btn">{{ 'blog.comment_submit' | t }}</button>
       {%- endform -%}
     </div>
   {%- endif -%}

@@ -89,7 +89,8 @@
         </div>
         {%- if section.settings.guide_link != blank and section.settings.guide_label != blank -%}
           {%- assign guide_path = section.settings.guide_link | split: '?' | first -%}
-          {%- unless request.path == guide_path -%}
+          {%- capture guide_ok -%}{%- render 'link-exists', url: section.settings.guide_link -%}{%- endcapture -%}
+          {%- unless request.path == guide_path or guide_ok == 'false' -%}
             <a class="link comparison__guide" href="{{ section.settings.guide_link }}">{{ section.settings.guide_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
           {%- endunless -%}
         {%- endif -%}
@@ -147,9 +148,9 @@
     .comparison__table th[scope="row"]{color:var(--c-kiezel);font-weight:var(--font-body-weight);width:28%}
     .comparison__product{vertical-align:bottom;background:var(--c-wit)!important}
     .comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}
-    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-steen);border-radius:10px}
-    .comparison__product.is-current a span::after{content:" ✓";color:var(--c-polder)}
-    .comparison__group th{background:var(--c-steen);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-polder)}
+    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-media);border-radius:10px}
+    .comparison__product.is-current a span::after{content:" ✓";color:var(--c-inkt)}
+    .comparison__group th{background:var(--c-band);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-inkt)}
   </style>
 {%- endif -%}
 

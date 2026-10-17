@@ -13,12 +13,16 @@ const jobs = [
   ['svg/favicon-cart-16.svg', 16, 'img/favicon-cart-16.png'],
   ['svg/apple-touch-icon.svg', 180, 'img/apple-touch-icon-180.png'],   // full-bleed square, iOS rounds it
   ['mark.svg', 512, 'img/mark-512.png'],
+  ['logo.svg', 320, 'img/logo-email-320.png', 'w'],                // e-mail header: 160 px on 2x
+  ['logo.svg', 1200, 'img/logo-1200.png', 'w'],                     // social, documents
 ];
 const b = await chromium.launch();
-for (const [src, s, out] of jobs) {
-  const p = await b.newPage({ viewport: { width: s, height: s }, deviceScaleFactor: 1 });
+for (const [src, s, out, mode] of jobs) {
   const svg = fs.readFileSync(path.join(B, src), 'utf8');
-  await p.setContent(`<html><body style="margin:0;background:transparent"><img style="display:block;width:${s}px;height:${s}px" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"></body></html>`);
+  const vb = svg.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
+  const h = mode === 'w' ? Math.round(s * vb[3] / vb[2]) : s;
+  const p = await b.newPage({ viewport: { width: s, height: h }, deviceScaleFactor: 1 });
+  await p.setContent(`<html><body style="margin:0;background:transparent"><img style="display:block;width:${s}px;height:${h}px" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"></body></html>`);
   await p.waitForTimeout(80);
   fs.mkdirSync(path.dirname(path.join(B, out)), { recursive: true });
   await p.screenshot({ path: path.join(B, out), omitBackground: true });

@@ -44,7 +44,7 @@
               <textarea class="textarea" id="CF-body" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
             </div>
           </div>
-          <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'forms.send' | t }}</button></div>
+          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
           {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
         {%- endif -%}
       {%- endform -%}

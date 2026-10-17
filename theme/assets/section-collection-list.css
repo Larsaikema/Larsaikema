@@ -1,9 +1,9 @@
 .tiles{list-style:none;display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (min-width:750px){.tiles{gap:16px;grid-template-columns:repeat(min(var(--cols),3),minmax(0,1fr))}}
 @media (min-width:990px){.tiles{gap:24px;grid-template-columns:repeat(var(--cols),minmax(0,1fr))}}
-.tile__link{display:flex;flex-direction:column;height:100%;border-radius:var(--radius-card);overflow:hidden;background:#fff;text-decoration:none;color:var(--c-inkt);transition:box-shadow var(--dur-fast);border:1px solid var(--c-lijn)}
+.tile__link{display:flex;flex-direction:column;height:100%;border-radius:var(--radius-card);overflow:hidden;background:var(--c-wit);text-decoration:none;color:var(--c-inkt);transition:box-shadow var(--dur-fast);border:1px solid var(--c-lijn)}
 .tile__link:hover{box-shadow:0 1px 2px rgba(29,36,32,.06),0 10px 24px -14px rgba(29,36,32,.22)}
-.tile__media{display:block;aspect-ratio:1/1;background:var(--c-steen);overflow:hidden}
+.tile__media{display:block;aspect-ratio:1/1;background:var(--c-media);overflow:hidden}
 .tile__media img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur)}
 .tile__link:hover img{transform:scale(1.03)}
 .tile__body{display:flex;flex-direction:column;gap:4px;padding:12px 14px 16px}

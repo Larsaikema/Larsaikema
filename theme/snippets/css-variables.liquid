@@ -1,7 +1,9 @@
 {%- comment -%}
-  Design tokens from theme settings -> CSS custom properties. Defaults come from brand/tokens.json (v4/v5):
-  13 colours with one role each, six colour schemes with rest/hover/active/focus, Figtree only
-  (type_header_font figtree_n8 for display/H1/H2, 700 and 600 via font_modify), radii, spacing, motion.
+  Design tokens from theme settings -> CSS custom properties. Defaults come from brand/tokens.json (v7): 11 palette
+  colours with one meaning each, role colours (cart count, badges, chosen option, Actie label, accent line) as their
+  own settings, six colour schemes with buy button / main button / outline in rest and hover, focus and logo tent,
+  Figtree only (type_header_font figtree_n8 for display/H1/H2, 700 and 600 via font_modify), radii, spacing, motion.
+  No colour role is hard-coded here: a brand version is a change in config/settings_data.json.
 {%- endcomment -%}
 {%- liquid
   assign header_font = settings.type_header_font
@@ -32,25 +34,41 @@
   {%- if body_italic -%}{{ body_italic | font_face: font_display: 'swap' }}{%- endif -%}
 
   :root {
-    --c-klaproos: {{ settings.color_klaproos }};
-    --c-klaproos-donker: {{ settings.color_klaproos_donker }};
-    --c-zon: {{ settings.color_zon }};
-    --c-polder: {{ settings.color_polder }};
-    --c-polder-donker: {{ settings.color_polder_donker }};
+    --c-lampion: {{ settings.color_lampion }};
+    --c-brand: var(--c-lampion);
     --c-inkt: {{ settings.color_inkt }};
     --c-inkt-rgb: {{ settings.color_inkt.red }}, {{ settings.color_inkt.green }}, {{ settings.color_inkt.blue }};
-    --c-kiezel: {{ settings.color_kiezel }};
     --c-zand: {{ settings.color_zand }};
-    --c-duin: {{ settings.color_duin }};
-    --c-steen: {{ settings.color_steen }};
     --c-wit: {{ settings.color_wit }};
+    --c-linnen: {{ settings.color_linnen }};
     --c-lijn: {{ settings.color_lijn }};
-    --c-bordeaux: {{ settings.color_bordeaux }};
+    --c-kiezel: {{ settings.color_kiezel }};
+    --c-zon: {{ settings.color_zon }};
+    --c-polder: {{ settings.color_polder }};
     --c-oker: {{ settings.color_oker }};
-    {%- comment -%} derived tints (tokens.json color_derived): 8% Inkt over a light surface {%- endcomment %}
-    --logo-tent-zakelijk: {% if settings.logo_tent_mono %}currentColor{% else %}var(--c-polder){% endif %};
-    --c-tint-wit: color-mix(in srgb, var(--c-wit) 92%, var(--c-inkt));
-    --c-tint-steen: color-mix(in srgb, var(--c-steen) 92%, var(--c-inkt));
+    --c-bordeaux: {{ settings.color_bordeaux }};
+    {%- comment -%} surfaces by role (tokens.json color_semantic): media = beeldvlak, band = rustige band / tabellen {%- endcomment %}
+    --c-media: var(--c-linnen);
+    --c-band: var(--c-linnen);
+    {%- comment -%} hover tints (tokens.json color_derived): 8% Inkt over the surface {%- endcomment %}
+    --c-tint-wit: color-mix(in srgb, var(--c-wit) 94%, var(--c-inkt));
+    --c-tint-zand: color-mix(in srgb, var(--c-zand) 92%, var(--c-inkt));
+    --c-tint-linnen: color-mix(in srgb, var(--c-linnen) 92%, var(--c-inkt));
+    {%- comment -%} roles: one setting per role, so a brand version is a settings change, not a code change {%- endcomment %}
+    --cart-count-bg: {{ settings.color_cart_count }};
+    --cart-count-fg: {{ settings.color_cart_count_label }};
+    --badge-new-bg: {{ settings.color_badge_new }};
+    --badge-new-fg: {{ settings.color_badge_new_label }};
+    --badge-logo-bg: {{ settings.color_badge_logo }};
+    --badge-logo-fg: {{ settings.color_badge_logo_label }};
+    --deal-bg: var(--c-zon);
+    --deal-fg: var(--c-inkt);
+    --menu-deal-bg: {{ settings.color_menu_deal }};
+    --option-selected: {{ settings.color_option_selected }};
+    --accent-line: {{ settings.color_accent_line }};
+    --done: var(--c-polder);
+    --done-fg: var(--c-wit);
+    --logo-tent-zakelijk: {% if settings.logo_zakelijk_mono or settings.logo_tent_mono %}currentColor{% else %}var(--logo-tent){% endif %};
 
     --font-heading: {{ header_font.family }}, {{ header_font.fallback_families }};
     --font-heading-style: {{ header_font.style }};
@@ -98,26 +116,18 @@
     --btn-active: {{ scheme.settings.primary_button_active | default: scheme.settings.primary_button_hover }};
     --btn2-fg: {{ scheme.settings.secondary_button_label }};
     --btn2-hover: {{ scheme.settings.secondary_button_hover }};
+    --buy-bg: {{ scheme.settings.buy_button | default: scheme.settings.primary_button }};
+    --buy-fg: {{ scheme.settings.buy_button_label | default: scheme.settings.primary_button_label }};
+    --buy-hover-bd: {{ scheme.settings.buy_button_hover_border | default: scheme.settings.foreground }};
     --border: {{ scheme.settings.border }};
     --focus: {{ scheme.settings.focus }};
     --logo-tent: {% if settings.logo_tent_mono %}currentColor{% else %}{{ scheme.settings.logo_tent }}{% endif %};
+    --logo-roof: var(--logo-tent);
     {%- if scheme_brightness < 110 %}
-    {%- comment -%} dark schemes: the Polder (Zakelijk) button becomes the outlined button, it would vanish on Polder {%- endcomment %}
-    --btn-p-bg: transparent;
-    --btn-p-fg: {{ scheme.settings.secondary_button_label }};
-    --btn-p-bd: {{ scheme.settings.secondary_button_label }};
-    --btn-p-hover: {{ scheme.settings.secondary_button_hover }};
-    --btn-p-hover-fg: {{ scheme.settings.secondary_button_label }};
-    --btn-p-hover-bd: {{ scheme.settings.secondary_button_label }};
     --surface: rgba(255,255,255,.07);
     --disabled: {{ scheme.settings.foreground }};
+    --disabled-bd: rgba({{ scheme.settings.foreground.red }}, {{ scheme.settings.foreground.green }}, {{ scheme.settings.foreground.blue }}, .45);
     {%- else %}
-    --btn-p-bg: var(--c-polder);
-    --btn-p-fg: var(--c-zand);
-    --btn-p-bd: var(--c-polder);
-    --btn-p-hover: var(--c-polder-donker);
-    --btn-p-hover-fg: var(--c-zand);
-    --btn-p-hover-bd: var(--c-polder-donker);
     --surface: var(--c-wit);
     --disabled: var(--c-kiezel);
     {%- endif %}

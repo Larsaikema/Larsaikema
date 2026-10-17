@@ -123,7 +123,6 @@
           "settings": {
             "label_1": "Offerte aanvragen",
             "link_1": "shopify://pages/offerte",
-            "style_1": "secondary",
             "label_2": "Zo werkt bedrukken",
             "link_2": "shopify://pages/bedrukken"
           }
@@ -140,7 +139,8 @@
         "color_scheme": "scheme-1",
         "image": "shopify://shop_images/scene-zakelijk.webp",
         "badge": "Voorbeeldopdruk",
-        "layout": "image-right"
+        "layout": "image-right",
+        "fallback_image": "scene-zakelijk"
       }
     }
   },

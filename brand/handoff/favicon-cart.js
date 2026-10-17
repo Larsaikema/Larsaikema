@@ -1,4 +1,4 @@
-// Klapklaar favicon cart state (brand v5, technisch.md 6.5).
+// Klapklaar favicon cart state (brand v7, technisch.md 6.5).
 // Put this inside KK.updateCartCount(count) in theme/assets/global.js, in place of the block that reads
 // link[data-favicon] and KK.faviconCart. KK.favicons comes from handoff/favicon-head.liquid.
 document.querySelectorAll('link[data-favicon]').forEach((link) => {

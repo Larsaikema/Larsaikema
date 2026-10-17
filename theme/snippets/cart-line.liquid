@@ -55,17 +55,21 @@
     {%- else -%}
       <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_piece' | t }}</p>
     {%- endif -%}
+    {%- comment -%} accessible names name the variant too, so two colours of one product are told apart {%- endcomment -%}
+    {%- capture line_name -%}{{ item.product.title }}{% unless item.product.has_only_default_variant %} – {{ item.variant.title }}{% endunless %}{%- endcapture -%}
     <div class="cart-line__controls">
       {%- capture qty_id -%}CartQty-{% if compact %}d{% else %}p{% endif %}-{{ index }}{%- endcapture -%}
       {%- if line_unit != blank -%}
         <p class="cart-line__fixed-qty">{{ item.quantity }} {{ line_unit }}</p>
         <input type="hidden" name="updates[]" value="{{ item.quantity }}" data-line="{{ index }}">
       {%- else -%}
-        {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: item.product.title -%}
+        {%- assign qty_label = 'cart.quantity_label' | t: title: line_name -%}
+        {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: qty_label -%}
       {%- endif -%}
-      <button type="button" class="cart-line__remove" name="remove" data-line="{{ index }}" aria-label="{{ 'cart.remove_label' | t: title: item.product.title | escape }}">
+      {%- comment -%} a link to url_to_remove works without JavaScript; cart.js turns the click into /cart/change.js {%- endcomment -%}
+      <a href="{{ item.url_to_remove }}" class="cart-line__remove" data-cart-remove data-line="{{ index }}" aria-label="{{ 'cart.remove_label' | t: title: line_name | escape }}">
         {%- render 'icon', icon: 'trash', class: 'icon--sm' -%}<span>{{ 'cart.remove' | t }}</span>
-      </button>
+      </a>
     </div>
     <p class="cart-line__error field__error" role="alert" data-line-error hidden></p>
   </div>

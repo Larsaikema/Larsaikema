@@ -5,7 +5,7 @@
       {%- if section.settings.image != blank -%}
         {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 50vw, 100vw', widths: '480, 640, 800, 1000, 1200, 1400' -%}
       {%- else -%}
-        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- render 'fallback-image', key: section.settings.fallback_image, alt: '' -%}
       {%- endif -%}
       {%- if section.settings.badge != blank -%}<span class="badge badge--logo iwt__badge">{%- render 'icon', icon: 'upload' -%}{{ section.settings.badge }}</span>{%- endif -%}
     </div>
@@ -28,9 +28,11 @@
               {%- for it in items -%}{%- assign it_s = it | strip -%}{%- if it_s != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ it_s }}</span></li>{%- endif -%}{%- endfor -%}
             </ul>
           {%- when 'buttons' -%}
+            {%- capture l1_ok -%}{%- render 'link-exists', url: block.settings.link_1 -%}{%- endcapture -%}
+            {%- capture l2_ok -%}{%- render 'link-exists', url: block.settings.link_2 -%}{%- endcapture -%}
             <div class="btn-row" {{ block.shopify_attributes }}>
-              {%- if block.settings.label_1 != blank -%}<a class="btn{% if block.settings.style_1 == 'secondary' %} btn--secondary{% endif %}" href="{{ block.settings.link_1 }}">{{ block.settings.label_1 }}</a>{%- endif -%}
-              {%- if block.settings.label_2 != blank -%}<a class="btn btn--outline" href="{{ block.settings.link_2 }}">{{ block.settings.label_2 }}</a>{%- endif -%}
+              {%- if block.settings.label_1 != blank and l1_ok == 'true' -%}<a class="btn" href="{{ block.settings.link_1 }}">{{ block.settings.label_1 }}</a>{%- endif -%}
+              {%- if block.settings.label_2 != blank and l2_ok == 'true' -%}<a class="btn btn--outline" href="{{ block.settings.link_2 }}">{{ block.settings.label_2 }}</a>{%- endif -%}
             </div>
         {%- endcase -%}
       {%- endfor -%}
@@ -45,6 +47,14 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
     { "type": "image_picker", "id": "image", "label": "Beeld" },
+    { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
+        { "value": "none", "label": "Geen (lege plek)" },
+        { "value": "scene-hero", "label": "Tent met statafels" },
+        { "value": "scene-zakelijk", "label": "Zakelijke opstelling" },
+        { "value": "tent-logo", "label": "Partytent met logo" },
+        { "value": "tent-front", "label": "Partytent met logo, vooraanzicht" },
+        { "value": "rok-logo", "label": "Statafelrok met logo" }
+      ], "default": "none" },
     { "type": "text", "id": "badge", "label": "Badge op het beeld", "info": "Bijvoorbeeld 'Voorbeeldopdruk' bij een render met logo." },
     { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "image-left", "label": "Beeld links" }, { "value": "image-right", "label": "Beeld rechts" } ], "default": "image-left" }
   ],
@@ -62,7 +72,6 @@
     { "type": "buttons", "name": "Knoppen", "limit": 1, "settings": [
       { "type": "text", "id": "label_1", "label": "Knop 1", "default": "Ontwerp je tent" },
       { "type": "url", "id": "link_1", "label": "Link 1" },
-      { "type": "select", "id": "style_1", "label": "Stijl knop 1", "options": [ { "value": "primary", "label": "Primair (Klaproos: alleen voor kopen)" }, { "value": "secondary", "label": "Polder (ontwerpen, zakelijk, offerte)" } ], "default": "secondary", "info": "Merkboek §4.2: één Klaproos-knop per kolom en alleen om te kopen." },
       { "type": "text", "id": "label_2", "label": "Knop 2" },
       { "type": "url", "id": "link_2", "label": "Link 2" }
     ] }

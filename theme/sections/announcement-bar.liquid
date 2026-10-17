@@ -1,12 +1,6 @@
 {%- liquid
   assign phone = settings.phone | default: shop.phone
   assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
-  assign has_countdown = false
-  for block in section.blocks
-    if block.type == 'countdown'
-      assign has_countdown = true
-    endif
-  endfor
 -%}
 <div class="utility-bar color-{{ section.settings.color_scheme }}">
   <div class="page-width utility-bar__inner">

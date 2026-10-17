@@ -1,0 +1,15 @@
+{%- comment -%}
+  Outputs the size of a product: the first value of its size option (Maat, Tafelmaat, Diameter, ...), else nothing.
+  Params: p (product), size_names (array of lowercase option names, stripped).
+{%- endcomment -%}
+{%- liquid
+  assign size_out = ''
+  for option in p.options_with_values
+    assign on = option.name | downcase | strip
+    if size_names contains on
+      assign size_out = option.values.first.name | default: option.values.first
+      break
+    endif
+  endfor
+  echo size_out
+-%}

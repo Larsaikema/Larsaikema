@@ -9,9 +9,9 @@
 
 .split{display:grid;gap:28px;align-items:start}
 @media (min-width:990px){.split{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px}.split--even{grid-template-columns:1fr 1fr}}
-.panel{background:#fff;border-radius:var(--radius-panel);padding:22px 20px;border:1px solid var(--c-lijn)}
+.panel{background:var(--c-wit);border-radius:var(--radius-panel);padding:22px 20px;border:1px solid var(--c-lijn)}
 @media (min-width:750px){.panel{padding:32px}}
-.panel--steen{background:var(--c-steen);border:1px solid var(--c-lijn)}
+.panel--steen{background:var(--c-band);border:1px solid var(--c-lijn)}
 .panel h2{margin-top:0}
 .panel__title{font-size:22px;margin:0 0 6px}
 .form-section{border:0;margin:0 0 20px;padding:0;min-width:0}
@@ -22,7 +22,7 @@
 
 .contact-list{list-style:none;display:grid;gap:4px;margin:0 0 20px}
 .contact-list a,.contact-list span{display:flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font-weight:var(--font-body-weight-semibold)}
-.contact-list .icon{width:40px;height:40px;padding:9px;border-radius:50%;background:var(--c-duin);color:var(--c-polder);flex:none}
+.contact-list .icon{width:40px;height:40px;padding:9px;border-radius:50%;background:var(--c-band);color:var(--c-inkt);flex:none}
 .contact-list a:hover{text-decoration:underline;text-underline-offset:3px}
 .info-rows{display:grid;gap:12px;margin:0;font-size:15px}
 .info-rows div{display:grid;gap:2px}
@@ -32,30 +32,31 @@
 /* zakelijk */
 .b2b-hero{padding-block:28px 40px}
 @media (min-width:990px){.b2b-hero{padding-block:48px 64px}}
-.b2b-hero__logo{width:min(320px,70vw);height:auto;margin-bottom:24px}
+.b2b-hero__logo{width:min(340px,76vw);margin:0 0 24px;color:var(--c-inkt);line-height:0}
+.b2b-hero__logo .logo-svg{width:100%;height:auto}
 .b2b-hero__grid{display:grid;gap:28px;align-items:center}
 @media (min-width:990px){.b2b-hero__grid{grid-template-columns:1.1fr 1fr;gap:64px}}
 .b2b-hero h1{margin:0 0 14px}
 .segments{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.segments .chip{background:#fff}
+.segments .chip{background:var(--c-wit)}
 .benefits{list-style:none;display:grid;gap:12px;grid-template-columns:1fr}
 @media (min-width:750px){.benefits{grid-template-columns:1fr 1fr}}
 @media (min-width:1100px){.benefits--4{grid-template-columns:repeat(4,1fr)}}
-.benefit{background:#fff;border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
-.benefit__icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--c-steen);color:var(--c-polder)}
+.benefit{background:var(--c-wit);border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
+.benefit__icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--c-band);color:var(--c-inkt)}
 .benefit h3{margin:4px 0 0;font-size:18px}
 .benefit p{margin:0;color:var(--c-kiezel);font-size:15px}
 .example-staffel{margin-top:4px}
 .steps-row{list-style:none;display:grid;gap:12px;counter-reset:st}
 @media (min-width:750px){.steps-row{grid-template-columns:repeat(var(--steps,3),minmax(0,1fr));gap:20px}}
-.step{position:relative;background:#fff;border-radius:var(--radius-card);padding:20px 20px 22px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
+.step{position:relative;background:var(--c-wit);border-radius:var(--radius-card);padding:20px 20px 22px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
 .step__num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--c-inkt);color:var(--c-zand);font-family:var(--font-heading);font-weight:var(--font-heading-weight-bold);font-size:18px}
 .step h3{margin:6px 0 0;font-size:18px}
 .step p{margin:0;color:var(--c-kiezel);font-size:15px}
 .options-grid{list-style:none;display:grid;gap:16px}
 @media (min-width:750px){.options-grid{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}}
-.option-card{background:#fff;border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;height:100%;border:1px solid var(--c-lijn)}
-.option-card__media{aspect-ratio:4/3;background:var(--c-steen)}
+.option-card{background:var(--c-wit);border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;height:100%;border:1px solid var(--c-lijn)}
+.option-card__media{aspect-ratio:4/3;background:var(--c-media)}
 .option-card__media img{width:100%;height:100%;object-fit:cover}
 .option-card__body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
 .option-card__body h3{margin:0;font-size:19px}
@@ -64,13 +65,14 @@
 
 /* offerte lines */
 .quote-lines{display:grid;gap:10px;margin-bottom:12px}
-.quote-line{display:grid;gap:8px;grid-template-columns:1fr 92px;align-items:end;padding:14px;border-radius:var(--radius-card);background:var(--c-zand);position:relative}
+.quote-line{display:grid;gap:8px;grid-template-columns:1fr 92px;align-items:end;padding:14px;border-radius:var(--radius-card);background:var(--c-wit);border:1px solid var(--c-lijn);position:relative}
 @media (min-width:750px){.quote-line{grid-template-columns:2fr 1.4fr 96px 44px}}
 .quote-line .field{margin:0}
 .quote-line>.field:first-of-type{grid-column:1/-1}
 @media (min-width:750px){.quote-line>.field:first-of-type{grid-column:auto}}
 .quote-line__remove{position:absolute;top:8px;right:8px}
 @media (min-width:750px){.quote-line__remove{position:static}}
+.quote-line__details{grid-column:1/-1}
 .quote-line__label{grid-column:1/-1;font-size:13px;font-weight:var(--font-body-weight-bold);color:var(--c-kiezel);letter-spacing:.04em;text-transform:uppercase}
 .radio-row{display:flex;flex-wrap:wrap;gap:8px 20px}
 
@@ -87,13 +89,13 @@
 .warranty{display:grid;gap:24px}
 .warranty__cards{list-style:none;display:grid;gap:12px}
 @media (min-width:750px){.warranty__cards{grid-template-columns:1fr 1fr}.warranty__cards li:first-child{grid-column:1/-1}}
-.warranty__card{background:#fff;border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
-.warranty__card--steen{background:var(--c-steen);border:1px solid var(--c-lijn)}
+.warranty__card{background:var(--c-wit);border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--c-lijn)}
+.warranty__card--steen{background:var(--c-band);border:1px solid var(--c-lijn)}
 .warranty__card h2{margin:4px 0 0}
 .warranty__card .rte{font-size:15.5px;color:var(--c-inkt)}
 .warranty__steps-title{margin:8px 0 0}
 .warranty__steps{list-style:none;display:grid;gap:12px}
-.warranty__steps li{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:var(--radius-card);padding:16px 18px;border:1px solid var(--c-lijn)}
+.warranty__steps li{display:flex;gap:14px;align-items:flex-start;background:var(--c-wit);border-radius:var(--radius-card);padding:16px 18px;border:1px solid var(--c-lijn)}
 .warranty__steps h3{margin:6px 0 2px}
 .warranty__steps p{margin:0;font-size:15px}
 
@@ -109,8 +111,8 @@ manuals-hub{display:block}
 .manuals__count{margin:0 0 12px}
 .manuals__list{list-style:none;display:grid;gap:12px}
 @media (min-width:990px){.manuals__list{grid-template-columns:1fr 1fr;gap:16px}}
-.manual{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;background:#fff;border-radius:var(--radius-card);padding:16px;border:1px solid var(--c-lijn)}
-.manual__media{width:96px;height:96px;border-radius:10px;overflow:hidden;background:var(--c-steen)}
+.manual{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;background:var(--c-wit);border-radius:var(--radius-card);padding:16px;border:1px solid var(--c-lijn)}
+.manual__media{width:96px;height:96px;border-radius:10px;overflow:hidden;background:var(--c-media)}
 .manual__media img{width:100%;height:100%;object-fit:contain}
 .manual__body{min-width:0}
 .manual__type{margin:0 0 4px;color:var(--c-kiezel)}
@@ -119,4 +121,4 @@ manuals-hub{display:block}
 .manuals__help{margin-top:24px}
 .manuals__empty{margin-top:12px}
 @media (max-width:479px){.manual{grid-template-columns:64px 1fr;gap:12px}.manual__media{width:64px;height:64px}}
-.warranty__card--steen .benefit__icon{background:#fff}
+.warranty__card--steen .benefit__icon{background:var(--c-wit)}

@@ -1,0 +1,1213 @@
+#!/usr/bin/env python3
+"""Validate the Klapklaar catalog against catalog/CONTRACT.md (python3 stdlib only).
+
+    python3 catalog/validate.py           # human summary; exit 1 when there are errors
+    python3 catalog/validate.py --json    # machine-readable result
+    python3 catalog/validate.py -v        # also list every warning / info line
+
+Reads catalog/catalog.json, catalog/export/*, catalog/preview-data.staging.json and CONTRACT.md itself (the
+metafield tables, tags, collection/menu/page handles are parsed from the contract text, so a contract change
+is picked up without editing this file). Run catalog/build.py first.
+
+Levels: ERROR = contract or Shopify-import breakage (exit 1) · WARN = data to review (owner/supplier, theme side)
+· INFO = expected state (e.g. images not rendered yet).
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import io
+import json
+import re
+import sys
+import zlib
+from collections import Counter, defaultdict
+from pathlib import Path
+from urllib.parse import parse_qs, unquote_plus, urlsplit
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parent
+EXPORT = HERE / 'export'
+IMAGES = HERE / 'images'
+FIXTURE = HERE / 'preview-data.staging.json'
+LIVE_FIXTURE = HERE / 'preview-data.json'
+THEME = REPO / 'theme'
+IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/'
+
+sys.path.insert(0, str(HERE))
+sys.dont_write_bytecode = True  # no catalog/__pycache__ in the repo
+import build  # noqa: E402  (CSV writer + strip_comments + stable ids: validate the real export path)
+
+
+class Report:
+    def __init__(self):
+        self.items = []
+
+    def add(self, level, area, msg):
+        self.items.append({'level': level, 'area': area, 'msg': msg})
+
+    def e(self, area, msg):
+        self.add('ERROR', area, msg)
+
+    def w(self, area, msg):
+        self.add('WARN', area, msg)
+
+    def i(self, area, msg):
+        self.add('INFO', area, msg)
+
+    def count(self, level):
+        return sum(1 for x in self.items if x['level'] == level)
+
+
+# --------------------------------------------------------------------------------------------------
+# CONTRACT.md parsing
+# --------------------------------------------------------------------------------------------------
+def section(md: str, title_start: str) -> str:
+    m = re.search(r'^## ' + re.escape(title_start) + r'.*?$(.*?)(?=^## |\Z)', md, re.M | re.S)
+    return m.group(1) if m else ''
+
+
+def parse_contract(md: str):
+    c = {}
+
+    def table_types(sec):
+        out = {}
+        for line in sec.splitlines():
+            m = re.match(r'\|\s*`([a-z_]+)`\s*\|\s*([a-z_.]+)', line)
+            if m:
+                out[m.group(1)] = m.group(2)
+        return out
+    c['product_mf'] = table_types(section(md, 'Product metafields'))
+    c['collection_mf'] = table_types(section(md, 'Collection metafields'))
+    c['tags'] = set(re.findall(r'`([a-z:\-]+)`', section(md, 'Tags')))
+    c['collections'] = [h for h in re.findall(r'`([a-z0-9\-]+)`', section(md, 'Collections (handles)'))]
+    c['menus'] = re.findall(r'`([a-z0-9\-]+)`', section(md, 'Menus (handles)'))
+    pages = {}
+    for h, suf in re.findall(r'`([a-z0-9\-]+)`\s*→\s*(page(?:\.[a-z\-]+)?)', section(md, 'Pages')):
+        pages[h] = None if suf == 'page' else suf.split('.', 1)[1]
+    c['pages'] = pages
+    blog = section(md, 'Blog')
+    m = re.search(r'Handle `([a-z\-]+)`\s*\(title "([^"]+)"\)', blog)
+    c['blog_handle'], c['blog_title'] = (m.group(1), m.group(2)) if m else ('advies', None)
+    c['option_names'] = re.findall(r'^\|\s*`([A-Z][a-z]+)`\s*\|', section(md, 'Product options'), re.M)
+    av = re.search(r'`availability_status`.*', md)
+    c['availability'] = re.findall(r'`(binnenkort|pre-order|permanent-uitverkocht)`', av.group(0)) if av else []
+    return c
+
+
+# --------------------------------------------------------------------------------------------------
+# helpers
+# --------------------------------------------------------------------------------------------------
+HANDLE_RE = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+FILE_RE = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:webp|jpg|jpeg|png)$')
+NUM = r'\d+(?:,\d+)?'
+MAAT_RE = re.compile(
+    rf'^(?:{NUM} x {NUM}(?: x {NUM})? (?:m|cm)'      # 3 x 3 m · 3 x 3 x 3 m · 183 x 76 cm
+    rf'|Ø{NUM}(?:-{NUM})? (?:cm|m)'                   # Ø80 cm · Ø80-85 cm · Ø8 m
+    rf'|{NUM} m(?: breed)?)$')                        # 3 m · 2,5 m · 3 m breed
+KLEUR_RE = re.compile(r'^[A-ZÉ][a-zà-ÿ]+(?: [a-zà-ÿ]+)?$')
+
+FORBIDDEN = [
+    (r'beste van nederland', 'superlative'), (r'\bnr\.?\s?1\b', 'nr. 1'), (r'\bnummer\s?(?:1|één|een)\b', 'nummer 1'),
+    (r'\breviews?\b', 'reviews'), (r'\brecensies?\b', 'recensies'), (r'\bsterren\b', 'sterren'), (r'[★☆⭐]', 'star glyph'),
+    (r'\b\d(?:[.,]\d)?\s*(?:/\s*(?:5|10)\b|uit 5\b)', 'rating score'), (r'tevreden klanten', 'customer count'),
+    (r'\bbestsellers?\b', 'bestseller'), (r'\bbest verkochte?\b', 'best verkocht'), (r'\bmeest verkochte?\b', 'meest verkocht'),
+    (r'\bbekend van\b', 'bekend van'), (r'\bwij scoren\b', 'score claim'), (r'\bklanten geven\b', 'score claim'),
+    (r'\bonverwoestbaar\b', 'superlative'), (r'\bgoedkoopste\b', 'superlative'), (r'\bbeste prijs\b', 'superlative'),
+    (r'\b(?:duizenden|honderden)\s+klanten\b', 'customer count'), (r'\bkeurmerk\b', 'trust badge'),
+]
+FORBIDDEN_RE = [(re.compile(p, re.I), why) for p, why in FORBIDDEN]
+NEGATION = re.compile(r'\b(?:geen|niet|nooit|zonder|niets|verzinnen)\b', re.I)
+FORMAL_RE = re.compile(r'(?<![\w’\'-])(?:u|uw|U|Uw)(?![\w’\'-])')
+KLAP_RE = re.compile(r'\b(?:in één klap|klap)\b', re.I)
+KLAP_CONTEXT = re.compile(r'\b(?:wind|storm|windkracht|stevig\w*|garantie)\b', re.I)
+TAG_RE = re.compile(r'<[^>]+>')
+LINK_RE = re.compile(r'href="(/[^"#?]*)(?:[?#][^"]*)?"')
+
+
+def text_of(html: str) -> str:
+    t = TAG_RE.sub(' ', html or '')
+    return re.sub(r'\s+', ' ', t).strip()
+
+
+def sentences(t: str):
+    return re.split(r'(?<=[.!?:;])\s+|\n', t)
+
+
+def check_copy(rep: Report, area: str, text: str, allowed_neg: list):
+    if not text:
+        return
+    for sent in sentences(text):
+        for rx, why in FORBIDDEN_RE:
+            m = rx.search(sent)
+            if not m:
+                continue
+            if NEGATION.search(sent[:m.start()]):
+                allowed_neg.append(f'{area}: “{sent.strip()[:110]}”')
+                continue
+            rep.e('claims', f'{area}: forbidden {why} “{m.group(0)}” in “{sent.strip()[:120]}”')
+        if KLAP_RE.search(sent) and KLAP_CONTEXT.search(sent):
+            rep.w('voice', f'{area}: ‘klap’ next to wind/stevigheid/garantie (brand.md §7 rule 6): “{sent.strip()[:120]}”')
+    if FORMAL_RE.search(text):
+        m = FORMAL_RE.search(text)
+        rep.w('voice', f'{area}: formal u/uw (brand voice is je/jij): …{text[max(0, m.start() - 40):m.end() + 40]}…')
+
+
+def is_list_of_str(v):
+    return isinstance(v, list) and all(isinstance(x, str) and x.strip() for x in v)
+
+
+def theme_swatches():
+    try:
+        schema = json.loads((THEME / 'config' / 'settings_schema.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+    for g in schema:
+        for st in g.get('settings', []) or []:
+            if st.get('id') == 'swatch_colors':
+                return {ln.split(':', 1)[0].strip() for ln in (st.get('default') or '').splitlines() if ':' in ln}
+    return None
+
+
+# --------------------------------------------------------------------------------------------------
+# checks
+# --------------------------------------------------------------------------------------------------
+def check_metafield_value(rep, area, key, mtype, v, ctx):
+    P, pages = ctx['products'], ctx['pages']
+    if mtype == 'single_line_text_field':
+        if not isinstance(v, str) or not v.strip() or '\n' in v:
+            rep.e('metafields', f'{area}: {key} must be a one-line string')
+        elif key in ctx['choices'] and v not in ctx['choices'][key]:
+            rep.e('metafields', f'{area}: {key} = {v!r} not in {ctx["choices"][key]}')
+    elif mtype == 'multi_line_text_field':
+        if not isinstance(v, str) or not v.strip():
+            rep.e('metafields', f'{area}: {key} must be text')
+    elif mtype == 'list.single_line_text_field':
+        if not is_list_of_str(v) or any('\n' in x for x in v):
+            rep.e('metafields', f'{area}: {key} must be a list of one-line strings')
+    elif mtype == 'boolean':
+        if not isinstance(v, bool):
+            rep.e('metafields', f'{area}: {key} must be boolean')
+    elif mtype == 'number_decimal':
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or v <= 0:
+            rep.e('metafields', f'{area}: {key} must be a positive number')
+    elif mtype == 'list.number_integer':
+        if not isinstance(v, list) or not all(isinstance(x, int) and not isinstance(x, bool) and x > 0 for x in v):
+            rep.e('metafields', f'{area}: {key} must be a list of positive integers')
+    elif mtype == 'list.product_reference':
+        if not is_list_of_str(v):
+            rep.e('metafields', f'{area}: {key} must be a list of product handles')
+        else:
+            for h in v:
+                if h not in P:
+                    rep.e('metafields', f'{area}: {key} → unknown product {h}')
+                if h == ctx.get('self'):
+                    rep.e('metafields', f'{area}: {key} references the product itself')
+            if len(set(v)) != len(v):
+                rep.e('metafields', f'{area}: {key} has duplicates')
+    elif mtype == 'page_reference':
+        if v not in pages:
+            rep.e('metafields', f'{area}: {key} → unknown page {v}')
+    elif mtype == 'list.file_reference':
+        if not is_list_of_str(v):
+            rep.e('metafields', f'{area}: {key} must be a list of files')
+    elif mtype == 'rich_text_field':
+        if not (isinstance(v, dict) and v.get('type') == 'root' and v.get('children')):
+            rep.e('metafields', f'{area}: {key} must be Shopify rich text JSON (type root with children)')
+    elif mtype == 'json':
+        check_json_mf(rep, area, key, v, ctx)
+    elif mtype == 'list.variant_reference':
+        pass  # per-variant, checked with bundles
+    else:
+        rep.e('metafields', f'{area}: {key} has unsupported type {mtype}')
+
+
+def check_json_mf(rep, area, key, v, ctx):
+    p = ctx.get('product') or {}
+    if key == 'specificaties':
+        if not isinstance(v, list) or not v or not all(
+                isinstance(r, dict) and all(isinstance(r.get(k), str) and r.get(k).strip() for k in ('groep', 'label', 'waarde'))
+                for r in v):
+            rep.e('metafields', f'{area}: specificaties must be [{{groep,label,waarde}}] with non-empty strings')
+        else:
+            seen = Counter((r['groep'], r['label']) for r in v)
+            for (g, l), n in seen.items():
+                if n > 1:
+                    rep.w('metafields', f'{area}: specificaties row {g} / {l} appears {n}×')
+    elif key == 'staffelkorting':
+        ok = isinstance(v, list) and v and all(isinstance(r, dict) and isinstance(r.get('vanaf'), int)
+                                               and isinstance(r.get('korting'), (int, float)) for r in v)
+        if not ok:
+            rep.e('metafields', f'{area}: staffelkorting must be [{{vanaf:int, korting:number}}]')
+        else:
+            vs = [r['vanaf'] for r in v]
+            ks = [r['korting'] for r in v]
+            if vs != sorted(vs) or len(set(vs)) != len(vs) or vs[0] < 2:
+                rep.e('metafields', f'{area}: staffelkorting tiers must be increasing and start at ≥ 2 ({vs})')
+            if ks != sorted(ks) or not all(0 < k < 100 for k in ks):
+                rep.e('metafields', f'{area}: staffelkorting percentages must be increasing, 0–100 ({ks})')
+    elif key == 'faq':
+        if not isinstance(v, list) or not v or not all(
+                isinstance(r, dict) and isinstance(r.get('vraag'), str) and r['vraag'].strip()
+                and isinstance(r.get('antwoord'), str) and r['antwoord'].strip() for r in v):
+            rep.e('metafields', f'{area}: faq must be [{{vraag, antwoord}}] with text')
+    elif key == 'drukopties':
+        if not isinstance(v, dict):
+            rep.e('metafields', f'{area}: drukopties must be an object')
+            return
+        for k in ('aanlevering', 'levertijd'):
+            if not isinstance(v.get(k), str) or not v[k].strip():
+                rep.e('metafields', f'{area}: drukopties.{k} missing')
+        if not isinstance(v.get('posities', []), list):
+            rep.e('metafields', f'{area}: drukopties.posities must be a list')
+        if not isinstance(v.get('min_aantal', 1), int) or v.get('min_aantal', 1) < 1:
+            rep.e('metafields', f'{area}: drukopties.min_aantal must be an integer ≥ 1')
+        if v.get('optie'):
+            names = [o['name'] for o in p.get('options', [])]
+            if v['optie'] not in names:
+                rep.e('metafields', f'{area}: drukopties.optie {v["optie"]} is not an option of the product')
+            else:
+                vals = next(o['values'] for o in p['options'] if o['name'] == v['optie'])
+                for z in v.get('zonder') or []:
+                    if z not in vals:
+                        rep.e('metafields', f'{area}: drukopties.zonder value {z!r} is not a {v["optie"]} value')
+                if all(x in (v.get('zonder') or []) for x in vals):
+                    rep.e('metafields', f'{area}: drukopties.zonder covers every {v["optie"]} value (nothing printable)')
+    elif key == 'configurator':
+        if not isinstance(v, dict) or v.get('type') not in ('oppervlakte', 'lengte'):
+            rep.e('metafields', f'{area}: configurator.type must be oppervlakte or lengte')
+            return
+        velden = v.get('velden') or []
+        if not velden:
+            rep.e('metafields', f'{area}: configurator.velden empty')
+        for f in velden:
+            try:
+                if not (f['min'] <= f['standaard'] <= f['max']) or f['stap'] <= 0 or not f['id'] or not f['label']:
+                    rep.e('metafields', f'{area}: configurator veld {f.get("id")} has inconsistent min/standaard/max/stap')
+            except (KeyError, TypeError):
+                rep.e('metafields', f'{area}: configurator veld {f.get("id")} misses id/label/min/max/stap/standaard')
+        for k in v.get('keuzes') or []:
+            if not k.get('label') or not is_list_of_str(k.get('opties')):
+                rep.e('metafields', f'{area}: configurator keuze without label/opties')
+        if v.get('type') == 'oppervlakte' and len(velden) < 2:
+            rep.e('metafields', f'{area}: configurator oppervlakte needs two velden')
+    else:
+        if v is None:
+            rep.e('metafields', f'{area}: {key} json is null')
+
+
+def run(verbose=False):
+    rep = Report()
+    allowed_neg: list[str] = []
+    md = (HERE / 'CONTRACT.md').read_text(encoding='utf-8')
+    C = parse_contract(md)
+    cat = json.loads((HERE / 'catalog.json').read_text(encoding='utf-8'))
+    products = cat['products']
+    P = {p['handle']: p for p in products}
+    pages = {pg['handle']: pg for pg in cat['pages']}
+    colls = {c['handle']: c for c in cat['collections']}
+    blog = cat['blog']
+    articles = {a['handle']: a for a in blog['articles']}
+    ext = cat.get('contract_extensions') or []
+    ext_text = json.dumps(ext, ensure_ascii=False)
+
+    # ---- contract as code (from CONTRACT.md) + extensions
+    pmf_types = dict(C['product_mf'])
+    pmf_types['componenten'] = 'list.variant_reference'
+    for m in re.finditer(r'product metafield custom\.([a-z_]+) \(([a-z_.]+)\)', ext_text):
+        pmf_types[m.group(1)] = m.group(2)
+    cmf_types = C['collection_mf']
+    if len(pmf_types) < 20 or len(cmf_types) < 3:
+        rep.e('contract', f'could not parse CONTRACT.md metafield tables ({len(pmf_types)} product, {len(cmf_types)} collection)')
+    contract_tags = C['tags']
+    ext_collections = set()
+    for x in ext:
+        m = re.match(r'collections (.*)', x.get('what', ''))
+        if m:
+            ext_collections.update(h.strip() for h in m.group(1).split(','))
+    choices = {'verzending': ['pakket', 'pallet'], 'availability_status': C['availability'] or
+               ['binnenkort', 'pre-order', 'permanent-uitverkocht']}
+    ctx = {'products': P, 'pages': pages, 'choices': choices}
+    swatches = theme_swatches()
+
+    # ================================================================ products
+    sku_seen = {}
+    kleur_used = set()
+    for p in products:
+        h = p['handle']
+        a = f'product {h}'
+        ctx['self'] = h
+        ctx['product'] = p
+        if not HANDLE_RE.match(h):
+            rep.e('products', f'{a}: invalid handle')
+        if not p.get('title') or len(p['title']) > 255:
+            rep.e('products', f'{a}: title missing or > 255')
+        if p.get('vendor') != 'Klapklaar':
+            rep.e('products', f'{a}: vendor {p.get("vendor")!r} ≠ Klapklaar')
+        if p.get('status') not in ('active', 'draft', 'archived'):
+            rep.e('products', f'{a}: status {p.get("status")!r}')
+        if not p.get('product_type'):
+            rep.e('products', f'{a}: product_type missing')
+        mf = p['metafields']
+        # tags
+        has_compare = any(v.get('compare_at_price') for v in p['variants'])
+        for t in p['tags']:
+            if t != t.lower():
+                rep.e('tags', f'{a}: tag {t!r} not lowercase')
+            if t not in contract_tags:
+                rep.e('tags', f'{a}: tag {t!r} not in CONTRACT tags')
+            if re.search(r'best|top|populair|favoriet', t):
+                rep.e('tags', f'{a}: unverifiable tag {t!r}')
+        if 'badge:actie' in p['tags'] and not has_compare:
+            rep.e('tags', f'{a}: badge:actie without a compare-at price')
+        if ('bedrukbaar' in p['tags']) != bool(mf.get('bedrukbaar')):
+            rep.e('tags', f'{a}: tag bedrukbaar and custom.bedrukbaar disagree')
+        if ('pallet' in p['tags']) != (mf.get('verzending') == 'pallet'):
+            rep.w('tags', f'{a}: tag pallet and custom.verzending={mf.get("verzending")!r} disagree')
+        if 'badge:nieuw' in p['tags']:
+            rep.i('tags', f'{a}: badge:nieuw (keep only if genuinely new at launch)')
+        # options
+        opts = p['options']
+        names = [o['name'] for o in opts]
+        if len(opts) > 3:
+            rep.e('options', f'{a}: more than 3 options')
+        if len(set(names)) != len(names):
+            rep.e('options', f'{a}: duplicate option names')
+        for o in opts:
+            n = o['name']
+            if n not in C['option_names'] and not (n == 'Bedrag' and p.get('gift_card')):
+                rep.e('options', f'{a}: option name {n!r} not in CONTRACT ({", ".join(C["option_names"])})')
+            vals = o['values']
+            if not vals or len(set(vals)) != len(vals) or not all(isinstance(x, str) and x.strip() for x in vals):
+                rep.e('options', f'{a}: option {n} values empty or duplicated')
+            for val in vals:
+                if val != val.strip() or '  ' in val:
+                    rep.e('options', f'{a}: {n} value {val!r} has stray whitespace')
+                if n == 'Maat' and not MAAT_RE.match(val):
+                    rep.e('options', f'{a}: Maat value {val!r} does not follow the CONTRACT format')
+                if n == 'Kleur':
+                    kleur_used.add(val)
+                    if not KLEUR_RE.match(val):
+                        rep.e('options', f'{a}: Kleur value {val!r} is not a capitalised Dutch colour name')
+                if n == 'Uitvoering' and not (val[0].isupper() or val[0].isdigit()):
+                    rep.e('options', f'{a}: Uitvoering value {val!r} should start with a capital')
+        # variants
+        vs = p['variants']
+        if not vs:
+            rep.e('variants', f'{a}: no variants')
+        if len(vs) > 100:
+            rep.w('variants', f'{a}: {len(vs)} variants (> 100 needs the extended variant limit)')
+        combos = []
+        used = defaultdict(set)
+        img_files = [i['file'] for i in p['images']]
+        for v in vs:
+            va = f'{a} / {v.get("sku")}'
+            vals = [v.get(f'option{i + 1}') for i in range(3)]
+            for i in range(3):
+                if i < len(opts):
+                    if vals[i] is None:
+                        rep.e('variants', f'{va}: option{i + 1} missing')
+                    elif vals[i] not in opts[i]['values']:
+                        rep.e('variants', f'{va}: option{i + 1} {vals[i]!r} not declared on {opts[i]["name"]}')
+                    else:
+                        used[i].add(vals[i])
+                elif vals[i] is not None:
+                    rep.e('variants', f'{va}: option{i + 1} set without an option')
+            combos.append(tuple(vals[:len(opts)]))
+            sku = v.get('sku')
+            if not sku or not re.match(r'^[A-Z0-9][A-Z0-9\-]*$', sku):
+                rep.e('variants', f'{va}: SKU missing or not uppercase A-Z0-9-')
+            elif sku in sku_seen:
+                rep.e('variants', f'{va}: SKU duplicate (also {sku_seen[sku]})')
+            else:
+                sku_seen[sku] = h
+            price = v.get('price')
+            if not isinstance(price, int) or isinstance(price, bool) or price <= 0:
+                rep.e('prices', f'{va}: price {price!r} must be a positive integer (cents)')
+            cap = v.get('compare_at_price')
+            if cap is not None and (not isinstance(cap, int) or cap <= (price or 0)):
+                rep.e('prices', f'{va}: compare_at_price {cap!r} must be > price')
+            g = v.get('grams')
+            if not isinstance(g, int) or g < 0:
+                rep.e('variants', f'{va}: grams must be an integer ≥ 0')
+            elif g == 0 and v.get('requires_shipping', True):
+                rep.e('variants', f'{va}: 0 g on a shipped variant')
+            if v.get('inventory_management') not in ('shopify', None):
+                rep.e('variants', f'{va}: inventory_management {v.get("inventory_management")!r}')
+            if v.get('inventory_policy') not in ('deny', 'continue'):
+                rep.e('variants', f'{va}: inventory_policy {v.get("inventory_policy")!r}')
+            if v.get('inventory_management') == 'shopify' and (
+                    not isinstance(v.get('inventory_quantity'), int) or v['inventory_quantity'] < 0):
+                rep.e('variants', f'{va}: tracked variant needs inventory_quantity ≥ 0')
+            for k in ('requires_shipping', 'taxable'):
+                if not isinstance(v.get(k), bool):
+                    rep.e('variants', f'{va}: {k} must be boolean')
+            if v.get('image') and v['image'] not in img_files:
+                rep.e('variants', f'{va}: variant image {v["image"]} is not one of the product images')
+            if not v.get('image') and len(vs) > 1 and p['images'] and p.get('variant_image_by'):
+                rep.w('variants', f'{va}: no variant image although images vary by {p["variant_image_by"]}')
+            qr = v.get('quantity_rule')
+            if qr:
+                if not (isinstance(qr.get('min'), int) and qr['min'] >= 1 and isinstance(qr.get('increment'), int)
+                        and (qr.get('max') is None or qr['max'] >= qr['min'])):
+                    rep.e('variants', f'{va}: invalid quantity_rule {qr}')
+        if len(set(combos)) != len(combos):
+            rep.e('variants', f'{a}: duplicate option combinations')
+        for i, o in enumerate(opts):
+            unused = [x for x in o['values'] if x not in used[i]]
+            if unused:
+                rep.e('variants', f'{a}: {o["name"]} values without a variant: {unused}')
+        full = 1
+        for o in opts:
+            full *= len(o['values'])
+        if opts and full != len(set(combos)):
+            rep.i('variants', f'{a}: sparse variant matrix {len(set(combos))}/{full} (intentional combinations only)')
+        # images
+        if not p['images']:
+            rep.e('images', f'{a}: no images')
+        if len(set(img_files)) != len(img_files):
+            rep.e('images', f'{a}: duplicate image files')
+        for img in p['images']:
+            if not FILE_RE.match(img['file']):
+                rep.e('images', f'{a}: image file name {img["file"]!r} not lowercase-dash .webp/.jpg/.png')
+            if not (img.get('alt') or '').strip():
+                rep.e('images', f'{a}: empty alt text for {img["file"]}')
+            elif len(img['alt']) > 512:
+                rep.e('images', f'{a}: alt text > 512 chars for {img["file"]}')
+            if not (img.get('render') or {}).get('model'):
+                rep.e('images', f'{a}: image {img["file"]} has no render spec')
+            if 'opdruk' in img['file'] or 'print' in img['file'] or 'logo' in img['file']:
+                if 'voorbeeld' not in img.get('alt', '').lower() and 'logo' not in img.get('alt', '').lower():
+                    rep.w('images', f'{a}: print image {img["file"]} alt does not say voorbeeld/logo')
+        # copy
+        body = text_of(p.get('body_html'))
+        if len(body) < 200:
+            rep.e('copy', f'{a}: body_html missing or very short ({len(body)} chars)')
+        if '<!--' in build.strip_comments(p.get('body_html')):
+            rep.e('copy', f'{a}: HTML comment survives strip_comments')
+        seo = p.get('seo') or {}
+        if not seo.get('title') or not seo.get('description'):
+            rep.e('copy', f'{a}: SEO title/description missing')
+        else:
+            if len(seo['title']) > 70:
+                rep.e('copy', f'{a}: SEO title {len(seo["title"])} > 70 chars')
+            elif len(seo['title']) > 60:
+                rep.w('copy', f'{a}: SEO title {len(seo["title"])} > 60 chars')
+            if len(seo['description']) > 320:
+                rep.e('copy', f'{a}: SEO description {len(seo["description"])} > 320 chars')
+            elif len(seo['description']) > 160:
+                rep.w('copy', f'{a}: SEO description {len(seo["description"])} > 160 chars')
+        if not mf.get('kenmerk_kort'):
+            rep.e('copy', f'{a}: kenmerk_kort missing')
+        elif len(mf['kenmerk_kort']) > 70:
+            rep.w('copy', f'{a}: kenmerk_kort {len(mf["kenmerk_kort"])} chars (cards fit ~60)')
+        if not mf.get('usps') or not (3 <= len(mf['usps']) <= 4):
+            rep.e('copy', f'{a}: usps must have 3–4 items ({len(mf.get("usps") or [])})')
+        if not mf.get('specificaties'):
+            rep.e('copy', f'{a}: specificaties missing')
+        if not mf.get('faq'):
+            rep.w('copy', f'{a}: no faq')
+        texts = [('body', body), ('kenmerk_kort', mf.get('kenmerk_kort') or ''), ('seo', f'{seo.get("title")}. {seo.get("description")}'),
+                 ('usps', '. '.join(mf.get('usps') or [])), ('included', '. '.join(mf.get('included') or [])),
+                 ('excluded', '. '.join(mf.get('excluded') or [])),
+                 ('faq', ' '.join(f'{x.get("vraag")} {x.get("antwoord")}' for x in mf.get('faq') or [])),
+                 ('specificaties', '. '.join(f'{x.get("label")}: {x.get("waarde")}' for x in mf.get('specificaties') or [])),
+                 ('alts', '. '.join(i.get('alt', '') for i in p['images']))]
+        for nm, t in texts:
+            check_copy(rep, f'{a} {nm}', t, allowed_neg)
+        # metafields
+        for k, val in mf.items():
+            if k not in pmf_types:
+                rep.e('metafields', f'{a}: metafield {k} not in CONTRACT')
+                continue
+            if val is None or val == [] or val == '':
+                continue
+            check_metafield_value(rep, a, k, pmf_types[k], val, ctx)
+        lev = mf.get('levertijd')
+        if lev and 'drukproef' in lev:
+            rep.e('metafields', f'{a}: levertijd carries a print lead time ({lev!r}); use drukopties.levertijd')
+        if mf.get('bedrukbaar') and not mf.get('drukopties'):
+            rep.e('metafields', f'{a}: bedrukbaar without drukopties')
+        if mf.get('drukopties') and not mf.get('bedrukbaar'):
+            rep.e('metafields', f'{a}: drukopties on a product that is not bedrukbaar')
+        conf = mf.get('configurator')
+        if conf:
+            bad = [v['sku'] for v in vs if v.get('inventory_policy') != 'continue']
+            if bad:
+                rep.e('metafields', f'{a}: configurator variants need inventory_policy continue ({len(bad)} deny)')
+            if not lev:
+                rep.e('metafields', f'{a}: configurator product needs a levertijd')
+            if conf.get('min_afname') and vs and vs[0].get('quantity_rule', {}).get('min') not in (None, conf['min_afname']):
+                rep.w('metafields', f'{a}: configurator min_afname {conf["min_afname"]} ≠ quantity_rule.min')
+        if (mf.get('maatwerk') or (conf or {}).get('maatwerk')) and 'retour' not in body.lower():
+            rep.w('copy', f'{a}: maatwerk product body does not mention retour')
+        for k in ('addons', 'past_op', 'andere_maten', 'alternatieven'):
+            for ref in mf.get(k) or []:
+                if ref in P and P[ref]['status'] != 'active':
+                    rep.w('metafields', f'{a}: {k} → {ref} is not active')
+        for ref in mf.get('andere_maten') or []:
+            if ref in P and h not in (P[ref]['metafields'].get('andere_maten') or []):
+                rep.w('metafields', f'{a}: andere_maten → {ref} is not reciprocal')
+        if mf.get('availability_status') == 'permanent-uitverkocht' and not (mf.get('alternatieven') or mf.get('past_op')):
+            rep.e('metafields', f'{a}: permanent-uitverkocht without alternatieven/past_op')
+        # bundles
+        is_set = 'set' in p['tags']
+        comp_variants = [v for v in vs if v['metafields'].get('componenten')]
+        if is_set and len(comp_variants) != len(vs):
+            rep.e('bundles', f'{a}: tag set but {len(vs) - len(comp_variants)} variant(s) without componenten')
+        if comp_variants and not is_set:
+            rep.w('bundles', f'{a}: has componenten but no tag set')
+        for v in comp_variants:
+            cs, qs = v['metafields']['componenten'], v['metafields'].get('component_aantallen') or []
+            if len(cs) != len(qs) or not cs:
+                rep.e('bundles', f'{a} / {v["sku"]}: componenten and component_aantallen lengths differ')
+            los = 0
+            for s, q in zip(cs, qs):
+                if s not in sku_index(products):
+                    rep.e('bundles', f'{a} / {v["sku"]}: component SKU {s} unknown')
+                    continue
+                ch, cv = sku_index(products)[s]
+                if ch == h:
+                    rep.e('bundles', f'{a} / {v["sku"]}: bundle contains itself')
+                los += cv['price'] * q
+            if los and v['price'] >= los:
+                rep.w('bundles', f'{a} / {v["sku"]}: bundle price {v["price"] / 100:.2f} not below the parts {los / 100:.2f}')
+        if p.get('gift_card'):
+            if any(v.get('requires_shipping') for v in vs):
+                rep.e('variants', f'{a}: gift card variants must not require shipping')
+    # theme-side: colours
+    if swatches is not None:
+        missing = sorted(kleur_used - swatches)
+        if missing:
+            rep.w('theme', f'theme swatch_colors default lacks catalog colours: {", ".join(missing)} (CONTRACT: every colour listed)')
+    for b in cat['build'].get('bundle_errors') or []:
+        rep.e('bundles', b)
+
+    # ================================================================ coverage (assortment bar)
+    cov = cat.get('coverage') or {}
+    try:
+        assortment = json.loads((REPO / 'reference' / 'assortment.json').read_text(encoding='utf-8'))
+        subcats = [c['id'] + '.' + s['id'] for c in assortment['categories'] for s in c.get('subcategories', [])]
+    except (OSError, ValueError, KeyError):
+        subcats = []
+    for sc in subcats:
+        if sc not in cov or not cov[sc]:
+            rep.e('coverage', f'assortment subcategory {sc} has no product')
+    for sc, hs in cov.items():
+        for hd in hs:
+            if hd not in P:
+                rep.e('coverage', f'coverage {sc} → unknown product {hd}')
+
+    # ================================================================ collections
+    for hd in C['collections']:
+        if hd not in colls:
+            rep.e('collections', f'CONTRACT collection {hd} missing')
+    for hd, c in colls.items():
+        a = f'collection {hd}'
+        if hd not in C['collections'] and hd not in ext_collections:
+            rep.e('collections', f'{a}: handle not in CONTRACT or contract_extensions')
+        if not HANDLE_RE.match(hd):
+            rep.e('collections', f'{a}: invalid handle')
+        if c.get('parent') and c['parent'] not in colls:
+            rep.e('collections', f'{a}: parent {c["parent"]} unknown')
+        if c['sort_order'] not in ('manual', 'best-selling', 'alpha-asc', 'alpha-desc', 'price-asc', 'price-desc',
+                                   'created', 'created-desc'):
+            rep.e('collections', f'{a}: sort_order {c["sort_order"]!r}')
+        if c['type'] == 'smart':
+            if not c.get('rules'):
+                rep.e('collections', f'{a}: smart without rules')
+            for r in c.get('rules') or []:
+                if r.get('column') not in ('title', 'type', 'vendor', 'tag', 'variant_price', 'variant_compare_at_price',
+                                           'variant_inventory', 'variant_title', 'variant_weight', 'is_price_reduced'):
+                    rep.e('collections', f'{a}: rule column {r.get("column")!r}')
+                if r.get('relation') not in ('equals', 'not_equals', 'greater_than', 'less_than', 'starts_with',
+                                             'ends_with', 'contains', 'not_contains'):
+                    rep.e('collections', f'{a}: rule relation {r.get("relation")!r}')
+                if r.get('column') == 'tag' and r.get('condition') not in contract_tags:
+                    rep.e('collections', f'{a}: rule on unknown tag {r.get("condition")!r}')
+        elif c['type'] == 'manual':
+            for x in c.get('products') or []:
+                if x not in P:
+                    rep.e('collections', f'{a}: manual product {x} unknown')
+        else:
+            rep.e('collections', f'{a}: type {c["type"]!r}')
+        members = [m for m in c['members'] if m in P]
+        if not members:
+            rep.e('collections', f'{a}: no products')
+        expected = sorted(x['handle'] for x in products if hd in (x.get('collections') or []))
+        if sorted(members) != expected:
+            extra = sorted(set(members) - set(expected))
+            miss = sorted(set(expected) - set(members))
+            rep.w('collections', f'{a}: rule result differs from product.collections (+{extra[:4]} −{miss[:4]})')
+        mfc = c['metafields']
+        for k, val in mfc.items():
+            if k not in cmf_types:
+                rep.e('metafields', f'{a}: metafield {k} not in CONTRACT')
+            elif val in (None, '', []):
+                rep.w('copy', f'{a}: {k} empty')
+            else:
+                check_metafield_value(rep, a, k, cmf_types[k], val, ctx)
+        if not (c.get('body_html') or mfc.get('intro')):
+            rep.e('copy', f'{a}: no description or intro')
+        seo = c.get('seo') or {}
+        if not seo.get('title') or not seo.get('description'):
+            rep.e('copy', f'{a}: SEO title/description missing')
+        elif len(seo['title']) > 70 or len(seo['description']) > 320:
+            rep.e('copy', f'{a}: SEO title/description too long')
+        for nm, t in (('body', text_of(c.get('body_html'))), ('intro', mfc.get('intro') or ''),
+                      ('seo_tekst', text_of(c.get('seo_tekst_html'))), ('kenmerken', '. '.join(mfc.get('kenmerken') or []))):
+            check_copy(rep, f'{a} {nm}', t, allowed_neg)
+
+    # ================================================================ pages / blog
+    for hd, suf in C['pages'].items():
+        if hd not in pages:
+            rep.e('pages', f'CONTRACT page {hd} missing')
+        elif pages[hd]['template_suffix'] != suf:
+            rep.e('pages', f'page {hd}: template_suffix {pages[hd]["template_suffix"]!r} ≠ CONTRACT {suf!r}')
+    for hd, pg in pages.items():
+        a = f'page {hd}'
+        if hd not in C['pages']:
+            rep.w('pages', f'{a}: not in CONTRACT')
+        if pg['published'] and len(text_of(pg['body_html'])) < 40:
+            rep.e('copy', f'{a}: body_html missing')
+        if not (pg.get('seo') or {}).get('title') or not (pg.get('seo') or {}).get('description'):
+            rep.e('copy', f'{a}: SEO missing')
+        if pg['template_suffix'] and not (THEME / 'templates' / f'page.{pg["template_suffix"]}.json').exists():
+            rep.w('theme', f'{a}: theme has no templates/page.{pg["template_suffix"]}.json')
+        if not pg['published']:
+            rep.i('pages', f'{a}: unpublished (owner must confirm before publishing)')
+        for nm in ('body_html', 'long_html'):
+            check_copy(rep, f'{a} {nm}', text_of(pg.get(nm)), allowed_neg)
+        brackets = re.findall(r'\[[^\]]{1,40}\]', text_of(pg['body_html']))
+        if brackets and pg['published']:
+            rep.i('copy', f'{a}: bracket fields {sorted(set(brackets))[:6]} (intentional form text? check before launch)')
+    if blog['handle'] != C['blog_handle']:
+        rep.e('blog', f'blog handle {blog["handle"]} ≠ {C["blog_handle"]}')
+    if C['blog_title'] and blog['title'] != C['blog_title']:
+        rep.e('blog', f'blog title {blog["title"]!r} ≠ {C["blog_title"]!r}')
+    required = ['easy-up-partytent-opzetten', 'welke-statafelrok-past', 'hoeveel-statafels-per-gast',
+                'partytent-onderhouden-en-opbergen', 'partytent-verankeren-bij-wind', 'logo-aanleveren-voor-bedrukking']
+    for hd in required:
+        if hd not in articles:
+            rep.e('blog', f'required article {hd} missing')
+    for hd, art in articles.items():
+        a = f'article {hd}'
+        if len(text_of(art['body_html'])) < 1500:
+            rep.w('copy', f'{a}: body shorter than expected')
+        if not art.get('summary_html'):
+            rep.e('copy', f'{a}: summary missing')
+        if not (art.get('seo') or {}).get('title'):
+            rep.e('copy', f'{a}: SEO missing')
+        for t in art['tags']:
+            if t != t.lower():
+                rep.e('blog', f'{a}: tag {t!r} not lowercase')
+            if t.startswith('collectie:') and t.split(':', 1)[1] not in colls:
+                rep.e('blog', f'{a}: tag {t} → unknown collection')
+        for x in art['metafields'].get('producten') or []:
+            if x not in P:
+                rep.e('blog', f'{a}: producten → unknown product {x}')
+        img = art.get('image') or {}
+        if not img.get('src') or not (img.get('alt') or '').strip():
+            rep.e('blog', f'{a}: image src/alt missing')
+        check_copy(rep, a, text_of(art['body_html']) + ' ' + text_of(art['summary_html']), allowed_neg)
+
+    # ================================================================ internal links in copy
+    pol = {'terms-of-service', 'privacy-policy', 'refund-policy', 'shipping-policy', 'contact-information', 'legal-notice'}
+
+    def check_link(area, path):
+        parts = [x for x in path.split('/') if x]
+        if not parts:
+            return
+        kind = parts[0]
+        if kind == 'products' and len(parts) == 2 and parts[1] not in P:
+            rep.e('links', f'{area}: link to unknown product /products/{parts[1]}')
+        elif kind == 'collections' and len(parts) >= 2 and parts[1] not in colls and parts[1] != 'all':
+            rep.e('links', f'{area}: link to unknown collection /collections/{parts[1]}')
+        elif kind == 'pages' and len(parts) == 2:
+            if parts[1] not in pages:
+                rep.e('links', f'{area}: link to unknown page /pages/{parts[1]}')
+            elif not pages[parts[1]]['published']:
+                rep.w('links', f'{area}: link to unpublished page /pages/{parts[1]}')
+        elif kind == 'blogs' and len(parts) >= 2:
+            if parts[1] != blog['handle']:
+                rep.e('links', f'{area}: link to unknown blog {parts[1]}')
+            elif len(parts) == 3 and parts[2] not in articles:
+                rep.e('links', f'{area}: link to unknown article {parts[2]}')
+        elif kind == 'policies' and len(parts) == 2 and parts[1] not in pol:
+            rep.e('links', f'{area}: link to unknown policy {parts[1]}')
+
+    for p in products:
+        for path in LINK_RE.findall(p['body_html'] or ''):
+            check_link(f'product {p["handle"]}', path)
+        for f in p['metafields'].get('faq') or []:
+            for path in LINK_RE.findall(f.get('antwoord') or ''):
+                check_link(f'product {p["handle"]} faq', path)
+    for c in cat['collections']:
+        for path in LINK_RE.findall((c.get('body_html') or '') + (c.get('seo_tekst_html') or '')):
+            check_link(f'collection {c["handle"]}', path)
+    for pg in cat['pages']:
+        blob = (pg.get('body_html') or '') + (pg.get('long_html') or '') + json.dumps(pg.get('template') or {}, ensure_ascii=False)
+        for path in LINK_RE.findall(blob.replace('\\"', '"')):
+            check_link(f'page {pg["handle"]}', path)
+        for m in re.finditer(r'"(?:link|cta_\d_link|url)"\s*:\s*"(/[^"?#]*)', json.dumps(pg.get('template') or {}, ensure_ascii=False)):
+            check_link(f'page {pg["handle"]} template', m.group(1))
+        for m in re.finditer(r'"image"\s*:\s*"([^"]+\.(?:webp|jpg|png))"', json.dumps(pg.get('template') or {}, ensure_ascii=False)):
+            if m.group(1) not in {i['file'] for p in products for i in p['images']} and not (IMAGES / m.group(1)).exists():
+                rep.w('links', f'page {pg["handle"]} template: image {m.group(1)} is not a catalog image')
+    for art in blog['articles']:
+        for path in LINK_RE.findall((art.get('body_html') or '') + (art.get('summary_html') or '')):
+            check_link(f'article {art["handle"]}', path)
+
+    # ================================================================ menus
+    for hd in C['menus']:
+        if hd not in {m['handle'] for m in cat['menus']}:
+            rep.e('menus', f'CONTRACT menu {hd} missing')
+    option_values = {}
+    for c in cat['collections']:
+        vals = defaultdict(set)
+        types = set()
+        for m in c['members']:
+            if m not in P:
+                continue
+            types.add(P[m]['product_type'])
+            for o in P[m]['options']:
+                vals[o['name'].lower()].update(o['values'])
+        option_values[c['handle']] = (vals, types)
+
+    def walk(menu, items, depth, trail):
+        for it in items:
+            a = f'menu {menu} › {" › ".join(trail + [it["title"]])}'
+            if depth > 3:
+                rep.e('menus', f'{a}: deeper than 3 levels')
+            t = it.get('type')
+            hd = it.get('handle')
+            if t == 'collection' and hd not in colls:
+                rep.e('menus', f'{a}: unknown collection {hd}')
+            elif t == 'product' and hd not in P:
+                rep.e('menus', f'{a}: unknown product {hd}')
+            elif t == 'page':
+                if hd not in pages:
+                    rep.e('menus', f'{a}: unknown page {hd}')
+                elif not pages[hd]['published']:
+                    rep.e('menus', f'{a}: links to unpublished page {hd}')
+            elif t == 'blog' and hd != blog['handle']:
+                rep.e('menus', f'{a}: unknown blog {hd}')
+            elif t == 'article':
+                b, _, art = (hd or '').partition('/')
+                if b != blog['handle'] or art not in articles:
+                    rep.e('menus', f'{a}: unknown article {hd}')
+            elif t == 'policy' and hd not in pol:
+                rep.e('menus', f'{a}: unknown policy {hd}')
+            elif t == 'http':
+                url = it.get('url') or ''
+                if not url.startswith('/') and not url.startswith('https://'):
+                    rep.e('menus', f'{a}: url {url!r} not relative or https')
+                sp = urlsplit(url)
+                parts = [x for x in sp.path.split('/') if x]
+                if parts[:1] == ['collections'] and len(parts) == 2:
+                    ch = parts[1]
+                    if ch not in colls:
+                        rep.e('menus', f'{a}: unknown collection {ch}')
+                    else:
+                        vals, types = option_values[ch]
+                        for k, vlist in parse_qs(sp.query).items():
+                            for val in vlist:
+                                if k.startswith('filter.v.option.'):
+                                    on = k.split('.', 3)[3]
+                                    if val not in vals.get(on, set()):
+                                        rep.e('menus', f'{a}: filter {on}={val!r} matches no product in {ch}')
+                                elif k == 'filter.p.product_type' and val not in types:
+                                    rep.e('menus', f'{a}: product_type {val!r} not in {ch}')
+                else:
+                    check_link(a, sp.path)
+            elif t not in ('collection', 'product', 'page', 'blog', 'article', 'policy', 'http', 'frontpage',
+                           'search', 'catalog', 'collections'):
+                rep.e('menus', f'{a}: link type {t!r}')
+            walk(menu, it.get('items') or [], depth + 1, trail + [it['title']])
+    for m in cat['menus']:
+        walk(m['handle'], m['items'], 1, [])
+
+    # ================================================================ image jobs
+    try:
+        jobs = json.loads((EXPORT / 'image-jobs.json').read_text(encoding='utf-8'))['jobs']
+    except (OSError, ValueError, KeyError):
+        jobs = []
+        rep.e('images', 'export/image-jobs.json missing or invalid')
+    jobfiles = {j['file']: j for j in jobs}
+    for p in products:
+        files = [i['file'] for i in p['images']]
+        if not any(f in jobfiles for f in files):
+            rep.e('images', f'product {p["handle"]}: no image job')
+        for f in files:
+            if f not in jobfiles:
+                rep.e('images', f'product {p["handle"]}: image {f} has no render job')
+    for j in jobs:
+        if j['kind'] != 'brand-copy' and not (j.get('spec') or {}).get('model'):
+            rep.e('images', f'job {j["file"]}: spec without model')
+    present = sum(1 for j in jobs if (IMAGES / j['file']).exists())
+    st = Counter(j.get('model_status') for j in jobs)
+    rep.i('images', f'{len(jobs)} image jobs, {present} files present in catalog/images; model_status {dict(st)}')
+    for art in blog['articles']:
+        src = (art.get('image') or {}).get('use') or (art.get('image') or {}).get('src')
+        if src and src not in jobfiles:
+            rep.e('images', f'article {art["handle"]}: image {src} has no job')
+
+    # ================================================================ CSV
+    check_csv(rep, products)
+
+    # ================================================================ exports for the seed script
+    try:
+        defs = json.loads((EXPORT / 'metafield-definitions.json').read_text(encoding='utf-8'))['definitions']
+    except (OSError, ValueError, KeyError):
+        defs = []
+        rep.e('exports', 'metafield-definitions.json missing')
+    dmap = {(d['owner_type'], d['key']): d['type'] for d in defs}
+    for k, t in pmf_types.items():
+        if dmap.get(('PRODUCT', k)) != t:
+            rep.e('exports', f'definition PRODUCT custom.{k} ({t}) missing or wrong type ({dmap.get(("PRODUCT", k))})')
+    for k, t in cmf_types.items():
+        if dmap.get(('COLLECTION', k)) != t:
+            rep.e('exports', f'definition COLLECTION custom.{k} ({t}) missing or wrong type')
+    for k, t in (('componenten', 'list.variant_reference'), ('component_aantallen', 'list.number_integer')):
+        if dmap.get(('PRODUCTVARIANT', k)) != t:
+            rep.e('exports', f'definition PRODUCTVARIANT custom.{k} missing')
+    if dmap.get(('ARTICLE', 'producten')) != 'list.product_reference':
+        rep.e('exports', 'definition ARTICLE custom.producten missing')
+    for name, key, n in (('collections.json', 'collections', len(colls)), ('pages.json', 'pages', len(pages)),
+                         ('menus.json', 'menus', len(cat['menus']))):
+        try:
+            d = json.loads((EXPORT / name).read_text(encoding='utf-8'))[key]
+            if len(d) != n:
+                rep.e('exports', f'{name}: {len(d)} entries, catalog has {n}')
+            blob = json.dumps(d, ensure_ascii=False)
+            if '<!--' in blob:
+                rep.e('exports', f'{name}: HTML comments (claim markers) leak into the export')
+        except (OSError, ValueError, KeyError):
+            rep.e('exports', f'{name} missing or invalid')
+    try:
+        bj = json.loads((EXPORT / 'blog.json').read_text(encoding='utf-8'))['blog']
+        if len(bj['articles']) != len(articles) or '<!--' in json.dumps(bj, ensure_ascii=False):
+            rep.e('exports', 'blog.json article count differs or contains HTML comments')
+    except (OSError, ValueError, KeyError):
+        rep.e('exports', 'blog.json missing or invalid')
+    try:
+        refs = json.loads((EXPORT / 'product-references.json').read_text(encoding='utf-8'))['products']
+        skus = sku_index(products)
+        for r in refs:
+            if r['handle'] not in P:
+                rep.e('exports', f'product-references: unknown product {r["handle"]}')
+            for m in r['metafields']:
+                vals = m['value'] if isinstance(m['value'], list) else [m['value']]
+                for x in vals:
+                    if m['type'].endswith('product_reference') and x not in P:
+                        rep.e('exports', f'product-references {r["handle"]}.{m["key"]}: unknown product {x}')
+                    if m['type'] == 'page_reference' and x not in pages:
+                        rep.e('exports', f'product-references {r["handle"]}.{m["key"]}: unknown page {x}')
+            for v in r['variants']:
+                for m in v['metafields']:
+                    for x in m.get('value_skus') or []:
+                        if x not in skus:
+                            rep.e('exports', f'product-references {v["sku"]}: unknown component SKU {x}')
+    except (OSError, ValueError, KeyError):
+        rep.e('exports', 'product-references.json missing or invalid')
+
+    # ================================================================ fixture
+    check_fixture(rep, cat, products)
+
+    # ================================================================ theme-side cross checks (informative)
+    tdir = THEME / 'templates'
+    if tdir.exists():
+        for f in sorted(tdir.glob('*.json')):
+            try:
+                txt = f.read_text(encoding='utf-8')
+            except OSError:
+                continue
+            for hd in set(re.findall(r'/products/([a-z0-9\-]+)', txt)):
+                if hd not in P:
+                    rep.w('theme', f'theme/templates/{f.name} links to unknown product {hd}')
+            for hd in set(re.findall(r'"(?:product|products)"\s*:\s*"([a-z0-9\-]+)"', txt)):
+                if hd not in P:
+                    rep.w('theme', f'theme/templates/{f.name} references unknown product {hd}')
+            for hd in set(re.findall(r'/collections/([a-z0-9\-]+)', txt)):
+                if hd not in colls and hd != 'all':
+                    rep.w('theme', f'theme/templates/{f.name} links to unknown collection {hd}')
+
+    if LIVE_FIXTURE.exists():
+        rep.w('fixture', 'catalog/preview-data.json exists: tools/dev.sh switches every preview server to it')
+
+    rep.allowed_negations = allowed_neg
+    return rep, cat
+
+
+_SKU_INDEX = {}
+
+
+def sku_index(products):
+    if not _SKU_INDEX:
+        for p in products:
+            for v in p['variants']:
+                _SKU_INDEX[v['sku']] = (p['handle'], v)
+    return _SKU_INDEX
+
+
+def check_csv(rep, products):
+    before = rep.count('ERROR')
+    path = EXPORT / 'products.csv'
+    try:
+        raw = path.read_text(encoding='utf-8')
+    except OSError:
+        rep.e('csv', 'export/products.csv missing')
+        return
+    if raw.startswith('\ufeff'):
+        rep.w('csv', 'products.csv starts with a BOM')
+    rows = list(csv.DictReader(io.StringIO(raw, newline='')))
+    header = next(csv.reader(io.StringIO(raw, newline='')))
+    if header != build.CSV_COLUMNS:
+        rep.e('csv', 'header differs from build.CSV_COLUMNS')
+    for col in ('Handle', 'Title', 'Body (HTML)', 'Vendor', 'Type', 'Tags', 'Published', 'Option1 Name', 'Option1 Value',
+                'Variant SKU', 'Variant Price', 'Image Src', 'Image Position', 'Image Alt Text', 'Status'):
+        if col not in header:
+            rep.e('csv', f'required column {col} missing')
+    for col in header:
+        m = re.match(r'^(.+) \((product|variant)\.metafields\.([a-z_]+)\.([a-z_]+)\)$', col)
+        if '.metafields.' in col and not m:
+            rep.e('csv', f'metafield column {col!r} not in "Label (product.metafields.ns.key)" form')
+    # round trip: parse → write with the same dialect → identical text
+    buf = io.StringIO(newline='')
+    w = csv.DictWriter(buf, fieldnames=header, quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+    w.writeheader()
+    for r in rows:
+        w.writerow(r)
+    if buf.getvalue() != raw:
+        rep.e('csv', 'products.csv does not round-trip (parse → write differs)')
+    # regroup by handle
+    groups = defaultdict(list)
+    order = []
+    for r in rows:
+        hd = r['Handle']
+        if hd not in groups:
+            order.append(hd)
+        elif order[-1] != hd:
+            rep.e('csv', f'rows of {hd} are not contiguous')
+        groups[hd].append(r)
+    P = {p['handle']: p for p in products}
+    if set(groups) != set(P):
+        rep.e('csv', f'CSV handles differ from catalog (+{sorted(set(groups) - set(P))[:3]} −{sorted(set(P) - set(groups))[:3]})')
+    mf_cols = [(c, re.search(r'metafields\.[a-z_]+\.([a-z_]+)\)', c).group(1)) for c in header if '.metafields.' in c]
+    types = dict(build.PRODUCT_MF_TYPES)
+    for hd, rs in groups.items():
+        p = P.get(hd)
+        if not p:
+            continue
+        a = f'csv {hd}'
+        first = rs[0]
+        if first['Title'] != p['title'] or first['Type'] != p['product_type'] or first['Vendor'] != p['vendor']:
+            rep.e('csv', f'{a}: title/type/vendor differ')
+        if any(r['Title'] for r in rs[1:]):
+            rep.e('csv', f'{a}: Title repeated on a non-first row')
+        if first['Body (HTML)'] != build.strip_comments(p['body_html']):
+            rep.e('csv', f'{a}: body differs from catalog')
+        if '<!--' in first['Body (HTML)']:
+            rep.e('csv', f'{a}: body contains HTML comments')
+        if [t.strip() for t in first['Tags'].split(',') if t.strip()] != p['tags']:
+            rep.e('csv', f'{a}: tags differ')
+        if first['Published'] not in ('TRUE', 'FALSE') or first['Status'] != p['status']:
+            rep.e('csv', f'{a}: Published/Status')
+        names = [first[f'Option{i} Name'] for i in (1, 2, 3) if first[f'Option{i} Name']]
+        exp_names = [o['name'] for o in p['options']] or ['Title']
+        if names != exp_names:
+            rep.e('csv', f'{a}: option names {names} ≠ {exp_names}')
+        vrows = [r for r in rs if r['Variant SKU']]
+        if len(vrows) != len(p['variants']):
+            rep.e('csv', f'{a}: {len(vrows)} variant rows, catalog has {len(p["variants"])}')
+        if any(r['Variant SKU'] for r in rs[len(vrows):]) or any(not r['Variant SKU'] for r in rs[:len(vrows)]):
+            rep.e('csv', f'{a}: variant rows are not first')
+        for r, v in zip(vrows, p['variants']):
+            vals = [r[f'Option{i} Value'] or None for i in (1, 2, 3)]
+            exp = [v.get('option1'), v.get('option2'), v.get('option3')] if p['options'] else ['Default Title', None, None]
+            if vals != exp:
+                rep.e('csv', f'{a} {v["sku"]}: option values {vals} ≠ {exp}')
+            if r['Variant SKU'] != v['sku'] or r['Variant Price'] != build.money(v['price']) or \
+                    r['Variant Compare At Price'] != build.money(v.get('compare_at_price')):
+                rep.e('csv', f'{a} {v["sku"]}: sku/price/compare-at differ')
+            try:
+                if float(r['Variant Price']) <= 0:
+                    rep.e('csv', f'{a} {v["sku"]}: price ≤ 0')
+            except ValueError:
+                rep.e('csv', f'{a} {v["sku"]}: price not a number')
+            if r['Variant Grams'] != str(int(v.get('grams') or 0)):
+                rep.e('csv', f'{a} {v["sku"]}: grams differ')
+            if r['Variant Inventory Policy'] not in ('deny', 'continue') or r['Variant Fulfillment Service'] != 'manual':
+                rep.e('csv', f'{a} {v["sku"]}: inventory policy / fulfillment service')
+            if r['Variant Inventory Tracker'] not in ('', 'shopify'):
+                rep.e('csv', f'{a} {v["sku"]}: inventory tracker {r["Variant Inventory Tracker"]!r}')
+            if r['Variant Requires Shipping'] not in ('TRUE', 'FALSE') or r['Variant Taxable'] not in ('TRUE', 'FALSE'):
+                rep.e('csv', f'{a} {v["sku"]}: shipping/taxable not TRUE/FALSE')
+            exp_img = build.image_url(v['image']) if v.get('image') else ''
+            if r['Variant Image'] != exp_img:
+                rep.e('csv', f'{a} {v["sku"]}: variant image differs')
+        irows = [r for r in rs if r['Image Src']]
+        if [r['Image Src'] for r in irows] != [build.image_url(i['file']) for i in p['images']]:
+            rep.e('csv', f'{a}: image list differs')
+        if [r['Image Position'] for r in irows] != [str(i) for i in range(1, len(irows) + 1)]:
+            rep.e('csv', f'{a}: image positions not 1..n')
+        for r in irows:
+            if not r['Image Src'].startswith(IMAGE_BASE_URL):
+                rep.e('csv', f'{a}: image url {r["Image Src"]} not under the repo raw URL')
+            if not r['Image Alt Text'].strip():
+                rep.e('csv', f'{a}: empty Image Alt Text for {r["Image Src"]}')
+        urls = {r['Image Src'] for r in irows}
+        for r in vrows:
+            if r['Variant Image'] and r['Variant Image'] not in urls:
+                rep.e('csv', f'{a}: variant image not among product images')
+        if any(r['Image Src'] == '' and r['Variant SKU'] == '' for r in rs):
+            rep.e('csv', f'{a}: empty row')
+        # metafields round trip
+        for col, key in mf_cols:
+            cell = first[col]
+            val = p['metafields'].get(key)
+            mtype = types[key]
+            if mtype == 'boolean' and not val:
+                val = None
+            if build.empty(val):
+                if cell:
+                    rep.e('csv', f'{a}: {key} has a value but catalog is empty')
+                continue
+            try:
+                if mtype.startswith('list.') or mtype == 'json':
+                    back = json.loads(cell)
+                elif mtype == 'boolean':
+                    back = cell == 'true'
+                elif mtype == 'number_decimal':
+                    back = float(cell)
+                    val = float(val)
+                else:
+                    back = cell
+            except ValueError:
+                rep.e('csv', f'{a}: {key} cell is not valid {mtype}')
+                continue
+            if back != val:
+                rep.e('csv', f'{a}: {key} does not round-trip')
+            if any(r[col] for r in rs[1:]):
+                rep.e('csv', f'{a}: {key} repeated on a non-first row')
+    rep.i('csv', f'products.csv: {len(rows)} rows, {len(groups)} products, {len(header)} columns '
+                 f'({len(mf_cols)} metafield columns), round-trip OK' if rep.count('ERROR') == before else
+          f'products.csv: {len(rows)} rows')
+
+
+def check_fixture(rep, cat, products):
+    try:
+        fx = json.loads(FIXTURE.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        rep.e('fixture', f'{FIXTURE.name} missing or invalid')
+        return
+    if fx.get('schema_version') != 1:
+        rep.e('fixture', 'schema_version ≠ 1')
+    for k in ('shop', 'products', 'collections', 'filters', 'menus', 'pages', 'blogs', 'policies'):
+        if k not in fx:
+            rep.e('fixture', f'top-level {k} missing')
+    shop = fx.get('shop') or {}
+    for k in ('name', 'currency', 'money_format', 'money_with_currency_format', 'primary_locale', 'country'):
+        if not shop.get(k):
+            rep.e('fixture', f'shop.{k} missing')
+    if len(fx['products']) != len(products):
+        rep.e('fixture', f'{len(fx["products"])} products, catalog has {len(products)}')
+    vids = {}
+    handles = {p['handle'] for p in fx['products']}
+    pages = {pg['handle'] for pg in fx['pages']}
+    missing_img = set()
+    for p in fx['products']:
+        a = f'fixture {p["handle"]}'
+        for v in p['variants']:
+            if not isinstance(v['price'], int) or v['price'] <= 0:
+                rep.e('fixture', f'{a}: price must be integer cents > 0')
+            if v.get('compare_at_price') is not None and not isinstance(v['compare_at_price'], int):
+                rep.e('fixture', f'{a}: compare_at_price must be integer cents')
+            exp = build.variant_id(p['handle'], [v.get('option1'), v.get('option2'), v.get('option3')])
+            if v.get('id') != exp:
+                rep.e('fixture', f'{a}: variant id {v.get("id")} ≠ renderer stable id {exp}')
+            if v['id'] in vids:
+                rep.e('fixture', f'{a}: variant id collision with {vids[v["id"]]}')
+            vids[v['id']] = p['handle']
+            if v.get('image') and v['image'] not in {i['src'] for i in p['images']}:
+                rep.e('fixture', f'{a}: variant image not in images')
+        for img in p['images']:
+            if not (IMAGES / img['src']).exists():
+                missing_img.add(img['src'])
+            if not img.get('alt'):
+                rep.e('fixture', f'{a}: image without alt')
+        for m in p['metafields']:
+            if not isinstance(m.get('value'), str):
+                rep.e('fixture', f'{a}: metafield {m.get("key")} value must be an Admin-API string')
+            if m['type'] == 'list.product_reference':
+                for x in json.loads(m['value']):
+                    if x not in handles:
+                        rep.e('fixture', f'{a}: {m["key"]} → unknown product {x}')
+            if m['type'] == 'page_reference' and m['value'] not in pages:
+                rep.e('fixture', f'{a}: {m["key"]} → page {m["value"]} not in fixture')
+            if m['type'] in ('json', 'rich_text_field') or m['type'].startswith('list.'):
+                try:
+                    json.loads(m['value'])
+                except ValueError:
+                    rep.e('fixture', f'{a}: {m["key"]} value is not JSON')
+        if '<!--' in p.get('body_html', ''):
+            rep.e('fixture', f'{a}: HTML comments in body')
+    for p in fx['products']:
+        for v in p['variants']:
+            for m in v.get('metafields') or []:
+                if m['type'] == 'list.variant_reference':
+                    for g in json.loads(m['value']):
+                        vid = int(re.search(r'(\d+)$', g).group(1))
+                        if vid not in vids:
+                            rep.e('fixture', f'fixture {p["handle"]} {v["sku"]}: component {g} unknown')
+    for c in fx['collections']:
+        for x in c.get('products') or []:
+            if x not in handles:
+                rep.e('fixture', f'fixture collection {c["handle"]}: unknown product {x}')
+    for b in fx['blogs']:
+        for art in b['articles']:
+            src = (art.get('image') or {}).get('src')
+            if src and not (IMAGES / src).exists():
+                missing_img.add(src)
+    if missing_img:
+        rep.i('fixture', f'{len(missing_img)} fixture image files not in catalog/images yet (expected until rendered)')
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description='Validate the Klapklaar catalog against CONTRACT.md')
+    ap.add_argument('--json', action='store_true')
+    ap.add_argument('-v', '--verbose', action='store_true')
+    args = ap.parse_args(argv)
+    rep, cat = run(args.verbose)
+    errors, warns, infos = rep.count('ERROR'), rep.count('WARN'), rep.count('INFO')
+    if args.json:
+        print(json.dumps({'errors': errors, 'warnings': warns, 'info': infos, 'items': rep.items,
+                          'allowed_negations': rep.allowed_negations}, ensure_ascii=False, indent=1))
+        return 1 if errors else 0
+    c = cat['meta']['counts']
+    print(f"catalog: {c['products']} products · {c['variants']} variants · {c['unique_images']} unique images · "
+          f"{c['collections']} collections · {c['menus']} menus · {c['pages']} pages · {c['articles']} articles")
+    by = defaultdict(Counter)
+    for it in rep.items:
+        by[it['level']][it['area']] += 1
+    for lvl in ('ERROR', 'WARN', 'INFO'):
+        if by[lvl]:
+            print(f'{lvl:5} {sum(by[lvl].values()):4}  ' + ', '.join(f'{k} {n}' for k, n in sorted(by[lvl].items())))
+    shown = 0
+    for it in rep.items:
+        if it['level'] == 'ERROR' or args.verbose:
+            print(f"  {it['level']:5} [{it['area']}] {it['msg']}")
+            shown += 1
+        if not args.verbose and shown >= 80:
+            print('  … (more; use -v or --json)')
+            break
+    if args.verbose and rep.allowed_negations:
+        print(f'  negated claim words allowed ({len(rep.allowed_negations)}):')
+        for x in rep.allowed_negations:
+            print('   ', x)
+    print('RESULT:', 'FAIL' if errors else 'OK', f'({errors} errors, {warns} warnings, {infos} info)')
+    return 1 if errors else 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
