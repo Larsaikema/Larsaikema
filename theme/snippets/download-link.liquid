@@ -1,0 +1,22 @@
+{%- comment -%}
+  One downloadable file (feature product.downloads): file-type badge, readable name and, filled in by global.js
+  with a HEAD request when the list becomes visible, the file size (Liquid does not expose file sizes).
+  Params: file (file_reference value: generic_file / image, or a URL string), label (optional name)
+{%- endcomment -%}
+{%- liquid
+  assign dl_url = file.url | default: file
+  assign dl_file = dl_url | split: '?' | first | split: '/' | last | url_decode
+  assign dl_ext = dl_file | split: '.' | last | upcase
+  assign dl_base = dl_file | remove: '.pdf' | remove: '.PDF' | remove: '.zip' | remove: '.ai' | remove: '.eps' | replace: '-', ' ' | replace: '_', ' ' | capitalize
+  assign dl_name = label | default: file.alt | default: dl_base
+-%}
+<li>
+  <a class="downloads__link" href="{{ dl_url }}" target="_blank" rel="noopener" data-file-size-src>
+    <span class="downloads__type" aria-hidden="true">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}<span>{{ dl_ext }}</span></span>
+    <span class="downloads__text">
+      <span class="downloads__name">{{ dl_name }}</span>
+      <span class="downloads__meta">{{ 'product.download_type' | t: type: dl_ext }}<span data-file-size></span><span class="visually-hidden"> ({{ 'general.new_window' | t }})</span></span>
+    </span>
+    {%- render 'icon', icon: 'download', class: 'icon--sm downloads__icon' -%}
+  </a>
+</li>

@@ -10,7 +10,7 @@
 -%}
 <div class="utility-bar color-{{ section.settings.color_scheme }}">
   <div class="page-width utility-bar__inner">
-    <usp-rotator class="utility-bar__usps" data-interval="{{ section.settings.interval | times: 1000 }}">
+    <usp-rotator class="utility-bar__usps" id="UspRotator-{{ section.id }}" data-interval="{{ section.settings.interval | times: 1000 }}" data-autoplay="{{ section.settings.autorotate }}" aria-live="off">
       {%- for block in section.blocks -%}
         <div class="utility-bar__usp{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
           {%- case block.type -%}
@@ -23,11 +23,21 @@
               {%- endif -%}
             {%- when 'countdown' -%}
               {%- render 'icon', icon: 'clock', class: 'icon--xs' -%}
-              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text }}</span></span>
+              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text }}</span></span>
           {%- endcase -%}
         </div>
       {%- endfor -%}
     </usp-rotator>
+    {%- if section.blocks.size > 1 -%}
+      {%- comment -%} WCAG 2.2.2: moving content can be paused; without autoplay the button shows the next message {%- endcomment -%}
+      {%- if section.settings.autorotate -%}
+        <button type="button" class="utility-bar__ctrl" data-rotator-toggle aria-controls="UspRotator-{{ section.id }}" aria-pressed="false" aria-label="{{ 'general.rotator_pause' | t }}" data-label-pause="{{ 'general.rotator_pause' | t | escape }}" data-label-play="{{ 'general.rotator_play' | t | escape }}">
+          <svg class="icon icon--xs" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path data-icon-pause d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.5" fill="none"/><path data-icon-play d="M8 5l11 7-11 7z" fill="currentColor" hidden/></svg>
+        </button>
+      {%- else -%}
+        <button type="button" class="utility-bar__ctrl" data-rotator-next aria-controls="UspRotator-{{ section.id }}" aria-label="{{ 'general.rotator_next' | t }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--xs' -%}</button>
+      {%- endif -%}
+    {%- endif -%}
     <nav class="utility-bar__links" aria-label="{{ section.settings.menu.title | default: 'Service' | escape }}">
       {%- for link in section.settings.menu.links -%}
         <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
@@ -49,7 +59,8 @@
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-5" },
     { "type": "link_list", "id": "menu", "label": "Servicelinks rechts", "info": "Bijvoorbeeld Offerte aanvragen, Klantenservice, Zakelijk." },
     { "type": "checkbox", "id": "show_phone", "label": "Telefoonnummer tonen", "default": true },
-    { "type": "range", "id": "interval", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Wisselen op mobiel", "default": 5 }
+    { "type": "checkbox", "id": "autorotate", "label": "Berichten automatisch wisselen op mobiel", "default": true, "info": "Met pauzeknop. Uit: bezoekers bladeren zelf met een pijltje." },
+    { "type": "range", "id": "interval", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Wisselen na", "default": 6 }
   ],
   "blocks": [
     {

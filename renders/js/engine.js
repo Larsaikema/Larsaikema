@@ -12,7 +12,8 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from '../vendor/three/addons/environments/RoomEnvironment.js';
 import { halton, squareToDisk, invNorm, r2 } from './rng.js';
-import { setMaxAnisotropy } from './textures.js';
+import { setMaxAnisotropy, fabricMacroNormal } from './textures.js';
+import { studioEquirect } from './studioEnv.js';
 
 const DEG = Math.PI / 180;
 
@@ -39,7 +40,8 @@ function hookMaterial(mat) {
   mat.userData.__hooked = true;
   const stoch = mat.userData.stochasticAlpha;
   const transl = mat.userData.translucency;
-  if (stoch == null && !transl) return;
+  const macro = mat.userData.macro && mat.normalMap ? mat.userData.macro : null;
+  if (stoch == null && !transl && !macro) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -54,6 +56,28 @@ float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot
   // stratified over frames: each pixel walks a golden-ratio sequence from a random start
   if ( fract( stochHash( floor( gl_FragCoord.xy ) ) + uFrameSeed * 0.6180339887 ) > ${Number(stoch).toFixed(4)} ) discard;`);
     }
+    if (macro) {
+      // Second normal layer (fabric macro structure: yarn streaks, slubs, coating cockle),
+      // blended onto the weave normal map; also tilts the clearcoat normal and modulates
+      // roughness, so the coating's sheen breaks up like real coated cloth.
+      shader.uniforms.tMacro = { value: macro.tex === 'fabricMacro' ? fabricMacroNormal() : macro.tex };
+      shader.uniforms.uMacro = { value: new THREE.Vector4(macro.scale, macro.strength, macro.coat ?? 0.6, macro.rough ?? 0.25) };
+      fs = fs.replace('void main() {', `uniform sampler2D tMacro; uniform vec4 uMacro;
+void main() {
+  vec3 macroS = texture2D( tMacro, vNormalMapUv * uMacro.x ).xyz * 2.0 - 1.0;
+  vec2 macroD = macroS.xy * uMacro.y;`);
+      fs = fs.replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+  roughnessFactor = clamp( roughnessFactor * ( 1.0 + macroS.z * uMacro.w ), 0.04, 1.0 );`);
+      fs = fs.replace('#include <normal_fragment_maps>', `#ifdef USE_NORMALMAP_TANGENTSPACE
+  vec3 mapN = texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0;
+  mapN.xy *= normalScale;
+  mapN.xy += macroD;
+  normal = normalize( tbn * mapN );
+#endif`);
+      fs = fs.replace('#include <clearcoat_normal_fragment_begin>', `#ifdef USE_CLEARCOAT
+  vec3 clearcoatNormal = normalize( tbn * vec3( macroD * uMacro.z, 1.0 ) );
+#endif`);
+    }
     if (transl) {
       // Light passing through thin fabric, seen from the shaded side.
       fs = fs.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
@@ -67,7 +91,7 @@ float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${macro ? 'm' : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -160,6 +184,7 @@ uniform float uKeyShare;
 uniform sampler2D uContact;  // blurred contact-shadow term (1 = touching)
 uniform float uContactStrength;
 uniform float uShadowFloor;  // lowest received-light ratio of the soft shadow (soft knee), 0 = off
+uniform float uSplit;        // 1: the knee softens only the key shadow; sky occlusion multiplies after it
 varying vec3 vWorldPos;
 void main() {
   vec2 aoUv = ( vWorldPos.xz - uAOBox.xy ) * uAOBox.zw;
@@ -167,11 +192,15 @@ void main() {
   vec2 v = inside ? texture2D( uAO, aoUv ).rg : vec2( 1.0 );
   float c = inside ? texture2D( uContact, aoUv ).r : 0.0;
   // pow(): open floor ~ linear falloff, enclosed floor (inside a closed tent) goes properly dark
-  float soft = ( 1.0 - uKeyShare * ( 1.0 - v.g ) ) * pow( max( v.r, 0.0 ), uAOStrength );
+  float keyPart = 1.0 - uKeyShare * ( 1.0 - v.g );
+  float skyPart = pow( max( v.r, 0.0 ), uAOStrength );
+  float soft = uSplit > 0.5 ? keyPart : keyPart * skyPart;
   if ( uShadowFloor > 0.0 ) {
     float maxD = 1.0 - uShadowFloor;
     soft = 1.0 - maxD * ( 1.0 - exp( -( 1.0 - soft ) / maxD ) );
   }
+  // split model: enclosed floor (inside walls) keeps getting darker after the knee
+  if ( uSplit > 0.5 ) soft *= skyPart;
   float ratio = soft * ( 1.0 - uContactStrength * c );
   gl_FragColor = vec4( vec3( ratio ), 0.25 ); // alpha 0.25 marks 'floor'
 }`;
@@ -273,9 +302,13 @@ export const DEFAULT_RIG = {
   contact: { strength: 0.62, h0: 0.03, res: 512, blur: 1.6 }, // crisp contact shadow under feet / hems // baked floor contact shadow
   shadowStrength: 0.92,
   shadowFloor: 0,               // e.g. 0.7: open-floor shadow never darker than 70 % of the backdrop
+  groundSplit: false,           // true: shadowFloor softens only the key shadow, sky occlusion (groundAO) multiplies after
   edgeFade: 0.07,               // floor shadow fades to the exact backdrop colour near the frame edges
   floorKey: null,               // {azimuth, elevation, cone}: direction of the key's *floor* shadow (default = key)
   envRotation: null,            // degrees: yaw of the reflection environment relative to the camera (null = fixed)
+  env: 'room',                  // 'room' (three RoomEnvironment) or 'studio' (dark studio + softboxes, js/studioEnv.js;
+                                // always camera-relative). envStudio: overrides for the studio map.
+  envStudio: null,
 };
 
 function dirFromAzEl(azDeg, elDeg) {
@@ -314,6 +347,13 @@ export class Studio {
     this.lightGroup = new THREE.Group();
     this.scene.add(this.lightGroup);
     this.key = this._dirLight(true);
+    // optional spot key (rig.key.distance): a softbox at a real distance, so light falls
+    // off across large products (gradient over a tent roof instead of flat faces)
+    this.keySpot = new THREE.SpotLight(0xffffff, 0, 0, Math.PI / 6, 0.6, 2);
+    this.keySpot.castShadow = true;
+    this.keySpot.visible = false;
+    this.lightGroup.add(this.keySpot, this.keySpot.target);
+    this.envCache = new Map();
     this.dome = [0, 1, 2, 3, 4, 5].map(() => this._dirLight(true));
     this.fill = this._dirLight(false);
     this.rim = this._dirLight(false);
@@ -321,7 +361,7 @@ export class Studio {
 
     // ground shadow catcher
     const gm = new THREE.ShaderMaterial({
-      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uShadowFloor: { value: 0 } },
+      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 } },
       vertexShader: groundVS,
       fragmentShader: groundFS,
     });
@@ -549,8 +589,22 @@ export class Studio {
     r.setSize(width, height, false);
     this._ensureTargets(width, height);
     this.scene.environmentIntensity = R.envIntensity;
-    // envRotation: yaw of the reflection environment relative to the camera (degrees)
-    this.scene.environmentRotation.set(0, ((R.envRotation || 0) + (view.azimuth ?? 0)) * DEG * (R.envRotation == null ? 0 : 1), 0);
+    if (R.env === 'studio') {
+      const k = JSON.stringify(R.envStudio || {});
+      if (!this.envCache.has(k)) {
+        const eq = studioEquirect(R.envStudio || {});
+        const pm = new THREE.PMREMGenerator(r);
+        this.envCache.set(k, pm.fromEquirectangular(eq).texture);
+        pm.dispose(); eq.dispose();
+      }
+      this.scene.environment = this.envCache.get(k);
+      // studio map is authored camera-relative
+      this.scene.environmentRotation.set(0, ((R.envRotation || 0) + (view.azimuth ?? 0)) * DEG, 0);
+    } else {
+      this.scene.environment = this.envTex;
+      // envRotation: yaw of the reflection environment relative to the camera (degrees)
+      this.scene.environmentRotation.set(0, ((R.envRotation || 0) + (view.azimuth ?? 0)) * DEG * (R.envRotation == null ? 0 : 1), 0);
+    }
 
     // product
     if (this.root && this.root !== root) this.scene.remove(this.root);
@@ -601,6 +655,7 @@ export class Studio {
     this._bakeGroundAO(root, box, ao, floorKeyDir, FK.cone, ao.keySamples ?? 64);
     this.groundMat.uniforms.uAOStrength.value = ao.strength;
     this.groundMat.uniforms.uShadowFloor.value = R.shadowFloor || 0;
+    this.groundMat.uniforms.uSplit.value = R.groundSplit ? 1 : 0;
     this.compositeMat.uniforms.uEdgeFade.value = R.edgeFade || 0;
     this.groundMat.uniforms.uKeyShare.value = keyShare;
     const bgC = new THREE.Color(bg);
@@ -623,6 +678,20 @@ export class Studio {
 
     const N = Math.max(1, samples | 0);
     const tmpKey = new THREE.Vector3();
+    // spot key: key.distance (m) or key.distanceRel (x half-diagonal of the product box);
+    // aim: key.aim (world) or key.aimRel [right, up, towards camera] (x half-diagonal,
+    // camera-yaw frame) so the falloff lands on the same faces for every size and view
+    const boxR = box.getSize(new THREE.Vector3()).length() / 2;
+    const keyDist = R.key.distance || (R.key.distanceRel ? R.key.distanceRel * boxR : 0);
+    const useSpot = keyDist > 0;
+    this.keySpot.visible = useSpot; this.key.visible = !useSpot;
+    const keyAim = box.getCenter(new THREE.Vector3());
+    if (R.key.aim) keyAim.set(...R.key.aim);
+    else if (R.key.aimRel) {
+      const a = camAz * DEG, [ax, ay, az] = R.key.aimRel;
+      keyAim.add(new THREE.Vector3(Math.cos(a) * ax * boxR + Math.sin(a) * az * boxR, ay * boxR, -Math.sin(a) * ax * boxR + Math.cos(a) * az * boxR));
+    }
+    const spotAuto = useSpot ? Math.atan((boxR * 1.15) / keyDist) / DEG : 30;
     // dome.tilt: tip the sky cap towards the key side (like negative fill on the far
     // side): the faces turned away from the key get less sky, so white products keep form
     let domeTiltQ = null;
@@ -659,8 +728,25 @@ export class Studio {
       const t2 = new THREE.Vector3().crossVectors(t1, keyBase).normalize();
       const ct = Math.tan(R.key.cone * DEG);
       tmpKey.copy(keyBase).addScaledVector(t1, dx * ct).addScaledVector(t2, dy * ct).normalize();
-      this.key.intensity = R.key.intensity;
-      this._fitShadow(this.key, tmpKey, box, R.key.mapSize, R.key.radius);
+      if (useSpot) {
+        // softbox at distance D: jittered position, aimed at the aim point; intensity in
+        // candela so the illuminance at the aim point equals key.intensity
+        const sp = this.keySpot, Dk = keyDist;
+        sp.position.copy(keyAim).addScaledVector(tmpKey, Dk);
+        sp.target.position.copy(keyAim);
+        sp.updateMatrixWorld(); sp.target.updateMatrixWorld();
+        sp.intensity = R.key.intensity * Dk * Dk;
+        sp.decay = 2; sp.distance = 0;
+        sp.angle = (R.key.angle ?? spotAuto) * DEG; sp.penumbra = R.key.penumbra ?? 0.8;
+        const sc = sp.shadow.camera;
+        sc.near = Math.max(0.05, Dk - boxR * 1.2); sc.far = Dk + boxR * 3;
+        sp.shadow.mapSize.set(R.key.mapSize, R.key.mapSize);
+        sp.shadow.radius = R.key.radius; sp.shadow.bias = -0.0002; sp.shadow.normalBias = 0.004;
+        sp.shadow.needsUpdate = true;
+      } else {
+        this.key.intensity = R.key.intensity;
+        this._fitShadow(this.key, tmpKey, box, R.key.mapSize, R.key.radius);
+      }
 
       // dome: cosine-weighted directions inside a zenith cap, stratified over frames
       const domeDirs = [];

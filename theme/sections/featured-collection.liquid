@@ -12,15 +12,28 @@
       </div>
       <div class="btn-row">
         {%- if c != blank -%}<a class="link" href="{{ c.url }}">{% if section.settings.link_label != blank %}{{ section.settings.link_label }}{% else %}{{ 'general.view_all' | t }}{% endif %}</a>{%- endif -%}
+        {%- unless section.settings.desktop_grid -%}
         <div class="slider-nav">
           <button type="button" class="icon-btn" data-slider-btn="prev" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.scroll_left' | t }}">{%- render 'icon', icon: 'chevron-left', class: 'icon--sm' -%}</button>
           <button type="button" class="icon-btn" data-slider-btn="next" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.scroll_right' | t }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}</button>
         </div>
+        {%- endunless -%}
       </div>
     </div>
     <ul class="slider{% if section.settings.desktop_grid %} slider--desktop-grid{% endif %} product-row" id="Slider-{{ section.id }}" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
       {%- if c != blank and c.products_count > 0 -%}
-        {%- for product in c.products limit: limit -%}
+        {%- liquid
+          assign in_cart = ''
+          if section.settings.exclude_in_cart
+            assign in_cart = cart.items | map: 'product_id'
+          endif
+          assign shown = 0
+        -%}
+        {%- for product in c.products limit: 50 -%}
+          {%- if section.settings.hide_sold_out and product.available == false -%}{%- continue -%}{%- endif -%}
+          {%- if section.settings.exclude_in_cart and in_cart contains product.id -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= limit -%}{%- break -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
           <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>
         {%- endfor -%}
       {%- else -%}
@@ -45,7 +58,9 @@
     { "type": "range", "id": "limit", "min": 2, "max": 12, "step": 1, "label": "Aantal producten", "default": 8 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 4 },
     { "type": "checkbox", "id": "desktop_grid", "label": "Raster op desktop (anders schuiven)", "default": true },
-    { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk alles" }
+    { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk alles" },
+    { "type": "checkbox", "id": "hide_sold_out", "label": "Uitverkochte producten overslaan", "default": false },
+    { "type": "checkbox", "id": "exclude_in_cart", "label": "Producten uit de winkelwagen overslaan", "default": false, "info": "Handig op de winkelwagenpagina." }
   ],
   "presets": [{ "name": "Uitgelichte collectie" }]
 }

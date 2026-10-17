@@ -16,6 +16,12 @@
   if show_quick_add == false
     assign quick = false
   endif
+  assign card_status = product.metafields.custom.availability_status.value | downcase | strip | replace: ' ', '-'
+  assign card_cfg = product.metafields.custom.configurator.value
+  assign card_unit = ''
+  if card_cfg != blank and card_cfg.velden != blank
+    assign card_unit = card_cfg.eenheid | default: 'm²'
+  endif
 -%}
 <article class="card product-card{% unless product.available %} card--soldout{% endunless %}">
   <a class="card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
@@ -38,11 +44,18 @@
     {%- if is_print -%}<span class="badge badge--logo">{% render 'icon', icon: 'flag' %}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
     {%- if product.metafields.custom.staffelkorting != blank -%}<span class="badge badge--staffel">{{ 'card.badge_staffel' | t }}</span>{%- endif -%}
     {%- if product.tags contains 'set' -%}<span class="badge badge--staffel">{{ 'card.badge_set' | t }}</span>{%- endif -%}
-    {%- unless product.available -%}<span class="badge badge--soldout">{{ 'card.badge_sold_out' | t }}</span>{%- endunless -%}
+    {%- if card_status == 'permanent-uitverkocht' -%}
+      <span class="badge badge--soldout">{{ 'card.badge_discontinued' | t }}</span>
+    {%- elsif card_status == 'binnenkort' and product.available == false -%}
+      <span class="badge badge--soldout">{{ 'card.badge_coming' | t }}</span>
+    {%- elsif product.available == false -%}
+      <span class="badge badge--soldout">{{ 'card.badge_sold_out' | t }}</span>
+    {%- endif -%}
+    {%- if card_unit != '' -%}<span class="badge badge--staffel">{{ 'card.badge_custom' | t }}</span>{%- endif -%}
   </div>
   <div class="card__body">
     {%- if settings.card_vendor -%}<p class="card__vendor">{{ product.vendor }}</p>{%- endif -%}
-    <{{ h_tag }} class="card__title"><a href="{{ product.url }}">{{ product.title }}</a></{{ h_tag }}>
+    <{{ h_tag }} class="card__title"><a href="{{ product.url }}">{{ product.title | replace: ' × ', ' × ' }}</a></{{ h_tag }}>
     {%- if settings.card_kenmerk and product.metafields.custom.kenmerk_kort != blank -%}
       <p class="card__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>
     {%- endif -%}
@@ -67,7 +80,10 @@
       {%- endfor -%}
     {%- endif -%}
     <div class="card__footer">
-      <div class="card__price">{%- render 'price', product: product -%}</div>
+      <div class="card__price">
+        {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit -%}{%- else -%}{%- render 'price', product: product -%}{%- endif -%}
+        {%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}
+      </div>
       {%- if settings.card_stock -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endif -%}
       {%- if quick -%}
         <div class="card__actions card__quick">
@@ -79,8 +95,12 @@
                 {%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span>{{ 'card.quick_add' | t }}</span>
               </button>
             {%- endform -%}
+          {%- elsif card_unit != '' and product.available -%}
+            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'card.configure' | t }}</a>
           {%- elsif product.available -%}
-            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'card.choose' | t }}</a>
+            {%- assign first_opt = product.options.first | downcase -%}
+            {%- if product.options contains 'Maat' -%}{%- assign first_opt = 'maat' -%}{%- endif -%}
+            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'product.choose' | t: option: first_opt }}</a>
           {%- endif -%}
         </div>
       {%- endif -%}

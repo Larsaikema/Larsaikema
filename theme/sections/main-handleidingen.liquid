@@ -1,0 +1,132 @@
+{%- comment -%}
+  Handleidingen (feature content.manuals-hub): every product in the chosen collection (default: all products)
+  that has files in custom.downloads, grouped by product type, with a client-side search and type filter.
+  Products without downloads are skipped, so the page fills itself as the catalog gets manuals.
+{%- endcomment -%}
+{{ 'section-pages.css' | asset_url | stylesheet_tag }}
+{%- assign source = section.settings.collection | default: collections.all -%}
+{%- comment -%} outside paginate Shopify returns at most 50 products; one page of 250 covers the whole catalog {%- endcomment -%}
+{%- paginate source.products by 250 -%}
+{%- liquid
+  assign types = ''
+  assign total = 0
+  for p in source.products limit: 250
+    if p.metafields.custom.downloads != blank
+      assign total = total | plus: 1
+      assign t = p.type | default: 'Overig'
+      assign types = types | append: t | append: '§'
+    endif
+  endfor
+  assign types = types | split: '§' | uniq | sort
+-%}
+<div class="page-width">
+  <header class="page-head">
+    {%- render 'breadcrumbs' -%}
+    <h1>{{ section.settings.heading | default: page.title }}</h1>
+    {%- if page.content != blank -%}<div class="page-head__intro rte text-lg">{{ page.content }}</div>{%- endif -%}
+  </header>
+  <manuals-hub class="page-body manuals" data-empty="{{ 'manuals.empty' | t | escape }}">
+    {%- if total > 0 -%}
+      <div class="manuals__tools">
+        <div class="field manuals__search">
+          <label class="field__label" for="ManualSearch-{{ section.id }}">{{ 'manuals.search_label' | t }}</label>
+          <div class="input-icon">
+            {%- render 'icon', icon: 'search', class: 'icon--sm' -%}
+            <input class="input" type="search" id="ManualSearch-{{ section.id }}" placeholder="{{ 'manuals.search_placeholder' | t }}" autocomplete="off" data-manual-search aria-controls="ManualList-{{ section.id }}">
+          </div>
+        </div>
+        {%- if types.size > 1 -%}
+          <div class="chips manuals__types" role="group" aria-label="{{ 'manuals.filter_label' | t }}">
+            <button type="button" class="chip chip--active" data-manual-type="" aria-pressed="true">{{ 'manuals.all' | t }}</button>
+            {%- for t in types -%}<button type="button" class="chip" data-manual-type="{{ t | handleize }}" aria-pressed="false">{{ t }}</button>{%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+      <p class="manuals__count muted text-sm" role="status" aria-live="polite" data-manual-count>{{ 'manuals.count' | t: count: total }}</p>
+      <ul class="manuals__list" id="ManualList-{{ section.id }}" role="list">
+        {%- for p in source.products limit: 250 -%}
+          {%- assign files = p.metafields.custom.downloads.value -%}
+          {%- if files == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign t = p.type | default: 'Overig' -%}
+          <li class="manual" data-manual data-type="{{ t | handleize }}" data-search="{{ p.title | downcase | escape }} {{ t | downcase | escape }} {{ p.metafields.custom.kenmerk_kort.value | downcase | escape }}">
+            <a class="manual__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+              {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', widths: '120, 240', sizes: '96px' }}{%- endif -%}
+            </a>
+            <div class="manual__body">
+              <p class="manual__type eyebrow">{{ t }}</p>
+              <h2 class="manual__title h4"><a class="link link--quiet" href="{{ p.url }}">{{ p.title }}</a></h2>
+              <ul class="downloads" role="list" data-downloads>
+                {%- for f in files -%}{%- render 'download-link', file: f -%}{%- endfor -%}
+              </ul>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <p class="manuals__empty muted" data-manual-empty hidden>{{ 'manuals.empty' | t }}</p>
+    {%- else -%}
+      <p class="muted">{{ 'manuals.none' | t }}</p>
+    {%- endif -%}
+    <aside class="panel panel--linnen manuals__help">
+      <h2 class="panel__title">{{ section.settings.help_heading }}</h2>
+      <p>{{ section.settings.help_text }}</p>
+      {%- if section.settings.help_link != blank -%}<a class="btn btn--secondary" href="{{ section.settings.help_link }}">{{ section.settings.help_label }}</a>{%- endif -%}
+    </aside>
+  </manuals-hub>
+</div>
+{%- endpaginate -%}
+
+<script>
+  customElements.get('manuals-hub') ||
+    customElements.define(
+      'manuals-hub',
+      class extends HTMLElement {
+        connectedCallback() {
+          this.items = [...this.querySelectorAll('[data-manual]')];
+          this.q = '';
+          this.type = '';
+          this.querySelector('[data-manual-search]')?.addEventListener('input', (e) => {
+            this.q = e.target.value.trim().toLowerCase();
+            this.apply();
+          });
+          this.querySelectorAll('[data-manual-type]').forEach((b) =>
+            b.addEventListener('click', () => {
+              this.type = b.dataset.manualType;
+              this.querySelectorAll('[data-manual-type]').forEach((x) => {
+                x.setAttribute('aria-pressed', String(x === b));
+                x.classList.toggle('chip--active', x === b);
+              });
+              this.apply();
+            })
+          );
+        }
+        apply() {
+          let n = 0;
+          const words = this.q.split(/\s+/).filter(Boolean);
+          this.items.forEach((li) => {
+            const show = (!this.type || li.dataset.type === this.type) && words.every((w) => li.dataset.search.includes(w));
+            li.hidden = !show;
+            if (show) n++;
+          });
+          const count = this.querySelector('[data-manual-count]');
+          if (count) count.textContent = count.textContent.replace(/\d+/, n);
+          const empty = this.querySelector('[data-manual-empty]');
+          if (empty) empty.hidden = n > 0;
+        }
+      }
+    );
+</script>
+
+{% schema %}
+{
+  "name": "Handleidingen",
+  "class": "section-main-handleidingen",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Kop (leeg = paginatitel)" },
+    { "type": "collection", "id": "collection", "label": "Collectie", "info": "Leeg = alle producten. Alleen producten met bestanden in custom.downloads verschijnen." },
+    { "type": "text", "id": "help_heading", "label": "Kop hulpblok", "default": "Handleiding kwijt of vraag over opzetten?" },
+    { "type": "text", "id": "help_text", "label": "Tekst hulpblok", "default": "Staat jouw product er niet bij, of kom je er niet uit? Bel of app ons, dan helpen we je verder." },
+    { "type": "url", "id": "help_link", "label": "Link hulpblok" },
+    { "type": "text", "id": "help_label", "label": "Knoptekst hulpblok", "default": "Neem contact op" }
+  ]
+}
+{% endschema %}

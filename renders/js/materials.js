@@ -31,14 +31,15 @@ const lum = (hex) => { const c = new THREE.Color(hex); return 0.2126 * c.r + 0.7
 // Polyester 600D-style tent fabric with PVC/PU coating: soft clearcoat-like sheen,
 // fine weave. uv units are metres on all fabric geometry, so repeat = tiles per metre.
 // Albedo is clamped to a physically plausible range for coated fabric: white PVC
-// reflects ~80-85 % (not 90+ %, which melts into a light backdrop) and "black"
-// coated polyester still reflects ~6-7 % with a visible sheen.
+// reflects ~80 % (not 90+ %, which melts into a light backdrop) and black coated
+// polyester ~4-5 %: it reads black through its diffuse and shows gloss only as a
+// reflection of the studio softboxes (the studio environment is dark elsewhere).
 export function tentFabricBase(color) {
   const hex = resolveColor(color, COLORS.wit);
   const base = new THREE.Color(hex);
   const L = lum(hex);
   if (L > 0.80) base.multiplyScalar(0.80 / L);
-  if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.066, 0.067, 0.071), Math.min(1, (0.06 - L) / 0.06 + 0.35));
+  if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.042, 0.043, 0.046), Math.min(1, (0.06 - L) / 0.06 + 0.35));
   return base;
 }
 export function tentFabric(color, { side = THREE.DoubleSide, translucent = true } = {}) {
@@ -46,16 +47,19 @@ export function tentFabric(color, { side = THREE.DoubleSide, translucent = true 
   return cached(`tent:${hex}:${side}:${translucent}`, () => {
     const L = lum(hex);
     const base = tentFabricBase(hex);
+    const dark = L < 0.1, light = L > 0.6;
     const m = new THREE.MeshPhysicalMaterial({
       color: base,
-      roughness: 0.5,
+      roughness: dark ? 0.5 : 0.55,
       metalness: 0,
-      specularIntensity: 0.55,
-      clearcoat: L < 0.1 ? 0.35 : 0.22,     // PVC coating: broad soft highlight
-      clearcoatRoughness: 0.45,
-      sheen: L < 0.1 ? 0.6 : 0.3,
-      sheenRoughness: 0.5,
-      sheenColor: new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), L < 0.1 ? 0.35 : 0.25),
+      specularIntensity: dark ? 0.35 : 0.5,
+      // PVC coating: a broad soft highlight (reflection of the studio softboxes)
+      clearcoat: dark ? 0.55 : light ? 0.3 : 0.4,
+      clearcoatRoughness: dark ? 0.22 : 0.34,
+      // fibre sheen at grazing angles, tinted by the dye (never a white veil on black)
+      sheen: dark ? 0.35 : 0.3,
+      sheenRoughness: 0.55,
+      sheenColor: dark ? base.clone().multiplyScalar(2.2) : new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), light ? 0.3 : 0.2),
       // 600D oxford relief (~10 deg yarn slopes): readable in close-ups, mip-averaged away at catalogue distance
       normalMap: TX.weaveNormal({ threads: 24, strength: 8 }),
       normalScale: new THREE.Vector2(1, 1),
@@ -63,6 +67,12 @@ export function tentFabric(color, { side = THREE.DoubleSide, translucent = true 
     });
     // 600D oxford: ~0.6 mm yarns in a 2x2 basket weave -> ~1.2 mm pattern, visible in close-ups
     m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(36, 36); m.normalMap.needsUpdate = true;
+    // black PVC: a broader coat lobe, so the corner wrinkles show the overhead scrim as a soft
+    // sheen instead of wet-looking blobs (kept as a post-step: brand/tools/renders-svgprint.patch
+    // patches the literal above)
+    if (dark && m.clearcoatRoughness < 0.3) m.clearcoatRoughness = 0.34;
+    // macro structure (yarn streaks, slubs, coating cockle) that survives at catalogue size
+    m.userData.macro = { tex: 'fabricMacro', scale: 1 / 36, strength: dark ? 0.2 : 0.3, coat: dark ? 0.6 : 0.8, rough: 0.3 };
     // light fabric glows slightly when lit from the other side (roof seen from inside)
     m.userData.translucency = translucent ? 0.18 * Math.min(1, L * 1.4) : 0;
     m.name = `tentFabric ${hex}`;
@@ -75,9 +85,10 @@ export function tentPatch(color) {
   const hex = resolveColor(color, COLORS.wit);
   return cached(`tentPatch:${hex}`, () => {
     const m = tentFabric(hex).clone();
-    const L = lum(hex);
-    m.roughness = 0.62; m.clearcoat = 0.08; m.color.multiplyScalar(L > 0.5 ? 0.975 : 1.12);
-    m.userData = { translucency: (m.userData.translucency || 0) * 0.4 }; // fresh: not yet hooked by the engine
+    // a double layer of the same cloth: same colour and coating (a different finish reads
+    // as a smudge at catalogue size); only a little less translucent
+    m.roughness = Math.min(0.7, m.roughness + 0.04);
+    m.userData = { macro: m.userData.macro, translucency: (m.userData.translucency || 0) * 0.4 }; // fresh: not yet hooked by the engine
     m.name = `tentPatch ${hex}`;
     return m;
   });
@@ -214,6 +225,26 @@ export function nylon(color = '#171717') {
   });
 }
 
+// Injection-moulded glass-filled nylon (tent brackets, sliders, truss nodes): satin,
+// no bump texture (a fine mould texture only shows as roughness).
+export function mouldedNylon(color = '#161616') {
+  return cached(`mnylon:${color}`, () => new THREE.MeshPhysicalMaterial({
+    color, roughness: 0.46, metalness: 0, specularIntensity: 0.55, clearcoat: 0.08, clearcoatRoughness: 0.5, name: `moulded nylon ${color}`,
+  }));
+}
+
+// Cast aluminium (Professional brackets): satin grey with a fine sand-cast grain.
+export function castAluminium(tone = '#9DA2A7') {
+  return cached(`castalu:${tone}`, () => {
+    const m = new THREE.MeshPhysicalMaterial({
+      color: tone, metalness: 1, roughness: 0.48,
+      normalMap: TX.stippleNormal({ size: 256, strength: 0.6, scale: 60, seed: 19 }).clone(), normalScale: new THREE.Vector2(0.06, 0.06), name: 'cast aluminium',
+    });
+    m.normalMap.repeat.set(60, 60); m.normalMap.needsUpdate = true;
+    return m;
+  });
+}
+
 export function rubber(color = '#121212') {
   return cached(`rubber:${color}`, () => new THREE.MeshStandardMaterial({ color, roughness: 0.82, metalness: 0, name: 'rubber' }));
 }
@@ -250,12 +281,18 @@ export function laminate(color) {
   return cached(`laminate:${hex}`, () => new THREE.MeshPhysicalMaterial({ color: hex, roughness: 0.38, specularIntensity: 0.55, clearcoat: 0.25, clearcoatRoughness: 0.3, name: `laminate ${hex}` }));
 }
 
-// Clear PVC window foil. Rendered with stochastic transparency (see engine).
+// Clear PVC window foil (rendered with stochastic transparency, see engine): ~70 %
+// transmission, a faint milky haze (lifts a dark interior seen through it), a glossy
+// surface with slight waviness so the studio softbox reflects in it as an uneven streak.
 export function pvcWindow() {
   return cached('pvc', () => {
-    // clear PVC foil transmits ~70 %: 30 % stochastic coverage of a cool grey glossy sheet
-    const m = new THREE.MeshPhysicalMaterial({ color: '#3E474E', roughness: 0.08, metalness: 0, specularIntensity: 1.0, clearcoat: 0.6, clearcoatRoughness: 0.08, envMapIntensity: 0.9, side: THREE.DoubleSide, name: 'pvc window' });
-    m.userData.stochasticAlpha = 0.32;
+    const m = new THREE.MeshPhysicalMaterial({
+      color: '#5C656B', roughness: 0.1, metalness: 0, specularIntensity: 1.0, clearcoat: 0.8, clearcoatRoughness: 0.06,
+      envMapIntensity: 1.2, side: THREE.DoubleSide, name: 'pvc window',
+      normalMap: TX.softWrinkleNormal().clone(), normalScale: new THREE.Vector2(0.06, 0.06),
+    });
+    m.normalMap.repeat.set(1.3, 1.3); m.normalMap.needsUpdate = true;
+    m.userData.stochasticAlpha = 0.38;
     return m;
   });
 }

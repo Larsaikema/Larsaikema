@@ -1,7 +1,7 @@
 {
   "current": {
-    "logo_width": 150,
-    "logo_width_mobile": 112,
+    "logo_width": 168,
+    "logo_width_mobile": 104,
     "logo_roof": "brand",
     "color_schemes": {
       "scheme-1": {
@@ -10,9 +10,11 @@
           "background_gradient": "",
           "foreground": "#1D2420",
           "muted": "#5D625C",
-          "primary_button": "#BE3A1D",
+          "primary_button": "#C83812",
           "primary_button_label": "#FFFFFF",
-          "primary_button_hover": "#9A2F17",
+          "primary_button_hover": "#1D2420",
+          "primary_button_hover_label": "#FFFFFF",
+          "primary_button_active": "#982A0E",
           "secondary_button": "#154F3E",
           "secondary_button_label": "#FBF6EC",
           "border": "#5D625C",
@@ -25,9 +27,11 @@
           "background_gradient": "",
           "foreground": "#1D2420",
           "muted": "#5D625C",
-          "primary_button": "#BE3A1D",
+          "primary_button": "#C83812",
           "primary_button_label": "#FFFFFF",
-          "primary_button_hover": "#9A2F17",
+          "primary_button_hover": "#1D2420",
+          "primary_button_hover_label": "#FFFFFF",
+          "primary_button_active": "#982A0E",
           "secondary_button": "#154F3E",
           "secondary_button_label": "#FBF6EC",
           "border": "#5D625C",
@@ -40,9 +44,11 @@
           "background_gradient": "",
           "foreground": "#1D2420",
           "muted": "#5D625C",
-          "primary_button": "#BE3A1D",
+          "primary_button": "#C83812",
           "primary_button_label": "#FFFFFF",
-          "primary_button_hover": "#9A2F17",
+          "primary_button_hover": "#1D2420",
+          "primary_button_hover_label": "#FFFFFF",
+          "primary_button_active": "#982A0E",
           "secondary_button": "#154F3E",
           "secondary_button_label": "#FBF6EC",
           "border": "#5D625C",
@@ -57,7 +63,9 @@
           "muted": "#5D625C",
           "primary_button": "#154F3E",
           "primary_button_label": "#FBF6EC",
-          "primary_button_hover": "#0F3B2E",
+          "primary_button_hover": "#1D2420",
+          "primary_button_hover_label": "#FBF6EC",
+          "primary_button_active": "#0F3B2E",
           "secondary_button": "#1D2420",
           "secondary_button_label": "#FBF6EC",
           "border": "#5D625C",
@@ -70,13 +78,15 @@
           "background_gradient": "",
           "foreground": "#FBF6EC",
           "muted": "#D5DCD3",
-          "primary_button": "#FFC23A",
+          "primary_button": "#FBF6EC",
           "primary_button_label": "#1D2420",
-          "primary_button_hover": "#FFD36E",
-          "secondary_button": "#FBF6EC",
-          "secondary_button_label": "#154F3E",
+          "primary_button_hover": "#1D2420",
+          "primary_button_hover_label": "#FBF6EC",
+          "primary_button_active": "#E7DCC6",
+          "secondary_button": "#154F3E",
+          "secondary_button_label": "#FBF6EC",
           "border": "#FBF6EC",
-          "focus": "#FFC23A"
+          "focus": "#FBF6EC"
         }
       },
       "scheme-6": {
@@ -85,17 +95,19 @@
           "background_gradient": "",
           "foreground": "#FBF6EC",
           "muted": "#C9CCC5",
-          "primary_button": "#FFC23A",
-          "primary_button_label": "#1D2420",
-          "primary_button_hover": "#FFD36E",
-          "secondary_button": "#FBF6EC",
-          "secondary_button_label": "#1D2420",
+          "primary_button": "#C83812",
+          "primary_button_label": "#FFFFFF",
+          "primary_button_hover": "#FBF6EC",
+          "primary_button_hover_label": "#1D2420",
+          "primary_button_active": "#982A0E",
+          "secondary_button": "#1D2420",
+          "secondary_button_label": "#FBF6EC",
           "border": "#FBF6EC",
-          "focus": "#FFC23A"
+          "focus": "#FBF6EC"
         }
       }
     },
-    "type_heading_font": "archivo_n7",
+    "type_heading_font": "mona_sans_n7",
     "type_body_font": "figtree_n4",
     "heading_extrabold": true,
     "price_display": "toggle",
@@ -110,7 +122,14 @@
     "shipping_page": "shopify://pages/verzenden-en-bezorgen",
     "returns_page": "shopify://pages/retourneren",
     "sections": {
-      "cart-drawer": { "type": "cart-drawer", "settings": {} }
-    }
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      }
+    },
+    "staffel_mode": "quote",
+    "color_klaproos": "#C83812",
+    "color_klaproos_donker": "#982A0E",
+    "color_bordeaux": "#8A1538"
   }
 }

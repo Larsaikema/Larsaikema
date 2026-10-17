@@ -1,13 +1,12 @@
-diff -ruN a/renders/js/materials.js b/renders/js/materials.js
---- a/renders/js/materials.js
-+++ b/renders/js/materials.js
-@@ -41,21 +41,24 @@
-   if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.066, 0.067, 0.071), Math.min(1, (0.06 - L) / 0.06 + 0.35));
+--- a/renders/js/materials.js	2026-10-17 20:12:20.993757694 +0000
++++ b/renders/js/materials.js	2026-10-17 20:12:34.782222668 +0000
+@@ -42,24 +42,27 @@
+   if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.042, 0.043, 0.046), Math.min(1, (0.06 - L) / 0.06 + 0.35));
    return base;
  }
 -export function tentFabric(color, { side = THREE.DoubleSide, translucent = true } = {}) {
-+// finish: 'standaard' (PVC/PU sheen) or 'mat' (matte-coated polyester: weaker, colour-tinted sheen, so a
-+// saturated brand colour keeps its hue on the lit face instead of washing out to pink/white).
++// finish: 'standaard' (PVC/PU coating) or 'mat' (matte-coated polyester, Klapklaar brand cloth): weaker,
++// colour-tinted sheen and almost no clearcoat, so a saturated brand colour keeps its hue on the lit face.
 +export function tentFabric(color, { side = THREE.DoubleSide, translucent = true, finish = 'standaard' } = {}) {
    const hex = resolveColor(color, COLORS.wit);
 -  return cached(`tent:${hex}:${side}:${translucent}`, () => {
@@ -15,29 +14,31 @@ diff -ruN a/renders/js/materials.js b/renders/js/materials.js
 +  return cached(`tent:${hex}:${side}:${translucent}:${finish}`, () => {
      const L = lum(hex);
      const base = tentFabricBase(hex);
+     const dark = L < 0.1, light = L > 0.6;
      const m = new THREE.MeshPhysicalMaterial({
        color: base,
--      roughness: 0.5,
-+      roughness: mat ? 0.72 : 0.5,
+-      roughness: dark ? 0.5 : 0.55,
++      roughness: mat ? 0.72 : dark ? 0.5 : 0.55,
        metalness: 0,
--      specularIntensity: 0.55,
--      clearcoat: L < 0.1 ? 0.35 : 0.22,     // PVC coating: broad soft highlight
--      clearcoatRoughness: 0.45,
--      sheen: L < 0.1 ? 0.6 : 0.3,
-+      specularIntensity: mat ? 0.3 : 0.55,
-+      clearcoat: mat ? 0.08 : (L < 0.1 ? 0.35 : 0.22),     // PVC coating: broad soft highlight
-+      clearcoatRoughness: mat ? 0.6 : 0.45,
-+      sheen: mat ? 0.12 : (L < 0.1 ? 0.6 : 0.3),
-       sheenRoughness: 0.5,
--      sheenColor: new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), L < 0.1 ? 0.35 : 0.25),
-+      sheenColor: new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), mat ? 0.06 : (L < 0.1 ? 0.35 : 0.25)),
+-      specularIntensity: dark ? 0.35 : 0.5,
++      specularIntensity: mat ? 0.3 : dark ? 0.35 : 0.5,
+       // PVC coating: a broad soft highlight (reflection of the studio softboxes)
+-      clearcoat: dark ? 0.55 : light ? 0.3 : 0.4,
+-      clearcoatRoughness: dark ? 0.22 : 0.34,
++      clearcoat: mat ? 0.08 : dark ? 0.55 : light ? 0.3 : 0.4,
++      clearcoatRoughness: mat ? 0.6 : dark ? 0.22 : 0.34,
+       // fibre sheen at grazing angles, tinted by the dye (never a white veil on black)
+-      sheen: dark ? 0.35 : 0.3,
++      sheen: mat ? 0.12 : dark ? 0.35 : 0.3,
+       sheenRoughness: 0.55,
+-      sheenColor: dark ? base.clone().multiplyScalar(2.2) : new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), light ? 0.3 : 0.2),
++      sheenColor: mat ? new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), 0.06) : dark ? base.clone().multiplyScalar(2.2) : new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), light ? 0.3 : 0.2),
        // 600D oxford relief (~10 deg yarn slopes): readable in close-ups, mip-averaged away at catalogue distance
        normalMap: TX.weaveNormal({ threads: 24, strength: 8 }),
        normalScale: new THREE.Vector2(1, 1),
-diff -ruN a/renders/js/textures.js b/renders/js/textures.js
---- a/renders/js/textures.js
-+++ b/renders/js/textures.js
-@@ -227,3 +227,24 @@
+--- a/renders/js/textures.js	2026-10-17 20:12:20.993819102 +0000
++++ b/renders/js/textures.js	2026-10-17 20:12:21.001750408 +0000
+@@ -335,3 +335,24 @@
      return t;
    });
  }
@@ -62,9 +63,8 @@ diff -ruN a/renders/js/textures.js b/renders/js/textures.js
 +    return t;
 +  });
 +}
-diff -ruN a/renders/models/easyUpTent.js b/renders/models/easyUpTent.js
---- a/renders/models/easyUpTent.js
-+++ b/renders/models/easyUpTent.js
+--- a/renders/models/easyUpTent.js	2026-10-17 20:12:20.994234797 +0000
++++ b/renders/models/easyUpTent.js	2026-10-17 20:12:21.001914649 +0000
 @@ -150,7 +150,7 @@
    const color = p.color || 'wit';
    const colorHex = M.resolveColor(color, M.COLORS.wit);
@@ -74,7 +74,7 @@ diff -ruN a/renders/models/easyUpTent.js b/renders/models/easyUpTent.js
    const thread = M.tentThread(color);
    const alu = M.aluminium({ roughness: 0.26 });
    const aluInner = M.aluminium({ tone: '#C9CCD0', roughness: 0.34 });
-@@ -453,7 +453,8 @@
+@@ -500,7 +500,8 @@
        // centred print zone (max ~14:1); canvas aspect = zone aspect so glyphs keep their shape
        const len = Math.min(side.L * 0.9, Hh * 14);
        const cw = 2048, ch = Math.round(cw * Hh / len);
@@ -84,7 +84,7 @@ diff -ruN a/renders/models/easyUpTent.js b/renders/models/easyUpTent.js
        const mat = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.45, roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.45, side: THREE.FrontSide, name: 'valance print' });
        const s0 = (side.L - len) / 2;
        const geo = G.surface((u, v, o) => {
-@@ -635,7 +636,7 @@
+@@ -683,7 +684,7 @@
  
    // ---- side walls -------------------------------------------------------------------------
    const wallColor = p.wallColor || color;
@@ -93,9 +93,8 @@ diff -ruN a/renders/models/easyUpTent.js b/renders/models/easyUpTent.js
    const wallThread = M.tentThread(wallColor);
    const wallOff = (legAF + 0.03) / 2 + 0.008; // clear of the corner brackets and sliders
    const sideDefs = {
-diff -ruN a/renders/models/statafelCover.js b/renders/models/statafelCover.js
---- a/renders/models/statafelCover.js
-+++ b/renders/models/statafelCover.js
+--- a/renders/models/statafelCover.js	2026-10-17 20:12:20.994121214 +0000
++++ b/renders/models/statafelCover.js	2026-10-17 20:12:21.002500593 +0000
 @@ -9,6 +9,7 @@
  import * as THREE from 'three';
  import * as G from '../js/geom.js';

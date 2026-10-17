@@ -227,3 +227,111 @@ export function maskTexture(key, w, h, draw) {
     return t;
   });
 }
+
+// Macro structure of coated polyester tent cloth, readable at catalogue size where the
+// 1 mm weave itself is sub-pixel: yarn-tension streaks along warp and weft (1-6 mm wide,
+// a few cm long), slubs, and a faint low-frequency cockle of the coating. 1 tile = 1 m
+// (fabric uv is in metres), 1 texel = 1 mm. All components are lattice-free (blurred
+// white noise in 1D, sums of integer-frequency waves in 2D), so the tile is seamless and
+// the slope field has no grid lines. R,G = tangent-space slope (0.5 = flat),
+// B = roughness modulation (0.5 = neutral). Used as a blended second normal layer.
+export function fabricMacroNormal({ size = 1024, seed = 31 } = {}) {
+  return cached(`fabricMacro:${size}:${seed}`, () => {
+    const R = rng(seed);
+    const N = size;
+    // circular box blur (3 passes ~ gaussian) of a 1D signal
+    const blur1 = (a, r) => {
+      if (r < 1) return a;
+      let src = a;
+      for (let pass = 0; pass < 3; pass++) {
+        const out = new Float32Array(N); let acc = 0;
+        for (let i = -r; i <= r; i++) acc += src[(i + N) % N];
+        for (let i = 0; i < N; i++) { out[i] = acc / (2 * r + 1); acc += src[(i + r + 1) % N] - src[(i - r + N) % N]; }
+        src = out;
+      }
+      return src;
+    };
+    const norm = (a) => { let m = 0; for (const v of a) m += v * v; m = Math.sqrt(m / a.length) || 1; for (let i = 0; i < a.length; i++) a[i] /= m; return a; };
+    const line = (r) => { const a = new Float32Array(N); for (let i = 0; i < N; i++) a[i] = R() * 2 - 1; return norm(blur1(a, r)); };
+    // 2D tileable random field from integer-frequency waves (|k| in [k0,k1] cycles per tile)
+    const field = (k0, k1, count, beta = 1) => {
+      const f = new Float32Array(N * N);
+      const cx = new Float32Array(N), sx = new Float32Array(N), cy = new Float32Array(N), sy = new Float32Array(N);
+      for (let w = 0; w < count; w++) {
+        const kk = k0 + (k1 - k0) * R(), th = R() * Math.PI * 2;
+        const kx = Math.round(kk * Math.cos(th)), ky = Math.round(kk * Math.sin(th));
+        if (kx === 0 && ky === 0) continue;
+        const amp = Math.pow(Math.hypot(kx, ky) / k0, -beta);
+        const ph = R() * Math.PI * 2;
+        for (let i = 0; i < N; i++) { const a = (2 * Math.PI * kx * i) / N + ph; cx[i] = Math.cos(a); sx[i] = Math.sin(a); const b = (2 * Math.PI * ky * i) / N; cy[i] = Math.cos(b); sy[i] = Math.sin(b); }
+        for (let y = 0; y < N; y++) { const c = cy[y] * amp, s2 = sy[y] * amp, o = y * N; for (let x = 0; x < N; x++) f[o + x] += cx[x] * c - sx[x] * s2; }
+      }
+      return norm(f);
+    };
+    const warp = [line(1), line(3), line(7)], weft = [line(1), line(3), line(8)];
+    const modW = field(10, 40, 28), modF = field(10, 40, 28);       // streak segments 2.5-10 cm
+    const cockle = field(4, 14, 30, 1.2);                             // coating cockle 7-25 cm
+    const rough = field(6, 20, 24);
+    const h = new Float32Array(N * N), rr = new Float32Array(N * N);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const i = y * N + x;
+      const mw = Math.max(0, 0.45 + 0.55 * modW[i]), mf = Math.max(0, 0.45 + 0.55 * modF[i]);
+      const sw = warp[0][x] * 0.35 + warp[1][x] * 0.45 + warp[2][x] * 0.6;
+      const sf = weft[0][y] * 0.35 + weft[1][y] * 0.45 + weft[2][y] * 0.6;
+      // heights in mm-ish units: streaks ~0.05 mm, cockle ~0.6 mm
+      h[i] = 0.05 * (sw * mw + 0.85 * sf * mf) + 0.06 * cockle[i];
+      rr[i] = 0.25 * rough[i] + 0.3 * sw * mw;
+    }
+    const out = new Uint8Array(N * N * 4);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const xl = (x - 1 + N) % N, xr = (x + 1) % N, yu = (y - 1 + N) % N, yd = (y + 1) % N;
+      // slope per mm (texel)
+      const dx = (h[y * N + xr] - h[y * N + xl]) / 2, dy = (h[yd * N + x] - h[yu * N + x]) / 2;
+      const i = (y * N + x) * 4;
+      out[i] = Math.round(Math.min(255, Math.max(0, (-dx * 2 + 0.5) * 255)));
+      out[i + 1] = Math.round(Math.min(255, Math.max(0, (-dy * 2 + 0.5) * 255)));
+      out[i + 2] = Math.round(Math.min(255, Math.max(0, (0.5 + rr[y * N + x] * 0.25) * 255)));
+      out[i + 3] = 255;
+    }
+    return dataTex(out, N, { key: 'fabricMacro' });
+  });
+}
+
+// Embossed moulding mark (raised lettering on a plastic/cast part) as a normal map,
+// drawn on a 2D canvas. The plaque geometry carries uv 0..1 over its face.
+export function embossNormal({ text = 'KLAPKLAAR', sub = '', w = 512, h = 160, strength = 3.5 } = {}) {
+  return cached(`emboss:${text}:${sub}:${w}:${h}:${strength}`, () => {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const g = c.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `800 ${Math.round(h * (sub ? 0.42 : 0.56))}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
+    if ('letterSpacing' in g) g.letterSpacing = `${Math.round(h * 0.04)}px`;
+    const tw = g.measureText(text).width;
+    if (tw > w * 0.86) g.font = g.font.replace(/\d+px/, `${Math.floor(parseInt(/\d+px/.exec(g.font)[0], 10) * w * 0.86 / tw)}px`);
+    g.fillText(text, w / 2, sub ? h * 0.38 : h * 0.53);
+    if (sub) { g.font = `700 ${Math.round(h * 0.22)}px "Helvetica Neue", Arial, sans-serif`; g.fillText(sub, w / 2, h * 0.78); }
+    // thin raised border
+    g.strokeStyle = '#fff'; g.lineWidth = h * 0.045; g.strokeRect(h * 0.06, h * 0.06, w - h * 0.12, h - h * 0.12);
+    const src = g.getImageData(0, 0, w, h).data;
+    // soften 1 px (draft angle) then height -> normal (non-tiling, clamp at the border)
+    const H = new Float32Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      let a = 0, n = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const xx = Math.min(w - 1, Math.max(0, x + dx)), yy = Math.min(h - 1, Math.max(0, y + dy)); a += src[(yy * w + xx) * 4]; n++; }
+      H[y * w + x] = a / n / 255;
+    }
+    const out = new Uint8Array(w * h * 4);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const xl = Math.max(0, x - 1), xr = Math.min(w - 1, x + 1), yu = Math.max(0, y - 1), yd = Math.min(h - 1, y + 1);
+      const dx = (H[y * w + xr] - H[y * w + xl]) * strength, dy = (H[yd * w + x] - H[yu * w + x]) * strength;
+      let nx = -dx, ny = dy, nz = 1; const l = Math.hypot(nx, ny, nz); nx /= l; ny /= l; nz /= l;
+      const k = ((h - 1 - y) * w + x) * 4; // canvas top -> v = 1
+      out[k] = Math.round((nx * 0.5 + 0.5) * 255); out[k + 1] = Math.round((ny * 0.5 + 0.5) * 255); out[k + 2] = Math.round((nz * 0.5 + 0.5) * 255); out[k + 3] = 255;
+    }
+    const t = new THREE.DataTexture(out, w, h, THREE.RGBAFormat, THREE.UnsignedByteType);
+    t.colorSpace = THREE.NoColorSpace; t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter;
+    t.generateMipmaps = true; t.anisotropy = maxAniso; t.flipY = false; t.needsUpdate = true;
+    return t;
+  });
+}

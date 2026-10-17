@@ -80,16 +80,37 @@
       el.textContent = count;
       el.hidden = !count;
     });
-    document.querySelectorAll('[data-cart-toggle]').forEach((a) => {
-      const label = a.getAttribute('aria-label') || '';
-      a.setAttribute('aria-label', label.replace(/\d+(?=\s\w+$)/, count));
-    });
+    const word = KK.strings.cartWord || '';
+    const items = (count === 1 ? KK.strings.cartLabelOneRaw : KK.strings.cartLabelOther || '').replace('__COUNT__', count);
+    document.querySelectorAll('[data-cart-toggle]').forEach((a) => a.setAttribute('aria-label', `${word}, ${items}`));
     const fav = document.querySelector('link[data-favicon]');
     if (fav && KK.faviconCart) {
       fav.dataset.base = fav.dataset.base || fav.href;
       fav.href = count ? KK.faviconCart : fav.dataset.base;
     }
   };
+
+  /* ---------- focus trap for non-<dialog> panels (filter drawer) ---------- */
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  KK.trapFocus = (el) => {
+    KK.releaseFocus();
+    KK._trap = (e) => {
+      if (e.key !== 'Tab') return;
+      const list = [...el.querySelectorAll(FOCUSABLE)].filter((x) => x.offsetParent !== null);
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', KK._trap);
+  };
+  KK.releaseFocus = () => KK._trap && document.removeEventListener('keydown', KK._trap);
 
   /* ---------- dialogs (drawers / modals) ---------- */
   KK.openDialog = (dialog, opener) => {
@@ -173,19 +194,42 @@
     class extends HTMLElement {
       connectedCallback() {
         this.items = [...this.children];
-        if (this.items.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (this.items.length < 2) return;
         this.i = 0;
-        const ms = Number(this.dataset.interval) || 5000;
-        const mq = matchMedia('(min-width: 990px)');
-        this.timer = setInterval(() => {
-          if (mq.matches || this.matches(':hover, :focus-within')) return;
-          this.items[this.i].classList.remove('is-active');
-          this.i = (this.i + 1) % this.items.length;
-          this.items[this.i].classList.add('is-active');
-        }, ms);
+        this.ms = Number(this.dataset.interval) || 6000;
+        this.mq = matchMedia('(min-width: 990px)');
+        this.paused = this.dataset.autoplay === 'false' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const bar = this.closest('.utility-bar');
+        this.toggleBtn = bar?.querySelector('[data-rotator-toggle]');
+        this.nextBtn = bar?.querySelector('[data-rotator-next]');
+        this.toggleBtn?.addEventListener('click', () => this.setPaused(!this.paused));
+        this.nextBtn?.addEventListener('click', () => this.show(this.i + 1));
+        this.setPaused(this.paused);
       }
       disconnectedCallback() {
         clearInterval(this.timer);
+      }
+      show(n) {
+        this.items[this.i].classList.remove('is-active');
+        this.i = (n + this.items.length) % this.items.length;
+        this.items[this.i].classList.add('is-active');
+      }
+      setPaused(p) {
+        this.paused = p;
+        clearInterval(this.timer);
+        if (!p) {
+          this.timer = setInterval(() => {
+            if (this.mq.matches || this.matches(':hover, :focus-within')) return;
+            this.show(this.i + 1);
+          }, this.ms);
+        }
+        const b = this.toggleBtn;
+        if (b) {
+          b.setAttribute('aria-pressed', String(p));
+          b.setAttribute('aria-label', p ? b.dataset.labelPlay : b.dataset.labelPause);
+          b.querySelector('[data-icon-pause]')?.toggleAttribute('hidden', p);
+          b.querySelector('[data-icon-play]')?.toggleAttribute('hidden', !p);
+        }
       }
     }
   );
@@ -219,6 +263,22 @@
     }
   );
 
+  /* Mega menu as a disclosure: the trigger is a <button aria-expanded>. Click / Enter / Space toggle, a fine
+     pointer may open it on hover, focus alone never opens it. Esc closes (WCAG 1.4.13) and returns focus to the
+     trigger without re-opening; hover stays suppressed until the pointer leaves the item. */
+  const openMegas = () => [...document.querySelectorAll('mega-menu.is-open')];
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    openMegas().forEach((m) => {
+      const hadFocus = m.contains(document.activeElement);
+      m.close(0);
+      m.suppressHover = true;
+      if (hadFocus) m.trigger.focus();
+    });
+  });
+  document.addEventListener('click', (e) => {
+    openMegas().forEach((m) => !m.contains(e.target) && m.close(0));
+  });
   define(
     'mega-menu',
     class extends HTMLElement {
@@ -226,27 +286,28 @@
         this.trigger = this.querySelector('[data-mega-trigger]');
         this.panel = this.querySelector('[data-mega-panel]');
         const fine = matchMedia('(hover: hover) and (pointer: fine)');
-        this.addEventListener('mouseenter', () => fine.matches && this.open(120));
-        this.addEventListener('mouseleave', () => fine.matches && this.close(160));
-        this.addEventListener('focusin', () => this.open(0));
-        this.addEventListener('focusout', (e) => !this.contains(e.relatedTarget) && this.close(0));
-        this.trigger.addEventListener('click', (e) => {
-          if (!fine.matches && !this.classList.contains('is-open')) {
-            e.preventDefault();
-            this.open(0);
-          }
+        this.addEventListener('mouseenter', () => fine.matches && !this.suppressHover && this.open(120, 'hover'));
+        this.addEventListener('mouseleave', () => {
+          this.suppressHover = false;
+          if (fine.matches && this.openedBy === 'hover') this.close(180);
         });
-        this.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && this.classList.contains('is-open')) {
-            this.close(0);
-            this.trigger.focus();
+        this.trigger.addEventListener('click', () => {
+          if (this.isOpen && this.openedBy === 'hover') {
+            this.openedBy = 'click';
+            return;
           }
+          this.isOpen ? this.close(0) : this.open(0, 'click');
         });
+        this.addEventListener('focusout', (e) => e.relatedTarget && !this.contains(e.relatedTarget) && this.close(0));
       }
-      open(delay) {
+      get isOpen() {
+        return this.classList.contains('is-open');
+      }
+      open(delay, by) {
         clearTimeout(this.t);
         this.t = setTimeout(() => {
-          document.querySelectorAll('mega-menu.is-open').forEach((m) => m !== this && m.close(0));
+          openMegas().forEach((m) => m !== this && m.close(0));
+          this.openedBy = by;
           this.classList.add('is-open');
           this.trigger.setAttribute('aria-expanded', 'true');
         }, delay);
@@ -317,6 +378,25 @@
       setTimeout(() => (b.innerHTML = old), 1600);
     } catch (err) {}
   });
+
+  /* file size for download links (Liquid does not expose it): one HEAD request once the link is on screen */
+  if ('IntersectionObserver' in window) {
+    const sizeIO = new IntersectionObserver((entries) =>
+      entries.forEach(async (e) => {
+        if (!e.isIntersecting) return;
+        sizeIO.unobserve(e.target);
+        try {
+          const r = await fetch(e.target.href, { method: 'HEAD' });
+          const len = Number(r.headers.get('content-length'));
+          const out = e.target.querySelector('[data-file-size]');
+          if (!r.ok || !len || !out) return;
+          const mb = len / 1048576;
+          out.textContent = ` · ${mb >= 1 ? `${mb.toLocaleString('nl', { maximumFractionDigits: 1 })} MB` : `${Math.max(1, Math.round(len / 1024))} kB`}`;
+        } catch (err) {}
+      })
+    );
+    document.querySelectorAll('[data-file-size-src]').forEach((a) => sizeIO.observe(a));
+  }
 
   /* scroll sliders with prev/next buttons */
   document.addEventListener('click', (e) => {

@@ -1,0 +1,128 @@
+{%- comment -%}
+  Comparison table (features collection.quality-line-explainer / content.comparison-guide).
+  On a product page it compares the products from the chosen collection that share custom.vergelijk_groep
+  with the current product (e.g. Easy-up Premium vs Professional). A product without vergelijk_groep, or one
+  that is not in the compared set, gets no table at all (no tent table under a statafelrok).
+  Rows come from custom.specificaties (groep + label), so nothing is typed twice. Elsewhere (a page or the
+  home page): the first products of the collection that have specifications.
+{%- endcomment -%}
+{%- liquid
+  assign grp = ''
+  assign on_product = false
+  if product
+    assign on_product = true
+    if product.metafields.custom.vergelijk_groep != blank
+      assign grp = product.metafields.custom.vergelijk_groep.value
+    endif
+  endif
+  assign handles = ''
+  assign count = 0
+  assign keys = ''
+  for p in section.settings.collection.products limit: 50
+    if p.metafields.custom.specificaties == blank
+      continue
+    endif
+    if grp != '' and p.metafields.custom.vergelijk_groep.value != grp
+      continue
+    endif
+    if count >= section.settings.max
+      break
+    endif
+    assign count = count | plus: 1
+    assign handles = handles | append: ',' | append: p.handle | append: ','
+    for row in p.metafields.custom.specificaties.value
+      assign keys = keys | append: row.groep | append: '|' | append: row.label | append: '§'
+    endfor
+  endfor
+  assign keys = keys | split: '§' | uniq
+  assign show_table = true
+  if on_product
+    assign current_key = ',' | append: product.handle | append: ','
+    if grp == ''
+      assign show_table = false
+    endif
+    unless handles contains current_key
+      assign show_table = false
+    endunless
+  endif
+-%}
+{%- if count > 1 and show_table -%}
+  <section class="section comparison color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
+    <div class="page-width">
+      <div class="section-head">
+        <div>
+          <h2 class="section-head__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
+          {%- if section.settings.text != blank -%}<p class="section-head__text muted">{{ section.settings.text }}</p>{%- endif -%}
+        </div>
+      </div>
+      <div class="table-wrap comparison__wrap">
+        <table class="table comparison__table">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">{{ 'product.specs' | t }}</span></th>
+              {%- for p in section.settings.collection.products limit: 50 -%}
+                {%- assign hk = ',' | append: p.handle | append: ',' -%}{%- unless handles contains hk -%}{%- continue -%}{%- endunless -%}
+                <th scope="col" class="comparison__product{% if p.id == product.id %} is-current{% endif %}">
+                  <a href="{{ p.url }}">
+                    {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', widths: '120, 240', sizes: '120px' }}{%- endif -%}
+                    <span>{{ p.title }}</span>
+                  </a>
+                  {%- render 'price', product: p -%}
+                </th>
+              {%- endfor -%}
+            </tr>
+          </thead>
+          <tbody>
+            {%- assign groups = '' -%}
+            {%- for k in keys -%}{%- assign gk = k | split: '|' | first -%}{%- assign groups = groups | append: gk | append: '§' -%}{%- endfor -%}
+            {%- assign groups = groups | split: '§' | uniq -%}
+            {%- for g in groups -%}
+              <tr class="comparison__group"><th scope="rowgroup" colspan="{{ count | plus: 1 }}">{{ g }}</th></tr>
+              {%- for k in keys -%}
+                {%- assign kparts = k | split: '|' -%}
+                {%- if kparts.first != g -%}{%- continue -%}{%- endif -%}
+                {%- assign lbl = kparts.last -%}
+                <tr>
+                  <th scope="row">{{ lbl }}</th>
+                  {%- for p in section.settings.collection.products limit: 50 -%}
+                    {%- assign hk = ',' | append: p.handle | append: ',' -%}{%- unless handles contains hk -%}{%- continue -%}{%- endunless -%}
+                    {%- assign val = '–' -%}
+                    {%- for row in p.metafields.custom.specificaties.value -%}
+                      {%- if row.groep == g and row.label == lbl -%}{%- assign val = row.waarde -%}{%- endif -%}
+                    {%- endfor -%}
+                    <td>{{ val }}</td>
+                  {%- endfor -%}
+                </tr>
+              {%- endfor -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <style>
+    .comparison__wrap{background:#fff}
+    .comparison__table{min-width:560px}
+    .comparison__table th[scope="row"]{color:var(--c-kiezel);font-weight:var(--font-body-weight);width:28%}
+    .comparison__product{vertical-align:bottom;background:#fff!important}
+    .comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}
+    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-studio);border-radius:10px}
+    .comparison__product.is-current a span::after{content:" ✓";color:var(--c-polder)}
+    .comparison__group th{background:var(--c-linnen);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-polder)}
+  </style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vergelijkingstabel",
+  "class": "section-comparison",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Vergelijk de uitvoeringen" },
+    { "type": "text", "id": "text", "label": "Tekst", "default": "Zelfde idee, ander gebruik. Kies op frame, dak en gewicht." },
+    { "type": "collection", "id": "collection", "label": "Collectie", "info": "Op een productpagina: alleen producten met dezelfde custom.vergelijk_groep. Rijen komen uit custom.specificaties." },
+    { "type": "range", "id": "max", "min": 2, "max": 4, "step": 1, "label": "Maximaal aantal producten", "default": 3 }
+  ],
+  "presets": [{ "name": "Vergelijkingstabel" }]
+}
+{% endschema %}

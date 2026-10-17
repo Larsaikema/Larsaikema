@@ -103,7 +103,7 @@
             {%- if localization.available_countries.size > 1 -%}
               <div class="footer__select">
                 <label for="FooterCountry">{{ 'footer.country' | t }}</label>
-                <select class="select" id="FooterCountry" name="country_code" data-autosubmit>
+                <select class="select" id="FooterCountry" name="country_code">
                   {%- for country in localization.available_countries -%}
                     <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.name }}</option>
                   {%- endfor -%}
@@ -113,14 +113,15 @@
             {%- if localization.available_languages.size > 1 -%}
               <div class="footer__select">
                 <label for="FooterLanguage">{{ 'footer.language' | t }}</label>
-                <select class="select" id="FooterLanguage" name="language_code" data-autosubmit>
+                <select class="select" id="FooterLanguage" name="language_code">
                   {%- for language in localization.available_languages -%}
                     <option value="{{ language.iso_code }}" lang="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name | capitalize }}</option>
                   {%- endfor -%}
                 </select>
               </div>
             {%- endif -%}
-            <noscript><button type="submit" class="btn btn--sm btn--outline">{{ 'footer.update' | t }}</button></noscript>
+            {%- comment -%} WCAG 3.2.2: changing a select never navigates by itself; the button applies the choice {%- endcomment -%}
+            <button type="submit" class="btn btn--sm btn--outline footer__loc-submit">{{ 'footer.update' | t }}</button>
           {%- endform -%}
         {%- endif -%}
         {%- if section.settings.show_payment and shop.enabled_payment_types.size > 0 -%}
@@ -133,7 +134,6 @@
   </div>
 </footer>
 <script>
-  document.querySelectorAll('[data-autosubmit]').forEach((s) => s.addEventListener('change', () => s.form.submit()));
   if (matchMedia('(max-width: 749px)').matches) document.querySelectorAll('.footer__details').forEach((d) => d.removeAttribute('open'));
 </script>
 

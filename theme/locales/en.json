@@ -33,7 +33,10 @@
       "youtube": "Klapklaar on YouTube",
       "tiktok": "Klapklaar on TikTok",
       "pinterest": "Klapklaar on Pinterest"
-    }
+    },
+    "rotator_pause": "Pause rotating messages",
+    "rotator_play": "Resume rotating messages",
+    "rotator_next": "Next message"
   },
   "header": {
     "search_placeholder": "Search by product, size or item number",
@@ -71,7 +74,8 @@
     "save": "Sale −{{ percent }}%",
     "per_piece": "each",
     "unit_price": "Unit price",
-    "vat_amount": "of which VAT {{ rate }}%"
+    "vat_amount": "of which VAT {{ rate }}%",
+    "per_unit": "per {{ unit }}"
   },
   "product": {
     "add_to_cart": "Add to cart",
@@ -143,7 +147,41 @@
     "safety_note": "Stands firm, even when it's windy. Secure every leg with pegs or a foot weight. In strong wind: take the roof off.",
     "recommendations": "Often viewed together",
     "complementary": "Don't forget",
-    "print_required": "Upload your logo, or choose ‘I'll send my logo later’."
+    "print_required": "Upload your logo, or choose ‘I'll send my logo later’.",
+    "notify_title": "Email me when it's back",
+    "notify_button": "Email me",
+    "notify_success": "Great, we'll email you as soon as it's back.",
+    "print_choose": "Choose a file (max. 20 MB)",
+    "status_discontinued": "Discontinued",
+    "status_discontinued_text": "We no longer sell this product. The page stays online so you can easily find a replacement.",
+    "status_alternatives": "Choose a replacement",
+    "status_coming": "Available soon",
+    "config_title": "Your size",
+    "config_help": "Enter your measurements, the price updates right away.",
+    "config_invalid": "Choose a size between {{ min }} and {{ max }} {{ unit }}.",
+    "config_area": "Area",
+    "config_unit_price": "Price per {{ unit }}",
+    "config_total": "Price for your size",
+    "config_min": "Minimum charge is {{ min }} {{ unit }}.",
+    "config_tolerance": "Size tolerance: {{ value }}.",
+    "config_billed": "you pay for {{ qty }} {{ unit }}",
+    "maatwerk_title": "Made to measure: no returns",
+    "maatwerk_text": "We make this to your exact size, so there is no cooling-off period and it cannot be returned. Measure carefully; if in doubt, call or message us.",
+    "included_title": "What's in the box",
+    "included_label": "Included",
+    "excluded_label": "Not included",
+    "bundle_title": "What's in the package",
+    "bundle_loose": "Bought separately",
+    "bundle_price": "Package price",
+    "bundle_save_prefix": "You save",
+    "bundle_save_suffix": "compared to buying separately.",
+    "bundle_save_short": "Save",
+    "bundle_vs_loose": "compared to buying separately",
+    "staffel_note_quote": "Volume prices are settled through a quote.",
+    "print_step_delivery": "Lead time: {{ lead_time }}",
+    "print_more": "More about printing",
+    "print_later_value": "Will send later",
+    "download_type": "{{ type }} file"
   },
   "delivery": {
     "label": "Delivery",
@@ -157,7 +195,13 @@
     "minutes": "{{ m }} min",
     "today": "today",
     "tomorrow": "tomorrow",
-    "eta_short": "delivered {{ date }}"
+    "eta_short": "delivered {{ date }}",
+    "lead_time": "Lead time {{ lead_time }}",
+    "shipping_free": "Free shipping",
+    "shipping_cost": "Shipping {{ amount }}",
+    "shipping_cost_pallet": "Pallet delivery {{ amount }} per order",
+    "shipping_free_from": "free from {{ amount }}",
+    "shipping_more": "More about shipping"
   },
   "card": {
     "quick_add": "Add to cart",
@@ -170,7 +214,11 @@
     "badge_logo": "With your logo",
     "badge_staffel": "Volume price",
     "badge_sold_out": "Sold out",
-    "badge_set": "Bundle deal"
+    "badge_set": "Bundle deal",
+    "badge_discontinued": "Discontinued",
+    "badge_coming": "Coming soon",
+    "badge_custom": "Made to measure",
+    "configure": "Choose your size"
   },
   "collection": {
     "products_count": {
@@ -249,7 +297,9 @@
     "file": "File",
     "updating": "Updating cart",
     "secure": "Pay securely with iDEAL, Bancontact and more",
-    "discount_saved": "You save {{ amount }}"
+    "discount_saved": "You save {{ amount }}",
+    "free_shipping_remaining": "{{ amount }} to go for free shipping",
+    "maatwerk_line": "Made to measure, no returns"
   },
   "search": {
     "title": "Search",
@@ -347,7 +397,13 @@
       "other": "{{ count }} min read"
     },
     "tags": "Topics",
-    "empty": "Articles are coming soon."
+    "empty": "Articles are coming soon.",
+    "comments_title": "Comments",
+    "comment_body": "Your comment",
+    "comment_submit": "Post comment",
+    "comment_success": "Thanks, your comment has been posted.",
+    "comment_success_moderated": "Thanks! We'll publish your comment once we've read it.",
+    "comment_moderated_note": "We read comments before they go online."
   },
   "not_found": {
     "title": "This page has folded.",
@@ -393,5 +449,34 @@
     },
     "loading": "Loading",
     "external": "External link"
+  },
+  "manuals": {
+    "search_label": "Find a manual",
+    "search_placeholder": "E.g. pop-up or high table",
+    "filter_label": "Filter by product type",
+    "all": "All",
+    "count": {
+      "one": "{{ count }} product with a manual",
+      "other": "{{ count }} products with manuals"
+    },
+    "empty": "No manual found. Try another word, or call or message us.",
+    "none": "Manuals will appear here once they are added to the products."
+  },
+  "warranty": {
+    "form_title": "Report a complaint",
+    "form_intro": "The more you tell us, the faster we can fix it.",
+    "success": "Thanks, we've received your report.",
+    "subject": "Complaint or warranty",
+    "product": "Which product is it about?",
+    "since": "Since when?",
+    "wish": "What would you prefer?",
+    "wish_repair": "Repair",
+    "wish_part": "A spare part",
+    "wish_replace": "Replacement",
+    "wish_unsure": "Not sure yet",
+    "issue": "What's wrong?",
+    "photos": "Link to photos or a video",
+    "photos_help": "You can't upload files here. Paste a link (WeTransfer, Google Drive), or email your photos to {{ email }} with your order number.",
+    "submit": "Send complaint"
   }
 }

@@ -3,29 +3,160 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "title": { "type": "title", "settings": {} },
-        "price": { "type": "price", "settings": {} },
-        "variant_picker": { "type": "variant_picker", "settings": { "size_guide_page": "maatadvies-statafelrokken" } },
-        "staffel": { "type": "staffel", "settings": {} },
-        "bedrukken": { "type": "bedrukken", "settings": {} },
-        "addons": { "type": "addons", "settings": {} },
-        "buy_buttons": { "type": "buy_buttons", "settings": {} },
-        "delivery": { "type": "delivery", "settings": {} },
-        "usps": { "type": "usps", "settings": {} },
-        "b2b": { "type": "b2b", "settings": {} },
-        "tab_description": { "type": "collapsible_tab", "settings": { "source": "description", "heading": "Beschrijving", "open": true } },
-        "tab_specs": { "type": "collapsible_tab", "settings": { "source": "specs", "heading": "Specificaties" } },
-        "tab_delivery": { "type": "collapsible_tab", "settings": { "source": "delivery", "heading": "Levering & retour" } },
-        "tab_downloads": { "type": "collapsible_tab", "settings": { "source": "downloads", "heading": "Downloads" } },
-        "tab_faq": { "type": "collapsible_tab", "settings": { "source": "faq", "heading": "Veelgestelde vragen" } }
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "size_guide_page": "maatadvies-partytenten",
+            "size_option_names": "Maat, Tafelmaat, Diameter, Afmeting, Formaat"
+          }
+        },
+        "staffel": {
+          "type": "staffel",
+          "settings": {}
+        },
+        "bedrukken": {
+          "type": "bedrukken",
+          "settings": {
+            "show_steps": true,
+            "steps_title": "Zo werkt bedrukken",
+            "page": "bedrukken"
+          }
+        },
+        "addons": {
+          "type": "addons",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {}
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
+        },
+        "usps": {
+          "type": "usps",
+          "settings": {}
+        },
+        "b2b": {
+          "type": "b2b",
+          "settings": {}
+        },
+        "tab_description": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "description",
+            "heading": "Beschrijving",
+            "open": true
+          }
+        },
+        "tab_specs": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "specs",
+            "heading": "Specificaties"
+          }
+        },
+        "tab_delivery": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "delivery",
+            "heading": "Levering & retour"
+          }
+        },
+        "tab_downloads": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "downloads",
+            "heading": "Downloads"
+          }
+        },
+        "tab_faq": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "faq",
+            "heading": "Veelgestelde vragen"
+          }
+        },
+        "tab_safety": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "safety",
+            "heading": "Opzetten & veiligheid"
+          }
+        },
+        "configurator": {
+          "type": "configurator",
+          "settings": {
+            "heading": "Jouw maat"
+          }
+        },
+        "bundle": {
+          "type": "bundle",
+          "settings": {}
+        },
+        "included": {
+          "type": "included",
+          "settings": {
+            "heading": "Wat zit erin"
+          }
+        }
       },
-      "block_order": ["title", "price", "variant_picker", "staffel", "bedrukken", "addons", "buy_buttons", "delivery", "usps", "b2b", "tab_description", "tab_specs", "tab_delivery", "tab_downloads", "tab_faq"],
-      "settings": { "sticky_bar": true, "show_breadcrumbs": true }
+      "block_order": [
+        "title",
+        "price",
+        "variant_picker",
+        "configurator",
+        "bundle",
+        "staffel",
+        "bedrukken",
+        "addons",
+        "buy_buttons",
+        "delivery",
+        "usps",
+        "included",
+        "b2b",
+        "tab_description",
+        "tab_specs",
+        "tab_safety",
+        "tab_delivery",
+        "tab_downloads",
+        "tab_faq"
+      ],
+      "settings": {
+        "sticky_bar": true,
+        "show_breadcrumbs": true
+      }
     },
     "recommendations": {
       "type": "product-recommendations",
-      "settings": { "heading": "Vaak samen bekeken", "intent": "related", "limit": 4 }
+      "settings": {
+        "heading": "Vaak samen bekeken",
+        "intent": "related",
+        "limit": 4
+      }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "heading": "Premium of Professional?",
+        "text": "Zelfde idee, ander gebruik. Vergelijk frame, dak en gewicht.",
+        "collection": "easy-up-partytenten",
+        "max": 3
+      }
     }
   },
-  "order": ["main", "recommendations"]
+  "order": [
+    "main",
+    "comparison",
+    "recommendations"
+  ]
 }

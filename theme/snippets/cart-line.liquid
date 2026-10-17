@@ -47,10 +47,22 @@
     {%- for discount in item.line_level_discount_allocations -%}
       <p class="cart-line__discount">{% render 'icon', icon: 'check', class: 'icon--xs' %}{{ discount.discount_application.title }} (−{{ discount.amount | money }})</p>
     {%- endfor -%}
-    <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_piece' | t }}</p>
+    {%- comment -%} made-to-measure lines (configurator): quantity = billed units (m²), fixed by the measured size {%- endcomment -%}
+    {%- assign line_unit = item.properties['_eenheid'] -%}
+    {%- if line_unit != blank -%}
+      <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_unit' | t: unit: line_unit }}</p>
+      {%- if item.properties['_maatwerk'] != blank -%}<p class="cart-line__note">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'cart.maatwerk_line' | t }}</p>{%- endif -%}
+    {%- else -%}
+      <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_piece' | t }}</p>
+    {%- endif -%}
     <div class="cart-line__controls">
       {%- capture qty_id -%}CartQty-{% if compact %}d{% else %}p{% endif %}-{{ index }}{%- endcapture -%}
-      {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: item.product.title -%}
+      {%- if line_unit != blank -%}
+        <p class="cart-line__fixed-qty">{{ item.quantity }} {{ line_unit }}</p>
+        <input type="hidden" name="updates[]" value="{{ item.quantity }}" data-line="{{ index }}">
+      {%- else -%}
+        {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: item.product.title -%}
+      {%- endif -%}
       <button type="button" class="cart-line__remove" name="remove" data-line="{{ index }}" aria-label="{{ 'cart.remove_label' | t: title: item.product.title | escape }}">
         {%- render 'icon', icon: 'trash', class: 'icon--sm' -%}<span>{{ 'cart.remove' | t }}</span>
       </button>

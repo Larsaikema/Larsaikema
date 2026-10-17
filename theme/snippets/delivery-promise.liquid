@@ -1,37 +1,92 @@
 {%- comment -%}
-  Stock + delivery promise (features global.dispatch-line, home.dispatch-on-cards, global.availability-states).
-  All claims come from theme settings (cutoff_time, shipping_days, holidays, transit days, texts) or the
-  product metafields custom.levertijd / custom.verzending; assets/delivery-countdown.js turns them into a
-  concrete date + countdown in Europe/Amsterdam time. Params:
+  Stock + delivery promise (features global.dispatch-line, home.dispatch-on-cards, global.availability-states,
+  product.shipping-cost-line). All claims come from theme settings (cutoff_time, shipping_days, holidays, transit
+  days per class and market, texts, shipping costs) or product metafields (custom.levertijd, custom.verzending,
+  custom.verzendkosten, custom.availability_status, custom.drukopties.levertijd). assets/delivery-countdown.js turns
+  them into a concrete date + countdown in Europe/Amsterdam time. Params:
   - product (required), variant (optional), style: 'full' (PDP) | 'short' (cards)
+  - print_active (bool): the selected variant gets a print, so the lead time counts from the approved proof
 {%- endcomment -%}
 {%- liquid
   assign dv = variant | default: product.selected_or_first_available_variant
   assign dp_leadtime = product.metafields.custom.levertijd.value
+  assign dp_druk = product.metafields.custom.drukopties.value
+  assign dp_print = print_active
+  if dp_print == nil and dp_druk.levertijd != blank
+    capture dp_print_state
+      render 'print-active', product: product, variant: dv
+    endcapture
+    if dp_print_state == 'true'
+      assign dp_print = true
+    endif
+  endif
+  if dp_print and dp_druk.levertijd != blank
+    assign dp_leadtime = 'delivery.lead_time' | t: lead_time: dp_druk.levertijd
+  endif
   assign dp_ship = product.metafields.custom.verzending.value | default: 'pakket' | downcase
   if product.tags contains 'pallet'
     assign dp_ship = 'pallet'
   endif
+  assign dp_status = product.metafields.custom.availability_status.value | downcase | strip | replace: ' ', '-'
+  assign dp_country = localization.country.iso_code | default: 'NL'
   if dp_ship == 'pallet'
     assign dp_transit = settings.transit_days_pallet
   else
     assign dp_transit = settings.transit_days_pakket
   endif
-  if dv.available == false or dv == blank
+  if dp_country == 'BE'
+    assign dp_transit = dp_transit | plus: settings.transit_days_be_extra
+  endif
+  if dp_status == 'permanent-uitverkocht'
+    assign dp_state = 'discontinued'
+  elsif dp_status == 'binnenkort' and dv.available == false
+    assign dp_state = 'coming'
+  elsif dv.available == false or dv == blank
     assign dp_state = 'out'
-  elsif dv.inventory_management != blank and dv.inventory_quantity <= 0
-    assign dp_state = 'backorder'
   elsif dp_leadtime != blank
     assign dp_state = 'leadtime'
+  elsif dv.inventory_management != blank and dv.inventory_quantity <= 0
+    assign dp_state = 'backorder'
   else
     assign dp_state = 'stock'
   endif
   assign dp_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
+
+  # shipping cost line per class (product.shipping-cost-line); product metafield custom.verzendkosten overrides
+  assign dp_cost_line = product.metafields.custom.verzendkosten.value
+  if dp_cost_line == blank and settings.show_shipping_cost
+    if dp_ship == 'pallet'
+      assign dp_cost_raw = settings.shipping_cost_pallet
+    else
+      assign dp_cost_raw = settings.shipping_cost_pakket
+    endif
+    if dp_cost_raw != blank
+      assign dp_cost_cents = dp_cost_raw | replace: ',', '.' | times: 100 | round
+      if dp_cost_cents == 0
+        assign dp_cost_line = 'delivery.shipping_free' | t
+      elsif dp_ship == 'pallet'
+        assign dp_cost_money = dp_cost_cents | money
+        assign dp_cost_line = 'delivery.shipping_cost_pallet' | t: amount: dp_cost_money
+      else
+        assign dp_cost_money = dp_cost_cents | money
+        assign dp_cost_line = 'delivery.shipping_cost' | t: amount: dp_cost_money
+        assign dp_free = settings.free_shipping_threshold | default: 0 | times: 100
+        if dp_free > 0
+          assign dp_free_money = dp_free | money_without_trailing_zeros
+          assign dp_free_line = 'delivery.shipping_free_from' | t: amount: dp_free_money
+          assign dp_cost_line = dp_cost_line | append: ' · ' | append: dp_free_line
+        endif
+      endif
+    endif
+  endif
 -%}
-{%- capture dp_attrs -%}data-delivery data-state="{{ dp_state }}" data-ship="{{ dp_ship }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ dp_holidays | escape }}" data-transit="{{ dp_transit }}"{%- endcapture -%}
+{%- capture dp_attrs -%}data-delivery data-state="{{ dp_state }}" data-ship="{{ dp_ship }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ dp_holidays | escape }}" data-transit="{{ dp_transit }}" data-country="{{ dp_country }}"{%- endcapture -%}
+{%- capture dp_stock_class -%}stock{% if dp_state == 'backorder' or dp_state == 'leadtime' or dp_state == 'coming' %} stock--later{% elsif dp_state == 'out' or dp_state == 'discontinued' %} stock--out{% endif %}{%- endcapture -%}
 {%- if style == 'short' -%}
-  <p class="stock{% if dp_state == 'backorder' or dp_state == 'leadtime' %} stock--later{% elsif dp_state == 'out' %} stock--out{% endif %}" {{ dp_attrs }}>
+  <p class="{{ dp_stock_class }}" {{ dp_attrs }}>
     {%- case dp_state -%}
+      {%- when 'discontinued' -%}{{ 'product.status_discontinued' | t }}
+      {%- when 'coming' -%}{{ 'product.status_coming' | t }}
       {%- when 'out' -%}{{ 'product.stock_out' | t }}
       {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
       {%- when 'leadtime' -%}{{ dp_leadtime }}
@@ -40,8 +95,10 @@
   </p>
 {%- else -%}
   <div class="delivery" {{ dp_attrs }}>
-    <p class="stock{% if dp_state == 'backorder' or dp_state == 'leadtime' %} stock--later{% elsif dp_state == 'out' %} stock--out{% endif %}">
+    <p class="{{ dp_stock_class }}">
       {%- case dp_state -%}
+        {%- when 'discontinued' -%}{{ 'product.status_discontinued' | t }}
+        {%- when 'coming' -%}{{ 'product.status_coming' | t }}
         {%- when 'out' -%}{{ 'product.stock_out' | t }}
         {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
         {%- when 'leadtime' -%}{{ dp_leadtime }}
@@ -53,14 +110,19 @@
           {%- endif -%}
       {%- endcase -%}
     </p>
-    {%- if dp_state == 'stock' -%}
+    {%- if dp_state == 'stock' or dp_cost_line != blank -%}
       <ul class="delivery__lines">
-        {%- if dp_ship == 'pallet' -%}
-          <li>{% render 'icon', icon: 'pallet', class: 'icon--sm' %}<span>{{ settings.delivery_text_pallet }}</span></li>
-        {%- else -%}
-          <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket }}</span></li>
+        {%- if dp_state == 'stock' -%}
+          {%- if dp_ship == 'pallet' -%}
+            <li>{% render 'icon', icon: 'pallet', class: 'icon--sm' %}<span>{{ settings.delivery_text_pallet }}</span></li>
+          {%- else -%}
+            <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket }}</span></li>
+          {%- endif -%}
+          <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta></span></li>
         {%- endif -%}
-        <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta></span></li>
+        {%- if dp_cost_line != blank -%}
+          <li class="delivery__cost">{% render 'icon', icon: 'euro', class: 'icon--sm' %}<span>{{ dp_cost_line }}{% if settings.shipping_page != blank %} <a class="link" href="{{ settings.shipping_page }}">{{ 'delivery.shipping_more' | t }}</a>{% endif %}</span></li>
+        {%- endif -%}
       </ul>
     {%- endif -%}
   </div>

@@ -1,0 +1,81 @@
+{%- comment -%}
+  Bundle / actiepakket composition (features product.bundles, b2b.actiepakketten).
+  Components come from variant metafields custom.componenten (list.variant_reference, or list.product_reference)
+  + custom.component_aantallen (list.number_integer), with the same keys on the product as fallback. The savings
+  line is the honest difference between the summed component prices and the bundle price; nothing is shown when
+  the bundle is not cheaper.
+  Params: product (required), variant (bundle variant, defaults to selected), mode: 'full' (default) | 'savings' | 'card'
+{%- endcomment -%}
+{%- liquid
+  assign bv = variant | default: product.selected_or_first_available_variant
+  assign comps = bv.metafields.custom.componenten.value
+  assign qtys = bv.metafields.custom.component_aantallen.value
+  if comps == blank
+    assign comps = product.metafields.custom.componenten.value
+    assign qtys = product.metafields.custom.component_aantallen.value
+  endif
+  assign loose = 0
+  assign comp_count = 0
+  for c in comps
+    if c.product != blank
+      assign cv = c
+    else
+      assign cv = c.selected_or_first_available_variant
+    endif
+    assign q = qtys[forloop.index0] | default: 1
+    assign line = cv.price | times: q
+    assign loose = loose | plus: line
+    assign comp_count = comp_count | plus: 1
+  endfor
+  assign savings = loose | minus: bv.price
+  assign vat_factor = settings.vat_rate | plus: 100
+-%}
+{%- if comp_count > 0 -%}
+  {%- case mode -%}
+    {%- when 'savings' -%}
+      {%- if savings > 0 -%}
+        <p class="bundle-save">
+          <span class="sale-label">{{ 'product.bundle_save_short' | t }} <span data-vat-show="incl">{{ savings | money }}</span><span data-vat-show="excl">{{ savings | times: 100.0 | divided_by: vat_factor | round | money }}</span></span>
+          <span class="bundle-save__text">{{ 'product.bundle_vs_loose' | t }}</span>
+        </p>
+      {%- endif -%}
+    {%- when 'card' -%}
+      {%- if savings > 0 -%}
+        <p class="card__bundle"><span class="sale-label sale-label--sm">{{ 'product.bundle_save_short' | t }} <span data-vat-show="incl">{{ savings | money }}</span><span data-vat-show="excl">{{ savings | times: 100.0 | divided_by: vat_factor | round | money }}</span></span></p>
+      {%- endif -%}
+    {%- else -%}
+      <div class="bundle">
+        <p class="bundle__title">{%- render 'icon', icon: 'box', class: 'icon--sm' -%}{{ 'product.bundle_title' | t }}</p>
+        <ul class="bundle__list" role="list">
+          {%- for c in comps -%}
+            {%- liquid
+              if c.product != blank
+                assign cv = c
+                assign cp = c.product
+              else
+                assign cp = c
+                assign cv = c.selected_or_first_available_variant
+              endif
+              assign q = qtys[forloop.index0] | default: 1
+              assign c_img = cv.featured_image | default: cp.featured_image
+            -%}
+            <li class="bundle__item">
+              <span class="bundle__media">{%- if c_img -%}{{ c_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '52px' }}{%- endif -%}</span>
+              <span class="bundle__text">
+                <span class="bundle__name"><span class="bundle__qty">{{ q }} ×</span> <a class="link link--quiet" href="{{ cp.url }}{% unless cp.has_only_default_variant %}?variant={{ cv.id }}{% endunless %}">{{ cp.title }}</a></span>
+                {%- unless cp.has_only_default_variant -%}<span class="bundle__variant">{{ cv.title }}</span>{%- endunless -%}
+              </span>
+              <span class="bundle__price"><span data-vat-show="incl">{{ cv.price | times: q | money }}</span><span data-vat-show="excl">{{ cv.price | times: q | times: 100.0 | divided_by: vat_factor | round | money }}</span></span>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <dl class="bundle__sum">
+          <div><dt>{{ 'product.bundle_loose' | t }}</dt><dd><span data-vat-show="incl">{{ loose | money }}</span><span data-vat-show="excl">{{ loose | times: 100.0 | divided_by: vat_factor | round | money }}</span></dd></div>
+          <div class="bundle__sum-total"><dt>{{ 'product.bundle_price' | t }}</dt><dd><span data-vat-show="incl">{{ bv.price | money }}</span><span data-vat-show="excl">{{ bv.price | times: 100.0 | divided_by: vat_factor | round | money }}</span></dd></div>
+        </dl>
+        {%- if savings > 0 -%}
+          <p class="bundle__save">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span>{{ 'product.bundle_save_prefix' | t }} <strong data-vat-show="incl">{{ savings | money }}</strong><strong data-vat-show="excl">{{ savings | times: 100.0 | divided_by: vat_factor | round | money }}</strong> {{ 'product.bundle_save_suffix' | t }}</span></p>
+        {%- endif -%}
+      </div>
+  {%- endcase -%}
+{%- endif -%}

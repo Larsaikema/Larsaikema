@@ -1,6 +1,8 @@
-/* Delivery promise: turns the owner's settings (cutoff, shipping days, holidays, transit days) into a concrete
-   countdown + expected date in Europe/Amsterdam time. Elements: [data-delivery] with data-cutoff, data-days,
-   data-holidays, data-transit, data-state; children [data-delivery-countdown], [data-delivery-eta], [data-delivery-short]. */
+/* Delivery promise: turns the owner's settings (cutoff, shipping days, carrier delivery days, holidays, transit days
+   per shipping class, extra days for BE) into a concrete countdown + expected date in Europe/Amsterdam time.
+   Elements: [data-delivery] with data-cutoff, data-days, data-delivery-days, data-holidays, data-transit (already
+   including the market's extra days), data-state; children [data-delivery-countdown], [data-delivery-eta],
+   [data-delivery-short]. */
 (() => {
   const KK = window.KK || {};
   const DAYS = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
@@ -23,7 +25,9 @@
     const holidays = (el.dataset.holidays || '').split(',').filter(Boolean);
     const transit = Number(el.dataset.transit || 1);
     const isShipDay = (dt) => days.includes(dt.getUTCDay()) && !holidays.includes(iso(dt));
-    const isWorkDay = (dt) => dt.getUTCDay() !== 0 && !holidays.includes(iso(dt));
+    // carrier days (theme setting delivery_days, default ma–vr): transit only counts, and delivery only lands, on these
+    const carrier = (el.dataset.deliveryDays || 'ma,di,wo,do,vr').split(',').map((d) => DAYS.indexOf(d.trim().toLowerCase())).filter((i) => i >= 0);
+    const isWorkDay = (dt) => carrier.includes(dt.getUTCDay()) && !holidays.includes(iso(dt));
     const today = new Date(Date.UTC(n.y, n.m - 1, n.d));
     const minsLeft = ch * 60 + cm - (n.h * 60 + n.mi);
     let ship = today;

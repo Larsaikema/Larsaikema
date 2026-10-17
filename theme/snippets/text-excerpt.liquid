@@ -1,0 +1,10 @@
+{%- comment -%}
+  Plain-text excerpt from HTML without glued words: block tags become a space before strip_html
+  ('…twee dingen.Meet het blad' becomes '…twee dingen. Meet het blad'). Params: html (string), words (default 24)
+{%- endcomment -%}
+{%- liquid
+  assign te = html | replace: '</p>', ' </p>' | replace: '</li>', ' </li>' | replace: '</h1>', ' </h1>' | replace: '</h2>', ' </h2>' | replace: '</h3>', ' </h3>' | replace: '</h4>', ' </h4>' | replace: '</td>', ' </td>' | replace: '</th>', ' </th>' | replace: '</div>', ' </div>' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' '
+  assign te = te | strip_html | strip_newlines | split: ' ' | join: ' '
+  assign te_words = words | default: 24
+-%}
+{{- te | truncatewords: te_words -}}

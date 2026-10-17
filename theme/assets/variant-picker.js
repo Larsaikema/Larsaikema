@@ -57,6 +57,13 @@
           u.searchParams.set('variant', v.id);
           history.replaceState(history.state, '', u);
           if (v.media_id) this.querySelector('media-gallery')?.goToMedia(v.media_id);
+          // print fields only for variants with print (feature product.print-option-reveal)
+          const print = this.querySelector('[data-print]');
+          if (print) {
+            const on = !!v.print;
+            print.hidden = !on;
+            print.disabled = !on;
+          }
           KK.emit('variant:change', { variant: v, root: this });
           const fetchUrl = `${this.url}?variant=${v.id}&section_id=${this.sectionId}`;
           try {
@@ -67,7 +74,7 @@
             }
             if (this.variant !== v) return;
             const doc = KK.parse(html);
-            ['price', 'badge-sale', 'staffel', 'delivery', 'sticky-price', 'sticky-variant', 'sku'].forEach((key) => {
+            ['price', 'badge-sale', 'staffel', 'delivery', 'bundle', 'sticky-price', 'sticky-variant', 'sku', 'notify'].forEach((key) => {
               const fresh = doc.querySelector(`[data-dynamic="${key}"]`);
               this.querySelectorAll(`[data-dynamic="${key}"]`).forEach((el) => fresh && el.replaceWith(fresh.cloneNode(true)));
             });

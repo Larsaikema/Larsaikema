@@ -1,0 +1,313 @@
+{
+  "note": "Where every 'must' feature of reference/features.json lives. 'theme' = built in theme/ (file named), 'split' = theme part built, rest owned by the named piece, 'deferred' = owned by the named later piece. Generated 2026-10-17 by the theme-foundation builder.",
+  "features": {
+    "global.price-incl-excl-btw": {
+      "status": "theme",
+      "where": "snippets/price.liquid (incl + excl, html[data-vat]), header vat-toggle, settings price_display / b2b_customer_tag"
+    },
+    "global.markets-nl-be": {
+      "status": "split",
+      "where": "theme: footer localization form (sections/footer.liquid) + BE transit days (snippets/delivery-promise.liquid); admin: Markets NL + BE -> piece 6 docs (docs/markten-en-btw.md)"
+    },
+    "global.cookie-consent": {
+      "status": "deferred",
+      "where": "piece 6 docs: Shopify Customer Privacy banner (admin setting); theme loads no trackers"
+    },
+    "global.from-price": {
+      "status": "theme",
+      "where": "snippets/price.liquid ('vanaf' when product.price_varies)"
+    },
+    "global.sale-compare-at": {
+      "status": "theme",
+      "where": "snippets/price.liquid (Zon sale label + struck compare-at), badge in product-card / gallery"
+    },
+    "global.availability-states": {
+      "status": "theme",
+      "where": "custom.availability_status: snippets/delivery-promise.liquid, sections/main-product.liquid (permanent-uitverkocht: no form + alternatieven; binnenkort; pre-order), snippets/product-card.liquid badges"
+    },
+    "global.dispatch-line": {
+      "status": "theme",
+      "where": "snippets/delivery-promise.liquid + assets/delivery-countdown.js (cutoff, shipping_days, delivery_days, holidays, transit per class + BE)"
+    },
+    "global.company-legal-details": {
+      "status": "theme",
+      "where": "sections/footer.liquid bottom row + page-contact (settings kvk, btw_nummer, address)"
+    },
+    "header.search": {
+      "status": "theme",
+      "where": "sections/header.liquid + sections/predictive-search.liquid + assets/predictive-search.js; sections/main-search.liquid"
+    },
+    "header.account": {
+      "status": "theme",
+      "where": "sections/header.liquid (routes.account_url, new customer accounts)"
+    },
+    "header.cart-count": {
+      "status": "theme",
+      "where": "sections/header.liquid cart bubble + assets/global.js KK.updateCartCount + favicon-cart.svg"
+    },
+    "header.quote-button": {
+      "status": "theme",
+      "where": "sections/header.liquid 'Offerte' action (settings quote_page)"
+    },
+    "header.mega-menu": {
+      "status": "theme",
+      "where": "sections/header.liquid (disclosure buttons, 3 levels, promo blocks) + mobile drawer accordions; assets/global.js mega-menu"
+    },
+    "home.hero": {
+      "status": "theme",
+      "where": "sections/hero.liquid (LCP eager + fetchpriority=high, alt setting)"
+    },
+    "home.category-tiles": {
+      "status": "theme",
+      "where": "sections/collection-list.liquid"
+    },
+    "home.category-product-rows": {
+      "status": "theme",
+      "where": "sections/featured-collection.liquid"
+    },
+    "home.dispatch-on-cards": {
+      "status": "theme",
+      "where": "snippets/product-card.liquid -> delivery-promise style short"
+    },
+    "collection.nested-tree": {
+      "status": "theme",
+      "where": "sections/main-collection.liquid subcollection chips (custom.subcollections)"
+    },
+    "collection.quality-line-explainer": {
+      "status": "theme",
+      "where": "sections/product-comparison.liquid (custom.vergelijk_groep + specificaties) + collection intro / seo_tekst"
+    },
+    "collection.filters-attributes": {
+      "status": "theme",
+      "where": "snippets/facets.liquid + assets/facets.js (collection.filters, swatch-aware); filter config itself: Search & Discovery app -> piece 6 docs"
+    },
+    "collection.card-parity": {
+      "status": "theme",
+      "where": "snippets/product-card.liquid"
+    },
+    "product.size-switch": {
+      "status": "theme",
+      "where": "sections/main-product.liquid variant picker (pills)"
+    },
+    "product.colour-swatches": {
+      "status": "theme",
+      "where": "snippets/swatch.liquid (value.swatch or settings.swatch_colors)"
+    },
+    "product.print-option-reveal": {
+      "status": "theme",
+      "where": "sections/main-product.liquid bedrukken block follows the variant (drukopties.optie/zonder), assets/variant-picker.js toggles it; delivery line switches to drukopties.levertijd"
+    },
+    "product.print-upload": {
+      "status": "theme",
+      "where": "sections/main-product.liquid bedrukken block (properties[Logo] file, 'later aanleveren'), assets/product-form.js FormData"
+    },
+    "product.print-side": {
+      "status": "theme",
+      "where": "bedrukken block Drukpositie select (custom.drukopties.posities); price impact via variants"
+    },
+    "product.print-template-download": {
+      "status": "theme",
+      "where": "custom.downloads -> snippets/download-link.liquid (PDP tab + page.handleidingen)"
+    },
+    "product.print-proof-flow": {
+      "status": "theme",
+      "where": "bedrukken block 'Zo werkt bedrukken' steps + sections/page-bedrukken.liquid; order confirmation note -> piece 6 docs (notification template)"
+    },
+    "product.spec-table": {
+      "status": "theme",
+      "where": "sections/main-product.liquid specs tab (custom.specificaties grouped)"
+    },
+    "product.downloads": {
+      "status": "theme",
+      "where": "snippets/download-link.liquid (type badge, name, size via HEAD in assets/global.js)"
+    },
+    "product.content-tabs": {
+      "status": "theme",
+      "where": "sections/main-product.liquid collapsible_tab blocks (deep-linkable ids)"
+    },
+    "product.shipping-cost-line": {
+      "status": "theme",
+      "where": "snippets/delivery-promise.liquid cost line per custom.verzending class (settings shipping_cost_pakket/pallet, custom.verzendkosten override); matching Shopify rates -> piece 6 docs"
+    },
+    "product.back-in-stock": {
+      "status": "theme",
+      "where": "sections/main-product.liquid notify form (contact) when sold out; @app block slot for an app"
+    },
+    "product.staffelkorting": {
+      "status": "split",
+      "where": "theme: staffel block + live hint + settings.staffel_mode; real discounts (automatic discounts / B2B price lists) -> piece 6 docs"
+    },
+    "product.accessory-cross-sell": {
+      "status": "theme",
+      "where": "sections/main-product.liquid addons block (custom.addons) + product-recommendations"
+    },
+    "product.whats-included": {
+      "status": "theme",
+      "where": "sections/main-product.liquid included block (custom.included / custom.excluded)"
+    },
+    "product.configurator-maatwerk": {
+      "status": "theme",
+      "where": "sections/main-product.liquid configurator block + assets/product-configurator.js (custom.configurator, per-m2 variant price, properties, quantity = m2)"
+    },
+    "product.configurator-stretch": {
+      "status": "theme",
+      "where": "same configurator block: palen as variant option, afspanning as keuze (fixture: stretchtent-op-maat)"
+    },
+    "product.option-add-ons": {
+      "status": "theme",
+      "where": "variants (max 3 options) + addons checkboxes added via items[] in /cart/add.js"
+    },
+    "product.bundles": {
+      "status": "theme",
+      "where": "snippets/bundle-components.liquid (custom.componenten + component_aantallen per variant; savings line), bundle block + card savings"
+    },
+    "product.quote-form": {
+      "status": "theme",
+      "where": "b2b block link + sections/page-offerte.liquid prefilled with ?product=&variant="
+    },
+    "product.gallery": {
+      "status": "theme",
+      "where": "sections/main-product.liquid media gallery + zoom dialog, assets/media-gallery.js"
+    },
+    "product.atc-ajax": {
+      "status": "theme",
+      "where": "assets/product-form.js -> /cart/add.js, assets/cart.js drawer via Section Rendering API"
+    },
+    "cart.highest-shipping-only": {
+      "status": "deferred",
+      "where": "piece 6 docs (docs/verzending.md): Shopify adds rates per profile; owner decision between one general profile with weight/price tiers or a carrier-rules app"
+    },
+    "cart.shipping-excluded-note": {
+      "status": "theme",
+      "where": "snippets/cart-summary.liquid 'Verzendkosten berekenen we bij het afrekenen' + PDP cost line"
+    },
+    "cart.drawer": {
+      "status": "theme",
+      "where": "sections/cart-drawer.liquid + assets/cart.js"
+    },
+    "cart.line-properties": {
+      "status": "theme",
+      "where": "snippets/cart-line.liquid (files as links, _private hidden, m2 lines fixed, maatwerk note)"
+    },
+    "checkout.guest": {
+      "status": "deferred",
+      "where": "piece 6 docs: Shopify checkout setting (accounts optional)"
+    },
+    "checkout.payment-methods": {
+      "status": "deferred",
+      "where": "piece 6 docs (docs/betalen.md): Shopify Payments / Mollie, iDEAL, Bancontact, bank transfer"
+    },
+    "checkout.invoice-organisations": {
+      "status": "deferred",
+      "where": "piece 6 docs (docs/b2b.md): B2B payment terms or manual method 'Op factuur'"
+    },
+    "checkout.be-rates": {
+      "status": "deferred",
+      "where": "piece 6 docs (docs/verzending.md): Markets BE shipping zone; theme shows BE transit via transit_days_be_extra"
+    },
+    "checkout.track-trace": {
+      "status": "deferred",
+      "where": "piece 6 docs: Shopify shipping confirmation notification"
+    },
+    "checkout.reverse-charge-be": {
+      "status": "deferred",
+      "where": "piece 6 docs (docs/btw.md): VAT-ID collection / B2B tax exemption"
+    },
+    "content.comparison-guide": {
+      "status": "theme",
+      "where": "sections/product-comparison.liquid on a page or PDP"
+    },
+    "content.print-landing": {
+      "status": "theme",
+      "where": "templates/page.bedrukken.json + sections/page-bedrukken.liquid"
+    },
+    "content.manuals-hub": {
+      "status": "theme",
+      "where": "templates/page.handleidingen.json + sections/main-handleidingen.liquid (products with custom.downloads, search + type filter)"
+    },
+    "content.about-contact": {
+      "status": "theme",
+      "where": "templates/page.contact.json (sections/page-contact.liquid); over-ons uses page.json"
+    },
+    "content.blog": {
+      "status": "theme",
+      "where": "templates/blog.json, article.json (products per article via custom.producten, comments form)"
+    },
+    "b2b.quote-page": {
+      "status": "theme",
+      "where": "templates/page.offerte.json + sections/page-offerte.liquid"
+    },
+    "b2b.zakelijk-page": {
+      "status": "theme",
+      "where": "templates/page.zakelijk.json + sections/page-zakelijk.liquid"
+    },
+    "b2b.printed-promo": {
+      "status": "theme",
+      "where": "shared bedrukken block on every product with custom.bedrukbaar / tag bedrukbaar"
+    },
+    "b2b.actiepakketten": {
+      "status": "theme",
+      "where": "bundle block + variant components (table size x rok colour), collection actiepakketten; catalog data -> piece 4"
+    },
+    "service.contact-form": {
+      "status": "theme",
+      "where": "sections/page-contact.liquid"
+    },
+    "service.opening-hours": {
+      "status": "theme",
+      "where": "settings.openingstijden in footer, contact page, menu drawer"
+    },
+    "service.shipping-page": {
+      "status": "split",
+      "where": "page verzenden-en-bezorgen (page.json, content) -> piece 4 catalog pages + piece 6 docs"
+    },
+    "service.order-cancel-page": {
+      "status": "deferred",
+      "where": "piece 4 catalog: page content (uses page.json)"
+    },
+    "service.returns-page": {
+      "status": "split",
+      "where": "page retourneren (page.json) + Shopify refund policy -> piece 4 catalog content / piece 6 docs (modelformulier)"
+    },
+    "service.maatwerk-no-return": {
+      "status": "theme",
+      "where": "configurator block notice + cart line 'Maatwerk, niet retour'; policy clause -> piece 6 docs"
+    },
+    "service.warranty-page": {
+      "status": "theme",
+      "where": "templates/page.garantie.json + sections/page-garantie.liquid (legal vs extra warranty, complaint form with photo link)"
+    },
+    "service.terms": {
+      "status": "deferred",
+      "where": "piece 6 docs: Shopify policies (footer-juridisch menu links them)"
+    },
+    "service.footer-links": {
+      "status": "theme",
+      "where": "sections/footer.liquid menu blocks (footer-* menus)"
+    },
+    "seo.clean-taxonomy": {
+      "status": "deferred",
+      "where": "piece 4 catalog (catalog/CONTRACT.md handles)"
+    },
+    "seo.brand-titles": {
+      "status": "theme",
+      "where": "layout/theme.liquid <title> (page_title – shop.name)"
+    },
+    "seo.structured-data": {
+      "status": "theme",
+      "where": "snippets/structured-data.liquid (Organization, WebSite, Product offers, BreadcrumbList), FAQPage in faq section, Article in main-article"
+    },
+    "product.statafelrok-fit": {
+      "status": "theme",
+      "where": "variant picker + custom.maatgids link on the size option + custom.past_op; catalog options -> piece 4"
+    },
+    "product.statafelhoes-strik": {
+      "status": "theme",
+      "where": "colour swatches + specs; catalog -> piece 4"
+    },
+    "product.printed-statafelhoes": {
+      "status": "theme",
+      "where": "bedrukken block on statafelrok-met-logo; catalog -> piece 4"
+    }
+  }
+}

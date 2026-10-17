@@ -22,7 +22,9 @@
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 192, height: 192 }}">
     {%- else -%}
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32.png' | asset_url }}">
       <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}" data-favicon>
+      <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
     {%- endif -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     {%- unless settings.type_heading_font.system? -%}
@@ -75,6 +77,8 @@
           preOrder: {{ 'product.pre_order' | t | json }},
           excl: {{ 'price.excl' | t | json }},
           printRequired: {{ 'product.print_required' | t | json }},
+          printChoose: {{ 'product.print_choose' | t | json }},
+          configBilled: {{ 'product.config_billed' | t: qty: '__QTY__', unit: '__UNIT__' | json }},
           soldOut: {{ 'product.sold_out' | t | json }},
           unavailable: {{ 'product.unavailable' | t | json }},
           cartError: {{ 'cart.error' | t | json }},
@@ -94,6 +98,9 @@
           staffelHint: {{ 'product.staffel_hint_html' | t: qty: '__QTY__', price: '__PRICE__' | json }},
           staffelNext: {{ 'product.staffel_next_html' | t: qty: '__QTY__', discount: '__DISCOUNT__' | json }},
           copied: {{ 'gift_card.copied' | t | json }},
+          cartLabelOneRaw: {{ 'header.cart_count.one' | t: count: 1 | replace: '1', '__COUNT__' | json }},
+          cartLabelOther: {{ 'header.cart_count.other' | t: count: '__COUNT__' | json }},
+          cartWord: {{ 'header.cart' | t | json }},
           linkCopied: {{ 'product.link_copied' | t | json }},
           showResults: {{ 'collection.show_results_js' | t: count: '__COUNT__' | json }}
         }

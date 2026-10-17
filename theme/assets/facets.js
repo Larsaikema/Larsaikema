@@ -109,11 +109,13 @@
           panel?.setAttribute('role', 'dialog');
           panel?.setAttribute('aria-modal', 'true');
           panel?.focus();
+          if (panel) KK.trapFocus(panel);
         }
         close() {
           if (!this.classList.contains('is-drawer-open')) return;
           this.classList.remove('is-drawer-open');
           document.body.classList.remove('is-locked');
+          KK.releaseFocus();
           const panel = this.querySelector('[data-facets-panel]');
           panel?.removeAttribute('role');
           panel?.removeAttribute('aria-modal');

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Outputs 'true' when this variant of a bedrukbaar product gets a print (feature product.print-option-reveal),
+  else 'false'. A variant whose value (for option custom.drukopties.optie, or any option) is in
+  custom.drukopties.zonder has no print. Default zonder list: Zonder logo, Zonder opdruk, Zonder bedrukking,
+  Geen opdruk, Geen bedrukking, Blanco. Params: product, variant. Use with capture.
+{%- endcomment -%}
+{%- liquid
+  assign pa = false
+  if product.metafields.custom.bedrukbaar.value == true or product.tags contains 'bedrukbaar'
+    assign pa = true
+    assign pa_druk = product.metafields.custom.drukopties.value
+    assign pa_zonder = 'zonder logo|zonder opdruk|zonder bedrukking|geen opdruk|geen bedrukking|blanco'
+    if pa_druk.zonder != blank
+      assign pa_zonder = pa_druk.zonder | join: '|' | downcase
+    endif
+    assign pa_zonder = '|' | append: pa_zonder | append: '|'
+    assign pa_index = -1
+    if pa_druk.optie != blank
+      assign pa_name = pa_druk.optie | downcase | strip
+      for o in product.options
+        assign o_name = o | downcase | strip
+        if o_name == pa_name
+          assign pa_index = forloop.index0
+        endif
+      endfor
+    endif
+    for o in variant.options
+      if pa_index >= 0 and forloop.index0 != pa_index
+        continue
+      endif
+      assign o_key = o | downcase | strip | prepend: '|' | append: '|'
+      if pa_zonder contains o_key
+        assign pa = false
+      endif
+    endfor
+  endif
+-%}
+{{- pa -}}

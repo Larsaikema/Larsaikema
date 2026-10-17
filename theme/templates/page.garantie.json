@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-garantie",
+      "blocks": {
+        "w1": { "type": "warranty", "settings": { "icon": "shield", "title": "Wettelijke garantie", "text": "<p>Elk product moet doen wat je er bij normaal gebruik van mag verwachten. Is dat niet zo, dan lossen we het op: we herstellen het, sturen een onderdeel of vervangen het. Dat geldt ook na de bedenktijd.</p>", "style": "white" } },
+        "w2": { "type": "warranty", "settings": { "icon": "check", "title": "Extra garantie op het frame", "text": "<p>Op sommige producten geven we extra garantie, bijvoorbeeld op het frame van een easy-up. Hoe lang precies, staat bij het product onder ‘Specificaties’.</p>", "style": "linnen" } },
+        "w3": { "type": "warranty", "settings": { "icon": "info", "title": "Wat er niet onder valt", "text": "<p>Schade door storm of harde wind, door een tent die niet vaststond, of door nat opbergen. Zet elke poot vast met haringen of gewichten en haal bij harde wind het dak eraf.</p>", "style": "white" } },
+        "s1": { "type": "step", "settings": { "title": "Meld het", "text": "Vul het formulier in met je bestelnummer en wat er aan de hand is." } },
+        "s2": { "type": "step", "settings": { "title": "Stuur een foto", "text": "Plak een link naar foto's of mail ze, dan zien we direct wat er nodig is." } },
+        "s3": { "type": "step", "settings": { "title": "We komen met een oplossing", "text": "Een onderdeel, herstel of vervanging. Je hoort van ons wat de volgende stap is." } }
+      },
+      "block_order": ["w1", "w2", "w3", "s1", "s2", "s3"],
+      "settings": { "steps_heading": "Zo handelen we je klacht af" }
+    }
+  },
+  "order": ["main"]
+}

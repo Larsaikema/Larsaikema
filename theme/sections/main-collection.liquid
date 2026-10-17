@@ -24,7 +24,7 @@
       {%- if intro != blank -%}
         <p class="collection-head__intro text-lg">{{ intro | newline_to_br }}</p>
       {%- elsif collection.description != blank and section.settings.show_description -%}
-        <div class="collection-head__intro rte text-lg">{{ collection.description | strip_html | truncatewords: 40 }}</div>
+        <div class="collection-head__intro rte text-lg">{%- render 'text-excerpt', html: collection.description, words: 40 -%}</div>
       {%- endif -%}
       {%- assign kenmerken = collection.metafields.custom.kenmerken.value -%}
       {%- if kenmerken != blank -%}

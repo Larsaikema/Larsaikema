@@ -10,63 +10,265 @@
   {
     "name": "Logo & favicon",
     "settings": [
-      { "type": "paragraph", "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk als inline SVG (scherp op elk scherm, kleur via de instellingen hieronder)." },
-      { "type": "image_picker", "id": "logo", "label": "Logo (vervangt het woordmerk)" },
-      { "type": "range", "id": "logo_width", "min": 100, "max": 260, "step": 2, "unit": "px", "label": "Logobreedte desktop", "default": 150 },
-      { "type": "range", "id": "logo_width_mobile", "min": 80, "max": 200, "step": 2, "unit": "px", "label": "Logobreedte mobiel", "default": 112 },
       {
-        "type": "select", "id": "logo_roof", "label": "Kleur van het dak in het woordmerk",
+        "type": "paragraph",
+        "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk als inline SVG: op desktop het gewone logo, onder 750 px het logo-klein (merkboek §3.3: onder 121 px breed). Kleur via de instellingen hieronder."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo (vervangt het woordmerk)"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 120,
+        "max": 260,
+        "step": 2,
+        "unit": "px",
+        "label": "Logobreedte desktop",
+        "default": 168,
+        "info": "Merkboek: 160–176 px. Niet smaller dan 121 px."
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mobile",
+        "min": 76,
+        "max": 160,
+        "step": 2,
+        "unit": "px",
+        "label": "Logobreedte mobiel",
+        "default": 104,
+        "info": "Merkboek: logo-klein op 100–110 px."
+      },
+      {
+        "type": "select",
+        "id": "logo_roof",
+        "label": "Kleur van het dak in het woordmerk",
         "options": [
-          { "value": "brand", "label": "Klaproos (standaard)" },
-          { "value": "mono", "label": "Gelijk aan de letters" }
+          {
+            "value": "brand",
+            "label": "Klaproos (standaard)"
+          },
+          {
+            "value": "mono",
+            "label": "Gelijk aan de letters"
+          }
         ],
         "default": "brand"
       },
-      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "Vierkant, minimaal 192 × 192 px. Zonder afbeelding gebruikt het thema favicon.svg." }
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Vierkant, minimaal 192 × 192 px. Zonder afbeelding gebruikt het thema favicon.svg."
+      }
     ]
   },
   {
     "name": "Kleuren",
     "settings": [
-      { "type": "header", "content": "Merkkleuren" },
-      { "type": "paragraph", "content": "Elke kleur heeft één taak (zie het merkboek). Alle combinaties halen WCAG AA met de standaardwaarden." },
-      { "type": "color", "id": "color_klaproos", "label": "Klaproos (primaire knop, dak)", "default": "#BE3A1D" },
-      { "type": "color", "id": "color_klaproos_donker", "label": "Klaproos donker (hover)", "default": "#9A2F17" },
-      { "type": "color", "id": "color_zon", "label": "Zon (accent, actie-badge, vinkjes)", "default": "#FFC23A" },
-      { "type": "color", "id": "color_polder", "label": "Polder (donkere vlakken, voorraad, zakelijk)", "default": "#154F3E" },
-      { "type": "color", "id": "color_inkt", "label": "Inkt (tekst, koppen, links)", "default": "#1D2420" },
-      { "type": "color", "id": "color_zand", "label": "Zand (pagina-achtergrond)", "default": "#FBF6EC" },
-      { "type": "color", "id": "color_duin", "label": "Duin (warme vlakken, chips)", "default": "#F2E8D5" },
-      { "type": "color", "id": "color_linnen", "label": "Linnen (zakelijk, staffels, specificaties)", "default": "#ECEEE8" },
-      { "type": "color", "id": "color_studio", "label": "Studio (achtergrond productbeeld)", "default": "#EFEDE8" },
-      { "type": "color", "id": "color_kiezel", "label": "Kiezel (secundaire tekst, veldranden)", "default": "#5D625C" },
-      { "type": "color", "id": "color_lijn", "label": "Lijn (decoratieve scheidingslijnen)", "default": "#E4D6BE" },
-      { "type": "header", "content": "Meldingen" },
-      { "type": "color", "id": "color_bordeaux", "label": "Fout (tekst en rand)", "default": "#8C1D2B" },
-      { "type": "color", "id": "color_foutroze", "label": "Fout (vlak)", "default": "#FBEAEA" },
-      { "type": "color", "id": "color_oker", "label": "Let op / levertijd (tekst)", "default": "#865800" },
-      { "type": "color", "id": "color_okerlicht", "label": "Let op (vlak)", "default": "#FFF4DA" },
-      { "type": "color", "id": "color_mos", "label": "Succes (vlak)", "default": "#E4EEE8" },
-      { "type": "header", "content": "Kleurschema's" },
+      {
+        "type": "header",
+        "content": "Merkkleuren"
+      },
+      {
+        "type": "paragraph",
+        "content": "Elke kleur heeft één taak (merkboek v3 §4). Klaproos alleen als vlak (knop, dak); Zon alleen voor vlag en actie; fouten zijn Bordeaux en nooit een vlak. Alle standaardcombinaties halen WCAG AA."
+      },
+      {
+        "type": "color",
+        "id": "color_klaproos",
+        "label": "Klaproos (primaire knop, dak in het logo)",
+        "default": "#C83812"
+      },
+      {
+        "type": "color",
+        "id": "color_klaproos_donker",
+        "label": "Klaproos donker (ingedrukte primaire knop)",
+        "default": "#982A0E"
+      },
+      {
+        "type": "color",
+        "id": "color_zon",
+        "label": "Zon (vlaggetje, actie-badge en actieprijs)",
+        "default": "#FFC23A"
+      },
+      {
+        "type": "color",
+        "id": "color_polder",
+        "label": "Polder (donkere vlakken, voorraad, zakelijk)",
+        "default": "#154F3E"
+      },
+      {
+        "type": "color",
+        "id": "color_inkt",
+        "label": "Inkt (tekst, koppen, links)",
+        "default": "#1D2420"
+      },
+      {
+        "type": "color",
+        "id": "color_zand",
+        "label": "Zand (pagina-achtergrond)",
+        "default": "#FBF6EC"
+      },
+      {
+        "type": "color",
+        "id": "color_duin",
+        "label": "Duin (warme vlakken, chips)",
+        "default": "#F2E8D5"
+      },
+      {
+        "type": "color",
+        "id": "color_linnen",
+        "label": "Linnen (zakelijk, staffels, specificaties)",
+        "default": "#ECEEE8"
+      },
+      {
+        "type": "color",
+        "id": "color_studio",
+        "label": "Studio (achtergrond productbeeld)",
+        "default": "#EFEDE8"
+      },
+      {
+        "type": "color",
+        "id": "color_kiezel",
+        "label": "Kiezel (secundaire tekst, veldranden)",
+        "default": "#5D625C"
+      },
+      {
+        "type": "color",
+        "id": "color_lijn",
+        "label": "Lijn (decoratieve scheidingslijnen)",
+        "default": "#E4D6BE"
+      },
+      {
+        "type": "header",
+        "content": "Meldingen"
+      },
+      {
+        "type": "color",
+        "id": "color_bordeaux",
+        "label": "Fout (tekst, icoon en rand; nooit een vlak)",
+        "default": "#8A1538"
+      },
+      {
+        "type": "color",
+        "id": "color_foutroze",
+        "label": "Fout (vlak)",
+        "default": "#FBEAEA"
+      },
+      {
+        "type": "color",
+        "id": "color_oker",
+        "label": "Let op / levertijd (tekst)",
+        "default": "#865800"
+      },
+      {
+        "type": "color",
+        "id": "color_okerlicht",
+        "label": "Let op (vlak)",
+        "default": "#FFF4DA"
+      },
+      {
+        "type": "color",
+        "id": "color_mos",
+        "label": "Succes (vlak)",
+        "default": "#E4EEE8"
+      },
+      {
+        "type": "header",
+        "content": "Kleurschema's"
+      },
       {
         "type": "color_scheme_group",
         "id": "color_schemes",
         "definition": [
-          { "type": "color", "id": "background", "label": "Achtergrond", "default": "#FBF6EC" },
-          { "type": "color_background", "id": "background_gradient", "label": "Achtergrondverloop", "info": "Laat leeg voor een effen vlak." },
-          { "type": "color", "id": "foreground", "label": "Tekst", "default": "#1D2420" },
-          { "type": "color", "id": "muted", "label": "Secundaire tekst", "default": "#5D625C" },
-          { "type": "color", "id": "primary_button", "label": "Primaire knop", "default": "#BE3A1D" },
-          { "type": "color", "id": "primary_button_label", "label": "Primaire knop tekst", "default": "#FFFFFF" },
-          { "type": "color", "id": "primary_button_hover", "label": "Primaire knop hover", "default": "#9A2F17" },
-          { "type": "color", "id": "secondary_button", "label": "Secundaire knop", "default": "#154F3E" },
-          { "type": "color", "id": "secondary_button_label", "label": "Secundaire knop tekst", "default": "#FBF6EC" },
-          { "type": "color", "id": "border", "label": "Randen (velden, outline-knop)", "default": "#5D625C" },
-          { "type": "color", "id": "focus", "label": "Focusring", "default": "#1D2420" }
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Achtergrond",
+            "default": "#FBF6EC"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Achtergrondverloop",
+            "info": "Laat leeg voor een effen vlak."
+          },
+          {
+            "type": "color",
+            "id": "foreground",
+            "label": "Tekst",
+            "default": "#1D2420"
+          },
+          {
+            "type": "color",
+            "id": "muted",
+            "label": "Secundaire tekst",
+            "default": "#5D625C"
+          },
+          {
+            "type": "color",
+            "id": "primary_button",
+            "label": "Primaire knop",
+            "default": "#C83812"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_label",
+            "label": "Primaire knop tekst",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover",
+            "label": "Primaire knop hover",
+            "default": "#1D2420"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover_label",
+            "label": "Primaire knop hover tekst",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_active",
+            "label": "Primaire knop ingedrukt",
+            "default": "#982A0E"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button",
+            "label": "Secundaire knop",
+            "default": "#154F3E"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Secundaire knop tekst",
+            "default": "#FBF6EC"
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "Randen (velden, outline-knop)",
+            "default": "#5D625C"
+          },
+          {
+            "type": "color",
+            "id": "focus",
+            "label": "Focusring",
+            "default": "#1D2420"
+          }
         ],
         "role": {
           "text": "foreground",
-          "background": { "solid": "background", "gradient": "background_gradient" },
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
           "links": "foreground",
           "icons": "foreground",
           "primary_button": "primary_button",
@@ -82,43 +284,203 @@
   {
     "name": "Typografie",
     "settings": [
-      { "type": "header", "content": "Koppen" },
-      { "type": "font_picker", "id": "type_heading_font", "label": "Lettertype koppen", "default": "archivo_n7", "info": "Merkfont: Archivo. Display, H1 en H2 gebruiken het extra vette gewicht als dat in de bibliotheek staat." },
-      { "type": "checkbox", "id": "heading_extrabold", "label": "Extra vet (800) voor grote koppen", "default": true },
-      { "type": "range", "id": "heading_scale", "min": 80, "max": 120, "step": 5, "unit": "%", "label": "Schaal koppen", "default": 100 },
-      { "type": "header", "content": "Tekst" },
-      { "type": "font_picker", "id": "type_body_font", "label": "Lettertype tekst", "default": "figtree_n4" },
-      { "type": "range", "id": "body_scale", "min": 90, "max": 115, "step": 5, "unit": "%", "label": "Schaal tekst", "default": 100 }
+      {
+        "type": "header",
+        "content": "Koppen"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "label": "Lettertype koppen",
+        "default": "mona_sans_n7",
+        "info": "Merkfont: Mona Sans (merkboek v3 §5). H3, H4 en kaarttitels in Bold (700); display, H1 en H2 in ExtraBold (800) als 'Extra vet' aan staat."
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_extrabold",
+        "label": "Extra vet (800) voor grote koppen",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "min": 80,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "label": "Schaal koppen",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "Tekst"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Lettertype tekst",
+        "default": "figtree_n4"
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "min": 90,
+        "max": 115,
+        "step": 5,
+        "unit": "%",
+        "label": "Schaal tekst",
+        "default": 100
+      }
     ]
   },
   {
     "name": "Layout",
     "settings": [
-      { "type": "range", "id": "page_width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "label": "Maximale paginabreedte", "default": 1360 },
-      { "type": "range", "id": "gutter_desktop", "min": 16, "max": 64, "step": 4, "unit": "px", "label": "Paginamarge desktop", "default": 40 },
-      { "type": "range", "id": "gutter_mobile", "min": 12, "max": 24, "step": 2, "unit": "px", "label": "Paginamarge mobiel", "default": 16 },
-      { "type": "range", "id": "section_spacing", "min": 32, "max": 128, "step": 8, "unit": "px", "label": "Ruimte tussen secties (desktop)", "default": 96, "info": "Mobiel is de helft, met een minimum van 40 px." },
-      { "type": "header", "content": "Afronding" },
-      { "type": "range", "id": "radius_card", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Kaarten en beelden", "default": 12 },
-      { "type": "range", "id": "radius_panel", "min": 0, "max": 32, "step": 1, "unit": "px", "label": "Panelen en drawers", "default": 16 },
-      { "type": "range", "id": "radius_input", "min": 0, "max": 16, "step": 1, "unit": "px", "label": "Invoervelden", "default": 8 },
-      { "type": "range", "id": "radius_badge", "min": 0, "max": 12, "step": 1, "unit": "px", "label": "Badges", "default": 4 },
-      { "type": "header", "content": "Beweging" },
-      { "type": "checkbox", "id": "animations", "label": "Uitklap-animaties (drawers, accordeons, hover)", "default": true, "info": "Bij 'beweging beperken' in het besturingssysteem staan ze altijd uit." }
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1100,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "label": "Maximale paginabreedte",
+        "default": 1360
+      },
+      {
+        "type": "range",
+        "id": "gutter_desktop",
+        "min": 16,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "label": "Paginamarge desktop",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "gutter_mobile",
+        "min": 12,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "label": "Paginamarge mobiel",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "min": 32,
+        "max": 128,
+        "step": 8,
+        "unit": "px",
+        "label": "Ruimte tussen secties (desktop)",
+        "default": 96,
+        "info": "Mobiel is de helft, met een minimum van 40 px."
+      },
+      {
+        "type": "header",
+        "content": "Afronding"
+      },
+      {
+        "type": "range",
+        "id": "radius_card",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Kaarten en beelden",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "radius_panel",
+        "min": 0,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Panelen en drawers",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "radius_input",
+        "min": 0,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "label": "Invoervelden",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "radius_badge",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Badges",
+        "default": 4
+      },
+      {
+        "type": "header",
+        "content": "Beweging"
+      },
+      {
+        "type": "checkbox",
+        "id": "animations",
+        "label": "Uitklap-animaties (drawers, accordeons, hover)",
+        "default": true,
+        "info": "Bij 'beweging beperken' in het besturingssysteem staan ze altijd uit."
+      }
     ]
   },
   {
     "name": "Knoppen",
     "settings": [
-      { "type": "range", "id": "radius_button", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Afronding", "default": 8 },
       {
-        "type": "select", "id": "button_size", "label": "Hoogte",
-        "options": [ { "value": "44", "label": "Compact (44 px)" }, { "value": "48", "label": "Normaal (48 px)" }, { "value": "52", "label": "Groot (52 px)" } ],
+        "type": "range",
+        "id": "radius_button",
+        "min": 0,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "label": "Afronding",
+        "default": 8
+      },
+      {
+        "type": "select",
+        "id": "button_size",
+        "label": "Hoogte",
+        "options": [
+          {
+            "value": "44",
+            "label": "Compact (44 px)"
+          },
+          {
+            "value": "48",
+            "label": "Normaal (48 px)"
+          },
+          {
+            "value": "52",
+            "label": "Groot (52 px)"
+          }
+        ],
         "default": "48"
       },
       {
-        "type": "select", "id": "button_case", "label": "Tekst",
-        "options": [ { "value": "none", "label": "Zoals getypt" }, { "value": "uppercase", "label": "Hoofdletters" } ],
+        "type": "select",
+        "id": "button_case",
+        "label": "Tekst",
+        "options": [
+          {
+            "value": "none",
+            "label": "Zoals getypt"
+          },
+          {
+            "value": "uppercase",
+            "label": "Hoofdletters"
+          }
+        ],
         "default": "none"
       }
     ]
@@ -127,87 +489,380 @@
     "name": "Productkaarten",
     "settings": [
       {
-        "type": "select", "id": "card_image_ratio", "label": "Beeldverhouding",
-        "options": [ { "value": "1/1", "label": "Vierkant" }, { "value": "4/5", "label": "Staand (4:5)" }, { "value": "4/3", "label": "Liggend (4:3)" } ],
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Beeldverhouding",
+        "options": [
+          {
+            "value": "1/1",
+            "label": "Vierkant"
+          },
+          {
+            "value": "4/5",
+            "label": "Staand (4:5)"
+          },
+          {
+            "value": "4/3",
+            "label": "Liggend (4:3)"
+          }
+        ],
         "default": "1/1"
       },
-      { "type": "checkbox", "id": "card_second_image", "label": "Tweede beeld bij hover", "default": true },
-      { "type": "checkbox", "id": "card_swatches", "label": "Kleurstalen tonen", "default": true },
-      { "type": "range", "id": "card_swatch_limit", "min": 3, "max": 8, "step": 1, "label": "Maximaal aantal stalen", "default": 5 },
-      { "type": "checkbox", "id": "card_kenmerk", "label": "Spec-regel (custom.kenmerk_kort) tonen", "default": true },
-      { "type": "checkbox", "id": "card_stock", "label": "Voorraad- en leverregel tonen", "default": true },
-      { "type": "checkbox", "id": "card_quick_add", "label": "Snel toevoegen bij producten zonder varianten", "default": true },
-      { "type": "checkbox", "id": "card_vendor", "label": "Merk tonen", "default": false }
+      {
+        "type": "checkbox",
+        "id": "card_second_image",
+        "label": "Tweede beeld bij hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_swatches",
+        "label": "Kleurstalen tonen",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "card_swatch_limit",
+        "min": 3,
+        "max": 8,
+        "step": 1,
+        "label": "Maximaal aantal stalen",
+        "default": 5
+      },
+      {
+        "type": "checkbox",
+        "id": "card_kenmerk",
+        "label": "Spec-regel (custom.kenmerk_kort) tonen",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_stock",
+        "label": "Voorraad- en leverregel tonen",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_quick_add",
+        "label": "Snel toevoegen bij producten zonder varianten",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_vendor",
+        "label": "Merk tonen",
+        "default": false
+      }
     ]
   },
   {
     "name": "Prijzen & btw",
     "settings": [
       {
-        "type": "select", "id": "price_display", "label": "Prijsweergave",
+        "type": "select",
+        "id": "price_display",
+        "label": "Prijsweergave",
         "options": [
-          { "value": "incl", "label": "Altijd incl. btw eerst" },
-          { "value": "excl", "label": "Altijd excl. btw eerst" },
-          { "value": "toggle", "label": "Schakelaar Particulier / Zakelijk" }
+          {
+            "value": "incl",
+            "label": "Altijd incl. btw eerst"
+          },
+          {
+            "value": "excl",
+            "label": "Altijd excl. btw eerst"
+          },
+          {
+            "value": "toggle",
+            "label": "Schakelaar Particulier / Zakelijk"
+          }
         ],
         "default": "toggle"
       },
-      { "type": "checkbox", "id": "price_show_secondary", "label": "Ook de andere prijs klein tonen", "default": true, "info": "Bv. '€ 319,00 incl. btw' met daaronder '€ 263,64 excl. btw'." },
-      { "type": "range", "id": "vat_rate", "min": 0, "max": 27, "step": 1, "unit": "%", "label": "Btw-tarief", "default": 21, "info": "Alleen voor het tonen van de prijs excl. btw. De echte btw rekent Shopify bij het afrekenen." },
-      { "type": "checkbox", "id": "price_show_currency_code", "label": "Valutacode tonen (EUR)", "default": false }
+      {
+        "type": "checkbox",
+        "id": "price_show_secondary",
+        "label": "Ook de andere prijs klein tonen",
+        "default": true,
+        "info": "Bv. '€ 319,00 incl. btw' met daaronder '€ 263,64 excl. btw'."
+      },
+      {
+        "type": "range",
+        "id": "vat_rate",
+        "min": 0,
+        "max": 27,
+        "step": 1,
+        "unit": "%",
+        "label": "Btw-tarief",
+        "default": 21,
+        "info": "Alleen voor het tonen van de prijs excl. btw. De echte btw rekent Shopify bij het afrekenen."
+      },
+      {
+        "type": "checkbox",
+        "id": "price_show_currency_code",
+        "label": "Valutacode tonen (EUR)",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "staffel_mode",
+        "label": "Staffelkorting wordt verrekend",
+        "options": [
+          {
+            "value": "automatic",
+            "label": "Automatisch in de winkelwagen (automatische korting staat aan)"
+          },
+          {
+            "value": "quote",
+            "label": "Via een offerte"
+          },
+          {
+            "value": "hide",
+            "label": "Geen uitleg tonen"
+          }
+        ],
+        "default": "quote",
+        "info": "Kies 'Automatisch' pas als je in Shopify automatische kortingen per staffel hebt aangemaakt (zie docs). Tot die tijd belooft de productpagina niet dat de korting in de winkelwagen staat."
+      }
     ]
   },
   {
     "name": "Levering",
     "settings": [
-      { "type": "paragraph", "content": "Dit zijn claims: vul alleen in wat je echt waarmaakt. Ze staan ook in docs/claims-to-confirm.md." },
-      { "type": "text", "id": "cutoff_time", "label": "Besteltijd voor verzending dezelfde werkdag", "default": "14:00", "info": "Notatie UU:MM." },
-      { "type": "text", "id": "shipping_days", "label": "Verzenddagen", "default": "ma,di,wo,do,vr", "info": "Afkortingen ma, di, wo, do, vr, za, zo, gescheiden door komma's." },
-      { "type": "textarea", "id": "holidays", "label": "Geen verzending op (feestdagen)", "default": "2026-12-25\n2026-12-26\n2027-01-01\n2027-04-05\n2027-04-27\n2027-05-05\n2027-05-13\n2027-05-24", "info": "Eén datum per regel: JJJJ-MM-DD." },
-      { "type": "range", "id": "transit_days_pakket", "min": 0, "max": 5, "step": 1, "label": "Werkdagen onderweg (pakket)", "default": 1 },
-      { "type": "range", "id": "transit_days_pallet", "min": 1, "max": 10, "step": 1, "label": "Werkdagen onderweg (pallet)", "default": 3 },
-      { "type": "text", "id": "delivery_text_pakket", "label": "Levertekst pakket (fallback zonder JavaScript)", "default": "Op werkdagen vóór 14:00 besteld, vandaag verzonden" },
-      { "type": "text", "id": "delivery_text_pallet", "label": "Levertekst pallet", "default": "Levering per pallet op afspraak, meestal binnen 2–4 werkdagen" },
-      { "type": "text", "id": "delivery_text_backorder", "label": "Levertekst als het product nabesteld wordt", "default": "Leverbaar over 2–3 weken" },
-      { "type": "number", "id": "free_shipping_threshold", "label": "Gratis verzending vanaf (EUR, incl. btw)", "default": 150, "info": "0 = geen drempel tonen." },
-      { "type": "range", "id": "return_days", "min": 0, "max": 60, "step": 1, "unit": "d", "label": "Bedenktijd (dagen)", "default": 14 },
-      { "type": "text", "id": "warranty_text", "label": "Garantietekst", "default": "2 jaar garantie op het frame" },
-      { "type": "url", "id": "shipping_page", "label": "Pagina 'Verzenden en bezorgen'" },
-      { "type": "url", "id": "returns_page", "label": "Pagina 'Retourneren'" }
+      {
+        "type": "paragraph",
+        "content": "Dit zijn claims: vul alleen in wat je echt waarmaakt. Ze staan ook in docs/claims-to-confirm.md."
+      },
+      {
+        "type": "text",
+        "id": "cutoff_time",
+        "label": "Besteltijd voor verzending dezelfde werkdag",
+        "default": "14:00",
+        "info": "Notatie UU:MM."
+      },
+      {
+        "type": "text",
+        "id": "shipping_days",
+        "label": "Verzenddagen",
+        "default": "ma,di,wo,do,vr",
+        "info": "Afkortingen ma, di, wo, do, vr, za, zo, gescheiden door komma's."
+      },
+      {
+        "type": "textarea",
+        "id": "holidays",
+        "label": "Geen verzending op (feestdagen)",
+        "default": "2026-12-25\n2026-12-26\n2027-01-01\n2027-04-05\n2027-04-27\n2027-05-05\n2027-05-13\n2027-05-24",
+        "info": "Eén datum per regel: JJJJ-MM-DD."
+      },
+      {
+        "type": "range",
+        "id": "transit_days_pakket",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "label": "Werkdagen onderweg (pakket)",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "transit_days_pallet",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "label": "Werkdagen onderweg (pallet)",
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "transit_days_be_extra",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "label": "Extra werkdagen onderweg naar België",
+        "default": 1
+      },
+      {
+        "type": "text",
+        "id": "delivery_days",
+        "label": "Bezorgdagen van de vervoerder",
+        "default": "ma,di,wo,do,vr",
+        "info": "Dagen waarop bezorgd wordt, bv. 'ma,di,wo,do,vr,za' als de vervoerder op zaterdag bezorgt."
+      },
+      {
+        "type": "text",
+        "id": "delivery_text_pakket",
+        "label": "Levertekst pakket (fallback zonder JavaScript)",
+        "default": "Op werkdagen vóór 14:00 besteld, vandaag verzonden"
+      },
+      {
+        "type": "text",
+        "id": "delivery_text_pallet",
+        "label": "Levertekst pallet",
+        "default": "Levering per pallet op afspraak, meestal binnen 2–4 werkdagen"
+      },
+      {
+        "type": "text",
+        "id": "delivery_text_backorder",
+        "label": "Levertekst als het product nabesteld wordt",
+        "default": "Leverbaar over 2–3 weken"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Gratis verzending vanaf (EUR, incl. btw)",
+        "default": 150,
+        "info": "0 = geen drempel tonen."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_shipping_cost",
+        "label": "Verzendkosten op de productpagina tonen",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "shipping_cost_pakket",
+        "label": "Verzendkosten pakket (EUR, incl. btw)",
+        "default": "6,95",
+        "info": "Moet gelijk zijn aan je tarief in Shopify > Verzending. Leeg = niet tonen. 0 = gratis."
+      },
+      {
+        "type": "text",
+        "id": "shipping_cost_pallet",
+        "label": "Verzendkosten pallet (EUR, incl. btw)",
+        "default": "59,00"
+      },
+      {
+        "type": "range",
+        "id": "return_days",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "unit": "d",
+        "label": "Bedenktijd (dagen)",
+        "default": 14
+      },
+      {
+        "type": "text",
+        "id": "warranty_text",
+        "label": "Garantietekst",
+        "default": "2 jaar garantie op het frame"
+      },
+      {
+        "type": "url",
+        "id": "shipping_page",
+        "label": "Pagina 'Verzenden en bezorgen'"
+      },
+      {
+        "type": "url",
+        "id": "returns_page",
+        "label": "Pagina 'Retourneren'"
+      }
     ]
   },
   {
     "name": "Winkelwagen",
     "settings": [
       {
-        "type": "select", "id": "cart_type", "label": "Na toevoegen",
-        "options": [ { "value": "drawer", "label": "Winkelwagen-drawer openen" }, { "value": "page", "label": "Naar de winkelwagenpagina" } ],
+        "type": "select",
+        "id": "cart_type",
+        "label": "Na toevoegen",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Winkelwagen-drawer openen"
+          },
+          {
+            "value": "page",
+            "label": "Naar de winkelwagenpagina"
+          }
+        ],
         "default": "drawer"
       },
-      { "type": "checkbox", "id": "cart_free_shipping_bar", "label": "Voortgang naar gratis verzending tonen", "default": true },
-      { "type": "checkbox", "id": "cart_show_note", "label": "Opmerking bij bestelling", "default": true },
-      { "type": "checkbox", "id": "cart_show_vat_breakdown", "label": "Btw-specificatie tonen", "default": true },
-      { "type": "collection", "id": "cart_upsell_collection", "label": "Upsell-collectie ('Vergeet niet')" },
-      { "type": "range", "id": "cart_upsell_limit", "min": 2, "max": 6, "step": 1, "label": "Aantal upsell-producten", "default": 3 },
-      { "type": "checkbox", "id": "cart_quote_link", "label": "Link 'Liever een offerte voor deze winkelwagen?'", "default": true }
+      {
+        "type": "checkbox",
+        "id": "cart_free_shipping_bar",
+        "label": "Voortgang naar gratis verzending tonen",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_note",
+        "label": "Opmerking bij bestelling",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_vat_breakdown",
+        "label": "Btw-specificatie tonen",
+        "default": true
+      },
+      {
+        "type": "collection",
+        "id": "cart_upsell_collection",
+        "label": "Upsell-collectie ('Vergeet niet')"
+      },
+      {
+        "type": "range",
+        "id": "cart_upsell_limit",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "label": "Aantal upsell-producten",
+        "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_quote_link",
+        "label": "Link 'Liever een offerte voor deze winkelwagen?'",
+        "default": true
+      }
     ]
   },
   {
     "name": "Zoeken",
     "settings": [
-      { "type": "checkbox", "id": "predictive_search_enabled", "label": "Zoeksuggesties tijdens het typen", "default": true },
-      { "type": "checkbox", "id": "predictive_search_show_price", "label": "Prijs tonen in suggesties", "default": true },
-      { "type": "range", "id": "predictive_search_limit", "min": 3, "max": 10, "step": 1, "label": "Aantal productsuggesties", "default": 6 }
+      {
+        "type": "checkbox",
+        "id": "predictive_search_enabled",
+        "label": "Zoeksuggesties tijdens het typen",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "predictive_search_show_price",
+        "label": "Prijs tonen in suggesties",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "predictive_search_limit",
+        "min": 3,
+        "max": 10,
+        "step": 1,
+        "label": "Aantal productsuggesties",
+        "default": 6
+      }
     ]
   },
   {
     "name": "Kleurstalen",
     "settings": [
-      { "type": "paragraph", "content": "Het thema gebruikt de kleur van de optiewaarde (Shopify-kleurstaal) als die bestaat. Anders zoekt het de naam hieronder op." },
-      { "type": "text", "id": "swatch_option_names", "label": "Opties die als kleurstaal tonen", "default": "Kleur, Kleur rokken, Kleur strik, Rok", "info": "Namen van opties, gescheiden door komma's." },
       {
-        "type": "textarea", "id": "swatch_colors", "label": "Kleurnamen en hexcodes",
-        "default": "Wit: #F3F3F0\nOffwhite: #EEEADF\nCrème: #ECE3CF\nChampagne: #E4D6BC\nIvoor: #EFE9DA\nZwart: #1D1E20\nAntraciet: #3F4247\nGrijs: #6E7276\nDonkergrijs: #4A4D52\nLichtgrijs: #B9BBBD\nZilver: #BFC2C5\nBlauw: #1E4E9E\nKoningsblauw: #2048A8\nDonkerblauw: #1B2A4C\nNavy: #1B2A4A\nMarineblauw: #1B2A4C\nLichtblauw: #78A9D6\nTurquoise: #159FA3\nRood: #B5161E\nKlaproos: #BE3A1D\nBordeaux: #6B1A27\nRoze: #E27BA9\nFuchsia: #C2206E\nPaars: #57297F\nLila: #A893C8\nGroen: #1F6C3C\nDonkergroen: #1E3B2B\nLichtgroen: #7DB744\nLimoen: #9CC93A\nOlijf: #6A6B3A\nMint: #A6D9C2\nOranje: #E2681B\nGeel: #F1C21A\nGoud: #C49A45\nBeige: #D8CBB2\nZandkleur: #CDBB98\nTaupe: #8B7D6E\nBruin: #6A4A33\nCamel: #B98A57\nBerken: #D9B98C\nHoutlook: #8A6A48\nTransparant: #E9EEF0",
+        "type": "paragraph",
+        "content": "Het thema gebruikt de kleur van de optiewaarde (Shopify-kleurstaal) als die bestaat. Anders zoekt het de naam hieronder op."
+      },
+      {
+        "type": "text",
+        "id": "swatch_option_names",
+        "label": "Opties die als kleurstaal tonen",
+        "default": "Kleur, Kleur rokken, Kleur strik, Rok",
+        "info": "Namen van opties, gescheiden door komma's."
+      },
+      {
+        "type": "textarea",
+        "id": "swatch_colors",
+        "label": "Kleurnamen en hexcodes",
+        "default": "Wit: #F3F3F0\nOffwhite: #EEEADF\nCrème: #ECE3CF\nChampagne: #E4D6BC\nIvoor: #EFE9DA\nZwart: #1D1E20\nAntraciet: #3F4247\nGrijs: #6E7276\nDonkergrijs: #4A4D52\nLichtgrijs: #B9BBBD\nZilver: #BFC2C5\nBlauw: #1E4E9E\nKoningsblauw: #2048A8\nDonkerblauw: #1B2A4C\nNavy: #1B2A4A\nMarineblauw: #1B2A4C\nLichtblauw: #78A9D6\nTurquoise: #159FA3\nRood: #B5161E\nKlaproos: #C83812\nBordeaux: #6B1A27\nRoze: #E27BA9\nFuchsia: #C2206E\nPaars: #57297F\nLila: #A893C8\nGroen: #1F6C3C\nDonkergroen: #1E3B2B\nLichtgroen: #7DB744\nLimoen: #9CC93A\nOlijf: #6A6B3A\nMint: #A6D9C2\nOranje: #E2681B\nGeel: #F1C21A\nGoud: #C49A45\nBeige: #D8CBB2\nZandkleur: #CDBB98\nTaupe: #8B7D6E\nBruin: #6A4A33\nCamel: #B98A57\nBerken: #D9B98C\nHoutlook: #8A6A48\nTransparant: #E9EEF0",
         "info": "Eén kleur per regel, 'Naam: #hex'. Elke kleur uit de catalogus moet hier staan."
       }
     ]
@@ -215,41 +870,157 @@
   {
     "name": "Contact & bedrijf",
     "settings": [
-      { "type": "paragraph", "content": "Deze gegevens verschijnen in de header, de footer, de contactpagina en in de structured data. Vul alleen in wat klopt." },
-      { "type": "text", "id": "company_name", "label": "Bedrijfsnaam", "default": "Klapklaar" },
-      { "type": "text", "id": "phone", "label": "Telefoon", "info": "Bv. 038 123 45 67. Leeg = niet tonen." },
-      { "type": "text", "id": "whatsapp", "label": "WhatsApp-nummer", "info": "Internationaal zonder + en spaties, bv. 31612345678." },
-      { "type": "text", "id": "email", "label": "E-mailadres", "default": "hallo@klapklaar.nl" },
-      { "type": "text", "id": "kvk", "label": "KvK-nummer" },
-      { "type": "text", "id": "btw_nummer", "label": "Btw-nummer" },
-      { "type": "textarea", "id": "address", "label": "Adres" },
-      { "type": "textarea", "id": "openingstijden", "label": "Openingstijden klantenservice", "default": "ma–vr 08:30–17:00\nza op afspraak" },
-      { "type": "text", "id": "response_time", "label": "Reactietijd", "default": "We reageren binnen één werkdag." }
+      {
+        "type": "paragraph",
+        "content": "Deze gegevens verschijnen in de header, de footer, de contactpagina en in de structured data. Vul alleen in wat klopt."
+      },
+      {
+        "type": "text",
+        "id": "company_name",
+        "label": "Bedrijfsnaam",
+        "default": "Klapklaar"
+      },
+      {
+        "type": "text",
+        "id": "phone",
+        "label": "Telefoon",
+        "info": "Bv. 038 123 45 67. Leeg = niet tonen."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp",
+        "label": "WhatsApp-nummer",
+        "info": "Internationaal zonder + en spaties, bv. 31612345678."
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "E-mailadres",
+        "default": "hallo@klapklaar.nl"
+      },
+      {
+        "type": "text",
+        "id": "kvk",
+        "label": "KvK-nummer"
+      },
+      {
+        "type": "text",
+        "id": "btw_nummer",
+        "label": "Btw-nummer"
+      },
+      {
+        "type": "textarea",
+        "id": "address",
+        "label": "Adres"
+      },
+      {
+        "type": "textarea",
+        "id": "openingstijden",
+        "label": "Openingstijden klantenservice",
+        "default": "ma–vr 08:30–17:00\nza op afspraak"
+      },
+      {
+        "type": "text",
+        "id": "response_time",
+        "label": "Reactietijd",
+        "default": "We reageren binnen één werkdag."
+      }
     ]
   },
   {
     "name": "Social media",
     "settings": [
-      { "type": "text", "id": "social_instagram", "label": "Instagram", "info": "https://instagram.com/…" },
-      { "type": "text", "id": "social_facebook", "label": "Facebook" },
-      { "type": "text", "id": "social_linkedin", "label": "LinkedIn" },
-      { "type": "text", "id": "social_youtube", "label": "YouTube" },
-      { "type": "text", "id": "social_tiktok", "label": "TikTok" },
-      { "type": "text", "id": "social_pinterest", "label": "Pinterest" }
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram",
+        "info": "https://instagram.com/…"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin",
+        "label": "LinkedIn"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest",
+        "label": "Pinterest"
+      }
     ]
   },
   {
     "name": "Zakelijk",
     "settings": [
-      { "type": "text", "id": "b2b_customer_tag", "label": "Klant-tag voor zakelijke klanten", "default": "zakelijk", "info": "Klanten met deze tag zien prijzen standaard excl. btw." },
-      { "type": "checkbox", "id": "b2b_excl_first", "label": "Zakelijke klanten zien excl. btw eerst", "default": true },
-      { "type": "url", "id": "quote_page", "label": "Offertepagina", "info": "Standaard /pages/offerte." },
-      { "type": "url", "id": "b2b_page", "label": "Zakelijk-pagina", "info": "Standaard /pages/zakelijk." },
-      { "type": "number", "id": "b2b_nudge_qty", "label": "Volume-tip vanaf aantal", "default": 10 },
-      { "type": "text", "id": "b2b_nudge_text", "label": "Volume-tip op productpagina", "default": "Zakelijk? Vanaf 10 stuks maken we een offerte op maat, op factuur." },
-      { "type": "text", "id": "b2b_cta_label", "label": "Knoptekst offerte", "default": "Offerte aanvragen" },
-      { "type": "text", "id": "b2b_toggle_particulier", "label": "Label schakelaar particulier", "default": "Particulier" },
-      { "type": "text", "id": "b2b_toggle_zakelijk", "label": "Label schakelaar zakelijk", "default": "Zakelijk" }
+      {
+        "type": "text",
+        "id": "b2b_customer_tag",
+        "label": "Klant-tag voor zakelijke klanten",
+        "default": "zakelijk",
+        "info": "Klanten met deze tag zien prijzen standaard excl. btw."
+      },
+      {
+        "type": "checkbox",
+        "id": "b2b_excl_first",
+        "label": "Zakelijke klanten zien excl. btw eerst",
+        "default": true
+      },
+      {
+        "type": "url",
+        "id": "quote_page",
+        "label": "Offertepagina",
+        "info": "Standaard /pages/offerte."
+      },
+      {
+        "type": "url",
+        "id": "b2b_page",
+        "label": "Zakelijk-pagina",
+        "info": "Standaard /pages/zakelijk."
+      },
+      {
+        "type": "number",
+        "id": "b2b_nudge_qty",
+        "label": "Volume-tip vanaf aantal",
+        "default": 10
+      },
+      {
+        "type": "text",
+        "id": "b2b_nudge_text",
+        "label": "Volume-tip op productpagina",
+        "default": "Zakelijk? Vanaf 10 stuks maken we een offerte op maat, op factuur."
+      },
+      {
+        "type": "text",
+        "id": "b2b_cta_label",
+        "label": "Knoptekst offerte",
+        "default": "Offerte aanvragen"
+      },
+      {
+        "type": "text",
+        "id": "b2b_toggle_particulier",
+        "label": "Label schakelaar particulier",
+        "default": "Particulier"
+      },
+      {
+        "type": "text",
+        "id": "b2b_toggle_zakelijk",
+        "label": "Label schakelaar zakelijk",
+        "default": "Zakelijk"
+      }
     ]
   }
 ]

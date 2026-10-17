@@ -33,7 +33,10 @@
       "youtube": "Klapklaar op YouTube",
       "tiktok": "Klapklaar op TikTok",
       "pinterest": "Klapklaar op Pinterest"
-    }
+    },
+    "rotator_pause": "Wisselende berichten pauzeren",
+    "rotator_play": "Wisselende berichten hervatten",
+    "rotator_next": "Volgend bericht"
   },
   "header": {
     "search_placeholder": "Zoek op product, maat of artikelnummer",
@@ -71,7 +74,8 @@
     "save": "Actie −{{ percent }}%",
     "per_piece": "per stuk",
     "unit_price": "Eenheidsprijs",
-    "vat_amount": "waarvan btw {{ rate }}%"
+    "vat_amount": "waarvan btw {{ rate }}%",
+    "per_unit": "per {{ unit }}"
   },
   "product": {
     "add_to_cart": "In mijn winkelwagen",
@@ -143,7 +147,41 @@
     "safety_note": "Staat stevig, ook als het waait. Zet elke poot vast met haringen of een voetgewicht. Bij harde wind: dak eraf.",
     "recommendations": "Vaak samen bekeken",
     "complementary": "Vergeet niet",
-    "print_required": "Upload je logo, of kies ‘Ik lever mijn logo later aan’."
+    "print_required": "Upload je logo, of kies ‘Ik lever mijn logo later aan’.",
+    "notify_title": "Mail me als hij terug is",
+    "notify_button": "Mail me",
+    "notify_success": "Top, we mailen je zodra hij er weer is.",
+    "print_choose": "Kies een bestand (max. 20 MB)",
+    "status_discontinued": "Permanent uitverkocht",
+    "status_discontinued_text": "Deze verkopen we niet meer. De pagina blijft staan, zodat je makkelijk een vervanger vindt.",
+    "status_alternatives": "Kies een vervanger",
+    "status_coming": "Binnenkort leverbaar",
+    "config_title": "Jouw maat",
+    "config_help": "Vul je maten in, de prijs rekent direct mee.",
+    "config_invalid": "Kies een maat tussen {{ min }} en {{ max }} {{ unit }}.",
+    "config_area": "Oppervlakte",
+    "config_unit_price": "Prijs per {{ unit }}",
+    "config_total": "Prijs voor jouw maat",
+    "config_min": "We rekenen minimaal {{ min }} {{ unit }}.",
+    "config_tolerance": "Maattolerantie: {{ value }}.",
+    "config_billed": "je betaalt {{ qty }} {{ unit }}",
+    "maatwerk_title": "Maatwerk: niet retour",
+    "maatwerk_text": "We maken dit speciaal op jouw maat. Daarom geldt er geen bedenktijd en kun je het niet retourneren. Meet dus goed na; twijfel je, bel of app ons even.",
+    "included_title": "Wat zit erin",
+    "included_label": "Inbegrepen",
+    "excluded_label": "Niet inbegrepen",
+    "bundle_title": "Dit zit in het pakket",
+    "bundle_loose": "Los gekocht",
+    "bundle_price": "Pakketprijs",
+    "bundle_save_prefix": "Je bespaart",
+    "bundle_save_suffix": "ten opzichte van los kopen.",
+    "bundle_save_short": "Bespaar",
+    "bundle_vs_loose": "ten opzichte van los kopen",
+    "staffel_note_quote": "Staffelprijzen rekenen we af via een offerte.",
+    "print_step_delivery": "Levertijd: {{ lead_time }}",
+    "print_more": "Meer over bedrukken",
+    "print_later_value": "Lever ik later aan",
+    "download_type": "{{ type }}-bestand"
   },
   "delivery": {
     "label": "Levering",
@@ -157,7 +195,13 @@
     "minutes": "{{ m }} min",
     "today": "vandaag",
     "tomorrow": "morgen",
-    "eta_short": "{{ date }} in huis"
+    "eta_short": "{{ date }} in huis",
+    "lead_time": "Levertijd {{ lead_time }}",
+    "shipping_free": "Gratis verzending",
+    "shipping_cost": "Verzendkosten {{ amount }}",
+    "shipping_cost_pallet": "Palletlevering {{ amount }} per bestelling",
+    "shipping_free_from": "gratis vanaf {{ amount }}",
+    "shipping_more": "Meer over verzenden"
   },
   "card": {
     "quick_add": "In winkelwagen",
@@ -170,7 +214,11 @@
     "badge_logo": "Met jouw logo",
     "badge_staffel": "Staffelprijs",
     "badge_sold_out": "Uitverkocht",
-    "badge_set": "Voordeelset"
+    "badge_set": "Voordeelset",
+    "badge_discontinued": "Uit het assortiment",
+    "badge_coming": "Binnenkort",
+    "badge_custom": "Op maat",
+    "configure": "Stel je maat samen"
   },
   "collection": {
     "products_count": {
@@ -249,7 +297,9 @@
     "file": "Bestand",
     "updating": "Winkelwagen wordt bijgewerkt",
     "secure": "Veilig betalen met iDEAL, Bancontact en meer",
-    "discount_saved": "Je bespaart {{ amount }}"
+    "discount_saved": "Je bespaart {{ amount }}",
+    "free_shipping_remaining": "Nog {{ amount }} tot gratis verzending",
+    "maatwerk_line": "Maatwerk, niet retour"
   },
   "search": {
     "title": "Zoeken",
@@ -347,7 +397,13 @@
       "other": "{{ count }} min lezen"
     },
     "tags": "Onderwerpen",
-    "empty": "Hier komen binnenkort artikelen."
+    "empty": "Hier komen binnenkort artikelen.",
+    "comments_title": "Reacties",
+    "comment_body": "Je reactie",
+    "comment_submit": "Plaats reactie",
+    "comment_success": "Bedankt, je reactie staat erbij.",
+    "comment_success_moderated": "Bedankt! We plaatsen je reactie zodra we hem gelezen hebben.",
+    "comment_moderated_note": "We lezen reacties eerst, daarna komen ze online."
   },
   "not_found": {
     "title": "Deze pagina is ingeklapt.",
@@ -393,5 +449,34 @@
     },
     "loading": "Bezig met laden",
     "external": "Externe link"
+  },
+  "manuals": {
+    "search_label": "Zoek een handleiding",
+    "search_placeholder": "Bijv. easy-up of statafel",
+    "filter_label": "Filter op soort product",
+    "all": "Alles",
+    "count": {
+      "one": "{{ count }} product met handleiding",
+      "other": "{{ count }} producten met handleidingen"
+    },
+    "empty": "Geen handleiding gevonden. Probeer een ander woord, of bel of app ons.",
+    "none": "Hier komen de handleidingen zodra ze bij de producten staan."
+  },
+  "warranty": {
+    "form_title": "Meld je klacht",
+    "form_intro": "Hoe meer je vertelt, hoe sneller we het oplossen.",
+    "success": "Bedankt, je melding is binnen.",
+    "subject": "Klacht of garantie",
+    "product": "Om welk product gaat het?",
+    "since": "Sinds wanneer?",
+    "wish": "Wat heeft je voorkeur?",
+    "wish_repair": "Herstellen",
+    "wish_part": "Een los onderdeel",
+    "wish_replace": "Vervangen",
+    "wish_unsure": "Weet ik nog niet",
+    "issue": "Wat is er aan de hand?",
+    "photos": "Link naar foto's of een video",
+    "photos_help": "Bestanden kun je hier niet uploaden. Plak een link (WeTransfer, Google Drive), of mail je foto's naar {{ email }} met je bestelnummer erbij.",
+    "submit": "Klacht versturen"
   }
 }

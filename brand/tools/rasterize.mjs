@@ -6,21 +6,22 @@ const require = createRequire(import.meta.url);
 const { chromium } = require(`${execSync('npm root -g').toString().trim()}/playwright`);
 const B = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const jobs = [
-  ['favicon.svg', 32, 'favicon-32.png', 'transparent'],
-  ['favicon.svg', 192, 'favicon-192.png', 'transparent'],
-  ['svg/favicon-16.svg', 16, 'img/favicon-16.png', 'transparent'],
-  ['svg/favicon-cart.svg', 32, 'img/favicon-cart-32.png', 'transparent'],
-  ['mark.svg', 180, 'img/apple-touch-icon-180.png', '#C83812'],
-  ['mark.svg', 512, 'img/mark-512.png', 'transparent'],
+  ['favicon.svg', 32, 'favicon-32.png'],                 // 32-raster drawing (k under the tent)
+  ['mark.svg', 192, 'favicon-192.png'],                  // PWA / Android: full vector mark
+  ['svg/favicon-16.svg', 16, 'img/favicon-16.png'],      // 16-raster drawing (tent only)
+  ['svg/favicon-cart.svg', 32, 'img/favicon-cart-32.png'],
+  ['svg/favicon-cart-16.svg', 16, 'img/favicon-cart-16.png'],
+  ['svg/apple-touch-icon.svg', 180, 'img/apple-touch-icon-180.png'],   // full-bleed square, iOS rounds it
+  ['mark.svg', 512, 'img/mark-512.png'],
 ];
 const b = await chromium.launch();
-for (const [src, s, out, bg] of jobs) {
+for (const [src, s, out] of jobs) {
   const p = await b.newPage({ viewport: { width: s, height: s }, deviceScaleFactor: 1 });
   const svg = fs.readFileSync(path.join(B, src), 'utf8');
-  await p.setContent(`<html><body style="margin:0;background:${bg}"><img style="display:block;width:${s}px;height:${s}px" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"></body></html>`);
+  await p.setContent(`<html><body style="margin:0;background:transparent"><img style="display:block;width:${s}px;height:${s}px" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"></body></html>`);
   await p.waitForTimeout(80);
   fs.mkdirSync(path.dirname(path.join(B, out)), { recursive: true });
-  await p.screenshot({ path: path.join(B, out), omitBackground: bg === 'transparent' });
+  await p.screenshot({ path: path.join(B, out), omitBackground: true });
   await p.close();
 }
 await b.close(); console.log('ok', jobs.length);

@@ -1,5 +1,6 @@
 /* Main product form: AJAX add to cart (/cart/add.js) incl. add-ons (items[]) and logo upload (FormData),
-   live total on the button, staffel hint, print validation and the sticky mobile buy bar. */
+   live total on the button, staffel hint, print validation (only for variants with print) and the sticky
+   mobile buy bar. Configurator products are validated by <product-configurator> first. */
 (() => {
   const KK = window.KK;
   const MAX_MB = 20;
@@ -18,7 +19,7 @@
           this.root.addEventListener('change', (e) => {
             if (e.target === this.qty || e.target.matches('[data-addon]')) this.refresh();
             if (e.target.matches('.print__file')) this.onFile(e.target);
-            if (e.target.matches('[data-print-later]')) this.clearPrintError();
+            if (e.target.matches('[data-print-later]')) this.onLater(e.target);
           });
           this.unsubs = [
             KK.on('variant:change', ({ variant, root }) => {
@@ -39,7 +40,7 @@
         }
         disconnectedCallback() {
           this.unsubs?.forEach((u) => u());
-          this.io?.disconnect();
+          removeEventListener('scroll', this.onScroll);
         }
         get quantity() {
           return Math.max(1, Number(this.qty?.value) || 1);
@@ -101,6 +102,22 @@
           }
           if (name) name.textContent = f.name;
           input.closest('.field')?.classList.add('has-file');
+          const later = this.root.querySelector('[data-print-later]');
+          if (later) later.checked = false;
+        }
+        /** 'Ik lever mijn logo later aan': the upload field steps aside, the line gets Logo: Lever ik later aan */
+        onLater(box) {
+          this.clearPrintError();
+          const file = this.root.querySelector('.print__file');
+          if (!file) return;
+          file.disabled = box.checked;
+          file.closest('.field')?.classList.toggle('is-disabled', box.checked);
+          if (box.checked && file.value) {
+            file.value = '';
+            file.closest('.field')?.classList.remove('has-file');
+            const name = this.root.querySelector('[data-file-name]');
+            if (name) name.textContent = KK.strings.printChoose || '';
+          }
         }
         printError(msg) {
           const box = this.root.querySelector('[data-print-error]');
@@ -118,12 +135,21 @@
           e.preventDefault();
           if (this.button.disabled || this.button.dataset.state === 'busy') return;
           this.error.hidden = true;
+          const cfg = this.root.querySelector('product-configurator');
+          if (cfg && cfg.validateAll && !cfg.validateAll()) return;
           const fd = new FormData(this.form);
-          const file = fd.get('properties[Logo]');
-          const hasFile = file instanceof File && file.size > 0;
-          if (file instanceof File && !hasFile) fd.delete('properties[Logo]');
-          const print = this.root.querySelector('.print');
-          if (print && !hasFile && !fd.get('properties[Logo later aanleveren]')) {
+          // properties[Logo] is either the uploaded file or the 'later aanleveren' value (the print fieldset is
+          // disabled for variants without print, so then neither is in the form data)
+          const logo = fd.getAll('properties[Logo]');
+          const file = logo.find((x) => x instanceof File && x.size > 0);
+          const later = logo.find((x) => typeof x === 'string' && x !== '');
+          fd.delete('properties[Logo]');
+          if (file) fd.append('properties[Logo]', file);
+          else if (later) fd.append('properties[Logo]', later);
+          const hasFile = !!file;
+          [...fd.keys()].forEach((k) => k.startsWith('properties[') && fd.get(k) === '' && fd.delete(k));
+          const print = this.root.querySelector('[data-print]');
+          if (print && !print.disabled && !print.hidden && !hasFile && !later) {
             return this.printError(print.dataset.required || KK.strings.printRequired);
           }
           const addonItems = this.addons().map((a) => ({ id: Number(a.value), quantity: 1 }));
@@ -168,14 +194,25 @@
         }
         initSticky() {
           const bar = this.root.querySelector('[data-sticky-buy]');
-          if (!bar || !('IntersectionObserver' in window)) return;
-          this.io = new IntersectionObserver(([entry]) => {
-            const show = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+          if (!bar) return;
+          const btn = bar.querySelector('[data-sticky-add]');
+          let ticking = false;
+          const update = () => {
+            ticking = false;
+            const show = this.button.getBoundingClientRect().bottom < 0;
+            if (show === bar.classList.contains('is-visible')) return;
             bar.classList.toggle('is-visible', show);
             bar.setAttribute('aria-hidden', String(!show));
-            bar.querySelector('[data-sticky-add]')?.setAttribute('tabindex', show ? '0' : '-1');
-          });
-          this.io.observe(this.button);
+            btn?.setAttribute('tabindex', show ? '0' : '-1');
+          };
+          this.onScroll = () => {
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(update);
+            }
+          };
+          addEventListener('scroll', this.onScroll, { passive: true });
+          update();
         }
       }
     );

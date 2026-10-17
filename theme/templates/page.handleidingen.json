@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-handleidingen",
+      "settings": {
+        "help_heading": "Handleiding kwijt of vraag over opzetten?",
+        "help_text": "Staat jouw product er niet bij, of kom je er niet uit? Bel of app ons, dan helpen we je verder.",
+        "help_link": "shopify://pages/contact",
+        "help_label": "Neem contact op"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -5,6 +5,8 @@
   - size: 'lg' | blank
   - id (string): id on the wrapper (main product uses price-<section id>)
   - quantity (number): multiply (cart totals)
+  - unit (string): price per unit, e.g. 'm²' for made-to-measure products
+  A sale price sits in the Zon label (brand book 4.2); the compare-at price is Kiezel and struck through.
 {%- endcomment -%}
 {%- liquid
   assign target = variant | default: product.selected_or_first_available_variant
@@ -36,13 +38,15 @@
   {%- if product.available == false and variant == blank -%}{%- assign sold = true -%}{%- endif -%}
   <div class="price__main" data-vat-mode="incl">
     {%- if show_from -%}<span class="price__from">{{ 'price.from' | t }}</span>{%- endif -%}
-    <span class="price__value">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_fmt }}</span>
+    <span class="price__value{% if on_sale %} price__value--sale{% endif %}">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_fmt }}</span>
+    {%- if unit != blank -%}<span class="price__unit">{{ 'price.per_unit' | t: unit: unit }}</span>{%- endif -%}
     {%- if on_sale -%}<s class="price__compare"><span class="visually-hidden">{{ 'price.regular' | t }}</span>{{ cp | money }}</s>{%- endif -%}
     <span class="price__label">{{ 'price.incl' | t }}</span>
   </div>
   <div class="price__main" data-vat-mode="excl">
     {%- if show_from -%}<span class="price__from">{{ 'price.from' | t }}</span>{%- endif -%}
-    <span class="price__value">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_excl_fmt }}</span>
+    <span class="price__value{% if on_sale %} price__value--sale{% endif %}">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_excl_fmt }}</span>
+    {%- if unit != blank -%}<span class="price__unit">{{ 'price.per_unit' | t: unit: unit }}</span>{%- endif -%}
     {%- if on_sale -%}<s class="price__compare"><span class="visually-hidden">{{ 'price.regular' | t }}</span>{{ cp_excl | money }}</s>{%- endif -%}
     <span class="price__label">{{ 'price.excl' | t }}</span>
   </div>

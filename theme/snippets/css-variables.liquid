@@ -82,12 +82,19 @@
     --btn-bg: {{ scheme.settings.primary_button }};
     --btn-fg: {{ scheme.settings.primary_button_label }};
     --btn-hover: {{ scheme.settings.primary_button_hover }};
+    --btn-hover-fg: {{ scheme.settings.primary_button_hover_label | default: scheme.settings.primary_button_label }};
+    --btn-active: {{ scheme.settings.primary_button_active | default: scheme.settings.primary_button_hover }};
     --btn2-bg: {{ scheme.settings.secondary_button }};
     --btn2-fg: {{ scheme.settings.secondary_button_label }};
     --border: {{ scheme.settings.border }};
     --focus: {{ scheme.settings.focus }};
     {%- assign scheme_brightness = scheme.settings.background | color_brightness %}
-    --link-hover: {% if scheme_brightness < 110 %}var(--c-zon){% else %}var(--c-klaproos-donker){% endif %};
+    {%- assign btn2_brightness = scheme.settings.secondary_button | color_brightness %}
+    {%- comment -%} hover keeps a visible edge on dark schemes; secondary hover is Inkt (Polder when it already is Inkt) {%- endcomment %}
+    --btn-hover-bd: {% if scheme_brightness < 110 %}{{ scheme.settings.foreground }}{% else %}{{ scheme.settings.primary_button_hover }}{% endif %};
+    --btn2-hover: {% if btn2_brightness < 45 %}var(--c-polder){% else %}var(--c-inkt){% endif %};
+    --btn2-hover-bd: {% if scheme_brightness < 110 %}{{ scheme.settings.foreground }}{% else %}var(--btn2-hover){% endif %};
+    --link-hover: currentColor;
     --surface: {% if scheme_brightness < 110 %}rgba(255,255,255,.07){% else %}#FFFFFF{% endif %};
     {%- if scheme.settings.background_gradient != blank %}
     --bg-gradient: {{ scheme.settings.background_gradient }};

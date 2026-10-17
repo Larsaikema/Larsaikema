@@ -18,7 +18,7 @@
 .form-section legend{font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:18px;padding:0;margin-bottom:12px}
 .form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
 .form-note{font-size:14px;color:var(--c-kiezel);margin-top:12px}
-.required{color:var(--c-bordeaux)}
+.required{color:inherit;font-weight:var(--font-body-weight-bold)}
 
 .contact-list{list-style:none;display:grid;gap:4px;margin:0 0 20px}
 .contact-list a,.contact-list span{display:flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font-weight:var(--font-body-weight-semibold)}
@@ -45,7 +45,7 @@
 .benefit__icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--c-linnen);color:var(--c-polder)}
 .benefit h3{margin:4px 0 0;font-size:18px}
 .benefit p{margin:0;color:var(--c-kiezel);font-size:15px}
-.example-staffel{max-width:520px}
+.example-staffel{margin-top:4px}
 .steps-row{list-style:none;display:grid;gap:12px;counter-reset:st}
 @media (min-width:750px){.steps-row{grid-template-columns:repeat(var(--steps,3),minmax(0,1fr));gap:20px}}
 .step{position:relative;background:#fff;border-radius:var(--radius-card);padding:20px 20px 22px;display:flex;flex-direction:column;gap:8px}
@@ -67,8 +67,8 @@
 .quote-line{display:grid;gap:8px;grid-template-columns:1fr 92px;align-items:end;padding:14px;border-radius:var(--radius-card);background:var(--c-zand);position:relative}
 @media (min-width:750px){.quote-line{grid-template-columns:2fr 1.4fr 96px 44px}}
 .quote-line .field{margin:0}
-.quote-line__variant{grid-column:1/-1}
-@media (min-width:750px){.quote-line__variant{grid-column:auto}}
+.quote-line>.field:first-of-type{grid-column:1/-1}
+@media (min-width:750px){.quote-line>.field:first-of-type{grid-column:auto}}
 .quote-line__remove{position:absolute;top:8px;right:8px}
 @media (min-width:750px){.quote-line__remove{position:static}}
 .quote-line__label{grid-column:1/-1;font-size:13px;font-weight:var(--font-body-weight-bold);color:var(--c-kiezel);letter-spacing:.04em;text-transform:uppercase}
@@ -76,8 +76,47 @@
 
 /* 404 / list collections */
 .not-found{text-align:center;padding-block:48px 24px;max-width:640px;margin:0 auto}
-.not-found .icon--lg{width:64px;height:64px;color:var(--c-klaproos);margin:0 auto 16px}
+.not-found .icon--lg{width:64px;height:64px;color:var(--c-inkt);margin:0 auto 16px}
 .not-found form{display:flex;gap:8px;margin:24px auto 0;max-width:480px}
 .not-found .input{flex:1;min-width:0}
 .not-found .btn-row{justify-content:center;margin-top:20px}
 .form-errors{margin:4px 0 0;padding-left:1.1em;font-size:14.5px}
+.not-found .icon--lg{display:block}
+
+/* garantie en klachten */
+.warranty{display:grid;gap:24px}
+.warranty__cards{list-style:none;display:grid;gap:12px}
+@media (min-width:750px){.warranty__cards{grid-template-columns:1fr 1fr}.warranty__cards li:first-child{grid-column:1/-1}}
+.warranty__card{background:#fff;border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;gap:8px}
+.warranty__card--linnen{background:var(--c-linnen)}
+.warranty__card h2{margin:4px 0 0}
+.warranty__card .rte{font-size:15.5px;color:var(--c-inkt)}
+.warranty__steps-title{margin:8px 0 0}
+.warranty__steps{list-style:none;display:grid;gap:12px}
+.warranty__steps li{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:var(--radius-card);padding:16px 18px}
+.warranty__steps h3{margin:6px 0 2px}
+.warranty__steps p{margin:0;font-size:15px}
+
+/* handleidingen */
+manuals-hub{display:block}
+.manuals__tools{display:grid;gap:12px;margin-bottom:12px}
+@media (min-width:990px){.manuals__tools{grid-template-columns:minmax(280px,420px) 1fr;align-items:end;gap:24px}.manuals__types{justify-content:flex-end}}
+.manuals__search{margin:0}
+.input-icon{position:relative}
+.input-icon .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--c-kiezel);pointer-events:none}
+.input-icon .input{padding-left:44px}
+.manuals .chip{cursor:pointer}
+.manuals__count{margin:0 0 12px}
+.manuals__list{list-style:none;display:grid;gap:12px}
+@media (min-width:990px){.manuals__list{grid-template-columns:1fr 1fr;gap:16px}}
+.manual{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;background:#fff;border-radius:var(--radius-card);padding:16px}
+.manual__media{width:96px;height:96px;border-radius:10px;overflow:hidden;background:var(--c-studio)}
+.manual__media img{width:100%;height:100%;object-fit:contain}
+.manual__body{min-width:0}
+.manual__type{margin:0 0 4px;color:var(--c-kiezel)}
+.manual__title{margin:0 0 10px}
+.manual .downloads__link{background:var(--c-zand)}
+.manuals__help{margin-top:24px}
+.manuals__empty{margin-top:12px}
+@media (max-width:479px){.manual{grid-template-columns:64px 1fr;gap:12px}.manual__media{width:64px;height:64px}}
+.warranty__card--linnen .benefit__icon{background:#fff}

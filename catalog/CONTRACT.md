@@ -35,6 +35,40 @@ Colour swatches: the theme uses `value.swatch.color` when present (seed script l
 | `gewicht_kg` | number_decimal | spec + shipping |
 | `verpakt` | single_line_text_field | packed dimensions |
 | `garantie` | single_line_text_field | e.g. "2 jaar op frame" (owner-confirmed claim) |
+| `included` | list.single_line_text_field | "Wat zit erin" checklist on the PDP (what is in the box) |
+| `excluded` | list.single_line_text_field | same block, struck as "niet inbegrepen" ("Zijwanden (los te bestellen)") |
+| `availability_status` | single_line_text_field | empty (normal stock logic) · `binnenkort` (Binnenkort leverbaar, no add to cart while sold out) · `pre-order` (button "Nu bestellen, later leveren") · `permanent-uitverkocht` (page stays for SEO, no add to cart, shows `alternatieven`) |
+| `alternatieven` | list.product_reference | replacements shown on a `permanent-uitverkocht` PDP (fallback: `past_op`) |
+| `verzendkosten` | single_line_text_field | overrides the per-class shipping-cost line on the PDP ("Verzendkosten op dit product: € 12,50") |
+| `maatgids` | page_reference | size guide for this product; the link sits on the size option (Maat / Tafelmaat / Diameter …) only |
+| `configurator` | json | made to measure (see below); the variant price is the price per unit (m²) |
+| `maatwerk` | boolean | shows the "Maatwerk: niet retour" notice (also implied by `configurator.maatwerk`) |
+| `componenten` | list.variant_reference (or list.product_reference) | bundle / actiepakket components; set on each bundle **variant** (fallback: on the product) |
+| `component_aantallen` | list.number_integer | quantity per component, same order as `componenten` ([4, 4]) |
+
+`drukopties` also takes `"optie": "Bedrukking"` and `"zonder": ["Zonder logo"]`: a variant whose value for that option is in
+`zonder` gets no upload/print fields and no print lead time (default `zonder` list: Zonder logo, Zonder opdruk, Zonder
+bedrukking, Geen opdruk, Geen bedrukking, Blanco). The print lead time (`drukopties.levertijd`) replaces the dispatch line
+only for print variants, so do not put a print lead time in `levertijd`.
+
+`configurator` (product.configurator-maatwerk / -stretch):
+
+```json
+{"type": "oppervlakte", "eenheid": "m²",
+ "velden": [{"id": "lengte", "label": "Lengte", "min": 5, "max": 25, "stap": 0.5, "standaard": 10, "eenheid": "m"},
+            {"id": "breedte", "label": "Breedte", "min": 4, "max": 20, "stap": 0.5, "standaard": 7.5, "eenheid": "m"}],
+ "keuzes": [{"label": "Afspanning", "opties": ["Spanbanden met ratel", "Touwset met haringen"]}],
+ "min_afname": 20, "tolerantie": "± 2 cm per meter", "maatwerk": true}
+```
+
+The theme multiplies the fields (`type` `oppervlakte`; `lengte` uses the first field only), rounds up to whole units, applies
+`min_afname`, and adds the line with quantity = billed units and properties `Afmeting`, `Oppervlakte`, each `keuzes` label,
+plus private `_eenheid` / `_maatwerk`. Price-relevant choices (palenset, colour) are variant options; price-neutral ones
+are `keuzes`. Give configurator variants inventory policy `continue` (made to order) and a `levertijd`.
+
+Bundles: on Shopify use the Bundles app or plain bundle products; either way fill `componenten` + `component_aantallen` on
+every bundle variant with the exact component variants (seed script: `gid://shopify/ProductVariant/<id>`). The PDP lists
+the components and shows "Je bespaart € x" only when the summed component prices are higher than the bundle price.
 
 Standard review-app metafields `reviews.rating` / `reviews.rating_count` are read when present; the catalog
 never sets them (no fabricated reviews).
@@ -70,16 +104,21 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 
 `over-ons` → page · `contact` → page.contact · `zakelijk` → page.zakelijk · `offerte` → page.offerte ·
 `bedrukken` → page.bedrukken · `veelgestelde-vragen` → page.faq · `verzenden-en-bezorgen` → page ·
-`retourneren` → page · `garantie` → page · `betaalmethoden` → page · `maatadvies-statafelrokken` → page ·
+`retourneren` → page · `garantie` → page.garantie (garantie + klachtformulier) · `handleidingen` → page.handleidingen
+(lists every product with `downloads`) · `betaalmethoden` → page · `maatadvies-statafelrokken` → page ·
+`maatadvies-partytenten` → page ·
 `showroom-en-afhalen` → page (only if the owner confirms a pickup location; otherwise left unpublished).
 
 ## Blog
 
-Handle `advies` (title "Advies & inspiratie"), original how-to articles (opzetten easy-up, welke statafelrok past,
+Handle `advies` (title "Advies & inspiratie"). Article metafield `custom.producten` (list.product_reference) fills
+"Producten uit dit artikel" per article (fallback: an article tag `collectie:<handle>`). Original how-to articles (opzetten easy-up, welke statafelrok past,
 hoeveel statafels per gast, partytent onderhouden en opbergen, partytent verankeren bij wind, bedrukken: zo lever je je logo aan).
 
 ## Theme settings that hold business claims (all owner-editable, listed in docs/claims-to-confirm.md)
 
-`cutoff_time` (default `14:00`), `shipping_days` (ma–vr), `holidays` (dates), `free_shipping_threshold`
+`cutoff_time` (default `14:00`), `shipping_days` (ma–vr), `delivery_days` (carrier days, ma–vr), `transit_days_pakket` /
+`transit_days_pallet` / `transit_days_be_extra`, `shipping_cost_pakket` / `shipping_cost_pallet` (PDP shipping line, must
+match the Shopify rates), `staffel_mode` (`quote` until automatic discounts exist), `holidays` (dates), `free_shipping_threshold`
 (EUR), `return_days`, `warranty_text`, `vat_rate` (21), `price_display` (`incl` | `excl` | `toggle`),
 `usp_*` texts, `phone`, `whatsapp`, `email`, `kvk`, `btw_nummer`, `address`.

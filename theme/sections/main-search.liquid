@@ -83,7 +83,7 @@
                       <a class="search-other__item" href="{{ item.url }}">
                         <span class="eyebrow">{% if item.object_type == 'article' %}{{ 'search.articles' | t }}{% else %}{{ 'search.pages' | t }}{% endif %}</span>
                         <span class="search-other__title-text">{{ item.title }}</span>
-                        <span class="muted text-sm">{{ item.content | strip_html | truncatewords: 24 }}</span>
+                        <span class="muted text-sm">{%- render 'text-excerpt', html: item.content, words: 24 -%}</span>
                       </a>
                     </li>
                   {%- endunless -%}
@@ -111,7 +111,7 @@
   .search-other__title{margin:40px 0 12px}
   .search-other{list-style:none;display:grid;gap:10px}
   .search-other__item{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:var(--radius-card);background:#fff;text-decoration:none}
-  .search-other__item .eyebrow{margin:0;color:var(--c-klaproos-donker)}
+  .search-other__item .eyebrow{margin:0;color:var(--c-kiezel)}
   .search-other__title-text{font-weight:var(--font-body-weight-bold);font-size:17px}
   .search-other__item:hover .search-other__title-text{text-decoration:underline}
 </style>

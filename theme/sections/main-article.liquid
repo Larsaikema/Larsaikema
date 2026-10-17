@@ -5,7 +5,7 @@
   <div class="page-width page-width--text">
     <header class="article__header">
       {%- render 'breadcrumbs' -%}
-      {%- if article.tags.size > 0 -%}<p class="eyebrow" style="color:var(--c-klaproos-donker)">{{ article.tags.first }}</p>{%- endif -%}
+      {%- if article.tags.size > 0 -%}<p class="eyebrow article__eyebrow">{{ article.tags.first }}</p>{%- endif -%}
       <h1>{{ article.title }}</h1>
       <p class="article__meta">{{ article.published_at | date: format: 'date' }} · {{ 'blog.by' | t: author: article.author }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
     </header>
@@ -22,13 +22,66 @@
       <div class="chips">{%- for tag in article.tags -%}<a class="chip" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>{%- endfor -%}</div>
     </footer>
   </div>
-  {%- assign rel = section.settings.products_collection -%}
-  {%- if rel != blank and rel.products_count > 0 -%}
+  {%- liquid
+    # Products per article (feature content.blog): article metafield custom.producten (list.product_reference),
+    # else a tag 'collectie:<handle>', else the optional fallback collection of this section. Never one fixed
+    # collection for every article.
+    assign rel_products = article.metafields.custom.producten.value
+    assign rel_collection = nil
+    if rel_products == blank
+      for tag in article.tags
+        if tag contains 'collectie:'
+          assign rel_handle = tag | remove: 'collectie:' | strip
+          assign rel_collection = collections[rel_handle]
+          break
+        endif
+      endfor
+      if rel_collection == blank
+        assign rel_collection = section.settings.products_collection
+      endif
+      if rel_collection != blank and rel_collection.products_count > 0
+        assign rel_products = rel_collection.products
+      endif
+    endif
+  -%}
+  {%- if rel_products != blank and rel_products.size > 0 -%}
     <div class="page-width article__products">
-      <div class="section-head"><h2 class="section-head__title">{{ 'blog.related_products' | t }}</h2><a class="link" href="{{ rel.url }}">{{ 'general.view_all' | t }}</a></div>
+      <div class="section-head">
+        <h2 class="section-head__title">{% if section.settings.products_heading != blank %}{{ section.settings.products_heading }}{% else %}{{ 'blog.related_products' | t }}{% endif %}</h2>
+        {%- if rel_collection != blank -%}<a class="link" href="{{ rel_collection.url }}">{{ 'general.view_all' | t }}</a>{%- endif -%}
+      </div>
       <ul class="slider slider--desktop-grid" role="list" style="--cols: 4; --slide-w: 68%">
-        {%- for p in rel.products limit: 4 -%}<li>{%- render 'product-card', product: p, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>{%- endfor -%}
+        {%- for p in rel_products limit: 4 -%}<li>{%- render 'product-card', product: p, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>{%- endfor -%}
       </ul>
+    </div>
+  {%- endif -%}
+
+  {%- if blog.comments_enabled? -%}
+    <div class="page-width page-width--text article__comments" id="comments">
+      <h2 class="h3">{{ 'blog.comments_title' | t }} ({{ article.comments_count }})</h2>
+      {%- if article.comments_count > 0 -%}
+        <ol class="comments" role="list">
+          {%- for comment in article.comments -%}
+            <li class="comment">
+              <p class="comment__meta"><strong>{{ comment.author }}</strong> · <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: format: 'date' }}</time></p>
+              <div class="rte">{{ comment.content }}</div>
+            </li>
+          {%- endfor -%}
+        </ol>
+      {%- endif -%}
+      {%- form 'new_comment', article, class: 'comment-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span>{% if blog.moderated? %}{{ 'blog.comment_success_moderated' | t }}{% else %}{{ 'blog.comment_success' | t }}{% endif %}</span></p>
+        {%- endif -%}
+        {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span>{{ 'forms.error_heading' | t }}</span></div>{%- endif -%}
+        <div class="form-grid form-grid--2">
+          <div class="field"><label class="field__label" for="CommentAuthor">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="CommentAuthor" name="comment[author]" autocomplete="name" required value="{{ form.author }}"></div>
+          <div class="field"><label class="field__label" for="CommentEmail">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="CommentEmail" type="email" name="comment[email]" autocomplete="email" required value="{{ form.email }}"></div>
+          <div class="field field--full"><label class="field__label" for="CommentBody">{{ 'blog.comment_body' | t }} <span class="required" aria-hidden="true">*</span></label><textarea class="textarea" id="CommentBody" name="comment[body]" rows="5" required>{{ form.body }}</textarea></div>
+        </div>
+        {%- if blog.moderated? -%}<p class="text-sm muted">{{ 'blog.comment_moderated_note' | t }}</p>{%- endif -%}
+        <button type="submit" class="btn btn--secondary">{{ 'blog.comment_submit' | t }}</button>
+      {%- endform -%}
     </div>
   {%- endif -%}
 </article>
@@ -48,6 +101,9 @@
 {
   "name": "Artikel",
   "class": "section-main-article",
-  "settings": [ { "type": "collection", "id": "products_collection", "label": "Producten onder het artikel" } ]
+  "settings": [
+    { "type": "text", "id": "products_heading", "label": "Kop producten", "default": "Producten uit dit artikel" },
+    { "type": "collection", "id": "products_collection", "label": "Reservecollectie", "info": "Alleen voor artikelen zonder custom.producten en zonder tag 'collectie:<handle>'. Leeg = dan geen producten." }
+  ]
 }
 {% endschema %}

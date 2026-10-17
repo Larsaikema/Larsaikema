@@ -1,8 +1,8 @@
 {"out":"tent-3x3-wit-hero.webp","model":"easyUpTent","w":3,"d":3,"color":"wit","legs":"premium","angle":"hero"}
 {"out":"tent-3x3-wit-front.webp","model":"easyUpTent","w":3,"d":3,"color":"wit","legs":"premium","angle":"front"}
 {"out":"tent-3x3-wit-detail.webp","model":"easyUpTent","w":3,"d":3,"color":"wit","legs":"premium","angle":"detail"}
-{"out":"tent-3x6-zwart-zijwanden-hero.webp","model":"easyUpTent","w":6,"d":3,"color":"zwart","legs":"premium","walls":{"back":["window","window"],"left":"windows","right":"door"},"angle":"hero"}
-{"out":"tent-3x6-zwart-zijwanden-detail.webp","model":"easyUpTent","w":6,"d":3,"color":"zwart","legs":"premium","walls":{"back":["window","window"],"left":"windows","right":"door"},"angle":"detail"}
+{"out":"tent-3x6-zwart-zijwanden-hero.webp","model":"easyUpTent","w":6,"d":3,"color":"zwart","legs":"premium","walls":{"back":["window","door"],"left":"windows","right":"closed"},"angle":"hero"}
+{"out":"tent-3x6-zwart-zijwanden-detail.webp","model":"easyUpTent","w":6,"d":3,"color":"zwart","legs":"premium","walls":{"back":["window","door"],"left":"windows","right":"closed"},"angle":"detail"}
 {"out":"tent-3x3-rood-professional-gewichten-hero.webp","model":"easyUpTent","w":3,"d":3,"color":"rood","legs":"professional","weights":2,"angle":"hero"}
 {"out":"statafel-80-stretch-zwart-hero.webp","model":"statafelCover","type":"stretch","color":"zwart","diameter":0.8,"angle":"hero"}
 {"out":"statafel-80-stretch-rood-hero.webp","model":"statafelCover","type":"stretch","color":"rood","diameter":0.8,"angle":"hero"}

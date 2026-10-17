@@ -21,7 +21,7 @@
 
       <div class="header__logo-wrap">
         <a href="{{ routes.root_url }}" class="header__logo" style="--logo-w: {{ settings.logo_width }}px; --logo-w-mobile: {{ settings.logo_width_mobile }}px;{% if settings.logo_roof == 'mono' %} --logo-roof: currentColor;{% endif %}">
-          {%- render 'logo', image: true -%}
+          {%- render 'logo', image: true, variant: 'auto' -%}
         </a>
       </div>
 
@@ -69,13 +69,20 @@
             {%- assign mega_id = 'Mega-' | append: section.id | append: '-' | append: forloop.index -%}
             <li class="nav__item{% if link.links != blank %} nav__item--has-mega{% endif %}">
               {%- if link.links != blank -%}
+                {%- comment -%}
+                  Disclosure pattern (WCAG 2.1.1 / 1.4.13): the top item is a button that opens its panel on click,
+                  Enter/Space or (fine pointer) hover. Focus never opens a panel, so Tab moves from top item to top
+                  item; Esc closes the panel and returns focus without re-opening it. The category page itself is
+                  the first link inside the panel ('Alles in …').
+                {%- endcomment -%}
                 <mega-menu class="mega-trigger">
-                  <a href="{{ link.url }}" class="nav__link{% if link.child_active or link.active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
+                  <button type="button" class="nav__link{% if link.child_active or link.active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
                     {{ link.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
-                  </a>
+                  </button>
                   <div class="mega" id="{{ mega_id }}" data-mega-panel>
                     <div class="page-width mega__inner">
                       <div class="mega__cols">
+                        <a class="mega__all" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
                         {%- for child in link.links -%}
                           <div class="mega__col">
                             <a class="mega__heading" href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a>
@@ -88,7 +95,6 @@
                             {%- endif -%}
                           </div>
                         {%- endfor -%}
-                        <a class="mega__all link" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
                       </div>
                       {%- for block in section.blocks -%}
                         {%- assign promo_for = block.settings.menu_item | strip | downcase -%}
@@ -139,7 +145,7 @@
 <menu-drawer>
   <dialog class="drawer drawer--left menu-drawer" id="MenuDrawer" aria-label="{{ 'general.menu' | t }}">
     <div class="drawer__head">
-      <span class="menu-drawer__logo" aria-hidden="true">{%- render 'logo' -%}</span>
+      <span class="menu-drawer__logo" aria-hidden="true">{%- render 'logo', variant: 'klein' -%}</span>
       <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'header.menu_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
     </div>
     <div class="drawer__body menu-drawer__body">

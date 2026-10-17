@@ -1,7 +1,23 @@
 {
   "sections": {
-    "main": { "type": "main-article", "settings": { "products_collection": "easy-up-partytenten" } },
-    "more": { "type": "blog-posts", "settings": { "heading": "Meer advies", "blog": "advies", "limit": 3 } }
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "products_heading": "Producten uit dit artikel"
+      }
+    },
+    "more": {
+      "type": "blog-posts",
+      "settings": {
+        "heading": "Meer advies",
+        "blog": "advies",
+        "limit": 3,
+        "exclude_current": true
+      }
+    }
   },
-  "order": ["main", "more"]
+  "order": [
+    "main",
+    "more"
+  ]
 }

@@ -99,7 +99,7 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   | `closed` | dichte wand |
   | `window` | één rechthoekig PVC-raam (max 1,5 m breed, 0,86–1,56 m hoog) met gestikte doekrand |
   | `windows` (`church`) | twee kerkraampjes met roede en marges van ≥ 0,5 m tot de poten |
-  | `door` | verticale rits in het midden (spiraalrits, schuiver met trekker, verstevigingsdriehoek) + twee oprolbanden met gesp |
+  | `door` | deuropening van ~1 m met gestikte deurrand (4 cm band, dubbel stiksel), verticale spiraalrits in het midden (3 cm tape, glanzende spiraal, schuiver met trekker en lus), stormflap van 4,5 cm die een schaduwlijn geeft, verstevigingsdriehoek + twee oprolbanden met gesp |
   | `door-open` | deur open: opening tot 1,96 m, opgerolde deur met twee lussen erboven |
   | `panorama` | breed PVC-raam over bijna het hele vak |
   | `rolled` | hele wand opgerold onder de valance (met drie banden) |
@@ -107,8 +107,17 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
 
   Wanden hangen aan de dakrand (bovenkant achter de valance), lopen 4,5 cm boven de grond af (zichtbare
   voetplaten), hebben een gevouwen onderzoom, verstevigde zijbanden, spanningsrimpels vanuit de bovenhoeken,
-  een lichte bolling en velcro-lussen rond de poten. **Tip voor het hoofdbeeld:** laat de voorkant open,
-  dan blijven poten en schaar zichtbaar.
+  brede verticale valplooien, smalle plooien die vanaf elk klittenbandlipje bovenaan ~0,5 m naar beneden
+  uitlopen, een bolling van ~1,7 cm en gevulde velcrobanden (5 cm) rond de poten. PVC-ramen: gestikte
+  doekrand, ~70 % doorlaat met een lichte melkwaas, glanzend en licht golvend zodat de softbox er als
+  onregelmatige streep in spiegelt.
+
+  **Hoofdbeeld met wanden:** de hero-camera ziet twee aangrenzende zijden van buiten (34° = voor+rechts,
+  −34° = voor+links, 146° = achter+rechts, −146° = achter+links). De bouwer kiest het paar met de meest
+  waardevolle wanden (deur > ramen > dicht), zodat elke betaalde optie **van buiten** te zien is; bij gelijke
+  stand blijft 34°. `"heroAzimuth": 34` dwingt een standpunt af. Zet ramen en deur dus op twee
+  aangrenzende zijden (bv. `{"back":["window","door"],"left":"windows","right":"closed"}`); drie
+  verschillende wanden op drie zijden kunnen nooit allemaal van buiten in één beeld.
   Vorm: `{"front":"door","back":"closed"}`, `["back:window", …]` of `"all"` (alles dicht).
 - `weights`: aantal stapelbare voetgewichten per poot (rond, sleuf om de poot, gat voor de voetkoker,
   greepgat), liggend óp de voetplaat — `2` of `{"count":2}`.
@@ -120,16 +129,27 @@ Constructie (zie kop van `models/easyUpTent.js`): telescopische zeskantpoten met
 buiten- naar binnenbuis, gegoten kraag, drukknop in de onderste van vier verstelgaten; hoog vast hoekstuk
 dat onder de valance uitsteekt; schuif met trekpen en ring; X-schaar van platte profielen (2–4 kruisen per
 zijde) met bolkopbouten en nylon knooppunten; binnendiagonalen naar centrale hub; telescopische middenpaal
-en vier dakspanten per vak. Dak: piramide per vak met zachte ribben langs de spanten, 2–4 cm doorhang
-tussen spant en graat, spanningsrimpels vanuit de hoekzakken, getapete en dubbel gestikte graat- en
-middennaden, versterkingslappen op de hoeken en de top, golvende dakrand tussen de klittenbandpunten,
-PVC-glans (clearcoat, ruwheid 0,45) en een 600D-oxford-weefselnormalmap. Valance: echte doekrok met
-vierkante, gestikte hoeknaad, bies op de aansluiting met het dak, lichte uitwaaiering, golving tussen de
-poten en een omgeslagen zoom met stiksel op 2 cm.
+en vier dakspanten per vak. Hoekstukken en schuiven zijn strak spuitgegoten (Premium: glasvezel-nylon,
+satijn, kleine radius, 45°-afschuining, twee verstevigingsribben per buitenvlak, ingegoten merkplaatje
+`KLAPKLAAR PREMIUM 40`) of gegoten aluminium (Professional: groter, grijs satijn met gietkorrel, zwaardere
+ribben, twee zeskantbouten per vlak, `PRO 50`). Dak: piramide per vak met zachte ribben langs de spanten,
+licht holle vlakken (de spanten buigen onder de doekspanning), ~5 cm doorhang tussen spant en graat,
+lange zachte spanningsrimpels die vanuit de hoekzakken uitwaaieren (leesbaar op 2000 px), getapete en
+dubbel gestikte graat- en middennaden, versterkingslappen op de hoeken en de top (zelfde doek, alleen
+stiksels en een randje), golvende dakrand tussen de klittenbandpunten, afgeronde doekhoeken.
+Doek: PVC-coating als clearcoat (wit 0,30 / zwart 0,55 sterk), vezelglans in de kleur van het doek, de
+600D-weefselnormalmap voor close-ups én een tweede, procedurele macrolaag (garenstrepen in schering en
+inslag, verdikkingen, lichte golving van de coating, ruwheidsvariatie) die op catalogusformaat blijft
+staan. Valance: één doorlopende, genaaide rok rond een afgeronde rechthoek (hoekradius 2,6 cm bij de
+dakbies tot 4,8 cm bij de zoom, zachte hoeknaad), lichte uitwaaiering, buik van ~1 cm tussen de poten die
+naar de zoom toeneemt, zachte valgolven, zoom die tussen de bevestigingspunten een paar mm doorhangt, bies
+op de aansluiting met het dak en een omgeslagen zoom met stiksel op 2 cm.
 
-**Standaardbeelden per tent:** `hero` + `detail`. Het detail is een vaste close-up van de hoek rechtsvoor
-(hoekstuk, schuif, schaar met bouten, valancezoom, doekstructuur) van net onder dakrandhoogte, met een
-kleine scherptediepte zodat de achterkant van het frame wegvalt.
+**Standaardbeelden per tent:** `hero` + `detail`. Het detail is een close-up van de hoek die het dichtst
+bij de hero-camera staat (hoekstuk, schuif, schaar met bouten, valancezoom, doekstructuur) van net onder
+dakrandhoogte, met een kleine scherptediepte zodat de achterkant van het frame wegvalt. Heeft de tent een
+deur, dan is het detail de deur van buiten (rits, schuiver, stormflap, deurrand, oprolbanden), met een
+strijklicht van opzij zodat het reliëf ook op zwart doek tekent.
 
 ### `statafel`
 `{ diameter, height, top, frame, base, legs, folded, footAngle }`
@@ -193,7 +213,13 @@ Elke afbeelding is het gemiddelde van N frames. Per frame:
 - het sleutellicht (softbox links-boven, t.o.v. de camera) springt binnen een kegel → zachte, convergerende schaduwen;
 - twee "koepel"-lichten met schaduw over de bovenhemel (R2-reeks, cosinusgewogen) → hemellicht en
   occlusie (binnenkant tent, onder het blad);
-- vul-, strijk- en vloerkaatslicht zonder schaduw, plus RoomEnvironment (PMREM) voor reflecties op metaal;
+- vul-, strijk- en vloerkaatslicht zonder schaduw, plus een reflectie-omgeving (PMREM): standaard
+  three's RoomEnvironment; met `rig.env: "studio"` een eigen donkere studio (`js/studioEnv.js`: zwarte
+  vlaggen, lichte vloer met een lichtpoel vóór de set, een overhead-scrim, key-softbox, strijkstrip en
+  witte reflectiekaart, alles camera-relatief). Zwart glanzend doek spiegelt dan alleen de scrim als één
+  zachte glansband en zeskantbuizen krijgen afwisselend lichte en donkere facetten;
+- het sleutellicht kan een **spot op echte afstand** zijn (`key.distance` of `key.distanceRel`): licht valt
+  dan kwadratisch af over grote producten, zodat elk tentdakvlak een eigen waarde met een zachte gradiënt krijgt;
 - PVC-ramen gebruiken gestratificeerde stochastische transparantie (per pixel een golden-ratio-reeks over de frames).
 
 De **vloer is een schaduwvanger**. Per beeld worden eenmalig drie vloerkaarten gebakken (top-down,
@@ -223,9 +249,19 @@ gelijkgekleurde productkaart staan.
   "groundAO": { "strength": 0.8, "samples": 64, "keySamples": 64, "res": 1024, "blur": 2.2 },
   "contact":  { "strength": 0.62, "h0": 0.03, "res": 512, "blur": 1.6 },
   "floorKey": { "azimuth": -15, "elevation": 80, "cone": 16 },
-  "shadowFloor": 0.7, "edgeFade": 0.07, "envRotation": null,
-  "dome":  { "tilt": 30, "tiltAzimuth": -62 } }
+  "shadowFloor": 0.7, "edgeFade": 0.07, "envRotation": null, "groundSplit": false,
+  "dome":  { "tilt": 30, "tiltAzimuth": -62 },
+  "env": "room|studio", "envStudio": { "surround": 0.03, "floor": { "front": 0.55 }, "boxes": [ … ] },
+  "key":   { "distanceRel": 1.78, "aimRel": [0.04, 0.36, 0.69], "angle": 46, "penumbra": 0.4 } }
 ```
+
+- `key.distance` (m) / `key.distanceRel` (× halve diagonaal van het product) — maakt van de key een
+  spotlicht op die afstand (intensiteit = verlichtingssterkte op het richtpunt). `key.aim` (wereld) of
+  `key.aimRel` (`[rechts, omhoog, naar de camera]` × halve diagonaal, in het camerakader) bepaalt het
+  richtpunt; `angle`/`penumbra` de bundel. Zonder afstand blijft de key een richtingslicht.
+- `groundSplit` — de zachte knik van `shadowFloor` geldt alleen voor de key-schaduw; hemelocclusie
+  (`groundAO.strength`) vermenigvuldigt daarna, zodat de vloer binnen dichte wanden duidelijk donkerder
+  wordt dan onder een open tent.
 
 - `floorKey` — richting van de **vloerschaduw** van het sleutellicht, los van het modellicht (klassieke
   packshot-aanpak): het product krijgt vorm van links-voor, de schaduw valt bijna recht naar beneden en blijft
@@ -240,10 +276,22 @@ gelijkgekleurde productkaart staan.
 - `envRotation` — draait de reflectie-omgeving (graden, t.o.v. de camera); voor donker doek zo gekozen dat
   het belichte dakvlak de lichte kant van de ruimte spiegelt.
 
-**Tentbelichting** (voorgesteld door `easyUpTent`): sleutel van links-voor op 40°, strijklicht van
-linksachter (verlicht het afgewende dakvlak niet), hemelkap 30° gekanteld, vloerschaduw van bijna recht
-boven, contactschaduw op 2048 px met `h0` 6 mm. Gemeten op `tent-3x3-wit-hero`: belicht dakvlak ≈ 245,
-afgewend dakvlak ≈ 210–215, achtergrond 237, donkerste vloerschaduw ≈ 208, alle beeldranden exact 237.
+**Tentbelichting** (voorgesteld door `easyUpTent`, `tentRig()` in het model): studio-omgeving (`env:
+"studio"`), sleutel als softbox-spot op 1,78× de halve productdiagonaal van links-voor (−33°, 30°), gericht
+op de voorste dakrand, zodat het naar de camera gekeerde dakvlak laag op het vlak het helderst is en naar
+de top en de verre graat afloopt; grote lage vulling van rechts (76°, 8°) voor het afgewende vlak; hemelkap
+30° gekanteld; vloerschaduw van bijna recht boven; `groundSplit` met `shadowFloor` 0,6 en een contactschaduw
+van ~3 cm rond voetplaten, gewichten en wandzomen. De lichtverhoudingen zijn niet op gevoel gekozen maar
+opgelost uit per-licht-renders (lineair teruggerekend en gemengd op doelwaarden per vlak). Per kleur:
+wit belichting 0,67; zwart een sterkere key/vulling met maar 0,13 reflectie (zwart blijft zwart en spiegelt
+alleen de scrim als glansband); overige kleuren `auto`. `front` krijgt een eigen, gevederde key van net
+links van de lens (vlak licht in het midden, aflopend naar beide graten) en `detail` een richtingslicht —
+bij een deur scherend van opzij.
+
+Gemeten (sRGB-luminantie, achtergrond #EFEDE8 = 237): `tent-3x3-wit-hero` belicht dakvlak 225–232 met
+gradiënt naar de top, afgewend vlak 211–216, valance 229 / 196, silhouet overal ≥ 11 niveaus van de
+achtergrond, vloer onder het dak ≈ 190, open vloer ≈ 233. `tent-3x6-zwart-zijwanden-hero`: dak 59–66
+(belicht) / 48 (afgewend), valance 41–49, wanden 32–39, vloer langs de wand ≈ 216.
 
 `keyShadow` (aandeel van de softbox in het vloerlicht) wordt standaard uit de lichtsterktes berekend.
 **Belichting `auto`:** zoals een fotograaf per product belicht, wordt de belichting afgeleid uit de

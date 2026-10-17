@@ -12,6 +12,6 @@
       {%- render 'icon', icon: 'truck', class: 'icon--sm' -%}
       <span>{%- if fs_remaining > 0 -%}{{ 'cart.free_shipping_remaining_html' | t: amount: fs_money }}{%- else -%}{{ 'cart.free_shipping_reached' | t }}{%- endif -%}</span>
     </p>
-    <div class="free-ship__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}" aria-label="{{ 'cart.free_shipping_reached' | t }}"><span style="width: {{ fs_pct }}%"></span></div>
+    <div class="free-ship__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}" aria-label="{% if fs_remaining > 0 %}{{ 'cart.free_shipping_remaining' | t: amount: fs_money }}{% else %}{{ 'cart.free_shipping_reached' | t }}{% endif %}"><span style="width: {{ fs_pct }}%"></span></div>
   </div>
 {%- endif -%}
