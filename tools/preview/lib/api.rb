@@ -25,7 +25,7 @@ module Preview
       sreq.cookies = req.cookies
       rc = new_rc(sreq, cart)
       setup_page(rc, spath.chomp('/').then { |p| p.empty? ? '/' : p })
-      render_sections_map(rc, secs)
+      [render_sections_map(rc, secs), rc]
     end
 
     def cart_error(req, ext, err)
@@ -54,26 +54,33 @@ module Preview
       items = normalize_items(params)
       rc = new_rc(req, cart)
       added = []
+      snapshot = cart.lines.map(&:dup)
       begin
         items.each do |it|
           raise CartError.new('Cart Error', 'Parameter missing or invalid: Required parameter missing or invalid: items', 400) if it['id'].to_s.empty?
           props = it['properties'].is_a?(Hash) ? it['properties'].transform_values { |v| v.is_a?(Array) ? v.join(', ') : v.to_s } : {}
-          line = cart.add(rc.store, it['id'], it['quantity'] || 1, props, it['selling_plan'])
+          line = cart.add(rc.store, it['id'], it['quantity'] || 1, props, it['selling_plan'], locale: rc.locale)
           added << line
         end
       rescue CartError => e
+        cart.lines = snapshot # all-or-nothing, like Shopify
         return cart_error(req, ext, e)
       end
-      return Response.redirect('/cart') unless json_wanted?(req, ext)
+      unless json_wanted?(req, ext)
+        rt = params['return_to'].to_s
+        return Response.redirect(rt.start_with?('/') && !rt.start_with?('//') ? rt : '/cart')
+      end
 
       rc2 = new_rc(req, cart)
       cd = rc2.cart_drop
       lines = added.map { |l| cd.items.find { |i| i.key == l.key }&.as_json }.compact
       body = params['items'] ? { 'items' => lines } : (lines.first || {})
+      headers = {}
       if (s = sections_for(req, cart, params))
-        body['sections'] = s
+        body['sections'] = s[0]
+        headers = error_headers(s[1])
       end
-      Response.json(body)
+      Response.json(body, 200, headers)
     end
 
     def cart_change(req, cart, ext)
@@ -103,7 +110,7 @@ module Preview
               cart.change(rc.store, id: k, quantity: q)
             elsif q.to_i.positive?
               begin
-                cart.add(rc.store, k, q)
+                cart.add(rc.store, k, q, locale: rc.locale)
               rescue CartError
                 nil
               end
@@ -116,7 +123,10 @@ module Preview
       end
       cart.note = params['note'].to_s if params.key?('note')
       cart.attributes = cart.attributes.merge(params['attributes']) if params['attributes'].is_a?(Hash)
-      cart.discount_codes = params['discount'].to_s.split(',').map(&:strip).reject(&:empty?) if params.key?('discount')
+      if params.key?('discount')
+        # Shopify replaces the cart's codes with the comma-separated list (empty string removes all)
+        cart.discount_codes = params['discount'].to_s.split(',').map(&:strip).reject(&:empty?).uniq(&:downcase)
+      end
       unless json_wanted?(req, ext)
         return Response.redirect('/checkout') if params.key?('checkout')
         return Response.redirect('/cart')
@@ -132,10 +142,12 @@ module Preview
 
     def cart_response(req, cart, params)
       body = new_rc(req, cart).cart_drop.as_json
+      headers = {}
       if (s = sections_for(req, cart, params || {}))
-        body['sections'] = s
+        body['sections'] = s[0]
+        headers = error_headers(s[1])
       end
-      Response.json(body)
+      Response.json(body, 200, headers)
     end
 
     # ------------------------------------------------------------------ predictive search
@@ -157,14 +169,39 @@ module Preview
         'resources' => {
           'results' => {
             'products' => res['products'].map { |p| predictive_product_json(rc, p) },
-            'collections' => res['collections'].map { |c| c.as_json.merge('url' => c.url) },
-            'pages' => res['pages'].map(&:as_json),
-            'articles' => res['articles'].map { |a| a.as_json.merge('image' => a.image&.src, 'summary_html' => a.excerpt) },
+            'collections' => res['collections'].map { |c| predictive_collection_json(rc, c) },
+            'pages' => res['pages'].map { |pg| predictive_page_json(rc, pg) },
+            'articles' => res['articles'].map { |a| predictive_article_json(rc, a) },
             'queries' => res['queries'].map(&:as_json)
           }
         }
       }
       Response.json(body)
+    end
+
+    def featured_image_json(img)
+      img && { 'alt' => img.alt, 'aspect_ratio' => img.aspect_ratio, 'height' => img.height, 'url' => img.url, 'width' => img.width }
+    end
+
+    def predictive_collection_json(rc, cd)
+      c = cd.c
+      { 'body_html' => c.body_html, 'handle' => c.handle, 'id' => c.id, 'image' => cd.image&.url,
+        'published_at' => rc.iso(c.published_at), 'sort_order' => c.sort_order, 'template_suffix' => c.template_suffix,
+        'title' => c.title, 'updated_at' => rc.iso(c.published_at), 'url' => "#{cd.url}?_pos=1&_psq=#{Util.url_encode(rc.query_param('q'))}&_ss=e&_v=1.0",
+        'featured_image' => featured_image_json(cd.featured_image) }
+    end
+
+    def predictive_page_json(rc, pd)
+      { 'author' => pd.author, 'body' => pd.content, 'created_at' => rc.iso(pd.published_at), 'handle' => pd.handle, 'id' => pd.id,
+        'published_at' => rc.iso(pd.published_at), 'template_suffix' => pd.template_suffix, 'title' => pd.title,
+        'updated_at' => rc.iso(pd.published_at), 'url' => "#{pd.url}?_pos=1&_psq=#{Util.url_encode(rc.query_param('q'))}&_ss=e&_v=1.0" }
+    end
+
+    def predictive_article_json(rc, ad)
+      { 'author' => ad.author, 'body' => ad.content, 'created_at' => rc.iso(ad.created_at), 'handle' => ad.a.handle, 'id' => ad.id,
+        'image' => ad.image&.url, 'published_at' => rc.iso(ad.published_at), 'summary_html' => ad.excerpt, 'tags' => ad.tags,
+        'template_suffix' => ad.template_suffix, 'title' => ad.title, 'updated_at' => rc.iso(ad.updated_at),
+        'url' => "#{ad.url}?_pos=1&_psq=#{Util.url_encode(rc.query_param('q'))}&_ss=e&_v=1.0", 'featured_image' => featured_image_json(ad.image) }
     end
 
     def predictive_product_json(rc, pd)
@@ -173,11 +210,17 @@ module Preview
       {
         'available' => pd.available, 'body' => pd.description, 'compare_at_price_max' => format('%.2f', (pd.compare_at_price_max || 0) / 100.0),
         'compare_at_price_min' => format('%.2f', (pd.compare_at_price_min || 0) / 100.0), 'handle' => pd.handle, 'id' => pd.id,
-        'image' => pd.featured_image&.src, 'price' => format('%.2f', pd.price / 100.0), 'price_max' => format('%.2f', pd.price_max / 100.0),
+        'image' => pd.featured_image&.url, 'price' => format('%.2f', pd.price / 100.0), 'price_max' => format('%.2f', pd.price_max / 100.0),
         'price_min' => format('%.2f', pd.price_min / 100.0), 'tags' => pd.tags, 'title' => pd.title, 'type' => pd.type,
         'url' => "#{pd.url}?_pos=1&_psq=#{Util.url_encode(rc.query_param('q'))}&_ss=e&_v=1.0", 'vendor' => pd.vendor,
-        'featured_image' => pd.featured_image&.then { |i| { 'alt' => i.alt, 'aspect_ratio' => i.aspect_ratio, 'height' => i.height, 'url' => i.src, 'width' => i.width } },
-        'variants' => j['variants'].map { |x| x.slice('available', 'compare_at_price', 'id', 'price', 'title', 'sku') },
+        'featured_image' => featured_image_json(pd.featured_image),
+        'images' => pd.images.map(&:url),
+        'variants' => pd.variants.map do |v|
+          { 'available' => v.available, 'compare_at_price' => v.compare_at_price ? format('%.2f', v.compare_at_price / 100.0) : nil,
+            'featured_image' => featured_image_json(v.image), 'id' => v.id, 'image' => v.image&.url,
+            'price' => format('%.2f', v.price / 100.0), 'sku' => v.sku, 'title' => v.title,
+            'url' => "#{v.url}&_pos=1&_psq=#{Util.url_encode(rc.query_param('q'))}&_ss=e&_v=1.0" }
+        end,
         'first_available_variant' => v ? { 'id' => v.id } : nil
       }
     end
@@ -250,8 +293,8 @@ module Preview
     # ------------------------------------------------------------------ forms
     def contact_post(req, cart)
       params = body_params(req)
-      type = params['form_type'] || 'contact'
-      contact = params['contact'].is_a?(Hash) ? params['contact'] : {}
+      type = params['form_type'] || (req.path == '/customer' ? 'customer' : 'contact')
+      contact = params['contact'].is_a?(Hash) ? params['contact'] : (params['customer'].is_a?(Hash) ? params['customer'] : {})
       email = contact['email'].to_s.strip
       back = req.referer_path || '/'
       back = '/' if back.start_with?('/contact')
@@ -262,13 +305,13 @@ module Preview
       end
       base_params = Request.parse_query(ref_q).reject { |k, _| %w[contact_posted customer_posted].include?(k) }
       unless email.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/)
-        flash_set(cart.token, type, { 'errors' => { 'email' => (store.shop['primary_locale'].to_s.start_with?('nl') ? 'is ongeldig' : 'is invalid') }, 'values' => contact })
+        flash_set(cart.token, type, { 'errors' => { 'email' => email.empty? ? 'blank' : 'invalid' }, 'values' => contact })
         q = URI.encode_www_form(base_params.flat_map { |k, vs| vs.map { |v| [k, v] } })
         return Response.redirect(q.empty? ? back : "#{back}?#{q}")
       end
       key = type == 'customer' ? 'customer_posted' : 'contact_posted'
       pairs = base_params.flat_map { |k, vs| vs.map { |v| [k, v] } } + [[key, 'true']]
-      flash_set(cart.token, type, { 'posted' => true, 'values' => contact })
+      flash_set(cart.token, type, { 'posted' => true, 'values' => contact.slice('id') })
       Response.redirect("#{back}?#{URI.encode_www_form(pairs)}")
     end
 
@@ -279,7 +322,7 @@ module Preview
       if pw == expected
         Response.redirect('/')
       else
-        flash_set(cart.token, 'storefront_password', { 'errors' => { 'password' => 'Onjuist wachtwoord' } })
+        flash_set(cart.token, 'storefront_password', { 'errors' => { 'password' => 'incorrect' } })
         Response.redirect('/password')
       end
     end

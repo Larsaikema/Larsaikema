@@ -74,47 +74,90 @@ module Preview
       end
     end
 
-    def matches?(p, d)
+    # ---- Shopify semantics -------------------------------------------------------------------
+    # * values of ONE filter are OR-ed, different filters are AND-ed;
+    # * variant-level filters (filter.v.option.*, filter.v.availability, filter.v.price, filter.v.m.*)
+    #   are evaluated together on each variant: a product matches when at least one of its variants
+    #   satisfies ALL active variant filters (3x6 + Blauw needs a 3x6/Blauw variant);
+    # * availability=1 -> that variant is available, availability=0 -> that variant is sold out;
+    # * product-level filters (type, vendor, tag, filter.p.m.*) test the product.
+    # Facet counts: products that would match with this value selected, other filters applied,
+    # the filter's own other values ignored.
+    def variant_level?(d)
+      %i[availability price option].include?(d[:kind]) || (d[:kind] == :metafield && d[:owner] == 'v')
+    end
+
+    def active?(d)
+      d[:kind] == :price ? price_bounds.any? : !active_values(d).empty?
+    end
+
+    def variant_values(v, d)
       case d[:kind]
-      when :availability
-        vals = active_values(d)
-        return true if vals.empty? || vals.size > 1
-        vals.first == '1' ? p.available? : !p.available?
-      when :price
-        lo, hi = price_bounds
-        return true unless lo || hi
-        p.variants.any? { |v| (lo.nil? || v.price >= lo) && (hi.nil? || v.price <= hi) }
-      else
-        vals = active_values(d)
-        return true if vals.empty?
-        (product_values(p, d) & vals).any?
+      when :option
+        idx = v.product.options.index { |o| o.name.casecmp?(d[:name]) }
+        idx ? [v.options[idx]].compact : []
+      when :metafield
+        m = v.metafields["#{d[:ns]}.#{d[:key]}"]
+        return [] unless m
+        m.type.start_with?('list.') ? ((JSON.parse(m.value) rescue [m.value]).map(&:to_s)) : [m.value.to_s]
+      else []
       end
     end
 
+    # variant v satisfies filter d (with the given values, default: the active ones)
+    def variant_ok?(v, d, vals = nil)
+      case d[:kind]
+      when :availability
+        vals ||= active_values(d)
+        return true if vals.empty? || (vals.include?('1') && vals.include?('0'))
+        vals.include?('1') ? v.available? : !v.available?
+      when :price
+        lo, hi = price_bounds
+        (lo.nil? || v.price >= lo) && (hi.nil? || v.price <= hi)
+      else
+        vals ||= active_values(d)
+        vals.empty? || (variant_values(v, d) & vals).any?
+      end
+    end
+
+    def product_ok?(p, d, vals = nil)
+      vals ||= active_values(d)
+      vals.empty? || (product_values(p, d) & vals).any?
+    end
+
+    # p matches every active filter except `except`; `force` = [def, values] adds/overrides one filter
+    def match?(p, except: nil, force: nil)
+      fd, fvals = force
+      vdefs = []
+      defs.each do |d|
+        next if d.equal?(except) && !(fd && fd.equal?(d))
+        forced = fd && fd.equal?(d)
+        if variant_level?(d)
+          vdefs << [d, forced ? fvals : nil] if forced || active?(d)
+        else
+          return false unless product_ok?(p, d, forced ? fvals : nil)
+        end
+      end
+      return true if vdefs.empty?
+      p.variants.any? { |v| vdefs.all? { |d, vals| variant_ok?(v, d, vals) } }
+    end
+
     def filtered(except: nil)
-      base_products.select { |p| defs.all? { |d| d.equal?(except) || matches?(p, d) } }
+      base_products.select { |p| match?(p, except: except) }
+    end
+
+    # number of products shown when value `val` of filter d is selected (d's other values ignored)
+    def count_for(d, val)
+      base_products.count { |p| match?(p, except: d, force: [d, [val]]) }
     end
 
     def products
       @products ||= filtered
     end
 
+    # variant.matched: the variant satisfies every active variant-level filter
     def variant_matches?(v)
-      defs.all? do |d|
-        case d[:kind]
-        when :option
-          vals = active_values(d)
-          idx = v.product.options.index { |o| o.name.casecmp?(d[:name]) }
-          vals.empty? || idx.nil? || vals.include?(v.options[idx])
-        when :availability
-          vals = active_values(d)
-          vals.size != 1 || (vals.first == '1' ? v.available? : true)
-        when :price
-          lo, hi = price_bounds
-          (lo.nil? || v.price >= lo) && (hi.nil? || v.price <= hi)
-        else true
-        end
-      end
+      defs.all? { |d| !variant_level?(d) || !active?(d) || variant_ok?(v, d) }
     end
 
     def any_active?
@@ -157,19 +200,13 @@ module Preview
     def values
       @values ||= case @d[:kind]
                   when :availability
-                    others = @f.filtered(except: @d)
-                    [['1', rc.tr_default('in_stock'), others.count(&:available?)],
-                     ['0', rc.tr_default('out_of_stock'), others.count { |p| !p.available? }]]
-                      .map { |val, lbl, cnt| FilterValueDrop.new(rc, self, @f, @d, val, lbl, cnt) }
+                    [['1', rc.tr_default('in_stock')], ['0', rc.tr_default('out_of_stock')]]
+                      .map { |val, lbl| FilterValueDrop.new(rc, self, @f, @d, val, lbl, @f.count_for(@d, val)) }
                   when :price then []
                   else
-                    others = @f.filtered(except: @d)
                     all_vals = @f.base_products.flat_map { |p| @f.product_values(p, @d) }.uniq
                     all_vals = sort_values(all_vals)
-                    all_vals.map do |val|
-                      cnt = others.count { |p| @f.product_values(p, @d).include?(val) }
-                      FilterValueDrop.new(rc, self, @f, @d, val, val, cnt)
-                    end
+                    all_vals.map { |val| FilterValueDrop.new(rc, self, @f, @d, val, val, @f.count_for(@d, val)) }
                   end
     end
 
@@ -274,7 +311,11 @@ module Preview
     def id = @c.id
     def handle = @c.handle
     def title = @c.title
-    def url = "/collections/#{@c.handle}"
+    def url
+      q = @c.raw && @c.raw['q']
+      rc.localize(q ? "/collections/#{@c.handle}?q=#{Util.url_encode(q)}" : "/collections/#{@c.handle}")
+    end
+
     def description = @c.body_html
     def template_suffix = @c.template_suffix
     def published_at = @c.published_at
@@ -312,8 +353,8 @@ module Preview
     def tags = sorted_filtered.flat_map(&:tags).uniq.sort
     def all_types = @c.products.map(&:product_type).uniq.sort
     def all_vendors = @c.products.map(&:vendor).uniq.sort
-    def current_type = nil
-    def current_vendor = nil
+    def current_type = @c.raw && @c.raw['current_type']
+    def current_vendor = @c.raw && @c.raw['current_vendor']
 
     def sort_options
       rc.collection_sort_options
@@ -334,7 +375,7 @@ module Preview
         'id' => @c.id, 'handle' => @c.handle, 'title' => @c.title, 'updated_at' => rc.iso(@c.published_at),
         'body_html' => @c.body_html, 'published_at' => rc.iso(@c.published_at), 'sort_order' => @c.sort_order,
         'template_suffix' => @c.template_suffix, 'published_scope' => 'web',
-        'image' => image ? { 'alt' => image.alt, 'src' => image.src, 'width' => image.width, 'height' => image.height } : nil
+        'image' => image ? { 'alt' => image.alt, 'src' => image.url, 'width' => image.width, 'height' => image.height } : nil
       }
     end
   end

@@ -3,9 +3,11 @@
     "generated": "2026-10-17",
     "purpose": "ASSORTMENT BAR - drives catalog/catalog.json. Our catalog must cover at least these categories, variant dimensions and accessory links, under our own product names.",
     "sources": "WebSearch index snippets of outmate.nl and its sister sites (snapshots 1 month to 2+ years old). WebFetch/curl blocked. Raw research: scratchpad research-raw.json.",
-    "statafelshop_status": "NO DATA. Both Statafelshop/market research agents hit the shared 200-search budget before running a single query. Every Statafelshop item below is taken from gauntlet/BRIEF.md section 1 and is unconfirmed.",
+    "statafelshop_status": "NO DATA. Both Statafelshop/market research agents hit the shared 200-search budget before running a single query, and three follow-up rounds on 2026-10-17 (4, 4 and 3 Statafelshop agents) were refused for the same reason before their first query (four attempts in total). Every Statafelshop item below is taken from gauntlet/BRIEF.md section 1 and is unconfirmed. Also unverified: that Outmate B.V. (KvK 76398021) runs statafelshop.nl (claim origin: BRIEF section 1 only), whether statafelshop.be exists, and the paths /statafels/, /statafelrokken/, /statafelhoezen/, /statafelkleden/, /actiepakketten/, /zakelijk/ (never checked; do not assume they exist).",
     "price_rules": "eur_incl_btw = Outmate consumer price incl. 21% btw as seen in search snippets. kind: from = 'vanaf' price, fixed = single price, range = see note, approx = rounded. Use as calibration only; our prices are suggestions flagged in docs/claims-to-confirm.md.",
-    "naming_rule": "Do not reuse Outmate model/brand names (Starmate, AirMate Alpha/Beta/Theta/Hexon, Times Square, Tundra, Helsinki, Ibiza, Blomo, Supercombi, Skyshade, Wikinger, Mundo, Paxi, Louis, Hamburg, Naxos, X4trail, Foldtable). They are listed only to identify reference items."
+    "naming_rule": "Do not reuse Outmate model/brand names (Starmate, AirMate Alpha/Beta/Theta/Hexon, Times Square, Tundra, Helsinki, Ibiza, Blomo, Supercombi, Skyshade, Wikinger, Mundo, Paxi, Louis, Hamburg, Naxos, X4trail, Foldtable). They are listed only to identify reference items.",
+    "followup_status": "2026-10-17 follow-up round: 8 agents (Statafelshop navigation/operator/statafels; covers; print/bundles/B2B; service/shipping/UX; Outmate buizenframe matrix; Outmate furniture/lighting prices; Outmate account/search/footer; Outmate policies and easy-up box contents) all got 'web search budget is used up' and ran no query. Nothing was re-verified. This merge only adds already-sourced Outmate details from scratchpad research-raw.json and marks the asked-for values unconfirmed. Outmate facts used as Statafelshop proxies stay labelled shop 'outmate'. Second 2026-10-17 follow-up round: 8 more agents (Statafelshop covers/textiles; statafels, actiepakketten and trolleys; print, B2B and statafelshop.be; operator, service, shipping and UX; Outmate buizenframe and opslagtent matrix; Outmate furniture, lighting and heating prices plus existence checks; Outmate policies; Outmate easy-up box contents plus account/search/footer UX) were refused the same way and ran no query. That merge adds only already-sourced easy-up spec values from research-raw.json, new existence checks for the rerun (cadeaubon, outlet/B-keuze, kerstverlichting URL, floors beyond lopers), the Ultimate slug spelling, and Statafelshop trolley gaps. Rerun lesson: run the Statafelshop queries as one agent, first and alone, in a turn with a fresh budget, so parallel agents cannot use up the shared 200-search limit. Third 2026-10-17 follow-up round: 8 agents (Statafelshop operator, navigation and policies; Statafelshop statafels, textiles and trolleys; Statafelshop print, B2B and statafelshop.be; Outmate buizenframe and opslagtent matrix; Outmate category census and existence checks; Outmate furniture, lighting, heating and afzetpaal prices; Outmate policies, payment and offerte page; Outmate storefront UX, account and easy-up box contents) were all refused by the shared 200-search budget at their first query, so no query ran (the fourth Statafelshop attempt with no data). That merge only: maps 13 already-sourced but unmapped category URLs from scratchpad raw_cats.txt (11 new subcategories, 74 -> 85, plus alias_urls; see census_2026_10_17); logs 16 never-run checks in existence_checks; adds partytenten-buizenframe.size_line_matrix as a consolidated view of already-sourced cells; records the refusal on the asked features; folds in already-sourced footer, payment-method, facet-pattern and Premium seam facts; sharpens the furniture, lighting and afzetpaal gaps; and corrects the attempt counts. No reference_prices were added and no Statafelshop entry was created. Before any rerun, the owner must start a new turn (fresh budget) or raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION.",
+    "census_2026_10_17": "Category census follow-up: the shared WebSearch budget was already used up, so the first two census queries (product-categorie list, /alle/) were refused and no existence check ran. Done offline instead: diffed the 82 URLs in scratchpad raw_cats.txt (the task said 93; the file has 82, all also in research-raw.json) against the 74 subcategories. 13 URLs were unmapped. Added 11 subcategories with reference_url + confidence (own URL: opslag-pvc-classic/-premium/-professional, opslag-carport-pvc-professional, stretch-lusverbinding, barkruk-onderdelen, klaptafel-onderdelen, stoelen-onderdelen; name-only children stretch-koppelgoten, stretch-palensets, tuinpaviljoen-zijwanden); the other URLs are parents/aliases recorded as reference or alias_urls. Existence checks are logged in existence_checks with query_ran=false."
   },
   "categories": [
     {
@@ -52,10 +54,12 @@
               "key_specs": [
                 "staal zwart gemoffeld, hexagon 40 mm, wand 0,7 mm",
                 "5 hoogtestanden",
-                "kunststof koppelstukken",
+                "kunststof koppelstukken (hard plastic); a reviewer says they wear out quickly (https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/)",
                 "zeil 1000N, brandvertragend, waterdicht, UV-bestendig",
                 "9 / 13,5 / 18 m²",
-                "exclusief zijwanden"
+                "exclusief zijwanden",
+                "3x4,5 total weight 37 kg (one source, https://www.outmate.nl/product/easy-up-partytent-3x45m-premium-pvc-gecoat-polyester/, likely); 3x6 zeil 11 kg (https://www.outmate.nl/product/easy-up-partytent-3x6m-premium-pvc-gecoat-polyester/, likely); 3x3 weight unconfirmed",
+                "naden waterdicht afgeplakt (https://www.outmate.nl/product/easy-up-partytent-3x6m-premium-pvc-gecoat-polyester/, likely)"
               ],
               "reference_prices": [
                 {
@@ -80,7 +84,11 @@
               "shipping_reference": "1 stuk €12,50 | 2+ stuks €25 (https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/)",
               "positioning": "budget line for private / small business use",
               "gaps": [
-                "height, clearance and capacity figures unconfirmed"
+                "doorloophoogte, total height, staand/zittend capacity and packed dimensions unconfirmed for every Premium size; 3x3 weight unconfirmed",
+                "box contents unconfirmed (draagtas or wieltas, haringen, spanbanden); spanriemen + haringen (€19,99), beschermhoes (from €19,99) and wielen (€35) are sold separately, so probably not included (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/, likely)",
+                "frame warranty term unconfirmed ('Fabrieksgarantie' field exists, no easy-up value seen; accessories state 'Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten', https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/)",
+                "product video and image zoom on the PDP unconfirmed (never checked; the only video hint is a review mentioning an 'instructievideo' on https://www.outmate.nl/product/easy-up-3x6m-professional-heavy-duty-pvc/)",
+                "2026-10-17 follow-up for https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/ was refused by the shared 200-search budget before it ran; none of the gaps above was re-checked"
               ],
               "accessories": [
                 "voetgewicht 15 kg",
@@ -139,7 +147,7 @@
                 "5 hoogtestanden",
                 "3x3/3x4,5/3x6: doorloop 140-200 cm, totaal 330 cm, ingeklapt 166 cm, valance 38 cm",
                 "4x6/4x8/5x5: doorloop 150-210 cm, totaal 386 cm; 4x8 ingeklapt 209 cm",
-                "5x5: 68 kg, deur 150 cm, optionele wielset; 4x8 poly 87 kg, 32 m²; 3x4,5 poly 42 kg"
+                "5x5: 68 kg, deur 150 cm, optionele wielset; 4x8 poly 87 kg, 32 m²; 3x4,5 poly 300x450x330 cm, 42 kg; 3x6 poly frame 63 kg + zeil 11 kg (https://www.outmate.nl/product/easy-up-4x6m-professional-heavy-duty-pvc/)"
               ],
               "reference_prices": [
                 {
@@ -206,6 +214,13 @@
                 "heater 1500 W",
                 "LED-vloedlicht 30 W",
                 "frame-onderdelen"
+              ],
+              "gaps": [
+                "box contents unconfirmed (draagtas or wieltas, haringen, spanbanden); only the 4x8 page mentions an 'opbergtas', without detail (4x8 page URL not recorded; https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/ shows pegs and straps sold separately, likely)",
+                "frame warranty term unconfirmed (1 jaar fabrieksgarantie seen only on accessories and a buizenframe tent)",
+                "staand/zittend capacity unconfirmed for the polyester sizes, including 3x4,5 (only HD 4x4 and 4x6 known); packed length x width unconfirmed (only folded height)",
+                "product video and image zoom on the PDP unconfirmed (never checked)",
+                "2026-10-17 follow-up for https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/ was refused by the shared 200-search budget before it ran; none of the gaps above was re-checked"
               ]
             },
             {
@@ -938,7 +953,111 @@
         }
       ],
       "confidence": "confirmed",
-      "notes": "Category title 'Alle partytenten - Van 3x3 tot 8x12m'. 38 mm demountable galvanised frame. Full size matrix per line is unconfirmed; sizes below are those seen in product URLs/PDFs.",
+      "notes": "Category title 'Alle partytenten - Van 3x3 tot 8x12m'. 38 mm demountable galvanised frame. Full size matrix per line is unconfirmed; sizes below are those seen in product URLs/PDFs. Which line offers 8x12 is unconfirmed. Side walls attach with klittenband per a category facet (/bevestigingzeilen/klittenband/), which lines use it is unconfirmed (https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/, likely). Per-line spec table on https://www.outmate.nl/het-verschil-tussen-de-partytenten/ not retrieved. outmate.be mirrors the same URLs.",
+      "size_line_matrix": {
+        "note": "Consolidated view of the cells already sourced in scratchpad research-raw.json (2026-10-17 round-3 buizenframe agent; no query ran, nothing new confirmed). Every size x line cell not listed in known_cells is unconfirmed. Range from the category title 'Van 3x3 tot 8x12m' (https://www.outmate.nl/product-categorie/partytenten/); which line offers 8x12 and every category 'vanaf' price are unconfirmed. Rerun URLs: reference/dossier.md section 16 item 3.",
+        "sizes": [
+          "3x3",
+          "3x4",
+          "3x6",
+          "3x8",
+          "4x4",
+          "4x6",
+          "4x8",
+          "5x8",
+          "5x10",
+          "6x6",
+          "6x8",
+          "6x12",
+          "8x12"
+        ],
+        "lines": [
+          "pe-basic",
+          "pvc-classic",
+          "pvc-premium",
+          "pvc-ultimate",
+          "pvc-professional"
+        ],
+        "known_cells": [
+          {
+            "line": "pe-basic",
+            "size": "3x4",
+            "exists": "likely",
+            "eur_incl_btw": 279,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-3x4-pe/"
+          },
+          {
+            "line": "pe-basic",
+            "size": "3x6",
+            "exists": "likely (assembly PDF only)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "5x8",
+            "exists": "confirmed (assembly PDF)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "3x3",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "3x8",
+            "exists": "confirmed",
+            "eur_incl_btw": 789,
+            "kind": "fixed",
+            "note": "category listing; shipping €42,50; 24 m², ca. 25-35 gasten (not split staand/zittend)",
+            "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "4x4",
+            "exists": "likely",
+            "eur_incl_btw": null,
+            "note": "shipping €42,50 Vrachttransport; box dimensions listed (values not retrieved)",
+            "source_url": "https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-ultimate",
+            "size": "4x6",
+            "exists": "likely",
+            "eur_incl_btw": null,
+            "note": "incl. 6 zijwanden met raam + 2 eindwanden",
+            "source_url": "https://www.outmate.nl/product/partytent-4x6-pvc-ultimate-edition/"
+          },
+          {
+            "line": "pvc-professional",
+            "size": "3x4",
+            "exists": "unconfirmed (only the replacement roof is seen, €189)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product/partytent-dakzeil-3x4-pvc-professional/"
+          },
+          {
+            "line": "pvc-professional",
+            "size": "5x10",
+            "exists": "unconfirmed (only the replacement roof is seen, €469)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product/partytent-dakzeil-5x10-pvc-professional/"
+          },
+          {
+            "line": "pvc-professional",
+            "size": "6x12",
+            "exists": "likely",
+            "eur_incl_btw": 1725,
+            "kind": "fixed",
+            "note": "category listing; 72 m², 60-80 personen (not split staand/zittend); zijhoogte 220 cm",
+            "source_url": "https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/"
+          }
+        ]
+      },
       "subcategories": [
         {
           "id": "pe-basic",
@@ -969,6 +1088,13 @@
                 "opbergtassenset",
                 "stormbandenset",
                 "haringen"
+              ],
+              "key_specs": [
+                "3x6 exists per assembly PDF (https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf)"
+              ],
+              "gaps": [
+                "all sizes other than 3x4/3x6 and all prices except 3x4 unconfirmed; wall thickness, side-wall configuration, capacity, weight, shipping and fire-retardancy unconfirmed",
+                "'10% korting' block on PE tent pages lists opbergtassenset + stormbandenset; unclear whether this means buizenframe PE Basic (https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/, likely)"
               ]
             }
           ]
@@ -989,7 +1115,13 @@
                   "PVC 500 g/m²"
                 ]
               },
-              "reference_prices": []
+              "reference_prices": [],
+              "key_specs": [
+                "5x8 setup PDF with safety advice and parts list (https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf)"
+              ],
+              "gaps": [
+                "every size other than 5x8 and every price unconfirmed; wall thickness, side walls, capacity, weight, shipping and fire-retardancy unconfirmed"
+              ]
             }
           ]
         },
@@ -1014,7 +1146,10 @@
               "key_specs": [
                 "grondframe + nokversteviging",
                 "38 mm verzinkte buizen",
-                "3x8: 24 m², ca. 25-35 gasten"
+                "3x8: 24 m², ca. 25-35 gasten",
+                "UV-bestendig, waterdicht (3x8, https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/, likely)",
+                "4x4 page lists box dimensions and an 'Ook handig om mee te bestellen' cross-sell (https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/, likely)",
+                "not storm- or snow-load tested (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)"
               ],
               "reference_prices": [
                 {
@@ -1025,8 +1160,11 @@
                   "note": "category listing"
                 }
               ],
-              "shipping_reference": "€42,50 vrachttransport (3x8, 4x4)",
-              "warranty_reference": "Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)"
+              "shipping_reference": "€42,50 on 3x8 and 4x4; carrier label conflicts: 'Pakketdienst' on 3x8 in one snapshot (https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/), 'Vrachttransport' on 4x4 (https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/)",
+              "warranty_reference": "Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)",
+              "gaps": [
+                "3x3 and 4x4 prices unconfirmed; 3x4, 3x6, 4x6, 4x8, 5x8, 5x10, 6x6, 6x8, 6x12, 8x12 unconfirmed; wall thickness, side walls (window/door), weight unconfirmed; 3x8 capacity not split into staand/zittend"
+              ]
             }
           ]
         },
@@ -1046,9 +1184,13 @@
               "key_specs": [
                 "4x6 incl. 6 zijwanden met raam + 2 eindwanden"
               ],
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "every size other than 4x6, every price, canopy g/m², capacity, weight and shipping unconfirmed"
+              ]
             }
-          ]
+          ],
+          "reference_url_note": "Slug uses singular 'partytent-' (/product-categorie/partytenten/partytent-pvc-ultimate-edition/), unlike the other lines ('partytenten-pvc-...'). Not re-checked in either follow-up round; use this form when rerunning."
         },
         {
           "id": "pvc-professional",
@@ -1075,7 +1217,9 @@
                 "zijhoogte 220 cm",
                 "grondframe + nokbuis",
                 "tot 930N",
-                "6x12: 72 m², 60-80 personen"
+                "6x12: 72 m², 60-80 personen",
+                "brandvertragend likely (product slug 'pvc-brandvertragend', https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/)",
+                "replacement roofs in 3x4/5x10/6x12 suggest tents in those sizes (https://www.outmate.nl/product/partytent-dakzeil-6x12-pvc-professional/, likely)"
               ],
               "reference_prices": [
                 {
@@ -1085,6 +1229,9 @@
                   "source_url": "https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/",
                   "note": "category listing"
                 }
+              ],
+              "gaps": [
+                "tent prices other than 6x12 unconfirmed; 3x4 and 5x10 tents inferred from roofs only; 3x3, 3x6, 4x4, 4x6, 4x8, 5x8, 6x6, 6x8, 8x12 unconfirmed; wall thickness, side walls, weight, shipping unconfirmed; 6x12 capacity not split into staand/zittend"
               ]
             }
           ]
@@ -1174,7 +1321,16 @@
                 "height": "tot 250 cm (veranda-variant 220 cm, 1,5-10 m)",
                 "custom": "op maat"
               },
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "no price per length found for buizenframe side walls; closest priced proxy is the overkapping zijwand PVC 250 cm (3 m €109 ... 10 m €269, see schaduw-overkapping), a different product"
+              ]
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.outmate.nl/product-categorie/partytent-accessoires/zijwanden/",
+              "note": "second path, titled 'Zijwanden voor partytenten of je veranda' (scratchpad research-raw.json block 1 categories[23])"
             }
           ]
         },
@@ -1199,6 +1355,9 @@
                   "kind": "from",
                   "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
                 }
+              ],
+              "key_specs": [
+                "6 m version exists (https://www.outmate.nl/product/partytent-eindwand-6-meter-met-ritsen-pvc/, price not recorded)"
               ]
             }
           ]
@@ -1213,7 +1372,8 @@
               "name": "Tussenwand",
               "reference_prices": [],
               "gaps": [
-                "specs and prices unconfirmed"
+                "specs and prices unconfirmed",
+                "category exists but no product was found"
               ]
             }
           ]
@@ -1240,13 +1400,15 @@
                   "label": "2-weg 20 cm",
                   "eur_incl_btw": 7.5,
                   "kind": "fixed",
-                  "source_url": "https://www.outmate.nl/product/2-weg-verbindingsstuk-20-cm/"
+                  "source_url": "https://www.outmate.nl/product/2-weg-verbindingsstuk-20-cm/",
+                  "note": "€6,20 excl. btw"
                 },
                 {
                   "label": "3-weg 140°",
                   "eur_incl_btw": 9.99,
                   "kind": "fixed",
-                  "source_url": "https://www.outmate.nl/product/3-weg-verbindingsstuk-140o/"
+                  "source_url": "https://www.outmate.nl/product/3-weg-verbindingsstuk-140o/",
+                  "note": "€8,26 excl. btw"
                 }
               ],
               "key_specs": [
@@ -1281,8 +1443,19 @@
                   "label": "212 cm staander",
                   "eur_incl_btw": 12.5,
                   "kind": "fixed",
-                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/",
+                  "note": "staander zonder lip"
+                },
+                {
+                  "label": "216 cm",
+                  "eur_incl_btw": 12.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/",
+                  "note": "mentioned once"
                 }
+              ],
+              "key_specs": [
+                "38 mm, verzinkt binnen en buiten, wand 1,2 mm (category description, not per line; https://www.outmate.nl/product-categorie/partytent-onderdelen/, likely)"
               ]
             }
           ]
@@ -1295,7 +1468,10 @@
           "product_types": [
             {
               "name": "Regengoot partytent",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "no buizenframe gutter price found; only easy-up gutter prices exist (3 m €29, 4,5 m €37,50, 6 m €49 vs €75 on https://www.outmate.nl/product/regengoot-6-meter/); whether the same gutter fits buizenframe tents is unconfirmed"
+              ]
             }
           ]
         },
@@ -1412,7 +1588,10 @@
           "product_types": [
             {
               "name": "Opbergtas 200 cm",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "price, material and dimensions unconfirmed (https://www.outmate.nl/product/opbergtas-200cm/); not the same product as the easy-up beschermhoes (€19,99-€27,50)"
+              ]
             }
           ]
         },
@@ -1472,7 +1651,10 @@
           "name_nl": "Grondframes & reparatiesets",
           "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/",
           "confidence": "unconfirmed",
-          "product_types": []
+          "product_types": [],
+          "gaps": [
+            "menu labels only; category URLs unconfirmed. A '3-weg grondframe hoek' koppelstuk is listed under koppelstukken (https://www.outmate.nl/product-categorie/partytent-onderdelen/koppelstukken/, likely)"
+          ]
         }
       ]
     },
@@ -1510,10 +1692,90 @@
               "reference_prices": [],
               "warranty_reference": "1 jaar (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/)",
               "gaps": [
-                "sizes and prices unconfirmed"
+                "every size other than Classic 3x4, every side/ridge height, the door type (rolluik/rits) and every price unconfirmed for all four tiers incl. the carport; per-tier entries: opslag-pvc-classic, opslag-pvc-premium, opslag-pvc-professional, opslag-carport-pvc-professional"
+              ],
+              "key_specs": [
+                "buying guides https://www.outmate.nl/opslagtent-kopen/ and https://www.outmate.nl/opslagtent-kopen-welke-past-bij-je/ (linked from the category)",
+                "Classic 3x4 is brandvertragend per slug (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/)"
               ]
             }
           ]
+        },
+        {
+          "id": "opslag-pvc-classic",
+          "name_nl": "Opslagtenten PVC Classic",
+          "reference_url": "https://www.outmate.nl/product-categorie/opslagtenten/opslagtenten-pvc-classic/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opslagtent PVC Classic",
+              "key_specs": [
+                "short-term use; Classic 3x4 is brandvertragend per slug, 1 jaar garantie (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/, likely)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+              ]
+            }
+          ],
+          "notes": "Own Outmate category node. URL recorded as a subcategory of https://www.outmate.nl/product-categorie/opslagtenten/ in scratchpad research-raw.json (block 0, categories[6]); the line itself is confirmed by the category text (https://www.outmate.nl/product-categorie/opslagtenten/). Census 2026-10-17: never mapped as its own subcategory before; opslag-lines keeps the cross-line summary. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "opslag-pvc-premium",
+          "name_nl": "Opslagtenten PVC Premium",
+          "reference_url": "https://www.outmate.nl/product-categorie/opslagtenten/opslagtenten-pvc-premium/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opslagtent PVC Premium",
+              "key_specs": [
+                "longer-term use, e.g. during a renovation (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+              ]
+            }
+          ],
+          "notes": "Own Outmate category node. URL recorded as a subcategory of https://www.outmate.nl/product-categorie/opslagtenten/ in scratchpad research-raw.json (block 0, categories[6]); the line itself is confirmed by the category text (https://www.outmate.nl/product-categorie/opslagtenten/). Census 2026-10-17: never mapped as its own subcategory before; opslag-lines keeps the cross-line summary. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "opslag-pvc-professional",
+          "name_nl": "Opslagtenten PVC Professional",
+          "reference_url": "https://www.outmate.nl/product-categorie/opslagtenten/opslagtenten-pvc-professional/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opslagtent PVC Professional",
+              "key_specs": [
+                "620 g/m² PVC (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+              ]
+            }
+          ],
+          "notes": "Own Outmate category node. URL recorded as a subcategory of https://www.outmate.nl/product-categorie/opslagtenten/ in scratchpad research-raw.json (block 0, categories[6]); the line itself is confirmed by the category text (https://www.outmate.nl/product-categorie/opslagtenten/). Census 2026-10-17: never mapped as its own subcategory before; opslag-lines keeps the cross-line summary. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "opslag-carport-pvc-professional",
+          "name_nl": "Carport / opslagtent PVC Professional (vast frame)",
+          "reference_url": "https://www.outmate.nl/product-categorie/opslagtenten/wikinger-carport-opslagtent-pvc-professional/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opslagtent Carport/opslagtent PVC Professional (reference name 'Wikinger'; do not reuse)",
+              "key_specs": [
+                "carport with fixed frame (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+              ]
+            }
+          ],
+          "notes": "Own Outmate category node. URL recorded as a subcategory of https://www.outmate.nl/product-categorie/opslagtenten/ in scratchpad research-raw.json (block 0, categories[6]); the line itself is confirmed by the category text (https://www.outmate.nl/product-categorie/opslagtenten/). Census 2026-10-17: never mapped as its own subcategory before; opslag-lines keeps the cross-line summary. URL not re-queried (search budget used up)."
         }
       ]
     },
@@ -1529,6 +1791,11 @@
         {
           "shop": "outmate (outmatestretch.nl)",
           "url": "https://www.outmatestretch.nl/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/strechtenten/",
+          "note": "legacy misspelled category slug (scratchpad research-raw.json block 0 categories[7]); same family"
         }
       ],
       "confidence": "likely",
@@ -1796,6 +2063,12 @@
                 }
               ]
             }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/onderdelen-stretchtent/",
+              "note": "parent 'Onderdelen stretchtent' (children: Bevestigingsmaterialen, Koppelgoten, Palen en palensets)"
+            }
           ]
         },
         {
@@ -1813,6 +2086,36 @@
               "reference_prices": []
             }
           ]
+        },
+        {
+          "id": "stretch-lusverbinding",
+          "name_nl": "Stretchtenten met lusverbinding",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/stretchtenten-met-lusverbinding/",
+          "confidence": "likely",
+          "product_types": [],
+          "notes": "Child of Stretchtenten, confirmed as a subcategory name (https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/, confirmed); URL recorded in scratchpad research-raw.json (block 0, categories[7]). Products seen: 'Stretchtent 6x6 meter - Premiumstretch lusverbinding' (https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/). Same tents as stretch-compleet: in our catalog this is a collection/filter, not new products."
+        },
+        {
+          "id": "stretch-koppelgoten",
+          "name_nl": "Koppelgoten stretchtent",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/onderdelen-stretchtent/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "own category URL unconfirmed (only the parent 'Onderdelen stretchtent' URL is recorded); products and prices unconfirmed"
+          ],
+          "notes": "Name seen as a child of 'Onderdelen stretchtent' (https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/, likely; scratchpad research-raw.json block 1 finding 39). Pole options seen: kastanjehout Ø80-120 mm or aluminium Ø50 / midden 76 mm (see stretch-compleet). stretch-onderdelen lists 'koppelgoten' and 'palensets' as part values; this entry gives them their own collection."
+        },
+        {
+          "id": "stretch-palensets",
+          "name_nl": "Palen en palensets stretchtent",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/onderdelen-stretchtent/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "own category URL unconfirmed (only the parent 'Onderdelen stretchtent' URL is recorded); products and prices unconfirmed"
+          ],
+          "notes": "Name seen as a child of 'Onderdelen stretchtent' (https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/, likely; scratchpad research-raw.json block 1 finding 39). Pole options seen: kastanjehout Ø80-120 mm or aluminium Ø50 / midden 76 mm (see stretch-compleet). stretch-onderdelen lists 'koppelgoten' and 'palensets' as part values; this entry gives them their own collection."
         }
       ]
     },
@@ -2542,6 +2845,17 @@
               ]
             }
           ]
+        },
+        {
+          "id": "tuinpaviljoen-zijwanden",
+          "name_nl": "Tuinpaviljoen zijwanden",
+          "reference_url": "https://www.outmate.nl/product-categorie/tuinpaviljoen/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "own category URL unconfirmed (only the parent URL is recorded); sizes and prices unconfirmed; tuinpaviljoen lists 'zijwanden dicht of gaas' as accessory"
+          ],
+          "notes": "Name seen as a child of Tuinpaviljoen (scratchpad research-raw.json block 1, categories[22], parent https://www.outmate.nl/product-categorie/tuinpaviljoen/)."
         }
       ]
     },
@@ -2557,6 +2871,11 @@
         {
           "shop": "statafelshop",
           "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/accessoires-meubilair/",
+          "note": "parent 'Accessoires meubilair' (frame-onderdelen, transportkarren); Outmate also uses /meubilair-accessoires/ for statafel-onderdelen, statafelrokken, stoelen-onderdelen (https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/, confirmed)"
         }
       ],
       "confidence": "likely",
@@ -2636,7 +2955,11 @@
             {
               "name": "Ronde inklapbare statafel Ø60/Ø70/Ø80",
               "reference_prices": [],
-              "confidence": "unconfirmed (Statafelshop per brief; sizes from the failed-research query list, not observed)"
+              "confidence": "unconfirmed (Statafelshop per brief; sizes from the failed-research query list, not observed). Outmate: no round statafel product observed, only loose round/square 80/85 cm tops as spare parts (https://www.outmate.nl/product-categorie/meubilair-accessoires/statafel-onderdelen/); Outmate may not sell one at all.",
+              "gaps": [
+                "Statafelshop models, Ø, height, top material, frame, weight, prices, staffel and BE prices all unconfirmed",
+                "Statafelshop shapes (rond/vierkant), inklapbaar vs stapelbaar, colour options and actiepakket variants unconfirmed; research refused four times"
+              ]
             }
           ]
         },
@@ -2751,9 +3074,13 @@
               "accessories": [
                 "biertafelset hoes",
                 "kliksloten"
+              ],
+              "gaps": [
+                "widths (50/70 cm), set contents and set price unconfirmed; biertafelset hoes price and sizes unconfirmed"
               ]
             }
-          ]
+          ],
+          "notes": "'Biertafels en bierbanken' appears only as a menu label; no category URL was found."
         },
         {
           "id": "barkrukken",
@@ -2778,6 +3105,16 @@
               },
               "accessories": [
                 "trolley 18 krukken"
+              ],
+              "key_specs": [
+                "binnen, zwart metalen frame, velours zitting (https://www.outmate.nl/product/barkruk-stapelbaar-mundo/, likely)",
+                "draadstoel zwart, gepoedercoat, stapelbaar tot 8 (https://www.outmate.nl/product/barkruk-paxi-draadstoel-zwart/, likely)",
+                "staffelkorting vanaf 10 st (https://www.outmate.nl/product/barkruk-louis/, likely)",
+                "metaal + houten zitting, horeca/verhuur (https://www.outmate.nl/product/barkruk-stapelbaar-metaal-met-houten-zitting-hamburg/, likely)",
+                "hamerslag (https://www.outmate.nl/product/barkruk-stapelbaar-hamerslag/, likely)"
+              ],
+              "gaps": [
+                "all prices, colours and staffel tier percentages unconfirmed"
               ]
             }
           ]
@@ -2790,7 +3127,13 @@
           "product_types": [
             {
               "name": "Stapelstoel",
-              "reference_prices": []
+              "reference_prices": [],
+              "key_specs": [
+                "parts category https://www.outmate.nl/product-categorie/meubilair-accessoires/stoelen-onderdelen/"
+              ],
+              "gaps": [
+                "chair types, colours and prices unconfirmed; a 'Cross Back' chair is only inferred from the trolley name (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/)"
+              ]
             }
           ]
         },
@@ -2861,7 +3204,12 @@
                 }
               ],
               "key_specs": [
-                "stoelen/barkrukken trolley: 18 st"
+                "stoelen/barkrukken trolley: 18 st (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/, likely)",
+                "every chair and table has a matching trolley; HDPE klaptafels sold with trolleys (https://www.outmate.nl/product-categorie/accessoires-meubilair/transportkarren/, likely)"
+              ],
+              "gaps": [
+                "full trolley list, capacities other than the statafel trolley (10 st) and the Cross Back trolley (18 st), and every price other than the statafel trolley (€589) unconfirmed, incl. the Cross Back trolley price",
+                "Statafelshop trolley models, capacity and price unconfirmed"
               ]
             }
           ]
@@ -2877,15 +3225,52 @@
               "variant_dimensions": {
                 "part": [
                   "losse statafelbladen 80/85 cm rond + vierkant",
-                  "barkruk onderdelen",
-                  "klaptafel onderdelen",
-                  "stoelen onderdelen",
                   "biertafel frame-onderdelen / kliksloten"
                 ]
               },
               "reference_prices": []
             }
-          ]
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafel-onderdelen/",
+              "note": "second path, titled 'Statafel en terrastafel onderdelen' (https://www.outmate.nl/product-categorie/tafels-en-stoelen/, confirmed)"
+            }
+          ],
+          "notes": "Census 2026-10-17: now statafel/terrastafel onderdelen + biertafel frame-onderdelen only; barkruk-onderdelen, klaptafel-onderdelen and stoelen-onderdelen are their own subcategories."
+        },
+        {
+          "id": "barkruk-onderdelen",
+          "name_nl": "Barkruk onderdelen",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/barkruk-onderdelen/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "parts, prices and compatibility list unconfirmed"
+          ],
+          "notes": "Own Outmate category node, listed as a Tafels en stoelen subcategory (https://www.outmate.nl/product-categorie/tafels-en-stoelen/, confirmed). Census 2026-10-17: split out of meubel-onderdelen, which listed it only as a part value. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "klaptafel-onderdelen",
+          "name_nl": "Klaptafel onderdelen",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/klaptafel-onderdelen/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "parts, prices and compatibility list unconfirmed"
+          ],
+          "notes": "Own Outmate category node, listed as a Tafels en stoelen subcategory (https://www.outmate.nl/product-categorie/tafels-en-stoelen/, confirmed). Census 2026-10-17: split out of meubel-onderdelen, which listed it only as a part value. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "stoelen-onderdelen",
+          "name_nl": "Stoelen onderdelen",
+          "reference_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/stoelen-onderdelen/",
+          "confidence": "likely",
+          "product_types": [],
+          "gaps": [
+            "parts, prices and compatibility list unconfirmed"
+          ],
+          "notes": "Own Outmate category node, category URL recorded in scratchpad research-raw.json (block 2, categories[17]) under 'Meubilair accessoires'. Census 2026-10-17: split out of meubel-onderdelen, which listed it only as a part value. URL not re-queried (search budget used up)."
         }
       ]
     },
@@ -2901,10 +3286,15 @@
         {
           "shop": "statafelshop",
           "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/statafelrokken/",
+          "note": "alternative top-level path for 'Rokken en hoezen' (scratchpad research-raw.json block 0 categories[13], block 2 categories[18])"
         }
       ],
       "confidence": "likely (outmate) / unconfirmed (statafelshop)",
-      "notes": "Core Statafelshop category per BRIEF, but no Statafelshop data was gathered. Only the Outmate stretch rok is sourced.",
+      "notes": "Core Statafelshop category per BRIEF, but no Statafelshop data was gathered (the initial round and all three 2026-10-17 follow-up rounds were blocked by the search budget). Only the Outmate stretch rok is sourced. Outmate's 'Rokken en hoezen' category holds statafelrokken and biertafelset hoezen and resolves at three URLs (/product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/, /product-categorie/uncategorized/statafelrokken/).",
       "subcategories": [
         {
           "id": "statafelrok-stretch",
@@ -2938,6 +3328,10 @@
                   "source_url": "https://www.outmate.nl/product/statafelrok-stretch/",
                   "note": "one listing"
                 }
+              ],
+              "gaps": [
+                "Outmate: full colour list, whether exclusive colours cost more, height values, wash/iron/strijkvrij care and staffel/set prices unconfirmed; €14,99 assumed incl. btw",
+                "Statafelshop: fitting Ø/heights, colours, fabric, care, topcover, price, staffel (1/5+/10+/25+), set prices (4/10) and dispatch line unconfirmed"
               ]
             }
           ]
@@ -2950,7 +3344,10 @@
           "product_types": [
             {
               "name": "Statafelhoes met strik",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "fitting Ø/heights, hoes colours and surcharge, strik colour and whether it is chosen separately, fabric, care, topcover, price, staffel/set prices, dispatch line: all unconfirmed"
+              ]
             }
           ]
         },
@@ -2962,7 +3359,10 @@
           "product_types": [
             {
               "name": "Statafelkleed",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "sizes, floor-length or not, colours, fabric g/m², care/strijkvrij, price, staffel/set prices, dispatch line: all unconfirmed"
+              ]
             }
           ]
         },
@@ -2975,7 +3375,10 @@
             {
               "name": "Bedrukte statafelhoes",
               "printable": true,
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "print technique, positions (voorkant/rondom/topcover), upload file types/size, proof, MOQ, surcharge/tiers and lead time unconfirmed; Outmate print flow (cross_category_services.bedrukking) is a same-operator proxy only"
+              ]
             }
           ]
         },
@@ -2984,7 +3387,8 @@
           "name_nl": "Topcovers",
           "reference_url": "https://www.outmate.nl/product/statafelrok-stretch/",
           "confidence": "unconfirmed (only as included item)",
-          "product_types": []
+          "product_types": [],
+          "notes": "Whether a separate topcover / tafelblad hoes is sold (and its Ø, colours, fabric, price) is unconfirmed on both shops; Outmate only includes it with the stretch rok."
         },
         {
           "id": "biertafelset-hoezen",
@@ -2994,7 +3398,10 @@
           "product_types": [
             {
               "name": "Hoes biertafelset",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "sizes (e.g. 220x50 / 220x70), colours, fabric and price unconfirmed"
+              ]
             }
           ]
         },
@@ -3006,7 +3413,10 @@
           "product_types": [
             {
               "name": "Actiepakket",
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "Statafelshop package contents, prices, savings and compare-at prices unconfirmed; Outmate bundles (tafels-stoelen.bundels, barrels-sets) are same-operator proxies only"
+              ]
             }
           ]
         }
@@ -3041,10 +3451,14 @@
                 "custom": "op maat gemonteerd tot 200 m"
               },
               "key_specs": [
-                "230 V, 16 A, max 25 W per fitting, IP44, E27"
+                "230 V, 16 A, max 25 W per fitting, IP44, E27",
+                "spec from https://www.outmate.nl/product/prikkabel-30-meter/; op maat via https://www.outmate.nl/product/prikkabel-op-maat-gemonteerd/"
               ],
               "reference_prices": [],
-              "bundle_rule": "10% korting op lampen bij kabel + LED-lampen"
+              "bundle_rule": "10% korting op lampen bij kabel + LED-lampen",
+              "gaps": [
+                "prices per standard length (5/10/15/20/25/30 m) and per metre op maat unconfirmed"
+              ]
             }
           ]
         },
@@ -3064,7 +3478,14 @@
                   "dimbaar"
                 ]
               },
-              "reference_prices": []
+              "reference_prices": [],
+              "key_specs": [
+                "set 5 gekleurd 1 W E27 (https://www.outmate.nl/product/set-van-5-gekleurde-ledlampen/)",
+                "set 5 kleuren filament 1 W (https://www.outmate.nl/product/set-van-5-kleuren-filament-led-lamp-1-watt/)"
+              ],
+              "gaps": [
+                "all prices and every kelvin value unconfirmed; wattage is known only for the two 1 W sets of 5"
+              ]
             }
           ]
         },
@@ -3108,7 +3529,10 @@
           "name_nl": "Kerstverlichting",
           "reference_url": "https://www.outmate.nl/product-categorie/verlichting/",
           "confidence": "likely",
-          "product_types": []
+          "product_types": [],
+          "gaps": [
+            "menu label only (https://www.outmate.nl/product-categorie/verlichting/); no category or product URL recorded; products and prices unknown"
+          ]
         },
         {
           "id": "verlichting-onderdelen",
@@ -3190,7 +3614,10 @@
                   "flame heater 9000 W"
                 ]
               },
-              "reference_prices": []
+              "reference_prices": [],
+              "gaps": [
+                "prices, gas type (propaan/butaan), product URLs and the gas subcategory URL unconfirmed"
+              ]
             }
           ]
         },
@@ -3238,10 +3665,18 @@
                   "bedrukte trekband (min 10 st)"
                 ]
               },
-              "lead_time_reference": "bedrukt: 2-4 weken na akkoord",
+              "lead_time_reference": "bedrukt: '2 weken' in one snapshot, '2-4 weken' in another, after design approval; 200 cm automatisch oprollende band, min 10 st (https://www.outmate.nl/product/afzetpaal-bedrukking-op-trekband/)",
               "shipping_reference": "vanaf €7,95",
               "reference_prices": [],
-              "printable": true
+              "printable": true,
+              "key_specs": [
+                "messing 2 m band (https://www.outmate.nl/product/afzetpaal-messing-2-meter-band/)",
+                "RVS 2 m band (https://www.outmate.nl/product/afzetpaal-rvs-2-meter-band/)",
+                "messing ovale kop voor koord (https://www.outmate.nl/product/afzetpaal-messing-ovale-kop-voor-koord/)"
+              ],
+              "gaps": [
+                "price per post (messing 2 m band, RVS 2 m band, messing ovale kop voor koord), koord price and the printed trekband price at MOQ 10 unconfirmed"
+              ]
             }
           ]
         },
@@ -3309,6 +3744,9 @@
                 }
               ]
             }
+          ],
+          "gaps": [
+            "Lopers is the only subcategory recorded under 'Vloeren, tapijten en lopers' (https://www.outmate.nl/product-categorie/vloeren/); tent floors or grondzeilen beyond lopers not checked"
           ]
         }
       ]
@@ -3334,11 +3772,13 @@
           "beide"
         ],
         "files": "pdf/ai/eps, meerdere bestanden, max 128 MB (Outmate)",
-        "template": "per product + ingevuld voorbeeld"
+        "template": "per product + ingevuld voorbeeld",
+        "placement": "logo op valance tot volledig dak; tenten op polyester of Heavy Duty PVC"
       },
       "process": "order + upload -> mock-up -> akkoord -> productie",
-      "lead_time_reference": "14-21 dagen / 2-3 weken / 5-10 dagen na akkoord (by product)",
-      "source_url": "https://www.outmate.nl/easy-up-tent-bedrukken/"
+      "lead_time_reference": "14-21 dagen (other pages: ca. 15 werkdagen) / 2-3 weken / 5-10 dagen na akkoord (by product); afzetpaal band 2 or 2-4 weken",
+      "source_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+      "surcharge": "no separate surcharge or volume tiers found; price resolves inside the 'Full Colour-bedrukking' variant (unconfirmed)"
     },
     {
       "id": "maatwerk",
@@ -3366,7 +3806,8 @@
         "barkruk vanaf 10 st",
         "bierbank onderstel €29,25 bij 4-10 st"
       ],
-      "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/"
+      "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
+      "note": "Whether statafelrokken carry staffel tiers is unconfirmed (Outmate and Statafelshop)."
     },
     {
       "id": "accessoire-korting",
@@ -3394,7 +3835,8 @@
       "class": "grote tent pakket/vracht",
       "eur": "39 - 42,50",
       "examples": "easy-up Professional, partytenten, stertenten",
-      "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/"
+      "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/",
+      "note": "carrier label for the same €42,50 conflicts: 'Pakketdienst' (3x8 Premium) vs 'Vrachttransport' (4x4 Premium)"
     },
     {
       "class": "vracht zwaar",
@@ -3409,15 +3851,166 @@
     },
     {
       "rule": "only the highest shipping cost per order is charged; BE has own rates",
-      "source_url": "https://www.outmate.nl/levertijd-en-verzendkosten/"
+      "source_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+      "note": "BE amounts per class, the full class table, kerbside vs inside delivery and unloading help are unconfirmed; no free-shipping threshold found on outmate.nl"
     }
   ],
   "open_gaps": [
-    "Statafelshop.nl: entire assortment (round Ø statafels, stretch/strik hoezen sizes and colours, kleden, bedrukte hoezen, actiepakketten, prices, staffels).",
+    "Statafelshop.nl: entire assortment and shop (navigation, operator/KvK, statafelshop.be, round Ø statafels, stretch/strik hoezen sizes and colours, kleden, topcovers, biertafelhoes, bedrukte hoezen, actiepakketten, zakelijk, prices, staffels, shipping/returns/payment). Research blocked four times (initial round + three 2026-10-17 follow-up rounds). Rerun as one agent, first and alone, in a turn with a fresh search budget.",
     "Market price calibration beyond Outmate (vvep, partyrijk, bol.com, Gamma/Praxis, statafel competitors).",
-    "Buizenframe partytenten: full size matrix and prices per quality line (only 3x4 PE, 3x8 Premium, 6x12 Pro priced).",
-    "Opslagtenten sizes/prices; stoelen; biertafelsets; barkruk prices; prikkabel/ledlamp prices; gas heater prices.",
-    "Easy-up: what is included (bag/pegs) and tent warranty term; Premium heights/capacity.",
-    "Print surcharge amounts (resolved inside the 'Full Colour' variant price on Outmate)."
+    "Buizenframe partytenten: full size matrix and prices per quality line (only 3x4 PE, 3x8 Premium, 6x12 Pro priced); which line offers 8x12; per-line wall thickness, side walls, capacity, weight, shipping, fire-retardancy.",
+    "Opslagtenten sizes/heights/prices; stoelen; biertafelsets + hoes; barkruk prices/tiers; trolley prices (except statafel trolley); prikkabel/ledlamp prices; gas heater prices and gas type; afzetpaal prices; opbergtas 200 cm; buizenframe regengoot, tussenwand and zijwand prices.",
+    "Easy-up: what is included (draagtas/wieltas, haringen, spanbanden) and frame warranty term; Premium clearance, total height, capacity, 3x3 weight and packed size; Professional 3x4,5 capacity and packed length x width; PDP video and image zoom. Third attempt refused by the search budget on 2026-10-17 (see existence_checks).",
+    "Print surcharge amounts (resolved inside the 'Full Colour' variant price on Outmate).",
+    "Outmate policies: /garantie-klachten/ content, returns exclusions for printed items and return procedure, B2B clauses and eigendomsvoorbehoud in the new terms, BE shipping amounts.",
+    "Outmate UX: account dashboard, search suggestions, sort/pagination, price/stock filters, footer newsletter/payment icons/socials, USP bar, WhatsApp, live chat.",
+    "Existence checks never run (third attempt refused by the search budget on 2026-10-17; do not claim 'not found'): outlet/sale/actie/B-keuze/occasion; cadeaubon/gift card; kerstverlichting URL; grondzeilen/tentvloeren/vloerplaten; promotietenten or bedrukte tenten as own outmate.nl category; pagodetenten; parasols; beachflags/vlaggen; dranghekken; grondframes and reparatiesets URLs; full /product-categorie/ census and /alle/ product list. See existence_checks.",
+    "Menu group 'Zeilen en zeildoeken (incl. Schaduwdoeken)' (https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/, likely): whether it holds anything beyond schaduwdoeken and overkapping zeilen (e.g. dekzeilen) is unconfirmed."
+  ],
+  "existence_checks": [
+    {
+      "check": "outlet / sale / actie / B-keuze / occasion (/conditie/ values other than 'nieuw')",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: the only conditie archives recorded are /conditie/nieuw/ and its nl-be duplicates. Compare-at sale prices exist on single products (e.g. Airmate LED 12 W €107,10, was €119), but no outlet/sale/B-keuze category URL was ever recorded.",
+      "source_url": "https://www.outmate.nl/conditie/nieuw/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "cadeaubon / gift card",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 0 mentions of cadeaubon or gift card in scratchpad research-raw.json.",
+      "source_url": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "kerstverlichting category URL",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 'Kerstverlichting' seen only as a Verlichting menu label; no URL recorded.",
+      "source_url": "https://www.outmate.nl/product-categorie/verlichting/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "grondzeilen / tentvloeren / vloerplaten beyond lopers",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 'Vloeren, tapijten en lopers' has only Lopers recorded; 0 mentions of grondzeil, tentvloer or vloerplaat.",
+      "source_url": "https://www.outmate.nl/product-categorie/vloeren/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "promotietenten / bedrukte tenten as own category",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: on outmate.nl promotietenten sit inside 'Opblaasbare partytent & promotietent'; the own category 'Promotietenten' exists only on the sister shop outmateair.nl (https://www.outmateair.nl/product-categorie/promotietenten/). 'Bedrukte tent!' is a filter value (?_pa_kleur=full-colour-bedrukking-vouwtent), not a category; print service page https://www.outmate.nl/easy-up-tent-bedrukken/.",
+      "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "pagodetenten",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 0 mentions in scratchpad research-raw.json.",
+      "source_url": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "parasols",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 0 mentions in scratchpad research-raw.json.",
+      "source_url": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "beachflags / vlaggen",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 0 mentions in scratchpad research-raw.json.",
+      "source_url": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "dranghekken",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: 0 mentions in scratchpad research-raw.json; afzetpalen exist (https://www.outmate.nl/product-categorie/inrichting/afzetpalen/).",
+      "source_url": "unconfirmed",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "grondframes and reparatiesets URLs",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: both are menu labels only (URL unconfirmed); a '3-weg grondframe hoek' connector is sold (https://www.outmate.nl/product/3-weg-verbindingsstuk-grondframe-hoek/).",
+      "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/koppelstukken/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "full /product-categorie/ census and /alle/ product list",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Offline diff only: raw_cats.txt holds 82 category URLs (not 93), all from research-raw.json; 13 were absent from assortment.json and are now mapped (11 new subcategories, 3 of them name-only children, plus parents/aliases).",
+      "source_url": "https://www.outmate.nl/alle/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "search results page https://www.outmate.nl/?s=partytent: products mixed with pages/posts, layout, live suggestions",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: only the header label 'Zoeken' is recorded.",
+      "source_url": "https://www.outmate.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "collection sort ?orderby= values, products per page, numbered pagination vs load-more, price slider, 'op voorraad' filter",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: only the underscore facet param ?_frame=zwart is recorded.",
+      "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/?_frame=zwart",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "https://www.outmate.nl/mijn-account/: login/register fields (bedrijfsnaam, BTW, KvK) and dashboard tabs",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: header shows 'Log in' / 'Mijn account'; checkout with or without an account (https://www.outmate.nl/bestellen-annuleren/).",
+      "source_url": "https://www.outmate.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "footer column titles, newsletter signup, payment icons, social links; header USP bar; WhatsApp button or live chat on outmate.nl; wishlist, product compare, recently viewed",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: footer company/KvK/e-mail/copyright lines confirmed; no wishlist in the header text; the rest never observed.",
+      "source_url": "https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "easy-up PDPs (3x3 Premium, 3x4,5 Professional): box contents, frame warranty term, Premium clearance/total height/capacity, 3x3 weight, packed dimensions, product video, image zoom",
+      "date": "2026-10-17",
+      "query_ran": false,
+      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "prior_evidence": "Prior data: see easy-up-premium and easy-up-professional key_specs; none of the asked values is in research-raw.json.",
+      "source_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/",
+      "confidence": "unconfirmed"
+    }
   ]
 }

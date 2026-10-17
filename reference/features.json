@@ -12,7 +12,7 @@
   {
     "id": "global.markets-nl-be",
     "area": "global",
-    "feature": "Separate NL and BE storefronts (outmate.be mirrors outmate.nl); BE delivery rates applied automatically.",
+    "feature": "Separate NL and BE storefronts (outmate.be mirrors outmate.nl); BE delivery rates applied automatically. statafelshop.be: whether it exists, who runs it, BE prices and BE shipping are unconfirmed (Statafelshop research refused four times, most recently 2026-10-17).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.be/product-categorie/partytenten/",
     "priority": "must",
@@ -92,7 +92,7 @@
   {
     "id": "global.reviews-shop-page",
     "area": "global",
-    "feature": "Shop-review page ('Shopervaring') with site-review count; Trustpilot profile exists.",
+    "feature": "Shop-review page ('Shopervaring') with site-review count; Trustpilot profile exists. No Kiyoh or WebwinkelKeur found; whether a Trustpilot widget is embedded is unconfirmed. Copy the feature only, never counts or scores.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/reviews/",
     "priority": "could",
@@ -102,7 +102,7 @@
   {
     "id": "global.company-legal-details",
     "area": "global",
-    "feature": "Company name, address, KvK and BTW number and e-mail visible (footer/contact).",
+    "feature": "Company name, address, KvK and BTW number and e-mail visible (footer/contact). Statafelshop operator: Outmate B.V. (KvK 76398021) is asserted only by gauntlet/BRIEF.md section 1 and was never read from a Statafelshop page (unconfirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -112,7 +112,7 @@
   {
     "id": "global.social-links",
     "area": "global",
-    "feature": "Social profiles (Facebook, Instagram).",
+    "feature": "Social profiles exist: facebook.com/outmatebv, instagram.com/outmate.nl and the legacy x.com/partytentnl (Partytentkopen.nl). Whether the outmate.nl header or footer links to them is unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.instagram.com/outmate.nl/",
     "priority": "should",
@@ -122,7 +122,7 @@
   {
     "id": "global.whatsapp",
     "area": "global",
-    "feature": "WhatsApp contact button next to phone/e-mail (seen on sister sites outmatestretch.nl / outmateair.nl; not confirmed on outmate.nl).",
+    "feature": "WhatsApp contact button next to phone/e-mail (seen on sister sites outmatestretch.nl / outmateair.nl; not confirmed on outmate.nl). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: a WhatsApp button on outmate.nl itself stays unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmatestretch.nl/",
     "priority": "should",
@@ -132,7 +132,7 @@
   {
     "id": "global.live-chat",
     "area": "global",
-    "feature": "Live chat (only an old review mentions chat; current widget unconfirmed).",
+    "feature": "Live chat (only an old review mentions chat; current widget unconfirmed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: a live-chat widget on outmate.nl itself stays unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmatestretch.nl/",
     "priority": "could",
@@ -142,7 +142,7 @@
   {
     "id": "global.usp-bar",
     "area": "global",
-    "feature": "USP/announcement bar (Outmate USP texts not confirmed; self-claims like 'Door eigen import de goedkoopste' seen in titles).",
+    "feature": "USP/announcement bar (Outmate USP texts not confirmed; self-claims like 'Door eigen import de goedkoopste' seen in titles). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether the outmate.nl header has a USP bar at all stays unconfirmed (we match the feature only, never their wording).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/alle/",
     "priority": "should",
@@ -152,9 +152,9 @@
   {
     "id": "global.same-day-cutoff",
     "area": "global",
-    "feature": "Same-day dispatch promise ('voor 14:00 besteld = vandaag verzonden').",
+    "feature": "Same-day dispatch promise ('voor 14:00 besteld = vandaag verzonden'). The 14:00 wording is only the BRIEF section 6 example, not a verified Statafelshop claim (Statafelshop research was blocked four times, most recently 2026-10-17 round 3). Outmate shows a computed dispatch date ('Vandaag verzonden', 'Verzending: di 20 okt') but no explicit 'voor HH:MM besteld' cut-off was found (https://www.outmate.nl/).",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "gauntlet/BRIEF.md#6-honesty--legal-rules-hard (example wording only; not observed via search)",
     "priority": "should",
     "how_we_match": "theme setting cutoff_time + toggle drives USP text and dispatch line; listed in docs/claims-to-confirm.md.",
     "confidence": "unconfirmed"
@@ -182,7 +182,7 @@
   {
     "id": "header.search",
     "area": "header",
-    "feature": "Site search ('Zoeken').",
+    "feature": "Site search ('Zoeken'). Outmate live suggestions, mixed results (products vs pages/posts) and results layout: unconfirmed. Predictive search is a brief requirement (BRIEF section 4), not a reference-confirmed feature. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether https://www.outmate.nl/?s=partytent mixes products with pages/posts, its results layout and live suggestions all stay unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -192,7 +192,7 @@
   {
     "id": "header.account",
     "area": "header",
-    "feature": "Account link ('Log in' / 'Mijn account').",
+    "feature": "Account link ('Log in' / 'Mijn account'). Outmate offers account or guest checkout (https://www.outmate.nl/bestellen-annuleren/, confirmed); its privacy statement implies accounts hold order history (https://www.outmate.nl/privacy-en-veiligheid/, likely). https://www.outmate.nl/mijn-account/ was never read: login/register fields (bedrijfsnaam, BTW, KvK) and dashboard tabs (bestellingen, downloads, adressen) are unconfirmed; no separate business account was found. Wishlist: none in the header text seen on https://www.outmate.nl/contact/ (likely). Product compare and recently viewed were never checked, so no 'not present' may be claimed. Statafelshop account: unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -352,7 +352,7 @@
   {
     "id": "collection.filters-attributes",
     "area": "collection",
-    "feature": "Facet filters: afmeting, kleur, materiaal, bevestiging (klittenband), materiaal buizen.",
+    "feature": "Facet filters: afmeting, kleur, materiaal, bevestiging (klittenband), materiaal buizen. Price slider and an op-voorraad filter: unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/?_pa_kleur=full-colour-bedrukking-vouwtent",
     "priority": "must",
@@ -382,7 +382,7 @@
   {
     "id": "collection.filter-condition-warranty",
     "area": "collection",
-    "feature": "Filter by conditie (nieuw) and fabrieksgarantie.",
+    "feature": "Filter by conditie and fabrieksgarantie. The only conditie value seen is 'nieuw' (/conditie/nieuw/ plus nl-be duplicates such as https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/). Single products show compare-at sale prices (e.g. https://www.outmate.nl/product-categorie/accessoires-opblaasbare-partytenten/: LED 12 W €107,10, was €119), but no outlet, sale, actie, B-keuze or occasion category was ever recorded. The 2026-10-17 existence check for these was refused by the search budget before it ran, so whether such a range exists is still unconfirmed, not 'not found'.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/conditie/nieuw/",
     "priority": "could",
@@ -412,7 +412,7 @@
   {
     "id": "collection.sort",
     "area": "collection",
-    "feature": "Sorting (price, newest, best-selling).",
+    "feature": "Sorting (price, newest, best-selling). Outmate sort options / ?orderby= params: unconfirmed (WooCommerce default, not observed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: the ?orderby= values (popularity/rating/date/price/price-desc), a price slider and an 'op voorraad' filter stay unconfirmed. Only the underscore facet param pattern is recorded (https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/?_frame=zwart, likely). Statafelshop filter facets, sort options and search autocomplete: unconfirmed (research refused four times, most recently 2026-10-17).",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -422,7 +422,7 @@
   {
     "id": "collection.pagination",
     "area": "collection",
-    "feature": "Pagination / load more for large categories.",
+    "feature": "Pagination / load more for large categories. Outmate numbered pagination vs load-more and products per page: unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: numbered pagination vs load-more and the products-per-page count stay unconfirmed. Statafelshop pagination vs load-more: unconfirmed.",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -502,7 +502,7 @@
   {
     "id": "product.print-side",
     "area": "product",
-    "feature": "Print side choice: binnenkant, buitenkant or beide (double-sided = two printed cloths).",
+    "feature": "Print side choice: binnenkant, buitenkant or beide (double-sided = two printed cloths). Placement ranges from a logo on the valance to a full roof; tents printable on polyester or Heavy Duty PVC (https://www.outmate.nl/easy-up-tent-bedrukken/).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x45m-premium-pvc-gecoat-polyester/",
     "priority": "must",
@@ -522,7 +522,7 @@
   {
     "id": "product.print-proof-flow",
     "area": "product",
-    "feature": "Proof flow: shop makes a mock-up, customer approves, production starts after approval; lead time counted from approval (14-21 days / 2-3 weeks / 5-10 days).",
+    "feature": "Proof flow: shop makes a mock-up, customer approves, production starts after approval; lead time counted from approval (14-21 days / 2-3 weeks / 5-10 days). Other pages state about 15 werkdagen for printed easy-ups. No separate print surcharge or volume tiers found: the price resolves inside the 'Full Colour-bedrukking' variant (unconfirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
     "priority": "must",
@@ -552,7 +552,7 @@
   {
     "id": "product.downloads",
     "area": "product",
-    "feature": "Downloads: opzetinstructie, specificatieblad, treksterkte berekening, testrapport brandveiligheid.",
+    "feature": "Downloads: opzetinstructie, specificatieblad, template voor bedrukking, voorbeeld ingevuld template, treksterkte berekening, testrapport brandveiligheid. Premium pages also carry the fire test report and a print template. A general setup PDF exists at https://www.outmate.nl/wp-content/uploads/2020/10/Easy-up-Professional-Opzetinstructie.pdf.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/",
     "priority": "must",
@@ -582,7 +582,7 @@
   {
     "id": "product.shipping-method-label",
     "area": "product",
-    "feature": "Carrier/method per product ('Pakketdienst' vs 'Vrachttransport') with box dimensions.",
+    "feature": "Carrier/method per product ('Pakketdienst' vs 'Vrachttransport') with box dimensions. Conflict: the 3x8 Premium page labels the same €42,50 as 'Pakketdienst' in one snapshot (https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/), the 4x4 Premium page as 'Vrachttransport'.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/",
     "priority": "should",
@@ -602,7 +602,7 @@
   {
     "id": "product.staffelkorting",
     "area": "product",
-    "feature": "Tiered volume discount table (e.g. 2-5 st 5% ... 20+ st 12,5%; staffel from 10 st on barkrukken).",
+    "feature": "Tiered volume discount table (e.g. 2-5 st 5% ... 20+ st 12,5%; staffel from 10 st on barkrukken). Whether statafelrokken carry staffel tiers: unconfirmed (Outmate and Statafelshop). Barkruk tier percentages: unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
     "priority": "must",
@@ -622,7 +622,7 @@
   {
     "id": "product.accessory-bundle-discount",
     "area": "product",
-    "feature": "'10% korting op de volgende accessoires' when bought with the tent (side walls; also 10% on lamps with a prikkabel).",
+    "feature": "'10% korting op de volgende accessoires' when bought with the tent (side walls; also 10% on lamps with a prikkabel). PE tent pages list opbergtassenset and stormbandenset in the 10% block instead of side walls (likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/",
     "priority": "should",
@@ -632,7 +632,7 @@
   {
     "id": "product.whats-included",
     "area": "product",
-    "feature": "What's included / excluded ('Exclusief zijwanden'; inflatable incl. 4 zandzakken, tas, 4 scheerlijnen, 4 haringen; stertent incl. opbergtas, mast, haringen, meetkoord).",
+    "feature": "What's included / excluded ('Exclusief zijwanden'; inflatable incl. 4 zandzakken, tas, 4 scheerlijnen, 4 haringen; stertent incl. opbergtas, mast, haringen, meetkoord). Easy-up box contents: unconfirmed. Indirect evidence that pegs/straps are not included: 'Set spanriemen en haringen' is sold separately at €19,99 and suggested in the PDP cross-sell (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/, likely); beschermhoes (from €19,99) and wielen set 4 (€35) are also separate products. Only the 4x8 easy-up page mentions an 'opbergtas', without saying what type it is or whether it is included (unconfirmed; the 4x8 page URL was not recorded). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: the box contents (draagtas or wieltas, haringen, spanbanden) of https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/ and https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/ stay unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/",
     "priority": "must",
@@ -702,7 +702,7 @@
   {
     "id": "product.matching-trolley",
     "area": "product",
-    "feature": "Matching trolley/transport cart for every table and chair type.",
+    "feature": "Matching trolley/transport cart for every table and chair type. Only priced trolley: statafel trolley for 10 st €589 (https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/); stoelen/barkrukken trolley holds 18 (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/, price unconfirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/",
     "priority": "should",
@@ -712,7 +712,7 @@
   {
     "id": "product.quote-form",
     "area": "product",
-    "feature": "On-page 'Offerte aanvragen' form: company, BTW-nummer, KvK-nummer; note on intra-community delivery to BE without VAT.",
+    "feature": "On-page 'Offerte aanvragen' form: company, BTW-nummer, KvK-nummer; note on intra-community delivery to BE without VAT. The site also mentions 'op factuur betalen voor bedrijven' (same page, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/test-2/",
     "priority": "must",
@@ -732,7 +732,7 @@
   {
     "id": "product.min-quantity",
     "area": "product",
-    "feature": "Minimum order quantity on printed items (afzetpaal bedrukt: min 10).",
+    "feature": "Minimum order quantity on printed items (afzetpaal bedrukt: min 10). Printed afzetpaal lead time after design approval: '2 weken' in one snapshot, '2-4 weken' in another.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/afzetpaal-bedrukking-op-trekband/",
     "priority": "should",
@@ -752,7 +752,7 @@
   {
     "id": "product.warranty",
     "area": "product",
-    "feature": "Warranty per product ('Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten').",
+    "feature": "Warranty per product ('Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten'). Warranty wording targets non-consumers; repair does not restart the warranty period and it is not transferable (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/, likely). Easy-up frame warranty value: unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
     "priority": "should",
@@ -772,7 +772,7 @@
   {
     "id": "product.video",
     "area": "product",
-    "feature": "Product/setup video (not confirmed as Outmate-hosted).",
+    "feature": "Product/setup video (not confirmed as Outmate-hosted). Image zoom/lightbox on the easy-up product pages was never checked (unconfirmed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: video and zoom on https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/ and https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/ stay unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-3x6m-professional-heavy-duty-pvc/",
     "priority": "could",
@@ -892,7 +892,7 @@
   {
     "id": "checkout.payment-methods",
     "area": "checkout-adjacent",
-    "feature": "iDEAL, Bancontact, Belfius, KBC-Betaalknop, creditcard, Apple Pay, PayPal, bankoverschrijving (Sofort/Giropay also listed on a ~3-year-old page).",
+    "feature": "iDEAL, Bancontact, Belfius, KBC-Betaalknop, creditcard, Apple Pay, PayPal, bankoverschrijving (Sofort/Giropay also listed on a ~3-year-old page). No Klarna, in3, Afterpay or Billink found. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed: the current PSP, whether Sofort/Giropay are still offered, and the surcharge percentages per method.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -942,7 +942,7 @@
   {
     "id": "checkout.be-rates",
     "area": "checkout-adjacent",
-    "feature": "Belgian delivery rates applied automatically.",
+    "feature": "Belgian delivery rates applied automatically. Actual BE amounts per shipping class: unconfirmed. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/levertijd-en-verzendkosten/: the full shipping-class table and BE amounts, Wadden islands surcharge and countries other than NL/BE. Known NL classes (from product/category pages) stay in reference/dossier.md section 9.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -952,7 +952,7 @@
   {
     "id": "checkout.freight-delivery",
     "area": "checkout-adjacent",
-    "feature": "Freight delivery for tents/pallets: delivery-date confirmation, time window communicated on the day.",
+    "feature": "Freight delivery for tents/pallets: delivery-date confirmation, time window communicated on the day. Kerbside vs. inside delivery, help with unloading and rescheduling rules: unconfirmed. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/levertijd-en-verzendkosten/: kerbside vs inside delivery, help with unloading, rescheduling rules and islands.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "should",
@@ -990,6 +990,16 @@
     "confidence": "likely"
   },
   {
+    "id": "checkout.gift-card",
+    "area": "checkout-adjacent",
+    "feature": "Gift card / cadeaubon. Not recorded in any Outmate snippet (0 mentions of cadeaubon or gift card in the earlier research). The 2026-10-17 existence check was refused by the search budget before it ran, so this is still not a confirmed 'not found'. Statafelshop: unconfirmed.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "could",
+    "how_we_match": "Shopify gift card product + templates/gift_card.liquid; footer/service link only when the owner enables gift cards.",
+    "confidence": "brief-required"
+  },
+  {
     "id": "content.comparison-guide",
     "area": "content",
     "feature": "Comparison guide 'het verschil tussen de partytenten' across quality lines.",
@@ -1012,7 +1022,7 @@
   {
     "id": "content.buying-guide-opslag",
     "area": "content",
-    "feature": "Buying guide 'opslagtent kopen - welke past bij je'.",
+    "feature": "Buying guide 'opslagtent kopen - welke past bij je'. Guides at https://www.outmate.nl/opslagtent-kopen/ and https://www.outmate.nl/opslagtent-kopen-welke-past-bij-je/ (linked from the category).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/opslagtenten/",
     "priority": "should",
@@ -1122,7 +1132,7 @@
   {
     "id": "content.faq",
     "area": "content",
-    "feature": "FAQ page (not confirmed on outmate.nl).",
+    "feature": "FAQ page (not confirmed on outmate.nl). Outmate: no FAQ tab on product pages was observed; whether a FAQ / 'veelgestelde vragen' page exists was never checked, so 'not found' must not be claimed. Statafelshop FAQ topics: unconfirmed (research refused four times, most recently 2026-10-17). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified.",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -1132,7 +1142,7 @@
   {
     "id": "content.statafel-guide",
     "area": "content",
-    "feature": "Statafel/statafelrok buying guide (sizes, fit, stretch vs strik).",
+    "feature": "Statafel/statafelrok buying guide (sizes, fit, stretch vs strik). Whether Statafelshop has such a guide is unconfirmed (research refused four times, most recently 2026-10-17).",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "should",
@@ -1142,7 +1152,7 @@
   {
     "id": "b2b.quote-page",
     "area": "b2b",
-    "feature": "Quote page for multi-product / volume / print requests.",
+    "feature": "Quote page for multi-product / volume / print requests. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. The URL and fields of the real 'Offerte aanvragen' page (not /product/test-2/), attachment upload and any response-time promise are still unconfirmed; our page.offerte fields remain our own design.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
     "priority": "must",
@@ -1152,7 +1162,7 @@
   {
     "id": "b2b.zakelijk-page",
     "area": "b2b",
-    "feature": "Zakelijk page for horeca, eventbureaus, verhuurbedrijven, verenigingen, scholen.",
+    "feature": "Zakelijk page for horeca, eventbureaus, verhuurbedrijven, verenigingen, scholen. Not on Outmate either: no dedicated zakelijk/offerte page confirmed. Outmate B2B signals are op factuur for organisations, staffel from 10 st on barkrukken and positioning for horeca, verhuur, schools and care institutions on the marktkraam page (https://www.outmate.nl/product/marktkraam-professional-gegalvaniseerd-zonder-kartelrand/, likely). Statafelshop: whether a zakelijk page exists, its offerte fields, op rekening, excl. btw display, segments and a business account are all unconfirmed (research refused four times, most recently 2026-10-17).",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "must",
@@ -1172,12 +1182,12 @@
   {
     "id": "b2b.ex-vat-first",
     "area": "b2b",
-    "feature": "Business customers see prices ex btw first.",
+    "feature": "Business customers see prices ex btw first. Not observed on Outmate: every price shows incl. btw first with excl. btw next to it (e.g. '€49,95 / €41,28 excl. btw'); no incl/excl toggle and no business account were found. Our own improvement. Statafelshop: ex-btw-first display and an incl/excl toggle unconfirmed (research refused four times, most recently 2026-10-17).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
     "priority": "should",
     "how_we_match": "customer tag / B2B catalog switches price snippet to ex-first.",
-    "confidence": "likely"
+    "confidence": "unconfirmed"
   },
   {
     "id": "b2b.printed-promo",
@@ -1192,7 +1202,7 @@
   {
     "id": "b2b.actiepakketten",
     "area": "b2b",
-    "feature": "Action packages: statafels + rokken sets.",
+    "feature": "Action packages: statafels + rokken sets. Statafelshop package contents (number of statafels, which rok/hoes, trolley or not), variant choices (rok colour, table size), prices, savings and compare-at prices: unconfirmed (research refused four times, most recently 2026-10-17). Outmate proxy (same operator): 10x statafel + trolley and barrel set bundles, see product.bundles.",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "must",
@@ -1242,7 +1252,7 @@
   {
     "id": "service.returns-page",
     "area": "service",
-    "feature": "Returns / 14-day withdrawal page with model withdrawal form; return shipping paid by customer.",
+    "feature": "Returns / 14-day withdrawal page with model withdrawal form; return shipping paid by customer. After notice the customer has 14 days to send the item back; refund incl. original delivery cost within 14 days to the original payment method; waardevermindering may be charged. The model form still shows old partytentkopen contact details. Unconfirmed: whether printed (Full Colour) items are excluded, and whether there is a return portal or RMA step. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/retourinformatie/: exclusion of Full Colour print, maatwerk and cut-to-length items; whether an RMA number or e-mail notice step is required; the return address or portal; how waardevermindering is calculated.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/retourinformatie/",
     "priority": "must",
@@ -1262,7 +1272,7 @@
   {
     "id": "service.warranty-page",
     "area": "service",
-    "feature": "Warranty & complaints page (1 jaar fabrieksgarantie, wear parts excluded).",
+    "feature": "Warranty & complaints page (1 jaar fabrieksgarantie, wear parts excluded). The /garantie-klachten/ page content was never retrieved: consumer vs business term, claim procedure and exclusions unconfirmed. Product attribute adds: repair does not restart the period, warranty not transferable (likely). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/garantie-klachten/: consumer vs business term, claim procedure, whether a photo or proof of purchase is required, and page-level exclusions (wear parts, storm/snow).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/",
     "priority": "must",
@@ -1272,7 +1282,7 @@
   {
     "id": "service.terms",
     "area": "service",
-    "feature": "Algemene voorwaarden (Outmate has an old and new version side by side - avoid).",
+    "feature": "Algemene voorwaarden (Outmate has an old and new version side by side - avoid). B2B-specific clauses and eigendomsvoorbehoud: unconfirmed (content not retrieved). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/algemene-voorwaarden-nieuw/: B2B-specific clauses, eigendomsvoorbehoud, the invoice payment term and any liability cap. Our terms must be written for our own brand anyway (BRIEF section 6) and reviewed by the owner.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/algemene-voorwaarden-nieuw/",
     "priority": "must",
@@ -1292,7 +1302,7 @@
   {
     "id": "service.footer-links",
     "area": "service",
-    "feature": "Footer service links: service, contact, verzending, bestellen/annuleren, retour, voorwaarden, privacy, reviews, showroom.",
+    "feature": "Footer service links: service, contact, verzending, bestellen/annuleren, retour, voorwaarden, privacy, reviews, showroom. Confirmed footer content: company name and address (Outmate B.V., Esakker 5, 7951 SV Staphorst), KvK number, info@outmate.nl, '© 2026 Outmate.nl' and 'Realisatie: Optimus Websites' (https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/, confirmed). The service pages listed above are likely footer links, not confirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: column titles, a footer newsletter signup and footer social links stay unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/",
     "priority": "must",
@@ -1302,7 +1312,7 @@
   {
     "id": "service.payment-icons",
     "area": "service",
-    "feature": "Payment method icons (not confirmed on outmate.nl).",
+    "feature": "Payment method icons (not confirmed on outmate.nl). The methods themselves (not icons) are sourced in checkout.payment-methods and checkout.invoice-organisations (https://www.outmate.nl/levertijd-en-verzendkosten/, confirmed; page snapshot about 3 years old). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether the footer shows payment icons stays unconfirmed.",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -1312,7 +1322,7 @@
   {
     "id": "seo.clean-taxonomy",
     "area": "seo",
-    "feature": "One collection per concept (Outmate duplicates: accessoires-meubilair vs meubilair-accessoires, /uncategorized/statafelrokken/).",
+    "feature": "One collection per concept (Outmate duplicates: accessoires-meubilair vs meubilair-accessoires, /uncategorized/statafelrokken/). 'Rokken en hoezen' alone resolves at /product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/ and /product-categorie/uncategorized/statafelrokken/.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/",
     "priority": "must",
@@ -1382,17 +1392,17 @@
   {
     "id": "product.statafelrok-fit",
     "area": "product",
-    "feature": "Statafelrok stretch per table size and colour (Outmate: fits 70-85 cm tops, incl. top cover, 90/10 polyester/lycra 190 g/m²).",
-    "seen_on": "both",
+    "feature": "Statafelrok stretch per table size and colour. Outmate: fits 70-85 cm tops, incl. topcover, 90/10 polyester/lycra 190 g/m², colours incl. zwart/wit/turquoise split into standaard and exclusief, €14,99 in one snapshot. Unconfirmed on Outmate: full colour list, exclusive-colour surcharge, care instructions, staffel/set prices. Statafelshop (core category per brief): every value unconfirmed; research was refused by the search budget four times (first round and all three 2026-10-17 follow-up rounds).",
+    "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/statafelrok-stretch/",
     "priority": "must",
     "how_we_match": "product options Tafelmaat x Kleur with swatches; size-fit helper text.",
-    "confidence": "confirmed"
+    "confidence": "likely"
   },
   {
     "id": "product.statafelhoes-strik",
     "area": "product",
-    "feature": "Statafelhoes with strik (bow) in a colour choice.",
+    "feature": "Statafelhoes with strik (bow) in a colour choice. All three 2026-10-17 follow-up rounds were also blocked by the search budget (four attempts in total): fitting Ø/heights, hoes and strik colours, whether the strik is chosen separately, fabric, care, topcover, price, staffel/set prices and dispatch line all unconfirmed.",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "must",
@@ -1402,7 +1412,7 @@
   {
     "id": "product.statafelkleed",
     "area": "product",
-    "feature": "Statafelkleden (table cloths).",
+    "feature": "Statafelkleden (table cloths). All three 2026-10-17 follow-up rounds were also blocked by the search budget (four attempts in total): sizes, floor-length or not, colours, fabric g/m², care/strijkvrij, price, staffel/set prices and dispatch line all unconfirmed.",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "should",
@@ -1412,7 +1422,7 @@
   {
     "id": "product.printed-statafelhoes",
     "area": "product",
-    "feature": "Printed statafelhoezen with own logo (upload).",
+    "feature": "Printed statafelhoezen with own logo (upload). Print technique, positions (voorkant/rondom/topcover), upload specs, proof, MOQ, surcharge and lead time: unconfirmed (research refused four times, most recently 2026-10-17, by the search budget). Closest proxy is Outmate's print flow (product.print-*): same operator, not Statafelshop data.",
     "seen_on": "statafelshop",
     "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
     "priority": "must",

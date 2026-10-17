@@ -1,0 +1,14 @@
+import { createRequire } from 'module'; import { execSync } from 'child_process';
+const require = createRequire(import.meta.url);
+const { chromium } = require(`${execSync('npm root -g').toString().trim()}/playwright`);
+const [,, url, out, w='1600', h='800', full='1', dpr='1'] = process.argv;
+const b = await chromium.launch({ args: ['--allow-file-access-from-files'] });
+const p = await b.newPage({ viewport: { width: +w, height: +h }, deviceScaleFactor: +dpr });
+const errs = []; p.on('console', m => { if (m.type() === 'error' || m.type()==='log') errs.push(m.type()+': '+m.text()); }); p.on('pageerror', e => errs.push(String(e)));
+p.on('requestfailed', r => errs.push('FAILED ' + r.url()));
+await p.goto(url, { waitUntil: 'networkidle' });
+await p.evaluate(() => document.fonts.ready);
+await p.waitForTimeout(1500);
+await p.screenshot({ path: out, fullPage: full === '1' });
+console.log(JSON.stringify({ errs, height: await p.evaluate(() => document.documentElement.scrollHeight), sw: await p.evaluate(() => document.documentElement.scrollWidth) }));
+await b.close();

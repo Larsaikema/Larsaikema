@@ -211,13 +211,15 @@ function buildStrik(group, S, p, color) {
   const rS = 0.105;
   const gathers = foldField(26, 7, { sharp: 1.4, warp: 0.6, ampJitter: 0.5 });
   const foldsU = foldField(13, 11, { sharp: 1.8, warp: 1.2, ampJitter: 0.6 });
-  const foldsL = foldField(12, 23, { sharp: 2.6, warp: 1.3, ampJitter: 0.7 });
+  const foldsL = foldField(11, 23, { sharp: 2.2, warp: 1.6, ampJitter: 0.85 });
   const Aup = 0.022, Alow = 0.034;
 
-  // top + upper drape to the sash
+  const sashH = 0.058;
+  const rBandIn = rS + Aup * 0.9 + 0.006;      // sash band radius
+  // top + upper drape to the sash (gathers taper into the band, no gap)
   const top = topProfile(S, f, 14, 0.002);
   const P0 = top.end, d0 = top.dir;
-  const P3 = [rS, yS + 0.03];
+  const P3 = [rBandIn - 0.006, yS + sashH / 2 - 0.004];
   const span = Math.hypot(P3[0] - P0[0], P3[1] - P0[1]);
   const drape = bezier(P0, [P0[0] + d0[0] * span * 0.35, P0[1] + d0[1] * span * 0.35], [P3[0] + span * 0.28, P3[1] + span * 0.3], P3, 40);
   const upper = resample(concat(top.pts, drape), 0.008);
@@ -225,18 +227,19 @@ function buildStrik(group, S, p, color) {
   group.add(G.mesh(revolve(upper, 220, (th, i, prof) => {
     const s = prof.s[i];
     const t = clamp((s - topLen) / (prof.L - topLen)); // 0 at rim, 1 at sash
-    const amp = Aup * Math.pow(t, 1.1);
+    const amp = Aup * Math.pow(t, 1.1) * (1 - 0.85 * smoothstep(0.86, 1, t));
     const k = smoothstep(0.55, 1, t);
     return [amp * ((1 - k) * foldsU(th, t) + k * gathers(th, 0)), 0];
   }), mat));
 
   // lower skirt from the sash to the floor
-  const Q0 = [rS, yS - 0.03];
+  const Q0 = [rBandIn - 0.006, yS - sashH / 2 + 0.004];
   const Q3 = [S.R + 0.03, 0.006];
-  const sp2 = Math.hypot(Q3[0] - Q0[0], Q3[1] - Q0[1]);
-  const skirtPts = bezier(Q0, [Q0[0] + sp2 * 0.16, Q0[1] - sp2 * 0.2], [Q3[0] - 0.004, Q3[1] + sp2 * 0.5], Q3, 60);
+  // near-conical A-line from the gathered waist, slightly convex just below the sash
+  const lin = (t, o) => [Q0[0] + (Q3[0] - Q0[0]) * t + o, Q0[1] + (Q3[1] - Q0[1]) * t];
+  const skirtPts = bezier(Q0, lin(0.3, 0.035), lin(0.68, 0.022), Q3, 60);
   const skirt = resample(skirtPts, 0.01);
-  const lowerAmp = (t) => 0.012 + (Alow - 0.012) * smoothstep(0, 0.6, t);
+  const lowerAmp = (t) => 0.003 + (Alow - 0.003) * smoothstep(0, 0.6, t) - 0.008 * smoothstep(0.8, 1, t);
   group.add(G.mesh(revolve(skirt, 240, (th, i, prof) => {
     const t = prof.s[i] / prof.L;
     const k = smoothstep(0, 0.45, t);
@@ -249,65 +252,75 @@ function buildStrik(group, S, p, color) {
     o.set(Math.sin(th) * r, 0.006 + Math.sin(a) * 0.003, Math.cos(th) * r);
   }, 240, 6, { closedU: true }), mat));
 
-  // sash band around the gathered waist
-  const sashH = 0.058;
+  // sash band around the gathered waist (slightly crinkled where it is pulled tight)
   const band = G.surface((u, v, o) => {
     const th = u * TAU;
     const y = yS - sashH / 2 + v * sashH;
-    const r = rS + Aup * 0.9 + 0.006 + 0.004 * Math.sin(Math.PI * v) + 0.0015 * Math.sin(th * 9);
+    const r = rBandIn + 0.004 * Math.sin(Math.PI * v) + 0.0015 * Math.sin(th * 9) + 0.0012 * Math.sin(th * 23 + v * 4);
     o.set(Math.sin(th) * r, y, Math.cos(th) * r);
-  }, 160, 8, { closedU: true });
+  }, 180, 10, { closedU: true });
   group.add(G.mesh(band, ribbon));
 
-  // bow at the front: knot, two puffed wings (flattened loops), two tails
+  // ---- bow at the front: wrapped knot, two puffed loops, two tails --------------------
   const tb = Number(p.bowAngle ?? 22) * DEG;
-  const rBand = rS + Aup * 0.9 + 0.012;
+  const rBand = rBandIn + 0.006;
   const ring = (th, r, y) => V3(Math.sin(th) * r, y, Math.cos(th) * r);
   const outAt = (th) => V3(Math.sin(th), 0, Math.cos(th));
-  const knotC = ring(tb, rBand + 0.02, yS);
+  const Y = V3(0, 1, 0);
+  const knotC = ring(tb, rBand + 0.016, yS);
   const nrm = outAt(tb), tan = V3(Math.cos(tb), 0, -Math.sin(tb));
+  // knot: a short piece of ribbon wrapped around the gathered loop roots
   group.add(G.mesh(G.surface((u, v, o) => {
-    const th = u * TAU, ph = v * Math.PI;
-    const x = Math.cos(th) * Math.sin(ph) * 0.03, y = Math.cos(ph) * 0.037, z = Math.sin(th) * Math.sin(ph) * 0.02;
-    o.copy(knotC).addScaledVector(tan, x).addScaledVector(nrm, z).setY(knotC.y + y);
-  }, 28, 16), ribbon));
+    const ph = u * TAU;
+    const w = (v - 0.5) * 0.044;
+    const bulge = 1 + 0.2 * (1 - (2 * v - 1) ** 2) + 0.06 * Math.sin(ph * 3 + v * 5);
+    o.copy(knotC).addScaledVector(tan, w)
+      .addScaledVector(nrm, Math.cos(ph) * 0.019 * bulge)
+      .addScaledVector(Y, Math.sin(ph) * 0.031 * bulge);
+  }, 36, 10, { closedU: true }), ribbon));
   for (const side of [-1, 1]) {
-    // wings stick out along the tangent (stiff, puffed loops), bending slightly back
+    // loops: flattened ribbon tubes going sideways and up, puffed and cupped
     const L = side > 0 ? 0.15 : 0.14;
-    const beta = (side > 0 ? 27 : 33) * DEG;
-    const wing = G.surface((u, v, o) => {
+    const beta = (side > 0 ? 24 : 30) * DEG;
+    const axis = tan.clone().multiplyScalar(side * Math.cos(beta)).addScaledVector(Y, Math.sin(beta));
+    const wdir = tan.clone().multiplyScalar(-side * Math.sin(beta)).addScaledVector(Y, Math.cos(beta));
+    const loop = G.surface((u, v, o) => {
       const ph = u * TAU;
-      const xs = (1 - Math.cos(ph)) / 2;            // 0 at knot .. 1 at the fold
+      const xs = (1 - Math.cos(ph)) / 2;             // 0 at knot .. 1 at the fold
       const x = L * xs;
-      const D = 0.008 + 0.04 * Math.pow(Math.sin(Math.PI * Math.min(1, xs * 1.04)), 0.7) + 0.008 * xs;
-      const layer = Math.sin(ph);                    // + front layer, - back layer
-      const W = 0.03 + 0.07 * smoothstep(0, 1, xs);
-      o.copy(knotC)
-        .addScaledVector(tan, side * (0.018 + x * Math.cos(beta)))
-        .addScaledVector(nrm, D * layer + 0.012 - 0.9 * x * x)
-        .setY(knotC.y + x * Math.sin(beta) + (v - 0.5) * W * (1 + 0.12 * layer));
-    }, 64, 10);
-    group.add(G.mesh(wing, ribbon));
+      const layer = Math.sin(ph);                      // + front, - back
+      const D = 0.011 + 0.03 * Math.pow(Math.sin(Math.PI * Math.min(1, xs * 1.02)), 0.6);
+      const W = 0.03 + 0.062 * smoothstep(0, 1, xs);
+      const vv = 2 * v - 1;
+      const cup = 0.011 * (1 - vv * vv) * Math.sin(Math.PI * Math.min(1, xs * 1.1)) * Math.sign(layer || 1);
+      const ripple = 0.004 * Math.sin(vv * 9) * (1 - xs) ** 2;
+      o.copy(knotC).addScaledVector(axis, 0.018 + x)
+        .addScaledVector(nrm, 0.004 - 0.55 * x * x + D * layer + cup + ripple)
+        .addScaledVector(wdir, vv * W / 2);
+    }, 72, 12);
+    group.add(G.mesh(loop, ribbon));
   }
-  // tails hanging over the skirt (rest on the fold crests), V-cut ends
+  // tails hanging over the skirt (rest on the fold crests), cupped, swallowtail ends
   const skirtR = (y) => {
     let best = skirt.pts[0][0];
     for (let i = 1; i < skirt.pts.length; i++) { const [r0, y0] = skirt.pts[i - 1], [r1, y1] = skirt.pts[i]; if ((y0 - y) * (y1 - y) <= 0) { best = lerp(r0, r1, (y - y0) / ((y1 - y0) || 1e-9)); break; } }
     return best;
   };
   for (const side of [-1, 1]) {
-    const len = side > 0 ? 0.44 : 0.4, W = 0.07;
+    const len = side > 0 ? 0.44 : 0.4, W = 0.068;
     const tail = G.surface((u, v, o) => {
-      const yy = yS - 0.025 - u * len;
-      const spread = side * (0.014 + u * (side > 0 ? 0.075 : 0.055));
-      const rr = Math.max(skirtR(yy) + lowerAmp(clamp((yS - 0.03 - yy) / (yS - 0.03))) * 1.05 + 0.006, rBand + 0.016 - u * 0.01);
+      const yy = yS - 0.02 - u * len;
+      const spread = side * (0.012 + u * (side > 0 ? 0.075 : 0.055));
+      const rr = Math.max(skirtR(yy) + lowerAmp(clamp((Q0[1] - yy) / Q0[1])) * 1.05 + 0.006, rBand + 0.014 - u * 0.01);
       const th = tb + spread / rr;
       const twist = (side * 0.35 + 0.25 * Math.sin(u * 3.5)) * smoothstep(0, 0.3, u);
-      const w = (v - 0.5) * W;
-      const notch = smoothstep(0.86, 1, u) * (0.5 - Math.abs(v - 0.5)) * 0.09; // swallowtail V-cut
+      const vv = 2 * v - 1;
+      const w = vv * W / 2;
+      const cup = 0.006 * (1 - vv * vv);
+      const notch = smoothstep(0.86, 1, u) * (1 - Math.abs(vv)) * 0.045; // swallowtail V-cut
       const tg = V3(Math.cos(th), 0, -Math.sin(th));
-      o.copy(ring(th, rr, yy - notch)).addScaledVector(tg, w * Math.cos(twist)).addScaledVector(outAt(th), w * Math.sin(twist) * 0.6 + 0.004);
-    }, 40, 6);
+      o.copy(ring(th, rr, yy - notch)).addScaledVector(tg, w * Math.cos(twist)).addScaledVector(outAt(th), w * Math.sin(twist) * 0.6 + 0.004 + cup);
+    }, 44, 8);
     group.add(G.mesh(tail, ribbon));
   }
 }

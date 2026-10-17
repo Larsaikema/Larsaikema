@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'fileutils'
+
 module Preview
   # Maps Shopify font-library handles (e.g. "inter_n4", "work_sans_i7") onto the vendored Google Fonts TTFs.
   module Fonts
@@ -77,7 +79,72 @@ module Preview
       dir = dir_for(family_key)
       return nil unless dir
       p = File.join(dir, file)
-      File.file?(p) ? p : nil
+      return nil unless File.file?(p)
+      pinned_opsz(p) || p
+    end
+
+    # Shopify's font library serves static text cuts. The vendored Google Fonts are variable and some
+    # (Inter 4, Fraunces, ...) carry an optical-size axis: with font-optical-sizing:auto every large
+    # heading would switch to the tighter "Display" design. Serve a copy whose fvar opsz axis is pinned
+    # to its default (min = max = default), so the browser always renders the text design.
+    FONT_CACHE = ENV['PREVIEW_FONT_CACHE'] ||
+                 '/tmp/claude-0/-home-user-Larsaikema/d03b1b71-234c-55f6-a22b-89a9ff74abc4/scratchpad/cache/fonts'
+
+    def pinned_opsz(path)
+      return nil unless File.basename(path).include?('opsz')
+      dst = File.join(FONT_CACHE, "pinned-opsz-#{File.basename(path)}")
+      return dst if File.exist?(dst) && File.mtime(dst) >= File.mtime(path)
+      data = pin_opsz_data(File.binread(path))
+      return nil unless data
+      FileUtils.mkdir_p(FONT_CACHE)
+      tmp = "#{dst}.#{Process.pid}.tmp"
+      File.binwrite(tmp, data)
+      File.rename(tmp, dst)
+      dst
+    rescue StandardError => e
+      warn "[preview] could not pin opsz in #{path}: #{e.message}"
+      nil
+    end
+
+    def pin_opsz_data(src)
+      data = src.dup.force_encoding(Encoding::BINARY)
+      num_tables = data[4, 2].unpack1('n')
+      tables = {}
+      num_tables.times do |i|
+        dir = 12 + (i * 16)
+        tag, _sum, offset, length = data[dir, 16].unpack('a4NNN')
+        tables[tag] = { dir: dir, offset: offset, length: length }
+      end
+      fv = tables['fvar'] or return nil
+      base = fv[:offset]
+      _maj, _min, axes_off, _res, axis_count, axis_size, inst_count, inst_size = data[base, 16].unpack('n8')
+      idx = nil
+      default = nil
+      axis_count.times do |i|
+        a = base + axes_off + (i * axis_size)
+        next unless data[a, 4] == 'opsz'
+        default = data[a + 8, 4].unpack1('N')
+        data[a + 4, 4] = [default].pack('N')
+        data[a + 12, 4] = [default].pack('N')
+        idx = i
+      end
+      return nil unless idx
+      inst_base = base + axes_off + (axis_count * axis_size)
+      inst_count.times { |j| data[inst_base + (j * inst_size) + 4 + (idx * 4), 4] = [default].pack('N') }
+      # table checksum of fvar + head.checkSumAdjustment
+      data[fv[:dir] + 4, 4] = [table_checksum(data[base, fv[:length]])].pack('N')
+      if (hd = tables['head'])
+        data[hd[:offset] + 8, 4] = [0].pack('N')
+        data[hd[:dir] + 4, 4] = [table_checksum(data[hd[:offset], hd[:length]])].pack('N')
+        data[hd[:offset] + 8, 4] = [(0xB1B0AFBA - table_checksum(data)) & 0xFFFFFFFF].pack('N')
+      end
+      data
+    end
+
+    def table_checksum(bytes)
+      b = bytes.b
+      b += "\0" * ((4 - (b.bytesize % 4)) % 4)
+      b.unpack('N*').sum & 0xFFFFFFFF
     end
   end
 

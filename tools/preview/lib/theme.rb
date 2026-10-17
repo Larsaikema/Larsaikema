@@ -6,10 +6,14 @@ module Preview
   # File access + parsing caches for one theme directory. Everything is keyed by mtime so edits show
   # up on the next request without restarting the server.
   class Theme
-    attr_reader :root
+    attr_reader :root, :overlay
 
-    def initialize(root)
+    # overlay: optional directory whose files take precedence over the theme's (same relative paths).
+    # Used to keep a merchant-configured copy of templates/*.json, section groups and settings_data
+    # next to a pristine theme (e.g. the Horizon bar) without touching the theme itself.
+    def initialize(root, overlay: nil)
       @root = File.expand_path(root)
+      @overlay = overlay && File.expand_path(overlay)
       @mutex = Mutex.new
       @parsed = {}
       @json = {}
@@ -17,7 +21,13 @@ module Preview
       @raw_blocks = {}
     end
 
-    def path(rel) = File.join(@root, rel)
+    def path(rel)
+      if @overlay
+        o = File.join(@overlay, rel)
+        return o if File.exist?(o)
+      end
+      File.join(@root, rel)
+    end
     def exist?(rel) = File.file?(path(rel))
 
     def mtime(rel)
@@ -131,9 +141,10 @@ module Preview
     end
 
     def files(dir, ext = nil)
-      d = path(dir)
-      return [] unless File.directory?(d)
-      Dir.children(d).select { |f| ext.nil? || f.end_with?(ext) }.sort
+      dirs = [File.join(@root, dir)]
+      dirs << File.join(@overlay, dir) if @overlay
+      dirs.select { |d| File.directory?(d) }.flat_map { |d| Dir.children(d) }
+          .select { |f| ext.nil? || f.end_with?(ext) }.uniq.sort
     end
 
     # Concatenate raw {% stylesheet %} / {% javascript %} bodies from every section, block and snippet
@@ -161,8 +172,7 @@ module Preview
 
     def compiled_version
       %w[sections blocks snippets].sum do |dir|
-        d = path(dir)
-        File.directory?(d) ? File.mtime(d).to_i : 0
+        [@root, @overlay].compact.sum { |r| File.directory?(d = File.join(r, dir)) ? File.mtime(d).to_i : 0 }
       end
     end
 

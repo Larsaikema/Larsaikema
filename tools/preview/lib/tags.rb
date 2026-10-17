@@ -99,7 +99,9 @@ module Preview
         rc = context.registers[:rc]
         case @kind
         when 'blocks'
-          output << rc.render_blocks(context)
+          closest = {}
+          @args.each { |k, expr| closest[k.sub('closest.', '')] = context.evaluate(expr) if k.start_with?('closest.') }
+          output << rc.render_blocks(context, closest)
         when 'block'
           type = context.evaluate(@args['type']).to_s
           id = context.evaluate(@args['id']).to_s
@@ -224,6 +226,12 @@ module Preview
         context.stack do
           context['form'] = form
           @body.render_to_output_buffer(context, output)
+        end
+        if @type == 'product'
+          # Shopify appends these to every product form
+          output << %(<input type="hidden" name="product-id" value="#{Util.h(obj.id)}" />) if obj.respond_to?(:id)
+          sec = rc.current_frame&.dig(:section)
+          output << %(<input type="hidden" name="section-id" value="#{Util.h(sec.id)}" />) if sec
         end
         output << '</form>'
         output

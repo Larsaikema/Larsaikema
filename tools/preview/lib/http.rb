@@ -6,7 +6,7 @@ require 'stringio'
 module Preview
   # Minimal HTTP/1.1 primitives (no webrick available).
   class Request
-    attr_accessor :method, :path, :query_string, :params, :headers, :body, :cookies, :form, :files, :json, :raw_path
+    attr_accessor :method, :path, :query_string, :params, :headers, :body, :cookies, :form, :files, :json, :raw_path, :locale
 
     def initialize
       @params = {}
@@ -133,7 +133,7 @@ module Preview
 
     def start
       server = TCPServer.new(@bind, @port)
-      @log.puts "[preview] listening on http://#{@bind == '0.0.0.0' ? 'localhost' : @bind}:#{@port} (theme: #{@app.theme.root})"
+      @log.puts "[preview] listening on http://#{@bind == '0.0.0.0' ? 'localhost' : @bind}:#{@port} (theme: #{@app.theme.root}#{@app.theme.overlay ? ", overlay: #{@app.theme.overlay}" : ""})"
       @log.flush
       loop do
         sock = server.accept
@@ -236,15 +236,27 @@ module Preview
           next unless name
           if (fname = head[/filename="([^"]*)"/, 1])
             next if fname.empty?
+            stored = HttpServer.store_upload(fname, content)
             req.files[name] = { 'filename' => fname, 'size' => content.bytesize,
-                                'type' => head[/Content-Type:\s*(\S+)/i, 1] }
-            pairs << [name, fname.force_encoding('UTF-8')]
+                                'type' => head[/Content-Type:\s*(\S+)/i, 1], 'url' => stored }
+            pairs << [name, stored]
           else
             pairs << [name, content.force_encoding('UTF-8')]
           end
         end
         req.form = Request.nest(pairs)
       end
+    end
+
+    UPLOADS = File.join(ENV['PREVIEW_IMG_CACHE'] ? File.dirname(ENV['PREVIEW_IMG_CACHE']) : '/tmp/claude-0/-home-user-Larsaikema/d03b1b71-234c-55f6-a22b-89a9ff74abc4/scratchpad/cache', 'uploads')
+
+    # Line-item file properties: Shopify stores the upload and puts its URL in the property value.
+    def self.store_upload(fname, content)
+      FileUtils.mkdir_p(UPLOADS)
+      safe = fname.to_s.dup.force_encoding('UTF-8').gsub(/[^\w.\-]+/, '_').then { |x| x.empty? ? 'upload' : x[-[x.length, 80].min..] }
+      name = "#{SecureRandom.hex(6)}-#{safe}"
+      File.binwrite(File.join(UPLOADS, name), content)
+      "/cdn/uploads/#{name}"
     end
 
     def write_response(sock, req, res, keep)

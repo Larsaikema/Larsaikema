@@ -11,7 +11,7 @@ module Preview
     def id = @pg.id
     def handle = @pg.handle
     def title = @pg.title
-    def url = "/pages/#{@pg.handle}"
+    def url = rc.localize("/pages/#{@pg.handle}")
     def content = @pg.body_html
     def author = @pg.author
     def published_at = @pg.published_at
@@ -45,7 +45,7 @@ module Preview
     def id = @b.id
     def handle = @b.handle
     def title = @b.title
-    def url = "/blogs/#{@b.handle}"
+    def url = rc.localize("/blogs/#{@b.handle}")
     def template_suffix = @b.template_suffix
     def metafields = MetafieldsDrop.new(rc, @b.metafields)
     def comments_enabled? = @b.comments != 'disabled'
@@ -103,7 +103,7 @@ module Preview
     def id = @a.id
     def handle = "#{@a.blog.handle}/#{@a.handle}"
     def title = @a.title
-    def url = "/blogs/#{@a.blog.handle}/#{@a.handle}"
+    def url = rc.localize("/blogs/#{@a.blog.handle}/#{@a.handle}")
     def author = @a.author
     def content = @a.body_html
     def excerpt = @a.summary_html
@@ -178,7 +178,7 @@ module Preview
 
     def model_key = @l.id
     def title = @l.title
-    def url = @l.url
+    def url = rc.localize(@l.url)
     def type = @l.type
     def handle = Util.handleize(@l.title)
     def links = @l.links.map { |x| LinkDrop.new(rc, x) }
@@ -240,7 +240,7 @@ module Preview
     def id = @pol.id
     def title = @pol.title
     def body = @pol.body
-    def url = "/policies/#{@pol.handle}"
+    def url = rc.localize("/policies/#{@pol.handle}")
     def handle = @pol.handle
     def to_s = @pol.title
   end

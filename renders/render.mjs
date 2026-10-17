@@ -68,7 +68,7 @@ function startServer(root) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help || (!args.spec && !args.batch)) {
-    console.log(fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\n').slice(1, 13).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
+    console.log(fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\n').slice(1, 11).map((l) => l.replace(/^\/\/ ?/, '')).join('\n'));
     process.exit(args.help ? 0 : 1);
   }
   let jobs;
@@ -107,8 +107,8 @@ async function main() {
       const { out, __i, ...spec } = job;
       const finalSize = spec.size || 2000;
       const renderSpec = { ...spec, size: Math.round(finalSize * ss) };
-      if (spec.width) renderSpec.width = Math.round(spec.width * ss);
-      if (spec.height) renderSpec.height = Math.round(spec.height * ss);
+      if (spec.imageWidth) renderSpec.imageWidth = Math.round(spec.imageWidth * ss);
+      if (spec.imageHeight) renderSpec.imageHeight = Math.round(spec.imageHeight * ss);
       const t0 = Date.now();
       try {
         const info = await page.evaluate((s) => window.renderSpec(s), renderSpec);
@@ -117,7 +117,7 @@ async function main() {
         fs.writeFileSync(png, Buffer.from(dataUrl.split(',')[1], 'base64'));
         fs.mkdirSync(path.dirname(out), { recursive: true });
         const encArgs = [path.join(HERE, 'encode.py'), png, out];
-        if (ss !== 1) encArgs.push('--size', String(Math.max(spec.width || finalSize, spec.height || finalSize)));
+        if (ss !== 1) encArgs.push('--size', String(Math.max(spec.imageWidth || finalSize, spec.imageHeight || finalSize)));
         if (quality) encArgs.push('--quality', String(quality));
         execFileSync('python3', encArgs, { stdio: 'inherit' });
         fs.rmSync(png);

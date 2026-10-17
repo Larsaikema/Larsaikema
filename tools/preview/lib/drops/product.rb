@@ -14,7 +14,7 @@ module Preview
     def handle = @p.handle
     def title = @p.title
     def name = @p.title
-    def url = "/products/#{@p.handle}"
+    def url = rc.localize("/products/#{@p.handle}")
     def vendor = @p.vendor
     def type = @p.product_type
     def tags = @p.tags
@@ -56,11 +56,8 @@ module Preview
     def media = @p.images.map { |i| rc.image_drop(i, true) }
     def featured_image = (i = @p.images.first) && rc.image_drop(i)
 
-    def featured_media
-      v = selected_variant_model
-      img = (v&.image if v) || @p.images.first
-      img && rc.image_drop(img, true)
-    end
+    # Shopify: the first media item of the product (not variant dependent).
+    def featured_media = (i = @p.images.first) && rc.image_drop(i, true)
 
     # Variant selected via ?variant= or ?option_values= (only for the requested product)
     def selected_variant_model = rc.selected_variant_for(@p)
@@ -85,8 +82,8 @@ module Preview
         'compare_at_price_min' => compare_at_price_min || 0, 'compare_at_price_max' => compare_at_price_max || 0,
         'compare_at_price_varies' => compare_at_price_varies,
         'variants' => variants.map(&:as_json),
-        'images' => images.map(&:src),
-        'featured_image' => featured_image&.src,
+        'images' => images.map(&:url),
+        'featured_image' => featured_image&.url,
         'options' => if js_endpoint
                        @p.options.map { |o| { 'name' => o.name, 'position' => o.position, 'values' => o.values.map(&:name) } }
                      else
@@ -127,7 +124,7 @@ module Preview
     def inventory_quantity = @v.inventory_quantity
     def inventory_management = @v.inventory_management
     def inventory_policy = @v.inventory_policy
-    def url = "/products/#{@v.product.handle}?variant=#{@v.id}"
+    def url = rc.localize("/products/#{@v.product.handle}?variant=#{@v.id}")
     def product = rc.product_drop(@v.product)
     def image = (@v.image && rc.image_drop(@v.image))
     def featured_image = image

@@ -118,6 +118,8 @@ module Preview
     def money_format_apply(cents, format_str)
       return '' if cents.nil?
       cents = cents.to_s.include?('.') ? cents.to_f : cents.to_i if cents.is_a?(String)
+      # Shopify puts the minus sign in front of the whole formatted amount: -€19,95 (not €-19,95)
+      return "-#{money_format_apply(-cents, format_str)}" if cents.negative? && (cents / 100.0).round(2).negative?
       format_str.to_s.gsub(/\{\{\s*(\w+)\s*\}\}/) do
         case Regexp.last_match(1)
         when 'amount' then format_amount(cents, 2, ',', '.')

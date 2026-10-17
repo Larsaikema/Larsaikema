@@ -46,7 +46,16 @@ export function frameCamera(root, presetName = 'hero', { aspect = 1, detail = nu
     const dir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el));
     const target = new THREE.Vector3(...detail.target);
     const dist = (detail.size / 2) / Math.min(tanV, tanH) / (preset.fill || 1);
-    return { position: target.clone().addScaledVector(dir, dist), target, fov, azimuth: detail.azimuth ?? preset.azimuth, elevation: detail.elevation ?? preset.elevation, distance: dist };
+    const position = target.clone().addScaledVector(dir, dist);
+    // optional framing shift in the image plane (fractions of the half-frame), keeps the eye where it is
+    if (detail.shift) {
+      const cam = new THREE.PerspectiveCamera(fov, aspect, 0.01, 100); cam.position.copy(position); cam.lookAt(target); cam.updateMatrixWorld();
+      const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
+      const [sx, sy] = detail.shift;
+      const off = right.multiplyScalar(-sx * dist * tanH).add(up.multiplyScalar(-sy * dist * tanV));
+      target.add(off); position.add(off);
+    }
+    return { position, target, fov, azimuth: detail.azimuth ?? preset.azimuth, elevation: detail.elevation ?? preset.elevation, distance: dist, aperture: detail.aperture || 0, focus: detail.focus || dist };
   }
 
   const az = preset.azimuth * DEG, el = preset.elevation * DEG;

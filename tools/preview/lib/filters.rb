@@ -6,10 +6,12 @@ module Preview
     DEFAULT_SRCSET_WIDTHS = [352, 832, 1200, 1920, 2560, 3840].freeze
     MONTHS_NL = %w[januari februari maart april mei juni juli augustus september oktober november december].freeze
     MONTHS_EN = %w[January February March April May June July August September October November December].freeze
+    MONTHS_NL_ABBR = %w[jan feb mrt apr mei jun jul aug sep okt nov dec].freeze
     DAYS_NL = %w[zondag maandag dinsdag woensdag donderdag vrijdag zaterdag].freeze
     DAYS_EN = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday].freeze
 
     def rc = @context.registers[:rc]
+    private :rc
 
     # ---------------------------------------------------------------- money
     def money(input)
@@ -82,24 +84,33 @@ module Preview
       %(<a href="#{Util.h(url)}"#{title ? %( title="#{Util.h(title)}") : ''}>#{input}</a>)
     end
 
-    def link_to_vendor(input) = link_to(input, url_for_vendor(input), input)
-    def link_to_type(input) = link_to(input, url_for_type(input), input)
-    def url_for_vendor(input) = "/collections/vendors?q=#{Util.url_encode(input)}"
-    def url_for_type(input) = "/collections/types?q=#{Util.url_encode(input)}"
+    # extra arguments (e.g. an HTML attribute hash) are tolerated, like Shopify
+    def link_to_vendor(input, *_rest) = link_to(input, url_for_vendor(input), input)
+    def link_to_type(input, *_rest) = link_to(input, url_for_type(input), input)
+    def url_for_vendor(input, *_rest) = rc.localize("/collections/vendors?q=#{Util.url_encode(input)}")
+    def url_for_type(input, *_rest) = rc.localize("/collections/types?q=#{Util.url_encode(input)}")
 
+    # Shopify: links to the current collection (or blog) filtered by the tag; outside a collection the
+    # 'all' collection: <a href="/collections/all/ab" title="Show products matching tag ab">
     def link_to_tag(input, tag)
-      base = rc.path.split('/tagged').first
-      %(<a href="#{base}/#{Util.handleize(tag)}" title="Show #{Util.h(tag)}">#{input}</a>)
+      t = Util.handleize(tag)
+      if rc.main_blog && !rc.main_collection
+        url = rc.localize("/blogs/#{rc.main_blog.handle}/tagged/#{t}")
+        return %(<a href="#{Util.h(url)}" title="Show articles tagged #{Util.h(tag)}">#{input}</a>)
+      end
+      handle = rc.main_collection ? rc.main_collection.handle : 'all'
+      url = rc.localize("/collections/#{handle}/#{t}")
+      %(<a href="#{Util.h(url)}" title="Show products matching tag #{Util.h(tag)}">#{input}</a>)
     end
 
     def link_to_add_tag(input, tag)
       tags = (rc.current_tags || []) | [Util.handleize(tag)]
-      %(<a href="#{rc.path_without_tags}/#{tags.join('+')}" title="Show #{Util.h(tag)}">#{input}</a>)
+      %(<a href="#{rc.localize("#{rc.path_without_tags}/#{tags.join('+')}")}" title="Show products matching tag #{Util.h(tag)}">#{input}</a>)
     end
 
     def link_to_remove_tag(input, tag)
       tags = (rc.current_tags || []) - [Util.handleize(tag)]
-      url = tags.empty? ? rc.path_without_tags : "#{rc.path_without_tags}/#{tags.join('+')}"
+      url = rc.localize(tags.empty? ? rc.path_without_tags : "#{rc.path_without_tags}/#{tags.join('+')}")
       %(<a href="#{url}" title="Remove tag #{Util.h(tag)}">#{input}</a>)
     end
 
@@ -110,7 +121,7 @@ module Preview
     def within(url, collection)
       return url if collection.nil?
       handle = collection.respond_to?(:handle) ? collection.handle : collection.to_s
-      "/collections/#{handle}#{url}"
+      rc.localize("/collections/#{handle}#{rc.unlocalize(url.to_s)}")
     end
 
     def sort_by(input, value)
@@ -132,7 +143,7 @@ module Preview
       w ? "#{url}&width=#{w}" : url
     end
 
-    def file_url(input) = "/cdn/images/#{input}"
+    def file_url(input) = "#{rc.cdn_base}/cdn/images/#{input}"
     def file_img_url(input, size = nil, *_rest) = (w = size_width(size)) ? "#{file_url(input)}?width=#{w}" : file_url(input)
     def shopify_asset_url(input) = "/cdn/shopifycloud/shopify/assets/#{input}"
     def global_asset_url(input) = "/cdn/shopifycloud/global/#{input}"
@@ -430,8 +441,11 @@ module Preview
       opts ||= {}
       t = to_time(input)
       return input if t.nil?
-      fmt = format || named_date_format(opts['format']) || '%a, %b %d, %y'
-      strftime_l(t, fmt)
+      # Shopify: a strftime string is formatted as-is (English day/month names); only `format: 'name'`
+      # (theme locale date_formats / Shopify's localized defaults) and time_tag output localized names.
+      return t.strftime(format.to_s) if format
+      named = named_date_format(opts['format'])
+      named ? strftime_l(t, named) : t.strftime('%a, %b %d, %y')
     end
 
     def time_tag(input, format = nil, opts = nil)
@@ -481,7 +495,8 @@ module Preview
       nl = rc.locale.start_with?('nl')
       months = nl ? MONTHS_NL : MONTHS_EN
       days = nl ? DAYS_NL : DAYS_EN
-      f = fmt.gsub('%B', months[t.month - 1]).gsub('%b', months[t.month - 1][0, 3])
+      abbr = nl ? MONTHS_NL_ABBR[t.month - 1] : months[t.month - 1][0, 3]
+      f = fmt.gsub('%B', months[t.month - 1]).gsub('%b', abbr)
              .gsub('%A', days[t.wday]).gsub('%a', days[t.wday][0, nl ? 2 : 3])
       t.strftime(f)
     end
@@ -591,11 +606,27 @@ module Preview
       JSON.generate(rc.structured_data(input))
     end
 
-    def metafield_tag(input, _opts = {})
+    def metafield_tag(input, opts = {})
       return '' if input.nil?
       mf = input.is_a?(MetafieldDrop) ? input : nil
       return input.to_s unless mf
-      rc.metafield_html(mf)
+      v = mf.value
+      case mf.type
+      when 'file_reference'
+        return '' unless v
+        v.is_a?(ImageDrop) ? image_tag(v, opts.is_a?(Hash) ? opts : {}) : %(<a href="#{Util.h(v.to_s)}">#{Util.h(v.to_s)}</a>)
+      when 'money' then %(<span class="metafield-money">#{money(v)}</span>)
+      when 'date', 'date_time'
+        t = to_time(v)
+        return %(<span class="metafield-#{mf.type}">#{Util.h(v.to_s)}</span>) unless t
+        iso = mf.type == 'date' ? t.strftime('%Y-%m-%d') : t.utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+        text = strftime_l(t, named_date_format(mf.type == 'date' ? 'date' : 'date_at_time'))
+        %(<time datetime="#{iso}" class="metafield-#{mf.type}">#{text}</time>)
+      when 'multi_line_text_field'
+        %(<span class="metafield-multi_line_text_field">#{Util.h(v.to_s).gsub(/\r?\n/, '<br />')}</span>)
+      else
+        rc.metafield_html(mf)
+      end
     end
 
     def metafield_text(input, _opts = {})
@@ -605,6 +636,9 @@ module Preview
 
     def avatar(_input, _opts = {}) = ''
     def currency_selector(_input, _opts = {}) = ''
+
+    private :parse_size, :size_width, :to_time, :strftime_l, :named_date_format, :color_drop, :adjust_lightness,
+            :adjust_saturation
   end
 
   module PaymentIcons

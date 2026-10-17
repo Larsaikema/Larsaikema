@@ -146,7 +146,7 @@ module Preview
     def countries = (rc.store.shop['countries'] || [{ 'iso_code' => rc.store.shop['country'] || 'NL', 'name' => 'Nederland' }])
     def available_countries = countries.map { |c| CountryDrop.new(rc, c) }
     def available_languages = rc.published_locales
-    def country = available_countries.find { |c| c.iso_code == (rc.store.shop['country'] || 'NL') } || available_countries.first
+    def country = available_countries.find { |c| c.iso_code == rc.country_code } || available_countries.first
     def language = rc.current_locale_drop
     def market = MarketDrop.new(rc)
   end
@@ -175,8 +175,14 @@ module Preview
     }.freeze
 
     def model_key = 'routes'
-    def liquid_method_missing(k) = ROUTES[k.to_s]
-    ROUTES.each_key { |k| define_method(k) { ROUTES[k] } }
+    def liquid_method_missing(k) = route(k.to_s)
+
+    def route(k)
+      r = ROUTES[k]
+      return r if r.nil? || rc.locale_prefix.to_s.empty?
+      r == '/' ? rc.locale_prefix : "#{rc.locale_prefix}#{r}"
+    end
+    ROUTES.each_key { |k| define_method(k) { route(k) } }
   end
 
   class TemplateDrop < BaseDrop
@@ -231,7 +237,13 @@ module Preview
     def types = @types
 
     def raw_results
-      @raw_results ||= @performed ? rc.store.search(@terms, types: @types, prefix: rc.query_param('options[prefix]') == 'last') : []
+      @raw_results ||= if @performed
+                         ua = rc.query_param('options[unavailable_products]').to_s
+                         rc.store.search(@terms, types: @types, prefix: rc.query_param('options[prefix]') == 'last',
+                                                 unavailable: %w[show hide last].include?(ua) ? ua : 'last')
+                       else
+                         []
+                       end
     end
 
     def filtering
@@ -276,8 +288,15 @@ module Preview
     def terms = @terms
     def types = @types
 
+    # predictive search: prefix match on the last word, default fields title/product_type/variants.title/vendor
     def results
-      @results ||= rc.store.search(@terms, types: %w[product page article], prefix: true)
+      @results ||= begin
+        f = rc.query_param('resources[options][fields]').to_s.split(',').map(&:strip).reject(&:empty?)
+        ua = rc.query_param('resources[options][unavailable_products]').to_s
+        rc.store.search(@terms, types: %w[product page article], prefix: true,
+                                fields: f.empty? ? Store::PREDICTIVE_FIELDS : f,
+                                unavailable: %w[show hide last].include?(ua) ? ua : 'last')
+      end
     end
 
     def resources
@@ -291,17 +310,23 @@ module Preview
     end
 
     def matching_collections
-      words = @terms.downcase.split
+      words = Store.search_tokens(@terms)
       return [] if words.empty?
-      rc.store.collections.select { |c| words.all? { |w| c.title.downcase.include?(w) || c.handle.include?(w) } }
+      rc.store.collections.select do |c|
+        toks = Store.search_tokens(c.title)
+        words.each_with_index.all? { |w, i| rc.store.token_hit?(toks, w, i == words.size - 1) }
+      end
     end
 
+    # query suggestions: the typed terms plus product titles that contain them as words
     def queries
       t = @terms.strip
       return [] if t.empty?
       sugg = [t]
+      words = Store.search_tokens(t)
       results.grep(Product).first(3).each do |p|
-        sugg << p.title.downcase if p.title.downcase.include?(t.downcase)
+        toks = Store.search_tokens(p.title)
+        sugg << p.title.downcase if words.each_with_index.all? { |w, i| rc.store.token_hit?(toks, w, i == words.size - 1) }
       end
       sugg.uniq.first(@limit).map { |q| QueryDrop.new(rc, q, t) }
     end
@@ -316,7 +341,7 @@ module Preview
 
     def model_key = @text
     def text = @text
-    def url = "/search?q=#{Util.url_encode(@text)}&_pos=1&_psq=#{Util.url_encode(@terms)}&_ss=e&_v=1.0"
+    def url = rc.localize("/search?q=#{Util.url_encode(@text)}&_pos=1&_psq=#{Util.url_encode(@terms)}&_ss=e&_v=1.0")
 
     def styled_text
       idx = @text.downcase.index(@terms.downcase)
@@ -358,7 +383,8 @@ module Preview
         s += 2 if (p.collections & @product.collections).any?
         [s, p]
       end
-      scored.select { |s, _| s.positive? }.sort_by.with_index { |(s, _), i| [-s, i] }.map(&:last).first(@limit)
+      # strongest matches first; a fresh store (no purchase history) still fills the slots like Shopify does
+      scored.sort_by.with_index { |(s, _), i| [-s, i] }.map(&:last).reject { |p| !p.available? && scored.size > @limit }.first(@limit)
     end
 
     def products = list.map { |p| rc.product_drop(p) }
@@ -371,14 +397,32 @@ module Preview
       @errors = errors || {}
     end
 
+    # Shopify's localized field names / messages for storefront form errors (errors are stored as codes
+    # such as 'invalid' / 'blank' and localized for the page's locale at render time).
+    FIELDS = {
+      'nl' => { 'email' => 'E-mail', 'password' => 'Wachtwoord', 'body' => 'Bericht', 'name' => 'Naam', 'author' => 'Naam',
+                'phone' => 'Telefoonnummer', 'first_name' => 'Voornaam', 'last_name' => 'Achternaam', 'form' => 'Formulier' },
+      'en' => { 'email' => 'Email', 'password' => 'Password', 'body' => 'Body', 'name' => 'Name', 'author' => 'Author',
+                'phone' => 'Phone', 'first_name' => 'First name', 'last_name' => 'Last name', 'form' => 'Form' }
+    }.freeze
+    MESSAGES = {
+      'nl' => { 'invalid' => 'is ongeldig', 'blank' => 'mag niet leeg zijn', 'incorrect' => 'is onjuist',
+                'taken' => 'is al in gebruik' },
+      'en' => { 'invalid' => 'is invalid', 'blank' => "can't be blank", 'incorrect' => 'is incorrect',
+                'taken' => 'has already been taken' }
+    }.freeze
+
+    def lang = (FIELDS.key?(rc.locale.to_s[0, 2]) ? rc.locale.to_s[0, 2] : 'en')
+
     def model_key = object_id
-    def messages = @errors
-    def translated_fields = @errors.keys.to_h { |k| [k, k.to_s.capitalize] }
+    def messages = @errors.to_h { |k, v| [k, MESSAGES[lang][v.to_s] || v.to_s] }
+    def translated_fields = @errors.keys.to_h { |k| [k, FIELDS[lang][k.to_s] || k.to_s.tr('_', ' ').capitalize] }
     def size = @errors.size
     def each(&) = @errors.keys.each(&)
-    def to_s = @errors.values.join(', ')
+    def to_s = messages.values.join(', ')
     def blank? = @errors.empty?
     def empty? = @errors.empty?
+    def include?(k) = @errors.key?(k.to_s)
     def first = @errors.keys.first
   end
 
@@ -393,7 +437,9 @@ module Preview
     end
 
     def model_key = @id
-    def id = @id
+    # Shopify echoes posted contact[...] fields; form.id is the posted contact[id] value (blank before posting).
+    def id = @values['id']
+    def html_id = @id
     def type = @type
     def posted_successfully? = @ok
     def posted_successfully = @ok

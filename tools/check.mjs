@@ -2,17 +2,23 @@
 // Storefront QA crawler for the local preview servers.
 //
 //   node tools/check.mjs --base http://127.0.0.1:4200 [--out report.json] [--devices desktop,mobile]
-//        [--max-products 6] [--max-articles 3] [--concurrency 3] [--flows] [--strict] [--only /cart,/search]
+//        [--max-products 6] [--max-articles 3] [--concurrency 3] [--no-flows | --flows-only] [--no-scroll] [--search-term t] [--strict] [--only /cart,/search,/collections/*]
 //
 // Visits every route type (home, collections list, every collection + a filtered/sorted one, sample products
 // incl. ?variant= and /collections/x/products/y URLs, cart empty + with items (added via /cart/add.js), search
 // with results / without results, every page, blogs, articles, policies, 404, password, gift card) at desktop and
 // mobile, and reports per URL: Liquid error count (X-Liquid-Errors), console errors, page errors, failed requests,
 // horizontal overflow, broken images, raw translation keys, images without alt, images without width/height.
+// Every page is scrolled top to bottom through its REAL scroll container first (Horizon desktop scrolls
+// .page-wrapper, not the window), so lazy images/sections below the fold are requested and checked too.
+// Then interaction flows run by default (tools/flows.mjs): variant picker -> ?variant= + price, add to cart ->
+// bubble + drawer/cart line, + quantity -> /cart/change, remove -> empty, predictive search -> /search/suggest,
+// facet filter -> filter.* URL. --no-flows skips them, --no-scroll skips the scroll pass.
 // Exits 1 when any error-class issue is found (warnings only fail with --strict).
 import fs from 'node:fs';
 import path from 'node:path';
-import { launch, openPage, collectHealth, parseArgs } from './shoot.mjs';
+import { launch, openPage, collectHealth, parseArgs, revealPage } from './shoot.mjs';
+import { runFlows } from './flows.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 const base = String(args.base || args.url || 'http://127.0.0.1:4100').replace(/\/$/, '');
@@ -104,6 +110,11 @@ async function checkRoute(browser, route, device) {
         await page.waitForLoadState('networkidle', { timeout: 6000 });
       } catch {}
     }
+    if (!args['no-scroll']) {
+      const si = await revealPage(page);
+      report.scroller = si.scroller;
+      report.pageHeight = si.scrollHeight;
+    }
     await collectHealth(page, report);
     const a11y = await page.evaluate(() => {
       const imgs = [...document.querySelectorAll('img')];
@@ -131,8 +142,7 @@ async function checkRoute(browser, route, device) {
   } finally {
     await ctx.close();
   }
-  if (route.expectStatus && result.status === route.expectStatus) result.statusOk = true;
-  else result.statusOk = result.status === 200;
+  result.statusOk = result.status === (route.expectStatus || 200);
   return result;
 }
 
@@ -142,6 +152,8 @@ function classify(r) {
   if (r.fatal) errors.push(`fatal: ${r.fatal}`);
   if (!r.statusOk) errors.push(`status ${r.status}`);
   if (r.liquidErrors) errors.push(`${r.liquidErrors} Liquid error(s)`);
+  if (r.subrequestLiquidErrors?.length)
+    errors.push(`Liquid errors in section/AJAX responses: ${r.subrequestLiquidErrors.slice(0, 3).map((x) => `${x.errors} @ ${x.url}`).join(' | ')}`);
   if (r.liquidErrorText?.length) errors.push(`Liquid error text on page: ${r.liquidErrorText[0]}`);
   if (r.consoleErrors?.length) errors.push(`${r.consoleErrors.length} console error(s): ${r.consoleErrors[0]}`);
   if (r.pageErrors?.length) errors.push(`${r.pageErrors.length} page error(s): ${r.pageErrors[0].split('\n')[0]}`);
@@ -151,6 +163,7 @@ function classify(r) {
   if (r.brokenImages?.length) errors.push(`${r.brokenImages.length} broken image(s): ${r.brokenImages[0]}`);
   if (r.rawTranslationKeys?.length) errors.push(`raw translation keys: ${r.rawTranslationKeys.slice(0, 3).join(', ')}`);
   if (r.translationMissing) warnings.push(`${r.translationMissing} missing translation(s)`);
+  if (r.consoleWarnings?.length) warnings.push(`${r.consoleWarnings.length} console warning(s): ${r.consoleWarnings[0]}`);
   if (r.missingAlt?.length) warnings.push(`${r.missingAlt.length} img without alt`);
   if (r.missingDims?.length) warnings.push(`${r.missingDims.length} img without width/height`);
   return { errors, warnings };
@@ -170,12 +183,28 @@ async function pool(items, n, fn) {
 }
 
 async function main() {
+  const probe = await fetch(`${base}/`).catch(() => null);
+  if (!probe) {
+    console.error(`${base} is not reachable — start it with tools/dev.sh start`);
+    process.exit(2);
+  }
+  if (probe.headers.get('x-preview-placeholder')) {
+    console.log(`${base}: the preview server runs but the theme has no layout/theme.liquid yet (placeholder page).`);
+    console.log('RESULT: FAIL (no theme)');
+    process.exit(1);
+  }
   const { routes: allRoutes, info } = await discoverRoutes();
   let routes = allRoutes;
   if (args.only) {
-    const only = String(args.only).split(',');
-    routes = routes.filter((r) => only.some((o) => r.path.startsWith(o) || r.label.includes(o)));
+    // exact path (with or without its query string) or exact label; a trailing * makes it a prefix match
+    const only = String(args.only).split(',').map((o) => o.trim()).filter(Boolean);
+    const hit = (r, o) => {
+      if (o.endsWith('*')) return r.path.startsWith(o.slice(0, -1)) || r.label.startsWith(o.slice(0, -1));
+      return r.path === o || r.path.split('?')[0] === o || r.label === o;
+    };
+    routes = routes.filter((r) => only.some((o) => hit(r, o)));
   }
+  if (args['flows-only']) routes = [];
   const jobs = [];
   for (const r of routes) for (const d of devices) jobs.push({ route: r, device: d });
   const browser = await launch();
@@ -187,28 +216,11 @@ async function main() {
     await browser.close();
   }
 
-  if (args.flows) {
-    // Simple functional flow: add first available product to cart from its product page.
+  if (!args['no-flows'] && !args.only) {
     const b2 = await launch();
     try {
-      const avail = info?.products?.find((p) => p.first_available_variant && p.variants.length > 1) || info?.products?.[0];
-      if (avail) {
-        for (const d of devices) {
-          const { ctx, page, report } = await openPage(b2, `${base}/products/${avail.handle}`, d);
-          let flowError = null;
-          try {
-            await page.locator('form[action^="/cart/add"] [type=submit]:visible, button[name=add]:visible').first().click({ timeout: 8000 });
-            await page.waitForTimeout(2000);
-            const cart = await (await page.request.get(`${base}/cart.js`)).json();
-            if (!cart.item_count) flowError = 'add to cart did not add an item';
-          } catch (e) {
-            flowError = String(e.message || e).split('\n')[0];
-          }
-          await collectHealth(page, report);
-          results.push({ label: `flow add-to-cart ${avail.handle}`, path: `/products/${avail.handle}`, device: d, url: page.url(), ...report, statusOk: true, fatal: flowError || undefined });
-          await ctx.close();
-        }
-      }
+      const rows = await runFlows(b2, base, info, devices, { searchTerm: args['search-term'] });
+      results.push(...rows);
     } finally {
       await b2.close();
     }
@@ -228,6 +240,7 @@ async function main() {
       `${flag} ${r.device.padEnd(7)} ${String(r.status).padEnd(3)} liquid=${r.liquidErrors ?? '-'} console=${r.consoleErrors?.length ?? '-'} pageerr=${r.pageErrors?.length ?? '-'} failed=${r.failedRequests?.length ?? '-'} overflow=${r.overflowX ? 'Y' : 'n'} noalt=${r.missingAlt?.length ?? '-'} nodims=${r.missingDims?.length ?? '-'}  ${r.label} (${r.path})`
     );
     for (const e of errors) lines.push(`       ERROR ${e}`);
+    if (r.flowLog?.length) for (const l of r.flowLog) lines.push(`       ${errors.length ? '     ' : 'ok   '} ${l}`);
     if (strict) for (const w of warnings) lines.push(`       WARN  ${w}`);
   }
   const totals = {
@@ -240,6 +253,8 @@ async function main() {
     pageErrors: results.reduce((n, r) => n + (r.pageErrors?.length || 0), 0),
     failedRequests: results.reduce((n, r) => n + (r.failedRequests?.length || 0), 0),
     overflowPages: results.filter((r) => r.overflowX).length,
+    flows: results.filter((r) => r.flow).length,
+    flowFailures: results.filter((r) => r.flow && r.fatal).length,
     imgsWithoutAlt: results.reduce((n, r) => n + (r.missingAlt?.length || 0), 0),
     imgsWithoutDims: results.reduce((n, r) => n + (r.missingDims?.length || 0), 0),
     seconds: Math.round((Date.now() - t0) / 1000),
@@ -248,7 +263,7 @@ async function main() {
   fs.writeFileSync(outFile, JSON.stringify({ generatedAt: new Date().toISOString(), totals, results }, null, 2));
   console.log(lines.join('\n'));
   console.log(
-    `\n${base}: ${totals.pages} page-visits, liquid=${totals.liquidErrors} console=${totals.consoleErrors} pageerr=${totals.pageErrors} failed=${totals.failedRequests} overflow=${totals.overflowPages} | warnings: noalt=${totals.imgsWithoutAlt} nodims=${totals.imgsWithoutDims} | ${totals.seconds}s\nJSON: ${outFile}`
+    `\n${base}: ${totals.pages} page-visits, liquid=${totals.liquidErrors} console=${totals.consoleErrors} pageerr=${totals.pageErrors} failed=${totals.failedRequests} overflow=${totals.overflowPages} flows=${totals.flows - totals.flowFailures}/${totals.flows} ok | warnings: noalt=${totals.imgsWithoutAlt} nodims=${totals.imgsWithoutDims} | ${totals.seconds}s\nJSON: ${outFile}`
   );
   const fail = errorCount > 0 || (strict && warningCount > 0);
   console.log(fail ? 'RESULT: FAIL' : 'RESULT: PASS');

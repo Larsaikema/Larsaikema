@@ -14,7 +14,16 @@
       if ((h >>> 16) & 1) svg += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + dark + '"/>';
     }
     finder(0, 0); finder(n - 7, 0); finder(0, n - 7);
-    el.innerHTML = svg + '</svg>';
+    svg += '</svg>';
+    // qrcode.js renders an <img> (plus a hidden canvas); themes style that img
+    var img = document.createElement('img');
+    img.alt = 'Scan me!';
+    img.width = size;
+    img.height = opts.height || size;
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    img.style.display = 'block';
+    el.innerHTML = '';
+    el.appendChild(img);
     void cell;
   }
   QRCode.CorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };

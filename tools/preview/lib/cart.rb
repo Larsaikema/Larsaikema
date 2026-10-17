@@ -47,10 +47,27 @@ module Preview
       end
     end
 
-    # returns the CartLine that received the quantity
-    def add(store, variant_id, quantity, properties = {}, selling_plan = nil)
+    # Shopify's storefront cart messages (localized by the storefront locale). For 422s Shopify puts the
+    # human-readable text in both `message` (Horizon shows it) and `description` (Dawn shows it).
+    MESSAGES = {
+      'nl' => { sold_out: "Het product '%<t>s' is al uitverkocht.", all_in_cart: 'Alle %<n>d %<t>s zitten al in je winkelwagen.',
+                only_add: 'Je kunt maar %<n>d %<t>s aan je winkelwagen toevoegen.' },
+      'en' => { sold_out: "The product '%<t>s' is already sold out.", all_in_cart: 'All %<n>d %<t>s are in your cart.',
+                only_add: 'You can only add %<n>d %<t>s to the cart.' }
+    }.freeze
+
+    def self.message(locale, key, **vars)
+      format((MESSAGES[locale.to_s[0, 2]] || MESSAGES['en'])[key], **vars)
+    end
+
+    def self.line_title(v) = "#{v.product.title}#{v.product.has_only_default_variant? ? '' : " - #{v.title}"}"
+
+    # returns the CartLine that received the quantity. Raises CartError (422) when the variant is sold out
+    # or the requested quantity exceeds tracked stock with inventory_policy 'deny' — like Shopify, nothing
+    # is added in that case (the quantity is not silently capped).
+    def add(store, variant_id, quantity, properties = {}, selling_plan = nil, locale: 'nl')
       v = store.variant(variant_id)
-      raise CartError.new('Cart Error', 'Het product kan niet worden gevonden.', 404) unless v
+      raise CartError.new('Cart Error', 'Cannot find variant', 404) unless v
       quantity = quantity.to_i
       quantity = 1 if quantity <= 0
       properties = (properties || {}).reject { |_k, val| val.nil? || val.to_s.empty? }
@@ -58,14 +75,17 @@ module Preview
       line = @lines.find { |l| l.key == key }
       existing = @lines.select { |l| l.variant_id == v.id }.sum(&:quantity)
       unless v.available?
-        raise CartError.new('Cart Error', "#{v.product.title}#{v.product.has_only_default_variant? ? '' : " - #{v.title}"} is uitverkocht.")
+        msg = Cart.message(locale, :sold_out, t: Cart.line_title(v))
+        raise CartError.new(msg, msg)
       end
       if v.inventory_management && v.inventory_policy != 'continue' && existing + quantity > v.inventory_quantity
         avail = v.inventory_quantity - existing
-        if avail <= 0
-          raise CartError.new('Cart Error', "Je kunt niet meer #{v.product.title}#{v.product.has_only_default_variant? ? '' : " - #{v.title}"} aan je winkelwagen toevoegen.")
-        end
-        quantity = avail
+        msg = if avail <= 0
+                Cart.message(locale, :all_in_cart, n: v.inventory_quantity, t: Cart.line_title(v))
+              else
+                Cart.message(locale, :only_add, n: avail, t: Cart.line_title(v))
+              end
+        raise CartError.new(msg, msg)
       end
       max = v.quantity_rule['max']
       quantity = [quantity, max.to_i - existing].min if max && max.to_i.positive?

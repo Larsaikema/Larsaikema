@@ -204,6 +204,9 @@ export function printTexture({ text = '', color = '#ffffff', bg = null, font = '
     if (bg) { g.fillStyle = bg; g.fillRect(0, 0, width, height); } else { g.clearRect(0, 0, width, height); }
     g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = font;
     if ('letterSpacing' in g) g.letterSpacing = `${letterSpacing}px`;
+    // shrink to fit (keep 6% side margins)
+    const w = g.measureText(text).width;
+    if (w > width * 0.88) { const m = /(\d+)px/.exec(font); if (m) { g.font = font.replace(/\d+px/, `${Math.floor(Number(m[1]) * width * 0.88 / w)}px`); } }
     g.fillText(text, width / 2, height / 2 + height * 0.04);
     const t = new THREE.CanvasTexture(c);
     t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = maxAniso;

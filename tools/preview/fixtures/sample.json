@@ -1565,6 +1565,11 @@
       ]
     }
   ],
+  "discounts": [
+    { "code": "WELKOM10", "title": "10% welkomstkorting", "value_type": "percentage", "value": 10, "target_selection": "all", "minimum_subtotal": 5000 },
+    { "code": "ROK5", "title": "€5 korting per statafelrok", "value_type": "fixed_amount", "value": 500, "target_selection": "entitled", "allocation_method": "each", "entitled_collections": ["statafelrokken"] },
+    { "code": "GRATISVERZENDING", "title": "Gratis verzending", "value_type": "free_shipping", "target_type": "shipping_line" }
+  ],
   "policies": {
     "privacy_policy": {
       "title": "Privacybeleid",

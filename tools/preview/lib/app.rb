@@ -13,8 +13,8 @@ module Preview
       '.pdf' => 'application/pdf'
     }.freeze
 
-    def initialize(theme_dir:, data_path:, images_dir: nil)
-      @theme = Theme.new(theme_dir)
+    def initialize(theme_dir:, data_path:, images_dir: nil, overlay_dir: nil)
+      @theme = Theme.new(theme_dir, overlay: overlay_dir)
       @data_path = File.expand_path(data_path)
       @images_dir = images_dir ? File.expand_path(images_dir) : File.join(File.dirname(@data_path), 'images')
       @carts = CartStore.new
@@ -55,15 +55,20 @@ module Preview
       return placeholder_theme_page(req) unless @theme.valid?
 
       cart = @carts.fetch(req.cookies['cart'])
+      # Non-primary published locales live under a path prefix (/en/products/...), like Shopify.
+      if (m = path.match(%r{\A/([a-z]{2}(?:-[a-zA-Z]{2})?)(/.*)?\z})) && secondary_locales.include?(m[1])
+        req.locale = m[1]
+        req.path = m[2] || '/'
+      end
       res = route(req, cart)
       unless req.cookies['cart'] == cart.token
-        res.headers['set-cookie'] = "cart=#{cart.token}; path=/; SameSite=Lax"
+        res.headers['set-cookie'] = [*Array(res.headers['set-cookie']), "cart=#{cart.token}; path=/; SameSite=Lax"]
       end
       res
     end
 
     def placeholder_theme_page(_req)
-      Response.html(<<~HTML, 200, { 'x-liquid-errors' => '0' })
+      Response.html(<<~HTML, 200, { 'x-liquid-errors' => '0', 'x-preview-placeholder' => '1' })
         <!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Thema nog niet aanwezig</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;background:#f4f4f2;color:#222}main{max-width:36rem;padding:2rem}</style></head>
         <body><main><h1>Nog geen thema</h1><p>De preview-server draait, maar <code>#{Util.h(@theme.root)}/layout/theme.liquid</code> bestaat nog niet.</p><p>Zodra het thema er staat, ververs je deze pagina.</p></main></body></html>
@@ -92,9 +97,15 @@ module Preview
       when %r{\A/recommendations/products(\.json)?\z} then return recommendations(req, cart, Regexp.last_match(1))
       when %r{\A/products/([^/]+)\.(js|json|oembed)\z} then return product_json(req, cart, Regexp.last_match(1), Regexp.last_match(2))
       when %r{\A/collections/([^/]+)/products\.json\z}, '/products.json' then return products_json(req, cart, Regexp.last_match(1))
-      when '/contact' then return contact_post(req, cart) if req.post?
-      when '/localization' then return Response.redirect(req.param('return_to') || req.referer_path || '/')
+      when '/contact', '/customer' then return contact_post(req, cart) if req.post?
+      when '/localization' then return localization_post(req)
       when '/checkout', %r{\A/checkouts/} then return checkout_page(req, cart)
+      when %r{\A/discount/([^/]+)\z}
+        # shareable discount link: stores the code on the cart, then redirects (default /)
+        code = URI.decode_www_form_component(Regexp.last_match(1))
+        cart.discount_codes = (cart.discount_codes.reject { |c| c.casecmp?(code) } + [code])
+        rt = Array(req.params['redirect']).first.to_s
+        return Response.redirect(rt.start_with?('/') && !rt.start_with?('//') ? rt : '/')
       when '/password'
         return password_post(req, cart) if req.post?
       end
@@ -119,7 +130,7 @@ module Preview
     def preview_routes
       st = store
       {
-        'theme' => @theme.root, 'data' => @data_path,
+        'theme' => @theme.root, 'overlay' => @theme.overlay, 'data' => @data_path,
         'collections' => st.collections_with_all.map(&:handle),
         'products' => st.products.map do |p|
           { 'handle' => p.handle, 'variants' => p.variants.map(&:id), 'available' => p.available?,
@@ -130,6 +141,26 @@ module Preview
         'policies' => st.policies.map(&:handle),
         'search_terms' => st.products.first(3).map { |p| p.title.split.first.to_s.downcase }.uniq
       }
+    end
+
+    def secondary_locales
+      (store.shop['published_locales'] || []).reject { |l| l['primary'] }.map { |l| l['iso_code'].to_s }
+    end
+
+    def localization_post(req)
+      target = (req.param('return_to') || req.referer_path || '/').to_s
+      locs = secondary_locales
+      target = target.sub(%r{\A/(#{locs.map { |l| Regexp.escape(l) }.join('|')})(?=/|\z)}, '') unless locs.empty?
+      target = '/' if target.empty?
+      lang = req.param('language_code') || req.param('locale_code')
+      lang = req.locale if lang.nil? || lang.to_s.empty?
+      prefix = lang && locs.include?(lang.to_s) ? "/#{lang}" : ''
+      res = Response.redirect(prefix + (prefix.empty? || target != '/' ? target : ''))
+      # the selected country/market sticks (Shopify keeps it in the localization cookie)
+      cc = req.param('country_code').to_s.upcase
+      codes = (store.shop['countries'] || []).map { |c| c['iso_code'].to_s.upcase }
+      res.headers['set-cookie'] = "localization=#{cc}; path=/; SameSite=Lax" if codes.include?(cc)
+      res
     end
 
     def apply_flash(rc, cart)
@@ -157,6 +188,7 @@ module Preview
         rc.instance_variable_set(:@within_collection, c)
       when %r{\A/collections/([^/]+)(?:/([^/]+))?\z}
         c = st.collection(Regexp.last_match(1))
+        c ||= st.virtual_collection(Regexp.last_match(1), rc.query_param('q')) if %w[vendors types].include?(Regexp.last_match(1))
         return set_404(rc) unless c
         rc.page_type = 'collection'
         rc.template_name = 'collection'
@@ -398,11 +430,11 @@ module Preview
       out << "Shopify.shop = #{JSON.generate("#{Util.handleize(shop['name'])}.myshopify.com")};\n"
       out << "Shopify.locale = #{JSON.generate(rc.locale)};\n"
       out << "Shopify.currency = #{JSON.generate({ 'active' => shop['currency'], 'rate' => '1.0' })};\n"
-      out << "Shopify.country = #{JSON.generate(shop['country'] || 'NL')};\n"
+      out << "Shopify.country = #{JSON.generate(rc.country_code)};\n"
       out << "Shopify.theme = #{JSON.generate(theme_obj)};\n"
       out << "Shopify.theme.handle = \"null\";\nShopify.theme.style = {\"id\":null,\"handle\":null};\n"
       out << "Shopify.cdnHost = location.host + \"/cdn\";\n"
-      out << "Shopify.routes = Shopify.routes || {};\nShopify.routes.root = \"/\";\n"
+      out << "Shopify.routes = Shopify.routes || {};\nShopify.routes.root = #{JSON.generate("#{rc.locale_prefix}/")};\n"
       out << "Shopify.designMode = false;\n"
       out << "Shopify.PaymentButton = Shopify.PaymentButton || { init: function () {} };\n"
       out << "Shopify.loadFeatures = Shopify.loadFeatures || function (features, cb) { if (typeof cb === 'function') { try { cb(new Error('feature not available in preview')); } catch (e) {} } };\n"
@@ -437,6 +469,8 @@ module Preview
         return send_file(File.join(@shims_dir, 'standard-events.js'))
       when '/cdn/shopifycloud/storefront/standard-actions.js'
         return send_file(File.join(@shims_dir, 'standard-actions.js'))
+      when %r{\A/cdn/uploads/([\w.\-]+)\z}
+        return send_file(File.join(HttpServer::UPLOADS, Regexp.last_match(1)))
       when %r{\A/cdn/shopifycloud/shopify/assets/(.+)\z}
         rel = Regexp.last_match(1)
         return Response.text('Forbidden', 403) if rel.include?('..')

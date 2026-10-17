@@ -168,8 +168,22 @@ module Preview
       @type = type
     end
 
-    def value = @d['value']
-    def unit = @d['unit']
+    # Shopify stores/prints measurement units as symbols ('kg', 'cm', 'l'); Admin API enum names map to them.
+    UNITS = {
+      'KILOGRAMS' => 'kg', 'GRAMS' => 'g', 'POUNDS' => 'lb', 'OUNCES' => 'oz',
+      'MILLIMETERS' => 'mm', 'CENTIMETERS' => 'cm', 'METERS' => 'm', 'KILOMETERS' => 'km', 'INCHES' => 'in',
+      'FEET' => 'ft', 'YARDS' => 'yd', 'MILLILITERS' => 'ml', 'CENTILITERS' => 'cl', 'LITERS' => 'l',
+      'CUBIC_METERS' => 'm3', 'US_FLUID_OUNCES' => 'us_fl_oz', 'US_PINTS' => 'us_pt', 'US_QUARTS' => 'us_qt',
+      'US_GALLONS' => 'us_gal', 'IMPERIAL_FLUID_OUNCES' => 'imp_fl_oz', 'IMPERIAL_PINTS' => 'imp_pt',
+      'IMPERIAL_QUARTS' => 'imp_qt', 'IMPERIAL_GALLONS' => 'imp_gal'
+    }.freeze
+
+    def value
+      v = @d['value']
+      v.is_a?(String) && v.match?(/\A-?\d+(\.\d+)?\z/) ? (v.include?('.') ? v.to_f : v.to_i) : v
+    end
+
+    def unit = UNITS[@d['unit'].to_s.upcase] || @d['unit'].to_s
     def type = @type
     def to_s = "#{value} #{unit}"
   end
@@ -208,7 +222,8 @@ module Preview
 
     def base_url
       return @img.src if @img.external?
-      "/cdn/images/#{Util.url_encode(@img.filename).gsub('+', '%20')}?v=#{@img.version}"
+      # protocol-relative on the shop's host like Shopify's CDN URLs, so 'https:' | append: url works
+      "#{rc.cdn_base}/cdn/images/#{Util.url_encode(@img.filename).gsub('+', '%20')}?v=#{@img.version}"
     end
 
     def id = @media_mode ? @img.media_id : @img.id
@@ -216,7 +231,9 @@ module Preview
     def width = @img.width
     def height = @img.height
     def aspect_ratio = @img.aspect_ratio.round(3)
-    def src = base_url
+    # Shopify keeps `image.src` usable both as a URL string and as the image itself
+    # (Dawn: `article.image.src.width`, `image.src | image_url`).
+    def src = ImageSrcDrop.new(rc, @img, @media_mode)
     def url = base_url
     def position = @img.position || 1
     def media_type = 'image'
@@ -245,7 +262,14 @@ module Preview
       end
     end
 
-    def absolute_src = base_url
+    def absolute_src = base_url.to_s
+  end
+
+  # image.src: Shopify prints the relative file path ('files/x.png'), like the image itself, while
+  # `image.src | image_url` and `image.src.width` keep working (Dawn's article cards).
+  class ImageSrcDrop < ImageDrop
+    def to_str = to_s
+    def as_json = to_s
   end
 
   # Generic (non-image) placeholder for video settings etc.

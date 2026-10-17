@@ -16,11 +16,14 @@ module Preview
 
     def initialize(r, g, b, a = 1.0)
       super()
-      @r = r.to_i.clamp(0, 255)
-      @g = g.to_i.clamp(0, 255)
-      @b = b.to_i.clamp(0, 255)
+      # channels are rounded (not truncated) like Shopify's color filters: mix(#f00, #00f, 50) = #800080
+      @r = ch(r)
+      @g = ch(g)
+      @b = ch(b)
       @a = a.to_f.clamp(0.0, 1.0)
     end
+
+    def ch(v) = (v.is_a?(Numeric) ? v.round : v.to_i).clamp(0, 255)
 
     def red = @r
     def green = @g

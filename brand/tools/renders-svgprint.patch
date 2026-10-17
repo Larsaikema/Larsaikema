@@ -1,0 +1,79 @@
+diff -ruN a/js/textures.js b/js/textures.js
+--- a/renders/js/textures.js	2026-10-17 17:32:23.308723081 +0000
++++ b/renders/js/textures.js	2026-10-17 17:32:23.345795069 +0000
+@@ -227,3 +227,24 @@
+     return t;
+   });
+ }
++
++// Canvas texture from SVG path data (one-colour print artwork, e.g. the Klapklaar wordmark).
++// d: path data in a viewBox of vb=[w,h]; the artwork is fitted (contain) inside width x height
++// with fractional padding pad; everything else stays transparent (alphaTest in the material).
++export function svgPrintTexture({ d, vb, color = '#ffffff', width = 2048, height = 512, pad = 0.08, align = 'center' } = {}) {
++  const key = `svgprint:${d.length}:${d.slice(0, 40)}:${color}:${width}:${height}:${pad}:${align}`;
++  return cached(key, () => {
++    const c = document.createElement('canvas');
++    c.width = width; c.height = height;
++    const g = c.getContext('2d');
++    g.clearRect(0, 0, width, height);
++    const s = Math.min(width * (1 - 2 * pad) / vb[0], height * (1 - 2 * pad) / vb[1]);
++    const ox = align === 'left' ? width * pad : (width - vb[0] * s) / 2;
++    g.translate(ox, (height - vb[1] * s) / 2); g.scale(s, s);
++    g.fillStyle = color; g.fill(new Path2D(d));
++    const t = new THREE.CanvasTexture(c);
++    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = maxAniso;
++    t.wrapS = THREE.ClampToEdgeWrapping; t.wrapT = THREE.ClampToEdgeWrapping;
++    return t;
++  });
++}
+diff -ruN a/models/easyUpTent.js b/models/easyUpTent.js
+--- a/renders/models/easyUpTent.js	2026-10-17 17:32:23.318445838 +0000
++++ b/renders/models/easyUpTent.js	2026-10-17 17:32:23.346108359 +0000
+@@ -452,7 +452,8 @@
+     for (const side of sides.filter((s) => which.includes(s.name))) {
+       const len = side.L * 0.9;
+       const cw = 2048, ch = Math.max(64, Math.round(cw * Hh / len));
+-      const tex = TX.printTexture({ text: vp.text, color: ink, width: cw, height: ch, font: `${vp.weight || 800} ${Math.round(ch * 0.66)}px ${vp.font || '"Arial Black", "Helvetica Neue", Arial, sans-serif'}` });
++      const tex = vp.d ? TX.svgPrintTexture({ d: vp.d, vb: vp.vb, color: ink, width: cw, height: ch, pad: vp.pad ?? 0.14 })
++        : TX.printTexture({ text: vp.text, color: ink, width: cw, height: ch, font: `${vp.weight || 800} ${Math.round(ch * 0.66)}px ${vp.font || '"Arial Black", "Helvetica Neue", Arial, sans-serif'}` });
+       const mat = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.45, roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.45, side: THREE.FrontSide, name: 'valance print' });
+       const s0 = (side.L - len) / 2;
+       const geo = G.surface((u, v, o) => {
+diff -ruN a/models/statafelCover.js b/models/statafelCover.js
+--- a/renders/models/statafelCover.js	2026-10-17 17:32:23.329297071 +0000
++++ b/renders/models/statafelCover.js	2026-10-17 17:32:23.346354206 +0000
+@@ -9,6 +9,7 @@
+ import * as THREE from 'three';
+ import * as G from '../js/geom.js';
+ import * as M from '../js/materials.js';
++import * as TX from '../js/textures.js';
+ import { rng } from '../js/rng.js';
+ import { statafel, statafelDims } from './statafel.js';
+ 
+@@ -178,6 +179,26 @@
+   const uv = lower.attributes.uv;
+   for (let j = 0; j <= nV; j++) for (let k = 0; k <= nT; k++) uv.setXY(j * (nT + 1) + k, (k / nT) * TAU * 0.2, (j / nV) * 0.75);
+   group.add(G.mesh(lower, mat));
++  if (p.print && p.print.d) {
++    // print decal: the lower flare re-used with a planar projection from direction `azimuth`
++    const pr = p.print;
++    const phi = (pr.azimuth ?? 0) * DEG;
++    const pw = pr.width ?? 0.26, cy = pr.y ?? 0.33;
++    const ph = pw * pr.vb[1] / pr.vb[0];
++    const tex = TX.svgPrintTexture({ d: pr.d, vb: pr.vb, color: pr.color || '#FBF6EC', width: 1024, height: Math.round(1024 * ph / pw), pad: 0.02 });
++    const dec = lower.clone();
++    const pos = dec.attributes.position, duv = dec.attributes.uv;
++    for (let i = 0; i < pos.count; i++) {
++      const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
++      const xr = x * Math.cos(phi) - z * Math.sin(phi), zr = x * Math.sin(phi) + z * Math.cos(phi);
++      if (zr <= 0.02) duv.setXY(i, -1, -1); else duv.setXY(i, xr / pw + 0.5, (y - cy) / ph + 0.5);
++    }
++    duv.needsUpdate = true;
++    const pm = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.5, roughness: 0.62, sheen: 0.4, sheenRoughness: 0.5,
++      polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4, side: THREE.DoubleSide, name: 'print' });
++    const m = new THREE.Mesh(dec, pm); m.castShadow = false; m.receiveShadow = true;
++    group.add(m);
++  }
+   // hem: rolled edge following the free border
+   const hem = G.surface((u, v, out) => {
+     const th = u * TAU;

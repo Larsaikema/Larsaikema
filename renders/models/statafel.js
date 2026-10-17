@@ -196,6 +196,7 @@ export function statafel(p = {}) {
       ? { target: [0, H * 0.62, 0.05], size: 0.75, azimuth: 30, elevation: 10 }
       : { target: [Math.sin(34 * DEG) * R * 0.75, H - 0.08, Math.cos(34 * DEG) * R * 0.75], size: 0.5, azimuth: 34, elevation: 16 },
     meta: { D: S.D, H, top, base: S.base, folded },
+    view: folded ? { hero: { azimuth: 56, elevation: 12 } } : undefined,
   };
 }
 

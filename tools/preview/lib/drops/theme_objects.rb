@@ -144,7 +144,8 @@ module Preview
     end
 
     def model_key = [@section&.sid, @bid]
-    def id = @bid
+    def id = @id ||= (rc.theme.block_file?(type.to_s) ? rc.theme_block_id(@section, @bid) : @bid)
+    def key = @bid
     def type = @data['type']
     def name = @data['name'] || @schema['name']
     def shopify_attributes = ''

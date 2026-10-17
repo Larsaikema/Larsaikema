@@ -26,7 +26,7 @@ module Preview
   # Everything that is specific to one HTTP request: page resources, cart, translations, errors, drop caches.
   class RenderContext
     attr_reader :app, :store, :theme, :env, :req, :cart, :locale, :errors, :missing_translations, :internal_errors,
-                :preloads
+                :preloads, :locale_prefix
     attr_accessor :page_type, :template_name, :template_suffix, :template_directory, :main_product, :main_collection,
                   :main_page, :main_blog, :main_article, :search_drop, :predictive_drop, :recommendations_drop,
                   :current_tags, :layout, :page_title_override, :form_flash, :gift_card, :status, :template_json_override,
@@ -39,7 +39,8 @@ module Preview
       @env = app.env
       @req = req
       @cart = cart
-      @locale = (@store.shop['primary_locale'] || 'nl').to_s
+      @locale = (req.locale || @store.shop['primary_locale'] || 'nl').to_s
+      @locale_prefix = req.locale ? "/#{req.locale}" : ''
       @errors = []
       @internal_errors = []
       @missing_translations = []
@@ -54,6 +55,37 @@ module Preview
 
     # ------------------------------------------------------------------ request helpers
     def path = (@sections_url_path || @req.path)
+
+    def absolute_url(u)
+      u = u.to_s
+      return "http:#{u}" if u.start_with?('//')
+      u.start_with?('/') ? "#{origin}#{u}" : u
+    end
+
+    # '//host' prefix for CDN-style URLs (Shopify's image_url / file_url are protocol-relative)
+    def cdn_base = "//#{@req.host || '127.0.0.1'}"
+
+    # Liquid resource URLs carry the locale prefix on a secondary-locale storefront (/en/products/x),
+    # like Shopify's localized URLs. Asset/CDN/account URLs and already-prefixed paths stay as they are.
+    def localize(url)
+      return url if @locale_prefix.to_s.empty? || !url.is_a?(String) || !url.start_with?('/') || url.start_with?('//')
+      return url if url == @locale_prefix || url.start_with?("#{@locale_prefix}/", "#{@locale_prefix}?")
+      return url if url.start_with?('/cdn/', '/assets/', '/compiled_assets/', '/checkouts', '/services/')
+      url == '/' ? @locale_prefix : "#{@locale_prefix}#{url}"
+    end
+
+    def unlocalize(url)
+      return url if @locale_prefix.to_s.empty? || !url.is_a?(String)
+      return '/' if url == @locale_prefix
+      url.start_with?("#{@locale_prefix}/", "#{@locale_prefix}?") ? url[@locale_prefix.length..] : url
+    end
+
+    # selected country (localization form / cookie), falls back to the shop country
+    def country_code
+      cc = @req.cookies['localization'].to_s.upcase
+      codes = (@store.shop['countries'] || []).map { |c| c['iso_code'].to_s.upcase }
+      codes.include?(cc) ? cc : (@store.shop['country'] || 'NL')
+    end
     def query_params = @req.params
     def query_param(k) = Array(@req.params[k]).first
     def host = @req.host
@@ -70,7 +102,7 @@ module Preview
         pairs << [k, v]
       end
       add.each { |k, v| pairs << [k, v] unless pairs.include?([k, v]) }
-      b = base || path
+      b = base || "#{@locale_prefix}#{path}"
       q = URI.encode_www_form(pairs)
       q.empty? ? b : "#{b}?#{q}"
     end
@@ -177,11 +209,40 @@ module Preview
     end
 
     # ------------------------------------------------------------------ closest
+    # Shopify resolves closest.<kind> from, innermost first: a value passed explicitly with
+    # `content_for ... closest.<kind>:`, the block's/section's own resource setting of that type
+    # (e.g. a hotspot block's product picker), then each ancestor block and the section, and finally
+    # the template's resource. A dynamic source like "{{ closest.product }}" inside an entity's own
+    # setting skips that entity (it refers to the surrounding context), which also prevents recursion.
+    RESOURCE_KINDS = %w[product collection page blog article metaobject].freeze
+
     def closest(kind)
       @stack.reverse_each do |frame|
         return frame[:closest][kind] if frame[:closest]&.key?(kind)
+        ent = frame[:block] || frame[:section]
+        next unless ent
+        v = entity_resource(ent, kind)
+        return v if v
       end
       page_closest(kind)
+    end
+
+    def entity_resource(ent, kind)
+      return nil unless RESOURCE_KINDS.include?(kind)
+      @closest_busy ||= []
+      return nil if @closest_busy.include?(ent.object_id)
+      defs = ((ent.schema || {})['settings'] || []).select { |s| s.is_a?(Hash) && s['type'] == kind && s['id'] }
+      return nil if defs.empty?
+      @closest_busy << ent.object_id
+      begin
+        defs.each do |d|
+          v = ent.settings.fetch(d['id'])
+          return v if v.is_a?(BaseDrop)
+        end
+        nil
+      ensure
+        @closest_busy.delete(ent.object_id)
+      end
     end
 
     def page_closest(kind)
@@ -216,10 +277,11 @@ module Preview
       end
       html = key.end_with?('_html') || key.include?('_html.')
       out = html ? val.dup : Util.escape_once(val)
+      # Shopify leaves a placeholder that was not passed untouched ('{{ count }}'): Horizon's JS fills it later
       out.gsub(/\{\{\s*([\w.]+)\s*\}\}/) do
         k = Regexp.last_match(1)
-        v = vars.key?(k) ? vars[k] : nil
-        v = v.to_s
+        next Regexp.last_match(0) unless vars.key?(k)
+        v = vars[k].to_s
         html ? v : Util.escape_once(v)
       end
     end
@@ -330,6 +392,13 @@ module Preview
     def resolve_url_setting(raw)
       s = raw.to_s
       return nil if s.empty?
+      # the two schema defaults Shopify allows for url settings behave like routes (localized)
+      return localize(s) if ['/collections', '/collections/all'].include?(s)
+      return s unless s.start_with?('shopify://')
+      localize(resolve_shopify_url(s))
+    end
+
+    def resolve_shopify_url(s)
       case s
       when %r{\Ashopify://collections/all\z} then '/collections/all'
       when %r{\Ashopify://collections/(.+)} then "/collections/#{Regexp.last_match(1)}"
@@ -400,7 +469,7 @@ module Preview
       when String
         return nil if input.empty?
         if input.match?(%r{\A(https?:)?//}) || input.start_with?('/')
-          src = input.sub(%r{\A/cdn/images/}, '').split('?').first
+          src = input.sub(%r{\A(?:(?:https?:)?//#{Regexp.escape(@req.host.to_s)})?/cdn/images/}, '').split('?').first
           if File.exist?(File.join(@store.images_dir, URI.decode_www_form_component(src)))
             return image_drop(StoreImage.new(@store, { 'src' => URI.decode_www_form_component(src) }, 'str'))
           end
@@ -486,7 +555,7 @@ module Preview
         {
           '@context' => 'http://schema.org/', '@type' => p.variants.size > 1 ? 'ProductGroup' : 'Product',
           'name' => p.title, 'description' => p.description_text.strip, 'url' => "#{origin}/products/#{p.handle}",
-          'image' => p.images.map { |i| "#{origin}#{image_drop(i).src}" }, 'brand' => { '@type' => 'Brand', 'name' => p.vendor },
+          'image' => p.images.map { |i| absolute_url(image_drop(i).url) }, 'brand' => { '@type' => 'Brand', 'name' => p.vendor },
           (p.variants.size > 1 ? 'hasVariant' : 'offers') => if p.variants.size > 1
                                                                  p.variants.map do |v|
                                                                    { '@type' => 'Product', 'name' => "#{p.title} - #{v.title}", 'sku' => v.sku,
@@ -503,7 +572,7 @@ module Preview
           '@context' => 'http://schema.org/', '@type' => 'BlogPosting', 'headline' => a.title,
           'datePublished' => iso(a.published_at), 'dateModified' => iso(a.updated_at),
           'author' => { '@type' => 'Person', 'name' => a.author }, 'url' => "#{origin}#{input.url}",
-          'image' => a.image ? "#{origin}#{image_drop(a.image).src}" : nil,
+          'image' => a.image ? absolute_url(image_drop(a.image).url) : nil,
           'publisher' => { '@type' => 'Organization', 'name' => @store.shop['name'] }
         }.compact
       else {}
@@ -582,7 +651,7 @@ module Preview
         'template' => TemplateDrop.new(self), 'linklists' => LinklistsDrop.new(self), 'collections' => CollectionsDrop.new(self),
         'pages' => PagesDrop.new(self), 'blogs' => BlogsDrop.new(self), 'articles' => ArticlesDrop.new(self),
         'all_products' => AllProductsDrop.new(self), 'images' => ImagesDrop.new(self), 'canonical_url' => canonical_url,
-        'page_title' => page_title, 'page_description' => page_description, 'handle' => @resource_handle,
+        'page_title' => page_title, 'page_description' => page_description, 'page_image' => page_image, 'handle' => @resource_handle,
         'current_page' => [query_param('page').to_i, 1].max, 'current_tags' => @current_tags,
         'powered_by_link' => %(<a target="_blank" rel="nofollow" href="https://www.shopify.com?utm_campaign=poweredby&amp;utm_medium=shopify&amp;utm_source=onlinestore">#{@locale.start_with?('nl') ? 'Mogelijk gemaakt door Shopify' : 'Powered by Shopify'}</a>),
         'additional_checkout_buttons' => false, 'content_for_additional_checkout_buttons' => '',
@@ -597,8 +666,28 @@ module Preview
       g
     end
 
+    # Shopify's canonical URL: products always at /products/<handle> (also when reached through a
+    # collection), no variant/filter/sort params, ?page=N kept for paginated lists, locale prefix kept.
     def canonical_url
-      "#{origin}#{@req.path}"
+      path = @req.path
+      path = "/products/#{@main_product.handle}" if @main_product && @page_type == 'product'
+      path = '/' if @page_type == 'index'
+      page = query_param('page').to_i
+      qs = page > 1 && %w[collection blog search].include?(@page_type) ? "?page=#{page}" : ''
+      "#{origin}#{@locale_prefix}#{path == '/' && !@locale_prefix.to_s.empty? ? '' : path}#{qs}"
+    end
+
+    # page_image: product featured media, collection image, article image, else the shop's social
+    # sharing image (Online Store > Preferences; fixture shop.social_sharing_image).
+    def page_image
+      img = if @main_product then @main_product.images.first
+            elsif @main_collection then @main_collection.image
+            elsif @main_article then @main_article.image
+            end
+      if img.nil? && (ss = @store.shop['social_sharing_image'])
+        img = (@social_image ||= StoreImage.new(@store, ss, 'shop:social'))
+      end
+      img && image_drop(img)
     end
 
     def page_title
@@ -630,7 +719,7 @@ module Preview
     def base_context(static = {}, scope = {})
       ctx = Liquid::Context.build(
         environment: @env,
-        environments: [],
+        environments: [{}], # increment/decrement counters live in environments.first
         outer_scope: scope,
         registers: { rc: self, file_system: @fs, cached_partials: @cached_partials },
         static_environments: [static, globals]
@@ -665,14 +754,14 @@ module Preview
     end
 
     # content_for 'blocks'
-    def render_blocks(context)
+    def render_blocks(context, closest_overrides = {})
       frame = current_frame
       return '' unless frame
       parent = frame[:block] || frame[:section]
       out = +''
       parent.blocks.each do |b|
         next if b.type.to_s.start_with?('@')
-        out << render_block_drop(b, {}, {}, context)
+        out << render_block_drop(b, closest_overrides, {}, context)
       end
       out
     end
@@ -691,7 +780,12 @@ module Preview
     def render_block_drop(drop, closest_overrides, vars, _context)
       type = drop.type.to_s
       rel = "blocks/#{type}.liquid"
-      return '' unless @theme.exist?(rel)
+      unless @theme.exist?(rel)
+        return '' unless drop.static? || section_block_schema(drop.section, type).empty?
+        msg = "Liquid error: Error in tag 'content_for' - '#{type}' is not a valid block type"
+        record_error(msg)
+        return msg
+      end
       begin
         tpl = @theme.liquid(rel, @env)
       rescue Liquid::Error => e
@@ -707,7 +801,19 @@ module Preview
         ctx.template_name = rel
         tpl.root.render_to_output_buffer(ctx, out)
       end
-      out
+      # Theme blocks get a wrapper element unless their schema sets "tag": null (Shopify behaviour).
+      schema = drop.schema || {}
+      return out if schema.key?('tag') && schema['tag'].nil?
+      tag = schema['tag'].is_a?(String) && !schema['tag'].empty? ? schema['tag'] : 'div'
+      %(<#{tag} id="shopify-block-#{drop.id}" class="shopify-block">#{out}</#{tag}>)
+    end
+
+    # Shopify scopes theme block ids per section (e.g. "AbmFweS9TQ0xqQjNIc__text_9iKfQd") so the same JSON key
+    # in two sections never collides in CSS/DOM ids.
+    def theme_block_id(section, key)
+      return key unless section
+      prefix = [Digest::SHA1.digest(section.sid.to_s)].pack('m0').gsub(/[^A-Za-z0-9]/, '')[0, 17]
+      "A#{prefix}__#{key}"
     end
 
     # ------------------------------------------------------------------ sections

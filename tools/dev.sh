@@ -4,7 +4,10 @@
 #   :4200  bar     (Shopify Horizon, scratch copy — never committed)
 #   :4300  dawn    (Shopify Dawn, scratch copy — renderer regression testing)
 # Usage: tools/dev.sh start|stop|status|restart [ours|bar|dawn]
-# Env: PREVIEW_DATA (fixture json), PREVIEW_IMAGES (images dir), PREVIEW_BIND (default 127.0.0.1)
+# Env: PREVIEW_DATA (fixture json), PREVIEW_IMAGES (images dir), PREVIEW_BIND (default 127.0.0.1),
+#      BAR_STOCK=1 serves Horizon without the merchant overlay (fresh-install look).
+# The bar is "Horizon set up by a skilled merchant": tools/preview/bar/merchant_setup.py writes Dutch copy,
+# colour swatches on and auto-open cart drawer into $SCRATCH/bar/horizon-merchant (overlay, Horizon untouched).
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -44,10 +47,18 @@ start_one() {
     return 0
   fi
   # free the port if a stray server holds it
-  local stray; stray="$(ss -ltnp 2>/dev/null | awk -v p=":${PORT[$n]}" '$4 ~ p"$" {print $0}' | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2 || true)"
+  local stray; stray="$( (lsof -t -iTCP:"${PORT[$n]}" -sTCP:LISTEN 2>/dev/null || ss -ltnp 2>/dev/null | awk -v p=":${PORT[$n]}" '$4 ~ p"$"' | grep -o 'pid=[0-9]*' | cut -d= -f2) | head -1 || true)"
   if [[ -n "$stray" ]]; then kill "$stray" 2>/dev/null || true; sleep 0.5; fi
   local args=(--theme "${THEME[$n]}" --data "$DATA" --port "${PORT[$n]}" --bind "$BIND")
   [[ -n "${PREVIEW_IMAGES:-}" ]] && args+=(--images "$PREVIEW_IMAGES")
+  if [[ "$n" == bar && "${BAR_STOCK:-0}" != 1 && -d "${THEME[bar]}" ]]; then
+    local overlay="$SCRATCH/bar/horizon-merchant"
+    local margs=(--horizon "${THEME[bar]}" --data "$DATA" --out "$overlay")
+    [[ -n "${PREVIEW_IMAGES:-}" ]] && margs+=(--images "$PREVIEW_IMAGES")
+    python3 "$REPO/tools/preview/bar/merchant_setup.py" "${margs[@]}" >>"$(logfile "$n")" 2>&1 \
+      && args+=(--overlay "$overlay") \
+      || echo "bar: merchant overlay failed (serving stock Horizon) — see $(logfile "$n")" >&2
+  fi
   nohup ruby "$REPO/tools/preview/server.rb" "${args[@]}" >>"$(logfile "$n")" 2>&1 &
   echo $! >"$(pidfile "$n")"
   for _ in $(seq 1 40); do
@@ -78,7 +89,7 @@ stop_one() {
 status_one() {
   local n="$1"
   if running "$n"; then
-    if responding "$n"; then echo "$n: up   :${PORT[$n]} pid $(cat "$(pidfile "$n")") theme ${THEME[$n]}";
+    if responding "$n"; then echo "$n: up   :${PORT[$n]} pid $(cat "$(pidfile "$n")") theme ${THEME[$n]}$(ps -o args= -p "$(cat "$(pidfile "$n")")" | grep -o -- '--overlay [^ ]*' | sed 's/^/ /')";
     else echo "$n: pid alive but :${PORT[$n]} not responding (log: $(logfile "$n"))"; fi
   else
     echo "$n: down (:${PORT[$n]})"

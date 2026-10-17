@@ -9,9 +9,13 @@
 //
 // Options: --path | --path-a/--path-b (alias --path-ours/--path-bar), --order AB|BA (A = ours when AB; default random),
 //          --device desktop|mobile|both, --tiles N (default 1 = first viewport) | --full, --actions JSON (both sides),
-//          --wait ms, --ours URL (default http://127.0.0.1:4100), --bar URL (default http://127.0.0.1:4200)
+//          Tiles scroll the page's REAL scroll container (Horizon desktop scrolls .page-wrapper, not the window),
+//          continue below a stuck sticky header, and stop early at the end of the page. The shorter side is then
+//          padded with neutral "end of page" tiles so A and B always have the same number of files per device.
+//          --wait ms, --reduced-motion, --ours URL (default http://127.0.0.1:4100), --bar URL (default http://127.0.0.1:4200)
 // Output:  $SCRATCH/shots/<piece>/r<round>/{A,B}-{desktop,mobile}-<n>.png      (judge directory — nothing else)
-//          $SCRATCH/shots/_mapping/<piece>-r<round>.json                        (which letter is ours + health data)
+//          $SCRATCH/ab-mapping/<piece>-r<round>.json   (which letter is ours + health data; deliberately OUTSIDE
+//                                                       shots/ so no judge directory has it as a sibling/ancestor)
 import fs from 'node:fs';
 import path from 'node:path';
 import { launch, openPage, collectHealth, capture, runActions, parseArgs } from './shoot.mjs';
@@ -41,7 +45,7 @@ if (args['path-a']) sides[letterOf.ours === 'A' ? 'ours' : 'bar'].path = args['p
 if (args['path-b']) sides[letterOf.ours === 'B' ? 'ours' : 'bar'].path = args['path-b'];
 
 const judgeDir = path.join(SCRATCH, 'shots', piece, `r${round}`);
-const mapDir = path.join(SCRATCH, 'shots', '_mapping');
+const mapDir = process.env.AB_MAPPING_DIR || path.join(SCRATCH, 'ab-mapping');
 fs.mkdirSync(judgeDir, { recursive: true });
 fs.mkdirSync(mapDir, { recursive: true });
 for (const f of fs.readdirSync(judgeDir)) if (/^[AB]-/.test(f)) fs.unlinkSync(path.join(judgeDir, f));
@@ -49,12 +53,15 @@ for (const f of fs.readdirSync(judgeDir)) if (/^[AB]-/.test(f)) fs.unlinkSync(pa
 const browser = await launch();
 const health = {};
 const files = {};
+const padded = {};
 try {
-  for (const side of ['ours', 'bar']) {
+  // shoot in letter order (A first) so nothing about timing or file order reveals which side is ours
+  const sideOrder = letterOf.ours === 'A' ? ['ours', 'bar'] : ['bar', 'ours'];
+  for (const side of sideOrder) {
     const s = sides[side];
     const letter = letterOf[side];
     for (const d of devices) {
-      const { ctx, page, report } = await openPage(browser, s.base + s.path, d);
+      const { ctx, page, report } = await openPage(browser, s.base + s.path, d, { reducedMotion: !!args['reduced-motion'] });
       if (args.wait) await page.waitForTimeout(Number(args.wait));
       try {
         await runActions(page, s.actions ? JSON.parse(s.actions) : []);
@@ -63,7 +70,8 @@ try {
       }
       if (args.wait && s.actions) await page.waitForTimeout(Number(args.wait));
       await collectHealth(page, report);
-      const shot = await capture(page, path.join(judgeDir, `${letter}-${d}.png`), { full: !!args.full, tiles });
+      report.capture = {};
+      const shot = await capture(page, path.join(judgeDir, `${letter}-${d}.png`), { full: !!args.full, tiles, meta: report.capture });
       // normalise single shots to the -1 suffix so every set looks identical
       const names = shot.map((f, i) => {
         if (/-\d+\.png$/.test(f)) return f;
@@ -76,9 +84,41 @@ try {
       await ctx.close();
     }
   }
+  // equal tile counts per device: pad the shorter side with neutral end-of-page tiles of the same size
+  if (tiles > 1) {
+    for (const d of devices) {
+      const a = files[`A-${d}`] || [];
+      const b = files[`B-${d}`] || [];
+      const n = Math.max(a.length, b.length);
+      for (const [letter, list] of [['A', a], ['B', b]]) {
+        if (!list.length || list.length >= n) continue;
+        const buf = fs.readFileSync(path.join(judgeDir, list[0]));
+        const width = buf.readUInt32BE(16);
+        const height = buf.readUInt32BE(20);
+        const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
+        const page = await ctx.newPage();
+        await page.setContent(
+          '<body style="margin:0;height:100vh;background:#ececec;display:grid;place-items:center;' +
+            'font:500 16px/1.4 system-ui,sans-serif;color:#8a8a8a">— einde van de pagina —</body>'
+        );
+        const real = list.length;
+        for (let i = real; i < n; i++) {
+          const f = `${letter}-${d}-${i + 1}.png`;
+          await page.screenshot({ path: path.join(judgeDir, f) });
+          list.push(f);
+        }
+        await ctx.close();
+        padded[`${letter}-${d}`] = { realTiles: real, paddedTo: n };
+      }
+    }
+  }
 } finally {
   await browser.close();
 }
+
+// identical mtimes on every judge file: modification times must not reveal the shooting order
+const stamp = new Date();
+for (const f of fs.readdirSync(judgeDir)) if (/^[AB]-/.test(f)) fs.utimesSync(path.join(judgeDir, f), stamp, stamp);
 
 const mapping = {
   piece,
@@ -91,6 +131,7 @@ const mapping = {
   bar: { letter: letterOf.bar, url: sides.bar.base + sides.bar.path, actions: sides.bar.actions || null },
   judgeDir,
   files,
+  padded,
   health,
 };
 const mapFile = path.join(mapDir, `${piece}-r${round}.json`);
@@ -100,5 +141,7 @@ console.log(`files: ${Object.values(files).flat().join(' ')}`);
 console.log(`mapping (do NOT give to judges): ${mapFile}`);
 for (const [k, r] of Object.entries(health)) {
   const bad = (r.liquidErrors || 0) + r.consoleErrors.length + r.pageErrors.length + r.failedRequests.length;
+  const c = r.capture || {};
+  if (c.tileOffsets) console.log(`  ${k}: scroller=${c.scroller} tiles=${c.tilesCaptured}/${c.tilesRequested} offsets=${c.tileOffsets.join(',')} pageHeight=${c.pageHeight}`);
   console.log(`  ${k}: liquid=${r.liquidErrors} console=${r.consoleErrors.length} pageerr=${r.pageErrors.length} failed=${r.failedRequests.length} overflowX=${r.overflowX}${r.actionError ? ` actionError=${r.actionError}` : ''}${bad ? ' ISSUES' : ''}`);
 }

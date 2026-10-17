@@ -193,7 +193,7 @@ module Preview
   # ---------------------------------------------------------------------------
   class Store
     attr_reader :data, :shop, :products, :collections, :menus, :pages, :blogs, :policies, :filters_config,
-                :images_dir, :path, :best_sellers, :variants_by_id, :mtime
+                :images_dir, :path, :best_sellers, :variants_by_id, :mtime, :discounts
 
     POLICY_KEYS = {
       'privacy_policy' => 'privacy-policy', 'refund_policy' => 'refund-policy', 'shipping_policy' => 'shipping-policy',
@@ -273,6 +273,34 @@ module Preview
       end
       @menus = (d['menus'] || []).map { |m| build_menu(m) }
       @menus_by_handle = @menus.to_h { |m| [m.handle, m] }
+      @discounts = (d['discounts'] || []).select { |x| x.is_a?(Hash) && !x['code'].to_s.strip.empty? }
+    end
+
+    # /collections/vendors?q=X and /collections/types?q=X: Shopify renders the collection template with an
+    # automatic collection of the products of that vendor / product type (collection.current_vendor / current_type).
+    def virtual_collection(kind, q)
+      q = q.to_s.strip
+      return nil if q.empty?
+      prods = @products.select { |p| (kind == 'vendors' ? p.vendor : p.product_type).to_s.strip.casecmp?(q) }
+      c = Collection.new
+      c.id = Util.stable_id("collection:#{kind}:#{q.downcase}", 400_000_000_000)
+      c.handle = kind
+      c.title = prods.map { |p| kind == 'vendors' ? p.vendor : p.product_type }.first || q
+      c.body_html = ''
+      c.sort_order = 'best-selling'
+      c.rules = []
+      c.metafields = {}
+      c.seo = {}
+      c.published_at = Time.at(1_700_000_000)
+      c.raw = { 'virtual' => true, kind == 'vendors' ? 'current_vendor' : 'current_type' => c.title, 'q' => q }
+      c.products = prods
+      c
+    end
+
+    # discount code definition (codes are case-insensitive on Shopify)
+    def discount(code)
+      c = code.to_s.strip.downcase
+      @discounts.find { |x| x['code'].to_s.strip.downcase == c && x['status'].to_s != 'expired' }
     end
 
     # --- lookups ------------------------------------------------------------
@@ -657,23 +685,44 @@ module Preview
       }[s.to_s] || s.to_s
     end
 
-    # Shopify-style search: plain words (AND), field filters (id:, title:, tag:, product_type:, vendor:, sku:),
-    # alternatives joined with OR, exclusions with a leading '-'.
-    def search(terms, types: %w[product page article], prefix: false)
+    # Shopify-style search.
+    # * Whole-word (token) matching, case- and accent-insensitive. Every query word must match (AND);
+    #   "easy-up" is the two words easy + up. Shopify does not split compound words, so "tent" does NOT
+    #   find "partytent"/"stretchtent" - only a word "tent" does.
+    # * prefix: true -> the LAST query word may match the start of a word (options[prefix]=last on
+    #   /search; predictive search always works this way).
+    # * fields: nil = storefront /search fields (title, product_type, vendor, tag, variants.title,
+    #   variants.sku, variants.barcode, body, author); predictive search defaults to
+    #   title, product_type, variants.title, vendor (resources[options][fields] overrides).
+    # * field filters (title:, tag:, product_type:, vendor:, sku:, id:, handle:, body:), alternatives with OR,
+    #   exclusions with a leading '-'.
+    # * unavailable: 'last' (default) | 'show' | 'hide' for sold-out products.
+    SEARCH_FIELDS = %w[title product_type vendor tag variants.title variants.sku variants.barcode body author].freeze
+    PREDICTIVE_FIELDS = %w[title product_type variants.title vendor].freeze
+
+    def self.search_tokens(str)
+      str.to_s.downcase.unicode_normalize(:nfkd).gsub(/\p{Mn}/u, '').split(/[^\p{Alnum}]+/u).reject(&:empty?)
+    end
+
+    def search(terms, types: %w[product page article], prefix: false, fields: nil, unavailable: 'last')
       q = terms.to_s.strip
       return [] if q.empty?
       alternatives = q.split(/\s+OR\s+/).map { |alt| parse_search_terms(alt) }.reject { |t| t[:words].empty? && t[:fields].empty? }
       return [] if alternatives.empty?
+      fields = (fields || SEARCH_FIELDS).map(&:to_s)
       results = []
       candidates = []
       candidates += @products.map { |p| [p, 0] } if types.include?('product')
       candidates += @pages.map { |pg| [pg, 1] } if types.include?('page')
       candidates += all_articles.map { |a| [a, 2] } if types.include?('article')
       candidates.each_with_index do |(obj, tier), idx|
-        best = alternatives.map { |alt| score_object(obj, alt, prefix) }.max
-        results << [best, tier, idx, obj] if best.positive?
+        next if unavailable == 'hide' && obj.is_a?(Product) && !obj.available?
+        best = alternatives.map { |alt| score_object(obj, alt, prefix, fields) }.max
+        next unless best.positive?
+        sold_out = unavailable == 'last' && obj.is_a?(Product) && !obj.available? ? 1 : 0
+        results << [sold_out, best, tier, idx, obj]
       end
-      results.sort_by { |sc, tier, idx, _| [-sc, tier, idx] }.map(&:last)
+      results.sort_by { |so, sc, tier, idx, _| [so, -sc, tier, idx] }.map(&:last)
     end
 
     def parse_search_terms(str)
@@ -686,57 +735,124 @@ module Preview
         if (m = tok.match(/\A([\w.]+):"?([^"]*)"?\z/))
           (neg ? excludes : fields) << [m[1].downcase, m[2].downcase]
         else
-          w = tok.delete('"').downcase
-          next if w.empty?
-          (neg ? excludes : words) << w
+          toks = Store.search_tokens(tok.delete('"'))
+          next if toks.empty?
+          (neg ? excludes : words).concat(toks)
         end
       end
       { words: words, fields: fields, excludes: excludes }
     end
 
-    def search_text(obj)
+    # text per searchable field of an object
+    def search_field_texts(obj, fields)
+      out = {}
       case obj
       when Product
-        [obj.title, obj.title, obj.vendor, obj.product_type, obj.tags.join(' '), obj.variants.map(&:sku).join(' '),
-         obj.variants.map(&:title).join(' '), obj.description_text].compact.join(' ').downcase
-      when Page then [obj.title, Util.strip_html(obj.body_html)].join(' ').downcase
-      when Article then [obj.title, obj.tags.join(' '), Util.strip_html(obj.body_html), obj.author].join(' ').downcase
-      else ''
+        out['title'] = obj.title
+        out['product_type'] = obj.product_type
+        out['vendor'] = obj.vendor
+        out['tag'] = obj.tags.join(' ')
+        out['variants.title'] = obj.variants.reject { |v| v.title == 'Default Title' }.map(&:title).join(' ')
+        out['variants.sku'] = obj.variants.map(&:sku).join(' ')
+        out['variants.barcode'] = obj.variants.map { |v| v.respond_to?(:barcode) ? v.barcode : nil }.compact.join(' ')
+        out['body'] = obj.description_text
+      when Page
+        out['title'] = obj.title
+        out['body'] = Util.strip_html(obj.body_html)
+        out['author'] = obj.respond_to?(:author) ? obj.author : nil
+      when Article
+        out['title'] = obj.title
+        out['tag'] = obj.tags.join(' ')
+        out['body'] = Util.strip_html(obj.body_html)
+        out['author'] = obj.author
+      end
+      out.select { |k, v| fields.include?(k) && v }.transform_values(&:to_s)
+    end
+
+    def search_text(obj) = search_field_texts(obj, SEARCH_FIELDS).values.join(' ').downcase
+
+    # Exact token, prefix (predictive search's last word) or same stem: Shopify's storefront search is
+    # language-aware, so 'statafels' finds 'Statafel' and 'partytenten' finds 'Partytent'. Compound words
+    # are not split ('tent' does not find 'partytent'), like Shopify.
+    def token_hit?(tokens, w, allow_prefix)
+      return true if tokens.include?(w) || (allow_prefix && tokens.any? { |t| t.start_with?(w) })
+      sw = stem(w)
+      tokens.any? { |t| stem(t) == sw }
+    end
+
+    def stem(word)
+      (@stem_cache ||= {})[word] ||= Store.stem(word, @shop['primary_locale'])
+    end
+
+    VOWELS_NL = 'aeiouyè'
+
+    # Light stemmers (plural/inflection endings only): Dutch after the Snowball Dutch algorithm's suffix
+    # rules (-en/-ene, -s/-se, -e, -heden, consonant/vowel undoubling), English plural -s/-es/-ies.
+    def self.stem(word, locale)
+      w = word.to_s
+      return w if w.length <= 3 || w.match?(/\d/)
+      case locale.to_s[0, 2]
+      when 'nl' then stem_nl(w)
+      when 'en' then stem_en(w)
+      else w
+      end
+    end
+
+    def self.stem_nl(w)
+      v = VOWELS_NL
+      consonant = ->(c) { c && !v.include?(c) }
+      undouble = ->(x) { x.match?(/(kk|dd|tt)\z/) ? x[0..-2] : x }
+      r = if w.end_with?('heden') then w.sub(/heden\z/, 'heid')
+          elsif w.end_with?('ene') && consonant.(w[-4]) && w.length > 5 then undouble.(w[0..-4])
+          elsif w.end_with?('en') && consonant.(w[-3]) && !w.end_with?('gemen') && w.length > 4
+            undouble.(w[0..-3]).sub(/z\z/, 's').sub(/v\z/, 'f') # hoezen -> hoes, golven -> golf
+          elsif w.end_with?('se') && consonant.(w[-3]) && w[-3] != 'j' && w.length > 4 then w[0..-3]
+          elsif w.end_with?('s') && consonant.(w[-2]) && w[-2] != 'j' && w.length > 3 then w[0..-2]
+          elsif w.end_with?('e') && consonant.(w[-2]) && w.length > 3 then undouble.(w[0..-2])
+          else w
+          end
+      # Snowball step 4: undouble a long vowel before a final consonant (kleed/kleden -> kled)
+      r = r.sub(/([^#{v}])(aa|ee|oo|uu)([^#{v}i])\z/) { "#{Regexp.last_match(1)}#{Regexp.last_match(2)[0]}#{Regexp.last_match(3)}" }
+      r.length >= 3 ? r : w
+    end
+
+    def self.stem_en(w)
+      if w.end_with?('ies') && w.length > 4 then "#{w[0..-4]}y"
+      elsif w.match?(/(ches|shes|sses|xes|zes)\z/) then w[0..-3]
+      elsif w.end_with?('s') && !w.end_with?('ss', 'us', 'is') then w[0..-2]
+      else w
       end
     end
 
     def field_match?(obj, field, value)
+      vt = Store.search_tokens(value)
+      tokens_of = ->(f) { Store.search_tokens(search_field_texts(obj, [f]).values.join(' ')) }
       case field
       when 'id' then obj.respond_to?(:id) && obj.id.to_s == value
-      when 'title' then obj.title.to_s.downcase.include?(value)
       when 'handle' then obj.handle.to_s == value
+      when 'title' then (t = tokens_of.('title')) && vt.all? { |w| t.include?(w) }
       when 'tag' then obj.respond_to?(:tags) && obj.tags.map(&:downcase).include?(value)
       when 'product_type' then obj.is_a?(Product) && obj.product_type.to_s.downcase == value
       when 'vendor' then obj.is_a?(Product) && obj.vendor.to_s.downcase == value
       when 'sku', 'variants.sku' then obj.is_a?(Product) && obj.variants.any? { |v| v.sku.to_s.downcase == value }
-      when 'body' then search_text(obj).include?(value)
+      when 'body' then (t = tokens_of.('body')) && vt.all? { |w| t.include?(w) }
       else false
       end
     end
 
-    def score_object(obj, alt, prefix)
-      text = search_text(obj)
-      return 0 if alt[:excludes].any? { |e| e.is_a?(Array) ? field_match?(obj, *e) : text.include?(e) }
+    def score_object(obj, alt, prefix, fields = SEARCH_FIELDS)
+      texts = search_field_texts(obj, fields)
+      tokens = Store.search_tokens(texts.values.join(' '))
+      return 0 if alt[:excludes].any? { |e| e.is_a?(Array) ? field_match?(obj, *e) : tokens.include?(e) }
       return 0 unless alt[:fields].all? { |f, v| field_match?(obj, f, v) }
-      tokens = nil
+      title_tokens = Store.search_tokens(obj.title)
       score = alt[:fields].size
       alt[:words].each_with_index do |w, wi|
-        last = (wi == alt[:words].size - 1)
-        hit = text.include?(w)
-        if !hit && prefix && last
-          tokens ||= text.split(/[^\p{Alnum}]+/u)
-          hit = tokens.any? { |t| t.start_with?(w) }
-        end
-        return 0 unless hit
+        last = prefix && wi == alt[:words].size - 1
+        return 0 unless token_hit?(tokens, w, last)
         score += 1
+        score += 2 if token_hit?(title_tokens, w, last)
       end
-      title = obj.title.to_s.downcase
-      score += 2 if !alt[:words].empty? && alt[:words].all? { |w| title.include?(w) }
       score
     end
   end
