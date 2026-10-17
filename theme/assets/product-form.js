@@ -254,10 +254,10 @@
           let ticking = false;
           const update = () => {
             ticking = false;
-            // visible whenever the main button is off screen (above after scrolling past it, or still below the
-            // fold on a phone), so price + add to cart are always one tap away
+            // below 990 px: visible whenever the main button is off screen (scrolled past, or still below the fold), so
+            // price + add to cart are one tap away; never next to the main button (one buy button per screen, brand v7 4.2)
             const r = this.button.getBoundingClientRect();
-            const show = r.bottom < 0 || (r.top > innerHeight && innerWidth < 990);
+            const show = innerWidth < 990 && (r.bottom < 0 || r.top > innerHeight);
             if (show === bar.classList.contains('is-visible')) return;
             bar.classList.toggle('is-visible', show);
             bar.setAttribute('aria-hidden', String(!show));
