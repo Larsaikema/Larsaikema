@@ -154,6 +154,8 @@
 /* nav steps: below 1440 px the phone/WhatsApp links are icons (the number stays in the USP bar and as the link's
    name); below 1200 px the nav type is smaller and the chevrons go (the buttons keep aria-expanded) */
 @media (min-width:990px) and (max-width:1439px){
+  .nav__link{padding:0 9px}
+  .nav__link::after{left:9px;right:9px}
   .header__contact{gap:4px}
   .header__contact a{justify-content:center;min-width:44px;border-radius:50%}
   .header__contact a:hover{background:rgba(var(--fg-rgb),.07)}

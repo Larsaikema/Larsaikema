@@ -88,7 +88,7 @@
 .print{border:1.5px solid var(--c-inkt);border-radius:var(--radius-card);padding:16px;margin:0;background:var(--c-wit);min-width:0}
 .print__legend{display:flex;align-items:center;gap:8px;padding:0 6px;font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:18px}
 .print__intro{margin:0 0 14px;font-size:15px}
-.print__drop{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 16px;border:1.5px dashed var(--c-kiezel);border-radius:var(--radius-input);background:var(--c-zand);cursor:pointer;font-weight:var(--font-body-weight-semibold);font-size:15px;overflow-wrap:anywhere}
+.print__drop{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 16px;border:1.5px dashed var(--c-kiezel);border-radius:var(--radius-input);background:var(--c-wit);cursor:pointer;font-weight:var(--font-body-weight-semibold);font-size:15px;overflow-wrap:anywhere}
 .print__drop:hover{border-color:var(--c-inkt)}
 .print__drop.is-over{border-style:solid;border-color:var(--c-inkt);background:var(--c-wit)}
 .print__drop-text{display:grid;gap:2px}

@@ -50,6 +50,13 @@ Roles — never mix them:
   correctness and this brief. Harsh. Returns pass/fail + the single biggest gap.
 - A piece is DONE only when ≥2 of 3 blind judges pick ours AND the functional critic passes.
 
+## 2b. Brand freeze (2026-10-17)
+
+The brand is **frozen at v7**: wordmark KLAPKLAAR with the tent as second A, Lampion orange accent,
+Inkt/Zand/Linnen neutrals, Figtree (font_picker `figtree_*`). A blind 3-judge panel picked v7 over v2
+3–0. Only the brand-polish pass (heavier small/print tent-A + square icon) may still touch `brand/`.
+After that, nobody changes brand colours, fonts or logo shapes; theme and renders consume `brand/` as is.
+
 ## 3. Environment facts (do not waste time re-discovering)
 
 - Paths: `REPO=/home/user/Larsaikema`, `SCRATCH=/tmp/claude-0/-home-user-Larsaikema/d03b1b71-234c-55f6-a22b-89a9ff74abc4/scratchpad`,
