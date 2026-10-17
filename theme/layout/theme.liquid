@@ -4,6 +4,10 @@
   if settings.price_display == 'excl'
     assign vat_mode = 'excl'
   endif
+  assign is_zakelijk = false
+  if template.suffix == 'zakelijk' or template.suffix == 'offerte'
+    assign is_zakelijk = true
+  endif
   assign is_b2b = false
   if customer and settings.b2b_customer_tag != blank and customer.tags contains settings.b2b_customer_tag
     assign is_b2b = true
@@ -19,16 +23,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="{{ settings.color_zand }}">
     <link rel="canonical" href="{{ canonical_url }}">
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 192, height: 192 }}">
-    {%- else -%}
-      <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32.png' | asset_url }}">
-      <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}" data-favicon>
-      <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
-    {%- endif -%}
+    {%- render 'favicon', cart_state: true -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    {%- unless settings.type_heading_font.system? -%}
-      <link rel="preload" as="font" href="{{ settings.type_heading_font | font_url }}" type="font/woff2" crossorigin>
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
     {%- unless settings.type_body_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
@@ -54,7 +52,7 @@
       {%- if settings.price_display == 'toggle' and is_b2b == false %}
       try { var kkVat = localStorage.getItem('kk:vat'); if (kkVat === 'incl' || kkVat === 'excl') document.documentElement.dataset.vat = kkVat; } catch (e) {}
       {%- endif %}
-      window.KK = {
+      window.KK = Object.assign(window.KK || {}, {
         routes: {
           root: {{ routes.root_url | json }},
           cart: {{ routes.cart_url | json }},
@@ -68,8 +66,8 @@
         cartType: {{ settings.cart_type | json }},
         priceDisplay: {{ settings.price_display | json }},
         vatRate: {{ settings.vat_rate | json }},
+        taxesIncluded: {{ shop.taxes_included | json }},
         moneyFormat: {{ shop.money_format | json }},
-        faviconCart: {{ 'favicon-cart.svg' | asset_url | json }},
         strings: {
           adding: {{ 'product.adding' | t | json }},
           added: {{ 'product.added' | t | json }},
@@ -104,7 +102,7 @@
           linkCopied: {{ 'product.link_copied' | t | json }},
           showResults: {{ 'collection.show_results_js' | t: count: '__COUNT__' | json }}
         }
-      };
+      });
     </script>
 
     {{ content_for_header }}
@@ -114,7 +112,7 @@
     <script src="{{ 'delivery-countdown.js' | asset_url }}" defer></script>
   </head>
 
-  <body class="template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name | handle }}--{{ template.suffix | handle }}{% endif %}">
+  <body class="template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name | handle }}--{{ template.suffix | handle }}{% endif %}{% if is_zakelijk %} is-zakelijk{% endif %}">
     <a class="skip-link" href="#MainContent">{{ 'general.skip_to_content' | t }}</a>
 
     {% sections 'header-group' %}

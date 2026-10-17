@@ -12,7 +12,7 @@
         <div class="newsletter-form__row">
           <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
           <input class="input" type="email" id="NewsletterEmail-{{ section.id }}" name="contact[email]" autocomplete="email" required placeholder="{{ 'newsletter.label' | t }}"{% if form.errors %} aria-invalid="true" aria-describedby="NewsletterError-{{ section.id }}"{% endif %}>
-          <button type="submit" class="btn">{{ 'newsletter.button' | t }}</button>
+          <button type="submit" class="btn btn--secondary">{{ 'newsletter.button' | t }}</button>
         </div>
         {%- if form.errors -%}<p class="field__error" id="NewsletterError-{{ section.id }}">{{ 'forms.error_email' | t }}</p>{%- endif -%}
       {%- endif -%}

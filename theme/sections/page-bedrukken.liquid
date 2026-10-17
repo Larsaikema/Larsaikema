@@ -6,11 +6,11 @@
       {%- render 'breadcrumbs' -%}
       <div class="b2b-hero__grid">
         <div>
-          <p class="eyebrow">{%- render 'icon', icon: 'flag', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
+          <p class="eyebrow">{%- render 'icon', icon: 'upload', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
           <h1>{{ section.settings.heading | default: page.title }}</h1>
           <div class="rte text-lg">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
           <div class="btn-row" style="margin-top:24px">
-            {%- if section.settings.cta_1_label != blank -%}<a class="btn" href="{{ section.settings.cta_1_link }}">{{ section.settings.cta_1_label }}</a>{%- endif -%}
+            {%- if section.settings.cta_1_label != blank -%}<a class="btn btn--secondary" href="{{ section.settings.cta_1_link }}">{{ section.settings.cta_1_label }}</a>{%- endif -%}
             {%- if section.settings.cta_2_label != blank -%}<a class="btn btn--outline" href="{{ section.settings.cta_2_link }}">{{ section.settings.cta_2_label }}</a>{%- endif -%}
           </div>
         </div>
@@ -18,7 +18,7 @@
           {%- if section.settings.image != blank -%}
             {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 45vw, 100vw', widths: '480, 640, 800, 1000, 1200', priority: true -%}
           {%- else -%}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
-          {%- if section.settings.image_badge != blank -%}<span class="badge badge--logo" style="position:absolute;top:14px;left:14px">{%- render 'icon', icon: 'flag' -%}{{ section.settings.image_badge }}</span>{%- endif -%}
+          {%- if section.settings.image_badge != blank -%}<span class="badge badge--logo" style="position:absolute;top:14px;left:14px">{%- render 'icon', icon: 'upload' -%}{{ section.settings.image_badge }}</span>{%- endif -%}
         </div>
       </div>
     </header>
@@ -98,7 +98,7 @@
             <div class="field field--full"><label class="field__label" for="P-logo">{{ 'quote.logo_link' | t }}</label><input class="input" id="P-logo" type="url" name="contact[Link naar logo]" placeholder="https://" aria-describedby="P-logo-help"><p class="field__help" id="P-logo-help">{{ 'quote.logo_link_help' | t }}</p></div>
             <div class="field field--full"><label class="field__label" for="P-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="P-body" name="contact[body]" rows="4"></textarea></div>
           </div>
-          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
+          <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'forms.send' | t }}</button></div>
         {%- endif -%}
       {%- endform -%}
     </div>

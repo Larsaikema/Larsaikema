@@ -41,7 +41,7 @@
    "bg": "steen",
    "fg_hex": "#1D2420",
    "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-blokken, badges op het beeldvlak",
+   "use": "Zakelijk-blokken, tabellen, badges op het beeldvlak",
    "kind": "text",
    "ratio": 13.54,
    "need": 4.5,
@@ -56,6 +56,18 @@
    "use": "Actie-badge en actieprijs-label",
    "kind": "text",
    "ratio": 9.83,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "lijn",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#E4D6BE",
+   "use": "Tekst op een Lijn-chip of scheiding",
+   "kind": "text",
+   "ratio": 11.06,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -254,22 +266,10 @@
   },
   {
    "fg": "wit",
-   "bg": "inkt",
-   "fg_hex": "#FFFFFF",
-   "bg_hex": "#1D2420",
-   "use": "Primaire knop, hover (licht schema)",
-   "kind": "text",
-   "ratio": 15.84,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "wit",
    "bg": "klaproos-donker",
    "fg_hex": "#FFFFFF",
    "bg_hex": "#982A0E",
-   "use": "Primaire knop, ingedrukt",
+   "use": "Primaire knop: hover en ingedrukt",
    "kind": "text",
    "ratio": 7.86,
    "need": 4.5,
@@ -281,7 +281,7 @@
    "bg": "polder",
    "fg_hex": "#FBF6EC",
    "bg_hex": "#154F3E",
-   "use": "Secundaire/Zakelijk-knop, Toegevoegd, footer, utility-balk, badge Nieuw",
+   "use": "Zakelijk-knop, Toegevoegd, footer, utility-balk, badge Nieuw",
    "kind": "text",
    "ratio": 8.78,
    "need": 4.5,
@@ -293,9 +293,69 @@
    "bg": "polder",
    "fg_hex": "#FFFFFF",
    "bg_hex": "#154F3E",
-   "use": "Secundaire knop (wit label)",
+   "use": "Polder-knop met wit label",
    "kind": "text",
    "ratio": 9.46,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zand",
+   "bg": "polder-donker",
+   "fg_hex": "#FBF6EC",
+   "bg_hex": "#0E3A2D",
+   "use": "Zakelijk-knop: hover en ingedrukt",
+   "kind": "text",
+   "ratio": 11.73,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "tint-zand",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#E9E5DC",
+   "use": "Omlijnde knop, hover op pagina",
+   "kind": "text",
+   "ratio": 12.6,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "tint-wit",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#EDEDED",
+   "use": "Omlijnde knop, hover op kaart",
+   "kind": "text",
+   "ratio": 13.53,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "tint-duin",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#E1D8C7",
+   "use": "Omlijnde knop, hover op Duin",
+   "kind": "text",
+   "ratio": 11.2,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "inkt",
+   "bg": "tint-steen",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#DEDDD8",
+   "use": "Omlijnde knop, hover in Zakelijk",
+   "kind": "text",
+   "ratio": 11.65,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -305,7 +365,7 @@
    "bg": "inkt",
    "fg_hex": "#FBF6EC",
    "bg_hex": "#1D2420",
-   "use": "Badge Met jouw logo, omlijnde knop hover, donkere banden",
+   "use": "Badge Met jouw logo, donkere banden",
    "kind": "text",
    "ratio": 14.71,
    "need": 4.5,
@@ -317,21 +377,9 @@
    "bg": "zand",
    "fg_hex": "#1D2420",
    "bg_hex": "#FBF6EC",
-   "use": "Primaire knop op Polder (Zand vlak, Inkt label), hover op Inkt",
+   "use": "Zand-knop op Polder en Inkt (Inkt label)",
    "kind": "text",
    "ratio": 14.71,
-   "need": 4.5,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "polder",
-   "bg": "wit",
-   "fg_hex": "#154F3E",
-   "bg_hex": "#FFFFFF",
-   "use": "Zakelijk-knop hover (omlijnd: Wit vlak, Polder label)",
-   "kind": "text",
-   "ratio": 9.46,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -341,7 +389,7 @@
    "bg": "inkt",
    "fg_hex": "#FFC23A",
    "bg_hex": "#1D2420",
-   "use": "Vlag en actie op Inkt",
+   "use": "Actie en logo-tent op Inkt",
    "kind": "text",
    "ratio": 9.83,
    "need": 4.5,
@@ -353,7 +401,7 @@
    "bg": "polder",
    "fg_hex": "#FFC23A",
    "bg_hex": "#154F3E",
-   "use": "Vlag en actie op Polder",
+   "use": "Actie en logo-tent op Polder",
    "kind": "text",
    "ratio": 5.87,
    "need": 4.5,
@@ -481,11 +529,47 @@
    "aaa": false
   },
   {
+   "fg": "klaproos-donker",
+   "bg": "zand",
+   "fg_hex": "#982A0E",
+   "bg_hex": "#FBF6EC",
+   "use": "Primaire knop hover tegen pagina",
+   "kind": "ui",
+   "ratio": 7.29,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "klaproos-donker",
+   "bg": "wit",
+   "fg_hex": "#982A0E",
+   "bg_hex": "#FFFFFF",
+   "use": "Primaire knop hover tegen kaart",
+   "kind": "ui",
+   "ratio": 7.86,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "klaproos-donker",
+   "bg": "duin",
+   "fg_hex": "#982A0E",
+   "bg_hex": "#F2E8D5",
+   "use": "Primaire knop hover tegen Duin",
+   "kind": "ui",
+   "ratio": 6.47,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
    "fg": "inkt",
    "bg": "zand",
    "fg_hex": "#1D2420",
    "bg_hex": "#FBF6EC",
-   "use": "Hover-knop, focusring op licht",
+   "use": "Omlijnde knop, focusring op licht",
    "kind": "ui",
    "ratio": 14.71,
    "need": 3.0,
@@ -533,7 +617,7 @@
    "bg": "zand",
    "fg_hex": "#154F3E",
    "bg_hex": "#FBF6EC",
-   "use": "Secundaire knop / Toegevoegd tegen pagina",
+   "use": "Toegevoegd tegen pagina",
    "kind": "ui",
    "ratio": 8.78,
    "need": 3.0,
@@ -557,9 +641,21 @@
    "bg": "steen",
    "fg_hex": "#154F3E",
    "bg_hex": "#EFEDE8",
-   "use": "Zakelijk-knop en hover-rand tegen Steen",
+   "use": "Zakelijk-knop tegen Steen",
    "kind": "ui",
    "ratio": 8.09,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "polder-donker",
+   "bg": "steen",
+   "fg_hex": "#0E3A2D",
+   "bg_hex": "#EFEDE8",
+   "use": "Zakelijk-knop hover tegen Steen",
+   "kind": "ui",
+   "ratio": 10.8,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -581,7 +677,7 @@
    "bg": "inkt",
    "fg_hex": "#FBF6EC",
    "bg_hex": "#1D2420",
-   "use": "Focusring en hover-vlak op Inkt",
+   "use": "Focusring en hover-rand op Inkt",
    "kind": "ui",
    "ratio": 14.71,
    "need": 3.0,
@@ -620,6 +716,18 @@
    "use": "Halve stip levertijd op pagina",
    "kind": "ui",
    "ratio": 5.72,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zand",
+   "bg": "klaproos",
+   "fg_hex": "#FBF6EC",
+   "bg_hex": "#C83812",
+   "use": "Logo in Zand op Klaproos-doek of -vlak (grafisch)",
+   "kind": "ui",
+   "ratio": 4.84,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -705,6 +813,18 @@
    "bg": "klaproos",
    "use": "Zon-tent op Klaproos (logo op Klaproos is één kleur Zand)",
    "ratio": 3.23
+  },
+  {
+   "fg": "klaproos-donker",
+   "bg": "inkt",
+   "use": "Klaproos donker als hover op Inkt (vorm verdwijnt: daar hover = Zand-rand)",
+   "ratio": 2.02
+  },
+  {
+   "fg": "polder",
+   "bg": "polder-donker",
+   "use": "Polder donker als vlak naast Polder (alleen als knopstand)",
+   "ratio": 1.34
   }
  ],
  "separation": {
@@ -714,9 +834,9 @@
    "hue_bordeaux": 12.6,
    "contrast": 1.8
   },
-  "klaproos_vs_inkt_hover": {
-   "de2000": 41.8,
-   "contrast": 3.04
+  "klaproos_vs_hover": {
+   "de2000": 10.5,
+   "contrast": 1.51
   },
   "klaproos_vs_zon": {
    "de2000": 42.1
@@ -759,8 +879,8 @@
   {
    "scheme": "scheme-1",
    "state": "primary_hover",
-   "label_ratio": 15.84,
-   "shape_ratio": 14.71,
+   "label_ratio": 7.86,
+   "shape_ratio": 7.29,
    "pass": true
   },
   {
@@ -780,7 +900,7 @@
   {
    "scheme": "scheme-1",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 12.6,
    "shape_ratio": 14.71,
    "pass": true
   },
@@ -794,8 +914,8 @@
   {
    "scheme": "scheme-2",
    "state": "primary_hover",
-   "label_ratio": 15.84,
-   "shape_ratio": 15.84,
+   "label_ratio": 7.86,
+   "shape_ratio": 7.86,
    "pass": true
   },
   {
@@ -815,7 +935,7 @@
   {
    "scheme": "scheme-2",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 13.53,
    "shape_ratio": 15.84,
    "pass": true
   },
@@ -829,8 +949,8 @@
   {
    "scheme": "scheme-3",
    "state": "primary_hover",
-   "label_ratio": 15.84,
-   "shape_ratio": 13.04,
+   "label_ratio": 7.86,
+   "shape_ratio": 6.47,
    "pass": true
   },
   {
@@ -850,7 +970,7 @@
   {
    "scheme": "scheme-3",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 11.2,
    "shape_ratio": 13.04,
    "pass": true
   },
@@ -864,15 +984,15 @@
   {
    "scheme": "scheme-4",
    "state": "primary_hover",
-   "label_ratio": 9.46,
-   "shape_ratio": 8.09,
+   "label_ratio": 11.73,
+   "shape_ratio": 10.8,
    "pass": true
   },
   {
    "scheme": "scheme-4",
    "state": "primary_active",
-   "label_ratio": 14.71,
-   "shape_ratio": 13.54,
+   "label_ratio": 11.73,
+   "shape_ratio": 10.8,
    "pass": true
   },
   {
@@ -885,7 +1005,7 @@
   {
    "scheme": "scheme-4",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 11.65,
    "shape_ratio": 13.54,
    "pass": true
   },
@@ -899,15 +1019,15 @@
   {
    "scheme": "scheme-5",
    "state": "primary_hover",
-   "label_ratio": 8.78,
-   "shape_ratio": 8.78,
+   "label_ratio": 9.83,
+   "shape_ratio": 5.87,
    "pass": true
   },
   {
    "scheme": "scheme-5",
    "state": "primary_active",
-   "label_ratio": 15.84,
-   "shape_ratio": 9.46,
+   "label_ratio": 9.83,
+   "shape_ratio": 5.87,
    "pass": true
   },
   {
@@ -920,7 +1040,7 @@
   {
    "scheme": "scheme-5",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 6.41,
    "shape_ratio": 8.78,
    "pass": true
   },
@@ -934,15 +1054,15 @@
   {
    "scheme": "scheme-6",
    "state": "primary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 5.21,
    "shape_ratio": 14.71,
    "pass": true
   },
   {
    "scheme": "scheme-6",
    "state": "primary_active",
-   "label_ratio": 13.04,
-   "shape_ratio": 13.04,
+   "label_ratio": 7.86,
+   "shape_ratio": 14.71,
    "pass": true
   },
   {
@@ -955,7 +1075,7 @@
   {
    "scheme": "scheme-6",
    "state": "secondary_hover",
-   "label_ratio": 14.71,
+   "label_ratio": 10.3,
    "shape_ratio": 14.71,
    "pass": true
   }

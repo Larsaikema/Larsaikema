@@ -1,5 +1,5 @@
 .section-footer{margin-top:auto}
-.footer{--logo-roof:var(--c-zon);font-size:15px}
+.footer{font-size:15px}
 .footer a{text-decoration:none}
 .footer a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
 .footer__flags{background-color:var(--c-zand)}
@@ -9,9 +9,9 @@
 .footer__brand{display:flex;flex-direction:column;gap:12px;padding-bottom:24px}
 @media (min-width:750px){.footer__brand{grid-column:1/-1;padding-bottom:0}}
 @media (min-width:1100px){.footer__brand{grid-column:auto;padding-right:24px}}
-.footer__logo{display:block;width:160px;color:var(--c-zand);margin-bottom:20px}
+.footer__logo{display:block;width:184px;color:var(--fg,var(--c-zand));margin-bottom:20px}
 .footer__logo .logo-svg{width:100%;height:auto}
-.footer__logo:hover{color:var(--c-zand)}
+.footer__logo:hover{color:var(--fg,var(--c-zand))}
 .footer__tagline{font-family:var(--font-heading);font-weight:var(--font-heading-weight-bold);font-size:22px;line-height:1.15;margin:4px 0 0}
 .footer__text{color:var(--muted);max-width:42ch}
 .footer__social{list-style:none;display:flex;gap:4px;margin-left:-10px}

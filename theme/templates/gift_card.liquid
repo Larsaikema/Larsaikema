@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="robots" content="noindex">
-    <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
+    {%- render 'favicon' -%}
     {%- assign gc_value = gift_card.initial_value | money_without_trailing_zeros -%}
     <title>{{ 'gift_card.title' | t: value: gc_value }} – {{ shop.name }}</title>
     {% render 'css-variables' %}

@@ -17,7 +17,7 @@
       <label class="visually-hidden" for="SearchPage-{{ section.id }}">{{ 'search.title' | t }}</label>
       <input class="input" type="search" id="SearchPage-{{ section.id }}" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}">
       <input type="hidden" name="options[prefix]" value="last">
-      <button type="submit" class="btn">{%- render 'icon', icon: 'search', class: 'icon--sm' -%}{{ 'header.search_submit' | t }}</button>
+      <button type="submit" class="btn btn--outline">{%- render 'icon', icon: 'search', class: 'icon--sm' -%}{{ 'header.search_submit' | t }}</button>
     </form>
   </div>
 </div>
@@ -52,7 +52,7 @@
           </div>
           <div class="facets-panel__foot">
             <a class="btn btn--outline" href="{{ routes.search_url }}?q={{ search.terms | url_encode }}" data-facets-clear>{{ 'collection.clear_all' | t }}</a>
-            <button type="button" class="btn" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: search.results_count }}</button>
+            <button type="button" class="btn btn--secondary" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: search.results_count }}</button>
           </div>
         </aside>
         <div class="facets-backdrop" data-facets-close hidden></div>
@@ -63,7 +63,7 @@
             <div class="empty-state">
               {%- render 'icon', icon: 'search', class: 'icon--lg' -%}
               <p class="h3">{{ 'search.no_results_html' | t: terms: terms_esc }}</p>
-              <div class="btn-row"><a class="btn" href="{{ routes.collections_url }}">{{ 'general.view_all' | t }}</a></div>
+              <div class="btn-row"><a class="btn btn--outline" href="{{ routes.collections_url }}">{{ 'general.view_all' | t }}</a></div>
             </div>
           {%- else -%}
             <ul class="grid product-grid" role="list" style="--cols: 3; --cols-tablet: 3">

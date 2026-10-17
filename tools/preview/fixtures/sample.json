@@ -2671,6 +2671,9 @@
             },
             {
               "name": "Wit"
+            },
+            {
+              "name": "Full colour bedrukt"
             }
           ]
         },
@@ -2745,6 +2748,36 @@
           "taxable": true,
           "image": "statafelrok-stretch-zwart-print-hero.webp",
           "option1": "Wit",
+          "option2": "2 kanten"
+        },
+        {
+          "sku": "KK-ROKLOGO-FULL-1KANT",
+          "price": 5995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Full colour bedrukt",
+          "option2": "1 kant"
+        },
+        {
+          "sku": "KK-ROKLOGO-FULL-2KANTE",
+          "price": 6995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Full colour bedrukt",
           "option2": "2 kanten"
         }
       ],
@@ -3679,6 +3712,11 @@
                   "title": "Premium partytent",
                   "type": "product",
                   "handle": "partytent-easy-up-premium"
+                },
+                {
+                  "title": "Premium of Professional?",
+                  "type": "page",
+                  "handle": "verschil-partytenten"
                 }
               ]
             },
@@ -4141,6 +4179,12 @@
       "handle": "maatadvies-partytenten",
       "title": "Welke maat partytent heb je nodig?",
       "body_html": "<p>Reken voor staande gasten op ongeveer 1 m² per persoon, voor zittende gasten aan tafels op 1,5 tot 2 m².</p><table><thead><tr><th>Maat</th><th>Staand</th><th>Zittend</th></tr></thead><tbody><tr><td>3 × 3 m</td><td>8–9 gasten</td><td>4–6 gasten</td></tr><tr><td>3 × 4,5 m</td><td>12–14 gasten</td><td>6–9 gasten</td></tr><tr><td>3 × 6 m</td><td>16–18 gasten</td><td>9–12 gasten</td></tr><tr><td>4 × 4 m</td><td>14–16 gasten</td><td>8–10 gasten</td></tr></tbody></table><p>Zet je er statafels of een buffet onder? Trek dan per statafel ongeveer 1 m² af.</p>"
+    },
+    {
+      "handle": "verschil-partytenten",
+      "title": "Het verschil tussen de partytenten",
+      "template_suffix": "vergelijking",
+      "body_html": "<p>Twee easy-ups, dezelfde maten, een ander frame. Hieronder staat per lijn waar het verschil zit, zodat je kiest op hoe vaak je de tent opzet en hoe zwaar je hem wilt dragen.</p><h2>Premium: staal, voor af en toe</h2><p>Een stalen frame met een dakdoek van 320 g/m². Stevig en betaalbaar, wel zwaarder om te tillen. Past bij een tuinfeest, een verjaardag of de markt een paar keer per jaar.</p><h2>Professional: aluminium, voor vaak en zakelijk</h2><p>Een aluminium frame met dikkere buizen en een zwaarder dak. Lichter om te dragen en gemaakt om vaak op te bouwen: voor verenigingen, horeca en verhuur.</p><h2>Wat ze gelijk hebben</h2><p>Beide klappen in één beweging uit, beide hebben dezelfde maten en zijwanden passen op allebei. Zet elke poot vast met haringen of een voetgewicht.</p>"
     }
   ],
   "blogs": [

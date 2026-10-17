@@ -43,7 +43,7 @@
     },
     "header.cart-count": {
       "status": "theme",
-      "where": "sections/header.liquid cart bubble + assets/global.js KK.updateCartCount + favicon-cart.svg"
+      "where": "sections/header.liquid cart bubble (Polder, Zand digit) + assets/global.js KK.updateCartCount + snippets/favicon.liquid (PNG 16/32 cart state)"
     },
     "header.quote-button": {
       "status": "theme",
@@ -75,7 +75,7 @@
     },
     "collection.quality-line-explainer": {
       "status": "theme",
-      "where": "sections/product-comparison.liquid (custom.vergelijk_groep + specificaties) + collection intro / seo_tekst"
+      "where": "templates/collection.json -> sections/product-comparison.liquid (use_current: the current collection; first custom.vergelijk_groep shared by 2+ products, rows from custom.specificaties; hidden on collections without a shared group) + link to the guide page"
     },
     "collection.filters-attributes": {
       "status": "theme",
@@ -91,7 +91,7 @@
     },
     "product.colour-swatches": {
       "status": "theme",
-      "where": "snippets/swatch.liquid (value.swatch or settings.swatch_colors)"
+      "where": "snippets/swatch.liquid (value.swatch, else settings.swatch_colors, else print pattern swatch for values matching settings.swatch_print_words, e.g. 'Full colour bedrukt')"
     },
     "product.print-option-reveal": {
       "status": "theme",
@@ -179,7 +179,7 @@
     },
     "cart.shipping-excluded-note": {
       "status": "theme",
-      "where": "snippets/cart-summary.liquid 'Verzendkosten berekenen we bij het afrekenen' + PDP cost line"
+      "where": "snippets/cart-summary.liquid: shipping estimate per class (pallet beats pakket, free above threshold; settings shipping_cost_*) + 'Niet in het subtotaal…' note; PDP cost line in snippets/delivery-promise.liquid"
     },
     "cart.drawer": {
       "status": "theme",
@@ -215,7 +215,7 @@
     },
     "content.comparison-guide": {
       "status": "theme",
-      "where": "sections/product-comparison.liquid on a page or PDP"
+      "where": "templates/page.vergelijking.json (page 'verschil-partytenten': main-page + product-comparison) linked from collection and product comparison tables (guide_link)"
     },
     "content.print-landing": {
       "status": "theme",
@@ -275,7 +275,7 @@
     },
     "service.warranty-page": {
       "status": "theme",
-      "where": "templates/page.garantie.json + sections/page-garantie.liquid (legal vs extra warranty, complaint form with photo link)"
+      "where": "templates/page.garantie.json + sections/page-garantie.liquid (legal vs extra warranty, complaint form with photo link; schema note tells the owner contact forms cannot take files and how to add an upload app via the Apps section)"
     },
     "service.terms": {
       "status": "deferred",
@@ -308,6 +308,13 @@
     "product.printed-statafelhoes": {
       "status": "theme",
       "where": "bedrukken block on statafelrok-met-logo; catalog -> piece 4"
+    }
+  },
+  "theme_deferrals": {
+    "templates/customers/*": {
+      "status": "deferred (by design)",
+      "why": "The theme targets Shopify's new customer accounts: header, menu drawer and footer link to routes.account_url, and Shopify hosts login, register, orders and addresses. The current vendored Dawn and Horizon ship no templates/customers/* either. Classic customer accounts are legacy; a store that still uses them gets Shopify's fallback pages.",
+      "owner": "piece 6 docs: docs must tell the owner to switch Settings > Customer accounts to the new customer accounts (and that classic accounts would need customers/* templates)."
     }
   }
 }

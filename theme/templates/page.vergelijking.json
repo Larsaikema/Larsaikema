@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Premium en Professional naast elkaar",
+        "text": "Dezelfde maten, een ander frame. Alle cijfers komen uit de specificaties van de producten zelf.",
+        "collection": "easy-up-partytenten",
+        "use_current": false,
+        "require_group": true,
+        "max": 4,
+        "guide_link": "",
+        "guide_label": "Lees het hele verschil"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "comparison"
+  ]
+}

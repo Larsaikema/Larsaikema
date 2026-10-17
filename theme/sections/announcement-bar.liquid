@@ -17,13 +17,13 @@
             {%- when 'usp' -%}
               {%- if block.settings.icon != 'none' -%}{%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}{%- endif -%}
               {%- if block.settings.link != blank -%}
-                <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+                <a href="{{ block.settings.link }}">{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</a>
               {%- else -%}
-                <span>{{ block.settings.text }}</span>
+                <span>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</span>
               {%- endif -%}
             {%- when 'countdown' -%}
               {%- render 'icon', icon: 'clock', class: 'icon--xs' -%}
-              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text }}</span></span>
+              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</span></span>
           {%- endcase -%}
         </div>
       {%- endfor -%}
@@ -76,7 +76,7 @@
           ],
           "default": "check"
         },
-        { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis in NL & BE" },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis in NL & BE", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." },
         { "type": "url", "id": "link", "label": "Link" }
       ]
     },
@@ -86,7 +86,7 @@
       "limit": 1,
       "settings": [
         { "type": "paragraph", "content": "Toont 'Bestel binnen 2 u 13 min, dan gaat hij vandaag de deur uit' op basis van de besteltijd en verzenddagen (Thema-instellingen > Levering)." },
-        { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Op werkdagen vóór 14:00 besteld, vandaag verzonden" }
+        { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." }
       ]
     }
   ],

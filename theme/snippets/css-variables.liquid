@@ -1,12 +1,14 @@
 {%- comment -%}
-  Design tokens from theme settings -> CSS custom properties (brand/tokens.json is the source of the defaults).
+  Design tokens from theme settings -> CSS custom properties. Defaults come from brand/tokens.json (v4/v5):
+  13 colours with one role each, six colour schemes with rest/hover/active/focus, Figtree only
+  (type_header_font figtree_n8 for display/H1/H2, 700 and 600 via font_modify), radii, spacing, motion.
 {%- endcomment -%}
 {%- liquid
-  assign heading_font = settings.type_heading_font
+  assign header_font = settings.type_header_font
   assign body_font = settings.type_body_font
-  assign heading_bold = heading_font | font_modify: 'weight', '800'
-  if settings.heading_extrabold == false or heading_bold == blank
-    assign heading_bold = heading_font
+  assign header_700 = header_font | font_modify: 'weight', '700'
+  if header_700 == blank
+    assign header_700 = header_font
   endif
   assign body_semibold = body_font | font_modify: 'weight', '600'
   assign body_bold = body_font | font_modify: 'weight', '700'
@@ -16,11 +18,17 @@
   endif
 -%}
 <style>
-  {{ heading_font | font_face: font_display: 'swap' }}
-  {%- if heading_bold != heading_font -%}{{ heading_bold | font_face: font_display: 'swap' }}{%- endif -%}
+  {{ header_font | font_face: font_display: 'swap' }}
+  {%- if header_700 != header_font -%}{{ header_700 | font_face: font_display: 'swap' }}{%- endif -%}
   {{ body_font | font_face: font_display: 'swap' }}
   {%- if body_semibold -%}{{ body_semibold | font_face: font_display: 'swap' }}{%- endif -%}
-  {%- if body_bold -%}{{ body_bold | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- liquid
+    assign same_700 = false
+    if body_bold.family == header_700.family and body_bold.weight == header_700.weight and body_bold.style == header_700.style
+      assign same_700 = true
+    endif
+  -%}
+  {%- if body_bold and same_700 == false -%}{{ body_bold | font_face: font_display: 'swap' }}{%- endif -%}
   {%- if body_italic -%}{{ body_italic | font_face: font_display: 'swap' }}{%- endif -%}
 
   :root {
@@ -28,25 +36,26 @@
     --c-klaproos-donker: {{ settings.color_klaproos_donker }};
     --c-zon: {{ settings.color_zon }};
     --c-polder: {{ settings.color_polder }};
+    --c-polder-donker: {{ settings.color_polder_donker }};
     --c-inkt: {{ settings.color_inkt }};
     --c-inkt-rgb: {{ settings.color_inkt.red }}, {{ settings.color_inkt.green }}, {{ settings.color_inkt.blue }};
+    --c-kiezel: {{ settings.color_kiezel }};
     --c-zand: {{ settings.color_zand }};
     --c-duin: {{ settings.color_duin }};
-    --c-linnen: {{ settings.color_linnen }};
-    --c-studio: {{ settings.color_studio }};
-    --c-wit: #FFFFFF;
-    --c-kiezel: {{ settings.color_kiezel }};
+    --c-steen: {{ settings.color_steen }};
+    --c-wit: {{ settings.color_wit }};
     --c-lijn: {{ settings.color_lijn }};
     --c-bordeaux: {{ settings.color_bordeaux }};
-    --c-foutroze: {{ settings.color_foutroze }};
     --c-oker: {{ settings.color_oker }};
-    --c-okerlicht: {{ settings.color_okerlicht }};
-    --c-mos: {{ settings.color_mos }};
+    {%- comment -%} derived tints (tokens.json color_derived): 8% Inkt over a light surface {%- endcomment %}
+    --logo-tent-zakelijk: {% if settings.logo_tent_mono %}currentColor{% else %}var(--c-polder){% endif %};
+    --c-tint-wit: color-mix(in srgb, var(--c-wit) 92%, var(--c-inkt));
+    --c-tint-steen: color-mix(in srgb, var(--c-steen) 92%, var(--c-inkt));
 
-    --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
-    --font-heading-style: {{ heading_font.style }};
-    --font-heading-weight: {{ heading_font.weight }};
-    --font-heading-weight-bold: {{ heading_bold.weight }};
+    --font-heading: {{ header_font.family }}, {{ header_font.fallback_families }};
+    --font-heading-style: {{ header_font.style }};
+    --font-heading-weight: {{ header_700.weight }};
+    --font-heading-weight-bold: {{ header_font.weight }};
     --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
     --font-body-style: {{ body_font.style }};
     --font-body-weight: {{ body_font.weight }};
@@ -69,11 +78,13 @@
     --button-height: {{ settings.button_size }}px;
     --button-case: {{ settings.button_case }};
     --card-ratio: {{ settings.card_image_ratio }};
+    --shadow-pressed: inset 0 2px 0 rgba(0,0,0,.28);
     --dur: {% if settings.animations %}220ms{% else %}0ms{% endif %};
     --dur-fast: {% if settings.animations %}140ms{% else %}0ms{% endif %};
   }
 
   {% for scheme in settings.color_schemes -%}
+  {%- assign scheme_brightness = scheme.settings.background | color_brightness -%}
   .color-{{ scheme.id }}{% if forloop.first %}, :root{% endif %} {
     --bg: {{ scheme.settings.background }};
     --fg: {{ scheme.settings.foreground }};
@@ -83,19 +94,33 @@
     --btn-fg: {{ scheme.settings.primary_button_label }};
     --btn-hover: {{ scheme.settings.primary_button_hover }};
     --btn-hover-fg: {{ scheme.settings.primary_button_hover_label | default: scheme.settings.primary_button_label }};
+    --btn-hover-bd: {{ scheme.settings.primary_button_hover_border | default: scheme.settings.primary_button_hover }};
     --btn-active: {{ scheme.settings.primary_button_active | default: scheme.settings.primary_button_hover }};
-    --btn2-bg: {{ scheme.settings.secondary_button }};
     --btn2-fg: {{ scheme.settings.secondary_button_label }};
+    --btn2-hover: {{ scheme.settings.secondary_button_hover }};
     --border: {{ scheme.settings.border }};
     --focus: {{ scheme.settings.focus }};
-    {%- assign scheme_brightness = scheme.settings.background | color_brightness %}
-    {%- assign btn2_brightness = scheme.settings.secondary_button | color_brightness %}
-    {%- comment -%} hover keeps a visible edge on dark schemes; secondary hover is Inkt (Polder when it already is Inkt) {%- endcomment %}
-    --btn-hover-bd: {% if scheme_brightness < 110 %}{{ scheme.settings.foreground }}{% else %}{{ scheme.settings.primary_button_hover }}{% endif %};
-    --btn2-hover: {% if btn2_brightness < 45 %}var(--c-polder){% else %}var(--c-inkt){% endif %};
-    --btn2-hover-bd: {% if scheme_brightness < 110 %}{{ scheme.settings.foreground }}{% else %}var(--btn2-hover){% endif %};
-    --link-hover: currentColor;
-    --surface: {% if scheme_brightness < 110 %}rgba(255,255,255,.07){% else %}#FFFFFF{% endif %};
+    --logo-tent: {% if settings.logo_tent_mono %}currentColor{% else %}{{ scheme.settings.logo_tent }}{% endif %};
+    {%- if scheme_brightness < 110 %}
+    {%- comment -%} dark schemes: the Polder (Zakelijk) button becomes the outlined button, it would vanish on Polder {%- endcomment %}
+    --btn-p-bg: transparent;
+    --btn-p-fg: {{ scheme.settings.secondary_button_label }};
+    --btn-p-bd: {{ scheme.settings.secondary_button_label }};
+    --btn-p-hover: {{ scheme.settings.secondary_button_hover }};
+    --btn-p-hover-fg: {{ scheme.settings.secondary_button_label }};
+    --btn-p-hover-bd: {{ scheme.settings.secondary_button_label }};
+    --surface: rgba(255,255,255,.07);
+    --disabled: {{ scheme.settings.foreground }};
+    {%- else %}
+    --btn-p-bg: var(--c-polder);
+    --btn-p-fg: var(--c-zand);
+    --btn-p-bd: var(--c-polder);
+    --btn-p-hover: var(--c-polder-donker);
+    --btn-p-hover-fg: var(--c-zand);
+    --btn-p-hover-bd: var(--c-polder-donker);
+    --surface: var(--c-wit);
+    --disabled: var(--c-kiezel);
+    {%- endif %}
     {%- if scheme.settings.background_gradient != blank %}
     --bg-gradient: {{ scheme.settings.background_gradient }};
     {%- endif %}

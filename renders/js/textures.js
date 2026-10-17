@@ -78,6 +78,49 @@ export function weaveNormal({ threads = 24, size = 512, strength = 2.2, irregula
   });
 }
 
+// Isotropic plain weave of PVC-coated polyester tent cloth. Warp and weft are identical
+// round yarns (1 thread = 1 mm, so the over/under repeat is 2 mm; one 512 px tile = 32
+// threads = 3.2 cm, use repeat 1/0.032 per metre), each yarn rises where it crosses over
+// and dips where it passes under. The coating fills the valleys (the height field is
+// blurred and flattened), so the relief is low. Irregularity is per crossing in 2D (no
+// long 1D yarn streaks), so the mip-averaged map stays isotropic and never turns into
+// brushed-metal streaks at grazing angles. Heights in mm, texel = 1/16 mm.
+export function plainWeaveNormal({ threads = 32, size = 512, relief = 0.07, seed = 7 } = {}) {
+  return cached(`plainweave:${threads}:${size}:${relief}:${seed}`, () => {
+    const R = rng(seed);
+    const cell = size / threads; // texels per thread
+    // per-crossing amplitude jitter (2D), per-thread width jitter (tiny)
+    const jit = new Float32Array(threads * threads); for (let i = 0; i < jit.length; i++) jit[i] = 0.85 + 0.3 * R();
+    const wj = new Float32Array(threads * 2); for (let i = 0; i < wj.length; i++) wj[i] = 0.92 + 0.12 * R();
+    let h = new Float32Array(size * size);
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      const gx = x / cell, gy = y / cell;
+      const i = Math.floor(gx), j = Math.floor(gy);
+      const fx = gx - i, fy = gy - j;
+      const a = jit[(j % threads) * threads + (i % threads)];
+      // yarn cross-sections (slightly flattened ellipses)
+      const pw = Math.sqrt(Math.max(0, 1 - ((2 * fx - 1) / wj[i % threads]) ** 2));
+      const pf = Math.sqrt(Math.max(0, 1 - ((2 * fy - 1) / wj[threads + (j % threads)]) ** 2));
+      // undulation: warp i is on top at crossing (i, j) when i + j is even
+      const zw = Math.cos(Math.PI * (gy - 0.5) + Math.PI * i);
+      const zf = -Math.cos(Math.PI * (gx - 0.5) + Math.PI * j);
+      const hw = 0.55 * pw + 0.45 * zw * a;
+      const hf = 0.55 * pf + 0.45 * zf * a;
+      h[y * size + x] = Math.max(hw, hf, -0.2);
+    }
+    // coating: blur (fills the gaps between yarns) twice with a radius of ~1/4 thread
+    const r = Math.max(1, Math.round(cell / 4));
+    for (let pass = 0; pass < 2; pass++) {
+      const t = new Float32Array(size * size);
+      for (let y = 0; y < size; y++) { let acc = 0; for (let k = -r; k <= r; k++) acc += h[y * size + ((k + size) % size)]; for (let x = 0; x < size; x++) { t[y * size + x] = acc / (2 * r + 1); acc += h[y * size + ((x + r + 1) % size)] - h[y * size + ((x - r + size) % size)]; } }
+      for (let x = 0; x < size; x++) { let acc = 0; for (let k = -r; k <= r; k++) acc += t[((k + size) % size) * size + x]; for (let y = 0; y < size; y++) { h[y * size + x] = acc / (2 * r + 1); acc += t[((y + r + 1) % size) * size + x] - t[((y - r + size) % size) * size + x]; } }
+    }
+    // heights -> mm (relief), slope per texel: texel = 1 / cell mm
+    for (let k = 0; k < h.length; k++) h[k] *= relief;
+    return dataTex(heightToNormal(h, size, cell / 2), size, { key: 'plainweave' });
+  });
+}
+
 // Fine weft-knit (jersey) for lycra/spandex: tiny V loops, very subtle.
 export function knitNormal({ loops = 40, size = 512, strength = 1.2, seed = 5 } = {}) {
   return cached(`knit:${loops}:${size}:${strength}`, () => {

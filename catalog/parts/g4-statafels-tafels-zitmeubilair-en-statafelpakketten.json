@@ -1,0 +1,3639 @@
+{
+ "_meta": {
+  "group": "G4",
+  "name": "Statafels, tafels, zitmeubilair en statafelpakketten",
+  "written": "2026-10-17",
+  "generator": "scratchpad g4/gen_g4.py (copy hand-written; script computes weights and los/pakket tables from skeleton bundle data, converts collection SEO text to rich text, validates)",
+  "format": {
+   "products": "top-level key = product handle. Fields: body_html, kenmerk_kort, usps (3-4), specificaties ([{groep,label,waarde}], replaces skeleton specificaties), faq ([{vraag,antwoord}], 3-5), seo {title<=60, description<=155}, image_alts {image file from skeleton images[]: alt text}, included / excluded (CONTRACT list.single_line_text_field), claims (owner/supplier items to confirm; not for the storefront). drukopties: none, no G4 product is bedrukbaar.",
+   "_collections": "key = collection handle (statafels, meubilair, actiepakketten). Fields: intro (custom.intro), kenmerken (custom.kenmerken), seo_tekst (custom.seo_tekst, Shopify rich_text JSON, native object), seo_tekst_html (same content as HTML), body_html (collection description), seo {title, description}.",
+   "prices_in_copy": "Only the four statafelpakketten quote prices: a table data-kk=\"set-vs-los\" with \"Los € X · in het pakket € Y\" per Maat (and Uitvoering), plus one FAQ, computed from skeleton bundle.componenten_per_variant (checked against component variant prices) on 2026-10-17. No strikethrough, no compare_at. Regenerate when prices change. Collection actiepakketten quotes the € 109,90 / € 99,95 example from the same data.",
+   "typography": "Prose, FAQ, kenmerk_kort, usps and alt texts use \"Ø 80 cm\" and \"183 × 76 cm\" (brand.md §7); specificaties and SEO keep the option format \"Ø80 cm\" / \"183 x 76 cm\" (CONTRACT). Comma decimals everywhere."
+  },
+  "shared_definitions": [
+   "Persons per diameter (all round statafels and packages): Ø70 = 4–5 staand, Ø80 = 6, Ø85 = 6 (more blad, not more people). Borrel rule: 1 statafel per 8–10 gasten. Use the same numbers in blog hoeveel-statafels-per-gast.",
+   "Height logic: statafel 110 cm (107 vierkant, 105 wijnvat) with barkruk zithoogte 76 cm = 34 / 31 / 29 cm legroom; klaptafel 74 / terrastafel 75 cm with stoel ca. 45 cm; biertafel ca. 77 with bank ca. 47 cm.",
+   "Blad family: HPL = 18 mm plaat met HPL-toplaag en kantenband, hittebestendig tot ca. 180 °C, binnen en buiten (Professional, kruisvoet, rechthoekig Zwart, los blad). Berken = 18 mm berken multiplex gelakt, zichtbare multiplexrand, binnen/overdekt. Compact HPL 12 mm = vierkant stapelbaar + terrastafel (same 3 colours). HDPE 45 mm = HDPE-statafel; HDPE ca. 4,5–5 cm = klaptafels.",
+   "Klap-onderstel (Professional, HDPE): kolom with sliding ring + draaiknop, 4 oval legs 30 x 16 mm (render statafel.js), blad kantelt op scharnierbeugel. Voetdoppen fit: statafel ovaal 30 x 16, klaptafel Ø25, barkruk Ø22 mm.",
+   "Rok fit: Ø70 -> statafelrok Ø60-70 cm; Ø80/Ø85 -> Ø80-85 cm; tafels 105–115 cm. Rok stof/wassen copied from statafelrok-stretch skeleton specs (G5 must keep them).",
+   "Packages: table always wit blad; Kleur = rokken + topcovers."
+  ],
+  "data_notes": [
+   "statafel-inklapbaar-professional: kept skeleton \"kolom Ø 32 mm\"; render statafel.js uses colR 0.025 (Ø 50 mm). Align render or spec with the supplier.",
+   "statafel-inklapbaar-professional: Berken has a lacquered birch top; the heat-resistance claim (180 °C) and \"buiten\" are stated for HPL only. Skeleton spec \"Eigenschappen\" applied it to all tops.",
+   "statafel-inklapbaar-hdpe-80: verpakt 112 x 82 x 12 cm only works if the blad ships detached; copy says the blad is screwed on once (4 bouten). Confirm.",
+   "statafel-vierkant-stapelbaar: defined as 4 slightly splayed square-tube legs (what makes a square statafel stackable, up to 5, ca. 12 cm per table). Render params say base \"kruis\" (column + flat 4-star plate), which cannot stack: change the render to a 4-leg frame or confirm the real frame.",
+   "statafel-vierkant-stapelbaar and terrastafel-inklapbaar: skeleton grams 16 kg for both square sizes of the statafel; copy says \"ca. 16 kg\".",
+   "statafel-rechthoekig-inklapbaar: defined as 2 leg frames with dwarsligger that fold flat under the top (ingeklapt ca. 12 cm). Render params \"base klap\" (round column) needs a rect variant.",
+   "statafel-met-kruisvoet and rechthoekig: no verpakt in skeleton; copy says kruisvoet ships in parts (kolom, voet, blad).",
+   "stapelstoel-cross-back: Kleur value \"Houtlook\" on a massief beukenhouten chair is odd; suggest \"Naturel\" (needs swatch_colors entry). Copy writes \"naturel (kleur Houtlook)\".",
+   "barkruk-houten-zitting: title says houten zitting, skeleton kenmerk said eiken-look; defined as gelakt multiplex met eiken toplaag (real wood, oak look).",
+   "bierbank-220: skeleton verzending \"pakket\", but 220 cm exceeds parcel carrier length limits (~175–200 cm). Probably pallet, like biertafelset.",
+   "pakket-statafels-met-transportkar / -stretchrokken-transportkar: transportkar groot spec says \"tot 15 statafels Ø80\"; packages sell 15 x Ø85 on the grote kar. Confirm Ø85 fits 15, otherwise limit or change the Ø85 15-pack.",
+   "klaptafel-hdpe-rechthoekig: skeleton blad colour \"lichtgrijs/wit\"; copy uses \"lichtgrijs\". Variant 183 koffermodel is 1 kg lighter than vast (15 vs 16 kg) per skeleton grams.",
+   "klaptafel-hdpe-rond: copy offers a floor-length round cloth \"op aanvraag\" (copy_brief). Remove if not deliverable.",
+   "Load capacities (kg) are deliberately not stated anywhere: no source; add only with supplier data.",
+   "Staffel sentences derive from skeleton staffelkorting: from 10 (statafels, barkrukken, stoelen, terrastafel), from 5 (klaptafels, biertafelset, bierbank). Packages: copy says staffel does not stack on the package price; align with how the automatic discount is set up.",
+   "Suggestion: set custom.maatgids = page maatadvies-statafelrokken on the four statafelpakketten (rok size follows Maat)."
+  ]
+ },
+ "statafel-inklapbaar-professional": {
+  "body_html": "<p>Voor horeca, verhuur en elk feest waar mensen staan: een statafel van 110 cm met een hittebestendig HPL-blad en kantenband, op een zwart stalen onderstel dat je in een paar handelingen in- en uitklapt. Kies Ø 70, 80 of 85 cm en een blad in wit, zwart, antraciet of berken.</p><h3>Welke maat kies je?</h3><ul><li><strong>Ø 70 cm</strong>: 4–5 personen staand. Past ook in een smalle hal of naast de bar.</li><li><strong>Ø 80 cm</strong>: 6 personen. Plek voor glazen en een schaaltje.</li><li><strong>Ø 85 cm</strong>: 6 personen, met wat meer blad voor bordjes en hapjes.</li></ul><p>Reken bij een borrel op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Meer rekenhulp staat in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Wat je krijgt</h3><ul><li>Statafel van 110 cm hoog, gemonteerd geleverd: uitklappen en neerzetten</li><li>Blad van 18 mm: HPL-toplaag met kantenband (wit, zwart, antraciet) of berken multiplex, gelakt</li><li>Onderstel van staal, zwart epoxy-gepoedercoat: kolom Ø 32 mm en 4 inklapbare poten met kunststof voetdoppen</li><li>Gewicht 12 kg (Ø 70), 13 kg (Ø 80) of 14 kg (Ø 85)</li></ul><p><strong>Niet inbegrepen:</strong> een statafelrok. Die bestel je los, als <a href=\"/products/statafelrok-stretch\">statafelrok stretch</a> in 24 kleuren, of in één keer met het <a href=\"/products/pakket-statafel-met-stretchrok\">pakket statafel met stretchrok</a>.</p><h3>Opzetten</h3><ol><li>Houd de ingeklapte tafel rechtop aan de kolom, met de voeten naar beneden.</li><li>Schuif de ring op de kolom omlaag tot de vier poten helemaal uitstaan en draai de knop op de ring vast.</li><li>Zet de tafel neer en kantel het blad naar beneden tot het horizontaal staat en vastklikt.</li></ol><p>Inklappen gaat andersom: blad ontgrendelen en rechtop zetten, knop los, ring omhoog. Klaar is Kees.</p><h3>Hoe hoog is 110 cm?</h3><p>110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken en leunt makkelijk op het blad. Wil je er ook zitten, neem dan een barkruk met een zithoogte van 76 cm, zoals onze <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a>. Tussen zitting en blad blijft dan 34 cm over: genoeg ruimte voor je benen, en je onderarmen liggen ontspannen op het blad. Een gewone stoel (zithoogte ca. 45 cm) zit veel te laag.</p><h3>Goed om te weten</h3><ul><li>Het HPL-blad is krasvast, kan tegen water en tegen hitte tot ca. 180 °C, en mag buiten staan. Berken is echt hout: prima binnen en onder een tent of overkapping, maar laat het niet in de regen staan.</li><li>Het onderstel is gepoedercoat staal. Zet de tafel droog weg na een nat feest, dan krijgt roest geen kans.</li><li>Welke rok? Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm. Twijfel je, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>.</li><li>Vanaf 10 stuks zie je bij de prijs de staffelprijs. Voor verhuur of grotere aantallen kun je ook <a href=\"/pages/offerte\">een offerte aanvragen</a>.</li><li>Ingeklapt is de tafel ca. 140 × 80 × 15 cm (Ø 80). Meer tafels verplaatsen? De <a href=\"/products/transportkar-statafels\">transportkar voor statafels</a> rijdt er 5 of 15 tegelijk.</li><li>Blad beschadigd of zin in een andere kleur? Er is een <a href=\"/products/los-statafelblad\">los statafelblad</a> in dezelfde maten, en <a href=\"/products/voetdoppen-set-van-4\">voetdoppen per set van 4</a>.</li></ul>",
+  "kenmerk_kort": "110 cm hoog · Ø 70, 80 of 85 cm · blad met kantenband",
+  "usps": [
+   "4–5 personen aan Ø 70 cm, 6 aan Ø 80 en Ø 85 cm",
+   "HPL-blad hittebestendig tot ca. 180 °C",
+   "Ingeklapt ca. 15 cm dik",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "Statafel 110 cm met blad in de gekozen maat en kleur",
+   "Stalen onderstel met 4 inklapbare poten",
+   "4 kunststof voetdoppen (gemonteerd)"
+  ],
+  "excluded": [
+   "Statafelrok (los te bestellen)",
+   "Barkrukken (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø70 cm, Ø80 cm of Ø85 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "18 mm plaat met HPL-toplaag (Wit, Zwart, Antraciet); 18 mm berken multiplex, gelakt (Berken)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Rand",
+    "waarde": "Kantenband rondom (Berken: gelakte multiplexrand)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen HPL",
+    "waarde": "Krasvast, waterbestendig, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, zwart epoxy-gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Kolom",
+    "waarde": "Ø32 mm"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "4, ovale buis 30 x 16 mm, inklapbaar met schuifring en draaiknop"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof, vervangbaar"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Ingeklapt",
+    "waarde": "ca. 140 x 80 x 15 cm (Ø80 cm)"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Verpakking",
+    "waarde": "142 x 82 x 16 cm (Ø80 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø70 cm",
+    "waarde": "12 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø80 cm",
+    "waarde": "13 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø85 cm",
+    "waarde": "14 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "Ø70 cm: 4–5 personen; Ø80 cm en Ø85 cm: 6 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "HPL binnen en buiten; Berken binnen of overdekt"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Statafelrok",
+    "waarde": "Ø60-70 cm (bij Ø70 cm), Ø80-85 cm (bij Ø80 en Ø85 cm)"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Barkruk",
+    "waarde": "Zithoogte 76 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Welke maat statafel heb ik nodig?",
+    "antwoord": "Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm en Ø 85 cm 6. Ø 85 cm geeft vooral meer blad voor bordjes en hapjes. Voor een borrel reken je op 1 statafel per 8 à 10 gasten, omdat niet iedereen tegelijk aan tafel staat."
+   },
+   {
+    "vraag": "Welke barkruk past bij een statafel van 110 cm?",
+    "antwoord": "Een barkruk met een zithoogte van ca. 76 cm. Dan blijft er 34 cm tussen zitting en blad: genoeg voor je benen, en je onderarmen liggen ontspannen op het blad. Een gewone stoel van 45 cm zit te laag."
+   },
+   {
+    "vraag": "Welke statafelrok past erop?",
+    "antwoord": "Bij Ø 70 cm kies je een stretchrok Ø 60–70 cm, bij Ø 80 en Ø 85 cm een stretchrok Ø 80–85 cm. Onze rokken zijn gemaakt voor tafels van 105 tot 115 cm hoog, dus 110 cm valt er precies in."
+   },
+   {
+    "vraag": "Kan de statafel buiten blijven staan?",
+    "antwoord": "Met een HPL-blad (wit, zwart, antraciet) wel: dat kan tegen regen en zon. Berken is gelakt hout en hoort binnen of onder een overkapping. Zet het onderstel na een nat feest droog weg; dan blijft de coating mooi."
+   },
+   {
+    "vraag": "Wat is het verschil met de HDPE-statafel?",
+    "antwoord": "De HDPE-statafel is lichter (9 kg tegen 13 kg bij Ø 80) en goedkoper, met een kunststof blad dat niet tegen hitte kan en alleen in Ø 80 cm. De Professional heeft een glad HPL-blad met kantenband dat hittebestendig is, komt in 3 maten en 4 kleuren, en er zijn losse bladen voor."
+   }
+  ],
+  "seo": {
+   "title": "Statafel inklapbaar 110 cm, Ø70, Ø80 of Ø85 | Klapklaar",
+   "description": "Inklapbare statafel van 110 cm met hittebestendig HPL-blad en kantenband. Ø70, Ø80 of Ø85 cm, wit, zwart, antraciet of berken. Staffelprijs vanaf 10."
+  },
+  "image_alts": {
+   "statafel-inklapbaar-professional-wit-hero.webp": "Statafel inklapbaar Professional Ø 80 cm, Wit, schuin vooraanzicht",
+   "statafel-inklapbaar-professional-zwart-hero.webp": "Statafel inklapbaar Professional Ø 80 cm, Zwart, schuin vooraanzicht",
+   "statafel-inklapbaar-professional-antraciet-hero.webp": "Statafel inklapbaar Professional Ø 80 cm, Antraciet, schuin vooraanzicht",
+   "statafel-inklapbaar-professional-berken-hero.webp": "Statafel inklapbaar Professional Ø 80 cm, Berken, schuin vooraanzicht",
+   "statafel-inklapbaar-professional-wit-ingeklapt.webp": "Statafel inklapbaar Professional, Wit, ingeklapt met het blad rechtop",
+   "statafel-inklapbaar-professional-wit-detail.webp": "Statafel inklapbaar Professional, Wit, detail van de bladrand met kantenband",
+   "statafel-inklapbaar-professional-met-rok.webp": "Statafel inklapbaar Professional met statafelrok stretch en topcover in Zwart (rok los te bestellen)"
+  },
+  "claims": [
+   "HPL hittebestendig tot ca. 180 °C, krasvast, buiten bruikbaar: leveranciersspecificatie bevestigen.",
+   "Gemonteerd geleverd; ingeklapt ca. 140 x 80 x 15 cm (Ø80): bevestigen.",
+   "Berken = binnen/overdekt (advies, geen garantie-uitsluiting); afstemmen met garantietekst.",
+   "Ø85 = 6 personen (conservatief; Ø70 4–5 en Ø80 6 volgen de markt).",
+   "Staffelprijs vanaf 10 stuks (bedragen in custom.staffelkorting)."
+  ]
+ },
+ "statafel-inklapbaar-hdpe-80": {
+  "body_html": "<p>Een lichte statafel voor thuis, de club of de school: een kunststof blad van 45 mm dat tegen regen, morsen en een stootje kan, op een zwart stalen onderstel. Met 9 kg til je hem met één hand. Ø 80 cm, 110 cm hoog, plek voor 6 personen.</p><h3>Wat je krijgt</h3><ul><li>Blad van HDPE, Ø 80 cm en 45 mm dik, in wit of lichtgrijs</li><li>Stalen onderstel, zwart gepoedercoat, met 4 inklapbare poten en kunststof voetdoppen</li><li>4 bouten en een inbussleutel om het blad de eerste keer vast te zetten</li><li>Totaal 9 kg</li></ul><p><strong>Niet inbegrepen:</strong> een statafelrok. Een <a href=\"/products/statafelrok-stretch\">stretchrok Ø 80–85 cm</a> past erop en maakt er in één keer een nette feesttafel van.</p><h3>Opzetten</h3><ol><li>De eerste keer: leg het blad met de onderkant naar boven op karton of gras, zet de scharnierbeugel van het onderstel op de voorgeboorde gaten en draai de 4 bouten vast.</li><li>Zet de tafel rechtop, schuif de ring op de kolom omlaag tot de poten uitstaan en draai de knop vast.</li><li>Kantel het blad horizontaal tot het vastklikt.</li></ol><p>Inklappen gaat andersom. Het blad blijft voortaan op het onderstel zitten.</p><h3>HDPE of Professional?</h3><p>Eerlijk vergeleken met onze <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>:</p><ul><li><strong>HDPE</strong>: 9 kg, kunststof blad met een fijne structuur, niet hittebestendig, alleen Ø 80 cm. Voor af en toe, thuis en bij de club, en vaak onder een rok.</li><li><strong>Professional</strong>: 12–14 kg, glad HPL-blad met kantenband dat tegen hitte kan, in 3 maten en 4 kleuren, met losse bladen als reserve. Voor horeca, verhuur en tafels die je ook zonder rok laat zien.</li></ul><h3>Goed om te weten</h3><ul><li>110 cm is ellebooghoogte als je staat. Wil je erbij zitten, kies dan een barkruk met 76 cm zithoogte: dan blijft er 34 cm beenruimte.</li><li>HDPE kan tegen water, vorst en zon, maar niet tegen hitte: zet er geen hete pan of gourmetstel direct op.</li><li>Wit HDPE kan na jaren in de felle zon iets vergelen. Opbergen in de schuur of kelder houdt hem langer mooi.</li><li>Schoonmaken met sop en een zachte borstel; geen schuurmiddel.</li><li>Vanaf 10 stuks zie je bij de prijs de staffelprijs.</li></ul>",
+  "kenmerk_kort": "110 cm hoog · 45 mm HDPE-blad · 9 kg",
+  "usps": [
+   "Licht: 9 kg in totaal",
+   "HDPE-blad van 45 mm, kan tegen regen en vorst",
+   "Ø 80 cm: plek voor 6 personen",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "HDPE-blad Ø 80 cm",
+   "Stalen onderstel met 4 inklapbare poten en voetdoppen",
+   "4 bouten en inbussleutel"
+  ],
+  "excluded": [
+   "Statafelrok (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø80 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "HDPE (blow-mould), 45 mm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Kleur",
+    "waarde": "Wit of lichtgrijs"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen",
+    "waarde": "Waterbestendig, vorstbestendig, niet hittebestendig"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "4, ovale buis 30 x 16 mm, inklapbaar met schuifring en draaiknop"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof, vervangbaar"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Verpakking",
+    "waarde": "112 x 82 x 12 cm (blad los)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Totaal",
+    "waarde": "9 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "6 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja; niet permanent in de felle zon"
+   },
+   {
+    "groep": "Montage",
+    "label": "Eerste keer",
+    "waarde": "Blad met 4 bouten op de scharnierbeugel, inbussleutel meegeleverd"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Statafelrok",
+    "waarde": "Ø80-85 cm"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Barkruk",
+    "waarde": "Zithoogte 76 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat is HDPE?",
+    "antwoord": "Hogedichtheidpolyetheen: een harde, taaie kunststof die tegen water en vorst kan. Het blad is hol gegoten (blow-mould), daardoor licht, en heeft ribben aan de onderkant zodat het niet doorbuigt."
+   },
+   {
+    "vraag": "Moet ik iets monteren?",
+    "antwoord": "Eén keer: je schroeft het blad met 4 bouten op de scharnierbeugel van het onderstel. De inbussleutel zit erbij. Daarna klap je de tafel alleen nog in en uit."
+   },
+   {
+    "vraag": "Kan de tafel buiten blijven staan?",
+    "antwoord": "Het blad kan tegen regen en vorst. Laat hem niet jarenlang in de volle zon staan, want wit HDPE kan dan iets vergelen, en zet het stalen onderstel droog weg na een nat feest."
+   },
+   {
+    "vraag": "Past er een statafelrok op?",
+    "antwoord": "Ja, een stretchrok Ø 80–85 cm. Onze rokken zijn gemaakt voor tafels van 105 tot 115 cm hoog; deze tafel is 110 cm."
+   }
+  ],
+  "seo": {
+   "title": "Statafel inklapbaar HDPE Ø80 cm, 9 kg | Klapklaar",
+   "description": "Lichte inklapbare statafel met 45 mm HDPE-blad, Ø80 cm en 110 cm hoog. Kan tegen regen en vorst, 9 kg, wit of lichtgrijs. Staffelprijs vanaf 10 stuks."
+  },
+  "image_alts": {
+   "statafel-inklapbaar-hdpe-80-wit-hero.webp": "Statafel inklapbaar HDPE Ø 80 cm, Wit, schuin vooraanzicht",
+   "statafel-inklapbaar-hdpe-80-lichtgrijs-hero.webp": "Statafel inklapbaar HDPE Ø 80 cm, Lichtgrijs, schuin vooraanzicht",
+   "statafel-inklapbaar-hdpe-80-wit-ingeklapt.webp": "Statafel inklapbaar HDPE Ø 80 cm, Wit, ingeklapt met het blad rechtop"
+  },
+  "claims": [
+   "Levering met los blad (verklaart verpakt 112 x 82 x 12 cm); eenmalige montage met 4 bouten: bevestigen met leverancier.",
+   "HDPE niet hittebestendig, kan vergelen in de zon: advies, bevestigen.",
+   "badge:nieuw alleen houden als het product bij lancering echt nieuw is."
+  ]
+ },
+ "statafel-met-kruisvoet": {
+  "body_html": "<p>Voor een terras, bar of lounge waar de statafel het hele seizoen op zijn plek blijft: een vaste stalen kruisvoet van 70 × 70 cm en ca. 22 kg eigen gewicht. Met stelvoetjes staat hij ook op een aflopend terras of oude tegels recht. 110 cm hoog, blad Ø 70 of 80 cm.</p><h3>Wat je krijgt</h3><ul><li>Blad van 18 mm: HPL-toplaag met kantenband (wit, zwart) of berken multiplex, gelakt</li><li>Stalen kolom en kruisvoet van 70 × 70 cm, zwart gepoedercoat, met 4 stelvoetjes</li><li>Bouten, schroeven en een inbussleutel</li></ul><h3>Opzetten</h3><ol><li>Schroef de kolom op de kruisvoet (4 bouten).</li><li>Zet het blad op de kolom en draai het vast met de 4 schroeven; de gaten zijn voorgeboord.</li><li>Zet de tafel op zijn plek en draai de stelvoetjes uit tot hij niet meer wiebelt.</li></ol><p>Eén keer monteren, daarna staat hij.</p><h3>Personen en hoogte</h3><ul><li><strong>Ø 70 cm</strong>: 4–5 personen staand</li><li><strong>Ø 80 cm</strong>: 6 personen staand</li></ul><p>110 cm is ellebooghoogte als je staat. Met een barkruk van 76 cm zithoogte, zoals onze <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a> of de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a>, heb je 34 cm tussen zitting en blad.</p><h3>Goed om te weten</h3><ul><li>Het HPL-blad (wit, zwart) mag het hele seizoen buiten staan en kan tegen hitte tot ca. 180 °C. Berken hoort binnen of onder een overkapping.</li><li>De stelvoetjes vangen per voet tot ca. 1,5 cm hoogteverschil op.</li><li>Een stretchrok past erover: Ø 60–70 cm bij een blad van Ø 70, Ø 80–85 cm bij Ø 80. De rok valt over de kruisvoet tot op de grond.</li><li>Een rok vangt wind. Haal hem er bij harde wind af; een terras met losse rokken waait anders leeg.</li><li>Met ca. 22 kg til je de tafel het makkelijkst met z’n tweeën: één aan het blad, één aan de voet.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Een heel terras inrichten? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "kenmerk_kort": "Vaste stalen kruisvoet · 110 cm · met stelvoetjes",
+  "usps": [
+   "Vaste kruisvoet 70 × 70 cm, ca. 22 kg",
+   "Stelvoetjes voor een scheve vloer",
+   "HPL-blad mag het hele seizoen buiten",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "Blad Ø 70 of 80 cm in de gekozen kleur",
+   "Stalen kolom en kruisvoet 70 × 70 cm met 4 stelvoetjes",
+   "Montagemateriaal en inbussleutel"
+  ],
+  "excluded": [
+   "Statafelrok (los te bestellen)",
+   "Barkrukken (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø70 cm of Ø80 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "18 mm plaat met HPL-toplaag (Wit, Zwart); 18 mm berken multiplex, gelakt (Berken)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Rand",
+    "waarde": "Kantenband rondom (Berken: gelakte multiplexrand)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen HPL",
+    "waarde": "Krasvast, waterbestendig, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Type",
+    "waarde": "Vast, niet inklapbaar"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voet",
+    "waarde": "Stalen kruisvoet 70 x 70 cm, zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Stelvoetjes",
+    "waarde": "4, ca. 1,5 cm stelbereik per voet"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Totaal",
+    "waarde": "ca. 22 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "Ø70 cm: 4–5 personen; Ø80 cm: 6 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "HPL binnen en buiten; Berken binnen of overdekt"
+   },
+   {
+    "groep": "Montage",
+    "label": "Eerste keer",
+    "waarde": "Kolom op voet (4 bouten), blad op kolom (4 schroeven); gereedschap meegeleverd"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Statafelrok",
+    "waarde": "Ø60-70 cm (bij Ø70 cm), Ø80-85 cm (bij Ø80 cm)"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Barkruk",
+    "waarde": "Zithoogte 76 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Waarom een kruisvoet en geen inklapbare statafel?",
+    "antwoord": "Een kruisvoet kies je als de tafel blijft staan, zoals op een terras of in een lounge: hij is zwaarder (ca. 22 kg), heeft stelvoetjes en geen scharnieren. Zet je de tafels na elk feest weer weg, dan is een inklapbare statafel handiger."
+   },
+   {
+    "vraag": "Kan de tafel het hele seizoen buiten staan?",
+    "antwoord": "Met een wit of zwart HPL-blad wel: dat kan tegen regen, zon en hitte tot ca. 180 °C. Berken is gelakt hout en hoort binnen of onder een overkapping."
+   },
+   {
+    "vraag": "Past er een statafelrok over de kruisvoet?",
+    "antwoord": "Ja. Kies een stretchrok Ø 60–70 cm bij een blad van Ø 70 cm en Ø 80–85 cm bij Ø 80 cm. De rok valt over de voet tot op de grond."
+   },
+   {
+    "vraag": "Welke barkruk past erbij?",
+    "antwoord": "Een barkruk met een zithoogte van ca. 76 cm. Aan een tafel van 110 cm hou je dan 34 cm ruimte tussen zitting en blad."
+   }
+  ],
+  "seo": {
+   "title": "Statafel met kruisvoet, Ø70 of Ø80 cm | Klapklaar",
+   "description": "Horeca-statafel met vaste stalen kruisvoet van 70 x 70 cm en stelvoetjes. 110 cm hoog, Ø70 of Ø80 cm, wit, zwart of berken. Staffelprijs vanaf 10 stuks."
+  },
+  "image_alts": {
+   "statafel-met-kruisvoet-zwart-hero.webp": "Statafel met kruisvoet Ø 80 cm, Zwart, schuin vooraanzicht",
+   "statafel-met-kruisvoet-wit-hero.webp": "Statafel met kruisvoet Ø 80 cm, Wit, schuin vooraanzicht",
+   "statafel-met-kruisvoet-berken-hero.webp": "Statafel met kruisvoet Ø 80 cm, Berken, schuin vooraanzicht"
+  },
+  "claims": [
+   "Geleverd in delen, montage kolom/blad met meegeleverd gereedschap: bevestigen.",
+   "Stelbereik ca. 1,5 cm per voet: bevestigen.",
+   "Gewicht ca. 22 kg ook voor Ø70: per maat bevestigen."
+  ]
+ },
+ "statafel-vierkant-stapelbaar": {
+  "body_html": "<p>Een strakke vierkante statafel voor horeca, lounge en kantine. Na sluitingstijd stapel je ze op elkaar in plaats van ze in te klappen: geen scharnieren of knoppen, dus weinig dat kan slijten. Blad van 60 × 60 of 70 × 70 cm in compact HPL, 107 cm hoog.</p><h3>Wat je krijgt</h3><ul><li>Blad van 12 mm compact HPL, door en door massief: zwart, wit of houtlook</li><li>Stalen onderstel, zwart gepoedercoat: 4 poten van vierkante buis die licht schuin uitlopen, met kunststof voetdoppen</li><li>4 bouten en een inbussleutel om het blad op het onderstel te zetten</li><li>Gewicht ca. 16 kg</li></ul><h3>Stapelen</h3><ol><li>Pak de tafel aan twee kanten van het blad en til hem op.</li><li>Zet hem recht boven de tafel eronder en laat hem zakken: zijn poten schuiven langs de buitenkant van de poten eronder.</li><li>Zo stapel je er tot 5 op elkaar. Elke tafel erbovenop maakt de stapel ca. 12 cm hoger.</li></ol><p>Stapel alleen tafels van dezelfde maat.</p><h3>Personen en hoogte</h3><ul><li><strong>60 × 60 cm</strong>: 2–4 personen; een tafeltje in de hoek of naast de bar</li><li><strong>70 × 70 cm</strong>: 4 personen, één per zijde</li></ul><p>107 cm is iets lager dan de klassieke 110 cm: prettig als er ook mensen aan zitten. Met een barkruk van 76 cm zithoogte heb je 31 cm beenruimte, zie onze <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a>.</p><h3>Goed om te weten</h3><ul><li>Compact HPL kan tegen regen, vorst en hitte tot ca. 180 °C: de tafel mag buiten blijven staan.</li><li>Houtlook is een decor in het HPL, geen echt hout. Je hoeft het dus niet te oliën.</li><li>Ronde statafelrokken passen niet op een vierkant blad. Deze tafel is gemaakt om zonder rok te staan.</li><li>Zelfde blad en kleuren als onze <a href=\"/products/terrastafel-inklapbaar\">terrastafel</a> van 75 cm: zo maak je een terras met een sta- en een zitgedeelte in één stijl.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Een hele lounge inrichten? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "kenmerk_kort": "Vierkant HPL-blad · stapelbaar tot 5 · 107 cm",
+  "usps": [
+   "Stapelbaar tot 5 hoog",
+   "Compact HPL: mag buiten blijven staan",
+   "60 × 60 of 70 × 70 cm, 107 cm hoog",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "Blad van compact HPL in de gekozen maat en kleur",
+   "Stalen onderstel met 4 poten en voetdoppen",
+   "4 bouten en inbussleutel"
+  ],
+  "excluded": [
+   "Barkrukken (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Maat",
+    "waarde": "60 x 60 cm of 70 x 70 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "Compact HPL, 12 mm, door en door massief"
+   },
+   {
+    "groep": "Blad",
+    "label": "Kleur",
+    "waarde": "Zwart, Wit of Houtlook (decor)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen",
+    "waarde": "Weerbestendig, krasvast, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "4, vierkante buis, licht schuin uitlopend"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "107 cm"
+   },
+   {
+    "groep": "Stapelen",
+    "label": "Aantal",
+    "waarde": "Tot 5 stuks, ca. 12 cm per extra tafel"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Totaal",
+    "waarde": "ca. 16 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "60 x 60 cm: 2–4 personen; 70 x 70 cm: 4 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja"
+   },
+   {
+    "groep": "Montage",
+    "label": "Eerste keer",
+    "waarde": "Blad met 4 bouten op het onderstel, inbussleutel meegeleverd"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Barkruk",
+    "waarde": "Zithoogte 76 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Waarom stapelbaar in plaats van inklapbaar?",
+    "antwoord": "Een stapeltafel heeft geen scharnieren, ringen of knoppen. Je zet hem neer en hij staat, en na sluitingstijd stapel je er 5 op de vloerruimte van één. Ideaal als de tafels elke dag op en af gaan."
+   },
+   {
+    "vraag": "Is 107 cm niet te laag voor een statafel?",
+    "antwoord": "Nee. 107 en 110 cm zijn allebei gangbare statafelhoogtes. 107 cm zit net iets prettiger als er ook mensen op een barkruk aan zitten: met 76 cm zithoogte heb je 31 cm beenruimte."
+   },
+   {
+    "vraag": "Kan ik er een statafelrok om doen?",
+    "antwoord": "Nee, stretchrokken zijn gemaakt voor ronde bladen. Deze tafel is bedoeld om zonder rok te staan: het blad van compact HPL ziet er zo al netjes uit."
+   },
+   {
+    "vraag": "Mag de tafel buiten blijven staan?",
+    "antwoord": "Ja. Compact HPL kan tegen regen, vorst en zon, en het onderstel is gepoedercoat staal. Een kras in de coating werk je bij met een lakstift."
+   }
+  ],
+  "seo": {
+   "title": "Statafel vierkant stapelbaar 60x60 of 70x70 | Klapklaar",
+   "description": "Vierkante statafel van 107 cm met compact HPL-blad in zwart, wit of houtlook. Stapelbaar tot 5 hoog, binnen en buiten. 60x60 of 70x70 cm."
+  },
+  "image_alts": {
+   "statafel-vierkant-stapelbaar-zwart-hero.webp": "Statafel vierkant stapelbaar 70 × 70 cm, Zwart, schuin vooraanzicht",
+   "statafel-vierkant-stapelbaar-wit-hero.webp": "Statafel vierkant stapelbaar 70 × 70 cm, Wit, schuin vooraanzicht",
+   "statafel-vierkant-stapelbaar-houtlook-hero.webp": "Statafel vierkant stapelbaar 70 × 70 cm, Houtlook, schuin vooraanzicht"
+  },
+  "claims": [
+   "Onderstel = 4 schuin uitlopende poten (definitie die stapelen mogelijk maakt); stapelbaar tot 5, ca. 12 cm per tafel: bevestigen met leverancier.",
+   "Blad compact HPL 12 mm, hittebestendig tot ca. 180 °C: bevestigen.",
+   "Gewicht ca. 16 kg voor beide maten (skeleton): per maat bevestigen."
+  ]
+ },
+ "statafel-rechthoekig-inklapbaar": {
+  "body_html": "<p>Een lange statafel als bar, buffet of sta-tafel voor een grote groep: 120 of 160 cm lang, 60 cm diep en 110 cm hoog. De twee poten klappen plat onder het blad, dus na afloop zet je hem tegen de muur of in de bus.</p><h3>Wat je krijgt</h3><ul><li>Blad van 18 mm: berken multiplex, gelakt, of zwart HPL met kantenband</li><li>Twee stalen poten met dwarsligger, zwart gepoedercoat, met borgbeugel en kunststof voetdoppen</li><li>Gewicht 21 kg (120 cm) of 25 kg (160 cm)</li></ul><h3>Opzetten</h3><ol><li>Leg de tafel met het blad op de grond, op karton of gras.</li><li>Zet de eerste poot rechtop tot de borgbeugel vastklikt, daarna de tweede.</li><li>Draai de tafel met z’n tweeën om en zet hem op zijn poten.</li></ol><p>Inklappen: tafel omdraaien, borgbeugels losdrukken, poten plat. Met twee personen is het een minuut werk.</p><h3>Hoeveel personen?</h3><ul><li><strong>120 × 60 cm</strong>: 6–8 personen staand</li><li><strong>160 × 60 cm</strong>: 8–10 personen staand</li></ul><p>Als bar of uitgiftetafel reken je aan één lange zijde op ca. 60 cm per persoon. 110 cm is ellebooghoogte als je staat; met een barkruk van 76 cm zithoogte heb je 34 cm beenruimte.</p><h3>Goed om te weten</h3><ul><li>Zwart HPL kan buiten staan en tegen hitte tot ca. 180 °C. Berken is gelakt hout voor binnen en onder een tent of overkapping.</li><li>Ronde statafelrokken passen niet op dit blad; het blad is gemaakt om gezien te worden.</li><li>Ingeklapt ca. 12 cm dik. De 120 cm past in de meeste stationwagens, voor 160 cm is een bus makkelijker.</li><li>Komt als palletzending vanwege lengte en gewicht.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs.</li></ul>",
+  "kenmerk_kort": "120 of 160 cm lang · 6–10 personen staand · inklapbaar",
+  "usps": [
+   "Bar of buffet op stahoogte: 110 cm",
+   "160 × 60 cm: plek voor 8–10 personen",
+   "Poten klappen plat onder het blad",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "Blad in de gekozen maat en kleur",
+   "2 stalen poten met borgbeugel en voetdoppen"
+  ],
+  "excluded": [
+   "Barkrukken (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Maat",
+    "waarde": "120 x 60 cm of 160 x 60 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "18 mm berken multiplex, gelakt (Berken); 18 mm plaat met HPL-toplaag en kantenband (Zwart)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen HPL",
+    "waarde": "Krasvast, waterbestendig, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "2, met dwarsligger, klappen plat onder het blad, borgbeugel per poot"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Ingeklapt",
+    "waarde": "ca. 120 x 60 x 12 cm of 160 x 60 x 12 cm"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "120 x 60 cm",
+    "waarde": "21 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "160 x 60 cm",
+    "waarde": "25 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "120 x 60 cm: 6–8 personen; 160 x 60 cm: 8–10 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Zwart binnen en buiten; Berken binnen of overdekt"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Hoeveel mensen kunnen aan deze statafel staan?",
+    "antwoord": "Aan 120 × 60 cm staan 6–8 personen, aan 160 × 60 cm 8–10. Gebruik je hem als bar met de bediening aan één kant, reken dan op ca. 60 cm per persoon aan de lange zijde."
+   },
+   {
+    "vraag": "Kan ik hem als bar of buffet gebruiken?",
+    "antwoord": "Daar is hij voor gemaakt: 110 cm is de hoogte van een bar, je hoeft niet te bukken om iets te pakken of neer te zetten, en het blad is 60 cm diep."
+   },
+   {
+    "vraag": "Berken of zwart?",
+    "antwoord": "Berken is warm en houtig, voor binnen en onder een tent. Zwart HPL is krasvast, kan tegen hitte en mag buiten staan. Voor een buitenbar kies je zwart."
+   },
+   {
+    "vraag": "Past hij ingeklapt in de auto?",
+    "antwoord": "Ingeklapt is hij ca. 12 cm dik. De 120 cm past in de meeste stationwagens met de achterbank plat; voor 160 cm is een bus of aanhanger makkelijker."
+   }
+  ],
+  "seo": {
+   "title": "Statafel rechthoekig inklapbaar 120 of 160 cm | Klapklaar",
+   "description": "Lange inklapbare statafel van 110 cm hoog: 120 x 60 of 160 x 60 cm, voor 6 tot 10 personen. Berken of zwart HPL. Als bar of buffet. Staffelprijs vanaf 10."
+  },
+  "image_alts": {
+   "statafel-rechthoekig-inklapbaar-berken-hero.webp": "Statafel rechthoekig inklapbaar 160 × 60 cm, Berken, schuin vooraanzicht",
+   "statafel-rechthoekig-inklapbaar-zwart-hero.webp": "Statafel rechthoekig inklapbaar 160 × 60 cm, Zwart, schuin vooraanzicht"
+  },
+  "claims": [
+   "Onderstel = 2 poten met dwarsligger die plat onder het blad klappen (definitie; render base \"klap\" is de ronde kolom); bevestigen met leverancier.",
+   "Ingeklapt ca. 12 cm dik: bevestigen.",
+   "Zwart = HPL met kantenband zoals de Professional: bevestigen."
+  ]
+ },
+ "statafel-wijnvat-houtlook": {
+  "body_html": "<p>Een wijnvat als statafel: gegoten kunststof met houtnerf en hoepels, dus de sfeer van een echt vat zonder splinters, lekken of schuren. Voor terras, feestzaal en bruiloft, binnen en buiten. Blad Ø 80 cm, 105 cm hoog.</p><h3>Wat je krijgt</h3><ul><li>Vat van UV-bestendig polyethyleen (PE), rotatiegegoten, met houtnerf en hoepels in het materiaal</li><li>Blad Ø 80 cm in dezelfde houtlook, vast op het vat</li><li>Spongat met schroefdop in de buik van het vat, om water of zand in te doen</li><li>Leeg ca. 25 kg</li></ul><h3>Zo zet je hem neer</h3><ol><li>Zet het vat op zijn plek: gevuld verplaats je hem niet meer zo makkelijk.</li><li>Draai de dop van het spongat en giet er met een trechter 20 tot 30 liter water of droog zand in.</li><li>Draai de dop er weer op. Het gewicht zit nu onderin en houdt het vat op zijn plek.</li></ol><h3>Goed om te weten</h3><ul><li>Blad Ø 80 cm: plek voor 6 personen staand.</li><li>105 cm is een fractie lager dan een gewone statafel. Met een barkruk van 76 cm zithoogte heb je 29 cm beenruimte; de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a> past er qua stijl het best bij.</li><li>Vóór de vorst het water eruit: ijs zet uit. Zand mag de hele winter blijven zitten.</li><li>Schoonmaken met water en een mild sopje; geen oplosmiddelen of hogedrukspuit op de houtnerf.</li><li>Liever in één keer compleet? De <a href=\"/products/wijnvat-set-statafel-barkrukken\">wijnvat-set met 4 barkrukken</a> is goedkoper dan los.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "Houtlook vat · blad Ø 80 cm · vulbaar met water of zand",
+  "usps": [
+   "De look van een echt vat, zonder onderhoud",
+   "Vulbaar met water of zand voor extra gewicht",
+   "Blad Ø 80 cm voor 6 personen",
+   "Binnen en buiten"
+  ],
+  "included": [
+   "Wijnvat-statafel met blad Ø 80 cm",
+   "Spongat met schroefdop"
+  ],
+  "excluded": [
+   "Barkrukken (los of als wijnvat-set)",
+   "Water of zand voor de vulling"
+  ],
+  "specificaties": [
+   {
+    "groep": "Vat",
+    "label": "Materiaal",
+    "waarde": "Polyethyleen (PE), UV-bestendig, rotatiegegoten"
+   },
+   {
+    "groep": "Vat",
+    "label": "Afwerking",
+    "waarde": "Houtlook met nerf en hoepels"
+   },
+   {
+    "groep": "Vat",
+    "label": "Vulopening",
+    "waarde": "Spongat met schroefdop"
+   },
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø80 cm, houtlook"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "105 cm"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Leeg",
+    "waarde": "ca. 25 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Met 30 liter water",
+    "waarde": "ca. 55 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "6 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja; water eruit bij vorst"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Barkruk",
+    "waarde": "Zithoogte 76 cm"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Is het een echt houten vat?",
+    "antwoord": "Nee, het is gegoten kunststof met houtnerf en hoepels in het materiaal. Het ziet eruit als een vat, maar je hoeft het niet te oliën, het splintert niet en het kan buiten staan."
+   },
+   {
+    "vraag": "Hoeveel water of zand moet erin?",
+    "antwoord": "20 tot 30 liter is genoeg. Dat geeft 20 tot 30 kg extra gewicht onderin, zodat het vat niet makkelijk omgaat als iemand ertegen leunt. Laat het water eruit voordat je hem verplaatst."
+   },
+   {
+    "vraag": "Kan hij in de winter buiten blijven staan?",
+    "antwoord": "Ja, maar haal het water er vóór de vorst uit: bevroren water zet uit. Met zand gevuld kan hij gewoon blijven staan."
+   },
+   {
+    "vraag": "Welke barkrukken passen erbij?",
+    "antwoord": "Een barkruk met ca. 76 cm zithoogte; aan dit vat van 105 cm heb je dan 29 cm beenruimte. Onze barkruk met houten zitting past er in stijl het best bij, ook als set van 4 met het vat."
+   }
+  ],
+  "seo": {
+   "title": "Statafel wijnvat houtlook, Ø80 cm, vulbaar | Klapklaar",
+   "description": "Statafel in de vorm van een wijnvat, van UV-bestendig kunststof in houtlook. Blad Ø80 cm, 105 cm hoog, vulbaar met water of zand. Binnen en buiten."
+  },
+  "image_alts": {
+   "statafel-wijnvat-houtlook-hero.webp": "Statafel wijnvat houtlook met blad Ø 80 cm, schuin vooraanzicht"
+  },
+  "claims": [
+   "UV-bestendig PE, rotatiegegoten; spongat met schroefdop; blad vast op het vat: bevestigen met leverancier.",
+   "Vuladvies 20–30 liter, gevuld ca. 55 kg: bevestigen.",
+   "Hoogte 105 cm (render-param): bevestigen."
+  ]
+ },
+ "barkruk-stapelbaar-metaal": {
+  "body_html": "<p>De barkruk bij je statafel: zithoogte 76 cm, precies goed bij een blad van 107 of 110 cm. Gepoedercoat staal voor binnen en buiten, en na afloop stapel je er 10 op elkaar. Voor horeca, kantine, verhuur en feest.</p><h3>Wat je krijgt</h3><ul><li>1 barkruk, gebruiksklaar geleverd</li><li>Stalen frame en zitting, gepoedercoat in zwart, wit of antraciet</li><li>Zitting ca. 35 × 35 cm met afwateringsgaatjes, voetsteun rondom en kunststof voetdoppen</li></ul><h3>Hoe hoog zit je?</h3><p>Met 76 cm zithoogte heb je aan een statafel van 110 cm 34 cm ruimte tussen zitting en blad, en aan 107 cm 31 cm. Genoeg voor je bovenbenen, en je onderarmen liggen ontspannen op het blad. Aan een bar van 105–110 cm zit je net zo goed.</p><h3>Stapelen</h3><p>Zet de kruk recht op de vorige, met de poten langs de buitenkant van de poten eronder. Zo stapel je er tot 10 op de vloerruimte van één.</p><h3>Goed om te weten</h3><ul><li>Buiten loopt regen weg door de gaatjes in de zitting. Na het seizoen droog opbergen houdt de coating mooi; een kras werk je bij met een lakstift.</li><li>Aan een statafel Ø 80 cm zitten 4 krukken comfortabel.</li><li>Zachter zitten? Er is een <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussen met strikbandjes</a>. Doppen versleten? <a href=\"/products/voetdoppen-set-van-4\">Voetdoppen, set van 4</a> (kies Barkruk).</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Voor 24 krukken tegelijk is er een <a href=\"/products/transportkar-klaptafels-en-stoelen\">transportkar</a>.</li></ul>",
+  "kenmerk_kort": "Zithoogte 76 cm · stapelbaar tot 10 · binnen en buiten",
+  "usps": [
+   "Zithoogte 76 cm: past bij statafels van 107 en 110 cm",
+   "Stapelbaar tot 10 stuks",
+   "Gepoedercoat staal, binnen en buiten",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "1 barkruk, gebruiksklaar",
+   "4 kunststof voetdoppen (gemonteerd)"
+  ],
+  "excluded": [
+   "Zitkussen (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Kruk",
+    "label": "Zithoogte",
+    "waarde": "76 cm"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Zitting",
+    "waarde": "ca. 35 x 35 cm, met afwateringsgaatjes"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Materiaal",
+    "waarde": "Staal, gepoedercoat"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Kleur",
+    "waarde": "Zwart, Wit of Antraciet"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Poten",
+    "waarde": "4, ronde stalen buis Ø22 mm, met voetsteun rondom"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof, vervangbaar"
+   },
+   {
+    "groep": "Stapelen",
+    "label": "Aantal",
+    "waarde": "Tot 10 stuks"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per kruk",
+    "waarde": "5,5 kg"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Statafel",
+    "waarde": "107–110 cm hoog"
+   },
+   {
+    "groep": "Levering",
+    "label": "Montage",
+    "waarde": "Geen, gebruiksklaar"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Past deze barkruk bij mijn statafel?",
+    "antwoord": "Bij statafels van 107 tot 110 cm hoog wel. Met 76 cm zithoogte heb je dan 31 tot 34 cm tussen zitting en blad, en dat zit goed. Bij een gewone tafel van 75 cm is hij te hoog."
+   },
+   {
+    "vraag": "Hoeveel barkrukken zet ik bij een statafel?",
+    "antwoord": "Aan een statafel Ø 80 cm zitten 4 krukken comfortabel, aan Ø 70 cm 2 à 3. Vaak zit niet iedereen; bij een borrel zijn 2 krukken per tafel genoeg."
+   },
+   {
+    "vraag": "Kan de kruk buiten blijven staan?",
+    "antwoord": "Ja. Hij is van gepoedercoat staal en regen loopt weg door de gaatjes in de zitting. Berg hem na het seizoen droog op, dan blijft de coating mooi."
+   },
+   {
+    "vraag": "Krast de kruk mijn vloer niet?",
+    "antwoord": "Onder elke poot zit een kunststof voetdop. Is die versleten, vervang hem dan met een set van 4 voetdoppen voor barkrukken."
+   }
+  ],
+  "seo": {
+   "title": "Barkruk stapelbaar metaal, zithoogte 76 cm | Klapklaar",
+   "description": "Stapelbare barkruk van gepoedercoat staal, zithoogte 76 cm, voor statafels van 107 en 110 cm. Tot 10 hoog, binnen en buiten. Staffel vanaf 10."
+  },
+  "image_alts": {
+   "barkruk-stapelbaar-metaal-zwart-hero.webp": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht",
+   "barkruk-stapelbaar-metaal-wit-hero.webp": "Barkruk stapelbaar metaal, Wit, schuin vooraanzicht",
+   "barkruk-stapelbaar-metaal-antraciet-hero.webp": "Barkruk stapelbaar metaal, Antraciet, schuin vooraanzicht",
+   "barkruk-stapelbaar-metaal-zwart-gestapeld.webp": "Barkruk stapelbaar metaal, Zwart, 4 krukken op elkaar gestapeld"
+  },
+  "claims": [
+   "Zitting ca. 35 x 35 cm, poten Ø22 mm, afwateringsgaatjes: definitie voor render en leverancier.",
+   "Stapelbaar tot 10 (skeleton): bevestigen."
+  ]
+ },
+ "barkruk-houten-zitting": {
+  "body_html": "<p>Dezelfde handige hoogte als onze metalen kruk, met een warmere uitstraling: een zwart stalen frame en een houten zitting in eikenlook. Zithoogte 76 cm voor statafels van 107 en 110 cm. Voor horeca, lounge, bruiloft en verhuur.</p><h3>Wat je krijgt</h3><ul><li>1 barkruk, gebruiksklaar geleverd</li><li>Frame van zwart gepoedercoat staal, met voetsteun rondom en kunststof voetdoppen</li><li>Zitting ca. 35 × 35 cm van gelakt multiplex met een eiken toplaag</li></ul><h3>Zo zit je</h3><p>Met 76 cm zithoogte heb je aan een statafel van 110 cm 34 cm tussen zitting en blad, aan 107 cm 31 cm en aan de <a href=\"/products/statafel-wijnvat-houtlook\">wijnvat-statafel</a> van 105 cm 29 cm.</p><h3>Stapelen</h3><p>Zet de kruk recht op de vorige: tot 6 stuks hoog. Haal een zitkussen er eerst af.</p><h3>Goed om te weten</h3><ul><li>Hout en regen gaan niet samen. Gebruik de kruk binnen, onder een overkapping of in een tent, en zet hem na een buitenfeest droog weg.</li><li>Schoonmaken met een vochtige doek en meteen droogmaken; geen sop laten staan.</li><li>Met een <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussen</a> zit je zachter.</li><li>Samen met de wijnvat-statafel als <a href=\"/products/wijnvat-set-statafel-barkrukken\">wijnvat-set met 4 krukken</a>, goedkoper dan los.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs.</li></ul>",
+  "kenmerk_kort": "Zwart stalen frame · houten zitting in eikenlook · 76 cm",
+  "usps": [
+   "Houten zitting in eikenlook",
+   "Zithoogte 76 cm voor statafels van 107–110 cm",
+   "Stapelbaar tot 6 stuks",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "1 barkruk, gebruiksklaar",
+   "4 kunststof voetdoppen (gemonteerd)"
+  ],
+  "excluded": [
+   "Zitkussen (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Kruk",
+    "label": "Zithoogte",
+    "waarde": "76 cm"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Zitting",
+    "waarde": "ca. 35 x 35 cm, multiplex met eiken toplaag, gelakt"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Frame",
+    "waarde": "Staal, zwart gepoedercoat, voetsteun rondom"
+   },
+   {
+    "groep": "Kruk",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof"
+   },
+   {
+    "groep": "Stapelen",
+    "label": "Aantal",
+    "waarde": "Tot 6 stuks"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per kruk",
+    "waarde": "6,5 kg"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en overdekt",
+    "waarde": "Ja; niet in de regen laten staan"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Statafel",
+    "waarde": "105–110 cm hoog"
+   },
+   {
+    "groep": "Levering",
+    "label": "Montage",
+    "waarde": "Geen, gebruiksklaar"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Is de zitting van echt hout?",
+    "antwoord": "Ja: gelakt multiplex met een toplaag van eikenhout. Daardoor ziet hij eruit als eiken en blijft hij vlak, ook als het binnen warm en droog is."
+   },
+   {
+    "vraag": "Kan de kruk buiten staan?",
+    "antwoord": "Onder een overkapping of in een tent wel. In de regen gaat het hout er niet op vooruit; zet hem na een buitenfeest droog weg."
+   },
+   {
+    "vraag": "Wat is het verschil met de metalen barkruk?",
+    "antwoord": "Zelfde zithoogte van 76 cm. Deze heeft een houten zitting en een warmere uitstraling, is iets zwaarder (6,5 tegen 5,5 kg) en stapelt tot 6 in plaats van 10. De metalen kruk mag buiten blijven staan."
+   }
+  ],
+  "seo": {
+   "title": "Barkruk met houten zitting, zithoogte 76 cm | Klapklaar",
+   "description": "Barkruk met zwart stalen frame en houten zitting in eikenlook. Zithoogte 76 cm, voor statafels van 107 en 110 cm. Stapelbaar tot 6. Staffel vanaf 10."
+  },
+  "image_alts": {
+   "barkruk-houten-zitting-hero.webp": "Barkruk met houten zitting in eikenlook, Zwart frame, schuin vooraanzicht"
+  },
+  "claims": [
+   "Zitting multiplex met eiken toplaag (verzoent \"houten zitting\" en \"eiken-look\"): bevestigen.",
+   "Stapelbaar tot 6: bevestigen."
+  ]
+ },
+ "klapstoel": {
+  "body_html": "<p>Een klapstoel voor ceremonie, schoolvoorstelling, vergadering of feest: kunststof zitting en rugleuning op een stalen frame, opgevouwen maar ca. 5 cm dik. Je zet er in een paar minuten een zaal mee vol en ruimt hem net zo snel weer op. In wit of zwart.</p><h3>Wat je krijgt</h3><ul><li>1 klapstoel, gebruiksklaar</li><li>Zitting en rugleuning van HDPE-kunststof</li><li>Stalen frame, gepoedercoat in dezelfde kleur, met kunststof voetdoppen</li><li>Zithoogte ca. 45 cm, gewicht 3,2 kg</li></ul><h3>Zo werkt het</h3><ol><li>Pak de stoel bij de rugleuning en duw de zitting omlaag tot hij plat ligt.</li><li>Opvouwen: til de voorkant van de zitting op; het frame vouwt mee tot de stoel plat is.</li></ol><h3>Goed om te weten</h3><ul><li>Aan onze <a href=\"/products/klaptafel-hdpe-rechthoekig\">klaptafels</a> van 74 cm zit je met 45 cm zithoogte op gewone eettafelhoogte.</li><li>Kunststof en gepoedercoat staal kunnen tegen een regenbui en zijn met een doekje schoon. Berg ze droog op.</li><li>Opgevouwen nemen 10 stoelen tegen de muur ongeveer een halve meter in. Voor 30 stoelen tegelijk is er een <a href=\"/products/transportkar-klaptafels-en-stoelen\">transportkar</a>.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Een hele zaal vol? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "kenmerk_kort": "Zithoogte 45 cm · plat opvouwbaar · 3,2 kg",
+  "usps": [
+   "Opgevouwen ca. 5 cm dik",
+   "Licht: 3,2 kg per stoel",
+   "Kunststof zitting, met een doekje schoon",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "1 klapstoel, gebruiksklaar"
+  ],
+  "excluded": [],
+  "specificaties": [
+   {
+    "groep": "Stoel",
+    "label": "Zithoogte",
+    "waarde": "ca. 45 cm"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Breedte",
+    "waarde": "ca. 45 cm"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Zitting en rugleuning",
+    "waarde": "HDPE-kunststof"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Frame",
+    "waarde": "Staal, gepoedercoat in de kleur van de stoel"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Kleur",
+    "waarde": "Wit of Zwart"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Opgevouwen",
+    "waarde": "ca. 5 cm dik"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per stoel",
+    "waarde": "3,2 kg"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja; droog opbergen"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Tafel",
+    "waarde": "Tafelhoogte 74–75 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Hoeveel ruimte heb ik nodig voor een ceremonie?",
+    "antwoord": "Een stoel is ca. 45 cm breed, dus een rij van 10 stoelen is 4,5 tot 5 m. Houd ca. 90 cm aan van rugleuning tot rugleuning en een gangpad van minstens 1 m."
+   },
+   {
+    "vraag": "Kunnen de stoelen buiten staan?",
+    "antwoord": "Tijdens het feest wel: kunststof en gepoedercoat staal kunnen tegen een regenbui. Na afloop droog opbergen, dan blijven ze netjes."
+   },
+   {
+    "vraag": "Passen ze bij een klaptafel?",
+    "antwoord": "Ja. Met 45 cm zithoogte aan een tafel van 74 cm heb je 29 cm tussen zitting en blad, de gewone eettafelverhouding."
+   },
+   {
+    "vraag": "Koop ik ze per stuk?",
+    "antwoord": "Ja, je bestelt per stuk. Vanaf 10 stuks zie je de staffelprijs bij de prijs."
+   }
+  ],
+  "seo": {
+   "title": "Klapstoel wit of zwart, plat opvouwbaar | Klapklaar",
+   "description": "Klapstoel met kunststof zitting en stalen frame, 3,2 kg, opgevouwen ca. 5 cm dik. Voor ceremonie, school en feest. Wit of zwart. Staffel vanaf 10."
+  },
+  "image_alts": {
+   "klapstoel-wit-hero.webp": "Klapstoel, Wit, schuin vooraanzicht",
+   "klapstoel-zwart-hero.webp": "Klapstoel, Zwart, schuin vooraanzicht"
+  },
+  "claims": [
+   "Zitting HDPE, zithoogte/breedte ca. 45 cm, opgevouwen ca. 5 cm: bevestigen."
+  ]
+ },
+ "stapelstoel-cross-back": {
+  "body_html": "<p>De stoel voor bruiloften en diners: een frame van massief beukenhout met de gekruiste rugleuning die een feesttafel meteen aankleedt. Stapelbaar tot 8, dus na het diner is de zaal zo leeg. In naturel (kleur Houtlook) of zwart.</p><h3>Wat je krijgt</h3><ul><li>1 stapelstoel, gebruiksklaar</li><li>Frame en rugleuning van massief beukenhout, gelakt: naturel of zwart</li><li>Houten zitting; een zitkussen bestel je los</li><li>Zithoogte ca. 46 cm, gewicht 5,8 kg</li></ul><h3>Stapelen</h3><p>Haal de kussens eraf en zet de stoel recht op de vorige: de poten vallen om de poten eronder. Tot 8 stuks hoog.</p><h3>Goed om te weten</h3><ul><li>Hout is voor binnen en onder een tent of overkapping. Laat de stoelen niet in de regen staan.</li><li>Zachter en met een kleuraccent: <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussen met strikbandjes</a> in antraciet, zandkleur of zwart.</li><li>Aan een <a href=\"/products/klaptafel-hdpe-rond\">ronde klaptafel</a> zet je 8 stoelen (Ø 150 cm) of 10 (Ø 180 cm).</li><li>Schoonmaken met een vochtige doek. Een kras werk je bij met een lakstift in de kleur van de stoel.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Een hele trouwzaal? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "kenmerk_kort": "Massief beukenhout · kruisrug · stapelbaar tot 8",
+  "usps": [
+   "Massief beukenhout, gelakt",
+   "Stapelbaar tot 8 stuks",
+   "Zitkussen los erbij te bestellen",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "1 stapelstoel, gebruiksklaar"
+  ],
+  "excluded": [
+   "Zitkussen (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Stoel",
+    "label": "Materiaal",
+    "waarde": "Massief beukenhout, gelakt"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Kleur",
+    "waarde": "Houtlook (naturel) of Zwart"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Rugleuning",
+    "waarde": "Gekruist (cross back)"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Zitting",
+    "waarde": "Hout"
+   },
+   {
+    "groep": "Stoel",
+    "label": "Zithoogte",
+    "waarde": "ca. 46 cm"
+   },
+   {
+    "groep": "Stapelen",
+    "label": "Aantal",
+    "waarde": "Tot 8 stuks"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per stoel",
+    "waarde": "5,8 kg"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en overdekt",
+    "waarde": "Ja; niet in de regen laten staan"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Zit er een kussen bij?",
+    "antwoord": "Nee, de stoel heeft een houten zitting. Het zitkussen met strikbandjes bestel je los, in antraciet, zandkleur of zwart."
+   },
+   {
+    "vraag": "Kan ik de stoelen buiten gebruiken?",
+    "antwoord": "Onder een tent of overkapping wel. Massief hout met lak kan niet tegen regen; zet de stoelen na het feest droog weg."
+   },
+   {
+    "vraag": "Hoeveel stoelen zet ik aan een ronde tafel?",
+    "antwoord": "Aan een ronde tafel van Ø 150 cm 8 stoelen, aan Ø 180 cm 10. Aan een rechthoekige klaptafel van 183 cm passen er 6 tot 8."
+   },
+   {
+    "vraag": "Hoe hoog kan ik ze stapelen?",
+    "antwoord": "Tot 8 stuks. Haal de kussens er eerst af, dan staan ze recht en beschadigen de zittingen niet."
+   }
+  ],
+  "seo": {
+   "title": "Stapelstoel cross back van massief hout | Klapklaar",
+   "description": "Cross back stapelstoel van massief beukenhout voor bruiloft en diner. Naturel of zwart, zithoogte ca. 46 cm, tot 8 hoog te stapelen. Staffelprijs vanaf 10."
+  },
+  "image_alts": {
+   "stapelstoel-cross-back-houtlook-hero.webp": "Stapelstoel cross back hout, Houtlook (naturel), schuin vooraanzicht",
+   "stapelstoel-cross-back-zwart-hero.webp": "Stapelstoel cross back hout, Zwart, schuin vooraanzicht"
+  },
+  "claims": [
+   "Beukenhout, zithoogte ca. 46 cm, stapelbaar tot 8: bevestigen met leverancier.",
+   "Kleurwaarde \"Houtlook\" bij massief hout: overweeg \"Naturel\" (zie data_notes)."
+  ]
+ },
+ "zitkussen-stoel-en-barkruk": {
+  "body_html": "<p>Zachter zitten en een kleur erbij: een zitkussen voor onze cross back stoel en barkrukken. Met strikbandjes vast aan de stoel of kruk, en de hoes gaat eraf om te wassen.</p><h3>Wat je krijgt</h3><ul><li>1 zitkussen van ca. 36 × 36 cm, 3 cm dik</li><li>Vulling van schuim, hoes van polyester met rits</li><li>2 strikbandjes aan de achterhoeken</li></ul><h3>Zo maak je hem vast</h3><ol><li>Leg het kussen op de zitting met de rits naar achteren.</li><li>Stoel: knoop de bandjes om de achterste stijlen van de rugleuning. Barkruk: knoop ze om de twee achterste poten, net onder de zitting.</li></ol><h3>Goed om te weten</h3><ul><li>Past op de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>, de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a> en de <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a>.</li><li>Wassen: de hoes op 30 °C, zonder het schuim. Niet in de droger.</li><li>Voor binnen en overdekt: een nat kussen droogt langzaam. Haal de kussens bij regen naar binnen.</li><li>Haal het kussen eraf voordat je stoelen of krukken stapelt.</li></ul>",
+  "kenmerk_kort": "36 × 36 cm · strikbandjes · hoes wasbaar op 30 °C",
+  "usps": [
+   "Past op cross back stoel en onze barkrukken",
+   "Strikbandjes houden hem op zijn plek",
+   "Hoes met rits, wasbaar op 30 °C",
+   "In antraciet, zandkleur of zwart"
+  ],
+  "included": [
+   "1 zitkussen met afneembare hoes en 2 strikbandjes"
+  ],
+  "excluded": [],
+  "specificaties": [
+   {
+    "groep": "Kussen",
+    "label": "Afmetingen",
+    "waarde": "ca. 36 x 36 x 3 cm"
+   },
+   {
+    "groep": "Kussen",
+    "label": "Vulling",
+    "waarde": "Schuim"
+   },
+   {
+    "groep": "Kussen",
+    "label": "Hoes",
+    "waarde": "Polyester, afneembaar met rits"
+   },
+   {
+    "groep": "Kussen",
+    "label": "Bevestiging",
+    "waarde": "2 strikbandjes aan de achterhoeken"
+   },
+   {
+    "groep": "Kussen",
+    "label": "Kleur",
+    "waarde": "Antraciet, Zandkleur of Zwart"
+   },
+   {
+    "groep": "Onderhoud",
+    "label": "Wassen",
+    "waarde": "Hoes op 30 °C, niet in de droger"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per kussen",
+    "waarde": "0,4 kg"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en overdekt",
+    "waarde": "Ja"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Past het kussen op mijn stoel of kruk?",
+    "antwoord": "Het is gemaakt voor onze cross back stoel en onze twee barkrukken. Op een andere stoel past hij als de zitting minstens ca. 34 × 34 cm is en je de bandjes ergens om de poten of rugleuning kunt knopen."
+   },
+   {
+    "vraag": "Kan het kussen buiten blijven liggen?",
+    "antwoord": "Tijdens een droog feest wel, maar haal hem bij regen en na afloop naar binnen. Schuim dat nat wordt, droogt langzaam."
+   },
+   {
+    "vraag": "Kan ik de hoes wassen?",
+    "antwoord": "Ja. Rits de hoes los, haal het schuim eruit en was de hoes op 30 °C. Niet in de droger; laat hem aan de lijn drogen."
+   }
+  ],
+  "seo": {
+   "title": "Zitkussen voor stoel en barkruk | Klapklaar",
+   "description": "Zitkussen van ca. 36 x 36 cm met strikbandjes en afneembare hoes, wasbaar op 30 °C. Voor cross back stoel en barkruk. Antraciet, zandkleur of zwart."
+  },
+  "image_alts": {
+   "zitkussen-stoel-en-barkruk-antraciet-hero.webp": "Zitkussen voor stoel en barkruk, Antraciet, schuin vooraanzicht",
+   "zitkussen-stoel-en-barkruk-zandkleur-hero.webp": "Zitkussen voor stoel en barkruk, Zandkleur, schuin vooraanzicht",
+   "zitkussen-stoel-en-barkruk-zwart-hero.webp": "Zitkussen voor stoel en barkruk, Zwart, schuin vooraanzicht"
+  },
+  "claims": [
+   "Maat ca. 36 x 36 x 3 cm, schuim, hoes polyester 30 °C: bevestigen."
+  ]
+ },
+ "voetdoppen-set-van-4": {
+  "body_html": "<p>Klein onderdeel, groot verschil: nieuwe voetdoppen beschermen je vloer tegen krassen en voorkomen dat een tafel of kruk wiebelt op een versleten dop. Een set van 4, voor één statafel, klaptafel of barkruk.</p><h3>Welke uitvoering?</h3><ul><li><strong>Statafel</strong>: schoentje voor ovale poten van 30 × 16 mm, zoals op onze <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> en de <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel</a>.</li><li><strong>Klaptafel</strong>: dop voor ronde buis van Ø 25 mm, zoals op onze <a href=\"/products/klaptafel-hdpe-rechthoekig\">klaptafel HDPE rechthoekig</a>.</li><li><strong>Barkruk</strong>: dop voor ronde buis van Ø 22 mm, zoals op onze <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a>.</li></ul><h3>Wat je krijgt</h3><ul><li>4 voetdoppen van zwart kunststof in de gekozen uitvoering</li></ul><h3>Zo vervang je ze</h3><ol><li>Trek de oude dop eraf. Zit hij vast, wrik hem dan los met een platte schroevendraaier.</li><li>Maak het uiteinde van de poot schoon.</li><li>Druk de nieuwe dop erop, of tik hem vast met de muis van je hand of een rubberen hamer.</li></ol><h3>Goed om te weten</h3><ul><li>Ander merk? Meet de buitenmaat van de poot en vergelijk die met de maten hierboven.</li><li>Vervang een dop zodra hij doorgesleten is: dan raakt het staal je vloer.</li><li>Geen gereedschap nodig, behalve misschien een schroevendraaier voor een vastzittende oude dop.</li></ul>",
+  "kenmerk_kort": "Set van 4 · voor statafel, klaptafel of barkruk",
+  "usps": [
+   "Beschermt je vloer tegen krassen",
+   "Set van 4: één meubel compleet",
+   "Drie uitvoeringen, per type poot",
+   "Zonder gereedschap te vervangen"
+  ],
+  "included": [
+   "4 voetdoppen in de gekozen uitvoering"
+  ],
+  "excluded": [],
+  "specificaties": [
+   {
+    "groep": "Set",
+    "label": "Aantal",
+    "waarde": "4 doppen"
+   },
+   {
+    "groep": "Set",
+    "label": "Materiaal",
+    "waarde": "Kunststof, zwart"
+   },
+   {
+    "groep": "Pasvorm",
+    "label": "Statafel",
+    "waarde": "Ovale poot 30 x 16 mm (statafel inklapbaar Professional en HDPE)"
+   },
+   {
+    "groep": "Pasvorm",
+    "label": "Klaptafel",
+    "waarde": "Ronde buis Ø25 mm (klaptafel HDPE rechthoekig)"
+   },
+   {
+    "groep": "Pasvorm",
+    "label": "Barkruk",
+    "waarde": "Ronde buis Ø22 mm (barkruk stapelbaar metaal)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per set",
+    "waarde": "ca. 80 g"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Welke uitvoering heb ik nodig?",
+    "antwoord": "Kies Statafel voor onze inklapbare statafels (Professional en HDPE), Klaptafel voor onze rechthoekige HDPE-klaptafel en Barkruk voor onze stapelbare metalen barkruk. In elke set zitten 4 doppen: één meubel."
+   },
+   {
+    "vraag": "Passen ze op een ander merk?",
+    "antwoord": "Als de poot dezelfde maat heeft wel: ovaal 30 × 16 mm (statafel), rond Ø 25 mm (klaptafel) of rond Ø 22 mm (barkruk). Meet de buitenmaat van de poot vlak boven de oude dop."
+   },
+   {
+    "vraag": "Wanneer moet ik ze vervangen?",
+    "antwoord": "Als een dop gescheurd, weg of doorgesleten is. Dan raakt het staal de vloer, krast het op tegels en hout, en gaat de tafel of kruk wiebelen."
+   }
+  ],
+  "seo": {
+   "title": "Voetdoppen voor statafel, klaptafel en barkruk | Klapklaar",
+   "description": "Set van 4 kunststof voetdoppen voor statafel (ovaal 30 x 16 mm), klaptafel (Ø25 mm) of barkruk (Ø22 mm). Beschermt je vloer, snel vervangen."
+  },
+  "image_alts": {
+   "voetdoppen-set-van-4-hero.webp": "Voetdoppen voor statafel, klaptafel en barkruk, set van 4"
+  },
+  "claims": [
+   "Pasmaten 30 x 16 mm / Ø25 / Ø22 mm zijn definities (render statafel.js ovale poot 30 x 16 mm); bevestigen met leverancier."
+  ]
+ },
+ "los-statafelblad": {
+  "body_html": "<p>Blad beschadigd, of zin in een andere kleur? Zet een nieuw blad op je onderstel. Dit is hetzelfde blad als op onze <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 18 mm dik, in Ø 70, 80 of 85 cm, in wit, zwart, antraciet of berken.</p><h3>Wat je krijgt</h3><ul><li>Blad van 18 mm in de gekozen maat: HPL-toplaag met kantenband (wit, zwart, antraciet) of berken multiplex, gelakt</li><li>Voorgeboorde gaten voor de scharnierbeugel van het onderstel</li><li>4 nieuwe schroeven</li></ul><h3>Zo vervang je het blad</h3><ol><li>Zet de tafel uitgeklapt neer en kantel het blad rechtop.</li><li>Draai de 4 schroeven los waarmee de scharnierbeugel onder het blad zit en neem het oude blad eraf.</li><li>Zet de beugel op de voorgeboorde gaten van het nieuwe blad en draai de 4 nieuwe schroeven vast.</li></ol><p>Een kruiskopschroevendraaier is alles wat je nodig hebt.</p><h3>Goed om te weten</h3><ul><li>Kies dezelfde maat als je oude blad. Het onderstel is per maat afgestemd, en je statafelrok hoort bij die maat.</li><li>Onderstel van een ander merk? Dan moeten de beugel en het gatenpatroon passen. Twijfel je, stuur ons via <a href=\"/pages/contact\">contact</a> een foto van de onderkant en de maten.</li><li>HPL kan buiten en tegen hitte tot ca. 180 °C; berken is gelakt hout voor binnen en overdekt.</li></ul>",
+  "kenmerk_kort": "Vervangend blad met kantenband · Ø 70, 80 of 85 cm",
+  "usps": [
+   "Hetzelfde blad als op de statafel Professional",
+   "Ook voor een nieuwe kleur op je oude tafel",
+   "Voorgeboord, 4 schroeven erbij",
+   "Ø 70, 80 of 85 cm"
+  ],
+  "included": [
+   "1 statafelblad in de gekozen maat en kleur",
+   "4 schroeven"
+  ],
+  "excluded": [
+   "Onderstel"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø70 cm, Ø80 cm of Ø85 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Dikte",
+    "waarde": "18 mm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "Plaat met HPL-toplaag (Wit, Zwart, Antraciet); berken multiplex, gelakt (Berken)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Rand",
+    "waarde": "Kantenband rondom (Berken: gelakte multiplexrand)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen HPL",
+    "waarde": "Krasvast, waterbestendig, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Montage",
+    "label": "Bevestiging",
+    "waarde": "Voorgeboord voor de scharnierbeugel, 4 schroeven meegeleverd"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Blad",
+    "waarde": "ca. 6 kg (Ø80 cm)"
+   },
+   {
+    "groep": "Past op",
+    "label": "Onderstel",
+    "waarde": "Statafel inklapbaar Professional, zelfde maat"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Past dit blad op mijn statafel?",
+    "antwoord": "Op onze statafel inklapbaar Professional in dezelfde maat wel: het is hetzelfde blad, met de gaten al op de goede plek. Op een ander merk moet de scharnierbeugel op het gatenpatroon passen."
+   },
+   {
+    "vraag": "Kan ik een groter blad op mijn onderstel zetten?",
+    "antwoord": "Doe dat liever niet. Het onderstel is per maat afgestemd, en een blad van Ø 85 cm op een onderstel voor Ø 70 cm staat minder vast. Je statafelrok hoort ook bij de maat van het blad."
+   },
+   {
+    "vraag": "Wat heb ik nodig om het blad te vervangen?",
+    "antwoord": "Alleen een kruiskopschroevendraaier. Vier schroeven los, oud blad eraf, nieuw blad erop met de vier meegeleverde schroeven."
+   }
+  ],
+  "seo": {
+   "title": "Los statafelblad Ø70, Ø80 of Ø85 cm | Klapklaar",
+   "description": "Vervangend statafelblad van 18 mm met kantenband, Ø70, Ø80 of Ø85 cm, in wit, zwart, antraciet of berken. Voorgeboord, met 4 schroeven."
+  },
+  "image_alts": {
+   "los-statafelblad-hero.webp": "Los statafelblad Ø 80 cm, Wit, met kantenband"
+  },
+  "claims": [
+   "Voorgeboord + 4 schroeven meegeleverd: bevestigen.",
+   "Gewicht ca. 6 kg is Ø80; Ø70 lichter, Ø85 zwaarder (skeleton 6 kg voor alle maten)."
+  ]
+ },
+ "klaptafel-hdpe-rechthoekig": {
+  "body_html": "<p>De tafel die overal voor opdraaft: buffet, vergadering, workshop of verjaardag. Een HDPE-blad dat tegen water, wijn en een stootje kan, op een stalen onderstel dat onder het blad wegklapt. 74 cm hoog, gewone tafelhoogte, in drie lengtes. De 183 cm is er ook als koffermodel dat in het midden dubbel vouwt.</p><h3>Welke maat?</h3><ul><li><strong>122 × 61 cm</strong>: 4 personen, of een kassa- of infotafel</li><li><strong>183 × 76 cm</strong>: 6–8 personen (3 per lange zijde, 1 aan elke kop)</li><li><strong>244 × 76 cm</strong>: 8–10 personen</li></ul><p><strong>Vast blad of in het midden inklapbaar?</strong> Het vaste blad is één doorlopend stuk zonder naad en het snelst opgezet. Het koffermodel (183 cm) vouwt dubbel tot ca. 92 × 76 cm met een handvat: makkelijk in de auto en in een kast.</p><h3>Wat je krijgt</h3><ul><li>Blad van HDPE (blow-mould), ca. 4,5 cm dik, lichtgrijs</li><li>Stalen onderstel, grijs gepoedercoat: poten van ronde buis Ø 25 mm met vergrendelring en kunststof voetdoppen</li><li>Gewicht 10 kg (122 cm), 16 kg (183 cm), 15 kg (183 cm koffermodel) of 23 kg (244 cm)</li></ul><h3>Opzetten</h3><ol><li>Leg de tafel met het blad op de grond. Koffermodel: eerst openvouwen en de schuifgrendel in het midden dichtzetten.</li><li>Zet de poten uit tot ze haaks staan en schuif de vergrendelring over het scharnier.</li><li>Draai de tafel om en zet hem op zijn poten.</li></ol><h3>Goed om te weten</h3><ul><li>In één keer netjes aangekleed: een <a href=\"/products/stretchhoes-klaptafel\">stretchhoes</a> in dezelfde maat trekt strak tot op de grond.</li><li>HDPE kan buiten staan en is met sop schoon. Het blad kan niet tegen hitte: zet heet servies op een onderzetter.</li><li>Met de <a href=\"/products/klapstoel\">klapstoel</a> (zithoogte 45 cm) zit je op gewone eettafelhoogte.</li><li>Vanaf 5 stuks zie je de staffelprijs bij de prijs. Tien tafels met hoezen en een kar zitten in het <a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">buffetpakket</a>.</li></ul>",
+  "kenmerk_kort": "HDPE-blad · 74 cm hoog · 122, 183 of 244 cm",
+  "usps": [
+   "HDPE-blad: tegen water, wijn en een stootje",
+   "183 cm ook als koffermodel met handvat",
+   "Plek voor 4 tot 10 personen",
+   "Staffelprijs vanaf 5 stuks"
+  ],
+  "included": [
+   "Klaptafel met HDPE-blad in de gekozen maat en uitvoering",
+   "Inklapbaar stalen onderstel met voetdoppen"
+  ],
+  "excluded": [
+   "Stretchhoes (los te bestellen)",
+   "Stoelen (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Maat",
+    "waarde": "122 x 61 cm, 183 x 76 cm of 244 x 76 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "HDPE (blow-mould), ca. 4,5 cm dik"
+   },
+   {
+    "groep": "Blad",
+    "label": "Kleur",
+    "waarde": "Lichtgrijs"
+   },
+   {
+    "groep": "Blad",
+    "label": "Uitvoering",
+    "waarde": "Vast blad; 183 x 76 cm ook in het midden inklapbaar (koffermodel met handvat)"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, grijs gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "Ronde buis Ø25 mm, inklapbaar met vergrendelring"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voetdoppen",
+    "waarde": "Kunststof, vervangbaar"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "74 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Koffermodel dubbelgevouwen",
+    "waarde": "ca. 92 x 76 x 9 cm"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "122 x 61 cm",
+    "waarde": "10 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "183 x 76 cm",
+    "waarde": "16 kg (koffermodel 15 kg)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "244 x 76 cm",
+    "waarde": "23 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Zittend",
+    "waarde": "122 x 61 cm: 4; 183 x 76 cm: 6–8; 244 x 76 cm: 8–10 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja; niet hittebestendig"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Stretchhoes",
+    "waarde": "Stretchhoes klaptafel in dezelfde maat"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Hoeveel mensen passen aan een klaptafel van 183 cm?",
+    "antwoord": "6 tot 8: 3 aan elke lange zijde en eventueel 1 aan elke kop. Aan 122 × 61 cm zitten er 4, aan 244 × 76 cm 8 tot 10."
+   },
+   {
+    "vraag": "Vast blad of koffermodel?",
+    "antwoord": "Het vaste blad heeft geen naad in het midden en staat het snelst. Het koffermodel vouw je dubbel tot ca. 92 × 76 cm met een handvat; handig als je hem vaak in de auto meeneemt of in een kast opbergt."
+   },
+   {
+    "vraag": "Kan de tafel buiten staan?",
+    "antwoord": "Ja, HDPE kan tegen regen en is met sop schoon. Zet hem na een nat feest even droog weg, dan blijft het stalen onderstel netjes."
+   },
+   {
+    "vraag": "Welke hoes past erop?",
+    "antwoord": "De stretchhoes voor klaptafels in dezelfde maat: 122 × 61, 183 × 76 of 244 × 76 cm. Hij trekt strak over blad en poten tot op de grond, ook over het koffermodel."
+   }
+  ],
+  "seo": {
+   "title": "Klaptafel HDPE 122, 183 of 244 cm | Klapklaar",
+   "description": "Klaptafel met HDPE-blad en inklapbaar stalen onderstel, 74 cm hoog. 122, 183 of 244 cm, 183 cm ook als koffermodel. Voor 4–10 personen. Staffel vanaf 5."
+  },
+  "image_alts": {
+   "klaptafel-hdpe-rechthoekig-hero.webp": "Klaptafel HDPE rechthoekig 183 × 76 cm, lichtgrijs blad, schuin vooraanzicht",
+   "klaptafel-hdpe-rechthoekig-ingeklapt.webp": "Klaptafel HDPE rechthoekig 183 × 76 cm, ingeklapt"
+  },
+  "claims": [
+   "Blad ca. 4,5 cm, poten Ø25 mm, koffermodel ca. 92 x 76 x 9 cm: bevestigen.",
+   "Kleur blad \"lichtgrijs\" (skeleton: \"lichtgrijs/wit\"): kies één benaming."
+  ]
+ },
+ "klaptafel-hdpe-rond": {
+  "body_html": "<p>Een ronde banket-tafel voor bruiloft, diner en gala: 8 personen aan Ø 150 cm, 10 aan Ø 180 cm. Het blad is HDPE en het onderstel klapt eronder weg, zodat je de zaal na het feest snel weer leeg hebt.</p><h3>Wat je krijgt</h3><ul><li>Rond blad van HDPE (blow-mould), ca. 5 cm dik, lichtgrijs</li><li>Stalen onderstel, grijs gepoedercoat, met inklapbare poten, vergrendelringen en kunststof voetdoppen</li><li>Gewicht 24 kg (Ø 150) of 30 kg (Ø 180)</li></ul><h3>Opzetten</h3><ol><li>Leg de tafel met z’n tweeën met het blad op de grond.</li><li>Zet de poten uit en schuif de vergrendelringen dicht.</li><li>Kantel de tafel samen op zijn poten. Verplaatsen kan door hem op zijn rand te rollen, met twee handen aan het blad.</li></ol><h3>Hoeveel plek heb je nodig?</h3><p>Met stoelen eromheen neemt een tafel van Ø 150 cm een cirkel van ca. 2,7 m in, Ø 180 cm ca. 3 m. Houd tussen twee tafels nog ca. 1 m looppad aan.</p><h3>Goed om te weten</h3><ul><li>Een rond kleed tot de grond voor deze maten maken we op aanvraag: <a href=\"/pages/offerte\">vraag een offerte aan</a>.</li><li>Stoelen erbij: de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a> voor een diner, de <a href=\"/products/klapstoel\">klapstoel</a> voor een ceremonie.</li><li>Ingeklapt is de tafel ca. 9 cm dik. Op zijn kant gaat hij door een gewone binnendeur.</li><li>74 cm hoog. Het blad kan niet tegen hitte: zet heet servies op een onderzetter.</li><li>Komt als palletzending. Vanaf 5 stuks zie je de staffelprijs bij de prijs.</li></ul>",
+  "kenmerk_kort": "Rond HDPE-blad · 8 (Ø 150) of 10 (Ø 180) personen",
+  "usps": [
+   "Ø 150 cm voor 8, Ø 180 cm voor 10 personen",
+   "HDPE-blad, tegen water en morsen",
+   "Poten klappen onder het blad",
+   "Staffelprijs vanaf 5 stuks"
+  ],
+  "included": [
+   "Ronde klaptafel met HDPE-blad in de gekozen maat",
+   "Inklapbaar stalen onderstel met voetdoppen"
+  ],
+  "excluded": [
+   "Tafelkleed (op aanvraag)",
+   "Stoelen (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Diameter",
+    "waarde": "Ø150 cm of Ø180 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "HDPE (blow-mould), ca. 5 cm dik"
+   },
+   {
+    "groep": "Blad",
+    "label": "Kleur",
+    "waarde": "Lichtgrijs"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, grijs gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Poten",
+    "waarde": "Inklapbaar met vergrendelringen"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "74 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Ingeklapt",
+    "waarde": "ca. 9 cm dik"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø150 cm",
+    "waarde": "24 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø180 cm",
+    "waarde": "30 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Zittend",
+    "waarde": "Ø150 cm: 8 personen; Ø180 cm: 10 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja; niet hittebestendig"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Hoeveel personen passen aan een ronde tafel?",
+    "antwoord": "Aan Ø 150 cm zitten 8 personen, aan Ø 180 cm 10. Iedereen heeft dan ongeveer 55 tot 60 cm aan de rand: genoeg voor een bord, glazen en bestek."
+   },
+   {
+    "vraag": "Is er een tafelkleed voor deze maten?",
+    "antwoord": "Een rond kleed tot de grond voor Ø 150 en Ø 180 cm maken we op aanvraag. Vraag een offerte aan met het aantal tafels en de kleur."
+   },
+   {
+    "vraag": "Past de tafel door een deur?",
+    "antwoord": "Ja. Ingeklapt is hij ca. 9 cm dik; op zijn kant gaat hij door een gewone binnendeur van 2 m hoog."
+   },
+   {
+    "vraag": "Kan ik hem buiten gebruiken?",
+    "antwoord": "Ja, het HDPE-blad kan tegen regen en is met sop schoon. Zet hem na afloop droog weg."
+   }
+  ],
+  "seo": {
+   "title": "Ronde klaptafel HDPE Ø150 of Ø180 cm | Klapklaar",
+   "description": "Ronde banket-tafel met HDPE-blad en inklapbare poten, 74 cm hoog. Ø150 cm voor 8 of Ø180 cm voor 10 personen. Voor bruiloft en diner. Staffelprijs vanaf 5."
+  },
+  "image_alts": {
+   "klaptafel-hdpe-rond-hero.webp": "Klaptafel HDPE rond Ø 180 cm, lichtgrijs blad, schuin vooraanzicht"
+  },
+  "claims": [
+   "\"Rond kleed tot de grond op aanvraag via offerte\": alleen houden als dit geleverd kan worden.",
+   "Blad ca. 5 cm, ingeklapt ca. 9 cm: bevestigen."
+  ]
+ },
+ "terrastafel-inklapbaar": {
+  "body_html": "<p>Een terrastafel voor horeca en thuis met een blad dat je rechtop kantelt: na sluitingstijd schuif je de tafels tegen elkaar en veeg je het terras in één keer. Compact HPL-blad in zwart, wit of houtlook op een stalen kruisvoet, 75 cm hoog.</p><h3>Welke maat?</h3><ul><li><strong>60 × 60 cm</strong>: 2 personen</li><li><strong>70 × 70 cm</strong>: 2–4 personen</li><li><strong>120 × 70 cm</strong>: 4–6 personen, op twee kruisvoeten</li></ul><h3>Wat je krijgt</h3><ul><li>Blad van 12 mm compact HPL: zwart, wit of houtlook</li><li>Stalen kolom met kruisvoet (120 × 70 cm: twee), zwart gepoedercoat, met stelvoetjes</li><li>Kantelmechanisme met hendel onder het blad</li><li>Bouten en inbussleutel; gewicht 12 kg (60 × 60), 17 kg (70 × 70) of 22 kg (120 × 70)</li></ul><h3>Zo werkt het</h3><ol><li>De eerste keer: schroef kolom, voet en blad aan elkaar.</li><li>Kantelen: trek de hendel onder het blad naar je toe en zet het blad rechtop.</li><li>Terugzetten: blad omlaag tot het vastklikt.</li></ol><h3>Goed om te weten</h3><ul><li>Compact HPL kan het hele jaar buiten staan: tegen regen, vorst en hitte tot ca. 180 °C.</li><li>Stelvoetjes vangen een scheve tegel op.</li><li>Een gewone terrasstoel past erbij: met 45 cm zithoogte aan 75 cm heb je 30 cm tot het blad.</li><li>Zelfde blad en kleuren als onze <a href=\"/products/statafel-vierkant-stapelbaar\">vierkante statafel</a> van 107 cm: een terras met een sta- en een zitgedeelte in één stijl.</li><li>Vanaf 10 stuks zie je de staffelprijs bij de prijs. Een heel terras? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "kenmerk_kort": "75 cm hoog · klapblad · compact HPL, weerbestendig",
+  "usps": [
+   "Klapblad: tafels schuif je tegen elkaar",
+   "Compact HPL: mag het hele jaar buiten",
+   "Stelvoetjes voor een scheef terras",
+   "Staffelprijs vanaf 10 stuks"
+  ],
+  "included": [
+   "Blad van compact HPL in de gekozen maat en kleur",
+   "Stalen kolom en kruisvoet (120 × 70 cm: twee) met stelvoetjes",
+   "Bouten en inbussleutel"
+  ],
+  "excluded": [
+   "Stoelen"
+  ],
+  "specificaties": [
+   {
+    "groep": "Blad",
+    "label": "Maat",
+    "waarde": "60 x 60 cm, 70 x 70 cm of 120 x 70 cm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Materiaal",
+    "waarde": "Compact HPL, 12 mm"
+   },
+   {
+    "groep": "Blad",
+    "label": "Kleur",
+    "waarde": "Zwart, Wit of Houtlook (decor)"
+   },
+   {
+    "groep": "Blad",
+    "label": "Eigenschappen",
+    "waarde": "Weerbestendig, krasvast, hittebestendig tot ca. 180 °C"
+   },
+   {
+    "groep": "Blad",
+    "label": "Klapblad",
+    "waarde": "Kantelt rechtop met hendel onder het blad"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Materiaal",
+    "waarde": "Staal, zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel",
+    "label": "Voet",
+    "waarde": "Kruisvoet met stelvoetjes (120 x 70 cm: twee kolommen en voeten)"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Hoogte",
+    "waarde": "75 cm"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "60 x 60 cm",
+    "waarde": "12 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "70 x 70 cm",
+    "waarde": "17 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "120 x 70 cm",
+    "waarde": "22 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Zittend",
+    "waarde": "60 x 60 cm: 2; 70 x 70 cm: 2–4; 120 x 70 cm: 4–6 personen"
+   },
+   {
+    "groep": "Gebruik",
+    "label": "Binnen en buiten",
+    "waarde": "Ja, het hele jaar"
+   },
+   {
+    "groep": "Montage",
+    "label": "Eerste keer",
+    "waarde": "Kolom, voet en blad aan elkaar schroeven; gereedschap meegeleverd"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Waarom een klapblad?",
+    "antwoord": "Met het blad rechtop schuif je de tafels dicht tegen elkaar. Zo ruim je het terras snel op, veeg je in één keer en blijft er geen regenwater op de bladen staan."
+   },
+   {
+    "vraag": "Kan de tafel het hele jaar buiten staan?",
+    "antwoord": "Ja. Compact HPL kan tegen regen, vorst en zon, en het onderstel is gepoedercoat staal. Een kras in de coating werk je bij met een lakstift."
+   },
+   {
+    "vraag": "Welke maat voor hoeveel personen?",
+    "antwoord": "60 × 60 cm voor 2 personen, 70 × 70 cm voor 2 tot 4 en 120 × 70 cm voor 4 tot 6."
+   },
+   {
+    "vraag": "Moet ik de tafel monteren?",
+    "antwoord": "Eén keer: kolom op de voet en blad op de kolom schroeven. Bouten en inbussleutel zitten erbij."
+   }
+  ],
+  "seo": {
+   "title": "Terrastafel inklapbaar met klapblad | Klapklaar",
+   "description": "Terrastafel met klapblad van compact HPL, 75 cm hoog, zwart, wit of houtlook. 60x60, 70x70 of 120x70 cm, stelvoetjes, jaarrond buiten. Staffel vanaf 10."
+  },
+  "image_alts": {
+   "terrastafel-inklapbaar-zwart-hero.webp": "Terrastafel inklapbaar 70 × 70 cm, Zwart, schuin vooraanzicht",
+   "terrastafel-inklapbaar-wit-hero.webp": "Terrastafel inklapbaar 70 × 70 cm, Wit, schuin vooraanzicht",
+   "terrastafel-inklapbaar-houtlook-hero.webp": "Terrastafel inklapbaar 70 × 70 cm, Houtlook, schuin vooraanzicht"
+  },
+  "claims": [
+   "Compact HPL 12 mm (zelfde als vierkante statafel); 120 x 70 cm op twee kruisvoeten; geleverd in delen: bevestigen."
+  ]
+ },
+ "biertafelset": {
+  "body_html": "<p>De klassieke feestset voor buurtfeest, vereniging, festival en verjaardag: een tafel van 220 cm met twee banken, van gelakt vurenhout op een verzinkt stalen onderstel dat plat inklapt. Kies 50 cm breed, of 70 cm voor meer plek voor borden en schalen. Je kunt ook alleen de tafel bestellen.</p><h3>Wat je krijgt</h3><ul><li><strong>Set</strong>: 1 tafel van 220 × 50 of 220 × 70 cm en 2 banken van 220 × 25 cm</li><li><strong>Alleen tafel</strong>: de tafel, zonder banken</li><li>Blad en zittingen van vurenhout, gelakt; onderstel van verzinkt staal met vergrendelbeugel</li><li>Gewicht set 28 kg (50 cm) of 32 kg (70 cm); tafel 14 of 18 kg; bank 7 kg</li></ul><h3>Opzetten</h3><ol><li>Leg de tafel of bank met het blad op de grond.</li><li>Zet een poot uit tot de vergrendelbeugel vastklikt, daarna de andere.</li><li>Draai hem om en zet hem neer. Banken aan de lange zijden, klaar voor het feest.</li></ol><h3>Hoeveel personen?</h3><p>Aan een set zitten 8 personen, 4 per bank; met wat inschikken 10. Met 70 cm breed blijft er tussen de borden plek voor schalen, flessen en een kaars.</p><h3>Goed om te weten</h3><ul><li>De tafel is ca. 77 cm hoog, de banken ca. 47 cm. De banken zijn bij beide breedtes 25 cm.</li><li>Gelakt vurenhout kan tegen een regenbui. Klap de set niet nat in maar laat hem eerst drogen, dan blijft het hout mooi.</li><li>Ingeklapt is alles 220 cm lang: een bestelbus of aanhanger is het makkelijkst.</li><li>Netjes aankleden kan met een <a href=\"/products/hoes-biertafelset\">hoes voor tafel en 2 banken</a>. Extra bank nodig? <a href=\"/products/bierbank-220\">Bierbank los</a>. Tien sets in één keer: <a href=\"/products/biertafelsets-10-stuks\">pakket van 10</a>.</li><li>Vanaf 5 stuks zie je de staffelprijs bij de prijs. Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "220 cm vurenhout · 50 of 70 cm breed · inklapbaar",
+  "usps": [
+   "Tafel en 2 banken: plek voor 8 personen",
+   "Blad 50 of 70 cm breed",
+   "Verzinkt stalen onderstel, plat inklapbaar",
+   "Staffelprijs vanaf 5 stuks"
+  ],
+  "included": [
+   "Set: tafel en 2 banken in de gekozen breedte, of alleen de tafel"
+  ],
+  "excluded": [
+   "Hoes (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Tafel",
+    "label": "Maat",
+    "waarde": "220 x 50 cm of 220 x 70 cm"
+   },
+   {
+    "groep": "Tafel",
+    "label": "Hoogte",
+    "waarde": "ca. 77 cm"
+   },
+   {
+    "groep": "Bank",
+    "label": "Maat",
+    "waarde": "220 x 25 cm"
+   },
+   {
+    "groep": "Bank",
+    "label": "Zithoogte",
+    "waarde": "ca. 47 cm"
+   },
+   {
+    "groep": "Materiaal",
+    "label": "Blad en zitting",
+    "waarde": "Vurenhout, gelakt"
+   },
+   {
+    "groep": "Materiaal",
+    "label": "Onderstel",
+    "waarde": "Staal, verzinkt, inklapbaar met vergrendelbeugel"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Set 220 x 50 cm",
+    "waarde": "28 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Set 220 x 70 cm",
+    "waarde": "32 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Alleen tafel",
+    "waarde": "14 kg (50 cm) of 18 kg (70 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Bank",
+    "waarde": "7 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Per set",
+    "waarde": "8 personen (10 met inschikken)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "50 of 70 cm breed?",
+    "antwoord": "50 cm is de klassieke biertafel: genoeg voor een bord en een glas aan elke kant. Bij 70 cm heb je in het midden ruimte voor schalen, flessen en decoratie, fijn bij een diner. De banken zijn bij allebei 25 cm."
+   },
+   {
+    "vraag": "Hoeveel mensen kunnen aan een biertafelset zitten?",
+    "antwoord": "8, met 4 personen per bank. Met wat inschikken lukt 10."
+   },
+   {
+    "vraag": "Kan de set buiten blijven staan?",
+    "antwoord": "Tijdens het feest wel: het gelakte vurenhout kan tegen een bui en het onderstel is verzinkt. Laat hem na regen drogen voordat je hem inklapt en berg hem droog op."
+   },
+   {
+    "vraag": "Kan ik losse banken bijbestellen?",
+    "antwoord": "Ja, de bierbank van 220 × 25 cm is los te koop en past bij beide breedtes. Bestel je de tafel alleen, dan kies je zelf hoeveel banken je erbij neemt."
+   }
+  ],
+  "seo": {
+   "title": "Biertafelset 220 cm: tafel en 2 banken | Klapklaar",
+   "description": "Biertafelset van gelakt vurenhout met verzinkt onderstel: tafel 220 x 50 of 220 x 70 cm en 2 banken, voor 8 personen. Ook alleen de tafel. Staffel vanaf 5."
+  },
+  "image_alts": {
+   "biertafelset-hero.webp": "Biertafelset 220 × 50 cm, tafel met 2 banken, schuin vooraanzicht",
+   "biertafelset-70-hero.webp": "Biertafelset 220 × 70 cm met breed blad, tafel met 2 banken, schuin vooraanzicht"
+  },
+  "claims": [
+   "Tafel ca. 77 cm, bank ca. 47 cm hoog: bevestigen."
+  ]
+ },
+ "bierbank-220": {
+  "body_html": "<p>Een extra bank bij je biertafel, of los als zitbank langs de dansvloer, in de kantine of op de markt. Dezelfde bank als in onze biertafelset: 220 × 25 cm, gelakt vurenhout, met een onderstel dat plat inklapt.</p><h3>Wat je krijgt</h3><ul><li>1 bank van 220 × 25 cm, zithoogte ca. 47 cm</li><li>Vurenhout, gelakt; onderstel van verzinkt staal met vergrendelbeugel</li><li>Gewicht 7 kg</li></ul><h3>Opzetten</h3><ol><li>Leg de bank met de zitting op de grond.</li><li>Zet de poten uit tot de vergrendelbeugels vastklikken.</li><li>Draai hem om. Klaar.</li></ol><h3>Goed om te weten</h3><ul><li>Op een bank zitten 4 personen, 5 met wat inschikken.</li><li>Past bij beide breedtes van de <a href=\"/products/biertafelset\">biertafelset</a>: de banken zijn altijd 25 cm.</li><li>Laat de bank na een regenbui drogen voordat je hem inklapt en berg hem droog op.</li><li>Vanaf 5 stuks zie je de staffelprijs bij de prijs.</li></ul>",
+  "kenmerk_kort": "220 × 25 cm · vurenhout · 4 personen",
+  "usps": [
+   "Dezelfde bank als in de biertafelset",
+   "Plek voor 4 personen",
+   "Onderstel klapt plat in",
+   "Staffelprijs vanaf 5 stuks"
+  ],
+  "included": [
+   "1 bierbank 220 × 25 cm"
+  ],
+  "excluded": [],
+  "specificaties": [
+   {
+    "groep": "Bank",
+    "label": "Maat",
+    "waarde": "220 x 25 cm"
+   },
+   {
+    "groep": "Bank",
+    "label": "Zithoogte",
+    "waarde": "ca. 47 cm"
+   },
+   {
+    "groep": "Materiaal",
+    "label": "Zitting",
+    "waarde": "Vurenhout, gelakt"
+   },
+   {
+    "groep": "Materiaal",
+    "label": "Onderstel",
+    "waarde": "Staal, verzinkt, inklapbaar met vergrendelbeugel"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Per bank",
+    "waarde": "7 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Zittend",
+    "waarde": "4 personen (5 met inschikken)"
+   },
+   {
+    "groep": "Past bij",
+    "label": "Tafel",
+    "waarde": "Biertafelset 220 x 50 cm en 220 x 70 cm"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Past deze bank bij mijn biertafel?",
+    "antwoord": "Bij onze biertafelset in beide breedtes wel. Bij een andere biertafel van 220 cm met een gewone hoogte van ca. 77 cm past hij ook: de zithoogte is ca. 47 cm."
+   },
+   {
+    "vraag": "Hoeveel personen kunnen op een bank?",
+    "antwoord": "4 personen, met wat inschikken 5."
+   },
+   {
+    "vraag": "Kan de bank buiten blijven staan?",
+    "antwoord": "Tijdens het feest wel. Na regen eerst laten drogen, dan inklappen en droog opbergen."
+   }
+  ],
+  "seo": {
+   "title": "Bierbank los 220 cm, vurenhout | Klapklaar",
+   "description": "Losse bierbank van 220 x 25 cm, gelakt vurenhout met verzinkt inklapbaar onderstel. Voor 4 personen, past bij biertafelsets van 220 cm. Staffel vanaf 5."
+  },
+  "image_alts": {
+   "bierbank-220-hero.webp": "Bierbank los 220 cm van vurenhout, schuin vooraanzicht"
+  },
+  "claims": [
+   "Zithoogte ca. 47 cm: bevestigen."
+  ]
+ },
+ "pakket-statafel-met-stretchrok": {
+  "body_html": "<p>Eén statafel, meteen aangekleed: onze statafel inklapbaar Professional met een stretchrok en topcover in de kleur die je kiest. Voor je eerste borrel, de receptie van je club, of als proef voordat je er meer neemt.</p><h3>Wat je krijgt</h3><ul><li>1 <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, wit HPL-blad met kantenband, in Ø 70, 80 of 85 cm</li><li>1 <a href=\"/products/statafelrok-stretch\">statafelrok stretch met topcover</a> in de passende maat: Ø 60–70 cm bij een tafel van Ø 70, Ø 80–85 cm bij Ø 80 en Ø 85</li></ul><p><strong>Kleur</strong> is de kleur van rok en topcover: je kiest uit 24 kleuren. Het blad is altijd wit; onder de topcover zie je het niet.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Maat</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">Ø 70 cm</th><td>Los € 109,90 · in het pakket € 99,95</td><td>€ 9,95</td></tr><tr><th scope=\"row\">Ø 80 cm</th><td>Los € 114,90 · in het pakket € 104,95</td><td>€ 9,95</td></tr><tr><th scope=\"row\">Ø 85 cm</th><td>Los € 119,90 · in het pakket € 109,95</td><td>€ 9,95</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van tafel en rok met topcover.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><h3>Goed om te weten</h3><ul><li>Aan Ø 70 cm staan 4–5 personen, aan Ø 80 en Ø 85 cm 6. De tafel is 110 cm hoog; een barkruk met 76 cm zithoogte past erbij.</li><li>De rok was je op 30 °C, niet in de droger. Hij is kreukherstellend: na het wassen zo weer strak om de tafel.</li><li>Liever een zwart, antraciet of berken blad, of een rok van een andere maat? Bestel tafel en rok dan los.</li><li>Meer tafels nodig? Met het <a href=\"/products/pakket-4-statafels-met-stretchrokken\">pakket van 4 statafels met stretchrokken</a> betaal je per tafel nog minder.</li></ul>",
+  "kenmerk_kort": "Statafel Professional (wit blad) + stretchrok met topcover in jouw kleur",
+  "usps": [
+   "Statafel en stretchrok met topcover in één keer",
+   "Rok in 24 kleuren, altijd de passende maat",
+   "Goedkoper dan los",
+   "Wit HPL-blad met kantenband"
+  ],
+  "included": [
+   "Statafel inklapbaar Professional, wit blad, in de gekozen maat",
+   "Statafelrok stretch met topcover in de gekozen kleur en passende maat"
+  ],
+  "excluded": [
+   "Barkrukken (los te bestellen)",
+   "Beschermplaat (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafel",
+    "waarde": "1 x statafel inklapbaar Professional, wit blad"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rok",
+    "waarde": "1 x statafelrok stretch met topcover: Ø60-70 cm bij Ø70 cm, Ø80-85 cm bij Ø80 en Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleur",
+    "waarde": "Kleur van rok en topcover (24 kleuren); blad altijd wit"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband, wit"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Onderstel",
+    "waarde": "Staal, zwart epoxy-gepoedercoat, kolom Ø32 mm, 4 inklapbare poten"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø70 cm",
+    "waarde": "ca. 12,7 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø80 cm",
+    "waarde": "ca. 13,7 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø85 cm",
+    "waarde": "ca. 14,7 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "Ø70 cm: 4–5 personen; Ø80 cm en Ø85 cm: 6 personen"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat betekent de kleur bij dit pakket?",
+    "antwoord": "De kleur die je kiest, is die van de stretchrok en de topcover. Het blad van de tafel is altijd wit; met de topcover erover zie je dat niet."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Bij de huidige prijzen: Ø 70 cm: los € 109,90, in het pakket € 99,95 (€ 9,95 minder); Ø 80 cm: los € 114,90, in het pakket € 104,95 (€ 9,95 minder); Ø 85 cm: los € 119,90, in het pakket € 109,95 (€ 9,95 minder). Los is de som van de losse prijzen van dezelfde onderdelen."
+   },
+   {
+    "vraag": "Kan ik een ander blad of een andere rok kiezen?",
+    "antwoord": "In het pakket zit altijd het witte blad en een stretchrok met topcover in de passende maat. Wil je een zwart, antraciet of berken blad, of een rok zonder topcover, bestel tafel en rok dan los."
+   },
+   {
+    "vraag": "Hoe was ik de rok?",
+    "antwoord": "Op 30 °C in de wasmachine, niet in de droger. De stof is kreukherstellend, dus na het wassen trek je hem zo weer strak over de tafel."
+   }
+  ],
+  "seo": {
+   "title": "Statafel met stretchrok en topcover (pakket) | Klapklaar",
+   "description": "Inklapbare statafel van 110 cm met wit HPL-blad en een stretchrok met topcover in 24 kleuren. Ø70, Ø80 of Ø85 cm. Goedkoper dan los besteld."
+  },
+  "image_alts": {
+   "statafelrok-stretch-zwart-hero.webp": "Statafel met stretchrok en topcover, Zwart, schuin vooraanzicht",
+   "statafelrok-stretch-wit-hero.webp": "Statafel met stretchrok en topcover, Wit, schuin vooraanzicht",
+   "statafelrok-stretch-creme-hero.webp": "Statafel met stretchrok en topcover, Crème, schuin vooraanzicht",
+   "statafelrok-stretch-beige-hero.webp": "Statafel met stretchrok en topcover, Beige, schuin vooraanzicht",
+   "statafelrok-stretch-taupe-hero.webp": "Statafel met stretchrok en topcover, Taupe, schuin vooraanzicht",
+   "statafelrok-stretch-zilver-hero.webp": "Statafel met stretchrok en topcover, Zilver, schuin vooraanzicht",
+   "statafelrok-stretch-grijs-hero.webp": "Statafel met stretchrok en topcover, Grijs, schuin vooraanzicht",
+   "statafelrok-stretch-antraciet-hero.webp": "Statafel met stretchrok en topcover, Antraciet, schuin vooraanzicht",
+   "statafelrok-stretch-goud-hero.webp": "Statafel met stretchrok en topcover, Goud, schuin vooraanzicht",
+   "statafelrok-stretch-geel-hero.webp": "Statafel met stretchrok en topcover, Geel, schuin vooraanzicht",
+   "statafelrok-stretch-oranje-hero.webp": "Statafel met stretchrok en topcover, Oranje, schuin vooraanzicht",
+   "statafelrok-stretch-rood-hero.webp": "Statafel met stretchrok en topcover, Rood, schuin vooraanzicht",
+   "statafelrok-stretch-bordeaux-hero.webp": "Statafel met stretchrok en topcover, Bordeaux, schuin vooraanzicht",
+   "statafelrok-stretch-roze-hero.webp": "Statafel met stretchrok en topcover, Roze, schuin vooraanzicht",
+   "statafelrok-stretch-fuchsia-hero.webp": "Statafel met stretchrok en topcover, Fuchsia, schuin vooraanzicht",
+   "statafelrok-stretch-paars-hero.webp": "Statafel met stretchrok en topcover, Paars, schuin vooraanzicht",
+   "statafelrok-stretch-lichtblauw-hero.webp": "Statafel met stretchrok en topcover, Lichtblauw, schuin vooraanzicht",
+   "statafelrok-stretch-turquoise-hero.webp": "Statafel met stretchrok en topcover, Turquoise, schuin vooraanzicht",
+   "statafelrok-stretch-blauw-hero.webp": "Statafel met stretchrok en topcover, Blauw, schuin vooraanzicht",
+   "statafelrok-stretch-marineblauw-hero.webp": "Statafel met stretchrok en topcover, Marineblauw, schuin vooraanzicht",
+   "statafelrok-stretch-lichtgroen-hero.webp": "Statafel met stretchrok en topcover, Lichtgroen, schuin vooraanzicht",
+   "statafelrok-stretch-groen-hero.webp": "Statafel met stretchrok en topcover, Groen, schuin vooraanzicht",
+   "statafelrok-stretch-camel-hero.webp": "Statafel met stretchrok en topcover, Camel, schuin vooraanzicht",
+   "statafelrok-stretch-bruin-hero.webp": "Statafel met stretchrok en topcover, Bruin, schuin vooraanzicht"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): opnieuw genereren bij elke prijswijziging.",
+   "Rok: stof en wasvoorschrift uit statafelrok-stretch (G5) overgenomen; gelijk houden."
+  ]
+ },
+ "pakket-4-statafels-met-stretchrokken": {
+  "body_html": "<p>Vier complete statafels in één kleur: genoeg voor een tuinfeest, kantineborrel of receptie met zo’n 30 tot 40 gasten. Vier keer onze statafel inklapbaar Professional en vier stretchrokken met topcover, voor één pakketprijs.</p><h3>Wat je krijgt</h3><ul><li>4 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, wit HPL-blad met kantenband, in Ø 70, 80 of 85 cm</li><li>4 × <a href=\"/products/statafelrok-stretch\">statafelrok stretch met topcover</a> in de passende maat: Ø 60–70 cm bij Ø 70, Ø 80–85 cm bij Ø 80 en Ø 85</li></ul><p><strong>Kleur</strong> is de kleur van alle vier de rokken en topcovers: je kiest uit 24 kleuren. De bladen zijn wit.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Maat</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">Ø 70 cm</th><td>Los € 439,60 · in het pakket € 389,00</td><td>€ 50,60</td></tr><tr><th scope=\"row\">Ø 80 cm</th><td>Los € 459,60 · in het pakket € 409,00</td><td>€ 50,60</td></tr><tr><th scope=\"row\">Ø 85 cm</th><td>Los € 479,60 · in het pakket € 429,00</td><td>€ 50,60</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van 4 tafels en 4 rokken met topcover.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Met twee personen staan vier tafels in een kwartier.</p><h3>Goed om te weten</h3><ul><li>Reken bij een borrel op 1 statafel per 8 à 10 gasten. Vier tafels Ø 80 cm geven plek aan 24 personen tegelijk.</li><li>Alle rokken hebben dezelfde kleur. Wil je kleuren mixen, bestel tafels en rokken dan los.</li><li>Ingeklapt is elke tafel ca. 140 × 80 × 15 cm (Ø 80). Vaak vervoerd of opgeslagen? De kleine <a href=\"/products/transportkar-statafels\">transportkar</a> neemt er 5.</li><li>Staffelprijzen gelden op losse statafels vanaf 10 stuks; in dit pakket zit de korting al in de pakketprijs.</li></ul>",
+  "kenmerk_kort": "4 statafels + 4 stretchrokken met topcover · één kleur",
+  "usps": [
+   "4 statafels en 4 rokken met topcover",
+   "Voor een borrel met 30 tot 40 gasten",
+   "Alle rokken in één kleur, uit 24",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "4 × statafel inklapbaar Professional, wit blad, in de gekozen maat",
+   "4 × statafelrok stretch met topcover in de gekozen kleur en passende maat"
+  ],
+  "excluded": [
+   "Barkrukken (los te bestellen)",
+   "Transportkar (los te bestellen)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "4 x statafel inklapbaar Professional, wit blad"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rokken",
+    "waarde": "4 x statafelrok stretch met topcover: Ø60-70 cm bij Ø70 cm, Ø80-85 cm bij Ø80 en Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleur",
+    "waarde": "Kleur van alle rokken en topcovers (24 kleuren); bladen altijd wit"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband, wit"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Onderstel",
+    "waarde": "Staal, zwart epoxy-gepoedercoat, kolom Ø32 mm, 4 inklapbare poten"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø70 cm",
+    "waarde": "ca. 50,6 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø80 cm",
+    "waarde": "ca. 54,6 kg"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Ø85 cm",
+    "waarde": "ca. 58,6 kg"
+   },
+   {
+    "groep": "Capaciteit",
+    "label": "Staand",
+    "waarde": "Ø70 cm: 16–20 personen; Ø80 cm en Ø85 cm: 24 personen tegelijk"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Voor hoeveel gasten is dit genoeg?",
+    "antwoord": "Voor een borrel met zo’n 30 tot 40 gasten. Aan vier tafels Ø 80 cm staan 24 personen tegelijk, en bij een borrel staat niet iedereen tegelijk aan tafel."
+   },
+   {
+    "vraag": "Kan ik verschillende kleuren rokken kiezen?",
+    "antwoord": "In het pakket hebben alle vier de rokken dezelfde kleur. Wil je bijvoorbeeld twee zwarte en twee witte, bestel dan vier keer het pakket met één statafel (twee in elke kleur), of tafels en rokken los."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Bij de huidige prijzen: Ø 70 cm: los € 439,60, in het pakket € 389,00 (€ 50,60 minder); Ø 80 cm: los € 459,60, in het pakket € 409,00 (€ 50,60 minder); Ø 85 cm: los € 479,60, in het pakket € 429,00 (€ 50,60 minder). Los is de som van de losse prijzen van dezelfde onderdelen."
+   },
+   {
+    "vraag": "Hoe vervoer ik vier statafels?",
+    "antwoord": "Ingeklapt is elke tafel ca. 140 × 80 × 15 cm (Ø 80). In een stationwagen met de achterbank plat gaan er meestal vier mee. Vaak heen en weer? Op de kleine transportkar passen er 5."
+   }
+  ],
+  "seo": {
+   "title": "4 statafels met stretchrokken (pakket) | Klapklaar",
+   "description": "Vier inklapbare statafels van 110 cm met wit blad en vier stretchrokken met topcover in één van 24 kleuren. Ø70, Ø80 of Ø85 cm, goedkoper dan los."
+  },
+  "image_alts": {
+   "pakket-4-statafels-met-stretchrokken-zwart-hero.webp": "4 statafels met stretchrok en topcover, Zwart, schuin vooraanzicht",
+   "statafelrok-stretch-wit-hero.webp": "Statafel met stretchrok en topcover, Wit, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-creme-hero.webp": "Statafel met stretchrok en topcover, Crème, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-beige-hero.webp": "Statafel met stretchrok en topcover, Beige, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-taupe-hero.webp": "Statafel met stretchrok en topcover, Taupe, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-zilver-hero.webp": "Statafel met stretchrok en topcover, Zilver, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-grijs-hero.webp": "Statafel met stretchrok en topcover, Grijs, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-antraciet-hero.webp": "Statafel met stretchrok en topcover, Antraciet, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-goud-hero.webp": "Statafel met stretchrok en topcover, Goud, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-geel-hero.webp": "Statafel met stretchrok en topcover, Geel, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-oranje-hero.webp": "Statafel met stretchrok en topcover, Oranje, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-rood-hero.webp": "Statafel met stretchrok en topcover, Rood, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-bordeaux-hero.webp": "Statafel met stretchrok en topcover, Bordeaux, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-roze-hero.webp": "Statafel met stretchrok en topcover, Roze, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-fuchsia-hero.webp": "Statafel met stretchrok en topcover, Fuchsia, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-paars-hero.webp": "Statafel met stretchrok en topcover, Paars, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-lichtblauw-hero.webp": "Statafel met stretchrok en topcover, Lichtblauw, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-turquoise-hero.webp": "Statafel met stretchrok en topcover, Turquoise, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-blauw-hero.webp": "Statafel met stretchrok en topcover, Blauw, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-marineblauw-hero.webp": "Statafel met stretchrok en topcover, Marineblauw, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-lichtgroen-hero.webp": "Statafel met stretchrok en topcover, Lichtgroen, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-groen-hero.webp": "Statafel met stretchrok en topcover, Groen, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-camel-hero.webp": "Statafel met stretchrok en topcover, Camel, schuin vooraanzicht (het pakket bevat er 4)",
+   "statafelrok-stretch-bruin-hero.webp": "Statafel met stretchrok en topcover, Bruin, schuin vooraanzicht (het pakket bevat er 4)"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): opnieuw genereren bij prijswijziging.",
+   "\"4 tafels in een kwartier met twee personen\": bevestigen na proefopbouw.",
+   "\"Staffel niet op het pakket\": afstemmen met hoe de automatische korting wordt ingesteld.",
+   "badge:nieuw alleen houden als het product bij lancering echt nieuw is."
+  ]
+ },
+ "pakket-statafels-met-transportkar": {
+  "body_html": "<p>Voor verhuur, horeca, vereniging en evenementenlocatie: 5, 10 of 15 statafels inklapbaar Professional met de transportkar erbij. Ingeklapt op de kar rijd je ze in één keer van de opslag naar de zaal, zonder sjouwen.</p><h3>Wat je krijgt</h3><ul><li>5, 10 of 15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, wit HPL-blad met kantenband, in Ø 70, 80 of 85 cm</li><li><strong>5 statafels</strong>: met de kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li><li><strong>10 of 15 statafels</strong>: met de grote transportkar, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li><li>De karren hebben heavy duty wielen en een grijze hamerslag-poedercoating</li></ul><p>Alle statafels hebben een wit blad. Rokken zitten er niet bij; die zitten wel in het <a href=\"/products/pakket-statafels-stretchrokken-transportkar\">pakket met stretchrokken en transportkar</a>.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 70 cm + kleine kar</th><td>Los € 718,75 · in het pakket € 639,00</td><td>€ 79,75</td></tr><tr><th scope=\"row\">5 statafels Ø 80 cm + kleine kar</th><td>Los € 743,75 · in het pakket € 669,00</td><td>€ 74,75</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm + kleine kar</th><td>Los € 768,75 · in het pakket € 689,00</td><td>€ 79,75</td></tr><tr><th scope=\"row\">10 statafels Ø 70 cm + grote kar</th><td>Los € 1.268,50 · in het pakket € 1.139,00</td><td>€ 129,50</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm + grote kar</th><td>Los € 1.318,50 · in het pakket € 1.179,00</td><td>€ 139,50</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm + grote kar</th><td>Los € 1.368,50 · in het pakket € 1.229,00</td><td>€ 139,50</td></tr><tr><th scope=\"row\">15 statafels Ø 70 cm + grote kar</th><td>Los € 1.718,25 · in het pakket € 1.539,00</td><td>€ 179,25</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm + grote kar</th><td>Los € 1.793,25 · in het pakket € 1.609,00</td><td>€ 184,25</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm + grote kar</th><td>Los € 1.868,25 · in het pakket € 1.679,00</td><td>€ 189,25</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van de statafels en de kar.</p><h3>Zo werkt het</h3><ol><li>Klap de tafels in: blad rechtop, knop los, ring omhoog.</li><li>Zet ze naast elkaar in de kar, blad tegen blad.</li><li>Rij de kar naar de zaal en zet de tafels daar weer uit.</li></ol><h3>Goed om te weten</h3><ul><li>Met 10 statafels op de grote kar heb je nog plek voor 5 extra; die kun je later los bijbestellen.</li><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm); de kleine kar (65 cm) past er wel door.</li><li>Reken bij een borrel op 1 statafel per 8 à 10 gasten: 15 tafels zijn genoeg voor 120 tot 150 gasten.</li><li>Staffelprijzen gelden op losse statafels; in dit pakket zit de korting al in de pakketprijs. Andere aantallen of bladkleuren? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "5, 10 of 15 statafels Professional (wit blad) + transportkar",
+  "usps": [
+   "5, 10 of 15 statafels met de passende kar",
+   "Kar met heavy duty wielen",
+   "Wit HPL-blad in Ø 70, 80 of 85 cm",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "5, 10 of 15 × statafel inklapbaar Professional, wit blad, in de gekozen maat",
+   "Transportkar klein (bij 5) of groot (bij 10 en 15)"
+  ],
+  "excluded": [
+   "Statafelrokken (zie het pakket met stretchrokken)"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "5, 10 of 15 x statafel inklapbaar Professional, wit blad"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Transportkar",
+    "waarde": "Klein bij 5 statafels; groot bij 10 en 15 statafels"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband, wit"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Onderstel",
+    "waarde": "Staal, zwart epoxy-gepoedercoat, kolom Ø32 mm, 4 inklapbare poten"
+   },
+   {
+    "groep": "Transportkar",
+    "label": "Klein",
+    "waarde": "ca. 65 x 95 x 114 cm, tot 5 statafels"
+   },
+   {
+    "groep": "Transportkar",
+    "label": "Groot",
+    "waarde": "ca. 126 x 97 x 113 cm, tot 15 statafels"
+   },
+   {
+    "groep": "Transportkar",
+    "label": "Wielen en afwerking",
+    "waarde": "Heavy duty wielen, grijs hamerslag gepoedercoat"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "5 statafels + kleine kar",
+    "waarde": "ca. 98 kg (Ø70 cm) tot 108 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "10 statafels + grote kar",
+    "waarde": "ca. 175 kg (Ø70 cm) tot 195 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "15 statafels + grote kar",
+    "waarde": "ca. 235 kg (Ø70 cm) tot 265 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Afhankelijk van aantal en maat betaal je bij de huidige prijzen € 74,75 tot € 189,25 minder dan los. Voorbeeld: 10 statafels Ø 80 cm + grote kar kosten los € 1.318,50 en in het pakket € 1.179,00. Alle combinaties staan in de tabel bij Los of in het pakket; los is de som van de losse prijzen van dezelfde onderdelen."
+   },
+   {
+    "vraag": "Past de kar door een deur?",
+    "antwoord": "De kleine kar is ca. 65 cm breed en past door een gewone binnendeur. De grote kar is ca. 97 cm breed: daarvoor heb je een dubbele deur, een roldeur of een brede gang nodig. Meet het even na voordat je bestelt."
+   },
+   {
+    "vraag": "Zitten er statafelrokken bij?",
+    "antwoord": "Nee. Wil je de rokken er meteen bij, kies dan het pakket statafels met stretchrokken en transportkar, of bestel de rokken los in 24 kleuren."
+   },
+   {
+    "vraag": "Kan ik later statafels bijbestellen voor de grote kar?",
+    "antwoord": "Ja. De grote kar neemt tot 15 statafels; bij het pakket met 10 heb je dus plek voor 5 losse erbij."
+   }
+  ],
+  "seo": {
+   "title": "Statafels met transportkar: 5, 10 of 15 | Klapklaar",
+   "description": "Pakket van 5, 10 of 15 inklapbare statafels van 110 cm met wit HPL-blad en de passende transportkar. Ø70, Ø80 of Ø85 cm. Goedkoper dan los besteld."
+  },
+  "image_alts": {
+   "pakket-statafels-met-transportkar-hero.webp": "Statafels inklapbaar Professional met wit blad, ingeklapt op een transportkar"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): opnieuw genereren bij prijswijziging.",
+   "Grote kar \"tot 15 statafels\" ook voor Ø85 (kar-spec zegt \"tot 15 statafels Ø80\"): bevestigen.",
+   "Deurbreedte-advies (grote kar 97 cm) volgt uit de kar-maten."
+  ]
+ },
+ "pakket-statafels-stretchrokken-transportkar": {
+  "body_html": "<p>Het complete pakket voor verhuur en evenementen: 5, 10 of 15 statafels inklapbaar Professional, voor elke tafel een stretchrok met topcover, en de transportkar om alles in één keer te rijden. Rokken in zes rustige kleuren: wit, zwart, antraciet, marineblauw, crème of bordeaux.</p><h3>Wat je krijgt</h3><ul><li>5, 10 of 15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, wit HPL-blad met kantenband, in Ø 70, 80 of 85 cm</li><li>Evenveel <a href=\"/products/statafelrok-stretch\">stretchrokken met topcover</a> in de passende maat: Ø 60–70 cm bij Ø 70, Ø 80–85 cm bij Ø 80 en Ø 85</li><li><strong>5 statafels</strong>: met de kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li><li><strong>10 of 15 statafels</strong>: met de grote transportkar, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li></ul><p><strong>Kleur</strong> is de kleur van alle rokken en topcovers. De bladen zijn wit.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 70 cm + kleine kar</th><td>Los € 818,50 · in het pakket € 719,00</td><td>€ 99,50</td></tr><tr><th scope=\"row\">5 statafels Ø 80 cm + kleine kar</th><td>Los € 843,50 · in het pakket € 749,00</td><td>€ 94,50</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm + kleine kar</th><td>Los € 868,50 · in het pakket € 769,00</td><td>€ 99,50</td></tr><tr><th scope=\"row\">10 statafels Ø 70 cm + grote kar</th><td>Los € 1.468,00 · in het pakket € 1.299,00</td><td>€ 169,00</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm + grote kar</th><td>Los € 1.518,00 · in het pakket € 1.349,00</td><td>€ 169,00</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm + grote kar</th><td>Los € 1.568,00 · in het pakket € 1.389,00</td><td>€ 179,00</td></tr><tr><th scope=\"row\">15 statafels Ø 70 cm + grote kar</th><td>Los € 2.017,50 · in het pakket € 1.789,00</td><td>€ 228,50</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm + grote kar</th><td>Los € 2.092,50 · in het pakket € 1.859,00</td><td>€ 233,50</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm + grote kar</th><td>Los € 2.167,50 · in het pakket € 1.929,00</td><td>€ 238,50</td></tr></tbody></table><p>De prijs is voor elke rokkleur gelijk. Prijzen incl. btw; los is de som van de huidige losse prijzen van tafels, rokken met topcover en kar.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Na afloop: rokken eraf, tafels inklappen en blad tegen blad in de kar. Vouw de rokken in een krat of tas, dan blijven ze schoon.</p><h3>Goed om te weten</h3><ul><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm); de kleine kar (65 cm) past er wel door.</li><li>Rokken wassen op 30 °C, niet in de droger. Een paar reserverokken in dezelfde kleur zijn handig bij verhuur; die bestel je los.</li><li>Een andere kleur dan deze zes? Bestel tafels en rokken los: de stretchrok is er in 24 kleuren.</li><li>Staffelprijzen gelden op losse statafels en rokken; in dit pakket zit de korting al in de pakketprijs.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "Statafels, stretchrokken met topcover en transportkar · 6 kleuren",
+  "usps": [
+   "Statafels, rokken met topcover en kar in één keer",
+   "5, 10 of 15 statafels",
+   "Rokken in 6 rustige kleuren",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "5, 10 of 15 × statafel inklapbaar Professional, wit blad, in de gekozen maat",
+   "Evenveel stretchrokken met topcover in de gekozen kleur en passende maat",
+   "Transportkar klein (bij 5) of groot (bij 10 en 15)"
+  ],
+  "excluded": [
+   "Krat of tas voor de rokken"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "5, 10 of 15 x statafel inklapbaar Professional, wit blad"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rokken",
+    "waarde": "Evenveel statafelrokken stretch met topcover: Ø60-70 cm bij Ø70 cm, Ø80-85 cm bij Ø80 en Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Transportkar",
+    "waarde": "Klein bij 5 statafels; groot bij 10 en 15 statafels"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleur",
+    "waarde": "Kleur van alle rokken en topcovers: Wit, Zwart, Antraciet, Marineblauw, Crème, Bordeaux"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband, wit"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Transportkar",
+    "label": "Klein",
+    "waarde": "ca. 65 x 95 x 114 cm, tot 5 statafels"
+   },
+   {
+    "groep": "Transportkar",
+    "label": "Groot",
+    "waarde": "ca. 126 x 97 x 113 cm, tot 15 statafels"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "5 statafels + kleine kar",
+    "waarde": "ca. 101,2 kg (Ø70 cm) tot 111,2 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "10 statafels + grote kar",
+    "waarde": "ca. 181,5 kg (Ø70 cm) tot 201,5 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "15 statafels + grote kar",
+    "waarde": "ca. 244,8 kg (Ø70 cm) tot 274,8 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat betekent de kleur bij dit pakket?",
+    "antwoord": "De kleur die je kiest, is die van alle stretchrokken en topcovers in het pakket. De bladen van de tafels zijn altijd wit."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Afhankelijk van aantal en maat betaal je bij de huidige prijzen € 94,50 tot € 238,50 minder dan los. Voorbeeld: 10 statafels Ø 80 cm + grote kar kosten los € 1.518,00 en in het pakket € 1.349,00. Alle combinaties staan in de tabel bij Los of in het pakket; los is de som van de losse prijzen van dezelfde onderdelen."
+   },
+   {
+    "vraag": "Kan ik een andere rokkleur kiezen?",
+    "antwoord": "In dit pakket kies je uit wit, zwart, antraciet, marineblauw, crème en bordeaux. Wil je een andere kleur, bestel tafels, rokken en kar dan los: de stretchrok is er in 24 kleuren."
+   },
+   {
+    "vraag": "Past de kar door een deur?",
+    "antwoord": "De kleine kar (ca. 65 cm breed) past door een gewone binnendeur. De grote kar is ca. 97 cm breed en heeft een dubbele deur, roldeur of brede gang nodig."
+   }
+  ],
+  "seo": {
+   "title": "Statafels, stretchrokken en transportkar | Klapklaar",
+   "description": "5, 10 of 15 inklapbare statafels met stretchrokken en topcover in 6 kleuren, plus de passende transportkar. Ø70, Ø80 of Ø85 cm. Goedkoper dan los."
+  },
+  "image_alts": {
+   "pakket-statafels-stretchrokken-transportkar-zwart-hero.webp": "Statafels met stretchrok en topcover, Zwart, naast de transportkar, schuin vooraanzicht",
+   "pakket-statafels-stretchrokken-transportkar-wit-hero.webp": "Statafels met stretchrok en topcover, Wit, naast de transportkar, schuin vooraanzicht",
+   "pakket-statafels-stretchrokken-transportkar-antraciet-hero.webp": "Statafels met stretchrok en topcover, Antraciet, naast de transportkar, schuin vooraanzicht",
+   "pakket-statafels-stretchrokken-transportkar-marineblauw-hero.webp": "Statafels met stretchrok en topcover, Marineblauw, naast de transportkar, schuin vooraanzicht",
+   "pakket-statafels-stretchrokken-transportkar-creme-hero.webp": "Statafels met stretchrok en topcover, Crème, naast de transportkar, schuin vooraanzicht",
+   "pakket-statafels-stretchrokken-transportkar-bordeaux-hero.webp": "Statafels met stretchrok en topcover, Bordeaux, naast de transportkar, schuin vooraanzicht"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): opnieuw genereren bij prijswijziging.",
+   "Grote kar \"tot 15 statafels\" ook voor Ø85: bevestigen."
+  ]
+ },
+ "_collections": {
+  "statafels": {
+   "intro": "Statafels van 105 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met vaste kruisvoet of stapelbaar. Rond in Ø 70, 80 of 85 cm, vierkant, rechthoekig of als wijnvat. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.",
+   "kenmerken": [
+    "110 cm: ellebooghoogte",
+    "Ø 70, 80 of 85 cm",
+    "HPL-blad hittebestendig",
+    "Staffelprijs vanaf 10"
+   ],
+   "seo_tekst": {
+    "type": "root",
+    "children": [
+     {
+      "type": "heading",
+      "level": 2,
+      "children": [
+       {
+        "type": "text",
+        "value": "Statafel kopen: zo kies je"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 105 tot 110 cm hoog, inklapbaar, vast of stapelbaar, en rond, vierkant, rechthoekig of als wijnvat. Met de vragen hieronder weet je snel welke je nodig hebt."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Welke maat? Reken met personen per diameter"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Ø 70 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": 4–5 personen staand. Voor smalle ruimtes en kleine groepjes."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Ø 80 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": 6 personen. Genoeg plek voor glazen en een schaaltje."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Ø 85 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": 6 personen, met meer blad voor bordjes en hapjes."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Hoeveel tafels? Reken bij een borrel op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Voor 40 gasten zijn 4 à 5 statafels genoeg. Meer rekenvoorbeelden staan in "
+       },
+       {
+        "type": "link",
+        "url": "/blogs/advies/hoeveel-statafels-per-gast",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "hoeveel statafels heb je nodig per gast"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Hoe hoog is 110 cm, en past er een barkruk bij?"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. Een barkruk met een zithoogte van 76 cm past erbij: tussen zitting en blad blijft 34 cm, genoeg voor je benen. Bij de vierkante statafel van 107 cm is dat 31 cm en bij het wijnvat van 105 cm 29 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Inklapbaar, vast of stapelbaar?"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Inklapbaar",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": voor feesten, verhuur en alles wat na afloop weer weg moet. De "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-inklapbaar-professional",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "statafel inklapbaar Professional"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " (12–14 kg, HPL-blad, 3 maten, 4 kleuren) of de lichte "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-inklapbaar-hdpe-80",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "HDPE-statafel Ø 80 cm"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " (9 kg). Lang model: de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-rechthoekig-inklapbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "rechthoekige statafel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " van 120 of 160 cm."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Vast",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": voor terras en bar waar de tafel blijft staan. De "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-met-kruisvoet",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "statafel met kruisvoet"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " weegt ca. 22 kg en heeft stelvoetjes."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Stapelbaar",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-vierkant-stapelbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "vierkante statafel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " stapel je tot 5 hoog, zonder scharnieren die kunnen slijten."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Sfeer",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-wijnvat-houtlook",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "wijnvat-statafel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " in houtlook, vulbaar met water of zand."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Welk blad?"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "HPL met kantenband",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": krasvast, hittebestendig tot ca. 180 °C, binnen en buiten."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Compact HPL",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": door en door massief, voor tafels die het hele jaar buiten staan."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "HDPE",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": licht en waterbestendig, maar niet tegen hitte. Vaak onder een rok."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Berken multiplex",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": warm en houtig, voor binnen en onder een tent."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Aankleden met een statafelrok"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Een ronde statafel kleed je in één keer aan met een stretchrok. Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm, voor tafels van 105 tot 115 cm hoog. Met topcover is het blad ook bedekt. Twijfel je over de maat, kijk dan in het "
+       },
+       {
+        "type": "link",
+        "url": "/pages/maatadvies-statafelrokken",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "maatadvies statafelrokken"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Tafel en rok samen bestellen kan met de "
+       },
+       {
+        "type": "link",
+        "url": "/collections/actiepakketten",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "actiepakketten"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Meer statafels nodig?"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor verhuur en evenementen zijn er pakketten met 5, 10 of 15 statafels en een transportkar. Liever een prijs op maat? "
+       },
+       {
+        "type": "link",
+        "url": "/pages/offerte",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "Vraag een offerte aan"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     }
+    ]
+   },
+   "seo_tekst_html": "<h2>Statafel kopen: zo kies je</h2><p>Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 105 tot 110 cm hoog, inklapbaar, vast of stapelbaar, en rond, vierkant, rechthoekig of als wijnvat. Met de vragen hieronder weet je snel welke je nodig hebt.</p><h3>Welke maat? Reken met personen per diameter</h3><ul><li><strong>Ø 70 cm</strong>: 4–5 personen staand. Voor smalle ruimtes en kleine groepjes.</li><li><strong>Ø 80 cm</strong>: 6 personen. Genoeg plek voor glazen en een schaaltje.</li><li><strong>Ø 85 cm</strong>: 6 personen, met meer blad voor bordjes en hapjes.</li></ul><p>Hoeveel tafels? Reken bij een borrel op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Voor 40 gasten zijn 4 à 5 statafels genoeg. Meer rekenvoorbeelden staan in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Hoe hoog is 110 cm, en past er een barkruk bij?</h3><p>110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. Een barkruk met een zithoogte van 76 cm past erbij: tussen zitting en blad blijft 34 cm, genoeg voor je benen. Bij de vierkante statafel van 107 cm is dat 31 cm en bij het wijnvat van 105 cm 29 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag.</p><h3>Inklapbaar, vast of stapelbaar?</h3><ul><li><strong>Inklapbaar</strong>: voor feesten, verhuur en alles wat na afloop weer weg moet. De <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> (12–14 kg, HPL-blad, 3 maten, 4 kleuren) of de lichte <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel Ø 80 cm</a> (9 kg). Lang model: de <a href=\"/products/statafel-rechthoekig-inklapbaar\">rechthoekige statafel</a> van 120 of 160 cm.</li><li><strong>Vast</strong>: voor terras en bar waar de tafel blijft staan. De <a href=\"/products/statafel-met-kruisvoet\">statafel met kruisvoet</a> weegt ca. 22 kg en heeft stelvoetjes.</li><li><strong>Stapelbaar</strong>: de <a href=\"/products/statafel-vierkant-stapelbaar\">vierkante statafel</a> stapel je tot 5 hoog, zonder scharnieren die kunnen slijten.</li><li><strong>Sfeer</strong>: de <a href=\"/products/statafel-wijnvat-houtlook\">wijnvat-statafel</a> in houtlook, vulbaar met water of zand.</li></ul><h3>Welk blad?</h3><ul><li><strong>HPL met kantenband</strong>: krasvast, hittebestendig tot ca. 180 °C, binnen en buiten.</li><li><strong>Compact HPL</strong>: door en door massief, voor tafels die het hele jaar buiten staan.</li><li><strong>HDPE</strong>: licht en waterbestendig, maar niet tegen hitte. Vaak onder een rok.</li><li><strong>Berken multiplex</strong>: warm en houtig, voor binnen en onder een tent.</li></ul><h3>Aankleden met een statafelrok</h3><p>Een ronde statafel kleed je in één keer aan met een stretchrok. Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm, voor tafels van 105 tot 115 cm hoog. Met topcover is het blad ook bedekt. Twijfel je over de maat, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>. Tafel en rok samen bestellen kan met de <a href=\"/collections/actiepakketten\">actiepakketten</a>.</p><h3>Meer statafels nodig?</h3><p>Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor verhuur en evenementen zijn er pakketten met 5, 10 of 15 statafels en een transportkar. Liever een prijs op maat? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</p>",
+   "body_html": "<p>Statafels van 105 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met vaste kruisvoet of stapelbaar. Rond in Ø 70, 80 of 85 cm, vierkant, rechthoekig of als wijnvat. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.</p>",
+   "seo": {
+    "title": "Statafels kopen: Ø70, Ø80 of Ø85 cm, 110 cm | Klapklaar",
+    "description": "Statafels van 110 cm: inklapbaar, met kruisvoet of stapelbaar. Ø70 voor 4–5, Ø80 voor 6 personen. Met barkruk- en rokadvies. Staffelprijs vanaf 10 stuks."
+   }
+  },
+  "meubilair": {
+   "intro": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.",
+   "kenmerken": [
+    "Barkruk 76 cm bij statafel 110 cm",
+    "Stapelbaar of inklapbaar",
+    "Staffelprijs vanaf 5 of 10",
+    "Onderdelen los verkrijgbaar"
+   ],
+   "seo_tekst": {
+    "type": "root",
+    "children": [
+     {
+      "type": "heading",
+      "level": 2,
+      "children": [
+       {
+        "type": "text",
+        "value": "Meubilair voor feest, horeca en verhuur"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Tafelhoogte en zithoogte die bij elkaar passen"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Statafel 107–110 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": " met een barkruk van 76 cm zithoogte: de "
+         },
+         {
+          "type": "link",
+          "url": "/products/barkruk-stapelbaar-metaal",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "stapelbare metalen barkruk"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " of de "
+         },
+         {
+          "type": "link",
+          "url": "/products/barkruk-houten-zitting",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "barkruk met houten zitting"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": "."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Klaptafel 74 cm of terrastafel 75 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": " met een stoel van ca. 45 cm: de "
+         },
+         {
+          "type": "link",
+          "url": "/products/klapstoel",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "klapstoel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " of de "
+         },
+         {
+          "type": "link",
+          "url": "/products/stapelstoel-cross-back",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "stapelstoel cross back"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": "."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Biertafel ca. 77 cm",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": " met de bank van ca. 47 cm uit de "
+         },
+         {
+          "type": "link",
+          "url": "/products/biertafelset",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "biertafelset"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": "."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Hoeveel personen per tafel?"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10"
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10"
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6"
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Biertafelset 220 cm: 8 (10 met inschikken)"
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Binnen of buiten"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Opslaan en vervoeren"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Barkrukken stapel je tot 10 hoog, cross back stoelen tot 8. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor "
+       },
+       {
+        "type": "link",
+        "url": "/products/transportkar-statafels",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "statafels"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " en voor "
+       },
+       {
+        "type": "link",
+        "url": "/products/transportkar-klaptafels-en-stoelen",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "klaptafels, barkrukken of klapstoelen"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Onderdelen en staffels"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn "
+       },
+       {
+        "type": "link",
+        "url": "/products/voetdoppen-set-van-4",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "voetdoppen per set van 4"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ", een "
+       },
+       {
+        "type": "link",
+        "url": "/products/los-statafelblad",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "los statafelblad"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " en "
+       },
+       {
+        "type": "link",
+        "url": "/products/zitkussen-stoel-en-barkruk",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "zitkussens"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je "
+       },
+       {
+        "type": "link",
+        "url": "/pages/offerte",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "een offerte aanvragen"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     }
+    ]
+   },
+   "seo_tekst_html": "<h2>Meubilair voor feest, horeca en verhuur</h2><p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen.</p><h3>Tafelhoogte en zithoogte die bij elkaar passen</h3><p>Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:</p><ul><li><strong>Statafel 107–110 cm</strong> met een barkruk van 76 cm zithoogte: de <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a> of de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a>.</li><li><strong>Klaptafel 74 cm of terrastafel 75 cm</strong> met een stoel van ca. 45 cm: de <a href=\"/products/klapstoel\">klapstoel</a> of de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>.</li><li><strong>Biertafel ca. 77 cm</strong> met de bank van ca. 47 cm uit de <a href=\"/products/biertafelset\">biertafelset</a>.</li></ul><h3>Hoeveel personen per tafel?</h3><ul><li>Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10</li><li>Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10</li><li>Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6</li><li>Biertafelset 220 cm: 8 (10 met inschikken)</li><li>Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm</li></ul><h3>Binnen of buiten</h3><p>Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen.</p><h3>Opslaan en vervoeren</h3><p>Barkrukken stapel je tot 10 hoog, cross back stoelen tot 8. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor <a href=\"/products/transportkar-statafels\">statafels</a> en voor <a href=\"/products/transportkar-klaptafels-en-stoelen\">klaptafels, barkrukken of klapstoelen</a>.</p><h3>Onderdelen en staffels</h3><p>Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn <a href=\"/products/voetdoppen-set-van-4\">voetdoppen per set van 4</a>, een <a href=\"/products/los-statafelblad\">los statafelblad</a> en <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussens</a>. Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "body_html": "<p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.</p>",
+   "seo": {
+    "title": "Meubilair: barkrukken, stoelen, klaptafels | Klapklaar",
+    "description": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest en horeca. Welke zithoogte bij welke tafel en hoeveel personen per tafel."
+   }
+  },
+  "actiepakketten": {
+   "intro": "Combinaties die je anders los bij elkaar zoekt, voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt.",
+   "kenmerken": [
+    "Los en pakketprijs naast elkaar",
+    "Onderdelen passen bij elkaar",
+    "Voor feest, horeca en verhuur"
+   ],
+   "seo_tekst": {
+    "type": "root",
+    "children": [
+     {
+      "type": "heading",
+      "level": 2,
+      "children": [
+       {
+        "type": "text",
+        "value": "Actiepakketten: zo werken ze"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Zo lees je de prijs"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Statafelpakketten"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/pakket-statafel-met-stretchrok",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Statafel met stretchrok"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": één statafel met rok en topcover, om te beginnen."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/pakket-4-statafels-met-stretchrokken",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "4 statafels met stretchrokken"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": voor een borrel met 30 tot 40 gasten."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/pakket-statafels-met-transportkar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Statafels met transportkar"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": 5, 10 of 15 statafels op een kar, voor verhuur en horeca."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/pakket-statafels-stretchrokken-transportkar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Statafels met stretchrokken en transportkar"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": het complete pakket, rokken in 6 kleuren."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/terraspakket-statafel-barkrukken",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Terraspakket"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": statafel, rok en 4 barkrukken."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/wijnvat-set-statafel-barkrukken",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Wijnvat-set"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": wijnvat-statafel met 4 barkrukken met houten zitting."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Andere pakketten"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/starterspakket-easy-up-premium-3x3",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Starterspakket easy-up Premium 3 × 3 m"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": tent, zijwanden en verankering."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/compleet-pakket-easy-up-professional",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Compleet pakket easy-up Professional"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": tent, zijwanden en voetgewichten."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/buffetpakket-klaptafels-stretchhoezen",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Buffetpakket"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": 10 klaptafels met stretchhoezen en een transportkar."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/biertafelsets-10-stuks",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Biertafelsets per 10"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": voor vereniging en buurtfeest."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/prikkabelset-led",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Prikkabelset met LED-lampen"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": prikkabel met een lamp in elke fitting."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Wat betekent de kleur in een pakket?"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Liever zelf samenstellen?"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je "
+       },
+       {
+        "type": "link",
+        "url": "/pages/offerte",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "een offerte aanvragen"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     }
+    ]
+   },
+   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.</p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket, rokken in 6 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium-3x3\">Starterspakket easy-up Premium 3 × 3 m</a>: tent, zijwanden en verankering.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "body_html": "<p>Combinaties die je anders los bij elkaar zoekt, voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt.</p>",
+   "seo": {
+    "title": "Actiepakketten: statafels, rokken en meer | Klapklaar",
+    "description": "Statafels met rokken of transportkar, tentpakketten, terras- en buffetsets. Per pakket zie je de losse prijs en de pakketprijs naast elkaar."
+   }
+  }
+ }
+}

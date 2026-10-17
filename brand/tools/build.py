@@ -351,27 +351,46 @@ def k_pixels(x0, base, top, stem_px):
     return P(pts), max(x for x, y in pts)
 
 FAV32 = dict(x0=4, x1=28, leg=2, base=28, band=(10, 13), roof_b=9, eave_t=8, k_top=14, k_stem=3)
-FAV16 = dict(x0=2, x1=14, leg=2, base=14, band=(6, 9), apex=3)
+FAV16 = dict(x0=1, x1=15, leg=2, base=14, band=(6, 8), roof_b=5, eave_t=4.5, apex=1.5)
+
+def roof_px(x0, x1, eave_y, rise=None, n=4, q=0.25):
+    """the concave roof on the pixel grid (y down): kk.roof_top sampled n times per slope, snapped to 1/4 px.
+    `rise` overrides the 21 deg chord (optical correction for the 16 px drawing)."""
+    hw = (x1 - x0) / 2
+    k_ = (rise / hw) if rise else kk.T
+    T0 = kk.T; kk.T = k_
+    try: segs, apex = kk.roof_top(x0, x1, 0)
+    finally: kk.T = T0
+    pts = []; cur = (x0, 0)
+    for sg in segs:
+        cub = (cur, sg[1], sg[2], sg[3])
+        for i in range(1, n + 1):
+            x, y = kk.bez(cub, i / n); pts.append((round(x / q) * q, round((eave_y - y) / q) * q))
+        cur = sg[3]
+    return pts[:-1], eave_y - apex
 
 def fav32_paths():
-    f = FAV32; t = kk.T
+    f = FAV32
     x0, x1, lw, by = f['x0'], f['x1'], f['leg'], f['base']
-    bt, bb = f['band']; xm = (x0 + x1) / 2
-    apex = f['eave_t'] - (xm - x0) * t
+    bt, bb = f['band']
+    top, apex = roof_px(x0, x1, f['eave_t'])
     tent = (P([(x0, by), (x0, bt), (x1, bt), (x1, by), (x1 - lw, by), (x1 - lw, bb), (x0 + lw, bb), (x0 + lw, by)])
-            + P([(x0, f['roof_b']), (x0, f['eave_t']), (xm, apex), (x1, f['eave_t']), (x1, f['roof_b'])]))
+            + P([(x0, f['roof_b']), (x0, f['eave_t'])] + top + [(x1, f['eave_t']), (x1, f['roof_b'])]))
     kd, kx1 = k_pixels(0, by, f['k_top'], f['k_stem'])
     shift = round((32 - kx1) / 2)
     kd, kx1 = k_pixels(shift, by, f['k_top'], f['k_stem'])
     return tent, kd, apex
 
 def fav16_path():
+    """16 px: the tent alone, drawn as an open canopy (v4's one-piece pentagon read as a house): roof with a
+    1 px opening above a 2 px band, 2 px legs, 10 px of open space between them. The roof chord is steeper
+    than 24 deg (3 px rise) so the sag still shows on the grid: optical correction, not a new angle."""
     f = FAV16
     x0, x1, lw, by = f['x0'], f['x1'], f['leg'], f['base']
-    bt, bb = f['band']; xm = (x0 + x1) / 2
-    # one piece: legs, band and roof. The roof is drawn steeper than 21 deg (3 px rise instead of 2.3) so it
-    # still reads as a roof on 16 px: optical correction for the pixel grid, not a new angle.
-    return P([(x0, by), (x0, bt), (xm, f['apex']), (x1, bt), (x1, by), (x1 - lw, by), (x1 - lw, bb), (x0 + lw, bb), (x0 + lw, by)])
+    bt, bb = f['band']
+    top, _ = roof_px(x0, x1, f['eave_t'], rise=f['eave_t'] - f['apex'], n=4, q=0.25)
+    return (P([(x0, by), (x0, bt), (x1, bt), (x1, by), (x1 - lw, by), (x1 - lw, bb), (x0 + lw, bb), (x0 + lw, by)])
+            + P([(x0, f['roof_b']), (x0, f['eave_t'])] + top + [(x1, f['eave_t']), (x1, f['roof_b'])]))
 
 def build_favicons():
     K_, Z_, PO = C['klaproos'], C['zand'], C['polder']
@@ -387,7 +406,7 @@ def build_favicons():
     f = FAV32
     return {'32': {'tent_px': [f['x0'], f['x1']], 'legs_px': f['leg'], 'band_px': f['band'][1] - f['band'][0], 'roof_band_gap_px': f['band'][0] - f['roof_b'],
                    'k_stem_px': f['k_stem'], 'k_height_px': f['base'] - f['k_top'], 'apex_y': round(apex, 2)},
-            '16': {'drawing': 'tent zonder k, uit één stuk: dak (3 px hoog), band 3 px, poten 2 px; alle rechte randen op hele pixels'},
+            '16': {'drawing': 'tent zonder k, als open luifel: dak (doorhangend, 3 px hoog), 1 px opening, band 2 px, poten 2 px, 10 px open tussen de poten'},
             'cart_dot': 'rechtsboven: Polder-stip r 4,5 (32) / 2,5 (16) met Zand-ring 1,5 / 1 px'}
 
 # ------------------------------------------------------------------ bunting (vlaggenlijn)
@@ -458,6 +477,10 @@ if __name__ == '__main__':
     b4 = bbox(cs4 + t4['welded'])
     open(os.path.join(OUT, 'tools', '_v4-print-wordmark.svg'), 'w').write(svg((b4[2] - b4[0]) * SC, (b4[3] - b4[1]) * SC, [('#1D2420', to_d(cs4 + t4['welded'], -b4[0] * SC, 0, b4[3]))], 'Klapklaar v4 (archief, ter vergelijking)'))
     bp = wm['primary_parts'][2]
+    k4, t4m = kk_v4.mark('primary')
+    grouping['v4_raster'] = {'wordmark': measure.analyse(cs4 + t4['welded'], 2.0), 'mark': measure.analyse(list(k4) + t4m['welded'], 2.0)}
+    grouping['v4_corners'] = corner_report(cs4 + t4['welded'])
+    grouping['v4_height_units'] = round(b4[3] - b4[1], 1)
     grouping['bbox_aspect'] = {'v4': round((b4[2] - b4[0]) / (b4[3] - b4[1]), 2), 'v5': round((bp[2] - bp[0]) / (bp[3] - bp[1]), 2)}
     for d in (wm, mk):
         for key in ('primary_parts', 'klein_parts', 'parts'): d.pop(key, None)

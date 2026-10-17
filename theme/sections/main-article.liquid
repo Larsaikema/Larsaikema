@@ -6,7 +6,9 @@
     <header class="article__header">
       {%- render 'breadcrumbs' -%}
       {%- if article.tags.size > 0 -%}<p class="eyebrow article__eyebrow">{{ article.tags.first }}</p>{%- endif -%}
-      <h1>{{ article.title }}</h1>
+      {%- comment -%} words with a hyphen (easy-up) never break at the hyphen in the balanced title {%- endcomment -%}
+      {%- assign title_words = article.title | split: ' ' -%}
+      <h1>{%- for w in title_words -%}{%- unless forloop.first -%}{{ ' ' }}{%- endunless -%}{%- if w contains '-' -%}<span class="nowrap">{{ w }}</span>{%- else -%}{{ w }}{%- endif -%}{%- endfor -%}</h1>
       <p class="article__meta">{{ article.published_at | date: format: 'date' }} · {{ 'blog.by' | t: author: article.author }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
     </header>
   </div>

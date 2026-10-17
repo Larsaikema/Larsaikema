@@ -29,6 +29,9 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}<div class="cart-page__app">{% render block %}</div>{%- endif -%}
+        {%- endfor -%}
         {%- if shop.enabled_payment_types.size > 0 -%}
           <ul class="payment-icons" role="list" aria-label="{{ 'footer.payment' | t }}">
             {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
@@ -52,6 +55,7 @@
 {% schema %}
 {
   "name": "Winkelwagen",
+  "blocks": [ { "type": "@app" } ],
   "settings": [
     { "type": "url", "id": "empty_link", "label": "Link bij lege winkelwagen" },
     { "type": "checkbox", "id": "show_usps", "label": "Zekerheden onder de totalen", "default": true },

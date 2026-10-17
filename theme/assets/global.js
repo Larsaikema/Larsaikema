@@ -34,6 +34,13 @@
       })[k] ?? fix(2, '.', ',')
     );
   };
+  /** Store cents -> cents in the shown btw mode (incl/excl), honouring the store's taxes_included setting. */
+  KK.vatShown = (cents, excl = document.documentElement.dataset.vat === 'excl') => {
+    const f = (100 + Number(KK.vatRate ?? 21)) / 100;
+    const stored = KK.taxesIncluded === false ? 'excl' : 'incl';
+    if (excl) return stored === 'incl' ? Math.round(cents / f) : cents;
+    return stored === 'excl' ? Math.round(cents * f) : cents;
+  };
   KK.t = (key, vars = {}) => Object.entries(vars).reduce((s, [k, v]) => s.split(`__${k.toUpperCase()}__`).join(v), KK.strings[key] || '');
 
   /** Section Rendering API: returns {id: html}. */
@@ -83,11 +90,11 @@
     const word = KK.strings.cartWord || '';
     const items = (count === 1 ? KK.strings.cartLabelOneRaw : KK.strings.cartLabelOther || '').replace('__COUNT__', count);
     document.querySelectorAll('[data-cart-toggle]').forEach((a) => a.setAttribute('aria-label', `${word}, ${items}`));
-    const fav = document.querySelector('link[data-favicon]');
-    if (fav && KK.faviconCart) {
-      fav.dataset.base = fav.dataset.base || fav.href;
-      fav.href = count ? KK.faviconCart : fav.dataset.base;
-    }
+    // favicon cart state (brand §3.7/§12): swap the 16 and 32 px PNGs
+    document.querySelectorAll('link[data-favicon]').forEach((l) => {
+      const f = KK.favicons && KK.favicons[l.dataset.favicon];
+      if (f) l.href = count > 0 ? f.cart : f.base;
+    });
   };
 
   /* ---------- focus trap for non-<dialog> panels (filter drawer) ---------- */

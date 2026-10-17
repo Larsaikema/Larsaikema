@@ -6,7 +6,7 @@
       "type": "announcement-bar",
       "blocks": {
         "usp-levering": { "type": "usp", "settings": { "icon": "truck", "text": "Snel in huis in NL & BE", "link": "shopify://pages/verzenden-en-bezorgen" } },
-        "countdown": { "type": "countdown", "settings": { "text": "Op werkdagen vóór 14:00 besteld, vandaag verzonden" } },
+        "countdown": { "type": "countdown", "settings": { "text": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden" } },
         "usp-factuur": { "type": "usp", "settings": { "icon": "invoice", "text": "Zakelijk bestellen op factuur", "link": "shopify://pages/zakelijk" } },
         "usp-logo": { "type": "usp", "settings": { "icon": "proof", "text": "Eigen logo? Eerst een drukproef", "link": "shopify://pages/bedrukken" } }
       },

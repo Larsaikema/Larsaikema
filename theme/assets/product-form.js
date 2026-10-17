@@ -55,6 +55,8 @@
           if (label && !v.available) label.textContent = KK.strings.soldOut;
           const sticky = this.root.querySelector('[data-sticky-add]');
           if (sticky) sticky.disabled = !v.available;
+          // no quantity stepper next to a sold-out button
+          this.querySelector('[data-buy-qty]')?.toggleAttribute('hidden', !v.available);
         }
         /** live total on the button + staffel hint */
         refresh() {
@@ -62,10 +64,9 @@
           const unit = Number(this.button.dataset.price || 0);
           const q = this.quantity;
           const excl = document.documentElement.dataset.vat === 'excl';
-          const factor = 100 / (100 + Number(KK.vatRate || 21));
           const addons = this.addons().reduce((n, a) => n + Number(a.dataset.price || 0), 0);
           const total = unit * q + addons;
-          const shown = excl ? Math.round(total * factor) : total;
+          const shown = KK.vatShown(total, excl);
           if (label && !this.button.disabled && this.button.dataset.state !== 'busy') {
             label.innerHTML = `${this.button.dataset.preorder === 'true' ? KK.strings.preOrder : KK.strings.addToCart} <span class="btn__sep" aria-hidden="true">·</span> <span class="btn__total">${KK.formatMoney(shown)}${excl ? ` <small>${KK.strings.excl || 'excl. btw'}</small>` : ''}</span>`;
           }
@@ -85,7 +86,7 @@
           const parts = [];
           if (active) {
             const per = Math.round(unit * (1 - active.korting / 100));
-            parts.push(KK.t('staffelHint', { qty: q, price: KK.formatMoney(excl ? Math.round(per * factor) : per) }));
+            parts.push(KK.t('staffelHint', { qty: q, price: KK.formatMoney(KK.vatShown(per, excl)) }));
           }
           if (next) parts.push(KK.t('staffelNext', { qty: next.vanaf - q, discount: next.korting }));
           hint.innerHTML = parts.join(' · ');
@@ -179,7 +180,8 @@
         busy(on) {
           const label = this.button.querySelector('[data-add-label]');
           this.button.dataset.state = on ? 'busy' : 'available';
-          this.button.setAttribute('aria-disabled', String(on));
+          // busy keeps the fill (tokens: button-primary.busy.fill = ongewijzigd); aria-busy, not aria-disabled
+          this.button.setAttribute('aria-busy', String(on));
           if (on && label) label.textContent = KK.strings.adding;
           if (!on) this.refresh();
         }
@@ -199,7 +201,10 @@
           let ticking = false;
           const update = () => {
             ticking = false;
-            const show = this.button.getBoundingClientRect().bottom < 0;
+            // visible whenever the main button is off screen (above after scrolling past it, or still below the
+            // fold on a phone), so price + add to cart are always one tap away
+            const r = this.button.getBoundingClientRect();
+            const show = r.bottom < 0 || (r.top > innerHeight && innerWidth < 990);
             if (show === bar.classList.contains('is-visible')) return;
             bar.classList.toggle('is-visible', show);
             bar.setAttribute('aria-hidden', String(!show));

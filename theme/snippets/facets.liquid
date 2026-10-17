@@ -51,11 +51,11 @@
             <div class="facet__price">
               <div class="field">
                 <label class="field__label" for="PriceMin-{{ section_id }}">{{ 'collection.price_from' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">€</span><input class="input" type="number" inputmode="decimal" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="0"{% if filter.min_value.value != nil %} value="{{ min_val | round }}"{% endif %}></div>
+                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="number" inputmode="decimal" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="0"{% if filter.min_value.value != nil %} value="{{ min_val | round }}"{% endif %}></div>
               </div>
               <div class="field">
                 <label class="field__label" for="PriceMax-{{ section_id }}">{{ 'collection.price_to' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">€</span><input class="input" type="number" inputmode="decimal" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="{{ max_price }}"{% if filter.max_value.value != nil %} value="{{ max_val | round }}"{% endif %}></div>
+                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="number" inputmode="decimal" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="{{ max_price }}"{% if filter.max_value.value != nil %} value="{{ max_val | round }}"{% endif %}></div>
               </div>
             </div>
         {%- endcase -%}

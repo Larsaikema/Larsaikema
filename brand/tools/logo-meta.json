@@ -1,5 +1,5 @@
 {
- "version": 4,
+ "version": 5,
  "units": "kk-eenheden: x-hoogte 500, STOK 130, DUN 65",
  "strokes": {
   "stok (k, l, a, p, r stam)": 130,
@@ -8,8 +8,7 @@
   "been k (loodrecht)": 126,
   "arm r (verticaal)": 121,
   "luifelband": 130,
-  "tentpoot": 65,
-  "vlaggenstok": 65
+  "tentpoot": 65
  },
  "spacing": {
   "tracy_n": 44,
@@ -35,73 +34,71 @@
     0
    ]
   },
-  "tent_legs": {
-   "out": 72,
-   "in_round": 56,
-   "in_straight": 72
+  "leg_factor": {
+   "straight": 1.3,
+   "round": 1.15
+  },
+  "tent_legs_primary": {
+   "letter_ss": 88,
+   "out": 114,
+   "in_round": 101,
+   "in_straight": 114
+  },
+  "tent_legs_klein": {
+   "letter_ss": 124,
+   "out": 161,
+   "in_round": 143,
+   "in_straight": 161
   }
  },
- "wordmark": {
-  "primary": {
-   "file": "logo.svg",
-   "width_units": 4180.0,
-   "height_units": 1499.7,
-   "gaps_between_shapes": [
-    {
-     "units": 44.0,
-     "between": "k1 – l2"
-    },
-    {
-     "units": 44.0,
-     "between": "k5 – l6"
-    },
-    {
-     "units": 56.0,
-     "between": "a7 – frame"
-    },
-    {
-     "units": 64.0,
-     "between": "a7 – a8"
-    },
-    {
-     "units": 64.0,
-     "between": "l2 – a3"
-    },
-    {
-     "units": 64.0,
-     "between": "p4 – k5"
-    },
-    {
-     "units": 65.0,
-     "between": "frame – dak"
-    },
-    {
-     "units": 72.0,
-     "between": "a8 – frame"
-    },
-    {
-     "units": 72.0,
-     "between": "l6 – frame"
-    },
-    {
-     "units": 72.0,
-     "between": "r9 – frame"
-    },
-    {
-     "units": 88.0,
-     "between": "a3 – p4"
-    },
-    {
-     "units": 97.0,
-     "between": "l6 – dak"
-    }
-   ],
-   "flag_roof_clearance_units": 67.2,
-   "corners": {
-    "min_tip_deg": 62.1,
-    "min_notch_deg": 45.5
-   },
-   "raster_check": {
+ "grouping": {
+  "v5": {
+   "leg_letter_min": 101.0,
+   "letter_straight_straight": 88,
+   "ratio": 1.15,
+   "nearest": [
+    [
+     101.0,
+     "a7"
+    ],
+    [
+     114.0,
+     "a8"
+    ]
+   ]
+  },
+  "v5_klein": {
+   "leg_letter_min": 143.0,
+   "letter_straight_straight": 124,
+   "ratio": 1.15,
+   "nearest": [
+    [
+     143.0,
+     "a7"
+    ],
+    [
+     161.0,
+     "a8"
+    ]
+   ]
+  },
+  "v4": {
+   "leg_letter_min": 56.0,
+   "letter_straight_straight": 88,
+   "ratio": 0.64,
+   "nearest": [
+    [
+     56.0,
+     "a7"
+    ],
+    [
+     72.0,
+     "a8"
+    ]
+   ]
+  },
+  "v4_raster": {
+   "wordmark": {
     "thinnest_units": 68.0,
     "thinnest_at": [
      2604,
@@ -114,6 +111,102 @@
     ],
     "units_per_px": 2.0
    },
+   "mark": {
+    "thinnest_units": 68.0,
+    "thinnest_at": [
+     -270,
+     720
+    ],
+    "narrowest_units": 64.0,
+    "narrowest_at": [
+     -240,
+     940
+    ],
+    "units_per_px": 2.0
+   }
+  },
+  "v4_corners": {
+   "min_tip_deg": 62.1,
+   "min_notch_deg": 45.5
+  },
+  "v4_height_units": 1499.7,
+  "bbox_aspect": {
+   "v4": 2.79,
+   "v5": 3.33
+  }
+ },
+ "wordmark": {
+  "primary": {
+   "file": "logo.svg",
+   "width_units": 4351.0,
+   "height_units": 1307.3,
+   "gaps_between_shapes": [
+    {
+     "units": 44.0,
+     "between": "k1 – l2"
+    },
+    {
+     "units": 44.0,
+     "between": "k5 – l6"
+    },
+    {
+     "units": 64.0,
+     "between": "a7 – a8"
+    },
+    {
+     "units": 64.0,
+     "between": "l2 – a3"
+    },
+    {
+     "units": 64.0,
+     "between": "p4 – k5"
+    },
+    {
+     "units": 65.0,
+     "between": "frame – dak"
+    },
+    {
+     "units": 73.0,
+     "between": "a7 – frame"
+    },
+    {
+     "units": 73.0,
+     "between": "a8 – frame"
+    },
+    {
+     "units": 88.0,
+     "between": "a3 – p4"
+    },
+    {
+     "units": 114.0,
+     "between": "l6 – frame"
+    },
+    {
+     "units": 114.0,
+     "between": "r9 – frame"
+    },
+    {
+     "units": 131.2,
+     "between": "l6 – dak"
+    }
+   ],
+   "corners": {
+    "min_tip_deg": 62.1,
+    "min_notch_deg": 45.5
+   },
+   "raster_check": {
+    "thinnest_units": 68.0,
+    "thinnest_at": [
+     2646,
+     524
+    ],
+    "narrowest_units": 64.0,
+    "narrowest_at": [
+     2676,
+     746
+    ],
+    "units_per_px": 2.0
+   },
    "construction_thinnest_units": 65,
    "smallest_stroke_units": 65,
    "smallest_gap_units": 44.0,
@@ -122,43 +215,43 @@
      "label": "Borduren (satijnsteek)",
      "stroke_mm": 1.2,
      "gap_mm": 1.0,
-     "min_width_mm": 95
+     "min_width_mm": 99
     },
     "flock": {
      "label": "Flock-transfer (geplot)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 143
+     "min_width_mm": 149
     },
     "flex": {
      "label": "Flex-/snijfolie (textiel, geplot)",
      "stroke_mm": 1.0,
      "gap_mm": 1.0,
-     "min_width_mm": 95
+     "min_width_mm": 99
     },
     "folie": {
      "label": "Snijfolie op bus/bord (Oracal)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 143
+     "min_width_mm": 149
     },
     "zeefdruk": {
      "label": "Zeefdruk op textiel",
      "stroke_mm": 0.5,
      "gap_mm": 0.6,
-     "min_width_mm": 57
+     "min_width_mm": 60
     },
     "dtf": {
      "label": "DTF-transfer",
      "stroke_mm": 0.5,
      "gap_mm": 0.5,
-     "min_width_mm": 48
+     "min_width_mm": 50
     },
     "sublimatie": {
      "label": "Sublimatie / digitaal op polyester (luifel, rok)",
      "stroke_mm": 0.3,
      "gap_mm": 0.3,
-     "min_width_mm": 29
+     "min_width_mm": 30
     },
     "papier": {
      "label": "Offset / digitaal op papier",
@@ -168,55 +261,53 @@
     },
     "scherm": {
      "label": "Scherm (1x)",
-     "min_width_px": 143
+     "min_width_px": 149
     }
    }
   },
   "guides": {
    "viewBox": [
-    418.0,
-    149.97
+    435.1,
+    130.73
    ],
-   "baseline_y": 130.37,
-   "xheight_y": 80.37,
-   "ascender_y": 59.17,
-   "descender_y": 149.97,
-   "band_bottom_y": 72.17,
-   "band_top_y": 59.17,
-   "roofbase_y": 52.67,
-   "eavetop_y": 46.17,
-   "apex_y": 21.95,
-   "poletop_y": 0.0,
-   "flagbottom_y": 16.0,
-   "x0": 252.8,
-   "x1": 379.0,
-   "xm": 315.9,
+   "baseline_y": 114.23,
+   "xheight_y": 64.23,
+   "ascender_y": 43.03,
+   "descender_y": 130.73,
+   "band_bottom_y": 56.03,
+   "band_top_y": 43.03,
+   "roofbase_y": 36.53,
+   "eavetop_y": 30.03,
+   "apex_y": 0.0,
+   "x0": 257.0,
+   "x1": 391.9,
+   "xm": 324.45,
    "leg": 6.5,
-   "pole": 6.5,
    "l2_left": 232.6,
    "l2_right": 245.6,
-   "a1_left": 264.9,
-   "a2_right": 365.3,
-   "r_left": 386.2,
+   "a1_left": 273.6,
+   "a2_right": 374.0,
+   "r_left": 403.3,
    "k1": [
     0.0,
-    64.16,
+    48.82,
     13.0,
-    59.17
+    43.03
    ],
    "stem": 13.0,
    "dun": 6.5,
-   "pitch": 21.0,
+   "pitch": 24.0,
    "legsp": {
-    "out": 72,
-    "in_round": 56,
-    "in_straight": 72
+    "letter_ss": 88,
+    "out": 114,
+    "in_round": 101,
+    "in_straight": 114
    }
   },
   "klein": {
    "file": "svg/logo-klein.svg",
-   "width_units": 4610.0,
-   "height_units": 1570.2,
+   "width_units": 4820.0,
+   "height_units": 1450.7,
    "gaps_between_shapes": [
     {
      "units": 80.0,
@@ -227,12 +318,12 @@
      "between": "k5 – l6"
     },
     {
-     "units": 92.0,
-     "between": "a7 – tent"
+     "units": 100.0,
+     "between": "a7 – a8"
     },
     {
      "units": 100.0,
-     "between": "a7 – a8"
+     "between": "frame – dak"
     },
     {
      "units": 100.0,
@@ -244,22 +335,25 @@
     },
     {
      "units": 103.0,
-     "between": "a8 – tent"
+     "between": "a7 – frame"
     },
     {
-     "units": 108.0,
-     "between": "l6 – tent"
-    },
-    {
-     "units": 108.0,
-     "between": "r9 – tent"
+     "units": 103.0,
+     "between": "a8 – frame"
     },
     {
      "units": 124.0,
      "between": "a3 – p4"
+    },
+    {
+     "units": 161.0,
+     "between": "l6 – frame"
+    },
+    {
+     "units": 161.0,
+     "between": "r9 – frame"
     }
    ],
-   "flag_roof_clearance_units": 84.0,
    "corners": {
     "min_tip_deg": 62.1,
     "min_notch_deg": 45.5
@@ -267,13 +361,13 @@
    "raster_check": {
     "thinnest_units": 104.0,
     "thinnest_at": [
-     2838,
-     522
+     2890,
+     524
     ],
-    "narrowest_units": 92.0,
+    "narrowest_units": 100.0,
     "narrowest_at": [
-     2914,
-     250
+     2938,
+     794
     ],
     "units_per_px": 2.0
    },
@@ -285,53 +379,53 @@
      "label": "Borduren (satijnsteek)",
      "stroke_mm": 1.2,
      "gap_mm": 1.0,
-     "min_width_mm": 58
+     "min_width_mm": 61
     },
     "flock": {
      "label": "Flock-transfer (geplot)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 87
+     "min_width_mm": 91
     },
     "flex": {
      "label": "Flex-/snijfolie (textiel, geplot)",
      "stroke_mm": 1.0,
      "gap_mm": 1.0,
-     "min_width_mm": 58
+     "min_width_mm": 61
     },
     "folie": {
      "label": "Snijfolie op bus/bord (Oracal)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 87
+     "min_width_mm": 91
     },
     "zeefdruk": {
      "label": "Zeefdruk op textiel",
      "stroke_mm": 0.5,
      "gap_mm": 0.6,
-     "min_width_mm": 35
+     "min_width_mm": 37
     },
     "dtf": {
      "label": "DTF-transfer",
      "stroke_mm": 0.5,
      "gap_mm": 0.5,
-     "min_width_mm": 29
+     "min_width_mm": 31
     },
     "sublimatie": {
      "label": "Sublimatie / digitaal op polyester (luifel, rok)",
      "stroke_mm": 0.3,
      "gap_mm": 0.3,
-     "min_width_mm": 18
+     "min_width_mm": 19
     },
     "papier": {
      "label": "Offset / digitaal op papier",
      "stroke_mm": 0.15,
      "gap_mm": 0.15,
-     "min_width_mm": 9
+     "min_width_mm": 10
     },
     "scherm": {
      "label": "Scherm (1x)",
-     "min_width_px": 93
+     "min_width_px": 97
     }
    }
   }
@@ -340,18 +434,17 @@
   "primary": {
    "file": "mark.svg",
    "width_units": 1050.0,
-   "height_units": 1458.1,
+   "height_units": 1390.7,
    "gaps_between_shapes": [
     {
      "units": 65.0,
      "between": "frame – dak"
     },
     {
-     "units": 65.0,
+     "units": 185.0,
      "between": "k – frame"
     }
    ],
-   "flag_roof_clearance_units": 67.2,
    "corners": {
     "min_tip_deg": 62.1,
     "min_notch_deg": 45.5
@@ -360,12 +453,12 @@
     "thinnest_units": 68.0,
     "thinnest_at": [
      -270,
-     720
+     841
     ],
     "narrowest_units": 64.0,
     "narrowest_at": [
      -240,
-     940
+     1061
     ],
     "units_per_px": 2.0
    },
@@ -431,14 +524,13 @@
   "klein": {
    "file": "svg/mark-klein.svg",
    "width_units": 1110.0,
-   "height_units": 1510.9,
+   "height_units": 1509.1,
    "gaps_between_shapes": [
     {
      "units": 100.0,
-     "between": "k – tent"
+     "between": "frame – dak"
     }
    ],
-   "flag_roof_clearance_units": 84.0,
    "corners": {
     "min_tip_deg": 62.1,
     "min_notch_deg": 45.5
@@ -447,18 +539,18 @@
     "thinnest_units": 104.0,
     "thinnest_at": [
      -282,
-     723
+     843
     ],
-    "narrowest_units": 146.0,
+    "narrowest_units": 100.0,
     "narrowest_at": [
-     96,
-     775
+     -234,
+     1113
     ],
     "units_per_px": 2.0
    },
    "construction_thinnest_units": 100,
    "smallest_stroke_units": 100,
-   "smallest_gap_units": 84.0,
+   "smallest_gap_units": 100.0,
    "min_sizes": {
     "borduren": {
      "label": "Borduren (satijnsteek)",
@@ -470,31 +562,31 @@
      "label": "Flock-transfer (geplot)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 20
+     "min_width_mm": 17
     },
     "flex": {
      "label": "Flex-/snijfolie (textiel, geplot)",
      "stroke_mm": 1.0,
      "gap_mm": 1.0,
-     "min_width_mm": 14
+     "min_width_mm": 12
     },
     "folie": {
      "label": "Snijfolie op bus/bord (Oracal)",
      "stroke_mm": 1.5,
      "gap_mm": 1.5,
-     "min_width_mm": 20
+     "min_width_mm": 17
     },
     "zeefdruk": {
      "label": "Zeefdruk op textiel",
      "stroke_mm": 0.5,
      "gap_mm": 0.6,
-     "min_width_mm": 8
+     "min_width_mm": 7
     },
     "dtf": {
      "label": "DTF-transfer",
      "stroke_mm": 0.5,
      "gap_mm": 0.5,
-     "min_width_mm": 7
+     "min_width_mm": 6
     },
     "sublimatie": {
      "label": "Sublimatie / digitaal op polyester (luifel, rok)",
@@ -516,40 +608,11 @@
    "note": "maat = breedte van het symbool zelf (zonder vlak)"
   }
  },
- "v3_check": {
-  "wordmark": {
-   "thinnest_units": 8.0,
-   "thinnest_at": [
-    2570,
-    780
-   ],
-   "narrowest_units": 8.0,
-   "narrowest_at": [
-    3092,
-    950
-   ],
-   "units_per_px": 2.0
-  },
-  "mark": {
-   "thinnest_units": 8.0,
-   "thinnest_at": [
-    -158,
-    975
-   ],
-   "narrowest_units": 8.0,
-   "narrowest_at": [
-    274,
-    1111
-   ],
-   "units_per_px": 2.0
-  },
-  "source": "tools/kk_v3.py (merkboek v3)"
- },
  "luifel": {
   "descender_to_bar_units": 130,
-  "tracking_em": 0.24,
+  "tracking_em": 0.277,
   "cap_height_units": 152.0,
-  "width_units": 4180.0
+  "width_units": 4351.0
  },
  "zakelijk": {
   "tag_height_units": 500,
@@ -563,12 +626,15 @@
    ],
    "legs_px": 2,
    "band_px": 3,
+   "roof_band_gap_px": 1,
    "k_stem_px": 3,
-   "k_height_px": 11
+   "k_height_px": 14,
+   "apex_y": 2.66
   },
   "16": {
-   "drawing": "tent zonder k: dak, band, poten, paal in één vorm; vlag 3 x 3 px"
-  }
+   "drawing": "tent zonder k, als open luifel: dak (doorhangend, 3 px hoog), 1 px opening, band 2 px, poten 2 px, 10 px open tussen de poten"
+  },
+  "cart_dot": "rechtsboven: Polder-stip r 4,5 (32) / 2,5 (16) met Zand-ring 1,5 / 1 px"
  },
  "methods_note": "werkaannames per methode (kleinste lijn/opening in mm), niet met een leverancier geverifieerd",
  "written": [
@@ -599,7 +665,7 @@
   "svg/favicon-cart.svg",
   "svg/favicon-16.svg",
   "svg/favicon-cart-16.svg",
-  "svg/pennant.svg",
-  "svg/vlaggenlijn.svg"
+  "svg/vlaggenlijn.svg",
+  "svg/vlaggenlijn-inkt.svg"
  ]
 }

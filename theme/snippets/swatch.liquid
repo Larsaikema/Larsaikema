@@ -1,6 +1,7 @@
 {%- comment -%}
   Colour swatch for an option value. Uses value.swatch (Shopify option-value swatch) when present, otherwise
-  looks the name up in settings.swatch_colors ('Naam: #hex' per line). Params:
+  looks the name up in settings.swatch_colors ('Naam: #hex' per line). A value whose name contains one of
+  settings.swatch_print_words (bedrukt, full colour, …) gets the print pattern swatch (--swatch-print). Params:
   - value (option value drop or plain string, required)
   - mode: 'css' outputs only the CSS custom property (--swatch:...), anything else outputs a <span>
   - class (string)
@@ -22,6 +23,17 @@
         break
       endif
     endfor
+    # a printed value (e.g. 'Full colour bedrukt') has no single colour: it gets the print pattern swatch
+    if sw_css == ''
+      assign sw_print_words = settings.swatch_print_words | downcase | split: ','
+      for w in sw_print_words
+        assign ww = w | strip
+        if ww != blank and sw_name contains ww
+          assign sw_css = '--swatch:var(--swatch-print)'
+          break
+        endif
+      endfor
+    endif
   endif
 -%}
 {%- if mode == 'css' -%}{{ sw_css }}{%- else -%}<span class="swatch{% if class %} {{ class }}{% endif %}"{% if sw_css != '' %} style="{{ sw_css }}"{% endif %} title="{{ value | escape }}"></span>{%- endif -%}

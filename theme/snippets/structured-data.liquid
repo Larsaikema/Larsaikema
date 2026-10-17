@@ -14,7 +14,7 @@
   "@type": "Organization",
   "name": {{ org_name | json }},
   "url": {{ request.origin | append: routes.root_url | json }},
-  "logo": {{ 'favicon.svg' | asset_url | prepend: 'https:' | json }}
+  "logo": {{ 'mark-512.png' | asset_url | prepend: 'https:' | json }}
   {%- if org_email != blank or org_phone != blank -%},
   "contactPoint": [{ "@type": "ContactPoint", "contactType": "customer service", "availableLanguage": ["nl"]{% if org_phone != blank %}, "telephone": {{ org_phone | json }}{% endif %}{% if org_email != blank %}, "email": {{ org_email | json }}{% endif %} }]
   {%- endif -%}

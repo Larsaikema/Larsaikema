@@ -36,7 +36,8 @@
     },
     "rotator_pause": "Wisselende berichten pauzeren",
     "rotator_play": "Wisselende berichten hervatten",
-    "rotator_next": "Volgend bericht"
+    "rotator_next": "Volgend bericht",
+    "placeholder_product": "Product"
   },
   "header": {
     "search_placeholder": "Zoek op product, maat of artikelnummer",
@@ -181,7 +182,10 @@
     "print_step_delivery": "Levertijd: {{ lead_time }}",
     "print_more": "Meer over bedrukken",
     "print_later_value": "Lever ik later aan",
-    "download_type": "{{ type }}-bestand"
+    "download_type": "{{ type }}-bestand",
+    "variant_select": "Kies je uitvoering",
+    "weight": "Gewicht",
+    "packed": "Verpakt"
   },
   "delivery": {
     "label": "Levering",
@@ -287,8 +291,8 @@
     "free_shipping_reached": "Je verzending is gratis",
     "quote_link": "Liever een offerte voor deze winkelwagen?",
     "upsell_title": "Vergeet niet",
-    "added_title": "Klaar! Hij staat erin.",
-    "added_text": "{{ title }} ligt in je winkelwagen.",
+    "added_title": "Staat in je winkelwagen.",
+    "added_text": "{{ title }} staat in je winkelwagen.",
     "error": "Oeps, dat ging mis. We konden je winkelwagen niet bijwerken. Probeer het nog een keer, of bel of app ons: dan regelen we het samen.",
     "quantity_adjusted": "Er zijn er nog {{ count }} op voorraad. We hebben je aantal aangepast.",
     "product": "Product",
@@ -299,7 +303,13 @@
     "secure": "Veilig betalen met iDEAL, Bancontact en meer",
     "discount_saved": "Je bespaart {{ amount }}",
     "free_shipping_remaining": "Nog {{ amount }} tot gratis verzending",
-    "maatwerk_line": "Maatwerk, niet retour"
+    "maatwerk_line": "Maatwerk, niet retour",
+    "subtotal_excl": "Subtotaal (excl. btw)",
+    "vat_line_estimate": "Btw ({{ rate }}%), berekend bij afrekenen",
+    "total_incl_estimate": "Totaal incl. btw (indicatie)",
+    "shipping_estimate_pakket": "Verzending als pakket (indicatie)",
+    "shipping_estimate_pallet": "Palletlevering (indicatie)",
+    "shipping_note_estimate": "Niet in het subtotaal. De definitieve verzendkosten zie je bij het afrekenen."
   },
   "search": {
     "title": "Zoeken",

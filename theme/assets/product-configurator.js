@@ -55,8 +55,7 @@
           const values = this.fields.map(num);
           const valid = values.every((v, i) => Number.isFinite(v) && v >= Number(this.fields[i].min) && v <= Number(this.fields[i].max));
           const excl = document.documentElement.dataset.vat === 'excl';
-          const factor = 100 / (100 + Number(KK.vatRate || 21));
-          const money = (c) => KK.formatMoney(excl ? Math.round(c * factor) : c);
+          const money = (c) => KK.formatMoney(KK.vatShown(c, excl));
           const unitEl = this.querySelector('[data-config-unit-price]');
           if (unitEl) unitEl.textContent = money(this.unitPrice());
           const areaEl = this.querySelector('[data-config-area]');

@@ -38,41 +38,41 @@ export function tentFabricBase(color) {
   const hex = resolveColor(color, COLORS.wit);
   const base = new THREE.Color(hex);
   const L = lum(hex);
-  if (L > 0.80) base.multiplyScalar(0.80 / L);
+  // white PVC-coated polyester reflects ~85 %: bright enough to read as white (not light
+  // grey) next to a light backdrop, still below a 90 %+ paper white
+  if (L > 0.85) base.multiplyScalar(0.85 / L);
   if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.042, 0.043, 0.046), Math.min(1, (0.06 - L) / 0.06 + 0.35));
   return base;
 }
+// Weave tile: 32 threads of 1 mm -> 3.2 cm per tile (uv in metres on all fabric geometry).
+export const WEAVE_REPEAT = 1 / 0.032;
 export function tentFabric(color, { side = THREE.DoubleSide, translucent = true } = {}) {
   const hex = resolveColor(color, COLORS.wit);
   return cached(`tent:${hex}:${side}:${translucent}`, () => {
     const L = lum(hex);
     const base = tentFabricBase(hex);
     const dark = L < 0.1, light = L > 0.6;
+    // PVC-coated polyester: a matte-satin coating (no clearcoat: a second sharp lobe makes
+    // puddle-shaped softbox reflections), one broad soft sheen, fine isotropic plain weave
     const m = new THREE.MeshPhysicalMaterial({
       color: base,
-      roughness: dark ? 0.5 : 0.55,
+      roughness: dark ? 0.58 : light ? 0.66 : 0.62,
       metalness: 0,
-      specularIntensity: dark ? 0.35 : 0.5,
-      // PVC coating: a broad soft highlight (reflection of the studio softboxes)
-      clearcoat: dark ? 0.55 : light ? 0.3 : 0.4,
-      clearcoatRoughness: dark ? 0.22 : 0.34,
+      specularIntensity: dark ? 0.55 : 0.45,
       // fibre sheen at grazing angles, tinted by the dye (never a white veil on black)
-      sheen: dark ? 0.35 : 0.3,
-      sheenRoughness: 0.55,
-      sheenColor: dark ? base.clone().multiplyScalar(2.2) : new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), light ? 0.3 : 0.2),
-      // 600D oxford relief (~10 deg yarn slopes): readable in close-ups, mip-averaged away at catalogue distance
-      normalMap: TX.weaveNormal({ threads: 24, strength: 8 }),
-      normalScale: new THREE.Vector2(1, 1),
+      sheen: dark ? 0.3 : 0.2,
+      sheenRoughness: 0.6,
+      sheenColor: dark ? base.clone().multiplyScalar(2.2) : new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), light ? 0.25 : 0.15),
+      // 1 mm plain weave under the coating (~8 deg yarn slopes): readable in close-ups,
+      // mip-averaged to a flat normal at catalogue distance
+      normalMap: TX.plainWeaveNormal(),
+      normalScale: new THREE.Vector2(0.7, 0.7),
       side,
     });
-    // 600D oxford: ~0.6 mm yarns in a 2x2 basket weave -> ~1.2 mm pattern, visible in close-ups
-    m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(36, 36); m.normalMap.needsUpdate = true;
-    // black PVC: a broader coat lobe, so the corner wrinkles show the overhead scrim as a soft
-    // sheen instead of wet-looking blobs (kept as a post-step: brand/tools/renders-svgprint.patch
-    // patches the literal above)
-    if (dark && m.clearcoatRoughness < 0.3) m.clearcoatRoughness = 0.34;
-    // macro structure (yarn streaks, slubs, coating cockle) that survives at catalogue size
-    m.userData.macro = { tex: 'fabricMacro', scale: 1 / 36, strength: dark ? 0.2 : 0.3, coat: dark ? 0.6 : 0.8, rough: 0.3 };
+    m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(WEAVE_REPEAT, WEAVE_REPEAT); m.normalMap.needsUpdate = true;
+    // reflections of the studio softboxes on the cloth (fraction of the scene environment):
+    // kept low so dark and saturated roofs show one broad sheen, not mirror images
+    m.userData.envSpec = dark ? 0.38 : light ? 0.35 : 0.3;
     // light fabric glows slightly when lit from the other side (roof seen from inside)
     m.userData.translucency = translucent ? 0.18 * Math.min(1, L * 1.4) : 0;
     m.name = `tentFabric ${hex}`;
@@ -88,7 +88,7 @@ export function tentPatch(color) {
     // a double layer of the same cloth: same colour and coating (a different finish reads
     // as a smudge at catalogue size); only a little less translucent
     m.roughness = Math.min(0.7, m.roughness + 0.04);
-    m.userData = { macro: m.userData.macro, translucency: (m.userData.translucency || 0) * 0.4 }; // fresh: not yet hooked by the engine
+    m.userData = { envSpec: m.userData.envSpec, translucency: (m.userData.translucency || 0) * 0.4 }; // fresh: not yet hooked by the engine
     m.name = `tentPatch ${hex}`;
     return m;
   });

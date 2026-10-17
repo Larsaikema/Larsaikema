@@ -6,10 +6,12 @@ clockwise in y-up, counters counter-clockwise) built from lines and cubic Bezier
 v5 rules (technisch.md 1):
   * two measures: STOK S = 130 (stems, valance band) and DUN G = 65 (tent legs, roof eave, the opening between
     roof and band). Diagonals are optically corrected to 0.94-0.97 S, bowl tops/bottoms to 0.86 S (H = 112).
-  * one angle, 21 deg: the roof and every terminal that rises towards it (k and l tops, k arm, r arm). What stands
+  * one angle, 24 deg (v4: 21): the roof chord and every terminal that rises towards it (k and l tops, k arm, r arm). What stands
     on the ground is flat: the baseline, the tent legs and (new in v5) the p descender, shortened to -165.
   * the tent is an easy-up seen from the front and nothing else: roof, valance band, two legs. v4's pole and
     pennant are gone (read as circus tent / kermis booth; the blunt pennant looked like an axe head).
+  * the roof is fabric, not tiles: each slope hangs through (concave cubic, control points SAG_K x half-width
+    below the 24 deg chord). Without it the flagless roof read as a garage or carport (proto, 17-10-2026).
   * the legs never group with the letters: every leg-letter gap is >= 1.15 x the straight-straight letter gap
     of the same version (primary 88 -> >= 101; klein 124 -> >= 143), so a one-colour print reads 'kl aa r',
     never 'klIaaIr'.
@@ -26,7 +28,7 @@ H = 112          # bowl top/bottom (optical 0.86 S)
 G = 65           # DUN: legs, roof-band opening, eave height
 OV = 9           # overshoot of rounds
 K = 0.66         # squircle handle factor (0.5523 = circle)
-PITCH = 21.0     # roof pitch in degrees; also the terminal cut angle of k, l, r (not p: v5)
+PITCH = 24.0     # roof pitch (chord) in degrees; also the terminal cut angle of k, l, r (not p). v4: 21
 T = math.tan(math.radians(PITCH))
 ARM = 122        # k arm, perpendicular (0.94 S)
 LEG = 126        # k leg, perpendicular (0.97 S)
@@ -237,6 +239,7 @@ GLYPHS = {'a': glyph_a, 'p': glyph_p, 'l': glyph_l, 'k': glyph_k, 'r': glyph_r}
 # ---------------------------------------------------------------- spacing (Tracy method)
 N = 44                      # straight side
 SB = {'k': (N, 0), 'l': (N, N), 'a': (round(0.45 * N), N), 'p': (N, round(0.45 * N)), 'r': (N, 0)}
+SAG_K = 0.10                # roof sag: cubic control offset as a fraction of the half-width (max dip 0.75 x that)
 LEG_FACTOR = {'straight': 1.30, 'round': 1.15}   # leg gap = factor x the straight-straight letter gap (2N + track)
 
 def leg_gaps(track):
@@ -269,11 +272,21 @@ def layout(word, track=0, legs=None):
 TENT = {
     # primary: roof and valance band separate (one DUN apart), legs one DUN
     'primary': dict(band=S, gap=G, eave=G, leg=G, fused=False),
-    # klein: roof + band in one piece, heavier legs: for small screen sizes and small embroidery/flock
-    'klein':   dict(band=S, gap=0, eave=G, leg=100, fused=True),
+    # klein: heavier legs and eave, wider roof-band opening: for small screen sizes and small embroidery/flock.
+    # v4 fused roof and band into one piece; with the fabric roof that read as a barn (proto2, M2), so v5 keeps it open.
+    'klein':   dict(band=S, gap=100, eave=100, leg=100, fused=False),
 }
 
 def cw(c): return c if c.area() < 0 else c.reversed()
+
+def roof_top(x0, x1, ye, sag_k=None):
+    """the two concave slopes from the left eave top to the right eave top, as cubic segments
+    [('C', c1, c2, p)...] starting at (x0, ye). The chord is PITCH; returns (segs, apex)."""
+    sag_k = SAG_K if sag_k is None else sag_k
+    xm = (x0 + x1) / 2; hw = xm - x0; rise = hw * T; apex = ye + rise; s = sag_k * hw
+    segs = [('C', (x0 + hw / 3, ye + rise / 3 - s), (x0 + 2 * hw / 3, ye + 2 * rise / 3 - s), (xm, apex)),
+            ('C', (x1 - 2 * hw / 3, ye + 2 * rise / 3 - s), (x1 - hw / 3, ye + rise / 3 - s), (x1, ye))]
+    return segs, apex
 
 def tent(x0, x1, base, band=S, gap=G, eave=G, leg=G, fused=False, legs=True):
     """Easy-up seen from the front, standing on the baseline (y=0).
@@ -283,15 +296,23 @@ def tent(x0, x1, base, band=S, gap=G, eave=G, leg=G, fused=False, legs=True):
     xm = (x0 + x1) / 2
     ry = base + band + gap                     # roof bottom
     ye = ry + eave                             # eave top
-    apex = ye + (xm - x0) * T
-    roof = [(x0, ry), (x0, ye), (xm, apex), (x1, ye), (x1, ry)]
+    top, apex = roof_top(x0, x1, ye)
+    def with_roof(start, before, after):
+        """contour: start, straight points `before` up to (x0, ye), the concave roof, then `after` (y-up, clockwise)."""
+        c = Contour(start)
+        for p in before: c.L(p)
+        c.L((x0, ye)); c.segs.extend(top)
+        for p in after: c.L(p)
+        c.L(start); return c
     if fused:
-        pts = ([(x0, 0)] if legs else [(x0, base)]) + [(x0, ye), (xm, apex), (x1, ye)]
-        pts += [(x1, 0), (x1 - leg, 0), (x1 - leg, base), (x0 + leg, base), (x0 + leg, 0)] if legs else [(x1, base)]
-        one = cw(poly(pts))
+        if legs:
+            one = with_roof((x0, 0), [], [(x1, 0), (x1 - leg, 0), (x1 - leg, base), (x0 + leg, base), (x0 + leg, 0)])
+        else:
+            one = with_roof((x0, base), [], [(x1, base)])
+        one = cw(one)
         parts = [('tent', one)]; welded = [one]
     else:
-        roof_c = cw(poly(roof))
+        roof_c = cw(with_roof((x0, ry), [], [(x1, ry)]))
         if legs:
             frame = cw(poly([(x0, 0), (x0, base + band), (x1, base + band), (x1, 0), (x1 - leg, 0), (x1 - leg, base), (x0 + leg, base), (x0 + leg, 0)]))
         else:
@@ -303,6 +324,7 @@ def tent(x0, x1, base, band=S, gap=G, eave=G, leg=G, fused=False, legs=True):
 
 # ---------------------------------------------------------------- compositions
 WORD = 'klapklaar'
+MARK_RAISE = 120            # extra leg height in the mark (proto2, M8)
 
 def wordmark(variant='primary', track=None):
     """letters + tent over the double aa. primary: track 0; klein: +36 per pair and the one-piece tent."""
@@ -326,6 +348,6 @@ def mark(variant='primary', width=1050):
     kc = (kb[0] + kb[2]) / 2 - 15              # optical centre (the k's right side is open)
     if variant == 'klein': width = 1110
     x0, x1 = kc - width / 2, kc + width / 2
-    base = A + (G if variant == 'primary' else 100)
+    base = A + G + MARK_RAISE + (0 if variant == 'primary' else 35)   # tall legs: open under the band = a tent, not a shed
     t = tent(x0, x1, base, **cfg)
     return list(k.contours), t

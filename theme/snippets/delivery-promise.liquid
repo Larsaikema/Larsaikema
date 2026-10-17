@@ -116,7 +116,7 @@
           {%- if dp_ship == 'pallet' -%}
             <li>{% render 'icon', icon: 'pallet', class: 'icon--sm' %}<span>{{ settings.delivery_text_pallet }}</span></li>
           {%- else -%}
-            <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket }}</span></li>
+            <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket | replace: '[besteltijd]', settings.cutoff_time }}</span></li>
           {%- endif -%}
           <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta></span></li>
         {%- endif -%}

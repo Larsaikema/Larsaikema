@@ -41,7 +41,7 @@
       <span class="badge badge--actie">{{ 'price.save' | t: percent: save_pct }}</span>
     {%- endif -%}
     {%- if product.tags contains 'badge:nieuw' -%}<span class="badge badge--nieuw">{{ 'card.badge_new' | t }}</span>{%- endif -%}
-    {%- if is_print -%}<span class="badge badge--logo">{% render 'icon', icon: 'flag' %}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
+    {%- if is_print -%}<span class="badge badge--logo">{% render 'icon', icon: 'upload' %}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
     {%- if product.metafields.custom.staffelkorting != blank -%}<span class="badge badge--staffel">{{ 'card.badge_staffel' | t }}</span>{%- endif -%}
     {%- if product.tags contains 'set' -%}<span class="badge badge--staffel">{{ 'card.badge_set' | t }}</span>{%- endif -%}
     {%- if card_status == 'permanent-uitverkocht' -%}
@@ -91,7 +91,7 @@
             {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
               <input type="hidden" name="id" value="{{ first_variant.id }}">
               <input type="hidden" name="quantity" value="1">
-              <button type="submit" name="add" class="btn btn--secondary btn--sm" aria-label="{{ 'card.quick_add_label' | t: title: product.title | escape }}">
+              <button type="submit" name="add" class="btn btn--outline btn--sm" aria-label="{{ 'card.quick_add_label' | t: title: product.title | escape }}">
                 {%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span>{{ 'card.quick_add' | t }}</span>
               </button>
             {%- endform -%}

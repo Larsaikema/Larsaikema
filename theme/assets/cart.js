@@ -4,12 +4,14 @@
   const json = { 'Content-Type': 'application/json', Accept: 'application/json' };
 
   const cart = (KK.cart = {
-    /** ids of cart sections present on this page (drawer + cart page section) */
+    /** ids of cart sections present on this page (drawer + cart page section + cart-dependent sections), max 5 */
     sectionIds() {
-      return [...document.querySelectorAll('cart-items[data-section-id]')]
+      // cart lines + sections whose content depends on the cart (e.g. 'Vergeet niet' that hides what is in it)
+      return [...document.querySelectorAll('cart-items[data-section-id], [data-cart-dependent][data-section-id]')]
         .map((el) => el.dataset.sectionId)
         .concat(document.getElementById('CartDrawer') ? ['cart-drawer'] : [])
-        .filter((v, i, a) => a.indexOf(v) === i);
+        .filter((v, i, a) => a.indexOf(v) === i)
+        .slice(0, 5);
     },
 
     render(sections) {
@@ -100,6 +102,11 @@
         location.href = KK.routes.cart;
         return;
       }
+      // on the cart page the lines are already re-rendered in place: confirm with a toast instead of the drawer
+      if (document.querySelector('.cart-page cart-items')) {
+        KK.toast(title ? KK.t('addedText', { title }) : KK.strings.added);
+        return;
+      }
       cart.open();
       const live = document.getElementById('CartDrawerTitle');
       if (live && title) live.setAttribute('data-added', KK.t('addedText', { title }));
@@ -121,7 +128,7 @@
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
     btn?.classList.add('is-loading');
-    btn?.setAttribute('aria-disabled', 'true');
+    btn?.setAttribute('aria-busy', 'true');
     try {
       const fd = new FormData(form);
       await cart.add({ items: [{ id: Number(fd.get('id')), quantity: Number(fd.get('quantity') || 1) }] });
@@ -130,7 +137,7 @@
       KK.toast(err.message || KK.strings.addError, 'error');
     } finally {
       btn?.classList.remove('is-loading');
-      btn?.removeAttribute('aria-disabled');
+      btn?.removeAttribute('aria-busy');
     }
   });
 

@@ -1,0 +1,28 @@
+{%- comment -%}
+  Apps section: a place for app blocks (review widgets, trust badges, chat) on any JSON template or section group.
+  Review scores only appear here when a review app provides real data (brand §8.6); this section adds nothing itself.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <div class="apps-section color-{{ section.settings.color_scheme }}{% if section.settings.include_margins %} section{% endif %}">
+    <div class="{% if section.settings.full_width == false %}page-width{% endif %} apps-section__inner">
+      {%- for block in section.blocks -%}
+        {% render block %}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Apps",
+  "tag": "section",
+  "class": "section-apps",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
+    { "type": "checkbox", "id": "include_margins", "label": "Ruimte boven en onder, zoals bij andere secties", "default": true },
+    { "type": "checkbox", "id": "full_width", "label": "Volle breedte", "default": false }
+  ],
+  "blocks": [ { "type": "@app" } ],
+  "presets": [ { "name": "Apps" } ]
+}
+{% endschema %}

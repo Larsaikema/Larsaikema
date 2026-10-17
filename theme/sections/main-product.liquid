@@ -36,7 +36,6 @@
   if avail_status == 'permanent-uitverkocht'
     assign is_discontinued = true
   endif
-  assign vat_factor = settings.vat_rate | plus: 100
   assign quote_url = settings.quote_page | default: '/pages/offerte'
   assign featured_index = 0
   for media in product.media
@@ -82,7 +81,7 @@
                 <span data-dynamic="badge-sale" hidden></span>
               {%- endif -%}
               {%- if product.tags contains 'badge:nieuw' -%}<span class="badge badge--nieuw">{{ 'card.badge_new' | t }}</span>{%- endif -%}
-              {%- if is_print -%}<span class="badge badge--logo">{%- render 'icon', icon: 'flag' -%}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
+              {%- if is_print -%}<span class="badge badge--logo">{%- render 'icon', icon: 'upload' -%}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
             </div>
           </div>
           {%- if product.media.size > 1 -%}
@@ -162,7 +161,7 @@
                       endfor
                     endfor
                   -%}
-                  <variant-picker class="vp" data-section-id="{{ section.id }}" {{ block.shopify_attributes }}>
+                  <variant-picker class="vp js-only" data-section-id="{{ section.id }}" {{ block.shopify_attributes }}>
                     {%- for option in product.options_with_values -%}
                       {%- assign opt_name = option.name | downcase | strip -%}
                       {%- assign is_swatch = false -%}
@@ -305,7 +304,7 @@
               {%- when 'bedrukken' -%}
                 {%- if is_print -%}
                   <fieldset class="print" data-print aria-describedby="PrintIntro-{{ section.id }}"{% unless print_active %} hidden disabled{% endunless %} {{ block.shopify_attributes }}>
-                    <legend class="print__legend">{%- render 'icon', icon: 'flag' -%}{{ 'product.print_title' | t }}</legend>
+                    <legend class="print__legend">{%- render 'icon', icon: 'upload' -%}{{ 'product.print_title' | t }}</legend>
                     <p class="print__intro" id="PrintIntro-{{ section.id }}">{{ 'product.print_intro' | t }}</p>
                     {%- if block.settings.show_steps -%}
                       <div class="print__steps">
@@ -372,7 +371,7 @@
                               <span class="addon__title">{{ addon.title }}</span>
                               {%- if addon.metafields.custom.kenmerk_kort != blank -%}<span class="addon__spec">{{ addon.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
                             </span>
-                            <span class="addon__price">+&nbsp;<span data-vat-show="incl">{{ av.price | money }}</span><span data-vat-show="excl">{{ av.price | times: 100.0 | divided_by: vat_factor | round | money }}</span></span>
+                            <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: av.price -%}</span>
                           </label>
                         </li>
                       {%- endfor -%}
@@ -415,13 +414,30 @@
                 {%- else -%}
                 <product-form class="buy" data-form-id="{{ product_form_id }}" {{ block.shopify_attributes }}>
                   {%- form 'product', product, id: product_form_id, class: 'buy__form', novalidate: 'novalidate', data-product-form: 'main' -%}
-                    <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+                    {%- comment -%}
+                      One id field. Without JavaScript the radios (outside the form) cannot set it, so it is a visible
+                      select of all variants; with JavaScript it is hidden and variant-picker.js keeps it in sync.
+                    {%- endcomment -%}
+                    {%- if product.has_only_default_variant -%}
+                      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+                    {%- else -%}
+                      <div class="field buy__variant-select no-js-only">
+                        <label class="field__label" for="VariantSelect-{{ section.id }}">{{ 'product.variant_select' | t }}</label>
+                        <select class="select" id="VariantSelect-{{ section.id }}" name="id" data-variant-id>
+                          {%- for v in product.variants -%}
+                            <option value="{{ v.id }}"{% if v.id == current_variant.id %} selected{% endif %}>{{ v.title }} – {{ v.price | money }}{% unless v.available %} ({{ 'product.sold_out' | t }}){% endunless %}</option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+                    {%- endif -%}
                     <div class="buy__row" data-dynamic="buy">
                       {%- if is_config -%}
                         <input type="hidden" name="quantity" value="{{ cfg.min_afname | default: 1 }}" data-config-qty>
                       {%- else -%}
                         {%- assign qty_id = 'Quantity-' | append: section.id -%}
-                        {%- render 'quantity-input', id: qty_id, min: current_variant.quantity_rule.min, step: current_variant.quantity_rule.increment, max: current_variant.quantity_rule.max, value: current_variant.quantity_rule.min -%}
+                        <div class="buy__qty" data-buy-qty{% unless current_variant.available %} hidden{% endunless %}>
+                          {%- render 'quantity-input', id: qty_id, min: current_variant.quantity_rule.min, step: current_variant.quantity_rule.increment, max: current_variant.quantity_rule.max, value: current_variant.quantity_rule.min -%}
+                        </div>
                       {%- endif -%}
                       {%- liquid
                         assign is_preorder = false
@@ -445,7 +461,8 @@
                         endif
                       -%}
                       <button type="submit" name="add" class="btn btn--block buy__add" data-add-button data-price="{{ current_variant.price }}" data-preorder="{{ is_preorder }}"{% if is_maatwerk %} aria-describedby="Maatwerk-{{ section.id }}"{% endif %}{% unless current_variant.available %} disabled{% endunless %}>
-                        {%- render 'icon', icon: 'cart', class: 'icon--sm' -%}
+                        {%- render 'icon', icon: 'cart', class: 'icon--sm buy__icon' -%}
+                        {%- render 'icon', icon: 'check', class: 'icon--sm buy__icon-done' -%}
                         <span data-add-label>
                           {%- if is_coming -%}
                             {{ 'product.status_coming' | t }}
@@ -493,13 +510,21 @@
               {%- when 'usps' -%}
                 {%- assign usps = product.metafields.custom.usps.value -%}
                 {%- assign past_op = product.metafields.custom.past_op.value -%}
-                {%- if usps != blank or block.settings.fallback != blank or past_op != blank -%}
+                {%- comment -%}
+                  The fallback list holds shop promises (levering, bedenktijd). They contradict 'Binnenkort leverbaar',
+                  'Permanent uitverkocht' or sold out, so they only show while the product can be ordered.
+                {%- endcomment -%}
+                {%- assign usp_fallback = block.settings.fallback -%}
+                {%- if product.available == false or is_discontinued or avail_status == 'binnenkort' -%}
+                  {%- assign usp_fallback = blank -%}
+                {%- endif -%}
+                {%- if usps != blank or usp_fallback != blank or past_op != blank or product.metafields.custom.garantie != blank -%}
                   <div class="product__usps" {{ block.shopify_attributes }}>
                     <ul class="checklist" role="list">
                       {%- if usps != blank -%}
                         {%- for u in usps -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>{%- endfor -%}
                       {%- else -%}
-                        {%- assign fb = block.settings.fallback | newline_to_br | split: '<br />' -%}
+                        {%- assign fb = usp_fallback | newline_to_br | split: '<br />' -%}
                         {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
                       {%- endif -%}
                       {%- if product.metafields.custom.garantie != blank -%}<li>{%- render 'icon', icon: 'shield' -%}<span>{{ product.metafields.custom.garantie.value }}</span></li>{%- endif -%}
@@ -550,8 +575,8 @@
                           {%- if current_variant.sku != blank or product.metafields.custom.verpakt != blank or product.metafields.custom.gewicht_kg != blank -%}
                             <table class="specs__table">
                               <tbody>
-                                {%- if product.metafields.custom.gewicht_kg != blank -%}<tr><th scope="row">Gewicht</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' }} kg</td></tr>{%- endif -%}
-                                {%- if product.metafields.custom.verpakt != blank -%}<tr><th scope="row">Verpakt</th><td>{{ product.metafields.custom.verpakt.value }}</td></tr>{%- endif -%}
+                                {%- if product.metafields.custom.gewicht_kg != blank -%}<tr><th scope="row">{{ 'product.weight' | t }}</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' }} kg</td></tr>{%- endif -%}
+                                {%- if product.metafields.custom.verpakt != blank -%}<tr><th scope="row">{{ 'product.packed' | t }}</th><td>{{ product.metafields.custom.verpakt.value }}</td></tr>{%- endif -%}
                                 {%- if current_variant.sku != blank -%}<tr><th scope="row">{{ 'product.sku' | t }}</th><td data-dynamic="sku">{{ current_variant.sku }}</td></tr>{%- endif -%}
                               </tbody>
                             </table>

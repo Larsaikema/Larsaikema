@@ -19,12 +19,20 @@
     assign cp = product.compare_at_price
     assign show_from = product.price_varies
   endif
+  # Prices are stored incl. btw when shop.taxes_included (the Dutch default), else excl.: derive the other one.
   assign vat_factor = settings.vat_rate | plus: 100
-  assign p_excl = p | times: 100.0 | divided_by: vat_factor | round
   assign on_sale = false
   if cp > p
     assign on_sale = true
+  endif
+  if shop.taxes_included
+    assign p_excl = p | times: 100.0 | divided_by: vat_factor | round
     assign cp_excl = cp | times: 100.0 | divided_by: vat_factor | round
+  else
+    assign p_excl = p
+    assign cp_excl = cp
+    assign p = p | times: vat_factor | divided_by: 100.0 | round
+    assign cp = cp | times: vat_factor | divided_by: 100.0 | round
   endif
   if settings.price_show_currency_code
     assign p_fmt = p | money_with_currency

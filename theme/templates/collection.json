@@ -1,17 +1,78 @@
 {
   "sections": {
-    "main": { "type": "main-collection", "settings": { "per_page": 24, "columns": 3, "enable_filtering": true, "enable_sorting": true, "promo_position": 5 } },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "per_page": 24,
+        "columns": 3,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "promo_position": 5
+      }
+    },
     "usps": {
       "type": "usp-strip",
       "blocks": {
-        "u1": { "type": "usp", "settings": { "icon": "truck", "title": "Vóór 14:00 besteld, vandaag verzonden", "text": "Op werkdagen, uit voorraad" } },
-        "u2": { "type": "usp", "settings": { "icon": "invoice", "title": "Zakelijk op factuur", "text": "Prijzen ook excl. btw" } },
-        "u3": { "type": "usp", "settings": { "icon": "proof", "title": "Eerst een drukproef", "text": "Bij elk product met logo" } },
-        "u4": { "type": "usp", "settings": { "icon": "chat", "title": "Bel of app ons", "text": "Advies van mensen die het opzetten" } }
+        "u1": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "Vóór [besteltijd] besteld, vandaag verzonden",
+            "text": "Op werkdagen, uit voorraad"
+          }
+        },
+        "u2": {
+          "type": "usp",
+          "settings": {
+            "icon": "invoice",
+            "title": "Zakelijk op factuur",
+            "text": "Prijzen ook excl. btw"
+          }
+        },
+        "u3": {
+          "type": "usp",
+          "settings": {
+            "icon": "proof",
+            "title": "Eerst een drukproef",
+            "text": "Bij elk product met logo"
+          }
+        },
+        "u4": {
+          "type": "usp",
+          "settings": {
+            "icon": "chat",
+            "title": "Bel of app ons",
+            "text": "Advies van mensen die het opzetten"
+          }
+        }
       },
-      "block_order": ["u1", "u2", "u3", "u4"],
-      "settings": { "label": "Waarom Klapklaar" }
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "settings": {
+        "label": "Waarom Klapklaar"
+      }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Vergelijk de uitvoeringen",
+        "text": "Zelfde idee, ander gebruik. Kies op frame, dak en gewicht.",
+        "use_current": true,
+        "require_group": true,
+        "max": 3,
+        "guide_link": "shopify://pages/verschil-partytenten",
+        "guide_label": "Lees het hele verschil"
+      }
     }
   },
-  "order": ["main", "usps"]
+  "order": [
+    "main",
+    "comparison",
+    "usps"
+  ]
 }

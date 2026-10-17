@@ -7,6 +7,50 @@
   if settings.price_display == 'toggle'
     assign show_toggle = true
   endif
+  # One top item is marked active: the item that is the current page, else (product page) the item whose own
+  # collection holds the product (URL context first, then product.collections), else the item with the current
+  # page in its menu (not for pages: a page linked from a mega menu is not 'in' that category), else (product
+  # page) the first item with an active child.
+  assign nav_active = 0
+  for link in menu.links
+    if link.current
+      assign nav_active = forloop.index
+      break
+    endif
+  endfor
+  if nav_active == 0 and template.name == 'product'
+    for link in menu.links
+      if collection and link.url == collection.url
+        assign nav_active = forloop.index
+        break
+      endif
+    endfor
+    if nav_active == 0
+      assign product_collections = product.collections | map: 'handle'
+      for link in menu.links
+        if link.active or link.type == 'collection_link' and product_collections contains link.object.handle
+          assign nav_active = forloop.index
+          break
+        endif
+      endfor
+    endif
+  endif
+  if nav_active == 0 and template.name != 'page'
+    for link in menu.links
+      if link.child_current
+        assign nav_active = forloop.index
+        break
+      endif
+    endfor
+  endif
+  if nav_active == 0 and template.name == 'product'
+    for link in menu.links
+      if link.child_active
+        assign nav_active = forloop.index
+        break
+      endif
+    endfor
+  endif
 -%}
 {%- if settings.predictive_search_enabled -%}
   <script src="{{ 'predictive-search.js' | asset_url }}" defer></script>
@@ -20,7 +64,7 @@
       </button>
 
       <div class="header__logo-wrap">
-        <a href="{{ routes.root_url }}" class="header__logo" style="--logo-w: {{ settings.logo_width }}px; --logo-w-mobile: {{ settings.logo_width_mobile }}px;{% if settings.logo_roof == 'mono' %} --logo-roof: currentColor;{% endif %}">
+        <a href="{{ routes.root_url }}" class="header__logo" style="--logo-w: {{ settings.logo_width }}px; --logo-w-mobile: {{ settings.logo_width_mobile }}px;">
           {%- render 'logo', image: true, variant: 'auto' -%}
         </a>
       </div>
@@ -34,7 +78,7 @@
             {% if settings.predictive_search_enabled %}role="combobox" aria-expanded="false" aria-owns="PredictiveResults-{{ section.id }}" aria-controls="PredictiveResults-{{ section.id }}" aria-haspopup="listbox" aria-autocomplete="list"{% endif %}>
           <input type="hidden" name="options[prefix]" value="last">
           <button type="button" class="search__clear" data-search-clear hidden aria-label="{{ 'header.search_clear' | t }}">{%- render 'icon', icon: 'close', class: 'icon--sm' -%}</button>
-          <button type="submit" class="search__submit btn btn--sm">{{ 'header.search_submit' | t }}</button>
+          <button type="submit" class="search__submit btn btn--outline btn--sm">{{ 'header.search_submit' | t }}</button>
           {%- if settings.predictive_search_enabled -%}
             <div class="predictive" id="PredictiveResults-{{ section.id }}" data-predictive-results hidden></div>
             <span class="visually-hidden" role="status" aria-live="polite" data-predictive-status></span>
@@ -76,7 +120,7 @@
                   the first link inside the panel ('Alles in …').
                 {%- endcomment -%}
                 <mega-menu class="mega-trigger">
-                  <button type="button" class="nav__link{% if link.child_active or link.active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
+                  <button type="button" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
                     {{ link.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
                   </button>
                   <div class="mega" id="{{ mega_id }}" data-mega-panel>
@@ -122,7 +166,7 @@
                   </div>
                 </mega-menu>
               {%- else -%}
-                <a href="{{ link.url }}" class="nav__link{% if link.active %} is-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                <a href="{{ link.url }}" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
               {%- endif -%}
             </li>
           {%- endfor -%}

@@ -44,12 +44,12 @@
               <textarea class="textarea" id="CF-body" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
             </div>
           </div>
-          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
+          <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'forms.send' | t }}</button></div>
           {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
         {%- endif -%}
       {%- endform -%}
     </div>
-    <aside class="panel panel--linnen" aria-labelledby="ContactInfo-{{ section.id }}">
+    <aside class="panel panel--steen" aria-labelledby="ContactInfo-{{ section.id }}">
       <h2 class="panel__title" id="ContactInfo-{{ section.id }}">{{ 'contact.info_title' | t }}</h2>
       <ul class="contact-list" role="list">
         {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone' -%}{{ phone }}</a></li>{%- endif -%}

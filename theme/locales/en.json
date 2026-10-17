@@ -36,7 +36,8 @@
     },
     "rotator_pause": "Pause rotating messages",
     "rotator_play": "Resume rotating messages",
-    "rotator_next": "Next message"
+    "rotator_next": "Next message",
+    "placeholder_product": "Product"
   },
   "header": {
     "search_placeholder": "Search by product, size or item number",
@@ -181,7 +182,10 @@
     "print_step_delivery": "Lead time: {{ lead_time }}",
     "print_more": "More about printing",
     "print_later_value": "Will send later",
-    "download_type": "{{ type }} file"
+    "download_type": "{{ type }} file",
+    "variant_select": "Choose your option",
+    "weight": "Weight",
+    "packed": "Packed size"
   },
   "delivery": {
     "label": "Delivery",
@@ -287,7 +291,7 @@
     "free_shipping_reached": "Your shipping is free",
     "quote_link": "Prefer a quote for this cart?",
     "upsell_title": "Don't forget",
-    "added_title": "Done! It's in your cart.",
+    "added_title": "Added to your cart.",
     "added_text": "{{ title }} is in your cart.",
     "error": "Oops, something went wrong. We couldn't update your cart. Please try again, or call or message us and we'll sort it out together.",
     "quantity_adjusted": "Only {{ count }} left in stock. We've adjusted your quantity.",
@@ -299,7 +303,13 @@
     "secure": "Pay securely with iDEAL, Bancontact and more",
     "discount_saved": "You save {{ amount }}",
     "free_shipping_remaining": "{{ amount }} to go for free shipping",
-    "maatwerk_line": "Made to measure, no returns"
+    "maatwerk_line": "Made to measure, no returns",
+    "subtotal_excl": "Subtotal (excl. VAT)",
+    "vat_line_estimate": "VAT ({{ rate }}%), calculated at checkout",
+    "total_incl_estimate": "Total incl. VAT (estimate)",
+    "shipping_estimate_pakket": "Parcel shipping (estimate)",
+    "shipping_estimate_pallet": "Pallet delivery (estimate)",
+    "shipping_note_estimate": "Not included in the subtotal. You will see the final shipping cost at checkout."
   },
   "search": {
     "title": "Search",

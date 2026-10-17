@@ -1,0 +1,17 @@
+{%- comment -%}
+  One amount, incl. and excl. btw; html[data-vat] shows one of the two. Params: cents (store price, in cents),
+  tag ('span' default, or 'strong'). Honours the store's tax setting: with prices entered incl. btw
+  (shop.taxes_included, the Dutch default) the excl. figure is derived, otherwise the incl. figure is.
+{%- endcomment -%}
+{%- liquid
+  assign vm_tag = tag | default: 'span'
+  assign vm_factor = settings.vat_rate | plus: 100
+  if shop.taxes_included
+    assign vm_incl = cents
+    assign vm_excl = cents | times: 100.0 | divided_by: vm_factor | round
+  else
+    assign vm_excl = cents
+    assign vm_incl = cents | times: vm_factor | divided_by: 100.0 | round
+  endif
+-%}
+<{{ vm_tag }} data-vat-show="incl">{{ vm_incl | money }}</{{ vm_tag }}><{{ vm_tag }} data-vat-show="excl">{{ vm_excl | money }}</{{ vm_tag }}>

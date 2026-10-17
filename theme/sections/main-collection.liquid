@@ -90,7 +90,7 @@
         </div>
         <div class="facets-panel__foot">
           <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facets-clear>{{ 'collection.clear_all' | t }}</a>
-          <button type="button" class="btn" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
+          <button type="button" class="btn btn--secondary" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
         </div>
       </aside>
       <div class="facets-backdrop" data-facets-close hidden></div>
@@ -140,7 +140,7 @@
             {%- if active_filters > 0 -%}
               <h2 class="h3">{{ 'collection.no_results_title' | t }}</h2>
               <p class="muted">{{ 'collection.no_results_text' | t }}</p>
-              <div class="btn-row"><a class="btn" href="{{ collection.url }}" data-facet-link>{{ 'collection.clear_all' | t }}</a></div>
+              <div class="btn-row"><a class="btn btn--outline" href="{{ collection.url }}" data-facet-link>{{ 'collection.clear_all' | t }}</a></div>
             {%- else -%}
               <p class="muted">{{ 'collection.empty' | t }}</p>
             {%- endif -%}
@@ -150,6 +150,15 @@
     </div>
   </div>
 </facet-filters>
+
+{%- comment -%} app blocks (e.g. a review app's collection widget) {%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <div class="page-width collection__apps">
+    {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}{% render block %}{%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}
 
 {%- if seo != blank -%}
   <section class="section seo-text color-scheme-1" aria-labelledby="SeoTitle-{{ section.id }}">
@@ -166,6 +175,7 @@
 {
   "name": "Collectiepagina",
   "class": "section-main-collection",
+  "blocks": [ { "type": "@app" } ],
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema kop", "default": "scheme-1" },
     { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Producten per pagina", "default": 24 },

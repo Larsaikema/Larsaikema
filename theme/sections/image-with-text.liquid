@@ -7,7 +7,7 @@
       {%- else -%}
         {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
       {%- endif -%}
-      {%- if section.settings.badge != blank -%}<span class="badge badge--logo iwt__badge">{%- render 'icon', icon: 'flag' -%}{{ section.settings.badge }}</span>{%- endif -%}
+      {%- if section.settings.badge != blank -%}<span class="badge badge--logo iwt__badge">{%- render 'icon', icon: 'upload' -%}{{ section.settings.badge }}</span>{%- endif -%}
     </div>
     <div class="iwt__content">
       {%- for block in section.blocks -%}
@@ -62,7 +62,7 @@
     { "type": "buttons", "name": "Knoppen", "limit": 1, "settings": [
       { "type": "text", "id": "label_1", "label": "Knop 1", "default": "Ontwerp je tent" },
       { "type": "url", "id": "link_1", "label": "Link 1" },
-      { "type": "select", "id": "style_1", "label": "Stijl knop 1", "options": [ { "value": "primary", "label": "Primair" }, { "value": "secondary", "label": "Secundair" } ], "default": "primary" },
+      { "type": "select", "id": "style_1", "label": "Stijl knop 1", "options": [ { "value": "primary", "label": "Primair (Klaproos: alleen voor kopen)" }, { "value": "secondary", "label": "Polder (ontwerpen, zakelijk, offerte)" } ], "default": "secondary", "info": "Merkboek §4.2: één Klaproos-knop per kolom en alleen om te kopen." },
       { "type": "text", "id": "label_2", "label": "Knop 2" },
       { "type": "url", "id": "link_2", "label": "Link 2" }
     ] }

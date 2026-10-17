@@ -150,7 +150,9 @@
         "heading": "Premium of Professional?",
         "text": "Zelfde idee, ander gebruik. Vergelijk frame, dak en gewicht.",
         "collection": "easy-up-partytenten",
-        "max": 3
+        "max": 3,
+        "guide_link": "shopify://pages/verschil-partytenten",
+        "guide_label": "Lees het hele verschil"
       }
     }
   },

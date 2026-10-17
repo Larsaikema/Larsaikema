@@ -114,7 +114,7 @@
           "type": "usp",
           "settings": {
             "icon": "truck",
-            "title": "Vóór 14:00 besteld, vandaag verzonden",
+            "title": "Vóór [besteltijd] besteld, vandaag verzonden",
             "text": "Op werkdagen, uit voorraad",
             "link": "shopify://pages/verzenden-en-bezorgen"
           }
@@ -193,7 +193,8 @@
             "label_1": "Ontwerp je tent",
             "link_1": "shopify://products/partytent-met-logo",
             "label_2": "Zo werkt bedrukken",
-            "link_2": "shopify://pages/bedrukken"
+            "link_2": "shopify://pages/bedrukken",
+            "style_1": "secondary"
           }
         }
       },

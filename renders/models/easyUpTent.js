@@ -29,7 +29,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as TX from '../js/textures.js';
-import { makeNoise2 } from '../js/rng.js';
+import { makeNoise2, rng } from '../js/rng.js';
 
 const { V3 } = G;
 
@@ -212,14 +212,31 @@ export function easyUpTent(p = {}) {
   for (let i = 0; i < nbx; i++) for (let j = 0; j < nbz; j++) {
     const cx = (xs[i] + xs[i + 1]) / 2, cz = (zs[j] + zs[j + 1]) / 2;
     const bw = roofX[i + 1] - roofX[i], bd = roofZ[j + 1] - roofZ[j];
-    const rise = 0.30 * Math.min(bw, bd) + 0.06;
-    bays.push({ x0: roofX[i], x1: roofX[i + 1], z0: roofZ[j], z1: roofZ[j + 1], cx, cz, rise, peakY: eaveY + rise, sag: 0.017 * Math.min(bw, bd), bow: 0.006 * Math.min(bw, bd) });
+    const sb = Math.min(bw, bd);
+    const rise = 0.30 * sb + 0.06;
+    // dish between rafter and hip ~9 cm on a 3 m bay (scales with the bay), hips sag ~4 cm,
+    // rafters bow ~2 cm under the cloth
+    bays.push({ x0: roofX[i], x1: roofX[i + 1], z0: roofZ[j], z1: roofZ[j + 1], cx, cz, rise, peakY: eaveY + rise, sag: 0.030 * sb, hipSag: 0.013 * sb, bow: 0.0065 * sb });
   }
   const rn = makeNoise2(41);
+  const rr = rng(4242);
   // outer roof corners: [x, z, inward sign x, inward sign z]
   const corners = [[X0, Z1, 1, -1], [X1, Z1, -1, -1], [X1, Z0, -1, 1], [X0, Z0, 1, 1]];
   // attachment points along each outer edge: every ~0.5 m, always at corners and legs
   const edgeSpacing = (L) => L / Math.max(1, Math.round(L / 0.5));
+  // the canopy outline is a rounded rectangle (corner radius rcTop): distance inside it
+  const rcTop = 0.026;
+  const RX = (X1 - X0) / 2, RZ = (Z1 - Z0) / 2, RCX = (X0 + X1) / 2, RCZ = (Z0 + Z1) / 2;
+  function edgeDist(x, z) {
+    const qx = Math.abs(x - RCX) - (RX - rcTop), qz = Math.abs(z - RCZ) - (RZ - rcTop);
+    const sd = Math.hypot(Math.max(qx, 0), Math.max(qz, 0)) + Math.min(Math.max(qx, qz), 0) - rcTop;
+    return -sd;
+  }
+  // dish envelope along the fall line (0 at the apex and at the eave, where the cloth is
+  // held by the truss), normalised to 1
+  const dishRaw = (r) => Math.pow(r, 1.1) * (1 - Math.exp(-(1 - r) / 0.1));
+  let dishMax = 0; for (let i = 0; i <= 200; i++) dishMax = Math.max(dishMax, dishRaw(i / 200));
+  const dishEnv = (r) => (r >= 1 ? 0 : dishRaw(r) / dishMax);
 
   function bayHeight(b, x, z) {
     const du = x - b.cx, dv = z - b.cz;
@@ -235,51 +252,78 @@ export function easyUpTent(p = {}) {
     h -= b.bow * Math.sin(Math.PI * Math.min(1, m));
     const major = Math.max(a, c), minor = Math.min(a, c);
     if (major < 1) {
-      // sag between the rafter (face centre line) and the hips
+      // t = 0 on the rafter line (face centre), 1 on the hip; both ends rounded: the cloth
+      // rides over the rafter tube (~1.6 cm) and over the taut hip seam (~3 cm)
       const r = major;
       const q = minor / Math.max(major, 1e-6);
       const lat = (c >= a ? hx : hz) * r;
-      const e = 0.016 / Math.max(lat, 0.04);
-      const qa = Math.min(1, sabs(q, e) / (Math.sqrt(1 + e * e) - e));
-      const across = 4 * qa * (1 - qa);
-      const env = Math.pow(r, 1.6) * (1 - sstep(0.80, 1.0, r)) / 0.70;
-      let sag = b.sag * env * across;
+      const e1 = 0.016 / Math.max(lat, 0.04);
+      let t = Math.min(1, sabs(q, e1) / (Math.sqrt(1 + e1 * e1) - e1));
+      const e2 = 0.03 / Math.max(lat, 0.04);
+      t = 1 - Math.min(1, sabs(1 - t, e2) / (Math.sqrt(1 + e2 * e2) - e2));
+      const across = 4 * t * (1 - t);
+      const env = dishEnv(r);
+      // each half-panel dishes between its rafter and hip; the hip seam carries the
+      // corner-to-apex tension and only sags a little, so the silhouettes bow inward
+      let sag = b.sag * env * across + b.hipSag * Math.sin(Math.PI * Math.pow(r, 1.25)) * t * t;
       sag += 0.0022 * across * Math.min(1, env * 1.5) * rn.fbm(x * 2.3 + 11, z * 2.3 - 4, 3);
       h -= sag;
     }
     return h;
   }
-  function cornerWrinkles(x, z) {
+  // soft tension ridges: 4 fanning from every corner pocket (around the hip direction) and
+  // 3 per face from the peak cap, each a raised fold with shallow troughs that widens and
+  // flattens as it runs out. Deterministic per tent.
+  const cornerRidges = corners.map(() => [-0.38, -0.17, 0.15, 0.36].map((o) => ({ ang: Math.PI / 4 + o + (rr() - 0.5) * 0.08, len: 0.4 + 0.35 * rr(), amp: 0.009 + 0.005 * rr(), w0: 0.011 + 0.006 * rr() })));
+  const apexRidges = bays.map(() => {
+    const out = [];
+    for (let f = 0; f < 4; f++) for (const o of [-0.5, -0.05, 0.42]) out.push({ ang: f * Math.PI / 2 + Math.PI / 4 + o + (rr() - 0.5) * 0.12, len: 0.2 + 0.16 * rr(), amp: 0.005 + 0.003 * rr(), w0: 0.012 });
+    return out;
+  });
+  function ridgeSum(list, rho, phi, startFade) {
     let s = 0;
-    for (const [cx0, cz0, sx, sz] of corners) {
-      const dx = (x - cx0) * sx, dz = (z - cz0) * sz;
-      if (dx < 0 || dz < 0) continue;
-      const rho = Math.hypot(dx, dz);
-      if (rho > 1.4) continue;
-      const phi = Math.atan2(dz, dx);
-      // tension fans out from the corner pocket along the diagonal: a few long, soft ridges
-      const taper = Math.pow(Math.max(0, Math.sin(2 * phi)), 1.2);
-      const radial = (1 - Math.exp(-rho / 0.06)) * Math.exp(-rho / 0.42);
-      s += 0.0062 * radial * taper * Math.sin(phi * 13 + rn.noise(rho * 3 + cx0, phi * 1.5) * 1.2);
-      s += 0.0022 * radial * taper * Math.sin(phi * 29 + 1.3 + rn.noise(rho * 6 - cz0, phi * 3) * 1.6);
+    for (const rk of list) {
+      let dphi = phi - rk.ang; dphi = Math.atan2(Math.sin(dphi), Math.cos(dphi));
+      if (Math.abs(dphi) > 1.2) continue;
+      const along = rho * Math.cos(dphi), dl = rho * Math.sin(dphi);
+      if (along <= 0) continue;
+      const wdt = rk.w0 + 0.035 * along;
+      const g = (dl / wdt) ** 2;
+      if (g > 12) continue;
+      s += rk.amp * (1 - 0.55 * g) * Math.exp(-g) * startFade(along) * Math.exp(-along / rk.len);
     }
     return s;
   }
-  function edgeScallop(x, z) {
-    // between velcro attachments the roof edge droops a few mm
-    const dl = x - X0, dr = X1 - x, db = z - Z0, df = Z1 - z;
+  function tensionRidges(x, z) {
     let s = 0;
-    const add = (dist, along, L) => {
-      const sp = edgeSpacing(L);
-      s += 0.0026 * Math.pow(Math.abs(Math.sin(Math.PI * along / sp)), 0.9) * Math.exp(-Math.max(0, dist) / 0.07);
-    };
-    add(df, x - X0, X1 - X0); add(db, x - X0, X1 - X0); add(dl, z - Z0, Z1 - Z0); add(dr, z - Z0, Z1 - Z0);
+    for (let ci = 0; ci < 4; ci++) {
+      const [cx0, cz0, sx, sz] = corners[ci];
+      const dx = (x - cx0) * sx, dz = (z - cz0) * sz;
+      if (dx < -0.02 || dz < -0.02) continue;
+      const rho = Math.hypot(dx, dz);
+      if (rho > 1.6) continue;
+      s += ridgeSum(cornerRidges[ci], rho, Math.atan2(dz, dx), (al) => 1 - Math.exp(-al / 0.06));
+    }
+    for (let bi = 0; bi < bays.length; bi++) {
+      const b = bays[bi];
+      const dx = x - b.cx, dz = z - b.cz, rho = Math.hypot(dx, dz);
+      if (rho < 0.08 || rho > 1.0) continue;
+      s += ridgeSum(apexRidges[bi], rho, Math.atan2(dz, dx), (al) => sstep(0.1, 0.2, al));
+    }
     return s;
   }
+  // eave: the roof cloth turns down over the truss top in one clean rounded fold (radius
+  // 1.2 cm, vertical at the outline) and continues as the valance
+  const foldR = 0.012;
   function H(x, z) {
+    const e = edgeDist(x, z);
+    // the soft valley between bays sharpens towards the eave (no bump in the eave line)
+    const kv = 0.11 * sstep(0.0, 0.45, e);
     let h = null;
-    for (const b of bays) { const hb = bayHeight(b, x, z); h = h === null ? hb : smax(h, hb, 0.11); }
-    return h + cornerWrinkles(x, z) - edgeScallop(x, z);
+    for (const b of bays) { const hb = bayHeight(b, x, z); h = h === null ? hb : smax(h, hb, kv); }
+    h += tensionRidges(x, z) * sstep(0.015, 0.09, e);
+    if (e < foldR) { const k = foldR - Math.max(0, e); h -= foldR - Math.sqrt(Math.max(0, foldR * foldR - k * k)); }
+    return h;
   }
   function roofNormal(x, z) {
     const e = 0.004;
@@ -288,7 +332,6 @@ export function easyUpTent(p = {}) {
   }
   // the canopy outline has soft corners (sewn round the corner pockets): points beyond
   // the corner arc are pulled onto it
-  const rcTop = 0.026;
   function clampRound(x, z, r = rcTop) {
     const cx = x < X0 + r ? X0 + r : x > X1 - r ? X1 - r : null;
     const cz = z < Z0 + r ? Z0 + r : z > Z1 - r ? Z1 - r : null;
@@ -296,13 +339,43 @@ export function easyUpTent(p = {}) {
     const dx = x - cx, dz = z - cz, l = Math.hypot(dx, dz);
     return l <= r ? [x, z] : [cx + (dx / l) * r, cz + (dz / l) * r];
   }
+  // uv in metres measured ON the roof: horizontal distance across the fall line, slope
+  // distance along it (per face), so the weave keeps its 1:1 aspect on the 33 deg faces;
+  // the per-face seams lie under the hip and rafter tapes
+  function roofUV(geo) {
+    const P = geo.attributes.position, U = geo.attributes.uv || new THREE.BufferAttribute(new Float32Array(P.count * 2), 2);
+    for (let i = 0; i < P.count; i++) {
+      const x = P.getX(i), z = P.getZ(i);
+      let b = bays[0];
+      for (const bb of bays) if (x >= bb.x0 - 1e-6 && x <= bb.x1 + 1e-6 && z >= bb.z0 - 1e-6 && z <= bb.z1 + 1e-6) { b = bb; break; }
+      const hx = x < b.cx ? b.cx - b.x0 : b.x1 - b.cx, hz = z < b.cz ? b.cz - b.z0 : b.z1 - b.cz;
+      const a = Math.abs(x - b.cx) / hx, c = Math.abs(z - b.cz) / hz;
+      if (c >= a) U.setXY(i, x, -b.cz - (z - b.cz) * Math.hypot(hz, b.rise) / hz);
+      else U.setXY(i, b.cx + (x - b.cx) * Math.hypot(hx, b.rise) / hx, -z);
+    }
+    geo.setAttribute('uv', U); U.needsUpdate = true;
+    return geo;
+  }
   const roofPt = (x0, z0, off = 0) => { const [x, z] = clampRound(x0, z0); const n = roofNormal(x, z); return V3(x, H(x, z), z).addScaledVector(n, off); };
 
-  // roof canopy mesh
+  // roof canopy mesh: 1.2 cm grid, graded down to ~1 mm at the eave so the fold is round
   {
-    const W = X1 - X0, D = Z1 - Z0, cell = 0.012;
-    const nu = Math.ceil(W / cell), nv = Math.ceil(D / cell);
-    bins.add(fabric, grid((u, v, o) => { const [x, z] = clampRound(X0 + W * u, Z1 - D * v); o.set(x, H(x, z), z); }, nu, nv, { uv: [W, D] }));
+    const W = X1 - X0, D = Z1 - Z0;
+    const graded = (L) => {
+      const edge = [0, 0.0006, 0.0015, 0.0028, 0.0045, 0.0066, 0.0092, 0.0124, 0.0165, 0.022];
+      const out = edge.slice();
+      const n = Math.ceil((L - 2 * 0.022) / 0.012);
+      for (let i = 1; i < n; i++) out.push(0.022 + (L - 0.044) * (i / n));
+      for (let i = edge.length - 1; i >= 0; i--) out.push(L - edge[i]);
+      return out;
+    };
+    const gx = graded(W), gz = graded(D);
+    const geo = grid((u, v, o) => {
+      const i = Math.round(u * (gx.length - 1)), j = Math.round(v * (gz.length - 1));
+      const [x, z] = clampRound(X0 + gx[i], Z1 - gz[j]); o.set(x, H(x, z), z);
+    }, gx.length - 1, gz.length - 1);
+    roofUV(geo);
+    bins.add(fabric, geo);
   }
 
   // ribbon lying on the roof along an XZ path (fn(t) -> [x, z]), width across, raised
@@ -336,14 +409,25 @@ export function easyUpTent(p = {}) {
     }
   }
 
-  // hip seam tapes (corner -> apex of every bay), valley seams between bays
+  // hip seam tapes (corner -> apex of every bay), valley seams between bays. Seams stop
+  // where the eave fold starts (2 cm inside the outline): the fold stays one clean curve
   const apexR = 0.16;
+  const clipT = (fn) => {
+    let t0 = 0, t1 = 1;
+    while (t0 < 0.5 && edgeDist(...fn(t0)) < 0.02) t0 += 0.002;
+    while (t1 > 0.5 && edgeDist(...fn(t1)) < 0.02) t1 -= 0.002;
+    return [t0, t1];
+  };
+  const seam = (fn, len, width, lift, opts) => {
+    const [t0, t1] = clipT(fn);
+    roofRibbon((t) => fn(t0 + (t1 - t0) * t), len * (t1 - t0), width, lift, opts);
+  };
   for (const b of bays) {
     const bc = [[b.x0, b.z0], [b.x1, b.z0], [b.x1, b.z1], [b.x0, b.z1]];
     for (const [x0, z0] of bc) {
       const L = Math.hypot(b.cx - x0, b.cz - z0);
       const tEnd = 1 - (apexR - 0.01) / L;
-      roofRibbon((t) => { const tt = t * tEnd; return [x0 + (b.cx - x0) * tt, z0 + (b.cz - z0) * tt]; }, L * tEnd, 0.03, 0.0016);
+      seam((t) => { const tt = t * tEnd; return [x0 + (b.cx - x0) * tt, z0 + (b.cz - z0) * tt]; }, L * tEnd, 0.03, 0.0016);
     }
   }
   // each roof face is sewn from two panels: a narrower felled seam runs down the rafter line
@@ -351,23 +435,26 @@ export function easyUpTent(p = {}) {
     for (const [mx, mz] of [[b.cx, b.z0], [b.cx, b.z1], [b.x0, b.cz], [b.x1, b.cz]]) {
       const L = Math.hypot(b.cx - mx, b.cz - mz);
       const tEnd = 1 - (apexR - 0.01) / L;
-      roofRibbon((t) => { const tt = t * tEnd; return [mx + (b.cx - mx) * tt, mz + (b.cz - mz) * tt]; }, L * tEnd, 0.022, 0.0012, { stitchInset: 0.004 });
+      seam((t) => { const tt = t * tEnd; return [mx + (b.cx - mx) * tt, mz + (b.cz - mz) * tt]; }, L * tEnd, 0.022, 0.0012, { stitchInset: 0.004 });
     }
   }
-  for (let i = 1; i < nbx; i++) roofRibbon((t) => [xs[i], Z0 + (Z1 - Z0) * t], Z1 - Z0, 0.034, 0.0016);
-  for (let j = 1; j < nbz; j++) roofRibbon((t) => [X0 + (X1 - X0) * t, zs[j]], X1 - X0, 0.034, 0.0016);
+  for (let i = 1; i < nbx; i++) seam((t) => [xs[i], Z0 + (Z1 - Z0) * t], Z1 - Z0, 0.034, 0.0016);
+  for (let j = 1; j < nbz; j++) seam((t) => [X0 + (X1 - X0) * t, zs[j]], X1 - X0, 0.034, 0.0016);
 
   // corner reinforcement patches (rounded triangles) + apex patch + cap
   const patchL = 0.30;
   const patchMat = M.tentPatch(color);
-  for (const [cx0, cz0, sx, sz] of corners) {
+  for (const [ox, oz, sx, sz] of corners) {
+    // the patch starts where the eave fold ends, so it lies flat on the roof
+    const cx0 = ox + sx * (foldR + 0.006), cz0 = oz + sz * (foldR + 0.006);
     const R = (phi) => patchL / (Math.cos(phi) + Math.sin(phi));
     const ptAt = (phi, rr, off) => roofPt(cx0 + sx * Math.cos(phi) * rr, cz0 + sz * Math.sin(phi) * rr, off);
     const geo = G.surface((u, v, o) => {
       const phi = u * Math.PI / 2; const rr = v * R(phi);
       const edge = sstep(R(phi) - 0.0035, R(phi), rr);
       o.copy(ptAt(phi, rr, 0.0014 * (1 - edge) + 0.0002));
-    }, 24, 14, { uvScale: [0.45, 0.3] });
+    }, 24, 14);
+    roofUV(geo);
     geo.computeVertexNormals(); const n0 = V3().fromBufferAttribute(geo.attributes.normal, 40); if (n0.y < 0) flipGeo(geo);
     bins.add(patchMat, geo);
     const smp = [];
@@ -383,7 +470,8 @@ export function easyUpTent(p = {}) {
     const geo = G.surface((u, v, o) => {
       const rr = v * apexR; const edge = sstep(apexR - 0.004, apexR, rr);
       o.copy(ap(u * TAU, rr, 0.0015 * (1 - edge) + 0.0002));
-    }, 48, 10, { uvScale: [1, 0.16] });
+    }, 48, 10);
+    roofUV(geo);
     geo.computeVertexNormals(); const n0 = V3().fromBufferAttribute(geo.attributes.normal, 60); if (n0.y < 0) flipGeo(geo);
     bins.add(patchMat, geo);
     for (const rr of [apexR - 0.012, 0.075]) {
@@ -411,7 +499,7 @@ export function easyUpTent(p = {}) {
     { name: 'back', A: V3(X1, 0, Z0), dir: V3(-1, 0, 0), n: V3(0, 0, -1), L: X1 - X0, legs: xs.map((x) => X1 - x) },
     { name: 'left', A: V3(X0, 0, Z0), dir: V3(0, 0, 1), n: V3(-1, 0, 0), L: Z1 - Z0, legs: zs.map((z) => z - Z0) },
   ];
-  const rcHem = 0.048;
+  const rcHem = 0.058;
   const rcAt = (t) => rcTop + (rcHem - rcTop) * Math.pow(t, 1.2);
   const flare = (t) => 0.013 * Math.pow(t, 1.4);
   // between-pin shape (0 at legs/corners, 1 mid-span)
@@ -427,13 +515,38 @@ export function easyUpTent(p = {}) {
     let pin = 1;
     for (const ls of side.legs) pin = Math.min(pin, sstep(0.0, 0.34, Math.abs(s - ls)));
     pin = Math.min(pin, sstep(0, 0.14, s), sstep(0, 0.14, side.L - s));
-    const belly = 0.010 * Math.pow(spanShape(side, s), 1.4) * (0.12 + 0.88 * Math.pow(t, 1.15));
+    // the top is sewn to the roof edge (offset 0): belly and drape grow towards the hem
+    const belly = 0.010 * Math.pow(spanShape(side, s), 1.4) * Math.pow(t, 1.15);
     const k = side.name.length * 1.7;
-    const wave = pin * (0.2 + 0.8 * Math.pow(t, 1.1)) * (0.0058 * Math.sin(s * TAU / 0.86 + k) + 0.0026 * Math.sin(s * TAU / 0.37 + k * 2.3) + 0.0016 * vn.noise(s * 3.1 + k, 0.5));
+    const wave = pin * Math.pow(t, 1.1) * (0.0058 * Math.sin(s * TAU / 0.86 + k) + 0.0026 * Math.sin(s * TAU / 0.37 + k * 2.3) + 0.0016 * vn.noise(s * 3.1 + k, 0.5));
     return flare(t) + belly + wave;
   }
-  // roof edge height above a point of the outline
-  const edgeY = (b, nrm) => H(b.x - nrm.x * 0.0005, b.z - nrm.z * 0.0005) - 0.002;
+  // roof edge height above a point of the outline: the bottom of the eave fold, where the
+  // roof cloth has turned vertical and continues as the valance (one clean fold, no piping)
+  const edgeY = (b) => H(b.x, b.z);
+  // attachment points of the skirt along each side: the legs and the top connectors of the
+  // scissor truss (~1 m apart); the hem dips 3-6 mm between them (shallow festoon)
+  const attachS = sides.map((side) => {
+    const pins = side.legs.slice().sort((a, b) => a - b);
+    const out = [0, side.L];
+    for (let i = 0; i < pins.length - 1; i++) {
+      const a = pins[i], b = pins[i + 1], Ls = b - a;
+      const n = Math.max(2, Math.round(Ls / 1.0));
+      out.push(a);
+      const gp = legAF / 2 + 0.024; // scissor end gap (as in the truss below)
+      for (const sN of linspace(a + gp, b - gp, n)) out.push(sN);
+    }
+    out.push(pins[pins.length - 1]);
+    return [...new Set(out.map((v) => Math.round(v * 1e4) / 1e4))].sort((a, b) => a - b);
+  });
+  function hemDip(k, s) {
+    const at = attachS[k];
+    for (let i = 0; i < at.length - 1; i++) {
+      const a = at[i], b = at[i + 1];
+      if (s >= a && s <= b) { const Ls = b - a; return 0.0055 * Math.min(1, Ls / 0.9) * Math.pow(Math.sin(Math.PI * (s - a) / Math.max(1e-6, Ls)), 1.25); }
+    }
+    return 0;
+  }
   // outline point of side k: part 'S' = straight run (f 0..1 between the corner arcs),
   // part 'C' = corner arc after side k (f 0..1 = angle 0..90 deg) -> {b, nrm, s}
   function valBase(k, part, f, t) {
@@ -448,7 +561,7 @@ export function easyUpTent(p = {}) {
     return { b: c.addScaledVector(nrm, rc), nrm, s: null };
   }
   const valTop = (k, part, f) => { const q = valBase(k, part, f, 0); return edgeY(q.b, q.nrm); };
-  const valDrop = (k, part, f) => { if (part !== 'S') return drop; const side = sides[k]; return drop + 0.004 * spanShape(side, valBase(k, part, f, 1).s); };
+  const valDrop = (k, part, f) => { if (part !== 'S') return drop; const side = sides[k]; return drop + hemDip(k, valBase(k, part, f, 1).s) + 0.002 * spanShape(side, valBase(k, part, f, 1).s); };
   function valPt(k, part, f, y, off = 0) {
     const yTop = valTop(k, part, f), dd = valDrop(k, part, f);
     const t = clamp01((yTop - y) / dd);
@@ -484,8 +597,8 @@ export function easyUpTent(p = {}) {
     hem.computeVertexNormals();
     bins.add(fabric, hem);
   }
-  // stitch lines all round: hem at 1.8 cm, roof seam 1.2 cm below the top
-  for (const [yf, off] of [[(k, part, u) => valTop(k, part, u) - valDrop(k, part, u) + 0.0175, 0.0011], [(k, part, u) => valTop(k, part, u) - 0.012, 0]]) {
+  // stitch lines all round: hem at 1.8 cm, roof seam 8 mm below the eave fold
+  for (const [yf, off] of [[(k, part, u) => valTop(k, part, u) - valDrop(k, part, u) + 0.0175, 0.0011], [(k, part, u) => valTop(k, part, u) - 0.008, 0]]) {
     const smp = [];
     for (const [k, part, , len] of parts) {
       const n = Math.max(3, Math.ceil(len / 0.008));
@@ -494,15 +607,8 @@ export function easyUpTent(p = {}) {
     smp.push(smp[0]);
     stitches.push(stitchGeo(smp));
   }
-  // roof / valance junction: piping all round; a soft sewn seam down each rounded corner
+  // a soft sewn seam down each rounded corner of the skirt
   {
-    const pts = [];
-    for (const [k, part, , len] of parts) {
-      const n = Math.max(4, Math.ceil(len / 0.02));
-      for (let i = 0; i < n; i++) { const q = valBase(k, part, i / n, 0); pts.push(q.b.addScaledVector(q.nrm, 0.0035).setY(edgeY(q.b, q.nrm) + 0.0015)); }
-    }
-    pts.push(pts[0].clone());
-    bins.add(fabric, sweepTube(pts, 0.0042, 8, true));
     for (let k = 0; k < 4; k++) {
       const pts2 = [];
       const yT = valTop(k, 'C', 0.5);
@@ -812,15 +918,20 @@ function tentRig(colorHex) {
     // softbox front-left at ~1.8x the product's half-diagonal, aimed at the near eave:
     // the near face is brightest low on the face and falls off towards the apex and the
     // far hip, so the white silhouette separates from the backdrop
-    key: { azimuth: -33, elevation: 30, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.04, 0.36, 0.69], angle: 46, penumbra: 0.4 },
+    key: { azimuth: -72, elevation: 32, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.04, 0.36, 0.69], angle: 46, penumbra: 0.4 },
     floorKey: { azimuth: -15, elevation: 80, cone: 16, intensity: 3.0 },
     rim: { azimuth: -155, elevation: 35, intensity: 0.3 },
     // big low fill from camera-right: the far roof face and valance get their own,
     // darker value without going grey
-    fill: { azimuth: 76, elevation: 8, intensity: 3.2 },
+    fill: { azimuth: 60, elevation: 10, intensity: white ? 4.2 : 3.2 },
     bounce: { intensity: 0.5 },
     dome: { count: 2, intensity: 1.24, maxZenith: 62, tilt: 30 },
-    exposure: white ? 0.67 : 'auto',
+    exposure: white ? 0.5 : 'auto',
+    // white cloth: no highlight shoulder (a filmic shoulder squashes the light-to-dark
+    // gradient of the lit faces into flat paper white); the lit face peaks at ~250
+    ...(white ? { toneMapping: 'linear' } : {}),
+    // the cloth itself limits its reflections (material envSpec), so the frame keeps the
+    // same studio reflections whatever the canopy colour
     exposureAuto: { ref: 0.2, base: 0.68, power: 0.22, min: 0.5, max: 1.1 },
     // floor: the canopy footprint is a firm soft shadow; enclosed floor (inside walls)
     // keeps getting darker after the soft knee; tight contact shadow under plates/hems
@@ -832,11 +943,10 @@ function tentRig(colorHex) {
     // tonal family as the walls (no lifted diffuse) and only mirrors the overhead scrim
     // as one soft sheen band (measured hero: roof 55-66, walls 34-41, valance 40-50).
     ...(black ? {
-      key: { azimuth: -33, elevation: 30, intensity: 8, cone: 10, distanceRel: 1.78, aimRel: [0.04, 0.36, 0.69], angle: 46, penumbra: 0.4 },
+      key: { azimuth: -72, elevation: 32, intensity: 8, cone: 10, distanceRel: 1.78, aimRel: [0.04, 0.36, 0.69], angle: 46, penumbra: 0.4 },
       dome: { count: 2, intensity: 0.8, maxZenith: 62, tilt: 30 },
       fill: { azimuth: 76, elevation: 8, intensity: 4.0 },
       rim: { azimuth: -155, elevation: 35, intensity: 0.2 },
-      envIntensity: 0.13,
       exposure: 0.85,
     } : {}),
   };

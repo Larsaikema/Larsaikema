@@ -1,24 +1,57 @@
 {%- comment -%}
   Comparison table (features collection.quality-line-explainer / content.comparison-guide).
-  On a product page it compares the products from the chosen collection that share custom.vergelijk_groep
-  with the current product (e.g. Easy-up Premium vs Professional). A product without vergelijk_groep, or one
-  that is not in the compared set, gets no table at all (no tent table under a statafelrok).
-  Rows come from custom.specificaties (groep + label), so nothing is typed twice. Elsewhere (a page or the
-  home page): the first products of the collection that have specifications.
+  - Product page: the products from the chosen collection that share custom.vergelijk_groep with the current
+    product (e.g. Easy-up Premium vs Professional). No group, or not in the set: no table (no tent table under a
+    statafelrok).
+  - Collection page (use_current on): the current collection; the first vergelijk_groep that two or more of its
+    products share. Statafels or rokken without a group get no table.
+  - Page / home: the chosen collection, same group rule (or any products with specs when require_group is off).
+  Rows come from custom.specificaties (groep + label), so nothing is typed twice. Optional link to the full
+  comparison guide (a page with template page.vergelijking).
 {%- endcomment -%}
 {%- liquid
+  # Source collection: the current collection on a collection page (when 'use_current' is on), else the chosen one.
+  assign src = section.settings.collection
+  if template.name == 'collection' and collection and section.settings.use_current
+    assign src = collection
+  endif
   assign grp = ''
   assign on_product = false
-  if product
+  if template.name == 'product' and product
     assign on_product = true
     if product.metafields.custom.vergelijk_groep != blank
       assign grp = product.metafields.custom.vergelijk_groep.value
     endif
   endif
+  # Collection page / page: compare the first custom.vergelijk_groep that at least two products share. Products
+  # without a group are left out, so a statafel or rokken collection shows nothing.
+  if on_product == false and section.settings.require_group
+    assign all_groups = ''
+    for p in src.products limit: 50
+      if p.metafields.custom.vergelijk_groep != blank and p.metafields.custom.specificaties != blank
+        assign all_groups = all_groups | append: p.metafields.custom.vergelijk_groep.value | append: '§'
+      endif
+    endfor
+    assign group_list = all_groups | split: '§'
+    assign unique_groups = group_list | uniq
+    assign grp = 'kk-none'
+    for g in unique_groups
+      assign g_count = 0
+      for x in group_list
+        if x == g
+          assign g_count = g_count | plus: 1
+        endif
+      endfor
+      if g_count > 1
+        assign grp = g
+        break
+      endif
+    endfor
+  endif
   assign handles = ''
   assign count = 0
   assign keys = ''
-  for p in section.settings.collection.products limit: 50
+  for p in src.products limit: 50
     if p.metafields.custom.specificaties == blank
       continue
     endif
@@ -54,13 +87,19 @@
           <h2 class="section-head__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
           {%- if section.settings.text != blank -%}<p class="section-head__text muted">{{ section.settings.text }}</p>{%- endif -%}
         </div>
+        {%- if section.settings.guide_link != blank and section.settings.guide_label != blank -%}
+          {%- assign guide_path = section.settings.guide_link | split: '?' | first -%}
+          {%- unless request.path == guide_path -%}
+            <a class="link comparison__guide" href="{{ section.settings.guide_link }}">{{ section.settings.guide_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
+          {%- endunless -%}
+        {%- endif -%}
       </div>
       <div class="table-wrap comparison__wrap">
         <table class="table comparison__table">
           <thead>
             <tr>
               <th scope="col"><span class="visually-hidden">{{ 'product.specs' | t }}</span></th>
-              {%- for p in section.settings.collection.products limit: 50 -%}
+              {%- for p in src.products limit: 50 -%}
                 {%- assign hk = ',' | append: p.handle | append: ',' -%}{%- unless handles contains hk -%}{%- continue -%}{%- endunless -%}
                 <th scope="col" class="comparison__product{% if p.id == product.id %} is-current{% endif %}">
                   <a href="{{ p.url }}">
@@ -84,7 +123,7 @@
                 {%- assign lbl = kparts.last -%}
                 <tr>
                   <th scope="row">{{ lbl }}</th>
-                  {%- for p in section.settings.collection.products limit: 50 -%}
+                  {%- for p in src.products limit: 50 -%}
                     {%- assign hk = ',' | append: p.handle | append: ',' -%}{%- unless handles contains hk -%}{%- continue -%}{%- endunless -%}
                     {%- assign val = '–' -%}
                     {%- for row in p.metafields.custom.specificaties.value -%}
@@ -101,14 +140,16 @@
     </div>
   </section>
   <style>
-    .comparison__wrap{background:#fff}
+    .comparison__wrap{background:var(--c-wit);border:1px solid var(--c-lijn)}
+    .comparison__guide{display:inline-flex;align-items:center;gap:6px;font-weight:var(--font-body-weight-semibold)}
     .comparison__table{min-width:560px}
+    .comparison__table thead th{background:var(--c-wit)}
     .comparison__table th[scope="row"]{color:var(--c-kiezel);font-weight:var(--font-body-weight);width:28%}
-    .comparison__product{vertical-align:bottom;background:#fff!important}
+    .comparison__product{vertical-align:bottom;background:var(--c-wit)!important}
     .comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}
-    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-studio);border-radius:10px}
+    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-steen);border-radius:10px}
     .comparison__product.is-current a span::after{content:" ✓";color:var(--c-polder)}
-    .comparison__group th{background:var(--c-linnen);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-polder)}
+    .comparison__group th{background:var(--c-steen);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-polder)}
   </style>
 {%- endif -%}
 
@@ -121,6 +162,10 @@
     { "type": "text", "id": "heading", "label": "Kop", "default": "Vergelijk de uitvoeringen" },
     { "type": "text", "id": "text", "label": "Tekst", "default": "Zelfde idee, ander gebruik. Kies op frame, dak en gewicht." },
     { "type": "collection", "id": "collection", "label": "Collectie", "info": "Op een productpagina: alleen producten met dezelfde custom.vergelijk_groep. Rijen komen uit custom.specificaties." },
+    { "type": "checkbox", "id": "use_current", "label": "Op een collectiepagina: de huidige collectie vergelijken", "default": true },
+    { "type": "checkbox", "id": "require_group", "label": "Alleen producten met dezelfde vergelijkingsgroep", "default": true, "info": "custom.vergelijk_groep, bv. 'easy-up'. Collecties zonder twee producten in één groep tonen geen tabel." },
+    { "type": "url", "id": "guide_link", "label": "Link naar de vergelijkingsgids" },
+    { "type": "text", "id": "guide_label", "label": "Linktekst", "default": "Lees het hele verschil" },
     { "type": "range", "id": "max", "min": 2, "max": 4, "step": 1, "label": "Maximaal aantal producten", "default": 3 }
   ],
   "presets": [{ "name": "Vergelijkingstabel" }]

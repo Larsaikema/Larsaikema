@@ -290,8 +290,11 @@ bij een deur scherend van opzij.
 
 Gemeten (sRGB-luminantie, achtergrond #EFEDE8 = 237): `tent-3x3-wit-hero` belicht dakvlak 225–232 met
 gradiënt naar de top, afgewend vlak 211–216, valance 229 / 196, silhouet overal ≥ 11 niveaus van de
-achtergrond, vloer onder het dak ≈ 190, open vloer ≈ 233. `tent-3x6-zwart-zijwanden-hero`: dak 59–66
-(belicht) / 48 (afgewend), valance 41–49, wanden 32–39, vloer langs de wand ≈ 216.
+achtergrond, vloer onder het dak ≈ 190, open vloer ≈ 233. `tent-3x6-zwart-zijwanden-hero`: dak 62–67
+(belicht, incl. glansband) / 46 (afgewend), valance 45–49, wanden 31–41, vloer langs de wand ≈ 215.
+`tent-3x3-wit-front`: vlak 221–238 in het midden, beide graten ≤ 228. Contactschaduw: ~50 niveaus aan de
+rand van een voetplaat (1000 px), uitlopend over ~3,5 cm. Gekleurd doek (rood) krijgt maar 0,4 reflectie,
+zodat het belichte vlak de kleur van het doek houdt (≈ 188/44/49 voor #B5161E, valance 182/13/24).
 
 `keyShadow` (aandeel van de softbox in het vloerlicht) wordt standaard uit de lichtsterktes berekend.
 **Belichting `auto`:** zoals een fotograaf per product belicht, wordt de belichting afgeleid uit de

@@ -2,7 +2,7 @@
   assign c = section.settings.collection
   assign limit = section.settings.limit
 -%}
-<section class="section featured-collection color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
+<section class="section featured-collection color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}"{% if section.settings.exclude_in_cart %} data-cart-dependent data-section-id="{{ section.id }}"{% endif %}>
   <div class="page-width">
     <div class="section-head">
       <div>
@@ -38,7 +38,7 @@
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..4) -%}
-          <li><div class="card"><div class="card__media">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div><div class="card__body"><p class="card__title">Product</p></div></div></li>
+          <li><div class="card"><div class="card__media">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div><div class="card__body"><p class="card__title">{{ 'general.placeholder_product' | t }}</p></div></div></li>
         {%- endfor -%}
       {%- endif -%}
     </ul>

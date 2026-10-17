@@ -42,7 +42,10 @@
                 </div>
                 <button type="button" class="btn btn--outline btn--sm" data-add-line>{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}{{ 'quote.add_line' | t }}</button>
                 <datalist id="QuoteProducts-{{ section.id }}">
-                  {%- for p in collections.all.products limit: 50 -%}<option value="{{ p.title | escape }}"></option>{%- endfor -%}
+                  {%- comment -%} a for loop over collection products stops at 50 without paginate; 250 is the page maximum {%- endcomment -%}
+                  {%- paginate collections.all.products by 250 -%}
+                    {%- for p in collections.all.products -%}<option value="{{ p.title | escape }}"></option>{%- endfor -%}
+                  {%- endpaginate -%}
                 </datalist>
                 <template data-line-template>
                   <div class="quote-line" data-line>
@@ -83,7 +86,7 @@
                   <div class="field field--full"><label class="field__label" for="Q-body">{{ 'quote.notes' | t }}</label><textarea class="textarea" id="Q-body" name="contact[body]" rows="4"></textarea></div>
                 </div>
               </fieldset>
-              <div class="form-actions"><button type="submit" class="btn">{{ 'quote.submit' | t }}</button></div>
+              <div class="form-actions"><button type="submit" class="btn btn--secondary">{{ 'quote.submit' | t }}</button></div>
               {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
             </quote-form>
           {%- endif -%}

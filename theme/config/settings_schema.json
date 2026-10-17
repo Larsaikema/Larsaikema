@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk als inline SVG: op desktop het gewone logo, onder 750 px het logo-klein (merkboek §3.3: onder 121 px breed). Kleur via de instellingen hieronder."
+        "content": "Zonder eigen afbeelding toont het thema het Klapklaar-woordmerk inline (merkboek §3.4 en §12): op desktop svg/logo-inline.svg, onder 750 px svg/logo-klein-inline.svg. De letters volgen de tekstkleur van het kleurschema, de tent de kleur 'Logo-tent' van het schema (Klaproos op licht, Polder op Zakelijk-pagina's, Zon op Polder en Inkt)."
       },
       {
         "type": "image_picker",
@@ -22,46 +22,36 @@
       {
         "type": "range",
         "id": "logo_width",
-        "min": 120,
+        "min": 150,
         "max": 260,
         "step": 2,
         "unit": "px",
         "label": "Logobreedte desktop",
-        "default": 168,
-        "info": "Merkboek: 160–176 px. Niet smaller dan 121 px."
+        "default": 200,
+        "info": "Merkboek: 200 px (x-hoogte 23 px). Niet smaller dan 149 px, anders sluit het logo dicht."
       },
       {
         "type": "range",
         "id": "logo_width_mobile",
-        "min": 76,
-        "max": 160,
+        "min": 98,
+        "max": 148,
         "step": 2,
         "unit": "px",
-        "label": "Logobreedte mobiel",
-        "default": 104,
-        "info": "Merkboek: logo-klein op 100–110 px."
+        "label": "Logobreedte mobiel (logo-klein)",
+        "default": 124,
+        "info": "Merkboek: logo-klein op 124 px. Bereik 97–148 px."
       },
       {
-        "type": "select",
-        "id": "logo_roof",
-        "label": "Kleur van het dak in het woordmerk",
-        "options": [
-          {
-            "value": "brand",
-            "label": "Klaproos (standaard)"
-          },
-          {
-            "value": "mono",
-            "label": "Gelijk aan de letters"
-          }
-        ],
-        "default": "brand"
+        "type": "checkbox",
+        "id": "logo_tent_mono",
+        "label": "Tent in de kleur van de letters (eenkleurig)",
+        "default": false
       },
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Favicon",
-        "info": "Vierkant, minimaal 192 × 192 px. Zonder afbeelding gebruikt het thema favicon.svg."
+        "label": "Favicon (vervangt de Klapklaar-favicons)",
+        "info": "Vierkant PNG, minimaal 192 × 192 px. Zonder afbeelding gebruikt het thema de eigen 16-, 32- en 192-px-tekeningen uit het merkboek, met een winkelwagenstip zodra er iets in de winkelwagen ligt."
       }
     ]
   },
@@ -74,37 +64,53 @@
       },
       {
         "type": "paragraph",
-        "content": "Elke kleur heeft één taak (merkboek v3 §4). Klaproos alleen als vlak (knop, dak); Zon alleen voor vlag en actie; fouten zijn Bordeaux en nooit een vlak. Alle standaardcombinaties halen WCAG AA."
+        "content": "Dertien kleuren, één rol per kleur (merkboek v4 §4 en tokens.json). Klaproos alleen als vlak: de tent in het logo en de koopknop. Zon voor actie en de tent op donker. Polder voor alles wat ‘klaar’ is. Fouten zijn Bordeaux en nooit een vlak. Alle standaardcombinaties halen WCAG AA."
       },
       {
         "type": "color",
         "id": "color_klaproos",
-        "label": "Klaproos (primaire knop, dak in het logo)",
+        "label": "Klaproos (koopknop, tent in het logo)",
         "default": "#C83812"
       },
       {
         "type": "color",
         "id": "color_klaproos_donker",
-        "label": "Klaproos donker (ingedrukte primaire knop)",
+        "label": "Klaproos donker (hover en ingedrukt van de koopknop)",
         "default": "#982A0E"
       },
       {
         "type": "color",
         "id": "color_zon",
-        "label": "Zon (vlaggetje, actie-badge en actieprijs)",
+        "label": "Zon (actie-badge, actieprijs, tent op donker)",
         "default": "#FFC23A"
       },
       {
         "type": "color",
         "id": "color_polder",
-        "label": "Polder (donkere vlakken, voorraad, zakelijk)",
+        "label": "Polder (footer, utility-balk, Zakelijk-knop, op voorraad, toegevoegd)",
         "default": "#154F3E"
       },
       {
         "type": "color",
+        "id": "color_polder_donker",
+        "label": "Polder donker (hover van de Zakelijk-knop)",
+        "default": "#0E3A2D"
+      },
+      {
+        "type": "color",
         "id": "color_inkt",
-        "label": "Inkt (tekst, koppen, links)",
+        "label": "Inkt (tekst, koppen, links, omlijnde knop)",
         "default": "#1D2420"
+      },
+      {
+        "type": "color",
+        "id": "color_kiezel",
+        "label": "Kiezel (secundaire tekst, veldranden, uitgeschakeld)",
+        "default": "#5D625C"
+      },
+      {
+        "type": "header",
+        "content": "Vlakken"
       },
       {
         "type": "color",
@@ -115,66 +121,47 @@
       {
         "type": "color",
         "id": "color_duin",
-        "label": "Duin (warme vlakken, chips)",
+        "label": "Duin (warm vlak: hero, chips)",
         "default": "#F2E8D5"
       },
       {
         "type": "color",
-        "id": "color_linnen",
-        "label": "Linnen (zakelijk, staffels, specificaties)",
-        "default": "#ECEEE8"
+        "id": "color_steen",
+        "label": "Steen (productbeeld, Zakelijk, staffel- en spec-tabellen)",
+        "default": "#EFEDE8",
+        "info": "Ligt dicht bij Zand: het thema zet Steen altijd in een witte kaart of met een 1 px Lijn-rand."
       },
       {
         "type": "color",
-        "id": "color_studio",
-        "label": "Studio (achtergrond productbeeld)",
-        "default": "#EFEDE8"
-      },
-      {
-        "type": "color",
-        "id": "color_kiezel",
-        "label": "Kiezel (secundaire tekst, veldranden)",
-        "default": "#5D625C"
+        "id": "color_wit",
+        "label": "Wit (kaarten, velden, drawers, meldingen)",
+        "default": "#FFFFFF"
       },
       {
         "type": "color",
         "id": "color_lijn",
-        "label": "Lijn (decoratieve scheidingslijnen)",
+        "label": "Lijn (scheidingslijnen, rand om kaarten en meldingen)",
         "default": "#E4D6BE"
       },
       {
         "type": "header",
-        "content": "Meldingen"
+        "content": "Status"
       },
       {
         "type": "color",
         "id": "color_bordeaux",
-        "label": "Fout (tekst, icoon en rand; nooit een vlak)",
+        "label": "Fout (tekst, icoon, rand; nooit een vlak)",
         "default": "#8A1538"
       },
       {
         "type": "color",
-        "id": "color_foutroze",
-        "label": "Fout (vlak)",
-        "default": "#FBEAEA"
-      },
-      {
-        "type": "color",
         "id": "color_oker",
-        "label": "Let op / levertijd (tekst)",
+        "label": "Let op en levertijd (tekst, halve stip, rand)",
         "default": "#865800"
       },
       {
-        "type": "color",
-        "id": "color_okerlicht",
-        "label": "Let op (vlak)",
-        "default": "#FFF4DA"
-      },
-      {
-        "type": "color",
-        "id": "color_mos",
-        "label": "Succes (vlak)",
-        "default": "#E4EEE8"
+        "type": "paragraph",
+        "content": "Meldingen staan op Wit met een 1 px Lijn-rand en een 4 px linkerrand in de statuskleur: fout = Bordeaux, let op = Oker, gelukt = Polder."
       },
       {
         "type": "header",
@@ -217,43 +204,49 @@
           {
             "type": "color",
             "id": "primary_button_label",
-            "label": "Primaire knop tekst",
+            "label": "Primaire knop: tekst",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "primary_button_hover",
-            "label": "Primaire knop hover",
-            "default": "#1D2420"
-          },
-          {
-            "type": "color",
-            "id": "primary_button_hover_label",
-            "label": "Primaire knop hover tekst",
-            "default": "#FFFFFF"
-          },
-          {
-            "type": "color",
-            "id": "primary_button_active",
-            "label": "Primaire knop ingedrukt",
+            "label": "Primaire knop: hover",
             "default": "#982A0E"
           },
           {
             "type": "color",
-            "id": "secondary_button",
-            "label": "Secundaire knop",
-            "default": "#154F3E"
+            "id": "primary_button_hover_label",
+            "label": "Primaire knop: tekst bij hover",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover_border",
+            "label": "Primaire knop: rand bij hover",
+            "default": "#982A0E"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_active",
+            "label": "Primaire knop: ingedrukt",
+            "default": "#982A0E"
           },
           {
             "type": "color",
             "id": "secondary_button_label",
-            "label": "Secundaire knop tekst",
-            "default": "#FBF6EC"
+            "label": "Omlijnde knop: tekst en rand",
+            "default": "#1D2420"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover",
+            "label": "Omlijnde knop: hover (lichte tint)",
+            "default": "#E9E5DC"
           },
           {
             "type": "color",
             "id": "border",
-            "label": "Randen (velden, outline-knop)",
+            "label": "Randen van invoervelden",
             "default": "#5D625C"
           },
           {
@@ -261,6 +254,12 @@
             "id": "focus",
             "label": "Focusring",
             "default": "#1D2420"
+          },
+          {
+            "type": "color",
+            "id": "logo_tent",
+            "label": "Tent in het logo",
+            "default": "#C83812"
           }
         ],
         "role": {
@@ -274,9 +273,9 @@
           "primary_button": "primary_button",
           "on_primary_button": "primary_button_label",
           "primary_button_border": "primary_button",
-          "secondary_button": "secondary_button",
+          "secondary_button": "background",
           "on_secondary_button": "secondary_button_label",
-          "secondary_button_border": "secondary_button"
+          "secondary_button_border": "secondary_button_label"
         }
       }
     ]
@@ -290,16 +289,10 @@
       },
       {
         "type": "font_picker",
-        "id": "type_heading_font",
+        "id": "type_header_font",
         "label": "Lettertype koppen",
-        "default": "mona_sans_n7",
-        "info": "Merkfont: Mona Sans (merkboek v3 §5). H3, H4 en kaarttitels in Bold (700); display, H1 en H2 in ExtraBold (800) als 'Extra vet' aan staat."
-      },
-      {
-        "type": "checkbox",
-        "id": "heading_extrabold",
-        "label": "Extra vet (800) voor grote koppen",
-        "default": true
+        "default": "figtree_n8",
+        "info": "Merkboek v4 §5: Figtree ExtraBold (800) voor display, H1 en H2. H3, H4, kaarttitels, knoppen en prijzen zet het thema in Bold (700) van dezelfde familie."
       },
       {
         "type": "range",
@@ -319,7 +312,8 @@
         "type": "font_picker",
         "id": "type_body_font",
         "label": "Lettertype tekst",
-        "default": "figtree_n4"
+        "default": "figtree_n4",
+        "info": "Figtree Regular (400). Labels en navigatie in SemiBold (600)."
       },
       {
         "type": "range",
@@ -691,7 +685,8 @@
         "type": "text",
         "id": "delivery_text_pakket",
         "label": "Levertekst pakket (fallback zonder JavaScript)",
-        "default": "Op werkdagen vóór 14:00 besteld, vandaag verzonden"
+        "default": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden",
+        "info": "[besteltijd] wordt de besteltijd hierboven. Met JavaScript toont het thema een live aftelling."
       },
       {
         "type": "text",
@@ -857,6 +852,13 @@
         "label": "Opties die als kleurstaal tonen",
         "default": "Kleur, Kleur rokken, Kleur strik, Rok",
         "info": "Namen van opties, gescheiden door komma's."
+      },
+      {
+        "type": "text",
+        "id": "swatch_print_words",
+        "label": "Woorden voor een bedrukte waarde",
+        "default": "bedrukt, bedrukking, full colour, opdruk, met logo, print",
+        "info": "Een kleurwaarde met een van deze woorden (bv. 'Full colour bedrukt') krijgt een print-staal in plaats van een effen kleur."
       },
       {
         "type": "textarea",

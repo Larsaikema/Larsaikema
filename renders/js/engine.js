@@ -41,7 +41,8 @@ function hookMaterial(mat) {
   const stoch = mat.userData.stochasticAlpha;
   const transl = mat.userData.translucency;
   const macro = mat.userData.macro && mat.normalMap ? mat.userData.macro : null;
-  if (stoch == null && !transl && !macro) return;
+  const envSpec = mat.userData.envSpec;
+  if (stoch == null && !transl && !macro && envSpec == null) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -78,6 +79,12 @@ void main() {
   vec3 clearcoatNormal = normalize( tbn * vec3( macroD * uMacro.z, 1.0 ) );
 #endif`);
     }
+    if (envSpec != null) {
+      // per-material strength of the environment *reflection* (scene.environmentIntensity
+      // overrides material.envMapIntensity in three): cloth mirrors the softboxes only softly
+      fs = fs.replace('#include <lights_fragment_maps>', `#include <lights_fragment_maps>
+  radiance *= ${Number(envSpec).toFixed(4)};`);
+    }
     if (transl) {
       // Light passing through thin fabric, seen from the shaded side.
       fs = fs.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
@@ -91,7 +98,7 @@ void main() {
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${macro ? 'm' : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${macro ? 'm' : ''}:${envSpec}`;
   mat.needsUpdate = true;
 }
 

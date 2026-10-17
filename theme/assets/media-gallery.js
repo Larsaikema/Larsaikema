@@ -44,7 +44,16 @@
         }
         mark() {
           this.thumbs.forEach((t, i) => (i === this.index ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
-          this.thumbs[this.index]?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+          // keep the active thumbnail in view by scrolling the strip only: scrollIntoView would also scroll the
+          // window and make the page jump when a swatch or size changes the image
+          const t = this.thumbs[this.index];
+          const strip = t?.closest('.gallery__thumbs');
+          if (t && strip && strip.scrollWidth > strip.clientWidth) {
+            const left = t.offsetLeft - strip.offsetLeft;
+            if (left < strip.scrollLeft || left + t.offsetWidth > strip.scrollLeft + strip.clientWidth) {
+              strip.scrollTo({ left: Math.max(0, left - (strip.clientWidth - t.offsetWidth) / 2), behavior: 'instant' });
+            }
+          }
           if (this.counter) this.counter.textContent = this.index + 1;
         }
         goToMedia(id) {
