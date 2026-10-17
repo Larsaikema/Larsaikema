@@ -2930,7 +2930,7 @@
    }
   },
   "accessoires": {
-   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, afzetpalen, een marktkraam en lopers.",
+   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen, een marktkraam en lopers.",
    "kenmerken": [
     "Zijwanden en verankering",
     "Onderdelen los na te bestellen",
@@ -3109,7 +3109,7 @@
        },
        {
         "type": "text",
-        "value": " van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook de "
+        "value": " van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook gas: de "
        },
        {
         "type": "link",
@@ -3118,13 +3118,92 @@
         "children": [
          {
           "type": "text",
-          "value": "terrasheater op gas"
+          "value": "terrasheater"
          }
         ]
        },
        {
         "type": "text",
-        "value": " van 13 kW. Die hoort nooit in een tent, ook niet met open wanden."
+        "value": " van 13 kW, een "
+       },
+       {
+        "type": "link",
+        "url": "/products/loungeheater-gas",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "loungeheater"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " op zithoogte of als tafelmodel, of een "
+       },
+       {
+        "type": "link",
+        "url": "/products/flameheater-gas-9-kw",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "flameheater"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Licht in de tent"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Het "
+       },
+       {
+        "type": "link",
+        "url": "/products/led-vloedlicht-easy-up",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "LED-vloedlicht van 30 W"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een "
+       },
+       {
+        "type": "link",
+        "url": "/products/prikkabel-e27",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "prikkabel"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
        }
       ]
      },
@@ -3263,8 +3342,8 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Warm blijven</h3><p>In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater op gas</a> van 13 kW. Die hoort nooit in een tent, ook niet met open wanden.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/marktkraam-2-m\">marktkraam van 2 m</a> voor school, vereniging of braderie.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
-   "body_html": "<p>Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, afzetpalen, een marktkraam en lopers.</p>",
+   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Warm blijven</h3><p>In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook gas: de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater</a> van 13 kW, een <a href=\"/products/loungeheater-gas\">loungeheater</a> op zithoogte of als tafelmodel, of een <a href=\"/products/flameheater-gas-9-kw\">flameheater</a> met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.</p><h3>Licht in de tent</h3><p>Het <a href=\"/products/led-vloedlicht-easy-up\">LED-vloedlicht van 30 W</a> klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een <a href=\"/products/prikkabel-e27\">prikkabel</a>.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/marktkraam-2-m\">marktkraam van 2 m</a> voor school, vereniging of braderie.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
+   "body_html": "<p>Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen, een marktkraam en lopers.</p>",
    "seo": {
     "title": "Accessoires voor partytent en evenement | Klapklaar",
     "description": "Zijwanden, voetgewichten, haringen, tassen, onderdelen, heaters, afzetpalen, marktkraam en lopers. Alles om je partytent en evenement compleet te maken."

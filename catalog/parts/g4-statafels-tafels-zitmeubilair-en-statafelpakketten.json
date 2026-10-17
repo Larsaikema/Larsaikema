@@ -3489,7 +3489,7 @@
    }
   },
   "meubilair": {
-   "intro": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.",
+   "intro": "Barkrukken, stoelen, krukken, banken, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.",
    "kenmerken": [
     "Barkruk 76 cm bij statafel 110 cm",
     "Stapelbaar of inklapbaar",
@@ -3566,7 +3566,7 @@
          },
          {
           "type": "text",
-          "value": " of de "
+          "value": " , de "
          },
          {
           "type": "link",
@@ -3576,6 +3576,51 @@
            {
             "type": "text",
             "value": "barkruk met houten zitting"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ", de gestoffeerde "
+         },
+         {
+          "type": "link",
+          "url": "/products/barkruk-velours-stapelbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "velours barkruk"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " (binnen), de "
+         },
+         {
+          "type": "link",
+          "url": "/products/barkruk-pe-rotan",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "barkruk van PE-rotan"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " (buiten) of de "
+         },
+         {
+          "type": "link",
+          "url": "/products/barkruk-draad-stapelbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "draadbarkruk"
            }
           ]
          },
@@ -3610,7 +3655,22 @@
          },
          {
           "type": "text",
-          "value": " of de "
+          "value": ", de "
+         },
+         {
+          "type": "link",
+          "url": "/products/stapelstoel-metaal",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "metalen stapelstoel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ", de "
          },
          {
           "type": "link",
@@ -3620,6 +3680,51 @@
            {
             "type": "text",
             "value": "stapelstoel cross back"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ", de "
+         },
+         {
+          "type": "link",
+          "url": "/products/banquetstoel-gestoffeerd",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "banquetstoel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ", de "
+         },
+         {
+          "type": "link",
+          "url": "/products/kruk-laag-stapelbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "lage kruk"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " of een "
+         },
+         {
+          "type": "link",
+          "url": "/products/bank-houten-frame",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "bank met houten frame"
            }
           ]
          },
@@ -3755,7 +3860,22 @@
       "children": [
        {
         "type": "text",
-        "value": "Barkrukken stapel je tot 10 hoog, cross back stoelen tot 8. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor "
+        "value": "Metalen barkrukken, stapelstoelen, banquetstoelen en lage krukken stapel je tot 10 hoog, draadbarkrukken en cross back stoelen tot 8 en velours barkrukken tot 5. Voor 24 barkrukken is er een "
+       },
+       {
+        "type": "link",
+        "url": "/products/pakket-24-barkrukken-met-transportkar",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "pakket met transportkar"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor "
        },
        {
         "type": "link",
@@ -3870,8 +3990,8 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Meubilair voor feest, horeca en verhuur</h2><p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen.</p><h3>Tafelhoogte en zithoogte die bij elkaar passen</h3><p>Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:</p><ul><li><strong>Statafel 107–110 cm</strong> met een barkruk van 76 cm zithoogte: de <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a> of de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a>.</li><li><strong>Klaptafel 74 cm of terrastafel 75 cm</strong> met een stoel van ca. 45 cm: de <a href=\"/products/klapstoel\">klapstoel</a> of de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>.</li><li><strong>Biertafel ca. 77 cm</strong> met de bank van ca. 47 cm uit de <a href=\"/products/biertafelset\">biertafelset</a>.</li></ul><h3>Hoeveel personen per tafel?</h3><ul><li>Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10</li><li>Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10</li><li>Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6</li><li>Biertafelset 220 cm: 8 (10 met inschikken)</li><li>Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm</li></ul><h3>Binnen of buiten</h3><p>Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen.</p><h3>Opslaan en vervoeren</h3><p>Barkrukken stapel je tot 10 hoog, cross back stoelen tot 8. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor <a href=\"/products/transportkar-statafels\">statafels</a> en voor <a href=\"/products/transportkar-klaptafels-en-stoelen\">klaptafels, barkrukken of klapstoelen</a>.</p><h3>Onderdelen en staffels</h3><p>Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn <a href=\"/products/voetdoppen-set-van-4\">voetdoppen per set van 4</a>, een <a href=\"/products/los-statafelblad\">los statafelblad</a> en <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussens</a>. Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
-   "body_html": "<p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.</p>",
+   "seo_tekst_html": "<h2>Meubilair voor feest, horeca en verhuur</h2><p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen.</p><h3>Tafelhoogte en zithoogte die bij elkaar passen</h3><p>Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:</p><ul><li><strong>Statafel 107–110 cm</strong> met een barkruk van 76 cm zithoogte: de <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a> , de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a>, de gestoffeerde <a href=\"/products/barkruk-velours-stapelbaar\">velours barkruk</a> (binnen), de <a href=\"/products/barkruk-pe-rotan\">barkruk van PE-rotan</a> (buiten) of de <a href=\"/products/barkruk-draad-stapelbaar\">draadbarkruk</a>.</li><li><strong>Klaptafel 74 cm of terrastafel 75 cm</strong> met een stoel van ca. 45 cm: de <a href=\"/products/klapstoel\">klapstoel</a>, de <a href=\"/products/stapelstoel-metaal\">metalen stapelstoel</a>, de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>, de <a href=\"/products/banquetstoel-gestoffeerd\">banquetstoel</a>, de <a href=\"/products/kruk-laag-stapelbaar\">lage kruk</a> of een <a href=\"/products/bank-houten-frame\">bank met houten frame</a>.</li><li><strong>Biertafel ca. 77 cm</strong> met de bank van ca. 47 cm uit de <a href=\"/products/biertafelset\">biertafelset</a>.</li></ul><h3>Hoeveel personen per tafel?</h3><ul><li>Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10</li><li>Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10</li><li>Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6</li><li>Biertafelset 220 cm: 8 (10 met inschikken)</li><li>Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm</li></ul><h3>Binnen of buiten</h3><p>Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen.</p><h3>Opslaan en vervoeren</h3><p>Metalen barkrukken, stapelstoelen, banquetstoelen en lage krukken stapel je tot 10 hoog, draadbarkrukken en cross back stoelen tot 8 en velours barkrukken tot 5. Voor 24 barkrukken is er een <a href=\"/products/pakket-24-barkrukken-met-transportkar\">pakket met transportkar</a>. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor <a href=\"/products/transportkar-statafels\">statafels</a> en voor <a href=\"/products/transportkar-klaptafels-en-stoelen\">klaptafels, barkrukken of klapstoelen</a>.</p><h3>Onderdelen en staffels</h3><p>Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn <a href=\"/products/voetdoppen-set-van-4\">voetdoppen per set van 4</a>, een <a href=\"/products/los-statafelblad\">los statafelblad</a> en <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussens</a>. Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "body_html": "<p>Barkrukken, stoelen, krukken, banken, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.</p>",
    "seo": {
     "title": "Meubilair: barkrukken, stoelen, klaptafels | Klapklaar",
     "description": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest en horeca. Welke zithoogte bij welke tafel en hoeveel personen per tafel."
@@ -4120,6 +4240,26 @@
         "children": [
          {
           "type": "link",
+          "url": "/products/pakket-24-barkrukken-met-transportkar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "24 barkrukken met transportkar"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": stapelbare metalen barkrukken in één kleur, op hun eigen kar."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
           "url": "/products/buffetpakket-klaptafels-stretchhoezen",
           "title": null,
           "children": [
@@ -4211,7 +4351,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je "
+        "value": "Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je "
        },
        {
         "type": "link",
@@ -4232,7 +4372,7 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.</p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket, rokken in 6 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.</p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket, rokken in 6 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/pakket-24-barkrukken-met-transportkar\">24 barkrukken met transportkar</a>: stapelbare metalen barkrukken in één kleur, op hun eigen kar.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
    "body_html": "<p>Combinaties die je anders los bij elkaar zoekt, voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt.</p>",
    "seo": {
     "title": "Actiepakketten: statafels, rokken en meer | Klapklaar",
