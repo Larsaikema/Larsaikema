@@ -2,7 +2,7 @@
   {
     "id": "global.price-incl-excl-btw",
     "area": "global",
-    "feature": "Every price shown incl. btw with the excl. btw amount next to it (cards, PDP, accessory blocks).",
+    "feature": "Every price shown incl. btw with the excl. btw amount next to it (cards, PDP, accessory blocks). Statafelshop does the same: incl. btw first with excl. btw next to it, e.g. '€45,00 incl. BTW €37,19 excl. BTW' (https://www.statafelshop.nl/product-categorie/statafels/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
     "priority": "must",
@@ -12,7 +12,7 @@
   {
     "id": "global.markets-nl-be",
     "area": "global",
-    "feature": "Separate NL and BE storefronts (outmate.be mirrors outmate.nl); BE delivery rates applied automatically. statafelshop.be: whether it exists, who runs it, BE prices and BE shipping are unconfirmed (Statafelshop research refused four times, most recently 2026-10-17).",
+    "feature": "Separate NL and BE storefronts (outmate.be mirrors outmate.nl); BE delivery rates applied automatically. statafelshop.be exists as a BE mirror with the same WooCommerce structure; its FAQ names the Statafelshop.nl brand and a Dutch bank account, so it is likely the same operator (https://www.statafelshop.be/contact/, likely). BE FAQ shipping €15 excl. / €18,15 incl., while BE product pages say 'Gratis verzenden' (https://www.statafelshop.be/product/biertafel-standaard-kwaliteit/, likely). BE prices were not gathered. Outmate BE amounts: see checkout.be-rates.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.be/product-categorie/partytenten/",
     "priority": "must",
@@ -32,7 +32,7 @@
   {
     "id": "global.from-price",
     "area": "global",
-    "feature": "'Vanaf €X' from-price for products with varying variant prices.",
+    "feature": "'Vanaf €X' from-price for products with varying variant prices. Statafelshop configurable products also show 'vanaf' prices incl. and excl. btw (https://www.statafelshop.nl/product-categorie/statafels/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/",
     "priority": "must",
@@ -42,7 +42,7 @@
   {
     "id": "global.sale-compare-at",
     "area": "global",
-    "feature": "Sale price with struck-through original price (e.g. was €895 now €775).",
+    "feature": "Sale price with struck-through original price (e.g. was €895 now €775). Statafelshop: 'Aanbieding!' label with a struck-through price (https://www.statafelshop.nl/product-categorie/statafels/, confirmed), e.g. EK/WK stretchrok €48,34 was €54,45 (https://www.statafelshop.nl/product/ek-wk-rok/, likely) and actiepakket Colorado + 4 barkrukken €411,40 was €445,11 (https://www.statafelshop.nl/product/actiepakket-vi/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/barrel-set-1-wijnvat-statafel-4-barkrukken-houtlook-onderhoudsvrij-kunststof/",
     "priority": "must",
@@ -52,17 +52,17 @@
   {
     "id": "global.availability-states",
     "area": "global",
-    "feature": "Availability states beyond in/out of stock: 'Tijdelijk uitverkocht', 'Binnenkort leverbaar', 'Pre-order'.",
+    "feature": "Availability states beyond in/out of stock: 'Tijdelijk uitverkocht', 'Binnenkort leverbaar', 'Pre-order'. Round 4 (2026-10-17): Outmate also shows 'Permanent uitverkocht' next to a struck-through price (Ultimate 4x6, 5x10; https://www.outmate.nl/product-categorie/partytenten/partytent-pvc-ultimate-edition/, likely). Statafelshop uses 'Op voorraad', 'Tijdelijk niet op voorraad' and 'Uitverkocht' (https://www.statafelshop.nl/statafel-kopen/, likely); statafelshop.be shows a 48-hour lead time on Savannah (https://www.statafelshop.be/savannah-statafels-stretchrok-70cm, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd/binnenkort-leverbaar/",
     "priority": "must",
-    "how_we_match": "metafield custom.availability_status (enum) + inventory policy 'continue' for pre-order; badge on card + PDP; ATC label switches to 'Pre-order'.",
+    "how_we_match": "metafield custom.availability_status (enum) + inventory policy 'continue' for pre-order; badge on card + PDP; ATC label switches to 'Pre-order'. Add enum value 'permanent uitverkocht' (hide ATC, keep page for SEO with alternatives).",
     "confidence": "confirmed"
   },
   {
     "id": "global.dispatch-line",
     "area": "global",
-    "feature": "Dispatch/lead-time line on cards and PDP: 'Vandaag verzonden', a concrete weekday date ('di 20 okt'), 'binnen 1-3 werkdagen', '10-15 werkdagen', '5-10 dagen na akkoord ontwerp'.",
+    "feature": "Dispatch/lead-time line on cards and PDP: 'Vandaag verzonden', a concrete weekday date ('di 20 okt'), 'binnen 1-3 werkdagen', '10-15 werkdagen', '5-10 dagen na akkoord ontwerp'. Statafelshop product pages show 'Op voorraad, voor 14u besteld, dezelfde dag verzonden' (https://www.statafelshop.nl/product/stretchhoes-voor-buffettafel-183x76cm/, confirmed); personalised items show 'Gepersonaliseerde producten hebben een langere levertijd' instead (https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/, confirmed). Outmate PDP holiday notice: 'Door de vakantiedrukte kan het echter voorkomen dat een bestelling iets later wordt verzonden' (https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/",
     "priority": "must",
@@ -72,7 +72,7 @@
   {
     "id": "global.low-stock-badge",
     "area": "global",
-    "feature": "Low-stock scarcity badge ('Nog 4 voorradig!').",
+    "feature": "Low-stock scarcity badge ('Nog 4 voorradig!'). Also on buizenframe PE 4x6 ('Nog 1 voorradig!', https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/",
     "priority": "should",
@@ -92,7 +92,7 @@
   {
     "id": "global.reviews-shop-page",
     "area": "global",
-    "feature": "Shop-review page ('Shopervaring') with site-review count; Trustpilot profile exists. No Kiyoh or WebwinkelKeur found; whether a Trustpilot widget is embedded is unconfirmed. Copy the feature only, never counts or scores.",
+    "feature": "Shop-review page ('Shopervaring') with site-review count; Trustpilot profile exists. No Kiyoh or WebwinkelKeur found; whether a Trustpilot widget is embedded is unconfirmed. Copy the feature only, never counts or scores. Round 4 (2026-10-17): Statafelshop homepage shows a rating block 'Wij scoren een 9,6' and 'Ruim 10.000 tevreden klanten'; the provider is unknown and a targeted search could not reproduce the phrase (https://www.statafelshop.nl/, unconfirmed). External profiles exist at Feedback Company (https://www.feedbackcompany.com/nl-nl/reviews/statafelshop-nl/, likely) and Trusted Shops (https://www.trustedshops.nl/verkopersbeoordeling/info_XEC40C37270A060E3CC10FE6382C7F113.html, likely); no Kiyoh, WebwinkelKeur or Trustpilot profile found. Their scores and counts must not be reused (BRIEF section 6). Outmate /garantie-klachten/ names Keurmerk Instituut for dispute mediation, but no Keurmerk badge was seen (https://www.outmate.nl/garantie-klachten/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/reviews/",
     "priority": "could",
@@ -102,7 +102,7 @@
   {
     "id": "global.company-legal-details",
     "area": "global",
-    "feature": "Company name, address, KvK and BTW number and e-mail visible (footer/contact). Statafelshop operator: Outmate B.V. (KvK 76398021) is asserted only by gauntlet/BRIEF.md section 1 and was never read from a Statafelshop page (unconfirmed).",
+    "feature": "Company name, address, KvK and BTW number and e-mail visible (footer/contact). Round 4 (2026-10-17): Statafelshop is NOT shown to be run by Outmate B.V.: its contact details name Deadan.com bv, KvK 62007211 (https://statafelshop.nl/bedrijfsgegevens, likely), phone +31 (0)40-4015010 and info@statafelshop.nl, address Provincialeweg 30, 4909 AK Oosteind (https://www.statafelshop.nl/contact/, confirmed); the contact page also gives Wilhelminakanaal Zuid 140, 4903 RA Oosterhout under the orders heading, and the vacatures page gives Veldweg 1, 5715 PP Lierop (https://www.statafelshop.nl/vacatures, likely). No BTW number was found. This contradicts gauntlet/BRIEF.md section 1.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -122,47 +122,47 @@
   {
     "id": "global.whatsapp",
     "area": "global",
-    "feature": "WhatsApp contact button next to phone/e-mail (seen on sister sites outmatestretch.nl / outmateair.nl; not confirmed on outmate.nl). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: a WhatsApp button on outmate.nl itself stays unconfirmed.",
-    "seen_on": "outmate",
-    "evidence_url": "https://www.outmatestretch.nl/",
+    "feature": "WhatsApp contact button next to phone/e-mail. Statafelshop offers it: 'Mail, bel, app of chat ons even!' on category pages and 'app' among the contact options (https://www.statafelshop.nl/product-categorie/terrastafels/, likely; https://www.statafelshop.nl/contact/, likely). Outmate: seen on sister sites outmatestretch.nl / outmateair.nl; a WhatsApp button on outmate.nl itself stays unconfirmed (2026-10-17 UX follow-up was refused by the search budget and round 4 did not re-run it).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/product-categorie/terrastafels/",
     "priority": "should",
     "how_we_match": "theme setting whatsapp_number -> wa.me link in header/contact/PDP help block; hidden when empty.",
-    "confidence": "unconfirmed"
+    "confidence": "likely"
   },
   {
     "id": "global.live-chat",
     "area": "global",
-    "feature": "Live chat (only an old review mentions chat; current widget unconfirmed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: a live-chat widget on outmate.nl itself stays unconfirmed.",
-    "seen_on": "outmate",
-    "evidence_url": "https://www.outmatestretch.nl/",
+    "feature": "Live chat. Statafelshop lists chat among its contact options next to mail, phone and app (https://www.statafelshop.nl/contact/, likely; widget type unknown). Outmate: only an old review mentions chat; a current widget on outmate.nl stays unconfirmed (not re-run in round 4).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/contact/",
     "priority": "could",
     "how_we_match": "Shopify Inbox app embed; theme leaves room bottom-right so it does not cover sticky ATC.",
-    "confidence": "unconfirmed"
+    "confidence": "likely"
   },
   {
     "id": "global.usp-bar",
     "area": "global",
-    "feature": "USP/announcement bar (Outmate USP texts not confirmed; self-claims like 'Door eigen import de goedkoopste' seen in titles). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether the outmate.nl header has a USP bar at all stays unconfirmed (we match the feature only, never their wording).",
-    "seen_on": "outmate",
-    "evidence_url": "https://www.outmate.nl/alle/",
+    "feature": "USP/announcement bar. Statafelshop USP texts: 'Voor 14u besteld, dezelfde dag verzonden', '2 jaar garantie op alle artikelen', 'Gratis retourneren' (https://www.statafelshop.nl/, likely); elsewhere '24-uurs levering', 'Diverse aanbiedingen' and 'Gratis verzenden' (https://www.statafelshop.nl/goedkope-statafel-kopen/, likely). Several of these contradict the shop's own FAQ (returns at the customer's cost, flat €15 excl. shipping) and one page carries a stray '10 jaar garantie'. Outmate: USP texts not confirmed; self-claims like 'Door eigen import de goedkoopste' seen in titles; whether outmate.nl has a USP bar at all stays unconfirmed (not re-run in round 4). We match the feature only, never their wording, and only show owner-confirmed claims.",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/",
     "priority": "should",
     "how_we_match": "announcement-bar section in header group with editable USP blocks; only owner-confirmed claims, no unverifiable superlatives.",
-    "confidence": "unconfirmed"
+    "confidence": "likely"
   },
   {
     "id": "global.same-day-cutoff",
     "area": "global",
-    "feature": "Same-day dispatch promise ('voor 14:00 besteld = vandaag verzonden'). The 14:00 wording is only the BRIEF section 6 example, not a verified Statafelshop claim (Statafelshop research was blocked four times, most recently 2026-10-17 round 3). Outmate shows a computed dispatch date ('Vandaag verzonden', 'Verzending: di 20 okt') but no explicit 'voor HH:MM besteld' cut-off was found (https://www.outmate.nl/).",
+    "feature": "Same-day dispatch promise. Statafelshop product pages show 'Op voorraad, voor 14u besteld, dezelfde dag verzonden' (working days) on stock items, e.g. stretchrok + topcover, strikrok, buffet stretchhoes, New York, Purus, Colorado (https://www.statafelshop.nl/product/stretchhoes-voor-buffettafel-183x76cm/, confirmed; https://www.statafelshop.nl/product/statafel-new-york/, confirmed), and the USP bar repeats it (https://www.statafelshop.nl/, likely). It does not apply to personalised (printed) items. statafelshop.be: 'Vóór 14 uur besteld, dezelfde dag verzonden' (likely). Outmate shows a computed dispatch date ('Vandaag verzonden', 'Verzending: di 20 okt') but no explicit 'voor HH:MM besteld' cut-off was found (https://www.outmate.nl/); its levertijd page calls same-day dispatch on workdays a 'streefdoel' (https://www.outmate.nl/levertijd-en-verzendkosten/, confirmed).",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#6-honesty--legal-rules-hard (example wording only; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/product/stretchhoes-voor-buffettafel-183x76cm/",
     "priority": "should",
     "how_we_match": "theme setting cutoff_time + toggle drives USP text and dispatch line; listed in docs/claims-to-confirm.md.",
-    "confidence": "unconfirmed"
+    "confidence": "confirmed"
   },
   {
     "id": "global.free-shipping-threshold",
     "area": "global",
-    "feature": "Free-shipping threshold - NOT found on outmate.nl (the bol.com threshold is bol.com's own policy).",
+    "feature": "Free-shipping threshold - NOT found on outmate.nl (the bol.com threshold is bol.com's own policy). Round 4 (2026-10-17): not found on statafelshop.nl either: its FAQ says shipping is 'altijd € 15,- excl. btw' (€18,15 incl.) (https://www.statafelshop.nl/contact/, confirmed), yet 'Gratis verzenden' badges appear on many product and category pages with no minimum amount stated (https://www.statafelshop.nl/product/transportkar-inclusief-statafel-savannah-5-stuks/, likely). The rule behind the badges is unconfirmed.",
     "seen_on": "market",
     "evidence_url": "https://www.bol.com/nl/nl/b/outmate/605686588/",
     "priority": "could",
@@ -172,7 +172,7 @@
   {
     "id": "global.notices",
     "area": "global",
-    "feature": "Temporary service notices (showroom closed in holidays; DPD parcel delays of 2-3 days).",
+    "feature": "Temporary service notices (showroom closed in holidays; DPD parcel delays of 2-3 days). Round 4: Outmate PDP holiday notice 'Door de vakantiedrukte kan het echter voorkomen dat een bestelling iets later wordt verzonden' (https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "should",
@@ -182,7 +182,7 @@
   {
     "id": "header.search",
     "area": "header",
-    "feature": "Site search ('Zoeken'). Outmate live suggestions, mixed results (products vs pages/posts) and results layout: unconfirmed. Predictive search is a brief requirement (BRIEF section 4), not a reference-confirmed feature. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether https://www.outmate.nl/?s=partytent mixes products with pages/posts, its results layout and live suggestions all stay unconfirmed.",
+    "feature": "Site search ('Zoeken'). Outmate live suggestions, mixed results (products vs pages/posts) and results layout: unconfirmed. Predictive search is a brief requirement (BRIEF section 4), not a reference-confirmed feature. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: whether https://www.outmate.nl/?s=partytent mixes products with pages/posts, its results layout and live suggestions all stay unconfirmed. Round 4 (2026-10-17): Statafelshop homepage has a search field with popular-search shortcuts (statafels, statafelhoezen, barkrukken, actiepakketten, stoelen) (https://www.statafelshop.nl/, likely); its autocomplete and results layout were not observed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -192,7 +192,7 @@
   {
     "id": "header.account",
     "area": "header",
-    "feature": "Account link ('Log in' / 'Mijn account'). Outmate offers account or guest checkout (https://www.outmate.nl/bestellen-annuleren/, confirmed); its privacy statement implies accounts hold order history (https://www.outmate.nl/privacy-en-veiligheid/, likely). https://www.outmate.nl/mijn-account/ was never read: login/register fields (bedrijfsnaam, BTW, KvK) and dashboard tabs (bestellingen, downloads, adressen) are unconfirmed; no separate business account was found. Wishlist: none in the header text seen on https://www.outmate.nl/contact/ (likely). Product compare and recently viewed were never checked, so no 'not present' may be claimed. Statafelshop account: unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified.",
+    "feature": "Account link ('Log in' / 'Mijn account'). Outmate offers account or guest checkout (https://www.outmate.nl/bestellen-annuleren/, confirmed); its privacy statement implies accounts hold order history (https://www.outmate.nl/privacy-en-veiligheid/, likely). https://www.outmate.nl/mijn-account/ was never read: login/register fields (bedrijfsnaam, BTW, KvK) and dashboard tabs (bestellingen, downloads, adressen) are unconfirmed; no separate business account was found. Wishlist: none in the header text seen on https://www.outmate.nl/contact/ (likely). Product compare and recently viewed were never checked, so no 'not present' may be claimed. Statafelshop: customer accounts exist; the BTW invoice can be downloaded under 'Mijn Account' > 'Bestellingen', and DHL Track & Trace links show there per package (https://www.statafelshop.nl/contact/, likely). Registration fields unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -232,7 +232,7 @@
   {
     "id": "header.mega-menu",
     "area": "header",
-    "feature": "Deep product-family navigation: Partytenten, Easy-up, Opslagtenten, Stretchtenten, Stertenten, Opblaasbaar, Zeilen/Schaduwdoeken, Tafels & stoelen, Meubilair accessoires, Verlichting, Verwarming, Inrichting, Vloeren, plus onderdelen/accessoires per tent type.",
+    "feature": "Deep product-family navigation: Partytenten, Easy-up, Opslagtenten, Stretchtenten, Stertenten, Opblaasbaar, Zeilen/Schaduwdoeken, Tafels & stoelen, Meubilair accessoires, Verlichting, Verwarming, Inrichting, Vloeren, plus onderdelen/accessoires per tent type. Statafelshop main menu 'Shop', in order: Statafels, Statafelhoezen, Barkrukken, Actiepakketten, Stoelen, Terrastafels, Biertafelsets, Tafels, Banken, Transportkarren, Onderdelen, Textiel, Diverse; info items Over Statafelshop, Blog, Zakelijk, Contact. Strik, kleden, topcovers and bedrukte hoezen have no own menu item; they sit inside Statafelhoezen/Textiel (https://www.statafelshop.nl/, likely). Menu layout (mega vs dropdown) not observed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/",
     "priority": "must",
@@ -242,12 +242,12 @@
   {
     "id": "header.contact-strip",
     "area": "header",
-    "feature": "Phone/hours visible near header (not confirmed on outmate.nl).",
-    "seen_on": "outmate",
-    "evidence_url": "https://www.outmate.nl/service/",
+    "feature": "Phone/hours visible near header. Statafelshop homepage presents its phone line as direct contact with staff (https://www.statafelshop.nl/, likely); opening hours were not found. Outmate: not confirmed on outmate.nl.",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/",
     "priority": "could",
     "how_we_match": "optional top-strip block with phone + hours from settings.",
-    "confidence": "unconfirmed"
+    "confidence": "likely"
   },
   {
     "id": "home.hero",
@@ -262,7 +262,7 @@
   {
     "id": "home.category-tiles",
     "area": "home",
-    "feature": "Main entry tiles per product family (easy-up, buizenframe, stretch, alle onderdelen) each with a one-line benefit.",
+    "feature": "Main entry tiles per product family (easy-up, buizenframe, stretch, alle onderdelen) each with a one-line benefit. Statafelshop homepage shows its category list plus the claim 'We staan voor kwaliteit van Nederlandse bodem en staan klaar om je te helpen' (https://www.statafelshop.nl/, likely; section order not established; do not copy wording).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/",
     "priority": "must",
@@ -282,7 +282,7 @@
   {
     "id": "home.bundle-promo",
     "area": "home",
-    "feature": "Promo block for unique sets (barrel/wine-barrel statafel + barkrukken).",
+    "feature": "Promo block for unique sets (barrel/wine-barrel statafel + barkrukken). Statafelshop homepage teases an actiepakket 'vanaf €69,95' (https://www.statafelshop.nl/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/",
     "priority": "should",
@@ -322,7 +322,7 @@
   {
     "id": "home.newsletter",
     "area": "home",
-    "feature": "Newsletter signup (not confirmed on outmate.nl).",
+    "feature": "Newsletter signup (not confirmed on outmate.nl; not obtained for statafelshop.nl in round 4).",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -332,7 +332,7 @@
   {
     "id": "collection.nested-tree",
     "area": "collection",
-    "feature": "Nested categories with subcategory pages (Easy-up > Premium/Professional; Partytenten > 5 quality lines; accessoires per tent type).",
+    "feature": "Nested categories with subcategory pages (Easy-up > Premium/Professional; Partytenten > 5 quality lines; accessoires per tent type). Statafelshop is flatter: 13 top-level shop categories, with textiles split across overlapping Statafelhoezen and Textiel categories and beschermplaten under Diverse (https://www.statafelshop.nl/product-categorie/textiel/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/partytenten/",
     "priority": "must",
@@ -352,7 +352,7 @@
   {
     "id": "collection.filters-attributes",
     "area": "collection",
-    "feature": "Facet filters: afmeting, kleur, materiaal, bevestiging (klittenband), materiaal buizen. Price slider and an op-voorraad filter: unconfirmed.",
+    "feature": "Facet filters: afmeting, kleur, materiaal, bevestiging (klittenband), materiaal buizen. Price slider and an op-voorraad filter: unconfirmed. Statafelshop statafels category filters: bladkleur (graniet, wit, antraciet, punti), onderstel kleur and bladdiameter (70/80/85 cm), with a count per value, e.g. 'bladdiameter 80 cm (1), 85 cm (4)' (https://www.statafelshop.nl/product-categorie/statafels/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/?_pa_kleur=full-colour-bedrukking-vouwtent",
     "priority": "must",
@@ -412,7 +412,7 @@
   {
     "id": "collection.sort",
     "area": "collection",
-    "feature": "Sorting (price, newest, best-selling). Outmate sort options / ?orderby= params: unconfirmed (WooCommerce default, not observed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: the ?orderby= values (popularity/rating/date/price/price-desc), a price slider and an 'op voorraad' filter stay unconfirmed. Only the underscore facet param pattern is recorded (https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/?_frame=zwart, likely). Statafelshop filter facets, sort options and search autocomplete: unconfirmed (research refused four times, most recently 2026-10-17).",
+    "feature": "Sorting (price, newest, best-selling). Outmate sort options / ?orderby= params: unconfirmed (WooCommerce default, not observed). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: the ?orderby= values (popularity/rating/date/price/price-desc), a price slider and an 'op voorraad' filter stay unconfirmed. Only the underscore facet param pattern is recorded (https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/?_frame=zwart, likely). Statafelshop (round 4): facets are recorded in collection.filters-attributes; a sort parameter appears in legacy layered-nav URLs (sort-by/position, sort-direction/asc, https://statafelshop.nl/diversen/kleur-blad/wit/sort-by/position/sort-direction/asc, unconfirmed), but the sort options offered and search autocomplete were not observed.",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -422,7 +422,7 @@
   {
     "id": "collection.pagination",
     "area": "collection",
-    "feature": "Pagination / load more for large categories. Outmate numbered pagination vs load-more and products per page: unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: numbered pagination vs load-more and the products-per-page count stay unconfirmed. Statafelshop pagination vs load-more: unconfirmed.",
+    "feature": "Pagination / load more for large categories. Outmate numbered pagination vs load-more and products per page: unconfirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: numbered pagination vs load-more and the products-per-page count stay unconfirmed. Statafelshop pagination vs load-more: not observed in round 4 (unconfirmed).",
     "seen_on": "market",
     "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
     "priority": "should",
@@ -432,7 +432,7 @@
   {
     "id": "collection.card-parity",
     "area": "collection",
-    "feature": "Product card shows incl/excl price, vanaf, sale, dispatch line, availability/low-stock badge.",
+    "feature": "Product card shows incl/excl price, vanaf, sale, dispatch line, availability/low-stock badge. Statafelshop cards: incl. and excl. btw, 'vanaf', 'Aanbieding!' with struck-through price (https://www.statafelshop.nl/product-categorie/statafels/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/",
     "priority": "must",
@@ -472,7 +472,7 @@
   {
     "id": "product.colour-swatches",
     "area": "product",
-    "feature": "Colour picker: Zwart, Wit, Blauw, Grijs, Zandkleur, Groen, Rood + 'Full Colour-bedrukking'.",
+    "feature": "Colour picker: Zwart, Wit, Blauw, Grijs, Zandkleur, Groen, Rood + 'Full Colour-bedrukking'. Statafelshop stretchrok: 22 colours under the attribute 'Kleur stretchrok' (https://www.statafelshop.nl/product/stretchrok-topcover/, confirmed); whether the selector shows visual swatches or a dropdown, and any kleurstalen service, unconfirmed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x45m-premium-pvc-gecoat-polyester/",
     "priority": "must",
@@ -532,7 +532,7 @@
   {
     "id": "product.spec-table",
     "area": "product",
-    "feature": "Key-value spec table (kleur, afmeting, materiaal frame, dakzeil, brandvertragend, treksterkte, gewicht zeil/frame, doorloophoogte, totale hoogte, pers. staand/zittend, opzettijd, waterkolom, fabrieksgarantie, materiaal buizen).",
+    "feature": "Key-value spec table (kleur, afmeting, materiaal frame, dakzeil, brandvertragend, treksterkte, gewicht zeil/frame, doorloophoogte, totale hoogte, pers. staand/zittend, opzettijd, waterkolom, fabrieksgarantie, materiaal buizen). Statafelshop spec rows seen: 'Kleur stretchrok', 'Kleur strikrok', 'Afmeting blad', 'Strak of Los', Hoogte, Kleur tafelblad, Kleur onderstel, 'Inklapbaar of Stapelbaar' (https://www.statafelshop.nl/product/stretchrok-topcover/, likely; https://www.statafelshop.nl/product/statafel-new-york/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/stretchtent-45-x-6-meter/",
     "priority": "must",
@@ -572,7 +572,7 @@
   {
     "id": "product.shipping-cost-line",
     "area": "product",
-    "feature": "Per-product shipping cost line ('De verzendkosten op dit product zijn €X'), incl. quantity rule ('1 stuk: €12,50 | 2+ stuks: €25').",
+    "feature": "Per-product shipping cost line ('De verzendkosten op dit product zijn €X'), incl. quantity rule ('1 stuk: €12,50 | 2+ stuks: €25'). Statafelshop has no per-product shipping line: one flat fee of €15 excl. / €18,15 incl. per its FAQ (https://www.statafelshop.nl/contact/, confirmed), contradicted by 'Gratis verzenden' badges.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-4x6m-professional-pvc-gecoat-polyester-2/",
     "priority": "must",
@@ -602,7 +602,7 @@
   {
     "id": "product.staffelkorting",
     "area": "product",
-    "feature": "Tiered volume discount table (e.g. 2-5 st 5% ... 20+ st 12,5%; staffel from 10 st on barkrukken). Whether statafelrokken carry staffel tiers: unconfirmed (Outmate and Statafelshop). Barkruk tier percentages: unconfirmed.",
+    "feature": "Tiered volume discount table (e.g. 2-5 st 5% ... 20+ st 12,5%; staffel from 10 st on barkrukken). Round 4 (2026-10-17): Statafelshop: no staffelkorting or quantity tiers on any textile page (plain 'aantal' field; bulk orders are pointed to Zakelijk) and none on the zakelijk page (https://www.statafelshop.nl/statafelhoes-kopen/, likely). Outmate statafelrokken tiers: unconfirmed. Outmate barkruk tiers now seen: Paxi/Louis/Mundo 5% from 10, 6,25% from 26, 7,5% from 49 (https://www.outmate.nl/product/barkruk-paxi-draadstoel-zwart/, likely); Hamburg 2,5% from 4, 4% from 9, 5,5% from 31 (https://www.outmate.nl/product/barkruk-stapelbaar-metaal-zwart-hamburg/, likely); LED lamps 100+ st €1,20 (https://www.outmate.nl/product-categorie/verlichting/led-lampen/, likely). The market does use staffels on statafelrokken/topcovers (biertafelplaza €7,50 / 5 for €30 / 10 for €55, https://www.biertafelplaza.nl/statafels/statafelrok-stretch-topcover-391/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
     "priority": "must",
@@ -622,7 +622,7 @@
   {
     "id": "product.accessory-bundle-discount",
     "area": "product",
-    "feature": "'10% korting op de volgende accessoires' when bought with the tent (side walls; also 10% on lamps with a prikkabel). PE tent pages list opbergtassenset and stormbandenset in the 10% block instead of side walls (likely).",
+    "feature": "'10% korting op de volgende accessoires' when bought with the tent (side walls; also 10% on lamps with a prikkabel). PE tent pages list opbergtassenset and stormbandenset in the 10% block instead of side walls (likely). Round 4: also 10% off the trolley when bought with HDPE ronde klaptafels (https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/",
     "priority": "should",
@@ -632,7 +632,7 @@
   {
     "id": "product.whats-included",
     "area": "product",
-    "feature": "What's included / excluded ('Exclusief zijwanden'; inflatable incl. 4 zandzakken, tas, 4 scheerlijnen, 4 haringen; stertent incl. opbergtas, mast, haringen, meetkoord). Easy-up box contents: unconfirmed. Indirect evidence that pegs/straps are not included: 'Set spanriemen en haringen' is sold separately at €19,99 and suggested in the PDP cross-sell (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/, likely); beschermhoes (from €19,99) and wielen set 4 (€35) are also separate products. Only the 4x8 easy-up page mentions an 'opbergtas', without saying what type it is or whether it is included (unconfirmed; the 4x8 page URL was not recorded). 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: the box contents (draagtas or wieltas, haringen, spanbanden) of https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/ and https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/ stay unconfirmed.",
+    "feature": "What's included / excluded ('Exclusief zijwanden'; inflatable incl. 4 zandzakken, tas, 4 scheerlijnen, 4 haringen; stertent incl. opbergtas, mast, haringen, meetkoord). Easy-up box contents: unconfirmed. Indirect evidence that pegs/straps are not included: 'Set spanriemen en haringen' is sold separately at €19,99 and suggested in the PDP cross-sell (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/, likely); beschermhoes (from €19,99) and wielen set 4 (€35) are also separate products. Only the 4x8 easy-up page mentions an 'opbergtas', without saying what type it is or whether it is included (unconfirmed; the 4x8 page URL was not recorded). Round 4 (2026-10-17): easy-up listings describe wheels as 'Optioneel, wielen beschikbaar' (set of 4, sold separately); the spanriemen set's 'bewaartasje' is a pouch for the set, not a tent bag; no included carry or wheel bag was found, so easy-up box contents stay unconfirmed (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/). Outmate Ultimate tents include side walls (4x4: 6 side panels + end walls with ritsen; 5x10: 10 PVC walls; https://www.outmate.nl/product-categorie/partytenten/partytent-pvc-ultimate-edition/, likely). Statafelshop: the stretchrok is always sold with its topcover (https://www.statafelshop.nl/product/stretchrok-topcover/, confirmed), and actiepakket contents are listed per package (b2b.actiepakketten).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/",
     "priority": "must",
@@ -672,7 +672,7 @@
   {
     "id": "product.per-metre",
     "area": "product",
-    "feature": "Per-metre products: lichtslang per m, prikkabel op maat up to 200 m, rode loper op maat (1/2/4 m wide, up to 60 m).",
+    "feature": "Per-metre products: lichtslang per m, prikkabel op maat up to 200 m, rode loper op maat (1/2/4 m wide, up to 60 m). Round 4: Outmate lichtslang op maat takes whole metres only ('geen kommagetallen') and shows the total price live at the bottom of the form (https://www.outmate.nl/product/led-lichtslang-geel/, likely). Prikkabel op maat gemonteerd fields: distance plug to first fitting (cm), number of fittings, distance between fittings (cm), distance last fitting to end, eindstuk eindkap/contrastekker/eindhaak; up to 200 m, from €9, 3-5 werkdagen (https://www.outmate.nl/product/prikkabel-op-maat-gemonteerd/, likely); an 'in onderdelen' variant ships loose parts (https://www.outmate.nl/product/prikkabel-op-maat-in-onderdelen/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/led-lichtslang-warm-wit-op-maat/",
     "priority": "should",
@@ -682,7 +682,7 @@
   {
     "id": "product.option-add-ons",
     "area": "product",
-    "feature": "Configurable add-ons: pole material (kastanje/aluminium), rigging (spanbanden/touwensets), frame colour (8 for inflatables), roof colour or print, optional luifel, wheel kit.",
+    "feature": "Configurable add-ons: pole material (kastanje/aluminium), rigging (spanbanden/touwensets), frame colour (8 for inflatables), roof colour or print, optional luifel, wheel kit. Statafelshop: table + rok products let you pick the stretchrok colour (Savannah Ø80 incl. stretchrok, https://www.statafelshop.nl/product/statafel-savannah-o80cm-incl-stretchrok/, likely); the 5x Savannah + transportkar package offers a stretchrok + topcover per table (vanaf €33,82 incl. each; whether included is unclear, https://www.statafelshop.nl/product/transportkar-inclusief-statafel-savannah-5-stuks/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/",
     "priority": "must",
@@ -692,7 +692,7 @@
   {
     "id": "product.bundles",
     "area": "product",
-    "feature": "Bundles: 'Supercombi' 10x statafel + trolley, 12x Ibiza/Blomo + trolley, barrel set 1 tafel + 4 barkrukken.",
+    "feature": "Bundles: 'Supercombi' 10x statafel + trolley, 12x Ibiza/Blomo + trolley, barrel set 1 tafel + 4 barkrukken. Round 4: Outmate also has a 'Supercombi 24x barkruk Hamburg + trolley' (https://www.outmate.nl/product/barkruk-stapelbaar-metaal-zwart-hamburg/, likely; price not captured). Statafelshop packages: see b2b.actiepakketten.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/supercombi-10x-statafel-times-square-trolley/",
     "priority": "must",
@@ -702,7 +702,7 @@
   {
     "id": "product.matching-trolley",
     "area": "product",
-    "feature": "Matching trolley/transport cart for every table and chair type. Only priced trolley: statafel trolley for 10 st €589 (https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/); stoelen/barkrukken trolley holds 18 (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/, price unconfirmed).",
+    "feature": "Matching trolley/transport cart for every table and chair type. Only priced trolley: statafel trolley for 10 st €589 (https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/); stoelen/barkrukken trolley holds 18 (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/, price unconfirmed). Round 4 (2026-10-17): Outmate klaptafel rond 180 trolley vanaf €482,50 with 10% off when bought with the tables (https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/, likely); Foldtable trolley for 10 €1.350. Statafelshop has its own Transportkarren category with capacities per table model, e.g. transportkar groot holds 15 Colorado/Hudson/Missouri, 12 Yukon/Ohio or 10 Savannah/Sacramento, €434,39 incl. / €359 excl. (https://www.statafelshop.nl/product/transportkar-groot-voor-sta-en-terrastafels/, confirmed), plus carts for stoelen and barkrukken, empty or filled.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/",
     "priority": "should",
@@ -712,7 +712,7 @@
   {
     "id": "product.quote-form",
     "area": "product",
-    "feature": "On-page 'Offerte aanvragen' form: company, BTW-nummer, KvK-nummer; note on intra-community delivery to BE without VAT. The site also mentions 'op factuur betalen voor bedrijven' (same page, likely).",
+    "feature": "On-page 'Offerte aanvragen' form: company, BTW-nummer, KvK-nummer; note on intra-community delivery to BE without VAT. The site also mentions 'op factuur betalen voor bedrijven' (same page, likely). Round 4: some Outmate PDPs show an 'Offerte aanvragen' button next to the price, e.g. Prikkabel 30 meter and Foldtable 200x60 (https://www.outmate.nl/product/prikkabel-30-meter/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/test-2/",
     "priority": "must",
@@ -732,11 +732,11 @@
   {
     "id": "product.min-quantity",
     "area": "product",
-    "feature": "Minimum order quantity on printed items (afzetpaal bedrukt: min 10). Printed afzetpaal lead time after design approval: '2 weken' in one snapshot, '2-4 weken' in another.",
+    "feature": "Minimum order quantity on printed items (afzetpaal bedrukt: min 10). Printed afzetpaal lead time after design approval: '2 weken' in one snapshot, '2-4 weken' in another. Round 4 (2026-10-17): Outmate Barkruk Mundo can only be ordered per 4 (order multiple; https://www.outmate.nl/product/barkruk-stapelbaar-mundo/, likely). Statafelshop: 'MINIMALE afname 4 stuks' on Purus statafel 160x60, a table (https://www.statafelshop.nl/product/buffettafel-blow-mold-inclusief-stretchrok/, likely); no MOQ found on printed hoezen.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/afzetpaal-bedrukking-op-trekband/",
     "priority": "should",
-    "how_we_match": "metafield custom.min_qty -> quantity input min + validation message.",
+    "how_we_match": "metafield custom.min_qty -> quantity input min + validation message. Add custom.order_multiple (step) for pack-of-N items.",
     "confidence": "likely"
   },
   {
@@ -752,7 +752,7 @@
   {
     "id": "product.warranty",
     "area": "product",
-    "feature": "Warranty per product ('Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten'). Warranty wording targets non-consumers; repair does not restart the warranty period and it is not transferable (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/, likely). Easy-up frame warranty value: unconfirmed.",
+    "feature": "Warranty per product ('Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten'). Warranty wording targets non-consumers; repair does not restart the warranty period and it is not transferable (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/, likely). Easy-up frame warranty value: unconfirmed. Round 4 (2026-10-17): Outmate /garantie-klachten/: consumers get the wettelijke garantie; some products carry an extra fabrieksgarantie stated in the product documentation (https://www.outmate.nl/garantie-klachten/, confirmed). Statafelshop: '2 jaar garantie op alle artikelen' plus the statutory guarantee (https://www.statafelshop.nl/statafel-kopen/, likely); one page shows a conflicting '10 jaar garantie' line.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
     "priority": "should",
@@ -822,7 +822,7 @@
   {
     "id": "cart.shipping-excluded-note",
     "area": "cart",
-    "feature": "Product prices exclude shipping; shipping shown separately.",
+    "feature": "Product prices exclude shipping; shipping shown separately. Statafelshop instead charges one flat fee of €15 excl. / €18,15 incl. per order according to its FAQ (https://www.statafelshop.nl/contact/, confirmed), while many pages show 'Gratis verzenden' (likely), an internal contradiction.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -892,7 +892,7 @@
   {
     "id": "checkout.payment-methods",
     "area": "checkout-adjacent",
-    "feature": "iDEAL, Bancontact, Belfius, KBC-Betaalknop, creditcard, Apple Pay, PayPal, bankoverschrijving (Sofort/Giropay also listed on a ~3-year-old page). No Klarna, in3, Afterpay or Billink found. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed: the current PSP, whether Sofort/Giropay are still offered, and the surcharge percentages per method.",
+    "feature": "iDEAL, Bancontact, Belfius, KBC-Betaalknop, creditcard, Apple Pay, PayPal, bankoverschrijving (Sofort/Giropay also listed on a ~3-year-old page). No Klarna, in3, Afterpay or Billink found. Round 4 (2026-10-17): the Outmate list also names DIRECTebanking and Overboeking (page about 1.114 days old; https://www.outmate.nl/levertijd-en-verzendkosten/, confirmed); still unconfirmed: the current PSP, whether Sofort/Giropay are still offered, and which methods carry a surcharge. Statafelshop FAQ: iDEAL, PayPal, Bancontact (mainly BE), creditcard (Mastercard, Visa, American Express), Sofort and bankoverschrijving; Giropay also mentioned; method chosen in the last checkout step; no Klarna, in3, achteraf or op rekening found (https://www.statafelshop.nl/contact/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -902,7 +902,7 @@
   {
     "id": "checkout.payment-surcharge",
     "area": "checkout-adjacent",
-    "feature": "Percentage surcharge on some payment methods.",
+    "feature": "Percentage surcharge on some payment methods. Round 4: the Outmate page says some methods carry a % surcharge but names neither the methods nor the rates (https://www.outmate.nl/levertijd-en-verzendkosten/, confirmed). No surcharge mention on Statafelshop.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "could",
@@ -912,7 +912,7 @@
   {
     "id": "checkout.invoice-organisations",
     "area": "checkout-adjacent",
-    "feature": "Pay on invoice ('op rekening') only for (semi-)government and larger organisations, via Peppol e-factuur with OIN.",
+    "feature": "Pay on invoice ('op rekening') only for (semi-)government and larger organisations, via Peppol e-factuur with OIN. Round 4 (2026-10-17): Outmate's new terms give non-consumers 30 days after the invoice date (the old terms said 8 days); other terms only with written consent (https://www.outmate.nl/algemene-voorwaarden-nieuw/, likely). Statafelshop: op rekening not mentioned anywhere, including the zakelijk page (https://www.statafelshop.nl/zakelijk/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -922,7 +922,7 @@
   {
     "id": "checkout.local-pickup",
     "area": "checkout-adjacent",
-    "feature": "Pickup by appointment at the warehouse (separate from postal address).",
+    "feature": "Pickup by appointment at the warehouse (separate from postal address). Statafelshop: 'Of haal je bestelling direct af'; you choose pickup or delivery to a location of your choice (https://www.statafelshop.nl/contact/, confirmed). Which address is the pickup point (Oosteind or Oosterhout) and pickup hours were not found.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/service/",
     "priority": "should",
@@ -942,7 +942,7 @@
   {
     "id": "checkout.be-rates",
     "area": "checkout-adjacent",
-    "feature": "Belgian delivery rates applied automatically. Actual BE amounts per shipping class: unconfirmed. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/levertijd-en-verzendkosten/: the full shipping-class table and BE amounts, Wadden islands surcharge and countries other than NL/BE. Known NL classes (from product/category pages) stay in reference/dossier.md section 9.",
+    "feature": "Belgian delivery rates applied automatically: the rates update when the country is selected in checkout, and PDP shipping prices on outmate.nl apply to NL (https://www.outmate.nl/levertijd-en-verzendkosten/, confirmed). Round 4 BE amounts from outmate.be PDPs (about 1 year old): €9,99 for easy-up dakzeilen 3x3/3x4,5/3x6 and zijwand 6 m raam (NL €7,95) and €59 for easy-up Professional 3x4,5/3x6/4x6/4x8 in polyester and HD PVC (NL €39-€42,50) (https://www.outmate.be/product/easy-up-4x8m-professional-heavy-duty-pvc/, likely). Still unconfirmed: the full class table, the other BE amounts, Wadden surcharge and countries other than NL/BE. Statafelshop.be FAQ: €15 excl. / €18,15 incl., same as NL (likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -952,17 +952,17 @@
   {
     "id": "checkout.freight-delivery",
     "area": "checkout-adjacent",
-    "feature": "Freight delivery for tents/pallets: delivery-date confirmation, time window communicated on the day. Kerbside vs. inside delivery, help with unloading and rescheduling rules: unconfirmed. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/levertijd-en-verzendkosten/: kerbside vs inside delivery, help with unloading, rescheduling rules and islands.",
+    "feature": "Freight delivery for tents/pallets. Outmate: the customer picks an afleverdag in checkout for freight orders and gets an estimated delivery time by e-mail on the day; parcels go by pakketdienst, usually the next workday 9:00-18:00 (https://www.outmate.nl/levertijd-en-verzendkosten/, likely). Kerbside vs inside delivery, help with unloading, rescheduling and islands: unconfirmed. Statafelshop: larger orders go on a pallet by truck with the shop's own transporter, with an e-mail giving the delivery date and another just before delivery; someone else may accept with valid ID, some deliveries need a signature, damage must be noted on the vrachtbrief before signing (https://www.statafelshop.nl/contact/, likely); zakelijk delivery on the agreed day, inside or outside opening hours (https://www.statafelshop.nl/zakelijk/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "should",
-    "how_we_match": "shipping-notification template text + 'Bezorging per vrachtwagen' info on PDP/policy; carrier is owner choice.",
+    "how_we_match": "shipping-notification template text + 'Bezorging per vrachtwagen' info on PDP/policy; carrier is owner choice. Delivery-date choice in Shopify checkout needs an app or checkout extensibility (Plus); otherwise ask for a preferred date as a cart attribute.",
     "confidence": "likely"
   },
   {
     "id": "checkout.track-trace",
     "area": "checkout-adjacent",
-    "feature": "Track & trace e-mail for parcels.",
+    "feature": "Track & trace e-mail for parcels. Statafelshop: 1-2 statafels go by DHL with a Track & Trace code by e-mail that also shows in the account under 'Bestellingen', one link per package (https://www.statafelshop.nl/contact/, likely). PostNL and DPD not mentioned.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -982,7 +982,7 @@
   {
     "id": "checkout.prepayment-final-order",
     "area": "checkout-adjacent",
-    "feature": "Order is final on confirmation; prepayment in full before dispatch.",
+    "feature": "Order is final on confirmation; prepayment in full before dispatch. Round 4: Outmate's old terms require consumers to pay the full price before delivery unless agreed otherwise and let Outmate choose and change payment methods (https://www.outmate.nl/algemene-voorwaarden-nieuw/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/bestellen-annuleren/",
     "priority": "should",
@@ -1042,7 +1042,7 @@
   {
     "id": "content.setup-howto",
     "area": "content",
-    "feature": "Setup how-to articles ('easy-up opzetten', 'tips voor het opzetten van een partytent', storm anchoring).",
+    "feature": "Setup how-to articles ('easy-up opzetten', 'tips voor het opzetten van een partytent', storm anchoring). Round 4: Outmate also has a DIY guide 'Zelf een prikkabel maken?' (https://www.outmate.nl/zelf-een-prikkabel-maken/, confirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/tips-voor-het-opzetten-van-een-partytent/",
     "priority": "should",
@@ -1102,7 +1102,7 @@
   {
     "id": "content.about-contact",
     "area": "content",
-    "feature": "'Contact en over ons' page with company story.",
+    "feature": "'Contact en over ons' page with company story. Statafelshop 'Over Statafelshop' page (https://www.statafelshop.nl/over-statafelshop/, likely) claims 'de grootste statafelwebshop in Europa', more than 15 years as #1 in NL, and 'Onze statafels produceren wij in Europa/Nederland'; these are unverifiable superlatives and must not be copied. A vacatures page also exists (https://www.statafelshop.nl/vacatures, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/contact/",
     "priority": "must",
@@ -1122,37 +1122,37 @@
   {
     "id": "content.blog",
     "area": "content",
-    "feature": "Blog / kennisbank.",
-    "seen_on": "market",
-    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "feature": "Blog / kennisbank. Statafelshop has a dated blog, e.g. /blog/2024/11/27/de-verschillende-benamingen-van-een-statafel-welke-zijn-er-zoal/, de-voordelen-van-inklapbare-statafels, waar-bezorgen-wij-veel-van-onze-statafels, de-musthaves-voor-een-event-statafels-en-krukken, inspiratie-gebruik-van-statafels-in-kleine-ruimtes (https://www.statafelshop.nl/blog/2024/11/27/de-verschillende-benamingen-van-een-statafel-welke-zijn-er-zoal/, confirmed). Outmate uses guide pages (content.*).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/blog/2024/11/27/de-verschillende-benamingen-van-een-statafel-welke-zijn-er-zoal/",
     "priority": "must",
     "how_we_match": "blog + article templates with related products.",
-    "confidence": "brief-required"
+    "confidence": "confirmed"
   },
   {
     "id": "content.faq",
     "area": "content",
-    "feature": "FAQ page (not confirmed on outmate.nl). Outmate: no FAQ tab on product pages was observed; whether a FAQ / 'veelgestelde vragen' page exists was never checked, so 'not found' must not be claimed. Statafelshop FAQ topics: unconfirmed (research refused four times, most recently 2026-10-17). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified.",
-    "seen_on": "market",
-    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "feature": "FAQ page. Statafelshop puts its FAQ on the contact page (shipping, returns, payment) (https://www.statafelshop.nl/contact/, likely); customer-service topics seen are Bestellen en bezorgen, Betalen, Garantie en reparatie, Ruilen en retourneren (https://www.statafelshop.nl/statafelkleed-kopen/, unconfirmed). Outmate: no FAQ tab on product pages; a targeted round-4 search found no dedicated FAQ / 'veelgestelde vragen' page (only blog guides, manuals and the contact page), which is not proof that none exists; FAQ-like guide 'Waar moet je op letten bij de aanschaf van een partytent' gives a capacity rule of 1 person seated or 1,5 standing per m² and advises an extra metre around the tent (https://www.outmate.nl/waar-moet-je-op-letten-bij-de-aanschaf-van-een-partytent/, unconfirmed).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/contact/",
     "priority": "should",
     "how_we_match": "page.faq with accordion section + FAQPage JSON-LD.",
-    "confidence": "brief-required"
+    "confidence": "likely"
   },
   {
     "id": "content.statafel-guide",
     "area": "content",
-    "feature": "Statafel/statafelrok buying guide (sizes, fit, stretch vs strik). Whether Statafelshop has such a guide is unconfirmed (research refused four times, most recently 2026-10-17).",
+    "feature": "Statafel/statafelrok buying guide (sizes, fit, stretch vs strik). Statafelshop has several (existence confirmed, https://www.statafelshop.nl/statafel-kopen-in-venlo/ and the pages below): 'Statafel kopen?' (https://www.statafelshop.nl/statafel-kopen/; criteria: height matched to the barkrukken, bladdiameter, stable onderstel, krasvast and temperatuurbestendig blad, inklapbaarheid, a rok/hoes; likely); 'Statafelkleed kopen?' (https://www.statafelshop.nl/statafelkleed-kopen/; compares stretchrok, strikrok and the loose kleed, plus colours and care; likely); 'Statafelhoes of statafelrok kopen' (https://www.statafelshop.nl/statafelhoes-kopen/); 'Wat is de juiste hoogte statafel' (https://www.statafelshop.nl/wat-is-de-juiste-hoogte-statafel/; 107 vs 110 cm, likely); 'Goedkope statafel kopen' (https://www.statafelshop.nl/goedkope-statafel-kopen/; Savannah Ø70 for 4-5 standing, Ø80 for 6, likely); /statafel-met-rok/, /partytafel/, /hangtafel-kopen/, /barstoel-kopen/, /klapstoel-kopen/, /biertafel-kopen/. Heading structure not obtained; never copy the wording.",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/statafel-kopen/",
     "priority": "should",
-    "how_we_match": "article + size-fit table section.",
-    "confidence": "unconfirmed"
+    "how_we_match": "article + size-fit table section (tafelmaat -> rokmaat, hoogte 107/110, personen per Ø), linked from statafel and statafelrok PDPs.",
+    "confidence": "confirmed"
   },
   {
     "id": "b2b.quote-page",
     "area": "b2b",
-    "feature": "Quote page for multi-product / volume / print requests. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. The URL and fields of the real 'Offerte aanvragen' page (not /product/test-2/), attachment upload and any response-time promise are still unconfirmed; our page.offerte fields remain our own design.",
+    "feature": "Quote page for multi-product / volume / print requests. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. The URL and fields of the real 'Offerte aanvragen' page (not /product/test-2/), attachment upload and any response-time promise are still unconfirmed; our page.offerte fields remain our own design. Statafelshop zakelijk page invites an offerte request first (https://www.statafelshop.nl/zakelijk/, likely); its fields were not observed.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
     "priority": "must",
@@ -1162,12 +1162,12 @@
   {
     "id": "b2b.zakelijk-page",
     "area": "b2b",
-    "feature": "Zakelijk page for horeca, eventbureaus, verhuurbedrijven, verenigingen, scholen. Not on Outmate either: no dedicated zakelijk/offerte page confirmed. Outmate B2B signals are op factuur for organisations, staffel from 10 st on barkrukken and positioning for horeca, verhuur, schools and care institutions on the marktkraam page (https://www.outmate.nl/product/marktkraam-professional-gegalvaniseerd-zonder-kartelrand/, likely). Statafelshop: whether a zakelijk page exists, its offerte fields, op rekening, excl. btw display, segments and a business account are all unconfirmed (research refused four times, most recently 2026-10-17).",
+    "feature": "Zakelijk page for horeca, eventbureaus, verhuurbedrijven, verenigingen, scholen. Statafelshop has one (https://www.statafelshop.nl/zakelijk/, likely): request an offerte first if you like; invoices are e-mailed and are always BTW-facturen; prices shown incl. and excl. btw; target customers verhuurbedrijven, horeca and particulieren; advisors help with large orders or items you cannot find; delivery on the agreed day, inside or outside opening hours; transportkarren promoted for storage and transport. Op rekening, staffels, a business-account application and offerte form fields were not found. Outmate: no dedicated zakelijk page confirmed; its B2B signals are op factuur for organisations, staffel tiers on barkrukken and segment positioning on the marktkraam page (https://www.outmate.nl/product/marktkraam-professional-gegalvaniseerd-zonder-kartelrand/, likely).",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/zakelijk/",
     "priority": "must",
     "how_we_match": "page.zakelijk template: segments, staffel, op factuur, offerte CTA, account aanvragen.",
-    "confidence": "unconfirmed"
+    "confidence": "likely"
   },
   {
     "id": "b2b.segment-tags",
@@ -1182,7 +1182,7 @@
   {
     "id": "b2b.ex-vat-first",
     "area": "b2b",
-    "feature": "Business customers see prices ex btw first. Not observed on Outmate: every price shows incl. btw first with excl. btw next to it (e.g. '€49,95 / €41,28 excl. btw'); no incl/excl toggle and no business account were found. Our own improvement. Statafelshop: ex-btw-first display and an incl/excl toggle unconfirmed (research refused four times, most recently 2026-10-17).",
+    "feature": "Business customers see prices ex btw first. Not observed on Outmate: every price shows incl. btw first with excl. btw next to it (e.g. '€49,95 / €41,28 excl. btw'); no incl/excl toggle and no business account were found. Our own improvement. Statafelshop shows both amounts too, incl. first in the snippets ('vanaf €33,82 incl BTW / €27,95 excl. BTW', https://www.statafelshop.nl/product/stretchrok-topcover/, confirmed); no incl/excl toggle or ex-first view found, and its zakelijk page only says prices are shown incl. and excl. btw (https://www.statafelshop.nl/zakelijk/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
     "priority": "should",
@@ -1202,17 +1202,17 @@
   {
     "id": "b2b.actiepakketten",
     "area": "b2b",
-    "feature": "Action packages: statafels + rokken sets. Statafelshop package contents (number of statafels, which rok/hoes, trolley or not), variant choices (rok colour, table size), prices, savings and compare-at prices: unconfirmed (research refused four times, most recently 2026-10-17). Outmate proxy (same operator): 10x statafel + trolley and barrel set bundles, see product.bundles.",
+    "feature": "Action packages. Statafelshop 'Actiepakketten' category (alias /aanbiedingen) (https://www.statafelshop.nl/product-categorie/actiepakketten/, confirmed): 1 statafel Colorado + 1 stretchrok met topcover (kleur naar keuze, standaard maat) + 4 barkrukken Angara €411,40 incl. (was €445,11) / €340 excl. (https://www.statafelshop.nl/product/actiepakket-vi/, confirmed); transportkar groot + 15 statafels Colorado €1.692,79 / €1.399 (https://www.statafelshop.nl/product/actiepakket-iv/, confirmed); transportkar + 5 Savannah (Ø70/80/85 to choose) €780,45 / €645, rok per table optional, inclusion unclear (likely); transportkar klein + 7 Colorado €966,79 / €799 and with stretchrokken €1.148,29 / €949 (likely); transportkar groot + Colorado + rokken €1.650 excl. (likely, single source); 25 buffettafels + stretchrokken + beschermplaten + transportkar €5.196,95 / €4.295 (likely); 10 biertafels from €1.017,55 (likely); Savannah Ø80 + stretchrok €120,94 (likely); homepage 'vanaf €69,95'. Many sets show 'tijdelijk niet op voorraad'. Compare-at prices seen only on the Colorado + Angara set; savings are not stated per package. No '4 statafels + 4 rokken' package found.",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
     "priority": "must",
-    "how_we_match": "bundle products (Shopify Bundles) in an 'Actiepakketten' collection.",
-    "confidence": "unconfirmed"
+    "how_we_match": "bundle products (Shopify Bundles) in an 'Actiepakketten' collection with component list, rok-colour and table-size choices, and an honest savings line computed from component prices.",
+    "confidence": "confirmed"
   },
   {
     "id": "service.contact-form",
     "area": "service",
-    "feature": "Contact form with phone and e-mail on the service page.",
+    "feature": "Contact form with phone and e-mail on the service page. Statafelshop contact options: phone +31 (0)40-4015010, info@statafelshop.nl, chat and app; the FAQ sits on the same page (https://www.statafelshop.nl/contact/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/service/",
     "priority": "must",
@@ -1222,7 +1222,7 @@
   {
     "id": "service.opening-hours",
     "area": "service",
-    "feature": "Opening hours with 'op afspraak' and 'kan afwijken, bel vooraf' caveat.",
+    "feature": "Opening hours with 'op afspraak' and 'kan afwijken, bel vooraf' caveat. Statafelshop: opening hours were not found in round 4 (https://www.statafelshop.nl/contact/, unconfirmed).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/service/",
     "priority": "must",
@@ -1232,7 +1232,7 @@
   {
     "id": "service.shipping-page",
     "area": "service",
-    "feature": "'Levertijd, verzendkosten & betalen' page.",
+    "feature": "'Levertijd, verzendkosten & betalen' page. Statafelshop has no separate shipping page; shipping is covered in the FAQ on the contact page (https://www.statafelshop.nl/contact/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
     "priority": "must",
@@ -1252,7 +1252,7 @@
   {
     "id": "service.returns-page",
     "area": "service",
-    "feature": "Returns / 14-day withdrawal page with model withdrawal form; return shipping paid by customer. After notice the customer has 14 days to send the item back; refund incl. original delivery cost within 14 days to the original payment method; waardevermindering may be charged. The model form still shows old partytentkopen contact details. Unconfirmed: whether printed (Full Colour) items are excluded, and whether there is a return portal or RMA step. 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/retourinformatie/: exclusion of Full Colour print, maatwerk and cut-to-length items; whether an RMA number or e-mail notice step is required; the return address or portal; how waardevermindering is calculated.",
+    "feature": "Returns / 14-day withdrawal page with model withdrawal form; return shipping paid by customer. Outmate procedure (round 4): tell Outmate you are withdrawing by post or e-mail (the model form can be filled in electronically and mailed), send the product back as soon as possible and at most 14 days after that notice; refund within 14 days of the notice, provided the product comes back in good order; waardevermindering may be charged. No return portal or RMA number found. The page still gives info@partytentkopen.nl (https://www.outmate.nl/retourinformatie/, likely). A separate page /herroepingsrecht/ and a 2018 PDF exist (https://www.outmate.nl/herroepingsrecht/, confirmed; https://www.outmate.nl/wp-content/uploads/2018/04/herroepingsrecht.pdf). Whether printed (Full Colour) items are excluded: no clause found (unconfirmed). Statafelshop: 'Je kunt jouw online aankopen binnen 14 dagen aan ons retourneren, de kosten voor de retourzending zijn voor jouw rekening' (https://www.statafelshop.nl/contact/, confirmed); unused, original packaging, pakbon included, registered via an online retourformulier, refund of the purchase price excl. shipping after inspection (likely). This contradicts its 'Gratis retourneren' USP. Ruilgarantie only for the shop's own mistakes (https://www.statafelshop.nl/waar-bezorgen-wij-veel-van-onze-statafels/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/retourinformatie/",
     "priority": "must",
@@ -1262,7 +1262,7 @@
   {
     "id": "service.maatwerk-no-return",
     "area": "service",
-    "feature": "Made-to-measure products excluded from withdrawal right.",
+    "feature": "Made-to-measure products excluded from withdrawal right. Round 4: the new terms exclude maatwerk from the herroepingsrecht; the old terms use the legal definition and name 'op maat gemaakte prikkabels'; the maatwerkzeil PDP says maatwerk cannot be returned even when the customer entered wrong dimensions or options (https://www.outmate.nl/algemene-voorwaarden-nieuw/, likely).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/",
     "priority": "must",
@@ -1272,17 +1272,17 @@
   {
     "id": "service.warranty-page",
     "area": "service",
-    "feature": "Warranty & complaints page (1 jaar fabrieksgarantie, wear parts excluded). The /garantie-klachten/ page content was never retrieved: consumer vs business term, claim procedure and exclusions unconfirmed. Product attribute adds: repair does not restart the period, warranty not transferable (likely). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/garantie-klachten/: consumer vs business term, claim procedure, whether a photo or proof of purchase is required, and page-level exclusions (wear parts, storm/snow).",
+    "feature": "Warranty & complaints page. Outmate /garantie-klachten/ (round 4): consumers get the wettelijke garantie (the product must match the agreement and work normally for its kind); some products also carry a fabrieksgarantie stated in the product documentation, e.g. '1 jaar, slijtageonderdelen uitgesloten' (https://www.outmate.nl/garantie-klachten/, confirmed). Exclusions: only a gegronde klacht is covered; not covered are opzet, verkeerd gebruik, gebrekkig onderhoud, water-, val- of stootschade and normale slijtage (likely). Claim procedure: report as soon as possible via the contact form or info@outmate.nl; ontvangstbevestiging within 2 werkdagen with an expected date for a full answer; after the 14-day bedenktijd send photos of the product and the defect (likely). Disputes: mediation via Keurmerk Instituut and the EU ODR platform (likely). The warranty article in the terms applies only to business buyers (https://www.outmate.nl/algemene-voorwaarden-nieuw/, confirmed); repair does not restart the period and the warranty is not transferable (likely). Statafelshop: 2 jaar garantie on all items plus the statutory guarantee (https://www.statafelshop.nl/statafel-kopen/, likely); a 'Garantie en reparatie' help topic exists but was not read.",
     "seen_on": "outmate",
-    "evidence_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/",
+    "evidence_url": "https://www.outmate.nl/garantie-klachten/",
     "priority": "must",
-    "how_we_match": "page.garantie with complaint form.",
-    "confidence": "likely"
+    "how_we_match": "page.garantie with complaint form (photo upload), the legal-vs-extra warranty split, response-time promise owner-editable; listed in docs/claims-to-confirm.md.",
+    "confidence": "confirmed"
   },
   {
     "id": "service.terms",
     "area": "service",
-    "feature": "Algemene voorwaarden (Outmate has an old and new version side by side - avoid). B2B-specific clauses and eigendomsvoorbehoud: unconfirmed (content not retrieved). 2026-10-17 policies follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified and no fact was added. Still unconfirmed on https://www.outmate.nl/algemene-voorwaarden-nieuw/: B2B-specific clauses, eigendomsvoorbehoud, the invoice payment term and any liability cap. Our terms must be written for our own brand anyway (BRIEF section 6) and reviewed by the owner.",
+    "feature": "Algemene voorwaarden (Outmate has an old and new version side by side - avoid). Round 4 content of the new terms (about 4 months old): eigendomsvoorbehoud until all claims are paid, including earlier and future agreements; B2B payment term 30 days after invoice date (old terms: 8 days); liability for business customers capped at what the aansprakelijkheidsverzekering pays out, no liability for staff and third parties except opzet or bewuste roekeloosheid; the warranty article applies only to non-consumers (https://www.outmate.nl/algemene-voorwaarden-nieuw/, likely/confirmed). The old terms also cap liability at the order's invoice amount for direct damage only and let business customers resell under an extended eigendomsvoorbehoud (https://www.outmate.nl/algemene-voorwaarden/, likely). Statafelshop terms were not retrieved. Our terms must be written for our own brand anyway (BRIEF section 6) and reviewed by the owner.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/algemene-voorwaarden-nieuw/",
     "priority": "must",
@@ -1302,7 +1302,7 @@
   {
     "id": "service.footer-links",
     "area": "service",
-    "feature": "Footer service links: service, contact, verzending, bestellen/annuleren, retour, voorwaarden, privacy, reviews, showroom. Confirmed footer content: company name and address (Outmate B.V., Esakker 5, 7951 SV Staphorst), KvK number, info@outmate.nl, '© 2026 Outmate.nl' and 'Realisatie: Optimus Websites' (https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/, confirmed). The service pages listed above are likely footer links, not confirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: column titles, a footer newsletter signup and footer social links stay unconfirmed.",
+    "feature": "Footer service links: service, contact, verzending, bestellen/annuleren, retour, voorwaarden, privacy, reviews, showroom. Confirmed footer content: company name and address (Outmate B.V., Esakker 5, 7951 SV Staphorst), KvK number, info@outmate.nl, '© 2026 Outmate.nl' and 'Realisatie: Optimus Websites' (https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/, confirmed). The service pages listed above are likely footer links, not confirmed. 2026-10-17 UX follow-up: the query was refused by the shared 200-search budget before it ran, so nothing here was re-verified: column titles, a footer newsletter signup and footer social links stay unconfirmed. Statafelshop: customer-service topics Bestellen en bezorgen, Betalen, Garantie en reparatie, Ruilen en retourneren appear on pages, probably footer or FAQ (https://www.statafelshop.nl/statafelkleed-kopen/, unconfirmed); its full footer list was not obtained.",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/",
     "priority": "must",
@@ -1322,7 +1322,7 @@
   {
     "id": "seo.clean-taxonomy",
     "area": "seo",
-    "feature": "One collection per concept (Outmate duplicates: accessoires-meubilair vs meubilair-accessoires, /uncategorized/statafelrokken/). 'Rokken en hoezen' alone resolves at /product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/ and /product-categorie/uncategorized/statafelrokken/.",
+    "feature": "One collection per concept (Outmate duplicates: accessoires-meubilair vs meubilair-accessoires, /uncategorized/statafelrokken/). 'Rokken en hoezen' alone resolves at /product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/ and /product-categorie/uncategorized/statafelrokken/. Statafelshop has the same problem: WooCommerce paths (/product-categorie/, /product/) and legacy short slugs with Magento-style layered-nav URLs are indexed side by side (/strikrokken, /statafelrokken, /stretchrokken, /aanbiedingen = Actiepakketten, /horeca-stoelen = Stoelen, /diversen/kleur-blad/wit/sort-by/...), plus an old shop at oud.statafelshop.nl; textiles sit in two overlapping categories (Statafelhoezen and Textiel) (https://statafelshop.nl/diversen/kleur-blad/wit/sort-by/position/sort-direction/asc, unconfirmed which scheme is live).",
     "seen_on": "outmate",
     "evidence_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/",
     "priority": "must",
@@ -1392,41 +1392,81 @@
   {
     "id": "product.statafelrok-fit",
     "area": "product",
-    "feature": "Statafelrok stretch per table size and colour. Outmate: fits 70-85 cm tops, incl. topcover, 90/10 polyester/lycra 190 g/m², colours incl. zwart/wit/turquoise split into standaard and exclusief, €14,99 in one snapshot. Unconfirmed on Outmate: full colour list, exclusive-colour surcharge, care instructions, staffel/set prices. Statafelshop (core category per brief): every value unconfirmed; research was refused by the search budget four times (first round and all three 2026-10-17 follow-up rounds).",
-    "seen_on": "outmate",
-    "evidence_url": "https://www.outmate.nl/product/statafelrok-stretch/",
+    "feature": "Statafelrok stretch per table size and colour. Statafelshop (round 4): 'Stretchrok + topcover (in diverse kleuren)' always includes the topcover; no stretchrok without topcover was found (https://www.statafelshop.nl/product/stretchrok-topcover/, confirmed). Two sizes only: 'Klein Ø60-Ø70cm' and 'Standaard Ø80-Ø90cm' (Ø80/Ø85/Ø90 all fall under Standaard), 'bestemd voor tafels met een hoogte van 105 tot 115 cm' (confirmed). 22 colours under 'Kleur stretchrok': Antraciet, Appelgroen, Aqua blauw, Blauw, Bordeaux, Caramel, Chocolade, Donker roze, Dune, Ecru, Geel, Goud, Grijs, Groen, Marine blauw, Oranje, Paars, Rood, Turquoise, Wit, Zilver, Zwart (confirmed; other pages say 21, 20 or 19). Vanaf €33,82 incl. / €27,95 excl. btw (confirmed); same price for both sizes per one search only (unconfirmed). 100% polyester (likely); no g/m² or elastane share found. Care: 'wasbaar op 30 graden, kleurvast en kreukbestendig' (https://www.statafelshop.nl/statafelkleed-kopen/, likely). No staffel or set prices (likely). Stock line 'Op voorraad, voor 14u besteld, dezelfde dag verzonden' (confirmed). Outmate (different operator, not a Statafelshop proxy): fits 70-85 cm tops, incl. topcover, 90/10 polyester/lycra 190 g/m², colours incl. zwart/wit/turquoise split into standaard and exclusief, €14,99 in one snapshot (https://www.outmate.nl/product/statafelrok-stretch/, likely); its full colour list, surcharge, care and staffels are unconfirmed.",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/product/stretchrok-topcover/",
     "priority": "must",
-    "how_we_match": "product options Tafelmaat x Kleur with swatches; size-fit helper text.",
-    "confidence": "likely"
+    "how_we_match": "product options Tafelmaat (two bands Ø60-70 / Ø80-90, with a 105-115 cm height note) x Kleur with swatches; topcover included; size-fit helper text; optional staffel (the market uses them, Statafelshop does not).",
+    "confidence": "confirmed"
   },
   {
     "id": "product.statafelhoes-strik",
     "area": "product",
-    "feature": "Statafelhoes with strik (bow) in a colour choice. All three 2026-10-17 follow-up rounds were also blocked by the search budget (four attempts in total): fitting Ø/heights, hoes and strik colours, whether the strik is chosen separately, fabric, care, topcover, price, staffel/set prices and dispatch line all unconfirmed.",
+    "feature": "Statafelhoes with strik (bow). Statafelshop 'Strikrok': colours ('Kleur strikrok') Antraciet, Blauw, Bordeaux, Ecru, Wit, Zwart; 'Afmeting blad Ø70cm-Ø90cm'; 'Strak of Los: Los' (https://www.statafelshop.nl/product/strikrok/, confirmed). Copy: 'minder elastisch' than the stretchrok, so it forms a plooi, and the strik in the middle gives the elegant look (https://www.statafelshop.nl/statafelhoes-kopen/, likely). Single colour attribute: no separate strik-colour choice found (likely). Price conflict between snapshots: vanaf €30,19 incl. / €24,95 excl. vs vanaf €35,03 incl. / €28,95 excl. (likely). Same-day dispatch line (confirmed). One page claims 11 strik colours (unconfirmed). Not found: table height, fabric, g/m², topcover, staffel.",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/product/strikrok/",
     "priority": "must",
-    "how_we_match": "product type with strik-colour option/swatches.",
-    "confidence": "unconfirmed"
+    "how_we_match": "product type with a single colour option (swatches) and Ø70-90 fit note; offering a separate strik colour would be our own improvement.",
+    "confidence": "confirmed"
   },
   {
     "id": "product.statafelkleed",
     "area": "product",
-    "feature": "Statafelkleden (table cloths). All three 2026-10-17 follow-up rounds were also blocked by the search budget (four attempts in total): sizes, floor-length or not, colours, fabric g/m², care/strijkvrij, price, staffel/set prices and dispatch line all unconfirmed.",
+    "feature": "Statafelkleden (table cloths). Statafelshop: 'Tafelkleed Ø130cm' (rond) and 'Tafelkleed 140x140cm' (vierkant), both €18,09 incl. / €14,95 excl., 100% polyester, colours Blauw, Bordeaux, Ecru, Wit, Zwart, 'Strak of Los: Los' (https://www.statafelshop.nl/product/tafelkleed-140x140cm/, confirmed). Laid over a stretchrok: 'staat net iets chiquer en beschermt de stretchrok tegen vlekken'; both shapes fit a round top (https://www.statafelshop.nl/statafelkleed-kopen/, likely). No floor-length statafelkleed found (searched, not proof). g/m², care and staffel not found.",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/product/tafelkleed-140x140cm/",
     "priority": "should",
-    "how_we_match": "product type with size/colour options.",
-    "confidence": "unconfirmed"
+    "how_we_match": "product type with Vorm/maat (Ø130 rond / 140x140 vierkant) x Kleur; cross-sell on the stretchrok PDP ('leg er een kleed over').",
+    "confidence": "confirmed"
   },
   {
     "id": "product.printed-statafelhoes",
     "area": "product",
-    "feature": "Printed statafelhoezen with own logo (upload). Print technique, positions (voorkant/rondom/topcover), upload specs, proof, MOQ, surcharge and lead time: unconfirmed (research refused four times, most recently 2026-10-17, by the search budget). Closest proxy is Outmate's print flow (product.print-*): same operator, not Statafelshop data.",
+    "feature": "Printed statafelhoezen with own logo. Statafelshop 'Stretchhoes met eigen opdruk': vanaf €119,79 incl. / €99,00 excl., Ø80 and Ø85 only (https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/, likely; the same price pair also appears for a buffet table incl. stretchrok, so a mix-up is not fully ruled out). Copy: 'kan je je eigen statafelhoes laten bedrukken geheel naar eigen ontwerp' (confirmed). No upload on the PDP: order, receive an e-mail with the order details, then send the photos for the print (likely). Lead time: 'Gepersonaliseerde producten hebben een langere levertijd' (confirmed); 7-14 dagen on one page, 2-3 weken on another (likely). Also 'Beschermplaat met eigen opdruk' Ø68/Ø78/Ø83, vanaf €75,63 incl. / €62,50 excl. (https://www.statafelshop.nl/product/beschermplaat-met-eigen-opdruk/, likely). Searched but not found: print method, positions (voorkant/rondom/topcover), file specs, drukproef, MOQ, surcharge. Market for 1 piece: about €88-€125 excl. (see reference/dossier.md section 15). Outmate's print flow (product.print-*) is a different operator's, not Statafelshop data.",
     "seen_on": "statafelshop",
-    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "evidence_url": "https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/",
     "priority": "must",
-    "how_we_match": "reuse product.print-upload + print-proof-flow.",
-    "confidence": "unconfirmed"
+    "how_we_match": "reuse product.print-upload + print-proof-flow (upload at order and a proof step beat Statafelshop's e-mail-after-order flow); Ø80/Ø85 options; printed beschermplaat as a second printable type.",
+    "confidence": "likely"
+  },
+  {
+    "id": "seo.local-landings",
+    "area": "seo",
+    "feature": "Local SEO landing pages 'Statafel kopen in <stad>' (venlo, arnhem, amsterdam, assen, groningen, amersfoort, utrecht, maastricht, den-haag, delft, hengelo, ede, almere, oss, haarlem, apeldoorn, zwolle) and /bezorggebied/<stad> (arnhem, assen, almere, zwolle) on Statafelshop (https://www.statafelshop.nl/statafel-kopen-in-venlo/, confirmed).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/statafel-kopen-in-venlo/",
+    "priority": "could",
+    "how_we_match": "Optional: a small set of genuinely useful 'Bezorging in <regio>' pages (page.regio template with delivery info and pickup), never thin copies per city.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.beschermplaat",
+    "area": "product",
+    "feature": "Transparent PVC protective top (beschermplaat) sold for statafels Ø68/Ø78/Ø83 (vanaf €18,09 incl. / €14,95 excl.) and buffet tables 182x75 (€30,19 / €24,95), recommended on top of the hoes and topcover; also printable (https://www.statafelshop.nl/product/beschermplaat/, likely; https://www.statafelshop.nl/product-categorie/statafelhoezen/, likely).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/product/beschermplaat/",
+    "priority": "should",
+    "how_we_match": "accessory product type 'Beschermplaat' with Ø options; cross-sell on statafel and statafelrok PDPs via custom.addons.",
+    "confidence": "likely"
+  },
+  {
+    "id": "b2b.invoice-download",
+    "area": "b2b",
+    "feature": "BTW invoice downloadable from the customer account ('Mijn Account' > 'Bestellingen'); invoices are always BTW-facturen and are also e-mailed (https://www.statafelshop.nl/contact/, likely; https://www.statafelshop.nl/zakelijk/, likely).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/contact/",
+    "priority": "should",
+    "how_we_match": "Order confirmation as invoice-style e-mail with BTW lines; downloadable PDF invoices need an invoice app (e.g. an order-printer/invoice app) linked from new customer accounts; document in docs/b2b.md.",
+    "confidence": "likely"
+  },
+  {
+    "id": "service.accessibility-statement",
+    "area": "service",
+    "feature": "Accessibility statement page (/toegankelijkheid) on Statafelshop (https://www.statafelshop.nl/statafel-kopen-in-venlo/, confirmed as part of the page list; content not read).",
+    "seen_on": "statafelshop",
+    "evidence_url": "https://www.statafelshop.nl/statafel-kopen-in-venlo/",
+    "priority": "could",
+    "how_we_match": "page.toegankelijkheid with our own statement (WCAG 2.1 AA target from BRIEF section 7), linked in the footer.",
+    "confidence": "confirmed"
   }
 ]

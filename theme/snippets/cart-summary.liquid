@@ -1,0 +1,34 @@
+{%- comment -%}
+  Cart totals block shared by drawer and cart page: free-shipping progress, discounts, subtotal incl. btw,
+  btw breakdown, shipping note, note field, checkout + offerte link. Params: form_id (string), context: 'drawer' | 'page'
+{%- endcomment -%}
+{%- liquid
+  assign vat_factor = settings.vat_rate | plus: 100
+  assign total_excl = cart.total_price | times: 100.0 | divided_by: vat_factor | round
+  assign vat_amount = cart.total_price | minus: total_excl
+  assign quote_url = settings.quote_page | default: '/pages/offerte'
+-%}
+<div class="cart-summary">
+  {%- if settings.cart_show_note -%}
+    <details class="cart-summary__note"{% if cart.note != blank %} open{% endif %}>
+      <summary class="link">{{ 'cart.note_label' | t | split: ' (' | first }}</summary>
+      <label class="visually-hidden" for="CartNote-{{ context }}">{{ 'cart.note_label' | t }}</label>
+      <textarea class="textarea" id="CartNote-{{ context }}" name="note" form="{{ form_id }}" data-cart-note placeholder="{{ 'cart.note_label' | t }}" rows="3">{{ cart.note }}</textarea>
+    </details>
+  {%- endif -%}
+  <dl class="cart-summary__rows">
+    {%- for discount in cart.cart_level_discount_applications -%}
+      <div class="cart-summary__row cart-summary__row--discount"><dt>{{ 'cart.discount' | t }}: {{ discount.title }}</dt><dd>−{{ discount.total_allocated_amount | money }}</dd></div>
+    {%- endfor -%}
+    <div class="cart-summary__row cart-summary__row--total"><dt>{{ 'cart.subtotal_incl' | t }}</dt><dd>{{ cart.total_price | money }}</dd></div>
+    {%- if settings.cart_show_vat_breakdown -%}
+      <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.total_excl' | t }}</dt><dd>{{ total_excl | money }}</dd></div>
+      <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.vat_line' | t: rate: settings.vat_rate }}</dt><dd>{{ vat_amount | money }}</dd></div>
+    {%- endif -%}
+  </dl>
+  <p class="cart-summary__shipping text-sm muted">{{ 'cart.shipping_note' | t }}</p>
+  <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--block cart-summary__checkout">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
+  {%- if settings.cart_quote_link -%}
+    <a class="cart-summary__quote link" href="{{ quote_url }}?from=cart">{{ 'cart.quote_link' | t }}</a>
+  {%- endif -%}
+</div>

@@ -1,0 +1,238 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign phone = settings.phone | default: shop.phone
+  assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  assign quote_url = settings.quote_page | default: '/pages/offerte'
+  assign show_toggle = false
+  if settings.price_display == 'toggle'
+    assign show_toggle = true
+  endif
+-%}
+{%- if settings.predictive_search_enabled -%}
+  <script src="{{ 'predictive-search.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+<sticky-header class="header-wrap color-{{ section.settings.color_scheme }}" data-sticky="{{ section.settings.sticky }}">
+  <header class="header">
+    <div class="page-width header__main">
+      <button type="button" class="icon-btn header__menu-btn" data-menu-open aria-controls="MenuDrawer" aria-expanded="false" aria-label="{{ 'header.menu_open' | t }}">
+        {%- render 'icon', icon: 'menu' -%}
+      </button>
+
+      <div class="header__logo-wrap">
+        <a href="{{ routes.root_url }}" class="header__logo" style="--logo-w: {{ settings.logo_width }}px; --logo-w-mobile: {{ settings.logo_width_mobile }}px;{% if settings.logo_roof == 'mono' %} --logo-roof: currentColor;{% endif %}">
+          {%- render 'logo', image: true -%}
+        </a>
+      </div>
+
+      <predictive-search class="header__search search" data-enabled="{{ settings.predictive_search_enabled }}" data-limit="{{ settings.predictive_search_limit }}">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search__form">
+          <label class="visually-hidden" for="HeaderSearch-{{ section.id }}">{{ 'header.search_label' | t }}</label>
+          {%- render 'icon', icon: 'search', class: 'search__icon' -%}
+          <input class="search__input" type="search" id="HeaderSearch-{{ section.id }}" name="q" value="{{ search.terms | escape }}"
+            placeholder="{{ 'header.search_placeholder' | t }}" autocomplete="off" spellcheck="false"
+            {% if settings.predictive_search_enabled %}role="combobox" aria-expanded="false" aria-owns="PredictiveResults-{{ section.id }}" aria-controls="PredictiveResults-{{ section.id }}" aria-haspopup="listbox" aria-autocomplete="list"{% endif %}>
+          <input type="hidden" name="options[prefix]" value="last">
+          <button type="button" class="search__clear" data-search-clear hidden aria-label="{{ 'header.search_clear' | t }}">{%- render 'icon', icon: 'close', class: 'icon--sm' -%}</button>
+          <button type="submit" class="search__submit btn btn--sm">{{ 'header.search_submit' | t }}</button>
+          {%- if settings.predictive_search_enabled -%}
+            <div class="predictive" id="PredictiveResults-{{ section.id }}" data-predictive-results hidden></div>
+            <span class="visually-hidden" role="status" aria-live="polite" data-predictive-status></span>
+          {%- endif -%}
+        </form>
+      </predictive-search>
+
+      <div class="header__actions">
+        {%- if show_toggle -%}
+          <vat-toggle class="vat-toggle header__vat" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
+            <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }}</button>
+            <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }}</button>
+          </vat-toggle>
+        {%- endif -%}
+        {%- if section.settings.show_quote -%}
+          <a href="{{ quote_url }}" class="header__action header__action--quote">{%- render 'icon', icon: 'invoice' -%}<span class="header__action-label">{{ 'header.quote' | t }}</span></a>
+        {%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="header__action header__action--account">{%- render 'icon', icon: 'user' -%}<span class="header__action-label">{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.login' | t }}{% endif %}</span></a>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}" class="header__action header__cart" id="cart-icon-bubble" data-cart-toggle aria-label="{{ 'header.cart' | t }}, {{ 'header.cart_count' | t: count: cart.item_count }}">
+          <span class="header__cart-icon">{%- render 'icon', icon: 'cart' -%}<span class="cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span></span>
+          <span class="header__action-label">{{ 'header.cart' | t }}</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="header__nav" aria-label="{{ 'header.main_nav' | t }}">
+      <div class="page-width header__nav-inner">
+        <ul class="nav" role="list">
+          {%- for link in menu.links -%}
+            {%- assign mega_id = 'Mega-' | append: section.id | append: '-' | append: forloop.index -%}
+            <li class="nav__item{% if link.links != blank %} nav__item--has-mega{% endif %}">
+              {%- if link.links != blank -%}
+                <mega-menu class="mega-trigger">
+                  <a href="{{ link.url }}" class="nav__link{% if link.child_active or link.active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
+                    {{ link.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
+                  </a>
+                  <div class="mega" id="{{ mega_id }}" data-mega-panel>
+                    <div class="page-width mega__inner">
+                      <div class="mega__cols">
+                        {%- for child in link.links -%}
+                          <div class="mega__col">
+                            <a class="mega__heading" href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                            {%- if child.links != blank -%}
+                              <ul role="list" class="mega__list">
+                                {%- for grandchild in child.links -%}
+                                  <li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title }}</a></li>
+                                {%- endfor -%}
+                              </ul>
+                            {%- endif -%}
+                          </div>
+                        {%- endfor -%}
+                        <a class="mega__all link" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
+                      </div>
+                      {%- for block in section.blocks -%}
+                        {%- assign promo_for = block.settings.menu_item | strip | downcase -%}
+                        {%- assign link_title = link.title | strip | downcase -%}
+                        {%- if block.type == 'promo' and promo_for == link_title -%}
+                          <a class="mega__promo" href="{{ block.settings.link | default: link.url }}" {{ block.shopify_attributes }}>
+                            <span class="mega__promo-media">
+                              {%- if block.settings.image != blank -%}
+                                {%- render 'image', image: block.settings.image, sizes: '360px', widths: '360, 540, 720' -%}
+                              {%- else -%}
+                                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                              {%- endif -%}
+                            </span>
+                            <span class="mega__promo-body">
+                              {%- if block.settings.eyebrow != blank -%}<span class="eyebrow">{{ block.settings.eyebrow }}</span>{%- endif -%}
+                              <span class="mega__promo-title">{{ block.settings.heading }}</span>
+                              {%- if block.settings.text != blank -%}<span class="mega__promo-text">{{ block.settings.text }}</span>{%- endif -%}
+                              <span class="mega__promo-cta">{{ block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>
+                            </span>
+                          </a>
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </mega-menu>
+              {%- else -%}
+                <a href="{{ link.url }}" class="nav__link{% if link.active %} is-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+        {%- if section.settings.show_contact -%}
+          <div class="header__contact">
+            {%- if settings.whatsapp != blank -%}
+              <a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}</span></a>
+            {%- endif -%}
+            {%- if phone != blank -%}
+              <a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ phone }}</span></a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </nav>
+  </header>
+</sticky-header>
+
+<menu-drawer>
+  <dialog class="drawer drawer--left menu-drawer" id="MenuDrawer" aria-label="{{ 'general.menu' | t }}">
+    <div class="drawer__head">
+      <span class="menu-drawer__logo" aria-hidden="true">{%- render 'logo' -%}</span>
+      <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'header.menu_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
+    </div>
+    <div class="drawer__body menu-drawer__body">
+      {%- if show_toggle -%}
+        <vat-toggle class="vat-toggle vat-toggle--block" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
+          <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
+          <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
+        </vat-toggle>
+      {%- endif -%}
+      <nav aria-label="{{ 'header.main_nav' | t }}">
+        <ul class="menu-drawer__list" role="list">
+          {%- for link in menu.links -%}
+            <li>
+              {%- if link.links != blank -%}
+                <details class="menu-drawer__details">
+                  <summary class="menu-drawer__link">{{ link.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</summary>
+                  <ul class="menu-drawer__sub" role="list">
+                    <li><a class="menu-drawer__all" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}</a></li>
+                    {%- for child in link.links -%}
+                      <li>
+                        {%- if child.links != blank -%}
+                          <details class="menu-drawer__details menu-drawer__details--l2">
+                            <summary class="menu-drawer__sublink">{{ child.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}</summary>
+                            <ul class="menu-drawer__sub menu-drawer__sub--l3" role="list">
+                              <li><a href="{{ child.url }}">{{ 'header.all_in' | t: title: child.title }}</a></li>
+                              {%- for grandchild in child.links -%}
+                                <li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title }}</a></li>
+                              {%- endfor -%}
+                            </ul>
+                          </details>
+                        {%- else -%}
+                          <a class="menu-drawer__sublink" href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </details>
+              {%- else -%}
+                <a class="menu-drawer__link" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+      <ul class="menu-drawer__secondary" role="list">
+        {%- if section.settings.show_quote -%}<li><a href="{{ quote_url }}">{%- render 'icon', icon: 'invoice', class: 'icon--sm' -%}{{ 'product.quote_cta' | t }}</a></li>{%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}<li><a href="{{ routes.account_url }}">{%- render 'icon', icon: 'user', class: 'icon--sm' -%}{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.login' | t }}{% endif %}</a></li>{%- endif -%}
+        {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a></li>{%- endif -%}
+        {%- if settings.whatsapp != blank -%}<li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'contact.whatsapp_cta' | t }}</a></li>{%- endif -%}
+        {%- assign drawer_email = settings.email | default: shop.email -%}
+        {%- if drawer_email != blank -%}<li><a href="mailto:{{ drawer_email }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ drawer_email }}</a></li>{%- endif -%}
+      </ul>
+      {%- if settings.openingstijden != blank -%}
+        <p class="menu-drawer__hours text-sm muted"><strong>{{ 'general.opening_hours' | t }}</strong><br>{{ settings.openingstijden | newline_to_br }}</p>
+      {%- endif -%}
+    </div>
+  </dialog>
+</menu-drawer>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "div",
+  "class": "section-header",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-2" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Drie niveaus: categorie, subcategorie, links. Het tweede niveau wordt een kolom in het megamenu." },
+    {
+      "type": "select", "id": "sticky", "label": "Vastzetten bij scrollen",
+      "options": [
+        { "value": "always", "label": "Altijd" },
+        { "value": "scroll-up", "label": "Alleen bij omhoog scrollen" },
+        { "value": "none", "label": "Nooit" }
+      ],
+      "default": "always"
+    },
+    { "type": "checkbox", "id": "show_quote", "label": "Knop 'Offerte' tonen", "default": true },
+    { "type": "checkbox", "id": "show_contact", "label": "Telefoon en WhatsApp in de menubalk", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Megamenu-promotie",
+      "settings": [
+        { "type": "text", "id": "menu_item", "label": "Bij menu-item", "info": "Exacte titel van het hoofdmenu-item, bv. Partytenten." },
+        { "type": "image_picker", "id": "image", "label": "Afbeelding" },
+        { "type": "text", "id": "eyebrow", "label": "Bovenregel" },
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Met jouw logo" },
+        { "type": "text", "id": "text", "label": "Tekst" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk" }
+      ]
+    }
+  ]
+}
+{% endschema %}

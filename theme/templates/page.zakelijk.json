@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-zakelijk",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "euro", "title": "Prijzen excl. btw", "text": "Schakel bovenin naar Zakelijk, of vraag een zakelijk account aan." } },
+        "b2": { "type": "benefit", "settings": { "icon": "invoice", "title": "Op factuur", "text": "Voor bedrijven, scholen en verenigingen, na goedkeuring." } },
+        "b3": { "type": "benefit", "settings": { "icon": "proof", "title": "Met je eigen logo", "text": "Op tent of statafelrok. Eerst een drukproef, dan drukken we." } },
+        "b4": { "type": "benefit", "settings": { "icon": "pallet", "title": "Levering op locatie", "text": "Grote aantallen per pallet, op een afgesproken dag." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {}
+    },
+    "products": { "type": "featured-collection", "settings": { "eyebrow": "Zakelijk", "heading": "Populair bij bedrijven", "collection": "zakelijk", "limit": 4, "columns": 4, "link_label": "Alle zakelijke producten" } },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Hoe werkt bestellen op factuur?", "answer": "<p>Vraag een zakelijk account aan. Na goedkeuring kun je op factuur bestellen. Betalen kan binnen de termijn op de factuur.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Leveren jullie ook in België?", "answer": "<p>Ja. Heb je een geldig btw-nummer, dan regelen we de btw volgens de regels voor zakelijke leveringen binnen de EU.</p>" } },
+        "q3": { "type": "question", "settings": { "question": "Hoe snel heb ik een offerte?", "answer": "<p>Meestal binnen één werkdag.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": { "color_scheme": "scheme-1", "heading": "Vragen van zakelijke klanten", "layout": "side" }
+    }
+  },
+  "order": ["main", "products", "faq"]
+}

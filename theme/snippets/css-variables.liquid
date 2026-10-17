@@ -1,0 +1,97 @@
+{%- comment -%}
+  Design tokens from theme settings -> CSS custom properties (brand/tokens.json is the source of the defaults).
+{%- endcomment -%}
+{%- liquid
+  assign heading_font = settings.type_heading_font
+  assign body_font = settings.type_body_font
+  assign heading_bold = heading_font | font_modify: 'weight', '800'
+  if settings.heading_extrabold == false or heading_bold == blank
+    assign heading_bold = heading_font
+  endif
+  assign body_semibold = body_font | font_modify: 'weight', '600'
+  assign body_bold = body_font | font_modify: 'weight', '700'
+  assign body_italic = body_font | font_modify: 'style', 'italic'
+  if body_bold == blank
+    assign body_bold = body_font | font_modify: 'weight', 'bolder'
+  endif
+-%}
+<style>
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {%- if heading_bold != heading_font -%}{{ heading_bold | font_face: font_display: 'swap' }}{%- endif -%}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {%- if body_semibold -%}{{ body_semibold | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if body_bold -%}{{ body_bold | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if body_italic -%}{{ body_italic | font_face: font_display: 'swap' }}{%- endif -%}
+
+  :root {
+    --c-klaproos: {{ settings.color_klaproos }};
+    --c-klaproos-donker: {{ settings.color_klaproos_donker }};
+    --c-zon: {{ settings.color_zon }};
+    --c-polder: {{ settings.color_polder }};
+    --c-inkt: {{ settings.color_inkt }};
+    --c-inkt-rgb: {{ settings.color_inkt.red }}, {{ settings.color_inkt.green }}, {{ settings.color_inkt.blue }};
+    --c-zand: {{ settings.color_zand }};
+    --c-duin: {{ settings.color_duin }};
+    --c-linnen: {{ settings.color_linnen }};
+    --c-studio: {{ settings.color_studio }};
+    --c-wit: #FFFFFF;
+    --c-kiezel: {{ settings.color_kiezel }};
+    --c-lijn: {{ settings.color_lijn }};
+    --c-bordeaux: {{ settings.color_bordeaux }};
+    --c-foutroze: {{ settings.color_foutroze }};
+    --c-oker: {{ settings.color_oker }};
+    --c-okerlicht: {{ settings.color_okerlicht }};
+    --c-mos: {{ settings.color_mos }};
+
+    --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading-style: {{ heading_font.style }};
+    --font-heading-weight: {{ heading_font.weight }};
+    --font-heading-weight-bold: {{ heading_bold.weight }};
+    --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body-style: {{ body_font.style }};
+    --font-body-weight: {{ body_font.weight }};
+    --font-body-weight-semibold: {% if body_semibold %}{{ body_semibold.weight }}{% else %}600{% endif %};
+    --font-body-weight-bold: {% if body_bold %}{{ body_bold.weight }}{% else %}700{% endif %};
+    --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+    --body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+
+    --page-width: {{ settings.page_width }}px;
+    --gutter-mobile: {{ settings.gutter_mobile }}px;
+    --gutter-desktop: {{ settings.gutter_desktop }}px;
+    --section-gap-desktop: {{ settings.section_spacing }}px;
+    --section-gap-mobile: {{ settings.section_spacing | divided_by: 2 | at_least: 40 }}px;
+
+    --radius-card: {{ settings.radius_card }}px;
+    --radius-panel: {{ settings.radius_panel }}px;
+    --radius-input: {{ settings.radius_input }}px;
+    --radius-badge: {{ settings.radius_badge }}px;
+    --radius-button: {{ settings.radius_button }}px;
+    --button-height: {{ settings.button_size }}px;
+    --button-case: {{ settings.button_case }};
+    --card-ratio: {{ settings.card_image_ratio }};
+    --dur: {% if settings.animations %}220ms{% else %}0ms{% endif %};
+    --dur-fast: {% if settings.animations %}140ms{% else %}0ms{% endif %};
+  }
+
+  {% for scheme in settings.color_schemes -%}
+  .color-{{ scheme.id }}{% if forloop.first %}, :root{% endif %} {
+    --bg: {{ scheme.settings.background }};
+    --fg: {{ scheme.settings.foreground }};
+    --fg-rgb: {{ scheme.settings.foreground.red }}, {{ scheme.settings.foreground.green }}, {{ scheme.settings.foreground.blue }};
+    --muted: {{ scheme.settings.muted }};
+    --btn-bg: {{ scheme.settings.primary_button }};
+    --btn-fg: {{ scheme.settings.primary_button_label }};
+    --btn-hover: {{ scheme.settings.primary_button_hover }};
+    --btn2-bg: {{ scheme.settings.secondary_button }};
+    --btn2-fg: {{ scheme.settings.secondary_button_label }};
+    --border: {{ scheme.settings.border }};
+    --focus: {{ scheme.settings.focus }};
+    {%- assign scheme_brightness = scheme.settings.background | color_brightness %}
+    --link-hover: {% if scheme_brightness < 110 %}var(--c-zon){% else %}var(--c-klaproos-donker){% endif %};
+    --surface: {% if scheme_brightness < 110 %}rgba(255,255,255,.07){% else %}#FFFFFF{% endif %};
+    {%- if scheme.settings.background_gradient != blank %}
+    --bg-gradient: {{ scheme.settings.background_gradient }};
+    {%- endif %}
+  }
+  {% endfor %}
+</style>

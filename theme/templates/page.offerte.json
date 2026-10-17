@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-offerte",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "text": "Je vult in wat je nodig hebt" } },
+        "s2": { "type": "step", "settings": { "text": "We sturen je een offerte op maat" } },
+        "s3": { "type": "step", "settings": { "text": "Akkoord? Dan plannen we de levering" } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

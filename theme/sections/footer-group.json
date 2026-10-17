@@ -1,0 +1,20 @@
+{
+  "type": "footer",
+  "name": "Footer-groep",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand": { "type": "brand", "settings": { "tagline": "In één klap feestklaar.", "text": "<p>Partytenten, statafels, rokken en alles eromheen. Voor je tuin, je club of je evenement.</p>" } },
+        "menu-winkel": { "type": "menu", "settings": { "heading": "Winkel", "menu": "footer-assortiment" } },
+        "menu-hulp": { "type": "menu", "settings": { "heading": "Hulp", "menu": "footer-klantenservice" } },
+        "menu-klapklaar": { "type": "menu", "settings": { "heading": "Over Klapklaar", "menu": "footer-klapklaar" } },
+        "contact": { "type": "contact", "settings": { "heading": "Bel of app ons" } },
+        "newsletter": { "type": "newsletter", "settings": { "heading": "Eerst weten wanneer er actie is?", "text": "Eén mail als er iets te vieren valt. Afmelden kan altijd." } }
+      },
+      "block_order": ["brand", "menu-winkel", "menu-hulp", "menu-klapklaar", "contact", "newsletter"],
+      "settings": { "color_scheme": "scheme-5", "show_flags": false, "legal_menu": "footer-juridisch", "show_social": true, "show_payment": true, "show_localization": true }
+    }
+  },
+  "order": ["footer"]
+}

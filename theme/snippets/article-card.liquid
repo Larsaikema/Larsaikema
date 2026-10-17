@@ -1,0 +1,18 @@
+{%- comment -%} Params: article, priority (bool) {%- endcomment -%}
+<article class="article-card">
+  <a class="article-card__media" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+    {%- if article.image -%}
+      {%- render 'image', image: article.image, sizes: '(min-width: 990px) 33vw, 80vw', widths: '360, 480, 640, 800', alt: '', priority: priority -%}
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+  <div class="article-card__body">
+    {%- if article.tags.size > 0 -%}<p class="eyebrow article-card__tag">{{ article.tags.first }}</p>{%- endif -%}
+    <h3 class="article-card__title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+    <p class="article-card__excerpt muted">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+    {%- assign words = article.content | strip_html | split: ' ' | size -%}
+    {%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
+    <p class="article-card__meta text-sm muted">{{ article.published_at | date: format: 'date' }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
+  </div>
+</article>

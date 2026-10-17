@@ -1,0 +1,62 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
+    {%- assign gc_value = gift_card.initial_value | money_without_trailing_zeros -%}
+    <title>{{ 'gift_card.title' | t: value: gc_value }} – {{ shop.name }}</title>
+    {% render 'css-variables' %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    <script src="{{ 'global.js' | asset_url }}" defer></script>
+    <style>
+      .gc{max-width:560px;margin:0 auto;padding:32px 16px 48px;display:flex;flex-direction:column;gap:20px;text-align:center}
+      .gc__logo{width:150px;margin:0 auto;color:var(--c-inkt)}
+      .gc__card{position:relative;border-radius:var(--radius-panel);background:var(--c-klaproos);color:var(--c-zand);padding:28px 24px;text-align:left;--logo-roof:var(--c-zon);overflow:hidden}
+      .gc__card .logo-svg{width:120px;color:var(--c-zand)}
+      .gc__amount{font-family:var(--font-heading);font-weight:var(--font-heading-weight-bold);font-size:44px;line-height:1;margin:28px 0 6px}
+      .gc__balance{margin:0;opacity:.9}
+      .gc__code{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+      .gc__code code{font-size:20px;letter-spacing:.08em;padding:10px 16px;border-radius:var(--radius-input);background:#fff;border:1.5px dashed var(--c-kiezel);font-weight:700}
+      .gc__qr{display:flex;justify-content:center}
+      .gc__qr img,.gc__qr canvas{width:120px;height:120px}
+      @media print{.gc .btn{display:none}}
+    </style>
+  </head>
+  <body>
+    <main class="gc">
+      <div class="gc__logo">{%- render 'logo' -%}</div>
+      <h1 class="h2">{{ 'gift_card.title' | t: value: gc_value }}</h1>
+      {%- if gift_card.expired or gift_card.enabled == false -%}
+        <p class="notice notice--error">{%- render 'icon', icon: 'alert' -%}<span>{% if gift_card.expired %}{%- assign gc_exp = gift_card.expires_on | date: format: 'date' -%}{{ 'gift_card.expired' | t: date: gc_exp }}{% else %}{{ 'gift_card.disabled' | t }}{% endif %}</span></p>
+      {%- endif -%}
+      <div class="gc__card">
+        {%- render 'logo' -%}
+        <p class="gc__amount">{{ gift_card.initial_value | money }}</p>
+        {%- if gift_card.balance != gift_card.initial_value -%}{%- assign gc_balance = gift_card.balance | money -%}<p class="gc__balance">{{ 'gift_card.balance' | t: balance: gc_balance }}</p>{%- endif -%}
+        {%- if gift_card.expires_on -%}<p class="gc__balance">{%- assign gc_exp = gift_card.expires_on | date: format: 'date' -%}{{ 'gift_card.expires' | t: date: gc_exp }}</p>{%- endif -%}
+      </div>
+      <p>{{ 'gift_card.use' | t }}</p>
+      <div class="gc__code">
+        <code>{{ gift_card.code | format_code }}</code>
+        <button type="button" class="btn btn--outline btn--sm" data-copy="{{ gift_card.code }}" data-copied="{{ 'gift_card.copied' | t }}">{{ 'gift_card.copy' | t }}</button>
+      </div>
+      <div class="gc__qr" id="GiftCardQr" data-identifier="{{ gift_card.qr_identifier }}" aria-label="{{ 'gift_card.qr' | t }}" role="img"></div>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a>
+        <button type="button" class="btn btn--outline" onclick="window.print()">{{ 'gift_card.print' | t }}</button>
+        {%- if gift_card.pass_url -%}<a class="btn btn--outline" href="{{ gift_card.pass_url }}">{{ 'gift_card.apple_wallet' | t }}</a>{%- endif -%}
+      </div>
+    </main>
+    <script>
+      addEventListener('DOMContentLoaded', () => {
+        const el = document.getElementById('GiftCardQr');
+        if (window.QRCode && el && el.dataset.identifier) new QRCode(el, { text: el.dataset.identifier, width: 120, height: 120 });
+      });
+    </script>
+  </body>
+</html>

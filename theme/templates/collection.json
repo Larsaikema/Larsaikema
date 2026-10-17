@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": { "type": "main-collection", "settings": { "per_page": 24, "columns": 3, "enable_filtering": true, "enable_sorting": true, "promo_position": 5 } },
+    "usps": {
+      "type": "usp-strip",
+      "blocks": {
+        "u1": { "type": "usp", "settings": { "icon": "truck", "title": "Vóór 14:00 besteld, vandaag verzonden", "text": "Op werkdagen, uit voorraad" } },
+        "u2": { "type": "usp", "settings": { "icon": "invoice", "title": "Zakelijk op factuur", "text": "Prijzen ook excl. btw" } },
+        "u3": { "type": "usp", "settings": { "icon": "proof", "title": "Eerst een drukproef", "text": "Bij elk product met logo" } },
+        "u4": { "type": "usp", "settings": { "icon": "chat", "title": "Bel of app ons", "text": "Advies van mensen die het opzetten" } }
+      },
+      "block_order": ["u1", "u2", "u3", "u4"],
+      "settings": { "label": "Waarom Klapklaar" }
+    }
+  },
+  "order": ["main", "usps"]
+}

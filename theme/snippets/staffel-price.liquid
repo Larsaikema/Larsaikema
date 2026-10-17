@@ -1,0 +1,3 @@
+{%- comment -%} Unit price for the staffel table, incl. and excl. btw (toggled by html[data-vat]). Params: cents {%- endcomment -%}
+{%- assign sp_factor = settings.vat_rate | plus: 100 -%}
+<span data-vat-show="incl">{{ cents | money }}</span><span data-vat-show="excl">{{ cents | times: 100.0 | divided_by: sp_factor | round | money }}</span>

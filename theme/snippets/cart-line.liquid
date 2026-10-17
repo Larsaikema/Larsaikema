@@ -1,0 +1,66 @@
+{%- comment -%}
+  One cart line (drawer + page). Params: item (line item), index (1-based line number), compact (bool, drawer)
+  Line-item properties are shown except private keys (starting with _); uploaded files show as a link with the file name.
+{%- endcomment -%}
+<li class="cart-line{% if compact %} cart-line--compact{% endif %}" data-line="{{ index }}" data-key="{{ item.key }}">
+  <a class="cart-line__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+    {%- if item.image -%}
+      {{- item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 180, 240', sizes: '96px', alt: '' -}}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+  <div class="cart-line__info">
+    <a class="cart-line__title" href="{{ item.url }}">{{ item.product.title }}</a>
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="cart-line__meta">
+        {%- for option in item.options_with_values -%}
+          <span>{{ option.name }}: {{ option.value }}</span>{% unless forloop.last %}<span aria-hidden="true"> · </span>{% endunless %}
+        {%- endfor -%}
+      </p>
+    {%- endunless -%}
+    {%- assign visible_props = 0 -%}
+    {%- for p in item.properties -%}
+      {%- assign first_char = p.first | slice: 0 -%}
+      {%- if p.last != blank and first_char != '_' -%}{%- assign visible_props = visible_props | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if visible_props > 0 -%}
+      <dl class="cart-line__props">
+        {%- for p in item.properties -%}
+          {%- assign first_char = p.first | slice: 0 -%}
+          {%- if p.last != blank and first_char != '_' -%}
+            <div>
+              <dt>{{ p.first }}:</dt>
+              <dd>
+                {%- if p.last contains '/uploads/' or p.last contains 'cdn.shopify.com' -%}
+                  {%- assign file_name = p.last | split: '/' | last | split: '?' | first -%}
+                  <a class="link" href="{{ p.last }}" target="_blank" rel="noopener">{% render 'icon', icon: 'file', class: 'icon--xs' %}{{ file_name }}</a>
+                {%- else -%}
+                  {{ p.last }}
+                {%- endif -%}
+              </dd>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+    {%- for discount in item.line_level_discount_allocations -%}
+      <p class="cart-line__discount">{% render 'icon', icon: 'check', class: 'icon--xs' %}{{ discount.discount_application.title }} (−{{ discount.amount | money }})</p>
+    {%- endfor -%}
+    <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_piece' | t }}</p>
+    <div class="cart-line__controls">
+      {%- capture qty_id -%}CartQty-{% if compact %}d{% else %}p{% endif %}-{{ index }}{%- endcapture -%}
+      {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: item.product.title -%}
+      <button type="button" class="cart-line__remove" name="remove" data-line="{{ index }}" aria-label="{{ 'cart.remove_label' | t: title: item.product.title | escape }}">
+        {%- render 'icon', icon: 'trash', class: 'icon--sm' -%}<span>{{ 'cart.remove' | t }}</span>
+      </button>
+    </div>
+    <p class="cart-line__error field__error" role="alert" data-line-error hidden></p>
+  </div>
+  <div class="cart-line__price">
+    {%- if item.original_line_price > item.final_line_price -%}
+      <s class="price__compare">{{ item.original_line_price | money }}</s>
+    {%- endif -%}
+    <span class="cart-line__total">{{ item.final_line_price | money }}</span>
+  </div>
+</li>

@@ -1,0 +1,8 @@
+.faq__inner{display:grid;gap:24px}
+.faq__head h2{margin-bottom:12px}
+.faq__head .rte{max-width:46ch}
+.faq__contact{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.faq__group{font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--font-body);font-weight:var(--font-body-weight-bold);color:var(--muted);margin:28px 0 4px}
+.faq__group:first-child{margin-top:0}
+.faq__list .accordion>summary{font-size:17px}
+@media (min-width:990px){.faq__inner--side{grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:72px}.faq__inner--side .faq__head{position:sticky;top:calc(var(--header-h,0px) + 24px);align-self:start}}

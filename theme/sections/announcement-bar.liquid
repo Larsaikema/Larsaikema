@@ -1,0 +1,84 @@
+{%- liquid
+  assign phone = settings.phone | default: shop.phone
+  assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  assign has_countdown = false
+  for block in section.blocks
+    if block.type == 'countdown'
+      assign has_countdown = true
+    endif
+  endfor
+-%}
+<div class="utility-bar color-{{ section.settings.color_scheme }}">
+  <div class="page-width utility-bar__inner">
+    <usp-rotator class="utility-bar__usps" data-interval="{{ section.settings.interval | times: 1000 }}">
+      {%- for block in section.blocks -%}
+        <div class="utility-bar__usp{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+            {%- when 'usp' -%}
+              {%- if block.settings.icon != 'none' -%}{%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}{%- endif -%}
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+              {%- else -%}
+                <span>{{ block.settings.text }}</span>
+              {%- endif -%}
+            {%- when 'countdown' -%}
+              {%- render 'icon', icon: 'clock', class: 'icon--xs' -%}
+              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text }}</span></span>
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </usp-rotator>
+    <nav class="utility-bar__links" aria-label="{{ section.settings.menu.title | default: 'Service' | escape }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+      {%- if section.settings.show_phone and phone != blank -%}
+        <a href="tel:{{ phone_href }}" class="utility-bar__phone">{%- render 'icon', icon: 'phone', class: 'icon--xs' -%}{{ phone }}</a>
+      {%- endif -%}
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "USP-balk",
+  "tag": "aside",
+  "class": "section-utility-bar",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-5" },
+    { "type": "link_list", "id": "menu", "label": "Servicelinks rechts", "info": "Bijvoorbeeld Offerte aanvragen, Klantenservice, Zakelijk." },
+    { "type": "checkbox", "id": "show_phone", "label": "Telefoonnummer tonen", "default": true },
+    { "type": "range", "id": "interval", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Wisselen op mobiel", "default": 5 }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "USP",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icoon",
+          "options": [
+            { "value": "check", "label": "Vinkje" }, { "value": "truck", "label": "Levering" }, { "value": "invoice", "label": "Factuur" },
+            { "value": "proof", "label": "Drukproef" }, { "value": "chat", "label": "Chat" }, { "value": "return", "label": "Retour" },
+            { "value": "flag", "label": "Vlaggetje" }, { "value": "none", "label": "Geen" }
+          ],
+          "default": "check"
+        },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis in NL & BE" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "countdown",
+      "name": "Besteltijd-teller",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Toont 'Bestel binnen 2 u 13 min, dan gaat hij vandaag de deur uit' op basis van de besteltijd en verzenddagen (Thema-instellingen > Levering)." },
+        { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Op werkdagen vóór 14:00 besteld, vandaag verzonden" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "USP-balk", "blocks": [{ "type": "usp" }, { "type": "usp" }] }]
+}
+{% endschema %}

@@ -4,7 +4,7 @@
 The images are flat illustrations stamped "VOORBEELD / placeholder render" so nobody mistakes
 them for product photography. The JSON follows tools/preview/FIXTURE_SCHEMA.md.
 
-Usage: python3 tools/preview/fixtures/make_sample.py
+Usage: python3 tools/preview/fixtures/make_sample.py   (also runs extend_sample.py)
 """
 import json
 import os
@@ -564,3 +564,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # Klapklaar contract data (products with metafields, 3-level menu, page templates, blog 'advies')
+    import extend_sample
+
+    extend_sample.main()

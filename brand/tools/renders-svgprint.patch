@@ -1,6 +1,42 @@
-diff -ruN a/js/textures.js b/js/textures.js
---- a/renders/js/textures.js	2026-10-17 17:32:23.308723081 +0000
-+++ b/renders/js/textures.js	2026-10-17 17:32:23.345795069 +0000
+diff -ruN a/renders/js/materials.js b/renders/js/materials.js
+--- a/renders/js/materials.js
++++ b/renders/js/materials.js
+@@ -41,21 +41,24 @@
+   if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.066, 0.067, 0.071), Math.min(1, (0.06 - L) / 0.06 + 0.35));
+   return base;
+ }
+-export function tentFabric(color, { side = THREE.DoubleSide, translucent = true } = {}) {
++// finish: 'standaard' (PVC/PU sheen) or 'mat' (matte-coated polyester: weaker, colour-tinted sheen, so a
++// saturated brand colour keeps its hue on the lit face instead of washing out to pink/white).
++export function tentFabric(color, { side = THREE.DoubleSide, translucent = true, finish = 'standaard' } = {}) {
+   const hex = resolveColor(color, COLORS.wit);
+-  return cached(`tent:${hex}:${side}:${translucent}`, () => {
++  const mat = finish === 'mat';
++  return cached(`tent:${hex}:${side}:${translucent}:${finish}`, () => {
+     const L = lum(hex);
+     const base = tentFabricBase(hex);
+     const m = new THREE.MeshPhysicalMaterial({
+       color: base,
+-      roughness: 0.5,
++      roughness: mat ? 0.72 : 0.5,
+       metalness: 0,
+-      specularIntensity: 0.55,
+-      clearcoat: L < 0.1 ? 0.35 : 0.22,     // PVC coating: broad soft highlight
+-      clearcoatRoughness: 0.45,
+-      sheen: L < 0.1 ? 0.6 : 0.3,
++      specularIntensity: mat ? 0.3 : 0.55,
++      clearcoat: mat ? 0.08 : (L < 0.1 ? 0.35 : 0.22),     // PVC coating: broad soft highlight
++      clearcoatRoughness: mat ? 0.6 : 0.45,
++      sheen: mat ? 0.12 : (L < 0.1 ? 0.6 : 0.3),
+       sheenRoughness: 0.5,
+-      sheenColor: new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), L < 0.1 ? 0.35 : 0.25),
++      sheenColor: new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), mat ? 0.06 : (L < 0.1 ? 0.35 : 0.25)),
+       // 600D oxford relief (~10 deg yarn slopes): readable in close-ups, mip-averaged away at catalogue distance
+       normalMap: TX.weaveNormal({ threads: 24, strength: 8 }),
+       normalScale: new THREE.Vector2(1, 1),
+diff -ruN a/renders/js/textures.js b/renders/js/textures.js
+--- a/renders/js/textures.js
++++ b/renders/js/textures.js
 @@ -227,3 +227,24 @@
      return t;
    });
@@ -26,22 +62,40 @@ diff -ruN a/js/textures.js b/js/textures.js
 +    return t;
 +  });
 +}
-diff -ruN a/models/easyUpTent.js b/models/easyUpTent.js
---- a/renders/models/easyUpTent.js	2026-10-17 17:32:23.318445838 +0000
-+++ b/renders/models/easyUpTent.js	2026-10-17 17:32:23.346108359 +0000
-@@ -452,7 +452,8 @@
-     for (const side of sides.filter((s) => which.includes(s.name))) {
-       const len = side.L * 0.9;
-       const cw = 2048, ch = Math.max(64, Math.round(cw * Hh / len));
+diff -ruN a/renders/models/easyUpTent.js b/renders/models/easyUpTent.js
+--- a/renders/models/easyUpTent.js
++++ b/renders/models/easyUpTent.js
+@@ -150,7 +150,7 @@
+   const color = p.color || 'wit';
+   const colorHex = M.resolveColor(color, M.COLORS.wit);
+   const light = lumOf(colorHex) > 0.45;
+-  const fabric = M.tentFabric(color);
++  const fabric = M.tentFabric(color, { finish: p.finish || 'standaard' });
+   const thread = M.tentThread(color);
+   const alu = M.aluminium({ roughness: 0.26 });
+   const aluInner = M.aluminium({ tone: '#C9CCD0', roughness: 0.34 });
+@@ -453,7 +453,8 @@
+       // centred print zone (max ~14:1); canvas aspect = zone aspect so glyphs keep their shape
+       const len = Math.min(side.L * 0.9, Hh * 14);
+       const cw = 2048, ch = Math.round(cw * Hh / len);
 -      const tex = TX.printTexture({ text: vp.text, color: ink, width: cw, height: ch, font: `${vp.weight || 800} ${Math.round(ch * 0.66)}px ${vp.font || '"Arial Black", "Helvetica Neue", Arial, sans-serif'}` });
 +      const tex = vp.d ? TX.svgPrintTexture({ d: vp.d, vb: vp.vb, color: ink, width: cw, height: ch, pad: vp.pad ?? 0.14 })
 +        : TX.printTexture({ text: vp.text, color: ink, width: cw, height: ch, font: `${vp.weight || 800} ${Math.round(ch * 0.66)}px ${vp.font || '"Arial Black", "Helvetica Neue", Arial, sans-serif'}` });
        const mat = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.45, roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.45, side: THREE.FrontSide, name: 'valance print' });
        const s0 = (side.L - len) / 2;
        const geo = G.surface((u, v, o) => {
-diff -ruN a/models/statafelCover.js b/models/statafelCover.js
---- a/renders/models/statafelCover.js	2026-10-17 17:32:23.329297071 +0000
-+++ b/renders/models/statafelCover.js	2026-10-17 17:32:23.346354206 +0000
+@@ -635,7 +636,7 @@
+ 
+   // ---- side walls -------------------------------------------------------------------------
+   const wallColor = p.wallColor || color;
+-  const wallFabric = M.tentFabric(wallColor);
++  const wallFabric = M.tentFabric(wallColor, { finish: p.finish || 'standaard' });
+   const wallThread = M.tentThread(wallColor);
+   const wallOff = (legAF + 0.03) / 2 + 0.008; // clear of the corner brackets and sliders
+   const sideDefs = {
+diff -ruN a/renders/models/statafelCover.js b/renders/models/statafelCover.js
+--- a/renders/models/statafelCover.js
++++ b/renders/models/statafelCover.js
 @@ -9,6 +9,7 @@
  import * as THREE from 'three';
  import * as G from '../js/geom.js';

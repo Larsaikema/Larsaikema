@@ -1,0 +1,30 @@
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+<div class="page-width section section--tight">
+  {%- render 'breadcrumbs' -%}
+  <h1>{{ section.settings.heading }}</h1>
+  <ul class="tiles" role="list" style="--cols: 4; margin-top: 24px">
+    {%- for c in collections -%}
+      {%- if c.handle == 'frontpage' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+      {%- assign tile_img = c.image | default: c.featured_image -%}
+      <li class="tile">
+        <a class="tile__link" href="{{ c.url }}">
+          <span class="tile__media">
+            {%- if tile_img -%}{%- render 'image', image: tile_img, sizes: '(min-width: 990px) 25vw, 50vw', widths: '240, 360, 480, 640', alt: c.title -%}{%- else -%}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+          </span>
+          <span class="tile__body">
+            <span class="tile__title">{{ c.title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</span>
+            <span class="tile__benefit">{{ 'collection.products_count' | t: count: c.products_count }}</span>
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Alle collecties",
+  "class": "section-main-list-collections",
+  "settings": [ { "type": "text", "id": "heading", "label": "Kop", "default": "Alle categorieën" } ]
+}
+{% endschema %}

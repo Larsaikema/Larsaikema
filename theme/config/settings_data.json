@@ -1,0 +1,116 @@
+{
+  "current": {
+    "logo_width": 150,
+    "logo_width_mobile": 112,
+    "logo_roof": "brand",
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#FBF6EC",
+          "background_gradient": "",
+          "foreground": "#1D2420",
+          "muted": "#5D625C",
+          "primary_button": "#BE3A1D",
+          "primary_button_label": "#FFFFFF",
+          "primary_button_hover": "#9A2F17",
+          "secondary_button": "#154F3E",
+          "secondary_button_label": "#FBF6EC",
+          "border": "#5D625C",
+          "focus": "#1D2420"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#FFFFFF",
+          "background_gradient": "",
+          "foreground": "#1D2420",
+          "muted": "#5D625C",
+          "primary_button": "#BE3A1D",
+          "primary_button_label": "#FFFFFF",
+          "primary_button_hover": "#9A2F17",
+          "secondary_button": "#154F3E",
+          "secondary_button_label": "#FBF6EC",
+          "border": "#5D625C",
+          "focus": "#1D2420"
+        }
+      },
+      "scheme-3": {
+        "settings": {
+          "background": "#F2E8D5",
+          "background_gradient": "",
+          "foreground": "#1D2420",
+          "muted": "#5D625C",
+          "primary_button": "#BE3A1D",
+          "primary_button_label": "#FFFFFF",
+          "primary_button_hover": "#9A2F17",
+          "secondary_button": "#154F3E",
+          "secondary_button_label": "#FBF6EC",
+          "border": "#5D625C",
+          "focus": "#1D2420"
+        }
+      },
+      "scheme-4": {
+        "settings": {
+          "background": "#ECEEE8",
+          "background_gradient": "",
+          "foreground": "#1D2420",
+          "muted": "#5D625C",
+          "primary_button": "#154F3E",
+          "primary_button_label": "#FBF6EC",
+          "primary_button_hover": "#0F3B2E",
+          "secondary_button": "#1D2420",
+          "secondary_button_label": "#FBF6EC",
+          "border": "#5D625C",
+          "focus": "#1D2420"
+        }
+      },
+      "scheme-5": {
+        "settings": {
+          "background": "#154F3E",
+          "background_gradient": "",
+          "foreground": "#FBF6EC",
+          "muted": "#D5DCD3",
+          "primary_button": "#FFC23A",
+          "primary_button_label": "#1D2420",
+          "primary_button_hover": "#FFD36E",
+          "secondary_button": "#FBF6EC",
+          "secondary_button_label": "#154F3E",
+          "border": "#FBF6EC",
+          "focus": "#FFC23A"
+        }
+      },
+      "scheme-6": {
+        "settings": {
+          "background": "#1D2420",
+          "background_gradient": "",
+          "foreground": "#FBF6EC",
+          "muted": "#C9CCC5",
+          "primary_button": "#FFC23A",
+          "primary_button_label": "#1D2420",
+          "primary_button_hover": "#FFD36E",
+          "secondary_button": "#FBF6EC",
+          "secondary_button_label": "#1D2420",
+          "border": "#FBF6EC",
+          "focus": "#FFC23A"
+        }
+      }
+    },
+    "type_heading_font": "archivo_n7",
+    "type_body_font": "figtree_n4",
+    "heading_extrabold": true,
+    "price_display": "toggle",
+    "vat_rate": 21,
+    "cutoff_time": "14:00",
+    "shipping_days": "ma,di,wo,do,vr",
+    "free_shipping_threshold": 150,
+    "cart_type": "drawer",
+    "cart_upsell_collection": "accessoires",
+    "quote_page": "shopify://pages/offerte",
+    "b2b_page": "shopify://pages/zakelijk",
+    "shipping_page": "shopify://pages/verzenden-en-bezorgen",
+    "returns_page": "shopify://pages/retourneren",
+    "sections": {
+      "cart-drawer": { "type": "cart-drawer", "settings": {} }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{{ 'section-blog.css' | asset_url | stylesheet_tag }}
+{%- assign words = article.content | strip_html | split: ' ' | size -%}
+{%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
+<article class="article">
+  <div class="page-width page-width--text">
+    <header class="article__header">
+      {%- render 'breadcrumbs' -%}
+      {%- if article.tags.size > 0 -%}<p class="eyebrow" style="color:var(--c-klaproos-donker)">{{ article.tags.first }}</p>{%- endif -%}
+      <h1>{{ article.title }}</h1>
+      <p class="article__meta">{{ article.published_at | date: format: 'date' }} · {{ 'blog.by' | t: author: article.author }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
+    </header>
+  </div>
+  {%- if article.image -%}
+    <div class="page-width page-width--narrow">
+      <div class="article__image">{%- render 'image', image: article.image, sizes: '(min-width: 990px) 820px, 100vw', widths: '480, 640, 820, 1100, 1400', priority: true, alt: article.image.alt -%}</div>
+    </div>
+  {%- endif -%}
+  <div class="page-width page-width--text">
+    <div class="rte article__content">{{ article.content }}</div>
+    <footer class="article__footer">
+      <a class="link" href="{{ blog.url }}">{%- render 'icon', icon: 'arrow-left', class: 'icon--xs' -%} {{ 'blog.back' | t: title: blog.title }}</a>
+      <div class="chips">{%- for tag in article.tags -%}<a class="chip" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>{%- endfor -%}</div>
+    </footer>
+  </div>
+  {%- assign rel = section.settings.products_collection -%}
+  {%- if rel != blank and rel.products_count > 0 -%}
+    <div class="page-width article__products">
+      <div class="section-head"><h2 class="section-head__title">{{ 'blog.related_products' | t }}</h2><a class="link" href="{{ rel.url }}">{{ 'general.view_all' | t }}</a></div>
+      <ul class="slider slider--desktop-grid" role="list" style="--cols: 4; --slide-w: 68%">
+        {%- for p in rel.products limit: 4 -%}<li>{%- render 'product-card', product: p, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>{%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</article>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ article.title | json }},
+  "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "author": { "@type": "Person", "name": {{ article.author | json }} },
+  {%- if article.image -%}"image": {{ article.image | image_url: width: 1200 | prepend: 'https:' | json }},{%- endif -%}
+  "publisher": { "@type": "Organization", "name": {{ shop.name | json }} }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Artikel",
+  "class": "section-main-article",
+  "settings": [ { "type": "collection", "id": "products_collection", "label": "Producten onder het artikel" } ]
+}
+{% endschema %}

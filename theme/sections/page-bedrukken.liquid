@@ -1,0 +1,141 @@
+{{ 'section-pages.css' | asset_url | stylesheet_tag }}
+{%- assign form_id = 'PrintForm-' | append: section.id -%}
+<div class="color-scheme-3">
+  <div class="page-width">
+    <header class="page-head b2b-hero">
+      {%- render 'breadcrumbs' -%}
+      <div class="b2b-hero__grid">
+        <div>
+          <p class="eyebrow">{%- render 'icon', icon: 'flag', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
+          <h1>{{ section.settings.heading | default: page.title }}</h1>
+          <div class="rte text-lg">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
+          <div class="btn-row" style="margin-top:24px">
+            {%- if section.settings.cta_1_label != blank -%}<a class="btn" href="{{ section.settings.cta_1_link }}">{{ section.settings.cta_1_label }}</a>{%- endif -%}
+            {%- if section.settings.cta_2_label != blank -%}<a class="btn btn--outline" href="{{ section.settings.cta_2_link }}">{{ section.settings.cta_2_label }}</a>{%- endif -%}
+          </div>
+        </div>
+        <div class="media" style="aspect-ratio:1/1">
+          {%- if section.settings.image != blank -%}
+            {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 45vw, 100vw', widths: '480, 640, 800, 1000, 1200', priority: true -%}
+          {%- else -%}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+          {%- if section.settings.image_badge != blank -%}<span class="badge badge--logo" style="position:absolute;top:14px;left:14px">{%- render 'icon', icon: 'flag' -%}{{ section.settings.image_badge }}</span>{%- endif -%}
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+
+<div class="section color-scheme-1">
+  <div class="page-width">
+    <div class="section-head"><h2 class="section-head__title">{{ section.settings.steps_heading }}</h2></div>
+    {%- assign step_count = 0 -%}{%- for block in section.blocks -%}{%- if block.type == 'step' -%}{%- assign step_count = step_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    <ol class="steps-row" style="--steps: {{ step_count | at_least: 1 }}">
+      {%- assign n = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'step' -%}
+          {%- assign n = n | plus: 1 -%}
+          <li class="step" {{ block.shopify_attributes }}>
+            <span class="step__num" aria-hidden="true">{{ n }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>
+
+<div class="section section--flush-top color-scheme-1">
+  <div class="page-width">
+    <div class="section-head"><h2 class="section-head__title">{{ section.settings.options_heading }}</h2></div>
+    <ul class="options-grid" role="list" style="--cols: 3">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'option' -%}
+          <li {{ block.shopify_attributes }}>
+            <article class="option-card">
+              <div class="option-card__media">
+                {%- if block.settings.image != blank -%}{%- render 'image', image: block.settings.image, sizes: '(min-width: 750px) 33vw, 100vw', widths: '360, 480, 640, 800' -%}{%- else -%}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+              </div>
+              <div class="option-card__body">
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text }}</p>
+                {%- if block.settings.link != blank -%}<a class="link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>{%- endif -%}
+              </div>
+            </article>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+<div class="section color-scheme-4" id="PrintContact">
+  <div class="page-width split">
+    <div>
+      <h2>{{ section.settings.specs_heading }}</h2>
+      <ul class="checklist" role="list">
+        {%- assign spec_items = section.settings.specs | newline_to_br | split: '<br />' -%}
+        {%- for it in spec_items -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}
+      </ul>
+      <p class="notice notice--warn" style="margin-top:20px">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>
+    </div>
+    <div class="panel">
+      <h2 class="panel__title">{{ section.settings.form_heading }}</h2>
+      <p class="muted">{{ section.settings.form_text }}</p>
+      {%- form 'contact', id: form_id -%}
+        <input type="hidden" name="contact[Onderwerp]" value="Vraag over bedrukken">
+        {%- if form.posted_successfully? -%}
+          <div class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'forms.contact_success' | t }}</strong></span></div>
+        {%- else -%}
+          {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
+          <div class="form-grid form-grid--2">
+            <div class="field"><label class="field__label" for="P-name">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-name" name="contact[name]" autocomplete="name" required></div>
+            <div class="field"><label class="field__label" for="P-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-email" type="email" name="contact[email]" autocomplete="email" required></div>
+            <div class="field"><label class="field__label" for="P-company">{{ 'forms.company' | t }}</label><input class="input" id="P-company" name="contact[Bedrijfsnaam]" autocomplete="organization"></div>
+            <div class="field"><label class="field__label" for="P-phone">{{ 'forms.phone' | t }}</label><input class="input" id="P-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
+            <div class="field"><label class="field__label" for="P-product">{{ 'quote.line_product' | t }}</label><input class="input" id="P-product" name="contact[Product]"></div>
+            <div class="field"><label class="field__label" for="P-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="P-qty" type="number" min="1" name="contact[Aantal]"></div>
+            <div class="field field--full"><label class="field__label" for="P-logo">{{ 'quote.logo_link' | t }}</label><input class="input" id="P-logo" type="url" name="contact[Link naar logo]" placeholder="https://" aria-describedby="P-logo-help"><p class="field__help" id="P-logo-help">{{ 'quote.logo_link_help' | t }}</p></div>
+            <div class="field field--full"><label class="field__label" for="P-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="P-body" name="contact[body]" rows="4"></textarea></div>
+          </div>
+          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bedrukken",
+  "class": "section-page-bedrukken",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenregel", "default": "Met jouw logo" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Jouw logo op je tent of statafelrok" },
+    { "type": "richtext", "id": "intro", "label": "Intro (als de pagina leeg is)", "default": "<p>Je uploadt je logo, wij maken een drukproef. Pas na jouw akkoord gaan we drukken.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Beeld" },
+    { "type": "text", "id": "image_badge", "label": "Badge op het beeld", "default": "Voorbeeldopdruk" },
+    { "type": "text", "id": "cta_1_label", "label": "Knop 1", "default": "Ontwerp je tent" },
+    { "type": "url", "id": "cta_1_link", "label": "Link 1" },
+    { "type": "text", "id": "cta_2_label", "label": "Knop 2", "default": "Ontwerp je statafelrok" },
+    { "type": "url", "id": "cta_2_link", "label": "Link 2" },
+    { "type": "text", "id": "steps_heading", "label": "Kop stappen", "default": "Zo werkt het" },
+    { "type": "text", "id": "options_heading", "label": "Kop drukopties", "default": "Wat kunnen we bedrukken?" },
+    { "type": "text", "id": "specs_heading", "label": "Kop aanleveren", "default": "Zo lever je je logo aan" },
+    { "type": "textarea", "id": "specs", "label": "Aanleverregels", "default": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nGeef je Pantone- of HEX-kleuren door als je die hebt\nLevertijd 10–15 werkdagen na akkoord drukproef" },
+    { "type": "text", "id": "form_heading", "label": "Kop formulier", "default": "Vraag over bedrukken?" },
+    { "type": "text", "id": "form_text", "label": "Tekst formulier", "default": "Laat weten wat je wilt laten bedrukken. Je krijgt een voorstel met drukproef." }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Stap", "settings": [ { "type": "text", "id": "title", "label": "Titel", "default": "Upload je logo" }, { "type": "text", "id": "text", "label": "Tekst" } ] },
+    { "type": "option", "name": "Drukoptie", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Beeld" },
+      { "type": "text", "id": "title", "label": "Titel", "default": "Luifel" },
+      { "type": "text", "id": "text", "label": "Tekst" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk" }
+    ] }
+  ],
+  "presets": [{ "name": "Bedrukken" }]
+}
+{% endschema %}

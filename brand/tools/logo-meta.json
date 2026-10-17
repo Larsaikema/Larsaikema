@@ -1,54 +1,346 @@
 {
- "guides": {
-  "cut_l2": [
-   [
-    228.4,
-    37.55
+ "version": 3,
+ "units": "kk-eenheden: x-hoogte 500, stok 130, tussenmaat 65",
+ "wordmark": {
+  "primary": {
+   "file": "logo.svg",
+   "viewBox": [
+    390.8,
+    129.42
    ],
-   [
-    241.4,
-    32.56
-   ]
-  ],
-  "cut_k1": [
-   [
+   "width_units": 3908,
+   "smallest_stroke_units": 65,
+   "smallest_gap_units": 56.0,
+   "smallest_gap_between": "letter k0 - letter l1",
+   "smallest_stroke_pct": 1.66,
+   "smallest_gap_pct": 1.43,
+   "min_sizes": {
+    "borduren": {
+     "label": "Borduren (satijnsteek)",
+     "stroke_mm": 1.2,
+     "gap_mm": 1.0,
+     "min_width_mm": 73
+    },
+    "flock": {
+     "label": "Flock-transfer (geplot)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 105
+    },
+    "flex": {
+     "label": "Flex-/snijfolie (textiel, geplot)",
+     "stroke_mm": 1.0,
+     "gap_mm": 1.0,
+     "min_width_mm": 70
+    },
+    "folie": {
+     "label": "Snijfolie op bus/bord (Oracal)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 105
+    },
+    "zeefdruk": {
+     "label": "Zeefdruk op textiel",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.6,
+     "min_width_mm": 42
+    },
+    "dtf": {
+     "label": "DTF-transfer",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.5,
+     "min_width_mm": 35
+    },
+    "sublimatie": {
+     "label": "Sublimatie / digitaal op polyester (luifel, rok)",
+     "stroke_mm": 0.3,
+     "gap_mm": 0.3,
+     "min_width_mm": 21
+    },
+    "papier": {
+     "label": "Offset / digitaal op papier",
+     "stroke_mm": 0.15,
+     "gap_mm": 0.15,
+     "min_width_mm": 11
+    },
+    "scherm": {
+     "label": "Scherm (1x)",
+     "min_width_px": 121
+    }
+   }
+  },
+  "guides": {
+   "baseline_y": 109.82,
+   "xheight_y": 59.82,
+   "ascender_y": 38.62,
+   "descender_y": 129.42,
+   "roofbase_y": 32.12,
+   "apex_y": 13.0,
+   "poletop_y": 0.0,
+   "band": [
+    252.2,
+    38.62,
+    351.8,
+    51.62
+   ],
+   "xm": 302.0,
+   "l2_right": 245.7,
+   "k1": [
     0.0,
-    37.55
-   ],
-   [
+    43.61,
     13.0,
-    32.56
-   ]
-  ],
-  "roof_left": [
-   [
-    244.6,
-    29.96
+    38.62
    ],
-   [
-    296.6,
-    10.0
+   "l2": [
+    232.7,
+    43.61,
+    245.7,
+    38.62
+   ],
+   "roof_left": [
+    252.2,
+    32.12,
+    302.0,
+    13.0
+   ],
+   "stem": 13.0,
+   "gap": 6.5,
+   "pitch": 21.0,
+   "aa": [
+    252.2,
+    351.8
    ]
-  ],
-  "band": [
-   244.6,
-   32.56,
-   348.6,
-   45.56
-  ],
-  "aa": [
-   246.8,
-   346.4
-  ],
-  "stem": 13.0,
-  "pitch": 21.0
+  },
+  "klein": {
+   "file": "svg/logo-klein.svg",
+   "viewBox": [
+    422.8,
+    125.68
+   ],
+   "width_units": 4228,
+   "smallest_stroke_units": 112,
+   "smallest_gap_units": 96.0,
+   "smallest_gap_between": "letter k0 - letter l1",
+   "smallest_stroke_pct": 2.65,
+   "smallest_gap_pct": 2.27,
+   "min_sizes": {
+    "borduren": {
+     "label": "Borduren (satijnsteek)",
+     "stroke_mm": 1.2,
+     "gap_mm": 1.0,
+     "min_width_mm": 46
+    },
+    "flock": {
+     "label": "Flock-transfer (geplot)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 67
+    },
+    "flex": {
+     "label": "Flex-/snijfolie (textiel, geplot)",
+     "stroke_mm": 1.0,
+     "gap_mm": 1.0,
+     "min_width_mm": 45
+    },
+    "folie": {
+     "label": "Snijfolie op bus/bord (Oracal)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 67
+    },
+    "zeefdruk": {
+     "label": "Zeefdruk op textiel",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.6,
+     "min_width_mm": 27
+    },
+    "dtf": {
+     "label": "DTF-transfer",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.5,
+     "min_width_mm": 23
+    },
+    "sublimatie": {
+     "label": "Sublimatie / digitaal op polyester (luifel, rok)",
+     "stroke_mm": 0.3,
+     "gap_mm": 0.3,
+     "min_width_mm": 14
+    },
+    "papier": {
+     "label": "Offset / digitaal op papier",
+     "stroke_mm": 0.15,
+     "gap_mm": 0.15,
+     "min_width_mm": 7
+    },
+    "scherm": {
+     "label": "Scherm (1x)",
+     "min_width_px": 76
+    }
+   }
+  }
  },
- "viewBox": [
-  385.4,
-  123.36
- ],
- "units_per_xheight": 50.0,
- "baseline_y": 103.76,
- "xheight_y": 53.76,
- "ascender_y": 32.56
+ "mark": {
+  "primary": {
+   "file": "mark.svg",
+   "width_units": 816,
+   "smallest_stroke_units": 65,
+   "smallest_gap_units": 65.0,
+   "smallest_gap_between": "k - luifelband",
+   "min_sizes": {
+    "borduren": {
+     "label": "Borduren (satijnsteek)",
+     "stroke_mm": 1.2,
+     "gap_mm": 1.0,
+     "min_width_mm": 16
+    },
+    "flock": {
+     "label": "Flock-transfer (geplot)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 19
+    },
+    "flex": {
+     "label": "Flex-/snijfolie (textiel, geplot)",
+     "stroke_mm": 1.0,
+     "gap_mm": 1.0,
+     "min_width_mm": 13
+    },
+    "folie": {
+     "label": "Snijfolie op bus/bord (Oracal)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 19
+    },
+    "zeefdruk": {
+     "label": "Zeefdruk op textiel",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.6,
+     "min_width_mm": 8
+    },
+    "dtf": {
+     "label": "DTF-transfer",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.5,
+     "min_width_mm": 7
+    },
+    "sublimatie": {
+     "label": "Sublimatie / digitaal op polyester (luifel, rok)",
+     "stroke_mm": 0.3,
+     "gap_mm": 0.3,
+     "min_width_mm": 4
+    },
+    "papier": {
+     "label": "Offset / digitaal op papier",
+     "stroke_mm": 0.15,
+     "gap_mm": 0.15,
+     "min_width_mm": 2
+    },
+    "scherm": {
+     "label": "Scherm (1x)",
+     "min_width_px": 26
+    }
+   },
+   "note": "maat = breedte van het symbool zelf (zonder vlak)"
+  },
+  "klein": {
+   "file": "svg/mark-klein.svg",
+   "width_units": 816,
+   "smallest_stroke_units": 112,
+   "smallest_gap_units": 130.0,
+   "smallest_gap_between": "k - luifel (1 stuk)",
+   "min_sizes": {
+    "borduren": {
+     "label": "Borduren (satijnsteek)",
+     "stroke_mm": 1.2,
+     "gap_mm": 1.0,
+     "min_width_mm": 9
+    },
+    "flock": {
+     "label": "Flock-transfer (geplot)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 11
+    },
+    "flex": {
+     "label": "Flex-/snijfolie (textiel, geplot)",
+     "stroke_mm": 1.0,
+     "gap_mm": 1.0,
+     "min_width_mm": 8
+    },
+    "folie": {
+     "label": "Snijfolie op bus/bord (Oracal)",
+     "stroke_mm": 1.5,
+     "gap_mm": 1.5,
+     "min_width_mm": 11
+    },
+    "zeefdruk": {
+     "label": "Zeefdruk op textiel",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.6,
+     "min_width_mm": 4
+    },
+    "dtf": {
+     "label": "DTF-transfer",
+     "stroke_mm": 0.5,
+     "gap_mm": 0.5,
+     "min_width_mm": 4
+    },
+    "sublimatie": {
+     "label": "Sublimatie / digitaal op polyester (luifel, rok)",
+     "stroke_mm": 0.3,
+     "gap_mm": 0.3,
+     "min_width_mm": 3
+    },
+    "papier": {
+     "label": "Offset / digitaal op papier",
+     "stroke_mm": 0.15,
+     "gap_mm": 0.15,
+     "min_width_mm": 2
+    },
+    "scherm": {
+     "label": "Scherm (1x)",
+     "min_width_px": 15
+    }
+   },
+   "note": "maat = breedte van het symbool zelf (zonder vlak)"
+  }
+ },
+ "luifel": {
+  "descender_to_bar_units": 130,
+  "tracking_em": 0.181,
+  "cap_height_units": 152.0,
+  "width_units": 3908
+ },
+ "zakelijk": {
+  "tag_height_units": 500,
+  "cap_height_units": 214.5
+ },
+ "methods_note": "werkaannames per methode (kleinste lijn/opening in mm), niet met een leverancier geverifieerd",
+ "written": [
+  "logo.svg",
+  "logo-inverse.svg",
+  "svg/logo-on-klaproos.svg",
+  "svg/logo-mono.svg",
+  "svg/print-wordmark.svg",
+  "svg/logo-klein.svg",
+  "svg/logo-klein-inverse.svg",
+  "svg/logo-klein-mono.svg",
+  "svg/print-wordmark-klein.svg",
+  "svg/logo-luifel.svg",
+  "svg/logo-luifel-inverse.svg",
+  "svg/logo-zakelijk.svg",
+  "svg/mark-mono.svg",
+  "svg/print-mark.svg",
+  "mark.svg",
+  "svg/mark-polder.svg",
+  "svg/mark-zand.svg",
+  "svg/mark-klein-mono.svg",
+  "svg/print-mark-klein.svg",
+  "svg/mark-klein.svg",
+  "favicon.svg",
+  "svg/favicon-cart.svg",
+  "svg/favicon-16.svg",
+  "svg/pennant.svg",
+  "svg/vlaggenlijn.svg"
+ ]
 }

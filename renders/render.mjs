@@ -122,7 +122,7 @@ async function main() {
         execFileSync('python3', encArgs, { stdio: 'inherit' });
         fs.rmSync(png);
         const kb = (fs.statSync(out).size / 1024).toFixed(0);
-        console.log(`✓ ${path.relative(process.cwd(), out)}  ${((Date.now() - t0) / 1000).toFixed(1)}s  ${kb} KB  (${spec.model || 'items'} ${spec.angle || 'hero'}, ${renderSpec.samples || 40} spp)`);
+        console.log(`✓ ${path.relative(process.cwd(), out)}  ${((Date.now() - t0) / 1000).toFixed(1)}s  ${kb} KB  (${spec.model || 'items'} ${spec.angle || 'hero'}, ${info.samples || renderSpec.samples || 40} spp)`);
         if (args.json) console.log(JSON.stringify(info));
       } catch (e) {
         failed++;

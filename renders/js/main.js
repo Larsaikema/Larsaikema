@@ -72,7 +72,7 @@ window.renderSpec = async function renderSpec(spec) {
   // dispose product geometry (materials/textures are cached for the batch)
   root.traverse((o) => { if (o.isMesh) o.geometry.dispose(); });
   s.scene.remove(root); s.root = null;
-  return { ms: performance.now() - t0, buildMs: tBuild, renderMs: res.ms, exposure: res.exposure, view: { ...view, position: view.position.toArray(), target: view.target.toArray() }, meta };
+  return { ms: performance.now() - t0, buildMs: tBuild, renderMs: res.ms, samples, exposure: res.exposure, view: { ...view, position: view.position.toArray(), target: view.target.toArray() }, meta };
 };
 
 window.grabImage = function grabImage(type = 'image/png', quality = 0.92) {

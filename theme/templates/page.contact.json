@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": { "type": "page-contact", "settings": { "faq_link": "shopify://pages/veelgestelde-vragen" } },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Wanneer heb ik mijn bestelling?", "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Grote tenten leveren we per pallet, op afspraak.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Kan ik mijn bestelling nog wijzigen?", "answer": "<p>Mail of app ons zo snel mogelijk met je bestelnummer. Zolang hij nog niet verzonden is, passen we hem aan.</p>" } },
+        "q3": { "type": "question", "settings": { "question": "Hoe stuur ik iets retour?", "answer": "<p>Meld je retour bij ons aan, dan sturen we je de stappen. Bedrukte producten en maatwerk kun je niet retour sturen.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": { "heading": "Snel antwoord", "layout": "side", "show_contact": false }
+    }
+  },
+  "order": ["main", "faq"]
+}

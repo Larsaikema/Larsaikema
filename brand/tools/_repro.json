@@ -1,0 +1,655 @@
+{
+ "sources": {
+  "pantone_c": {
+   "repo": "https://github.com/aj90909/unofficial-pantone-solid-coated-2024-v5",
+   "commit": "3d6ad83683cebc13ec859a675eae2a4c29bfd4d8",
+   "file": "output.json",
+   "what": "Pantone Solid Coated 2024 (3219 kleuren), Lab D50, onofficieel: gemeten uit de kleurvoorbeelden op pantone.com (README van de repo)"
+  },
+  "pantone_tcx": {
+   "repo": "https://github.com/pedroduke/pantone-tcx",
+   "commit": "566d68d90f35047a6a1dfca28786b149269184e1",
+   "file": "src/pantoneColors.js",
+   "what": "Pantone FHI Cotton TCX, naam + sRGB-hex, onofficieel"
+  },
+  "ral_a": {
+   "repo": "https://github.com/ieskudero/ral-colors",
+   "commit": "55e9cfc3d0b333af74c56acad6bd1aeee840d83a",
+   "file": "RAL/classic.js",
+   "what": "RAL Classic, sRGB-hex (bron A)"
+  },
+  "ral_b": {
+   "repo": "https://github.com/office952/workos-vscode",
+   "commit": "a1c28854dbeee553c8420c4639c8145ebe9d9230",
+   "file": "frontend/src/lib/colorRegistry/import/sources/ral_standard.csv",
+   "what": "RAL Classic, sRGB-hex (bron B; de repo noemt het zelf \"preview HEX approximate\")"
+  },
+  "oracal651": {
+   "repo": "https://github.com/office952/workos-vscode",
+   "commit": "a1c28854dbeee553c8420c4639c8145ebe9d9230",
+   "file": "frontend/src/lib/colorRegistry/import/sources/oracal651-orafol.txt",
+   "what": "ORACAL 651 snijfolie, sRGB \"parsed from ORAFOL ORACAL 651 product page (sample colors)\""
+  },
+  "icc_coated": {
+   "repo": "https://github.com/ConRes/conres.io",
+   "commit": "800dbc48d23cc3305c5176296a369e6af23ee1ab",
+   "file": "testing/iso/ptf/2026/packages/color-engine-2026-04-20/tests/fixtures/profiles/cmyk/CoatedFOGRA39.icc",
+   "what": "Adobe \"Coated FOGRA39 (ISO 12647-2:2004)\", git-lfs sha256 da2b9b59...ce77"
+  },
+  "icc_uncoated": {
+   "repo": "https://github.com/ConRes/conres.io",
+   "commit": "800dbc48d23cc3305c5176296a369e6af23ee1ab",
+   "file": "testing/iso/ptf/2026/packages/color-engine-2026-04-20/tests/fixtures/profiles/cmyk/UncoatedFOGRA29.icc",
+   "what": "Adobe \"Uncoated FOGRA29 (ISO 12647-2:2004)\", git-lfs sha256 9af0eb03...c392"
+  }
+ },
+ "counts": {
+  "pantone_c": 3219,
+  "pantone_tcx": 2310,
+  "ral_a": 215,
+  "ral_b": 213,
+  "oracal651": 61
+ },
+ "colors": {
+  "klaproos": {
+   "hex": "#C83812",
+   "lab_d50": [
+    46.6,
+    56.4,
+    54.0
+   ],
+   "lab_d65": [
+    45.8,
+    55.3,
+    52.5
+   ],
+   "cmyk_fogra39": [
+    14,
+    89,
+    100,
+    4
+   ],
+   "cmyk_fogra39_perceptual": [
+    18,
+    87,
+    100,
+    8
+   ],
+   "fogra39_proof_hex": "#BF3B26",
+   "fogra39_proof_de": 4.1,
+   "cmyk_fogra29": [
+    10,
+    93,
+    100,
+    3
+   ],
+   "fogra29_proof_hex": "#C2544E",
+   "fogra29_proof_de": 11.5,
+   "pantone_c": [
+    {
+     "name": "2349 C",
+     "de": 1.6,
+     "lab_d50": [
+      47,
+      57,
+      58
+     ]
+    },
+    {
+     "name": "173 C",
+     "de": 3.5,
+     "lab_d50": [
+      50,
+      53,
+      51
+     ]
+    },
+    {
+     "name": "3516 C",
+     "de": 3.8,
+     "lab_d50": [
+      50,
+      63,
+      58
+     ]
+    }
+   ],
+   "pantone_tcx": [
+    {
+     "name": "17-1449 TCX Pureed Pumpkin",
+     "de": 2.0
+    },
+    {
+     "name": "18-1564 TCX Poinciana",
+     "de": 3.8
+    },
+    {
+     "name": "18-1454 TCX Red Clay",
+     "de": 4.2
+    }
+   ],
+   "ral_a": [
+    {
+     "name": "RAL 2002 Vermilion",
+     "de": 4.2
+    },
+    {
+     "name": "RAL 2001 Red orange",
+     "de": 4.7
+    },
+    {
+     "name": "RAL 3028 Pure red",
+     "de": 5.8
+    }
+   ],
+   "ral_b": [
+    {
+     "name": "RAL 2001 Red orange (Roodoranje)",
+     "de": 2.2
+    },
+    {
+     "name": "RAL 3020 Traffic red (Verkeersrood)",
+     "de": 4.9
+    },
+    {
+     "name": "RAL 2002 Vermilion (Vermiljoen)",
+     "de": 5.4
+    }
+   ],
+   "oracal651": [
+    {
+     "name": "ORACAL 651-047 orange red",
+     "de": 2.3
+    },
+    {
+     "name": "ORACAL 651-032 light red",
+     "de": 4.3
+    },
+    {
+     "name": "ORACAL 651-034 orange",
+     "de": 8.3
+    }
+   ]
+  },
+  "zon": {
+   "hex": "#FFC23A",
+   "lab_d50": [
+    82.5,
+    13.9,
+    72.0
+   ],
+   "lab_d65": [
+    81.9,
+    9.9,
+    71.9
+   ],
+   "cmyk_fogra39": [
+    0,
+    28,
+    83,
+    0
+   ],
+   "cmyk_fogra39_perceptual": [
+    4,
+    29,
+    82,
+    0
+   ],
+   "fogra39_proof_hex": "#EDB640",
+   "fogra39_proof_de": 3.8,
+   "cmyk_fogra29": [
+    0,
+    21,
+    83,
+    0
+   ],
+   "fogra29_proof_hex": "#F1BC59",
+   "fogra29_proof_de": 4.5,
+   "pantone_c": [
+    {
+     "name": "136 C",
+     "de": 1.2,
+     "lab_d50": [
+      82,
+      15,
+      69
+     ]
+    },
+    {
+     "name": "1225 C",
+     "de": 2.0,
+     "lab_d50": [
+      84,
+      11,
+      69
+     ]
+    },
+    {
+     "name": "123 C",
+     "de": 2.3,
+     "lab_d50": [
+      83,
+      11,
+      76
+     ]
+    }
+   ],
+   "pantone_tcx": [
+    {
+     "name": "13-0759 TCX Solar Power",
+     "de": 2.2
+    },
+    {
+     "name": "14-0850 TCX Daffodil",
+     "de": 2.5
+    },
+    {
+     "name": "14-0957 TCX Spectra Yellow",
+     "de": 2.9
+    }
+   ],
+   "ral_a": [
+    {
+     "name": "RAL 1021 Colza yellow",
+     "de": 3.4
+    },
+    {
+     "name": "RAL 1023 Traffic yellow",
+     "de": 3.5
+    },
+    {
+     "name": "RAL 1018 Zinc yellow",
+     "de": 4.4
+    }
+   ],
+   "ral_b": [
+    {
+     "name": "RAL 1028 Melon yellow (Meloengeel)",
+     "de": 6.5
+    },
+    {
+     "name": "RAL 1003 Signal yellow (Signaalgeel)",
+     "de": 7.1
+    },
+    {
+     "name": "RAL 1017 Saffron yellow (Saffraangeel)",
+     "de": 7.4
+    }
+   ],
+   "oracal651": [
+    {
+     "name": "ORACAL 651-021 yellow",
+     "de": 3.6
+    },
+    {
+     "name": "ORACAL 651-019 signal yellow",
+     "de": 6.8
+    },
+    {
+     "name": "ORACAL 651-020 golden yellow",
+     "de": 6.9
+    }
+   ]
+  },
+  "polder": {
+   "hex": "#154F3E",
+   "lab_d50": [
+    29.6,
+    -23.0,
+    4.4
+   ],
+   "lab_d65": [
+    29.7,
+    -23.3,
+    4.7
+   ],
+   "cmyk_fogra39": [
+    87,
+    42,
+    73,
+    45
+   ],
+   "cmyk_fogra39_perceptual": [
+    87,
+    42,
+    73,
+    47
+   ],
+   "fogra39_proof_hex": "#244F42",
+   "fogra39_proof_de": 2.8,
+   "cmyk_fogra29": [
+    91,
+    45,
+    75,
+    33
+   ],
+   "fogra29_proof_hex": "#486258",
+   "fogra29_proof_de": 10.8,
+   "pantone_c": [
+    {
+     "name": "6161 C",
+     "de": 1.6,
+     "lab_d50": [
+      28,
+      -23,
+      6
+     ]
+    },
+    {
+     "name": "3305 C",
+     "de": 2.7,
+     "lab_d50": [
+      29,
+      -25,
+      1
+     ]
+    },
+    {
+     "name": "3435 C",
+     "de": 3.0,
+     "lab_d50": [
+      26,
+      -22,
+      6
+     ]
+    }
+   ],
+   "pantone_tcx": [
+    {
+     "name": "19-5420 TCX Evergreen",
+     "de": 3.4
+    },
+    {
+     "name": "19-6050 TCX Eden",
+     "de": 4.1
+    },
+    {
+     "name": "19-5232 TCX Rain Forest",
+     "de": 4.8
+    }
+   ],
+   "ral_a": [
+    {
+     "name": "RAL 6028 Pine green",
+     "de": 3.9
+    },
+    {
+     "name": "RAL 6005 Moss green",
+     "de": 4.0
+    },
+    {
+     "name": "RAL 6036 Pearl opal green",
+     "de": 5.0
+    }
+   ],
+   "ral_b": [
+    {
+     "name": "RAL 6016 Turquoise green (Turkooisgroen)",
+     "de": 3.3
+    },
+    {
+     "name": "RAL 6028 Pine green (Pijnboomgroen)",
+     "de": 3.6
+    },
+    {
+     "name": "RAL 6026 Opal green (Opaalgroen)",
+     "de": 5.8
+    }
+   ],
+   "oracal651": [
+    {
+     "name": "ORACAL 651-613 forest green",
+     "de": 4.3
+    },
+    {
+     "name": "ORACAL 651-060 dark green",
+     "de": 5.8
+    },
+    {
+     "name": "ORACAL 651-061 green",
+     "de": 15.1
+    }
+   ]
+  },
+  "inkt": {
+   "hex": "#1D2420",
+   "lab_d50": [
+    13.4,
+    -4.1,
+    1.6
+   ],
+   "lab_d65": [
+    13.4,
+    -4.2,
+    1.6
+   ],
+   "cmyk_fogra39": [
+    76,
+    61,
+    66,
+    78
+   ],
+   "cmyk_fogra39_perceptual": [
+    76,
+    61,
+    65,
+    78
+   ],
+   "fogra39_proof_hex": "#282C2A",
+   "fogra39_proof_de": 3.7,
+   "cmyk_fogra29": [
+    84,
+    73,
+    62,
+    64
+   ],
+   "fogra29_proof_hex": "#4A4B4C",
+   "fogra29_proof_de": 14.3,
+   "pantone_c": [
+    {
+     "name": "Black 3 C",
+     "de": 1.9,
+     "lab_d50": [
+      15,
+      -5,
+      3
+     ]
+    },
+    {
+     "name": "419 C",
+     "de": 2.9,
+     "lab_d50": [
+      13,
+      -2,
+      0
+     ]
+    },
+    {
+     "name": "426 C",
+     "de": 5.5,
+     "lab_d50": [
+      16,
+      -1,
+      -2
+     ]
+    }
+   ],
+   "pantone_tcx": [
+    {
+     "name": "19-5708 TCX Jet Set",
+     "de": 3.1
+    },
+    {
+     "name": "19-5350 TCX Scarab",
+     "de": 4.9
+    },
+    {
+     "name": "19-4004 TCX Tap Shoe",
+     "de": 6.8
+    }
+   ],
+   "ral_a": [
+    {
+     "name": "RAL 9017 Traffic black",
+     "de": 6.3
+    },
+    {
+     "name": "RAL 9011 Graphite black",
+     "de": 6.7
+    },
+    {
+     "name": "RAL 7021 Black grey",
+     "de": 6.9
+    }
+   ],
+   "ral_b": [
+    {
+     "name": "RAL 7021 Black grey (Zwartgrijs)",
+     "de": 5.6
+    },
+    {
+     "name": "RAL 8022 Black brown (Zwartbruin)",
+     "de": 5.7
+    },
+    {
+     "name": "RAL 9017 Traffic black (Verkeerszwart)",
+     "de": 5.8
+    }
+   ],
+   "oracal651": [
+    {
+     "name": "ORACAL 651-070 black",
+     "de": 8.8
+    },
+    {
+     "name": "ORACAL 651-073 dark grey",
+     "de": 14.4
+    },
+    {
+     "name": "ORACAL 651-060 dark green",
+     "de": 17.0
+    }
+   ]
+  },
+  "zand": {
+   "hex": "#FBF6EC",
+   "lab_d50": [
+    97.1,
+    0.5,
+    5.4
+   ],
+   "lab_d65": [
+    97.0,
+    -0.0,
+    5.4
+   ],
+   "cmyk_fogra39": [
+    2,
+    4,
+    9,
+    0
+   ],
+   "cmyk_fogra39_perceptual": [
+    2,
+    4,
+    10,
+    0
+   ],
+   "fogra39_proof_hex": "#ECE8E2",
+   "fogra39_proof_de": 3.4,
+   "cmyk_fogra29": [
+    2,
+    4,
+    7,
+    0
+   ],
+   "fogra29_proof_hex": "#EFE9E6",
+   "fogra29_proof_de": 4.5,
+   "pantone_c": [
+    {
+     "name": "9224 C",
+     "de": 2.8,
+     "lab_d50": [
+      93,
+      1,
+      7
+     ]
+    },
+    {
+     "name": "9285 C",
+     "de": 3.3,
+     "lab_d50": [
+      93,
+      1,
+      3
+     ]
+    },
+    {
+     "name": "9244 C",
+     "de": 3.6,
+     "lab_d50": [
+      93,
+      2,
+      4
+     ]
+    }
+   ],
+   "pantone_tcx": [
+    {
+     "name": "11-0607 TCX Sugar Swizzle",
+     "de": 2.1
+    },
+    {
+     "name": "11-0608 TCX Coconut Milk",
+     "de": 2.2
+    },
+    {
+     "name": "11-0103 TCX Egret",
+     "de": 2.3
+    }
+   ],
+   "ral_a": [
+    {
+     "name": "RAL 9001 Cream",
+     "de": 3.4
+    },
+    {
+     "name": "RAL 9010 Pure white",
+     "de": 3.4
+    },
+    {
+     "name": "RAL 9016 Traffic white",
+     "de": 4.3
+    }
+   ],
+   "ral_b": [
+    {
+     "name": "RAL 9001 Cream (Crèmewit)",
+     "de": 2.9
+    },
+    {
+     "name": "RAL 9016 Traffic white (Verkeerswit)",
+     "de": 4.8
+    },
+    {
+     "name": "RAL 9003 Signal white (Signaalwit)",
+     "de": 4.8
+    }
+   ],
+   "oracal651": [
+    {
+     "name": "ORACAL 651-010 white",
+     "de": 8.1
+    },
+    {
+     "name": "ORACAL 651-072 light grey",
+     "de": 13.0
+    },
+    {
+     "name": "ORACAL 651-082 beige",
+     "de": 14.8
+    }
+   ]
+  }
+ }
+}

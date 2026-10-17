@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "main-cart", "settings": {} },
+    "recommendations": { "type": "featured-collection", "settings": { "heading": "Vergeet niet", "collection": "accessoires", "limit": 4, "columns": 4, "link_label": "Alle accessoires" } }
+  },
+  "order": ["main", "recommendations"]
+}

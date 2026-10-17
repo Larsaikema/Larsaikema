@@ -1,0 +1,445 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'media-gallery.js' | asset_url }}" defer></script>
+<script src="{{ 'variant-picker.js' | asset_url }}" defer></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer></script>
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'ProductForm-' | append: section.id
+  assign swatch_names = settings.swatch_option_names | downcase | split: ','
+  assign staffel = product.metafields.custom.staffelkorting.value
+  assign is_print = false
+  if product.metafields.custom.bedrukbaar.value == true or product.tags contains 'bedrukbaar'
+    assign is_print = true
+  endif
+  assign vat_factor = settings.vat_rate | plus: 100
+  assign quote_url = settings.quote_page | default: '/pages/offerte'
+  assign featured_index = 0
+  for media in product.media
+    if media.id == current_variant.featured_media.id
+      assign featured_index = forloop.index0
+    endif
+  endfor
+-%}
+<product-info class="product section" id="ProductInfo-{{ section.id }}" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-form-id="{{ product_form_id }}">
+  <div class="page-width">
+    {%- if section.settings.show_breadcrumbs -%}{%- render 'breadcrumbs' -%}{%- endif -%}
+    <div class="product__grid">
+      {%- comment -%} ---------- media gallery ---------- {%- endcomment -%}
+      <div class="product__media">
+        <media-gallery class="gallery" data-start="{{ featured_index }}" aria-label="{{ 'product.gallery_label' | t }}">
+          <div class="gallery__viewer">
+            <ul class="gallery__slides" role="list" data-gallery-slides>
+              {%- for media in product.media -%}
+                <li class="gallery__slide" data-media-id="{{ media.id }}" data-index="{{ forloop.index0 }}">
+                  <button type="button" class="gallery__zoom" data-gallery-zoom="{{ forloop.index0 }}" aria-label="{{ 'product.gallery_zoom' | t: index: forloop.index }}">
+                    {%- assign m_alt = media.alt | default: product.title -%}
+                    {%- if forloop.index0 == featured_index -%}
+                      {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), 100vw', widths: '390, 560, 760, 900, 1100, 1400', priority: true, alt: m_alt -%}
+                    {%- else -%}
+                      {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), 100vw', widths: '390, 560, 760, 900, 1100, 1400', alt: m_alt -%}
+                    {%- endif -%}
+                  </button>
+                </li>
+              {%- else -%}
+                <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</li>
+              {%- endfor -%}
+            </ul>
+            {%- if product.media.size > 1 -%}
+              <button type="button" class="gallery__arrow gallery__arrow--prev icon-btn" data-gallery-prev aria-label="{{ 'general.previous' | t }}">{%- render 'icon', icon: 'chevron-left' -%}</button>
+              <button type="button" class="gallery__arrow gallery__arrow--next icon-btn" data-gallery-next aria-label="{{ 'general.next' | t }}">{%- render 'icon', icon: 'chevron-right' -%}</button>
+              <p class="gallery__counter" aria-hidden="true"><span data-gallery-current>{{ featured_index | plus: 1 }}</span> / {{ product.media.size }}</p>
+            {%- endif -%}
+            <div class="gallery__badges">
+              {%- if current_variant.compare_at_price > current_variant.price -%}
+                {%- assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
+                <span class="badge badge--actie" data-dynamic="badge-sale">{{ 'price.save' | t: percent: save_pct }}</span>
+              {%- else -%}
+                <span data-dynamic="badge-sale" hidden></span>
+              {%- endif -%}
+              {%- if product.tags contains 'badge:nieuw' -%}<span class="badge badge--nieuw">{{ 'card.badge_new' | t }}</span>{%- endif -%}
+              {%- if is_print -%}<span class="badge badge--logo">{%- render 'icon', icon: 'flag' -%}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
+            </div>
+          </div>
+          {%- if product.media.size > 1 -%}
+            <ul class="gallery__thumbs" role="list">
+              {%- for media in product.media -%}
+                <li>
+                  <button type="button" class="gallery__thumb" data-gallery-thumb="{{ forloop.index0 }}" aria-label="{{ 'product.gallery_thumb' | t: index: forloop.index }}"{% if forloop.index0 == featured_index %} aria-current="true"{% endif %}>
+                    {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '', widths: '90, 180', sizes: '90px' }}
+                  </button>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          <dialog class="modal zoom" aria-label="{{ product.title | escape }}" data-gallery-dialog>
+            <button type="button" class="icon-btn zoom__close" data-drawer-close aria-label="{{ 'product.gallery_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
+            <ul class="zoom__list" role="list">
+              {%- for media in product.media -%}
+                <li data-zoom-index="{{ forloop.index0 }}">{{ media.preview_image | image_url: width: 2000 | image_tag: loading: 'lazy', alt: media.alt, widths: '1000, 1400, 2000', sizes: 'min(1100px, 100vw)' }}</li>
+              {%- endfor -%}
+            </ul>
+          </dialog>
+        </media-gallery>
+      </div>
+
+      {%- comment -%} ---------- product info ---------- {%- endcomment -%}
+      <div class="product__info">
+        <div class="product__info-inner">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+
+              {%- when 'title' -%}
+                <div class="product__title-block" {{ block.shopify_attributes }}>
+                  {%- assign eyebrow = product.type -%}
+                  {%- if collection -%}{%- assign eyebrow = collection.title -%}{%- endif -%}
+                  {%- if eyebrow != blank -%}<p class="eyebrow product__eyebrow">{{ eyebrow }}</p>{%- endif -%}
+                  <h1 class="product__title">{{ product.title }}</h1>
+                  {%- if product.metafields.custom.kenmerk_kort != blank -%}<p class="product__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>{%- endif -%}
+                  {%- render 'rating', product: product, show_count: true -%}
+                </div>
+
+              {%- when 'price' -%}
+                <div class="product__price-block" {{ block.shopify_attributes }}>
+                  <div id="price-{{ section.id }}" data-dynamic="price">
+                    {%- render 'price', product: product, variant: current_variant, size: 'lg' -%}
+                  </div>
+                  {%- if settings.price_display == 'toggle' -%}
+                    <vat-toggle class="vat-toggle vat-toggle--mini" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
+                      <button type="button" data-vat-set="incl" aria-pressed="true">{{ 'price.incl' | t }}</button>
+                      <button type="button" data-vat-set="excl" aria-pressed="false">{{ 'price.excl' | t }}</button>
+                    </vat-toggle>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'variant_picker' -%}
+                {%- unless product.has_only_default_variant -%}
+                  <variant-picker class="vp" data-section-id="{{ section.id }}" {{ block.shopify_attributes }}>
+                    {%- for option in product.options_with_values -%}
+                      {%- assign opt_name = option.name | downcase | strip -%}
+                      {%- assign is_swatch = false -%}
+                      {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_name -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
+                      {%- assign option_index = forloop.index0 -%}
+                      <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}">
+                        <legend class="vp__legend">
+                          <span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value }}</span>
+                          {%- if forloop.first and block.settings.size_guide_page != blank -%}
+                            <a class="vp__guide link" href="{{ block.settings.size_guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
+                          {%- endif -%}
+                        </legend>
+                        <div class="vp__values">
+                          {%- for value in option.values -%}
+                            {%- capture input_id -%}Opt-{{ section.id }}-{{ option_index }}-{{ forloop.index0 }}{%- endcapture -%}
+                            <input class="vp__input" type="radio" id="{{ input_id }}" name="option-{{ section.id }}-{{ option_index }}" value="{{ value | escape }}"{% if value.selected %} checked{% endif %}{% unless value.available %} data-unavailable{% endunless %}>
+                            {%- if is_swatch -%}
+                              {%- capture sw_style -%}{%- render 'swatch', value: value, mode: 'css' -%}{%- endcapture -%}
+                              <label for="{{ input_id }}" class="vp__swatch{% unless value.available %} is-unavailable{% endunless %}" title="{{ value | escape }}">
+                                <span class="swatch" style="{{ sw_style }}"></span>
+                                <span class="visually-hidden">{{ value }}{% unless value.available %}, {{ 'product.option_unavailable' | t }}{% endunless %}</span>
+                              </label>
+                            {%- else -%}
+                              <label for="{{ input_id }}" class="vp__pill{% unless value.available %} is-unavailable{% endunless %}">
+                                {{ value }}{% unless value.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless %}
+                              </label>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                    {%- endfor -%}
+                    {%- if block.settings.size_guide_page != blank -%}
+                      <p class="vp__help text-sm muted">{{ 'product.size_guide_help' | t }}</p>
+                    {%- endif -%}
+                    <script type="application/json" data-variants>
+                      [{%- for v in product.variants -%}{"id":{{ v.id }},"options":{{ v.options | json }},"available":{{ v.available | json }},"price":{{ v.price }},"compare_at_price":{{ v.compare_at_price | default: 0 }},"media_id":{{ v.featured_media.id | default: 0 }}}{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+                    </script>
+                  </variant-picker>
+                {%- endunless -%}
+
+              {%- when 'staffel' -%}
+                {%- if staffel != blank and staffel.size > 0 -%}
+                  <div class="staffel" data-dynamic="staffel" data-staffel="{{ staffel | json | escape }}" data-unit-price="{{ current_variant.price }}" {{ block.shopify_attributes }}>
+                    <p class="staffel__title">{%- render 'icon', icon: 'euro', class: 'icon--sm' -%}{{ 'product.staffel_title' | t }}</p>
+                    <table class="staffel__table">
+                      <thead><tr><th scope="col">{{ 'product.staffel_qty' | t }}</th><th scope="col">{{ 'product.staffel_discount' | t }}</th><th scope="col">{{ 'product.staffel_price' | t }}</th></tr></thead>
+                      <tbody>
+                        {%- assign first_tier = staffel.first.vanaf | minus: 1 -%}
+                        <tr data-tier-min="1"><td>1–{{ first_tier }}</td><td>–</td><td>{%- render 'staffel-price', cents: current_variant.price -%}</td></tr>
+                        {%- for tier in staffel -%}
+                          {%- assign tier_off = current_variant.price | times: tier.korting | divided_by: 100.0 | round -%}
+                          {%- assign tier_cents = current_variant.price | minus: tier_off -%}
+                          <tr data-tier-min="{{ tier.vanaf }}">
+                            <td>{{ 'product.staffel_from' | t: qty: tier.vanaf }}</td>
+                            <td>{{ tier.korting }}%</td>
+                            <td>{%- render 'staffel-price', cents: tier_cents -%}</td>
+                          </tr>
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                    <p class="staffel__hint" data-staffel-hint aria-live="polite"></p>
+                    <p class="staffel__note text-xs muted">{{ 'product.staffel_note' | t }}</p>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'bedrukken' -%}
+                {%- if is_print -%}
+                  {%- assign druk = product.metafields.custom.drukopties.value -%}
+                  <fieldset class="print" {{ block.shopify_attributes }}>
+                    <legend class="print__legend">{%- render 'icon', icon: 'flag' -%}{{ 'product.print_title' | t }}</legend>
+                    <p class="print__intro">{{ 'product.print_intro' | t }}</p>
+                    <div class="field">
+                      <label class="field__label" for="PrintFile-{{ section.id }}">{{ 'product.print_upload' | t }}</label>
+                      <label class="print__drop" for="PrintFile-{{ section.id }}">
+                        {%- render 'icon', icon: 'upload' -%}
+                        <span data-file-name>{{ 'product.print_upload' | t }}</span>
+                      </label>
+                      <input class="print__file" type="file" id="PrintFile-{{ section.id }}" name="properties[Logo]" form="{{ product_form_id }}" accept=".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg" data-max-mb="20" aria-describedby="PrintHelp-{{ section.id }}">
+                      <p class="field__help" id="PrintHelp-{{ section.id }}">{{ 'product.print_upload_help' | t }}</p>
+                      <p class="field__error" data-print-error hidden></p>
+                    </div>
+                    <label class="check print__later">
+                      <input type="checkbox" name="properties[Logo later aanleveren]" value="Ja" form="{{ product_form_id }}" data-print-later>
+                      <span>{{ 'product.print_later' | t }}</span>
+                    </label>
+                    {%- if druk.posities and druk.posities.size > 0 -%}
+                      <div class="field">
+                        <label class="field__label" for="PrintPos-{{ section.id }}">{{ 'product.print_position' | t }}</label>
+                        <select class="select" id="PrintPos-{{ section.id }}" name="properties[Drukpositie]" form="{{ product_form_id }}">
+                          {%- for pos in druk.posities -%}<option value="{{ pos | escape }}">{{ pos }}</option>{%- endfor -%}
+                        </select>
+                      </div>
+                    {%- endif -%}
+                    <div class="field">
+                      <label class="field__label" for="PrintNote-{{ section.id }}">{{ 'product.print_remark' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+                      <textarea class="textarea" id="PrintNote-{{ section.id }}" name="properties[Opmerking bedrukking]" form="{{ product_form_id }}" rows="2"></textarea>
+                    </div>
+                    <dl class="print__specs">
+                      {%- if druk.aanlevering -%}<div><dt>{{ 'product.print_specs' | t }}</dt><dd>{{ druk.aanlevering }}</dd></div>{%- endif -%}
+                      {%- if druk.levertijd -%}<div><dt>{{ 'product.print_lead_time' | t }}</dt><dd>{{ druk.levertijd }}</dd></div>{%- endif -%}
+                      {%- if druk.min_aantal > 1 -%}<div><dt>{{ 'product.staffel_qty' | t }}</dt><dd>{{ 'product.print_min' | t: count: druk.min_aantal }}</dd></div>{%- endif -%}
+                    </dl>
+                    <p class="notice notice--warn">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>
+                  </fieldset>
+                {%- endif -%}
+
+              {%- when 'addons' -%}
+                {%- assign addons = product.metafields.custom.addons.value -%}
+                {%- if addons != blank and addons.size > 0 -%}
+                  <fieldset class="addons" {{ block.shopify_attributes }}>
+                    <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
+                    <p class="addons__help text-sm muted">{{ 'product.addons_help' | t }}</p>
+                    <ul class="addons__list" role="list">
+                      {%- for addon in addons -%}
+                        {%- if addon.available == false -%}{%- continue -%}{%- endif -%}
+                        {%- assign av = addon.selected_or_first_available_variant -%}
+                        <li>
+                          <label class="addon" for="Addon-{{ section.id }}-{{ forloop.index }}">
+                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-title="{{ addon.title | escape }}">
+                            <span class="addon__media">{%- if addon.featured_media -%}{{ addon.featured_media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px' }}{%- endif -%}</span>
+                            <span class="addon__text">
+                              <span class="addon__title">{{ addon.title }}</span>
+                              {%- if addon.metafields.custom.kenmerk_kort != blank -%}<span class="addon__spec">{{ addon.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
+                            </span>
+                            <span class="addon__price">+&nbsp;<span data-vat-show="incl">{{ av.price | money }}</span><span data-vat-show="excl">{{ av.price | times: 100.0 | divided_by: vat_factor | round | money }}</span></span>
+                          </label>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </fieldset>
+                {%- endif -%}
+
+              {%- when 'buy_buttons' -%}
+                <product-form class="buy" data-form-id="{{ product_form_id }}" {{ block.shopify_attributes }}>
+                  {%- form 'product', product, id: product_form_id, class: 'buy__form', novalidate: 'novalidate', data-product-form: 'main' -%}
+                    <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+                    <div class="buy__row" data-dynamic="buy">
+                      {%- assign qty_id = 'Quantity-' | append: section.id -%}
+                      {%- render 'quantity-input', id: qty_id, min: current_variant.quantity_rule.min, step: current_variant.quantity_rule.increment, max: current_variant.quantity_rule.max, value: current_variant.quantity_rule.min -%}
+                      {%- assign btn_total = current_variant.price | money -%}
+                      {%- assign is_preorder = false -%}
+                      {%- if current_variant.available and current_variant.inventory_management != blank and current_variant.inventory_quantity <= 0 -%}{%- assign is_preorder = true -%}{%- endif -%}
+                      <button type="submit" name="add" class="btn btn--block buy__add" data-add-button data-price="{{ current_variant.price }}" data-preorder="{{ is_preorder }}"{% unless current_variant.available %} disabled{% endunless %}>
+                        {%- render 'icon', icon: 'cart', class: 'icon--sm' -%}
+                        <span data-add-label>
+                          {%- if current_variant.available == false -%}
+                            {{ 'product.sold_out' | t }}
+                          {%- elsif current_variant.inventory_management != blank and current_variant.inventory_quantity <= 0 -%}
+                            {{ 'product.pre_order' | t }}
+                          {%- else -%}
+                            {{ 'product.add_to_cart' | t }}
+                          {%- endif -%}
+                        </span>
+                      </button>
+                    </div>
+                    {%- if block.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+                    <p class="notice notice--error buy__error" role="alert" data-form-error hidden></p>
+                  {%- endform -%}
+                </product-form>
+
+              {%- when 'delivery' -%}
+                <div class="product__delivery" data-dynamic="delivery" {{ block.shopify_attributes }}>
+                  {%- render 'delivery-promise', product: product, variant: current_variant, style: 'full' -%}
+                </div>
+
+              {%- when 'usps' -%}
+                {%- assign usps = product.metafields.custom.usps.value -%}
+                {%- assign past_op = product.metafields.custom.past_op.value -%}
+                {%- if usps != blank or block.settings.fallback != blank or past_op != blank -%}
+                  <div class="product__usps" {{ block.shopify_attributes }}>
+                    <ul class="checklist" role="list">
+                      {%- if usps != blank -%}
+                        {%- for u in usps -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>{%- endfor -%}
+                      {%- else -%}
+                        {%- assign fb = block.settings.fallback | newline_to_br | split: '<br />' -%}
+                        {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
+                      {%- endif -%}
+                      {%- if product.metafields.custom.garantie != blank -%}<li>{%- render 'icon', icon: 'shield' -%}<span>{{ product.metafields.custom.garantie.value }}</span></li>{%- endif -%}
+                    </ul>
+                    {%- if past_op != blank -%}
+                      <p class="product__fits text-sm"><strong>{{ 'product.compatible' | t }}:</strong>{% for p in past_op %} <a class="link" href="{{ p.url }}">{{ p.title }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}</p>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+              {%- when 'b2b' -%}
+                <div class="product__b2b" {{ block.shopify_attributes }}>
+                  {%- render 'icon', icon: 'case' -%}
+                  <p>
+                    {%- if settings.b2b_nudge_text contains '?' -%}
+                      <strong>{{ settings.b2b_nudge_text | split: '?' | first }}?</strong> {{ settings.b2b_nudge_text | split: '?' | last | strip }}
+                    {%- else -%}
+                      {{ settings.b2b_nudge_text }}
+                    {%- endif %}
+                    <a class="link" href="{{ quote_url }}?product={{ product.handle }}&variant={{ current_variant.id }}">{{ settings.b2b_cta_label }}</a>
+                  </p>
+                </div>
+
+              {%- when 'text' -%}
+                <div class="product__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+              {%- when 'collapsible_tab' -%}
+                {%- capture tab_body -%}
+                  {%- case block.settings.source -%}
+                    {%- when 'description' -%}
+                      {%- if product.description != blank -%}<div class="rte">{{ product.description }}</div>{%- endif -%}
+                    {%- when 'specs' -%}
+                      {%- assign specs = product.metafields.custom.specificaties.value -%}
+                      {%- if specs != blank and specs.size > 0 -%}
+                        {%- assign groups = specs | map: 'groep' | uniq -%}
+                        <div class="specs">
+                          {%- for g in groups -%}
+                            <table class="specs__table">
+                              {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
+                              <tbody>
+                                {%- for row in specs -%}
+                                  {%- if row.groep == g and row.waarde != blank -%}<tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde }}</td></tr>{%- endif -%}
+                                {%- endfor -%}
+                              </tbody>
+                            </table>
+                          {%- endfor -%}
+                          {%- if current_variant.sku != blank or product.metafields.custom.verpakt != blank or product.metafields.custom.gewicht_kg != blank -%}
+                            <table class="specs__table">
+                              <tbody>
+                                {%- if product.metafields.custom.gewicht_kg != blank -%}<tr><th scope="row">Gewicht</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' }} kg</td></tr>{%- endif -%}
+                                {%- if product.metafields.custom.verpakt != blank -%}<tr><th scope="row">Verpakt</th><td>{{ product.metafields.custom.verpakt.value }}</td></tr>{%- endif -%}
+                                {%- if current_variant.sku != blank -%}<tr><th scope="row">{{ 'product.sku' | t }}</th><td data-dynamic="sku">{{ current_variant.sku }}</td></tr>{%- endif -%}
+                              </tbody>
+                            </table>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    {%- when 'delivery' -%}
+                      <div class="rte">{{ 'product.delivery_returns_html' | t: days: settings.return_days }}</div>
+                      {%- if settings.shipping_page != blank -%}<p><a class="link" href="{{ settings.shipping_page }}">{{ 'delivery.label' | t }}</a></p>{%- endif -%}
+                    {%- when 'downloads' -%}
+                      {%- assign files = product.metafields.custom.downloads.value -%}
+                      {%- if files != blank and files.size > 0 -%}
+                        <ul class="downloads" role="list">
+                          {%- for f in files -%}
+                            {%- assign f_url = f.url | default: f -%}
+                            {%- assign f_name = f.alt | default: f_url | split: '/' | last | split: '?' | first -%}
+                            <li><a class="downloads__link" href="{{ f_url }}" target="_blank" rel="noopener" download>{%- render 'icon', icon: 'download', class: 'icon--sm' -%}<span>{{ f_name }}</span></a></li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    {%- when 'faq' -%}
+                      {%- assign faq = product.metafields.custom.faq.value -%}
+                      {%- if faq != blank and faq.size > 0 -%}
+                        <dl class="pdp-faq">
+                          {%- for item in faq -%}<dt>{{ item.vraag }}</dt><dd>{{ item.antwoord }}</dd>{%- endfor -%}
+                        </dl>
+                      {%- endif -%}
+                    {%- when 'safety' -%}
+                      <p>{{ 'product.safety_note' | t }}</p>
+                    {%- when 'custom' -%}
+                      {%- if block.settings.content != blank -%}<div class="rte">{{ block.settings.content }}</div>{%- endif -%}
+                      {%- if block.settings.page != blank -%}<div class="rte">{{ block.settings.page.content }}</div>{%- endif -%}
+                  {%- endcase -%}
+                {%- endcapture -%}
+                {%- if tab_body != blank -%}
+                  <details class="accordion product__tab" id="{{ block.settings.heading | handleize }}" {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+                    <summary><span>{{ block.settings.heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
+                    <div class="accordion__body">{{ tab_body }}</div>
+                  </details>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.sticky_bar -%}
+    <div class="sticky-buy" data-sticky-buy aria-hidden="true">
+      <div class="page-width sticky-buy__inner">
+        <div class="sticky-buy__info">
+          <span class="sticky-buy__title">{{ product.title }}</span>
+          <span class="sticky-buy__variant" data-dynamic="sticky-variant">{% unless product.has_only_default_variant %}{{ current_variant.title }}{% endunless %}</span>
+        </div>
+        <div class="sticky-buy__price" data-dynamic="sticky-price">{%- render 'price', product: product, variant: current_variant -%}</div>
+        <button type="submit" form="{{ product_form_id }}" class="btn sticky-buy__btn" tabindex="-1" data-sticky-add{% unless current_variant.available %} disabled{% endunless %}>{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span>{{ 'product.sticky_buy' | t }}</span></button>
+      </div>
+    </div>
+  {%- endif -%}
+</product-info>
+
+{% schema %}
+{
+  "name": "Productinformatie",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Kruimelpad tonen", "default": true },
+    { "type": "checkbox", "id": "sticky_bar", "label": "Vaste koopbalk op mobiel", "default": true }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Titel en spec-regel", "limit": 1, "settings": [] },
+    { "type": "price", "name": "Prijs", "limit": 1, "settings": [] },
+    { "type": "variant_picker", "name": "Varianten", "limit": 1, "settings": [
+      { "type": "page", "id": "size_guide_page", "label": "Maatgids-pagina" }
+    ] },
+    { "type": "staffel", "name": "Staffelkorting", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest product.metafields.custom.staffelkorting. De echte korting stel je in als automatische korting." } ] },
+    { "type": "bedrukken", "name": "Bedrukken (logo-upload)", "limit": 1, "settings": [ { "type": "paragraph", "content": "Alleen zichtbaar bij custom.bedrukbaar = waar of tag 'bedrukbaar'." } ] },
+    { "type": "addons", "name": "Handig erbij (add-ons)", "limit": 1, "settings": [ { "type": "text", "id": "heading", "label": "Kop", "default": "Handig erbij" } ] },
+    { "type": "buy_buttons", "name": "Koopknop", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false }
+    ] },
+    { "type": "delivery", "name": "Voorraad en levering", "limit": 1, "settings": [] },
+    { "type": "usps", "name": "USP's", "limit": 1, "settings": [
+      { "type": "textarea", "id": "fallback", "label": "Standaard-USP's (als custom.usps leeg is)", "default": "Snel in huis in NL & BE\nVeilig betalen met iDEAL of Bancontact" }
+    ] },
+    { "type": "b2b", "name": "Zakelijk / offerte", "limit": 1, "settings": [] },
+    { "type": "text", "name": "Tekst", "settings": [ { "type": "richtext", "id": "text", "label": "Tekst" } ] },
+    { "type": "collapsible_tab", "name": "Uitklapblok", "settings": [
+      { "type": "text", "id": "heading", "label": "Kop", "default": "Beschrijving" },
+      { "type": "select", "id": "source", "label": "Inhoud", "options": [
+        { "value": "description", "label": "Productbeschrijving" }, { "value": "specs", "label": "Specificaties (custom.specificaties)" },
+        { "value": "delivery", "label": "Levering & retour" }, { "value": "downloads", "label": "Downloads (custom.downloads)" },
+        { "value": "faq", "label": "Veelgestelde vragen (custom.faq)" }, { "value": "safety", "label": "Veilig opzetten" }, { "value": "custom", "label": "Eigen tekst of pagina" } ], "default": "description" },
+      { "type": "richtext", "id": "content", "label": "Eigen tekst" },
+      { "type": "page", "id": "page", "label": "Pagina" },
+      { "type": "checkbox", "id": "open", "label": "Standaard open", "default": false }
+    ] }
+  ]
+}
+{% endschema %}

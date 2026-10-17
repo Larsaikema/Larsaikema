@@ -1,0 +1,67 @@
+{%- comment -%}
+  Stock + delivery promise (features global.dispatch-line, home.dispatch-on-cards, global.availability-states).
+  All claims come from theme settings (cutoff_time, shipping_days, holidays, transit days, texts) or the
+  product metafields custom.levertijd / custom.verzending; assets/delivery-countdown.js turns them into a
+  concrete date + countdown in Europe/Amsterdam time. Params:
+  - product (required), variant (optional), style: 'full' (PDP) | 'short' (cards)
+{%- endcomment -%}
+{%- liquid
+  assign dv = variant | default: product.selected_or_first_available_variant
+  assign dp_leadtime = product.metafields.custom.levertijd.value
+  assign dp_ship = product.metafields.custom.verzending.value | default: 'pakket' | downcase
+  if product.tags contains 'pallet'
+    assign dp_ship = 'pallet'
+  endif
+  if dp_ship == 'pallet'
+    assign dp_transit = settings.transit_days_pallet
+  else
+    assign dp_transit = settings.transit_days_pakket
+  endif
+  if dv.available == false or dv == blank
+    assign dp_state = 'out'
+  elsif dv.inventory_management != blank and dv.inventory_quantity <= 0
+    assign dp_state = 'backorder'
+  elsif dp_leadtime != blank
+    assign dp_state = 'leadtime'
+  else
+    assign dp_state = 'stock'
+  endif
+  assign dp_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
+-%}
+{%- capture dp_attrs -%}data-delivery data-state="{{ dp_state }}" data-ship="{{ dp_ship }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ dp_holidays | escape }}" data-transit="{{ dp_transit }}"{%- endcapture -%}
+{%- if style == 'short' -%}
+  <p class="stock{% if dp_state == 'backorder' or dp_state == 'leadtime' %} stock--later{% elsif dp_state == 'out' %} stock--out{% endif %}" {{ dp_attrs }}>
+    {%- case dp_state -%}
+      {%- when 'out' -%}{{ 'product.stock_out' | t }}
+      {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
+      {%- when 'leadtime' -%}{{ dp_leadtime }}
+      {%- else -%}<span>{{ 'product.stock_in' | t }}</span><span class="stock__extra" data-delivery-short></span>
+    {%- endcase -%}
+  </p>
+{%- else -%}
+  <div class="delivery" {{ dp_attrs }}>
+    <p class="stock{% if dp_state == 'backorder' or dp_state == 'leadtime' %} stock--later{% elsif dp_state == 'out' %} stock--out{% endif %}">
+      {%- case dp_state -%}
+        {%- when 'out' -%}{{ 'product.stock_out' | t }}
+        {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
+        {%- when 'leadtime' -%}{{ dp_leadtime }}
+        {%- else -%}
+          {%- if dv.inventory_management != blank and dv.inventory_quantity <= 5 -%}
+            {{ 'product.stock_low' | t: count: dv.inventory_quantity }}
+          {%- else -%}
+            {{ 'product.stock_in' | t }}
+          {%- endif -%}
+      {%- endcase -%}
+    </p>
+    {%- if dp_state == 'stock' -%}
+      <ul class="delivery__lines">
+        {%- if dp_ship == 'pallet' -%}
+          <li>{% render 'icon', icon: 'pallet', class: 'icon--sm' %}<span>{{ settings.delivery_text_pallet }}</span></li>
+        {%- else -%}
+          <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket }}</span></li>
+        {%- endif -%}
+        <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta></span></li>
+      </ul>
+    {%- endif -%}
+  </div>
+{%- endif -%}

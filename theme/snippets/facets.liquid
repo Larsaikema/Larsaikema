@@ -1,0 +1,66 @@
+{%- comment -%}
+  Storefront filters (collection.filters / search.filters): list + swatch + price_range + boolean.
+  Params: results (collection or search), section_id, open_count, terms (search only) (number of groups open on desktop)
+{%- endcomment -%}
+{%- assign form_id = 'FacetsForm-' | append: section_id -%}
+{%- assign swatch_names = settings.swatch_option_names | downcase | split: ',' -%}
+<form id="{{ form_id }}" class="facets" action="{{ request.path }}" method="get" data-facets-form>
+  {%- if terms != blank -%}
+    <input type="hidden" name="q" value="{{ terms | escape }}">
+    <input type="hidden" name="options[prefix]" value="last">
+  {%- endif -%}
+  {%- for filter in results.filters -%}
+    {%- assign active_count = filter.active_values.size -%}
+    {%- if filter.type == 'price_range' and filter.min_value.value != nil or filter.type == 'price_range' and filter.max_value.value != nil -%}{%- assign active_count = 1 -%}{%- endif -%}
+    <details class="facet" data-param="{{ filter.param_name | escape }}"{% if forloop.index <= open_count or active_count > 0 %} open{% endif %}>
+      <summary class="facet__summary">
+        <span>{{ filter.label }}{% if active_count > 0 and filter.type != 'price_range' %} <span class="facet__badge">{{ active_count }}</span>{% endif %}</span>
+        {%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}
+      </summary>
+      <div class="facet__body">
+        {%- case filter.type -%}
+          {%- when 'list', 'boolean' -%}
+            {%- assign is_swatch = false -%}
+            {%- if filter.presentation == 'swatch' -%}{%- assign is_swatch = true -%}{%- endif -%}
+            {%- assign f_label = filter.label | downcase | strip -%}
+            {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == f_label -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
+            <ul class="facet__list{% if is_swatch %} facet__list--swatch{% endif %}" role="list">
+              {%- for value in filter.values -%}
+                {%- assign input_id = 'Filter-' | append: section_id | append: '-' | append: filter.param_name | handleize | append: '-' | append: forloop.index -%}
+                {%- assign disabled = false -%}
+                {%- if value.count == 0 and value.active == false -%}{%- assign disabled = true -%}{%- endif -%}
+                <li class="facet__item{% if forloop.index > 8 %} facet__item--more{% endif %}">
+                  <label class="check facet__value{% if disabled %} is-disabled{% endif %}" for="{{ input_id }}">
+                    <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if disabled %} disabled{% endif %}>
+                    {%- if is_swatch -%}{%- render 'swatch', value: value, class: 'swatch--sm facet__swatch' -%}{%- endif -%}
+                    <span class="facet__label">{{ value.label }}</span>
+                    <span class="facet__count">{{ value.count }}</span>
+                  </label>
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- if filter.values.size > 8 -%}
+              <button type="button" class="link facet__more" data-facet-more>{{ 'general.view_all' | t }} ({{ filter.values.size }})</button>
+            {%- endif -%}
+          {%- when 'price_range' -%}
+            {%- liquid
+              assign max_price = filter.range_max | divided_by: 100.0 | ceil
+              assign min_val = filter.min_value.value | divided_by: 100.0
+              assign max_val = filter.max_value.value | divided_by: 100.0
+            -%}
+            <div class="facet__price">
+              <div class="field">
+                <label class="field__label" for="PriceMin-{{ section_id }}">{{ 'collection.price_from' | t }}</label>
+                <div class="facet__price-input"><span aria-hidden="true">€</span><input class="input" type="number" inputmode="decimal" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="0"{% if filter.min_value.value != nil %} value="{{ min_val | round }}"{% endif %}></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="PriceMax-{{ section_id }}">{{ 'collection.price_to' | t }}</label>
+                <div class="facet__price-input"><span aria-hidden="true">€</span><input class="input" type="number" inputmode="decimal" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="{{ max_price }}"{% if filter.max_value.value != nil %} value="{{ max_val | round }}"{% endif %}></div>
+              </div>
+            </div>
+        {%- endcase -%}
+      </div>
+    </details>
+  {%- endfor -%}
+  <noscript><button type="submit" class="btn btn--sm">{{ 'collection.apply' | t }}</button></noscript>
+</form>

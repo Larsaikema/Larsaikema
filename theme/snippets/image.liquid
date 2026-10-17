@@ -1,0 +1,21 @@
+{%- comment -%}
+  Responsive image. Params:
+  - image (image object, required)
+  - sizes (string), widths (string), class, alt
+  - priority (bool): eager + fetchpriority high (LCP image); otherwise lazy
+  - ratio (string, e.g. '1/1'): sets width/height to that ratio for layout stability
+{%- endcomment -%}
+{%- liquid
+  assign img_widths = widths | default: '240, 360, 480, 640, 800, 960, 1200, 1500, 1800, 2000'
+  assign img_sizes = sizes | default: '100vw'
+  assign img_alt = alt | default: image.alt | default: ''
+  if priority
+    assign img_loading = 'eager'
+    assign img_priority = 'high'
+  else
+    assign img_loading = 'lazy'
+    assign img_priority = 'auto'
+  endif
+  assign max_w = image.width | default: 2000 | at_most: 2400
+-%}
+{{- image | image_url: width: max_w | image_tag: widths: img_widths, sizes: img_sizes, loading: img_loading, fetchpriority: img_priority, class: class, alt: img_alt, decoding: 'async' -}}

@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": { "narrow": true } },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "g1": { "type": "group", "settings": { "title": "Bestellen en betalen" } },
+        "q1": { "type": "question", "settings": { "question": "Hoe kan ik betalen?", "answer": "<p>Je ziet de beschikbare betaalmethoden bij het afrekenen. Zakelijke klanten kunnen na goedkeuring op factuur bestellen.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Kan ik een offerte krijgen?", "answer": "<p>Ja. Vul het offerteformulier in, dan krijg je een offerte op maat.</p>" } },
+        "g2": { "type": "group", "settings": { "title": "Levering" } },
+        "q3": { "type": "question", "settings": { "question": "Wanneer heb ik mijn bestelling?", "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Grote tenten leveren we per pallet, op afspraak.</p>" } },
+        "q4": { "type": "question", "settings": { "question": "Leveren jullie ook in België?", "answer": "<p>Ja, we leveren in Nederland en België.</p>" } },
+        "g3": { "type": "group", "settings": { "title": "Producten" } },
+        "q5": { "type": "question", "settings": { "question": "Welke statafelrok past op mijn tafel?", "answer": "<p>Meet het blad van rand tot rand en de hoogte. Kijk dan in ons maatadvies voor statafelrokken.</p>" } },
+        "q6": { "type": "question", "settings": { "question": "Hoe zet ik een partytent goed vast?", "answer": "<p>Zet elke poot vast met een haring of een voetgewicht. Bij harde wind haal je het dak eraf.</p>" } }
+      },
+      "block_order": ["g1", "q1", "q2", "g2", "q3", "q4", "g3", "q5", "q6"],
+      "settings": { "heading": "Alle vragen op een rij", "layout": "stacked", "show_contact": true }
+    }
+  },
+  "order": ["main", "faq"]
+}

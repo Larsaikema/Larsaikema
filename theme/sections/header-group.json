@@ -1,0 +1,49 @@
+{
+  "type": "header",
+  "name": "Header-groep",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "usp-levering": { "type": "usp", "settings": { "icon": "truck", "text": "Snel in huis in NL & BE", "link": "shopify://pages/verzenden-en-bezorgen" } },
+        "countdown": { "type": "countdown", "settings": { "text": "Op werkdagen vóór 14:00 besteld, vandaag verzonden" } },
+        "usp-factuur": { "type": "usp", "settings": { "icon": "invoice", "text": "Zakelijk bestellen op factuur", "link": "shopify://pages/zakelijk" } },
+        "usp-logo": { "type": "usp", "settings": { "icon": "proof", "text": "Eigen logo? Eerst een drukproef", "link": "shopify://pages/bedrukken" } }
+      },
+      "block_order": ["usp-levering", "countdown", "usp-factuur", "usp-logo"],
+      "settings": { "color_scheme": "scheme-5", "menu": "", "show_phone": true, "interval": 5 }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "promo-partytenten": {
+          "type": "promo",
+          "settings": {
+            "menu_item": "Partytenten",
+            "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp",
+            "eyebrow": "Met jouw logo",
+            "heading": "Je eigen tent, met drukproef vooraf",
+            "text": "Luifel of dak bedrukt. Eerst je akkoord, dan drukken we.",
+            "link": "shopify://pages/bedrukken",
+            "link_label": "Zo werkt bedrukken"
+          }
+        },
+        "promo-statafels": {
+          "type": "promo",
+          "settings": {
+            "menu_item": "Statafels",
+            "image": "shopify://shop_images/statafelrok-stretch-zwart-print-hero.webp",
+            "eyebrow": "Voor bedrijven",
+            "heading": "Statafelrokken met je logo",
+            "text": "Stretch rok, logo op het voorpaneel. Vanaf 10 stuks staffelprijs.",
+            "link": "shopify://collections/bedrukte-statafelhoezen",
+            "link_label": "Bekijk de rokken"
+          }
+        }
+      },
+      "block_order": ["promo-partytenten", "promo-statafels"],
+      "settings": { "color_scheme": "scheme-2", "menu": "main-menu", "sticky": "always", "show_quote": true, "show_contact": true }
+    }
+  },
+  "order": ["announcement", "header"]
+}

@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "variant_picker": { "type": "variant_picker", "settings": { "size_guide_page": "maatadvies-statafelrokken" } },
+        "staffel": { "type": "staffel", "settings": {} },
+        "bedrukken": { "type": "bedrukken", "settings": {} },
+        "addons": { "type": "addons", "settings": {} },
+        "buy_buttons": { "type": "buy_buttons", "settings": {} },
+        "delivery": { "type": "delivery", "settings": {} },
+        "usps": { "type": "usps", "settings": {} },
+        "b2b": { "type": "b2b", "settings": {} },
+        "tab_description": { "type": "collapsible_tab", "settings": { "source": "description", "heading": "Beschrijving", "open": true } },
+        "tab_specs": { "type": "collapsible_tab", "settings": { "source": "specs", "heading": "Specificaties" } },
+        "tab_delivery": { "type": "collapsible_tab", "settings": { "source": "delivery", "heading": "Levering & retour" } },
+        "tab_downloads": { "type": "collapsible_tab", "settings": { "source": "downloads", "heading": "Downloads" } },
+        "tab_faq": { "type": "collapsible_tab", "settings": { "source": "faq", "heading": "Veelgestelde vragen" } }
+      },
+      "block_order": ["title", "price", "variant_picker", "staffel", "bedrukken", "addons", "buy_buttons", "delivery", "usps", "b2b", "tab_description", "tab_specs", "tab_delivery", "tab_downloads", "tab_faq"],
+      "settings": { "sticky_bar": true, "show_breadcrumbs": true }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": { "heading": "Vaak samen bekeken", "intent": "related", "limit": 4 }
+    }
+  },
+  "order": ["main", "recommendations"]
+}

@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "chip-1": { "type": "chip", "settings": { "icon": "truck", "text": "Snel in huis in NL & BE" } },
+        "chip-2": { "type": "chip", "settings": { "icon": "invoice", "text": "Zakelijk op factuur" } },
+        "chip-3": { "type": "chip", "settings": { "icon": "proof", "text": "Drukproef vooraf" } }
+      },
+      "block_order": ["chip-1", "chip-2", "chip-3"],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "layout": "image-right",
+        "image": "shopify://shop_images/scene-hero.webp",
+        "eyebrow": "Partytenten · Statafels · Met jouw logo",
+        "heading": "Uitklappen. Neerzetten. Feest.",
+        "text": "<p>Easy-up tenten, statafels met rokken, verlichting en meubilair. Voor je tuinfeest, je club of je evenement.</p>",
+        "button_1_label": "Bekijk partytenten",
+        "button_1_link": "shopify://collections/partytenten",
+        "button_2_label": "Naar statafels",
+        "button_2_link": "shopify://collections/statafels",
+        "subline": "<p>Voor bedrijf, club of verhuur? <a href=\"/pages/offerte\">Vraag een offerte op maat aan.</a></p>",
+        "product": "partytent-easy-up-premium",
+        "product_label": "Easy-up partytent Premium"
+      }
+    },
+    "categories": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": { "type": "collection", "settings": { "collection": "easy-up-partytenten", "benefit": "Staat in een paar minuten, met twee man" } },
+        "c2": { "type": "collection", "settings": { "collection": "statafels", "benefit": "Klapt plat, past in elke auto" } },
+        "c3": { "type": "collection", "settings": { "collection": "statafelrokken", "title": "Rokken & hoezen", "benefit": "Strak zonder strijken, in elke kleur" } },
+        "c4": { "type": "collection", "settings": { "collection": "bedrukte-partytenten", "title": "Met jouw logo", "benefit": "Eerst een drukproef, dan drukken we" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": { "heading": "Waar ben je naar op zoek?", "text": "", "link_label": "Alle categorieën", "columns": 4, "style": "card" }
+    },
+    "featured-tents": {
+      "type": "featured-collection",
+      "settings": { "eyebrow": "Partytenten", "heading": "Easy-up partytenten", "text": "Van 3 × 3 tot 4 × 4 m. Staal of aluminium, met zijwanden los erbij.", "collection": "easy-up-partytenten", "limit": 4, "columns": 4, "link_label": "Alle partytenten" }
+    },
+    "usps": {
+      "type": "usp-strip",
+      "blocks": {
+        "u1": { "type": "usp", "settings": { "icon": "truck", "title": "Vóór 14:00 besteld, vandaag verzonden", "text": "Op werkdagen, uit voorraad", "link": "shopify://pages/verzenden-en-bezorgen" } },
+        "u2": { "type": "usp", "settings": { "icon": "invoice", "title": "Zakelijk op factuur", "text": "Prijzen ook excl. btw", "link": "shopify://pages/zakelijk" } },
+        "u3": { "type": "usp", "settings": { "icon": "proof", "title": "Eerst een drukproef", "text": "Bij elk product met logo", "link": "shopify://pages/bedrukken" } },
+        "u4": { "type": "usp", "settings": { "icon": "chat", "title": "Bel of app ons", "text": "Advies van mensen die het opzetten", "link": "shopify://pages/contact" } }
+      },
+      "block_order": ["u1", "u2", "u3", "u4"],
+      "settings": { "color_scheme": "scheme-1", "label": "Waarom Klapklaar" }
+    },
+    "logo": {
+      "type": "image-with-text",
+      "blocks": {
+        "e": { "type": "eyebrow", "settings": { "text": "Met jouw logo" } },
+        "h": { "type": "heading", "settings": { "heading": "Je naam op de luifel. Eerst zien, dan drukken." } },
+        "t": { "type": "text", "settings": { "text": "<p>Voor je club, je zaak of je evenement: we drukken je logo op de luifel van een easy-up of op het voorpaneel van een statafelrok.</p>" } },
+        "s": { "type": "steps", "settings": { "step_1": "Kies je product en upload je logo", "step_2": "Je krijgt een drukproef ter akkoord", "step_3": "Na je akkoord drukken en leveren we" } },
+        "b": { "type": "buttons", "settings": { "label_1": "Ontwerp je tent", "link_1": "shopify://products/partytent-met-logo", "label_2": "Zo werkt bedrukken", "link_2": "shopify://pages/bedrukken" } }
+      },
+      "block_order": ["e", "h", "t", "s", "b"],
+      "settings": { "color_scheme": "scheme-2", "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp", "badge": "Voorbeeldopdruk", "layout": "image-left" }
+    },
+    "featured-rokken": {
+      "type": "featured-collection",
+      "settings": { "eyebrow": "Statafels", "heading": "Statafels en rokken", "text": "Statafel Ø 80 cm met stretch rok of hoes met strik. Vanaf 10 stuks staffelprijs.", "collection": "statafelrokken", "limit": 4, "columns": 4, "link_label": "Alle rokken en hoezen" }
+    },
+    "zakelijk": {
+      "type": "b2b-banner",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "icon": "euro", "title": "Prijzen excl. btw", "text": "Schakel bovenin om naar Zakelijk" } },
+        "b2": { "type": "benefit", "settings": { "icon": "invoice", "title": "Staffelkorting vanaf 10 stuks", "text": "Zie de staffel op elke productpagina" } },
+        "b3": { "type": "benefit", "settings": { "icon": "proof", "title": "Offerte op maat", "text": "Voor grote aantallen, bedrukking en levering op locatie" } }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": { "color_scheme": "scheme-4" }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Wanneer heb ik mijn bestelling?", "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Die rekent met onze besteltijd en verzenddagen. Grote tenten gaan per pallet en leveren we op afspraak.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Welke maat partytent heb ik nodig?", "answer": "<p>Een 3 × 3 m tent biedt plek aan ongeveer 8 staande gasten. Met 3 × 6 m heb je ruimte voor een buffet en een paar statafels.</p>" } },
+        "q3": { "type": "question", "settings": { "question": "Kan ik zakelijk bestellen op factuur?", "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Vraag een offerte aan of neem contact op, dan regelen we het.</p>" } },
+        "q4": { "type": "question", "settings": { "question": "Hoe werkt bedrukken met mijn logo?", "answer": "<p>Je uploadt je logo bij het product. Wij sturen een drukproef en pas na jouw akkoord drukken we. De levertijd gaat in na je akkoord.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
+      "settings": { "heading": "Veelgestelde vragen", "layout": "side" }
+    },
+    "blog": {
+      "type": "blog-posts",
+      "settings": { "heading": "Advies & inspiratie", "blog": "advies", "limit": 3, "link_label": "Alle artikelen" }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": { "color_scheme": "scheme-3", "show_flags": true }
+    }
+  },
+  "order": ["hero", "usps", "categories", "featured-tents", "logo", "featured-rokken", "zakelijk", "faq", "blog", "newsletter"]
+}

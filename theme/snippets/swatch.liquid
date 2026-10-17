@@ -1,0 +1,27 @@
+{%- comment -%}
+  Colour swatch for an option value. Uses value.swatch (Shopify option-value swatch) when present, otherwise
+  looks the name up in settings.swatch_colors ('Naam: #hex' per line). Params:
+  - value (option value drop or plain string, required)
+  - mode: 'css' outputs only the CSS custom property (--swatch:...), anything else outputs a <span>
+  - class (string)
+{%- endcomment -%}
+{%- liquid
+  assign sw_css = ''
+  if value.swatch.image
+    assign sw_css = value.swatch.image | image_url: width: 72 | prepend: '--swatch:url(' | append: ')'
+  elsif value.swatch.color
+    assign sw_css = value.swatch.color | prepend: '--swatch:'
+  else
+    assign sw_name = value.label | default: value.name | default: value | append: '' | strip | downcase
+    assign sw_lines = settings.swatch_colors | newline_to_br | split: '<br />'
+    for line in sw_lines
+      assign sw_parts = line | split: ':'
+      assign sw_key = sw_parts.first | strip | downcase
+      if sw_key == sw_name
+        assign sw_css = sw_parts.last | strip | prepend: '--swatch:'
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if mode == 'css' -%}{{ sw_css }}{%- else -%}<span class="swatch{% if class %} {{ class }}{% endif %}"{% if sw_css != '' %} style="{{ sw_css }}"{% endif %} title="{{ value | escape }}"></span>{%- endif -%}

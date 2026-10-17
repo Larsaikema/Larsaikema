@@ -2,11 +2,11 @@
   "meta": {
     "generated": "2026-10-17",
     "purpose": "ASSORTMENT BAR - drives catalog/catalog.json. Our catalog must cover at least these categories, variant dimensions and accessory links, under our own product names.",
-    "sources": "WebSearch index snippets of outmate.nl and its sister sites (snapshots 1 month to 2+ years old). WebFetch/curl blocked. Raw research: scratchpad research-raw.json.",
-    "statafelshop_status": "NO DATA. Both Statafelshop/market research agents hit the shared 200-search budget before running a single query, and three follow-up rounds on 2026-10-17 (4, 4 and 3 Statafelshop agents) were refused for the same reason before their first query (four attempts in total). Every Statafelshop item below is taken from gauntlet/BRIEF.md section 1 and is unconfirmed. Also unverified: that Outmate B.V. (KvK 76398021) runs statafelshop.nl (claim origin: BRIEF section 1 only), whether statafelshop.be exists, and the paths /statafels/, /statafelrokken/, /statafelhoezen/, /statafelkleden/, /actiepakketten/, /zakelijk/ (never checked; do not assume they exist).",
-    "price_rules": "eur_incl_btw = Outmate consumer price incl. 21% btw as seen in search snippets. kind: from = 'vanaf' price, fixed = single price, range = see note, approx = rounded. Use as calibration only; our prices are suggestions flagged in docs/claims-to-confirm.md.",
-    "naming_rule": "Do not reuse Outmate model/brand names (Starmate, AirMate Alpha/Beta/Theta/Hexon, Times Square, Tundra, Helsinki, Ibiza, Blomo, Supercombi, Skyshade, Wikinger, Mundo, Paxi, Louis, Hamburg, Naxos, X4trail, Foldtable). They are listed only to identify reference items.",
-    "followup_status": "2026-10-17 follow-up round: 8 agents (Statafelshop navigation/operator/statafels; covers; print/bundles/B2B; service/shipping/UX; Outmate buizenframe matrix; Outmate furniture/lighting prices; Outmate account/search/footer; Outmate policies and easy-up box contents) all got 'web search budget is used up' and ran no query. Nothing was re-verified. This merge only adds already-sourced Outmate details from scratchpad research-raw.json and marks the asked-for values unconfirmed. Outmate facts used as Statafelshop proxies stay labelled shop 'outmate'. Second 2026-10-17 follow-up round: 8 more agents (Statafelshop covers/textiles; statafels, actiepakketten and trolleys; print, B2B and statafelshop.be; operator, service, shipping and UX; Outmate buizenframe and opslagtent matrix; Outmate furniture, lighting and heating prices plus existence checks; Outmate policies; Outmate easy-up box contents plus account/search/footer UX) were refused the same way and ran no query. That merge adds only already-sourced easy-up spec values from research-raw.json, new existence checks for the rerun (cadeaubon, outlet/B-keuze, kerstverlichting URL, floors beyond lopers), the Ultimate slug spelling, and Statafelshop trolley gaps. Rerun lesson: run the Statafelshop queries as one agent, first and alone, in a turn with a fresh budget, so parallel agents cannot use up the shared 200-search limit. Third 2026-10-17 follow-up round: 8 agents (Statafelshop operator, navigation and policies; Statafelshop statafels, textiles and trolleys; Statafelshop print, B2B and statafelshop.be; Outmate buizenframe and opslagtent matrix; Outmate category census and existence checks; Outmate furniture, lighting, heating and afzetpaal prices; Outmate policies, payment and offerte page; Outmate storefront UX, account and easy-up box contents) were all refused by the shared 200-search budget at their first query, so no query ran (the fourth Statafelshop attempt with no data). That merge only: maps 13 already-sourced but unmapped category URLs from scratchpad raw_cats.txt (11 new subcategories, 74 -> 85, plus alias_urls; see census_2026_10_17); logs 16 never-run checks in existence_checks; adds partytenten-buizenframe.size_line_matrix as a consolidated view of already-sourced cells; records the refusal on the asked features; folds in already-sourced footer, payment-method, facet-pattern and Premium seam facts; sharpens the furniture, lighting and afzetpaal gaps; and corrects the attempt counts. No reference_prices were added and no Statafelshop entry was created. Before any rerun, the owner must start a new turn (fresh budget) or raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION.",
+    "sources": "WebSearch index snippets of outmate.nl and its sister sites (snapshots 1 month to 2+ years old). WebFetch/curl blocked. Raw research: scratchpad research-raw.json (first round) and scratchpad research-raw-2.json (round 4, 2026-10-17: 3 Statafelshop agents, 1 market-price agent, 1 Outmate gap agent; 125 WebSearch calls).",
+    "statafelshop_status": "DATA GATHERED in round 4 (2026-10-17): three Statafelshop agents ran 80 WebSearch calls with allowed_domains statafelshop.nl/.be (raw: scratchpad research-raw-2.json blocks 0-2). Answers are search-tool summaries of snippets up to about a year old, so prices are indicative and some summaries blend pages (conflicts are kept side by side). OPERATOR CORRECTION: no source ties Statafelshop to Outmate B.V.; its contact details name Deadan.com bv, KvK 62007211 (https://statafelshop.nl/bedrijfsgegevens, likely), phone +31 (0)40-4015010, info@statafelshop.nl, address Provincialeweg 30, 4909 AK Oosteind (https://www.statafelshop.nl/contact/, confirmed), with Wilhelminakanaal Zuid 140, 4903 RA Oosterhout under the orders heading and Veldweg 1, 5715 PP Lierop on the vacatures page. gauntlet/BRIEF.md section 1 ('Both reference shops are run by Outmate BV') is therefore unsupported for Statafelshop, and Outmate data must not be used as a Statafelshop proxy. Real paths are WooCommerce-style /product-categorie/<slug>/ and /product/<slug>/ (statafels, statafelhoezen, textiel, actiepakketten = /aanbiedingen, transportkarren, terrastafels, tafels, biertafelsets, onderdelen, diverse, barkrukken, stoelen), plus legacy short slugs (/strikrokken, /statafelrokken, /horeca-stoelen, /diversen ...) and an old shop at oud.statafelshop.nl; which scheme is live is unconfirmed. The earlier guessed paths /statafels/, /statafelrokken/, /statafelhoezen/, /statafelkleden/, /actiepakketten/ are not the observed ones (/zakelijk/ does exist). statafelshop.be exists as a BE mirror (likely, same operator per its FAQ). Statafelshop items now cite statafelshop URLs; what is still missing is listed per item in 'gaps' and in open_gaps.",
+    "price_rules": "eur_incl_btw = consumer price incl. 21% btw as seen in search snippets. Entries without a 'shop' key are Outmate prices. Entries with shop 'statafelshop' are Statafelshop prices; Statafelshop shows incl. and excl. btw side by side, so eur_excl_btw is given where the snippet had it (a computed value is marked 'computed' in the note). kind: from = 'vanaf' price, fixed = single price, range = see note, approx = rounded. Sale prices are stored as the current price with 'was' in the note. Use as calibration only; our prices are suggestions flagged in docs/claims-to-confirm.md. Market bands from other shops are in market_price_bands.",
+    "naming_rule": "Do not reuse Outmate model/brand names (Starmate, AirMate Alpha/Beta/Theta/Hexon, Times Square, Tundra, Helsinki, Ibiza, Blomo, Supercombi, Skyshade, Wikinger, Mundo, Paxi, Louis, Hamburg, Naxos, X4trail, Foldtable) or Statafelshop model names (New York, Savannah, Sacramento, Toronto, Oregon, Columbus, Colorado, Hudson, Missouri, Ohio, Yukon, Christiaan, Montana, Japura, Indus, Kansas, Purus, Angara, Amoer, Rotan, Donau, Moezel, Waal, Mississippi). They are listed only to identify reference items.",
+    "followup_status": "2026-10-17 follow-up round: 8 agents (Statafelshop navigation/operator/statafels; covers; print/bundles/B2B; service/shipping/UX; Outmate buizenframe matrix; Outmate furniture/lighting prices; Outmate account/search/footer; Outmate policies and easy-up box contents) all got 'web search budget is used up' and ran no query. Nothing was re-verified. This merge only adds already-sourced Outmate details from scratchpad research-raw.json and marks the asked-for values unconfirmed. Outmate facts used as Statafelshop proxies stay labelled shop 'outmate'. Second 2026-10-17 follow-up round: 8 more agents (Statafelshop covers/textiles; statafels, actiepakketten and trolleys; print, B2B and statafelshop.be; operator, service, shipping and UX; Outmate buizenframe and opslagtent matrix; Outmate furniture, lighting and heating prices plus existence checks; Outmate policies; Outmate easy-up box contents plus account/search/footer UX) were refused the same way and ran no query. That merge adds only already-sourced easy-up spec values from research-raw.json, new existence checks for the rerun (cadeaubon, outlet/B-keuze, kerstverlichting URL, floors beyond lopers), the Ultimate slug spelling, and Statafelshop trolley gaps. Rerun lesson: run the Statafelshop queries as one agent, first and alone, in a turn with a fresh budget, so parallel agents cannot use up the shared 200-search limit. Third 2026-10-17 follow-up round: 8 agents (Statafelshop operator, navigation and policies; Statafelshop statafels, textiles and trolleys; Statafelshop print, B2B and statafelshop.be; Outmate buizenframe and opslagtent matrix; Outmate category census and existence checks; Outmate furniture, lighting, heating and afzetpaal prices; Outmate policies, payment and offerte page; Outmate storefront UX, account and easy-up box contents) were all refused by the shared 200-search budget at their first query, so no query ran (the fourth Statafelshop attempt with no data). That merge only: maps 13 already-sourced but unmapped category URLs from scratchpad raw_cats.txt (11 new subcategories, 74 -> 85, plus alias_urls; see census_2026_10_17); logs 16 never-run checks in existence_checks; adds partytenten-buizenframe.size_line_matrix as a consolidated view of already-sourced cells; records the refusal on the asked features; folds in already-sourced footer, payment-method, facet-pattern and Premium seam facts; sharpens the furniture, lighting and afzetpaal gaps; and corrects the attempt counts. No reference_prices were added and no Statafelshop entry was created. Before any rerun, the owner must start a new turn (fresh budget) or raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION. Round 4 (2026-10-17): the searches finally ran. Five agents used 125 WebSearch calls (Statafelshop navigation/operator/service 25, Statafelshop textiles 30, Statafelshop statafels/bundles/trolleys/policies 25, market price calibration 20, Outmate gaps 25); raw output in scratchpad research-raw-2.json. This merge adds the first Statafelshop data (every former 'asserted by brief' Statafelshop reference now cites a statafelshop.nl URL), corrects the operator (Deadan.com bv, not Outmate B.V.), adds market_price_bands, fills the buizenframe size_line_matrix (8x12 is a Premium tent), the opslagtent price matrix, furniture, lighting and side-wall prices, Outmate policy details, and closes or re-labels the existence checks that ran.",
     "census_2026_10_17": "Category census follow-up: the shared WebSearch budget was already used up, so the first two census queries (product-categorie list, /alle/) were refused and no existence check ran. Done offline instead: diffed the 82 URLs in scratchpad raw_cats.txt (the task said 93; the file has 82, all also in research-raw.json) against the 74 subcategories. 13 URLs were unmapped. Added 11 subcategories with reference_url + confidence (own URL: opslag-pvc-classic/-premium/-professional, opslag-carport-pvc-professional, stretch-lusverbinding, barkruk-onderdelen, klaptafel-onderdelen, stoelen-onderdelen; name-only children stretch-koppelgoten, stretch-palensets, tuinpaviljoen-zijwanden); the other URLs are parents/aliases recorded as reference or alias_urls. Existence checks are logged in existence_checks with query_ran=false."
   },
   "categories": [
@@ -577,9 +577,32 @@
               ]
             },
             {
-              "name": "Waterzakken / gewichtzakken 4x20 kg",
-              "reference_prices": [],
-              "confidence": "unconfirmed (category mention only)"
+              "name": "Zandzakken set 4 st (10 kg droog zand per zak)",
+              "reference_prices": [
+                {
+                  "label": "set 4",
+                  "eur_incl_btw": 19.99,
+                  "eur_excl_btw": 16.52,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/zandzak-partytent-gewicht-voetverzwaring-set-4-stuks/"
+                }
+              ],
+              "key_specs": [
+                "listed weight 12 kg; shipping €7,95 (likely)"
+              ]
+            },
+            {
+              "name": "Watergewichtzakken 4x20 kg",
+              "reference_prices": [
+                {
+                  "label": "set 4x20 kg",
+                  "eur_incl_btw": 99.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/bevestigingsmaterialen-opvouwbare-partytenten/",
+                  "note": "shown as Uitverkocht"
+                }
+              ],
+              "confidence": "likely"
             }
           ]
         },
@@ -642,6 +665,9 @@
                 "zwenkwiel met rem, 10 cm rubber, vleugelbouten"
               ]
             }
+          ],
+          "gaps": [
+            "round 4: no easy-up wieltas or opbergtas product found by search (only beschermhoezen); existence unconfirmed, not a proven absence (https://www.outmate.nl/product-categorie/accessoires-easy-up/)"
           ]
         },
         {
@@ -797,6 +823,7 @@
               "name": "Los frame Professional (alu hex 50)",
               "variant_dimensions": {
                 "size": [
+                  "2x2",
                   "3x3",
                   "3x4,5",
                   "3x6",
@@ -843,6 +870,13 @@
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/",
                   "note": "single snapshot"
+                },
+                {
+                  "label": "2x2",
+                  "eur_incl_btw": 499.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/regengoot-8-meter/",
+                  "note": "round 4 snippet; PDP URL not recorded"
                 }
               ]
             },
@@ -953,9 +987,9 @@
         }
       ],
       "confidence": "confirmed",
-      "notes": "Category title 'Alle partytenten - Van 3x3 tot 8x12m'. 38 mm demountable galvanised frame. Full size matrix per line is unconfirmed; sizes below are those seen in product URLs/PDFs. Which line offers 8x12 is unconfirmed. Side walls attach with klittenband per a category facet (/bevestigingzeilen/klittenband/), which lines use it is unconfirmed (https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/, likely). Per-line spec table on https://www.outmate.nl/het-verschil-tussen-de-partytenten/ not retrieved. outmate.be mirrors the same URLs.",
+      "notes": "Category title 'Alle partytenten - Van 3x3 tot 8x12m'. 38 mm demountable galvanised frame. Round 4 (2026-10-17) filled most of the size x line matrix from category and product snippets (likely; snapshots disagree, so ranges are kept); 8x12 is a PVC Premium tent (€1.850). Side walls attach with klittenband per a category facet (/bevestigingzeilen/klittenband/); which lines use it is unconfirmed (https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/, likely). Per-line spec table on https://www.outmate.nl/het-verschil-tussen-de-partytenten/ still not retrieved. outmate.be mirrors the same URLs.",
       "size_line_matrix": {
-        "note": "Consolidated view of the cells already sourced in scratchpad research-raw.json (2026-10-17 round-3 buizenframe agent; no query ran, nothing new confirmed). Every size x line cell not listed in known_cells is unconfirmed. Range from the category title 'Van 3x3 tot 8x12m' (https://www.outmate.nl/product-categorie/partytenten/); which line offers 8x12 and every category 'vanaf' price are unconfirmed. Rerun URLs: reference/dossier.md section 16 item 3.",
+        "note": "Round 4 (2026-10-17): cells sourced from scratchpad research-raw-2.json block 4 (Outmate gap agent, 25 searches) plus the earlier cells. Prices are incl. btw from category/product snippets (likely); a range means two snapshots disagree. Every size x line cell not listed in known_cells is unconfirmed. 8x12 exists only as PVC Premium. Some category headings do not match their items (a €949 Premium item is labelled 6x6 under a 6x8 heading), so verify against the PDP before use.",
         "sizes": [
           "3x3",
           "3x4",
@@ -964,10 +998,14 @@
           "4x4",
           "4x6",
           "4x8",
+          "5x4",
+          "5x6",
           "5x8",
           "5x10",
+          "5x12",
           "6x6",
           "6x8",
+          "6x10",
           "6x12",
           "8x12"
         ],
@@ -990,23 +1028,170 @@
           {
             "line": "pe-basic",
             "size": "3x6",
-            "exists": "likely (assembly PDF only)",
+            "exists": "likely",
+            "eur_incl_btw": 349,
+            "kind": "fixed",
+            "note": "assembly PDF https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf",
+            "source_url": "https://www.outmate.nl/product/partytent-3x6-pe/"
+          },
+          {
+            "line": "pe-basic",
+            "size": "4x4",
+            "exists": "likely",
+            "eur_incl_btw": 335,
+            "kind": "fixed",
+            "note": "pre-order on one page",
+            "source_url": "https://www.outmate.nl/product/partytent-4x4-pe/"
+          },
+          {
+            "line": "pe-basic",
+            "size": "4x6",
+            "exists": "likely",
+            "eur_incl_btw": 389,
+            "kind": "fixed",
+            "note": "'Nog 1 voorradig!'",
+            "source_url": "https://www.outmate.nl/product/partytent-4x6-pe/"
+          },
+          {
+            "line": "pe-basic",
+            "size": "4x8",
+            "exists": "likely",
+            "eur_incl_btw": 439,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-4x8-pe/"
+          },
+          {
+            "line": "pe-basic",
+            "size": "5x10",
+            "exists": "likely",
+            "eur_incl_btw": 525,
+            "kind": "fixed",
+            "note": "PDP URL not recorded",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "3x4",
+            "exists": "likely (product URL)",
             "eur_incl_btw": null,
-            "source_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf"
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "3x6",
+            "exists": "likely",
+            "eur_incl_btw": 529,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-3x6-classic-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "3x8",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "4x6",
+            "exists": "likely",
+            "eur_incl_btw": 559,
+            "kind": "range",
+            "note": "€559-€569",
+            "source_url": "https://www.outmate.nl/product/partytent-4x6-classic-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "4x8",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "5x4",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "note": "size as recorded; may be 4x5",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
           },
           {
             "line": "pvc-classic",
             "size": "5x8",
             "exists": "confirmed (assembly PDF)",
+            "eur_incl_btw": 729,
+            "kind": "fixed",
+            "note": "assembly PDF https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf",
+            "source_url": "https://www.outmate.nl/product/partytent-5x8-classic-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "5x10",
+            "exists": "likely (product URL)",
             "eur_incl_btw": null,
-            "source_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf"
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "5x12",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "6x6",
+            "exists": "likely",
+            "eur_incl_btw": 729,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-6x6-classic-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "6x8",
+            "exists": "likely",
+            "eur_incl_btw": 725,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-6x8-classic-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "6x10",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
+          },
+          {
+            "line": "pvc-classic",
+            "size": "6x12",
+            "exists": "likely (product URL)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/"
           },
           {
             "line": "pvc-premium",
             "size": "3x3",
-            "exists": "likely (product URL)",
+            "exists": "likely",
+            "eur_incl_btw": 439,
+            "kind": "fixed",
+            "note": "category listing; PDP https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "3x4",
+            "exists": "likely (no price)",
             "eur_incl_btw": null,
-            "source_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/"
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "3x6",
+            "exists": "likely",
+            "eur_incl_btw": 589,
+            "kind": "range",
+            "note": "€589-€639",
+            "source_url": "https://www.outmate.nl/product/partytent-3x6-premium-pvc-brandvertragend/"
           },
           {
             "line": "pvc-premium",
@@ -1021,17 +1206,124 @@
             "line": "pvc-premium",
             "size": "4x4",
             "exists": "likely",
-            "eur_incl_btw": null,
+            "eur_incl_btw": 579,
+            "kind": "fixed",
             "note": "shipping €42,50 Vrachttransport; box dimensions listed (values not retrieved)",
             "source_url": "https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "4x6",
+            "exists": "likely",
+            "eur_incl_btw": 719,
+            "kind": "range",
+            "note": "€719-€735",
+            "source_url": "https://www.outmate.nl/product/partytent-4x6-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "4x8",
+            "exists": "likely",
+            "eur_incl_btw": 869,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-4x8-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "5x6",
+            "exists": "likely (no price)",
+            "eur_incl_btw": null,
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "5x8",
+            "exists": "likely",
+            "eur_incl_btw": 949,
+            "kind": "fixed",
+            "note": "category listing",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "6x6",
+            "exists": "likely",
+            "eur_incl_btw": 875,
+            "kind": "fixed",
+            "note": "category listing",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "6x8",
+            "exists": "likely",
+            "eur_incl_btw": 949,
+            "kind": "fixed",
+            "note": "category listing; one heading/label mismatch on the page",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "6x12",
+            "exists": "likely",
+            "eur_incl_btw": 1499,
+            "kind": "fixed",
+            "note": "category listing",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/"
+          },
+          {
+            "line": "pvc-premium",
+            "size": "8x12",
+            "exists": "likely",
+            "eur_incl_btw": 1850,
+            "kind": "fixed",
+            "note": "structured data 1850.00 EUR; 96 m², zijhoogte 200 cm, grondframe + nokversteviging, 1 jaar garantie, shipping €42,50; snapshots 'Tijdelijk uitverkocht'",
+            "source_url": "https://www.outmate.nl/product/partytent-8x12-premium-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-ultimate",
+            "size": "3x4",
+            "exists": "likely",
+            "eur_incl_btw": 486,
+            "kind": "from",
+            "note": "sale, regular €539; included walls unconfirmed",
+            "source_url": "https://www.outmate.nl/product/partytent-3x4-pvc-ultimate-edition/"
+          },
+          {
+            "line": "pvc-ultimate",
+            "size": "4x4",
+            "exists": "likely",
+            "eur_incl_btw": 539,
+            "kind": "fixed",
+            "note": "PDP €539 (€445,45 ex btw), category €599 -> vanaf €539; tijdelijk uitverkocht; incl. 6 zijkantzeilen (4x 2 m met raam) + eindwanden met ritsen",
+            "source_url": "https://www.outmate.nl/product/partytent-4x4-pvc-ultimate-edition/"
           },
           {
             "line": "pvc-ultimate",
             "size": "4x6",
             "exists": "likely",
-            "eur_incl_btw": null,
-            "note": "incl. 6 zijwanden met raam + 2 eindwanden",
+            "eur_incl_btw": 657,
+            "kind": "fixed",
+            "note": "sale, regular €729; permanent uitverkocht; incl. 6 zijwanden met raam + 2 eindwanden",
             "source_url": "https://www.outmate.nl/product/partytent-4x6-pvc-ultimate-edition/"
+          },
+          {
+            "line": "pvc-ultimate",
+            "size": "4x8",
+            "exists": "likely",
+            "eur_incl_btw": 809,
+            "kind": "from",
+            "note": "sale, regular €915; included walls unconfirmed",
+            "source_url": "https://www.outmate.nl/product/partytent-4x8-pvc-ultimate-edition/"
+          },
+          {
+            "line": "pvc-ultimate",
+            "size": "5x10",
+            "exists": "likely",
+            "eur_incl_btw": 1017,
+            "kind": "fixed",
+            "note": "sale, regular €1.129; permanent uitverkocht; 10 PVC zijwanden met raam included",
+            "source_url": "https://www.outmate.nl/product/partytent-5x10-pvc-ultimate-edition/"
           },
           {
             "line": "pvc-professional",
@@ -1042,10 +1334,27 @@
           },
           {
             "line": "pvc-professional",
-            "size": "5x10",
-            "exists": "unconfirmed (only the replacement roof is seen, €469)",
+            "size": "4x6",
+            "exists": "likely (no price)",
             "eur_incl_btw": null,
-            "source_url": "https://www.outmate.nl/product/partytent-dakzeil-5x10-pvc-professional/"
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/"
+          },
+          {
+            "line": "pvc-professional",
+            "size": "4x8",
+            "exists": "likely",
+            "eur_incl_btw": 1049,
+            "kind": "fixed",
+            "source_url": "https://www.outmate.nl/product/partytent-4x8-professional-pvc-brandvertragend/"
+          },
+          {
+            "line": "pvc-professional",
+            "size": "5x10",
+            "exists": "likely",
+            "eur_incl_btw": 1275,
+            "kind": "fixed",
+            "note": "category listing; replacement roof €469",
+            "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/"
           },
           {
             "line": "pvc-professional",
@@ -1056,6 +1365,9 @@
             "note": "category listing; 72 m², 60-80 personen (not split staand/zittend); zijhoogte 220 cm",
             "source_url": "https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/"
           }
+        ],
+        "not_found": [
+          "pvc-professional 6x8 (searched, not found)"
         ]
       },
       "subcategories": [
@@ -1070,7 +1382,11 @@
               "variant_dimensions": {
                 "size_seen": [
                   "3x4",
-                  "3x6"
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x10"
                 ],
                 "canopy": [
                   "PE 200 g/m²"
@@ -1082,6 +1398,40 @@
                   "eur_incl_btw": 279,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/partytent-3x4-pe/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 349,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x6-pe/",
+                  "note": "assembly PDF https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 335,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x4-pe/",
+                  "note": "pre-order on one page"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 389,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x6-pe/",
+                  "note": "'Nog 1 voorradig!'"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 439,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x8-pe/"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 525,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/",
+                  "note": "PDP URL not recorded"
                 }
               ],
               "accessories": [
@@ -1090,10 +1440,12 @@
                 "haringen"
               ],
               "key_specs": [
-                "3x6 exists per assembly PDF (https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf)"
+                "PE 200 g/m² vs PVC 500 g/m² (https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/, likely)",
+                "3x6 assembly PDF (https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-3x6-PE-basic.pdf)",
+                "replacement dakzeil 4x8 PE Basic €169 (see partytent-onderdelen-accessoires.dakzeilen)"
               ],
               "gaps": [
-                "all sizes other than 3x4/3x6 and all prices except 3x4 unconfirmed; wall thickness, side-wall configuration, capacity, weight, shipping and fire-retardancy unconfirmed",
+                "wall thickness, side-wall configuration, capacity, weight, shipping and fire-retardancy unconfirmed",
                 "'10% korting' block on PE tent pages lists opbergtassenset + stormbandenset; unclear whether this means buizenframe PE Basic (https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/, likely)"
               ]
             }
@@ -1109,18 +1461,64 @@
               "name": "Partytent PVC Classic",
               "variant_dimensions": {
                 "size_seen": [
-                  "5x8"
+                  "3x4",
+                  "3x6",
+                  "3x8",
+                  "4x6",
+                  "4x8",
+                  "5x4",
+                  "5x8",
+                  "5x10",
+                  "5x12",
+                  "6x6",
+                  "6x8",
+                  "6x10",
+                  "6x12"
                 ],
                 "canopy": [
                   "PVC 500 g/m²"
                 ]
               },
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 529,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x6-classic-pvc-brandvertragend/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 559,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x6-classic-pvc-brandvertragend/",
+                  "note": "€559-€569"
+                },
+                {
+                  "label": "5x8",
+                  "eur_incl_btw": 729,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-5x8-classic-pvc-brandvertragend/",
+                  "note": "assembly PDF https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf"
+                },
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 729,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-6x6-classic-pvc-brandvertragend/"
+                },
+                {
+                  "label": "6x8",
+                  "eur_incl_btw": 725,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-6x8-classic-pvc-brandvertragend/"
+                }
+              ],
               "key_specs": [
+                "PVC 500 g/m², brandvertragend gecertificeerd, thermisch gelaste naden, UV-bestendig (https://www.outmate.nl/product/partytent-3x6-classic-pvc-brandvertragend/, likely)",
                 "5x8 setup PDF with safety advice and parts list (https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf)"
               ],
               "gaps": [
-                "every size other than 5x8 and every price unconfirmed; wall thickness, side walls, capacity, weight, shipping and fire-retardancy unconfirmed"
+                "prices for 3x4, 3x8, 4x8, 5x4, 5x10, 5x12, 6x10, 6x12 unconfirmed; wall thickness, side walls, capacity, weight and shipping unconfirmed"
               ]
             }
           ]
@@ -1136,8 +1534,18 @@
               "variant_dimensions": {
                 "size_seen": [
                   "3x3",
+                  "3x4",
+                  "3x6",
                   "3x8",
-                  "4x4"
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x6",
+                  "5x8",
+                  "6x6",
+                  "6x8",
+                  "6x12",
+                  "8x12"
                 ],
                 "canopy": [
                   "PVC 550 g/m², brandvertragend"
@@ -1149,21 +1557,92 @@
                 "3x8: 24 m², ca. 25-35 gasten",
                 "UV-bestendig, waterdicht (3x8, https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/, likely)",
                 "4x4 page lists box dimensions and an 'Ook handig om mee te bestellen' cross-sell (https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/, likely)",
-                "not storm- or snow-load tested (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)"
+                "not storm- or snow-load tested (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)",
+                "treksterkte 860N (https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/, likely)",
+                "8x12: 96 m², zijhoogte 200 cm, shipping €42,50, 1 jaar fabrieksgarantie (slijtage excluded) (https://www.outmate.nl/product/partytent-8x12-premium-pvc-brandvertragend/, likely)"
               ],
               "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 439,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
+                  "note": "category listing; PDP https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 589,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x6-premium-pvc-brandvertragend/",
+                  "note": "€589-€639"
+                },
                 {
                   "label": "3x8",
                   "eur_incl_btw": 789,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/",
+                  "note": "category listing; shipping €42,50; 24 m², ca. 25-35 gasten (not split staand/zittend)"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 579,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/",
+                  "note": "shipping €42,50 Vrachttransport; box dimensions listed (values not retrieved)"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 719,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x6-premium-pvc-brandvertragend/",
+                  "note": "€719-€735"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 869,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x8-premium-pvc-brandvertragend/"
+                },
+                {
+                  "label": "5x8",
+                  "eur_incl_btw": 949,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
                   "note": "category listing"
+                },
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 875,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
+                  "note": "category listing"
+                },
+                {
+                  "label": "6x8",
+                  "eur_incl_btw": 949,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
+                  "note": "category listing; one heading/label mismatch on the page"
+                },
+                {
+                  "label": "6x12",
+                  "eur_incl_btw": 1499,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
+                  "note": "category listing"
+                },
+                {
+                  "label": "8x12",
+                  "eur_incl_btw": 1850,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-8x12-premium-pvc-brandvertragend/",
+                  "note": "structured data 1850.00 EUR; 96 m², zijhoogte 200 cm, grondframe + nokversteviging, 1 jaar garantie, shipping €42,50; snapshots 'Tijdelijk uitverkocht'"
                 }
               ],
               "shipping_reference": "€42,50 on 3x8 and 4x4; carrier label conflicts: 'Pakketdienst' on 3x8 in one snapshot (https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/), 'Vrachttransport' on 4x4 (https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/)",
               "warranty_reference": "Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)",
               "gaps": [
-                "3x3 and 4x4 prices unconfirmed; 3x4, 3x6, 4x6, 4x8, 5x8, 5x10, 6x6, 6x8, 6x12, 8x12 unconfirmed; wall thickness, side walls (window/door), weight unconfirmed; 3x8 capacity not split into staand/zittend"
+                "3x4 and 5x6 prices unconfirmed; 5x10 not seen; wall thickness, side walls (window/door) and weight unconfirmed; capacity known only for 3x8 (not split staand/zittend)"
               ]
             }
           ]
@@ -1178,15 +1657,59 @@
               "name": "Partytent PVC Ultimate Edition",
               "variant_dimensions": {
                 "size_seen": [
-                  "4x6"
+                  "3x4",
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x10"
+                ],
+                "canopy": [
+                  "PVC 550 g/m²"
                 ]
               },
               "key_specs": [
-                "4x6 incl. 6 zijwanden met raam + 2 eindwanden"
+                "side walls included: 4x4 has 6 side panels (4 of 2 m with a window) plus end walls with ritsen; 4x6 has 6 zijwanden met raam + 2 eindwanden; 5x10 has 10 PVC walls with windows (https://www.outmate.nl/product-categorie/partytenten/partytent-pvc-ultimate-edition/, likely)",
+                "stock label 'Permanent uitverkocht' on 4x6 and 5x10 (likely)"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3x4",
+                  "eur_incl_btw": 486,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x4-pvc-ultimate-edition/",
+                  "note": "sale, regular €539; included walls unconfirmed"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 539,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x4-pvc-ultimate-edition/",
+                  "note": "PDP €539 (€445,45 ex btw), category €599 -> vanaf €539; tijdelijk uitverkocht; incl. 6 zijkantzeilen (4x 2 m met raam) + eindwanden met ritsen"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 657,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x6-pvc-ultimate-edition/",
+                  "note": "sale, regular €729; permanent uitverkocht; incl. 6 zijwanden met raam + 2 eindwanden"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 809,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x8-pvc-ultimate-edition/",
+                  "note": "sale, regular €915; included walls unconfirmed"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 1017,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-5x10-pvc-ultimate-edition/",
+                  "note": "sale, regular €1.129; permanent uitverkocht; 10 PVC zijwanden met raam included"
+                }
+              ],
               "gaps": [
-                "every size other than 4x6, every price, canopy g/m², capacity, weight and shipping unconfirmed"
+                "whether 3x4 and 4x8 include walls unconfirmed; capacity, weight and shipping unconfirmed; the line may be winding down (two sizes permanently sold out)"
               ]
             }
           ],
@@ -1202,6 +1725,9 @@
               "name": "Partytent PVC Professional",
               "variant_dimensions": {
                 "size_seen": [
+                  "4x6",
+                  "4x8",
+                  "5x10",
                   "6x12"
                 ],
                 "roof_sizes_seen": [
@@ -1219,19 +1745,33 @@
                 "tot 930N",
                 "6x12: 72 m², 60-80 personen",
                 "brandvertragend likely (product slug 'pvc-brandvertragend', https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/)",
-                "replacement roofs in 3x4/5x10/6x12 suggest tents in those sizes (https://www.outmate.nl/product/partytent-dakzeil-6x12-pvc-professional/, likely)"
+                "treksterkte 930N, 38 mm buis (https://www.outmate.nl/product/partytent-4x8-professional-pvc-brandvertragend/, likely)",
+                "3x4 inferred from the replacement roof only (€189)"
               ],
               "reference_prices": [
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 1049,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-4x8-professional-pvc-brandvertragend/"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 1275,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/",
+                  "note": "category listing; replacement roof €469"
+                },
                 {
                   "label": "6x12",
                   "eur_incl_btw": 1725,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/",
-                  "note": "category listing"
+                  "note": "category listing; 72 m², 60-80 personen (not split staand/zittend); zijhoogte 220 cm"
                 }
               ],
               "gaps": [
-                "tent prices other than 6x12 unconfirmed; 3x4 and 5x10 tents inferred from roofs only; 3x3, 3x6, 4x4, 4x6, 4x8, 5x8, 6x6, 6x8, 8x12 unconfirmed; wall thickness, side walls, weight, shipping unconfirmed; 6x12 capacity not split into staand/zittend"
+                "4x6 price unconfirmed; 3x4 tent unconfirmed (roof only); no 6x8 found; wall thickness, side walls, weight, shipping unconfirmed; 6x12 capacity not split into staand/zittend"
               ]
             }
           ]
@@ -1269,8 +1809,10 @@
                 ],
                 "size_seen": [
                   "3x4",
+                  "4x8",
                   "5x10",
-                  "6x12"
+                  "6x12",
+                  "8x12"
                 ]
               },
               "reference_prices": [
@@ -1291,6 +1833,20 @@
                   "eur_incl_btw": 599,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/partytent-dakzeil-6x12-pvc-professional/"
+                },
+                {
+                  "label": "4x8 PE Basic",
+                  "eur_incl_btw": 169,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/"
+                },
+                {
+                  "label": "8x12 PVC Premium",
+                  "eur_incl_btw": 559,
+                  "eur_excl_btw": 461.98,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partyten-dakzeil-8x12-pvc-premium-brandvertragend/",
+                  "note": "slug spelt 'partyten-dakzeil'"
                 }
               ],
               "key_specs": [
@@ -1317,14 +1873,50 @@
                   "PVC",
                   "PE"
                 ],
-                "length": "tot 12 m",
+                "length": "2 m panels; long walls PE met ramen 6/8/10 m and PVC met ramen (en ritsen) 220 cm hoog 3/4/10 m; tot 12 m",
                 "height": "tot 250 cm (veranda-variant 220 cm, 1,5-10 m)",
                 "custom": "op maat"
               },
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "2 m raam Classic",
+                  "eur_incl_btw": 24.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-zijwand-pvc-met-raam-2-meter-classic-pvc/",
+                  "note": "was €27,50; 30 cm tochtflap"
+                },
+                {
+                  "label": "2 m raam Premium",
+                  "eur_incl_btw": 26.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/partytent-zijwand-pvc-met-raam-2-meter-premium-pvc/",
+                  "note": "also seen at €29"
+                },
+                {
+                  "label": "2 m ramen + ritsen Premium (200 cm hoog)",
+                  "eur_incl_btw": 45.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-zijwand-pvc-met-ramen-2-meter-200cm-hoog-met-ritsen/"
+                },
+                {
+                  "label": "2 m raam Professional (220 cm hoog)",
+                  "eur_incl_btw": 29.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-zijwand-pvc-met-raam-2-meter-premium-pvc/",
+                  "note": "was €39; with ritsen €49"
+                },
+                {
+                  "label": "2 m dicht Premium",
+                  "eur_incl_btw": 28.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-zijwand-pvc-met-raam-2-meter-premium-pvc/",
+                  "note": "was €32"
+                }
+              ],
               "gaps": [
-                "no price per length found for buizenframe side walls; closest priced proxy is the overkapping zijwand PVC 250 cm (3 m €109 ... 10 m €269, see schaduw-overkapping), a different product"
-              ]
+                "prices of the long walls (PE 6/8/10 m, PVC 3/4/10 m) not captured; one page mentions a 3 m PVC wall at €149 (unclear)"
+              ],
+              "shipping_reference": "€7,95 per wand"
             }
           ],
           "alias_urls": [
@@ -1345,7 +1937,8 @@
               "variant_dimensions": {
                 "width_m": [
                   "3",
-                  "6"
+                  "6",
+                  "8"
                 ]
               },
               "reference_prices": [
@@ -1354,6 +1947,13 @@
                   "eur_incl_btw": 49,
                   "kind": "from",
                   "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                },
+                {
+                  "label": "8 m raam + ritsen",
+                  "eur_incl_btw": 40.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-eindwand-8-meter-raam-en-ritsen-pvc/",
+                  "note": "as recorded; low for 8 m, verify"
                 }
               ],
               "key_specs": [
@@ -1427,6 +2027,7 @@
               "name": "Buis 38 mm verzinkt",
               "variant_dimensions": {
                 "length_cm_seen": [
+                  "159",
                   "192",
                   "212",
                   "216"
@@ -1451,7 +2052,14 @@
                   "eur_incl_btw": 12.5,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/",
-                  "note": "mentioned once"
+                  "note": "mentioned once at €12,50; round 4 snippet gives €11,75"
+                },
+                {
+                  "label": "159 cm",
+                  "eur_incl_btw": 9.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/regengoot-8-meter/",
+                  "note": "round 4 snippet"
                 }
               ],
               "key_specs": [
@@ -1468,9 +2076,17 @@
           "product_types": [
             {
               "name": "Regengoot partytent",
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "8 m",
+                  "eur_incl_btw": 84.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/regengoot-8-meter/",
+                  "note": "reported among buizenframe parts; may be the same gutter as the easy-up range"
+                }
+              ],
               "gaps": [
-                "no buizenframe gutter price found; only easy-up gutter prices exist (3 m €29, 4,5 m €37,50, 6 m €49 vs €75 on https://www.outmate.nl/product/regengoot-6-meter/); whether the same gutter fits buizenframe tents is unconfirmed"
+                "whether the 8 m gutter is buizenframe-specific and other buizenframe gutter lengths unconfirmed; easy-up gutters: 3 m €29, 4,5 m €37,50, 6 m €49 vs €75 (https://www.outmate.nl/product/regengoot-6-meter/)"
               ]
             }
           ]
@@ -1486,6 +2102,7 @@
               "variant_dimensions": {
                 "pack": [
                   "1 set",
+                  "2 sets",
                   "3 sets"
                 ],
                 "strap_length_m": "9-15 (by tent width)"
@@ -1497,6 +2114,24 @@
                   "kind": "range",
                   "source_url": "https://www.outmate.nl/product/stormbandenset-voor-partytent-1-set/",
                   "note": "€16-€24 by length"
+                },
+                {
+                  "label": "2 sets, 3 m brede tent",
+                  "eur_incl_btw": 52.5,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                },
+                {
+                  "label": "2 sets, 4 m brede tent",
+                  "eur_incl_btw": 62.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                },
+                {
+                  "label": "3 sets, opslagtent 4x8",
+                  "eur_incl_btw": 89.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
                 }
               ],
               "key_specs": [
@@ -1592,6 +2227,29 @@
               "gaps": [
                 "price, material and dimensions unconfirmed (https://www.outmate.nl/product/opbergtas-200cm/); not the same product as the easy-up beschermhoes (€19,99-€27,50)"
               ]
+            },
+            {
+              "name": "Opbergtassenset per tentbreedte",
+              "variant_dimensions": {
+                "tent_width_m": [
+                  "3",
+                  "4"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3 m breed",
+                  "eur_incl_btw": 65.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                },
+                {
+                  "label": "4 m breed",
+                  "eur_incl_btw": 69.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                }
+              ]
             }
           ]
         },
@@ -1686,13 +2344,19 @@
                   "Wikinger carport/opslagtent PVC Professional (vast frame)"
                 ],
                 "size_seen": [
-                  "3x4"
+                  "3x4",
+                  "3x6 (Premium, Professional)",
+                  "4x6",
+                  "4x8",
+                  "5x10",
+                  "6x12",
+                  "3,3x4,8 (carport)"
                 ]
               },
               "reference_prices": [],
               "warranty_reference": "1 jaar (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/)",
               "gaps": [
-                "every size other than Classic 3x4, every side/ridge height, the door type (rolluik/rits) and every price unconfirmed for all four tiers incl. the carport; per-tier entries: opslag-pvc-classic, opslag-pvc-premium, opslag-pvc-professional, opslag-carport-pvc-professional"
+                "side/ridge heights and door type (rolluik/rits) unconfirmed for all tiers; Professional 4x8 not found; several prices come only from category pages where some headings do not match their items (round 4, likely)"
               ],
               "key_specs": [
                 "buying guides https://www.outmate.nl/opslagtent-kopen/ and https://www.outmate.nl/opslagtent-kopen-welke-past-bij-je/ (linked from the category)",
@@ -1712,9 +2376,40 @@
               "key_specs": [
                 "short-term use; Classic 3x4 is brandvertragend per slug, 1 jaar garantie (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/, likely)"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3x4",
+                  "eur_incl_btw": 399,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 559,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 669,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opslagtent-4x8-classic-pvc-brandvertragend/"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 839,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "6x12",
+                  "eur_incl_btw": 1199,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opslagtent-6x12-classic-pvc-brandvertragend/"
+                }
+              ],
               "gaps": [
-                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+                "side/ridge heights and door type (rolluik/rits) unconfirmed"
               ]
             }
           ],
@@ -1731,9 +2426,40 @@
               "key_specs": [
                 "longer-term use, e.g. during a renovation (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3x4",
+                  "eur_incl_btw": 499,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opslagtent-3x4-premium-pvc-brandvertragend/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 719,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opslagtent-4x6-premium-pvc-brandvertragend/"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 869,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 1125,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "6x12",
+                  "eur_incl_btw": 1399,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                }
+              ],
               "gaps": [
-                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+                "3x6 exists (price not captured); side/ridge heights and door type unconfirmed"
               ]
             }
           ],
@@ -1750,9 +2476,34 @@
               "key_specs": [
                 "620 g/m² PVC (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3x4",
+                  "eur_incl_btw": 569,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 775,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "5x10",
+                  "eur_incl_btw": 1175,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                },
+                {
+                  "label": "6x12",
+                  "eur_incl_btw": 1699,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+                }
+              ],
               "gaps": [
-                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+                "4x8 not found; 3x6 exists (price not captured); side/ridge heights and door type unconfirmed"
               ]
             }
           ],
@@ -1767,11 +2518,20 @@
             {
               "name": "Opslagtent Carport/opslagtent PVC Professional (reference name 'Wikinger'; do not reuse)",
               "key_specs": [
-                "carport with fixed frame (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)"
+                "carport with fixed frame (https://www.outmate.nl/product-categorie/opslagtenten/, confirmed)",
+                "front and back panels removable; roof and side walls PVC (likely)"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "3,3x4,8",
+                  "eur_incl_btw": 599,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opslagtenten/",
+                  "note": "sale, was €859; 'binnenkort leverbaar'"
+                }
+              ],
               "gaps": [
-                "sizes, side/ridge heights, door type (rolluik/rits) and prices unconfirmed for this line"
+                "other sizes unconfirmed for Outmate (partytent.nl lists a 'Carport Opslagtent 3,3x9,6 PVC Professional' under identical naming, operator relation unverified); heights unconfirmed"
               ]
             }
           ],
@@ -2870,7 +3630,8 @@
         },
         {
           "shop": "statafelshop",
-          "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+          "url": "https://www.statafelshop.nl/product-categorie/statafels/",
+          "note": "Statafelshop main menu 'Shop': Statafels, Statafelhoezen, Barkrukken, Actiepakketten, Stoelen, Terrastafels, Biertafelsets, Tafels, Banken, Transportkarren, Onderdelen, Textiel, Diverse (https://www.statafelshop.nl/, likely)"
         },
         {
           "shop": "outmate",
@@ -2879,7 +3640,7 @@
         }
       ],
       "confidence": "likely",
-      "notes": "Statafelshop.nl assortment (round Ø statafels etc.) is UNCONFIRMED - research did not run. Outmate furniture model names are theirs; ours need own names.",
+      "notes": "Statafelshop.nl round-4 data merged (statafels, terrastafels, tafels/buffettafels, biertafelsets, barkrukken, stoelen, banken, transportkarren, onderdelen). Statafelshop statafels: heights 107 or 110 cm only; round tops Ø70/Ø80/Ø85 (no round Ø60 found); square 60x60/70x70/80x80; rectangular 120x60/120x70/160x60; every round model inklapbaar, Indus stapelbaar; tops epoxy-coated with a kantenband/bumper edge; no HDPE/blow-mold statafel, no statafel with wheels and no max-load figure found (searched, not proof of absence). Outmate and Statafelshop model names are theirs; ours need own names (meta.naming_rule).",
       "subcategories": [
         {
           "id": "statafels",
@@ -2953,14 +3714,442 @@
               ]
             },
             {
-              "name": "Ronde inklapbare statafel Ø60/Ø70/Ø80",
-              "reference_prices": [],
-              "confidence": "unconfirmed (Statafelshop per brief; sizes from the failed-research query list, not observed). Outmate: no round statafel product observed, only loose round/square 80/85 cm tops as spare parts (https://www.outmate.nl/product-categorie/meubilair-accessoires/statafel-onderdelen/); Outmate may not sell one at all.",
+              "name": "Statafel rond inklapbaar Ø80, budget (Statafelshop ref. 'New York')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "Ø80"
+                ],
+                "height_cm": [
+                  "110"
+                ],
+                "top_colour": [
+                  "wit"
+                ],
+                "frame_colour": [
+                  "grijs hamerslag"
+                ]
+              },
+              "key_specs": [
+                "inklapbaar met kliksysteem, described as light (no kg given); top material not stated (https://www.statafelshop.nl/product/statafel-new-york/, confirmed stock line 'Op voorraad, voor 14u besteld, dezelfde dag verzonden')"
+              ],
+              "reference_prices": [
+                {
+                  "label": "New York Ø80",
+                  "eur_incl_btw": 45.0,
+                  "eur_excl_btw": 37.19,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-new-york/",
+                  "shop": "statafelshop"
+                },
+                {
+                  "label": "New York Ø80 incl. stretchrok met topcover",
+                  "eur_incl_btw": 71.39,
+                  "eur_excl_btw": 59.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-new-york-incl-stretchrok-met-topcover/",
+                  "shop": "statafelshop",
+                  "note": "older site version €95,53 incl.",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel rond inklapbaar Ø70/Ø80/Ø85, 110 cm (Statafelshop ref. 'Savannah', 'Sacramento', 'Toronto')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "Ø70",
+                  "Ø80",
+                  "Ø85"
+                ],
+                "height_cm": [
+                  "110"
+                ],
+                "top_colour": {
+                  "Savannah": [
+                    "wit"
+                  ],
+                  "Sacramento": [
+                    "antraciet",
+                    "pizarra",
+                    "punti"
+                  ]
+                },
+                "frame": [
+                  "grijs hamerslag, gepoedercoat metaal"
+                ],
+                "variant": [
+                  "Sacramento met parasolgat"
+                ]
+              },
+              "key_specs": [
+                "Savannah option list 'Kies een optie Ø70cm Ø80cm Ø85cm' (https://www.statafelshop.nl/product/statafel-savannah/, confirmed)",
+                "Savannah Ø70 for 4-5 standing people, Ø80 for 6 (https://www.statafelshop.nl/goedkope-statafel-kopen/, likely; old site gives Ø80/Ø85 about 6 and a 28 mm leg tube, https://oud.statafelshop.nl/statafel)",
+                "Sacramento folds into a small package, binnen en buiten (https://www.statafelshop.nl/product/statafel-sacramento/, likely)",
+                "Savannah .be page shows a 48-hour lead time (https://www.statafelshop.be/savannah-statafels-stretchrok-70cm, likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Savannah",
+                  "eur_incl_btw": 102.79,
+                  "eur_excl_btw": 84.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-savannah/",
+                  "shop": "statafelshop",
+                  "note": "price per size not found",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Savannah Ø80 incl. stretchrok + topcover",
+                  "eur_incl_btw": 120.94,
+                  "eur_excl_btw": 99.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-savannah-o80cm-incl-stretchrok/",
+                  "shop": "statafelshop",
+                  "note": "'Aanbieding'; stretchrok colour from the 22-colour list; old shop €94,95 excl.",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Sacramento",
+                  "eur_incl_btw": 102.79,
+                  "eur_excl_btw": 84.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-sacramento/",
+                  "shop": "statafelshop",
+                  "note": "old site: Sacramento 80 €107,02 incl. (https://oud.statafelshop.nl/statafel)",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Toronto (nieuw)",
+                  "eur_incl_btw": 140.3,
+                  "eur_excl_btw": 115.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/statafels/",
+                  "shop": "statafelshop",
+                  "note": "product URL not returned",
+                  "confidence": "likely"
+                }
+              ],
               "gaps": [
-                "Statafelshop models, Ø, height, top material, frame, weight, prices, staffel and BE prices all unconfirmed",
-                "Statafelshop shapes (rond/vierkant), inklapbaar vs stapelbaar, colour options and actiepakket variants unconfirmed; research refused four times"
-              ]
+                "price per Ø, weight, folded size and max load not found"
+              ],
+              "confidence": "confirmed (sizes) / likely (prices)"
+            },
+            {
+              "name": "Statafel rond inklapbaar Ø80, 107/110 cm, antraciet (Statafelshop ref. 'Oregon', 'Columbus', 'Japura')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "Ø80"
+                ],
+                "height_cm": [
+                  "107 (Oregon; one header says 110)",
+                  "110 (Columbus)"
+                ],
+                "top_colour": [
+                  "antraciet"
+                ],
+                "frame_colour": [
+                  "grijs hamerslag"
+                ]
+              },
+              "key_specs": [
+                "Columbus: heavier frame with 32 mm tube and epoxy powder coat; top weather-, scratch- and heat-resistant to 180 °C with kantenband; can stay outside all year; folded height 133 cm; 13,2 kg (https://www.statafelshop.nl/product/statafel-columbus/, likely)",
+                "Japura exists on statafelshop.be (https://www.statafelshop.be/product/statafel-japura/) and the old site (Japura 80 €96,74 incl., https://oud.statafelshop.nl/statafel, unconfirmed)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Oregon Ø80",
+                  "eur_incl_btw": 96.74,
+                  "eur_excl_btw": 79.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-oregon/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Columbus Ø80",
+                  "eur_incl_btw": 108.84,
+                  "eur_excl_btw": 89.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-columbus/",
+                  "shop": "statafelshop",
+                  "note": "another listing €81,95 excl.",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel rond inklapbaar Ø85, 107/110 cm, binnen/buiten (Statafelshop ref. 'Colorado', 'Hudson', 'Missouri', 'Ohio', 'Christiaan')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "Ø85"
+                ],
+                "height_cm": [
+                  "107 (Colorado, Hudson, Missouri, Christiaan)",
+                  "110 (Ohio)"
+                ],
+                "top_colour": {
+                  "Colorado": [
+                    "graniet"
+                  ],
+                  "Hudson": [
+                    "punti"
+                  ],
+                  "Missouri": [
+                    "wit"
+                  ]
+                },
+                "frame": {
+                  "Colorado": "zwart gepoedercoat metaal",
+                  "Christiaan": "aluminium onderstel (unconfirmed)"
+                }
+              },
+              "key_specs": [
+                "Colorado: weer- en hittebestendig (to 180 °C), krasvast, bumper edge, outdoor use (https://www.statafelshop.nl/product/statafel-colorado/, likely); folded height 138 cm and 12 kg per another listing (unconfirmed)",
+                "Hudson: epoxy coating plus kantenband (https://www.statafelshop.nl/product/statafel-hudson/, likely)",
+                "Ohio: ingeklapt H 138 x B 85 cm, 13,2 kg (https://www.statafelshop.nl/ohio, likely, old listing)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Colorado Ø85",
+                  "eur_incl_btw": 104.0,
+                  "eur_excl_btw": 85.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-colorado/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Hudson Ø85",
+                  "eur_incl_btw": 106.42,
+                  "eur_excl_btw": 87.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-hudson/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Missouri Ø85",
+                  "eur_incl_btw": 106.42,
+                  "eur_excl_btw": 87.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-missouri/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Ohio Ø85",
+                  "eur_incl_btw": 112.47,
+                  "eur_excl_btw": 92.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/ohio",
+                  "shop": "statafelshop",
+                  "note": "old listing, may be outdated",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Christiaan Ø85 alu",
+                  "eur_incl_btw": 102.79,
+                  "eur_excl_btw": 84.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-christiaan/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed from €84,95 excl.; aluminium/107 cm/price from one summary only",
+                  "confidence": "unconfirmed"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel vierkant 80x80 of rond Ø85, 110 cm (Statafelshop ref. 'Yukon')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "80x80",
+                  "Ø85"
+                ],
+                "height_cm": [
+                  "110"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "Yukon",
+                  "eur_incl_btw": 113.68,
+                  "eur_excl_btw": 93.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-yukon/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel vierkant stapelbaar 60x60/70x70, 107 cm (Statafelshop ref. 'Indus', 'Indus Breed')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "60x60",
+                  "70x70",
+                  "Breed: 120x60",
+                  "Breed: 120x70"
+                ],
+                "height_cm": [
+                  "107"
+                ],
+                "frame": [
+                  "zwart metaal"
+                ],
+                "top": "many finishes incl. wood-look and marble-look"
+              },
+              "key_specs": [
+                "stapelbaar (https://www.statafelshop.nl/product/statafel-indus/, likely); Indus Breed URL https://www.statafelshop.nl/product/statafel-indus-breed/ (statafelshop.be mirror)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Indus",
+                  "eur_incl_btw": 148.77,
+                  "eur_excl_btw": 122.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-indus/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Indus Breed 120x60/120x70",
+                  "eur_incl_btw": 252.89,
+                  "eur_excl_btw": 209.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-indus-breed/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed; tijdelijk niet op voorraad; another summary gives the same €209 excl. for 'Montana breed', a possible conflation",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel vierkant inklapbaar 60x60/70x70, 110 cm, RVS of zwart onderstel (Statafelshop ref. 'Kansas')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "60x60",
+                  "70x70"
+                ],
+                "height_cm": [
+                  "110"
+                ],
+                "top": [
+                  "Hout",
+                  "Wit Compact",
+                  "Wit Melamine",
+                  "Zwart Compact",
+                  "Zwart Melamine"
+                ],
+                "frame": [
+                  "RVS",
+                  "Zwart"
+                ]
+              },
+              "key_specs": [
+                "RVS is offered only on Kansas (statafel and Terrastafel Kansas RVS) (https://www.statafelshop.nl/product/statafel-kansas/, confirmed)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Kansas",
+                  "eur_incl_btw": 163.29,
+                  "eur_excl_btw": 134.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-kansas/",
+                  "shop": "statafelshop",
+                  "note": "stale page",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "confirmed (options) / likely (price)"
+            },
+            {
+              "name": "Statafel rechthoek 160x60 vurenhout, 110 cm (Statafelshop ref. 'Purus')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "top_cm": [
+                  "160x60"
+                ],
+                "height_cm": [
+                  "110"
+                ],
+                "top": [
+                  "vurenhout"
+                ],
+                "frame": [
+                  "grijs hamerslag"
+                ]
+              },
+              "key_specs": [
+                "inklapbaar; 'MINIMALE afname 4 stuks' (https://www.statafelshop.nl/product/buffettafel-blow-mold-inclusief-stretchrok/, likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Purus 160x60",
+                  "eur_incl_btw": 204.49,
+                  "eur_excl_btw": 169.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-purus/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafel breed metaal, blad met draaiknop (Statafelshop ref. 'Montana')",
+              "shop": "statafelshop",
+              "key_specs": [
+                "metal, wide; wooden or metal top attached with a turn knob (https://www.statafelshop.nl/product-categorie/statafels/, likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Montana breed",
+                  "eur_incl_btw": 252.89,
+                  "eur_excl_btw": 209.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/statafels/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed; older crawl; same €209 excl. as Indus Breed, possible conflation",
+                  "confidence": "unconfirmed"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Hangtafel",
+              "shop": "statafelshop",
+              "reference_prices": [],
+              "key_specs": [
+                "pages exist: https://statafelshop.nl/hangtafel and https://www.statafelshop.nl/hangtafel-kopen/ (likely)"
+              ],
+              "gaps": [
+                "what a Statafelshop hangtafel is, its sizes and prices were not retrieved"
+              ],
+              "confidence": "likely"
             }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/statafels/",
+              "note": "Statafelshop statafels category; filters bladkleur (graniet, wit, antraciet, punti), onderstel kleur, bladdiameter 70/80/85 cm with counts per value (likely)"
+            }
+          ],
+          "gaps": [
+            "Statafelshop: max load (draagvermogen) not found for any statafel (only Kruk Indus laag 150 kg); weight known only for Columbus/Ohio (13,2 kg) and Colorado (12 kg, unconfirmed); price per Ø on Savannah/Sacramento/Toronto not found",
+            "Statafelshop: searched but not found (absence not proven): round Ø60 statafel, HDPE/blow-mold statafel (the only blow-mold item is a buffet table), statafel with wheels"
           ]
         },
         {
@@ -3003,6 +4192,37 @@
                   "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/terrastafels/"
                 }
               ]
+            },
+            {
+              "name": "Terrastafel (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "type": [
+                  "three round inklapbare terrastafels",
+                  "Terrastafel Kansas RVS"
+                ],
+                "size": [
+                  "60x60",
+                  "70x70 (Kansas)"
+                ],
+                "top": [
+                  "hout",
+                  "melamine (Kansas)"
+                ]
+              },
+              "key_specs": [
+                "Terrastafel Kansas RVS (https://www.statafelshop.nl/product/terrastafel-kansas-rvs/, confirmed); three round inklapbare terrastafels (https://www.statafelshop.nl/product-categorie/onderdelen/, likely)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "Statafelshop terrastafel prices not retrieved"
+              ]
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/terrastafels/",
+              "note": "Statafelshop Terrastafels category"
             }
           ]
         },
@@ -3027,7 +4247,12 @@
                 "size_seen": [
                   "200x60",
                   "220x76",
-                  "122/76 kwartrond"
+                  "180x76",
+                  "rond Ø150",
+                  "rond Ø180",
+                  "rond Ø183",
+                  "122/76 kwartrond",
+                  "183/91 kwartrond (houten blad)"
                 ]
               },
               "reference_prices": [
@@ -3042,6 +4267,34 @@
                   "eur_incl_btw": 129,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/klaptafels/"
+                },
+                {
+                  "label": "rond 180 cm HDPE lichtgrijs",
+                  "eur_incl_btw": 254.5,
+                  "eur_excl_btw": 210.33,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/"
+                },
+                {
+                  "label": "rond 150 cm HDPE lichtgrijs",
+                  "eur_incl_btw": 188.5,
+                  "eur_excl_btw": 155.79,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/klaptafel-rond-150cm-lichtgrijs/"
+                },
+                {
+                  "label": "180x76 vouwbaar lichtgrijs (2 HDPE helften)",
+                  "eur_incl_btw": 95.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/klaptafel-180-x-76-cm-vouwbaar-lichtgrijs/"
+                },
+                {
+                  "label": "Foldtable 200x60 (melamine/houtlook)",
+                  "eur_incl_btw": 959.0,
+                  "eur_excl_btw": 792.56,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
+                  "note": "looks high for one table, may be a set; verify"
                 }
               ],
               "volume_tiers_reference": {
@@ -3049,8 +4302,68 @@
                 "tiers": "2-5 st 5% ... 20+ st 12,5%"
               },
               "accessories": [
-                "trolley"
+                "trolley (rond 180: vanaf €482,50, 10% off the trolley with the tables; rond 150: trolley holds 10; Foldtable trolley 10 st €1.350)"
+              ],
+              "key_specs": [
+                "rond 180: grijs gelakt stalen frame, 30 kg (https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/, likely)",
+                "Foldtable has an 'Offerte aanvragen' option on the PDP (https://www.outmate.nl/product/foldtable-200x60cm/, likely)"
               ]
+            },
+            {
+              "name": "Buffettafel / klaptafel HDPE (Statafelshop 'Tafels')",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "size": [
+                  "180x76",
+                  "122x61",
+                  "bankettafel rond"
+                ],
+                "height_cm": [
+                  "74"
+                ],
+                "colour": [
+                  "lichtgrijs"
+                ]
+              },
+              "key_specs": [
+                "Buffettafel Blow Mold 180x76 inklapbaar, 74 cm, light grey; the only blow-mold item in the shop (https://www.statafelshop.nl/product-categorie/tafels/, likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Blow Mold 180x76",
+                  "eur_incl_btw": 85.85,
+                  "eur_excl_btw": 70.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/buffettafel-blow-mold-inclusief-stretchrok/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Blow Mold 122x61",
+                  "eur_incl_btw": 74.96,
+                  "eur_excl_btw": 61.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/buffettafel-blow-mold-inclusief-stretchrok/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Blow Mold 180x76 incl. stretchhoes 183x76 (wit/zwart)",
+                  "eur_incl_btw": 119.79,
+                  "eur_excl_btw": 99.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/buffettafel-blow-mold-inclusief-stretchrok/",
+                  "shop": "statafelshop",
+                  "note": "same price pair as the printed stretchhoes; check for a summariser mix-up",
+                  "confidence": "likely"
+                }
+              ],
+              "accessories": [
+                "stretchhoes buffettafel 183x76 (statafelrokken-hoezen.buffettafel-hoezen)",
+                "beschermplaat 182x75",
+                "transportkar buffettafel rond"
+              ],
+              "confidence": "likely"
             }
           ]
         },
@@ -3058,7 +4371,7 @@
           "id": "biertafels",
           "name_nl": "Biertafels & bierbanken (sets)",
           "reference_url": "https://www.outmate.nl/product-categorie/accessoires-meubilair/frame-onderdelen/",
-          "confidence": "unconfirmed",
+          "confidence": "unconfirmed (outmate) / likely (statafelshop)",
           "product_types": [
             {
               "name": "Biertafelset / onderstel",
@@ -3076,11 +4389,83 @@
                 "kliksloten"
               ],
               "gaps": [
-                "widths (50/70 cm), set contents and set price unconfirmed; biertafelset hoes price and sizes unconfirmed"
+                "Outmate: widths (50/70 cm), set contents and set price unconfirmed; round-4 Outmate search found no biertafelset price (it appears only in navigation links) and no klapstoel product (https://www.outmate.nl/product-categorie/tafels-en-stoelen/, unconfirmed)",
+                "biertafelset hoes price and sizes unconfirmed"
               ]
+            },
+            {
+              "name": "Biertafel / biertafelset (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "quality": [
+                  "standaard kwaliteit",
+                  "brouwerij kwaliteit"
+                ],
+                "size_seen": [
+                  "220x50"
+                ],
+                "pack": [
+                  "1",
+                  "set",
+                  "10 stuks"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "biertafel standaard kwaliteit 220x50",
+                  "eur_incl_btw": 114.89,
+                  "eur_excl_btw": 94.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/biertafel",
+                  "shop": "statafelshop",
+                  "note": "incl. computed",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "biertafelset standaard",
+                  "eur_incl_btw": 225.0,
+                  "eur_excl_btw": 185.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/biertafel",
+                  "shop": "statafelshop",
+                  "note": "incl. computed; one set listing showed 'tijdelijk uitverkocht'",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "biertafel standaard kwaliteit 10 stuks",
+                  "eur_incl_btw": 1017.55,
+                  "eur_excl_btw": 840.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "biertafel brouwerijkwaliteit 10 stuks",
+                  "eur_incl_btw": 1376.92,
+                  "eur_excl_btw": 1137.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                }
+              ],
+              "key_specs": [
+                ".be PDP USP line 'Vóór 14 uur besteld, dezelfde dag verzonden ✓ 2 jaar garantie ✓ Gratis verzenden' (https://www.statafelshop.be/product/biertafel-standaard-kwaliteit/, likely)"
+              ],
+              "gaps": [
+                "Statafelshop: no biertafelhoes found (searched, not proof); brouwerij single price and widths other than 50 cm not retrieved"
+              ],
+              "confidence": "likely"
             }
           ],
-          "notes": "'Biertafels en bierbanken' appears only as a menu label; no category URL was found."
+          "notes": "'Biertafels en bierbanken' appears only as a menu label; no category URL was found.",
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/biertafelsets/",
+              "note": "Statafelshop Biertafelsets category (also https://www.statafelshop.be/product-categorie/biertafelsets/); landing https://www.statafelshop.nl/biertafel-kopen/ 'Bekijk onze tafels en tafelsets vanaf €104,-'"
+            }
+          ]
         },
         {
           "id": "barkrukken",
@@ -3098,10 +4483,45 @@
                   "hamerslag"
                 ]
               },
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "Paxi draadstoel zwart",
+                  "eur_incl_btw": 147.5,
+                  "eur_excl_btw": 121.9,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/barkruk-paxi-draadstoel-zwart/"
+                },
+                {
+                  "label": "Louis (gestoffeerd, stapelbaar tot 8)",
+                  "eur_incl_btw": 139.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/barkruk-louis/",
+                  "note": "another listing €129"
+                },
+                {
+                  "label": "Mundo stapelbaar (per 4 st)",
+                  "eur_incl_btw": 167.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/barkruk-stapelbaar-mundo/",
+                  "note": "order multiple: per 4 pieces"
+                },
+                {
+                  "label": "Hamburg stapelbaar metaal zwart",
+                  "eur_incl_btw": 32.75,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/barkruk-stapelbaar-metaal-zwart-hamburg/",
+                  "note": "was €39; one page gives €32,75-€46,95; stackable up to 10; shipping 1 st €12,50 / 2+ €25"
+                },
+                {
+                  "label": "inklapbare barkruk met rugleuning, kunstleer zwart",
+                  "eur_incl_btw": 69.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/barkrukken/"
+                }
+              ],
               "volume_tiers_reference": {
-                "source_url": "https://www.outmate.nl/product/barkruk-louis/",
-                "tiers": "staffel vanaf 10 st"
+                "source_url": "https://www.outmate.nl/product/barkruk-paxi-draadstoel-zwart/",
+                "tiers": "Paxi/Louis/Mundo: 5% vanaf 10, 6,25% vanaf 26, 7,5% vanaf 49 st; Hamburg: 2,5% vanaf 4, 4% vanaf 9, 5,5% vanaf 31 st (https://www.outmate.nl/product/barkruk-stapelbaar-metaal-zwart-hamburg/) (likely)"
               },
               "accessories": [
                 "trolley 18 krukken"
@@ -3114,8 +4534,50 @@
                 "hamerslag (https://www.outmate.nl/product/barkruk-stapelbaar-hamerslag/, likely)"
               ],
               "gaps": [
-                "all prices, colours and staffel tier percentages unconfirmed"
+                "Outmate: hamerslag barkruk price not found; colours per model unconfirmed; 'Supercombi 24x barkruk Hamburg + trolley' bundle price not captured"
               ]
+            },
+            {
+              "name": "Barkruk hoog (Statafelshop: 8 models)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "model_ref": [
+                  "Indus (stapelbaar)",
+                  "Amoer (chroom frame)",
+                  "Angara",
+                  "Rotan (PE rotan, buiten)",
+                  "Kruk Indus laag"
+                ]
+              },
+              "key_specs": [
+                "8 different high barkrukken (https://www.statafelshop.nl/product-categorie/barkrukken/, likely)",
+                "Kruk Indus laag rated 150 kg (https://www.statafelshop.nl/product/kruk-indus-laag/, unconfirmed)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Indus stapelbaar",
+                  "eur_incl_btw": 39.0,
+                  "kind": "approx",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/barkrukken/",
+                  "shop": "statafelshop",
+                  "note": "'from about €39 incl.'",
+                  "confidence": "likely"
+                }
+              ],
+              "accessories": [
+                "transportkar voor barkruk Angara/Amoer (tot 30)",
+                "transportkar incl. barkruk Indus 24 st"
+              ],
+              "gaps": [
+                "Statafelshop barkruk prices other than Indus, heights and colours not retrieved"
+              ],
+              "confidence": "likely"
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/barkrukken/",
+              "note": "Statafelshop Barkrukken category (also https://statafelshop.nl/barkrukken)"
             }
           ]
         },
@@ -3123,17 +4585,67 @@
           "id": "stoelen",
           "name_nl": "Stoelen (stapelstoelen)",
           "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/stoelen/",
-          "confidence": "unconfirmed",
+          "confidence": "likely",
           "product_types": [
             {
               "name": "Stapelstoel",
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "Cross Back stapelstoel",
+                  "eur_incl_btw": 92.5,
+                  "eur_excl_btw": 76.45,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stapelstoel-cross-back/",
+                  "note": "category shows 'vanaf €62,50'"
+                },
+                {
+                  "label": "Hamburg stapelstoel zwart",
+                  "eur_incl_btw": 48.5,
+                  "eur_excl_btw": 40.08,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stapelstoel-hamburg-zwart/"
+                },
+                {
+                  "label": "Louis stapelstoel bij 10-25 st",
+                  "eur_incl_btw": 122.55,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stapelstoel-louis/",
+                  "note": "staffel price per chair"
+                }
+              ],
               "key_specs": [
-                "parts category https://www.outmate.nl/product-categorie/meubilair-accessoires/stoelen-onderdelen/"
+                "parts category https://www.outmate.nl/product-categorie/meubilair-accessoires/stoelen-onderdelen/",
+                "Cross Back seat cushion (stoel/barkruk kussen) sold separately (https://www.outmate.nl/product-categorie/tafels-en-stoelen/stoelen/, likely)"
               ],
               "gaps": [
-                "chair types, colours and prices unconfirmed; a 'Cross Back' chair is only inferred from the trolley name (https://www.outmate.nl/product/stapelstoelen-trolley-cross-back/)"
+                "Outmate: no klapstoel product found in round 4 (searched, not proof); colours per model unconfirmed"
               ]
+            },
+            {
+              "name": "Klapstoel / stapelstoel (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "type": [
+                  "klapstoel (ref. 'Donau', 'Moezel')",
+                  "stapelstoel (ref. 'Waal')"
+                ]
+              },
+              "reference_prices": [],
+              "accessories": [
+                "transportkar incl. klapstoel Donau 50 st",
+                "transportkar incl. klapstoel Moezel 33 st",
+                "transportkar voor stapelstoel Waal 20/40 st"
+              ],
+              "gaps": [
+                "Statafelshop chair prices, colours and specs not retrieved"
+              ],
+              "confidence": "likely"
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/stoelen/",
+              "note": "Statafelshop Stoelen category (alias https://statafelshop.nl/horeca-stoelen)"
             }
           ]
         },
@@ -3184,8 +4696,19 @@
                   "note": "€2.299-€2.335, sale €1.969"
                 }
               ]
+            },
+            {
+              "name": "Bundel barkrukken + trolley",
+              "reference_prices": [],
+              "key_specs": [
+                "'Supercombi 24x barkruk Hamburg + trolley' exists (https://www.outmate.nl/product/barkruk-stapelbaar-metaal-zwart-hamburg/, likely)"
+              ],
+              "gaps": [
+                "price not captured"
+              ]
             }
-          ]
+          ],
+          "notes": "Statafelshop trolley + table packages (transportkar + 5/7/15 statafels, 25 buffettafels, 10 biertafels) are recorded under statafelrokken-hoezen.actiepakketten, the Statafelshop 'Actiepakketten' category."
         },
         {
           "id": "trolleys",
@@ -3201,6 +4724,19 @@
                   "eur_incl_btw": 589,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/"
+                },
+                {
+                  "label": "klaptafel rond 180 trolley",
+                  "eur_incl_btw": 482.5,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/",
+                  "note": "10% off the trolley when bought with the tables"
+                },
+                {
+                  "label": "Foldtable trolley 10 st",
+                  "eur_incl_btw": 1350.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/"
                 }
               ],
               "key_specs": [
@@ -3208,9 +4744,79 @@
                 "every chair and table has a matching trolley; HDPE klaptafels sold with trolleys (https://www.outmate.nl/product-categorie/accessoires-meubilair/transportkarren/, likely)"
               ],
               "gaps": [
-                "full trolley list, capacities other than the statafel trolley (10 st) and the Cross Back trolley (18 st), and every price other than the statafel trolley (€589) unconfirmed, incl. the Cross Back trolley price",
-                "Statafelshop trolley models, capacity and price unconfirmed"
+                "Outmate: Cross Back trolley price and the full trolley list unconfirmed"
               ]
+            },
+            {
+              "name": "Transportkar voor sta- en terrastafels / stoelen / barkrukken (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "model": [
+                  "groot (L 125,5 x B 97 x H 113 cm)",
+                  "klein (65 x 95 x 114 cm)",
+                  "Mississippi (115 x 70 x 129 cm)",
+                  "Kansas",
+                  "Indus",
+                  "buffettafel rond",
+                  "stapelstoel Waal 20/40 st",
+                  "klapstoel Moezel 33 st",
+                  "barkruk Angara/Amoer tot 30 st"
+                ],
+                "colour": [
+                  "grijs hamerslag"
+                ],
+                "filled": [
+                  "leeg",
+                  "gevuld (actiepakket)"
+                ]
+              },
+              "key_specs": [
+                "groot holds 15 statafels Colorado/Hudson/Missouri, 12 Yukon/Ohio or 10 Savannah/Sacramento (https://www.statafelshop.nl/product/transportkar-groot-voor-sta-en-terrastafels/, confirmed)",
+                "klein holds 5 Savannah/Sacramento (https://www.statafelshop.nl/product/transportkar-klein-voor-sta-en-terrastafels/, likely)",
+                "Mississippi max 10 tables (https://www.statafelshop.nl/product/transportkar-voor-sta-en-terrastafels-mississippi/, likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "groot sta- en terrastafels",
+                  "eur_incl_btw": 434.39,
+                  "eur_excl_btw": 359.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/transportkar-groot-voor-sta-en-terrastafels/",
+                  "shop": "statafelshop",
+                  "note": "category page shows €465,85 incl. / €385,00 excl.",
+                  "confidence": "confirmed"
+                },
+                {
+                  "label": "klein sta- en terrastafels",
+                  "eur_incl_btw": 311.58,
+                  "eur_excl_btw": 257.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/transportkar-klein-voor-sta-en-terrastafels/",
+                  "shop": "statafelshop",
+                  "note": "a related block shows €320,00 excl.",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Mississippi",
+                  "eur_incl_btw": 526.35,
+                  "eur_excl_btw": 435.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/transportkar-voor-sta-en-terrastafels-mississippi/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed; prices differ between pages",
+                  "confidence": "likely"
+                }
+              ],
+              "gaps": [
+                "Statafelshop prices of the empty stoelen/barkrukken trolleys, Kansas/Indus/buffettafel trolleys not retrieved; several filled trolleys were out of stock"
+              ],
+              "confidence": "likely"
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/transportkarren/",
+              "note": "Statafelshop Transportkarren category: heavy duty wielen, powder coating with high impact resistance (likely)"
             }
           ]
         },
@@ -3229,12 +4835,37 @@
                 ]
               },
               "reference_prices": []
+            },
+            {
+              "name": "Onderdelen per statafelmodel (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "part": [
+                  "middenstuk (Savannah)",
+                  "voetdop (Sacramento, Colorado)",
+                  "schroeven en moeren (Sacramento)",
+                  "onderstel (Missouri, Colorado, Oregon)",
+                  "los tafelblad sta-/terrastafel in diverse afmetingen",
+                  "buisbeugel"
+                ]
+              },
+              "key_specs": [
+                "https://www.statafelshop.nl/product/los-tafelblad-voor-sta-en-terrastafels/ (likely)"
+              ],
+              "reference_prices": [],
+              "gaps": [
+                "Statafelshop part prices not retrieved"
+              ]
             }
           ],
           "alias_urls": [
             {
               "url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafel-onderdelen/",
               "note": "second path, titled 'Statafel en terrastafel onderdelen' (https://www.outmate.nl/product-categorie/tafels-en-stoelen/, confirmed)"
+            },
+            {
+              "url": "https://www.statafelshop.nl/product-categorie/onderdelen/onderstel/",
+              "note": "Statafelshop Onderdelen (subcategories onderstel, buisbeugel); parts for restoring older furniture"
             }
           ],
           "notes": "Census 2026-10-17: now statafel/terrastafel onderdelen + biertafel frame-onderdelen only; barkruk-onderdelen, klaptafel-onderdelen and stoelen-onderdelen are their own subcategories."
@@ -3271,6 +4902,26 @@
             "parts, prices and compatibility list unconfirmed"
           ],
           "notes": "Own Outmate category node, category URL recorded in scratchpad research-raw.json (block 2, categories[17]) under 'Meubilair accessoires'. Census 2026-10-17: split out of meubel-onderdelen, which listed it only as a part value. URL not re-queried (search budget used up)."
+        },
+        {
+          "id": "banken",
+          "name_nl": "Banken",
+          "reference_url": "https://www.statafelshop.nl/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Bank (houten frame, stoffen zitting)",
+              "shop": "statafelshop",
+              "reference_prices": [],
+              "key_specs": [
+                "bench with wooden frame and fabric seat (https://www.statafelshop.nl/product-categorie/onderdelen/, likely)"
+              ],
+              "gaps": [
+                "category URL, sizes and prices not observed"
+              ]
+            }
+          ],
+          "notes": "Statafelshop top-level menu category 'Banken' (https://www.statafelshop.nl/, likely). Not seen on Outmate."
         }
       ]
     },
@@ -3285,7 +4936,8 @@
         },
         {
           "shop": "statafelshop",
-          "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+          "url": "https://www.statafelshop.nl/product-categorie/statafelhoezen/",
+          "note": "Statafelshop 'Statafelhoezen' (stretchrok + topcover, strikrok, losse topcover, stretchhoes met eigen opdruk, EK/WK rok); 'Textiel' (https://www.statafelshop.nl/product-categorie/textiel/) overlaps and adds tafelkleden and the buffet stretchhoes; beschermplaten sit under 'Diverse' (https://www.statafelshop.nl/product-categorie/diverse/). Legacy short slugs: /statafelrokken, /strikrokken, /stretchrokken, /statafelhoes."
         },
         {
           "shop": "outmate",
@@ -3293,17 +4945,101 @@
           "note": "alternative top-level path for 'Rokken en hoezen' (scratchpad research-raw.json block 0 categories[13], block 2 categories[18])"
         }
       ],
-      "confidence": "likely (outmate) / unconfirmed (statafelshop)",
-      "notes": "Core Statafelshop category per BRIEF, but no Statafelshop data was gathered (the initial round and all three 2026-10-17 follow-up rounds were blocked by the search budget). Only the Outmate stretch rok is sourced. Outmate's 'Rokken en hoezen' category holds statafelrokken and biertafelset hoezen and resolves at three URLs (/product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/, /product-categorie/uncategorized/statafelrokken/).",
+      "confidence": "confirmed (statafelshop) / likely (outmate)",
+      "notes": "Statafelshop textile data from round 4 (2026-10-17). Statafelshop has no separate menu items for strik, kleden, topcovers or bedrukte hoezen; they live inside Statafelhoezen/Textiel. Care claim on all hoezen/rokken: 'wasbaar op 30 graden, kleurvast en kreukbestendig' (https://www.statafelshop.nl/statafelkleed-kopen/, likely). No staffel or quantity tiers on any Statafelshop textile page (plain 'aantal' field; bulk orders are sent to Zakelijk) (https://www.statafelshop.nl/statafelhoes-kopen/, likely). Do NOT use the Outmate €14,99 rok as a Statafelshop proxy: the operators differ and Statafelshop's price is about twice that with a different size split. Outmate's 'Rokken en hoezen' category holds statafelrokken and biertafelset hoezen and resolves at three URLs (/product-categorie/meubilair-accessoires/statafelrokken/, /product-categorie/statafelrokken/, /product-categorie/uncategorized/statafelrokken/).",
       "subcategories": [
         {
           "id": "statafelrok-stretch",
           "name_nl": "Statafelrok stretch",
-          "reference_url": "https://www.outmate.nl/product/statafelrok-stretch/",
-          "confidence": "likely",
+          "reference_url": "https://www.statafelshop.nl/product/stretchrok-topcover/",
+          "confidence": "confirmed (statafelshop) / likely (outmate)",
           "product_types": [
             {
-              "name": "Statafelrok stretch (incl. topcover)",
+              "name": "Stretchrok + topcover (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "maat": [
+                  "Klein Ø60-Ø70 cm",
+                  "Standaard Ø80-Ø90 cm (Ø80/Ø85/Ø90 all fall under Standaard)"
+                ],
+                "table_height_cm": "105-115",
+                "kleur_stretchrok": [
+                  "Antraciet",
+                  "Appelgroen",
+                  "Aqua blauw",
+                  "Blauw",
+                  "Bordeaux",
+                  "Caramel",
+                  "Chocolade",
+                  "Donker roze",
+                  "Dune",
+                  "Ecru",
+                  "Geel",
+                  "Goud",
+                  "Grijs",
+                  "Groen",
+                  "Marine blauw",
+                  "Oranje",
+                  "Paars",
+                  "Rood",
+                  "Turquoise",
+                  "Wit",
+                  "Zilver",
+                  "Zwart"
+                ]
+              },
+              "key_specs": [
+                "topcover always included; no stretchrok without topcover found (https://www.statafelshop.nl/product/stretchrok-topcover/, confirmed)",
+                "'bestemd voor tafels met een hoogte van 105 tot 115 cm' (confirmed)",
+                "100% polyester (likely); no g/m² and no lycra/spandex share found",
+                "22 colours on the product page (confirmed); category/landing pages say 21, 20 or 19 (older copy)",
+                "'wasbaar op 30 graden, kleurvast en kreukbestendig'; 'kreukvrij, duurzaam en eenvoudig te reinigen' (likely)",
+                "bestseller of the Statafelhoezen category (likely)",
+                "stock line 'Op voorraad, voor 14u besteld, dezelfde dag verzonden' (confirmed)",
+                "cross-sell: oranje rok with a football or Dutch-flag topcover for EK/WK (likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Klein of Standaard",
+                  "eur_incl_btw": 33.82,
+                  "eur_excl_btw": 27.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/stretchrok-topcover/",
+                  "shop": "statafelshop",
+                  "note": "same price for both sizes per one search only (unconfirmed); no staffel",
+                  "confidence": "confirmed"
+                }
+              ],
+              "gaps": [
+                "fabric weight (g/m²), elastane share, swatch vs dropdown colour selector and a kleurstalen service not found"
+              ],
+              "confidence": "confirmed"
+            },
+            {
+              "name": "Thema-stretchrok (EK/WK Nederland, Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "maat": [
+                  "Klein Ø60-70",
+                  "Standaard Ø80-90"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "EK/WK stretchrok",
+                  "eur_incl_btw": 48.34,
+                  "eur_excl_btw": 39.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/ek-wk-rok/",
+                  "shop": "statafelshop",
+                  "note": "sale, was €54,45; shown in the Statafelhoezen sale section; in stock, same-day dispatch",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Statafelrok stretch incl. topcover (Outmate)",
               "variant_dimensions": {
                 "fits_top_cm": "70-85",
                 "colour_seen": [
@@ -3330,8 +5066,7 @@
                 }
               ],
               "gaps": [
-                "Outmate: full colour list, whether exclusive colours cost more, height values, wash/iron/strijkvrij care and staffel/set prices unconfirmed; €14,99 assumed incl. btw",
-                "Statafelshop: fitting Ø/heights, colours, fabric, care, topcover, price, staffel (1/5+/10+/25+), set prices (4/10) and dispatch line unconfirmed"
+                "Outmate: full colour list, whether exclusive colours cost more, height values, wash/iron/strijkvrij care and staffel/set prices unconfirmed; €14,99 assumed incl. btw"
               ]
             }
           ]
@@ -3339,29 +5074,114 @@
         {
           "id": "statafelhoes-strik",
           "name_nl": "Statafelhoes met strik",
-          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
-          "confidence": "unconfirmed",
+          "reference_url": "https://www.statafelshop.nl/product/strikrok/",
+          "confidence": "confirmed",
           "product_types": [
             {
-              "name": "Statafelhoes met strik",
-              "reference_prices": [],
+              "name": "Strikrok (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "kleur_strikrok": [
+                  "Antraciet",
+                  "Blauw",
+                  "Bordeaux",
+                  "Ecru",
+                  "Wit",
+                  "Zwart"
+                ],
+                "afmeting_blad": "Ø70-Ø90 cm",
+                "strak_of_los": "Los"
+              },
+              "key_specs": [
+                "6 colours, Ø70-Ø90, 'Strak of Los: Los' (https://www.statafelshop.nl/product/strikrok/, confirmed)",
+                "'minder elastisch' than the stretchrok, so it forms a plooi; the strik in the middle gives the elegant look; 'de plooien blijven mooi in vorm' (https://www.statafelshop.nl/statafelhoes-kopen/, likely)",
+                "single colour attribute: no separate strik-colour choice found (likely)",
+                "stock line 'voor 14u besteld, dezelfde dag verzonden' (confirmed)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Strikrok",
+                  "eur_incl_btw": 30.19,
+                  "eur_excl_btw": 24.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/strikrok/",
+                  "shop": "statafelshop",
+                  "note": "conflicting result: €35,03 incl. / €28,95 excl.; a third summary's €39,95 excl. is probably the EK/WK rok",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "Strikrok (other snapshot)",
+                  "eur_incl_btw": 35.03,
+                  "eur_excl_btw": 28.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/strikrok/",
+                  "shop": "statafelshop",
+                  "note": "which of the two prices is current is unresolved",
+                  "confidence": "likely"
+                }
+              ],
               "gaps": [
-                "fitting Ø/heights, hoes colours and surcharge, strik colour and whether it is chosen separately, fabric, care, topcover, price, staffel/set prices, dispatch line: all unconfirmed"
+                "one page claims 11 strik colours (https://www.statafelshop.nl/product-categorie/textiel/, unconfirmed) vs 6 on the PDP; table height, fabric and g/m² not found; no topcover mentioned"
               ]
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/strikrokken",
+              "note": "legacy short slug (also on statafelshop.be)"
             }
           ]
         },
         {
           "id": "statafelkleden",
           "name_nl": "Statafelkleden",
-          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
-          "confidence": "unconfirmed",
+          "reference_url": "https://www.statafelshop.nl/product/tafelkleed-140x140cm/",
+          "confidence": "confirmed",
           "product_types": [
             {
-              "name": "Statafelkleed",
-              "reference_prices": [],
+              "name": "Tafelkleed los, over een stretchrok (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "shape_size": [
+                  "rond Ø130 cm",
+                  "vierkant 140x140 cm"
+                ],
+                "kleur": [
+                  "Blauw",
+                  "Bordeaux",
+                  "Ecru",
+                  "Wit",
+                  "Zwart"
+                ],
+                "strak_of_los": "Los"
+              },
+              "key_specs": [
+                "100% polyester (https://www.statafelshop.nl/product/tafelkleed-140x140cm/, confirmed)",
+                "laid over a stretchrok; 'staat net iets chiquer en beschermt de stretchrok tegen vlekken'; round and square both fit a round top, the difference is the corners (https://www.statafelshop.nl/statafelkleed-kopen/, likely)",
+                "no floor-length statafelkleed found (searched, not proof)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Ø130 rond",
+                  "eur_incl_btw": 18.09,
+                  "eur_excl_btw": 14.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/tafelkleden/",
+                  "shop": "statafelshop",
+                  "confidence": "confirmed"
+                },
+                {
+                  "label": "140x140 vierkant",
+                  "eur_incl_btw": 18.09,
+                  "eur_excl_btw": 14.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/tafelkleed-140x140cm/",
+                  "shop": "statafelshop",
+                  "confidence": "confirmed"
+                }
+              ],
               "gaps": [
-                "sizes, floor-length or not, colours, fabric g/m², care/strijkvrij, price, staffel/set prices, dispatch line: all unconfirmed"
+                "g/m² and care for the kleden not found; one page mentions a set of 7 statafels with 7 kleden (price unconfirmed)"
               ]
             }
           ]
@@ -3369,54 +5189,347 @@
         {
           "id": "bedrukte-hoezen",
           "name_nl": "Bedrukte statafelhoezen (eigen logo)",
-          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
-          "confidence": "unconfirmed",
+          "reference_url": "https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/",
+          "confidence": "likely",
           "product_types": [
             {
-              "name": "Bedrukte statafelhoes",
+              "name": "Stretchhoes met eigen opdruk (Statafelshop)",
+              "shop": "statafelshop",
               "printable": true,
-              "reference_prices": [],
+              "variant_dimensions": {
+                "size": [
+                  "Ø80",
+                  "Ø85"
+                ]
+              },
+              "key_specs": [
+                "'Bij Statafelshop.nl kan je je eigen statafelhoes laten bedrukken geheel naar eigen ontwerp' / 'Maak jouw eigen unieke ontwerp en stuur deze naar ons toe'; logo, company name or design, e.g. a trade-fair table (confirmed)",
+                "no upload on the PDP: order online, receive an e-mail with the order details, then send the images/photos for the print (https://www.statafelshop.nl/product/beschermplaat-met-eigen-opdruk/, likely)",
+                "PDP notice 'Gepersonaliseerde producten hebben een langere levertijd' (no days); the 'voor 14u besteld' promise does not apply (confirmed)",
+                "lead time 'ongeveer tussen de 7 en 14 dagen' and elsewhere 'binnen 2 à 3 weken' (https://www.statafelshop.nl/statafelkleed/, likely); old shop '2 tot 3 weken'"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Ø80 / Ø85",
+                  "eur_incl_btw": 119.79,
+                  "eur_excl_btw": 99.0,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/",
+                  "shop": "statafelshop",
+                  "note": "seen in two searches; the same pair also appears for the Blow Mold buffettafel incl. stretchrok, so a mix-up is not fully ruled out",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "old shop",
+                  "eur_incl_btw": 114.95,
+                  "eur_excl_btw": 95.0,
+                  "kind": "fixed",
+                  "source_url": "https://oud.statafelshop.nl/statafel",
+                  "shop": "statafelshop",
+                  "note": "legacy oud. subdomain, outdated",
+                  "confidence": "likely"
+                }
+              ],
               "gaps": [
-                "print technique, positions (voorkant/rondom/topcover), upload file types/size, proof, MOQ, surcharge/tiers and lead time unconfirmed; Outmate print flow (cross_category_services.bedrukking) is a same-operator proxy only"
-              ]
+                "searched, not found: print method (sublimatie/full colour), print positions (voorkant/rondom/topcover), file requirements, drukproef/proof approval, MOQ, print surcharge or volume tiers"
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Beschermplaat met eigen opdruk (Statafelshop)",
+              "shop": "statafelshop",
+              "printable": true,
+              "variant_dimensions": {
+                "size": [
+                  "Ø68",
+                  "Ø78",
+                  "Ø83"
+                ]
+              },
+              "key_specs": [
+                "flexible plastic (one page: PVC); personalised, so longer lead time; photos added after a mail from the shop (likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Ø68 / Ø78 / Ø83",
+                  "eur_incl_btw": 75.63,
+                  "eur_excl_btw": 62.5,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/beschermplaat-met-eigen-opdruk/",
+                  "shop": "statafelshop",
+                  "note": "resolves an earlier 'about €75 incl.' snippet",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
             }
           ]
         },
         {
           "id": "topcovers",
           "name_nl": "Topcovers",
-          "reference_url": "https://www.outmate.nl/product/statafelrok-stretch/",
-          "confidence": "unconfirmed (only as included item)",
-          "product_types": [],
-          "notes": "Whether a separate topcover / tafelblad hoes is sold (and its Ø, colours, fabric, price) is unconfirmed on both shops; Outmate only includes it with the stretch rok."
+          "reference_url": "https://www.statafelshop.nl/product/topcover-stretch/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Losse topcover stretch (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "maat": [
+                  "Klein Ø60-Ø70",
+                  "Standaard Ø80-Ø90"
+                ],
+                "kleur": "about 22, same family as the stretchrok (product page); older landing copy says 15 or 20"
+              },
+              "key_specs": [
+                "'los te bestellen en beschikbaar in 15 verschillende kleuren en 2 maten' (https://www.statafelshop.nl/statafelkleed/, likely, older copy)",
+                "same-day dispatch before 14:00 (likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Klein / Standaard",
+                  "eur_incl_btw": 12.04,
+                  "eur_excl_btw": 9.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/topcover-stretch/",
+                  "shop": "statafelshop",
+                  "note": "conflicting result €13,25 incl. / €10,95 excl.; schema data range up to €58,71 across 41 offers (top of range unexplained)",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            },
+            {
+              "name": "Losse topcover rood/wit/blauw Ø130 (Statafelshop)",
+              "shop": "statafelshop",
+              "key_specs": [
+                "fixed national-flag print, polyester, Ø130 cm (likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Ø130",
+                  "eur_incl_btw": 23.6,
+                  "eur_excl_btw": 19.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/losse-topcover-rood-wit-blauw/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                }
+              ],
+              "confidence": "likely"
+            }
+          ],
+          "notes": "Statafelshop sells loose topcovers (round 4). Outmate only includes a topcover with its stretch rok."
         },
         {
           "id": "biertafelset-hoezen",
           "name_nl": "Biertafelset hoezen",
           "reference_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/",
-          "confidence": "confirmed",
+          "confidence": "confirmed (outmate category) / not found (statafelshop)",
           "product_types": [
             {
               "name": "Hoes biertafelset",
               "reference_prices": [],
               "gaps": [
-                "sizes (e.g. 220x50 / 220x70), colours, fabric and price unconfirmed"
+                "Outmate: sizes (e.g. 220x50 / 220x70), colours, fabric and price unconfirmed",
+                "Statafelshop: no biertafelhoes or biertafel stretch cover found in round 4 (https://www.statafelshop.nl/biertafel, searched, not proof)"
               ]
             }
           ]
         },
         {
-          "id": "actiepakketten",
-          "name_nl": "Actiepakketten (statafels + rokken)",
-          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
-          "confidence": "unconfirmed",
+          "id": "buffettafel-hoezen",
+          "name_nl": "Stretchhoezen buffettafel",
+          "reference_url": "https://www.statafelshop.nl/product/stretchhoes-voor-buffettafel-183x76cm/",
+          "confidence": "confirmed",
           "product_types": [
             {
-              "name": "Actiepakket",
-              "reference_prices": [],
-              "gaps": [
-                "Statafelshop package contents, prices, savings and compare-at prices unconfirmed; Outmate bundles (tafels-stoelen.bundels, barrels-sets) are same-operator proxies only"
+              "name": "Stretchhoes buffettafel 183x76 (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "size": [
+                  "183x76"
+                ],
+                "kleur": [
+                  "Wit",
+                  "Zwart"
+                ]
+              },
+              "key_specs": [
+                "in stock, voor 14:00 besteld = same-day dispatch (confirmed)",
+                "copy: statafelhoezen 'voor elke afmeting', incl. buffet tables of 180-240 cm (https://www.statafelshop.nl/statafelhoes-kopen/, likely); no round buffet-table hoes found"
+              ],
+              "reference_prices": [
+                {
+                  "label": "183x76",
+                  "eur_incl_btw": 42.29,
+                  "eur_excl_btw": 34.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/stretchhoes-voor-buffettafel-183x76cm/",
+                  "shop": "statafelshop",
+                  "confidence": "confirmed"
+                }
               ]
+            }
+          ],
+          "notes": "Statafelshop textile product (Textiel category). Market reference for printed buffet stretchhoezen is in market_price_bands."
+        },
+        {
+          "id": "beschermplaten",
+          "name_nl": "Beschermplaten (statafel- en buffetblad)",
+          "reference_url": "https://www.statafelshop.nl/product/beschermplaat/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Beschermplaat transparant PVC (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "size": [
+                  "Ø68",
+                  "Ø78",
+                  "Ø83",
+                  "182x75 (buffettafel)"
+                ]
+              },
+              "key_specs": [
+                "recommended on top of the hoes and topcover (https://www.statafelshop.nl/product-categorie/statafelhoezen/, likely)",
+                "printed version: bedrukte-hoezen 'Beschermplaat met eigen opdruk'"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Ø68 / Ø78 / Ø83",
+                  "eur_incl_btw": 18.09,
+                  "eur_excl_btw": 14.95,
+                  "kind": "from",
+                  "source_url": "https://www.statafelshop.nl/product/beschermplaat/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "182x75",
+                  "eur_incl_btw": 30.19,
+                  "eur_excl_btw": 24.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/beschermplaat-182x75cm/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                }
+              ]
+            }
+          ],
+          "notes": "Statafelshop 'Diverse' category (https://www.statafelshop.nl/product-categorie/diverse/, alias https://statafelshop.nl/diversen; short slugs /beschermplaat and /beschermplaat-opdruk). Not seen on Outmate."
+        },
+        {
+          "id": "actiepakketten",
+          "name_nl": "Actiepakketten (statafels, rokken, krukken, transportkar)",
+          "reference_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Actiepakket (Statafelshop)",
+              "shop": "statafelshop",
+              "variant_dimensions": {
+                "table_size": "Ø70/Ø80/Ø85 on the Savannah package",
+                "rok_colour": "stretchrok + topcover colour of choice (standaard maat) where a rok is included"
+              },
+              "key_specs": [
+                "homepage teaser 'actiepakket vanaf €69,95' (https://www.statafelshop.nl/, likely)",
+                "many sets marked 'tijdelijk niet op voorraad'; the page still mentions Statafelshop.be (likely)",
+                "no package of exactly '4 statafels + 4 rokken' found; the 4-piece package is 1 Colorado + 1 rok + 4 Angara barkrukken (confirmed)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "1 statafel Colorado + 1 stretchrok met topcover + 4 barkrukken Angara",
+                  "eur_incl_btw": 411.4,
+                  "eur_excl_btw": 340.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/actiepakket-vi/",
+                  "shop": "statafelshop",
+                  "note": "was €445,11",
+                  "confidence": "confirmed"
+                },
+                {
+                  "label": "transportkar + 5 statafels Savannah",
+                  "eur_incl_btw": 780.45,
+                  "eur_excl_btw": 645.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/transportkar-inclusief-statafel-savannah-5-stuks/",
+                  "shop": "statafelshop",
+                  "note": "Ø choice; a stretchrok + topcover per table can be chosen at vanaf €33,82 incl. each, unclear whether included; 'Gratis verzenden' badge",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "transportkar klein + 7 statafels Colorado",
+                  "eur_incl_btw": 966.79,
+                  "eur_excl_btw": 799.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
+                  "shop": "statafelshop",
+                  "note": "product URL not returned",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "transportkar klein + statafels Colorado + stretchrok + topcover",
+                  "eur_incl_btw": 1148.29,
+                  "eur_excl_btw": 949.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/actiepakket/",
+                  "shop": "statafelshop",
+                  "note": "URL from one agent, price from another",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "transportkar groot + 15 statafels Colorado",
+                  "eur_incl_btw": 1692.79,
+                  "eur_excl_btw": 1399.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/actiepakket-iv/",
+                  "shop": "statafelshop",
+                  "confidence": "confirmed"
+                },
+                {
+                  "label": "transportkar groot + statafels Colorado + stretchrok + topcover",
+                  "eur_incl_btw": 1996.5,
+                  "eur_excl_btw": 1650.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product-categorie/actiepakketten/",
+                  "shop": "statafelshop",
+                  "note": "incl. computed; single source",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "25 buffettafels + stretchrokken + beschermplaten + transportkar",
+                  "eur_incl_btw": 5196.95,
+                  "eur_excl_btw": 4295.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/buffettafels-25-stuks-incl-stretchrokken-beschermplaten-en-transportkar/",
+                  "shop": "statafelshop",
+                  "confidence": "likely"
+                },
+                {
+                  "label": "statafel Savannah Ø80 + stretchrok",
+                  "eur_incl_btw": 120.94,
+                  "eur_excl_btw": 99.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.statafelshop.nl/product/statafel-savannah-o80cm-incl-stretchrok/",
+                  "shop": "statafelshop",
+                  "note": "also listed under statafels",
+                  "confidence": "likely"
+                }
+              ],
+              "accessories": [
+                "transportkar incl. statafel Yukon 6 st (uitverkocht, price not found; https://www.statafelshop.nl/product/transportkar-klein-met-statafel-yukon-6-stuks/)",
+                "packages with biertafels/biertafelsets (see tafels-stoelen.biertafels) and with stapelstoel Waal 40 st"
+              ],
+              "gaps": [
+                "compare-at prices exist only on the Colorado + Angara set; savings per package not stated; set of 7 statafels + 7 kleden price unconfirmed"
+              ]
+            }
+          ],
+          "alias_urls": [
+            {
+              "url": "https://www.statafelshop.nl/aanbiedingen",
+              "note": "short-slug alias titled 'Actiepakketten'"
             }
           ]
         }
@@ -3447,17 +5560,72 @@
             {
               "name": "Prikkabel zwart",
               "variant_dimensions": {
-                "length_m": "standaard 5-30",
-                "custom": "op maat gemonteerd tot 200 m"
+                "length_m": "standaard 10/20/25 (wit)/30; other standard lengths unconfirmed",
+                "custom": "op maat gemonteerd tot 200 m, or op maat in onderdelen (loose parts for self-assembly, https://www.outmate.nl/product/prikkabel-op-maat-in-onderdelen/)",
+                "colour": [
+                  "zwart",
+                  "wit"
+                ]
               },
               "key_specs": [
                 "230 V, 16 A, max 25 W per fitting, IP44, E27",
                 "spec from https://www.outmate.nl/product/prikkabel-30-meter/; op maat via https://www.outmate.nl/product/prikkabel-op-maat-gemonteerd/"
               ],
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "10 m zwart",
+                  "eur_incl_btw": 49.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-10-meter/",
+                  "note": "older €47"
+                },
+                {
+                  "label": "20 m zwart",
+                  "eur_incl_btw": 87.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-20-meter/",
+                  "note": "product data range €87-€135,25; another snapshot €75,25"
+                },
+                {
+                  "label": "30 m zwart",
+                  "eur_incl_btw": 126.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-30-meter/",
+                  "note": "older €108,99; 'Offerte aanvragen' button next to the price"
+                },
+                {
+                  "label": "10 m wit (10 of 20 fittingen)",
+                  "eur_incl_btw": 49.0,
+                  "eur_excl_btw": 40.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/prikkabels/"
+                },
+                {
+                  "label": "20 m wit (20 of 40 fittingen)",
+                  "eur_incl_btw": 87.0,
+                  "eur_excl_btw": 71.9,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/prikkabels/",
+                  "note": "uitverkocht in the category"
+                },
+                {
+                  "label": "op maat gemonteerd",
+                  "eur_incl_btw": 9.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-op-maat-gemonteerd/",
+                  "note": "tot 200 m in one piece; binnen 3-5 werkdagen; shipping €7,95"
+                }
+              ],
               "bundle_rule": "10% korting op lampen bij kabel + LED-lampen",
               "gaps": [
-                "prices per standard length (5/10/15/20/25/30 m) and per metre op maat unconfirmed"
+                "per-metre price of the op-maat configurator beyond the €9 base unconfirmed; 5 and 15 m lengths unconfirmed"
+              ],
+              "configurator_fields": [
+                "afstand stekker tot 1e fitting (cm)",
+                "aantal fittingen",
+                "afstand tussen fittingen (cm)",
+                "afstand laatste fitting tot eind",
+                "eindstuk: eindkap / contrastekker / eindhaak"
               ]
             }
           ]
@@ -3475,17 +5643,50 @@
                   "onbreekbaar polycarbonaat",
                   "set 5 gekleurd 1 W",
                   "set 5 kleuren filament 1 W",
-                  "dimbaar"
+                  "dimbaar",
+                  "warm wit heldere kap 1 W IP65 (20.000 branduren)",
+                  "groot warm wit spiraal filament dimbaar 3 W",
+                  "gekleurd 1 W (bv. groen)"
                 ]
               },
-              "reference_prices": [],
+              "reference_prices": [
+                {
+                  "label": "warm wit 1 W melkwitte kap",
+                  "eur_incl_btw": 1.49,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/",
+                  "note": "another page €1,39; mostly sale prices"
+                },
+                {
+                  "label": "filament dimbaar 1 W",
+                  "eur_incl_btw": 1.29,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/"
+                },
+                {
+                  "label": "filament dimbaar 2 W",
+                  "eur_incl_btw": 1.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/"
+                },
+                {
+                  "label": "set 5 gekleurd",
+                  "eur_incl_btw": 5.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/"
+                }
+              ],
               "key_specs": [
                 "set 5 gekleurd 1 W E27 (https://www.outmate.nl/product/set-van-5-gekleurde-ledlampen/)",
                 "set 5 kleuren filament 1 W (https://www.outmate.nl/product/set-van-5-kleuren-filament-led-lamp-1-watt/)"
               ],
               "gaps": [
-                "all prices and every kelvin value unconfirmed; wattage is known only for the two 1 W sets of 5"
-              ]
+                "kelvin values unconfirmed"
+              ],
+              "volume_tiers_reference": {
+                "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/",
+                "tiers": "100+ st €1,20 (31% korting) (likely)"
+              }
             }
           ]
         },
@@ -3500,18 +5701,23 @@
               "variant_dimensions": {
                 "colour": [
                   "warm wit",
-                  "blauw (dimbaar)",
+                  "geel",
+                  "oranje",
+                  "rood",
                   "groen",
-                  "rood"
+                  "blauw"
                 ],
                 "length": [
-                  "per meter (op maat)",
-                  "20 m"
+                  "per meter (op maat, alleen hele meters)",
+                  "15 m warm wit 2200K",
+                  "20 m warm wit 2200K"
                 ]
               },
               "key_specs": [
                 "36 LEDs/m, 2,75 cm, IP44, 1,5 W/m",
-                "20 m warm wit 2200K"
+                "20 m warm wit 2200K",
+                "live price calculator: enter whole metres ('geen kommagetallen'), total shown at the bottom of the form (https://www.outmate.nl/product/led-lichtslang-geel/, likely)",
+                "rood and blauw seen as uitverkocht; shipping €7,95"
               ],
               "reference_prices": [
                 {
@@ -3519,6 +5725,27 @@
                   "eur_incl_btw": 58.0,
                   "kind": "fixed",
                   "source_url": "https://www.outmate.nl/product/led-lichtslang-20-meter-warm-wit-36-leds-per-meter-lichtsnoer-voor-buiten-2200k/"
+                },
+                {
+                  "label": "per meter groen/blauw",
+                  "eur_incl_btw": 15.0,
+                  "eur_excl_btw": 12.4,
+                  "kind": "approx",
+                  "source_url": "https://www.outmate.nl/product/led-lichtslang-groen-op-maat/"
+                },
+                {
+                  "label": "per meter oranje",
+                  "eur_incl_btw": 9.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lichtslangen/",
+                  "note": "sale"
+                },
+                {
+                  "label": "per meter warm wit",
+                  "eur_incl_btw": 8.95,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/verlichting/led-lichtslangen/",
+                  "note": "€8,95-€9,99 sale"
                 }
               ]
             }
@@ -3527,12 +5754,40 @@
         {
           "id": "kerstverlichting",
           "name_nl": "Kerstverlichting",
-          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/kerstverlichting/",
           "confidence": "likely",
-          "product_types": [],
+          "product_types": [
+            {
+              "name": "Professionele kerstverlichting 10 m, 100 LEDs",
+              "variant_dimensions": {
+                "type": [
+                  "warm wit",
+                  "fonkelend (84 warm wit + 16 fonkel)"
+                ]
+              },
+              "key_specs": [
+                "doorkoppelbaar, IP65, 9,6 W, 2200K, niet dimbaar; shipping €7,95 (likely)"
+              ],
+              "reference_prices": [
+                {
+                  "label": "warm wit",
+                  "eur_incl_btw": 33.99,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/professionele-kerstverlichting-10-meter-met-100-ledlampjes-fonkelend/"
+                },
+                {
+                  "label": "fonkelend",
+                  "eur_incl_btw": 35.0,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/professionele-kerstverlichting-10-meter-met-100-ledlampjes-fonkelend/"
+                }
+              ]
+            }
+          ],
           "gaps": [
-            "menu label only (https://www.outmate.nl/product-categorie/verlichting/); no category or product URL recorded; products and prices unknown"
-          ]
+            "other kerstverlichting products and lengths not retrieved"
+          ],
+          "notes": "Round 4: own category URL found (https://www.outmate.nl/product-categorie/verlichting/kerstverlichting/, likely)."
         },
         {
           "id": "verlichting-onderdelen",
@@ -3549,14 +5804,61 @@
                   "klemmen",
                   "dimmers",
                   "verlengkabels",
-                  "afstandsbediening stekkerset"
+                  "afstandsbediening stekkerset",
+                  "kabel 2x1,5 mm² per meter (zwart/wit)",
+                  "kabel 2x2,5 mm² per meter",
+                  "E27 fitting zwart/wit",
+                  "dimmer voor stopcontact (tot 280 W)",
+                  "dimmer met afstandsbediening (tot 500 W)",
+                  "tijdschakelaar",
+                  "wifi-stekker"
                 ]
               },
-              "reference_prices": []
+              "reference_prices": [
+                {
+                  "label": "kabel 2x1,5 mm² zwart per m",
+                  "eur_incl_btw": 1.79,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/"
+                },
+                {
+                  "label": "kabel 2x1,5 mm² wit per m",
+                  "eur_incl_btw": 1.85,
+                  "eur_excl_btw": 1.53,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/"
+                },
+                {
+                  "label": "kabel 2x2,5 mm² per m",
+                  "eur_incl_btw": 1.89,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/"
+                },
+                {
+                  "label": "E27 fitting zwart",
+                  "eur_incl_btw": 1.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/",
+                  "note": "was €1,75"
+                },
+                {
+                  "label": "E27 fitting wit",
+                  "eur_incl_btw": 1.69,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/"
+                },
+                {
+                  "label": "dimmer voor stopcontact tot 280 W",
+                  "eur_incl_btw": 9.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/prikkabel-kabel-voor-fittingen-2x15mm%C2%B2-per-meter-wit/"
+                }
+              ]
             }
           ]
         }
-      ]
+      ],
+      "notes": "Round 4: lighting range seen = prikkabels (fixed and op maat, gemonteerd or in onderdelen), LED lampen E27, LED lichtslangen, kerstverlichting, onderdelen and the easy-up LED-vloedlicht 30 W. No bouwlampen or schijnwerpers found (searched, not proof)."
     },
     {
       "id": "verwarming",
@@ -3763,7 +6065,7 @@
         "opblaasbare tent daken",
         "marktkraam kap",
         "afzetpaal trekband",
-        "statafelhoezen (Statafelshop, unconfirmed)"
+        "statafelhoezen Ø80/Ø85 and beschermplaten Ø68/78/83 (Statafelshop, see statafelrokken-hoezen.bedrukte-hoezen)"
       ],
       "dimensions": {
         "print_side": [
@@ -3778,7 +6080,15 @@
       "process": "order + upload -> mock-up -> akkoord -> productie",
       "lead_time_reference": "14-21 dagen (other pages: ca. 15 werkdagen) / 2-3 weken / 5-10 dagen na akkoord (by product); afzetpaal band 2 or 2-4 weken",
       "source_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
-      "surcharge": "no separate surcharge or volume tiers found; price resolves inside the 'Full Colour-bedrukking' variant (unconfirmed)"
+      "surcharge": "no separate surcharge or volume tiers found; price resolves inside the 'Full Colour-bedrukking' variant (unconfirmed)",
+      "statafelshop_reference": {
+        "shop": "statafelshop",
+        "flow": "order online -> e-mail with the order details -> customer sends images/photos -> print; no upload on the PDP and no drukproef step found",
+        "lead_time": "'Gepersonaliseerde producten hebben een langere levertijd'; 7-14 dagen or 2-3 weken depending on the page; excluded from same-day dispatch",
+        "not_found": "print method, positions, file requirements, proof, MOQ, surcharge/tiers",
+        "source_url": "https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/",
+        "confidence": "likely"
+      }
     },
     {
       "id": "maatwerk",
@@ -3794,7 +6104,9 @@
       "rules": [
         "live price on dimensions",
         "maatwerk niet retourneerbaar",
-        "tolerantie 1-2 cm"
+        "tolerantie 1-2 cm",
+        "new terms exclude maatwerk from the herroepingsrecht; old terms name 'op maat gemaakte prikkabels'; maatwerkzeil not returnable even with wrong dimensions entered (https://www.outmate.nl/algemene-voorwaarden-nieuw/, likely)",
+        "lichtslang op maat: whole metres only, live total (https://www.outmate.nl/product/led-lichtslang-geel/, likely)"
       ],
       "source_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/"
     },
@@ -3804,17 +6116,21 @@
       "examples": [
         "klaptafel 2-5 st 5% ... 20+ st 12,5%",
         "barkruk vanaf 10 st",
-        "bierbank onderstel €29,25 bij 4-10 st"
+        "bierbank onderstel €29,25 bij 4-10 st",
+        "barkruk Paxi/Louis/Mundo 5% vanaf 10, 6,25% vanaf 26, 7,5% vanaf 49 st",
+        "barkruk Hamburg 2,5% vanaf 4, 4% vanaf 9, 5,5% vanaf 31 st",
+        "LED-lamp 100+ st €1,20"
       ],
       "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
-      "note": "Whether statafelrokken carry staffel tiers is unconfirmed (Outmate and Statafelshop)."
+      "note": "Outmate: whether statafelrokken carry staffel tiers is unconfirmed. Statafelshop: no staffel or quantity tiers on any textile page and none on the zakelijk page (round 4, https://www.statafelshop.nl/statafelhoes-kopen/, likely)."
     },
     {
       "id": "accessoire-korting",
       "name_nl": "Accessoirekorting bij tent",
       "examples": [
         "10% op zijwanden bij easy-up",
-        "10% op lampen bij prikkabel"
+        "10% op lampen bij prikkabel",
+        "10% op de trolley bij ronde klaptafels (https://www.outmate.nl/product/klaptafel-rond-180cm-lichtgrijs/, likely)"
       ],
       "source_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/"
     }
@@ -3824,7 +6140,8 @@
       "class": "klein pakket",
       "eur": 7.95,
       "examples": "zijwanden, dakzeilen, schaduwdoeken, afzetpalen",
-      "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+      "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/",
+      "note": "BE: €9,99 on easy-up dakzeilen 3x3/3x4,5/3x6 and zijwand 6 m raam (https://www.outmate.be/product/dakzeil-partytent-3x3m-easy-up-pvc-gecoat-polyester/, likely, about 1 year old)"
     },
     {
       "class": "easy-up Premium",
@@ -3836,7 +6153,7 @@
       "eur": "39 - 42,50",
       "examples": "easy-up Professional, partytenten, stertenten",
       "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/",
-      "note": "carrier label for the same €42,50 conflicts: 'Pakketdienst' (3x8 Premium) vs 'Vrachttransport' (4x4 Premium)"
+      "note": "carrier label for the same €42,50 conflicts: 'Pakketdienst' (3x8 Premium) vs 'Vrachttransport' (4x4 Premium); BE: €59 on easy-up Professional 3x4,5/3x6/4x6/4x8 in polyester and HD PVC (https://www.outmate.be/product/easy-up-4x8m-professional-heavy-duty-pvc/, likely)"
     },
     {
       "class": "vracht zwaar",
@@ -3852,19 +6169,30 @@
     {
       "rule": "only the highest shipping cost per order is charged; BE has own rates",
       "source_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
-      "note": "BE amounts per class, the full class table, kerbside vs inside delivery and unloading help are unconfirmed; no free-shipping threshold found on outmate.nl"
+      "note": "BE has its own rates, applied automatically when the country is chosen in checkout (confirmed); BE amounts seen: €9,99 small parcels, €59 easy-up Professional (likely). Levertijd is a 'streefdoel': workday orders are meant to ship the same day. Freight orders: the customer picks an afleverdag in checkout and gets an estimated time on the day; parcels usually arrive the next workday 9:00-18:00 (https://www.outmate.nl/levertijd-en-verzendkosten/, likely). Kerbside vs inside delivery and unloading help unconfirmed; no free-shipping threshold found on outmate.nl."
+    },
+    {
+      "class": "Statafelshop flat rate",
+      "shop": "statafelshop",
+      "eur": 18.15,
+      "eur_excl_btw": 15.0,
+      "examples": "every order ('altijd €15,- excl. btw'); 1-2 statafels by DHL with Track & Trace, larger orders on a pallet by truck with the shop's own transporter",
+      "source_url": "https://www.statafelshop.nl/contact/",
+      "confidence": "confirmed",
+      "note": "conflict: 'Gratis verzenden' badges on many product/category pages (e.g. https://www.statafelshop.nl/product/transportkar-inclusief-statafel-savannah-5-stuks/) with no threshold found; statafelshop.be FAQ gives the same €15 excl. while its PDPs say 'Gratis verzenden' (https://www.statafelshop.be/product/biertafel-standaard-kwaliteit/)"
     }
   ],
   "open_gaps": [
-    "Statafelshop.nl: entire assortment and shop (navigation, operator/KvK, statafelshop.be, round Ø statafels, stretch/strik hoezen sizes and colours, kleden, topcovers, biertafelhoes, bedrukte hoezen, actiepakketten, zakelijk, prices, staffels, shipping/returns/payment). Research blocked four times (initial round + three 2026-10-17 follow-up rounds). Rerun as one agent, first and alone, in a turn with a fresh search budget.",
-    "Market price calibration beyond Outmate (vvep, partyrijk, bol.com, Gamma/Praxis, statafel competitors).",
-    "Buizenframe partytenten: full size matrix and prices per quality line (only 3x4 PE, 3x8 Premium, 6x12 Pro priced); which line offers 8x12; per-line wall thickness, side walls, capacity, weight, shipping, fire-retardancy.",
-    "Opslagtenten sizes/heights/prices; stoelen; biertafelsets + hoes; barkruk prices/tiers; trolley prices (except statafel trolley); prikkabel/ledlamp prices; gas heater prices and gas type; afzetpaal prices; opbergtas 200 cm; buizenframe regengoot, tussenwand and zijwand prices.",
-    "Easy-up: what is included (draagtas/wieltas, haringen, spanbanden) and frame warranty term; Premium clearance, total height, capacity, 3x3 weight and packed size; Professional 3x4,5 capacity and packed length x width; PDP video and image zoom. Third attempt refused by the search budget on 2026-10-17 (see existence_checks).",
-    "Print surcharge amounts (resolved inside the 'Full Colour' variant price on Outmate).",
-    "Outmate policies: /garantie-klachten/ content, returns exclusions for printed items and return procedure, B2B clauses and eigendomsvoorbehoud in the new terms, BE shipping amounts.",
-    "Outmate UX: account dashboard, search suggestions, sort/pagination, price/stock filters, footer newsletter/payment icons/socials, USP bar, WhatsApp, live chat.",
-    "Existence checks never run (third attempt refused by the search budget on 2026-10-17; do not claim 'not found'): outlet/sale/actie/B-keuze/occasion; cadeaubon/gift card; kerstverlichting URL; grondzeilen/tentvloeren/vloerplaten; promotietenten or bedrukte tenten as own outmate.nl category; pagodetenten; parasols; beachflags/vlaggen; dranghekken; grondframes and reparatiesets URLs; full /product-categorie/ census and /alle/ product list. See existence_checks.",
+    "Statafelshop.nl (round 4 gathered the first data; still missing): homepage section order, full footer link list, opening hours, newsletter, which URL scheme is live (WooCommerce vs legacy short slugs/oud.statafelshop.nl), which address is current (Oosteind / Oosterhout / Lierop) and where pickup happens, the review provider behind 'Wij scoren een 9,6', sort options and pagination, swatch vs dropdown colour selector, fabric g/m², price per Ø on statafels, statafel weight/max load, strikrok price (two snapshots), losse topcover price (two snapshots), the €58,71 top of the topcover schema range, banken/stoelen/terrastafel/barkruk prices, Banken and Transportkarren category URLs, statafelshop.be prices, Garantie en reparatie page content.",
+    "Statafelshop contradictions to resolve before copying any claim: flat €15 excl. shipping (FAQ) vs 'Gratis verzenden' badges; 14 days with return costs for the customer vs 'Gratis retourneren'; 2 jaar garantie vs a stray '10 jaar garantie'; colour counts 22/21/20/19 and strik 6 vs 11.",
+    "Market calibration (round 4 gathered bands, see market_price_bands): still missing easyup.nl Endeavor and easyup-tenten.nl Solid 50 prices, Gamma One Touch 3x6, VVEP 3x6 Easy/Comfort, a 3x6 zijwanden set price.",
+    "Buizenframe partytenten (round 4 filled most of the matrix): Classic prices for 3x4, 3x8, 4x8, 5x4, 5x10, 5x12, 6x10, 6x12; Premium 3x4 and 5x6 prices; Professional 4x6 price and whether a 3x4 tent exists; included walls on Ultimate 3x4/4x8; PE Basic fire-retardancy; per-line wall thickness, side-wall set-up, capacity, weight and shipping.",
+    "Opslagtenten side/ridge heights and door type; Professional 4x8; 3x6 Premium/Professional prices. Furniture: Outmate klapstoel and biertafelset (not found in round 4), hamerslag barkruk price, Foldtable €959 (verify), Cross Back trolley price, Supercombi 24x Hamburg price. Gas heater prices and gas type; afzetpaal prices; opbergtas 200 cm; tussenwand; long buizenframe side walls.",
+    "Easy-up: box contents still unconfirmed (round 4: wheels are optional, no included tent bag found, no separate wieltas/opbergtas product found); frame warranty term; Premium clearance, total height, capacity, 3x3 weight and packed size; Professional 3x4,5 capacity and packed size; PDP video and image zoom.",
+    "Print surcharge amounts (Outmate: inside the 'Full Colour' variant price; Statafelshop: none stated).",
+    "Outmate policies still missing: whether printed (Full Colour) items are excluded from returns (no clause found), the surcharge % per payment method (not named), freight unloading/kerbside rules. No dedicated FAQ page surfaced in a targeted search (not proof).",
+    "Outmate UX: account dashboard, search suggestions, sort/pagination, price/stock filters, footer newsletter/payment icons/socials, USP bar, WhatsApp, live chat (not re-run in round 4).",
+    "Existence checks never run (do not claim 'not found'): outlet/sale/actie/B-keuze/occasion; cadeaubon/gift card; grondzeilen/tentvloeren/vloerplaten; promotietenten or bedrukte tenten as own outmate.nl category; pagodetenten; parasols; beachflags/vlaggen; dranghekken; grondframes and reparatiesets URLs; full /product-categorie/ census and /alle/ product list. See existence_checks (round-4 checks that ran are logged there with query_ran=true).",
     "Menu group 'Zeilen en zeildoeken (incl. Schaduwdoeken)' (https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/, likely): whether it holds anything beyond schaduwdoeken and overkapping zeilen (e.g. dekzeilen) is unconfirmed."
   ],
   "existence_checks": [
@@ -3889,11 +6217,12 @@
     {
       "check": "kerstverlichting category URL",
       "date": "2026-10-17",
-      "query_ran": false,
-      "status": "not run: the census query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "query_ran": true,
+      "status": "found in round 4 (2026-10-17)",
       "prior_evidence": "Prior data: 'Kerstverlichting' seen only as a Verlichting menu label; no URL recorded.",
-      "source_url": "https://www.outmate.nl/product-categorie/verlichting/",
-      "confidence": "unconfirmed"
+      "source_url": "https://www.outmate.nl/product-categorie/verlichting/kerstverlichting/",
+      "confidence": "likely",
+      "result": "own category URL plus product 'Professionele kerstverlichting 10 meter met 100 ledlampjes' (warm wit vanaf €33,99, fonkelend vanaf €35)"
     },
     {
       "check": "grondzeilen / tentvloeren / vloerplaten beyond lopers",
@@ -4005,12 +6334,421 @@
     },
     {
       "check": "easy-up PDPs (3x3 Premium, 3x4,5 Professional): box contents, frame warranty term, Premium clearance/total height/capacity, 3x3 weight, packed dimensions, product video, image zoom",
-      "date": "2026-10-17",
-      "query_ran": false,
-      "status": "not run: the UX/account/box-contents follow-up query was refused by the shared 200-search budget on 2026-10-17 before it executed, so this is NOT a 'not found'",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "ran in round 4; partly answered",
       "prior_evidence": "Prior data: see easy-up-premium and easy-up-professional key_specs; none of the asked values is in research-raw.json.",
       "source_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/",
+      "confidence": "unconfirmed",
+      "result": "wheels are 'Optioneel, wielen beschikbaar' (set of 4 €35, sold separately); the spanriemen + haringen set comes in a small 'bewaartasje' for the set itself; no included tent carry or wheel bag found (https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/). Box contents, frame warranty, Premium clearance/height/capacity, 3x3 weight, packed size, video and zoom still unconfirmed."
+    },
+    {
+      "check": "Outmate dedicated FAQ / 'veelgestelde vragen' page",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "only blog guides, manuals and the contact page came up; FAQ-like guide https://www.outmate.nl/waar-moet-je-op-letten-bij-de-aanschaf-van-een-partytent/ (capacity rule 1 zittend / 1,5 staand per m², 1 m extra around the tent)",
+      "source_url": "https://www.outmate.nl/waar-moet-je-op-letten-bij-de-aanschaf-van-een-partytent/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Outmate easy-up wieltas / opbergtas product",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "only beschermhoezen (vanaf €19,99) found",
+      "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Outmate klapstoel and biertafelset price",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "no klapstoel product; biertafelset only in navigation links",
+      "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Outmate bouwlampen / schijnwerpers",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "lighting range has prikkabels, LED lampen, lichtslangen, kerstverlichting, onderdelen and the easy-up LED-vloedlicht 30 W",
+      "source_url": "https://www.outmate.nl/product-categorie/verlichting/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Outmate PVC Professional 6x8",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "Professional prices found for 4x8, 5x10, 6x12; 4x6 exists",
+      "source_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Outmate return exclusion for printed (Full Colour) items",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "only the maatwerk exclusion was found (new terms; old terms name op maat gemaakte prikkabels)",
+      "source_url": "https://www.outmate.nl/algemene-voorwaarden-nieuw/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop round Ø60 statafel",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "round tops are Ø70/Ø80/Ø85; square 60x60/70x70/80x80",
+      "source_url": "https://www.statafelshop.nl/product/statafel-savannah/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop HDPE / blow-mold / plastic-top statafel",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "the only blow-mold item is the Buffettafel Blow Mold 180x76 (74 cm)",
+      "source_url": "https://www.statafelshop.nl/product/statafel-hudson/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop statafel with wheels; max-load figure",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "wheels only on transportkarren; the only kg rating is 150 kg on Kruk Indus laag",
+      "source_url": "https://www.statafelshop.nl/product-categorie/transportkarren/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop biertafelhoes / biertafel stretch cover",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "biertafels and biertafelsets are sold, no hoes found",
+      "source_url": "https://www.statafelshop.nl/biertafel",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop package of exactly 4 statafels + 4 rokken",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "the 4-piece package is 1 Colorado + 1 stretchrok + 4 Angara barkrukken",
+      "source_url": "https://www.statafelshop.nl/product/actiepakket-vi/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop free-shipping threshold",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "flat €15 excl. in the FAQ vs 'Gratis verzenden' badges; no minimum amount found",
+      "source_url": "https://www.statafelshop.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop staffel / quantity tiers on textiles",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "plain 'aantal' field; bulk orders pointed to Zakelijk",
+      "source_url": "https://www.statafelshop.nl/statafelhoes-kopen/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop drukproef, MOQ, print method, positions, file specs for printed hoezen",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "flow is order -> e-mail -> send photos; only 'MINIMALE afname 4 stuks' belongs to Purus 160x60, a table",
+      "source_url": "https://www.statafelshop.nl/product/stretchrok-met-eigen-opdruk/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop Kiyoh / WebwinkelKeur / Trustpilot profile",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "Feedback Company and Trusted Shops profiles exist (scores not to be reused)",
+      "source_url": "https://www.feedbackcompany.com/nl-nl/reviews/statafelshop-nl/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop op rekening; Klarna / in3 / achteraf betalen",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "methods: iDEAL, PayPal, Bancontact, creditcard, Sofort, bankoverschrijving (Giropay mentioned)",
+      "source_url": "https://www.statafelshop.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop opening hours / showroom",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "pickup ('Of haal je bestelling direct af') exists; no hours or showroom found",
+      "source_url": "https://www.statafelshop.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop PostNL / DPD",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "DHL for 1-2 statafels and own pallet transport found",
+      "source_url": "https://www.statafelshop.nl/contact/",
+      "confidence": "unconfirmed"
+    },
+    {
+      "check": "Statafelshop floor-length statafelkleed",
+      "date": "2026-10-17 (round 4)",
+      "query_ran": true,
+      "status": "searched in round 4 (2026-10-17), not found; absence not proven",
+      "result": "kleden are Ø130 rond and 140x140 vierkant, laid over a stretchrok",
+      "source_url": "https://www.statafelshop.nl/statafelkleed-kopen/",
       "confidence": "unconfirmed"
     }
-  ]
+  ],
+  "market_price_bands": {
+    "note": "Round 4 (2026-10-17) market calibration agent, 20 WebSearch calls, snippets only (scratchpad research-raw-2.json block 3). Prices incl. 21% btw unless noted; where a page gave incl. and excl. the 21% arithmetic was checked (non-matching pairs are unconfirmed). Rental prices (partyrijk.nl, spijkerman.eu, rentmen.be) do not calibrate retail. 'suggested_band' is the agent's proposal for our pricing, not a fact.",
+    "bands": [
+      {
+        "product": "Easy-up 3x3",
+        "outmate_ref": "Premium staal €299; Professional alu €679 polyester / €789 HD PVC",
+        "statafelshop_ref": null,
+        "observed": [
+          {
+            "segment": "consumer/budget staal",
+            "range_eur": "65-160",
+            "examples": "bol.com €70,95-€149,99; Praxis Lifegoods €104,99-€119,99; Gamma Handson €109",
+            "source_url": "https://www.bol.com/nl/nl/l/easy-up-partytenten-300-x-300-cm/13029/7557851552+4273418951/"
+          },
+          {
+            "segment": "consumer met zijwanden",
+            "range_eur": "160-210",
+            "examples": "Tristar €159,99, Vonroc €169,95/€189,95, LifeGoods €159,99",
+            "source_url": "https://www.praxis.nl/collectie/partytent-aanbiedingen"
+          },
+          {
+            "segment": "semi-pro 40 mm staal / 45 mm alu",
+            "range_eur": "229-359",
+            "examples": "partytent.nl Premium €229; VVEP Go Rent Easy €359,31; vouwtent.eu Premium AluHex €350 (€500 with walls and bag)",
+            "source_url": "https://www.vvep.nl/easy-up-partytent-3x3-diverse-kleuren-zwart"
+          },
+          {
+            "segment": "pro 40 mm alu",
+            "range_eur": "549-669",
+            "examples": "VVEP Go Rent Comfort €549,28 polyester / €669,01 ripstop PVC",
+            "source_url": "https://www.vvep.nl/easy-up-partytent-3x3-go-rent-comfort-wit-ripstop-pvc"
+          },
+          {
+            "segment": "pro 50 mm alu",
+            "range_eur": "525-769",
+            "examples": "VVEP Go Rent Pro €648,98 polyester / €768,96 PVC; vouwtent.eu AluHexPRO €750 incl. walls; bol.com 'professional' with 4 walls €525",
+            "source_url": "https://www.vvep.nl/easy-up-partytent-3x3-go-rent-pro-wit-ripstop-pvc"
+          }
+        ],
+        "suggested_band": "budget €99-€179; semi-pro staal €229-€359; pro alu €549-€799",
+        "confidence": "likely"
+      },
+      {
+        "product": "Easy-up 3x6",
+        "outmate_ref": "Premium €459; Professional €1.149 / €1.359",
+        "observed": [
+          {
+            "segment": "semi-pro staal",
+            "range_eur": "499",
+            "examples": "partytent.nl Premium €499",
+            "source_url": "https://www.partytent.nl/easy-up-partytenten-premium/262-2899-opvouwbare-partytent-3x6-meter-premium-7442955792709.html"
+          },
+          {
+            "segment": "pro 50 mm alu",
+            "range_eur": "699-1229",
+            "examples": "partytent.nl PVC Professional €699; VVEP Go Rent Pro polyester €1.049,01 special / €1.139,76 regular, ripstop PVC €1.229",
+            "source_url": "https://www.vvep.nl/easy-up-partytent-3x6-go-rent-pro-wit-polyester"
+          }
+        ],
+        "suggested_band": "semi-pro €449-€549; pro €699-€1.359",
+        "confidence": "likely",
+        "gaps": "consumer 3x6 prices (Gamma One Touch 3x6) and VVEP 3x6 Easy/Comfort prices not returned"
+      },
+      {
+        "product": "Zijwanden easy-up 3x3 (set of 4)",
+        "outmate_ref": "zijwandenset 3x3 polyester vanaf €249",
+        "observed": [
+          {
+            "segment": "per 3 m wall",
+            "range_eur": "50-69",
+            "examples": "VVEP €50,22 dicht / €59,90 ingang of raam; partytent.nl PVC met ramen €69",
+            "source_url": "https://www.vvep.nl/tenten/zijwanden-easy-up-partytenten"
+          },
+          {
+            "segment": "set of 4",
+            "range_eur": "175-276",
+            "examples": "E-Z UP Duralon set €175 (bol.com); €200-€276 built from single walls (computed)",
+            "source_url": "https://www.bol.com/be/nl/p/e-z-up-vantage-professionele-easy-up-tent-3x3m-wit-frame-wit-dak/9200000103073952/"
+          }
+        ],
+        "suggested_band": "€175-€279 per set",
+        "confidence": "likely"
+      },
+      {
+        "product": "Gewichten easy-up (set of 4)",
+        "outmate_ref": "voetgewicht 15 kg €49,95 per stuk; zandzakken set 4 €19,99; watergewichtzakken 4x20 kg €99",
+        "observed": [
+          {
+            "segment": "vulbare zakken 4x10 kg",
+            "range_eur": "21-25",
+            "examples": "Relaxdays €20,99-€24,95; generic €22,99 (one set €40 / €71,95)",
+            "source_url": "https://www.bol.com/nl/nl/p/relaxdays-gewichten-partytent-voetgewichten-paviljoen-zandzak-verzwaring-4-stuks/9200000132253946/"
+          },
+          {
+            "segment": "kunststof watervoeten set 4",
+            "range_eur": "50",
+            "examples": "ACAZA €49,99",
+            "source_url": "https://www.bol.com/nl/nl/p/relaxdays-gewichten-partytent-voetgewichten-paviljoen-zandzak-verzwaring-4-stuks/9200000132253946/"
+          },
+          {
+            "segment": "stalen voetplaat 15 kg per stuk",
+            "range_eur": "50-55",
+            "examples": "Outmate €49,95; vouwtent.eu €55 (about €200-€220 for 4)",
+            "source_url": "https://www.bol.com/nl/nl/p/voetplaat-gewicht-15kg-tentgewicht/9300000000192042/?country=BE"
+          }
+        ],
+        "confidence": "likely"
+      },
+      {
+        "product": "Statafelrok stretch Ø80",
+        "outmate_ref": "€14,99 incl. topcover",
+        "statafelshop_ref": "€33,82 incl. topcover (Ø80-90 Standaard); losse topcover vanaf €12,04-€13,25",
+        "observed": [
+          {
+            "segment": "budget zonder topcover",
+            "range_eur": "12,50-18",
+            "examples": "biertafelplaza AKTIE €12,50 (was €25, staffel 5/10), zwart 80 cm €17,50; bol.com Alora €15,99, grijs €18",
+            "source_url": "https://www.biertafelplaza.nl/statafels/statafelrok-stretch-aktie-688/"
+          },
+          {
+            "segment": "mainstream met topcover",
+            "range_eur": "23-30",
+            "examples": "VVEP €22,93 (conflicting snippet €29,34, unconfirmed); bol.com Cover Up €24,95, D2 €23,95-€29,95; FDBW set of 4 €70,95 (≈ €17,74 each)",
+            "source_url": "https://www.bol.com/nl/nl/p/cover-up-statafelrok-stretch-o80-85cm-incl-topcover-antraciet/9200000066222818/"
+          },
+          {
+            "segment": "losse topcover staffel",
+            "range_eur": "7,50 each / 30 for 5 / 55 for 10",
+            "examples": "biertafelplaza 90% polyester / 10% elasthan (category pages show €5,50 and €10, conflict)",
+            "source_url": "https://www.biertafelplaza.nl/statafels/statafelrok-stretch-topcover-391/"
+          }
+        ],
+        "suggested_band": "€15-€34 incl. topcover; staffel is common in the market (Statafelshop has none)",
+        "confidence": "likely"
+      },
+      {
+        "product": "Inklapbare statafel Ø80",
+        "outmate_ref": "no round statafel; opklapbaar 70x70 €147-€149",
+        "statafelshop_ref": "New York €45; Oregon €96,74; Savannah/Sacramento vanaf €102,79; Columbus €108,84; Savannah + stretchrok €120,94",
+        "observed": [
+          {
+            "segment": "DIY/consumer",
+            "range_eur": "46-80",
+            "examples": "Praxis Practo €45,90; Gamma €57,99 (4,5 cm HDPE top); VVEP Budget €45,92 / Basic €57,48; bol.com €59,80-€79,99",
+            "source_url": "https://www.gamma.nl/assortiment/statafel-wit-80-cm-inklapbaar/p/B357899"
+          },
+          {
+            "segment": "horeca mid",
+            "range_eur": "97-109",
+            "examples": "VVEP New Classic €102,79 and Maan €96,74 (identical to the cent to Statafelshop Savannah and old Japura prices: same supplier or conflated snippets, unconfirmed)",
+            "source_url": "http://www.vvep.nl/horecameubilair/statafels.html"
+          },
+          {
+            "segment": "heavy kruisvoet",
+            "range_eur": "272",
+            "examples": "VVEP Easy High 24 kg €272,25",
+            "source_url": "https://www.vvep.nl/statafel-easy-high.html"
+          },
+          {
+            "segment": "premium bedrukt aluminium",
+            "range_eur": "295",
+            "examples": "statafelwinkel.nl Rhino 108 cm, <11 kg, 175 kg load, incl. print + zwarte topcover (Shopify shop)",
+            "source_url": "https://statafelwinkel.nl/products/statafel-rhino"
+          }
+        ],
+        "confidence": "likely"
+      },
+      {
+        "product": "Bedrukte statafelhoes, 1 stuk",
+        "statafelshop_ref": "Stretchhoes met eigen opdruk €99 excl. / €119,79 incl.",
+        "observed": [
+          {
+            "segment": "per stuk excl. btw",
+            "range_eur": "88-125 excl.",
+            "examples": "Drukwerkdeal €89,50 excl.; PrintTable €87,95 (staffel, max 100); VKF Renzel €103,60 (Ø70)-€114,50 (Ø85); Withagen €125 excl.; print.com from 1 piece (210 g/m² stretch, no price)",
+            "source_url": "https://www.drukwerkdeal.nl/nl/producten/horeca/statafelhoezen"
+          },
+          {
+            "segment": "promo/volume",
+            "range_eur": "51 (basis unclear)",
+            "examples": "La Parada sublimation vanaf €51,26 (unconfirmed)",
+            "source_url": "https://www.laparada.nl/relatiegeschenken/huis-tuin-en-keuken/keuken-artikelen-bedrukken/keukentextiel-bedrukken/tafelkleden-servetten-bedrukken/statafelhoes"
+          },
+          {
+            "segment": "bedrukte buffet stretchhoes",
+            "range_eur": "149-204",
+            "examples": "TecTronic 120-220 cm, staffel from 5 (incl. btw); PrintTable biertafelhoes 220x80 €120",
+            "source_url": "https://www.tectronic-feesttenten.nl/bedrukte-stretchhoes-buffettafel.php"
+          }
+        ],
+        "suggested_band": "about €99 excl. / €119 incl. per stuk with staffel",
+        "confidence": "likely"
+      },
+      {
+        "product": "Bedrukte easy-up 3x3 (frame + full-colour dak)",
+        "observed": [
+          {
+            "segment": "1 stuk per ontwerp",
+            "range_eur": "566-795 (mostly excl. or basis unclear)",
+            "examples": "Partytent-Online €566,22 excl.; Mijn Reclamevlag vanaf €694,25; Partytenten Discounter €695; Eclipse €795",
+            "source_url": "https://www.partytent-online.nl/tentbedrukking"
+          }
+        ],
+        "confidence": "likely"
+      },
+      {
+        "product": "Stretchtent 10x15",
+        "outmate_ref": "10,5x15 €11.710",
+        "observed": [
+          {
+            "segment": "nieuw",
+            "range_eur": "8.517-10.950 incl. (7.039-9.050 excl.)",
+            "examples": "Tentopia vanaf €7.038,84 excl.; Eurostretchtents €7.425 (basis unclear); Blaze BE €9.049,59 excl. (transport excluded)",
+            "source_url": "https://tentopia.nl/product/stretchtent-10x15-meter/"
+          },
+          {
+            "segment": "gebruikt",
+            "range_eur": "3.000",
+            "examples": "Marktplaats (unconfirmed)",
+            "source_url": "https://www.marktplaats.nl/l/tuin-en-terras/partytenten/q/stretch+tent/"
+          },
+          {
+            "segment": "huur (not retail)",
+            "range_eur": "1.235-1.575",
+            "examples": "Rentmen BE per weekend; Spijkerman excl. vloer",
+            "source_url": "https://spijkerman.eu/product/stretchtent-10-00m-x-15-00m-grijs-excl-vloer/"
+          }
+        ],
+        "confidence": "likely"
+      }
+    ],
+    "caveats": [
+      "partytent.nl uses Outmate's exact product naming (Premium/Professional PVC lines, 'Opslagtent 3x4 Classic PVC Brandvertragend', 'Carport Opslagtent 3,3x9,6 PVC Professional') at lower prices (3x3 Premium €229 vs €299); affiliated or reseller shop, unverified (https://www.partytent.nl/partytenten-pvc-premium/326-2413-partytent-3x4-premium-pvc-brandvertragend-7442955798701.html)",
+      "VVEP New Classic/Maan prices match old Statafelshop Savannah/Japura prices to the cent (same supplier possible, or conflated snippets)",
+      "not found within budget: easyup.nl Endeavor and easyup-tenten.nl Solid 50 prices, Gamma One Touch 3x6 price, VVEP 3x6 Easy/Comfort prices, a 3x6 zijwanden set price"
+    ]
+  }
 }

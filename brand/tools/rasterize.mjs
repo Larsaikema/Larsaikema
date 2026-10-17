@@ -1,15 +1,16 @@
 // Render the favicon/app-icon PNGs from the SVGs with headless Chromium (Playwright).
-// node brand/tools/rasterize.mjs   (run from anywhere)
+// node brand/tools/rasterize.mjs [brand-dir]
 import { createRequire } from 'module'; import { execSync } from 'child_process';
 import { fileURLToPath } from 'url'; import path from 'path'; import fs from 'fs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(`${execSync('npm root -g').toString().trim()}/playwright`);
-const B = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const B = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const jobs = [
   ['favicon.svg', 32, 'favicon-32.png', 'transparent'],
   ['favicon.svg', 192, 'favicon-192.png', 'transparent'],
   ['svg/favicon-16.svg', 16, 'img/favicon-16.png', 'transparent'],
-  ['mark.svg', 180, 'img/apple-touch-icon-180.png', '#BE3A1D'],
+  ['svg/favicon-cart.svg', 32, 'img/favicon-cart-32.png', 'transparent'],
+  ['mark.svg', 180, 'img/apple-touch-icon-180.png', '#C83812'],
   ['mark.svg', 512, 'img/mark-512.png', 'transparent'],
 ];
 const b = await chromium.launch();
@@ -22,4 +23,4 @@ for (const [src, s, out, bg] of jobs) {
   await p.screenshot({ path: path.join(B, out), omitBackground: bg === 'transparent' });
   await p.close();
 }
-await b.close(); console.log('ok');
+await b.close(); console.log('ok', jobs.length);

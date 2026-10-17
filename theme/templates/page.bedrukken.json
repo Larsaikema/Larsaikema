@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-bedrukken",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Kies je product", "text": "Tent, statafelrok of hoes. Kies maat, kleur en drukpositie." } },
+        "s2": { "type": "step", "settings": { "title": "Upload je logo", "text": "Bij het product, of later per mail. Geen vector? Wij maken hem drukklaar." } },
+        "s3": { "type": "step", "settings": { "title": "Keur de drukproef", "text": "Je ziet precies hoe het wordt. Pas na jouw akkoord drukken we." } },
+        "s4": { "type": "step", "settings": { "title": "Wij leveren", "text": "De levertijd gaat in na je akkoord." } },
+        "o1": { "type": "option", "settings": { "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp", "title": "Luifel van je partytent", "text": "Je naam of logo rondom op de luifel. Goed leesbaar op afstand.", "link": "shopify://products/partytent-met-logo", "link_label": "Ontwerp je tent" } },
+        "o2": { "type": "option", "settings": { "image": "shopify://shop_images/statafelrok-stretch-zwart-print-hero.webp", "title": "Statafelrok", "text": "Logo op het voorpaneel van een stretch rok. Vanaf 10 stuks staffelprijs.", "link": "shopify://products/statafelrok-met-logo", "link_label": "Ontwerp je rok" } },
+        "o3": { "type": "option", "settings": { "image": "shopify://shop_images/tent-3x3-klaproos-front.webp", "title": "Dak of zijwand", "text": "Groter in beeld? Dan drukken we op het dak of een zijwand. Vraag een offerte aan.", "link": "shopify://pages/offerte", "link_label": "Offerte aanvragen" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "o1", "o2", "o3"],
+      "settings": { "image": "shopify://shop_images/tent-3x3-klaproos-logo-hero.webp", "cta_1_link": "shopify://products/partytent-met-logo", "cta_2_link": "shopify://products/statafelrok-met-logo" }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Welke bestanden kan ik aanleveren?", "answer": "<p>Het liefst PDF, AI, EPS of SVG. Een PNG van minimaal 2000 px breed kan ook; die maken wij drukklaar.</p>" } },
+        "q2": { "type": "question", "settings": { "question": "Wanneer gaat de levertijd in?", "answer": "<p>Na jouw akkoord op de drukproef.</p>" } },
+        "q3": { "type": "question", "settings": { "question": "Kan ik een bedrukt product retour sturen?", "answer": "<p>Nee. Bedrukte producten maken we speciaal voor jou. Daarom krijg je altijd eerst een drukproef.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": { "heading": "Vragen over bedrukken", "layout": "side" }
+    }
+  },
+  "order": ["main", "faq"]
+}

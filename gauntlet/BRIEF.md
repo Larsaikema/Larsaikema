@@ -12,7 +12,8 @@ stertenten, onderdelen & accessoires, bedrukte tenten, meubilair, verlichting) a
 **Statafelshop.nl** (statafels, statafelrokken/-hoezen stretch & strik, statafelkleden, bedrukte
 hoezen, actiepakketten, zakelijk/B2B) sell — with at least their full assortment depth and every
 shopping feature they offer — but with its own name, identity, copy, imagery and a better
-experience. Both reference shops are run by Outmate BV (Staphorst). The owner is Lars (works at
+experience. Outmate.nl is run by Outmate BV (Staphorst); Statafelshop.nl by Deadan.com bv (Oosteind)
+— two separate companies (corrected after round-4 research). The owner is Lars (works at
 PartyHuren, an event-rental company) — the audience is consumers *and* businesses (horeca,
 eventbureaus, verhuurbedrijven, verenigingen, scholen).
 

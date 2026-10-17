@@ -1,4 +1,4 @@
-"""Klapklaar custom letterforms + tent canopy, constructed geometry (no font outlines).
+"""Klapklaar custom letterforms + tent canopy, constructed geometry (no font outlines). v3.
 
 Units: font-style, y up. x-height X=500. Every glyph is built as explicit, non-overlapping
 contours (outer clockwise, counters counter-clockwise) from lines and cubic Beziers, so the
@@ -9,8 +9,11 @@ Design rules (see brand.md "Logo-constructie"):
   * bowls are squircles (Bezier handle k=0.66) - sturdy, 'steel tube' feel
   * every terminal that leaves the x-height zone (k/l ascenders, p descender) is cut at the
     roof pitch PITCH, the same angle as the tent roof - the 'klap' cut
-  * the roof is part of the type: valance band is H thick (= a horizontal stroke), its top sits
-    on the ascender line, its width is exactly the 'aa' pair plus one overhang O_R each side
+  * the roof is part of the type: the valance band is one stem S thick, its top sits on the
+    ascender line, its width is exactly the 'aa' pair
+  * v3: two measures only. S (stem, 130) for everything that carries weight (stems, valance band,
+    flag height ~ S*1.2), G = S/2 (65) for every opening (roof-band gap, l-band gap, pole width).
+    The small version (klein) closes the roof-band gap and widens every opening to >= 0.7 S.
 """
 import math
 
@@ -19,7 +22,8 @@ X = 500          # x-height
 A = 712          # ascender (highest point of the cut)
 D = -196         # descender (lowest point of the cut)
 S = 130          # vertical stem
-H = 112          # horizontal stroke (bowl top/bottom, valance band)
+H = 112          # horizontal stroke (bowl top/bottom)
+G = 65           # v3: the one 'opening' measure = S/2 (roof gap, l-band gap, pole width)
 OV = 9           # overshoot of rounds
 K = 0.66         # squircle handle factor (0.5523 = circle)
 PITCH = 21.0     # roof pitch in degrees; also the terminal cut angle
@@ -232,8 +236,8 @@ def glyph_r():
 GLYPHS = {'a': glyph_a, 'p': glyph_p, 'l': glyph_l, 'k': glyph_k, 'r': glyph_r}
 
 # sidebearings (left, right) in units; straight sides get more room than rounds/diagonals
-SB = {'k': (36, 4), 'l': (36, 34), 'a': (20, 36), 'p': (36, 20), 'r': (36, 4)}
-KERN = {('k', 'l'): 0, ('l', 'a'): 0, ('a', 'p'): 0, ('p', 'k'): 0, ('a', 'a'): 0, ('a', 'r'): 0}
+SB = {'k': (36, 20), 'l': (36, 34), 'a': (20, 36), 'p': (36, 20), 'r': (36, 4)}
+KERN = {('k', 'l'): 0, ('l', 'a'): 11, ('a', 'p'): 0, ('p', 'k'): 0, ('a', 'a'): 0, ('a', 'r'): 0}
 
 def layout(word, track=0):
     """Return list of (glyph, x_offset) and total width."""
@@ -250,36 +254,45 @@ def layout(word, track=0):
         prev = ch
     return out, x
 
-# ---------------------------------------------------------------- canopy (tent)
-def canopy(x0, x1, base_y, band_h=S, gap=26, pitch=PITCH, flag=True, pole_w=30, pole_h=100,
-           flag_w=150, flag_h=104, apex_cut=0):
-    """Easy-up seen from the front: valance band [x0,x1] x [base_y, base_y+band_h],
-    a gap, then the pyramid roof (base = band width) with a pennant on the apex pole.
-    Returns contours (clockwise)."""
+# ---------------------------------------------------------------- canopy (tent), v3
+def rect(x0, y0, x1, y1):
+    c = Contour((x0, y0)); c.L((x0, y1)).L((x1, y1)).L((x1, y0)).L((x0, y0)); return c
+
+CANOPY = {
+    # primary: band S, gap G, pole G wide and S tall above the apex, pennant fixed to the pole
+    'primary': dict(band=S, gap=G, pole_w=G, pole_h=S, flag_w=220, flag_h=156, solid=False),
+    # klein: one piece (band + roof fused), stub pole one stem wide, bigger pennant fused to the pole
+    'klein':   dict(band=S, gap=0, pole_w=S, pole_h=120, flag_w=280, flag_h=200, solid=True),
+}
+
+def canopy(x0, x1, base, band=S, gap=G, pole_w=G, pole_h=S, flag_w=220, flag_h=156, solid=False, pitch=PITCH):
+    """Easy-up seen from the front. Valance band [x0,x1] x [base, base+band]; pyramid roof (base = band
+    width, pitch 21 deg) above a gap; a pole at the apex with a pennant fixed to it (pointing right).
+    Returns (body_contours, flag_contours, info). solid=True: band + roof + pole + pennant as ONE contour."""
     t = math.tan(math.radians(pitch))
-    cs = []
-    b = Contour((x0, base_y)); b.L((x0, base_y + band_h)).L((x1, base_y + band_h)).L((x1, base_y)).L((x0, base_y))
-    cs.append(b)
-    ry = base_y + band_h + gap
     xm = (x0 + x1) / 2
     rise = (x1 - x0) / 2 * t
-    # roof triangle; apex slightly blunted where the pole sits
+    hw = pole_w / 2
+    ry = base + band + gap                      # roof base
+    ya = ry + rise - hw * t                     # roof edge where it meets the pole
+    ptop = ry + rise + pole_h                   # pole top = pennant top
+    info = {'xm': xm, 'roof_base': ry, 'apex': ry + rise, 'pole_top': ptop, 'rise': rise,
+            'flag': (xm + hw, ptop - flag_h, xm + hw + flag_w, ptop)}
+    if solid:
+        c = Contour((x0, base)); c.L((x0, ry))
+        c.L((xm - hw, ya)).L((xm - hw, ptop)).L((xm + hw + flag_w, ptop - flag_h / 2))
+        c.L((xm + hw, ptop - flag_h)).L((xm + hw, ya)).L((x1, ry)).L((x1, base)).L((x0, base))
+        return [c], [], info
+    band_c = rect(x0, base, x1, base + band)
     r = Contour((x0, ry))
-    if flag:
-        hw = pole_w / 2
-        ya = ry + rise - hw * t      # roof edge height at x = xm +- hw
-        r.L((xm - hw, ya)).L((xm - hw, ry + rise + pole_h)).L((xm + hw, ry + rise + pole_h))
-        r.L((xm + hw, ya)).L((x1, ry)).L((x0, ry))
-        # pennant: triangle attached to the pole top, pointing right (wind), with a small gap
-        fg = 10
-        ft = ry + rise + pole_h
-        f = Contour((xm + hw + fg, ft))
-        f.L((xm + hw + fg + flag_w, ft - flag_h / 2)).L((xm + hw + fg, ft - flag_h)).L((xm + hw + fg, ft))
-        cs.append(r); cs.append(f)
-    else:
-        r.L((xm, ry + rise)).L((x1, ry)).L((x0, ry))
-        cs.append(r)
-    return cs, ry + rise + (pole_h if flag else 0)
+    r.L((xm - hw, ya)).L((xm - hw, ptop)).L((xm + hw, ptop)).L((xm + hw, ya)).L((x1, ry)).L((x0, ry))
+    f = Contour((xm + hw, ptop)); f.L((xm + hw + flag_w, ptop - flag_h / 2)).L((xm + hw, ptop - flag_h)).L((xm + hw, ptop))
+    # the same roof with the pennant welded on (one outline): for one-colour artwork, plotter and embroidery
+    u = Contour((x0, ry))
+    u.L((xm - hw, ya)).L((xm - hw, ptop)).L((xm + hw, ptop)).L((xm + hw + flag_w, ptop - flag_h / 2)).L((xm + hw, ptop - flag_h))
+    u.L((xm + hw, ya)).L((x1, ry)).L((x0, ry))
+    info['roof_with_flag'] = u
+    return [band_c, r], [f], info
 
 # ---------------------------------------------------------------- svg output
 def fmt(v):
@@ -314,7 +327,7 @@ def to_d(contours, ox=0.0, oy=0.0, sc=1.0, top=0.0):
     return d
 
 def word_contours(word='klapklaar', track=0):
-    items, w = layout(word, track)
+    items, w = layout(word, track)  # track: extra units between every pair
     cs = []
     pos = {}
     for i, (g, x) in enumerate(items):
@@ -322,3 +335,25 @@ def word_contours(word='klapklaar', track=0):
             cs.append(c.transformed(lambda p, x=x: (p[0] + x, p[1])))
         pos[i] = (g, x)
     return cs, w, pos
+
+
+# ---------------------------------------------------------------- v3 compositions
+def wordmark(variant='primary'):
+    """letters, canopy body, pennant, info. primary: tracking 0; klein: tracking +40, solid canopy."""
+    track = 0 if variant == 'primary' else 40
+    cs, w, pos = word_contours('klapklaar', track)
+    g6, x6 = pos[6]; g7, x7 = pos[7]
+    x0 = x6 + g6.bbox()[0]; x1 = x7 + g7.bbox()[2]           # band = exactly the 'aa'
+    body, flag, info = canopy(x0, x1, A - S, **CANOPY[variant])
+    info.update({'band': (x0, A - S, x1, A), 'pos': {i: x for i, (g, x) in pos.items()}, 'track': track})
+    return cs, body, flag, info
+
+def mark(variant='primary', pad=170):
+    """'k onder de tent': the k of Klapklaar under the same canopy (band = k width + pad each side)."""
+    k = glyph_k()
+    kb = k.bbox()
+    x0, x1 = kb[0] - pad, kb[2] + pad
+    gap = G if variant == 'primary' else S          # klein: wider opening between k and band
+    body, flag, info = canopy(x0, x1, A + gap, **CANOPY[variant])
+    info.update({'band': (x0, A + gap, x1, A + gap + S), 'k_gap': gap})
+    return list(k.contours), body, flag, info

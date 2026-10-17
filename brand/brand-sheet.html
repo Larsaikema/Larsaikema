@@ -6,13 +6,13 @@
 <title>Klapklaar merkboek</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-@font-face{font-family:"Archivo";src:url("fonts/Archivo-VF.ttf") format("truetype");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Mona Sans";src:url("fonts/MonaSans-VF.ttf") format("truetype");font-weight:200 900;font-stretch:75% 125%;font-display:swap}
 @font-face{font-family:"Figtree";src:url("fonts/Figtree-VF.ttf") format("truetype");font-weight:300 900;font-display:swap}
 :root{
-  --klaproos:#BE3A1D;--klaproos-donker:#9A2F17;--zon:#FFC23A;--polder:#154F3E;--inkt:#1D2420;
+  --klaproos:#C83812;--klaproos-donker:#982A0E;--zon:#FFC23A;--polder:#154F3E;--inkt:#1D2420;
   --zand:#FBF6EC;--duin:#F2E8D5;--linnen:#ECEEE8;--studio:#EFEDE8;--wit:#FFFFFF;--kiezel:#5D625C;--lijn:#E4D6BE;
-  --bordeaux:#8C1D2B;--foutroze:#FBEAEA;--oker:#865800;--okerlicht:#FFF4DA;--mos:#E4EEE8;
-  --h:"Archivo","Helvetica Neue",Arial,sans-serif;--b:"Figtree","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --bordeaux:#8A1538;--foutroze:#FBEAEA;--oker:#865800;--okerlicht:#FFF4DA;--mos:#E4EEE8;
+  --h:"Mona Sans","Arial Black","Helvetica Neue",Arial,sans-serif;--b:"Figtree","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --r-badge:4px;--r-btn:8px;--r-card:12px;--r-panel:16px;
   --sh-card:0 1px 2px rgba(29,36,32,.06),0 10px 24px -14px rgba(29,36,32,.22);
   --sh-toast:0 12px 32px -12px rgba(29,36,32,.35);
@@ -20,116 +20,162 @@
 *{box-sizing:border-box}
 html{background:var(--zand)}
 body{margin:0;background:var(--zand);color:var(--inkt);font:400 17px/1.55 var(--b);-webkit-font-smoothing:antialiased}
-.num{font-variant-numeric:tabular-nums}
+img,svg{max-width:100%}
+.num,.r{font-variant-numeric:tabular-nums}
 .wrap{max-width:1280px;margin:0 auto;padding:0 40px}
 h1,h2,h3,h4{font-family:var(--h);margin:0}
 .eyebrow{font:700 12.5px/1.2 var(--b);letter-spacing:.08em;text-transform:uppercase;color:var(--kiezel)}
 .muted{color:var(--kiezel)}
 section{padding:88px 0;border-top:1px solid var(--lijn)}
-.sh{display:grid;grid-template-columns:1fr 440px;gap:48px;align-items:end;margin-bottom:40px}
+.sh{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:48px;align-items:end;margin-bottom:40px}
 .sh .no{font:800 15px/1 var(--h);color:var(--klaproos);letter-spacing:.04em;margin-bottom:14px}
-.sh h2{font-size:40px;line-height:1.05;letter-spacing:-.015em;font-weight:800}
+.sh h2{font-size:42px;line-height:1.04;letter-spacing:-.015em;font-weight:800}
 .sh p{margin:0;color:var(--kiezel);font-size:15px;line-height:1.5}
+.sub{font:800 22px/1.2 var(--h);margin:48px 0 16px}
 .grid{display:grid;gap:24px}
 .grid>*{min-width:0}
-.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .card{background:var(--wit);border-radius:var(--r-card);padding:28px}
-.tile{border-radius:var(--r-card);padding:32px;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
-.cap{font:600 13px/1.4 var(--b);color:var(--kiezel);margin-top:14px}
-.tile .cap{margin-top:20px}
-.on-dark .cap{color:var(--zand);opacity:.9}
-/* ---------- masthead */
+.tile{border-radius:var(--r-card);padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:200px}
+.tile .art{flex:1;display:flex;align-items:center;justify-content:center}
+.cap{font:600 13px/1.45 var(--b);color:var(--kiezel);margin:14px 0 0}
+.tile .cap{margin:0}
+.on-dark .cap{color:var(--zand);opacity:.92}
+.ex{font:700 11px/1 var(--b);letter-spacing:.06em;text-transform:uppercase;color:var(--oker);background:var(--okerlicht);padding:4px 7px;border-radius:4px;display:inline-block;vertical-align:middle}
+code{font:600 12.5px ui-monospace,Menlo,monospace}
+/* masthead + cover */
 .mast{background:var(--wit);border-bottom:1px solid var(--lijn)}
-.mast .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
-.mast nav{display:flex;gap:22px;font:600 14px var(--b)}
-.mast nav span{color:var(--kiezel)}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.mast nav{display:flex;gap:22px;font:600 14px var(--b);color:var(--kiezel)}
 .cover{padding:64px 0 72px}
-.cover .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-.cover h1{font-size:76px;line-height:.98;letter-spacing:-.025em;font-weight:800;margin:22px 0 22px}
+.cover .wrap.full{display:block}
+.cover .wrap{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:56px;align-items:center}
+.cover h1{font-size:78px;line-height:.96;letter-spacing:-.03em;font-weight:800;margin:22px 0 22px}
 .cover h1 em{font-style:normal;color:var(--klaproos)}
 .cover .lede{font-size:20px;line-height:1.5;max-width:560px;margin:0 0 28px}
 .cover figure{margin:0;background:var(--studio);border-radius:var(--r-panel);overflow:hidden;position:relative}
 .cover figure img{display:block;width:100%}
-.chip{display:inline-flex;align-items:center;gap:10px;background:var(--wit);border-radius:999px;padding:9px 16px 9px 12px;font:600 14px/1.2 var(--b);box-shadow:var(--sh-card)}
+.chip{display:inline-flex;align-items:center;gap:10px;background:var(--wit);border-radius:999px;padding:9px 16px 9px 12px;font:600 14px/1.2 var(--b);box-shadow:var(--sh-card);max-width:calc(100% - 40px)}
 .chip b{font-weight:700}
 .cover figure .chip{position:absolute;left:20px;bottom:20px}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--inkt);margin-top:8px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--inkt);margin-top:8px}
 .facts div{padding:16px 16px 0 0}
 .facts b{display:block;font:800 18px/1.2 var(--h);margin-bottom:4px}
 .facts span{font-size:14.5px;color:var(--kiezel);line-height:1.45}
-/* ---------- logo */
-.construct{background:var(--wit);border-radius:var(--r-panel);padding:48px 56px 36px}
-.construct svg{display:block;width:100%;height:auto;overflow:visible}
-.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:28px}
+.changes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:40px}
+.changes div{background:var(--wit);border-radius:10px;padding:16px 18px;font-size:14px;line-height:1.45}
+.changes b{display:block;font:800 15px/1.25 var(--h);margin-bottom:4px}
+/* logo */
+.construct{background:var(--wit);border-radius:var(--r-panel);padding:44px 48px 32px}
+.construct svg{display:block;width:100%;height:auto}
+.legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:24px}
 .legend div{font-size:14.5px;line-height:1.45}
-.legend b{display:block;font:700 15px/1.3 var(--h);margin-bottom:4px}
-.logo-tile img{display:block;max-width:100%}
-.dont{position:relative}
-.dont .di{position:relative;padding:6px 0}
+.legend b{display:block;font:700 16px/1.3 var(--h);margin-bottom:4px}
+.sizes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.sizerow{display:flex;align-items:flex-end;gap:28px;flex-wrap:wrap}
+.sizerow figure{margin:0;text-align:center}
+.sizerow figcaption{font:600 12px var(--b);color:var(--kiezel);margin-top:8px}
+.phone{width:260px;border:2px solid var(--inkt);border-radius:22px;overflow:hidden;background:var(--wit)}
+.phone .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--lijn)}
+.phone .bar svg{width:22px;height:22px}
+.clear{position:relative;display:block;width:100%;max-width:440px;padding:7.4%;border:1px dashed #C9BFAE;background:repeating-linear-gradient(135deg,rgba(200,56,18,.10) 0 6px,transparent 6px 12px)}
+.clear div{background:var(--zand)}
+.clear img{display:block;width:100%}
+.clear span{position:absolute;font:800 12px var(--b);color:var(--klaproos-donker)}
+.dont .di{position:relative;padding:6px 0;min-height:70px;display:flex;align-items:center}
 .dont .di::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 1.5px),var(--bordeaux) calc(50% - 1.5px),var(--bordeaux) calc(50% + 1.5px),transparent calc(50% + 1.5px));opacity:.85;pointer-events:none}
-.dontcap{display:flex;gap:8px;align-items:flex-start;font:600 13.5px/1.4 var(--b);color:var(--bordeaux);margin-top:12px}
-/* ---------- favicon */
+.dontcap{display:flex;gap:8px;align-items:flex-start;font:600 13.5px/1.4 var(--b);color:var(--bordeaux)}
+/* favicon */
 .tabs{background:#DCDDD8;border-radius:12px 12px 0 0;padding:10px 10px 0;display:flex;gap:6px}
-.tab{display:flex;align-items:center;gap:10px;background:#EDEEEA;border-radius:10px 10px 0 0;padding:10px 16px;font:500 13px var(--b);color:#333;width:240px}
+.tab{display:flex;align-items:center;gap:10px;background:#EDEEEA;border-radius:10px 10px 0 0;padding:10px 14px;font:500 13px var(--b);color:#333;flex:1;min-width:0;white-space:nowrap;overflow:hidden}
 .tab.on{background:#fff}
-.tab img{width:16px;height:16px}
+.tab img{width:16px;height:16px;flex:none}
 .urlbar{background:#fff;padding:10px 16px;border-bottom:1px solid #e6e6e6;font:13px var(--b);color:#555}
-/* ---------- colour */
+.px{position:relative;display:inline-block;line-height:0}
+.px img{image-rendering:pixelated;display:block}
+.px::after{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(29,36,32,.18) 1px,transparent 1px),linear-gradient(to bottom,rgba(29,36,32,.18) 1px,transparent 1px);background-size:var(--g) var(--g);pointer-events:none}
+.favrow{display:flex;gap:28px;align-items:flex-end;flex-wrap:wrap}
+.favrow figure{margin:0;text-align:center}
+.favrow figcaption{font:600 12px var(--b);color:var(--kiezel);margin-top:8px}
+/* colour */
 .sw{border-radius:var(--r-card);overflow:hidden;background:var(--wit);display:flex;flex-direction:column}
-.sw .c{height:120px;padding:14px 16px;display:flex;justify-content:space-between;align-items:flex-start;font:700 14px var(--b)}
-.sw .t{padding:14px 16px 18px;font-size:13.5px;line-height:1.45}
+.sw .c{height:104px;padding:12px 14px;display:flex;justify-content:space-between;align-items:flex-start;font:700 14px var(--b)}
+.sw .t{padding:12px 14px 16px;font-size:13px;line-height:1.45}
 .sw .t b{font:800 17px/1.2 var(--h);display:block}
-.sw .t code{font:600 12.5px ui-monospace,Menlo,monospace;color:var(--kiezel)}
-.ratio{font:700 12px/1 var(--b);background:rgba(255,255,255,.88);color:var(--inkt);padding:4px 7px;border-radius:4px}
+.sw .t code{color:var(--kiezel)}
+.sw .fam{display:inline-block;font:700 10.5px/1 var(--b);letter-spacing:.07em;text-transform:uppercase;background:var(--linnen);color:var(--polder);padding:4px 6px;border-radius:3px;margin-bottom:8px}
+.sw .role{margin-top:6px}
+.ratio{font:700 12px/1 var(--b);background:rgba(255,255,255,.9);color:var(--inkt);padding:4px 7px;border-radius:4px}
 table{border-collapse:collapse;width:100%;font-size:14px}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--lijn);vertical-align:middle}
+th{font:700 11.5px/1.25 var(--b);letter-spacing:.06em;text-transform:uppercase;color:var(--kiezel)}
+td.r,th.r{text-align:right;font-weight:700;white-space:nowrap}
 .ct td{padding:5px 8px}
-.ct .pv{height:26px;min-width:150px;font-size:12.5px}
-th{font:700 12px/1.2 var(--b);letter-spacing:.06em;text-transform:uppercase;color:var(--kiezel)}
-td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
-.pv{display:inline-flex;align-items:center;justify-content:center;min-width:132px;height:30px;border-radius:6px;font:700 13px var(--b);padding:0 10px;border:1px solid rgba(29,36,32,.08)}
+.ct .u{font-size:13px}
+.pv{display:inline-flex;align-items:center;justify-content:center;width:168px;min-height:26px;border-radius:6px;font:700 12.5px/1.2 var(--b);padding:3px 8px;border:1px solid rgba(29,36,32,.08);text-align:center}
 .pass{color:var(--polder);font-weight:700;white-space:nowrap}
-.ctab{columns:2;column-gap:32px}
-.ctab table{break-inside:avoid}
-/* ---------- type */
-.spec{background:var(--wit);border-radius:var(--r-panel);padding:40px}
-.big{font:800 132px/0.9 var(--h);letter-spacing:-.03em}
+.no-go{color:var(--bordeaux);font-weight:700}
+.scheme{border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)}
+.scheme .sn{font:700 12.5px/1.3 var(--b);margin-bottom:8px}
+.mini{display:inline-block;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px}
+.trio{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+/* reproduction */
+.repro{background:var(--wit);border-radius:var(--r-panel);padding:28px 28px 20px;overflow-x:auto}
+.repro table{font-size:13.5px;min-width:1100px}
+.repro td{vertical-align:top;line-height:1.45;padding:12px 10px}
+.repro .dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:7px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.2)}
+.de{display:inline-block;font:700 11.5px/1 var(--b);background:var(--linnen);color:var(--polder);padding:3px 5px;border-radius:3px;white-space:nowrap}
+.sign{color:#B7AE9E;letter-spacing:.1em}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:14.5px;line-height:1.45}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px}
+.steps li::before{counter-increment:s;content:counter(s);width:24px;height:24px;border-radius:50%;background:var(--inkt);color:var(--zand);font:800 12.5px/24px var(--b);text-align:center}
+.mstable td,.mstable th{padding:8px 10px}
+.mstable tr.screen td{background:var(--linnen)}
+.smalls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.smalls .tile{min-height:0;padding:20px}
+.rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.rcell{background:var(--zand);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.rcell b{font:700 13px var(--b)}
+.chipc{display:block;height:46px;border-radius:6px;margin-bottom:6px}
+/* type */
+.spec{background:var(--wit);border-radius:var(--r-panel);padding:36px}
+.spec p{overflow-wrap:anywhere}
+.big{font:800 128px/0.9 var(--h);letter-spacing:-.03em}
 .handle{display:inline-block;font:600 12.5px ui-monospace,Menlo,monospace;background:var(--linnen);color:var(--polder);padding:3px 8px;border-radius:4px;margin:2px 4px 2px 0}
-.scale div{display:grid;grid-template-columns:150px 1fr;align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid var(--lijn)}
+.scale div{display:grid;grid-template-columns:150px minmax(0,1fr);align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid var(--lijn)}
 .scale small{font:600 12.5px var(--b);color:var(--kiezel)}
-.prices{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .ptable td{padding:8px 10px}
-/* ---------- imagery */
+.lockrule{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+.lockrule>div{border-radius:10px;padding:18px;background:var(--zand)}
+/* imagery */
 .shot{background:var(--studio);border-radius:var(--r-card);overflow:hidden;position:relative}
 .shot img{display:block;width:100%}
 .shot .lbl{position:absolute;left:12px;top:12px;font:700 12px/1 var(--b);background:var(--wit);padding:6px 8px;border-radius:4px}
 .gs{background:#fff;border:1px solid #E3E3E3;border-radius:14px;padding:18px}
-.gs .row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.gs .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .gs .it{font:13px/1.35 Arial,sans-serif;color:#202124}
 .gs .it .im{background:#F1F3F4;border-radius:10px;overflow:hidden;aspect-ratio:1}
 .gs .it .im img{width:100%;display:block;mix-blend-mode:multiply}
 .gs .it p{margin:8px 0 2px}
-.gs .it b{font-weight:700}
 .gs .it.us{outline:3px solid var(--zon);outline-offset:4px;border-radius:10px}
-.adlist li{margin-bottom:8px}
-/* ---------- storefront */
+.adlist{margin:0;padding-left:18px;font-size:14.5px;line-height:1.5}
+.adlist li{margin-bottom:7px}
+/* storefront */
 .store{background:var(--zand);border-radius:var(--r-panel);overflow:hidden;box-shadow:0 30px 80px -40px rgba(29,36,32,.45);border:1px solid var(--lijn)}
 .ut{background:var(--polder);color:var(--zand);font:600 13.5px/1 var(--b)}
-.ut .in{display:flex;justify-content:space-between;align-items:center;height:40px;padding:0 32px}
-.ut .usp{display:flex;gap:26px}
-.ut .usp span{display:flex;gap:8px;align-items:center}
-.ut .links{display:flex;gap:22px}
-.ut a{color:var(--zand);text-decoration:none}
+.ut .in{display:flex;justify-content:space-between;align-items:center;height:40px;padding:0 32px;gap:20px}
+.ut .usp{display:flex;gap:24px}
+.ut .usp span{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.ut .links{display:flex;gap:22px;white-space:nowrap}
 .hd{background:var(--wit);border-bottom:1px solid var(--lijn)}
-.hd .row1{display:grid;grid-template-columns:200px 1fr auto;gap:32px;align-items:center;padding:18px 32px 14px}
+.hd .row1{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:32px;align-items:center;padding:18px 32px 14px}
 .search{display:flex;align-items:center;gap:10px;height:48px;border:1.5px solid var(--kiezel);border-radius:8px;padding:0 16px;color:var(--kiezel);font-size:15.5px;background:var(--wit)}
 .hicons{display:flex;gap:22px;align-items:center;font:600 13px var(--b)}
 .hicons span{display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
 .badge-n{position:absolute;top:-6px;right:-2px;background:var(--klaproos);color:#fff;border-radius:999px;font:700 11px/18px var(--b);min-width:18px;text-align:center}
-.hd nav{display:flex;gap:28px;padding:0 32px;height:48px;align-items:center;font:600 15px var(--b)}
-.hd nav .act{display:flex;align-items:center;gap:6px}
+.hd nav{display:flex;gap:26px;padding:0 32px;height:48px;align-items:center;font:600 15px var(--b);white-space:nowrap}
 .hd nav .navzak{margin-left:auto;color:var(--polder)}
-.hero{display:grid;grid-template-columns:1fr 1.1fr;background:var(--duin)}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);background:var(--duin)}
 .hero .tx{padding:56px 48px}
 .hero h3{font:800 58px/1 var(--h);letter-spacing:-.025em;margin:14px 0 18px}
 .hero .tx p{font-size:18px;margin:0 0 26px;max-width:470px}
@@ -138,44 +184,48 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .hero .chip{position:absolute;left:24px;bottom:24px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:50px;padding:0 22px;border-radius:var(--r-btn);font:700 16px/1 var(--b);border:2px solid transparent;white-space:nowrap}
 .btn.p{background:var(--klaproos);color:#fff}
-.btn.p.h{background:var(--klaproos-donker)}
+.btn.p.h{background:var(--inkt)}
+.btn.p.a{background:var(--klaproos-donker)}
 .btn.s{background:var(--polder);color:var(--zand)}
 .btn.o{border-color:var(--inkt);color:var(--inkt);background:transparent}
-.btn.d{background:#E7E3DA;color:#6B6E68}
+.btn.o.h{background:var(--inkt);color:var(--zand)}
+.btn.d{background:#E7E3DA;color:var(--kiezel)}
 .btn.f{outline:3px solid var(--inkt);outline-offset:2px}
+.btn.z{background:var(--zand);color:var(--inkt)}
 .btn.sm{height:42px;font-size:15px;padding:0 16px}
 .link{color:var(--inkt);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:36px 32px 40px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;padding:28px 32px 40px}
 .pc{background:var(--wit);border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column}
 .pc .im{background:var(--studio);aspect-ratio:1/1;position:relative}
 .pc .im img{width:100%;display:block}
 .pc .bd{position:absolute;left:12px;top:12px;display:flex;gap:6px}
-.b{font:700 12px/1 var(--b);padding:6px 8px;border-radius:var(--r-badge);display:inline-flex;align-items:center;gap:6px}
+.b{font:700 12px/1 var(--b);padding:6px 8px;border-radius:var(--r-badge);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .b.actie{background:var(--zon);color:var(--inkt)}
 .b.nieuw{background:var(--polder);color:var(--zand)}
 .b.logo{background:var(--inkt);color:var(--zand)}
 .b.zk{background:var(--linnen);color:var(--polder)}
 .pc .ct{padding:16px 16px 18px;display:flex;flex-direction:column;gap:7px;flex:1}
 .pc h4{font:700 17px/1.25 var(--h)}
-.pc .specl{font-size:13.5px;color:var(--kiezel);line-height:1.4}
-.pc .sws{display:flex;gap:6px;align-items:center}
-.pc .sws i{width:18px;height:18px;border-radius:50%;display:block;border:1px solid rgba(29,36,32,.25)}
-.pc .sws i.on{outline:2px solid var(--inkt);outline-offset:2px}
-.pc .sws small{font:600 12.5px var(--b);color:var(--kiezel);margin-left:4px}
-.price{font:700 20px/1.2 var(--b);font-variant-numeric:tabular-nums}
-.price s{font:500 15px var(--b);color:var(--kiezel);margin-left:8px}
-.price small{font:500 13px var(--b);color:var(--kiezel);margin-left:6px}
+.specl{font-size:13.5px;color:var(--kiezel);line-height:1.4}
+.sws{display:flex;gap:6px;align-items:center}
+.sws i{width:18px;height:18px;border-radius:50%;display:block;border:1px solid rgba(29,36,32,.25)}
+.sws i.on{outline:2px solid var(--inkt);outline-offset:2px}
+.sws small{font:600 12.5px var(--b);color:var(--kiezel);margin-left:4px}
+.price{font:700 20px/1.2 var(--b);font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.price s{font:500 15px var(--b);color:var(--kiezel)}
+.price small{font:500 13px var(--b);color:var(--kiezel)}
+.tag{display:inline-flex;align-items:center;background:var(--zon);color:var(--inkt);padding:3px 18px 3px 9px;border-radius:5px 0 0 5px;clip-path:polygon(0 0,100% 0,calc(100% - 9px) 50%,100% 100%,0 100%)}
+.tier{font:600 13px/1.35 var(--b);color:var(--polder);background:var(--linnen);border-radius:6px;padding:7px 9px;font-variant-numeric:tabular-nums}
 .stock{display:flex;align-items:center;gap:7px;font:600 13.5px/1.2 var(--b)}
-.stock i{width:9px;height:9px;border-radius:50%;display:block}
+.stock i{width:9px;height:9px;border-radius:50%;display:block;flex:none}
 .st-in{color:var(--polder)}.st-in i{background:#2E8B57}
-.st-later{color:var(--oker)}.st-later i{background:var(--zon);box-shadow:0 0 0 1.5px var(--oker)}
+.st-later{color:var(--oker)}.st-later i{background:var(--oker)}
 .st-out{color:var(--kiezel)}.st-out i{background:transparent;border:1.5px solid var(--kiezel)}
 .pc .btn{margin-top:auto;width:100%}
 .pc.custom{outline:2px dashed var(--inkt);outline-offset:-2px}
-.pc .note{font-size:13px;line-height:1.4;color:var(--inkt);background:var(--linnen);border-radius:6px;padding:8px 10px}
-/* PDP buy box */
-.buy{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--wit)}
-.buy .gal{background:var(--studio);display:grid;grid-template-columns:76px 1fr;gap:16px;padding:24px}
+.pc .note{font-size:13px;line-height:1.4;background:var(--linnen);border-radius:6px;padding:8px 10px}
+.buy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--wit)}
+.buy .gal{background:var(--studio);display:grid;grid-template-columns:76px minmax(0,1fr);gap:16px;padding:24px}
 .buy .gal .th{display:flex;flex-direction:column;gap:10px}
 .buy .gal .th img{width:76px;border-radius:8px;background:var(--studio);border:1.5px solid var(--lijn)}
 .buy .gal .th img.on{border-color:var(--inkt)}
@@ -188,7 +238,7 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .pill{height:42px;min-width:64px;padding:0 14px;border:1.5px solid var(--kiezel);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--b);font-variant-numeric:tabular-nums;background:var(--wit)}
 .pill.on{border:2px solid var(--inkt);background:var(--zand)}
 .pill.na{color:#8A8D87;background:repeating-linear-gradient(135deg,transparent 0 7px,#EEE9DE 7px 8px);border-style:dashed}
-.qtyrow{display:grid;grid-template-columns:150px 1fr;gap:12px;margin-top:22px}
+.qtyrow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;margin-top:22px}
 .qty{display:grid;grid-template-columns:44px 1fr 44px;height:52px;border:1.5px solid var(--kiezel);border-radius:8px;align-items:center;text-align:center;font:700 17px var(--b);font-variant-numeric:tabular-nums}
 .qty span{display:flex;justify-content:center}
 .btn.add{height:52px;width:100%;font-size:16.5px}
@@ -200,7 +250,7 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .vat span{padding:6px 12px}
 .vat .on{background:var(--inkt);color:var(--zand)}
 /* components */
-.alert{display:grid;grid-template-columns:24px 1fr;gap:12px;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.45;border-left:5px solid}
+.alert{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.45;border-left:5px solid}
 .alert b{display:block;font:700 15.5px/1.3 var(--b);margin-bottom:2px}
 .alert.err{background:var(--foutroze);border-color:var(--bordeaux)}
 .alert.err b,.alert.err svg{color:var(--bordeaux)}
@@ -211,74 +261,90 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 .field label{display:block;font:600 14.5px var(--b);margin-bottom:6px}
 .field .in{height:48px;border:1.5px solid var(--kiezel);border-radius:8px;background:var(--wit);display:flex;align-items:center;padding:0 14px;font-size:16px}
 .field.e .in{border:2px solid var(--bordeaux)}
-.field .msg{display:flex;gap:6px;align-items:center;color:var(--bordeaux);font:600 14px var(--b);margin-top:7px}
+.field .msg{display:flex;gap:6px;align-items:flex-start;color:var(--bordeaux);font:600 14px/1.35 var(--b);margin-top:7px}
+.field .msg svg{flex:none;margin-top:1px}
 .toast{background:var(--wit);border-radius:14px;box-shadow:var(--sh-toast);padding:18px;border:1px solid var(--lijn)}
 .toast .top{display:flex;gap:12px;align-items:flex-start}
 .toast .top img{width:64px;border-radius:8px;background:var(--studio)}
 .empty{text-align:center;padding:30px 20px}
+.statelbl{display:block;font:600 11.5px/1 var(--b);color:var(--kiezel);margin-top:7px;text-align:center}
+.states{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
 /* zakelijk */
 .zakblok{background:var(--linnen);border-radius:var(--r-panel);padding:40px}
-.zakblok h3{font:800 30px/1.1 var(--h);color:var(--inkt)}
-.staffel td,.staffel th{background:transparent}
+.zakblok h3{font:800 30px/1.1 var(--h)}
 .staffel td{font-variant-numeric:tabular-nums}
 /* applications */
-.app{background:var(--wit);border-radius:var(--r-card);padding:24px}
+.app{background:var(--wit);border-radius:var(--r-card);padding:24px;display:flex;flex-direction:column}
 .app h4{font:700 18px/1.3 var(--h);margin:16px 0 6px}
 .app ul{margin:8px 0 0;padding-left:18px;font-size:14.5px;line-height:1.5}
+.plan{background:#FCFBF8;background-image:linear-gradient(to right,rgba(29,36,32,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(29,36,32,.05) 1px,transparent 1px);background-size:16px 16px;border-radius:var(--r-card);padding:14px;position:relative}
+.plan .lbl{position:absolute;left:12px;top:12px;font:700 12px/1 var(--b);background:var(--wit);padding:6px 8px;border-radius:4px;border:1px solid var(--lijn)}
 /* voice */
 .say{background:var(--wit);border-radius:var(--r-card);padding:22px 24px}
 .say .where{font:700 12px/1.2 var(--b);letter-spacing:.08em;text-transform:uppercase;color:var(--kiezel);margin-bottom:8px}
-.say p{margin:0;font-size:16.5px;line-height:1.5}
-.say p b{font-family:var(--h);font-weight:800;font-size:19px;display:block;margin-bottom:3px;letter-spacing:-.005em}
-.dd{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--r-card);overflow:hidden}
-.dd div{padding:14px 18px;font-size:15px;border-bottom:1px solid var(--lijn)}
+.say p{margin:0;font-size:16px;line-height:1.5}
+.say p b{font-family:var(--h);font-weight:800;font-size:19px;display:block;margin-bottom:3px}
+.dd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-radius:var(--r-card);overflow:hidden}
+.dd div{padding:13px 18px;font-size:15px;border-bottom:1px solid var(--lijn)}
 .dd .w{background:var(--mos)}.dd .n{background:var(--foutroze)}
 .dd .hd2{font:700 12px/1 var(--b);letter-spacing:.08em;text-transform:uppercase;padding:12px 18px}
-.icons{display:grid;grid-template-columns:repeat(9,1fr);gap:12px}
-.icons div{background:var(--wit);border-radius:10px;padding:18px 8px 12px;text-align:center;font:600 12px var(--b);color:var(--kiezel)}
-.icons svg{width:28px;height:28px;color:var(--inkt);display:block;margin:0 auto 10px}
+.icons{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.icons div{background:var(--zand);border-radius:10px;padding:16px 6px 12px;text-align:center;font:600 12px/1.2 var(--b);color:var(--kiezel);white-space:nowrap}
+.icons svg{width:28px;height:28px;color:var(--inkt);display:block;margin:0 auto 9px}
 .bunt{height:44px;background:url("svg/vlaggenlijn.svg") repeat-x left top/160px 44px}
 .foot{background:var(--polder);color:var(--zand);padding:56px 0 64px}
-.foot a{color:var(--zand)}
 .legal{background:var(--wit);border-radius:var(--r-card);padding:28px}
 .legal h4{font:800 19px/1.3 var(--h);margin-bottom:8px}
 .legal ul{margin:0;padding-left:18px;font-size:14.5px;line-height:1.55}
 .legal li{margin-bottom:4px}
 .tag-warn{display:inline-flex;gap:6px;align-items:center;background:var(--okerlicht);color:var(--oker);font:700 12.5px var(--b);padding:5px 9px;border-radius:4px}
-@media (max-width:980px){.wrap{padding:0 16px}.sh,.cover .wrap,.g2,.g3,.g4,.g5,.hero,.buy,.cards,.grid[style*="grid-template-columns"]{grid-template-columns:1fr!important}.ut .usp{display:none}.hd .row1{grid-template-columns:1fr}.hd nav{overflow-x:auto}.cover h1{font-size:48px}.big{font-size:84px}.icons{grid-template-columns:repeat(3,1fr)}.gs .row{grid-template-columns:repeat(2,1fr)}.legend{grid-template-columns:1fr 1fr}.ctab{columns:1}.tabs{flex-wrap:wrap}.tabs .tab{width:auto}.card,.tile,.spec,.zakblok,.construct{padding:20px;overflow-x:auto}.fav-row{flex-wrap:wrap}.ut .in{padding:0 16px;height:auto;min-height:40px}.ut .links{gap:12px;flex-wrap:wrap}.hd .row1,.hd nav{padding-left:16px;padding-right:16px}.hero .tx{padding:32px 20px}.hero h3{font-size:40px}.buy .info{padding:24px 20px}.buy .gal{grid-template-columns:1fr}.buy .gal .th{flex-direction:row}.qtyrow{grid-template-columns:1fr}.dd{grid-template-columns:1fr}.sh h2{font-size:30px}table{display:block;overflow-x:auto}.store{overflow:hidden}.mast nav{display:none}.cards{padding:20px 16px}.legend{grid-template-columns:1fr}.foot .wrap{flex-direction:column;align-items:flex-start!important}.foot .wrap>div:last-child{text-align:left!important}}
-.ex{font:600 11.5px/1 var(--b);letter-spacing:.06em;text-transform:uppercase;color:var(--oker);background:var(--okerlicht);padding:4px 7px;border-radius:4px;display:inline-block}
+@media (max-width:980px){
+  .wrap{padding:0 16px}
+  .sh,.cover .wrap,.g2,.g3,.g4,.g5,.hero,.buy,.cards,.sizes,.smalls,.lockrule,.changes,.rgrid,.grid[style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important}
+  .cover h1{font-size:46px}.big{font-size:72px}.sh h2{font-size:30px}
+  .icons{grid-template-columns:repeat(3,minmax(0,1fr))}.gs .row{grid-template-columns:repeat(2,minmax(0,1fr))}.legend{grid-template-columns:minmax(0,1fr)}
+  .card,.tile,.spec,.zakblok,.construct,.repro{padding:18px}
+  .ut .usp{display:none}.ut .in{padding:0 16px;height:auto;min-height:40px}.ut .links{gap:12px;flex-wrap:wrap}
+  .hd .row1{grid-template-columns:minmax(0,1fr);padding:14px 16px}.hd nav{overflow-x:auto;padding:0 16px}
+  .hero .tx{padding:28px 18px}.hero h3{font-size:40px}.buy .info{padding:22px 18px}.buy .gal{grid-template-columns:minmax(0,1fr)}.buy .gal .th{flex-direction:row}
+  .qtyrow{grid-template-columns:minmax(0,1fr)}.dd{grid-template-columns:minmax(0,1fr)}.cards{padding:18px 16px}
+  table{display:block;overflow-x:auto}.mast nav{display:none}.tabs{flex-wrap:wrap}.pv{width:auto}
+  .foot .wrap{flex-direction:column;align-items:flex-start!important}.foot .wrap>div:last-child{text-align:left!important}
+  .facts{grid-template-columns:minmax(0,1fr)}.ct .u{display:none}.ct .pv{width:150px}.scale div{grid-template-columns:minmax(0,1fr);gap:6px}
+}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l4.5 4.5L19.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></symbol>
-    <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 5.5h11v11h-11zM13.5 9.5h4.2l3.3 3.6v3.4h-7.5"/><circle cx="7" cy="17.5" r="2" fill="currentColor" stroke="none"/><circle cx="17.5" cy="17.5" r="2" fill="currentColor" stroke="none"/></g></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M1.5 4.5h12.5v12h-12.5zM14 8.5h4.6l3.9 4.3v3.7H14"/></g><circle cx="6" cy="18" r="2.3" fill="currentColor"/><circle cx="18" cy="18" r="2.3" fill="currentColor"/></symbol>
     <symbol id="i-invoice" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5.5 2.5h13v19l-3.2-2-3.3 2-3.3-2-3.2 2z"/><path d="M9 8h6M9 12h6M9 15.5h3.5"/></g></symbol>
-    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M3.5 4.5h17v11.5H10l-5.5 4.2V16H3.5z M8 10.3h.01M12 10.3h.01M16 10.3h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M3.5 4.5h17v11.5H10l-5.5 4.2V16H3.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="10.3" r="1.2" fill="currentColor"/><circle cx="12" cy="10.3" r="1.2" fill="currentColor"/><circle cx="16" cy="10.3" r="1.2" fill="currentColor"/></symbol>
     <symbol id="i-ruler" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.8 15.5L15.5 2.8l5.7 5.7L8.5 21.2z"/><path d="M7 11.3l2 2M10 8.3l2.5 2.5M13 5.3l2 2"/></g></symbol>
     <symbol id="i-upload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 15.5V3.5M7 8.5l5-5 5 5M3.5 14.5v6h17v-6"/></g></symbol>
     <symbol id="i-proof" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5.5 2.5h9l4 4v15h-13z M14 2.5v4.5h4.5"/><path d="M8.5 14l2.5 2.5 4.5-4.5"/></g></symbol>
-    <symbol id="i-peg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 3.5h8M12 3.5v15.5l-3-3"/><path d="M3 21h18" /></g></symbol>
+    <symbol id="i-peg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 22.5l-1.6-3.3V5.5a3.5 3.5 0 0 1 7 0V8"/><path d="M12 22.5l1.6-3.3V9"/><path d="M3 13.5h6.5M15.5 13.5H21"/></g></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6.5"/></g><circle cx="12" cy="16.8" r="1.3" fill="currentColor"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 10.5V17"/></g><circle cx="12" cy="7.3" r="1.3" fill="currentColor"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/></g></symbol>
-    <symbol id="i-tent" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 11.5L12 7l9.5 4.5zM2.5 11.5v3h19v-3M4.5 14.5V21M19.5 14.5V21M12 7V3"/></g><path d="M12.8 2.6l3.6 1.3-3.6 1.3z" fill="currentColor"/></symbol>
-    <symbol id="i-table" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8.5" ry="2.5"/><path d="M12 8.5V19M7 21.5l5-2.5 5 2.5"/></g></symbol>
+    <symbol id="i-tent" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 11.5L12 7.5l9.5 4zM2.5 13.5h19M4.5 13.5V21M19.5 13.5V21M12 7.5V3"/></g><path d="M13 2.4l4 1.4-4 1.4z" fill="currentColor"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8.5" ry="2.5"/><path d="M12 8v11M6.5 21.5l5.5-2.5 5.5 2.5"/></g></symbol>
     <symbol id="i-case" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 7.5h19v13h-19zM8.5 7.5v-3h7v3M2.5 13h19"/></g></symbol>
     <symbol id="i-cart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 3.5h2.8l2.3 11.5h11.4l2.2-8.2H6"/></g><circle cx="9" cy="19.5" r="1.8" fill="currentColor"/><circle cx="17" cy="19.5" r="1.8" fill="currentColor"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></g></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4.2 4.3-6.3 8-6.3s6.8 2.1 8 6.3"/></g></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" fill="none"/></symbol>
     <symbol id="i-min" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2.2" fill="none"/></symbol>
-    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 2.5h2.4v19H5z" fill="currentColor"/><path d="M8.6 3l11 4.4-11 4.4z" fill="var(--zon)"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 2.5h2.6v19H5z" fill="currentColor"/><path d="M7.6 2.5l12 4.6-12 4.6z" fill="#FFC23A"/></symbol>
     <symbol id="i-wind" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 9h12a3 3 0 1 0-3-3M2.5 14.5h16a3 3 0 1 1-3 3M2.5 12h7"/></g></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2.5a6.5 6.5 0 0 0-3.8 11.8c.8.6 1.3 1.4 1.3 2.4v.8h5v-.8c0-1 .5-1.8 1.3-2.4A6.5 6.5 0 0 0 12 2.5zM9.5 20.5h5"/></g></symbol>
   </defs>
 </svg>
 
 <header class="mast"><div class="wrap">
-  <img src="logo.svg" alt="Klapklaar" style="height:38px">
-  <nav><span>Merkboek v2</span><span>17-10-2026</span><span>Naam nog niet getoetst (KvK/BOIP/SIDN)</span></nav>
+  <img src="logo.svg" alt="Klapklaar" style="width:170px">
+  <nav><span>Merkboek v3</span><span>17-10-2026</span><span>Naam nog niet getoetst (KvK/BOIP/SIDN)</span></nav>
 </div></header>
 
 <div class="cover"><div class="wrap">
@@ -292,137 +358,241 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
       <div><b>klaar</b><span>Klaar is Kees. Nuchter, concreet, zonder poespas.</span></div>
     </div>
   </div>
-  <figure><img src="img/scene-hero-crop.webp" alt="Klaproos-rode easy-up 3 x 3 m met Klapklaar-opdruk op de luifel, met twee statafels in stretchrok eronder">
-    <span class="chip"><svg width="18" height="18"><use href="#i-tent"/></svg><span>Easy-up partytent 3 × 3 m · Premium · <b class="num">vanaf € 319</b></span></span></figure>
+  <figure><img src="img/scene-hero-crop.webp" alt="Klaproos-rode easy-up 3 x 3 m met Klapklaar op de luifel, met twee statafels in stretchrok eronder (voorbeeldopdruk)">
+    <span class="chip"><svg width="18" height="18"><use href="#i-tent"/></svg><span>Easy-up partytent 3 × 3 m · Premium · <b class="num">vanaf € 319</b> <span class="ex">voorbeeld</span></span></span></figure>
+</div>
+<div class="wrap full">
+  <div class="changes">
+    <div><b>Nieuw in v3: reproductie</b>Pantone C, TCX, RAL, Oracal en CMYK per kleur, met ΔE en een aftekenlijst. Minimummaten per druk- en borduurmethode (§04).</div>
+    <div><b>Logo voor klein werk</b>logo-klein en mark-klein: luifel uit één stuk, ruimere openingen. Voor borduren onder 73 mm, flock onder 105 mm en scherm onder 121 px.</div>
+    <div><b>Beeldmerk = k onder de tent</b>De aa onder de tent is vervangen: hij kort Klapklaar niet af en las los als ‘AA’.</div>
+    <div><b>Eén rol per kleur</b>Knop-hover is Inkt, fouten zijn Bordeaux (ΔE 23,8 van Klaproos), Zon is alleen nog vlag en actie.</div>
+  </div>
 </div></div>
 
 <!-- ============================================================== LOGO -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">01</div><h2>Logo: de tent is getekend, niet getypt</h2></div><p>Geen letter komt uit een font. Elke vorm is geconstrueerd (tools/kk.py): één streekdikte, vierkant-ronde kommen en één hoek van 21° die terugkomt in het dak én in elke uitstekende letterpoot.</p></div>
-  <div class="construct"><svg viewBox="-14 -14 479.4 151.36" role="img" aria-label="Constructie van het Klapklaar-logo">
-<path fill="#1D2420" fill-opacity="0.92" d="M0 103.76v-66.21l13-4.99v36.92l16-15.72h17.8l-16.9 16.6l17.7 33.4h-18.6l-11.33-21.38l-4.67 4.58v16.8zM51.6 103.76v-66.21l13-4.99v71.2zM104 53.76h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM104 65.87c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM137.2 53.76v3.47c3.33-2.9 7.8-4.37 13.36-4.37c13.62 0 20.64 8.81 20.64 25.9c0 17.09-7.02 25.9-20.64 25.9c-5.56 0-10.03-1.47-13.36-4.37v18.08l-13 4.99v-69.6zM137.2 65.87v25.79c2.08 1.22 4.79 1.81 8.16 1.81c9.4 0 13.62-4.56 13.62-14.7c0-10.14-4.22-14.7-13.62-14.7c-3.37 0-6.08 0.59-8.16 1.81zM176.8 103.76v-66.21l13-4.99v36.92l16-15.72h17.8l-16.9 16.6l17.7 33.4h-18.6l-11.33-21.38l-4.67 4.58v16.8zM228.4 103.76v-66.21l13-4.99v71.2zM280.8 53.76h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM280.8 65.87c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM333.4 53.76h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM333.4 65.87c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM353.6 103.76v-35.9c0-9.9 5.1-15 15-15h16.8l-4.64 12.1h-7.76c-4.22 0-6.4 2.18-6.4 6.4v32.4z"/>
-<path fill="#BE3A1D" fill-opacity="0.95" d="M244.6 45.56v-13h104v13zM244.6 29.96l50.5-19.39v-10.58h3v10.58l50.5 19.39zM299.1 0l15 5.2l-15 5.2z"/>
-<line x1="-14" x2="399.4" y1="32.56" y2="32.56" stroke="#BE3A1D" stroke-width=".35" stroke-dasharray="4 4"/>
-<text x="403.4" y="34.36" font-family="Figtree" font-weight="700" font-size="5.4" fill="#5D625C">stok = luifelrand 712</text>
-<line x1="-14" x2="399.4" y1="53.76" y2="53.76" stroke="#BE3A1D" stroke-width=".35" stroke-dasharray="4 4"/>
-<text x="403.4" y="55.559999999999995" font-family="Figtree" font-weight="700" font-size="5.4" fill="#5D625C">x-hoogte 500</text>
-<line x1="-14" x2="399.4" y1="103.76" y2="103.76" stroke="#BE3A1D" stroke-width=".35" stroke-dasharray="4 4"/>
-<text x="403.4" y="105.56" font-family="Figtree" font-weight="700" font-size="5.4" fill="#5D625C">basislijn 0</text>
-<line x1="-14" x2="399.4" y1="123.36" y2="123.36" stroke="#BE3A1D" stroke-width=".35" stroke-dasharray="4 4"/>
-<text x="403.4" y="125.16" font-family="Figtree" font-weight="700" font-size="5.4" fill="#5D625C">onderstok −196</text>
-<line x1="-7.80" y1="40.54" x2="31.20" y2="25.57" stroke="#9A2F17" stroke-width=".6"/>
-<text x="-2.00" y="33.05" text-anchor="end" font-family="Figtree" font-weight="700" font-size="5.2" fill="#9A2F17">21°</text>
-<line x1="220.60" y1="40.54" x2="259.60" y2="25.57" stroke="#9A2F17" stroke-width=".6"/>
-<text x="226.40" y="33.05" text-anchor="end" font-family="Figtree" font-weight="700" font-size="5.2" fill="#9A2F17">21°</text>
-<line x1="231.60" y1="34.95" x2="301.80" y2="8.00" stroke="#9A2F17" stroke-width=".6"/>
-<text x="270.20" y="15.98" text-anchor="end" font-family="Figtree" font-weight="700" font-size="5.2" fill="#9A2F17">21°</text>
-<path d="M351.60 32.56h2v13.00h-2" fill="none" stroke="#9A2F17" stroke-width=".5"/>
-<text x="356.10" y="40.86" text-anchor="start" font-family="Figtree" font-weight="700" font-size="4.6" fill="#9A2F17">130 = stok</text>
-<path d="M228.40 106.76v2h13.00v-2" fill="none" stroke="#9A2F17" stroke-width=".5"/>
-<text x="234.90" y="113.76" text-anchor="middle" font-family="Figtree" font-weight="700" font-size="4.6" fill="#9A2F17">130</text>
-<path d="M246.80 106.76v2H346.40v-2" fill="none" stroke="#9A2F17" stroke-width=".5"/>
-<text x="296.60" y="113.76" text-anchor="middle" font-family="Figtree" font-weight="700" font-size="4.6" fill="#9A2F17">dak = aa + 2 × overstek</text>
+  <div class="sh"><div><div class="no">01</div><h2>Logo: de tent staat op de letters</h2></div><p>Geen letter komt uit een font: elke vorm is geconstrueerd (tools/kk.py) met twee maten. Een stok van 130 voor alles wat draagt, een opening van 65 voor alles wat lucht geeft. De tent gebruikt dezelfde maten en dezelfde hoek als de letters.</p></div>
+  <div class="construct"><svg viewBox="-16 -16 514.8 177.42" role="img" aria-label="Constructie van het Klapklaar-logo met maatlijnen">
+<path fill="#1D2420" fill-opacity=".93" d="M0 109.82v-66.21l13-4.99v36.92l16-15.72h17.8l-16.9 16.6l17.7 33.4h-18.6l-11.33-21.38l-4.67 4.58v16.8zM53.2 109.82v-66.21l13-4.99v71.2zM106.7 59.82h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM106.7 71.92c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM139.9 59.82v3.47c3.33-2.9 7.8-4.37 13.36-4.37c13.62 0 20.64 8.81 20.64 25.9c0 17.09-7.02 25.9-20.64 25.9c-5.56 0-10.03-1.47-13.36-4.37v18.08l-13 4.99v-69.6zM139.9 71.92v25.79c2.08 1.22 4.79 1.81 8.16 1.81c9.4 0 13.62-4.56 13.62-14.7c0-10.14-4.22-14.7-13.62-14.7c-3.37 0-6.08 0.59-8.16 1.81zM179.5 109.82v-66.21l13-4.99v36.92l16-15.72h17.8l-16.9 16.6l17.7 33.4h-18.6l-11.33-21.38l-4.67 4.58v16.8zM232.7 109.82v-66.21l13-4.99v71.2zM286.2 59.82h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM286.2 71.92c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM338.8 59.82h13v50h-13v-3.47c-3.33 2.9-7.8 4.37-13.36 4.37c-13.62 0-20.64-8.81-20.64-25.9c0-17.09 7.02-25.9 20.64-25.9c5.56 0 10.03 1.47 13.36 4.37zM338.8 71.92c-2.08-1.22-4.79-1.81-8.16-1.81c-9.4 0-13.62 4.56-13.62 14.7c0 10.14 4.22 14.7 13.62 14.7c3.37 0 6.08-0.59 8.16-1.81zM359 109.82v-35.9c0-9.9 5.1-15 15-15h16.8l-4.64 12.1h-7.76c-4.22 0-6.4 2.18-6.4 6.4v32.4z"/>
+<path fill="#C83812" fill-opacity=".93" d="M252.2 51.62v-13h99.6v13zM252.2 32.12l46.55-17.87v-14.25h6.5l22 7.8l-22 7.8v-1.35l46.55 17.87z"/>
+<line x1="-16" x2="396.8" y1="38.62" y2="38.62" stroke="#982A0E" stroke-width=".35" stroke-dasharray="3 3"/>
+<text x="399.8" y="40.419999999999995" font-family="Figtree" font-weight="700" font-size="5.2" fill="#5D625C">stok = luifelrand · 712</text>
+<line x1="-16" x2="396.8" y1="59.82" y2="59.82" stroke="#982A0E" stroke-width=".35" stroke-dasharray="3 3"/>
+<text x="399.8" y="61.62" font-family="Figtree" font-weight="700" font-size="5.2" fill="#5D625C">x-hoogte · 500</text>
+<line x1="-16" x2="396.8" y1="109.82" y2="109.82" stroke="#982A0E" stroke-width=".35" stroke-dasharray="3 3"/>
+<text x="399.8" y="111.61999999999999" font-family="Figtree" font-weight="700" font-size="5.2" fill="#5D625C">basislijn · 0</text>
+<line x1="-16" x2="396.8" y1="129.42" y2="129.42" stroke="#982A0E" stroke-width=".35" stroke-dasharray="3 3"/>
+<text x="399.8" y="131.22" font-family="Figtree" font-weight="700" font-size="5.2" fill="#5D625C">onderstok · −196</text>
+<line x1="-16" x2="396.8" y1="32.12" y2="32.12" stroke="#982A0E" stroke-width=".35" stroke-dasharray="3 3"/>
+<text x="399.8" y="33.919999999999995" font-family="Figtree" font-weight="700" font-size="5.2" fill="#5D625C">dakvoet · 777</text>
+<line x1="-11.70" y1="48.10" x2="28.60" y2="32.63" stroke="#982A0E" stroke-width=".55"/>
+<text x="-2.00" y="37.61" text-anchor="end" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">21°</text>
+<line x1="221.00" y1="48.10" x2="261.30" y2="32.63" stroke="#982A0E" stroke-width=".55"/>
+<text x="230.70" y="37.61" text-anchor="end" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">21°</text>
+<line x1="237.26" y1="37.86" x2="304.49" y2="12.04" stroke="#982A0E" stroke-width=".55"/>
+<text x="262.20" y="23.12" text-anchor="end" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">21°</text>
+<path d="M354.80 38.62h2.2v13.00h-2.2" fill="none" stroke="#982A0E" stroke-width=".5"/>
+<text x="358.80" y="46.82" text-anchor="start" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">130</text>
+<path d="M337.80 32.12v6.50" stroke="#982A0E" stroke-width=".9"/>
+<text x="335.80" y="37.07" text-anchor="end" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">65</text>
+<path d="M245.70 45.12h6.50" stroke="#982A0E" stroke-width=".9"/>
+<text x="248.95" y="42.32" text-anchor="middle" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">65</text>
+<path d="M298.75 -3.00h6.50" stroke="#982A0E" stroke-width=".9"/>
+<text x="296.75" y="-1.00" text-anchor="end" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">65</text>
+<path d="M232.70 112.82v2.2h13.00v-2.2" fill="none" stroke="#982A0E" stroke-width=".5"/>
+<text x="239.20" y="119.82" text-anchor="middle" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">130</text>
+<path d="M252.20 112.82v2.2H351.80v-2.2" fill="none" stroke="#982A0E" stroke-width=".5"/>
+<text x="302.00" y="119.82" text-anchor="middle" font-family="Figtree" font-weight="800" font-size="4.8" fill="#982A0E">luifelband = precies de aa</text>
 </svg>
     <div class="legend">
-      <div><b>21° dak = 21° snede</b>De bovenkant van k en l en de onderkant van de p zijn afgesneden onder de dakhoek. Het dak en de letters horen zo bij elkaar.</div>
-      <div><b>Luifel = stok</b>De luifelband is precies één verticale streek dik en zijn bovenrand ligt op de stokhoogte van k en l.</div>
-      <div><b>Breedte = aa</b>Het dak overspant exact de dubbele aa, plus één kleine overstek. De aa staat letterlijk onder de tent.</div>
-      <div><b>Vlaggetje op de piek</b>De wimpel maakt het een feesttent, geen huis. Het vlaggetje is ook het losse merkteken voor patronen en details.</div>
+      <div><b>Twee maten</b>Stok 130: letterstokken en de luifelband. Opening 65: tussen dak en band, tussen l en band, en de dikte van de vlaggenstok.</div>
+      <div><b>21° dak = 21° snede</b>De bovenkant van k en l en de onderkant van de p zijn afgesneden onder de dakhoek. Zichtbaar vanaf zo’n 300 px of op een luifel; daaronder draagt de tent het merk.</div>
+      <div><b>Band = de aa</b>De luifelband is precies zo breed als de dubbele aa en zijn bovenrand ligt op de stokhoogte van k en l.</div>
+      <div><b>Vlag op de paal</b>Het vlaggetje zit vast aan de paal, zonder kier. Het maakt de tent een feesttent en is het losse merkteken (‘de vlag kan uit’).</div>
     </div>
   </div>
 
   <div class="grid g3" style="margin-top:24px">
-    <div class="tile logo-tile" style="background:var(--wit)"><img src="logo.svg" alt="Klapklaar logo" style="width:100%"><div class="cap">logo.svg · Inkt + Klaproos · standaard op Zand en Wit</div></div>
-    <div class="tile logo-tile on-dark" style="background:var(--polder)"><img src="logo-inverse.svg" alt="Klapklaar logo invers" style="width:100%"><div class="cap">logo-inverse.svg · Zand + Zon · op Polder en Inkt</div></div>
-    <div class="tile logo-tile on-dark" style="background:var(--klaproos)"><img src="svg/logo-on-klaproos.svg" alt="Klapklaar logo op Klaproos" style="width:100%"><div class="cap">svg/logo-on-klaproos.svg · één kleur Zand</div></div>
-    <div class="tile logo-tile" style="background:var(--wit)"><img src="svg/logo-luifel.svg" alt="Klapklaar luifel-lock-up" style="width:100%"><div class="cap">svg/logo-luifel.svg · luifel-lock-up met descriptorbalk, voor luifels, bus, marktplaats-tegels</div></div>
-    <div class="tile logo-tile on-dark" style="background:var(--inkt)"><img src="svg/logo-luifel-inverse.svg" alt="Klapklaar luifel-lock-up invers" style="width:100%"><div class="cap">svg/logo-luifel-inverse.svg · op Inkt en zwarte doeken</div></div>
-    <div class="tile logo-tile" style="background:var(--linnen)"><img src="svg/logo-zakelijk.svg" alt="Klapklaar Zakelijk" style="width:100%"><div class="cap">svg/logo-zakelijk.svg · offertes, facturen, B2B-pagina's. Sober: geen rood, geen knipoog</div></div>
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="logo.svg" alt="Klapklaar logo" style="width:92%"></div><div class="cap">logo.svg · Inkt + Klaproos · op Zand, Wit, Duin, Linnen, Studio</div></div>
+    <div class="tile on-dark" style="background:var(--polder)"><div class="art"><img src="logo-inverse.svg" alt="Klapklaar logo invers" style="width:92%"></div><div class="cap">logo-inverse.svg · Zand + Zon · op Polder en Inkt</div></div>
+    <div class="tile on-dark" style="background:var(--klaproos)"><div class="art"><img src="svg/logo-on-klaproos.svg" alt="Klapklaar logo op Klaproos" style="width:92%"></div><div class="cap">svg/logo-on-klaproos.svg · Zand, vlag Zon</div></div>
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="svg/logo-luifel.svg" alt="Klapklaar luifel-lock-up" style="width:88%"></div><div class="cap">svg/logo-luifel.svg · descriptorbalk in kapitalen, één stok onder de p · luifel, bus, marktplaatsen</div></div>
+    <div class="tile on-dark" style="background:var(--inkt)"><div class="art"><img src="svg/logo-luifel-inverse.svg" alt="Klapklaar luifel-lock-up invers" style="width:88%"></div><div class="cap">svg/logo-luifel-inverse.svg · op Inkt en zwarte doeken</div></div>
+    <div class="tile" style="background:var(--linnen)"><div class="art"><img src="svg/logo-zakelijk.svg" alt="Klapklaar Zakelijk" style="width:96%"></div><div class="cap">svg/logo-zakelijk.svg · Polder-label op de x-hoogte · offertes, facturen, B2B</div></div>
   </div>
 
-  <div class="grid" style="grid-template-columns:repeat(4,1fr) 1.4fr;margin-top:24px">
-    <div class="tile" style="background:var(--wit);align-items:flex-start"><img src="mark.svg" alt="Klapklaar beeldmerk" style="width:120px"><div class="cap">mark.svg · beeldmerk: avatar, app-icoon, stempel</div></div>
-    <div class="tile" style="background:var(--wit);align-items:flex-start"><img src="svg/mark-polder.svg" alt="" style="width:120px"><div class="cap">svg/mark-polder.svg</div></div>
-    <div class="tile" style="background:var(--inkt);align-items:flex-start"><img src="svg/mark-zand.svg" alt="" style="width:120px"><div class="cap" style="color:var(--zand)">svg/mark-zand.svg</div></div>
-    <div class="tile" style="background:var(--wit);align-items:flex-start"><img src="svg/print-mark.svg" alt="" style="width:120px"><div class="cap">svg/print-mark.svg · 1 drukkleur</div></div>
-    <div class="tile" style="background:var(--wit)">
-      <div>
-        <div class="eyebrow" style="margin-bottom:12px">Vrije ruimte en minimummaat</div>
-        <div style="display:inline-block;position:relative;padding:31px;border:1px dashed #C9BFAE;background:repeating-linear-gradient(135deg,rgba(190,58,29,.10) 0 6px,transparent 6px 12px)">
-          <div style="background:var(--zand)"><img src="logo.svg" alt="" style="width:240px;display:block"></div>
-          <span style="position:absolute;left:0;top:0;width:31px;height:31px;display:flex;align-items:center;justify-content:center;font:700 13px var(--b);color:var(--klaproos-donker)">x</span>
-          <span style="position:absolute;right:0;bottom:0;width:31px;height:31px;display:flex;align-items:center;justify-content:center;font:700 13px var(--b);color:var(--klaproos-donker)">x</span>
-        </div>
+  <h3 class="sub">Klein werk: wissel op tijd naar logo-klein</h3>
+  <div class="sizes">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:16px">Werkelijke grootte op het scherm</div>
+      <div class="sizerow">
+        <figure><img src="logo.svg" alt="" style="width:170px;display:block"><figcaption>logo.svg · 170 px (header)</figcaption></figure>
+        <figure><img src="logo.svg" alt="" style="width:121px;display:block"><figcaption>logo.svg · 121 px (minimum)</figcaption></figure>
       </div>
-      <div class="cap">Vrije ruimte rondom = x-hoogte van de a. Minimaal: logo 112 px / 30 mm breed, beeldmerk 24 px / 8 mm, favicon 16 px heeft een eigen tekening.</div>
+      <div class="sizerow" style="margin-top:22px">
+        <figure><img src="svg/logo-klein.svg" alt="" style="width:110px;display:block"><figcaption>logo-klein · 110 px</figcaption></figure>
+        <figure><img src="svg/logo-klein.svg" alt="" style="width:80px;display:block"><figcaption>logo-klein · 80 px</figcaption></figure>
+        <figure><img src="mark.svg" alt="" style="width:40px;display:block;margin:0 auto"><figcaption>mark · 40 px</figcaption></figure>
+      </div>
+      <p class="cap">Regel: logo.svg vanaf 121 px breed, logo-klein van 76 tot 121 px, daaronder het beeldmerk. Grenzen berekend uit de kleinste lijn (2 px) en kleinste opening (1,5 px), zie §04.</p>
+    </div>
+    <div class="card" style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+      <div class="phone"><div class="bar"><svg><use href="#i-search"/></svg><img src="svg/logo-klein.svg" alt="Klapklaar" style="width:104px"><svg><use href="#i-cart"/></svg></div>
+        <div style="padding:14px;font:600 13px/1.4 var(--b);color:var(--kiezel)">Mobiele header 390 px: logo-klein op 104 px.</div></div>
+      <div style="flex:1;min-width:220px">
+        <div class="eyebrow" style="margin-bottom:10px">logo-klein / mark-klein</div>
+        <ul class="adlist" style="padding-left:18px">
+          <li>Dak en luifelband zijn één vorm: geen kier die dichtloopt.</li>
+          <li>Vlag vast op een paaltje van een stok breed.</li>
+          <li>+40 letterruimte: elke opening ≥ 96 eenheden.</li>
+          <li>Beeldmerk: opening tussen k en band 130 in plaats van 65.</li>
+          <li>Borduren onder 73 mm of flock onder 105 mm: logo-klein (tot 46 / 67 mm).</li>
+        </ul>
+      </div>
     </div>
   </div>
 
+  <h3 class="sub">Beeldmerk: de k onder de tent</h3>
+  <div class="grid" style="grid-template-columns:repeat(5,minmax(0,1fr)) 1.35fr">
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="mark.svg" alt="Klapklaar beeldmerk" style="width:112px"></div><div class="cap">mark.svg · avatar, app-icoon</div></div>
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="svg/mark-polder.svg" alt="" style="width:112px"></div><div class="cap">svg/mark-polder.svg</div></div>
+    <div class="tile" style="background:var(--inkt)"><div class="art"><img src="svg/mark-zand.svg" alt="" style="width:112px"></div><div class="cap" style="color:var(--zand)">svg/mark-zand.svg</div></div>
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="svg/mark-klein.svg" alt="" style="width:112px"></div><div class="cap">svg/mark-klein.svg · 1 stuk, borduren</div></div>
+    <div class="tile" style="background:var(--wit)"><div class="art"><img src="svg/print-mark.svg" alt="" style="width:64px"></div><div class="cap">svg/print-mark.svg · 1 drukkleur</div></div>
+    <div class="tile" style="background:var(--wit)">
+      <div style="width:100%">
+        <div class="eyebrow" style="margin-bottom:12px">Vrije ruimte</div>
+        <div class="clear"><div><img src="logo.svg" alt=""></div><span style="left:2%;top:4%">x</span><span style="right:2%;bottom:4%">x</span></div>
+      </div>
+      <div class="cap">Rondom minimaal de x-hoogte van de a (x). Boven het vlaggetje ook x.</div>
+    </div>
+  </div>
+  <p class="cap" style="max-width:860px">Waarom de k: hij is de eerste letter van Klapklaar, komt twee keer in het woord voor en heeft dezelfde 21°-snede als het dak. De aa uit v2 kortte de naam niet af en las los als ‘AA’. De k staat onder dezelfde tent als de aa in het woordmerk: band = stok, opening = 65, dakhoek 21°.</p>
+
   <div class="grid g4" style="margin-top:24px">
-    <div class="tile dont" style="background:var(--wit)"><div class="di"><img src="logo.svg" alt="" style="width:100%;height:58px;object-fit:fill"></div><div class="dontcap">Niet uitrekken of smaller maken.</div></div>
-    <div class="tile dont" style="background:var(--duin)"><div class="di"><img src="logo.svg" alt="" style="width:100%;filter:hue-rotate(160deg)"></div><div class="dontcap">Dak niet in een andere kleur dan Klaproos, Zon of de letterkleur.</div></div>
-    <div class="tile dont" style="background:var(--klaproos)"><div class="di"><img src="logo.svg" alt="" style="width:100%"></div><div class="dontcap" style="color:var(--wit)">Geen Klaproos-dak op Klaproos. Gebruik de eenkleurige versie.</div></div>
-    <div class="tile dont" style="background:var(--wit)"><div class="di"><div style="font:800 54px/1 var(--h);letter-spacing:-.02em">klapklaar</div></div><div class="dontcap">Nooit zelf typen in een font. Altijd het bestand.</div></div>
+    <div class="tile dont" style="background:var(--wit)"><div class="di"><img src="logo.svg" alt="" style="width:100%;height:46px;object-fit:fill"></div><div class="dontcap">Niet uitrekken of smaller maken.</div></div>
+    <div class="tile dont" style="background:var(--duin)"><div class="di"><img src="logo.svg" alt="" style="width:100%;filter:hue-rotate(150deg)"></div><div class="dontcap">Dak niet in een andere kleur dan Klaproos, Zon, Polder (Zakelijk) of de letterkleur.</div></div>
+    <div class="tile dont" style="background:var(--wit)"><div class="di"><div><img src="logo.svg" alt="" style="width:62%;display:block"><div style="font:700 15px/1 var(--h);margin-top:6px">In één klap feestklaar.</div></div></div><div class="dontcap">Geen gezette kleine letters direct bij het logo (andere a). Descriptors in kapitalen of de lock-ups.</div></div>
+    <div class="tile dont" style="background:var(--wit)"><div class="di"><img src="logo.svg" alt="" style="width:46px"></div><div class="dontcap">Niet kleiner dan 121 px: dan logo-klein of het beeldmerk.</div></div>
   </div>
 </div></section>
 
 <!-- ============================================================== FAVICON -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">02</div><h2>Favicon en app-icoon</h2></div><p>Optische varianten per formaat: op 16 px een tentpictogram met poten (letters zijn daar niet leesbaar), vanaf 32 px de zware aa onder het dak. Met artikelen in de winkelwagen krijgt het icoon een Zon-stip.</p></div>
-  <div class="grid" style="grid-template-columns:1.3fr 1fr;align-items:start">
+  <div class="sh"><div><div class="no">02</div><h2>Favicon en app-icoon</h2></div><p>Twee eigen tekeningen op het pixelraster. 16 px: een tent uit één stuk met een vlag van 3 × 3 pixels. 32 px: de k onder de tent, met stokken van 4 px. Elke rechte rand ligt op een hele pixel; alleen dak, k-diagonalen en vlag zijn schuin.</p></div>
+  <div class="grid" style="grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start">
     <div>
-      <div class="tabs"><div class="tab on"><img src="svg/favicon-16.svg" alt="">Partytenten 3 x 3 m | Klapklaar</div><div class="tab"><img src="svg/favicon-16.svg" alt="">Statafelrok stretch | Klapklaar</div><div class="tab"><img src="svg/favicon-cart.svg" alt="">Winkelwagen (2) | Klapklaar</div></div>
+      <div class="tabs"><div class="tab on"><img src="img/favicon-16.png" alt="">Partytenten | Klapklaar</div><div class="tab"><img src="img/favicon-16.png" alt="">Statafelrokken | Klapklaar</div><div class="tab"><img src="img/favicon-cart-32.png" alt="">Winkelwagen (2) | Klapklaar</div></div>
       <div class="urlbar">klapklaar.nl/collections/partytenten <span class="ex" style="margin-left:8px">domein niet geverifieerd</span></div>
-      <div class="card fav-row" style="border-radius:0 0 12px 12px;display:flex;gap:36px;align-items:flex-end;padding:32px">
-        <div style="text-align:center"><img src="img/favicon-16.png" alt="" style="width:16px;image-rendering:pixelated"><div class="cap">16 px</div></div>
-        <div style="text-align:center"><img src="img/favicon-16.png" alt="" style="width:64px;image-rendering:pixelated"><div class="cap">16 px (4×)</div></div>
-        <div style="text-align:center"><img src="favicon-32.png" alt="" style="width:32px"><div class="cap">32 px</div></div>
-        <div style="text-align:center"><img src="favicon-32.png" alt="" style="width:96px;image-rendering:pixelated"><div class="cap">32 px (3×)</div></div>
-        <div style="text-align:center"><img src="svg/favicon-cart.svg" alt="" style="width:48px"><div class="cap">winkelwagen</div></div>
-        <div style="text-align:center"><img src="favicon-192.png" alt="" style="width:96px"><div class="cap">192 px</div></div>
+      <div class="card favrow" style="border-radius:0 0 12px 12px;padding:28px">
+        <figure><img src="img/favicon-16.png" alt="" style="width:16px;display:block;margin:0 auto"><figcaption>16 px</figcaption></figure>
+        <figure><span class="px" style="--g:8px"><img src="img/favicon-16.png" alt="" style="width:128px"></span><figcaption>16 px · 8× met raster</figcaption></figure>
+        <figure><img src="favicon-32.png" alt="" style="width:32px;display:block;margin:0 auto"><figcaption>32 px</figcaption></figure>
+        <figure><span class="px" style="--g:5px"><img src="favicon-32.png" alt="" style="width:160px"></span><figcaption>32 px · 5× met raster</figcaption></figure>
       </div>
     </div>
     <div class="card"><div class="eyebrow" style="margin-bottom:10px">Bestanden</div>
-      <table><tr><td>favicon.svg</td><td class="muted">32–192 px, zware aa (stok 172 i.p.v. 130)</td></tr><tr><td>svg/favicon-16.svg</td><td class="muted">16 px pictogram, op het pixelraster</td></tr><tr><td>favicon-32.png / -192.png</td><td class="muted">Shopify-instelling Favicon, PWA</td></tr><tr><td>img/apple-touch-icon-180.png</td><td class="muted">iOS, vol vlak</td></tr><tr><td>svg/favicon-cart.svg</td><td class="muted">wisselen via JS bij item_count &gt; 0</td></tr></table>
+      <table>
+        <tr><td><code>favicon.svg</code> · <code>favicon-32.png</code></td><td class="muted">32-rastertekening; Shopify-instelling Favicon</td></tr>
+        <tr><td><code>favicon-192.png</code></td><td class="muted">PWA / Android; zelfde tekening, geschaald</td></tr>
+        <tr><td><code>svg/favicon-16.svg</code> · <code>img/favicon-16.png</code></td><td class="muted">16-rastertekening (tent, geen letters)</td></tr>
+        <tr><td><code>svg/favicon-cart.svg</code></td><td class="muted">Zon-stip linksboven; wisselen via JS als item_count &gt; 0</td></tr>
+        <tr><td><code>img/apple-touch-icon-180.png</code></td><td class="muted">iOS, vol vlak (mark.svg)</td></tr>
+      </table>
+      <div style="display:flex;gap:18px;align-items:flex-end;margin-top:18px"><img src="favicon-192.png" alt="" style="width:96px"><img src="img/favicon-cart-32.png" alt="" style="width:64px;image-rendering:pixelated"><img src="img/apple-touch-icon-180.png" alt="" style="width:72px;border-radius:16px"></div>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== COLOUR -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">03</div><h2>Kleur: elke kleur één taak</h2></div><p>Klaproos is de knop en het dak. Fouten krijgen een eigen Bordeaux en zijn nooit een gevuld vlak. Actie is Zon met Inkt. Elk paar hieronder is gemeten (WCAG 2.1): 50 gebruikte paren, 0 onder AA.</p></div>
-  <div class="grid g5"><div class="sw"><div class="c" style="background:#BE3A1D;color:#FFFFFF;"><span>Aa</span><span class="ratio">5.51:1</span></div><div class="t"><b>Klaproos</b><code>#BE3A1D</code><div style="margin-top:6px">Merkrood. Dak in het logo, primaire knop (In mijn winkelwagen), merktent (Google Shopping-standaardbeeld). Als tekst alleen voor korte nadruk; gewone links zijn Inkt.</div></div></div><div class="sw"><div class="c" style="background:#FFC23A;color:#1D2420;"><span>Aa</span><span class="ratio">9.83:1</span></div><div class="t"><b>Zon</b><code>#FFC23A</code><div style="margin-top:6px">Accent: dak in het logo op donker, vlaggetje, Actie-badge (met Inkt-tekst), USP-vinkjes, focusring op donker. Nooit tekst of rand op lichte vlakken.</div></div></div><div class="sw"><div class="c" style="background:#154F3E;color:#FFFFFF;"><span>Aa</span><span class="ratio">9.46:1</span></div><div class="t"><b>Polder</b><code>#154F3E</code><div style="margin-top:6px">Donkere vlakken (utility-balk, footer), secundaire knop, Op voorraad / Toegevoegd (met icoon), Zakelijk.</div></div></div><div class="sw"><div class="c" style="background:#1D2420;color:#FFFFFF;"><span>Aa</span><span class="ratio">15.84:1</span></div><div class="t"><b>Inkt</b><code>#1D2420</code><div style="margin-top:6px">Tekst, koppen, outline-knoppen, links (onderstreept), focusring op licht.</div></div></div><div class="sw"><div class="c" style="background:#5D625C;color:#FFFFFF;"><span>Aa</span><span class="ratio">6.24:1</span></div><div class="t"><b>Kiezel</b><code>#5D625C</code><div style="margin-top:6px">Secundaire tekst (specs, btw-regel, doorgestreepte van-prijs) en randen van invoervelden (>= 3:1).</div></div></div><div class="sw"><div class="c" style="background:#FBF6EC;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">14.71:1</span></div><div class="t"><b>Zand</b><code>#FBF6EC</code><div style="margin-top:6px">Paginaachtergrond (warmer dan wit, zodat witte kaarten loskomen).</div></div></div><div class="sw"><div class="c" style="background:#F2E8D5;color:#1D2420;"><span>Aa</span><span class="ratio">13.04:1</span></div><div class="t"><b>Duin</b><code>#F2E8D5</code><div style="margin-top:6px">Warme vlakken: heroband, chips, geneste kaarten.</div></div></div><div class="sw"><div class="c" style="background:#ECEEE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13.55:1</span></div><div class="t"><b>Linnen</b><code>#ECEEE8</code><div style="margin-top:6px">Rustig koel vlak voor Zakelijk, offerte, staffels, specificatietabellen.</div></div></div><div class="sw"><div class="c" style="background:#EFEDE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13.54:1</span></div><div class="t"><b>Studio</b><code>#EFEDE8</code><div style="margin-top:6px">Achtergrond van elke productrender en van het beeldvlak in productkaarten (naadloos).</div></div></div><div class="sw"><div class="c" style="background:#FFFFFF;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">15.84:1</span></div><div class="t"><b>Wit</b><code>#FFFFFF</code><div style="margin-top:6px">Productkaarten, invoervelden, drawers.</div></div></div><div class="sw"><div class="c" style="background:#9A2F17;color:#FFFFFF;"><span>Aa</span><span class="ratio">7.52:1</span></div><div class="t"><b>Klaproos donker</b><code>#9A2F17</code><div style="margin-top:6px">Hover/ingedrukt van de primaire knop; rode tekst op Duin/Linnen als nadruk nodig is.</div></div></div><div class="sw"><div class="c" style="background:#8C1D2B;color:#FFFFFF;"><span>Aa</span><span class="ratio">9.03:1</span></div><div class="t"><b>Bordeaux</b><code>#8C1D2B</code><div style="margin-top:6px">Fouten: tekst, icoon en linkerrand van foutmeldingen, veldfouten. Nooit als gevuld knopvlak.</div></div></div><div class="sw"><div class="c" style="background:#865800;color:#FFFFFF;"><span>Aa</span><span class="ratio">6.16:1</span></div><div class="t"><b>Oker</b><code>#865800</code><div style="margin-top:6px">Voorraadstatus "Leverbaar over 2-3 weken" (tekst), naast een Zon-stip.</div></div></div><div class="sw"><div class="c" style="background:#FBEAEA;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13.62:1</span></div><div class="t"><b>Foutroze</b><code>#FBEAEA</code><div style="margin-top:6px">Achtergrond van foutmeldingen.</div></div></div><div class="sw"><div class="c" style="background:#E4EEE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13.35:1</span></div><div class="t"><b>Mos</b><code>#E4EEE8</code><div style="margin-top:6px">Achtergrond van succesmeldingen (Polder-tekst).</div></div></div></div>
+  <div class="sh"><div><div class="no">03</div><h2>Kleur: één rol per kleur</h2></div><p>Klaproos is het merk en de koopknop, en alleen als vlak. Zon is de vlag: feest en voordeel. Polder is vertrouwen. Fouten zijn Bordeaux en nooit een gevuld vlak. Elk gebruikt paar is gemeten (WCAG 2.1): 52 paren, 0 onder de eis.</p></div>
+  <div class="grid g5"><div class="sw"><div class="c" style="background:#C83812;color:#FFFFFF;"><span>Aa</span><span class="ratio">5,21:1</span></div><div class="t"><span class="fam">merk & kopen</span><b>Klaproos</b><code>#C83812</code><div class="role">Het merkrood. Alleen als vlak: dak in het logo, primaire knop (In mijn winkelwagen), het Klaproos-dakdoek. Als tekst alleen in koppen vanaf 24 px op Zand of Wit.</div></div></div><div class="sw"><div class="c" style="background:#982A0E;color:#FFFFFF;"><span>Aa</span><span class="ratio">7,86:1</span></div><div class="t"><span class="fam">merk & kopen</span><b>Klaproos donker</b><code>#982A0E</code><div class="role">Alleen de ingedrukte stand (:active) van de primaire knop.</div></div></div><div class="sw"><div class="c" style="background:#FFC23A;color:#1D2420;"><span>Aa</span><span class="ratio">9,83:1</span></div><div class="t"><span class="fam">feest & voordeel</span><b>Zon</b><code>#FFC23A</code><div class="role">De vlag: vlaggetje en dak van het logo op donker, Actie-badge en actieprijs-label (altijd met Inkt-tekst). Verder niets.</div></div></div><div class="sw"><div class="c" style="background:#154F3E;color:#FFFFFF;"><span>Aa</span><span class="ratio">9,46:1</span></div><div class="t"><span class="fam">vertrouwen</span><b>Polder</b><code>#154F3E</code><div class="role">Donkere vlakken (utility-balk, footer), secundaire knop, Op voorraad / Toegevoegd (met icoon), Klapklaar Zakelijk.</div></div></div><div class="sw"><div class="c" style="background:#E4EEE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13,35:1</span></div><div class="t"><span class="fam">vertrouwen</span><b>Mos</b><code>#E4EEE8</code><div class="role">Achtergrond van succesmeldingen (Polder-tekst).</div></div></div><div class="sw"><div class="c" style="background:#1D2420;color:#FFFFFF;"><span>Aa</span><span class="ratio">15,84:1</span></div><div class="t"><span class="fam">tekst</span><b>Inkt</b><code>#1D2420</code><div class="role">Tekst, koppen, links (onderstreept), omlijnde knop, focusring op licht en de hover-stand van de primaire knop.</div></div></div><div class="sw"><div class="c" style="background:#5D625C;color:#FFFFFF;"><span>Aa</span><span class="ratio">6,24:1</span></div><div class="t"><span class="fam">tekst</span><b>Kiezel</b><code>#5D625C</code><div class="role">Secundaire tekst (specs, btw-regel, doorgestreepte van-prijs) en randen van invoervelden (>= 3:1).</div></div></div><div class="sw"><div class="c" style="background:#FBF6EC;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">14,71:1</span></div><div class="t"><span class="fam">vlak</span><b>Zand</b><code>#FBF6EC</code><div class="role">Paginaachtergrond (warmer dan wit, zodat witte kaarten loskomen); tekst en focusring op donker.</div></div></div><div class="sw"><div class="c" style="background:#F2E8D5;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13,04:1</span></div><div class="t"><span class="fam">vlak</span><b>Duin</b><code>#F2E8D5</code><div class="role">Warme vlakken: heroband, chips, geneste kaarten.</div></div></div><div class="sw"><div class="c" style="background:#ECEEE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13,55:1</span></div><div class="t"><span class="fam">vlak</span><b>Linnen</b><code>#ECEEE8</code><div class="role">Rustig koel vlak voor Zakelijk, offerte, staffels en specificatietabellen.</div></div></div><div class="sw"><div class="c" style="background:#EFEDE8;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13,54:1</span></div><div class="t"><span class="fam">vlak</span><b>Studio</b><code>#EFEDE8</code><div class="role">Achtergrond van elke productrender en van het beeldvlak in productkaarten (naadloos).</div></div></div><div class="sw"><div class="c" style="background:#FFFFFF;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">15,84:1</span></div><div class="t"><span class="fam">vlak</span><b>Wit</b><code>#FFFFFF</code><div class="role">Productkaarten, invoervelden, drawers; tekst op de primaire knop.</div></div></div><div class="sw"><div class="c" style="background:#E4D6BE;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">11,06:1</span></div><div class="t"><span class="fam">vlak</span><b>Lijn</b><code>#E4D6BE</code><div class="role">Decoratieve scheidingslijnen (draagt geen informatie).</div></div></div><div class="sw"><div class="c" style="background:#8A1538;color:#FFFFFF;"><span>Aa</span><span class="ratio">9,35:1</span></div><div class="t"><span class="fam">fout</span><b>Bordeaux</b><code>#8A1538</code><div class="role">Fouten: kop, icoon en linkerrand van foutmeldingen, veldfout-tekst en -rand. Nooit een gevuld vlak, nooit een knop.</div></div></div><div class="sw"><div class="c" style="background:#FBEAEA;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">13,62:1</span></div><div class="t"><span class="fam">fout</span><b>Foutroze</b><code>#FBEAEA</code><div class="role">Achtergrond van foutmeldingen.</div></div></div><div class="sw"><div class="c" style="background:#865800;color:#FFFFFF;"><span>Aa</span><span class="ratio">6,16:1</span></div><div class="t"><span class="fam">wachten</span><b>Oker</b><code>#865800</code><div class="role">Levertijd en let-op: "Leverbaar over 2–3 weken" (tekst + stip), kop van let-op-meldingen.</div></div></div><div class="sw"><div class="c" style="background:#FFF4DA;color:#1D2420;box-shadow:inset 0 0 0 1px #E4D6BE;"><span>Aa</span><span class="ratio">14,49:1</span></div><div class="t"><span class="fam">wachten</span><b>Okerlicht</b><code>#FFF4DA</code><div class="role">Achtergrond van let-op-meldingen (drukproef nodig, levertijd).</div></div></div></div>
   <div class="grid g2" style="margin-top:28px;align-items:start">
-    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Contrast tekst (eis 4,5:1)</div><table class="ct"><tr><td><span class="pv" style="background:#FBF6EC;color:#1D2420">inkt op zand</span></td><td class="muted" style="font-size:13px">Lopende tekst op pagina</td><td class="r">14.71:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#1D2420">inkt op duin</span></td><td class="muted" style="font-size:13px">Tekst op heroband/chips</td><td class="r">13.04:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#1D2420">inkt op wit</span></td><td class="muted" style="font-size:13px">Tekst op kaarten/velden</td><td class="r">15.84:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#1D2420">inkt op linnen</span></td><td class="muted" style="font-size:13px">Zakelijk-blokken</td><td class="r">13.55:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#EFEDE8;color:#1D2420">inkt op studio</span></td><td class="muted" style="font-size:13px">Tekst op beeldvlak (badges)</td><td class="r">13.54:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFC23A;color:#1D2420">inkt op zon</span></td><td class="muted" style="font-size:13px">Actie-badge</td><td class="r">9.83:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#1D2420">inkt op foutroze</span></td><td class="muted" style="font-size:13px">Uitleg in foutmelding</td><td class="r">13.62:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFF4DA;color:#1D2420">inkt op okerlicht</span></td><td class="muted" style="font-size:13px">Uitleg in let-op-melding</td><td class="r">14.49:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#E4EEE8;color:#1D2420">inkt op mos</span></td><td class="muted" style="font-size:13px">Uitleg in succesmelding</td><td class="r">13.35:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#5D625C">kiezel op zand</span></td><td class="muted" style="font-size:13px">Specs, btw-regel</td><td class="r">5.79:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#5D625C">kiezel op duin</span></td><td class="muted" style="font-size:13px">Specs op Duin</td><td class="r">5.13:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#5D625C">kiezel op wit</span></td><td class="muted" style="font-size:13px">Specs op kaart, van-prijs</td><td class="r">6.24:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#5D625C">kiezel op linnen</span></td><td class="muted" style="font-size:13px">Specs in Zakelijk</td><td class="r">5.33:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#154F3E">polder op zand</span></td><td class="muted" style="font-size:13px">Op voorraad, links in Zakelijk</td><td class="r">8.78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#154F3E">polder op wit</span></td><td class="muted" style="font-size:13px">Op voorraad op kaart</td><td class="r">9.46:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#154F3E">polder op duin</span></td><td class="muted" style="font-size:13px">Op voorraad op Duin</td><td class="r">7.78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#154F3E">polder op linnen</span></td><td class="muted" style="font-size:13px">Zakelijk-koppen</td><td class="r">8.09:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#E4EEE8;color:#154F3E">polder op mos</span></td><td class="muted" style="font-size:13px">Succesmelding</td><td class="r">7.97:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#BE3A1D">klaproos op zand</span></td><td class="muted" style="font-size:13px">Korte nadruk</td><td class="r">5.11:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#BE3A1D">klaproos op wit</span></td><td class="muted" style="font-size:13px">Korte nadruk op kaart</td><td class="r">5.51:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#BE3A1D">klaproos op duin</span></td><td class="muted" style="font-size:13px">Korte nadruk op Duin</td><td class="r">4.53:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#BE3A1D">klaproos op linnen</span></td><td class="muted" style="font-size:13px">Korte nadruk op Linnen</td><td class="r">4.71:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#EFEDE8;color:#BE3A1D">klaproos op studio</span></td><td class="muted" style="font-size:13px">Korte nadruk op beeldvlak</td><td class="r">4.71:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#9A2F17">klaproos-donker op zand</span></td><td class="muted" style="font-size:13px">Hover-tekst</td><td class="r">6.98:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#9A2F17">klaproos-donker op duin</span></td><td class="muted" style="font-size:13px">Hover-tekst op Duin</td><td class="r">6.19:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#8C1D2B">bordeaux op foutroze</span></td><td class="muted" style="font-size:13px">Foutmelding (kop)</td><td class="r">7.76:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#8C1D2B">bordeaux op wit</span></td><td class="muted" style="font-size:13px">Veldfout onder invoerveld</td><td class="r">9.03:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#8C1D2B">bordeaux op zand</span></td><td class="muted" style="font-size:13px">Veldfout op pagina</td><td class="r">8.38:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#865800">oker op zand</span></td><td class="muted" style="font-size:13px">Leverbaar over 2-3 weken</td><td class="r">5.72:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#865800">oker op wit</span></td><td class="muted" style="font-size:13px">Leverbaar over 2-3 weken (kaart)</td><td class="r">6.16:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFF4DA;color:#865800">oker op okerlicht</span></td><td class="muted" style="font-size:13px">Let-op-melding (kop)</td><td class="r">5.63:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#865800">oker op duin</span></td><td class="muted" style="font-size:13px">Levertijd op Duin</td><td class="r">5.07:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#BE3A1D;color:#FFFFFF">wit op klaproos</span></td><td class="muted" style="font-size:13px">Primaire knop</td><td class="r">5.51:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#9A2F17;color:#FFFFFF">wit op klaproos-donker</span></td><td class="muted" style="font-size:13px">Primaire knop hover</td><td class="r">7.52:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#BE3A1D;color:#FBF6EC">zand op klaproos</span></td><td class="muted" style="font-size:13px">Logo/merktekst op Klaproos</td><td class="r">5.11:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FBF6EC">zand op polder</span></td><td class="muted" style="font-size:13px">Secundaire knop, footer, utility-balk</td><td class="r">8.78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FFFFFF">wit op polder</span></td><td class="muted" style="font-size:13px">Secundaire knop (wit)</td><td class="r">9.46:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FBF6EC">zand op inkt</span></td><td class="muted" style="font-size:13px">Met jouw logo-badge, donkere banden</td><td class="r">14.71:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FFC23A">zon op inkt</span></td><td class="muted" style="font-size:13px">Accenttekst op Inkt</td><td class="r">9.83:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FFC23A">zon op polder</span></td><td class="muted" style="font-size:13px">Accenttekst/iconen op Polder</td><td class="r">5.87:1</td><td class="pass">AA</td></tr></table></div>
+    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Contrast tekst (eis 4,5:1; display ≥ 24 px 3:1)</div><table class="ct"><tr><td><span class="pv" style="background:#FBF6EC;color:#1D2420">Inkt op zand</span></td><td class="muted u">Lopende tekst op pagina</td><td class="r">14,71:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#1D2420">Inkt op duin</span></td><td class="muted u">Tekst op heroband/chips</td><td class="r">13,04:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#1D2420">Inkt op wit</span></td><td class="muted u">Tekst op kaarten/velden</td><td class="r">15,84:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#1D2420">Inkt op linnen</span></td><td class="muted u">Zakelijk-blokken</td><td class="r">13,55:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#EFEDE8;color:#1D2420">Inkt op studio</span></td><td class="muted u">Badges op het beeldvlak</td><td class="r">13,54:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFC23A;color:#1D2420">Inkt op zon</span></td><td class="muted u">Actie-badge en actieprijs-label</td><td class="r">9,83:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#1D2420">Inkt op foutroze</span></td><td class="muted u">Uitleg in foutmelding</td><td class="r">13,62:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFF4DA;color:#1D2420">Inkt op okerlicht</span></td><td class="muted u">Uitleg in let-op-melding</td><td class="r">14,49:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#E4EEE8;color:#1D2420">Inkt op mos</span></td><td class="muted u">Uitleg in succesmelding</td><td class="r">13,35:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#5D625C">Kiezel op zand</span></td><td class="muted u">Specs, btw-regel</td><td class="r">5,79:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#5D625C">Kiezel op duin</span></td><td class="muted u">Specs op Duin</td><td class="r">5,13:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#5D625C">Kiezel op wit</span></td><td class="muted u">Specs op kaart, van-prijs</td><td class="r">6,24:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#5D625C">Kiezel op linnen</span></td><td class="muted u">Specs in Zakelijk</td><td class="r">5,33:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#EFEDE8;color:#5D625C">Kiezel op studio</span></td><td class="muted u">Bijschrift op beeldvlak</td><td class="r">5,33:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#154F3E">Polder op zand</span></td><td class="muted u">Op voorraad, links in Zakelijk</td><td class="r">8,78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#154F3E">Polder op wit</span></td><td class="muted u">Op voorraad op kaart</td><td class="r">9,46:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#154F3E">Polder op duin</span></td><td class="muted u">Op voorraad op Duin</td><td class="r">7,78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#154F3E">Polder op linnen</span></td><td class="muted u">Zakelijk-koppen</td><td class="r">8,09:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#E4EEE8;color:#154F3E">Polder op mos</span></td><td class="muted u">Succesmelding (kop)</td><td class="r">7,97:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#8A1538">Bordeaux op foutroze</span></td><td class="muted u">Foutmelding (kop)</td><td class="r">8,04:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#8A1538">Bordeaux op wit</span></td><td class="muted u">Veldfout onder invoerveld</td><td class="r">9,35:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#8A1538">Bordeaux op zand</span></td><td class="muted u">Veldfout op pagina</td><td class="r">8,68:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#865800">Oker op zand</span></td><td class="muted u">Leverbaar over 2–3 weken</td><td class="r">5,72:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#865800">Oker op wit</span></td><td class="muted u">Leverbaar over 2–3 weken (kaart)</td><td class="r">6,16:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FFF4DA;color:#865800">Oker op okerlicht</span></td><td class="muted u">Let-op-melding (kop)</td><td class="r">5,63:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#865800">Oker op duin</span></td><td class="muted u">Levertijd op Duin</td><td class="r">5,07:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#C83812;color:#FFFFFF">Wit op klaproos</span></td><td class="muted u">Primaire knop</td><td class="r">5,21:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FFFFFF">Wit op inkt</span></td><td class="muted u">Primaire knop, hover</td><td class="r">15,84:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#982A0E;color:#FFFFFF">Wit op klaproos donker</span></td><td class="muted u">Primaire knop, ingedrukt</td><td class="r">7,86:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FBF6EC">Zand op polder</span></td><td class="muted u">Secundaire knop, footer, utility-balk</td><td class="r">8,78:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FFFFFF">Wit op polder</span></td><td class="muted u">Secundaire knop (wit label)</td><td class="r">9,46:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FBF6EC">Zand op inkt</span></td><td class="muted u">Met jouw logo-badge, donkere banden</td><td class="r">14,71:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#1D2420">Inkt op zand</span></td><td class="muted u">Primaire knop op Polder (Zand vlak, Inkt label)</td><td class="r">14,71:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FFC23A">Zon op inkt</span></td><td class="muted u">Accent op Inkt (vlag, actie)</td><td class="r">9,83:1</td><td class="pass">AAA</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FFC23A">Zon op polder</span></td><td class="muted u">Accent op Polder (vlag, actie)</td><td class="r">5,87:1</td><td class="pass">AA</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#C83812">Klaproos op zand</span></td><td class="muted u">Display-kop op pagina (>= 24 px)</td><td class="r">4,84:1</td><td class="pass">AA groot</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#C83812">Klaproos op wit</span></td><td class="muted u">Display-kop op kaart (>= 24 px)</td><td class="r">5,21:1</td><td class="pass">AA groot</td></tr></table></div>
     <div>
-      <div class="card"><div class="eyebrow" style="margin-bottom:6px">Contrast UI-delen (eis 3:1)</div><table class="ct"><tr><td><span class="pv" style="background:#FFFFFF;color:#5D625C">kiezel op wit</span></td><td class="muted" style="font-size:13px">Rand invoerveld</td><td class="r">6.24:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#5D625C">kiezel op zand</span></td><td class="muted" style="font-size:13px">Rand invoerveld op pagina</td><td class="r">5.79:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#BE3A1D">klaproos op zand</span></td><td class="muted" style="font-size:13px">Knopvlak tegen pagina</td><td class="r">5.11:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#BE3A1D">klaproos op duin</span></td><td class="muted" style="font-size:13px">Knopvlak tegen Duin</td><td class="r">4.53:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#BE3A1D">klaproos op wit</span></td><td class="muted" style="font-size:13px">Knopvlak tegen kaart</td><td class="r">5.51:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#154F3E">polder op zand</span></td><td class="muted" style="font-size:13px">Secundaire knop tegen pagina</td><td class="r">8.78:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#1D2420">inkt op zand</span></td><td class="muted" style="font-size:13px">Focusring op licht</td><td class="r">14.71:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FFC23A">zon op polder</span></td><td class="muted" style="font-size:13px">Focusring op Polder</td><td class="r">5.87:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FFC23A">zon op inkt</span></td><td class="muted" style="font-size:13px">Focusring op Inkt</td><td class="r">9.83:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#8C1D2B">bordeaux op foutroze</span></td><td class="muted" style="font-size:13px">Linkerrand + icoon foutmelding</td><td class="r">7.76:1</td><td class="pass">≥ 3:1</td></tr></table></div>
-      <div class="card" style="margin-top:24px"><div class="eyebrow" style="margin-bottom:6px;color:var(--bordeaux)">Niet toegestaan</div><table class="ct"><tr><td><span class="pv" style="background:#FBF6EC;color:#FFC23A">zon op zand</span></td><td class="muted" style="font-size:13px">Zon als tekst/rand op licht</td><td class="r" style="color:#8C1D2B">1.50:1</td><td style="color:#8C1D2B;font-weight:700">nee</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#FFC23A">zon op wit</span></td><td class="muted" style="font-size:13px">Zon als tekst/rand op wit</td><td class="r" style="color:#8C1D2B">1.61:1</td><td style="color:#8C1D2B;font-weight:700">nee</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#BE3A1D">klaproos op inkt</span></td><td class="muted" style="font-size:13px">Klaproos-tekst op Inkt</td><td class="r" style="color:#8C1D2B">2.88:1</td><td style="color:#8C1D2B;font-weight:700">nee</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#BE3A1D">klaproos op polder</span></td><td class="muted" style="font-size:13px">Klaproos op Polder</td><td class="r" style="color:#8C1D2B">1.72:1</td><td style="color:#8C1D2B;font-weight:700">nee</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#5D625C">kiezel op inkt</span></td><td class="muted" style="font-size:13px">Kiezel op donker</td><td class="r" style="color:#8C1D2B">2.54:1</td><td style="color:#8C1D2B;font-weight:700">nee</td></tr></table></div>
+      <div class="card"><div class="eyebrow" style="margin-bottom:6px">Contrast UI-delen (eis 3:1)</div><table class="ct"><tr><td><span class="pv" style="background:#FFFFFF;color:#5D625C">Kiezel op wit</span></td><td class="muted u">Rand invoerveld</td><td class="r">6,24:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#5D625C">Kiezel op zand</span></td><td class="muted u">Rand invoerveld op pagina</td><td class="r">5,79:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#C83812">Klaproos op zand</span></td><td class="muted u">Primaire knop tegen pagina</td><td class="r">4,84:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#C83812">Klaproos op duin</span></td><td class="muted u">Primaire knop tegen Duin</td><td class="r">4,29:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#C83812">Klaproos op wit</span></td><td class="muted u">Primaire knop tegen kaart</td><td class="r">5,21:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#C83812">Klaproos op linnen</span></td><td class="muted u">Primaire knop tegen Linnen</td><td class="r">4,46:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#C83812">Klaproos op inkt</span></td><td class="muted u">Primaire knop op Inkt-vlak</td><td class="r">3,04:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#1D2420">Inkt op zand</span></td><td class="muted u">Hover-knop / focusring op licht</td><td class="r">14,71:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#154F3E">Polder op zand</span></td><td class="muted u">Secundaire knop tegen pagina</td><td class="r">8,78:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#ECEEE8;color:#154F3E">Polder op linnen</span></td><td class="muted u">Primaire knop Zakelijk tegen Linnen</td><td class="r">8,09:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#FBF6EC">Zand op polder</span></td><td class="muted u">Focusring + Zand-knop op Polder</td><td class="r">8,78:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#FBF6EC">Zand op inkt</span></td><td class="muted u">Focusring op Inkt</td><td class="r">14,71:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBEAEA;color:#8A1538">Bordeaux op foutroze</span></td><td class="muted u">Linkerrand + icoon foutmelding</td><td class="r">8,04:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#8A1538">Bordeaux op wit</span></td><td class="muted u">Rand van een veld met fout</td><td class="r">9,35:1</td><td class="pass">≥ 3:1</td></tr><tr><td><span class="pv" style="background:#FBF6EC;color:#865800">Oker op zand</span></td><td class="muted u">Stip "leverbaar over x weken"</td><td class="r">5,72:1</td><td class="pass">≥ 3:1</td></tr></table></div>
+      <div class="card" style="margin-top:24px"><div class="eyebrow" style="margin-bottom:6px;color:var(--bordeaux)">Niet toegestaan</div><table class="ct"><tr><td><span class="pv" style="background:#FBF6EC;color:#FFC23A">Zon op zand</span></td><td class="muted u">Zon als tekst of rand op licht</td><td class="r" style="color:var(--bordeaux)">1,50:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#FFFFFF;color:#FFC23A">Zon op wit</span></td><td class="muted u">Zon als tekst of rand op wit</td><td class="r" style="color:var(--bordeaux)">1,61:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#F2E8D5;color:#C83812">Klaproos op duin</span></td><td class="muted u">Klaproos als gewone tekst (alleen display >= 24 px op Zand/Wit)</td><td class="r" style="color:var(--bordeaux)">4,29:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#C83812">Klaproos op inkt</span></td><td class="muted u">Klaproos-tekst op Inkt</td><td class="r" style="color:var(--bordeaux)">3,04:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#154F3E;color:#C83812">Klaproos op polder</span></td><td class="muted u">Klaproos op Polder (ook als knop)</td><td class="r" style="color:var(--bordeaux)">1,82:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#1D2420;color:#5D625C">Kiezel op inkt</span></td><td class="muted u">Kiezel op donker</td><td class="r" style="color:var(--bordeaux)">2,54:1</td><td class="no-go">nee</td></tr><tr><td><span class="pv" style="background:#8A1538;color:#FFFFFF">Wit op bordeaux</span></td><td class="muted u">Bordeaux als gevuld vlak (fout is nooit een knop)</td><td class="r" style="color:var(--bordeaux)">9,35:1</td><td class="no-go">nee</td></tr></table></div>
       <div class="card" style="margin-top:24px">
-        <div class="eyebrow" style="margin-bottom:14px">Actie, fout en knop naast elkaar</div>
-        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-          <span class="btn p">In mijn winkelwagen</span>
-          <span class="b actie" style="font-size:13px;padding:8px 10px">Actie −10%</span>
-          <div class="alert err" style="flex:1;min-width:250px"><svg width="22" height="22"><use href="#i-alert"/></svg><div><b>Dat ging mis.</b>Probeer het nog een keer.</div></div>
+        <div class="eyebrow" style="margin-bottom:14px">Kopen, hover, actie en fout naast elkaar</div>
+        <div class="trio">
+          <span><span class="btn p">In mijn winkelwagen</span><span class="statelbl">primair</span></span>
+          <span><span class="btn p h">In mijn winkelwagen</span><span class="statelbl">hover = Inkt</span></span>
+          <span><span class="price"><span class="tag">€ 14,95</span><s>€ 16,95</s></span><span class="statelbl">actieprijs</span></span>
         </div>
-        <div class="cap">Knop = gevuld Klaproos. Actie = Zon met Inkt. Fout = Foutroze vlak, Bordeaux-rand, icoon en tekst. Drie verschillende vormen, drie verschillende kleuren.</div>
+        <div class="alert err" style="margin-top:16px"><svg width="22" height="22"><use href="#i-alert"/></svg><div><b>Dat ging mis.</b>Probeer het nog een keer.</div></div>
+        <p class="cap">Knop = gevuld Klaproos (tint 44°). Fout = Foutroze vlak + Bordeaux-rand, -icoon en -tekst (tint 13°, ΔE<sub>00</sub> 23,8 van Klaproos). Hover = Inkt: contrast met de rusttoestand 3,04:1, dus de stand is ook zonder kleurzien te zien. Actie = Zon-label met Inkt.</p>
       </div>
       <div class="card" style="margin-top:24px">
         <div class="eyebrow" style="margin-bottom:14px">Shopify-kleurschema's (tokens.json)</div>
-        <div class="grid g3" style="gap:12px"><div style="background:#FBF6EC;color:#1D2420;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-1 (pagina)</div><span style="display:inline-block;background:#BE3A1D;color:#FFFFFF;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#154F3E;color:#FBF6EC;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div><div style="background:#FFFFFF;color:#1D2420;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-2 (kaart)</div><span style="display:inline-block;background:#BE3A1D;color:#FFFFFF;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#154F3E;color:#FBF6EC;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div><div style="background:#F2E8D5;color:#1D2420;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-3 (duin)</div><span style="display:inline-block;background:#BE3A1D;color:#FFFFFF;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#154F3E;color:#FBF6EC;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div><div style="background:#ECEEE8;color:#1D2420;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-4 (zakelijk)</div><span style="display:inline-block;background:#154F3E;color:#FBF6EC;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#1D2420;color:#FBF6EC;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div><div style="background:#154F3E;color:#FBF6EC;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-5 (polder)</div><span style="display:inline-block;background:#FFC23A;color:#1D2420;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#FBF6EC;color:#154F3E;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div><div style="background:#1D2420;color:#FBF6EC;border-radius:10px;padding:12px;box-shadow:inset 0 0 0 1px rgba(29,36,32,.12)"><div style="font:700 12.5px/1.3 var(--b);margin-bottom:8px">scheme-6 (inkt)</div><span style="display:inline-block;background:#FFC23A;color:#1D2420;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Knop</span> <span style="display:inline-block;background:#FBF6EC;color:#1D2420;font:700 12px/1 var(--b);padding:7px 9px;border-radius:6px">Tweede</span></div></div>
+        <div class="grid g3" style="gap:12px"><div class="scheme" style="background:#FBF6EC;color:#1D2420"><div class="sn">scheme-1 (pagina)</div><span class="mini" style="background:#C83812;color:#FFFFFF">Knop</span> <span class="mini" style="background:#154F3E;color:#FBF6EC;">Tweede</span></div><div class="scheme" style="background:#FFFFFF;color:#1D2420"><div class="sn">scheme-2 (kaart)</div><span class="mini" style="background:#C83812;color:#FFFFFF">Knop</span> <span class="mini" style="background:#154F3E;color:#FBF6EC;">Tweede</span></div><div class="scheme" style="background:#F2E8D5;color:#1D2420"><div class="sn">scheme-3 (duin)</div><span class="mini" style="background:#C83812;color:#FFFFFF">Knop</span> <span class="mini" style="background:#154F3E;color:#FBF6EC;">Tweede</span></div><div class="scheme" style="background:#ECEEE8;color:#1D2420"><div class="sn">scheme-4 (zakelijk)</div><span class="mini" style="background:#154F3E;color:#FBF6EC">Knop</span> <span class="mini" style="background:#1D2420;color:#FBF6EC;">Tweede</span></div><div class="scheme" style="background:#154F3E;color:#FBF6EC"><div class="sn">scheme-5 (polder)</div><span class="mini" style="background:#FBF6EC;color:#1D2420">Knop</span> <span class="mini" style="background:#154F3E;color:#FBF6EC;box-shadow:inset 0 0 0 1.5px #FBF6EC;">Tweede</span></div><div class="scheme" style="background:#1D2420;color:#FBF6EC"><div class="sn">scheme-6 (inkt)</div><span class="mini" style="background:#C83812;color:#FFFFFF">Knop</span> <span class="mini" style="background:#1D2420;color:#FBF6EC;box-shadow:inset 0 0 0 1.5px #FBF6EC;">Tweede</span></div></div>
+        <p class="cap">Op Polder is de primaire knop Zand met Inkt-tekst (Klaproos haalt daar maar 1,82:1). Op Inkt mag Klaproos (3,04:1 knopvlak, 5,21:1 label).</p>
       </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============================================================== REPRODUCTION -->
+<section><div class="wrap">
+  <div class="sh"><div><div class="no">04</div><h2>Reproductie: zo komt het merk op doek, folie en papier</h2></div><p>De winkel verkoopt doek. Daarom staat hier per kleur de referentie voor elk materiaal, per methode de kleinste maat, en een logo dat klein werk aankan. Alle stockkleuren zijn digitale benaderingen: niets is fysiek afgetekend.</p></div>
+  <div class="repro">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:20px;flex-wrap:wrap"><div class="eyebrow">Kleurreferenties · dichtstbijzijnde stockkleur (CIEDE2000)</div><span class="tag-warn"><svg width="14" height="14"><use href="#i-alert"/></svg>Niet fysiek afgetekend</span></div>
+    <table>
+      <tr><th>Kleur</th><th>CIELAB D50</th><th>CMYK gestreken<br>FOGRA39</th><th>Pantone C<br>(papier)</th><th>Pantone TCX<br>(textiel)</th><th>RAL Classic<br>(lak, frame, bord)</th><th>Oracal 651<br>(snijfolie)</th><th>Afgetekend<br>datum / wie</th></tr>
+      <tr><td><span class="dot" style="background:#C83812"></span><b>Klaproos</b><br><code>#C83812</code></td><td class="num">L 46,6<br>a 56,4 · b 54,0</td><td class="num">C14 M89 Y100 K4<br><span class="muted">ongestr.: C10 M93 Y100 K3</span></td><td><b>2349 C</b> <span class="de">ΔE 1,6</span><br><span class="muted">2349 U: kiezen op de U-waaier</span></td><td><b>17-1449 TCX</b> <span class="de">ΔE 2,0</span><br><span class="muted">Pureed Pumpkin</span></td><td><b>RAL 2001 Red orange</b> <span class="de">ΔE 2,2</span><br><span class="muted">bron A: RAL 2002 Vermilion (ΔE 4,2)</span></td><td><b>651-047 orange red</b> <span class="de">ΔE 2,3</span></td><td class="sign">______</td></tr><tr><td><span class="dot" style="background:#FFC23A"></span><b>Zon</b><br><code>#FFC23A</code></td><td class="num">L 82,5<br>a 13,9 · b 72,0</td><td class="num">C0 M28 Y83 K0<br><span class="muted">ongestr.: C0 M21 Y83 K0</span></td><td><b>136 C</b> <span class="de">ΔE 1,2</span><br><span class="muted">136 U: kiezen op de U-waaier</span></td><td><b>13-0759 TCX</b> <span class="de">ΔE 2,2</span><br><span class="muted">Solar Power</span></td><td><b>RAL 1028 Melon yellow</b> <span class="de">ΔE 6,5</span><br><span class="muted">bron A: RAL 1021 Colza yellow (ΔE 3,4)</span></td><td><b>651-021 yellow</b> <span class="de">ΔE 3,6</span></td><td class="sign">______</td></tr><tr><td><span class="dot" style="background:#154F3E"></span><b>Polder</b><br><code>#154F3E</code></td><td class="num">L 29,6<br>a -23,0 · b 4,4</td><td class="num">C87 M42 Y73 K45<br><span class="muted">ongestr.: C91 M45 Y75 K33</span></td><td><b>6161 C</b> <span class="de">ΔE 1,6</span><br><span class="muted">6161 U: kiezen op de U-waaier</span></td><td><b>19-5420 TCX</b> <span class="de">ΔE 3,4</span><br><span class="muted">Evergreen</span></td><td><b>RAL 6016 Turquoise green</b> <span class="de">ΔE 3,3</span><br><span class="muted">bron A: RAL 6028 Pine green (ΔE 3,9)</span></td><td><b>651-613 forest green</b> <span class="de">ΔE 4,3</span></td><td class="sign">______</td></tr><tr><td><span class="dot" style="background:#1D2420"></span><b>Inkt</b><br><code>#1D2420</code></td><td class="num">L 13,4<br>a -4,1 · b 1,6</td><td class="num">C76 M61 Y66 K78<br><span class="muted">ongestr.: C84 M73 Y62 K64</span></td><td><b>Black 3 C</b> <span class="de">ΔE 1,9</span><br><span class="muted">Black 3 U: kiezen op de U-waaier</span></td><td><b>19-5708 TCX</b> <span class="de">ΔE 3,1</span><br><span class="muted">Jet Set</span></td><td><b>RAL 7021 Black grey</b> <span class="de">ΔE 5,6</span><br><span class="muted">bron A: RAL 9017 Traffic black (ΔE 6,3)</span></td><td><b>651-070 black</b> <span class="de">ΔE 8,8</span></td><td class="sign">______</td></tr><tr><td><span class="dot" style="background:#FBF6EC"></span><b>Zand</b><br><code>#FBF6EC</code></td><td class="num">L 97,1<br>a 0,5 · b 5,4</td><td class="num">C2 M4 Y9 K0<br><span class="muted">ongestr.: C2 M4 Y7 K0</span></td><td><b>9224 C</b> <span class="de">ΔE 2,8</span><br><span class="muted">9224 U: kiezen op de U-waaier</span></td><td><b>11-0607 TCX</b> <span class="de">ΔE 2,1</span><br><span class="muted">Sugar Swizzle</span></td><td><b>RAL 9001 Cream</b> <span class="de">ΔE 2,9</span></td><td><b>651-010 white</b> <span class="de">ΔE 8,1</span></td><td class="sign">______</td></tr>
+    </table>
+    <p class="cap">Bronnen (open datasets, onofficieel; zie brand.md §4.4 voor de commits): Pantone C als Lab uit de kleurvoorbeelden op pantone.com (aj90909/unofficial-pantone-solid-coated-2024-v5), Pantone TCX als sRGB (pedroduke/pantone-tcx; voor de papieren TPG-staal geldt hetzelfde nummer, niet apart vergeleken), RAL Classic als sRGB uit twee bronnen die onderling verschillen (bron B: office952/workos-vscode, bron A: ieskudero/ral-colors), Oracal 651 als sRGB van de productpagina van ORAFOL (via office952/workos-vscode). CMYK berekend met de ICC-profielen Adobe Coated FOGRA39 en Uncoated FOGRA29 (relatief colorimetrisch, zwartpuntcompensatie). Op ongestreken papier verschuift Klaproos zichtbaar (ΔE ≈ 11): daar Pantone-steunkleur of een drukproef.</p>
+  </div>
+
+  <div class="grid g2" style="margin-top:24px;align-items:start">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:14px">Aftekenen vóór de eerste productie</div>
+      <ol class="steps">
+        <li><span>Bestel de waaiers: Pantone Formula Guide C + U, Pantone FHI Cotton TCX (of het staalboek van de doekleverancier), RAL K7, Oracal 651/751-kleurkaart.</span></li>
+        <li><span>Druk deze pagina (§03, §04) niet af als referentie: een printer of scherm is geen kleurstandaard.</span></li>
+        <li><span>Leg per kleur de drie dichtstbijzijnde stalen naast een gekalibreerd scherm met de sRGB-waarde, in D50-licht (lichtbak) en daglicht. Kies er één; noteer datum en naam in de kolom Afgetekend.</span></li>
+        <li><span>Vraag bij de doekleverancier een lab-dip of stofstaal van Klaproos (doel: TCX-referentie, tolerantie ΔE<sub>00</sub> ≤ 3) en van de opdrukkleur Zand op Klaproos en Inkt.</span></li>
+        <li><span>Drukwerk: tolerantie ΔE<sub>00</sub> ≤ 2 op gestreken papier tegen de afgetekende Pantone C. Textiel en folie: ≤ 3.</span></li>
+        <li><span>Zet de gekozen nummers in tokens.json → print.colors en in dit merkboek; pas dan stockkleuren en bus-belettering bestellen.</span></li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:6px">Minimale breedte per methode (breedte van het hele logo of symbool)</div>
+      <table class="mstable">
+        <tr><th>Methode</th><th>Kleinste lijn / opening</th><th class="r">logo</th><th class="r">logo-klein</th><th class="r">mark</th><th class="r">mark-klein</th></tr>
+        <tr><td><b>Borduren (satijnsteek)</b></td><td class="num muted">1,2 / 1 mm</td><td class="r">73 mm</td><td class="r">46 mm</td><td class="r">16 mm</td><td class="r">9 mm</td></tr><tr><td><b>Flock-transfer (geplot)</b></td><td class="num muted">1,5 / 1,5 mm</td><td class="r">105 mm</td><td class="r">67 mm</td><td class="r">19 mm</td><td class="r">11 mm</td></tr><tr><td><b>Flex-/snijfolie (textiel, geplot)</b></td><td class="num muted">1 / 1 mm</td><td class="r">70 mm</td><td class="r">45 mm</td><td class="r">13 mm</td><td class="r">8 mm</td></tr><tr><td><b>Snijfolie op bus/bord (Oracal)</b></td><td class="num muted">1,5 / 1,5 mm</td><td class="r">105 mm</td><td class="r">67 mm</td><td class="r">19 mm</td><td class="r">11 mm</td></tr><tr><td><b>Zeefdruk op textiel</b></td><td class="num muted">0,5 / 0,6 mm</td><td class="r">42 mm</td><td class="r">27 mm</td><td class="r">8 mm</td><td class="r">4 mm</td></tr><tr><td><b>DTF-transfer</b></td><td class="num muted">0,5 / 0,5 mm</td><td class="r">35 mm</td><td class="r">23 mm</td><td class="r">7 mm</td><td class="r">4 mm</td></tr><tr><td><b>Sublimatie / digitaal op polyester (luifel, rok)</b></td><td class="num muted">0,3 / 0,3 mm</td><td class="r">21 mm</td><td class="r">14 mm</td><td class="r">4 mm</td><td class="r">3 mm</td></tr><tr><td><b>Offset / digitaal op papier</b></td><td class="num muted">0,15 / 0,15 mm</td><td class="r">11 mm</td><td class="r">7 mm</td><td class="r">2 mm</td><td class="r">2 mm</td></tr><tr class="screen"><td><b>Scherm</b></td><td class="num muted">2 px / 1,5 px</td><td class="r">121 px</td><td class="r">76 px</td><td class="r">26 px</td><td class="r">15 px</td></tr>
+      </table>
+      <p class="cap">Berekend uit de geometrie: logo.svg: kleinste lijn 65 eenheden (de vlaggenstok), kleinste opening 56 (k - l) op 3908 breed. logo-klein: 112 / 96 op 4228. De mm-waarden per methode zijn werkaannames (gangbare vuistregels), niet met een leverancier gecontroleerd: leg ze voor aan je borduurder, drukker en belettering. Luifel-lock-up pas vanaf 160 mm (descriptor-kaphoogte ≥ 6 mm).</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:24px;align-items:start">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:14px">Klein werk in één kleur</div>
+      <div class="smalls">
+        <div class="tile" style="background:var(--zand)"><div class="art"><img src="svg/print-wordmark.svg" alt="" style="width:100%"></div><div class="cap">print-wordmark.svg · vanaf 73 mm borduren</div></div>
+        <div class="tile" style="background:var(--zand)"><div class="art"><img src="svg/print-wordmark-klein.svg" alt="" style="width:100%"></div><div class="cap">print-wordmark-klein.svg · vanaf 46 mm borduren</div></div>
+        <div class="tile" style="background:var(--zand)"><div class="art"><img src="svg/print-mark-klein.svg" alt="" style="width:46%"></div><div class="cap">print-mark-klein.svg · vanaf 9 mm borduren</div></div>
+      </div>
+      <p class="cap">Alle drukbestanden zijn echte contouren zonder overlap. In de klein-versies is de luifel één vorm en zit de vlag vast: geen losse snippers bij het wieden van folie, geen sprongsteken over een kier bij borduren.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:14px">Kleurcontrole in de render</div>
+      <div class="rgrid"><div class="rcell"><span class="chipc" style="background:#C83812"></span><b>Klaproos-staal</b><code>#C83812</code><span class="de">doel</span></div><div class="rcell"><span class="chipc" style="background:#CD3916"></span><b>belicht dakvlak</b><code>#CD3916</code><span class="de">ΔE 1,2</span></div><div class="rcell"><span class="chipc" style="background:#BB3312"></span><b>middentoon</b><code>#BB3312</code><span class="de">ΔE 3,1</span></div><div class="rcell"><span class="chipc" style="background:#9C280B"></span><b>schaduwvlak</b><code>#9C280B</code><span class="de">ΔE 9,9</span></div></div><p class="cap">Gemeten op img/tent-3x3-klaproos-hero.webp (render met ingangskleur #9B2502, afwerking mat): gemiddelde in lineair licht van de verzadigde dakpixels, per lichtheidsband. Eis: belicht vlak ΔE<sub>00</sub> ≤ 3. Ter vergelijking v2 (zelfde meting, staal #BE3A1D): belicht vlak #E2887F (ΔE 23,2), middentoon #E7553D (ΔE 11,8). Oorzaak was witte glans op het doek; de afwerking ‘mat’ en een gemeten ingangskleur lossen dat op.</p>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== TYPE -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">04</div><h2>Typografie: stevig en rekenbaar</h2></div><p>Archivo ExtraBold voor koppen: een grotesk met vierkant-ronde vormen, net als het logo. Figtree voor tekst: vriendelijk en goed leesbaar. Cijfers altijd tabular, zodat prijzen en maten netjes onder elkaar staan.</p></div>
+  <div class="sh"><div><div class="no">05</div><h2>Typografie: stevig en rond</h2></div><p>Mona Sans voor koppen: een zware grotesk met vierkante schouders en een gewone nul, zodat ‘Ø 80 cm’ in een titel leesbaar blijft. Figtree voor tekst: rond, open en vriendelijk. Hoekig tegen rond houdt koppen en tekst uit elkaar.</p></div>
   <div class="grid g2">
     <div class="spec">
       <div class="big">Aa 3×3</div>
-      <h3 style="font:800 30px/1.1 var(--h);margin:18px 0 6px">Archivo · koppen</h3>
-      <div><span class="handle">archivo_n8</span><span class="handle">archivo_n7</span><span class="muted" style="font-size:13.5px"> fallback: Helvetica Neue, Arial</span></div>
-      <p style="font:800 22px/1.35 var(--h);margin:18px 0 0">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789 € × Ø ²</p>
+      <h3 style="font:800 30px/1.1 var(--h);margin:18px 0 6px">Mona Sans · koppen</h3>
+      <div><span class="handle">mona_sans_n8</span><span class="handle">mona_sans_n7</span><span class="muted" style="font-size:13.5px"> fallback: Arial Black, Helvetica Neue, Arial</span></div>
+      <p style="font:800 22px/1.35 var(--h);margin:18px 0 0">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789<br>€ × Ø ² – é ë ï · één geëvenaard</p>
     </div>
     <div class="spec">
       <div class="big" style="font-family:var(--b);font-weight:700;letter-spacing:-.02em">Aa 3×3</div>
@@ -431,7 +601,7 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
       <p style="font:400 19px/1.45 var(--b);margin:18px 0 0">De rok past op statafels van Ø 70–85 cm. Dakdoek van 320 g/m² polyester, frame van 40 mm staal.</p>
     </div>
   </div>
-  <div class="grid" style="grid-template-columns:1.5fr 1fr;margin-top:24px;align-items:start">
+  <div class="grid" style="grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);margin-top:24px;align-items:start">
     <div class="card scale">
       <div><small>Display · 64/40 · 800</small><span style="font:800 56px/1 var(--h);letter-spacing:-.02em">Uitklappen. Feest.</span></div>
       <div><small>H1 · 48/34 · 800</small><span style="font:800 42px/1.05 var(--h);letter-spacing:-.015em">Partytenten voor elk feest</span></div>
@@ -445,91 +615,95 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
     <div class="card">
       <div class="eyebrow" style="margin-bottom:8px">Tabular cijfers in een staffel <span class="ex">voorbeeldprijzen</span></div>
       <table class="ptable num">
-        <tr><th>Aantal</th><th style="text-align:right">Per stuk</th><th style="text-align:right">Bij min. aantal</th></tr>
+        <tr><th>Aantal</th><th class="r">Per stuk</th><th class="r">Totaal min. aantal</th></tr>
         <tr><td>1–9</td><td class="r">€ 16,95</td><td class="r">€ 16,95</td></tr>
         <tr><td>10–49</td><td class="r">€ 14,95</td><td class="r">€ 149,50</td></tr>
         <tr><td>50–99</td><td class="r">€ 12,95</td><td class="r">€ 647,50</td></tr>
         <tr><td>100+</td><td class="r">€ 11,45</td><td class="r">€ 1.145,00</td></tr>
       </table>
-      <p class="cap">font-variant-numeric: tabular-nums op prijzen, maten, aantallen en tabellen. Bedragen als € 1.145,00 (punt voor duizendtallen, komma voor centen, spatie na €).</p>
+      <p class="cap">tabular-nums op prijzen, maten, aantallen, staffels en levertijden. Notatie € 1.145,00 · 3 × 3 m · Ø 80 cm · 320 g/m² · 2–3 weken · incl. btw.</p>
+      <div class="lockrule">
+        <div><div class="eyebrow" style="margin-bottom:8px">Bij het logo: kapitalen</div><img src="svg/logo-luifel.svg" alt="" style="width:100%"></div>
+        <div><div class="eyebrow" style="margin-bottom:8px">Zelf hosten als nood</div><p style="margin:0;font-size:13.5px;line-height:1.45">Ontbreekt een handle in de theme-editor, laad dan <code>fonts/MonaSans-VF.ttf</code> en <code>fonts/Figtree-VF.ttf</code> (OFL) als theme-asset met @font-face.</p></div>
+      </div>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== IMAGERY -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">05</div><h2>Productbeeld: echte vorm, eerlijke maat</h2></div><p>Geen tekeningen of cartoons in de winkel. Elk product is een fotorealistische 3D-render op Studio-grijs, vanuit vaste standpunten, zodat een tent van € 679 er ook zo uitziet.</p></div>
+  <div class="sh"><div><div class="no">06</div><h2>Productbeeld: echte vorm, echte kleur</h2></div><p>Geen tekeningen of cartoons in de winkel. Elk product is een fotorealistische 3D-render op Studio-grijs, vanuit vaste standpunten. De merkkleur is in de render gemeten en klopt op het belichte vlak.</p></div>
   <div class="grid g4">
-    <div class="shot"><img src="img/tent-3x3-klaproos-hero.webp" alt="Easy-up 3 x 3 m Klaproos"><span class="lbl">Hoofdbeeld · hero 34°/17°</span></div>
-    <div class="shot"><img src="img/tent-3x3-wit-front.webp" alt="Easy-up 3 x 3 m wit vooraanzicht"><span class="lbl">Vooraanzicht · 0°/6°</span></div>
-    <div class="shot"><img src="img/statafel-80-stretch-zwart-hero.webp" alt="Statafel met stretchrok zwart"><span class="lbl">Variant · zelfde camera</span></div>
-    <div class="shot"><img src="img/statafel-80-ingeklapt.webp" alt="Statafel ingeklapt"><span class="lbl">Gebruik · ingeklapt</span></div>
+    <div class="shot"><img src="img/tent-3x3-klaproos-hero.webp" alt="Easy-up 3 x 3 m Klaproos, schuin vooraanzicht"><span class="lbl">Hoofdbeeld · hero 34°/17°</span></div>
+    <div class="shot"><img src="img/tent-3x3-wit-front.webp" alt="Easy-up 3 x 3 m wit, vooraanzicht"><span class="lbl">Vooraanzicht · 0°/6°</span></div>
+    <div class="shot"><img src="img/tent-3x6-wit-zijwanden-hero.webp" alt="Easy-up 3 x 6 m wit met zijwanden, ramen en deur"><span class="lbl">In gebruik · met zijwanden</span></div>
+    <div class="shot"><img src="img/statafel-80-ingeklapt.webp" alt="Statafel ingeklapt"><span class="lbl">Detail · ingeklapt</span></div>
   </div>
-  <div class="grid" style="grid-template-columns:1fr 1.25fr;margin-top:24px;align-items:start">
+  <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);margin-top:24px;align-items:start">
     <div class="card">
       <div class="eyebrow" style="margin-bottom:10px">Regie</div>
-      <ul class="adlist" style="margin:0;padding-left:18px;font-size:15px;line-height:1.5">
-        <li><b>Achtergrond:</b> naadloos Studio #EFEDE8, ook in het kaartvlak. Nooit wit-op-wit, nooit een sfeerfoto als hoofdbeeld.</li>
-        <li><b>Standpunten:</b> 1 hero (azimut 34°, elevatie 17°), 2 vooraanzicht, 3 zij, 4 detail (hoekstuk, rokzoom, strik), 5 in gebruik. Product vult 80% van het beeld, altijd dezelfde lens (22°).</li>
-        <li><b>Licht:</b> softbox linksboven, zachte contactschaduw, belichting per materiaal (wit doek houdt tekening).</li>
-        <li><b>Kleurvarianten:</b> exact dezelfde camera en positie, zodat swatches wisselen zonder te verspringen.</li>
-        <li><b>Eerlijk:</b> render toont alleen wat in de doos zit. Opdruk alleen op producten die met opdruk geleverd worden; bij een voorbeeldopdruk staat "voorbeeld" in de alt-tekst en bij het product.</li>
+      <ul class="adlist">
+        <li><b>Achtergrond:</b> naadloos Studio #EFEDE8, exact gelijk aan het beeldvlak van de kaart. Nooit wit-op-wit, geen sfeerfoto als hoofdbeeld, geen tekst of badges in het beeld.</li>
+        <li><b>Standpunten:</b> 1 hero (azimut 34°, elevatie 17°), 2 vooraanzicht 0°/6°, 3 zij 90°/6°, 4 detail (hoekstuk, rokzoom, strik), 5 in gebruik. Lens 22°, product vult 80%.</li>
+        <li><b>Licht:</b> softbox linksboven, zachte contactschaduw, belichting per materiaal (wit houdt tekening, zwart lycra houdt glans).</li>
+        <li><b>Kleur:</b> merk- en variantkleuren worden in de render gemeten; het belichte vlak moet binnen ΔE<sub>00</sub> 3 van de staal liggen (§04). Klaproos: ingangskleur #9B2502, afwerking mat.</li>
+        <li><b>Eerlijk:</b> de render toont wat in de doos zit. Opdruk alleen bij bedrukte producten; een voorbeeldopdruk heet ‘voorbeeld’ in alt-tekst en bij het product.</li>
       </ul>
     </div>
     <div class="gs">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font:14px Arial,sans-serif;color:#5f6368">Shopping · "partytent 3x3" · <i>nagebootst zoekresultaat, eigen renders</i></span><span class="ex">illustratie</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px"><span style="font:14px Arial,sans-serif;color:#5f6368">Shopping · "partytent 3x3" · <i>nagebootst, eigen renders</i></span><span class="ex">illustratie</span></div>
       <div class="row">
         <div class="it"><div class="im"><img src="img/tent-3x3-wit-hero.webp" alt=""></div><p>Partytent 3x3 wit</p><b>€ ···</b></div>
         <div class="it"><div class="im"><img src="img/tent-3x3-wit-front.webp" alt=""></div><p>Easy up tent 3x3</p><b>€ ···</b></div>
         <div class="it us"><div class="im"><img src="img/tent-3x3-klaproos-hero.webp" alt=""></div><p>Easy-up partytent 3×3 m Premium Klaproos</p><b class="num">€ 319</b> <span style="color:#5f6368">Klapklaar</span></div>
-        <div class="it"><div class="im"><img src="img/tent-3x6-zwart-zijwanden-hero.webp" alt=""></div><p>Vouwtent 3x6 zwart</p><b>€ ···</b></div>
+        <div class="it"><div class="im"><img src="img/tent-3x6-wit-zijwanden-hero.webp" alt=""></div><p>Vouwtent 3x6 met wanden</p><b>€ ···</b></div>
         <div class="it"><div class="im"><img src="img/tent-3x3-wit-hero.webp" alt="" style="transform:scaleX(-1)"></div><p>Pop-up tent 3x3</p><b>€ ···</b></div>
       </div>
-      <p style="font:13.5px/1.45 var(--b);color:var(--kiezel);margin:14px 0 0">Feedbeeld = de Klaproos-kleurvariant zonder opdruk, op Studio-grijs. Valt op tussen witte tenten op wit en is toch het echte product. Zet de Klaproos-variant als eerste variant (standaardbeeld) bij elke tent die in Klaproos leverbaar is. Google Merchant Center-eisen (geen overlays, geen tekst, lichte achtergrond) vóór livegang controleren.</p>
+      <p style="font:13.5px/1.45 var(--b);color:var(--kiezel);margin:14px 0 0">Feedbeeld = de Klaproos-variant zonder opdruk, op Studio-grijs: valt op tussen witte tenten op wit en is toch het echte product. Alleen als de leverancier Klaproos-doek levert; anders de leverancierskleur ‘rood’ renderen zoals hij is (claim). Google Merchant Center-beeldeisen vóór livegang controleren.</p>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== STORE -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">06</div><h2>In de winkel</h2></div><p>Zo valt het merk samen in de Shopify-thema-onderdelen: utility-balk, header, hero met prijschip, productkaarten met specregel en drie voorraadstanden, en het "Met jouw logo"-pad. Prijzen en claims zijn voorbeelden voor de eigenaar.</p></div>
+  <div class="sh"><div><div class="no">07</div><h2>In de winkel</h2></div><p>Zo valt het merk samen in de Shopify-onderdelen: utility-balk, header, hero met prijschip, kaarten met specregel, actielabel, staffel en drie voorraadstanden, het ‘Met jouw logo’-pad en de koopknop met live totaal. Prijzen en claims zijn voorbeelden.</p></div>
   <div class="store">
     <div class="ut"><div class="in">
-      <div class="usp"><span><svg width="16" height="16" style="color:var(--zon)"><use href="#i-check"/></svg>Snel in huis in NL &amp; BE</span><span><svg width="16" height="16" style="color:var(--zon)"><use href="#i-check"/></svg>Zakelijk bestellen op factuur</span><span><svg width="16" height="16" style="color:var(--zon)"><use href="#i-check"/></svg>Eigen logo? Eerst een drukproef</span></div>
-      <div class="links"><a href="#">Offerte aanvragen</a><a href="#">Klantenservice</a><a href="#">Zakelijk</a></div>
+      <div class="usp"><span><svg width="16" height="16"><use href="#i-check"/></svg>Snel in huis in NL &amp; BE</span><span><svg width="16" height="16"><use href="#i-check"/></svg>Zakelijk bestellen op factuur</span><span><svg width="16" height="16"><use href="#i-check"/></svg>Eigen logo? Eerst een drukproef</span></div>
+      <div class="links"><span>Offerte aanvragen</span><span>Klantenservice</span><span>Zakelijk</span></div>
     </div></div>
     <div class="hd">
-      <div class="row1"><img src="logo.svg" alt="Klapklaar" style="width:190px"><div class="search"><svg width="20" height="20"><use href="#i-search"/></svg>Zoek op product, maat of artikelnummer</div>
+      <div class="row1"><img src="logo.svg" alt="Klapklaar" style="width:170px"><div class="search"><svg width="20" height="20"><use href="#i-search"/></svg>Zoek op product, maat of artikelnummer</div>
         <div class="hicons"><span><svg width="24" height="24"><use href="#i-case"/></svg>Offerte</span><span><svg width="24" height="24"><use href="#i-user"/></svg>Account</span><span><svg width="24" height="24"><use href="#i-cart"/></svg>Winkelwagen<em class="badge-n num" style="font-style:normal">2</em></span></div></div>
-      <nav><span>Partytenten</span><span>Statafels</span><span>Rokken &amp; hoezen</span><span>Met jouw logo</span><span>Accessoires</span><span>Meubilair</span><span>Verlichting</span><span class="act"><span class="b actie">Actie</span></span><span class="navzak">Zakelijk</span></nav>
+      <nav><span>Partytenten</span><span>Statafels</span><span>Rokken &amp; hoezen</span><span>Met jouw logo</span><span>Accessoires</span><span>Meubilair</span><span>Verlichting</span><span class="b actie">Actie</span><span class="navzak">Zakelijk</span></nav>
     </div>
     <div class="hero">
       <div class="tx"><div class="eyebrow">Partytenten · statafels · alles eromheen</div><h3>Uitklappen.<br>Neerzetten.<br>Feest.</h3><p>Easy-up tenten, statafels met rokken, verlichting en meubilair. Voor je tuinfeest, je club of je evenement.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap"><span class="btn p">Bekijk partytenten</span><span class="btn o">Naar statafels</span></div>
         <p style="font-size:15px;margin:22px 0 0">Voor bedrijf, club of verhuur? <span class="link">Vraag een offerte op maat aan</span></p></div>
-      <figure><img src="img/scene-hero.webp" alt=""><span class="chip"><span>Easy-up partytent 3 × 3 m · Premium · 320 g/m² — <b class="num">vanaf € 319</b></span></span></figure>
+      <figure><img src="img/scene-hero.webp" alt="Klaproos easy-up met voorbeeldopdruk en statafels"><span class="chip"><span>Easy-up partytent 3 × 3 m · Premium · 320 g/m² — <b class="num">vanaf € 319</b></span></span></figure>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:end;padding:36px 32px 0"><h3 style="font:800 30px/1.1 var(--h)">Populair voor je volgende feest</h3><span class="link">Alles bekijken</span></div>
     <div class="cards">
-      <div class="pc"><div class="im"><img src="img/tent-3x3-klaproos-hero.webp" alt=""><div class="bd"><span class="b nieuw">Nieuw</span></div></div><div class="ct">
+      <div class="pc"><div class="im"><img src="img/tent-3x3-klaproos-hero.webp" alt="Easy-up 3 x 3 m Klaproos"><div class="bd"><span class="b nieuw">Nieuw</span></div></div><div class="ct">
         <h4>Easy-up partytent 3 × 3 m Premium</h4><div class="specl">40 mm staal · 320 g/m² dakdoek</div>
-        <div class="sws"><i class="on" style="background:#BE3A1D"></i><i style="background:#FFFFFF"></i><i style="background:#1D1E20"></i><i style="background:#7C8A93"></i><small>+3</small></div>
+        <div class="sws"><i class="on" style="background:#C83812"></i><i style="background:#F3F3F0"></i><i style="background:#1D1E20"></i><i style="background:#1E4E9E"></i><small>+3</small></div>
         <div class="price">€ 319,00</div><div class="stock st-in"><i></i>Op voorraad</div>
         <span class="btn p sm">In mijn winkelwagen</span></div></div>
-      <div class="pc"><div class="im"><img src="img/statafel-80-stretch-zwart-hero.webp" alt=""><div class="bd"><span class="b actie">Actie −12%</span></div></div><div class="ct">
+      <div class="pc"><div class="im"><img src="img/statafel-80-stretch-zwart-hero.webp" alt="Statafelrok stretch zwart"><div class="bd"><span class="b actie">Actie −12%</span></div></div><div class="ct">
         <h4>Statafelrok stretch Ø 80 cm</h4><div class="specl">Voor Ø 70–85 cm · stretch</div>
-        <div class="sws"><i class="on" style="background:#1D1E20"></i><i style="background:#FFFFFF"></i><i style="background:#B8282C"></i><i style="background:#1F3F7A"></i><small>+8</small></div>
-        <div class="price">€ 14,95<s>€ 16,95</s></div><div class="stock st-in"><i></i>Op voorraad</div>
+        <div class="sws"><i class="on" style="background:#1D1E20"></i><i style="background:#F3F3F0"></i><i style="background:#B5161E"></i><i style="background:#1B2A4C"></i><small>+8</small></div>
+        <div class="price"><span class="tag">€ 14,95</span><s>€ 16,95</s></div><div class="stock st-in"><i></i>Op voorraad</div>
         <span class="btn p sm">In mijn winkelwagen</span></div></div>
-      <div class="pc custom"><div class="im"><img src="img/statafelrok-stretch-zwart-print-hero.webp" alt="Voorbeeldopdruk"><div class="bd"><span class="b logo"><svg width="12" height="12"><use href="#i-flag"/></svg>Met jouw logo</span></div></div><div class="ct">
+      <div class="pc custom"><div class="im"><img src="img/statafelrok-stretch-zwart-print-hero.webp" alt="Statafelhoes met voorbeeldopdruk"><div class="bd"><span class="b logo"><svg width="12" height="12"><use href="#i-flag"/></svg>Met jouw logo</span></div></div><div class="ct">
         <h4>Statafelhoes met jouw logo</h4><div class="specl">Stretch · 1 of 2 drukkleuren · Ø 70–85 cm</div>
         <div class="price">vanaf € 39,95 <small>per stuk</small></div>
         <div class="note">Upload je logo, je krijgt eerst een drukproef ter akkoord. Vanaf 10 st. staffelprijs.</div>
         <span class="btn s sm">Ontwerp je hoes</span></div></div>
-      <div class="pc"><div class="im"><img src="img/tent-3x6-zwart-zijwanden-hero.webp" alt=""><div class="bd"><span class="b zk">Staffelprijs</span></div></div><div class="ct">
+      <div class="pc"><div class="im"><img src="img/tent-3x6-wit-zijwanden-hero.webp" alt="Easy-up 3 x 6 m wit met zijwanden"><div class="bd"><span class="b zk">Staffelprijs</span></div></div><div class="ct">
         <h4>Easy-up partytent 3 × 6 m met zijwanden</h4><div class="specl">6 poten · 4 zijwanden · ramen en deur</div>
-        <div class="sws"><i class="on" style="background:#1D1E20"></i><i style="background:#FFFFFF"></i><i style="background:#BE3A1D"></i></div>
-        <div class="price">€ 679,00</div><div class="stock st-later"><i></i>Leverbaar over 2–3 weken</div>
+        <div class="sws"><i class="on" style="background:#F3F3F0"></i><i style="background:#1D1E20"></i><i style="background:#C83812"></i></div>
+        <div class="price">€ 679,00</div><div class="tier">Vanaf 5 st. € 629,00 · vanaf 10 st. € 589,00 p.st.</div><div class="stock st-later"><i></i>Leverbaar over 2–3 weken</div>
         <span class="btn p sm">In mijn winkelwagen</span></div></div>
     </div>
 
@@ -538,9 +712,9 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
       <div class="info">
         <div class="eyebrow">Statafels</div>
         <h3>Statafel opklapbaar Ø 80 cm met strikrok</h3>
-        <div class="specl" style="font-size:15px;color:var(--kiezel)">Berken blad · zwart frame · hoogte 110 cm</div>
+        <div class="specl" style="font-size:15px">Berken blad · zwart frame · hoogte 110 cm</div>
         <div style="display:flex;align-items:center;gap:14px;margin-top:14px"><span class="price" style="font-size:26px">€ 169,90</span><span class="vat"><span class="on">incl. btw</span><span>excl. btw</span></span></div>
-        <div class="stock st-in" style="margin-top:8px"><i></i>Op voorraad · <span style="color:var(--inkt);font-weight:500">morgen in huis bij bestelling vóór 14:00 <span class="ex">claim te bevestigen</span></span></div>
+        <div class="stock st-in" style="margin-top:8px"><i></i>Op voorraad · <span style="color:var(--inkt);font-weight:500">morgen in huis bij bestelling vóór 14:00 <span class="ex">claim</span></span></div>
         <div class="opt"><div class="lb"><span>Diameter</span><span class="link" style="font-size:14px">Maatgids</span></div><div class="pills"><span class="pill">Ø 60</span><span class="pill">Ø 70</span><span class="pill on">Ø 80</span><span class="pill na">Ø 85</span></div></div>
         <div class="opt"><div class="lb"><span>Rok: <b>Strik wit</b></span></div><div class="pills"><span class="pill">Zonder</span><span class="pill">Stretch</span><span class="pill on">Strik</span></div></div>
         <div class="qtyrow"><div class="qty"><span><svg width="18" height="18"><use href="#i-min"/></svg></span>2<span><svg width="18" height="18"><use href="#i-plus"/></svg></span></div><span class="btn p add">In mijn winkelwagen <span class="sep">·</span> <span class="num">€ 339,80</span></span></div>
@@ -553,22 +727,36 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 
 <!-- ============================================================== COMPONENTS -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">07</div><h2>Componenten en staten</h2></div><p>Een knop is altijd gevuld of omlijnd, een melding is altijd een getint vlak met icoon. Focus is een dikke Inkt-ring (Zon op donker) die je met het toetsenbord nooit kwijtraakt.</p></div>
+  <div class="sh"><div><div class="no">08</div><h2>Componenten en staten</h2></div><p>Een knop is gevuld of omlijnd, een melding is een getint vlak met icoon en linkerrand. Hover maakt elke knop Inkt. Focus is een dikke ring (Inkt op licht, Zand op donker) die je met het toetsenbord nooit kwijtraakt.</p></div>
   <div class="grid g2" style="align-items:start">
     <div class="card">
-      <div class="eyebrow" style="margin-bottom:14px">Knoppen</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-        <span class="btn p">Primair</span><span class="btn p h">Hover</span><span class="btn p f">Toetsenbordfocus</span><span class="btn s">Secundair</span><span class="btn o">Omlijnd</span><span class="btn d">Uitverkocht</span><span class="link">Tekstlink</span>
+      <div class="eyebrow" style="margin-bottom:14px">Primaire knop: alle standen</div>
+      <div class="states">
+        <span><span class="btn p">In mijn winkelwagen</span><span class="statelbl">rust</span></span>
+        <span><span class="btn p h">In mijn winkelwagen</span><span class="statelbl">hover · Inkt</span></span>
+        <span><span class="btn p a">In mijn winkelwagen</span><span class="statelbl">ingedrukt · Klaproos donker</span></span>
+        <span><span class="btn p f">In mijn winkelwagen</span><span class="statelbl">toetsenbordfocus</span></span>
+        <span><span class="btn p">Toevoegen…</span><span class="statelbl">bezig</span></span>
+        <span><span class="btn p"><svg width="18" height="18"><use href="#i-check"/></svg>Toegevoegd</span><span class="statelbl">klaar · 1,5 s</span></span>
+        <span><span class="btn d">Uitverkocht</span><span class="statelbl">uitgeschakeld</span></span>
       </div>
-      <div style="background:var(--polder);border-radius:10px;padding:18px;margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-        <span class="btn" style="background:var(--zon);color:var(--inkt)">Offerte aanvragen</span><span class="btn" style="background:var(--zand);color:var(--polder);outline:3px solid var(--zon);outline-offset:2px">Focus op donker</span><span style="color:var(--zand);font:600 13.5px var(--b)">Focusring Zon op Polder 5,87:1</span>
+      <div class="eyebrow" style="margin:24px 0 12px">Overige knoppen</div>
+      <div class="states">
+        <span><span class="btn s">Ontwerp je hoes</span><span class="statelbl">secundair</span></span>
+        <span><span class="btn o">Naar statafels</span><span class="statelbl">omlijnd</span></span>
+        <span><span class="btn o h">Naar statafels</span><span class="statelbl">omlijnd hover</span></span>
+        <span style="padding-top:14px"><span class="link">Tekstlink</span><span class="statelbl">link</span></span>
       </div>
-      <div class="eyebrow" style="margin:26px 0 12px">Badges en voorraad</div>
+      <div style="background:var(--polder);border-radius:10px;padding:18px;margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <span class="btn z">Aanmelden</span><span class="btn z" style="outline:3px solid var(--zand);outline-offset:2px">Focus op donker</span><span style="color:var(--zand);font:600 13.5px var(--b)">Op Polder: Zand-knop, Zand-focusring (8,78:1)</span>
+      </div>
+      <div class="eyebrow" style="margin:24px 0 12px">Badges, prijs en voorraad</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
         <span class="b actie">Actie −10%</span><span class="b nieuw">Nieuw</span><span class="b logo"><svg width="12" height="12"><use href="#i-flag"/></svg>Met jouw logo</span><span class="b zk">Staffelprijs</span>
+        <span class="price" style="margin-left:6px"><span class="tag">€ 14,95</span><s>€ 16,95</s></span>
       </div>
       <div style="display:flex;gap:22px;flex-wrap:wrap;margin-top:14px"><span class="stock st-in"><i></i>Op voorraad</span><span class="stock st-later"><i></i>Leverbaar over 2–3 weken</span><span class="stock st-out"><i></i>Tijdelijk uitverkocht</span></div>
-      <div class="eyebrow" style="margin:26px 0 12px">Formulier</div>
+      <div class="eyebrow" style="margin:24px 0 12px">Formulier</div>
       <div class="grid g2" style="gap:16px">
         <div class="field"><label>E-mailadres</label><div class="in">sanne@vereniging.nl</div></div>
         <div class="field e"><label>Postcode</label><div class="in">7941</div><div class="msg"><svg width="16" height="16"><use href="#i-alert"/></svg>Vul je hele postcode in, dan weten we waar de tent heen moet.</div></div>
@@ -577,24 +765,24 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
     <div class="grid" style="gap:16px">
       <div class="alert err"><svg width="22" height="22"><use href="#i-alert"/></svg><div><b>Oeps, dat ging mis.</b>We konden je winkelwagen niet bijwerken. Probeer het nog een keer, of bel of app ons: dan regelen we het samen.</div></div>
       <div class="alert note"><svg width="22" height="22"><use href="#i-clock"/></svg><div><b>Eerst je akkoord, dan drukken we.</b>Je drukproef staat klaar in je account. De levertijd gaat in na je akkoord.</div></div>
-      <div class="alert ok"><svg width="22" height="22"><use href="#i-check"/></svg><div><b>Klaar! Je offerteaanvraag is binnen.</b>We sturen je binnen één werkdag een offerte. <span class="ex">claim te bevestigen</span></div></div>
+      <div class="alert ok"><svg width="22" height="22"><use href="#i-check"/></svg><div><b>Klaar! Je offerteaanvraag is binnen.</b>We sturen je binnen één werkdag een offerte. <span class="ex">claim</span></div></div>
       <div class="toast"><div class="top"><img src="img/statafel-80-stretch-zwart-hero.webp" alt=""><div style="flex:1"><b style="font:800 18px/1.2 var(--h)">Klaar! Hij staat erin.</b><div style="font-size:14.5px;margin-top:3px">Statafelrok stretch Ø 80 cm, zwart · 1 ×</div></div><svg width="20" height="20" style="color:var(--polder)"><use href="#i-check"/></svg></div>
         <div style="display:flex;gap:10px;margin-top:14px"><span class="btn p sm" style="flex:1">Naar winkelwagen</span><span class="btn o sm" style="flex:1">Verder winkelen</span></div>
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--lijn);font-size:14.5px;display:flex;justify-content:space-between"><span>Nog een statafel erbij?</span><span class="link">Bekijk statafels</span></div></div>
-      <div class="card empty"><svg width="40" height="40" style="color:var(--kiezel)"><use href="#i-cart"/></svg><div style="font:800 22px/1.2 var(--h);margin:10px 0 6px">Nog niks in je winkelwagen</div><p style="margin:0 0 16px;color:var(--kiezel)">Zonde van een goed feest. Begin bij de partytenten, of kijk wat er in de actie zit.</p><span class="btn p">Bekijk partytenten</span></div>
+      <div class="card empty"><svg width="40" height="40" style="color:var(--kiezel)"><use href="#i-cart"/></svg><div style="font:800 22px/1.2 var(--h);margin:10px 0 6px">Nog niks in je winkelwagen.</div><p style="margin:0 0 16px;color:var(--kiezel)">Zonde van een goed feest. Begin bij de partytenten, of kijk wat er in de actie zit.</p><span class="btn p">Bekijk partytenten</span></div>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== ZAKELIJK -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">08</div><h2>Klapklaar Zakelijk</h2></div><p>Voor horeca, eventbureaus, verhuurbedrijven, scholen en verenigingen: Linnen en Polder, prijzen eerst excl. btw, geen knipoog. Zelfde merk, andere toon. Dit is de stijl van de offerte-, staffel- en drukflow.</p></div>
+  <div class="sh"><div><div class="no">09</div><h2>Klapklaar Zakelijk</h2></div><p>Voor horeca, eventbureaus, verhuurbedrijven, scholen en verenigingen: Linnen en Polder, prijzen eerst excl. btw, geen knipoog en geen vlaggenlijn. Zelfde merk, andere toon: de stijl van offerte, staffel en drukproef.</p></div>
   <div class="zakblok">
-    <div class="grid" style="grid-template-columns:1fr 1.1fr;gap:48px;align-items:start">
+    <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:start">
       <div>
-        <img src="svg/logo-zakelijk.svg" alt="Klapklaar Zakelijk" style="width:330px;display:block;margin-bottom:28px">
+        <img src="svg/logo-zakelijk.svg" alt="Klapklaar Zakelijk" style="width:100%;max-width:420px;display:block;margin-bottom:32px">
         <h3>Offerte op maat, binnen één werkdag.</h3>
-        <p style="margin:12px 0 22px;font-size:17px">Bestel op factuur, met staffelprijzen vanaf 10 stuks en je eigen logo op tent of hoes. Je vaste contactpersoon belt je terug. <span class="ex">claims te bevestigen</span></p>
+        <p style="margin:12px 0 22px;font-size:17px">Bestel op factuur, met staffelprijzen vanaf 10 stuks en je eigen logo op tent of hoes. Je vaste contactpersoon belt je terug. <span class="ex">claims</span></p>
         <ul style="list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px;font-size:15.5px">
           <li style="display:flex;gap:10px"><svg width="20" height="20" style="color:var(--polder);flex:none"><use href="#i-invoice"/></svg>Betalen op factuur, prijzen excl. btw</li>
           <li style="display:flex;gap:10px"><svg width="20" height="20" style="color:var(--polder);flex:none"><use href="#i-proof"/></svg>Drukproef ter akkoord vóór productie</li>
@@ -603,13 +791,13 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
         <span class="btn s">Offerte aanvragen</span> <span class="btn o" style="margin-left:8px">Bel ons</span>
       </div>
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center"><div class="eyebrow">Staffel · statafelhoes met logo</div><span class="vat"><span>incl.</span><span class="on">excl. btw</span></span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div class="eyebrow">Staffel · statafelhoes met logo</div><span class="vat"><span>incl.</span><span class="on">excl. btw</span></span></div>
         <table class="staffel num" style="margin-top:12px">
-          <tr><th>Aantal</th><th style="text-align:right">1 kleur</th><th style="text-align:right">2 kleuren</th><th style="text-align:right">Levertijd</th></tr>
+          <tr><th>Aantal</th><th class="r">1 kleur</th><th class="r">2 kleuren</th><th class="r">Levertijd</th></tr>
           <tr><td>10–24</td><td class="r">€ 33,00</td><td class="r">€ 37,10</td><td class="r">na akkoord</td></tr>
           <tr><td>25–49</td><td class="r">€ 29,70</td><td class="r">€ 33,40</td><td class="r">na akkoord</td></tr>
           <tr><td>50–99</td><td class="r">€ 26,40</td><td class="r">€ 29,70</td><td class="r">na akkoord</td></tr>
-          <tr><td>100+</td><td class="r" colspan="3" style="text-align:right">offerte op maat</td></tr>
+          <tr><td>100+</td><td class="r" colspan="3">offerte op maat</td></tr>
         </table>
         <p class="cap" style="margin-bottom:18px">Voorbeeldprijzen excl. btw, door de eigenaar vast te stellen.</p>
         <div class="grid g2" style="gap:14px">
@@ -617,6 +805,7 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
           <div class="field"><label>Aantal</label><div class="in num">40</div></div>
         </div>
         <div class="field" style="margin-top:14px"><label>Logo uploaden <span class="muted" style="font-weight:400">(PDF, AI, EPS of SVG)</span></label><div class="in" style="justify-content:space-between;border-style:dashed"><span class="muted">logo-debrink.pdf</span><svg width="20" height="20"><use href="#i-upload"/></svg></div></div>
+        <span class="btn s" style="margin-top:16px;width:100%">Offerte aanvragen</span>
       </div>
     </div>
   </div>
@@ -624,50 +813,65 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
 
 <!-- ============================================================== APPLICATIONS -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">09</div><h2>Op tent, tafel en bus</h2></div><p>Gedrukt merk volgt drie regels: één drukkleur (Zand op Klaproos of Inkt, Inkt op wit), het woordmerk vult 60–70% van de luifelhoogte en nooit meer dan de helft van de breedte, en de x-hoogte is minimaal 4 cm.</p></div>
+  <div class="sh"><div><div class="no">10</div><h2>Op tent, tafel en bus</h2></div><p>Eén drukkleur: Zand op Klaproos of Inkt, Inkt op wit doek. Het woordmerk is 54% van de luifelhoogte en nooit breder dan de helft van een zijde. Maten en methodes: §04.</p></div>
   <div class="grid g3">
-    <div class="app"><div class="shot"><img src="img/tent-3x3-klaproos-logo-hero.webp" alt="Klaproos easy-up met Klapklaar op de luifel"></div><h4>Luifel</h4><ul><li>print-wordmark.svg, 1 kleur Zand op Klaproos.</li><li>Hoogte 60–70% van de luifel: op 21 cm ca. 13–14 cm hoog, ±42 cm breed. Nooit breder dan 50% van de zijde.</li><li>Gecentreerd, op alle vier de zijden. Groter? Luifel-lock-up op dak of zijwand.</li></ul></div>
-    <div class="app"><div class="shot"><img src="img/statafelrok-stretch-zwart-print-hero.webp" alt="Zwarte stretch statafelrok met Klapklaar-beeldmerk"></div><h4>Statafelrok</h4><ul><li>print-mark.svg (aa onder de tent), 1 kleur Zand op Inkt of zwart.</li><li>Breedte 20–24 cm op Ø 80, midden voorpaneel, hart op 30–35 cm boven de vloer (blijft leesbaar op de stretch).</li><li>Klantlogo's volgen dezelfde maatvoering.</li></ul></div>
+    <div class="app"><div class="shot"><img src="img/tent-3x3-klaproos-logo-front.webp" alt="Klaproos easy-up met Klapklaar op de luifel, vooraanzicht (voorbeeldopdruk)"></div><h4>Luifel</h4><ul><li>print-wordmark.svg, 1 kleur Zand (sublimatie of zeefdruk).</li><li>Luifel 21 cm: woordmerk 11,3 cm hoog, 34 cm breed (11% van 3 m).</li><li>Op alle vier zijden, gecentreerd. Groter: luifel-lock-up op dak of zijwand.</li></ul></div>
+    <div class="app"><div class="shot"><img src="img/statafelrok-stretch-zwart-print-hero.webp" alt="Zwarte stretch statafelrok met het Klapklaar-beeldmerk (voorbeeldopdruk)"></div><h4>Statafelrok</h4><ul><li>print-mark.svg (k onder de tent), 1 kleur Zand op zwart of Inkt.</li><li>15 cm breed op Ø 80, hart op 27 cm boven de vloer, op het vlakste deel: halverwege een voet en het midden van het paneel. Niet op een voet of in de plooi ertussen: daar knikt de stretch het beeld (getest in de render).</li><li>Borduren of flock onder 20 mm: mark-klein.</li></ul></div>
     <div class="app">
-      <div class="shot" style="background:var(--wit);padding:18px 14px">
-        <svg viewBox="0 0 400 240" style="width:100%;display:block" role="img" aria-label="Zijaanzicht bestelbus met luifel-lock-up, maatvoering">
-          <path d="M18 196V80q0-14 14-14h232l44 46h52q22 0 22 22v62z" fill="#FFFFFF" stroke="#1D2420" stroke-width="2"/>
-          <path d="M268 72h-4v46h96l-40-46z" fill="#E7E8E4" stroke="#1D2420" stroke-width="1.5"/>
-          <path d="M18 168h364" stroke="#1D2420" stroke-width="1" stroke-dasharray="3 3"/>
-          <rect x="18" y="168" width="364" height="28" fill="#BE3A1D"/>
-          <image href="svg/logo-luifel.svg" x="40" y="88" width="210" height="72"/>
-          <circle cx="92" cy="200" r="22" fill="#1D2420"/><circle cx="92" cy="200" r="9" fill="#C9C9C4"/><circle cx="318" cy="200" r="22" fill="#1D2420"/><circle cx="318" cy="200" r="9" fill="#C9C9C4"/>
-          <path d="M40 76h210" stroke="#9A2F17" stroke-width="1"/><path d="M40 72v8M250 72v8" stroke="#9A2F17" stroke-width="1"/>
+      <div class="plan"><span class="lbl">Plaatsingsschema · geen productbeeld</span>
+        <svg viewBox="0 0 400 236" style="width:100%;display:block;margin-top:24px" role="img" aria-label="Zijaanzicht bestelbus, maatlijnen voor logo en plint">
+          <g fill="none" stroke="#1D2420" stroke-width="1.3" stroke-linejoin="round">
+            <path d="M20 190V78q0-12 12-12h226l46 46h52q22 0 22 22v56z"/><path d="M262 70v44h92"/><path d="M262 114v76" stroke-dasharray="4 3"/>
+            <circle cx="92" cy="194" r="21"/><circle cx="92" cy="194" r="8"/><circle cx="320" cy="194" r="21"/><circle cx="320" cy="194" r="8"/>
+          </g>
+          <rect x="20" y="164" width="358" height="22" fill="#C83812"/>
+          <image href="svg/logo-luifel.svg" x="42" y="86" width="196" height="69"/>
+          <g stroke="#982A0E" stroke-width="1" fill="none"><path d="M42 80h196M42 76v8M238 76v8"/><path d="M248 86v69M244 86h8M244 155h8"/><path d="M386 164v22M382 164h8M382 186h8"/></g>
+          <g font-family="Figtree" font-weight="800" font-size="9" fill="#982A0E"><text x="140" y="74" text-anchor="middle">≈ 55% van de laadruimte</text><text x="254" y="124">⅓ h</text><text x="368" y="160" text-anchor="end">plint 15–20 cm</text></g>
         </svg>
       </div>
-      <h4>Bestelbus</h4><ul><li>svg/logo-luifel.svg op de zijkant, hoogte logo ≈ 1/3 van de laadruimte.</li><li>Klaproos plint als luifelband, 15–20 cm.</li><li>Achterdeuren: beeldmerk + telefoonnummer, verder niets.</li></ul></div>
+      <h4>Bestelbus</h4><ul><li>svg/logo-luifel.svg op de zijkant, hoogte ≈ 1/3 van de laadruimte; folie Oracal 651-047 of de afgetekende kleur (§04).</li><li>Klaproos-plint als luifelband, 15–20 cm.</li><li>Achterdeuren: beeldmerk + telefoonnummer, verder niets.</li></ul></div>
+  </div>
+</div></section>
+
+<!-- ============================================================== ICONS + MOTIF -->
+<section><div class="wrap">
+  <div class="sh"><div><div class="no">11</div><h2>Iconen en het vlaggetje</h2></div><p>Lijniconen op een raster van 24 px, lijn 2 px, ronde hoeken, currentColor. Alleen het vlaggetje mag Zon zijn. Geen gevulde of meerkleurige iconen, geen emoji. Een icoon staat altijd naast tekst of heeft een aria-label.</p></div>
+  <div class="card">
+    <div class="icons">
+      <div><svg><use href="#i-truck"/></svg>Levering</div><div><svg><use href="#i-invoice"/></svg>Factuur</div><div><svg><use href="#i-chat"/></svg>App ons</div><div><svg><use href="#i-ruler"/></svg>Maatgids</div><div><svg><use href="#i-upload"/></svg>Logo</div><div><svg><use href="#i-proof"/></svg>Drukproef</div><div><svg><use href="#i-peg"/></svg>Haring</div>
+      <div><svg><use href="#i-wind"/></svg>Wind</div><div><svg><use href="#i-tent"/></svg>Tent</div><div><svg><use href="#i-table"/></svg>Statafel</div><div><svg><use href="#i-bulb"/></svg>Verlichting</div><div><svg><use href="#i-case"/></svg>Zakelijk</div><div><svg><use href="#i-cart"/></svg>Winkelwagen</div><div><svg><use href="#i-search"/></svg>Zoeken</div>
+      <div><svg><use href="#i-user"/></svg>Account</div><div><svg><use href="#i-plus"/></svg>Meer</div><div><svg><use href="#i-min"/></svg>Minder</div><div><svg><use href="#i-check"/></svg>Klaar</div><div><svg><use href="#i-info"/></svg>Info</div><div><svg><use href="#i-alert"/></svg>Let op</div><div><svg><use href="#i-clock"/></svg>Levertijd</div>
+    </div>
+    <p class="cap">21 iconen, allemaal als &lt;symbol&gt; in deze pagina: over te nemen als snippet icon-sprite.liquid. Plus het vlaggetje (i-flag), het enige tweekleurige teken.</p>
   </div>
   <div class="grid g2" style="margin-top:24px;align-items:start">
     <div class="card">
       <div class="eyebrow" style="margin-bottom:12px">Vlaggetje als motief</div>
       <div class="bunt"></div>
       <div style="display:flex;gap:28px;align-items:center;margin-top:18px;flex-wrap:wrap">
-        <img src="svg/pennant.svg" alt="" style="height:48px">
+        <img src="svg/pennant.svg" alt="" style="height:52px">
         <span style="display:flex;gap:8px;align-items:center;font-weight:600"><svg width="18" height="18"><use href="#i-flag"/></svg>Opsommingsteken</span>
         <span class="b logo"><svg width="12" height="12"><use href="#i-flag"/></svg>Met jouw logo</span>
       </div>
-      <p class="cap">De vlaggenlijn (svg/vlaggenlijn.svg) is de sectiescheider bij feestelijke momenten: home, actie, bevestiging. Niet in Zakelijk, offerte of checkout.</p>
+      <p class="cap">De vlaggenlijn (svg/vlaggenlijn.svg) scheidt secties op feestelijke momenten: home, actie, bestelbevestiging. Niet in Zakelijk, offerte, checkout of bij foutmeldingen.</p>
     </div>
     <div class="card">
-      <div class="eyebrow" style="margin-bottom:12px">Iconen · 24 px raster · 2 px lijn · currentColor</div>
-      <div class="icons">
-        <div><svg><use href="#i-truck"/></svg>Levering</div><div><svg><use href="#i-invoice"/></svg>Factuur</div><div><svg><use href="#i-chat"/></svg>App ons</div>
-        <div><svg><use href="#i-ruler"/></svg>Maatgids</div><div><svg><use href="#i-upload"/></svg>Logo</div><div><svg><use href="#i-proof"/></svg>Drukproef</div>
-        <div><svg><use href="#i-peg"/></svg>Haring</div><div><svg><use href="#i-wind"/></svg>Wind</div><div><svg><use href="#i-tent"/></svg>Tent</div>
+      <div class="eyebrow" style="margin-bottom:12px">Iconen op ware grootte</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;font:600 14px var(--b)">
+        <span style="display:flex;gap:8px;align-items:center"><svg width="20" height="20"><use href="#i-truck"/></svg>Snel in huis</span>
+        <span style="display:flex;gap:8px;align-items:center"><svg width="20" height="20"><use href="#i-peg"/></svg>8 haringen erbij</span>
+        <span style="display:flex;gap:8px;align-items:center"><svg width="20" height="20"><use href="#i-proof"/></svg>Eerst een drukproef</span>
+        <span style="display:flex;gap:8px;align-items:center"><svg width="20" height="20"><use href="#i-chat"/></svg>App ons</span>
       </div>
-      <p class="cap">Lijnicoon, platte uiteinden, ronde hoeken. Alleen het vlaggetje mag Zon zijn. Geen gevulde of meerkleurige iconen, geen emoji.</p>
+      <p class="cap">20 px met lijn 1,75 px naast labels van 14–15 px; 24 px met lijn 2 px in de header.</p>
     </div>
   </div>
 </div></section>
 
 <!-- ============================================================== VOICE -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">10</div><h2>Zo klinken we</h2></div><p>Alsof je de buurman helpt een tent op te zetten. Je/jij, antwoord eerst, concreet, hooguit één knipoog per scherm. Zakelijk en juridisch: zakelijk en volledig.</p></div>
+  <div class="sh"><div><div class="no">12</div><h2>Zo klinken we</h2></div><p>Alsof je de buurman helpt een tent op te zetten. Je/jij, antwoord eerst, concreet, hooguit één knipoog per scherm. Zakelijk en juridisch: volledig en zonder knipoog.</p></div>
   <div class="grid g3">
     <div class="say"><div class="where">Hero</div><p><b>Uitklappen. Neerzetten. Feest.</b>Easy-up tenten, statafels met rokken, verlichting en meubilair. Voor je tuinfeest, je club of je evenement.</p></div>
     <div class="say"><div class="where">Productkaart</div><p><b>Easy-up partytent 3 × 3 m Premium</b>40 mm staal · 320 g/m² dakdoek · Op voorraad</p></div>
@@ -681,24 +885,24 @@ td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
     <div class="w">Dakdoek van 320 g/m² polyester.</div><div class="n">Onverwoestbare topkwaliteit!</div>
     <div class="w">Deze rok past op statafels van Ø 70–85 cm.</div><div class="n">Universele pasvorm voor elke tafel.</div>
     <div class="w">Kies je maat, wij doen de rest.</div><div class="n">Ontdek ons ongeëvenaarde assortiment!!</div>
-    <div class="w">Staat in een paar minuten, met twee man.</div><div class="n">Klapt in één klap in elkaar. (Nooit "klap" bij wind, storm of stevigheid.)</div>
+    <div class="w">Staat in een paar minuten, met twee man.</div><div class="n">Klapt in één klap in elkaar. (Nooit ‘klap’ bij wind, storm of stevigheid.)</div>
     <div class="w" style="border:0">Prijs excl. btw: € 263,64.</div><div class="n" style="border:0">Nr. 1 van Nederland · 4,9 sterren · 10.000 tevreden klanten</div>
   </div>
 </div></section>
 
 <!-- ============================================================== NAME / LEGAL -->
 <section><div class="wrap">
-  <div class="sh"><div><div class="no">11</div><h2>Naam en bescherming</h2></div><p>De naam is nog niet getoetst. Doe dat vóór je iets registreert of laat drukken. Het beeldmerk is waarschijnlijk het sterkste beschermbare deel.</p></div>
+  <div class="sh"><div><div class="no">13</div><h2>Naam en bescherming</h2></div><p>De naam is nog steeds niet getoetst: ook in deze ronde was het zoekbudget op. Doe de toets vóór je iets registreert, bestelt of laat drukken. Deponeer eerst het beeldmerk en het complete logo.</p></div>
   <div class="grid g3">
-    <div class="legal"><span class="tag-warn"><svg width="14" height="14"><use href="#i-alert"/></svg>Niet gedaan</span><h4 style="margin-top:12px">Naamtoets vóór gebruik</h4><ul><li>KvK Handelsregister: handelsnaam "Klapklaar" en varianten.</li><li>BOIP en EUIPO (TMview): woordmerk KLAPKLAAR, klassen 11, 20, 22, 24, 35.</li><li>SIDN (klapklaar.nl), DNS Belgium (.be), plus .com en .eu.</li><li>Web, Instagram, bol.com: "klapklaar" alleen en met partytent/statafel.</li></ul></div>
-    <div class="legal"><h4>Wat deponeren</h4><ul><li>1. Het beeldmerk (aa onder de tent met vlaggetje), als beeldmerk.</li><li>2. Het complete logo als gecombineerd woord-/beeldmerk.</li><li>3. Het woordmerk alleen: kans op weigering als beschrijvend ("klaar door uitklappen") voor tenten en klaptafels. Laat een merkenadviseur dit inschatten.</li><li>Typo-domeinen: klapklar.nl, klap-klaar.nl, klapklaar.be (beschikbaarheid niet gecontroleerd).</li></ul></div>
-    <div class="legal"><h4>Reservenamen (ook niet getoetst)</h4><ul><li><b>Staklaar</b>: sta(tafel) + klaar, "staat klaar".</li><li><b>Tentklaar</b>: direct, minder onderscheidend.</li></ul><h4 style="margin-top:16px">Onderscheid van Outmate en Statafelshop</h4><ul><li>Naam, logo en kleuren zijn eigen werk.</li><li>Hun huisstijlkleuren zijn niet beschikbaar in het dossier en konden niet opgezocht worden: visuele vergelijking is nog niet gedaan.</li></ul></div>
+    <div class="legal"><span class="tag-warn"><svg width="14" height="14"><use href="#i-alert"/></svg>Niet gedaan</span><h4 style="margin-top:12px">Naamtoets vóór gebruik</h4><ul><li>KvK Handelsregister: handelsnaam ‘Klapklaar’ en varianten.</li><li>BOIP en EUIPO (TMview): KLAPKLAAR in klassen 11, 20, 22, 24, 35, als woord- én beeldmerk.</li><li>SIDN (klapklaar.nl), DNS Belgium (.be), plus .com en .eu.</li><li>Web, Instagram, bol.com, Marktplaats: ‘klapklaar’ alleen en met partytent/statafel.</li><li>Visueel: logo’s van Nederlandse tentverhuurders met een dak boven de letters.</li></ul></div>
+    <div class="legal"><h4>Wat deponeren (volgorde)</h4><ul><li>1. Het beeldmerk: de k onder de tent met vlag (mark.svg).</li><li>2. Het complete logo als gecombineerd woord-/beeldmerk.</li><li>3. Het woordmerk alleen: voor tenten (22) en klaptafels (20) mogelijk beschrijvend (‘klaar door uitklappen’). Laat een merkenadviseur dit inschatten.</li><li>Typo-domeinen: klapklar.nl, klap-klaar.nl (niet gecontroleerd).</li></ul></div>
+    <div class="legal"><h4>Reservenamen (niet getoetst)</h4><ul><li><b>Staklaar</b>: sta(tafel) + klaar, ‘staat klaar’.</li><li><b>Tentklaar</b>: direct, minder onderscheidend.</li></ul><h4 style="margin-top:16px">Onderscheid van Outmate en Statafelshop</h4><ul><li>Naam, letters, beeldmerk en kleuren zijn eigen werk.</li><li>Hun huisstijl staat niet in het dossier en kon niet opgezocht worden: een visuele vergelijking is nog niet gedaan.</li></ul></div>
   </div>
 </div></section>
 
 <footer class="foot"><div class="wrap" style="display:flex;justify-content:space-between;align-items:flex-end;gap:40px">
-  <div><img src="logo-inverse.svg" alt="Klapklaar" style="width:260px;display:block;margin-bottom:18px"><div style="font-size:14.5px;max-width:560px;opacity:.95">Merkboek v2. Bronbestanden: brand/tools (kk.py tekent elke letter, build.py schrijft de SVG's, tokens.py schrijft tokens.json en de contrasttabel). Productbeelden: renders/ (three.js), geen foto's.</div></div>
-  <div style="font:600 13px var(--b);opacity:.9;text-align:right">Fonts: Archivo en Figtree (SIL OFL 1.1)<br>Voorbeeldprijzen en claims: zie docs/claims-to-confirm.md</div>
+  <div><img src="logo-inverse.svg" alt="Klapklaar" style="width:260px;display:block;margin-bottom:18px"><div style="font-size:14.5px;max-width:600px;opacity:.95">Merkboek v3. Bronbestanden in brand/tools: kk.py tekent elke letter, build.py schrijft de SVG's en de minimummaten, color3.py de reproductiereferenties, tokens.py tokens.json en de contrasttabel. Productbeelden: renders/ (three.js), geen foto's.</div></div>
+  <div style="font:600 13px var(--b);opacity:.92;text-align:right">Fonts: Mona Sans en Figtree (SIL OFL 1.1)<br>Voorbeeldprijzen en claims: docs/claims-to-confirm.md</div>
 </div></footer>
 </body>
 </html>

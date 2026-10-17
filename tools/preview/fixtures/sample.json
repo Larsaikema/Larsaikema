@@ -1190,6 +1190,1270 @@
           "alt": "Partytent met eigen logo op de valance"
         }
       ]
+    },
+    {
+      "handle": "partytent-easy-up-premium",
+      "title": "Easy-up partytent Premium",
+      "vendor": "Klapklaar",
+      "product_type": "Partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "premium",
+        "badge:actie",
+        "gebruik:tuinfeest",
+        "gebruik:markt"
+      ],
+      "created_at": "2026-09-01T10:00:00+02:00",
+      "published_at": "2026-09-01T10:00:00+02:00",
+      "body_html": "<p>De Premium is de easy-up voor wie hem vaak gebruikt: tuinfeest, markt, sportdag. Het stalen frame met 40 mm hexagonpoten klapt in één beweging uit, het dak van 320 g/m² polyester gaat er in een paar minuten overheen.</p><p>Kies je maat en kleur. Zijwanden, gewichten en een regengoot bestel je los erbij, zodat je alleen koopt wat je nodig hebt.</p><h3>Zo staat hij stevig</h3><p>Zet elke poot vast met een haring of een voetgewicht. Op tegels of asfalt gebruik je gewichten van minimaal 10 kg per poot.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Klaproos"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        },
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3 x 3 m"
+            },
+            {
+              "name": "3 x 4,5 m"
+            },
+            {
+              "name": "3 x 6 m"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUP-KLAPRO-3X3M",
+          "price": 31900,
+          "compare_at_price": 34900,
+          "inventory_quantity": 14,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-hero.webp",
+          "option1": "Klaproos",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUP-KLAPRO-3X45M",
+          "price": 39900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-hero.webp",
+          "option1": "Klaproos",
+          "option2": "3 x 4,5 m"
+        },
+        {
+          "sku": "KK-EUP-KLAPRO-3X6M",
+          "price": 45900,
+          "compare_at_price": null,
+          "inventory_quantity": 8,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x6-klaproos-hero.webp",
+          "option1": "Klaproos",
+          "option2": "3 x 6 m"
+        },
+        {
+          "sku": "KK-EUP-WIT-3X3M",
+          "price": 31900,
+          "compare_at_price": 34900,
+          "inventory_quantity": 22,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-hero.webp",
+          "option1": "Wit",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUP-WIT-3X45M",
+          "price": 39900,
+          "compare_at_price": null,
+          "inventory_quantity": 8,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-hero.webp",
+          "option1": "Wit",
+          "option2": "3 x 4,5 m"
+        },
+        {
+          "sku": "KK-EUP-WIT-3X6M",
+          "price": 45900,
+          "compare_at_price": null,
+          "inventory_quantity": 8,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-hero.webp",
+          "option1": "Wit",
+          "option2": "3 x 6 m"
+        },
+        {
+          "sku": "KK-EUP-ZWART-3X3M",
+          "price": 31900,
+          "compare_at_price": 34900,
+          "inventory_quantity": 3,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-zwart-hero.webp",
+          "option1": "Zwart",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUP-ZWART-3X45M",
+          "price": 39900,
+          "compare_at_price": null,
+          "inventory_quantity": 8,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-zwart-hero.webp",
+          "option1": "Zwart",
+          "option2": "3 x 4,5 m"
+        },
+        {
+          "sku": "KK-EUP-ZWART-3X6M",
+          "price": 45900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x6-zwart-zijwanden-hero.webp",
+          "option1": "Zwart",
+          "option2": "3 x 6 m"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-klaproos-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m Klaproos, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-klaproos-front.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m Klaproos, vooraanzicht"
+        },
+        {
+          "src": "tent-3x6-klaproos-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 6 m Klaproos, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m Wit, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-front.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m Wit, vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-detail.webp",
+          "alt": "Hoekstuk en schaarframe van de easy-up Premium, detail"
+        },
+        {
+          "src": "tent-3x3-zwart-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 3 m Zwart, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x6-zwart-zijwanden-hero.webp",
+          "alt": "Easy-up partytent Premium 3 × 6 m Zwart met zijwanden (los verkrijgbaar)"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "40 mm staal · 320 g/m² dakdoek · 5 standen"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Staat in een paar minuten, met twee man\", \"Dakdoek 320 g/m² polyester, PVC-gecoat\", \"Draagtas met wielen, haringen en scheerlijnen erbij\", \"Zijwanden los te bestellen\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Frame\", \"label\": \"Materiaal\", \"waarde\": \"Staal, gepoedercoat\"}, {\"groep\": \"Frame\", \"label\": \"Buisprofiel poten\", \"waarde\": \"40 mm hexagon\"}, {\"groep\": \"Frame\", \"label\": \"Hoogtestanden\", \"waarde\": \"5\"}, {\"groep\": \"Frame\", \"label\": \"Doorloophoogte\", \"waarde\": \"195–215 cm\"}, {\"groep\": \"Dak\", \"label\": \"Materiaal\", \"waarde\": \"Polyester 320 g/m², PVC-gecoat\"}, {\"groep\": \"Dak\", \"label\": \"Naden\", \"waarde\": \"Getaped\"}, {\"groep\": \"Dak\", \"label\": \"Luifel\", \"waarde\": \"Rondom, 20 cm\"}, {\"groep\": \"Gewicht en verpakking\", \"label\": \"Gewicht 3 × 3 m\", \"waarde\": \"28 kg\"}, {\"groep\": \"Gewicht en verpakking\", \"label\": \"Verpakt in\", \"waarde\": \"Draagtas met wielen\"}, {\"groep\": \"In de doos\", \"label\": \"Meegeleverd\", \"waarde\": \"Frame, dak, draagtas, 4 haringen, 4 scheerlijnen\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 5, \"korting\": 5}, {\"vanaf\": 10, \"korting\": 8}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "addons",
+          "type": "list.product_reference",
+          "value": "[\"gewichten-set-4x10kg\", \"zijwand-3m\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "verzending",
+          "type": "single_line_text_field",
+          "value": "pakket"
+        },
+        {
+          "namespace": "custom",
+          "key": "bedrukbaar",
+          "type": "boolean",
+          "value": "false"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Kan ik de tent alleen opzetten?\", \"antwoord\": \"Het kan, maar met twee man staat hij het snelst en het veiligst: ieder aan een kant, frame uittrekken, dak erover, poten op hoogte.\"}, {\"vraag\": \"Hoe zet ik de tent vast?\", \"antwoord\": \"Zet elke poot vast met een haring of een voetgewicht. Op verharde grond gebruik je gewichten van minimaal 10 kg per poot. Bij harde wind haal je het dak eraf.\"}, {\"vraag\": \"Passen de zijwanden van andere merken?\", \"antwoord\": \"Onze zijwanden zijn gemaakt voor dit frame. Andere merken hebben vaak andere maten en bevestigingen; vraag het ons even als je twijfelt.\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "vergelijk_groep",
+          "type": "single_line_text_field",
+          "value": "easy-up"
+        },
+        {
+          "namespace": "custom",
+          "key": "gewicht_kg",
+          "type": "number_decimal",
+          "value": "28.0"
+        },
+        {
+          "namespace": "custom",
+          "key": "verpakt",
+          "type": "single_line_text_field",
+          "value": "155 × 32 × 32 cm"
+        },
+        {
+          "namespace": "custom",
+          "key": "garantie",
+          "type": "single_line_text_field",
+          "value": "2 jaar op het frame"
+        }
+      ]
+    },
+    {
+      "handle": "partytent-easy-up-professional",
+      "title": "Easy-up partytent Professional",
+      "vendor": "Klapklaar",
+      "product_type": "Partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "professional",
+        "zakelijk",
+        "pallet",
+        "gebruik:evenement",
+        "gebruik:markt",
+        "gebruik:horeca"
+      ],
+      "created_at": "2026-08-20T10:00:00+02:00",
+      "published_at": "2026-08-20T10:00:00+02:00",
+      "body_html": "<p>De Professional is gemaakt voor wekelijks gebruik: markten, evenementen, verhuur. Aluminium frame met 50 mm hexagonpoten, dak van 520 g/m² PVC. Lichter dan staal en hij roest niet.</p><p>Grote maten gaan per pallet en leveren we op afspraak.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Rood"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        },
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3 x 3 m"
+            },
+            {
+              "name": "3 x 6 m"
+            },
+            {
+              "name": "4 x 4 m"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUPRO-ROOD-3X3M",
+          "price": 54900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-rood-professional-gewichten-hero.webp",
+          "option1": "Rood",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUPRO-ROOD-3X6M",
+          "price": 79900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-rood-professional-gewichten-hero.webp",
+          "option1": "Rood",
+          "option2": "3 x 6 m"
+        },
+        {
+          "sku": "KK-EUPRO-ROOD-4X4M",
+          "price": 74900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-rood-professional-gewichten-hero.webp",
+          "option1": "Rood",
+          "option2": "4 x 4 m"
+        },
+        {
+          "sku": "KK-EUPRO-WIT-3X3M",
+          "price": 54900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-professional-hero.webp",
+          "option1": "Wit",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUPRO-WIT-3X6M",
+          "price": 79900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-professional-hero.webp",
+          "option1": "Wit",
+          "option2": "3 x 6 m"
+        },
+        {
+          "sku": "KK-EUPRO-WIT-4X4M",
+          "price": 74900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-wit-professional-hero.webp",
+          "option1": "Wit",
+          "option2": "4 x 4 m"
+        },
+        {
+          "sku": "KK-EUPRO-ZWART-3X3M",
+          "price": 54900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-4x4-zwart-professional-hero.webp",
+          "option1": "Zwart",
+          "option2": "3 x 3 m"
+        },
+        {
+          "sku": "KK-EUPRO-ZWART-3X6M",
+          "price": 79900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-4x4-zwart-professional-hero.webp",
+          "option1": "Zwart",
+          "option2": "3 x 6 m"
+        },
+        {
+          "sku": "KK-EUPRO-ZWART-4X4M",
+          "price": 74900,
+          "compare_at_price": null,
+          "inventory_quantity": 6,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 38,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-4x4-zwart-professional-hero.webp",
+          "option1": "Zwart",
+          "option2": "4 x 4 m"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-rood-professional-gewichten-hero.webp",
+          "alt": "Easy-up partytent Professional 3 × 3 m Rood met voetgewichten, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-3x3-wit-professional-hero.webp",
+          "alt": "Easy-up partytent Professional 3 × 3 m Wit, schuin vooraanzicht"
+        },
+        {
+          "src": "tent-4x4-zwart-professional-hero.webp",
+          "alt": "Easy-up partytent Professional 4 × 4 m Zwart, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "50 mm aluminium · 520 g/m² PVC · brandvertragend"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Aluminium frame: licht en roestvrij\", \"PVC-dak van 520 g/m²\", \"Gemaakt voor wekelijks gebruik\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Frame\", \"label\": \"Materiaal\", \"waarde\": \"Aluminium, geanodiseerd\"}, {\"groep\": \"Frame\", \"label\": \"Buisprofiel poten\", \"waarde\": \"50 mm hexagon\"}, {\"groep\": \"Frame\", \"label\": \"Hoogtestanden\", \"waarde\": \"5\"}, {\"groep\": \"Dak\", \"label\": \"Materiaal\", \"waarde\": \"PVC 520 g/m²\"}, {\"groep\": \"Dak\", \"label\": \"Brandvertragend\", \"waarde\": \"Ja, volgens opgave leverancier (certificaat op aanvraag)\"}, {\"groep\": \"Gewicht en verpakking\", \"label\": \"Gewicht 3 × 3 m\", \"waarde\": \"38 kg\"}, {\"groep\": \"Gewicht en verpakking\", \"label\": \"Verzending\", \"waarde\": \"Per pallet, op afspraak\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 10, \"korting\": 5}, {\"vanaf\": 25, \"korting\": 10}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "addons",
+          "type": "list.product_reference",
+          "value": "[\"gewichten-set-4x10kg\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "verzending",
+          "type": "single_line_text_field",
+          "value": "pallet"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Hoe zet ik de tent vast?\", \"antwoord\": \"Zet elke poot vast met een haring of een voetgewicht. Op verharde grond gebruik je gewichten van minimaal 10 kg per poot. Bij harde wind haal je het dak eraf.\"}, {\"vraag\": \"Passen de zijwanden van andere merken?\", \"antwoord\": \"Onze zijwanden zijn gemaakt voor dit frame. Andere merken hebben vaak andere maten en bevestigingen; vraag het ons even als je twijfelt.\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "vergelijk_groep",
+          "type": "single_line_text_field",
+          "value": "easy-up"
+        },
+        {
+          "namespace": "custom",
+          "key": "garantie",
+          "type": "single_line_text_field",
+          "value": "2 jaar op het frame"
+        }
+      ]
+    },
+    {
+      "handle": "partytent-met-logo",
+      "title": "Bedrukte easy-up partytent 3 × 3 m",
+      "vendor": "Klapklaar",
+      "product_type": "Bedrukte partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "bedrukbaar",
+        "zakelijk",
+        "badge:nieuw",
+        "gebruik:evenement"
+      ],
+      "created_at": "2026-10-01T10:00:00+02:00",
+      "published_at": "2026-10-01T10:00:00+02:00",
+      "body_html": "<p>Jouw naam op de luifel, of je logo op het dak. Je uploadt je logo, wij maken een drukproef en pas na jouw akkoord gaat hij in productie.</p><p>Frame en dak zijn gelijk aan de easy-up Premium 3 × 3 m.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Klaproos"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        },
+        {
+          "name": "Bedrukking",
+          "values": [
+            {
+              "name": "Luifel rondom"
+            },
+            {
+              "name": "Luifel + dak"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-EUPLOGO-KLAPRO-LUIFEL",
+          "price": 64900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Klaproos",
+          "option2": "Luifel rondom"
+        },
+        {
+          "sku": "KK-EUPLOGO-KLAPRO-LUIFEL",
+          "price": 89900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Klaproos",
+          "option2": "Luifel + dak"
+        },
+        {
+          "sku": "KK-EUPLOGO-WIT-LUIFEL",
+          "price": 64900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Wit",
+          "option2": "Luifel rondom"
+        },
+        {
+          "sku": "KK-EUPLOGO-WIT-LUIFEL",
+          "price": 89900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Wit",
+          "option2": "Luifel + dak"
+        },
+        {
+          "sku": "KK-EUPLOGO-ZWART-LUIFEL",
+          "price": 64900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Zwart",
+          "option2": "Luifel rondom"
+        },
+        {
+          "sku": "KK-EUPLOGO-ZWART-LUIFEL",
+          "price": 89900,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 28,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "tent-3x3-klaproos-logo-hero.webp",
+          "option1": "Zwart",
+          "option2": "Luifel + dak"
+        }
+      ],
+      "images": [
+        {
+          "src": "tent-3x3-klaproos-logo-hero.webp",
+          "alt": "Easy-up partytent 3 × 3 m Klaproos met voorbeeldopdruk Klapklaar op de luifel"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "Jouw logo op de luifel · drukproef vooraf"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Eerst een drukproef, dan pas drukken\", \"Logo op de luifel of op het dak\", \"Frame gelijk aan de Premium 3 × 3 m\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Frame\", \"label\": \"Materiaal\", \"waarde\": \"Staal, gepoedercoat\"}, {\"groep\": \"Frame\", \"label\": \"Buisprofiel poten\", \"waarde\": \"40 mm hexagon\"}, {\"groep\": \"Frame\", \"label\": \"Hoogtestanden\", \"waarde\": \"5\"}, {\"groep\": \"Frame\", \"label\": \"Doorloophoogte\", \"waarde\": \"195–215 cm\"}, {\"groep\": \"Dak\", \"label\": \"Materiaal\", \"waarde\": \"Polyester 320 g/m², PVC-gecoat\"}, {\"groep\": \"Dak\", \"label\": \"Naden\", \"waarde\": \"Getaped\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 3, \"korting\": 5}, {\"vanaf\": 10, \"korting\": 10}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "levertijd",
+          "type": "single_line_text_field",
+          "value": "Levertijd 10–15 werkdagen na akkoord drukproef"
+        },
+        {
+          "namespace": "custom",
+          "key": "bedrukbaar",
+          "type": "boolean",
+          "value": "true"
+        },
+        {
+          "namespace": "custom",
+          "key": "drukopties",
+          "type": "json",
+          "value": "{\"posities\": [\"Luifel voorkant\", \"Luifel rondom\", \"Dak\"], \"aanlevering\": \"PDF, AI, EPS, SVG of PNG van minimaal 2000 px breed\", \"levertijd\": \"10–15 werkdagen na akkoord drukproef\", \"min_aantal\": 1}"
+        },
+        {
+          "namespace": "custom",
+          "key": "addons",
+          "type": "list.product_reference",
+          "value": "[\"gewichten-set-4x10kg\"]"
+        }
+      ]
+    },
+    {
+      "handle": "statafel-inklapbaar-80",
+      "title": "Statafel inklapbaar Ø 80 cm",
+      "vendor": "Klapklaar",
+      "product_type": "Statafel",
+      "tags": [
+        "statafel",
+        "zakelijk",
+        "gebruik:horeca",
+        "gebruik:evenement",
+        "gebruik:tuinfeest"
+      ],
+      "created_at": "2026-09-10T10:00:00+02:00",
+      "published_at": "2026-09-10T10:00:00+02:00",
+      "body_html": "<p>Een statafel die plat klapt en in elke auto past. Blad van Ø 80 cm berken, stevig zwart frame, 110 cm hoog. Met een stretch rok erover staat hij er netjes bij.</p>",
+      "variants": [
+        {
+          "sku": "KK-STA80",
+          "price": 4995,
+          "inventory_quantity": 120,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 9.5,
+          "weight_unit": "kg",
+          "image": "statafel-80-kaal-hero.webp"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafel-80-kaal-hero.webp",
+          "alt": "Statafel Ø 80 cm met berken blad en zwart frame, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-ingeklapt.webp",
+          "alt": "Statafel Ø 80 cm ingeklapt"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "Ø 80 cm · 110 cm hoog · klapt plat"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Klapt plat, past in elke auto\", \"Berken blad, zwart gepoedercoat frame\", \"Past onder elke Ø 80–85 cm statafelrok\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Afmetingen\", \"label\": \"Blad\", \"waarde\": \"Ø 80 cm\"}, {\"groep\": \"Afmetingen\", \"label\": \"Hoogte\", \"waarde\": \"110 cm\"}, {\"groep\": \"Afmetingen\", \"label\": \"Ingeklapt\", \"waarde\": \"80 × 110 × 9 cm\"}, {\"groep\": \"Materiaal\", \"label\": \"Blad\", \"waarde\": \"Berken multiplex, gelakt\"}, {\"groep\": \"Materiaal\", \"label\": \"Frame\", \"waarde\": \"Staal, zwart gepoedercoat\"}, {\"groep\": \"Gewicht\", \"label\": \"Gewicht\", \"waarde\": \"9,5 kg\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 10, \"korting\": 5}, {\"vanaf\": 25, \"korting\": 10}, {\"vanaf\": 50, \"korting\": 15}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "addons",
+          "type": "list.product_reference",
+          "value": "[\"statafelrok-stretch-o80\", \"statafelhoes-met-strik-80\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Hoeveel statafels heb ik nodig?\", \"antwoord\": \"Reken op één statafel per 6 tot 8 staande gasten. Bij een borrel waar mensen veel rondlopen kun je met minder toe.\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "gewicht_kg",
+          "type": "number_decimal",
+          "value": "9.5"
+        }
+      ]
+    },
+    {
+      "handle": "statafelrok-stretch-o80",
+      "title": "Statafelrok stretch Ø 80 cm",
+      "vendor": "Klapklaar",
+      "product_type": "Statafelrok",
+      "tags": [
+        "statafelrok",
+        "stretch",
+        "zakelijk",
+        "gebruik:horeca",
+        "gebruik:evenement"
+      ],
+      "created_at": "2026-09-12T10:00:00+02:00",
+      "published_at": "2026-09-12T10:00:00+02:00",
+      "body_html": "<p>Strak om de tafel, zonder strijken. Deze stretch rok trek je over een statafel van Ø 80–85 cm; de topcover sluit over het blad, de voet valt in vier banen naar de grond.</p><p>Wasbaar op 40 °C. Bestel je er tien of meer, dan krijg je staffelkorting.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Zwart"
+            },
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Antraciet"
+            },
+            {
+              "name": "Koningsblauw"
+            },
+            {
+              "name": "Rood"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-ROK80-ZWART",
+          "price": 2495,
+          "compare_at_price": null,
+          "inventory_quantity": 60,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-stretch-zwart-hero.webp",
+          "option1": "Zwart"
+        },
+        {
+          "sku": "KK-ROK80-WIT",
+          "price": 2495,
+          "compare_at_price": null,
+          "inventory_quantity": 60,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-stretch-wit-hero.webp",
+          "option1": "Wit"
+        },
+        {
+          "sku": "KK-ROK80-ANTRAC",
+          "price": 2495,
+          "compare_at_price": null,
+          "inventory_quantity": 60,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-stretch-antraciet-hero.webp",
+          "option1": "Antraciet"
+        },
+        {
+          "sku": "KK-ROK80-KONING",
+          "price": 2495,
+          "compare_at_price": null,
+          "inventory_quantity": 60,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-stretch-koningsblauw-hero.webp",
+          "option1": "Koningsblauw"
+        },
+        {
+          "sku": "KK-ROK80-ROOD",
+          "price": 2495,
+          "compare_at_price": null,
+          "inventory_quantity": 4,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-stretch-rood-hero.webp",
+          "option1": "Rood"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafel-80-stretch-zwart-hero.webp",
+          "alt": "Statafelrok stretch Ø 80 cm Zwart, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-stretch-wit-hero.webp",
+          "alt": "Statafelrok stretch Ø 80 cm Wit, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-stretch-antraciet-hero.webp",
+          "alt": "Statafelrok stretch Ø 80 cm Antraciet, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-stretch-koningsblauw-hero.webp",
+          "alt": "Statafelrok stretch Ø 80 cm Koningsblauw, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-stretch-rood-hero.webp",
+          "alt": "Statafelrok stretch Ø 80 cm Rood, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "Voor Ø 80–85 cm · 190 g/m² stretch · wasbaar"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Strak zonder strijken\", \"Topcover sluit over het blad\", \"Wasbaar op 40 °C\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Stof\", \"label\": \"Materiaal\", \"waarde\": \"90% polyester, 10% elastaan\"}, {\"groep\": \"Stof\", \"label\": \"Gewicht\", \"waarde\": \"190 g/m²\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelblad\", \"waarde\": \"Ø 80–85 cm\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelhoogte\", \"waarde\": \"105–115 cm\"}, {\"groep\": \"Pasvorm\", \"label\": \"Topcover\", \"waarde\": \"Ja, sluit over het blad\"}, {\"groep\": \"Onderhoud\", \"label\": \"Wassen\", \"waarde\": \"40 °C, niet in de droger\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 10, \"korting\": 5}, {\"vanaf\": 25, \"korting\": 10}, {\"vanaf\": 50, \"korting\": 15}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "past_op",
+          "type": "list.product_reference",
+          "value": "[\"statafel-inklapbaar-80\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "addons",
+          "type": "list.product_reference",
+          "value": "[\"statafel-inklapbaar-80\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Past deze rok op mijn statafel?\", \"antwoord\": \"Hij past op statafels met een blad van Ø 80 tot 85 cm en een hoogte van 105 tot 115 cm. Meet het blad van rand tot rand.\"}, {\"vraag\": \"Moet ik de rok strijken?\", \"antwoord\": \"Nee. Stretch trekt strak over de tafel, dus kreukels verdwijnen vanzelf.\"}]"
+        }
+      ]
+    },
+    {
+      "handle": "statafelhoes-met-strik-80",
+      "title": "Statafelhoes met strik Ø 80 cm",
+      "vendor": "Klapklaar",
+      "product_type": "Statafelhoes",
+      "tags": [
+        "statafelrok",
+        "statafelhoes",
+        "strik",
+        "badge:actie",
+        "gebruik:tuinfeest",
+        "gebruik:evenement"
+      ],
+      "created_at": "2026-09-14T10:00:00+02:00",
+      "published_at": "2026-09-14T10:00:00+02:00",
+      "body_html": "<p>Een hoes die tot de grond valt, met een strik op taillehoogte. Netjes voor bruiloft, receptie of jubileum.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit"
+            },
+            {
+              "name": "Zwart"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-STRIK80-WIT",
+          "price": 2995,
+          "compare_at_price": 3495,
+          "inventory_quantity": 40,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.7,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-strik-wit-hero.webp",
+          "option1": "Wit"
+        },
+        {
+          "sku": "KK-STRIK80-ZWART",
+          "price": 2995,
+          "compare_at_price": null,
+          "inventory_quantity": 40,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.7,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafel-80-strik-zwart-hero.webp",
+          "option1": "Zwart"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafel-80-strik-wit-hero.webp",
+          "alt": "Statafelhoes met strik Ø 80 cm Wit, schuin vooraanzicht"
+        },
+        {
+          "src": "statafel-80-strik-zwart-hero.webp",
+          "alt": "Statafelhoes met strik Ø 80 cm Zwart, schuin vooraanzicht"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "Voor Ø 80–85 cm · strik in dezelfde kleur"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Valt tot de grond\", \"Strik op taillehoogte\", \"Wasbaar op 40 °C\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Stof\", \"label\": \"Materiaal\", \"waarde\": \"90% polyester, 10% elastaan\"}, {\"groep\": \"Stof\", \"label\": \"Gewicht\", \"waarde\": \"190 g/m²\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelblad\", \"waarde\": \"Ø 80–85 cm\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelhoogte\", \"waarde\": \"105–115 cm\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 10, \"korting\": 5}, {\"vanaf\": 25, \"korting\": 10}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Past deze rok op mijn statafel?\", \"antwoord\": \"Hij past op statafels met een blad van Ø 80 tot 85 cm en een hoogte van 105 tot 115 cm. Meet het blad van rand tot rand.\"}]"
+        }
+      ]
+    },
+    {
+      "handle": "statafelrok-met-logo",
+      "title": "Statafelrok stretch met jouw logo",
+      "vendor": "Klapklaar",
+      "product_type": "Bedrukte statafelrok",
+      "tags": [
+        "statafelrok",
+        "bedrukbaar",
+        "zakelijk",
+        "gebruik:evenement",
+        "gebruik:horeca"
+      ],
+      "created_at": "2026-10-05T10:00:00+02:00",
+      "published_at": "2026-10-05T10:00:00+02:00",
+      "body_html": "<p>Je logo op het voorpaneel van een stretch statafelrok. Upload je logo, je krijgt eerst een drukproef. Pas na je akkoord gaan we drukken.</p>",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Zwart"
+            },
+            {
+              "name": "Wit"
+            }
+          ]
+        },
+        {
+          "name": "Opdruk",
+          "values": [
+            {
+              "name": "1 kant"
+            },
+            {
+              "name": "2 kanten"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KK-ROKLOGO-ZWART-1KANT",
+          "price": 3995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Zwart",
+          "option2": "1 kant"
+        },
+        {
+          "sku": "KK-ROKLOGO-ZWART-2KANTE",
+          "price": 4995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Zwart",
+          "option2": "2 kanten"
+        },
+        {
+          "sku": "KK-ROKLOGO-WIT-1KANT",
+          "price": 3995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Wit",
+          "option2": "1 kant"
+        },
+        {
+          "sku": "KK-ROKLOGO-WIT-2KANTE",
+          "price": 4995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "statafelrok-stretch-zwart-print-hero.webp",
+          "option1": "Wit",
+          "option2": "2 kanten"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafelrok-stretch-zwart-print-hero.webp",
+          "alt": "Statafelrok stretch Zwart met voorbeeldopdruk van het Klapklaar-beeldmerk op het voorpaneel"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "kenmerk_kort",
+          "type": "single_line_text_field",
+          "value": "Logo op het voorpaneel · drukproef vooraf"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"Eerst een drukproef, dan pas drukken\", \"Vanaf 10 stuks staffelprijs\", \"Voor statafels van Ø 80–85 cm\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "specificaties",
+          "type": "json",
+          "value": "[{\"groep\": \"Stof\", \"label\": \"Materiaal\", \"waarde\": \"90% polyester, 10% elastaan\"}, {\"groep\": \"Stof\", \"label\": \"Gewicht\", \"waarde\": \"190 g/m²\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelblad\", \"waarde\": \"Ø 80–85 cm\"}, {\"groep\": \"Pasvorm\", \"label\": \"Tafelhoogte\", \"waarde\": \"105–115 cm\"}, {\"groep\": \"Pasvorm\", \"label\": \"Topcover\", \"waarde\": \"Ja, sluit over het blad\"}, {\"groep\": \"Onderhoud\", \"label\": \"Wassen\", \"waarde\": \"40 °C, niet in de droger\"}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "staffelkorting",
+          "type": "json",
+          "value": "[{\"vanaf\": 10, \"korting\": 10}, {\"vanaf\": 25, \"korting\": 15}, {\"vanaf\": 50, \"korting\": 20}]"
+        },
+        {
+          "namespace": "custom",
+          "key": "levertijd",
+          "type": "single_line_text_field",
+          "value": "Levertijd 10–15 werkdagen na akkoord drukproef"
+        },
+        {
+          "namespace": "custom",
+          "key": "bedrukbaar",
+          "type": "boolean",
+          "value": "true"
+        },
+        {
+          "namespace": "custom",
+          "key": "drukopties",
+          "type": "json",
+          "value": "{\"posities\": [\"Voorkant\", \"Voor- en achterkant\", \"Topcover\"], \"aanlevering\": \"PDF, AI, EPS, SVG of PNG van minimaal 2000 px breed\", \"levertijd\": \"10–15 werkdagen na akkoord drukproef\", \"min_aantal\": 1}"
+        },
+        {
+          "namespace": "custom",
+          "key": "past_op",
+          "type": "list.product_reference",
+          "value": "[\"statafel-inklapbaar-80\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "faq",
+          "type": "json",
+          "value": "[{\"vraag\": \"Past deze rok op mijn statafel?\", \"antwoord\": \"Hij past op statafels met een blad van Ø 80 tot 85 cm en een hoogte van 105 tot 115 cm. Meet het blad van rand tot rand.\"}, {\"vraag\": \"Moet ik de rok strijken?\", \"antwoord\": \"Nee. Stretch trekt strak over de tafel, dus kreukels verdwijnen vanzelf.\"}]"
+        }
+      ]
     }
   ],
   "collections": [
@@ -1198,7 +2462,7 @@
       "title": "Partytenten",
       "body_html": "<p>Easy-up partytenten en stretchtenten voor elk feest en evenement.</p>",
       "image": {
-        "src": "banner-partytenten.png",
+        "src": "tent-3x3-klaproos-hero.webp",
         "alt": "Partytenten"
       },
       "sort_order": "best-selling",
@@ -1209,20 +2473,67 @@
           "condition": "tent"
         }
       ],
-      "disjunctive": false
+      "disjunctive": false,
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Easy-up, stretch of met jouw logo. Kies je maat, wij zorgen dat hij klaarstaat."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"3 × 3 tot 4 × 8 m\", \"Staal of aluminium\", \"Zijwanden en gewichten los erbij\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "seo_tekst",
+          "type": "rich_text_field",
+          "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Een partytent kopen: waar let je op?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Kijk eerst naar het frame: staal is zwaarder en goedkoper, aluminium is licht en roest niet. Daarna het dak: hoe hoger het gewicht in g/m², hoe steviger het doek.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Elke tent heeft gewichten of haringen nodig. Reken op minimaal 10 kg per poot op verharde grond.\"}]}]}"
+        },
+        {
+          "namespace": "custom",
+          "key": "subcollections",
+          "type": "list.collection_reference",
+          "value": "[\"easy-up-partytenten\", \"stretchtenten\", \"bedrukte-partytenten\", \"accessoires\"]"
+        }
+      ]
     },
     {
       "handle": "statafels",
       "title": "Statafels",
       "body_html": "<p>Inklapbare statafels in verschillende diameters.</p>",
       "image": {
-        "src": "banner-statafels.png",
+        "src": "statafel-80-kaal-hero.webp",
         "alt": "Statafels"
       },
       "sort_order": "manual",
       "products": [
         "statafel-o80",
-        "actiepakket-4-statafels-4-rokken"
+        "actiepakket-4-statafels-4-rokken",
+        "statafel-inklapbaar-80"
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Statafels die plat klappen, met rokken en hoezen in elke kleur."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"Klapt plat\", \"Ø 80 cm\", \"Staffelprijs vanaf 10 stuks\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "subcollections",
+          "type": "list.collection_reference",
+          "value": "[\"statafelrokken\", \"statafelhoezen-met-strik\", \"bedrukte-statafelhoezen\", \"actiepakketten\"]"
+        }
       ]
     },
     {
@@ -1230,8 +2541,8 @@
       "title": "Statafelrokken",
       "body_html": "<p>Stretch statafelrokken en rokken met strik in veel kleuren.</p>",
       "image": {
-        "src": "statafelrok-stretch-koningsblauw.png",
-        "alt": "Blauwe statafelrok"
+        "src": "statafel-80-stretch-zwart-hero.webp",
+        "alt": "Statafelrokken"
       },
       "sort_order": "price-asc",
       "rules": [
@@ -1239,6 +2550,26 @@
           "column": "tag",
           "relation": "equals",
           "condition": "statafelrok"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Stretch of met strik, voor statafels van Ø 70 tot 85 cm. Strak zonder strijken."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"Voor Ø 70–85 cm\", \"Wasbaar op 40 °C\", \"Staffelprijs vanaf 10 stuks\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "subcollections",
+          "type": "list.collection_reference",
+          "value": "[\"statafelhoezen-met-strik\", \"bedrukte-statafelhoezen\"]"
         }
       ]
     },
@@ -1263,7 +2594,15 @@
           "condition": "onderdelen"
         }
       ],
-      "disjunctive": true
+      "disjunctive": true,
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Zijwanden, gewichten, verlichting en alles wat je tent compleet maakt."
+        }
+      ]
     },
     {
       "handle": "aanbiedingen",
@@ -1276,6 +2615,220 @@
           "relation": "greater_than",
           "condition": "0"
         }
+      ]
+    },
+    {
+      "handle": "easy-up-partytenten",
+      "title": "Easy-up partytenten",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Uitklappen, dak erover, klaar. Easy-up tenten van 3 × 3 tot 4 × 8 m, met een stalen of aluminium frame."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"Staat in een paar minuten\", \"Staal of aluminium\", \"Zijwanden los erbij\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "seo_tekst",
+          "type": "rich_text_field",
+          "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Welke easy-up partytent past bij jou?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Gebruik je hem een paar keer per jaar in de tuin, dan is de Premium met stalen frame genoeg. Sta je elke week op de markt of verhuur je tenten, kies dan de Professional: aluminium, lichter en roestvrij.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Maat kiezen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een 3 × 3 m tent biedt ruimte aan ongeveer 8 staande gasten of 2 marktkramen. Met 3 × 6 m heb je plek voor een buffet en een paar statafels.\"}]}]}"
+        },
+        {
+          "namespace": "custom",
+          "key": "subcollections",
+          "type": "list.collection_reference",
+          "value": "[\"easy-up-premium\", \"easy-up-professional\", \"bedrukte-partytenten\"]"
+        }
+      ],
+      "products": [
+        "partytent-easy-up-premium",
+        "partytent-easy-up-professional",
+        "partytent-met-logo",
+        "easy-up-partytent-premium",
+        "easy-up-partytent-professional-3x6"
+      ],
+      "image": {
+        "src": "tent-3x3-klaproos-hero.webp",
+        "alt": "Easy-up partytenten"
+      }
+    },
+    {
+      "handle": "easy-up-premium",
+      "title": "Easy-up Premium",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Stalen frame met 40 mm poten en een dak van 320 g/m². Voor tuin, feest en markt."
+        }
+      ],
+      "products": [
+        "partytent-easy-up-premium",
+        "easy-up-partytent-premium"
+      ],
+      "image": {
+        "src": "tent-3x3-wit-hero.webp",
+        "alt": "Easy-up Premium"
+      }
+    },
+    {
+      "handle": "easy-up-professional",
+      "title": "Easy-up Professional",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Aluminium frame met 50 mm poten en een PVC-dak van 520 g/m². Voor wekelijks gebruik en verhuur."
+        }
+      ],
+      "products": [
+        "partytent-easy-up-professional",
+        "easy-up-partytent-professional-3x6"
+      ],
+      "image": {
+        "src": "tent-3x3-rood-professional-gewichten-hero.webp",
+        "alt": "Easy-up Professional"
+      }
+    },
+    {
+      "handle": "bedrukte-partytenten",
+      "title": "Bedrukte partytenten",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Jouw logo op de luifel of het dak. Eerst een drukproef, dan drukken we."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"Drukproef vooraf\", \"Vanaf 1 stuk\", \"Staffelprijs vanaf 3 stuks\"]"
+        }
+      ],
+      "products": [
+        "partytent-met-logo",
+        "bedrukte-partytent-3x3"
+      ],
+      "image": {
+        "src": "tent-3x3-klaproos-logo-hero.webp",
+        "alt": "Bedrukte partytenten"
+      }
+    },
+    {
+      "handle": "stretchtenten",
+      "title": "Stretchtenten",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Een vrije vorm die opvalt. Voor tuinfeesten, festivals en terrassen."
+        }
+      ],
+      "products": [
+        "stretchtent-10x15"
+      ]
+    },
+    {
+      "handle": "statafelhoezen-met-strik",
+      "title": "Statafelhoezen met strik",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Een hoes tot op de grond met een strik op taillehoogte. Voor bruiloft, receptie en jubileum."
+        }
+      ],
+      "products": [
+        "statafelhoes-met-strik-80",
+        "statafelrok-met-strik"
+      ],
+      "image": {
+        "src": "statafel-80-strik-wit-hero.webp",
+        "alt": "Statafelhoezen met strik"
+      }
+    },
+    {
+      "handle": "bedrukte-statafelhoezen",
+      "title": "Bedrukte statafelrokken",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Je logo op een stretch statafelrok. Eerst een drukproef, vanaf 10 stuks staffelprijs."
+        },
+        {
+          "namespace": "custom",
+          "key": "kenmerken",
+          "type": "list.single_line_text_field",
+          "value": "[\"Drukproef vooraf\", \"Staffelprijs vanaf 10 stuks\"]"
+        }
+      ],
+      "products": [
+        "statafelrok-met-logo"
+      ],
+      "image": {
+        "src": "statafelrok-stretch-zwart-print-hero.webp",
+        "alt": "Bedrukte statafelrokken"
+      }
+    },
+    {
+      "handle": "zakelijk",
+      "title": "Zakelijk",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Producten voor horeca, evenementen en verhuur. Prijzen ook excl. btw, staffels vanaf 10 stuks."
+        }
+      ],
+      "rules": [
+        {
+          "column": "tag",
+          "relation": "equals",
+          "condition": "zakelijk"
+        }
+      ],
+      "image": {
+        "src": "tent-3x3-rood-professional-gewichten-hero.webp",
+        "alt": "Zakelijk"
+      }
+    },
+    {
+      "handle": "actiepakketten",
+      "title": "Actiepakketten",
+      "sort_order": "manual",
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "intro",
+          "type": "multi_line_text_field",
+          "value": "Statafels en rokken in één keer, voordeliger dan los."
+        }
+      ],
+      "products": [
+        "actiepakket-4-statafels-4-rokken"
       ]
     }
   ],
@@ -1328,34 +2881,76 @@
           "items": [
             {
               "title": "Easy-up partytenten",
-              "url": "/collections/partytenten",
+              "type": "collection",
+              "handle": "easy-up-partytenten",
               "items": [
                 {
-                  "title": "Premium",
-                  "type": "product",
-                  "handle": "easy-up-partytent-premium"
+                  "title": "Easy-up Premium",
+                  "type": "collection",
+                  "handle": "easy-up-premium"
                 },
                 {
-                  "title": "Professional",
-                  "type": "product",
-                  "handle": "easy-up-partytent-professional-3x6"
+                  "title": "Easy-up Professional",
+                  "type": "collection",
+                  "handle": "easy-up-professional"
                 },
                 {
-                  "title": "Bedrukt met logo",
+                  "title": "Premium partytent",
                   "type": "product",
-                  "handle": "bedrukte-partytent-3x3"
+                  "handle": "partytent-easy-up-premium"
                 }
               ]
             },
             {
               "title": "Stretchtenten",
-              "type": "product",
-              "handle": "stretchtent-10x15"
+              "type": "collection",
+              "handle": "stretchtenten",
+              "items": [
+                {
+                  "title": "Stretchtent 10 × 15 m",
+                  "type": "product",
+                  "handle": "stretchtent-10x15"
+                }
+              ]
             },
             {
-              "title": "Zijwanden & onderdelen",
+              "title": "Met jouw logo",
               "type": "collection",
-              "handle": "accessoires"
+              "handle": "bedrukte-partytenten",
+              "items": [
+                {
+                  "title": "Bedrukte partytent 3 × 3 m",
+                  "type": "product",
+                  "handle": "partytent-met-logo"
+                },
+                {
+                  "title": "Zo werkt bedrukken",
+                  "type": "page",
+                  "handle": "bedrukken"
+                }
+              ]
+            },
+            {
+              "title": "Onderdelen & accessoires",
+              "type": "collection",
+              "handle": "accessoires",
+              "items": [
+                {
+                  "title": "Zijwanden",
+                  "type": "product",
+                  "handle": "zijwand-3m"
+                },
+                {
+                  "title": "Gewichten",
+                  "type": "product",
+                  "handle": "gewichten-set-4x10kg"
+                },
+                {
+                  "title": "Verlichting",
+                  "type": "product",
+                  "handle": "led-prikkabel-10m"
+                }
+              ]
             }
           ]
         },
@@ -1367,7 +2962,19 @@
             {
               "title": "Statafels",
               "type": "collection",
-              "handle": "statafels"
+              "handle": "statafels",
+              "items": [
+                {
+                  "title": "Statafel inklapbaar Ø 80 cm",
+                  "type": "product",
+                  "handle": "statafel-inklapbaar-80"
+                },
+                {
+                  "title": "Statafel Ø 70–85 cm",
+                  "type": "product",
+                  "handle": "statafel-o80"
+                }
+              ]
             },
             {
               "title": "Statafelrokken",
@@ -1375,21 +2982,67 @@
               "handle": "statafelrokken",
               "items": [
                 {
-                  "title": "Stretch",
+                  "title": "Stretch Ø 80 cm",
                   "type": "product",
-                  "handle": "statafelrok-stretch"
+                  "handle": "statafelrok-stretch-o80"
                 },
                 {
                   "title": "Met strik",
+                  "type": "collection",
+                  "handle": "statafelhoezen-met-strik"
+                },
+                {
+                  "title": "Maatadvies",
+                  "type": "page",
+                  "handle": "maatadvies-statafelrokken"
+                }
+              ]
+            },
+            {
+              "title": "Met jouw logo",
+              "type": "collection",
+              "handle": "bedrukte-statafelhoezen",
+              "items": [
+                {
+                  "title": "Statafelrok met logo",
                   "type": "product",
-                  "handle": "statafelrok-met-strik"
+                  "handle": "statafelrok-met-logo"
                 }
               ]
             },
             {
               "title": "Actiepakketten",
+              "type": "collection",
+              "handle": "actiepakketten",
+              "items": [
+                {
+                  "title": "4 statafels + 4 rokken",
+                  "type": "product",
+                  "handle": "actiepakket-4-statafels-4-rokken"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Rokken & hoezen",
+          "type": "collection",
+          "handle": "statafelrokken",
+          "items": [
+            {
+              "title": "Stretch rokken",
               "type": "product",
-              "handle": "actiepakket-4-statafels-4-rokken"
+              "handle": "statafelrok-stretch-o80"
+            },
+            {
+              "title": "Hoezen met strik",
+              "type": "collection",
+              "handle": "statafelhoezen-met-strik"
+            },
+            {
+              "title": "Met jouw logo",
+              "type": "collection",
+              "handle": "bedrukte-statafelhoezen"
             }
           ]
         },
@@ -1409,9 +3062,9 @@
           "handle": "zakelijk"
         },
         {
-          "title": "Blog",
+          "title": "Advies",
           "type": "blog",
-          "handle": "nieuws"
+          "handle": "advies"
         }
       ]
     },
@@ -1474,6 +3127,140 @@
           "url": "/"
         }
       ]
+    },
+    {
+      "handle": "footer-assortiment",
+      "title": "Winkel",
+      "items": [
+        {
+          "title": "Partytenten",
+          "type": "collection",
+          "handle": "partytenten"
+        },
+        {
+          "title": "Easy-up partytenten",
+          "type": "collection",
+          "handle": "easy-up-partytenten"
+        },
+        {
+          "title": "Statafels",
+          "type": "collection",
+          "handle": "statafels"
+        },
+        {
+          "title": "Statafelrokken",
+          "type": "collection",
+          "handle": "statafelrokken"
+        },
+        {
+          "title": "Met jouw logo",
+          "type": "collection",
+          "handle": "bedrukte-partytenten"
+        },
+        {
+          "title": "Accessoires",
+          "type": "collection",
+          "handle": "accessoires"
+        },
+        {
+          "title": "Aanbiedingen",
+          "type": "collection",
+          "handle": "aanbiedingen"
+        }
+      ]
+    },
+    {
+      "handle": "footer-klantenservice",
+      "title": "Hulp",
+      "items": [
+        {
+          "title": "Contact",
+          "type": "page",
+          "handle": "contact"
+        },
+        {
+          "title": "Veelgestelde vragen",
+          "type": "page",
+          "handle": "veelgestelde-vragen"
+        },
+        {
+          "title": "Verzenden en bezorgen",
+          "type": "page",
+          "handle": "verzenden-en-bezorgen"
+        },
+        {
+          "title": "Retourneren",
+          "type": "page",
+          "handle": "retourneren"
+        },
+        {
+          "title": "Garantie",
+          "type": "page",
+          "handle": "garantie"
+        },
+        {
+          "title": "Betaalmethoden",
+          "type": "page",
+          "handle": "betaalmethoden"
+        },
+        {
+          "title": "Maatadvies statafelrokken",
+          "type": "page",
+          "handle": "maatadvies-statafelrokken"
+        }
+      ]
+    },
+    {
+      "handle": "footer-klapklaar",
+      "title": "Over Klapklaar",
+      "items": [
+        {
+          "title": "Over ons",
+          "type": "page",
+          "handle": "over-ons"
+        },
+        {
+          "title": "Zakelijk bestellen",
+          "type": "page",
+          "handle": "zakelijk"
+        },
+        {
+          "title": "Offerte aanvragen",
+          "type": "page",
+          "handle": "offerte"
+        },
+        {
+          "title": "Bedrukken",
+          "type": "page",
+          "handle": "bedrukken"
+        },
+        {
+          "title": "Advies & inspiratie",
+          "type": "blog",
+          "handle": "advies"
+        }
+      ]
+    },
+    {
+      "handle": "footer-juridisch",
+      "title": "Juridisch",
+      "items": [
+        {
+          "title": "Algemene voorwaarden",
+          "type": "policy",
+          "handle": "terms-of-service"
+        },
+        {
+          "title": "Privacy",
+          "type": "policy",
+          "handle": "privacy-policy"
+        },
+        {
+          "title": "Cookies",
+          "type": "page",
+          "handle": "cookies"
+        }
+      ]
     }
   ],
   "pages": [
@@ -1491,7 +3278,8 @@
     {
       "handle": "zakelijk",
       "title": "Zakelijk bestellen",
-      "body_html": "<p>Voor horeca, eventbureaus, verhuurbedrijven, verenigingen en scholen bieden we staffelkorting en bestellen op factuur.</p><ul><li>Staffelkorting vanaf 10 stuks</li><li>Bestellen op rekening</li><li>Bedrukking met eigen logo</li></ul>"
+      "body_html": "<p>Voor horeca, eventbureaus, verhuurbedrijven, verenigingen en scholen bieden we staffelkorting en bestellen op factuur.</p><ul><li>Staffelkorting vanaf 10 stuks</li><li>Bestellen op rekening</li><li>Bedrukking met eigen logo</li></ul>",
+      "template_suffix": "zakelijk"
     },
     {
       "handle": "faq",
@@ -1507,6 +3295,49 @@
       "handle": "retourneren",
       "title": "Retourneren",
       "body_html": "<p>Niet tevreden? Meld je retour binnen 30 dagen aan via het contactformulier.</p>"
+    },
+    {
+      "handle": "offerte",
+      "title": "Offerte aanvragen",
+      "template_suffix": "offerte",
+      "body_html": "<p>Grote aantallen, eigen bedrukking of levering op locatie? Vul in wat je nodig hebt. Je krijgt een offerte op maat, met prijzen excl. btw.</p>"
+    },
+    {
+      "handle": "bedrukken",
+      "title": "Bedrukken met jouw logo",
+      "template_suffix": "bedrukken",
+      "body_html": "<p>Je logo op een partytent of statafelrok. Je uploadt je logo, wij maken een drukproef en pas na jouw akkoord gaan we drukken. De levertijd gaat in na je akkoord.</p>"
+    },
+    {
+      "handle": "veelgestelde-vragen",
+      "title": "Veelgestelde vragen",
+      "template_suffix": "faq",
+      "body_html": "<p>Staat je vraag er niet bij? Bel, app of mail ons.</p>"
+    },
+    {
+      "handle": "verzenden-en-bezorgen",
+      "title": "Verzenden en bezorgen",
+      "body_html": "<p>Pakketten verzenden we op werkdagen. Grote tenten en pakketten gaan per pallet; die leveren we op afspraak.</p><h2>Wanneer heb ik het?</h2><p>Op elke productpagina zie je de verwachte leverdatum. Die rekent met onze besteltijd en verzenddagen.</p><h2>Verzendkosten</h2><p>De verzendkosten zie je bij het afrekenen, voordat je betaalt.</p>"
+    },
+    {
+      "handle": "garantie",
+      "title": "Garantie",
+      "body_html": "<p>Gaat er iets mis met je product? Mail ons een foto en je bestelnummer, dan zoeken we samen een oplossing.</p>"
+    },
+    {
+      "handle": "betaalmethoden",
+      "title": "Betaalmethoden",
+      "body_html": "<p>Je betaalt veilig bij het afrekenen. Welke methoden je ziet, hangt af van je land.</p>"
+    },
+    {
+      "handle": "maatadvies-statafelrokken",
+      "title": "Maatadvies statafelrokken",
+      "body_html": "<p>Meet het blad van je statafel van rand tot rand, en de hoogte van de vloer tot de bovenkant van het blad.</p><table><thead><tr><th>Blad</th><th>Hoogte</th><th>Kies</th></tr></thead><tbody><tr><td>Ø 70–75 cm</td><td>105–115 cm</td><td>Rok Ø 70</td></tr><tr><td>Ø 80–85 cm</td><td>105–115 cm</td><td>Rok Ø 80</td></tr></tbody></table>"
+    },
+    {
+      "handle": "cookies",
+      "title": "Cookies",
+      "body_html": "<p>We gebruiken alleen cookies die nodig zijn voor de winkel, tenzij je toestemming geeft voor meer.</p>"
     }
   ],
   "blogs": [
@@ -1563,12 +3394,137 @@
           "body_html": "<p>Berg je tent altijd droog op en controleer na elk gebruik de verbindingen.</p>"
         }
       ]
+    },
+    {
+      "handle": "advies",
+      "title": "Advies & inspiratie",
+      "comments": "disabled",
+      "articles": [
+        {
+          "handle": "easy-up-partytent-opzetten",
+          "title": "Zo zet je een easy-up partytent op",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Met twee man staat een easy-up in een paar minuten. Zo doe je het zonder gedoe.</p><h2>1. Frame uittrekken</h2><p>Zet het ingeklapte frame rechtop. Pak ieder een kant vast en loop rustig achteruit tot het schaarframe bijna open is.</p><h2>2. Dak erover</h2><p>Leg het dak over het half open frame en maak de klittenbanden aan de hoeken vast. Dat gaat makkelijker nu het frame nog laag staat.</p><h2>3. Op hoogte zetten</h2><p>Duw de hoeken omhoog tot de schuifjes vastklikken. Zet daarna de poten één voor één op de goede hoogte.</p><h2>4. Vastzetten</h2><p>Zet elke poot vast met een haring of een voetgewicht. Pas als hij vaststaat, hang je zijwanden en versiering op.</p>",
+          "summary_html": "<p>Met twee man staat een easy-up in een paar minuten. Zo doe je het zonder gedoe.</p>",
+          "image": {
+            "src": "tent-3x3-wit-hero.webp",
+            "alt": "Zo zet je een easy-up partytent op"
+          },
+          "tags": [
+            "opzetten",
+            "partytent"
+          ],
+          "published_at": "2026-10-15T09:00:00+02:00"
+        },
+        {
+          "handle": "welke-statafelrok-past",
+          "title": "Welke statafelrok past op jouw statafel?",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Een rok die niet past, valt scheef of trekt de tafel uit balans. Meet daarom eerst twee dingen.</p><h2>Meet het blad</h2><p>Meet van rand tot rand, door het midden. De meeste statafels zijn Ø 70, 80 of 85 cm.</p><h2>Meet de hoogte</h2><p>Van de vloer tot de bovenkant van het blad. Stretch rokken zijn gemaakt voor 105 tot 115 cm.</p><h2>Stretch of strik?</h2><p>Stretch zit strak en hoeft niet gestreken. Een hoes met strik valt losser tot de grond en past bij bruiloften en recepties.</p>",
+          "summary_html": "<p>Een rok die niet past, valt scheef of trekt de tafel uit balans. Meet daarom eerst twee dingen.</p>",
+          "image": {
+            "src": "statafel-80-stretch-zwart-hero.webp",
+            "alt": "Welke statafelrok past op jouw statafel?"
+          },
+          "tags": [
+            "statafels",
+            "maatadvies"
+          ],
+          "published_at": "2026-10-13T09:00:00+02:00"
+        },
+        {
+          "handle": "hoeveel-statafels-per-gast",
+          "title": "Hoeveel statafels heb je nodig per gast?",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Antwoord eerst: reken op één statafel per 6 tot 8 staande gasten.</p><h2>Borrel of receptie</h2><p>Mensen lopen rond en zetten even hun glas neer. Eén tafel per 8 gasten is dan genoeg.</p><h2>Walking dinner</h2><p>Gasten eten aan de tafel. Reken dan op één tafel per 4 tot 6 gasten.</p>",
+          "summary_html": "<p>Antwoord eerst: reken op één statafel per 6 tot 8 staande gasten.</p>",
+          "image": {
+            "src": "statafel-80-kaal-hero.webp",
+            "alt": "Hoeveel statafels heb je nodig per gast?"
+          },
+          "tags": [
+            "statafels",
+            "planning"
+          ],
+          "published_at": "2026-10-11T09:00:00+02:00"
+        },
+        {
+          "handle": "partytent-onderhouden-en-opbergen",
+          "title": "Partytent onderhouden en opbergen",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Een tent die droog en schoon wordt opgeborgen, gaat jaren mee.</p><h2>Altijd droog inpakken</h2><p>Pak het dak nooit nat in. Is het toch nat, laat het thuis dan uitgespreid drogen.</p><h2>Schoonmaken</h2><p>Lauw water en een zachte borstel. Geen hogedrukspuit: die beschadigt de coating.</p>",
+          "summary_html": "<p>Een tent die droog en schoon wordt opgeborgen, gaat jaren mee.</p>",
+          "image": {
+            "src": "tent-3x3-wit-detail.webp",
+            "alt": "Partytent onderhouden en opbergen"
+          },
+          "tags": [
+            "onderhoud",
+            "partytent"
+          ],
+          "published_at": "2026-10-09T09:00:00+02:00"
+        },
+        {
+          "handle": "partytent-verankeren-bij-wind",
+          "title": "Je partytent goed vastzetten",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Een tent zonder gewichten of haringen hoort niet buiten te staan. Zo zet je hem goed vast.</p><h2>Op gras</h2><p>Gebruik haringen door de voetplaten en span de scheerlijnen schuin naar buiten.</p><h2>Op tegels of asfalt</h2><p>Gebruik voetgewichten van minimaal 10 kg per poot. Bij een 3 × 6 m tent zet je er ook gewichten op de middelste poten.</p><h2>Bij harde wind</h2><p>Haal het dak eraf. Een dak vangt wind als een zeil.</p>",
+          "summary_html": "<p>Een tent zonder gewichten of haringen hoort niet buiten te staan. Zo zet je hem goed vast.</p>",
+          "image": {
+            "src": "tent-3x3-rood-professional-gewichten-hero.webp",
+            "alt": "Je partytent goed vastzetten"
+          },
+          "tags": [
+            "veiligheid",
+            "partytent"
+          ],
+          "published_at": "2026-10-07T09:00:00+02:00"
+        },
+        {
+          "handle": "logo-aanleveren-voor-bedrukking",
+          "title": "Bedrukken: zo lever je je logo aan",
+          "author": "Team Klapklaar",
+          "body_html": "<p>Hoe beter je bestand, hoe scherper de opdruk. Dit werkt het best.</p><h2>Vectorbestand</h2><p>Een PDF, AI, EPS of SVG is ideaal: die kun je eindeloos vergroten.</p><h2>Geen vector?</h2><p>Stuur een PNG van minimaal 2000 px breed. Wij maken hem drukklaar en je ziet het resultaat eerst in de drukproef.</p><h2>Kleuren</h2><p>Geef je Pantone- of HEX-kleuren door als je die hebt. Dan matchen we je huisstijl zo goed mogelijk.</p>",
+          "summary_html": "<p>Hoe beter je bestand, hoe scherper de opdruk. Dit werkt het best.</p>",
+          "image": {
+            "src": "tent-3x3-klaproos-logo-hero.webp",
+            "alt": "Bedrukken: zo lever je je logo aan"
+          },
+          "tags": [
+            "bedrukken",
+            "zakelijk"
+          ],
+          "published_at": "2026-10-05T09:00:00+02:00"
+        }
+      ]
     }
   ],
   "discounts": [
-    { "code": "WELKOM10", "title": "10% welkomstkorting", "value_type": "percentage", "value": 10, "target_selection": "all", "minimum_subtotal": 5000 },
-    { "code": "ROK5", "title": "€5 korting per statafelrok", "value_type": "fixed_amount", "value": 500, "target_selection": "entitled", "allocation_method": "each", "entitled_collections": ["statafelrokken"] },
-    { "code": "GRATISVERZENDING", "title": "Gratis verzending", "value_type": "free_shipping", "target_type": "shipping_line" }
+    {
+      "code": "WELKOM10",
+      "title": "10% welkomstkorting",
+      "value_type": "percentage",
+      "value": 10,
+      "target_selection": "all",
+      "minimum_subtotal": 5000
+    },
+    {
+      "code": "ROK5",
+      "title": "€5 korting per statafelrok",
+      "value_type": "fixed_amount",
+      "value": 500,
+      "target_selection": "entitled",
+      "allocation_method": "each",
+      "entitled_collections": [
+        "statafelrokken"
+      ]
+    },
+    {
+      "code": "GRATISVERZENDING",
+      "title": "Gratis verzending",
+      "value_type": "free_shipping",
+      "target_type": "shipping_line"
+    }
   ],
   "policies": {
     "privacy_policy": {
@@ -1591,5 +3547,20 @@
       "title": "Contactgegevens",
       "body_html": "<p>Voorbeeldwinkel · Voorbeeldstraat 1 · 1234 AB Voorbeeldstad · KvK 00000000</p>"
     }
+  },
+  "complementary": {
+    "partytent-easy-up-premium": [
+      "gewichten-set-4x10kg",
+      "zijwand-3m",
+      "led-prikkabel-10m"
+    ],
+    "statafel-inklapbaar-80": [
+      "statafelrok-stretch-o80",
+      "statafelhoes-met-strik-80"
+    ],
+    "statafelrok-stretch-o80": [
+      "statafel-inklapbaar-80",
+      "statafelhoes-met-strik-80"
+    ]
   }
 }

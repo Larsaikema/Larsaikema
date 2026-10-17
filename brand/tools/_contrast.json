@@ -53,7 +53,7 @@
    "bg": "studio",
    "fg_hex": "#1D2420",
    "bg_hex": "#EFEDE8",
-   "use": "Tekst op beeldvlak (badges)",
+   "use": "Badges op het beeldvlak",
    "kind": "text",
    "ratio": 13.54,
    "need": 4.5,
@@ -65,7 +65,7 @@
    "bg": "zon",
    "fg_hex": "#1D2420",
    "bg_hex": "#FFC23A",
-   "use": "Actie-badge",
+   "use": "Actie-badge en actieprijs-label",
    "kind": "text",
    "ratio": 9.83,
    "need": 4.5,
@@ -157,6 +157,18 @@
    "aaa": false
   },
   {
+   "fg": "kiezel",
+   "bg": "studio",
+   "fg_hex": "#5D625C",
+   "bg_hex": "#EFEDE8",
+   "use": "Bijschrift op beeldvlak",
+   "kind": "text",
+   "ratio": 5.33,
+   "need": 4.5,
+   "pass": true,
+   "aaa": false
+  },
+  {
    "fg": "polder",
    "bg": "zand",
    "fg_hex": "#154F3E",
@@ -209,7 +221,7 @@
    "bg": "mos",
    "fg_hex": "#154F3E",
    "bg_hex": "#E4EEE8",
-   "use": "Succesmelding",
+   "use": "Succesmelding (kop)",
    "kind": "text",
    "ratio": 7.97,
    "need": 4.5,
@@ -217,97 +229,13 @@
    "aaa": true
   },
   {
-   "fg": "klaproos",
-   "bg": "zand",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#FBF6EC",
-   "use": "Korte nadruk",
-   "kind": "text",
-   "ratio": 5.11,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "wit",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#FFFFFF",
-   "use": "Korte nadruk op kaart",
-   "kind": "text",
-   "ratio": 5.51,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "duin",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#F2E8D5",
-   "use": "Korte nadruk op Duin",
-   "kind": "text",
-   "ratio": 4.53,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "linnen",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#ECEEE8",
-   "use": "Korte nadruk op Linnen",
-   "kind": "text",
-   "ratio": 4.71,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos",
-   "bg": "studio",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#EFEDE8",
-   "use": "Korte nadruk op beeldvlak",
-   "kind": "text",
-   "ratio": 4.71,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos-donker",
-   "bg": "zand",
-   "fg_hex": "#9A2F17",
-   "bg_hex": "#FBF6EC",
-   "use": "Hover-tekst",
-   "kind": "text",
-   "ratio": 6.98,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
-   "fg": "klaproos-donker",
-   "bg": "duin",
-   "fg_hex": "#9A2F17",
-   "bg_hex": "#F2E8D5",
-   "use": "Hover-tekst op Duin",
-   "kind": "text",
-   "ratio": 6.19,
-   "need": 4.5,
-   "pass": true,
-   "aaa": false
-  },
-  {
    "fg": "bordeaux",
    "bg": "foutroze",
-   "fg_hex": "#8C1D2B",
+   "fg_hex": "#8A1538",
    "bg_hex": "#FBEAEA",
    "use": "Foutmelding (kop)",
    "kind": "text",
-   "ratio": 7.76,
+   "ratio": 8.04,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -315,11 +243,11 @@
   {
    "fg": "bordeaux",
    "bg": "wit",
-   "fg_hex": "#8C1D2B",
+   "fg_hex": "#8A1538",
    "bg_hex": "#FFFFFF",
    "use": "Veldfout onder invoerveld",
    "kind": "text",
-   "ratio": 9.03,
+   "ratio": 9.35,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -327,11 +255,11 @@
   {
    "fg": "bordeaux",
    "bg": "zand",
-   "fg_hex": "#8C1D2B",
+   "fg_hex": "#8A1538",
    "bg_hex": "#FBF6EC",
    "use": "Veldfout op pagina",
    "kind": "text",
-   "ratio": 8.38,
+   "ratio": 8.68,
    "need": 4.5,
    "pass": true,
    "aaa": true
@@ -341,7 +269,7 @@
    "bg": "zand",
    "fg_hex": "#865800",
    "bg_hex": "#FBF6EC",
-   "use": "Leverbaar over 2-3 weken",
+   "use": "Leverbaar over 2–3 weken",
    "kind": "text",
    "ratio": 5.72,
    "need": 4.5,
@@ -353,7 +281,7 @@
    "bg": "wit",
    "fg_hex": "#865800",
    "bg_hex": "#FFFFFF",
-   "use": "Leverbaar over 2-3 weken (kaart)",
+   "use": "Leverbaar over 2–3 weken (kaart)",
    "kind": "text",
    "ratio": 6.16,
    "need": 4.5,
@@ -388,37 +316,37 @@
    "fg": "wit",
    "bg": "klaproos",
    "fg_hex": "#FFFFFF",
-   "bg_hex": "#BE3A1D",
+   "bg_hex": "#C83812",
    "use": "Primaire knop",
    "kind": "text",
-   "ratio": 5.51,
+   "ratio": 5.21,
    "need": 4.5,
    "pass": true,
    "aaa": false
   },
   {
    "fg": "wit",
-   "bg": "klaproos-donker",
+   "bg": "inkt",
    "fg_hex": "#FFFFFF",
-   "bg_hex": "#9A2F17",
-   "use": "Primaire knop hover",
+   "bg_hex": "#1D2420",
+   "use": "Primaire knop, hover",
    "kind": "text",
-   "ratio": 7.52,
+   "ratio": 15.84,
    "need": 4.5,
    "pass": true,
    "aaa": true
   },
   {
-   "fg": "zand",
-   "bg": "klaproos",
-   "fg_hex": "#FBF6EC",
-   "bg_hex": "#BE3A1D",
-   "use": "Logo/merktekst op Klaproos",
+   "fg": "wit",
+   "bg": "klaproos-donker",
+   "fg_hex": "#FFFFFF",
+   "bg_hex": "#982A0E",
+   "use": "Primaire knop, ingedrukt",
    "kind": "text",
-   "ratio": 5.11,
+   "ratio": 7.86,
    "need": 4.5,
    "pass": true,
-   "aaa": false
+   "aaa": true
   },
   {
    "fg": "zand",
@@ -437,7 +365,7 @@
    "bg": "polder",
    "fg_hex": "#FFFFFF",
    "bg_hex": "#154F3E",
-   "use": "Secundaire knop (wit)",
+   "use": "Secundaire knop (wit label)",
    "kind": "text",
    "ratio": 9.46,
    "need": 4.5,
@@ -457,11 +385,23 @@
    "aaa": true
   },
   {
+   "fg": "inkt",
+   "bg": "zand",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#FBF6EC",
+   "use": "Primaire knop op Polder (Zand vlak, Inkt label)",
+   "kind": "text",
+   "ratio": 14.71,
+   "need": 4.5,
+   "pass": true,
+   "aaa": true
+  },
+  {
    "fg": "zon",
    "bg": "inkt",
    "fg_hex": "#FFC23A",
    "bg_hex": "#1D2420",
-   "use": "Accenttekst op Inkt",
+   "use": "Accent op Inkt (vlag, actie)",
    "kind": "text",
    "ratio": 9.83,
    "need": 4.5,
@@ -473,12 +413,36 @@
    "bg": "polder",
    "fg_hex": "#FFC23A",
    "bg_hex": "#154F3E",
-   "use": "Accenttekst/iconen op Polder",
+   "use": "Accent op Polder (vlag, actie)",
    "kind": "text",
    "ratio": 5.87,
    "need": 4.5,
    "pass": true,
    "aaa": false
+  },
+  {
+   "fg": "klaproos",
+   "bg": "zand",
+   "fg_hex": "#C83812",
+   "bg_hex": "#FBF6EC",
+   "use": "Display-kop op pagina (>= 24 px)",
+   "kind": "large",
+   "ratio": 4.84,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "klaproos",
+   "bg": "wit",
+   "fg_hex": "#C83812",
+   "bg_hex": "#FFFFFF",
+   "use": "Display-kop op kaart (>= 24 px)",
+   "kind": "large",
+   "ratio": 5.21,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
   },
   {
    "fg": "kiezel",
@@ -507,11 +471,11 @@
   {
    "fg": "klaproos",
    "bg": "zand",
-   "fg_hex": "#BE3A1D",
+   "fg_hex": "#C83812",
    "bg_hex": "#FBF6EC",
-   "use": "Knopvlak tegen pagina",
+   "use": "Primaire knop tegen pagina",
    "kind": "ui",
-   "ratio": 5.11,
+   "ratio": 4.84,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -519,23 +483,59 @@
   {
    "fg": "klaproos",
    "bg": "duin",
-   "fg_hex": "#BE3A1D",
+   "fg_hex": "#C83812",
    "bg_hex": "#F2E8D5",
-   "use": "Knopvlak tegen Duin",
+   "use": "Primaire knop tegen Duin",
    "kind": "ui",
-   "ratio": 4.53,
+   "ratio": 4.29,
+   "need": 3.0,
+   "pass": true,
+   "aaa": false
+  },
+  {
+   "fg": "klaproos",
+   "bg": "wit",
+   "fg_hex": "#C83812",
+   "bg_hex": "#FFFFFF",
+   "use": "Primaire knop tegen kaart",
+   "kind": "ui",
+   "ratio": 5.21,
    "need": 3.0,
    "pass": true,
    "aaa": true
   },
   {
    "fg": "klaproos",
-   "bg": "wit",
-   "fg_hex": "#BE3A1D",
-   "bg_hex": "#FFFFFF",
-   "use": "Knopvlak tegen kaart",
+   "bg": "linnen",
+   "fg_hex": "#C83812",
+   "bg_hex": "#ECEEE8",
+   "use": "Primaire knop tegen Linnen",
    "kind": "ui",
-   "ratio": 5.51,
+   "ratio": 4.46,
+   "need": 3.0,
+   "pass": true,
+   "aaa": false
+  },
+  {
+   "fg": "klaproos",
+   "bg": "inkt",
+   "fg_hex": "#C83812",
+   "bg_hex": "#1D2420",
+   "use": "Primaire knop op Inkt-vlak",
+   "kind": "ui",
+   "ratio": 3.04,
+   "need": 3.0,
+   "pass": true,
+   "aaa": false
+  },
+  {
+   "fg": "inkt",
+   "bg": "zand",
+   "fg_hex": "#1D2420",
+   "bg_hex": "#FBF6EC",
+   "use": "Hover-knop / focusring op licht",
+   "kind": "ui",
+   "ratio": 14.71,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -553,11 +553,35 @@
    "aaa": true
   },
   {
-   "fg": "inkt",
-   "bg": "zand",
-   "fg_hex": "#1D2420",
-   "bg_hex": "#FBF6EC",
-   "use": "Focusring op licht",
+   "fg": "polder",
+   "bg": "linnen",
+   "fg_hex": "#154F3E",
+   "bg_hex": "#ECEEE8",
+   "use": "Primaire knop Zakelijk tegen Linnen",
+   "kind": "ui",
+   "ratio": 8.09,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zand",
+   "bg": "polder",
+   "fg_hex": "#FBF6EC",
+   "bg_hex": "#154F3E",
+   "use": "Focusring + Zand-knop op Polder",
+   "kind": "ui",
+   "ratio": 8.78,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "zand",
+   "bg": "inkt",
+   "fg_hex": "#FBF6EC",
+   "bg_hex": "#1D2420",
+   "use": "Focusring op Inkt",
    "kind": "ui",
    "ratio": 14.71,
    "need": 3.0,
@@ -565,37 +589,37 @@
    "aaa": true
   },
   {
-   "fg": "zon",
-   "bg": "polder",
-   "fg_hex": "#FFC23A",
-   "bg_hex": "#154F3E",
-   "use": "Focusring op Polder",
+   "fg": "bordeaux",
+   "bg": "foutroze",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FBEAEA",
+   "use": "Linkerrand + icoon foutmelding",
    "kind": "ui",
-   "ratio": 5.87,
-   "need": 3.0,
-   "pass": true,
-   "aaa": true
-  },
-  {
-   "fg": "zon",
-   "bg": "inkt",
-   "fg_hex": "#FFC23A",
-   "bg_hex": "#1D2420",
-   "use": "Focusring op Inkt",
-   "kind": "ui",
-   "ratio": 9.83,
+   "ratio": 8.04,
    "need": 3.0,
    "pass": true,
    "aaa": true
   },
   {
    "fg": "bordeaux",
-   "bg": "foutroze",
-   "fg_hex": "#8C1D2B",
-   "bg_hex": "#FBEAEA",
-   "use": "Linkerrand + icoon foutmelding",
+   "bg": "wit",
+   "fg_hex": "#8A1538",
+   "bg_hex": "#FFFFFF",
+   "use": "Rand van een veld met fout",
    "kind": "ui",
-   "ratio": 7.76,
+   "ratio": 9.35,
+   "need": 3.0,
+   "pass": true,
+   "aaa": true
+  },
+  {
+   "fg": "oker",
+   "bg": "zand",
+   "fg_hex": "#865800",
+   "bg_hex": "#FBF6EC",
+   "use": "Stip \"leverbaar over x weken\"",
+   "kind": "ui",
+   "ratio": 5.72,
    "need": 3.0,
    "pass": true,
    "aaa": true
@@ -605,32 +629,59 @@
   {
    "fg": "zon",
    "bg": "zand",
-   "use": "Zon als tekst/rand op licht",
+   "use": "Zon als tekst of rand op licht",
    "ratio": 1.5
   },
   {
    "fg": "zon",
    "bg": "wit",
-   "use": "Zon als tekst/rand op wit",
+   "use": "Zon als tekst of rand op wit",
    "ratio": 1.61
+  },
+  {
+   "fg": "klaproos",
+   "bg": "duin",
+   "use": "Klaproos als gewone tekst (alleen display >= 24 px op Zand/Wit)",
+   "ratio": 4.29
   },
   {
    "fg": "klaproos",
    "bg": "inkt",
    "use": "Klaproos-tekst op Inkt",
-   "ratio": 2.88
+   "ratio": 3.04
   },
   {
    "fg": "klaproos",
    "bg": "polder",
-   "use": "Klaproos op Polder",
-   "ratio": 1.72
+   "use": "Klaproos op Polder (ook als knop)",
+   "ratio": 1.82
   },
   {
    "fg": "kiezel",
    "bg": "inkt",
    "use": "Kiezel op donker",
    "ratio": 2.54
+  },
+  {
+   "fg": "wit",
+   "bg": "bordeaux",
+   "use": "Bordeaux als gevuld vlak (fout is nooit een knop)",
+   "ratio": 9.35
   }
- ]
+ ],
+ "separation": {
+  "klaproos_vs_bordeaux": {
+   "de2000": 23.8,
+   "hue_klaproos": 43.5,
+   "hue_bordeaux": 12.6,
+   "contrast": 1.8
+  },
+  "klaproos_vs_inkt_hover": {
+   "de2000": 41.8,
+   "contrast": 3.04
+  },
+  "klaproos_vs_zon": {
+   "de2000": 42.1
+  }
+ }
 }

@@ -1,0 +1,68 @@
+{%- comment -%} Rendered by /search/suggest?section_id=predictive-search (Section Rendering API). {%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign res = predictive_search.resources
+    assign total = res.products.size | plus: res.collections.size | plus: res.pages.size | plus: res.articles.size
+    assign terms_esc = predictive_search.terms | escape
+  -%}
+  <div class="predictive__inner" data-predictive-inner data-status="{{ 'search.results_count' | t: count: total }}" role="listbox" aria-label="{{ 'search.suggestions' | t }}">
+    {%- if total == 0 -%}
+      <p class="predictive__empty">{{ 'search.no_results_html' | t: terms: terms_esc }}</p>
+    {%- else -%}
+      <div class="predictive__col">
+        {%- if res.products.size > 0 -%}
+          <p class="predictive__group-title" id="PsProducts">{{ 'search.products' | t }}</p>
+          <ul class="predictive__list" role="group" aria-labelledby="PsProducts">
+            {%- for product in res.products -%}
+              <li>
+                <a class="predictive__item" href="{{ product.url }}" id="ps-product-{{ forloop.index }}" role="option" aria-selected="false">
+                  <span class="predictive__thumb">
+                    {%- if product.featured_media -%}{{ product.featured_media.preview_image | image_url: width: 112 | image_tag: loading: 'lazy', alt: '', width: 56, height: 56 }}{%- endif -%}
+                  </span>
+                  <span>
+                    <span class="predictive__title">{{ product.title }}</span>
+                    {%- if product.metafields.custom.kenmerk_kort != blank -%}<span class="predictive__meta">{{ product.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
+                    {%- if settings.predictive_search_show_price -%}<span class="predictive__price">{%- render 'price', product: product -%}</span>{%- endif -%}
+                  </span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+      <div class="predictive__col">
+        {%- if res.queries.size > 0 -%}
+          <p class="predictive__group-title">{{ 'search.suggestions' | t }}</p>
+          <div class="predictive__queries">
+            {%- for q in res.queries -%}<a href="{{ q.url }}">{{ q.styled_text }}</a>{%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if res.collections.size > 0 -%}
+          <p class="predictive__group-title" id="PsCollections">{{ 'search.collections' | t }}</p>
+          <ul class="predictive__list" role="group" aria-labelledby="PsCollections">
+            {%- for c in res.collections -%}
+              <li><a class="predictive__item" href="{{ c.url }}" id="ps-collection-{{ forloop.index }}" role="option" aria-selected="false"><span class="predictive__title">{{ c.title }}</span></a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- assign others = res.pages.size | plus: res.articles.size -%}
+        {%- if others > 0 -%}
+          <p class="predictive__group-title" id="PsPages">{{ 'search.other_results' | t }}</p>
+          <ul class="predictive__list" role="group" aria-labelledby="PsPages">
+            {%- for p in res.pages -%}
+              <li><a class="predictive__item" href="{{ p.url }}" id="ps-page-{{ forloop.index }}" role="option" aria-selected="false"><span class="predictive__title">{{ p.title }}</span></a></li>
+            {%- endfor -%}
+            {%- for a in res.articles -%}
+              <li><a class="predictive__item" href="{{ a.url }}" id="ps-article-{{ forloop.index }}" role="option" aria-selected="false"><span><span class="predictive__title">{{ a.title }}</span><span class="predictive__meta">{{ a.blog.title }}</span></span></a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="predictive__footer">
+      <a class="predictive__all" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last" id="ps-all" role="option" aria-selected="false">
+        <span>{{ 'search.view_all_html' | t: terms: terms_esc }}</span>{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+      </a>
+    </div>
+  </div>
+{%- endif -%}

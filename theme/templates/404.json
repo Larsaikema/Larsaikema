@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "main-404", "settings": {} },
+    "featured": { "type": "featured-collection", "settings": { "heading": "Of begin hier", "collection": "easy-up-partytenten", "limit": 4, "columns": 4 } }
+  },
+  "order": ["main", "featured"]
+}

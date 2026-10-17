@@ -1,0 +1,67 @@
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+<section class="section collection-list color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-head">
+        <div>
+          <h2 class="section-head__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
+          {%- if section.settings.text != blank -%}<p class="section-head__text muted">{{ section.settings.text }}</p>{%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank -%}<a class="link section-head__link" href="{{ section.settings.link | default: routes.collections_url }}">{{ section.settings.link_label }}</a>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="tiles tiles--{{ section.settings.style }}" role="list" style="--cols: {{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- assign tile_img = block.settings.image | default: c.featured_image | default: c.image -%}
+        {%- assign tile_title = block.settings.title | default: c.title -%}
+        {%- assign tile_url = block.settings.link | default: c.url -%}
+        <li class="tile" {{ block.shopify_attributes }}>
+          <a class="tile__link" href="{{ tile_url | default: '#' }}">
+            <span class="tile__media">
+              {%- if tile_img != blank -%}
+                {%- render 'image', image: tile_img, sizes: '(min-width: 990px) 25vw, 50vw', widths: '240, 360, 480, 640, 800', alt: tile_title -%}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </span>
+            <span class="tile__body">
+              <span class="tile__title">{{ tile_title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</span>
+              {%- if block.settings.benefit != blank -%}<span class="tile__benefit">{{ block.settings.benefit }}</span>{%- endif -%}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categorietegels",
+  "class": "section-collection-list",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Waar ben je naar op zoek?" },
+    { "type": "text", "id": "text", "label": "Tekst" },
+    { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Alle categorieën" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Kolommen desktop", "default": 4 },
+    { "type": "select", "id": "style", "label": "Stijl", "options": [ { "value": "card", "label": "Kaart met tekst eronder" }, { "value": "overlay", "label": "Tekst op het beeld" } ], "default": "card" }
+  ],
+  "blocks": [
+    {
+      "type": "collection", "name": "Categorie",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collectie" },
+        { "type": "text", "id": "title", "label": "Titel (optioneel)" },
+        { "type": "text", "id": "benefit", "label": "Voordeel in één regel", "default": "Staat in een paar minuten" },
+        { "type": "image_picker", "id": "image", "label": "Eigen beeld (optioneel)" },
+        { "type": "url", "id": "link", "label": "Eigen link (optioneel)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Categorietegels", "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }] }]
+}
+{% endschema %}

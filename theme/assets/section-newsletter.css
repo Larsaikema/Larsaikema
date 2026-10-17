@@ -1,0 +1,10 @@
+.newsletter{position:relative;text-align:center}
+.newsletter__flags{position:absolute;top:0;left:0;right:0}
+.newsletter__inner{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:24px}
+.newsletter__title{margin:0}
+.newsletter__text{max-width:48ch}
+.newsletter__text p{margin:0}
+.newsletter__form{width:100%;max-width:520px}
+.newsletter .newsletter-form__row{display:flex;gap:8px;flex-wrap:wrap}
+.newsletter .newsletter-form__row .input{flex:1 1 220px;min-width:0}
+.newsletter .notice{text-align:left}
