@@ -1,0 +1,1590 @@
+{
+  "schema_version": 1,
+  "shop": {
+    "name": "Voorbeeldwinkel",
+    "email": "info@voorbeeldwinkel.test",
+    "phone": "+31 20 000 0000",
+    "domain": "voorbeeldwinkel.test",
+    "description": "Fictieve testwinkel met partytenten, statafels en accessoires.",
+    "currency": "EUR",
+    "money_format": "€{{amount_with_comma_separator}}",
+    "money_with_currency_format": "€{{amount_with_comma_separator}} EUR",
+    "primary_locale": "nl",
+    "published_locales": [
+      {
+        "iso_code": "nl",
+        "name": "Nederlands",
+        "endonym_name": "Nederlands",
+        "primary": true
+      },
+      {
+        "iso_code": "en",
+        "name": "Engels",
+        "endonym_name": "English"
+      }
+    ],
+    "country": "NL",
+    "countries": [
+      {
+        "iso_code": "NL",
+        "name": "Nederland",
+        "currency": "EUR"
+      },
+      {
+        "iso_code": "BE",
+        "name": "België",
+        "currency": "EUR"
+      },
+      {
+        "iso_code": "DE",
+        "name": "Duitsland",
+        "currency": "EUR"
+      }
+    ],
+    "address": {
+      "address1": "Voorbeeldstraat 1",
+      "city": "Voorbeeldstad",
+      "zip": "1234 AB",
+      "country": "Nederland",
+      "country_code": "NL"
+    },
+    "taxes_included": true,
+    "customer_accounts_enabled": true,
+    "password_message": "We openen binnenkort. Laat je e-mailadres achter.",
+    "payment_types": [
+      "ideal",
+      "bancontact",
+      "klarna",
+      "paypal",
+      "visa",
+      "master",
+      "maestro",
+      "apple_pay",
+      "google_pay",
+      "shopify_pay"
+    ],
+    "brand": {
+      "logo": "logo-voorbeeldwinkel.png",
+      "slogan": "Alles voor je feest",
+      "short_description": "Partytenten, statafels en accessoires."
+    },
+    "metafields": []
+  },
+  "products": [
+    {
+      "handle": "easy-up-partytent-premium",
+      "title": "Easy-up partytent Premium",
+      "body_html": "<p>Een stevige easy-up partytent die je in twee minuten met twee personen opzet. Aluminium frame van 40 mm, waterdicht dak van 300 g/m² polyester en een handige draagtas met wielen.</p><ul><li>Opzettijd: ca. 2 minuten</li><li>Frame: zeskant aluminium 40 mm</li><li>Dak: 300 g/m² PVC-gecoat polyester, waterdicht</li><li>Inclusief draagtas, haringen en scheerlijnen</li></ul>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "premium",
+        "waterdicht"
+      ],
+      "created_at": "2026-03-02T10:00:00+01:00",
+      "published_at": "2026-03-02T10:00:00+01:00",
+      "seo": {
+        "title": "Easy-up partytent Premium kopen",
+        "description": "Professionele easy-up partytent in 3x3, 3x4,5 en 3x6 meter."
+      },
+      "options": [
+        {
+          "name": "Maat",
+          "values": [
+            {
+              "name": "3x3"
+            },
+            {
+              "name": "3x4,5"
+            },
+            {
+              "name": "3x6"
+            }
+          ]
+        },
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#F7F7F5"
+              }
+            },
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#1E1E1E"
+              }
+            },
+            {
+              "name": "Rood",
+              "swatch": {
+                "color": "#C8302C"
+              }
+            },
+            {
+              "name": "Blauw",
+              "swatch": {
+                "color": "#1F4FA3"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "EUP-3x3-WIT",
+          "option1": "3x3",
+          "option2": "Wit",
+          "price": 24900,
+          "compare_at_price": 29900,
+          "inventory_quantity": 8,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 18.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-wit.png"
+        },
+        {
+          "sku": "EUP-3x3-ZWA",
+          "option1": "3x3",
+          "option2": "Zwart",
+          "price": 24900,
+          "compare_at_price": 29900,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 18.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-zwart.png"
+        },
+        {
+          "sku": "EUP-3x3-ROO",
+          "option1": "3x3",
+          "option2": "Rood",
+          "price": 24900,
+          "compare_at_price": 29900,
+          "inventory_quantity": 10,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 18.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-rood.png"
+        },
+        {
+          "sku": "EUP-3x3-BLA",
+          "option1": "3x3",
+          "option2": "Blauw",
+          "price": 24900,
+          "compare_at_price": 29900,
+          "inventory_quantity": 11,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 18.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-blauw.png"
+        },
+        {
+          "sku": "EUP-3x45-WIT",
+          "option1": "3x4,5",
+          "option2": "Wit",
+          "price": 32900,
+          "compare_at_price": 37900,
+          "inventory_quantity": 11,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 24.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-wit.png"
+        },
+        {
+          "sku": "EUP-3x45-ZWA",
+          "option1": "3x4,5",
+          "option2": "Zwart",
+          "price": 32900,
+          "compare_at_price": 37900,
+          "inventory_quantity": 12,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 24.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-zwart.png"
+        },
+        {
+          "sku": "EUP-3x45-ROO",
+          "option1": "3x4,5",
+          "option2": "Rood",
+          "price": 32900,
+          "compare_at_price": 37900,
+          "inventory_quantity": 13,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 24.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-rood.png"
+        },
+        {
+          "sku": "EUP-3x45-BLA",
+          "option1": "3x4,5",
+          "option2": "Blauw",
+          "price": 32900,
+          "compare_at_price": 37900,
+          "inventory_quantity": 14,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 24.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-blauw.png"
+        },
+        {
+          "sku": "EUP-3x6-WIT",
+          "option1": "3x6",
+          "option2": "Wit",
+          "price": 39900,
+          "compare_at_price": 44900,
+          "inventory_quantity": 14,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 29.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-wit.png"
+        },
+        {
+          "sku": "EUP-3x6-ZWA",
+          "option1": "3x6",
+          "option2": "Zwart",
+          "price": 39900,
+          "compare_at_price": 44900,
+          "inventory_quantity": 15,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 29.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-zwart.png"
+        },
+        {
+          "sku": "EUP-3x6-ROO",
+          "option1": "3x6",
+          "option2": "Rood",
+          "price": 39900,
+          "compare_at_price": 44900,
+          "inventory_quantity": 16,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 29.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-rood.png"
+        },
+        {
+          "sku": "EUP-3x6-BLA",
+          "option1": "3x6",
+          "option2": "Blauw",
+          "price": 39900,
+          "compare_at_price": 44900,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 29.0,
+          "weight_unit": "kg",
+          "requires_shipping": true,
+          "taxable": true,
+          "image": "easy-up-premium-blauw.png"
+        }
+      ],
+      "images": [
+        {
+          "src": "easy-up-premium-wit.png",
+          "alt": "Easy-up partytent Premium in wit"
+        },
+        {
+          "src": "easy-up-premium-zwart.png",
+          "alt": "Easy-up partytent Premium in zwart"
+        },
+        {
+          "src": "easy-up-premium-rood.png",
+          "alt": "Easy-up partytent Premium in rood"
+        },
+        {
+          "src": "easy-up-premium-blauw.png",
+          "alt": "Easy-up partytent Premium in blauw"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "materiaal",
+          "type": "single_line_text_field",
+          "value": "Aluminium frame, polyester dak"
+        },
+        {
+          "namespace": "custom",
+          "key": "opzettijd_minuten",
+          "type": "number_integer",
+          "value": "2"
+        },
+        {
+          "namespace": "custom",
+          "key": "waterdicht",
+          "type": "boolean",
+          "value": "true"
+        },
+        {
+          "namespace": "custom",
+          "key": "usps",
+          "type": "list.single_line_text_field",
+          "value": "[\"In 2 minuten opgezet\",\"Waterdicht dak\",\"Inclusief draagtas met wielen\"]"
+        },
+        {
+          "namespace": "custom",
+          "key": "handleiding",
+          "type": "url",
+          "value": "https://example.com/handleiding-easy-up.pdf"
+        }
+      ]
+    },
+    {
+      "handle": "easy-up-partytent-professional-3x6",
+      "title": "Easy-up partytent Professional 3x6",
+      "body_html": "<p>De Professional is gebouwd voor intensief gebruik: dikker frame, versterkte hoekverbindingen en een brandvertragend dak.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Partytent",
+      "tags": [
+        "easy-up",
+        "partytent",
+        "professional",
+        "brandvertragend"
+      ],
+      "created_at": "2026-04-10T10:00:00+02:00",
+      "published_at": "2026-04-10T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#F7F7F5"
+              }
+            },
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#1E1E1E"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "EUPRO-36-WIT",
+          "option1": "Wit",
+          "price": 59900,
+          "compare_at_price": 69900,
+          "inventory_quantity": 5,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 42,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "EUPRO-36-ZWA",
+          "option1": "Zwart",
+          "price": 59900,
+          "compare_at_price": 69900,
+          "inventory_quantity": 2,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 42,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "easy-up-professional-3x6.png",
+          "alt": "Easy-up partytent Professional 3x6 meter"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "materiaal",
+          "type": "single_line_text_field",
+          "value": "Aluminium 50 mm, brandvertragend dak"
+        }
+      ]
+    },
+    {
+      "handle": "stretchtent-10x15",
+      "title": "Stretchtent 10 x 15 meter",
+      "body_html": "<p>Een vrij vormbare stretchtent voor tuinfeesten, bruiloften en evenementen tot ca. 150 personen.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Stretchtent",
+      "tags": [
+        "stretchtent",
+        "evenement"
+      ],
+      "created_at": "2026-02-01T10:00:00+01:00",
+      "published_at": "2026-02-01T10:00:00+01:00",
+      "options": [
+        {
+          "name": "Title",
+          "values": [
+            {
+              "name": "Default Title"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "STR-1015",
+          "option1": "Default Title",
+          "price": 249900,
+          "inventory_quantity": 1,
+          "inventory_management": "shopify",
+          "inventory_policy": "continue",
+          "weight": 95,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "stretchtent-10x15.png",
+          "alt": "Stretchtent van 10 bij 15 meter in zandkleur"
+        }
+      ]
+    },
+    {
+      "handle": "statafel-o80",
+      "title": "Statafel Ø80 inklapbaar",
+      "body_html": "<p>Inklapbare statafel met stevig blad van 18 mm multiplex en een stabiele kruisvoet. Hoogte 110 cm.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Statafel",
+      "tags": [
+        "statafel",
+        "inklapbaar",
+        "horeca"
+      ],
+      "created_at": "2026-01-15T10:00:00+01:00",
+      "published_at": "2026-01-15T10:00:00+01:00",
+      "options": [
+        {
+          "name": "Diameter",
+          "values": [
+            {
+              "name": "Ø70"
+            },
+            {
+              "name": "Ø80"
+            },
+            {
+              "name": "Ø85"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "STA-70",
+          "option1": "Ø70",
+          "price": 5995,
+          "inventory_quantity": 40,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 11,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "STA-80",
+          "option1": "Ø80",
+          "price": 6495,
+          "inventory_quantity": 60,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 12,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "STA-85",
+          "option1": "Ø85",
+          "price": 6995,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 13,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafel-o80.png",
+          "alt": "Inklapbare statafel met rond blad"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "materiaal",
+          "type": "single_line_text_field",
+          "value": "Multiplex blad, stalen kruisvoet"
+        },
+        {
+          "namespace": "custom",
+          "key": "hoogte_cm",
+          "type": "number_integer",
+          "value": "110"
+        }
+      ]
+    },
+    {
+      "handle": "statafelrok-stretch",
+      "title": "Statafelrok stretch",
+      "body_html": "<p>Strak passende stretch statafelrok van kreukvrij Lycra. Past op statafels van Ø70 tot Ø85 cm en is wasbaar op 40 °C.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Statafelrok",
+      "tags": [
+        "statafelrok",
+        "stretch",
+        "wasbaar"
+      ],
+      "created_at": "2026-01-20T10:00:00+01:00",
+      "published_at": "2026-01-20T10:00:00+01:00",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#FAFAFA"
+              }
+            },
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#151515"
+              }
+            },
+            {
+              "name": "Antraciet",
+              "swatch": {
+                "color": "#3B3F45"
+              }
+            },
+            {
+              "name": "Rood",
+              "swatch": {
+                "color": "#C0262D"
+              }
+            },
+            {
+              "name": "Koningsblauw",
+              "swatch": {
+                "color": "#2350C2"
+              }
+            },
+            {
+              "name": "Navy",
+              "swatch": {
+                "color": "#1B2A4A"
+              }
+            },
+            {
+              "name": "Champagne",
+              "swatch": {
+                "color": "#E8D9B5"
+              }
+            },
+            {
+              "name": "Fuchsia",
+              "swatch": {
+                "color": "#D1287A"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "ROK-STR-WIT",
+          "option1": "Wit",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-wit.png"
+        },
+        {
+          "sku": "ROK-STR-ZWA",
+          "option1": "Zwart",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-zwart.png"
+        },
+        {
+          "sku": "ROK-STR-ANT",
+          "option1": "Antraciet",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-antraciet.png"
+        },
+        {
+          "sku": "ROK-STR-ROO",
+          "option1": "Rood",
+          "price": 1995,
+          "compare_at_price": 2495,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-rood.png"
+        },
+        {
+          "sku": "ROK-STR-KON",
+          "option1": "Koningsblauw",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-koningsblauw.png"
+        },
+        {
+          "sku": "ROK-STR-NAV",
+          "option1": "Navy",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-navy.png"
+        },
+        {
+          "sku": "ROK-STR-CHA",
+          "option1": "Champagne",
+          "price": 1995,
+          "compare_at_price": null,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-champagne.png"
+        },
+        {
+          "sku": "ROK-STR-FUC",
+          "option1": "Fuchsia",
+          "price": 1995,
+          "compare_at_price": 2495,
+          "inventory_quantity": 25,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.6,
+          "weight_unit": "kg",
+          "image": "statafelrok-stretch-fuchsia.png"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafelrok-stretch-wit.png",
+          "alt": "Stretch statafelrok in wit"
+        },
+        {
+          "src": "statafelrok-stretch-zwart.png",
+          "alt": "Stretch statafelrok in zwart"
+        },
+        {
+          "src": "statafelrok-stretch-antraciet.png",
+          "alt": "Stretch statafelrok in antraciet"
+        },
+        {
+          "src": "statafelrok-stretch-rood.png",
+          "alt": "Stretch statafelrok in rood"
+        },
+        {
+          "src": "statafelrok-stretch-koningsblauw.png",
+          "alt": "Stretch statafelrok in koningsblauw"
+        },
+        {
+          "src": "statafelrok-stretch-navy.png",
+          "alt": "Stretch statafelrok in navy"
+        },
+        {
+          "src": "statafelrok-stretch-champagne.png",
+          "alt": "Stretch statafelrok in champagne"
+        },
+        {
+          "src": "statafelrok-stretch-fuchsia.png",
+          "alt": "Stretch statafelrok in fuchsia"
+        }
+      ],
+      "metafields": [
+        {
+          "namespace": "custom",
+          "key": "materiaal",
+          "type": "single_line_text_field",
+          "value": "Lycra (polyester/elastaan)"
+        }
+      ]
+    },
+    {
+      "handle": "statafelrok-met-strik",
+      "title": "Statafelrok met strik",
+      "body_html": "<p>Feestelijke statafelrok met satijnen strik. Kies je kleur en geef je feest direct een nette uitstraling.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Statafelrok",
+      "tags": [
+        "statafelrok",
+        "strik"
+      ],
+      "created_at": "2026-05-05T10:00:00+02:00",
+      "published_at": "2026-05-05T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#FAFAFA"
+              }
+            },
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#151515"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "ROK-STRIK-WIT",
+          "option1": "Wit",
+          "price": 2495,
+          "inventory_quantity": 12,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.7,
+          "weight_unit": "kg",
+          "image": "statafelrok-strik-wit.png"
+        },
+        {
+          "sku": "ROK-STRIK-ZWA",
+          "option1": "Zwart",
+          "price": 2495,
+          "inventory_quantity": 9,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.7,
+          "weight_unit": "kg",
+          "image": "statafelrok-strik-zwart.png"
+        }
+      ],
+      "images": [
+        {
+          "src": "statafelrok-strik-wit.png",
+          "alt": "Witte statafelrok met strik"
+        },
+        {
+          "src": "statafelrok-strik-zwart.png",
+          "alt": "Zwarte statafelrok met strik"
+        }
+      ]
+    },
+    {
+      "handle": "zijwand-3m",
+      "title": "Zijwand 3 meter",
+      "body_html": "<p>Zijwand voor easy-up partytenten van 3 meter breed. Met klittenband en ritssluiting snel te bevestigen.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Onderdeel",
+      "tags": [
+        "zijwand",
+        "onderdelen",
+        "accessoire"
+      ],
+      "created_at": "2026-03-12T10:00:00+01:00",
+      "published_at": "2026-03-12T10:00:00+01:00",
+      "options": [
+        {
+          "name": "Type",
+          "values": [
+            {
+              "name": "Dicht"
+            },
+            {
+              "name": "Met ramen"
+            },
+            {
+              "name": "Met deur"
+            }
+          ]
+        },
+        {
+          "name": "Kleur",
+          "values": [
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#F7F7F5"
+              }
+            },
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#1E1E1E"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "ZW-3-DIC-WIT",
+          "option1": "Dicht",
+          "option2": "Wit",
+          "price": 3995,
+          "inventory_quantity": 20,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 2.5,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "ZW-3-DIC-ZWA",
+          "option1": "Dicht",
+          "option2": "Zwart",
+          "price": 3995,
+          "inventory_quantity": 20,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 2.5,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "ZW-3-MET-WIT",
+          "option1": "Met ramen",
+          "option2": "Wit",
+          "price": 4995,
+          "inventory_quantity": 20,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 2.5,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "ZW-3-MET-ZWA",
+          "option1": "Met ramen",
+          "option2": "Zwart",
+          "price": 4995,
+          "inventory_quantity": 20,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 2.5,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "ZW-3-MET-WIT",
+          "option1": "Met deur",
+          "option2": "Wit",
+          "price": 5495,
+          "inventory_quantity": 20,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 2.5,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "zijwand-raam.png",
+          "alt": "Partytent met zijwanden met ramen"
+        }
+      ]
+    },
+    {
+      "handle": "gewichten-set-4x10kg",
+      "title": "Gewichtenset 4 x 10 kg",
+      "body_html": "<p>Vier tegelgewichten van 10 kg met handgreep, zodat je partytent ook bij wind stevig blijft staan.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Accessoire",
+      "tags": [
+        "gewichten",
+        "accessoire",
+        "veiligheid"
+      ],
+      "created_at": "2026-02-20T10:00:00+01:00",
+      "published_at": "2026-02-20T10:00:00+01:00",
+      "options": [
+        {
+          "name": "Title",
+          "values": [
+            {
+              "name": "Default Title"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "GEW-4X10",
+          "option1": "Default Title",
+          "price": 7995,
+          "inventory_quantity": 30,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 40,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "gewichten-set.png",
+          "alt": "Vier tegelgewichten van 10 kilo"
+        }
+      ]
+    },
+    {
+      "handle": "led-prikkabel-10m",
+      "title": "LED-prikkabel 10 meter",
+      "body_html": "<p>Sfeervolle prikkabel met 20 warmwitte LED-lampen, geschikt voor buitengebruik (IP44).</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Verlichting",
+      "tags": [
+        "verlichting",
+        "accessoire",
+        "sfeer"
+      ],
+      "created_at": "2026-06-01T10:00:00+02:00",
+      "published_at": "2026-06-01T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Title",
+          "values": [
+            {
+              "name": "Default Title"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "LED-10",
+          "option1": "Default Title",
+          "price": 3495,
+          "inventory_quantity": 0,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 1.4,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "prikkabel-led.png",
+          "alt": "LED-prikkabel met warmwitte lampen"
+        }
+      ]
+    },
+    {
+      "handle": "actiepakket-4-statafels-4-rokken",
+      "title": "Actiepakket: 4 statafels + 4 stretch rokken",
+      "body_html": "<p>Vier inklapbare statafels Ø80 met vier stretch rokken in één kleur naar keuze. Ideaal voor recepties en borrels.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Actiepakket",
+      "tags": [
+        "actie",
+        "statafel",
+        "statafelrok",
+        "pakket"
+      ],
+      "created_at": "2026-07-01T10:00:00+02:00",
+      "published_at": "2026-07-01T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Kleur rokken",
+          "values": [
+            {
+              "name": "Zwart",
+              "swatch": {
+                "color": "#151515"
+              }
+            },
+            {
+              "name": "Wit",
+              "swatch": {
+                "color": "#FAFAFA"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "PAK-44-ZWA",
+          "option1": "Zwart",
+          "price": 27995,
+          "compare_at_price": 33960,
+          "inventory_quantity": 10,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 50,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "PAK-44-WIT",
+          "option1": "Wit",
+          "price": 27995,
+          "compare_at_price": 33960,
+          "inventory_quantity": 10,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 50,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "actiepakket-4-statafels.png",
+          "alt": "Vier statafels met zwarte rokken"
+        }
+      ]
+    },
+    {
+      "handle": "tafelkleed-biertafel",
+      "title": "Tafelkleed voor biertafel",
+      "body_html": "<p>Wit tafelkleed op maat van een standaard biertafel (220 x 50 cm). Vlekbestendig en wasbaar.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Tafelkleed",
+      "tags": [
+        "tafelkleed",
+        "accessoire"
+      ],
+      "created_at": "2026-05-15T10:00:00+02:00",
+      "published_at": "2026-05-15T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Title",
+          "values": [
+            {
+              "name": "Default Title"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "KLEED-BT",
+          "option1": "Default Title",
+          "price": 1495,
+          "inventory_quantity": 50,
+          "inventory_management": "shopify",
+          "inventory_policy": "deny",
+          "weight": 0.5,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "tafelkleed-rond.png",
+          "alt": "Wit tafelkleed op een biertafel"
+        }
+      ]
+    },
+    {
+      "handle": "bedrukte-partytent-3x3",
+      "title": "Bedrukte partytent 3x3 met eigen logo",
+      "body_html": "<p>Laat je partytent bedrukken met je eigen logo of ontwerp. Upload je bestand bij het bestellen; je ontvangt binnen 2 werkdagen een digitale drukproef.</p>",
+      "vendor": "Voorbeeldwinkel",
+      "product_type": "Bedrukte partytent",
+      "template_suffix": null,
+      "tags": [
+        "bedrukt",
+        "partytent",
+        "maatwerk",
+        "zakelijk"
+      ],
+      "created_at": "2026-08-01T10:00:00+02:00",
+      "published_at": "2026-08-01T10:00:00+02:00",
+      "options": [
+        {
+          "name": "Bedrukking",
+          "values": [
+            {
+              "name": "Valance (rondom)"
+            },
+            {
+              "name": "Dak + valance"
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "PRINT-33-VAL",
+          "option1": "Valance (rondom)",
+          "price": 54900,
+          "inventory_management": null,
+          "inventory_policy": "deny",
+          "weight": 20,
+          "weight_unit": "kg"
+        },
+        {
+          "sku": "PRINT-33-DAK",
+          "option1": "Dak + valance",
+          "price": 79900,
+          "inventory_management": null,
+          "inventory_policy": "deny",
+          "weight": 20,
+          "weight_unit": "kg"
+        }
+      ],
+      "images": [
+        {
+          "src": "bedrukte-partytent.png",
+          "alt": "Partytent met eigen logo op de valance"
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "handle": "partytenten",
+      "title": "Partytenten",
+      "body_html": "<p>Easy-up partytenten en stretchtenten voor elk feest en evenement.</p>",
+      "image": {
+        "src": "banner-partytenten.png",
+        "alt": "Partytenten"
+      },
+      "sort_order": "best-selling",
+      "rules": [
+        {
+          "column": "type",
+          "relation": "contains",
+          "condition": "tent"
+        }
+      ],
+      "disjunctive": false
+    },
+    {
+      "handle": "statafels",
+      "title": "Statafels",
+      "body_html": "<p>Inklapbare statafels in verschillende diameters.</p>",
+      "image": {
+        "src": "banner-statafels.png",
+        "alt": "Statafels"
+      },
+      "sort_order": "manual",
+      "products": [
+        "statafel-o80",
+        "actiepakket-4-statafels-4-rokken"
+      ]
+    },
+    {
+      "handle": "statafelrokken",
+      "title": "Statafelrokken",
+      "body_html": "<p>Stretch statafelrokken en rokken met strik in veel kleuren.</p>",
+      "image": {
+        "src": "statafelrok-stretch-koningsblauw.png",
+        "alt": "Blauwe statafelrok"
+      },
+      "sort_order": "price-asc",
+      "rules": [
+        {
+          "column": "tag",
+          "relation": "equals",
+          "condition": "statafelrok"
+        }
+      ]
+    },
+    {
+      "handle": "accessoires",
+      "title": "Accessoires",
+      "body_html": "<p>Zijwanden, gewichten, verlichting en meer.</p>",
+      "image": {
+        "src": "banner-accessoires.png",
+        "alt": "Accessoires"
+      },
+      "sort_order": "alpha-asc",
+      "rules": [
+        {
+          "column": "tag",
+          "relation": "equals",
+          "condition": "accessoire"
+        },
+        {
+          "column": "tag",
+          "relation": "equals",
+          "condition": "onderdelen"
+        }
+      ],
+      "disjunctive": true
+    },
+    {
+      "handle": "aanbiedingen",
+      "title": "Aanbiedingen",
+      "body_html": "<p>Tijdelijk scherp geprijsd.</p>",
+      "sort_order": "price-desc",
+      "rules": [
+        {
+          "column": "variant_compare_at_price",
+          "relation": "greater_than",
+          "condition": "0"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "source": "availability",
+      "label": "Beschikbaarheid"
+    },
+    {
+      "source": "price",
+      "label": "Prijs"
+    },
+    {
+      "source": "option",
+      "name": "Kleur",
+      "label": "Kleur"
+    },
+    {
+      "source": "option",
+      "name": "Maat",
+      "label": "Maat"
+    },
+    {
+      "source": "product_type",
+      "label": "Producttype"
+    },
+    {
+      "source": "metafield",
+      "owner": "product",
+      "namespace": "custom",
+      "key": "materiaal",
+      "label": "Materiaal"
+    }
+  ],
+  "best_sellers": [
+    "easy-up-partytent-premium",
+    "statafelrok-stretch",
+    "statafel-o80",
+    "gewichten-set-4x10kg"
+  ],
+  "menus": [
+    {
+      "handle": "main-menu",
+      "title": "Hoofdmenu",
+      "items": [
+        {
+          "title": "Partytenten",
+          "type": "collection",
+          "handle": "partytenten",
+          "items": [
+            {
+              "title": "Easy-up partytenten",
+              "url": "/collections/partytenten",
+              "items": [
+                {
+                  "title": "Premium",
+                  "type": "product",
+                  "handle": "easy-up-partytent-premium"
+                },
+                {
+                  "title": "Professional",
+                  "type": "product",
+                  "handle": "easy-up-partytent-professional-3x6"
+                },
+                {
+                  "title": "Bedrukt met logo",
+                  "type": "product",
+                  "handle": "bedrukte-partytent-3x3"
+                }
+              ]
+            },
+            {
+              "title": "Stretchtenten",
+              "type": "product",
+              "handle": "stretchtent-10x15"
+            },
+            {
+              "title": "Zijwanden & onderdelen",
+              "type": "collection",
+              "handle": "accessoires"
+            }
+          ]
+        },
+        {
+          "title": "Statafels",
+          "type": "collection",
+          "handle": "statafels",
+          "items": [
+            {
+              "title": "Statafels",
+              "type": "collection",
+              "handle": "statafels"
+            },
+            {
+              "title": "Statafelrokken",
+              "type": "collection",
+              "handle": "statafelrokken",
+              "items": [
+                {
+                  "title": "Stretch",
+                  "type": "product",
+                  "handle": "statafelrok-stretch"
+                },
+                {
+                  "title": "Met strik",
+                  "type": "product",
+                  "handle": "statafelrok-met-strik"
+                }
+              ]
+            },
+            {
+              "title": "Actiepakketten",
+              "type": "product",
+              "handle": "actiepakket-4-statafels-4-rokken"
+            }
+          ]
+        },
+        {
+          "title": "Accessoires",
+          "type": "collection",
+          "handle": "accessoires"
+        },
+        {
+          "title": "Aanbiedingen",
+          "type": "collection",
+          "handle": "aanbiedingen"
+        },
+        {
+          "title": "Zakelijk",
+          "type": "page",
+          "handle": "zakelijk"
+        },
+        {
+          "title": "Blog",
+          "type": "blog",
+          "handle": "nieuws"
+        }
+      ]
+    },
+    {
+      "handle": "footer",
+      "title": "Footer",
+      "items": [
+        {
+          "title": "Over ons",
+          "type": "page",
+          "handle": "over-ons"
+        },
+        {
+          "title": "Contact",
+          "type": "page",
+          "handle": "contact"
+        },
+        {
+          "title": "Veelgestelde vragen",
+          "type": "page",
+          "handle": "faq"
+        },
+        {
+          "title": "Verzending",
+          "type": "page",
+          "handle": "verzending"
+        },
+        {
+          "title": "Retourneren",
+          "type": "page",
+          "handle": "retourneren"
+        },
+        {
+          "title": "Zoeken",
+          "type": "search",
+          "url": "/search"
+        },
+        {
+          "title": "Privacybeleid",
+          "type": "policy",
+          "handle": "privacy-policy"
+        },
+        {
+          "title": "Algemene voorwaarden",
+          "type": "policy",
+          "handle": "terms-of-service"
+        }
+      ]
+    },
+    {
+      "handle": "customer-account-main-menu",
+      "title": "Klantaccount",
+      "items": [
+        {
+          "title": "Bestellingen",
+          "url": "/account"
+        },
+        {
+          "title": "Winkel",
+          "url": "/"
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "handle": "over-ons",
+      "title": "Over ons",
+      "body_html": "<p>Voorbeeldwinkel is een fictieve winkel die alleen bestaat om dit thema lokaal te testen. Alle teksten zijn voorbeeldteksten.</p><p>We verkopen partytenten, statafels en alles wat je nodig hebt voor een geslaagd feest.</p>"
+    },
+    {
+      "handle": "contact",
+      "title": "Contact",
+      "template_suffix": "contact",
+      "body_html": "<p>Vragen over je bestelling of een offerte? Stuur ons een bericht, we reageren op werkdagen binnen één dag.</p>"
+    },
+    {
+      "handle": "zakelijk",
+      "title": "Zakelijk bestellen",
+      "body_html": "<p>Voor horeca, eventbureaus, verhuurbedrijven, verenigingen en scholen bieden we staffelkorting en bestellen op factuur.</p><ul><li>Staffelkorting vanaf 10 stuks</li><li>Bestellen op rekening</li><li>Bedrukking met eigen logo</li></ul>"
+    },
+    {
+      "handle": "faq",
+      "title": "Veelgestelde vragen",
+      "body_html": "<h3>Hoe snel wordt mijn bestelling geleverd?</h3><p>Op voorraad betekent meestal binnen 1-2 werkdagen in huis.</p><h3>Kan ik retourneren?</h3><p>Ja, binnen 30 dagen na ontvangst.</p><h3>Is een easy-up partytent waterdicht?</h3><p>Het dak wel; naden kunnen bij langdurige regen licht doorlaten.</p>"
+    },
+    {
+      "handle": "verzending",
+      "title": "Verzending",
+      "body_html": "<p>We verzenden binnen Nederland en België. Grote producten gaan per pallet of koerier.</p>"
+    },
+    {
+      "handle": "retourneren",
+      "title": "Retourneren",
+      "body_html": "<p>Niet tevreden? Meld je retour binnen 30 dagen aan via het contactformulier.</p>"
+    }
+  ],
+  "blogs": [
+    {
+      "handle": "nieuws",
+      "title": "Tips & nieuws",
+      "comments": "moderate",
+      "articles": [
+        {
+          "handle": "partytent-opbouwen-in-5-stappen",
+          "title": "Partytent opbouwen in 5 stappen",
+          "author": "Team Voorbeeldwinkel",
+          "published_at": "2026-09-20T09:00:00+02:00",
+          "tags": [
+            "partytent",
+            "handleiding"
+          ],
+          "image": {
+            "src": "blog-opbouwen.png",
+            "alt": "Partytent wordt opgebouwd"
+          },
+          "summary_html": "<p>Met deze vijf stappen staat je easy-up partytent in een paar minuten veilig overeind.</p>",
+          "body_html": "<p>Een easy-up partytent opzetten is eenvoudig als je het in de goede volgorde doet.</p><ol><li>Leg alles klaar</li><li>Schuif het frame half uit</li><li>Leg het dak over het frame</li><li>Klik de poten op hoogte</li><li>Zet de tent vast met gewichten of haringen</li></ol>"
+        },
+        {
+          "handle": "welke-statafel-past-bij-jouw-feest",
+          "title": "Welke statafel past bij jouw feest?",
+          "author": "Team Voorbeeldwinkel",
+          "published_at": "2026-08-12T09:00:00+02:00",
+          "tags": [
+            "statafel",
+            "advies"
+          ],
+          "image": {
+            "src": "blog-statafel-kiezen.png",
+            "alt": "Statafels met rokken"
+          },
+          "summary_html": "<p>Ø70, Ø80 of Ø85? We zetten de verschillen op een rij.</p>",
+          "body_html": "<p>De diameter bepaalt hoeveel gasten comfortabel rond een statafel staan.</p>"
+        },
+        {
+          "handle": "partytent-onderhouden-en-opbergen",
+          "title": "Zo onderhoud en berg je je partytent op",
+          "author": "Team Voorbeeldwinkel",
+          "published_at": "2026-07-02T09:00:00+02:00",
+          "tags": [
+            "onderhoud"
+          ],
+          "image": {
+            "src": "blog-onderhoud.png",
+            "alt": "Opgevouwen partytent in draagtas"
+          },
+          "summary_html": "<p>Een paar simpele gewoontes zorgen dat je tent jaren meegaat.</p>",
+          "body_html": "<p>Berg je tent altijd droog op en controleer na elk gebruik de verbindingen.</p>"
+        }
+      ]
+    }
+  ],
+  "policies": {
+    "privacy_policy": {
+      "title": "Privacybeleid",
+      "body_html": "<p>Voorbeeldtekst privacybeleid. Vervang deze tekst door je eigen beleid.</p>"
+    },
+    "refund_policy": {
+      "title": "Retourbeleid",
+      "body_html": "<p>Voorbeeldtekst retourbeleid: 30 dagen bedenktijd.</p>"
+    },
+    "shipping_policy": {
+      "title": "Verzendbeleid",
+      "body_html": "<p>Voorbeeldtekst verzendbeleid.</p>"
+    },
+    "terms_of_service": {
+      "title": "Algemene voorwaarden",
+      "body_html": "<p>Voorbeeldtekst algemene voorwaarden.</p>"
+    },
+    "contact_information": {
+      "title": "Contactgegevens",
+      "body_html": "<p>Voorbeeldwinkel · Voorbeeldstraat 1 · 1234 AB Voorbeeldstad · KvK 00000000</p>"
+    }
+  }
+}

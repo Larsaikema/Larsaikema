@@ -1,0 +1,1422 @@
+[
+  {
+    "id": "global.price-incl-excl-btw",
+    "area": "global",
+    "feature": "Every price shown incl. btw with the excl. btw amount next to it (cards, PDP, accessory blocks).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
+    "priority": "must",
+    "how_we_match": "snippet price.liquid renders incl. price + computed ex-btw line (rate from theme setting, default 21%); setting to show ex-first for B2B customers.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.markets-nl-be",
+    "area": "global",
+    "feature": "Separate NL and BE storefronts (outmate.be mirrors outmate.nl); BE delivery rates applied automatically.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.be/product-categorie/partytenten/",
+    "priority": "must",
+    "how_we_match": "Shopify Markets NL + BE (EUR), localization form, BE shipping zone; hreflang handled by Markets.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.cookie-consent",
+    "area": "global",
+    "feature": "Cookie-consent banner with consent categories (functional/statistics/marketing wording).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/",
+    "priority": "must",
+    "how_we_match": "Shopify Customer Privacy banner (Settings > Customer privacy); theme loads no tracking before consent.",
+    "confidence": "likely"
+  },
+  {
+    "id": "global.from-price",
+    "area": "global",
+    "feature": "'Vanaf €X' from-price for products with varying variant prices.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/",
+    "priority": "must",
+    "how_we_match": "price snippet: product.price_varies -> 'Vanaf' + price_min.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.sale-compare-at",
+    "area": "global",
+    "feature": "Sale price with struck-through original price (e.g. was €895 now €775).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/barrel-set-1-wijnvat-statafel-4-barkrukken-houtlook-onderhoudsvrij-kunststof/",
+    "priority": "must",
+    "how_we_match": "compare_at_price in price snippet + 'Actie' badge on card and PDP.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.availability-states",
+    "area": "global",
+    "feature": "Availability states beyond in/out of stock: 'Tijdelijk uitverkocht', 'Binnenkort leverbaar', 'Pre-order'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd/binnenkort-leverbaar/",
+    "priority": "must",
+    "how_we_match": "metafield custom.availability_status (enum) + inventory policy 'continue' for pre-order; badge on card + PDP; ATC label switches to 'Pre-order'.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.dispatch-line",
+    "area": "global",
+    "feature": "Dispatch/lead-time line on cards and PDP: 'Vandaag verzonden', a concrete weekday date ('di 20 okt'), 'binnen 1-3 werkdagen', '10-15 werkdagen', '5-10 dagen na akkoord ontwerp'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "must",
+    "how_we_match": "metafields custom.lead_time_min/max_days + custom.lead_time_mode; theme settings for cut-off time and working days; small JS computes the date; all values owner-editable and listed in docs/claims-to-confirm.md.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.low-stock-badge",
+    "area": "global",
+    "feature": "Low-stock scarcity badge ('Nog 4 voorradig!').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/",
+    "priority": "should",
+    "how_we_match": "badge when variant.inventory_quantity <= theme-setting threshold and inventory is tracked; never faked.",
+    "confidence": "likely"
+  },
+  {
+    "id": "global.reviews-product",
+    "area": "global",
+    "feature": "Product reviews with average + count; purchase-gated, 'geverifieerd' marker.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/",
+    "priority": "should",
+    "how_we_match": "@app block + snippet reading reviews.rating / reviews.rating_count metafields; renders nothing when absent; fixtures contain no ratings.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.reviews-shop-page",
+    "area": "global",
+    "feature": "Shop-review page ('Shopervaring') with site-review count; Trustpilot profile exists.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/reviews/",
+    "priority": "could",
+    "how_we_match": "page.reviews template with @app block for the owner's review app; no counts in theme or fixtures.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.company-legal-details",
+    "area": "global",
+    "feature": "Company name, address, KvK and BTW number and e-mail visible (footer/contact).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "must",
+    "how_we_match": "footer 'bedrijfsgegevens' block from theme settings (owner fills KvK/BTW); also on contact page.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "global.social-links",
+    "area": "global",
+    "feature": "Social profiles (Facebook, Instagram).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.instagram.com/outmate.nl/",
+    "priority": "should",
+    "how_we_match": "footer social icons from theme settings; hidden when empty.",
+    "confidence": "likely"
+  },
+  {
+    "id": "global.whatsapp",
+    "area": "global",
+    "feature": "WhatsApp contact button next to phone/e-mail (seen on sister sites outmatestretch.nl / outmateair.nl; not confirmed on outmate.nl).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmatestretch.nl/",
+    "priority": "should",
+    "how_we_match": "theme setting whatsapp_number -> wa.me link in header/contact/PDP help block; hidden when empty.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "global.live-chat",
+    "area": "global",
+    "feature": "Live chat (only an old review mentions chat; current widget unconfirmed).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmatestretch.nl/",
+    "priority": "could",
+    "how_we_match": "Shopify Inbox app embed; theme leaves room bottom-right so it does not cover sticky ATC.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "global.usp-bar",
+    "area": "global",
+    "feature": "USP/announcement bar (Outmate USP texts not confirmed; self-claims like 'Door eigen import de goedkoopste' seen in titles).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/alle/",
+    "priority": "should",
+    "how_we_match": "announcement-bar section in header group with editable USP blocks; only owner-confirmed claims, no unverifiable superlatives.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "global.same-day-cutoff",
+    "area": "global",
+    "feature": "Same-day dispatch promise ('voor 14:00 besteld = vandaag verzonden').",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "should",
+    "how_we_match": "theme setting cutoff_time + toggle drives USP text and dispatch line; listed in docs/claims-to-confirm.md.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "global.free-shipping-threshold",
+    "area": "global",
+    "feature": "Free-shipping threshold - NOT found on outmate.nl (the bol.com threshold is bol.com's own policy).",
+    "seen_on": "market",
+    "evidence_url": "https://www.bol.com/nl/nl/b/outmate/605686588/",
+    "priority": "could",
+    "how_we_match": "optional theme setting free_shipping_threshold + cart progress bar, off by default; matching Shopify free rate.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "global.notices",
+    "area": "global",
+    "feature": "Temporary service notices (showroom closed in holidays; DPD parcel delays of 2-3 days).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "should",
+    "how_we_match": "announcement bar / collection-notice metafield with optional start-end dates.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.search",
+    "area": "header",
+    "feature": "Site search ('Zoeken').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "must",
+    "how_we_match": "predictive search drawer (/search/suggest.json: products, collections, pages, articles) + search template with filters.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.account",
+    "area": "header",
+    "feature": "Account link ('Log in' / 'Mijn account').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "must",
+    "how_we_match": "routes.account_url (new customer accounts), icon + label.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.cart-count",
+    "area": "header",
+    "feature": "Cart icon with live item counter ('Winkelwagen').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "must",
+    "how_we_match": "cart-count bubble updated via Section Rendering API after add/update.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.checkout-link",
+    "area": "header",
+    "feature": "Direct 'Afrekenen' link in header.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "could",
+    "how_we_match": "covered by 'Afrekenen' button in cart drawer; no separate header link needed.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.quote-button",
+    "area": "header",
+    "feature": "'Offerte aanvragen' button top right of the site, for larger orders and organisations with PO/approval flows.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "must",
+    "how_we_match": "header CTA button (label + link from settings, default /pages/offerte).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "header.mega-menu",
+    "area": "header",
+    "feature": "Deep product-family navigation: Partytenten, Easy-up, Opslagtenten, Stretchtenten, Stertenten, Opblaasbaar, Zeilen/Schaduwdoeken, Tafels & stoelen, Meubilair accessoires, Verlichting, Verwarming, Inrichting, Vloeren, plus onderdelen/accessoires per tent type.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/",
+    "priority": "must",
+    "how_we_match": "mega-menu from 3-level linklists with optional promo tile per column; mobile drawer with nested accordions; keyboard accessible.",
+    "confidence": "likely"
+  },
+  {
+    "id": "header.contact-strip",
+    "area": "header",
+    "feature": "Phone/hours visible near header (not confirmed on outmate.nl).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "could",
+    "how_we_match": "optional top-strip block with phone + hours from settings.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "home.hero",
+    "area": "home",
+    "feature": "Hero with short question-style headline and slogan.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "must",
+    "how_we_match": "hero section: 3D render/image, heading, subheading, 2 CTAs; LCP image eager + fetchpriority=high.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "home.category-tiles",
+    "area": "home",
+    "feature": "Main entry tiles per product family (easy-up, buizenframe, stretch, alle onderdelen) each with a one-line benefit.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "must",
+    "how_we_match": "collection-tiles section with per-tile image, title, benefit text and link.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "home.category-product-rows",
+    "area": "home",
+    "feature": "Product rows per family (Easy-up, Stertenten, Statafel & terrastafel, Opblaasbaar, Overkapping zeilen, Partytenten, Stretchtenten).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "must",
+    "how_we_match": "repeatable featured-collection section (optionally tabbed) using the shared product card.",
+    "confidence": "likely"
+  },
+  {
+    "id": "home.bundle-promo",
+    "area": "home",
+    "feature": "Promo block for unique sets (barrel/wine-barrel statafel + barkrukken).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "should",
+    "how_we_match": "image-with-text / promo-banner section linking to bundle collection.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "home.dispatch-on-cards",
+    "area": "home",
+    "feature": "Concrete dispatch date on homepage product tiles ('Verzending: di 20 okt').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "must",
+    "how_we_match": "shared product-card snippet renders global.dispatch-line.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "home.visit-block",
+    "area": "home",
+    "feature": "Visit/showroom block: address + 'Bezoek op afspraak: Plan je bezoek'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "should",
+    "how_we_match": "visit section (address, hours, image, CTA to /pages/showroom), all text from settings.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "home.maatwerk-teaser",
+    "area": "home",
+    "feature": "Overkapping zeilen teaser 'van 3 m tot 10 m en maatwerk'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/",
+    "priority": "should",
+    "how_we_match": "promo section with maatwerk CTA to configurator product.",
+    "confidence": "likely"
+  },
+  {
+    "id": "home.newsletter",
+    "area": "home",
+    "feature": "Newsletter signup (not confirmed on outmate.nl).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "newsletter section with {% form 'customer' %} (tags: newsletter), success/error states.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "collection.nested-tree",
+    "area": "collection",
+    "feature": "Nested categories with subcategory pages (Easy-up > Premium/Professional; Partytenten > 5 quality lines; accessoires per tent type).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/partytenten/",
+    "priority": "must",
+    "how_we_match": "collection per level; subcollection chips/tiles at top via metafield custom.subcollections (list.collection_reference).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.quality-line-explainer",
+    "area": "collection",
+    "feature": "Quality tiers explained on the category page (PE Basic 200 g/m², PVC Classic 500, Premium 550, Ultimate, Professional 620; easy-up Premium steel vs Professional aluminium).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/",
+    "priority": "must",
+    "how_we_match": "collection intro + comparison-table section fed by 'kwaliteitslijn' metaobjects.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.filters-attributes",
+    "area": "collection",
+    "feature": "Facet filters: afmeting, kleur, materiaal, bevestiging (klittenband), materiaal buizen.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/?_pa_kleur=full-colour-bedrukking-vouwtent",
+    "priority": "must",
+    "how_we_match": "Search & Discovery filters on options + product metafields; collection.filters UI (sidebar desktop, drawer mobile), active-filter chips.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.filter-printed",
+    "area": "collection",
+    "feature": "Filter for printable/printed tents ('Bedrukte tent!').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/?_pa_kleur=full-colour-bedrukking-vouwtent",
+    "priority": "should",
+    "how_we_match": "boolean metafield custom.printable exposed as filter.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.filter-levertijd",
+    "area": "collection",
+    "feature": "Filter by lead time / availability ('Binnenkort leverbaar').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd/binnenkort-leverbaar/",
+    "priority": "should",
+    "how_we_match": "availability filter + metafield filter custom.lead_time_class.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.filter-condition-warranty",
+    "area": "collection",
+    "feature": "Filter by conditie (nieuw) and fabrieksgarantie.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/conditie/nieuw/",
+    "priority": "could",
+    "how_we_match": "metafield filters; only useful if outlet/used items are sold.",
+    "confidence": "likely"
+  },
+  {
+    "id": "collection.filter-frame-colour",
+    "area": "collection",
+    "feature": "Frame-colour facet on furniture (?_frame=zwart).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/?_frame=zwart",
+    "priority": "should",
+    "how_we_match": "variant option 'Framekleur' as filter with swatches.",
+    "confidence": "likely"
+  },
+  {
+    "id": "collection.seo-intro",
+    "area": "collection",
+    "feature": "Category intro/SEO text (e.g. 'Alle partytenten - van 3x3 tot 8x12 m').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/",
+    "priority": "should",
+    "how_we_match": "collection.description above grid + long SEO text metafield below grid (collapsible).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.sort",
+    "area": "collection",
+    "feature": "Sorting (price, newest, best-selling).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "sort_by select bound to collection.sort_options.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "collection.pagination",
+    "area": "collection",
+    "feature": "Pagination / load more for large categories.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "paginate + progressive 'Meer laden' button.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "collection.card-parity",
+    "area": "collection",
+    "feature": "Product card shows incl/excl price, vanaf, sale, dispatch line, availability/low-stock badge.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/",
+    "priority": "must",
+    "how_we_match": "single product-card snippet used everywhere (collection, search, home, cross-sell).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "collection.product-tags",
+    "area": "collection",
+    "feature": "Product-tag groupings (vouwtent, gewichten, regen-goot, stertent, palentent...).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/?_pa_kleur=full-colour-bedrukking-vouwtent",
+    "priority": "could",
+    "how_we_match": "tags for internal grouping/automated collections only, not separate indexed pages.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.size-switch",
+    "area": "product",
+    "feature": "Size selection (Outmate: one product per size, linked from the category).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/",
+    "priority": "must",
+    "how_we_match": "size as variant option within a product line; if products are split, sibling switcher via metafield.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.canopy-sibling-switch",
+    "area": "product",
+    "feature": "Canopy type as separate sibling products (PVC-gecoat polyester 320 g/m² vs Heavy duty PVC 580 g/m²).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/",
+    "priority": "should",
+    "how_we_match": "sibling switcher (metafield custom.siblings list.product_reference) rendered as option pills; or 'Dakzeil' as variant option.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.colour-swatches",
+    "area": "product",
+    "feature": "Colour picker: Zwart, Wit, Blauw, Grijs, Zandkleur, Groen, Rood + 'Full Colour-bedrukking'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x45m-premium-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "option-value swatches (value.swatch) using Shopify colour metaobjects; print value gets a pattern swatch.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.print-option-reveal",
+    "area": "product",
+    "feature": "Selecting 'Full Colour-bedrukking' reveals the print fields and changes lead time.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "must",
+    "how_we_match": "JS shows print fieldset when the print variant is selected; dispatch line switches to 'na akkoord ontwerp'.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.print-upload",
+    "area": "product",
+    "feature": "Print file upload ('Upload je materiaal voor bedrukking'), multiple files, .pdf/.ai/.eps, max 128 MB.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/zijwand-2m-met-raam-easy-up-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "file inputs as line-item properties (multipart form) + 'later aanleveren' option with e-mail/link field; Shopify's own upload size limit is lower than 128 MB - verify and document.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.print-side",
+    "area": "product",
+    "feature": "Print side choice: binnenkant, buitenkant or beide (double-sided = two printed cloths).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x45m-premium-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "line-item property select (price impact via variant or add-on product).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.print-template-download",
+    "area": "product",
+    "feature": "Downloadable print template + filled-in example template.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "downloads metafield (list.file_reference) with labelled types.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.print-proof-flow",
+    "area": "product",
+    "feature": "Proof flow: shop makes a mock-up, customer approves, production starts after approval; lead time counted from approval (14-21 days / 2-3 weeks / 5-10 days).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "must",
+    "how_we_match": "'Zo werkt bedrukken' steps block on PDP + page.bedrukken; order-confirmation note; values in claims-to-confirm.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.spec-table",
+    "area": "product",
+    "feature": "Key-value spec table (kleur, afmeting, materiaal frame, dakzeil, brandvertragend, treksterkte, gewicht zeil/frame, doorloophoogte, totale hoogte, pers. staand/zittend, opzettijd, waterkolom, fabrieksgarantie, materiaal buizen).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/stretchtent-45-x-6-meter/",
+    "priority": "must",
+    "how_we_match": "specs metafields per product type rendered as accessible <table>; empty rows skipped.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.capacity-keyfacts",
+    "area": "product",
+    "feature": "Capacity and key facts: m², persons standing/seated, setup time (e.g. 4x6: 36 staand / 24 zittend, 1-2 min).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-4x6m-professional-heavy-duty-pvc/",
+    "priority": "should",
+    "how_we_match": "key-facts icon row above the fold from the same metafields.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.downloads",
+    "area": "product",
+    "feature": "Downloads: opzetinstructie, specificatieblad, treksterkte berekening, testrapport brandveiligheid.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "downloads accordion from list.file_reference metafield (PDF icon, file size).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.content-tabs",
+    "area": "product",
+    "feature": "Content sections: Beschrijving / Specificaties / Downloads / Reviews.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-4x4m-professional-heavy-duty-pvc/",
+    "priority": "must",
+    "how_we_match": "collapsible-tab blocks in main-product (deep-linkable).",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.shipping-cost-line",
+    "area": "product",
+    "feature": "Per-product shipping cost line ('De verzendkosten op dit product zijn €X'), incl. quantity rule ('1 stuk: €12,50 | 2+ stuks: €25').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-4x6m-professional-pvc-gecoat-polyester-2/",
+    "priority": "must",
+    "how_we_match": "metafield custom.shipping_class -> text from settings/metaobject, matched by Shopify shipping profile rates.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.shipping-method-label",
+    "area": "product",
+    "feature": "Carrier/method per product ('Pakketdienst' vs 'Vrachttransport') with box dimensions.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/partytent-4x4-premium-pvc-brandvertragend/",
+    "priority": "should",
+    "how_we_match": "metafield custom.shipping_method + package dimensions shown under the shipping line.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.back-in-stock",
+    "area": "product",
+    "feature": "Back-in-stock e-mail signup on out-of-stock products.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/3-weg-recht-schuifkoppelstuk/",
+    "priority": "must",
+    "how_we_match": "@app block for a back-in-stock app; fallback {% form 'contact' %} 'Mail mij' with product handle.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.staffelkorting",
+    "area": "product",
+    "feature": "Tiered volume discount table (e.g. 2-5 st 5% ... 20+ st 12,5%; staffel from 10 st on barkrukken).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
+    "priority": "must",
+    "how_we_match": "metafield custom.volume_tiers (JSON) rendered as table with live unit price; enforced by automatic quantity discounts or B2B quantity price breaks.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.accessory-cross-sell",
+    "area": "product",
+    "feature": "Accessory cross-sell ('Handige accessoires' / 'Ook handig om mee te bestellen': voetgewicht, spanriemen, wielen, regengoten, zijwanden, onderdelen).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/",
+    "priority": "must",
+    "how_we_match": "complementary products (Search & Discovery) or metafield list.product_reference with checkbox quick-add to cart.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.accessory-bundle-discount",
+    "area": "product",
+    "feature": "'10% korting op de volgende accessoires' when bought with the tent (side walls; also 10% on lamps with a prikkabel).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/",
+    "priority": "should",
+    "how_we_match": "Shopify automatic discount (buy X get Y 10%) + PDP note listing eligible accessories.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.whats-included",
+    "area": "product",
+    "feature": "What's included / excluded ('Exclusief zijwanden'; inflatable incl. 4 zandzakken, tas, 4 scheerlijnen, 4 haringen; stertent incl. opbergtas, mast, haringen, meetkoord).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/",
+    "priority": "must",
+    "how_we_match": "metafields custom.included / custom.excluded rendered as checklist.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.compatibility-warning",
+    "area": "product",
+    "feature": "Fit warning on spare parts ('past alleen op ons eigen frame of identieke frames').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/partytent-dakzeil-6x12-pvc-professional/",
+    "priority": "should",
+    "how_we_match": "metafield custom.compatibility_note + compatible products list.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.configurator-maatwerk",
+    "area": "product",
+    "feature": "Made-to-measure configurator: length x width input, material/colour, live price, 1-2 cm tolerance, maatwerk not returnable, advice to use PC/tablet.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/",
+    "priority": "must",
+    "how_we_match": "configurator block: numeric inputs -> line-item properties, price via per-m² unit variant x quantity; mobile-first so no 'use a PC' caveat.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.configurator-stretch",
+    "area": "product",
+    "feature": "Stretchtent op maat: length + width, with/without palenset, rigging choice.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/stretchtent-zeil-op-maat/",
+    "priority": "must",
+    "how_we_match": "same configurator block with option add-ons.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.per-metre",
+    "area": "product",
+    "feature": "Per-metre products: lichtslang per m, prikkabel op maat up to 200 m, rode loper op maat (1/2/4 m wide, up to 60 m).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/led-lichtslang-warm-wit-op-maat/",
+    "priority": "should",
+    "how_we_match": "quantity = metres with unit label, min/max and step; width as variant.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.option-add-ons",
+    "area": "product",
+    "feature": "Configurable add-ons: pole material (kastanje/aluminium), rigging (spanbanden/touwensets), frame colour (8 for inflatables), roof colour or print, optional luifel, wheel kit.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/",
+    "priority": "must",
+    "how_we_match": "variants (max 3 options) + add-on products as checkboxes adding separate cart lines.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.bundles",
+    "area": "product",
+    "feature": "Bundles: 'Supercombi' 10x statafel + trolley, 12x Ibiza/Blomo + trolley, barrel set 1 tafel + 4 barkrukken.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/supercombi-10x-statafel-times-square-trolley/",
+    "priority": "must",
+    "how_we_match": "Shopify Bundles (fixed bundles) or bundle products with component list metafield and savings line.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.matching-trolley",
+    "area": "product",
+    "feature": "Matching trolley/transport cart for every table and chair type.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/",
+    "priority": "should",
+    "how_we_match": "'Bijpassende trolley' cross-sell via metafield.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.quote-form",
+    "area": "product",
+    "feature": "On-page 'Offerte aanvragen' form: company, BTW-nummer, KvK-nummer; note on intra-community delivery to BE without VAT.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/test-2/",
+    "priority": "must",
+    "how_we_match": "offerte block with {% form 'contact' %} prefilled with product/variant; fields organisation, KvK, BTW, aantal, datum.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.related-guides",
+    "area": "product",
+    "feature": "Links from PDP to setup blogs and comparison guides.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf",
+    "priority": "should",
+    "how_we_match": "metafield list of related articles/pages rendered as 'Handig om te lezen'.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.min-quantity",
+    "area": "product",
+    "feature": "Minimum order quantity on printed items (afzetpaal bedrukt: min 10).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/afzetpaal-bedrukking-op-trekband/",
+    "priority": "should",
+    "how_we_match": "metafield custom.min_qty -> quantity input min + validation message.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.fire-safety",
+    "area": "product",
+    "feature": "Flame-retardant claim with downloadable fire-safety test report.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-3x45m-professional-pvc-gecoat-polyester/",
+    "priority": "should",
+    "how_we_match": "spec row + badge from metafield, linked to the downloaded report.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.warranty",
+    "area": "product",
+    "feature": "Warranty per product ('Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
+    "priority": "should",
+    "how_we_match": "metafield custom.warranty -> spec row; owner-confirmed claim.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.care-warnings",
+    "area": "product",
+    "feature": "Usage/care warnings (colours may fade; tents not tested for storm/snow loads; anchor properly).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/",
+    "priority": "should",
+    "how_we_match": "notice block from metafield + link to setup tips.",
+    "confidence": "likely"
+  },
+  {
+    "id": "product.video",
+    "area": "product",
+    "feature": "Product/setup video (not confirmed as Outmate-hosted).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/easy-up-3x6m-professional-heavy-duty-pvc/",
+    "priority": "could",
+    "how_we_match": "media gallery supports video and 3D media (product.media).",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "product.gallery",
+    "area": "product",
+    "feature": "Media gallery with zoom and thumbnails.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "image_url/image_tag srcset gallery, zoom dialog, swipe on mobile.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "product.atc-ajax",
+    "area": "product",
+    "feature": "Quantity selector + AJAX add to cart opening cart drawer.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "product form -> /cart/add.js, then Section Rendering API refresh.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "product.sticky-atc",
+    "area": "product",
+    "feature": "Sticky add-to-cart bar on mobile.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "could",
+    "how_we_match": "sticky bar custom element shown after the main ATC scrolls out.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "cart.highest-shipping-only",
+    "area": "cart",
+    "feature": "When several items are ordered, only the highest shipping cost is charged.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "not native in Shopify (rates add up across profiles): one general profile with shipping-class/weight tiers, or a carrier-service rules app; documented in docs/ as owner decision.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "cart.shipping-excluded-note",
+    "area": "cart",
+    "feature": "Product prices exclude shipping; shipping shown separately.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "cart note 'Verzendkosten berekenen we bij het afrekenen' + estimate per shipping class.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "cart.drawer",
+    "area": "cart",
+    "feature": "Cart drawer with quantity updates and remove, no page reload.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "cart-drawer section via Section Rendering API (/cart/change.js).",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "cart.line-properties",
+    "area": "cart",
+    "feature": "Line-item properties visible in cart (print files, sides, dimensions, add-ons).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "render item.properties (hide _private keys), file names as links.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "cart.po-reference",
+    "area": "cart",
+    "feature": "Order note / PO reference for organisations with purchase-order flows.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "should",
+    "how_we_match": "cart note + cart attribute 'Referentie / PO-nummer'.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "cart.ex-vat-subtotal",
+    "area": "cart",
+    "feature": "Subtotal also shown excl. btw.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
+    "priority": "could",
+    "how_we_match": "computed ex-btw subtotal line in cart drawer/page.",
+    "confidence": "likely"
+  },
+  {
+    "id": "cart.upsell",
+    "area": "cart",
+    "feature": "Accessory suggestions in cart.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "could",
+    "how_we_match": "product recommendations (intent=complementary) inside cart drawer.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "checkout.guest",
+    "area": "checkout-adjacent",
+    "feature": "Checkout with account or as guest.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/bestellen-annuleren/",
+    "priority": "must",
+    "how_we_match": "Shopify checkout with customer accounts optional.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "checkout.payment-methods",
+    "area": "checkout-adjacent",
+    "feature": "iDEAL, Bancontact, Belfius, KBC-Betaalknop, creditcard, Apple Pay, PayPal, bankoverschrijving (Sofort/Giropay also listed on a ~3-year-old page).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "Shopify Payments or Mollie app; bank transfer as manual method; do not list Sofort/Giropay without PSP confirmation (likely phased out - verify).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "checkout.payment-surcharge",
+    "area": "checkout-adjacent",
+    "feature": "Percentage surcharge on some payment methods.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "could",
+    "how_we_match": "do NOT replicate (no native support; EU rules limit consumer surcharges - verify); note in docs.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "checkout.invoice-organisations",
+    "area": "checkout-adjacent",
+    "feature": "Pay on invoice ('op rekening') only for (semi-)government and larger organisations, via Peppol e-factuur with OIN.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "Shopify B2B payment terms (Plus) or manual method 'Op factuur (organisaties, na goedkeuring)'; Peppol via accounting tool; docs/b2b.md.",
+    "confidence": "likely"
+  },
+  {
+    "id": "checkout.local-pickup",
+    "area": "checkout-adjacent",
+    "feature": "Pickup by appointment at the warehouse (separate from postal address).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "should",
+    "how_we_match": "Shopify local pickup location with 'op afspraak' instructions + pickup-ready notification.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "checkout.pay-on-pickup",
+    "area": "checkout-adjacent",
+    "feature": "Pay at pickup (cash or pin).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "could",
+    "how_we_match": "manual payment method 'Betalen bij afhalen'; restricting it to pickup needs a payment customization - owner decision.",
+    "confidence": "likely"
+  },
+  {
+    "id": "checkout.be-rates",
+    "area": "checkout-adjacent",
+    "feature": "Belgian delivery rates applied automatically.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "Markets BE shipping zone with own rates.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "checkout.freight-delivery",
+    "area": "checkout-adjacent",
+    "feature": "Freight delivery for tents/pallets: delivery-date confirmation, time window communicated on the day.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "should",
+    "how_we_match": "shipping-notification template text + 'Bezorging per vrachtwagen' info on PDP/policy; carrier is owner choice.",
+    "confidence": "likely"
+  },
+  {
+    "id": "checkout.track-trace",
+    "area": "checkout-adjacent",
+    "feature": "Track & trace e-mail for parcels.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "Shopify shipping confirmation with tracking link.",
+    "confidence": "likely"
+  },
+  {
+    "id": "checkout.reverse-charge-be",
+    "area": "checkout-adjacent",
+    "feature": "Intra-community B2B delivery to BE without VAT for valid BTW numbers.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/test-2/",
+    "priority": "must",
+    "how_we_match": "Shopify tax settings: VAT-ID collection / B2B tax exemption (company profiles); docs/btw.md.",
+    "confidence": "likely"
+  },
+  {
+    "id": "checkout.prepayment-final-order",
+    "area": "checkout-adjacent",
+    "feature": "Order is final on confirmation; prepayment in full before dispatch.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/bestellen-annuleren/",
+    "priority": "should",
+    "how_we_match": "policy text on ordering page; manual payments hold fulfilment.",
+    "confidence": "likely"
+  },
+  {
+    "id": "content.comparison-guide",
+    "area": "content",
+    "feature": "Comparison guide 'het verschil tussen de partytenten' across quality lines.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/het-verschil-tussen-de-partytenten/",
+    "priority": "must",
+    "how_we_match": "page/article with comparison-table section fed by metaobjects; linked from collections.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.pe-vs-pvc",
+    "area": "content",
+    "feature": "PE vs PVC canopy explainer.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-opzetten/",
+    "priority": "should",
+    "how_we_match": "blog article in 'Kennisbank'.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.buying-guide-opslag",
+    "area": "content",
+    "feature": "Buying guide 'opslagtent kopen - welke past bij je'.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/opslagtenten/",
+    "priority": "should",
+    "how_we_match": "article with links to the tier collections.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.print-landing",
+    "area": "content",
+    "feature": "Printing landing page (process, inside/outside/both, technique, template, lead time, large volumes via quote).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "must",
+    "how_we_match": "page.bedrukken template: steps, examples, FAQ, CTA to printable products and offerte.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.setup-howto",
+    "area": "content",
+    "feature": "Setup how-to articles ('easy-up opzetten', 'tips voor het opzetten van een partytent', storm anchoring).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/tips-voor-het-opzetten-van-een-partytent/",
+    "priority": "should",
+    "how_we_match": "blog articles with step lists; linked from PDP.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.manuals-hub",
+    "area": "content",
+    "feature": "Manuals hub ('Handleidingen') with a PDF setup instruction per product.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/wp-content/uploads/2023/01/Partytent-5x8-PVC-Classic.pdf",
+    "priority": "must",
+    "how_we_match": "page.handleidingen listing products that have a manual metafield.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.line-deep-dive",
+    "area": "content",
+    "feature": "Deep-dive page per product line (e.g. 'De partytent PVC Professional').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/het-verschil-tussen-de-partytenten/",
+    "priority": "could",
+    "how_we_match": "article per line, linked from the line collection.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.all-products-overview",
+    "area": "content",
+    "feature": "Overview landing of the whole tent range ('/alle/').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/alle/",
+    "priority": "could",
+    "how_we_match": "list-collections template + collections/all.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.project-gallery",
+    "area": "content",
+    "feature": "Project gallery ('uitgevoerde projecten').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/stretchtent-huren/",
+    "priority": "could",
+    "how_we_match": "page.projecten with gallery section (owner photos/renders only).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.rental",
+    "area": "content",
+    "feature": "Rental offer with setup/teardown ('stretchtent huren').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/stretchtent-huren/",
+    "priority": "could",
+    "how_we_match": "optional page.verhuur (owner decision; may link to own rental business).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.about-contact",
+    "area": "content",
+    "feature": "'Contact en over ons' page with company story.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/contact/",
+    "priority": "must",
+    "how_we_match": "page.over-ons + page.contact templates.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.showroom",
+    "area": "content",
+    "feature": "Showroom page: see/test tents and furniture, visits by appointment ('Plan je bezoek').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/showroombezoek/",
+    "priority": "should",
+    "how_we_match": "page.showroom with appointment form (date/time preference fields via contact form) or booking app block.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "content.blog",
+    "area": "content",
+    "feature": "Blog / kennisbank.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "blog + article templates with related products.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "content.faq",
+    "area": "content",
+    "feature": "FAQ page (not confirmed on outmate.nl).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "page.faq with accordion section + FAQPage JSON-LD.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "content.statafel-guide",
+    "area": "content",
+    "feature": "Statafel/statafelrok buying guide (sizes, fit, stretch vs strik).",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "should",
+    "how_we_match": "article + size-fit table section.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "b2b.quote-page",
+    "area": "b2b",
+    "feature": "Quote page for multi-product / volume / print requests.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/easy-up-tent-bedrukken/",
+    "priority": "must",
+    "how_we_match": "page.offerte with contact form: organisatie, KvK, BTW, producten + aantallen, gewenste leverdatum, bedrukking ja/nee, file link.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "b2b.zakelijk-page",
+    "area": "b2b",
+    "feature": "Zakelijk page for horeca, eventbureaus, verhuurbedrijven, verenigingen, scholen.",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "must",
+    "how_we_match": "page.zakelijk template: segments, staffel, op factuur, offerte CTA, account aanvragen.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "b2b.segment-tags",
+    "area": "b2b",
+    "feature": "Products positioned for segments (horeca/verhuur bar stools; schools, care institutions, rental companies for marktkraam).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/marktkraam-professional-gegalvaniseerd-zonder-kartelrand/",
+    "priority": "should",
+    "how_we_match": "'Geschikt voor' chips from metafield; segment collections.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "b2b.ex-vat-first",
+    "area": "b2b",
+    "feature": "Business customers see prices ex btw first.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/",
+    "priority": "should",
+    "how_we_match": "customer tag / B2B catalog switches price snippet to ex-first.",
+    "confidence": "likely"
+  },
+  {
+    "id": "b2b.printed-promo",
+    "area": "b2b",
+    "feature": "Printed promotional products across categories (easy-up, side walls, stertent, inflatable roofs, marktkraam canopy, afzetpaal belt).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/",
+    "priority": "must",
+    "how_we_match": "printable flag + shared print flow snippet on all printable products.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "b2b.actiepakketten",
+    "area": "b2b",
+    "feature": "Action packages: statafels + rokken sets.",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "must",
+    "how_we_match": "bundle products (Shopify Bundles) in an 'Actiepakketten' collection.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "service.contact-form",
+    "area": "service",
+    "feature": "Contact form with phone and e-mail on the service page.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "must",
+    "how_we_match": "page.contact with {% form 'contact' %}; phone/e-mail from settings.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.opening-hours",
+    "area": "service",
+    "feature": "Opening hours with 'op afspraak' and 'kan afwijken, bel vooraf' caveat.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "must",
+    "how_we_match": "hours block from settings (owner fills).",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.shipping-page",
+    "area": "service",
+    "feature": "'Levertijd, verzendkosten & betalen' page.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd-en-verzendkosten/",
+    "priority": "must",
+    "how_we_match": "Shopify shipping policy + page.verzending with tables per shipping class and payment methods.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.order-cancel-page",
+    "area": "service",
+    "feature": "Ordering & cancellation page.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/bestellen-annuleren/",
+    "priority": "must",
+    "how_we_match": "page with ordering steps and cancellation rules.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.returns-page",
+    "area": "service",
+    "feature": "Returns / 14-day withdrawal page with model withdrawal form; return shipping paid by customer.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/retourinformatie/",
+    "priority": "must",
+    "how_we_match": "Shopify refund policy + page.retourneren + downloadable modelformulier; self-serve returns in new customer accounts.",
+    "confidence": "likely"
+  },
+  {
+    "id": "service.maatwerk-no-return",
+    "area": "service",
+    "feature": "Made-to-measure products excluded from withdrawal right.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/",
+    "priority": "must",
+    "how_we_match": "PDP notice on configurator products + policy clause.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.warranty-page",
+    "area": "service",
+    "feature": "Warranty & complaints page (1 jaar fabrieksgarantie, wear parts excluded).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/",
+    "priority": "must",
+    "how_we_match": "page.garantie with complaint form.",
+    "confidence": "likely"
+  },
+  {
+    "id": "service.terms",
+    "area": "service",
+    "feature": "Algemene voorwaarden (Outmate has an old and new version side by side - avoid).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/algemene-voorwaarden-nieuw/",
+    "priority": "must",
+    "how_we_match": "single Shopify terms-of-service policy, linked in footer and checkout.",
+    "confidence": "likely"
+  },
+  {
+    "id": "service.pickup-address",
+    "area": "service",
+    "feature": "Separate pickup (warehouse) and postal address.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/service/",
+    "priority": "should",
+    "how_we_match": "two address settings, shown on contact and pickup info.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "service.footer-links",
+    "area": "service",
+    "feature": "Footer service links: service, contact, verzending, bestellen/annuleren, retour, voorwaarden, privacy, reviews, showroom.",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/conditie/nieuw___nl-be___nl-be/",
+    "priority": "must",
+    "how_we_match": "footer menu columns from linklists.",
+    "confidence": "likely"
+  },
+  {
+    "id": "service.payment-icons",
+    "area": "service",
+    "feature": "Payment method icons (not confirmed on outmate.nl).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "footer icons from shop.enabled_payment_types.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "seo.clean-taxonomy",
+    "area": "seo",
+    "feature": "One collection per concept (Outmate duplicates: accessoires-meubilair vs meubilair-accessoires, /uncategorized/statafelrokken/).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/",
+    "priority": "must",
+    "how_we_match": "planned handles in catalog.json; no duplicate collections.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "seo.brand-titles",
+    "area": "seo",
+    "feature": "Correct brand in page titles (Outmate still shows legacy '- Partytentkopen.nl').",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/",
+    "priority": "must",
+    "how_we_match": "title = resource SEO title or '{{ page_title }} – {{ shop.name }}'; per-resource SEO fields filled in catalog.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "seo.structured-data",
+    "area": "seo",
+    "feature": "Product/Offer JSON-LD (AggregateRating only from real review data).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "must",
+    "how_we_match": "structured_data filter / JSON-LD in product, collection, article templates.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "seo.breadcrumbs",
+    "area": "seo",
+    "feature": "Breadcrumbs with BreadcrumbList JSON-LD.",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "breadcrumb snippet on collection/product/page.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "seo.size-landings",
+    "area": "seo",
+    "feature": "Indexed attribute archives (e.g. /afmeting/4x4/, /materiaal/pvc/).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.outmate.nl/levertijd/binnenkort-leverbaar/",
+    "priority": "could",
+    "how_we_match": "curated SEO collections (e.g. 'Partytent 3x3') instead of filter URLs; canonical on filtered URLs.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "seo.organization-schema",
+    "area": "seo",
+    "feature": "Organization/LocalBusiness data (address, hours).",
+    "seen_on": "market",
+    "evidence_url": "gauntlet/BRIEF.md#4-architecture-decisions-fixed (brief-required; not observed on reference shops)",
+    "priority": "should",
+    "how_we_match": "Organization JSON-LD in theme.liquid from settings.",
+    "confidence": "brief-required"
+  },
+  {
+    "id": "seo.marketplaces",
+    "area": "seo",
+    "feature": "Presence on marketplaces/comparison sites (bol.com, beslist.nl).",
+    "seen_on": "outmate",
+    "evidence_url": "https://www.bol.com/nl/nl/b/outmate/605686588/",
+    "priority": "could",
+    "how_we_match": "out of theme scope; Shopify sales channels/feeds documented in docs/.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.statafelrok-fit",
+    "area": "product",
+    "feature": "Statafelrok stretch per table size and colour (Outmate: fits 70-85 cm tops, incl. top cover, 90/10 polyester/lycra 190 g/m²).",
+    "seen_on": "both",
+    "evidence_url": "https://www.outmate.nl/product/statafelrok-stretch/",
+    "priority": "must",
+    "how_we_match": "product options Tafelmaat x Kleur with swatches; size-fit helper text.",
+    "confidence": "confirmed"
+  },
+  {
+    "id": "product.statafelhoes-strik",
+    "area": "product",
+    "feature": "Statafelhoes with strik (bow) in a colour choice.",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "must",
+    "how_we_match": "product type with strik-colour option/swatches.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "product.statafelkleed",
+    "area": "product",
+    "feature": "Statafelkleden (table cloths).",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "should",
+    "how_we_match": "product type with size/colour options.",
+    "confidence": "unconfirmed"
+  },
+  {
+    "id": "product.printed-statafelhoes",
+    "area": "product",
+    "feature": "Printed statafelhoezen with own logo (upload).",
+    "seen_on": "statafelshop",
+    "evidence_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+    "priority": "must",
+    "how_we_match": "reuse product.print-upload + print-proof-flow.",
+    "confidence": "unconfirmed"
+  }
+]

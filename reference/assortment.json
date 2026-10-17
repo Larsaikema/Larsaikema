@@ -1,0 +1,3423 @@
+{
+  "meta": {
+    "generated": "2026-10-17",
+    "purpose": "ASSORTMENT BAR - drives catalog/catalog.json. Our catalog must cover at least these categories, variant dimensions and accessory links, under our own product names.",
+    "sources": "WebSearch index snippets of outmate.nl and its sister sites (snapshots 1 month to 2+ years old). WebFetch/curl blocked. Raw research: scratchpad research-raw.json.",
+    "statafelshop_status": "NO DATA. Both Statafelshop/market research agents hit the shared 200-search budget before running a single query. Every Statafelshop item below is taken from gauntlet/BRIEF.md section 1 and is unconfirmed.",
+    "price_rules": "eur_incl_btw = Outmate consumer price incl. 21% btw as seen in search snippets. kind: from = 'vanaf' price, fixed = single price, range = see note, approx = rounded. Use as calibration only; our prices are suggestions flagged in docs/claims-to-confirm.md.",
+    "naming_rule": "Do not reuse Outmate model/brand names (Starmate, AirMate Alpha/Beta/Theta/Hexon, Times Square, Tundra, Helsinki, Ibiza, Blomo, Supercombi, Skyshade, Wikinger, Mundo, Paxi, Louis, Hamburg, Naxos, X4trail, Foldtable). They are listed only to identify reference items."
+  },
+  "categories": [
+    {
+      "id": "easy-up-partytenten",
+      "name_nl": "Easy-up partytenten (vouwtenten)",
+      "suggested_handle": "easy-up-partytenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/"
+        }
+      ],
+      "confidence": "confirmed",
+      "notes": "Two lines. On Outmate each size and each canopy type is its own product (separate URL); category text says 3x3-4x8 but 2x2 and 5x5 Professional exist. Full Colour print is a value of the colour option.",
+      "subcategories": [
+        {
+          "id": "easy-up-premium",
+          "name_nl": "Easy-up Premium (staal)",
+          "reference_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Easy-up partytent Premium - PVC-gecoat polyester",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5",
+                  "3x6"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Blauw",
+                  "Grijs",
+                  "Zandkleur",
+                  "Groen",
+                  "Rood",
+                  "Full Colour-bedrukking"
+                ],
+                "canopy": [
+                  "500D polyester PVC-gecoat 320 g/m²"
+                ]
+              },
+              "key_specs": [
+                "staal zwart gemoffeld, hexagon 40 mm, wand 0,7 mm",
+                "5 hoogtestanden",
+                "kunststof koppelstukken",
+                "zeil 1000N, brandvertragend, waterdicht, UV-bestendig",
+                "9 / 13,5 / 18 m²",
+                "exclusief zijwanden"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 299,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/"
+                },
+                {
+                  "label": "3x4,5",
+                  "eur_incl_btw": 379,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 459,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-premium/"
+                }
+              ],
+              "shipping_reference": "1 stuk €12,50 | 2+ stuks €25 (https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/)",
+              "positioning": "budget line for private / small business use",
+              "gaps": [
+                "height, clearance and capacity figures unconfirmed"
+              ],
+              "accessories": [
+                "voetgewicht 15 kg",
+                "set spanriemen + haringen",
+                "wielen set 4",
+                "beschermhoes per maat",
+                "regengoot 3/4,5/6 m",
+                "koppeling 2 tenten",
+                "verbindingsstrook",
+                "zijwandenset per maat",
+                "losse zijwanden",
+                "dakzeil (vervanging)",
+                "heater 1500 W",
+                "LED-vloedlicht 30 W",
+                "frame-onderdelen"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "easy-up-professional",
+          "name_nl": "Easy-up Professional (aluminium)",
+          "reference_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Easy-up partytent Professional - PVC-gecoat polyester",
+              "variant_dimensions": {
+                "size": [
+                  "2x2",
+                  "3x3",
+                  "3x4,5",
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x5"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Blauw",
+                  "Grijs",
+                  "Zandkleur",
+                  "Groen",
+                  "Rood",
+                  "Full Colour-bedrukking"
+                ],
+                "colour_exceptions": "2x2 only Zwart",
+                "canopy": [
+                  "500D polyester PVC-gecoat 320 g/m², 1000N, dubbel gestikt"
+                ]
+              },
+              "key_specs": [
+                "aluminium 6063-T5, hexagon 50 mm, wand 1,8 mm; schaararmen 2 mm; alu koppelstukken",
+                "5 hoogtestanden",
+                "3x3/3x4,5/3x6: doorloop 140-200 cm, totaal 330 cm, ingeklapt 166 cm, valance 38 cm",
+                "4x6/4x8/5x5: doorloop 150-210 cm, totaal 386 cm; 4x8 ingeklapt 209 cm",
+                "5x5: 68 kg, deur 150 cm, optionele wielset; 4x8 poly 87 kg, 32 m²; 3x4,5 poly 42 kg"
+              ],
+              "reference_prices": [
+                {
+                  "label": "2x2",
+                  "eur_incl_btw": 599,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 679,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "3x4,5",
+                  "eur_incl_btw": 789,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 1149,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 839,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 1125,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 1449,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "5x5",
+                  "eur_incl_btw": 1399,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/easy-up-partytent-5x5m-professional-pvc-gecoat-polyester/"
+                }
+              ],
+              "shipping_reference": "€42,50 (2x2, 4x6) / €39 (5x5, 4x8) (https://www.outmate.nl/product/easy-up-partytent-4x6m-professional-pvc-gecoat-polyester-2/)",
+              "accessories": [
+                "voetgewicht 15 kg",
+                "set spanriemen + haringen",
+                "wielen set 4",
+                "beschermhoes per maat",
+                "regengoot 3/4,5/6 m",
+                "koppeling 2 tenten",
+                "verbindingsstrook",
+                "zijwandenset per maat",
+                "losse zijwanden",
+                "dakzeil (vervanging)",
+                "heater 1500 W",
+                "LED-vloedlicht 30 W",
+                "frame-onderdelen"
+              ]
+            },
+            {
+              "name": "Easy-up partytent Professional - Heavy duty PVC",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5",
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Full Colour-bedrukking"
+                ],
+                "canopy": [
+                  "Heavy duty PVC 580 g/m², thermisch gelast, 2800N"
+                ]
+              },
+              "key_specs": [
+                "4x6: 88 kg (zeil 27 + frame 61), 400x600x386 cm, doorloop 210, 36 staand / 24 zittend, opzetten 1-2 min",
+                "4x4: 65 kg, 24 staand / 16 zittend"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 789,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "3x4,5",
+                  "eur_incl_btw": 1025,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 1359,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 979,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 1389,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 1769,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/easy-up-partytenten/easy-up-partytenten-professional/"
+                }
+              ],
+              "accessories": [
+                "voetgewicht 15 kg",
+                "set spanriemen + haringen",
+                "wielen set 4",
+                "beschermhoes per maat",
+                "regengoot 3/4,5/6 m",
+                "koppeling 2 tenten",
+                "verbindingsstrook",
+                "zijwandenset per maat",
+                "losse zijwanden",
+                "dakzeil (vervanging)",
+                "heater 1500 W",
+                "LED-vloedlicht 30 W",
+                "frame-onderdelen"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "easy-up-accessoires",
+      "name_nl": "Easy-up accessoires & onderdelen",
+      "suggested_handle": "easy-up-accessoires",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/"
+        }
+      ],
+      "confidence": "likely",
+      "subcategories": [
+        {
+          "id": "easy-up-zijwanden",
+          "name_nl": "Losse zijwanden easy-up",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Zijwand easy-up",
+              "variant_dimensions": {
+                "type": [
+                  "halve zijwand",
+                  "dicht",
+                  "met deur",
+                  "met raam",
+                  "met oproldeur"
+                ],
+                "length_m": [
+                  "2",
+                  "3",
+                  "4",
+                  "4,5",
+                  "6",
+                  "8"
+                ],
+                "material": [
+                  "PVC-gecoat polyester",
+                  "Heavy duty PVC"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Blauw",
+                  "Grijs",
+                  "Zandkleur",
+                  "Groen",
+                  "Rood",
+                  "Full Colour-bedrukking"
+                ],
+                "print_side": [
+                  "binnen",
+                  "buiten",
+                  "beide"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "halve 3 m poly",
+                  "eur_incl_btw": 49,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                },
+                {
+                  "label": "3 m deur/dicht poly",
+                  "eur_incl_btw": 69,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                },
+                {
+                  "label": "3 m raam poly",
+                  "eur_incl_btw": 85,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                },
+                {
+                  "label": "6 m raam poly",
+                  "eur_incl_btw": 135,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                },
+                {
+                  "label": "3 m dicht/deur HD PVC",
+                  "eur_incl_btw": 112,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                },
+                {
+                  "label": "3 m raam HD PVC",
+                  "eur_incl_btw": 125,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/zijwanden-easy-up-pvc-professional/"
+                }
+              ],
+              "key_specs": [
+                "klittenband bevestiging",
+                "halve wand 4 m: 400x205 cm, 1 kg"
+              ],
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "easy-up-zijwandensets",
+          "name_nl": "Zijwandensets easy-up",
+          "reference_url": "https://www.outmate.nl/product/zijwandenset-easy-up-3x3m-pvc-gecoat-polyester-heavy-duty-pvc/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Zijwandenset easy-up per tentmaat",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5",
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x5"
+                ],
+                "material": [
+                  "PVC-gecoat polyester",
+                  "Heavy duty PVC"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Blauw",
+                  "Grijs",
+                  "Zandkleur",
+                  "Groen",
+                  "Rood",
+                  "Full Colour-bedrukking"
+                ],
+                "composition": [
+                  "4 panelen: 2 raam + 2 (oprol)deur",
+                  "4x8: 4 of 6 zeilen"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x3 polyester",
+                  "eur_incl_btw": 249,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/zijwandenset-easy-up-3x3m-pvc-gecoat-polyester-heavy-duty-pvc/"
+                },
+                {
+                  "label": "3x3 heavy duty",
+                  "eur_incl_btw": 199,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/zijwandenset-easy-up-3x3m-pvc-gecoat-polyester-heavy-duty-pvc/",
+                  "note": "snapshots €199-€299,95"
+                }
+              ],
+              "key_specs": [
+                "HD: 100% brandvertragend PVC 580 g/m², volle lengte klittenband rond staanders",
+                "4x8 poly set 12 kg, 5 cm klittenband"
+              ],
+              "shipping_reference": "€7,95",
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "easy-up-dakzeilen",
+          "name_nl": "Dakzeilen easy-up",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/dakzeilen-easy-up/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Dakzeil easy-up (zonder frame)",
+              "variant_dimensions": {
+                "size": [
+                  "2x2",
+                  "3x3",
+                  "3x4,5",
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8",
+                  "5x5"
+                ],
+                "material": [
+                  "polyester 320 g/m²",
+                  "Heavy duty PVC 580 g/m²"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Blauw",
+                  "Grijs",
+                  "Zandkleur",
+                  "Groen",
+                  "Rood",
+                  "Full Colour-bedrukking"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x3 polyester",
+                  "eur_incl_btw": 129,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/dakzeilen-easy-up/"
+                },
+                {
+                  "label": "4x8 polyester",
+                  "eur_incl_btw": 319,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/dakzeilen-easy-up/"
+                },
+                {
+                  "label": "3x3 HD PVC",
+                  "eur_incl_btw": 219,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/dakzeilen-easy-up/"
+                },
+                {
+                  "label": "4x8 HD PVC",
+                  "eur_incl_btw": 615,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/dakzeilen-easy-up/"
+                }
+              ],
+              "key_specs": [
+                "past op frames met 50 mm staanders",
+                "compatibility warning: only own/identical frames",
+                "kleuren kunnen vervagen"
+              ],
+              "shipping_reference": "€7,95",
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "easy-up-bevestiging",
+          "name_nl": "Bevestiging & verzwaring easy-up",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/bevestigingsmaterialen-opvouwbare-partytenten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Voetgewicht 15 kg",
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 49.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/voetgewicht-voor-vouwtenten/"
+                }
+              ],
+              "key_specs": [
+                "2x 7,5 kg verzinkt ijzer, 40x40x3 cm, staanders tot 50 mm, 1 jaar garantie"
+              ]
+            },
+            {
+              "name": "Set spanriemen + haringen (4+4)",
+              "reference_prices": [
+                {
+                  "label": "set",
+                  "eur_incl_btw": 19.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/set-spanriemen-en-haringen-voor-easy-up-tenten/"
+                }
+              ],
+              "key_specs": [
+                "4 haringen 30 cm, 4 riemen ca. 3 m met karabijn naar D-ring, opbergzakje"
+              ]
+            },
+            {
+              "name": "Waterzakken / gewichtzakken 4x20 kg",
+              "reference_prices": [],
+              "confidence": "unconfirmed (category mention only)"
+            }
+          ]
+        },
+        {
+          "id": "easy-up-transport",
+          "name_nl": "Transport & beschermhoezen",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/transportkarren-easy-up-partytenten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Beschermhoes easy-up per maat/zeiltype",
+              "variant_dimensions": {
+                "size": [
+                  "2x2",
+                  "3x3",
+                  "3x6",
+                  "4x4",
+                  "4x8"
+                ],
+                "canopy": [
+                  "polyester",
+                  "PVC"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "2x2 / 3x3 Pro",
+                  "eur_incl_btw": 19.99,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/transportkarren-easy-up-partytenten/"
+                },
+                {
+                  "label": "4x4 polyester",
+                  "eur_incl_btw": 22.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/beschermhoes-voor-easy-up-4x4/"
+                },
+                {
+                  "label": "4x8 PVC",
+                  "eur_incl_btw": 27.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/transportkarren-easy-up-partytenten/"
+                }
+              ],
+              "key_specs": [
+                "schuift over ingeklapt frame + zeil, 2 handvatten, gesp onderaan"
+              ]
+            },
+            {
+              "name": "Wielen voor easy-up (set 4)",
+              "reference_prices": [
+                {
+                  "label": "set",
+                  "eur_incl_btw": 35.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/wielen-voor-easy-up-partytenten-set-4-stuks/"
+                }
+              ],
+              "key_specs": [
+                "zwenkwiel met rem, 10 cm rubber, vleugelbouten"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "easy-up-goten",
+          "name_nl": "Regengoten & verbindingen",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/goten-voor-vouwtenten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Regengoot",
+              "variant_dimensions": {
+                "length_m": [
+                  "3",
+                  "4,5",
+                  "5",
+                  "6",
+                  "8",
+                  "10"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3 m",
+                  "eur_incl_btw": 29,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/goten-voor-vouwtenten/"
+                },
+                {
+                  "label": "4,5 m",
+                  "eur_incl_btw": 37.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/goten-voor-vouwtenten/"
+                },
+                {
+                  "label": "6 m",
+                  "eur_incl_btw": 49,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/goten-voor-vouwtenten/",
+                  "note": "product page says €75 - conflict"
+                }
+              ],
+              "key_specs": [
+                "PVC, klittenband of elastiek"
+              ]
+            },
+            {
+              "name": "Verbindingsstrook",
+              "variant_dimensions": {
+                "material": [
+                  "polyester",
+                  "PVC"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 19,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/goten-voor-vouwtenten/"
+                }
+              ]
+            },
+            {
+              "name": "Koppeling 2 tenten",
+              "variant_dimensions": {
+                "fit": [
+                  "Professional 50 mm",
+                  "Premium 40 mm"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 12.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/koppeling-om-2-partytenten-te-verbinden-easy-up/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "easy-up-inrichting",
+          "name_nl": "Inrichting easy-up (verwarming, licht)",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/inrichting-easy-up/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Easy-up heater 1500 W",
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 129,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/inrichting-easy-up/"
+                }
+              ]
+            },
+            {
+              "name": "Easy-up LED-vloedlicht 30 W",
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 129,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/inrichting-easy-up/"
+                }
+              ]
+            },
+            {
+              "name": "Vervangende infraroodbrander 500 W",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "easy-up-frames-onderdelen",
+          "name_nl": "Frames & frame-onderdelen",
+          "reference_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Los frame Premium (staal hex 40)",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5",
+                  "3x6"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 179,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/frame-3x3-premium-40mm-hexagon-metaal/"
+                },
+                {
+                  "label": "3x4,5",
+                  "eur_incl_btw": 225,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 269,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                }
+              ]
+            },
+            {
+              "name": "Los frame Professional (alu hex 50)",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5",
+                  "3x6",
+                  "4x4",
+                  "4x6",
+                  "4x8"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 599,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "3x4,5",
+                  "eur_incl_btw": 742,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 689,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "4x6",
+                  "eur_incl_btw": 915,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/frame-4x6-professional-50mm-hexagon-aluminium/"
+                },
+                {
+                  "label": "3x6",
+                  "eur_incl_btw": 999,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/",
+                  "note": "single snapshot"
+                },
+                {
+                  "label": "4x8",
+                  "eur_incl_btw": 1199,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/",
+                  "note": "single snapshot"
+                }
+              ]
+            },
+            {
+              "name": "Frame-onderdelen",
+              "variant_dimensions": {
+                "part": [
+                  "kruisstuk 3 m / 4 m (alu)",
+                  "kruisstuk Premium",
+                  "koppelstuk Premium",
+                  "hoek koppelstuk",
+                  "staander 3 m / 4 m incl. voetplaat + binnenpaal",
+                  "voetplaat incl. spanstift",
+                  "onderste deel staander Premium",
+                  "bovenste deel staander",
+                  "dakondersteuning",
+                  "scharnierverbinding met bout",
+                  "set kliksloten 10 st"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "kruisstuk 3 m alu",
+                  "eur_incl_btw": 29,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "kruisstuk 4 m alu",
+                  "eur_incl_btw": 35,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "kruisstuk Premium",
+                  "eur_incl_btw": 17.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "koppelstuk Premium",
+                  "eur_incl_btw": 3.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "hoek koppelstuk",
+                  "eur_incl_btw": 5.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "staander 3 m",
+                  "eur_incl_btw": 45,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "staander 4 m",
+                  "eur_incl_btw": 55,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "voetplaat",
+                  "eur_incl_btw": 19,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "onderste deel staander Premium",
+                  "eur_incl_btw": 7.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "bovenste deel staander",
+                  "eur_incl_btw": 15,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "dakondersteuning",
+                  "eur_incl_btw": 19,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                },
+                {
+                  "label": "scharnierverbinding",
+                  "eur_incl_btw": 2.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/onderdelen-easy-up/frames-en-frame-onderdelen/"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "partytenten-buizenframe",
+      "name_nl": "Partytenten (buizenframe)",
+      "suggested_handle": "partytenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/partytenten/"
+        }
+      ],
+      "confidence": "confirmed",
+      "notes": "Category title 'Alle partytenten - Van 3x3 tot 8x12m'. 38 mm demountable galvanised frame. Full size matrix per line is unconfirmed; sizes below are those seen in product URLs/PDFs.",
+      "subcategories": [
+        {
+          "id": "pe-basic",
+          "name_nl": "PE Basic",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pe-basic/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Partytent PE Basic",
+              "variant_dimensions": {
+                "size_seen": [
+                  "3x4",
+                  "3x6"
+                ],
+                "canopy": [
+                  "PE 200 g/m²"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x4",
+                  "eur_incl_btw": 279,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x4-pe/"
+                }
+              ],
+              "accessories": [
+                "opbergtassenset",
+                "stormbandenset",
+                "haringen"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pvc-classic",
+          "name_nl": "PVC Classic",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-classic/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Partytent PVC Classic",
+              "variant_dimensions": {
+                "size_seen": [
+                  "5x8"
+                ],
+                "canopy": [
+                  "PVC 500 g/m²"
+                ]
+              },
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "pvc-premium",
+          "name_nl": "PVC Premium",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-premium/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Partytent PVC Premium (brandvertragend)",
+              "variant_dimensions": {
+                "size_seen": [
+                  "3x3",
+                  "3x8",
+                  "4x4"
+                ],
+                "canopy": [
+                  "PVC 550 g/m², brandvertragend"
+                ]
+              },
+              "key_specs": [
+                "grondframe + nokversteviging",
+                "38 mm verzinkte buizen",
+                "3x8: 24 m², ca. 25-35 gasten"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3x8",
+                  "eur_incl_btw": 789,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/",
+                  "note": "category listing"
+                }
+              ],
+              "shipping_reference": "€42,50 vrachttransport (3x8, 4x4)",
+              "warranty_reference": "Fabrieksgarantie 1 jaar, slijtageonderdelen uitgesloten (https://www.outmate.nl/product/partytent-3x3-premium-pvc-brandvertragend/)"
+            }
+          ]
+        },
+        {
+          "id": "pvc-ultimate",
+          "name_nl": "PVC Ultimate Edition",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytenten/partytent-pvc-ultimate-edition/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Partytent PVC Ultimate Edition",
+              "variant_dimensions": {
+                "size_seen": [
+                  "4x6"
+                ]
+              },
+              "key_specs": [
+                "4x6 incl. 6 zijwanden met raam + 2 eindwanden"
+              ],
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "pvc-professional",
+          "name_nl": "PVC Professional",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytenten/partytenten-pvc-professional/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Partytent PVC Professional",
+              "variant_dimensions": {
+                "size_seen": [
+                  "6x12"
+                ],
+                "roof_sizes_seen": [
+                  "3x4",
+                  "5x10",
+                  "6x12"
+                ],
+                "canopy": [
+                  "PVC 620 g/m², gelaste naden"
+                ]
+              },
+              "key_specs": [
+                "zijhoogte 220 cm",
+                "grondframe + nokbuis",
+                "tot 930N",
+                "6x12: 72 m², 60-80 personen"
+              ],
+              "reference_prices": [
+                {
+                  "label": "6x12",
+                  "eur_incl_btw": 1725,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-6x12-professional-pvc-brandvertragend/",
+                  "note": "category listing"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "partytent-onderdelen-accessoires",
+      "name_nl": "Partytent onderdelen & accessoires (buizenframe)",
+      "suggested_handle": "partytent-onderdelen",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/partytent-accessoires/"
+        }
+      ],
+      "confidence": "likely",
+      "subcategories": [
+        {
+          "id": "dakzeilen",
+          "name_nl": "Dakzeilen",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/dakzeilen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Dakzeil partytent",
+              "variant_dimensions": {
+                "material": [
+                  "PVC",
+                  "PE"
+                ],
+                "size_seen": [
+                  "3x4",
+                  "5x10",
+                  "6x12"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x4 PVC Pro",
+                  "eur_incl_btw": 189,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-dakzeil-3x4-pvc-professional/"
+                },
+                {
+                  "label": "5x10 PVC Pro",
+                  "eur_incl_btw": 469,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-dakzeil-5x10-pvc-professional/"
+                },
+                {
+                  "label": "6x12 PVC Pro",
+                  "eur_incl_btw": 599,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/partytent-dakzeil-6x12-pvc-professional/"
+                }
+              ],
+              "key_specs": [
+                "fit warning: only own/identical frames"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "zijwanden",
+          "name_nl": "Zijwanden (ook voor veranda)",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/zijwanden/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Zijwand partytent",
+              "variant_dimensions": {
+                "type": [
+                  "met raam",
+                  "dicht",
+                  "met rits"
+                ],
+                "material": [
+                  "PVC",
+                  "PE"
+                ],
+                "length": "tot 12 m",
+                "height": "tot 250 cm (veranda-variant 220 cm, 1,5-10 m)",
+                "custom": "op maat"
+              },
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "eindwanden",
+          "name_nl": "Eindwanden / kopse kanten",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/eindwanden/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Eindwand met ritsen PVC",
+              "variant_dimensions": {
+                "width_m": [
+                  "3",
+                  "6"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3 m",
+                  "eur_incl_btw": 49,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tussenwanden",
+          "name_nl": "Tussenwanden",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/tussenwanden/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Tussenwand",
+              "reference_prices": [],
+              "gaps": [
+                "specs and prices unconfirmed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "koppelstukken",
+          "name_nl": "Koppelstukken",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/koppelstukken/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Koppelstuk 38 mm",
+              "variant_dimensions": {
+                "type": [
+                  "2-weg 20 cm",
+                  "3-weg 140°",
+                  "4-weg 120°",
+                  "3-weg grondframe hoek",
+                  "3-weg recht schuifkoppelstuk"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "2-weg 20 cm",
+                  "eur_incl_btw": 7.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/2-weg-verbindingsstuk-20-cm/"
+                },
+                {
+                  "label": "3-weg 140°",
+                  "eur_incl_btw": 9.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/3-weg-verbindingsstuk-140o/"
+                }
+              ],
+              "key_specs": [
+                "buiten 42 mm, binnen 38 mm, wand 1,4 mm, gelaste moeren"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "buizen",
+          "name_nl": "Partytent buizen",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/partytent-buizen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Buis 38 mm verzinkt",
+              "variant_dimensions": {
+                "length_cm_seen": [
+                  "192",
+                  "212",
+                  "216"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "192 cm",
+                  "eur_incl_btw": 9.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                },
+                {
+                  "label": "212 cm staander",
+                  "eur_incl_btw": 12.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "regengoten-partytent",
+          "name_nl": "Regengoten",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/regengoten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Regengoot partytent",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "stormbandensets",
+          "name_nl": "Stormbandensets",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/stormbandensets/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stormbandenset",
+              "variant_dimensions": {
+                "pack": [
+                  "1 set",
+                  "3 sets"
+                ],
+                "strap_length_m": "9-15 (by tent width)"
+              },
+              "reference_prices": [
+                {
+                  "label": "1 set",
+                  "eur_incl_btw": 16,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/stormbandenset-voor-partytent-1-set/",
+                  "note": "€16-€24 by length"
+                }
+              ],
+              "key_specs": [
+                "1 set = 2 lange haringen + 1 band"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bevestigingsmaterialen",
+          "name_nl": "Bevestigingsmaterialen",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/bevestigingsmaterialen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Lange haring",
+              "variant_dimensions": {
+                "length_cm": [
+                  "50",
+                  "75",
+                  "100"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "50 cm",
+                  "eur_incl_btw": 6.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/lange-haring-50-cm/"
+                },
+                {
+                  "label": "75 cm",
+                  "eur_incl_btw": 12.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/lange-haring-50-cm/"
+                },
+                {
+                  "label": "100 cm",
+                  "eur_incl_btw": 15.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/lange-haring-100-cm/"
+                }
+              ],
+              "key_specs": [
+                "thermisch verzinkt hoekijzer 30x30 mm"
+              ]
+            },
+            {
+              "name": "Set haringen 10 st (18 cm, voor wanden)",
+              "reference_prices": []
+            },
+            {
+              "name": "Draaiharingen 30 cm (4 st)",
+              "reference_prices": [
+                {
+                  "label": "4 st",
+                  "eur_incl_btw": 7.5,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/bevestigingsmaterialen/"
+                }
+              ]
+            },
+            {
+              "name": "Partytent elastieken lang (25 st, zwart)",
+              "reference_prices": []
+            },
+            {
+              "name": "Spanschroef (5 st)",
+              "reference_prices": []
+            },
+            {
+              "name": "Oogbout M6 (25 st)",
+              "reference_prices": [
+                {
+                  "label": "25 st",
+                  "eur_incl_btw": 5.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/partytent-onderdelen/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "opbergtassen",
+          "name_nl": "Opbergtassen",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/opbergtassen/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Opbergtas 200 cm",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "betonblokken",
+          "name_nl": "Betonblokken & ballast",
+          "reference_url": "https://www.outmate.nl/product/betonblok-gewicht-voor-tenten-1000kg-2/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Betonblok / betongewicht",
+              "variant_dimensions": {
+                "weight_kg": [
+                  "120 (lepelgat)",
+                  "140 (40x40x40)",
+                  "240",
+                  "500",
+                  "750",
+                  "1000 (80x80x80)"
+                ],
+                "variant": [
+                  "standaard",
+                  "truss baseplate M16"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "140 kg",
+                  "eur_incl_btw": 117,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "500 kg",
+                  "eur_incl_btw": 235,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "1000 kg",
+                  "eur_incl_btw": 319,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                }
+              ],
+              "shipping_reference": "vrachttransport €75 (1) / €115 (2+), 3-5 werkdagen (https://www.outmate.nl/product/betonblok-betongewicht-voor-tenten-120kg-met-lepelgat-en-uitsparing/)",
+              "accessories": [
+                "houten zitje voor ballastblok",
+                "voetverzwaring set 4",
+                "truss baseplate 45x45"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "grondframes-reparatie",
+          "name_nl": "Grondframes & reparatiesets",
+          "reference_url": "https://www.outmate.nl/product-categorie/partytent-accessoires/",
+          "confidence": "unconfirmed",
+          "product_types": []
+        }
+      ]
+    },
+    {
+      "id": "opslagtenten",
+      "name_nl": "Opslagtenten",
+      "suggested_handle": "opslagtenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/opslagtenten/"
+        }
+      ],
+      "confidence": "confirmed",
+      "subcategories": [
+        {
+          "id": "opslag-lines",
+          "name_nl": "Opslagtenten per lijn",
+          "reference_url": "https://www.outmate.nl/product-categorie/opslagtenten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Opslagtent",
+              "variant_dimensions": {
+                "line": [
+                  "PVC Classic (kort gebruik)",
+                  "PVC Premium (langer, bv. verbouwing)",
+                  "PVC Professional 620 g/m²",
+                  "Wikinger carport/opslagtent PVC Professional (vast frame)"
+                ],
+                "size_seen": [
+                  "3x4"
+                ]
+              },
+              "reference_prices": [],
+              "warranty_reference": "1 jaar (https://www.outmate.nl/product/opslagtent-3x4-classic-pvc-brandvertragend/)",
+              "gaps": [
+                "sizes and prices unconfirmed"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stretchtenten",
+      "name_nl": "Stretchtenten",
+      "suggested_handle": "stretchtenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/"
+        },
+        {
+          "shop": "outmate (outmatestretch.nl)",
+          "url": "https://www.outmatestretch.nl/"
+        }
+      ],
+      "confidence": "likely",
+      "subcategories": [
+        {
+          "id": "stretch-compleet",
+          "name_nl": "Stretchtenten compleet (lusverbinding)",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stretchtent compleet",
+              "variant_dimensions": {
+                "size": [
+                  "4,5x6",
+                  "6x6",
+                  "6x10,5",
+                  "7,5x10,5",
+                  "9x10,5",
+                  "10,5x10,5",
+                  "10,5x15",
+                  "10,5x19,5"
+                ],
+                "colour": [
+                  "Zandkleur (chino)",
+                  "Taupe"
+                ],
+                "colour_extra_sister_site": [
+                  "Zwart",
+                  "Wit",
+                  "Rood",
+                  "Platinum"
+                ],
+                "poles": [
+                  "kastanjehout Ø80-120 mm",
+                  "aluminium Ø50 / midden 76 mm"
+                ],
+                "rigging": [
+                  "spanbanden (standaard)",
+                  "touwensets 3-punt met RVS karabijnen"
+                ]
+              },
+              "key_specs": [
+                "MK4 All weather 750 g/m² (netto 793), licht elastisch, waterdicht, UV-bestendig, brandklasse M2",
+                "lussen elke 75 cm",
+                "4,5x6: 27 m², 21 staand / 14 zittend, 60 min, windkracht 8; palen 2,5/3/4 m",
+                "waterkolom 8000 vs 2000 mm - conflict",
+                "compleet incl. palenset + bevestiging"
+              ],
+              "reference_prices": [
+                {
+                  "label": "4,5x6",
+                  "eur_incl_btw": 2630,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-45-x-6-meter/"
+                },
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 3425,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/"
+                },
+                {
+                  "label": "6x10,5",
+                  "eur_incl_btw": 5805,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/"
+                },
+                {
+                  "label": "7,5x10,5",
+                  "eur_incl_btw": 6830,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/"
+                },
+                {
+                  "label": "9x10,5",
+                  "eur_incl_btw": 8149,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/"
+                },
+                {
+                  "label": "10,5x10,5",
+                  "eur_incl_btw": 9585,
+                  "kind": "approx",
+                  "source_url": "https://www.outmatestretch.nl/",
+                  "note": "outmatestretch.nl"
+                },
+                {
+                  "label": "10,5x15",
+                  "eur_incl_btw": 11710,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/"
+                }
+              ],
+              "shipping_reference": "€175; 1-3 werkdagen (voorraad) of 10-15 werkdagen",
+              "warranty_reference": "1 jaar",
+              "accessories": [
+                "zijwand START/UITBREIDING",
+                "touwenset",
+                "spanbanden",
+                "paalconnector",
+                "betongewichten",
+                "koppelgoten",
+                "palen(sets)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stretch-doeken",
+          "name_nl": "Stretchtent doeken (los)",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtent-doeken/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stretchdoek los",
+              "reference_prices": [
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 2474,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/"
+                },
+                {
+                  "label": "7,5x10,5",
+                  "eur_incl_btw": 4999,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stretch-op-maat",
+          "name_nl": "Stretchtent op maat",
+          "reference_url": "https://www.outmate.nl/product/stretchtent-zeil-op-maat/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Stretchtent op maat (configurator)",
+              "variant_dimensions": {
+                "inputs": [
+                  "lengte",
+                  "breedte"
+                ],
+                "palenset": [
+                  "met",
+                  "zonder"
+                ],
+                "rigging": [
+                  "spanbanden",
+                  "touwensets"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "vanaf",
+                  "eur_incl_btw": 999,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-zeil-op-maat/"
+                }
+              ],
+              "lead_time_reference": "10-15 werkdagen (category says 2-8 weken - conflict)",
+              "key_specs": [
+                "maten = doekmaat, lussen buiten",
+                "min. 2 m vrije ruimte rondom"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stretch-zijwanden",
+          "name_nl": "Zijwanden stretchtent",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Zijwand stretchtent",
+              "variant_dimensions": {
+                "width_m": [
+                  "2",
+                  "3"
+                ],
+                "type": [
+                  "START (incl. 2 houten palen)",
+                  "UITBREIDING"
+                ]
+              },
+              "key_specs": [
+                "zwart PVC 580 g/m², TPU raamfolie"
+              ],
+              "reference_prices": [
+                {
+                  "label": "2 m START",
+                  "eur_incl_btw": 425,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "2 m UITBREIDING",
+                  "eur_incl_btw": 375,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "3 m START",
+                  "eur_incl_btw": 489,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/stretchtent-zijwand-3-meter-start/"
+                },
+                {
+                  "label": "3 m UITBREIDING",
+                  "eur_incl_btw": 439,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stretch-onderdelen",
+          "name_nl": "Onderdelen & bevestiging stretchtent",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/onderdelen-stretchtent/bevestigingsmaterialen-strechtent/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stretch onderdelen",
+              "variant_dimensions": {
+                "part": [
+                  "touwenset 3-punt",
+                  "spanband",
+                  "paalconnector met bout",
+                  "karabijnhaken",
+                  "houten palen",
+                  "oogmoeren",
+                  "draadeinden",
+                  "touwen",
+                  "spanriemen",
+                  "haringen",
+                  "koppelgoten",
+                  "palensets"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "touwenset 3-punt",
+                  "eur_incl_btw": 59.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "spanband",
+                  "eur_incl_btw": 7.95,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/"
+                },
+                {
+                  "label": "paalconnector",
+                  "eur_incl_btw": 4.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/zijwanden-stretchtent/",
+                  "note": "was €6,50"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hypar-shadow",
+          "name_nl": "HYPAR shadow stretch-overkappingen",
+          "reference_url": "https://www.outmate.nl/product-categorie/stretchtenten-en-onderdelen/stretchtenten/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "HYPAR shadow",
+              "variant_dimensions": {
+                "size": "4,5x4,5 tot 7,5x7,5"
+              },
+              "lead_time_reference": "5-7 weken",
+              "reference_prices": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stertenten",
+      "name_nl": "Stertenten",
+      "suggested_handle": "stertenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/stertenten/"
+        }
+      ],
+      "confidence": "likely",
+      "subcategories": [
+        {
+          "id": "stertent-rond",
+          "name_nl": "Stertent rond (enkele mast)",
+          "reference_url": "https://www.outmate.nl/product-categorie/stertenten/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stertent enkele mast",
+              "variant_dimensions": {
+                "diameter_m": [
+                  "8",
+                  "10",
+                  "12",
+                  "14",
+                  "16"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Zandkleur",
+                  "Full Colour-bedrukking"
+                ]
+              },
+              "key_specs": [
+                "geanodiseerde alu mast 75 mm / 2,5 mm, telescopisch",
+                "320 g/m² PVC-gecoat polyester, brandvertragend, UV/schimmel",
+                "8 m: ingang 4 m, hoogte 5 m, 53 kg, 25 staand / 20 zittend",
+                "10 m: ingang 5 m, 35 / 25; incl. doek, opbergtas, mast, 6 haringen 50 cm, onderdelenzak, meetkoord",
+                "14 m: ingang 7 m, hoogte 6 m, 67 kg, 75 / 55"
+              ],
+              "reference_prices": [
+                {
+                  "label": "8 m",
+                  "eur_incl_btw": 989,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/",
+                  "note": "€989-€2.071"
+                },
+                {
+                  "label": "10 m",
+                  "eur_incl_btw": 1029,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/stertent-10m-diameter-starmate-professional/",
+                  "note": "up to €2.299"
+                },
+                {
+                  "label": "12 m",
+                  "eur_incl_btw": 1225,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/"
+                },
+                {
+                  "label": "14 m",
+                  "eur_incl_btw": 1350,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/",
+                  "note": "up to €2.588"
+                },
+                {
+                  "label": "16 m",
+                  "eur_incl_btw": 1500,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/",
+                  "note": "up to €3.278"
+                }
+              ],
+              "shipping_reference": "€39-€42,50; often 'Vandaag verzonden'",
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "stertent-dubbelmast",
+          "name_nl": "Stertent dubbele mast",
+          "reference_url": "https://www.outmate.nl/product/stertent-8x13m-dubbelmast-starmate-professional/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Stertent dubbelmast",
+              "variant_dimensions": {
+                "size_m": [
+                  "8x13",
+                  "10x16",
+                  "12x19",
+                  "13x21"
+                ],
+                "colour": [
+                  "Zwart",
+                  "Wit",
+                  "Zandkleur",
+                  "Full Colour-bedrukking"
+                ]
+              },
+              "key_specs": [
+                "8x13: 8,65x13,65 m, 106 kg, 2 pers 20-30 min, 6 stalen haringen 100 cm, vracht in 2 dozen",
+                "13x21: 150 staand / 75 zittend"
+              ],
+              "reference_prices": [
+                {
+                  "label": "8x13",
+                  "eur_incl_btw": 2500,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/"
+                },
+                {
+                  "label": "10x16",
+                  "eur_incl_btw": 2900,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/"
+                },
+                {
+                  "label": "12x19",
+                  "eur_incl_btw": 3200,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/"
+                },
+                {
+                  "label": "13x21",
+                  "eur_incl_btw": 3500,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertenten/"
+                }
+              ],
+              "lead_time_reference": "10-15 werkdagen",
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "stertent-zijwanden",
+          "name_nl": "Stertent zijwanden",
+          "reference_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Zijwand(enset) stertent",
+              "variant_dimensions": {
+                "fits_m": [
+                  "8",
+                  "10",
+                  "12",
+                  "14",
+                  "dubbelmast"
+                ],
+                "type": [
+                  "raam / panorama",
+                  "dicht",
+                  "oproldeur (ritsen)"
+                ],
+                "pack": [
+                  "los",
+                  "set"
+                ]
+              },
+              "key_specs": [
+                "klittenband, 500D PVC-gecoat polyester, 215 cm hoog",
+                "12 m set: 4 panorama + 2 oproldeur, 42 kg"
+              ],
+              "reference_prices": [
+                {
+                  "label": "los 8 m",
+                  "eur_incl_btw": 139,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/"
+                },
+                {
+                  "label": "set 8 m",
+                  "eur_incl_btw": 475,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/"
+                },
+                {
+                  "label": "set 10 m",
+                  "eur_incl_btw": 559,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/"
+                },
+                {
+                  "label": "set 12 m",
+                  "eur_incl_btw": 675,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/"
+                },
+                {
+                  "label": "set 14 m",
+                  "eur_incl_btw": 799,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/zijwandenset-stertent-14m-starmate-professional/"
+                },
+                {
+                  "label": "dubbelmast per wand",
+                  "eur_incl_btw": 210,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/stertent-zijwanden/",
+                  "note": "€210-€339"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "opblaasbare-tenten",
+      "name_nl": "Opblaasbare partytenten & promotietenten",
+      "suggested_handle": "opblaasbare-tenten",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+        },
+        {
+          "shop": "outmate (outmateair.nl)",
+          "url": "https://www.outmateair.nl/product-categorie/promotietenten/"
+        }
+      ],
+      "confidence": "likely",
+      "notes": "Sold under a sub-brand on Outmate; same items on the sister site at higher prices (Alpha 3x3 €1.250 vs €1.400). Lead time 5-10 dagen na akkoord ontwerp.",
+      "subcategories": [
+        {
+          "id": "air-square",
+          "name_nl": "Opblaasbare promotietent vierkant (type A)",
+          "reference_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Opblaasbare promotietent (Alpha-type)",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "4x4",
+                  "5x5",
+                  "6x6"
+                ],
+                "frame_colour": [
+                  "oranje",
+                  "grijs",
+                  "blauw",
+                  "groen",
+                  "geel",
+                  "rood",
+                  "wit",
+                  "zwart"
+                ],
+                "roof": [
+                  "kleur",
+                  "full colour print"
+                ],
+                "luifel": [
+                  "zonder",
+                  "met (rits, later toe te voegen)"
+                ]
+              },
+              "key_specs": [
+                "dak 600D polyester PU 215 g/m²",
+                "Dacron 170 g/m² over TPU 250 micron, overdrukventielen",
+                "3x3: 17 kg, 300x300x235, doorloop 220, 1 pers 5-10 min",
+                "6x6: 600x600x417, doorloop 280, 40 kg",
+                "incl. 4 zandzakken, draagtas, 4 scheerlijnen, 4 haringen"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 1250,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-alpha-3x3m/"
+                },
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 1829,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                },
+                {
+                  "label": "5x5",
+                  "eur_incl_btw": 2450,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                },
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 3150,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                }
+              ],
+              "printable": true,
+              "accessories": [
+                "zijwanden €179-€199 (rits)",
+                "luifel",
+                "elektrische pomp €75",
+                "handpomp €39",
+                "LED-verlichting 12 W €119"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "air-beta",
+          "name_nl": "Opblaasbare promotietent (type B)",
+          "reference_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-beta-6x6m/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opblaasbare promotietent (Beta-type)",
+              "variant_dimensions": {
+                "size": [
+                  "4x4",
+                  "5x5",
+                  "6x6"
+                ]
+              },
+              "key_specs": [
+                "4x4: doorloop 190, hoogte 275, 20 kg",
+                "6x6: hoogte 395, doorloop 270, 49 kg"
+              ],
+              "reference_prices": [
+                {
+                  "label": "4x4",
+                  "eur_incl_btw": 2525,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                },
+                {
+                  "label": "5x5",
+                  "eur_incl_btw": 3325,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                },
+                {
+                  "label": "6x6",
+                  "eur_incl_btw": 3745,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-beta-6x6m/"
+                }
+              ],
+              "printable": true,
+              "accessories": [
+                "zijwanden vanaf €299"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "air-partytent",
+          "name_nl": "Opblaasbare partytent (Theta-type)",
+          "reference_url": "https://www.outmate.nl/product/opblaasbare-partytent-airmate-theta-3x3m/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opblaasbare partytent",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4,5 (via side walls)",
+                  "3x6 (via side walls)"
+                ],
+                "frame_colour": "4 or 8 (conflict)"
+              },
+              "key_specs": [
+                "300x300x320",
+                "hogedruk staanders, met water te verzwaren",
+                "rugzak"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3x3",
+                  "eur_incl_btw": 1529,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opblaasbare-partytent-airmate-theta-3x3m/",
+                  "note": "was €1.699"
+                }
+              ],
+              "accessories": [
+                "zijwand €249 (klittenband)",
+                "zijwand oproldeur 300x210",
+                "elektrische pomp"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "air-hexagon",
+          "name_nl": "Opblaasbare zeshoek-tent (Hexon-type)",
+          "reference_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-hexon-10x10m/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Opblaasbare zeshoek-tent",
+              "variant_dimensions": {
+                "size": [
+                  "8x8",
+                  "10x10",
+                  "12x12"
+                ],
+                "frame_colour": "8 standaardkleuren",
+                "luifels": "optioneel (tot 435 cm hoog)"
+              },
+              "key_specs": [
+                "8x8: ingang 280, hoogte 400",
+                "12x12: hoogte 600",
+                "dak met rits verwisselbaar"
+              ],
+              "reference_prices": [
+                {
+                  "label": "8x8",
+                  "eur_incl_btw": 4950,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/opblaasbare-partytent/"
+                },
+                {
+                  "label": "10x10",
+                  "eur_incl_btw": 7250,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-hexon-10x10m/"
+                },
+                {
+                  "label": "12x12",
+                  "eur_incl_btw": 9950,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/opblaasbare-promotietent-airmate-hexon-12x12m/"
+                }
+              ],
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "air-accessoires",
+          "name_nl": "Accessoires, zijwanden, luifels, tunnels",
+          "reference_url": "https://www.outmate.nl/product-categorie/zijwanden-opblaasbaar/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Air accessoires",
+              "variant_dimensions": {
+                "item": [
+                  "zijwand dicht",
+                  "zijwand raam/deur/rits",
+                  "luifel",
+                  "verbindingstunnel",
+                  "elektrische pomp",
+                  "handpomp",
+                  "LED-verlichting",
+                  "opbergtas"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "zijwand A dicht",
+                  "eur_incl_btw": 179,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/zijwanden-opblaasbaar/"
+                },
+                {
+                  "label": "zijwand A raam/deur",
+                  "eur_incl_btw": 199,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/zijwanden-opblaasbaar/"
+                },
+                {
+                  "label": "elektrische pomp",
+                  "eur_incl_btw": 75,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/elektrische-pomp/"
+                },
+                {
+                  "label": "handpomp",
+                  "eur_incl_btw": 39,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/zijwanden-opblaasbaar/",
+                  "note": "sale €35,10"
+                },
+                {
+                  "label": "LED 12 W",
+                  "eur_incl_btw": 119,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-opblaasbare-partytenten/",
+                  "note": "sale €107,10"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "schaduw-overkapping",
+      "name_nl": "Schaduwdoeken, overkappingen & paviljoens",
+      "suggested_handle": "schaduwdoeken-overkappingen",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/tuinpaviljoen/"
+        }
+      ],
+      "confidence": "likely",
+      "notes": "Outmate has no 'overkappingen' category; homepage section 'Overkapping zeilen - van 3m tot 10m en maatwerk'.",
+      "subcategories": [
+        {
+          "id": "schaduwdoeken",
+          "name_nl": "Schaduwdoeken",
+          "reference_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Schaduwdoek",
+              "variant_dimensions": {
+                "shape": [
+                  "vierkant",
+                  "driehoek",
+                  "rechthoek"
+                ],
+                "size": [
+                  "3x3",
+                  "3x3x3",
+                  "4x4",
+                  "4x4x4",
+                  "4x2",
+                  "5x3",
+                  "5x5",
+                  "6x4"
+                ],
+                "material": [
+                  "waterdoorlatend HDPE (95% UV)",
+                  "waterdicht PU-gecoat polyester (30° helling)"
+                ],
+                "colour": [
+                  "antraciet",
+                  "zandkleur",
+                  "grijs (alleen waterdicht)"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "3x3 waterresistent",
+                  "eur_incl_btw": 39,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+                },
+                {
+                  "label": "5x3",
+                  "eur_incl_btw": 59,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+                },
+                {
+                  "label": "5x5 waterdoorlatend",
+                  "eur_incl_btw": 69,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+                },
+                {
+                  "label": "max",
+                  "eur_incl_btw": 75,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+                }
+              ],
+              "shipping_reference": "€7,95",
+              "accessories": [
+                "bevestigingsset €13,50"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "overkapping-zeil-op-maat",
+          "name_nl": "Overkapping / veranda zeil op maat",
+          "reference_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Overkappingzeil op maat (configurator)",
+              "variant_dimensions": {
+                "inputs": [
+                  "breedte",
+                  "hoogte/lengte"
+                ],
+                "material": [
+                  "PVC 580 g"
+                ],
+                "options": [
+                  "ramen",
+                  "ritsen"
+                ],
+                "colour": "keuze"
+              },
+              "reference_prices": [
+                {
+                  "label": "vanaf",
+                  "eur_incl_btw": 35,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/"
+                }
+              ],
+              "lead_time_reference": "3-5 weken (indicatie)",
+              "key_specs": [
+                "tolerantie 1-2 cm",
+                "maatwerk: geen retour"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "overkapping-zijwanden",
+          "name_nl": "Overkapping zijwanden PVC met raam en ritsen",
+          "reference_url": "https://www.outmate.nl/product/overkapping-zijwand-pvc-met-raam-en-ritsen-4-meter-breed-250cm-hoog/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Overkapping zijwand 250 cm hoog",
+              "variant_dimensions": {
+                "width_m": [
+                  "3",
+                  "4",
+                  "6",
+                  "8",
+                  "10"
+                ]
+              },
+              "key_specs": [
+                "PVC 550 g/m²"
+              ],
+              "reference_prices": [
+                {
+                  "label": "3 m",
+                  "eur_incl_btw": 109,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/overkapping-zijwand-pvc-met-raam-en-ritsen-4-meter-breed-250cm-hoog/"
+                },
+                {
+                  "label": "4 m",
+                  "eur_incl_btw": 149,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/overkapping-zijwand-pvc-met-raam-en-ritsen-4-meter-breed-250cm-hoog/"
+                },
+                {
+                  "label": "6 m",
+                  "eur_incl_btw": 189,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/overkapping-zijwand-pvc-met-raam-en-ritsen-4-meter-breed-250cm-hoog/"
+                },
+                {
+                  "label": "8 m",
+                  "eur_incl_btw": 249,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/overkapping-zijwand-pvc-met-raam-en-ritsen-8-meter-breed-250cm-hoog/"
+                },
+                {
+                  "label": "10 m",
+                  "eur_incl_btw": 269,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tuinpaviljoen",
+          "name_nl": "Tuinpaviljoens",
+          "reference_url": "https://www.outmate.nl/product-categorie/tuinpaviljoen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Tuinpaviljoen aluminium/staal met polycarbonaat dak",
+              "variant_dimensions": {
+                "size": [
+                  "3x3",
+                  "3x4"
+                ],
+                "line": [
+                  "Lite (alu antraciet)",
+                  "Steel"
+                ]
+              },
+              "key_specs": [
+                "6 mm polycarbonaat",
+                "staanders 90x90 mm",
+                "70 kg",
+                "doorloop 195, hoogte 275",
+                "dubbele gordijnrails"
+              ],
+              "reference_prices": [
+                {
+                  "label": "Lite 3x3",
+                  "eur_incl_btw": 695,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/tuinpaviljoen-3x4m-skyshade-lite/"
+                },
+                {
+                  "label": "Lite 3x4",
+                  "eur_incl_btw": 795,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/tuinpaviljoen-3x4m-skyshade-lite/",
+                  "note": "€795-€865"
+                },
+                {
+                  "label": "Steel 3x4",
+                  "eur_incl_btw": 1039,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/tuinpaviljoen-3x4m-skyshade-lite/"
+                }
+              ],
+              "accessories": [
+                "zijwanden dicht of gaas"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tafels-stoelen",
+      "name_nl": "Statafels, tafels & stoelen",
+      "suggested_handle": "tafels-en-stoelen",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/"
+        },
+        {
+          "shop": "statafelshop",
+          "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+        }
+      ],
+      "confidence": "likely",
+      "notes": "Statafelshop.nl assortment (round Ø statafels etc.) is UNCONFIRMED - research did not run. Outmate furniture model names are theirs; ours need own names.",
+      "subcategories": [
+        {
+          "id": "statafels",
+          "name_nl": "Statafels",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/statafels/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Statafel vierkant stapelbaar 70x70",
+              "variant_dimensions": {
+                "frame_colour": "facet ?_frame=zwart"
+              },
+              "reference_prices": [
+                {
+                  "label": "70x70",
+                  "eur_incl_btw": 159,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/",
+                  "note": "€159-€169"
+                }
+              ],
+              "accessories": [
+                "trolley voor 10 st €589",
+                "statafelrok"
+              ]
+            },
+            {
+              "name": "Statafel opklapbaar 70x70 (alu onderstel, blad naar keuze)",
+              "variant_dimensions": {
+                "top": "naar keuze"
+              },
+              "reference_prices": [
+                {
+                  "label": "70x70",
+                  "eur_incl_btw": 147,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product/opklapbare-statafel-tundra-70-x-70-cm/"
+                }
+              ]
+            },
+            {
+              "name": "Statafel opklapbaar 60x60 (houten blad)",
+              "variant_dimensions": {
+                "frame": [
+                  "RVS",
+                  "zwart"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "60x60",
+                  "eur_incl_btw": 149,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/statafel-helsinki-60x60cm-opklapbaar/"
+                }
+              ]
+            },
+            {
+              "name": "Barrel statafel wijnvat Ø100 (kunststof houtlook)",
+              "reference_prices": [
+                {
+                  "label": "Ø100",
+                  "eur_incl_btw": 399,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/kunststof-barrel-statafel-wijnvat-blad-%E2%8C%80100cm/"
+                }
+              ],
+              "key_specs": [
+                "vulbaar met water of zand",
+                "optionele vuldop"
+              ]
+            },
+            {
+              "name": "Ronde inklapbare statafel Ø60/Ø70/Ø80",
+              "reference_prices": [],
+              "confidence": "unconfirmed (Statafelshop per brief; sizes from the failed-research query list, not observed)"
+            }
+          ]
+        },
+        {
+          "id": "terrastafels",
+          "name_nl": "Terrastafels",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/terrastafels/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Terrastafel",
+              "variant_dimensions": {
+                "type": [
+                  "opklapbaar",
+                  "X-kruis",
+                  "zelfstabiliserend"
+                ],
+                "size": [
+                  "70x70",
+                  "120x70"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "70x70 opklapbaar",
+                  "eur_incl_btw": 132,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/terrastafels/"
+                },
+                {
+                  "label": "120x70",
+                  "eur_incl_btw": 299,
+                  "kind": "from",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/terrastafels/",
+                  "note": "pre-order"
+                },
+                {
+                  "label": "zelfstabiliserend",
+                  "eur_incl_btw": 349,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/terrastafels/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "klaptafels",
+          "name_nl": "Klaptafels",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/klaptafels/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Klaptafel",
+              "variant_dimensions": {
+                "material": [
+                  "HDPE",
+                  "houten blad"
+                ],
+                "shape": [
+                  "rechthoek",
+                  "rond",
+                  "kwartrond"
+                ],
+                "size_seen": [
+                  "200x60",
+                  "220x76",
+                  "122/76 kwartrond"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "220x76 hout",
+                  "eur_incl_btw": 159,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/klaptafels/"
+                },
+                {
+                  "label": "kwartrond 122/76",
+                  "eur_incl_btw": 129,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/klaptafels/"
+                }
+              ],
+              "volume_tiers_reference": {
+                "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
+                "tiers": "2-5 st 5% ... 20+ st 12,5%"
+              },
+              "accessories": [
+                "trolley"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "biertafels",
+          "name_nl": "Biertafels & bierbanken (sets)",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-meubilair/frame-onderdelen/",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Biertafelset / onderstel",
+              "reference_prices": [
+                {
+                  "label": "bierbank onderstel bij 4-10 st",
+                  "eur_incl_btw": 29.25,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/",
+                  "note": "staffel price"
+                }
+              ],
+              "accessories": [
+                "biertafelset hoes",
+                "kliksloten"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "barkrukken",
+          "name_nl": "Barkrukken",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/barkrukken/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Barkruk stapelbaar",
+              "variant_dimensions": {
+                "style": [
+                  "metaal + velours (binnen)",
+                  "draadstoel zwart (stapelbaar tot 8)",
+                  "metaal + houten zitting",
+                  "hamerslag"
+                ]
+              },
+              "reference_prices": [],
+              "volume_tiers_reference": {
+                "source_url": "https://www.outmate.nl/product/barkruk-louis/",
+                "tiers": "staffel vanaf 10 st"
+              },
+              "accessories": [
+                "trolley 18 krukken"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stoelen",
+          "name_nl": "Stoelen (stapelstoelen)",
+          "reference_url": "https://www.outmate.nl/product-categorie/tafels-en-stoelen/stoelen/",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Stapelstoel",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "barrels-sets",
+          "name_nl": "Barrels & sets",
+          "reference_url": "https://www.outmate.nl/product-categorie/barrels/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Barrel-set 1 statafel + 4 barkrukken",
+              "reference_prices": [
+                {
+                  "label": "set",
+                  "eur_incl_btw": 775,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/barrel-set-1-wijnvat-statafel-4-barkrukken-houtlook-onderhoudsvrij-kunststof/",
+                  "note": "was €895"
+                }
+              ],
+              "key_specs": [
+                "PE houtlook, weerbestendig, binnen/buiten"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bundels",
+          "name_nl": "Voordeelbundels (N statafels + trolley)",
+          "reference_url": "https://www.outmate.nl/product/supercombi-10x-statafel-times-square-trolley/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Bundel statafels + trolley",
+              "variant_dimensions": {
+                "qty": [
+                  "10x",
+                  "12x"
+                ],
+                "table_model": "naar keuze"
+              },
+              "reference_prices": [
+                {
+                  "label": "10x + trolley",
+                  "eur_incl_btw": 2299,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/supercombi-10x-statafel-times-square-trolley/",
+                  "note": "€2.299-€2.335, sale €1.969"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "trolleys",
+          "name_nl": "Transportkarren / trolleys",
+          "reference_url": "https://www.outmate.nl/product-categorie/accessoires-meubilair/transportkarren/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Trolley per tafel-/stoeltype",
+              "reference_prices": [
+                {
+                  "label": "statafel-trolley 10 st",
+                  "eur_incl_btw": 589,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/statafel-vierkant-stapelbaar-70x70cm-times-square/"
+                }
+              ],
+              "key_specs": [
+                "stoelen/barkrukken trolley: 18 st"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "meubel-onderdelen",
+          "name_nl": "Onderdelen meubilair",
+          "reference_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafel-onderdelen/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Onderdelen",
+              "variant_dimensions": {
+                "part": [
+                  "losse statafelbladen 80/85 cm rond + vierkant",
+                  "barkruk onderdelen",
+                  "klaptafel onderdelen",
+                  "stoelen onderdelen",
+                  "biertafel frame-onderdelen / kliksloten"
+                ]
+              },
+              "reference_prices": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statafelrokken-hoezen",
+      "name_nl": "Statafelrokken, -hoezen & kleden",
+      "suggested_handle": "statafelrokken",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/"
+        },
+        {
+          "shop": "statafelshop",
+          "url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)"
+        }
+      ],
+      "confidence": "likely (outmate) / unconfirmed (statafelshop)",
+      "notes": "Core Statafelshop category per BRIEF, but no Statafelshop data was gathered. Only the Outmate stretch rok is sourced.",
+      "subcategories": [
+        {
+          "id": "statafelrok-stretch",
+          "name_nl": "Statafelrok stretch",
+          "reference_url": "https://www.outmate.nl/product/statafelrok-stretch/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Statafelrok stretch (incl. topcover)",
+              "variant_dimensions": {
+                "fits_top_cm": "70-85",
+                "colour_seen": [
+                  "zwart",
+                  "wit",
+                  "turquoise"
+                ],
+                "colour_tiers": [
+                  "standaard",
+                  "exclusief"
+                ]
+              },
+              "key_specs": [
+                "90% polyester / 10% lycra, 190 g/m²",
+                "incl. topcover"
+              ],
+              "reference_prices": [
+                {
+                  "label": "per stuk",
+                  "eur_incl_btw": 14.99,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/statafelrok-stretch/",
+                  "note": "one listing"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "statafelhoes-strik",
+          "name_nl": "Statafelhoes met strik",
+          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Statafelhoes met strik",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "statafelkleden",
+          "name_nl": "Statafelkleden",
+          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Statafelkleed",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "bedrukte-hoezen",
+          "name_nl": "Bedrukte statafelhoezen (eigen logo)",
+          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Bedrukte statafelhoes",
+              "printable": true,
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "topcovers",
+          "name_nl": "Topcovers",
+          "reference_url": "https://www.outmate.nl/product/statafelrok-stretch/",
+          "confidence": "unconfirmed (only as included item)",
+          "product_types": []
+        },
+        {
+          "id": "biertafelset-hoezen",
+          "name_nl": "Biertafelset hoezen",
+          "reference_url": "https://www.outmate.nl/product-categorie/meubilair-accessoires/statafelrokken/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Hoes biertafelset",
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "actiepakketten",
+          "name_nl": "Actiepakketten (statafels + rokken)",
+          "reference_url": "gauntlet/BRIEF.md#1-goal (asserted by brief; not observed via search)",
+          "confidence": "unconfirmed",
+          "product_types": [
+            {
+              "name": "Actiepakket",
+              "reference_prices": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verlichting",
+      "name_nl": "Verlichting",
+      "suggested_handle": "verlichting",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/verlichting/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/verlichting-onderdelen/"
+        }
+      ],
+      "confidence": "likely",
+      "subcategories": [
+        {
+          "id": "prikkabels",
+          "name_nl": "Prikkabels",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/prikkabels/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Prikkabel zwart",
+              "variant_dimensions": {
+                "length_m": "standaard 5-30",
+                "custom": "op maat gemonteerd tot 200 m"
+              },
+              "key_specs": [
+                "230 V, 16 A, max 25 W per fitting, IP44, E27"
+              ],
+              "reference_prices": [],
+              "bundle_rule": "10% korting op lampen bij kabel + LED-lampen"
+            }
+          ]
+        },
+        {
+          "id": "ledlampen",
+          "name_nl": "LED-lampen",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/led-lampen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "LED-lamp E27 onbreekbaar",
+              "variant_dimensions": {
+                "type": [
+                  "onbreekbaar polycarbonaat",
+                  "set 5 gekleurd 1 W",
+                  "set 5 kleuren filament 1 W",
+                  "dimbaar"
+                ]
+              },
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "lichtslangen",
+          "name_nl": "LED-lichtslangen",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/led-lichtslangen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "LED-lichtslang",
+              "variant_dimensions": {
+                "colour": [
+                  "warm wit",
+                  "blauw (dimbaar)",
+                  "groen",
+                  "rood"
+                ],
+                "length": [
+                  "per meter (op maat)",
+                  "20 m"
+                ]
+              },
+              "key_specs": [
+                "36 LEDs/m, 2,75 cm, IP44, 1,5 W/m",
+                "20 m warm wit 2200K"
+              ],
+              "reference_prices": [
+                {
+                  "label": "20 m warm wit",
+                  "eur_incl_btw": 58.0,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/led-lichtslang-20-meter-warm-wit-36-leds-per-meter-lichtsnoer-voor-buiten-2200k/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "kerstverlichting",
+          "name_nl": "Kerstverlichting",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting/",
+          "confidence": "likely",
+          "product_types": []
+        },
+        {
+          "id": "verlichting-onderdelen",
+          "name_nl": "Onderdelen verlichting",
+          "reference_url": "https://www.outmate.nl/product-categorie/verlichting-onderdelen/prikkabel-onderdelen/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Prikkabel onderdelen",
+              "variant_dimensions": {
+                "part": [
+                  "droppers",
+                  "kapjes",
+                  "klemmen",
+                  "dimmers",
+                  "verlengkabels",
+                  "afstandsbediening stekkerset"
+                ]
+              },
+              "reference_prices": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verwarming",
+      "name_nl": "Verwarming",
+      "suggested_handle": "verwarming",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/verwarmingen/"
+        }
+      ],
+      "confidence": "confirmed",
+      "subcategories": [
+        {
+          "id": "elektrisch",
+          "name_nl": "Elektrische verwarming",
+          "reference_url": "https://www.outmate.nl/product-categorie/verwarmingen/elektrische-verwarming/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Partytent heater",
+              "variant_dimensions": {
+                "model": [
+                  "1500 W industrial (600/900/1500 W, ca. 14 m²)",
+                  "2100 W (900/1420/2100 W, max 19 m², IP24)",
+                  "1500 W met afstandsbediening + LED-lamp (ca. 10 m²)",
+                  "easy-up heater 1500 W"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "easy-up heater 1500 W",
+                  "eur_incl_btw": 129,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product-categorie/accessoires-easy-up/inrichting-easy-up/"
+                }
+              ],
+              "warranty_reference": "1 jaar (https://www.outmate.nl/product/partytent-heater-2100/)"
+            }
+          ]
+        },
+        {
+          "id": "gas",
+          "name_nl": "Gasverwarming",
+          "reference_url": "https://www.outmate.nl/product-categorie/verwarmingen/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Gasheater",
+              "variant_dimensions": {
+                "model": [
+                  "terrasheater 13 kW",
+                  "area lounge heater",
+                  "table lounge heater 3000 W",
+                  "flame heater 9000 W"
+                ]
+              },
+              "reference_prices": []
+            }
+          ]
+        },
+        {
+          "id": "verwarming-accessoires",
+          "name_nl": "Accessoires verwarming (hoezen)",
+          "reference_url": "https://www.outmate.nl/product-categorie/verwarmingen/accessoires-verwarming/",
+          "confidence": "confirmed",
+          "product_types": []
+        }
+      ]
+    },
+    {
+      "id": "inrichting-evenement",
+      "name_nl": "Inrichting & evenement",
+      "suggested_handle": "inrichting",
+      "reference": [
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/inrichting/afzetpalen/"
+        },
+        {
+          "shop": "outmate",
+          "url": "https://www.outmate.nl/product-categorie/vloeren/"
+        }
+      ],
+      "confidence": "confirmed",
+      "subcategories": [
+        {
+          "id": "afzetpalen",
+          "name_nl": "Afzetpalen",
+          "reference_url": "https://www.outmate.nl/product-categorie/inrichting/afzetpalen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Afzetpaal",
+              "variant_dimensions": {
+                "finish": [
+                  "messing",
+                  "RVS"
+                ],
+                "type": [
+                  "2 m trekband",
+                  "ovale kop voor koord",
+                  "bedrukte trekband (min 10 st)"
+                ]
+              },
+              "lead_time_reference": "bedrukt: 2-4 weken na akkoord",
+              "shipping_reference": "vanaf €7,95",
+              "reference_prices": [],
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "marktkramen",
+          "name_nl": "Marktkramen",
+          "reference_url": "https://www.outmate.nl/product-categorie/inrichting/marktkramen/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Marktkraam 2 m gegalvaniseerd",
+              "variant_dimensions": {
+                "frame_colour": "keuze",
+                "canopy": [
+                  "standaard",
+                  "bedrukt (eigen ontwerp of laten ontwerpen)"
+                ]
+              },
+              "reference_prices": [
+                {
+                  "label": "2 m",
+                  "eur_incl_btw": 533,
+                  "kind": "range",
+                  "source_url": "https://www.outmate.nl/product/marktkraam-professional-gegalvaniseerd-zonder-kartelrand/",
+                  "note": "€533-€599"
+                }
+              ],
+              "segments": [
+                "scholen",
+                "zorginstellingen",
+                "verhuurbedrijven",
+                "promotie"
+              ],
+              "printable": true
+            }
+          ]
+        },
+        {
+          "id": "lopers",
+          "name_nl": "Lopers & vloeren",
+          "reference_url": "https://www.outmate.nl/product-categorie/vloeren/lopers/",
+          "confidence": "likely",
+          "product_types": [
+            {
+              "name": "Rode loper",
+              "variant_dimensions": {
+                "type": [
+                  "budget 50 m",
+                  "op maat premium"
+                ],
+                "width_m": [
+                  "1",
+                  "2",
+                  "4"
+                ],
+                "length": "tot 60 m in één stuk"
+              },
+              "reference_prices": [
+                {
+                  "label": "rode loper budget",
+                  "eur_incl_btw": 439,
+                  "kind": "fixed",
+                  "source_url": "https://www.outmate.nl/product/rode-loper-budget/",
+                  "note": "price example on that page; product match likely"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cross_category_services": [
+    {
+      "id": "bedrukking",
+      "name_nl": "Bedrukking (full colour)",
+      "applies_to": [
+        "easy-up tents",
+        "easy-up zijwanden/sets/dakzeilen",
+        "stertenten + zijwanden",
+        "opblaasbare tent daken",
+        "marktkraam kap",
+        "afzetpaal trekband",
+        "statafelhoezen (Statafelshop, unconfirmed)"
+      ],
+      "dimensions": {
+        "print_side": [
+          "binnen",
+          "buiten",
+          "beide"
+        ],
+        "files": "pdf/ai/eps, meerdere bestanden, max 128 MB (Outmate)",
+        "template": "per product + ingevuld voorbeeld"
+      },
+      "process": "order + upload -> mock-up -> akkoord -> productie",
+      "lead_time_reference": "14-21 dagen / 2-3 weken / 5-10 dagen na akkoord (by product)",
+      "source_url": "https://www.outmate.nl/easy-up-tent-bedrukken/"
+    },
+    {
+      "id": "maatwerk",
+      "name_nl": "Maatwerk",
+      "applies_to": [
+        "overkapping/veranda zeil",
+        "stretchtent",
+        "zijwanden partytent",
+        "prikkabel (tot 200 m)",
+        "LED-lichtslang (per m)",
+        "rode loper (tot 60 m)"
+      ],
+      "rules": [
+        "live price on dimensions",
+        "maatwerk niet retourneerbaar",
+        "tolerantie 1-2 cm"
+      ],
+      "source_url": "https://www.outmate.nl/product/overkapping-veranda-zeil-op-maat/"
+    },
+    {
+      "id": "staffelkorting",
+      "name_nl": "Staffelkorting",
+      "examples": [
+        "klaptafel 2-5 st 5% ... 20+ st 12,5%",
+        "barkruk vanaf 10 st",
+        "bierbank onderstel €29,25 bij 4-10 st"
+      ],
+      "source_url": "https://www.outmate.nl/product/foldtable-200x60cm/"
+    },
+    {
+      "id": "accessoire-korting",
+      "name_nl": "Accessoirekorting bij tent",
+      "examples": [
+        "10% op zijwanden bij easy-up",
+        "10% op lampen bij prikkabel"
+      ],
+      "source_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-professional-pvc-gecoat-polyester-2/"
+    }
+  ],
+  "shipping_classes_reference": [
+    {
+      "class": "klein pakket",
+      "eur": 7.95,
+      "examples": "zijwanden, dakzeilen, schaduwdoeken, afzetpalen",
+      "source_url": "https://www.outmate.nl/product-categorie/schaduwdoeken/"
+    },
+    {
+      "class": "easy-up Premium",
+      "eur": "12,50 (1 st) / 25 (2+)",
+      "source_url": "https://www.outmate.nl/product/easy-up-partytent-3x3m-premium-pvc-gecoat-polyester/"
+    },
+    {
+      "class": "grote tent pakket/vracht",
+      "eur": "39 - 42,50",
+      "examples": "easy-up Professional, partytenten, stertenten",
+      "source_url": "https://www.outmate.nl/product/partytent-3x8-premium-pvc-brandvertragend/"
+    },
+    {
+      "class": "vracht zwaar",
+      "eur": "75 (1) / 115 (2+)",
+      "examples": "betonblokken",
+      "source_url": "https://www.outmate.nl/product/betonblok-betongewicht-voor-tenten-120kg-met-lepelgat-en-uitsparing/"
+    },
+    {
+      "class": "stretchtent",
+      "eur": 175,
+      "source_url": "https://www.outmate.nl/product/stretchtent-6x6-meter-premiumstretch-lus-verbinding/"
+    },
+    {
+      "rule": "only the highest shipping cost per order is charged; BE has own rates",
+      "source_url": "https://www.outmate.nl/levertijd-en-verzendkosten/"
+    }
+  ],
+  "open_gaps": [
+    "Statafelshop.nl: entire assortment (round Ø statafels, stretch/strik hoezen sizes and colours, kleden, bedrukte hoezen, actiepakketten, prices, staffels).",
+    "Market price calibration beyond Outmate (vvep, partyrijk, bol.com, Gamma/Praxis, statafel competitors).",
+    "Buizenframe partytenten: full size matrix and prices per quality line (only 3x4 PE, 3x8 Premium, 6x12 Pro priced).",
+    "Opslagtenten sizes/prices; stoelen; biertafelsets; barkruk prices; prikkabel/ledlamp prices; gas heater prices.",
+    "Easy-up: what is included (bag/pegs) and tent warranty term; Premium heights/capacity.",
+    "Print surcharge amounts (resolved inside the 'Full Colour' variant price on Outmate)."
+  ]
+}
