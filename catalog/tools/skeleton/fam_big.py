@@ -2,6 +2,15 @@
 from kk_base import *
 from fam_acc import simple
 
+
+def ladder(x):
+    """Round a summed price up to the price ladder ...49 / ...99 (whole euros): 1344 -> 1349, 2598 -> 2599."""
+    n = int(-(-x // 1))
+    base = n - n % 100
+    for step in (49, 99, 149):
+        if base + step >= n:
+            return base + step
+
 def build():
     # ------------------------------------------------------------ stretch
     SK = ['Zandkleur', 'Taupe', 'Wit', 'Zwart']
@@ -18,7 +27,7 @@ def build():
             'specificaties': [sp('Doek', 'Materiaal', 'Elastisch polyester, PVC-gecoat, 750 g/m², waterdicht, UV-bestendig'), sp('Doek', 'Brandklasse', 'M2 (certificaat bij levering)'),
                               sp('Doek', 'Bevestiging', 'Lussen elke 75 cm'), sp('Levering', 'Inbegrepen', 'Doek, palenset, spanbanden met haringen, opbergtas'),
                               sp('Opzetten', 'Benodigd', 'Minimaal 2 m vrije ruimte rondom; 2–4 personen')],
-            'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'staffelkorting': None, 'garantie': '1 jaar op het doek'},
+            'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'staffelkorting': ST_GROOT, 'garantie': '1 jaar op het doek'},
            ['stretchtenten.stretch-compleet', 'stretchtenten.stretch-lusverbinding'], 'stretch',
            'Organische vorm voor horeca en events: hoe hoog en laag spannen werkt, wat erbij zit, ruimte rondom, opzettijd; verankering bij wind.',
            ['stretchtent kopen', 'stretchtent 6x6', 'stretch tent 10x15'], {'outmate': {m: v[1] for m, v in STC.items()}, 'band': '10x15 nieuw €8.517–€10.950 incl.', 'ours': {m: v[0] for m, v in STC.items()}}, vmap=vmap)
@@ -26,7 +35,7 @@ def build():
     vs = [variant(f'KK-TENT-SD-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 30000 + 4000 * i, None, tracked=False) for i, (m, p) in enumerate(SD.items()) for k in SK]
     imgs, vmap = kleur_images('stretchdoek-los', SK, 'foldedFabric', lambda k: {'color': render_color(k), 'kind': 'stretch'}, 'Zandkleur', status='needs-model', p2=3)
     simple('stretchdoek-los', 'Stretchdoek los', 'Stretchtent', ['zakelijk', 'pallet'], [opt('Maat', list(SD)), opt('Kleur', SK)], vs, imgs,
-           {'kenmerk_kort': 'Alleen het doek · 750 g/m² · lussen elke 75 cm', 'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet'},
+           {'kenmerk_kort': 'Alleen het doek · 750 g/m² · lussen elke 75 cm', 'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'staffelkorting': ST_GROOT},
            ['stretchtenten.stretch-doeken'], 'stretch', 'Voor wie al palen en spanmateriaal heeft of een doek wil vervangen.',
            ['stretchdoek', 'stretchtent doek los'], {'outmate': '6x6 €2.474 · 7,5x10,5 €4.999', 'ours': SD}, vmap=vmap)
     HANDLES['stretchdoek-los']['metafields']['past_op'] = ['stretchtent-compleet']
@@ -75,7 +84,8 @@ def build():
     # Uitvoering 'Full colour bedrukt' = sublimatieprint op wit doek (drukproef vooraf); effen in de stockkleuren.
     STU = ['Effen doek', 'Full colour bedrukt']
     STK = ['Wit', 'Zwart', 'Zandkleur']
-    ST1 = {'Ø8 m': (899, 989, 53, 1849), 'Ø10 m': (979, 1029, 58, 2049), 'Ø12 m': (1149, 1225, 62, 2179), 'Ø14 m': (1279, 1350, 67, 2299), 'Ø16 m': (1429, 1500, 75, 2899)}
+    # full colour: the surcharge on the plain tent grows with the cloth area (Ø8 +950 · Ø10 +1.070 · Ø12 +1.100 · Ø14 +1.170 · Ø16 +1.220)
+    ST1 = {'Ø8 m': (899, 989, 53, 1849), 'Ø10 m': (979, 1029, 58, 2049), 'Ø12 m': (1149, 1225, 62, 2249), 'Ø14 m': (1279, 1350, 67, 2449), 'Ø16 m': (1429, 1500, 75, 2649)}
     vs = []
     for m, (p, om, kg, fc) in ST1.items():
         vs += [variant(f'KK-TENT-SR-{code(m)}-{COLOR_CODE[k]}', [m, STU[0], k], p, kg * 1000, inv(2, m + k)) for k in STK]
@@ -92,13 +102,13 @@ def build():
             'bedrukbaar': True,
             'drukopties': {'posities': ['Dak (alle vlakken)'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
                            'optie': 'Uitvoering', 'zonder': ['Effen doek']},
-            'verzending': 'pallet', 'garantie': '1 jaar op mast en doek'},
+            'verzending': 'pallet', 'garantie': '1 jaar op mast en doek', 'staffelkorting': ST_GROOT},
            ['stertenten.stertent-rond'], 'ster', 'Opvallende vorm met één mast: maten met ingang en capaciteit, opzetten met meetkoord, met 2 personen; effen of full colour bedrukt.',
            ['stertent kopen', 'stertent 10 meter', 'stertent bedrukt'],
            {'outmate': {m: v[1] for m, v in ST1.items()}, 'outmate_full_colour': 'Ø8 tot €2.071 · Ø10 tot €2.299 · Ø14 tot €2.588 · Ø16 tot €3.278',
             'ours': {m: v[0] for m, v in ST1.items()}, 'ours_full_colour': {m: v[3] for m, v in ST1.items()}}, vmap=vmap,
            extra={'variant_image_sku': {f'KK-TENT-SR-{code(m)}-FC-WIT': fc1 for m in ST1}})
-    ST2 = {'8 x 13 m': (2295, 2500, 106, 3895), '10 x 16 m': (2649, 2900, 130, 4549), '12 x 19 m': (2949, 3200, 160, 5149), '13 x 21 m': (3249, 3500, 185, 5649)}
+    ST2 = {'8 x 13 m': (2295, 2500, 106, 3899), '10 x 16 m': (2649, 2900, 130, 4549), '12 x 19 m': (2949, 3200, 160, 5149), '13 x 21 m': (3249, 3500, 185, 5649)}
     STK2 = ['Wit', 'Zandkleur']
     vs = []
     for m, (p, om, kg, fc) in ST2.items():
@@ -112,7 +122,7 @@ def build():
     simple('stertent-dubbele-mast', 'Stertent dubbele mast', 'Stertent', ['zakelijk', 'pallet', 'bedrukbaar', 'gebruik:evenement'],
            [opt('Maat', list(ST2)), opt('Uitvoering', STU), opt('Kleur', STK2)], vs, imgs,
            {'kenmerk_kort': '2 aluminium masten · 320 g/m² doek · tot 150 personen staand', 'levertijd': 'Levertijd 2–3 weken', 'verzending': 'pallet',
-            'bedrukbaar': True,
+            'bedrukbaar': True, 'staffelkorting': ST_GROOT,
             'drukopties': {'posities': ['Dak (alle vlakken)'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
                            'optie': 'Uitvoering', 'zonder': ['Effen doek']}},
            ['stertenten.stertent-dubbelmast'], 'ster', 'Langgerekte stertent voor grotere groepen: capaciteit per maat, opzetten met 2–3 personen in een half uur; effen of full colour bedrukt.',
@@ -126,7 +136,8 @@ def build():
           for j, (m, v) in enumerate(SZ.items()) for i, u in enumerate(['Losse wand met raam', 'Set rondom'])]
     simple('zijwanden-stertent', 'Zijwanden stertent', 'Stertent zijwand', ['zakelijk'], [opt('Maat', list(SZ)), opt('Uitvoering', ['Losse wand met raam', 'Set rondom'])], vs,
            [img('zijwanden-stertent-hero.webp', 'hero', 1, 'stertent', {'diameter': 10, 'points': 6, 'height': 5, 'color': 'wit', 'walls': 'panorama'}, 'hero', 'Wit', 'needs-param')],
-           {'kenmerk_kort': '215 cm hoog · klittenband · panorama of dicht', 'verzending': 'pakket', 'past_op': ['stertent-enkele-mast', 'stertent-dubbele-mast']},
+           {'kenmerk_kort': '215 cm hoog · klittenband · panorama of dicht', 'verzending': 'pakket', 'past_op': ['stertent-enkele-mast', 'stertent-dubbele-mast'],
+            'staffelkorting': ST_GROOT},
            ['stertenten.stertent-zijwanden'], 'ster', 'Wanden rondom of per vak: set (panorama + oproldeuren) of los; voor enkele mast Ø8–Ø16 m en dubbele mast.',
            ['zijwanden stertent'], {'outmate': 'los 8 m €139 · set 8 m €475 · 10 m €559 · 12 m €675 · 14 m €799 · dubbelmast per wand €210–€339', 'ours': SZ})
 
@@ -139,7 +150,7 @@ def build():
             for j, u in enumerate(AU):
                 for k in AK:
                     sku = f'KK-AIR-{c}-{code(m)}-{"K" if j == 0 else "FC"}-{COLOR_CODE[k]}'
-                    vs.append(variant(sku, [m, u, k], p + (extra_fc[i] if j else 0), kg * 1000, None, tracked=False))
+                    vs.append(variant(sku, [m, u, k], ladder(p + extra_fc[i]) if j else p, kg * 1000, None, tracked=False))
         imgs, vmap = kleur_images(h, AK, 'opblaasbareTent', lambda k: {'w': w_default, 'color': render_color(k), 'canopyColor': render_color(k), **render_finish(k)}, 'Rood', p2=3)
         imgs.append(img(f'{h}-full-colour.webp', 'variant', 2, 'opblaasbareTent', {'w': w_default, 'color': 'wit', 'canopyPrint': {'artwork': 'brand/img/voorbeeld-fullcolour.png'}}, 'hero', None, 'needs-param',
                         alt='met voorbeeldontwerp op het dak'))
@@ -174,7 +185,7 @@ def build():
     # printed roof for the zeshoek is quoted (offerte), so the product is not bedrukbaar: no upload block, not in bedrukte-partytenten
     simple('opblaasbare-zeshoektent', 'Opblaasbare zeshoektent', 'Opblaasbare tent', ['zakelijk', 'pallet', 'gebruik:evenement'], [opt('Maat', list(ZH)), opt('Kleur', ZK)], vs, imgs,
            {'kenmerk_kort': 'Zes luchtpoten · tot 6 m hoog · dak met rits verwisselbaar',
-            'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'vergelijk_groep': 'opblaasbare-tent'},
+            'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'vergelijk_groep': 'opblaasbare-tent', 'staffelkorting': ST_GROOT},
            ['opblaasbare-tenten.air-hexagon'], 'opblaasbaar', 'Grote opblaasbare blikvanger voor festivals en beurzen; dak verwisselbaar, luifels optioneel via offerte.',
            ['opblaasbare tent zeshoek', 'opblaasbare eventtent groot'], {'outmate': '8x8 €4.950 · 10x10 €7.250 · 12x12 €9.950', 'ours': ZH}, vmap=vmap)
     AW = {'3 m': (159, 179), '4 m': (189, 209), '5 m': (219, 239), '6 m': (249, 269)}
@@ -234,6 +245,19 @@ def build():
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar',
            'Vervangende of extra tas voor een opblaasbare tent: leeggelopen tent, pomp en zandzakken in één tas; rijden in plaats van tillen.',
            ['tas opblaasbare tent', 'opbergtas promotietent'], {'ours': OB})
+    simple('led-verlichting-opblaasbare-tent', 'LED-verlichting 12 W voor opblaasbare tent', 'Tentverlichting', ['zakelijk', 'gebruik:evenement', 'gebruik:markt'], [],
+           [variant('KK-AIR-LED-12W', [], 104.95, 900, 12)],
+           [img('led-verlichting-opblaasbare-tent-hero.webp', 'hero', 1, 'tentLight', {'watt': 12, 'kind': 'air'}, 'hero', None, 'existing'),
+            img('led-verlichting-opblaasbare-tent-in-tent.webp', 'in-gebruik', 3, 'opblaasbareTent', {'w': 3, 'color': 'wit', 'light': {'watt': 12, 'on': True}}, 'low', 'Wit', 'needs-param',
+                alt='in een opblaasbare promotietent (tent niet inbegrepen)')],
+           {'kenmerk_kort': '12 W LED · ca. 1.200 lumen · klittenband aan het luchtframe', 'verzending': 'pakket', 'past_op': AIR_SQ + ['opblaasbare-zeshoektent'],
+            'staffelkorting': ST_TEXTIEL, 'garantie': '1 jaar',
+            'specificaties': [sp('Lamp', 'Vermogen', '12 W LED'), sp('Lamp', 'Lichtstroom', 'ca. 1.200 lumen, 4000 K'), sp('Lamp', 'Beschermingsklasse', 'IP44'),
+                              sp('Bevestiging', 'Aan de tent', 'Klittenbandlus om het luchtframe, onder de nok'), sp('Aansluiting', 'Kabel', '5 m met stekker, 230 V')]},
+           ['opblaasbare-tenten.air-accessoires', 'verlichting.prikkabels'], 'opblaasbaar',
+           'Licht in je opblaasbare tent op een avondevent of beurs: 12 W LED onder de nok, klittenband om het luchtframe, 5 m kabel; geen gereedschap.',
+           ['verlichting opblaasbare tent', 'led lamp promotietent', 'tentverlichting opblaasbaar'],
+           {'outmate': 'LED-verlichting 12 W voor opblaasbare tenten €119', 'ours': 104.95})
     ZHW = {'8 x 8 m': (349, 379), '10 x 10 m': (419, 449), '12 x 12 m': (489, 519)}
     ZWK = ['Wit', 'Zwart']
     vs = [variant(f'KK-ZW-HEX-{code(m)}-{"DI" if i == 0 else "DE"}-{COLOR_CODE[k]}', [m, u, k], v[i], 6000 + 1500 * j, None, tracked=False)

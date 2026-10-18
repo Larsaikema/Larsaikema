@@ -6,12 +6,43 @@
 //       'rond'   horeca: fixed round steel base disc
 // top:  'berken' | 'hout' (birch plywood 18 mm, lacquered, visible plies)
 //       'hdpe' | 'hdpe-wit' | 'hdpe-grijs' (blow-moulded 45 mm, rounded rim)
-//       'wit' | 'zwart' (laminated board)
+//       'wit' | 'zwart' | 'antraciet' | 'houtlook' | 'graniet' (HPL / laminate; graniet = grey speckled stone look)
+// shape: 'round' (default) | 'square' (width) | 'rect' (width x depth). Square tables stand on 4 splayed
+//        square-tube legs ('stapel', stackable), rectangular ones on two folding leg frames.
 // frame: 'zwart' | 'wit' | 'chroom' | 'alu' | 'antraciet'
 // folded: true -> top flipped vertical, legs folded up along the column.
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
+import { rng, makeNoise2 } from '../js/rng.js';
+
+const LAMINATE = { wit: '#F2F2EE', zwart: '#1B1C1E', antraciet: '#3D4044', houtlook: '#8A6A48', graniet: '#FFFFFF' };
+// Stone-look HPL (graniet): mid grey with fine dark and light speckles, as a colour map in metres (tile 0.25 m).
+let _granite = null;
+function graniteLaminate() {
+  if (_granite) return _granite;
+  const N = 512, R = rng(91), { noise } = makeNoise2(91);
+  const d = new Uint8Array(N * N * 4);
+  for (let i = 0; i < N * N; i++) {
+    const v = 128 + Math.round(14 * noise((i % N) * 0.03, Math.floor(i / N) * 0.03));
+    d[i * 4] = v; d[i * 4 + 1] = v - 2; d[i * 4 + 2] = v - 6; d[i * 4 + 3] = 255;
+  }
+  for (let k = 0; k < 9000; k++) {
+    const x = Math.floor(R() * N), y = Math.floor(R() * N), r = R() < 0.85 ? 0 : 1;
+    const v = R() < 0.55 ? 40 + R() * 40 : 190 + R() * 50;
+    for (let yy = -r; yy <= r; yy++) for (let xx = -r; xx <= r; xx++) {
+      const o = (((y + yy + N) % N) * N + ((x + xx + N) % N)) * 4; d[o] = d[o + 1] = d[o + 2] = v;
+    }
+  }
+  const map = new THREE.DataTexture(d, N, N, THREE.RGBAFormat);
+  map.wrapS = map.wrapT = THREE.RepeatWrapping; map.repeat.set(4, 4); map.colorSpace = THREE.SRGBColorSpace; map.needsUpdate = true;
+  _granite = new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', map, roughness: 0.42, specularIntensity: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.35, name: 'laminate graniet' });
+  return _granite;
+}
+function topMaterial(top) {
+  if (top === 'graniet') return graniteLaminate();
+  return M.laminate(LAMINATE[top] || LAMINATE.wit);
+}
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -41,6 +72,8 @@ function frameMaterial(frame) {
 }
 
 export function statafel(p = {}) {
+  const shape = (p.shape || 'round').toLowerCase();
+  if (shape === 'square' || shape === 'rect') return statafelSquare(p, shape);
   const S = statafelDims(p);
   const { R, H, T, top } = S;
   const folded = !!p.folded;
@@ -69,11 +102,12 @@ export function statafel(p = {}) {
       const v = V3(Math.cos(a), 0, Math.sin(a));
       topBins.add(mat, G.flatBar(v.clone().multiplyScalar(-(R - 0.04)).setY(-T + 0.012), v.clone().multiplyScalar(R - 0.04).setY(-T + 0.012), 0.012, 0.016, V3(0, 1, 0).cross(v).normalize()));
     }
-  } else if (top === 'wit' || top === 'zwart') {
-    const face = M.laminate(top === 'wit' ? '#F2F2EE' : '#1B1C1E');
-    const edge = M.laminate(top === 'wit' ? '#EDEDE8' : '#151617');
-    topBins.add(face, G.prism(G.circleProfile(R - 0.002, 128), V3(0, -0.0005, 0), V3(0, 0, 0)));
-    topBins.add(face, G.prism(G.circleProfile(R - 0.002, 128), V3(0, -T, 0), V3(0, -T + 0.0005, 0)));
+  } else if (LAMINATE[top]) {
+    const face = topMaterial(top);
+    const edge = top === 'graniet' ? M.laminate('#5E5B56') : M.laminate(top === 'wit' ? '#EDEDE8' : LAMINATE[top]);
+    const f1 = G.prism(G.circleProfile(R - 0.002, 128), V3(0, -0.0005, 0), V3(0, 0, 0)); planarUv(f1);
+    const f2 = G.prism(G.circleProfile(R - 0.002, 128), V3(0, -T, 0), V3(0, -T + 0.0005, 0)); planarUv(f2);
+    topBins.add(face, f1); topBins.add(face, f2);
     topBins.add(edge, roundedDiscEdge(R, T, 0.002));
   } else {
     // birch plywood: faces + ply edge with small radius
@@ -219,4 +253,64 @@ function roundedDiscEdge(R, T, r) {
 function planarUv(g) {
   const pos = g.attributes.position, uv = g.attributes.uv;
   for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) + 0.5, pos.getZ(i) + 0.5);
+}
+
+
+// ---------------------------------------------------------------------------------------
+// Square (stackable, 4 splayed square-tube legs) and rectangular (two folding leg frames) statafels.
+function statafelSquare(p, shape) {
+  const W = Number(p.width ?? 0.7) > 5 ? Number(p.width) / 100 : Number(p.width ?? 0.7);
+  const Dp = shape === 'rect' ? (Number(p.depth ?? 0.6) > 5 ? Number(p.depth) / 100 : Number(p.depth ?? 0.6)) : W;
+  const H = Number(p.height ?? 1.1) > 5 ? Number(p.height) / 100 : Number(p.height ?? 1.1);
+  const top = (p.top || 'zwart').toLowerCase();
+  const T = top === 'berken' || top === 'hout' ? 0.018 : 0.012;   // compact HPL 12 mm, birch ply 18 mm
+  const frame = frameMaterial(p.frame);
+  const glide = M.rubber('#151515');
+  const group = new THREE.Group();
+  group.name = `statafel ${shape} ${Math.round(W * 100)}x${Math.round(Dp * 100)} ${top}`;
+  const bins = new G.PartBin();
+  const r = 0.004;
+  // top slab
+  const slab = G.roundedBox(W, T, Dp, r);
+  slab.translate(0, H - T / 2, 0);
+  planarUv(slab);
+  if (top === 'berken' || top === 'hout') bins.add(M.birchFace(), slab);
+  else bins.add(topMaterial(top), slab);
+  const tube = (a, b, w = 0.03) => G.prism(G.roundedRectProfile(w, w, 0.003, 2), a, b, { side: V3(0, 0, 1).cross(b.clone().sub(a).normalize()).lengthSq() > 1e-6 ? V3(0, 0, 1) : V3(1, 0, 0) });
+  const yU = H - T - 0.002;
+  if (shape === 'square') {
+    // apron frame under the top + 4 legs splaying outward (stackable: the next table's legs slide outside these)
+    const ix = W / 2 - 0.05, iz = Dp / 2 - 0.05;
+    const corners = [[ix, iz], [-ix, iz], [-ix, -iz], [ix, -iz]];
+    for (let i = 0; i < 4; i++) {
+      const [x0, z0] = corners[i], [x1, z1] = corners[(i + 1) % 4];
+      bins.add(frame, G.prism(G.roundedRectProfile(0.02, 0.04, 0.003, 2), V3(x0, yU - 0.02, z0), V3(x1, yU - 0.02, z1), { side: V3(0, 1, 0) }));
+    }
+    const splay = 0.07;
+    for (const [x, z] of corners) {
+      const a = V3(x, yU, z), b = V3(x + Math.sign(x) * splay, 0.012, z + Math.sign(z) * splay);
+      bins.add(frame, G.prism(G.roundedRectProfile(0.03, 0.03, 0.003, 2), a, b, { side: V3(1, 0, 0) }));
+      bins.add(glide, G.roundedBox(0.034, 0.012, 0.034, 0.003).translate(b.x, 0.006, b.z));
+    }
+  } else {
+    // two folding leg frames near the ends: two uprights, a foot bar on the floor and a rail under the top
+    const fx = W / 2 - 0.12, fz = Dp / 2 - 0.07;
+    for (const sx of [-1, 1]) {
+      const x = sx * fx;
+      for (const sz of [-1, 1]) bins.add(frame, G.tube(V3(x, 0.03, sz * fz), V3(x, yU, sz * fz), 0.016, 20));
+      bins.add(frame, G.prism(G.roundedRectProfile(0.04, 0.03, 0.004, 2), V3(x, 0.018, -(Dp / 2 - 0.02)), V3(x, 0.018, Dp / 2 - 0.02), { side: V3(1, 0, 0) }));
+      bins.add(frame, G.prism(G.roundedRectProfile(0.03, 0.03, 0.003, 2), V3(x, yU - 0.015, -fz), V3(x, yU - 0.015, fz), { side: V3(1, 0, 0) }));
+      for (const sz of [-1, 1]) bins.add(glide, G.roundedBox(0.05, 0.008, 0.04, 0.003).translate(x, 0.004, sz * (Dp / 2 - 0.04)));
+    }
+    // folding brace between the frames
+    bins.add(frame, G.tube(V3(-fx, 0.45, 0), V3(fx, 0.45, 0), 0.011, 16));
+  }
+  bins.build(group);
+  const R = Math.max(W, Dp) / 2;
+  return {
+    object: group,
+    dims: { W, D: Dp, H, top, shape },
+    detail: { target: [W / 2 - 0.05, H - 0.04, Dp / 2 - 0.05], size: 0.45, azimuth: 34, elevation: 16 },
+    meta: { W, D: Dp, H, top, shape, R },
+  };
 }

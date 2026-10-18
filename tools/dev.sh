@@ -6,8 +6,9 @@
 # Usage: tools/dev.sh start|stop|status|restart [ours|bar|dawn]
 # Env: PREVIEW_DATA (fixture json), PREVIEW_IMAGES (images dir), PREVIEW_BIND (default 127.0.0.1),
 #      BAR_STOCK=1 serves Horizon without the merchant overlay (fresh-install look).
-# The bar is "Horizon set up by a skilled merchant": tools/preview/bar/merchant_setup.py writes Dutch copy,
-# colour swatches on and auto-open cart drawer into $SCRATCH/bar/horizon-merchant (overlay, Horizon untouched).
+# The bar is "Horizon set up by a skilled merchant": tools/preview/bar/merchant_setup.py writes the Klapklaar
+# theme-editor setup (brand, colours, fonts, home page, menus, PDP, cart drawer, nl copy) into
+# $SCRATCH/bar/horizon-merchant (overlay, Horizon untouched).
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

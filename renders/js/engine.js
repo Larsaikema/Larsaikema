@@ -12,7 +12,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from '../vendor/three/addons/environments/RoomEnvironment.js';
 import { halton, squareToDisk, invNorm, r2 } from './rng.js';
-import { setMaxAnisotropy, fabricMacroNormal } from './textures.js';
+import { setMaxAnisotropy, fabricMacroNormal, coatingMacroNormal } from './textures.js';
 import { studioEquirect } from './studioEnv.js';
 
 const DEG = Math.PI / 180;
@@ -33,25 +33,51 @@ export const globalUniforms = {
   uKeyDirW: { value: new THREE.Vector3(0, 1, 0) },
   uKeyE: { value: 1 },
   uDomeE: { value: 1 },
+  // Interior of an enclosure (walled tent): rig.interior sets a box (centre x/z, half
+  // extents x/z) and a top height. Surfaces inside it that face inwards (wall insides, roof
+  // underside) only keep the light that the shadow maps already occlude (key, dome); the
+  // unshadowed fill/rim/bounce and the image-based light are scaled by uIntK (1 = off).
+  uIntBox: { value: new THREE.Vector4(0, 0, 0, 0) },
+  uIntY: { value: new THREE.Vector2(0, 0) },
+  uIntK: { value: 1 },
 };
+
+// three's lights_fragment_begin with an extra factor on the *unshadowed* directional lights
+// (fill, rim, bounce) for interior-facing fragments (see uIntK).
+function lightsBeginInterior() {
+  const src = THREE.ShaderChunk.lights_fragment_begin;
+  const tail = '\t\t#endif\n\t\tRE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n\t}\n\t#pragma unroll_loop_end\n#endif\n#if ( NUM_RECT_AREA_LIGHTS > 0 )';
+  if (!src.includes(tail)) { console.warn('engine: lights_fragment_begin layout changed, interior term off'); return src; }
+  return src.replace(tail, tail.replace('\t\t#endif\n', '\t\t#else\n\t\tdirectLight.color *= intK;\n\t\t#endif\n'));
+}
 
 function hookMaterial(mat) {
   if (mat.userData.__hooked) return;
   mat.userData.__hooked = true;
   const stoch = mat.userData.stochasticAlpha;
+  // translucency (strength) with optional translKey / translSky: the weights of the key and of the
+  // overhead dome in the light arriving at the far side of the sheet (defaults 1, 0.8)
   const transl = mat.userData.translucency;
+  const trKey = mat.userData.translKey ?? 1, trSky = mat.userData.translSky ?? 0.8;
   const macro = mat.userData.macro && mat.normalMap ? mat.userData.macro : null;
+  const weave = mat.userData.weave && mat.normalMap ? mat.userData.weave : null;
   const envSpec = mat.userData.envSpec;
-  if (stoch == null && !transl && !macro && envSpec == null) return;
+  const interior = !!mat.userData.interior;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
     Object.assign(shader.uniforms, globalUniforms);
     let fs = shader.fragmentShader;
     const head = `uniform float uFrameSeed; uniform vec3 uKeyDirW; uniform float uKeyE; uniform float uDomeE;
+uniform vec4 uIntBox; uniform vec2 uIntY; uniform float uIntK;
 float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot( p3, p3.yzx + 33.33 ); return fract( ( p3.x + p3.y ) * p3.z ); }
 `;
-    fs = head + fs;
+    fs = head + (interior ? 'varying vec3 vIntW;\n' : '') + (weave ? 'uniform vec4 uWeave;\n' : '') + fs;
+    if (interior) {
+      shader.vertexShader = 'varying vec3 vIntW;\n' + shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
+  vIntW = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;`);
+    }
     if (stoch != null) {
       fs = fs.replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
   // stratified over frames: each pixel walks a golden-ratio sequence from a random start
@@ -61,7 +87,7 @@ float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot
       // Second normal layer (fabric macro structure: yarn streaks, slubs, coating cockle),
       // blended onto the weave normal map; also tilts the clearcoat normal and modulates
       // roughness, so the coating's sheen breaks up like real coated cloth.
-      shader.uniforms.tMacro = { value: macro.tex === 'fabricMacro' ? fabricMacroNormal() : macro.tex };
+      shader.uniforms.tMacro = { value: macro.tex === 'fabricMacro' ? fabricMacroNormal() : macro.tex === 'coatingMacro' ? coatingMacroNormal() : macro.tex };
       shader.uniforms.uMacro = { value: new THREE.Vector4(macro.scale, macro.strength, macro.coat ?? 0.6, macro.rough ?? 0.25) };
       fs = fs.replace('void main() {', `uniform sampler2D tMacro; uniform vec4 uMacro;
 void main() {
@@ -69,21 +95,52 @@ void main() {
   vec2 macroD = macroS.xy * uMacro.y;`);
       fs = fs.replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
   roughnessFactor = clamp( roughnessFactor * ( 1.0 + macroS.z * uMacro.w ), 0.04, 1.0 );`);
-      fs = fs.replace('#include <normal_fragment_maps>', `#ifdef USE_NORMALMAP_TANGENTSPACE
-  vec3 mapN = texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0;
-  mapN.xy *= normalScale;
-  mapN.xy += macroD;
-  normal = normalize( tbn * mapN );
-#endif`);
       fs = fs.replace('#include <clearcoat_normal_fragment_begin>', `#ifdef USE_CLEARCOAT
   vec3 clearcoatNormal = normalize( tbn * vec3( macroD * uMacro.z, 1.0 ) );
 #endif`);
     }
-    if (envSpec != null) {
+    if (macro || weave) {
+      // weave: how many weave repeats fall on one pixel decides how much of the yarn relief the
+      // camera resolves. Close up (< ~0.5 repeat/px) the relief is boosted and the coating's
+      // gloss varies over the yarn crowns and flanks; further away the unresolved relief turns
+      // into a slightly rougher, more matte lobe (Toksvig-like), never into aliasing sparkle.
+      if (weave) shader.uniforms.uWeave = { value: new THREE.Vector4(weave.repeats ?? 16, weave.boost ?? 1.6, weave.roughVar ?? 0.35, weave.matte ?? 0.05) };
+      fs = fs.replace('#include <normal_fragment_maps>', `#ifdef USE_NORMALMAP_TANGENTSPACE
+  vec3 mapN = texture2D( normalMap, vNormalMapUv ).xyz * 2.0 - 1.0;
+  ${weave ? `vec2 wvFw = fwidth( vNormalMapUv );
+  float wvRep = max( wvFw.x, wvFw.y ) * uWeave.x;
+  float wvClose = 1.0 - smoothstep( 0.22, 0.85, wvRep );
+  // unresolved weave (> ~1 repeat per pixel): flat, so mip residue never shows as a dot grid
+  float wvFar = 1.0 - smoothstep( 0.6, 1.4, wvRep );
+  mapN.xy *= normalScale * mix( 1.0, uWeave.y, wvClose ) * wvFar;
+  float wvSlope = length( mapN.xy );
+  roughnessFactor = clamp( roughnessFactor + uWeave.z * wvClose * ( wvSlope - 0.12 ), 0.08, 1.0 );
+  roughnessFactor = sqrt( roughnessFactor * roughnessFactor + uWeave.w * ( 1.0 - wvClose ) );` : 'mapN.xy *= normalScale;'}
+  ${macro ? 'mapN.xy += macroD;' : ''}
+  normal = normalize( tbn * mapN );
+#endif`);
+    }
+    if (interior) {
+      // fragment inside the enclosure box AND facing inwards (wall inside, roof underside)?
+      fs = fs.replace('#include <lights_fragment_begin>', `float intK = 1.0;
+  if ( uIntK < 0.999 ) {
+    vec3 nWi = inverseTransformDirection( nonPerturbedNormal, viewMatrix );
+    vec2 dq = vIntW.xz - uIntBox.xy;
+    vec2 qb = abs( dq ) - uIntBox.zw;
+    float inBox = ( 1.0 - smoothstep( -0.02, 0.04, max( qb.x, qb.y ) ) ) * ( 1.0 - smoothstep( uIntY.y - 0.04, uIntY.y, vIntW.y ) );
+    vec2 nh = nWi.xz; float nhl = length( nh );
+    float towards = nhl > 1e-4 ? dot( nh / nhl, -dq / max( length( dq ), 1e-4 ) ) : 0.0;
+    float inward = max( smoothstep( 0.0, 0.35, towards ) * ( 1.0 - smoothstep( 0.35, 0.75, nWi.y ) ), smoothstep( 0.15, 0.55, -nWi.y ) );
+    intK = mix( 1.0, uIntK, inBox * inward );
+  }
+${lightsBeginInterior()}`);
+    }
+    if (envSpec != null || interior) {
       // per-material strength of the environment *reflection* (scene.environmentIntensity
       // overrides material.envMapIntensity in three): cloth mirrors the softboxes only softly
       fs = fs.replace('#include <lights_fragment_maps>', `#include <lights_fragment_maps>
-  radiance *= ${Number(envSpec).toFixed(4)};`);
+  ${envSpec != null ? `radiance *= ${Number(envSpec).toFixed(4)};` : ''}
+  ${interior ? '#if defined( RE_IndirectDiffuse )\n  iblIrradiance *= intK;\n  #endif\n  #if defined( RE_IndirectSpecular )\n  radiance *= intK;\n  #endif' : ''}`);
     }
     if (transl) {
       // Light passing through thin fabric, seen from the shaded side.
@@ -91,14 +148,14 @@ void main() {
   {
     vec3 nW = inverseTransformDirection( normal, viewMatrix );
     vec3 nBack = -nW; // the other side of the sheet
-    float through = uKeyE * max( 0.0, dot( nBack, uKeyDirW ) ) + uDomeE * max( 0.0, nBack.y ) * 0.8;
+    float through = uKeyE * ${Number(trKey).toFixed(4)} * max( 0.0, dot( nBack, uKeyDirW ) ) + uDomeE * max( 0.0, nBack.y ) * ${Number(trSky).toFixed(4)};
     float facingAway = max( 0.0, -dot( nW, uKeyDirW ) );
     totalEmissiveRadiance += diffuseColor.rgb * ${Number(transl).toFixed(4)} * through * RECIPROCAL_PI * mix( 0.6, 1.0, facingAway );
   }`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${macro ? 'm' : ''}:${envSpec}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}`;
   mat.needsUpdate = true;
 }
 
@@ -161,7 +218,8 @@ void main() {
     float e = min( min( vUv.x, 1.0 - vUv.x ), min( vUv.y, 1.0 - vUv.y ) );
     ratio = mix( 1.0, ratio, smoothstep( 0.004, uEdgeFade, e ) );
   }
-  vec3 gnd = uBg * mix( 1.0, ratio, uShadowStrength );
+  float intF = ( s.a > 0.1 && s.a < 0.5 ) ? clamp( s.g, 0.0, 1.0 ) : 1.0;
+  vec3 gnd = uBg * mix( 1.0, ratio, uShadowStrength ) * intF;
   gl_FragColor = vec4( mix( gnd, obj, step( 0.5, s.a ) ) * uWeight, uWeight );
 }`;
 
@@ -195,6 +253,8 @@ uniform sampler2D uContactW; // wide, soft contact/AO halo (incl. contact proxie
 uniform float uContactWStrength;
 uniform float uShadowFloor;  // lowest received-light ratio of the soft shadow (soft knee), 0 = off
 uniform float uSplit;        // 1: the knee softens only the key shadow; sky occlusion multiplies after it
+uniform vec4 uIntBox;        // enclosure footprint (centre x/z, half extents x/z), see rig.interior
+uniform vec2 uIntFloor;      // x: floor light factor inside the enclosure (1 = off), y: feather (m)
 varying vec3 vWorldPos;
 void main() {
   vec2 aoUv = ( vWorldPos.xz - uAOBox.xy ) * uAOBox.zw;
@@ -213,7 +273,14 @@ void main() {
   if ( uSplit > 0.5 ) soft *= skyPart;
   float cw = ( inside && uContactWStrength > 0.0 ) ? texture2D( uContactW, aoUv ).r : 0.0;
   float ratio = soft * ( 1.0 - uContactStrength * c ) * ( 1.0 - uContactWStrength * cw );
-  gl_FragColor = vec4( vec3( ratio ), 0.25 ); // alpha 0.25 marks 'floor'
+  // floor inside a walled tent: the enclosure blocks the sky and the studio's open fill. Sent
+  // separately (g) so it is not capped by the shadow strength like an open-floor shadow
+  float intF = 1.0;
+  if ( uIntFloor.x < 0.999 ) {
+    vec2 qf = abs( vWorldPos.xz - uIntBox.xy ) - uIntBox.zw;
+    intF = mix( 1.0, uIntFloor.x, 1.0 - smoothstep( -uIntFloor.y, 0.0, max( qf.x, qf.y ) ) );
+  }
+  gl_FragColor = vec4( ratio, intF, 0.0, 0.25 ); // alpha 0.25 marks 'floor'
 }`;
 
 const groundVS = `
@@ -320,6 +387,9 @@ export const DEFAULT_RIG = {
   env: 'room',                  // 'room' (three RoomEnvironment) or 'studio' (dark studio + softboxes, js/studioEnv.js;
                                 // always camera-relative). envStudio: overrides for the studio map.
   envStudio: null,
+  interior: null,               // {box:[cx, cz, hx, hz], top, k, floor, feather}: enclosure (walled tent). Inward-facing
+                                // surfaces inside the box keep only shadowed light (k scales fill/rim/bounce + IBL),
+                                // the floor inside the footprint is multiplied by `floor`
 };
 
 function dirFromAzEl(azDeg, elDeg) {
@@ -372,7 +442,7 @@ export class Studio {
 
     // ground shadow catcher
     const gm = new THREE.ShaderMaterial({
-      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 } },
+      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 }, uIntBox: { value: new THREE.Vector4() }, uIntFloor: { value: new THREE.Vector2(1, 0.1) } },
       vertexShader: groundVS,
       fragmentShader: groundFS,
     });
@@ -704,6 +774,17 @@ export class Studio {
     this.groundMat.uniforms.uSplit.value = R.groundSplit ? 1 : 0;
     this.compositeMat.uniforms.uEdgeFade.value = R.edgeFade || 0;
     this.groundMat.uniforms.uKeyShare.value = keyShare;
+    const IN = R.interior;
+    if (IN && IN.box) {
+      globalUniforms.uIntBox.value.set(...IN.box);
+      globalUniforms.uIntY.value.set(0, IN.top ?? box.max.y);
+      globalUniforms.uIntK.value = IN.k ?? 0.12;
+      this.groundMat.uniforms.uIntBox.value.set(...IN.box);
+      this.groundMat.uniforms.uIntFloor.value.set(IN.floor ?? 0.3, IN.feather ?? 0.12);
+    } else {
+      globalUniforms.uIntK.value = 1;
+      this.groundMat.uniforms.uIntFloor.value.set(1, 0.1);
+    }
     const bgC = new THREE.Color(bg);
     const bounceColor = new THREE.Color(1, 1, 1).lerp(bgC, 0.6);
 

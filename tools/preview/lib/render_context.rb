@@ -166,6 +166,9 @@ module Preview
       ids = ov.split(',').map(&:to_i)
       names = product.options.map do |o|
         val = o.values.find { |x| ids.include?(x.id) }
+        # Horizon shows a one-value option as plain text and leaves it out of option_values;
+        # that option has only one possible value, so the variant is still unambiguous.
+        val ||= o.values.first if o.values.size == 1
         val&.name
       end
       names.include?(nil) ? nil : names
@@ -772,6 +775,7 @@ module Preview
       return '' unless frame
       parent = frame[:block] || frame[:section]
       data = parent.blocks_data[id.to_s]
+      return '' if data && data['disabled'] # a static block the merchant hid in the theme editor
       data = data ? data.merge('type' => type, 'static' => true) : { 'type' => type, 'static' => true, 'settings' => {}, 'blocks' => {} }
       drop = block_drop(id.to_s, data, frame[:section], frame[:block])
       render_block_drop(drop, closest_overrides, vars, context)

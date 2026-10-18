@@ -67,6 +67,11 @@
      "value": "[\"Easy-up, buizenframe, stretch, ster en opblaasbaar\", \"Van 2 × 2 tot 13 × 21 m\", \"Bij elke tent: wat erin zit\", \"Zijwanden en verankering passend\"]"
     }
    ],
+   "image": {
+    "src": "easy-up-partytent-professional-3x3-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-3x3-rood-hero.webp",
+    "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht"
+   },
    "product_count": 31
   },
   {
@@ -111,6 +116,11 @@
      "value": "[\"Staat in een paar minuten met 2 personen\", \"Premium (staal) of Professional (aluminium)\", \"2 × 2 tot 5 × 5 m\", \"Zijwanden en gewichten passend\"]"
     }
    ],
+   "image": {
+    "src": "easy-up-partytent-professional-3x6-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-3x6-rood-hero.webp",
+    "alt": "Easy-up partytent Professional 3 × 6 m, Rood, schuin vooraanzicht"
+   },
    "product_count": 14
   },
   {
@@ -160,6 +170,11 @@
      "value": "[\"40 mm staal, 5 standen\", \"Dak 320 g/m², naden afgeplakt\", \"Beschermhoes inbegrepen\", \"7 kleuren\"]"
     }
    ],
+   "image": {
+    "src": "easy-up-partytent-premium-3x3-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-premium-3x3-rood-hero.webp",
+    "alt": "Easy-up partytent Premium 3 × 3 m, Rood, schuin vooraanzicht"
+   },
    "product_count": 4
   },
   {
@@ -209,6 +224,11 @@
      "value": "[\"50 mm aluminium, alu hoekstukken\", \"Polyester of heavy duty PVC\", \"Wieltas, spanbanden en haringen erbij\", \"8 maten, 2 × 2 tot 5 × 5 m\"]"
     }
    ],
+   "image": {
+    "src": "easy-up-partytent-professional-4x4-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-4x4-rood-hero.webp",
+    "alt": "Easy-up partytent Professional 4 × 4 m, Rood, schuin vooraanzicht"
+   },
    "product_count": 10
   },
   {
@@ -244,7 +264,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Partytent met buizenframe: zo kies je\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een buizenframe-tent bouw je op uit losse buizen en koppelstukken. Dat kost meer tijd dan een easy-up, maar je krijgt veel meer overkapping voor je geld, en hij kan groot: tot 8 × 12 m. Alle lijnen hebben hetzelfde frame van verzinkt staal (Ø 38 mm, wand 1,2 mm) en komen met zijwanden met ramen rondom en een deur met rits. Het verschil zit in het doek en in het frame onderaan.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vijf lijnen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pe-basis-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Basis PE\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PE van ca. 180–200 g/m², waterafstotend. Voor een paar keer per jaar, een dag of weekend. Niet brandvertragend. 3 × 4 tot 5 × 10 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-500-comfort\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 500 Comfort\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 500 g/m², brandvertragend, gelaste naden. Voor regelmatig gebruik en evenementen van een paar dagen. 3 × 4 tot 6 × 12 m, in 12 maten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-550-premium\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 550 Premium\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 550 g/m², treksterkte 860 N, met grondframe en nokversteviging. Ons werkpaard, ook om weken te laten staan. 3 × 3 tot 8 × 12 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-550-compleet\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 550 compleet\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": de Premium met stormbandensets en een opbergtassenset erbij. 4 × 4 tot 5 × 10 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-620-professional\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 620 Professional\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 620 g/m², treksterkte 930 N, zijhoogte 220 cm, grondframe en nokversteviging. Voor verhuur en langdurig gebruik. 4 × 6 tot 6 × 12 m.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"PE of PVC?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"PE is licht en voordelig, maar minder sterk, niet brandvertragend en bij lange regen niet helemaal waterdicht. PVC is zwaarder, waterdicht door de gelaste naden en brandvertragend; vraagt de gemeente of locatie daarom, kies dan PVC. Hoe zwaarder het doek, hoe langer het meegaat in zon en wind. Meer in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/pe-of-pvc-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PE of PVC: welk tentdoek kies je?\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Maat en capaciteit\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Reken op ca. 1 persoon per m² aan tafel en 1,5 staand. Een 4 × 8 m (32 m²) is goed voor ca. 32 mensen aan tafel of 48 staand, een 6 × 12 m (72 m²) voor ca. 72 aan tafel. De zijhoogte is 200 cm (Professional 220 cm); de nok ligt ca. 80 tot 180 cm hoger, afhankelijk van de breedte.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Opzetten en vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Je bouwt het dak op de grond, trekt het doek erover en zet daarna de staanders eronder. Een 3 × 4 m staat met 2–3 personen in ca. 1 tot 1,5 uur; voor een 6 × 12 m heb je 4–6 personen en een halve dag nodig. Zet op gras elke voetplaat vast met een haring en leg één \"}, {\"type\": \"link\", \"url\": \"/products/stormbandenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stormbandenset\"}]}, {\"type\": \"text\", \"value\": \" per 2 m tentlengte over het dak. Op verharding: minimaal 50 kg ballast per staander, of \"}, {\"type\": \"link\", \"url\": \"/products/betonblok-ballast-tent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"betonblokken\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Uitbreiden en vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Alles is los na te bestellen: \"}, {\"type\": \"link\", \"url\": \"/products/zijwand-partytent-2-m-pvc\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwanden van 2 m\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/eindwand-en-tussenwand-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"eind- en tussenwanden\"}]}, {\"type\": \"text\", \"value\": \", een \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-partytent-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"vervangend dakzeil\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/koppelstukken-en-buizen-38-mm\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelstukken en buizen\"}]}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"link\", \"url\": \"/products/opbergtassenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"opbergtassen\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Partytent met buizenframe: zo kies je\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een buizenframe-tent bouw je op uit losse buizen en koppelstukken. Dat kost meer tijd dan een easy-up, maar je krijgt veel meer overkapping voor je geld, en hij kan groot: tot 8 × 12 m. Alle lijnen hebben hetzelfde frame van verzinkt staal (Ø 38 mm, wand 1,2 mm) en komen met zijwanden met ramen rondom en een deur met rits. Het verschil zit in het doek en in het frame onderaan.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vijf lijnen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pe-basis-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Basis PE\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PE van ca. 180–200 g/m², waterafstotend. Voor een paar keer per jaar, een dag of weekend. Niet brandvertragend. 3 × 4 tot 5 × 10 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-500-comfort\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 500 Comfort\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 500 g/m², gelaste naden. Voor regelmatig gebruik en evenementen van een paar dagen. 3 × 4 tot 6 × 12 m, in 12 maten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-550-premium\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 550 Premium\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 550 g/m², treksterkte 860 N, met grondframe en nokversteviging. Ons werkpaard, ook om weken te laten staan. 3 × 3 tot 8 × 12 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-550-compleet\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 550 compleet\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": de Premium met stormbandensets en een opbergtassenset erbij. 4 × 4 tot 5 × 10 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/partytent-pvc-620-professional\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PVC 620 Professional\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": PVC van 620 g/m², treksterkte 930 N, zijhoogte 220 cm, grondframe en nokversteviging. Voor verhuur en langdurig gebruik. 4 × 6 tot 6 × 12 m.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"PE of PVC?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"PE is licht en voordelig, maar minder sterk, niet brandvertragend en bij lange regen niet helemaal waterdicht. PVC is zwaarder en waterdicht door de gelaste naden; vraagt de gemeente of locatie om een brandcertificaat, kies dan PVC en vraag ons vooraf naar het certificaat. Hoe zwaarder het doek, hoe langer het meegaat in zon en wind. Meer in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/pe-of-pvc-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PE of PVC: welk tentdoek kies je?\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Maat en capaciteit\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Reken op ca. 1 persoon per m² aan tafel en 1,5 staand. Een 4 × 8 m (32 m²) is goed voor ca. 32 mensen aan tafel of 48 staand, een 6 × 12 m (72 m²) voor ca. 72 aan tafel. De zijhoogte is 200 cm (Professional 220 cm); de nok ligt ca. 80 tot 180 cm hoger, afhankelijk van de breedte.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Opzetten en vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Je bouwt het dak op de grond, trekt het doek erover en zet daarna de staanders eronder. Een 3 × 4 m staat met 2–3 personen in ca. 1 tot 1,5 uur; voor een 6 × 12 m heb je 4–6 personen en een halve dag nodig. Zet op gras elke voetplaat vast met een haring en leg één \"}, {\"type\": \"link\", \"url\": \"/products/stormbandenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stormbandenset\"}]}, {\"type\": \"text\", \"value\": \" per 2 m tentlengte over het dak. Op verharding: minimaal 50 kg ballast per staander, of \"}, {\"type\": \"link\", \"url\": \"/products/betonblok-ballast-tent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"betonblokken\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Uitbreiden en vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Alles is los na te bestellen: \"}, {\"type\": \"link\", \"url\": \"/products/zijwand-partytent-2-m-pvc\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwanden van 2 m\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/eindwand-en-tussenwand-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"eind- en tussenwanden\"}]}, {\"type\": \"text\", \"value\": \", een \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-partytent-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"vervangend dakzeil\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/koppelstukken-en-buizen-38-mm\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelstukken en buizen\"}]}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"link\", \"url\": \"/products/opbergtassenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"opbergtassen\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -253,6 +273,11 @@
      "value": "[\"38 mm verzinkt staal\", \"PE of PVC 500, 550 en 620 g/m²\", \"3 × 3 tot 8 × 12 m\", \"Zijwanden met ramen en deur inbegrepen\"]"
     }
    ],
+   "image": {
+    "src": "partytent-pvc-550-premium-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/partytent-pvc-550-premium-hero.webp",
+    "alt": "Partytent PVC 550 Premium met buizenframe, 4 × 8 m, wit, met zijwanden met ramen, schuin vooraanzicht"
+   },
    "product_count": 5
   },
   {
@@ -297,6 +322,11 @@
      "value": "[\"Grondframe en roldeur\", \"PVC 500, 550 of 620 g/m²\", \"3 × 4 tot 6 × 12 m\", \"Carport met vast frame\"]"
     }
    ],
+   "image": {
+    "src": "opslagtent-pvc-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/opslagtent-pvc-hero.webp",
+    "alt": "Opslagtent PVC 4 × 6 m, wit, met opgerolde roldeur, schuin vooraanzicht"
+   },
    "product_count": 2
   },
   {
@@ -341,6 +371,11 @@
      "value": "[\"Doek 750 g/m², brandklasse M2\", \"Compleet met palen en spanbanden\", \"Ook op maat, per m²\", \"Hout of aluminium palen\"]"
     }
    ],
+   "image": {
+    "src": "stretchtent-compleet-zandkleur-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stretchtent-compleet-zandkleur-hero.webp",
+    "alt": "Stretchtent 6 × 6 m, Zandkleur, op houten palen met spanbanden, schuin vooraanzicht"
+   },
    "product_count": 7
   },
   {
@@ -363,7 +398,7 @@
    "published": true,
    "seo": {
     "title": "Stertent kopen, enkele of dubbele mast | Klapklaar",
-    "description": "Stertenten met telescopische aluminium mast: rond Ø 8 tot 16 m of dubbele mast 8x13 tot 13x21 m. Doek 320 g/m², brandvertragend. Zijwanden los of rondom."
+    "description": "Stertenten met telescopische aluminium mast: rond Ø 8 tot 16 m of dubbele mast 8x13 tot 13x21 m. Doek 320 g/m², waterdicht. Zijwanden los of rondom."
    },
    "metafields": [
     {
@@ -376,15 +411,20 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Stertent kopen: zo kies je\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een stertent staat op een mast in het midden en wordt naar buiten gespannen op punten. Je herkent hem van ver, en je zet hem met weinig mensen op: met een meetkoord zet je de punten uit, daarna komen de zijpalen en als laatste de mast.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Eén of twee masten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stertent-enkele-mast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stertent enkele mast\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": rond, Ø 8 tot Ø 16 m. Met 2 personen in ca. 30 tot 45 minuten (Ø 8 en Ø 10 m). In Wit, Zwart en Zandkleur.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stertent-dubbele-mast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stertent dubbele mast\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": langgerekt, 8 × 13 tot 13 × 21 m, tot ca. 140 mensen staand. In Wit en Zandkleur.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Mast en doek\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De masten zijn van geanodiseerd aluminium, Ø 75 mm, en schuiven telescopisch uit. Daardoor hoef je ze niet op volle lengte op te tillen. Het doek is polyester met een PVC-coating van 320 g/m²: waterdicht, UV-bestendig en brandvertragend.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Capaciteit en ruimte\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De rand van een stertent is laag, dus reken op ca. 0,6 persoon staand of 0,4 zittend per m² grondvlak. Een Ø 10 m (ca. 79 m²) is goed voor ca. 45 staand of 30 zittend. Reken voor de ruimte op de diameter plus 2 m rondom: een Ø 10 m heeft een plek van ca. 14 × 14 m nodig.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wanden\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor elke stertent zijn er \"}, {\"type\": \"link\", \"url\": \"/products/zijwanden-stertent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwanden\"}]}, {\"type\": \"text\", \"value\": \", van Ø 8 tot Ø 16 m en voor alle maten met dubbele mast: los voor de windkant of als set rondom met oproldeuren.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Op gras gaan de haringen schuin de grond in, op verharding komt er ballast op elke punt en op de mastvoet, bijvoorbeeld \"}, {\"type\": \"link\", \"url\": \"/products/betonblok-ballast-tent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"betonblokken\"}]}, {\"type\": \"text\", \"value\": \". Span na een regenbui opnieuw aan. Is er storm voorspeld, laat dan de mast zakken en haal het doek eraf.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Levering\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Stertenten komen als vracht op een pallet. De dubbele mast maken we op bestelling; de levertijd staat bij het product. Wil je je eigen ontwerp op het doek, kies dan de uitvoering Full colour bedrukt: je uploadt je ontwerp, krijgt eerst een drukproef en na je akkoord maken we de tent. Bedrukt is maatwerk en kan niet retour.\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Twijfel je tussen een ster- en een stretchtent? Lees \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/stretchtent-of-stertent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stretchtent of stertent?\"}]}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Stertent kopen: zo kies je\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een stertent staat op een mast in het midden en wordt naar buiten gespannen op punten. Je herkent hem van ver, en je zet hem met weinig mensen op: met een meetkoord zet je de punten uit, daarna komen de zijpalen en als laatste de mast.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Eén of twee masten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stertent-enkele-mast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stertent enkele mast\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": rond, Ø 8 tot Ø 16 m. Met 2 personen in ca. 30 tot 45 minuten (Ø 8 en Ø 10 m). In Wit, Zwart en Zandkleur.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stertent-dubbele-mast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stertent dubbele mast\", \"bold\": true}]}, {\"type\": \"text\", \"value\": \": langgerekt, 8 × 13 tot 13 × 21 m, tot ca. 140 mensen staand. In Wit en Zandkleur.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Mast en doek\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De masten zijn van geanodiseerd aluminium, Ø 75 mm, en schuiven telescopisch uit. Daardoor hoef je ze niet op volle lengte op te tillen. Het doek is polyester met een PVC-coating van 320 g/m²: waterdicht en UV-bestendig.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Capaciteit en ruimte\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De rand van een stertent is laag, dus reken op ca. 0,6 persoon staand of 0,4 zittend per m² grondvlak. Een Ø 10 m (ca. 79 m²) is goed voor ca. 45 staand of 30 zittend. Reken voor de ruimte op de diameter plus 2 m rondom: een Ø 10 m heeft een plek van ca. 14 × 14 m nodig.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wanden\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor elke stertent zijn er \"}, {\"type\": \"link\", \"url\": \"/products/zijwanden-stertent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwanden\"}]}, {\"type\": \"text\", \"value\": \", van Ø 8 tot Ø 16 m en voor alle maten met dubbele mast: los voor de windkant of als set rondom met oproldeuren.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Vastzetten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Op gras gaan de haringen schuin de grond in, op verharding komt er ballast op elke punt en op de mastvoet, bijvoorbeeld \"}, {\"type\": \"link\", \"url\": \"/products/betonblok-ballast-tent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"betonblokken\"}]}, {\"type\": \"text\", \"value\": \". Span na een regenbui opnieuw aan. Is er storm voorspeld, laat dan de mast zakken en haal het doek eraf.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Levering\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Stertenten komen als vracht op een pallet. De dubbele mast maken we op bestelling; de levertijd staat bij het product.\"}, {\"type\": \"text\", \"value\": \" Wil je je eigen ontwerp op het doek, kies dan de uitvoering Full colour bedrukt: je uploadt je ontwerp, krijgt eerst een drukproef en na je akkoord maken we de tent. Bedrukt is maatwerk en kan niet retour.\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Twijfel je tussen een ster- en een stretchtent? Lees \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/stretchtent-of-stertent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stretchtent of stertent?\"}]}]}]}"
     },
     {
      "namespace": "custom",
      "key": "kenmerken",
      "type": "list.single_line_text_field",
-     "value": "[\"Telescopische aluminium mast\", \"Doek 320 g/m², brandvertragend\", \"Effen of full colour bedrukt\", \"Zijwanden voor elke maat\"]"
+     "value": "[\"Telescopische aluminium mast\", \"Doek 320 g/m², waterdicht\", \"Effen of full colour bedrukt\", \"Zijwanden voor elke maat\"]"
     }
    ],
+   "image": {
+    "src": "stertent-enkele-mast-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stertent-enkele-mast-wit-hero.webp",
+    "alt": "Stertent enkele mast Ø 10 m, Wit, met 6 punten, schuin vooraanzicht"
+   },
    "product_count": 3
   },
   {
@@ -398,9 +438,14 @@
      "column": "type",
      "relation": "starts_with",
      "condition": "Opblaasbare tent"
+    },
+    {
+     "column": "title",
+     "relation": "contains",
+     "condition": "opblaasbare tent"
     }
    ],
-   "disjunctive": false,
+   "disjunctive": true,
    "products": null,
    "parent": "partytenten",
    "template_suffix": null,
@@ -429,7 +474,12 @@
      "value": "[\"In 5–10 minuten staand\", \"Dak in kleur of full colour\", \"Eerst een drukproef\", \"3 × 3 tot 12 × 12 m\"]"
     }
    ],
-   "product_count": 10
+   "image": {
+    "src": "opblaasbare-promotietent-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/opblaasbare-promotietent-rood-hero.webp",
+    "alt": "Opblaasbare promotietent 3 × 3 m, Rood, schuin vooraanzicht"
+   },
+   "product_count": 11
   },
   {
    "handle": "ster-en-opblaasbare-tenten",
@@ -447,6 +497,11 @@
      "column": "type",
      "relation": "starts_with",
      "condition": "Opblaasbare tent"
+    },
+    {
+     "column": "title",
+     "relation": "contains",
+     "condition": "opblaasbare tent"
     }
    ],
    "disjunctive": true,
@@ -478,7 +533,12 @@
      "value": "[\"Stertent Ø 8 tot 13 × 21 m\", \"Opblaasbaar in 5–10 minuten\", \"Effen of full colour\", \"Wanden en luifels passend\"]"
     }
    ],
-   "product_count": 13
+   "image": {
+    "src": "stertent-enkele-mast-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stertent-enkele-mast-wit-hero.webp",
+    "alt": "Stertent enkele mast Ø 10 m, Wit, met 6 punten, schuin vooraanzicht"
+   },
+   "product_count": 14
   },
   {
    "handle": "overkappingen-en-schaduwdoeken",
@@ -527,6 +587,11 @@
      "value": "[\"Waterdoorlatend of waterdicht\", \"Zeil op maat per m²\", \"Paviljoen met gordijnrails\"]"
     }
    ],
+   "image": {
+    "src": "tuinpaviljoen-aluminium-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/tuinpaviljoen-aluminium-hero.webp",
+    "alt": "Tuinpaviljoen aluminium 3 × 4 m antraciet met dak van polycarbonaat, schuin vooraanzicht"
+   },
    "product_count": 5
   },
   {
@@ -575,12 +640,17 @@
      "value": "[\"Logo uploaden bij bestellen\", \"Eerst een drukproef\", \"Vanaf 1 stuk\", \"Staffel vanaf 10\"]"
     }
    ],
+   "image": {
+    "src": "easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
+    "alt": "Easy-up partytent Professional 3 × 3 m met logo op de luifel, Rood, met voorbeeldopdruk Klapklaar op de luifel, schuin vooraanzicht"
+   },
    "product_count": 9
   },
   {
    "handle": "accessoires",
    "title": "Accessoires",
-   "body_html": "<p>Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen, een marktkraam en lopers.</p>",
+   "body_html": "<p>Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen en lopers.</p>",
    "type": "smart",
    "sort_order": "manual",
    "rules": [
@@ -642,11 +712,6 @@
     {
      "column": "type",
      "relation": "equals",
-     "condition": "Marktkraam"
-    },
-    {
-     "column": "type",
-     "relation": "equals",
      "condition": "Loper"
     }
    ],
@@ -664,22 +729,27 @@
      "namespace": "custom",
      "key": "intro",
      "type": "multi_line_text_field",
-     "value": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen, een marktkraam en lopers."
+     "value": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen en lopers."
     },
     {
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Accessoires voor je partytent en je evenement\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Voor je partytent\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/zijwanden\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Zijwanden\"}]}, {\"type\": \"text\", \"value\": \": dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Gewichten en verankering\"}]}, {\"type\": \"text\", \"value\": \": voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/tassen-en-wielsets\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Tassen en wielsets\"}]}, {\"type\": \"text\", \"value\": \": beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/partytent-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen\"}]}, {\"type\": \"text\", \"value\": \": daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/partytent-verankeren-bij-wind\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"partytent verankeren bij wind\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Tenten aan elkaar\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Zet je twee easy-ups naast elkaar, dan houd je ze samen met een \"}, {\"type\": \"link\", \"url\": \"/products/koppelset-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelset\"}]}, {\"type\": \"text\", \"value\": \" en blijft de naad droog met een \"}, {\"type\": \"link\", \"url\": \"/products/regengoot-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"regengoot\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/products/verbindingsstrook-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"verbindingsstrook\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Warm blijven\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"In de tent verwarm je op stroom: de \"}, {\"type\": \"link\", \"url\": \"/products/elektrische-heater-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"elektrische heater\"}]}, {\"type\": \"text\", \"value\": \" van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Zet een heater op een eigen groep en houd de afstand tot het doek aan die in de handleiding staat. Op een open terras kan ook gas: de \"}, {\"type\": \"link\", \"url\": \"/products/terrasheater-gas-13-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"terrasheater\"}]}, {\"type\": \"text\", \"value\": \" van 13 kW, een \"}, {\"type\": \"link\", \"url\": \"/products/loungeheater-gas\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loungeheater\"}]}, {\"type\": \"text\", \"value\": \" op zithoogte of als tafelmodel, of een \"}, {\"type\": \"link\", \"url\": \"/products/flameheater-gas-9-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"flameheater\"}]}, {\"type\": \"text\", \"value\": \" met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Licht in de tent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Het \"}, {\"type\": \"link\", \"url\": \"/products/led-vloedlicht-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-vloedlicht van 30 W\"}]}, {\"type\": \"text\", \"value\": \" klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een \"}, {\"type\": \"link\", \"url\": \"/products/prikkabel-e27\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"prikkabel\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Je evenement inrichten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/afzetpaal-met-trekband\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Afzetpalen\"}]}, {\"type\": \"text\", \"value\": \" met een band van 2 m voor wachtrijen en entrees, ook \"}, {\"type\": \"link\", \"url\": \"/products/afzetpaal-met-logo\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"met jouw logo op de band\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/marktkraam-2-m\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"marktkraam van 2 m\"}]}, {\"type\": \"text\", \"value\": \" voor school, vereniging of braderie.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/loper-per-meter\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loper per meter\"}]}, {\"type\": \"text\", \"value\": \" in rood, zwart of antraciet, tot 60 m uit één stuk.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Licht erbij? Prikkabels, lampen en lichtslangen staan bij \"}, {\"type\": \"link\", \"url\": \"/collections/verlichting\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"verlichting\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Past het op mijn tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, \"}, {\"type\": \"link\", \"url\": \"/pages/contact\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stel je vraag\"}]}, {\"type\": \"text\", \"value\": \": noem het type tent en de maat, dan zoeken we het voor je uit.\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Accessoires voor je partytent en je evenement\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Voor je partytent\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/zijwanden\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Zijwanden\"}]}, {\"type\": \"text\", \"value\": \": dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Gewichten en verankering\"}]}, {\"type\": \"text\", \"value\": \": voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/tassen-en-wielsets\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Tassen en wielsets\"}]}, {\"type\": \"text\", \"value\": \": beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/collections/partytent-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen\"}]}, {\"type\": \"text\", \"value\": \": daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen. Per tent: \"}, {\"type\": \"link\", \"url\": \"/collections/easy-up-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"voor easy-up\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/collections/buizenframe-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"voor buizenframe-tenten\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/partytent-verankeren-bij-wind\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"partytent verankeren bij wind\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Tenten aan elkaar\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Zet je twee easy-ups naast elkaar, dan houd je ze samen met een \"}, {\"type\": \"link\", \"url\": \"/products/koppelset-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelset\"}]}, {\"type\": \"text\", \"value\": \" en blijft de naad droog met een \"}, {\"type\": \"link\", \"url\": \"/products/regengoot-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"regengoot\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/products/verbindingsstrook-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"verbindingsstrook\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Warm blijven\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Alle heaters staan bij \"}, {\"type\": \"link\", \"url\": \"/collections/verwarming\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"verwarming\"}]}, {\"type\": \"text\", \"value\": \". In de tent verwarm je op stroom: de \"}, {\"type\": \"link\", \"url\": \"/products/elektrische-heater-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"elektrische heater\"}]}, {\"type\": \"text\", \"value\": \" van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Zet een heater op een eigen groep en houd de afstand tot het doek aan die in de handleiding staat. Op een open terras kan ook gas: de \"}, {\"type\": \"link\", \"url\": \"/products/terrasheater-gas-13-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"terrasheater\"}]}, {\"type\": \"text\", \"value\": \" van 13 kW, een \"}, {\"type\": \"link\", \"url\": \"/products/loungeheater-gas\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loungeheater\"}]}, {\"type\": \"text\", \"value\": \" op zithoogte of als tafelmodel, of een \"}, {\"type\": \"link\", \"url\": \"/products/flameheater-gas-9-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"flameheater\"}]}, {\"type\": \"text\", \"value\": \" met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Licht in de tent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Het \"}, {\"type\": \"link\", \"url\": \"/products/led-vloedlicht-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-vloedlicht van 30 W\"}]}, {\"type\": \"text\", \"value\": \" klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een \"}, {\"type\": \"link\", \"url\": \"/products/prikkabel-e27\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"prikkabel\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Je evenement inrichten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/afzetpaal-met-trekband\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Afzetpalen\"}]}, {\"type\": \"text\", \"value\": \" met een band van 2 m voor wachtrijen en entrees, ook \"}, {\"type\": \"link\", \"url\": \"/products/afzetpaal-met-logo\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"met jouw logo op de band\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/loper-per-meter\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loper per meter\"}]}, {\"type\": \"text\", \"value\": \" in rood, zwart of antraciet, tot 60 m uit één stuk.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een marktkraam vind je bij \"}, {\"type\": \"link\", \"url\": \"/collections/evenement\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"evenement en markt\"}]}, {\"type\": \"text\", \"value\": \". Licht erbij? Prikkabels, lampen en lichtslangen staan bij \"}, {\"type\": \"link\", \"url\": \"/collections/verlichting\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"verlichting\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Past het op mijn tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, \"}, {\"type\": \"link\", \"url\": \"/pages/contact\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stel je vraag\"}]}, {\"type\": \"text\", \"value\": \": noem het type tent en de maat, dan zoeken we het voor je uit.\"}]}]}"
     },
     {
      "namespace": "custom",
      "key": "kenmerken",
      "type": "list.single_line_text_field",
-     "value": "[\"Zijwanden en verankering\", \"Onderdelen los na te bestellen\", \"Heaters voor tent en terras\", \"Afzetpalen, marktkraam en loper\"]"
+     "value": "[\"Zijwanden en verankering\", \"Onderdelen los na te bestellen\", \"Heaters voor tent en terras\", \"Afzetpalen en lopers\"]"
     }
    ],
-   "product_count": 42
+   "image": {
+    "src": "zijwandenset-easy-up-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+   },
+   "product_count": 43
   },
   {
    "handle": "partytent-onderdelen",
@@ -749,7 +819,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen voor je partytent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een tent gaat langer mee als je kapotte of versleten onderdelen los kunt vervangen. Hier vind je alles wat je na de aankoop nog nodig hebt: van een extra \"}, {\"type\": \"link\", \"url\": \"/collections/zijwanden\", \"children\": [{\"type\": \"text\", \"value\": \"zijwand\"}]}, {\"type\": \"text\", \"value\": \" tot een nieuw dak, een koppelstuk of een set \"}, {\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"children\": [{\"type\": \"text\", \"value\": \"gewichten\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Easy-up of buizenframe: weet wat je hebt\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een easy-up heeft een schaarframe met zeskantpoten: 40 mm zwart gepoedercoat staal met nylon hoekstukken bij onze Premium, 50 mm blank aluminium met aluminium hoekstukken bij onze Professional. Een buizenframe-tent bouw je op uit losse buizen van 38 mm met koppelstukken. Wanden, daken en verankering verschillen per soort, dus kies altijd in de juiste groep.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat het vaakst nodig is\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Hoekstukken en schaararmen\", \"bold\": true}, {\"type\": \"text\", \"value\": \" voor een easy-up die veel gebruikt wordt: bij \"}, {\"type\": \"link\", \"url\": \"/products/frame-onderdelen-easy-up\", \"children\": [{\"type\": \"text\", \"value\": \"frame-onderdelen easy-up\"}]}, {\"type\": \"text\", \"value\": \", per lijn.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een nieuw dak\", \"bold\": true}, {\"type\": \"text\", \"value\": \", omdat het oude op is of omdat je een andere kleur wilt: \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-easy-up\", \"children\": [{\"type\": \"text\", \"value\": \"dakzeil easy-up\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-partytent-buizenframe\", \"children\": [{\"type\": \"text\", \"value\": \"dakzeil buizenframe\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Koppelstukken en buizen\", \"bold\": true}, {\"type\": \"text\", \"value\": \" die zoek of verbogen zijn: \"}, {\"type\": \"link\", \"url\": \"/products/koppelstukken-en-buizen-38-mm\", \"children\": [{\"type\": \"text\", \"value\": \"koppelstukken en buizen 38 mm\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Haringen, spanbanden en tentelastieken\", \"bold\": true}, {\"type\": \"text\", \"value\": \", die altijd net op zijn als je ze nodig hebt.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Past het op mijn tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij elk onderdeel staat op welke tenten van ons het past, per lijn en maat. Heb je een tent van een ander merk, meet dan na: de lengte van de zijde voor wanden, de diameter van de poot voor gewichten, de buisdiameter en hoek voor koppelstukken. Twijfel je, stuur ons dan de maten voordat je bestelt.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Zelf vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een hoekstuk of schaararm vervang je met een steeksleutel: tent half open, bout los, onderdeel wisselen, bout weer vast. Met een tweede persoon die het frame vasthoudt gaat het het makkelijkst. Een dak wissel je ook bij een half open frame.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Repareren of vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een gaatje of scheurtje tot ca. 10 cm plak je met de \"}, {\"type\": \"link\", \"url\": \"/products/reparatieset-tentdoek\", \"children\": [{\"type\": \"text\", \"value\": \"reparatieset tentdoek\"}]}, {\"type\": \"text\", \"value\": \". Een gescheurde naad, een geknikte buis of doek dat broos is geworden vervang je liever: dat is veiliger.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Voor verhuur en evenementen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bouw je vaak op en af, houd dan een paar reserve-onderdelen bij de hand: koppelstukken, haringen, tentelastieken en een reparatieset. Op wanden en voetgewichten geldt staffelkorting bij grotere aantallen.\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen voor je partytent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een tent gaat langer mee als je kapotte of versleten onderdelen los kunt vervangen. Hier vind je alles wat je na de aankoop nog nodig hebt: van een extra \"}, {\"type\": \"link\", \"url\": \"/collections/zijwanden\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwand\"}]}, {\"type\": \"text\", \"value\": \" tot een nieuw dak, een koppelstuk of een set \"}, {\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"gewichten\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Easy-up of buizenframe: weet wat je hebt\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een easy-up heeft een schaarframe met zeskantpoten: 40 mm zwart gepoedercoat staal met nylon hoekstukken bij onze Premium, 50 mm blank aluminium met aluminium hoekstukken bij onze Professional. Een buizenframe-tent bouw je op uit losse buizen van 38 mm met koppelstukken. Wanden, daken en verankering verschillen per soort, dus kies altijd in de juiste groep: \"}, {\"type\": \"link\", \"url\": \"/collections/easy-up-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"onderdelen voor easy-up\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/collections/buizenframe-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"onderdelen voor buizenframe-tenten\"}]}, {\"type\": \"text\", \"value\": \". In deze lijst filter je met ‘Past op’.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat het vaakst nodig is\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Hoekstukken en schaararmen\", \"bold\": true}, {\"type\": \"text\", \"value\": \" voor een easy-up die veel gebruikt wordt: bij \"}, {\"type\": \"link\", \"url\": \"/products/frame-onderdelen-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"frame-onderdelen easy-up\"}]}, {\"type\": \"text\", \"value\": \", per lijn.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een nieuw dak\", \"bold\": true}, {\"type\": \"text\", \"value\": \", omdat het oude op is of omdat je een andere kleur wilt: \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"dakzeil easy-up\"}]}, {\"type\": \"text\", \"value\": \" of \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-partytent-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"dakzeil buizenframe\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Koppelstukken en buizen\", \"bold\": true}, {\"type\": \"text\", \"value\": \" die zoek of verbogen zijn: \"}, {\"type\": \"link\", \"url\": \"/products/koppelstukken-en-buizen-38-mm\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelstukken en buizen 38 mm\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Haringen, spanbanden en tentelastieken\", \"bold\": true}, {\"type\": \"text\", \"value\": \", die altijd net op zijn als je ze nodig hebt.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Past het op mijn tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij elk onderdeel staat op welke tenten van ons het past, per lijn en maat. Heb je een tent van een ander merk, meet dan na: de lengte van de zijde voor wanden, de diameter van de poot voor gewichten, de buisdiameter en hoek voor koppelstukken. Twijfel je, stuur ons dan de maten voordat je bestelt.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Zelf vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een hoekstuk of schaararm vervang je met een steeksleutel: tent half open, bout los, onderdeel wisselen, bout weer vast. Met een tweede persoon die het frame vasthoudt gaat het het makkelijkst. Een dak wissel je ook bij een half open frame.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Repareren of vervangen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een gaatje of scheurtje tot ca. 10 cm plak je met de \"}, {\"type\": \"link\", \"url\": \"/products/reparatieset-tentdoek\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"reparatieset tentdoek\"}]}, {\"type\": \"text\", \"value\": \". Een gescheurde naad, een geknikte buis of doek dat broos is geworden vervang je liever: dat is veiliger.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Voor verhuur en evenementen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bouw je vaak op en af, houd dan een paar reserve-onderdelen bij de hand: koppelstukken, haringen, tentelastieken en een reparatieset. Op wanden en voetgewichten geldt staffelkorting bij grotere aantallen.\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -758,7 +828,241 @@
      "value": "[\"Pasvorm per tent vermeld\", \"Los na te bestellen\", \"Easy-up en buizenframe\"]"
     }
    ],
+   "image": {
+    "src": "zijwandenset-easy-up-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+   },
    "product_count": 32
+  },
+  {
+   "handle": "easy-up-onderdelen",
+   "title": "Onderdelen en accessoires voor easy-up",
+   "body_html": "",
+   "type": "manual",
+   "sort_order": "manual",
+   "rules": null,
+   "disjunctive": null,
+   "products": [
+    "zijwand-easy-up-dicht",
+    "zijwand-easy-up-met-raam",
+    "zijwand-easy-up-met-deur",
+    "halve-zijwand-easy-up",
+    "zijwand-easy-up-heavy-duty-pvc",
+    "zijwandenset-easy-up",
+    "zijwandenset-easy-up-heavy-duty-pvc",
+    "dakzeil-easy-up",
+    "bedrukte-zijwand-easy-up",
+    "bedrukt-dakzeil-easy-up",
+    "los-frame-easy-up-premium",
+    "los-frame-easy-up-professional",
+    "frame-onderdelen-easy-up",
+    "voetgewicht-easy-up-15-kg",
+    "zandzakken-partytent-set-van-4",
+    "watergewichtzakken-4x20-kg",
+    "spanbanden-en-haringen-easy-up",
+    "haringen-en-bevestigingsmateriaal-partytent",
+    "beschermhoes-easy-up",
+    "wieltas-easy-up",
+    "wielset-easy-up",
+    "regengoot-partytent",
+    "koppelset-easy-up",
+    "verbindingsstrook-easy-up",
+    "reparatieset-tentdoek",
+    "led-vloedlicht-easy-up",
+    "elektrische-heater-partytent"
+   ],
+   "parent": "partytent-onderdelen",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Easy-up onderdelen en accessoires | Klapklaar",
+    "description": "Onderdelen en accessoires voor je easy-up: zijwanden, daken, voetgewichten, tassen, regengoten, frame-onderdelen, licht en warmte. Per maat, Premium en Professional."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Alles wat op een easy-up past: wanden en sets, daken, gewichten, tassen, regengoten, frame-onderdelen, licht en warmte. Voor Premium (40 mm) en Professional (50 mm)."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen en accessoires voor je easy-up\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Hier staat alleen wat op een easy-up past, de vouwtent met schaarframe en zeskantpoten. Heb je een tent met losse buizen en koppelstukken? Kijk dan bij de \"}, {\"type\": \"link\", \"url\": \"/collections/buizenframe-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"onderdelen voor buizenframe-tenten\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Premium of Professional\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Onze Premium heeft poten van 40 mm zwart gepoedercoat staal en nylon hoekstukken, de Professional 50 mm blank aluminium en aluminium hoekstukken. Wanden, daken, tassen en gewichten passen op allebei; frame-onderdelen en de koppelset kies je per lijn.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat je hier vindt\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Zijwanden en sets\", \"bold\": true}, {\"type\": \"text\", \"value\": \": dicht, met raam, met deur of half, polyester of heavy duty PVC, in de kleuren van de tenten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Daken\", \"bold\": true}, {\"type\": \"text\", \"value\": \": een nieuw \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"dakzeil\"}]}, {\"type\": \"text\", \"value\": \" in polyester of PVC, of met jouw ontwerp.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Gewichten en verankering\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 15 kg per poot op verharding, haringen en spanbanden op gras.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Tassen en wielen\", \"bold\": true}, {\"type\": \"text\", \"value\": \": beschermhoes, wieltas en een wielset.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Regengoten en koppelingen\", \"bold\": true}, {\"type\": \"text\", \"value\": \" om twee tenten droog aan elkaar te zetten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Frame-onderdelen\", \"bold\": true}, {\"type\": \"text\", \"value\": \": hoekstukken, staanders, schaararmen en dakondersteuning.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Licht en warmte\", \"bold\": true}, {\"type\": \"text\", \"value\": \": een LED-vloedlicht en een elektrische heater die aan de poot klemmen.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij elk product staat bij ‘Past op’ voor welke maten het gemaakt is. Kies de maat van je tent; bij wanden de lengte van de zijde.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Past op Premium en Professional\", \"Zelfde kleuren als de tenten\", \"Per maat te kiezen\"]"
+    }
+   ],
+   "image": {
+    "src": "zijwandenset-easy-up-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+   },
+   "product_count": 27
+  },
+  {
+   "handle": "buizenframe-onderdelen",
+   "title": "Onderdelen voor buizenframe-tenten",
+   "body_html": "",
+   "type": "manual",
+   "sort_order": "manual",
+   "rules": null,
+   "disjunctive": null,
+   "products": [
+    "stormbandenset-partytent",
+    "haringen-en-bevestigingsmateriaal-partytent",
+    "betonblok-ballast-tent",
+    "opbergtassenset-partytent",
+    "regengoot-partytent",
+    "dakzeil-partytent-buizenframe",
+    "zijwand-partytent-2-m-pvc",
+    "eindwand-en-tussenwand-partytent",
+    "koppelstukken-en-buizen-38-mm",
+    "reparatieset-tentdoek"
+   ],
+   "parent": "partytent-onderdelen",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Onderdelen voor buizenframe-partytenten | Klapklaar",
+    "description": "Onderdelen voor je buizenframe-tent: zijwanden van 2 m (200 of 220 cm), eind- en tussenwanden, dakzeil, koppelstukken en buizen 38 mm, stormbanden en tassen."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Onderdelen voor tenten met een buizenframe van 38 mm: wanden van 200 of 220 cm hoog (PVC of PE), eind- en tussenwanden, dakzeilen, koppelstukken en buizen, stormbanden, opbergtassen en regengoten."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen voor je buizenframe-tent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een buizenframe-tent bouw je op uit losse buizen van 38 mm met koppelstukken. Hier vind je wat je nodig hebt om er een aan te vullen, te vervangen of te verankeren. Heb je een vouwtent met schaarframe? Kijk dan bij de \"}, {\"type\": \"link\", \"url\": \"/collections/easy-up-onderdelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"easy-up-onderdelen\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wanden: let op de zijhoogte\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Onze PE Basis, PVC 500 Comfort en PVC 550 Premium en compleet hebben een zijhoogte van 200 cm, de PVC 620 Professional 220 cm. De \"}, {\"type\": \"link\", \"url\": \"/products/zijwand-partytent-2-m-pvc\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwand van 2 m\"}]}, {\"type\": \"text\", \"value\": \" en de \"}, {\"type\": \"link\", \"url\": \"/products/eindwand-en-tussenwand-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"eind- en tussenwand\"}]}, {\"type\": \"text\", \"value\": \" zijn er voor allebei; de zijwand ook in PE voor de PE Basis.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat je hier vindt\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Wanden\", \"bold\": true}, {\"type\": \"text\", \"value\": \": panelen van 2 m, eindwanden tot in de nok en tussenwanden.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Dak\", \"bold\": true}, {\"type\": \"text\", \"value\": \": een vervangend \"}, {\"type\": \"link\", \"url\": \"/products/dakzeil-partytent-buizenframe\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"dakzeil\"}]}, {\"type\": \"text\", \"value\": \" in PVC 550 of PE.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Frame\", \"bold\": true}, {\"type\": \"text\", \"value\": \": \"}, {\"type\": \"link\", \"url\": \"/products/koppelstukken-en-buizen-38-mm\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"koppelstukken en buizen van 38 mm\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Verankering\", \"bold\": true}, {\"type\": \"text\", \"value\": \": een \"}, {\"type\": \"link\", \"url\": \"/products/stormbandenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stormbandenset\"}]}, {\"type\": \"text\", \"value\": \" per 2 m tentlengte, lange haringen en ballast.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Opbergen en koppelen\", \"bold\": true}, {\"type\": \"text\", \"value\": \": een \"}, {\"type\": \"link\", \"url\": \"/products/opbergtassenset-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"opbergtassenset\"}]}, {\"type\": \"text\", \"value\": \" en een \"}, {\"type\": \"link\", \"url\": \"/products/regengoot-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"regengoot\"}]}, {\"type\": \"text\", \"value\": \" tussen twee tenten.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Kies bij wanden en stormbanden de breedte van je tent: een tent van 4 × 8 m is 4 m breed.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Buizen en koppelstukken 38 mm\", \"Wanden 200 of 220 cm hoog\", \"PVC of PE\"]"
+    }
+   ],
+   "image": {
+    "src": "dakzeil-partytent-buizenframe-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/dakzeil-partytent-buizenframe-hero.webp",
+    "alt": "Dakzeil partytent buizenframe 4 × 8 m, wit PVC, los van het frame, schuin vooraanzicht"
+   },
+   "product_count": 10
+  },
+  {
+   "handle": "verwarming",
+   "title": "Verwarming",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Verwarming"
+    }
+   ],
+   "disjunctive": false,
+   "products": null,
+   "parent": "accessoires",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Terrasverwarming en heaters voor de partytent | Klapklaar",
+    "description": "Elektrische infrarood heaters voor in de partytent en gasheaters voor buiten: terrasheater 13 kW, loungeheater en flameheater. Met hoes en reservebrander."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Warm in de tent op stroom, warm op het terras op gas: infrarood heaters met klem of beugel, terras-, lounge- en flameheaters, met hoes en reservebrander."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Verwarming voor tent en terras\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een warme plek maakt een avond in de tent of op het terras een stuk langer. Welke heater je kiest, hangt vooral af van één ding: staat hij in een tent of in de open lucht?\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"In de tent: elektrisch\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De \"}, {\"type\": \"link\", \"url\": \"/products/elektrische-heater-partytent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"elektrische heater\"}]}, {\"type\": \"text\", \"value\": \" werkt met infrarood: hij verwarmt mensen en tafels, niet de lucht, en geeft geen gas of uitlaatgas. De 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Reken op ca. 10 tot 19 m² per heater en zet hem op een eigen groep. Is een buis op, dan is er een \"}, {\"type\": \"link\", \"url\": \"/products/infraroodbrander-elektrische-heater\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"reservebrander\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Buiten: gas\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Op een open terras kan ook gas: de \"}, {\"type\": \"link\", \"url\": \"/products/terrasheater-gas-13-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"terrasheater van 13 kW\"}]}, {\"type\": \"text\", \"value\": \", een \"}, {\"type\": \"link\", \"url\": \"/products/loungeheater-gas\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loungeheater\"}]}, {\"type\": \"text\", \"value\": \" op zithoogte of als tafelmodel, of een \"}, {\"type\": \"link\", \"url\": \"/products/flameheater-gas-9-kw\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"flameheater\"}]}, {\"type\": \"text\", \"value\": \" met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden. Buiten het seizoen houdt een \"}, {\"type\": \"link\", \"url\": \"/products/beschermhoes-terrasheater\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"beschermhoes\"}]}, {\"type\": \"text\", \"value\": \" de heater droog.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Veilig\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Houd 1 m vrij vóór een heater en laat geen doek of versiering ertegen hangen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Elektrisch alleen op een geaard stopcontact; rol een kabelhaspel helemaal af.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Gasfles en drukregelaar: controleer de slang voor elk gebruik en sluit de fles na afloop.\"}]}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Elektrisch in de tent\", \"Gas alleen buiten\", \"Vermogen per m²\"]"
+    }
+   ],
+   "image": null,
+   "product_count": 6
+  },
+  {
+   "handle": "evenement",
+   "title": "Evenement en markt",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Afzetpaal"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Marktkraam"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Loper"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": null,
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Evenement en markt: afzetpalen en marktkraam | Klapklaar",
+    "description": "Inrichting voor evenement en markt: afzetpalen met trekband (ook met logo), marktkraam van 2 m in kleur of bedrukt, en een loper per meter tot 60 m."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Afzetpalen met trekband (ook met logo), marktkramen van 2 m en lopers per meter: alles om een evenement of markt in te richten."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Evenement en markt\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Wachtrijen, entrees, een kraam op de braderie: wat je nodig hebt om een evenement in te richten, naast de tenten en tafels.\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/afzetpaal-met-trekband\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Afzetpalen\"}]}, {\"type\": \"text\", \"value\": \" met een oprolbare band van 2 m, koppelbaar in alle richtingen; ook \"}, {\"type\": \"link\", \"url\": \"/products/afzetpaal-met-logo\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"met jouw logo op de band\"}]}, {\"type\": \"text\", \"value\": \", vanaf 10 stuks.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/marktkraam-2-m\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"marktkraam van 2 m\"}]}, {\"type\": \"text\", \"value\": \" met gegalvaniseerd frame en een PVC-kap in rood, wit, blauw of groen, of bedrukt met jouw ontwerp. Voor school, vereniging, gemeente en braderie.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/loper-per-meter\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"loper per meter\"}]}, {\"type\": \"text\", \"value\": \" in rood, zwart of antraciet, 1 of 2 m breed, tot 60 m uit één stuk.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een tent erbij? Bekijk de \"}, {\"type\": \"link\", \"url\": \"/collections/easy-up-partytenten\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"easy-up partytenten\"}]}, {\"type\": \"text\", \"value\": \": met een halve zijwand aan de voorkant wordt een easy-up ook een kraam.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Afzetpalen koppelbaar\", \"Marktkraam 2 m, ook bedrukt\", \"Loper tot 60 m uit één stuk\"]"
+    }
+   ],
+   "image": {
+    "src": "marktkraam-2-m-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/marktkraam-2-m-rood-hero.webp",
+    "alt": "Marktkraam 2 m, kap in rood, met werkblad, schuin vooraanzicht"
+   },
+   "product_count": 4
   },
   {
    "handle": "zijwanden",
@@ -803,7 +1107,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Welke zijwand past op je tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een zijwand bedekt één zijde van je tent. Kies de lengte van die zijde, gemeten van poot tot poot. Bij een vierkante easy-up zijn alle zijden gelijk; bij een rechthoekige tent heb je twee lengtes nodig:\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"3 × 3 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 3 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"3 × 4,5 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"3 × 6 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 2 wanden van 3 m en 2 van 4,5 of 6 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"4 × 4 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 4 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"4 × 6 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"4 × 8 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 2 wanden van 4 m en 2 van 6 of 8 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"2 × 2 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"5 × 5 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 2 of 5 m\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Onze easy-up-wanden zijn ca. 200 cm hoog en passen op de Premium en de Professional.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Dicht, met ramen of met deur\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een dichte wand hang je aan de kant waar de wind vandaan komt of waar je geen inkijk wilt. Ramen van helder PVC houden licht en uitzicht binnen, fijn aan de lange zijden. Een wand met ritsdeur en oprolbanden maakt een ingang; zet die aan de luwe kant. Voor markt en bar is er de \"}, {\"type\": \"link\", \"url\": \"/products/halve-zijwand-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"halve zijwand\"}]}, {\"type\": \"text\", \"value\": \" van 100 cm hoog.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Polyester of heavy duty PVC\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Polyester van 320 g/m² is licht, waterdicht en in 7 kleuren gelijk aan de daken: genoeg voor een paar feesten per jaar. \"}, {\"type\": \"link\", \"url\": \"/products/zijwand-easy-up-heavy-duty-pvc\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Heavy duty PVC van 580 g/m²\"}]}, {\"type\": \"text\", \"value\": \" is zwaarder, gelast en brandvertragend, in wit en zwart. Dat kies je voor verhuur, horeca en evenementen, bij de Professional met heavy duty dak.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Set of los\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Wil je alle vier de zijden dicht, dan is een \"}, {\"type\": \"link\", \"url\": \"/products/zijwandenset-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwandenset\"}]}, {\"type\": \"text\", \"value\": \" goedkoper dan vier losse wanden: 1 dicht, 1 met deur en 2 met ramen, in de juiste lengtes voor jouw maat. De setpagina laat per maat zien wat je los zou betalen. Wil je een andere indeling, stel dan losse wanden samen.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wanden voor buizenframe, overkapping en paviljoen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor buizenframe-tenten zijn er losse panelen van 2 m en eindwanden tot in de nok, ook als tussenwand. Voor veranda en terrasoverkapping een PVC-wand van 250 cm hoog met panoramaraam, en voor het tuinpaviljoen gordijnen, dicht of muggengaas.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Veilig met wanden\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Met wanden eraan vangt een tent veel meer wind. Zet daarom elke poot vast: op gras met haringen en spanbanden, op verharding met minimaal 15 kg per poot. Bij harde wind: eerst de wanden los, dan het dak eraf. Alles voor verankering vind je bij \"}, {\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"gewichten en verankering\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Welke zijwand past op je tent?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een zijwand bedekt één zijde van je tent. Kies de lengte van die zijde, gemeten van poot tot poot. Bij een vierkante easy-up zijn alle zijden gelijk; bij een rechthoekige tent heb je twee lengtes nodig:\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"3 × 3 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 3 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"3 × 4,5 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"3 × 6 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 2 wanden van 3 m en 2 van 4,5 of 6 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"4 × 4 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 4 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"4 × 6 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"4 × 8 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 2 wanden van 4 m en 2 van 6 of 8 m\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"text\", \"value\": \"2 × 2 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \" en \"}, {\"type\": \"text\", \"value\": \"5 × 5 m\", \"bold\": true}, {\"type\": \"text\", \"value\": \": 4 wanden van 2 of 5 m\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Onze easy-up-wanden zijn ca. 200 cm hoog en passen op de Premium en de Professional.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Dicht, met ramen of met deur\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een dichte wand hang je aan de kant waar de wind vandaan komt of waar je geen inkijk wilt. Ramen van helder PVC houden licht en uitzicht binnen, fijn aan de lange zijden. Een wand met ritsdeur en oprolbanden maakt een ingang; zet die aan de luwe kant. Voor markt en bar is er de \"}, {\"type\": \"link\", \"url\": \"/products/halve-zijwand-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"halve zijwand\"}]}, {\"type\": \"text\", \"value\": \" van 100 cm hoog.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Polyester of heavy duty PVC\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Polyester van 320 g/m² is licht, waterdicht en in 7 kleuren gelijk aan de daken: genoeg voor een paar feesten per jaar. \"}, {\"type\": \"link\", \"url\": \"/products/zijwand-easy-up-heavy-duty-pvc\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Heavy duty PVC van 580 g/m²\"}]}, {\"type\": \"text\", \"value\": \" is zwaarder en gelast, in wit en zwart. Dat kies je voor verhuur, horeca en evenementen, bij de Professional met heavy duty dak.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Set of los\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Wil je alle vier de zijden dicht, dan is een \"}, {\"type\": \"link\", \"url\": \"/products/zijwandenset-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zijwandenset\"}]}, {\"type\": \"text\", \"value\": \" goedkoper dan vier losse wanden: 1 dicht, 1 met deur en 2 met ramen, in de juiste lengtes voor jouw maat. De setpagina laat per maat zien wat je los zou betalen. Wil je een andere indeling, stel dan losse wanden samen.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wanden voor buizenframe, overkapping en paviljoen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor buizenframe-tenten zijn er losse panelen van 2 m en eindwanden tot in de nok, ook als tussenwand. Voor veranda en terrasoverkapping een PVC-wand van 250 cm hoog met panoramaraam, en voor het tuinpaviljoen gordijnen, dicht of muggengaas.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Veilig met wanden\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Met wanden eraan vangt een tent veel meer wind. Zet daarom elke poot vast: op gras met haringen en spanbanden, op verharding met minimaal 15 kg per poot. Bij harde wind: eerst de wanden los, dan het dak eraf. Alles voor verankering vind je bij \"}, {\"type\": \"link\", \"url\": \"/collections/gewichten-en-verankering\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"gewichten en verankering\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -812,6 +1116,11 @@
      "value": "[\"Dicht, raam of deur\", \"Klittenband\", \"Set goedkoper dan los\"]"
     }
    ],
+   "image": {
+    "src": "zijwandenset-easy-up-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+   },
    "product_count": 16
   },
   {
@@ -861,6 +1170,7 @@
      "value": "[\"15 kg per poot op verharding\", \"Haringen op gras\", \"Bij harde wind: dak eraf\"]"
     }
    ],
+   "image": null,
    "product_count": 7
   },
   {
@@ -905,6 +1215,7 @@
      "value": "[\"Per tentmaat, 2 × 2 tot 5 × 5 m\", \"Past op Premium en Professional\", \"Wieltas bij de Professional al inbegrepen\"]"
     }
    ],
+   "image": null,
    "product_count": 4
   },
   {
@@ -949,6 +1260,11 @@
      "value": "[\"110 cm: ellebooghoogte\", \"Ø 70, 80 of 85 cm\", \"HPL-blad hittebestendig\", \"Staffelprijs vanaf 10\"]"
     }
    ],
+   "image": {
+    "src": "statafel-inklapbaar-professional-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafel-inklapbaar-professional-wit-hero.webp",
+    "alt": "Statafel inklapbaar Professional Ø 80 cm, Wit, schuin vooraanzicht"
+   },
    "product_count": 6
   },
   {
@@ -1023,6 +1339,11 @@
      "value": "[\"24 kleuren stretch\", \"Maat Ø 60–70 of Ø 80–85 cm\", \"Wasbaar op 30 °C\", \"Staffel vanaf 10\"]"
     }
    ],
+   "image": {
+    "src": "statafelrok-stretch-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafelrok-stretch-zwart-hero.webp",
+    "alt": "Statafel met stretchrok en topcover, Zwart, schuin vooraanzicht"
+   },
    "product_count": 13
   },
   {
@@ -1072,6 +1393,11 @@
      "value": "[\"24 kleuren\", \"Met of zonder topcover\", \"Ø 60–70 of Ø 80–85 cm\", \"Wasbaar op 30 °C\"]"
     }
    ],
+   "image": {
+    "src": "statafelrok-stretch-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafelrok-stretch-zwart-hero.webp",
+    "alt": "Statafel met stretchrok en topcover, Zwart, schuin vooraanzicht"
+   },
    "product_count": 4
   },
   {
@@ -1121,6 +1447,11 @@
      "value": "[\"10 kleuren hoes\", \"12 kleuren strik\", \"Ø 60–70 of Ø 80–85 cm\", \"Wasbaar op 30 °C\"]"
     }
    ],
+   "image": {
+    "src": "statafelhoes-met-strik-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafelhoes-met-strik-wit-hero.webp",
+    "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht"
+   },
    "product_count": 2
   },
   {
@@ -1165,6 +1496,7 @@
      "value": "[\"Rond, vierkant of tot de grond\", \"Voor bladen Ø 70–85 cm\", \"Kreukarm polyester\", \"Wasbaar op 30 °C\"]"
     }
    ],
+   "image": null,
    "product_count": 2
   },
   {
@@ -1207,6 +1539,7 @@
      "value": "[\"Vanaf 1 stuk\", \"Drukproef vooraf\", \"Tot 25% staffel\"]"
     }
    ],
+   "image": null,
    "product_count": 3
   },
   {
@@ -1251,6 +1584,11 @@
      "value": "[\"Los en pakketprijs naast elkaar\", \"Onderdelen passen bij elkaar\", \"Voor feest, horeca en verhuur\"]"
     }
    ],
+   "image": {
+    "src": "pakket-4-statafels-met-stretchrokken-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/pakket-4-statafels-met-stretchrokken-zwart-hero.webp",
+    "alt": "4 statafels met stretchrok en topcover, Zwart, schuin vooraanzicht"
+   },
    "product_count": 12
   },
   {
@@ -1340,7 +1678,12 @@
      "value": "[\"Barkruk 76 cm bij statafel 110 cm\", \"Stapelbaar of inklapbaar\", \"Staffelprijs vanaf 5 of 10\", \"Onderdelen los verkrijgbaar\"]"
     }
    ],
-   "product_count": 21
+   "image": {
+    "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
+    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+   },
+   "product_count": 22
   },
   {
    "handle": "verlichting",
@@ -1414,7 +1757,8 @@
      "value": "[\"Prikkabel: elke meter een fitting\", \"Op maat tot 200 m\", \"LED-lampen van 1–2 W\", \"Spatwaterdicht voor buiten\"]"
     }
    ],
-   "product_count": 8
+   "image": null,
+   "product_count": 9
   },
   {
    "handle": "zakelijk",
@@ -1458,7 +1802,12 @@
      "value": "[\"Staffelprijzen bij aantallen\", \"Offerte op maat\", \"Met jouw logo, eerst een drukproef\", \"Pakketten met transportkar\"]"
     }
    ],
-   "product_count": 89
+   "image": {
+    "src": "compleet-pakket-easy-up-professional-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/compleet-pakket-easy-up-professional-rood-hero.webp",
+    "alt": "Compleet pakket easy-up Professional, Rood, met zijwanden en voetgewichten, schuin vooraanzicht"
+   },
+   "product_count": 91
   },
   {
    "handle": "all",
@@ -1502,7 +1851,12 @@
      "value": "[\"Partytenten in alle soorten\", \"Statafels met rokken in 24 kleuren\", \"Meubilair en verlichting\", \"Pakketten en cadeaubon\"]"
     }
    ],
-   "product_count": 147
+   "image": {
+    "src": "easy-up-partytent-professional-3x3-rood-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-3x3-rood-hero.webp",
+    "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht"
+   },
+   "product_count": 150
   }
  ]
 }

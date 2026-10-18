@@ -1,8 +1,10 @@
 # Meubilair, verlichting, verwarming, inrichting & evenement, cadeaubon.
 from kk_base import *
-from fam_acc import simple
+from fam_acc import simple, eu_all
 
 def build():
+    global EU_TENTS
+    EU_TENTS = eu_all()
     # ------------------------------------------------------------ zitten
     BK = ['Zwart', 'Wit', 'Antraciet']
     vs = [variant(f'KK-MEU-BKM-{COLOR_CODE[k]}', [k], 34.95, 5500, inv(60, k + 'bkm', k)) for k in BK]
@@ -22,7 +24,8 @@ def build():
            {'outmate': 'Hamburg met houten zitting (prijs onbekend)', 'ours': 49.95})
     def seat(h, title, ptype, tags, kleuren, price, grams, sku, model, params, default, kenmerk, specs, covers, brief, kw, ref, base=30, extra_imgs=(), mf_extra=None):
         vs = [variant(f'KK-MEU-{sku}-{COLOR_CODE[k]}', [k], price, grams, inv(base, k + sku, k)) for k in kleuren]
-        imgs, vmap = kleur_images(h, kleuren, model, lambda k: dict(params, color=render_color(k)), default, list(extra_imgs), status='needs-model', p2=3)
+        imgs, vmap = kleur_images(h, kleuren, model, lambda k: dict(params, color=render_color(k)), default, list(extra_imgs),
+                                  status='existing' if model == 'barStool' else 'needs-model', p2=3)
         mf = {'kenmerk_kort': kenmerk, 'staffelkorting': ST_MEUBEL, 'verzending': 'pakket', 'gewicht_kg': round(grams / 1000, 1), 'specificaties': specs}
         mf.update(mf_extra or {})
         simple(h, title, ptype, tags, [opt('Kleur', kleuren)], vs, imgs, mf, covers, 'meubilair', brief, kw, ref, vmap=vmap)
@@ -48,6 +51,15 @@ def build():
          ['tafels-stoelen.barkrukken'], 'Design-barkruk van draadstaal voor horeca en events, stapelbaar tot 8, binnen en buiten; zitkussen optioneel.',
          ['draad barkruk', 'barkruk draadstoel', 'barkruk stapelbaar zwart'], {'outmate': 'Paxi draadstoel zwart €147,50 (stapelbaar tot 8)', 'ours': 129.0}, base=15,
          mf_extra={'addons': ['zitkussen-stoel-en-barkruk']})
+    seat('barkruk-chroom-stapelbaar', 'Barkruk chroom met kunstleren zitting', 'Barkruk', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+         ['Zwart', 'Wit', 'Antraciet'], 59.95, 6200, 'BKC', 'barStool', {'style': 'chroom', 'height': 0.76}, 'Zwart',
+         'Verchroomd frame · kunstleren zitting · zithoogte 76 cm · stapelbaar tot 6',
+         [sp('Kruk', 'Zithoogte', '76 cm (bij statafel 107–110 cm)'), sp('Kruk', 'Frame', 'Staal, verchroomd, buis Ø 25 mm, voetring rondom'),
+          sp('Kruk', 'Zitting', 'Rond, Ø 36 cm, schuim met kunstleer, afneembaar'), sp('Stapelen', 'Aantal', 'Tot 6 stuks'),
+          sp('Gebruik', 'Binnen', 'Ja; buiten alleen kort en droog (chroom en kunstleer)')],
+         ['tafels-stoelen.barkrukken'], 'Klassieke horecakruk met verchroomd frame en een kunstleren zitting in zwart, wit of antraciet; veegt schoon, stapelbaar tot 6; staffel vanaf 10.',
+         ['barkruk chroom', 'barkruk rvs', 'barkruk kunstleer'], {'statafelshop': 'barkrukken met RVS/chroom frame (8 modellen; prijs per model niet bevestigd)',
+                                                                 'band': 'chroom barkruk met kunstleren zitting €49–€89', 'ours': 59.95}, base=20)
     seat('kruk-laag-stapelbaar', 'Lage kruk stapelbaar', 'Kruk', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement', 'gebruik:tuinfeest'],
          ['Zwart', 'Wit', 'Antraciet'], 27.95, 3500, 'KRL', 'barStool', {'style': 'metaal', 'height': 0.45}, 'Zwart',
          'Zithoogte 45 cm · gepoedercoat staal · stapelbaar tot 10',
@@ -132,7 +144,7 @@ def build():
            [variant('KK-MEU-KLR-D150', ['Ø150 cm'], 169.0, 24000, 8), variant('KK-MEU-KLR-D180', ['Ø180 cm'], 219.0, 30000, 8)],
            [img('klaptafel-hdpe-rond-hero.webp', 'hero', 1, 'klaptafel', {'shape': 'rond', 'diameter': 1.8, 'height': 0.74}, 'hero', None, 'needs-param')],
            {'kenmerk_kort': 'Ronde banket-tafel · 8 (Ø150) of 10 (Ø180) personen', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pallet'},
-           ['tafels-stoelen.klaptafels'], 'meubilair', 'Banket- en bruiloftstafel; aantal personen per maat; kleed tot de grond via offerte.',
+           ['tafels-stoelen.klaptafels'], 'meubilair', 'Banket- en bruiloftstafel; aantal personen per maat; rond kleed tot de grond: Ø 300 cm op Ø 150, Ø 330 cm op Ø 180.',
            ['ronde klaptafel', 'banket tafel rond'], {'outmate': 'Ø150 €188,50 · Ø180 €254,50', 'ours': {'Ø150 cm': 169, 'Ø180 cm': 219}})
     TT = {'60 x 60 cm': 89.95, '70 x 70 cm': 99.95, '120 x 70 cm': 199.0}
     TK = ['Zwart', 'Wit', 'Houtlook']
@@ -219,11 +231,11 @@ def build():
            {'outmate': '€33,99 / €35', 'ours': {'Warm wit': 29.95, 'Warm wit fonkelend': 32.95}})
     simple('led-vloedlicht-easy-up', 'LED-vloedlicht voor easy-up 30 W', 'Tentverlichting', ['zakelijk', 'gebruik:evenement', 'gebruik:markt'], [],
            [variant('KK-LCHT-VL30', [], 74.95, 1400, 20)],
-           [img('led-vloedlicht-easy-up-hero.webp', 'hero', 1, 'floodLight', {'watt': 30, 'clamp': True}, 'hero', None, 'needs-model'),
+           [img('led-vloedlicht-easy-up-hero.webp', 'hero', 1, 'floodLight', {'watt': 30, 'clamp': True}, 'hero', None, 'existing'),
             img('led-vloedlicht-easy-up-in-tent.webp', 'in-gebruik', 3, 'items', {'items': [{'model': 'easyUpTent', 'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit'},
                                                                                          {'model': 'floodLight', 'watt': 30, 'mountedOn': 'leg'}]}, 'low', None, 'needs-model',
                 alt='aan de poot van een easy-up (tent niet inbegrepen)')],
-           {'kenmerk_kort': '30 W · 2.400 lumen · klem voor poten tot 50 mm · IP65', 'verzending': 'pakket', 'past_op': [],
+           {'kenmerk_kort': '30 W · 2.400 lumen · klem voor poten tot 50 mm · IP65', 'verzending': 'pakket', 'past_op': list(EU_TENTS),
             'specificaties': [sp('Lamp', 'Vermogen', '30 W LED'), sp('Lamp', 'Lichtstroom', 'ca. 2.400 lumen, 4000 K'), sp('Lamp', 'Beschermingsklasse', 'IP65'),
                               sp('Bevestiging', 'Klem', 'Voor zeskantpoten van 40 en 50 mm, kantelbaar'), sp('Aansluiting', 'Kabel', '3 m met stekker, 230 V')],
             'garantie': '1 jaar'},
@@ -245,26 +257,39 @@ def build():
            [opt('Uitvoering', ['1500 W met klem voor easy-up', '1500 W met afstandsbediening en LED-lamp', '2100 W IP24 met beugel'])],
            [variant('KK-VRW-EL-1500', ['1500 W met klem voor easy-up'], 109.0, 3500, 12), variant('KK-VRW-EL-1500AB', ['1500 W met afstandsbediening en LED-lamp'], 119.0, 3800, 8),
             variant('KK-VRW-EL-2100', ['2100 W IP24 met beugel'], 149.0, 4200, 8)],
-           [img('elektrische-heater-partytent-hero.webp', 'hero', 1, 'heater', {'kind': 'elektrisch', 'watt': 1500, 'clamp': True}, 'hero', None, 'needs-model'),
+           [img('elektrische-heater-partytent-hero.webp', 'hero', 1, 'heater', {'kind': 'elektrisch', 'watt': 1500, 'clamp': True}, 'hero', None, 'existing'),
             img('elektrische-heater-partytent-in-tent.webp', 'in-gebruik', 3, 'items', {'items': [{'model': 'easyUpTent', 'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit'},
                                                                                               {'model': 'heater', 'kind': 'elektrisch', 'mountedOn': 'leg'}]}, 'low', None, 'needs-model', alt='aan de poot van een easy-up (tent niet inbegrepen)')],
-           {'kenmerk_kort': 'Infrarood · 3 standen · tot ca. 14–19 m²', 'verzending': 'pakket', 'past_op': [],
+           {'kenmerk_kort': 'Infrarood · 3 standen · tot ca. 14–19 m²', 'verzending': 'pakket', 'past_op': list(EU_TENTS),
             'specificaties': [sp('Heater', '1500 W', '600/900/1500 W, ca. 14 m², klem voor 40–50 mm poot'),
                               sp('Heater', '1500 W met afstandsbediening', '3 standen, ca. 10 m², met LED-lamp, ophangbeugel'),
                               sp('Heater', '2100 W', '900/1420/2100 W, max. 19 m², IP24')], 'garantie': '1 jaar'},
            ['verwarming.elektrisch', 'easy-up-accessoires.easy-up-inrichting'], 'verwarming', 'Warmte zonder gas in de tent; vermogen per m², afstand tot doek, alleen op een geaarde groep.',
            ['heater partytent', 'terrasverwarming elektrisch'], {'outmate': 'easy-up heater 1500 W €129', 'ours': {'1500 W': 109, '2100 W': 149}})
+    simple('infraroodbrander-elektrische-heater', 'Vervangende infraroodbrander voor elektrische heater', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement'],
+           [opt('Uitvoering', ['Voor 1500 W heater', 'Voor 2100 W heater'])],
+           [variant('KK-VRW-BR-1500', ['Voor 1500 W heater'], 29.95, 400, 15), variant('KK-VRW-BR-2100', ['Voor 2100 W heater'], 39.95, 500, 10)],
+           [img('infraroodbrander-elektrische-heater-hero.webp', 'hero', 1, 'heaterElement', {'watt': 1500}, 'hero', None, 'existing')],
+           {'kenmerk_kort': 'Vervangend infraroodelement · 1500 of 2100 W · zelf te wisselen', 'verzending': 'pakket', 'past_op': ['elektrische-heater-partytent'],
+            'garantie': '6 maanden',
+            'specificaties': [sp('Element', 'Voor 1500 W heater', 'Halogeen-infraroodbuis 1500 W, past in beide 1500 W-uitvoeringen'),
+                              sp('Element', 'Voor 2100 W heater', 'Carbon-infraroodbuis 2100 W, voor de 2100 W IP24'),
+                              sp('Montage', 'Wisselen', 'Stekker eruit, laten afkoelen, beschermrooster los (4 schroeven), buis wisselen'),
+                              sp('Levering', 'Inbegrepen', 'Infraroodbuis met 2 klemveren')]},
+           ['verwarming.verwarming-accessoires'], 'verwarming',
+           'Reservebrander zodat je heater na een kapotte buis niet afgeschreven is; welke buis bij welke heater; wisselen zonder gereedschap behalve een schroevendraaier; nooit aanraken met blote handen (vet op halogeen).',
+           ['infraroodbrander heater', 'vervangende brander terrasheater', 'infrarood lamp heater'], {'outmate': 'vervangende infrarood brander (prijs niet gevonden)', 'ours': {'1500 W': 29.95, '2100 W': 39.95}})
     simple('terrasheater-gas-13-kw', 'Terrasheater op gas 13 kW', 'Verwarming', ['gebruik:horeca', 'pallet'], [],
            [variant('KK-VRW-GAS-13', [], 179.0, 22000, 6)],
-           [img('terrasheater-gas-13-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'paddenstoel'}, 'hero', None, 'needs-model')],
+           [img('terrasheater-gas-13-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'paddenstoel'}, 'hero', None, 'existing')],
            {'kenmerk_kort': 'RVS · 13 kW · omvalbeveiliging · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar'},
            ['verwarming.gas'], 'verwarming', 'Klassieke paddenstoelheater voor buiten; nooit in een gesloten tent; gasfles en drukregelaar niet inbegrepen.',
            ['terrasheater gas', 'gasheater terras'], {'note': 'geen referentieprijs gevonden', 'ours': 179})
     simple('loungeheater-gas', 'Loungeheater op gas', 'Verwarming', ['gebruik:horeca', 'gebruik:tuinfeest'],
            [opt('Uitvoering', ['Staand model 9 kW', 'Tafelmodel 3 kW'])],
            [variant('KK-VRW-LOUNGE-9', ['Staand model 9 kW'], 249.0, 16000, 6), variant('KK-VRW-LOUNGE-3', ['Tafelmodel 3 kW'], 109.0, 6500, 10)],
-           [img('loungeheater-gas-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'lounge'}, 'hero', None, 'needs-model'),
-            img('loungeheater-gas-tafelmodel.webp', 'variant', 3, 'heater', {'kind': 'gas', 'style': 'tafel'}, 'hero', None, 'needs-model', alt='tafelmodel')],
+           [img('loungeheater-gas-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'lounge'}, 'hero', None, 'existing'),
+            img('loungeheater-gas-tafelmodel.webp', 'variant', 3, 'heater', {'kind': 'gas', 'style': 'tafel'}, 'hero', None, 'existing', alt='tafelmodel')],
            {'kenmerk_kort': 'Lage gasheater op zithoogte · staand 9 kW of tafelmodel 3 kW', 'verzending': 'pakket', 'garantie': '1 jaar',
             'specificaties': [sp('Heater', 'Staand model', '9 kW, ca. 75 cm hoog, gasfles van max. 10 kg in de voet'),
                               sp('Heater', 'Tafelmodel', '3 kW, op een tafel, met slang naar een losse gasfles'),
@@ -275,7 +300,7 @@ def build():
            vmap={'Staand model 9 kW': 'loungeheater-gas-hero.webp', 'Tafelmodel 3 kW': 'loungeheater-gas-tafelmodel.webp'}, vby='Uitvoering')
     simple('flameheater-gas-9-kw', 'Flameheater op gas 9 kW', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement', 'pallet'], [],
            [variant('KK-VRW-FLAME-9', [], 329.0, 32000, 5)],
-           [img('flameheater-gas-9-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'flame'}, 'hero', None, 'needs-model')],
+           [img('flameheater-gas-9-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'flame'}, 'hero', None, 'existing')],
            {'kenmerk_kort': 'Zichtbare vlam in glazen buis · 9 kW · ca. 225 cm hoog · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar',
             'specificaties': [sp('Heater', 'Vermogen', '9 kW, traploos regelbaar'), sp('Heater', 'Hoogte', 'ca. 225 cm'), sp('Heater', 'Glazen buis', 'Gehard glas, vlam zichtbaar'),
                               sp('Gas', 'Brandstof', 'Propaan, gasfles van max. 10 kg in de voet'), sp('Veiligheid', 'Beveiliging', 'Thermokoppeling en omvalbeveiliging'),

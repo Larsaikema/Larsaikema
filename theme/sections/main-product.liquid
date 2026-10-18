@@ -224,6 +224,13 @@
                   assign addon_vs = current_variant.metafields.custom.addon_varianten.value
                   assign addon_qs = current_variant.metafields.custom.addon_aantallen.value
                   assign addons = product.metafields.custom.addons.value
+                  # custom.addon_eenmalig: add-on products that go along once per order line, not x the main quantity
+                  # (10 statafels + 1 transportkar). Their checkbox carries data-addon-follow="false"; product-form.js reads the
+                  # nearest data-addon-follow, so the input's own attribute wins over the fieldset.
+                  assign addon_once_ids = ''
+                  for x in product.metafields.custom.addon_eenmalig.value
+                    assign addon_once_ids = addon_once_ids | append: ',' | append: x.id | append: ','
+                  endfor
                   assign addon_follow = true
                   if product.metafields.custom.addon_modus.value == 'per-regel' or is_config
                     assign addon_follow = false
@@ -262,15 +269,21 @@
                           endif
                           assign a_price = av.price | times: aq
                           assign a_img = av.featured_image | default: addon.featured_media.preview_image
+                          assign a_key = ',' | append: addon.id | append: ','
+                          assign a_once = false
+                          if addon_follow and addon_once_ids contains a_key
+                            assign a_once = true
+                          endif
                         -%}
                         <li>
                           <label class="addon" for="Addon-{{ section.id }}-{{ forloop.index }}">
-                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-title="{{ addon.title | escape }}">
+                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-title="{{ addon.title | escape }}"{% if a_once %} data-addon-follow="false"{% endif %}>
                             <span class="addon__media">{%- if a_img -%}{{ a_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px' }}{%- endif -%}</span>
                             <span class="addon__text">
                               <span class="addon__title">{% if aq > 1 %}{{ aq }} × {% endif %}{{ addon.title }}</span>
                               {%- unless addon.has_only_default_variant -%}<span class="addon__variant text-sm">{{ av.title }}</span>{%- endunless -%}
                               {%- if addon.metafields.custom.kenmerk_kort != blank -%}<span class="addon__spec">{{ addon.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
+                              {%- if a_once -%}<span class="addon__spec">{{ 'product.addon_once' | t }}</span>{%- endif -%}
                             </span>
                             <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: a_price -%}</span>
                           </label>

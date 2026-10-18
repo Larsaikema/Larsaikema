@@ -80,6 +80,81 @@ export function tentFabric(color, { side = THREE.DoubleSide, translucent = true 
   });
 }
 
+// PVC-coated polyester canopy cloth (easy-up roofs, valances, side walls). Same albedo as
+// tentFabric, plus what makes coated cloth read as cloth instead of clay:
+//  - the 1 mm plain weave shows as relief once the camera resolves it (engine `weave` hook:
+//    boosted close up, the coating's gloss varies over yarn crowns and flanks; at catalogue
+//    distance it averages into a slightly more matte lobe instead of aliasing),
+//  - an isotropic macro layer (coating grain, soft cockle, sparse slubs; textures.coatingMacroNormal),
+//  - light coloured cloth transmits light: the underside of a white roof glows light grey,
+//    with the frame and seams reading darker against it (engine `translucency`),
+//  - a broad soft sheen on dark cloth (more env reflection, fibre sheen tinted by the dye),
+//  - `interior`: inside a walled tent only shadowed light reaches the inward faces.
+export function pvcCloth(color, { side = THREE.DoubleSide, translucent = true } = {}) {
+  const hex = resolveColor(color, COLORS.wit);
+  return cached(`pvcCloth:${hex}:${side}:${translucent}`, () => {
+    const L = lum(hex);
+    const dark = L < 0.1, light = L > 0.6;
+    const m = tentFabric(hex, { side, translucent }).clone();
+    m.roughness = dark ? 0.5 : light ? 0.62 : 0.58;
+    m.specularIntensity = dark ? 0.7 : 0.5;
+    m.sheen = dark ? 0.45 : 0.25;
+    m.sheenRoughness = dark ? 0.5 : 0.6;
+    m.normalScale = new THREE.Vector2(1.1, 1.1);
+    m.userData = {
+      envSpec: dark ? 0.62 : light ? 0.32 : 0.36,
+      // white: the underside glows light grey-white from the overhead light, faces turned from
+      // the key a little less (the key's share is damped so the near face does not burn out)
+      translucency: translucent ? (light ? 0.55 : 0.3 * Math.min(1, L * 1.4)) : 0,
+      translKey: light ? 0.6 : 0.8, translSky: light ? 2.4 : 1.6,
+      weave: { repeats: 16, boost: light ? 2.4 : 1.9, roughVar: 0.45, matte: 0.04 },
+      macro: { tex: 'coatingMacro', scale: 1 / WEAVE_REPEAT, strength: dark ? 0.45 : 0.4, coat: 0.6, rough: 0.2 },
+      interior: true,
+    };
+    m.name = `pvcCloth ${hex}`;
+    return m;
+  });
+}
+
+// Double layer of pvcCloth (reinforcement patches, tapes): same colour and coating, less
+// translucent (reads slightly darker from below, like real patches against the light).
+export function pvcPatch(color) {
+  const hex = resolveColor(color, COLORS.wit);
+  return cached(`pvcPatch:${hex}`, () => {
+    const base = pvcCloth(hex);
+    const m = base.clone();
+    m.roughness = Math.min(0.72, base.roughness + 0.03);
+    m.userData = { ...JSON.parse(JSON.stringify(base.userData)), translucency: (base.userData.translucency || 0) * 0.45 };
+    delete m.userData.__hooked;
+    m.name = `pvcPatch ${hex}`;
+    return m;
+  });
+}
+
+// Tone-on-tone sewing thread for pvcCloth: the same dye, a hair lighter than the cloth (on
+// white it matches the cloth). It reads through relief, not colour: each stitch carries a
+// vertex colour that darkens towards its needle holes (where the thread dives into the cloth).
+export function pvcThread(color) {
+  const hex = resolveColor(color, COLORS.wit);
+  return cached(`pvcThread:${hex}`, () => {
+    const L = lum(hex);
+    const c = tentFabricBase(hex).clone();
+    const dark = L < 0.1;
+    if (dark) c.lerp(new THREE.Color().setRGB(0.1, 0.101, 0.106), 0.9);
+    else if (L < 0.6) c.lerp(new THREE.Color('#ffffff'), 0.06);
+    // on dark cloth most of what the eye sees is sheen: the thread gets the same sheen and
+    // gloss as the cloth, so it reads a hair lighter, never as a dark dashed line
+    const m = new THREE.MeshPhysicalMaterial({
+      color: c, vertexColors: true, roughness: dark ? 0.5 : 0.62, specularIntensity: dark ? 0.7 : 0.4, sheen: dark ? 0.6 : 0.4, sheenRoughness: 0.45,
+      sheenColor: dark ? c.clone().multiplyScalar(2.6) : c.clone().lerp(new THREE.Color('#ffffff'), 0.12), side: THREE.DoubleSide, name: `pvcThread ${hex}`,
+    });
+    m.userData.envSpec = dark ? 0.62 : 0.25;
+    m.userData.threadAO = dark ? 0.55 : 1;
+    m.userData.interior = true;
+    return m;
+  });
+}
+
 // Reinforcement patch (double layer): same cloth, a touch more matte and less translucent.
 export function tentPatch(color) {
   const hex = resolveColor(color, COLORS.wit);

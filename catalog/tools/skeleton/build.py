@@ -15,10 +15,68 @@ for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
 errors = []
 # add-ons per variant (custom.addon_varianten / addon_aantallen) + product-level union, then staffels on every bundle
 kk_addons.apply(errors)
+# every zakelijk line says something on the B2B route: a staffel of its family (price band) when it has none yet
+for p in PRODUCTS:
+    mf = p['metafields']
+    if 'zakelijk' in p['tags'] and not mf.get('staffelkorting') and not p.get('bundle'):
+        top = max(v['price'] for v in p['variants']) / 100
+        if any(v.get('quantity_rule') for v in p['variants']):
+            st = ST_SLANG          # per meter / per m²
+        elif mf.get('bedrukbaar'):
+            st = ST_BEDRUKT
+        elif top >= 400:
+            st = ST_GROOT          # high-ticket: from 2 pieces
+        elif top >= 100:
+            st = ST_TENT
+        else:
+            st = ST_TEXTIEL
+        mf['staffelkorting'] = [dict(t) for t in st]
 BUNDLE_STAFFELS = kk_addons.bundle_staffels()
-# accessories that also fit the inflatables
-HANDLES['watergewichtzakken-4x20-kg']['metafields']['past_op'] += ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']
-HANDLES['zitkussen-stoel-en-barkruk']['metafields']['past_op'] += ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal']
+# add-ons that are added once per order line (not x the main quantity): must be one of the product's add-ons
+for p in PRODUCTS:
+    for x in p['metafields'].get('addon_eenmalig') or []:
+        if x not in (p['metafields'].get('addons') or []):
+            errors.append(f'{p["handle"]}: addon_eenmalig {x} is not one of its add-ons')
+# accessories that also fit the inflatables. NB: never `+=` on a past_op list: the easy-up accessories share ONE list object
+# (fam_acc EU), and an in-place add once put the inflatables on wieltas, beschermhoes, voetgewicht, regengoot and zandzakken.
+for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']),
+                   ('zitkussen-stoel-en-barkruk', ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal'])]:
+    HANDLES[_h]['metafields']['past_op'] = list(HANDLES[_h]['metafields']['past_op']) + _extra
+# every list metafield gets its own list object from here on (no shared-list side effects in later fix-ups)
+for _p in PRODUCTS:
+    for _k, _v in list(_p['metafields'].items()):
+        if isinstance(_v, list):
+            _p['metafields'][_k] = list(_v)
+# custom.systeem: which tent system a product is, or fits (filter on partytent-onderdelen / zijwanden, basis of the
+# easy-up-onderdelen and buizenframe-onderdelen collections)
+SYSTEMEN = ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent', 'Opblaasbare tent']
+def own_system(p):
+    t, f = p['product_type'], p['family']
+    if t == 'Easy-up partytent':
+        return 'Easy-up'
+    if t == 'Partytent' or p['handle'] == 'opslagtent-pvc':
+        return 'Buizenframe'
+    if t == 'Stretchtent':
+        return 'Stretchtent'
+    if t == 'Stertent':
+        return 'Stertent'
+    if t == 'Opblaasbare tent':
+        return 'Opblaasbare tent'
+    return None
+SYSTEEM_EXTRA = {  # accessories without a past_op list that fit several systems
+    'haringen-en-bevestigingsmateriaal-partytent': ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent'],
+    'betonblok-ballast-tent': ['Buizenframe', 'Stretchtent', 'Stertent'],
+    'reparatieset-tentdoek': ['Easy-up', 'Buizenframe'],
+}
+for p in PRODUCTS:
+    sy = set()
+    if own_system(p):
+        sy.add(own_system(p))
+    for x in p['metafields'].get('past_op') or []:
+        if x in HANDLES and own_system(HANDLES[x]):
+            sy.add(own_system(HANDLES[x]))
+    sy |= set(SYSTEEM_EXTRA.get(p['handle'], []))
+    p['metafields']['systeem'] = [x for x in SYSTEMEN if x in sy] or None
 for p in PRODUCTS:
     mf = p['metafields']
     for key in ['addons', 'past_op', 'andere_maten']:
@@ -78,7 +136,10 @@ errors += [f'duplicate sku {s}' for s, n in skus.items() if n > 1]
 bedrukte_tenten = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-tent'] + ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro',
                                                                                      'stertent-enkele-mast', 'stertent-dubbele-mast']
 bedrukte_hoezen = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-textiel']
-cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen)
+ONDERDEEL_TYPES = site.ONDERDELEN_TYPES + ['Tentverlichting', 'Verwarming']
+easy_up_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES and 'Easy-up' in (p['metafields'].get('systeem') or [])]
+buizenframe_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES and 'Buizenframe' in (p['metafields'].get('systeem') or [])]
+cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen)
 
 def match(p, rule):
     c, rel, cond = rule['column'], rule['relation'], rule['condition']
@@ -129,7 +190,7 @@ G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-i
 BF_TENTS = [p['handle'] for p in PRODUCTS if p['product_type'] == 'Partytent']
 SEATS = ['barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'klapstoel', 'stapelstoel-cross-back', 'zitkussen-stoel-en-barkruk',
          'barkruk-velours-stapelbaar', 'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'kruk-laag-stapelbaar', 'stapelstoel-metaal',
-         'banquetstoel-gestoffeerd', 'bank-houten-frame']
+         'banquetstoel-gestoffeerd', 'bank-houten-frame', 'barkruk-chroom-stapelbaar']
 def group_of(p):
     h, f = p['handle'], p['family']
     if f in ('easy-up-tent', 'frame', 'dakzeil', 'tassen', 'goten') or h in EU_SETS: return 'G1'
@@ -212,6 +273,9 @@ doc['meta'] = {
 doc['contract_extensions'] = [
     {'what': 'product metafield custom.andere_maten (list.product_reference)', 'why': 'Easy-up tents are one product per size (SEO + example title "Easy-up partytent Professional 3 x 6 m"); the PDP needs a size switcher to sibling products. Filled on all 11 easy-up tents.', 'theme': 'render size pills linking to these products (current one selected).'},
     {'what': 'collections partytenten-buizenframe, opslagtenten, overkappingen-en-schaduwdoeken, stretch-statafelrokken', 'why': 'Assortment categories without a contract handle; needed for menus and coverage. Generic collection template, no theme work.'},
+    {'what': 'collections easy-up-onderdelen, buizenframe-onderdelen, verwarming, evenement', 'why': 'Merchandising review: partytent-onderdelen and zijwanden mixed easy-up and buizenframe parts; verwarming was a filter URL on accessoires; the marktkraam (€479–€729) sat between € 5 parts. Manual (onderdelen, from custom.systeem) or smart (type). Also in CONTRACT.md.'},
+    {'what': 'product metafield custom.systeem (list.single_line_text_field)', 'why': 'Tent system a product is or fits: Easy-up, Buizenframe, Stretchtent, Stertent, Opblaasbare tent (from past_op). Storefront filter (Search & Discovery) on partytent-onderdelen / zijwanden. Also in CONTRACT.md.'},
+    {'what': 'product metafield custom.addon_eenmalig (list.product_reference)', 'why': 'Add-ons added once per order line instead of x the main quantity (transportkar on a statafel: 10 statafels + 1 kar). Theme: data-addon-follow=false on that add-on. Also in CONTRACT.md.'},
     {'what': 'Uitvoering values beyond the contract examples', 'why': 'Dakdoek (Polyester / Heavy duty PVC), pack sizes (Set van 4 / 6 / 8 / 1 stuk), part names, print scope (Effen doek / Full colour bedrukt, Effen kap / Bedrukte kap), Zonder / Met parasolgat. Spelling fixed in this file.'},
     {'what': 'Maat values beyond the contract list', 'why': '2 x 2 m, 5 x 5 m, buizenframe/stretch sizes (3 x 4 m, 10,5 x 15 m), lengths (3 m, 10 m), Ø8 m, 70 x 70 cm, 183 x 76 cm, Ø300 cm, "3 m breed". Same format rules.'},
     {'what': 'option name Bedrag on the gift card only', 'why': 'Gift-card denominations; not a product option the theme swatches.'},
@@ -240,18 +304,23 @@ doc['filters'] = site.FILTERS
 doc['copy_groups'] = [{'id': g, 'name': GROUPS[g][0], 'notes': GROUPS[g][1], 'handles': [p['handle'] for p in groups[g]],
                        'product_count': len(groups[g]), 'effort': round(sum(p['weight'] for p in groups[g]), 2)} for g in GROUPS]
 doc['coverage'] = coverage
+EXISTING_MODELS = ['easyUpTent', 'statafel', 'statafelCover', 'klaptafel', 'biertafelset', 'gewichten', 'haringen', 'spanbanden', 'wielset', 'draagtas',
+                   'prikkabel', 'stretchtent', 'stertent', 'opblaasbareTent',
+                   # renders/models/index.js registry since the furniture / tents-other / catalogue-review work
+                   'barStool', 'chair', 'patioTable', 'bench', 'barrelTable', 'tableTop', 'trolley', 'stanchion', 'opblaasbareTunnel', 'frameTent',
+                   'canopyRoof', 'marketStall', 'gardenPavilion', 'carportTent', 'shadeSail', 'tarp', 'buffetCover', 'heater', 'heaterElement',
+                   'floodLight', 'tentLight']
 doc['render_models'] = {
-    'existing': ['easyUpTent', 'statafel', 'statafelCover', 'klaptafel', 'biertafelset', 'gewichten', 'haringen', 'spanbanden', 'wielset', 'draagtas', 'prikkabel', 'stretchtent', 'stertent', 'opblaasbareTent'],
+    'existing': EXISTING_MODELS,
     'multi_item': '"model": "items" = spec with an items[] list (renders/README.md); each item names its own model.',
     'params_needed_on_existing': {
-        'easyUpTent': ['roof:false (los frame)', 'roofPrint {artwork} (full colour dak)', 'wallPrint', 'walls type "half" (halve zijwand)', 'valancePrint {svg,...} via brand/tools/renders-svgprint.patch'],
-        'statafel': ['top "antraciet"/"houtlook"', 'shape "square"|"rect" + width/depth', 'stackable'],
+        'easyUpTent': ['roof:false (los frame)', 'wallPrint'],  # done: walls "half", valancePrint {svg}; full colour roof = canopyRoof {withFrame:true}
         'statafelCover': ['print {...} via renders-svgprint.patch'],
         'klaptafel': ['shape "rond" + diameter', 'folded'], 'biertafelset': ['only "bank"'], 'draagtas': ['wheels:true'],
         'stretchtent': ['shape "hypar"'], 'stertent': ['masts:2 + length', 'walls'], 'opblaasbareTent': ['shape "hexagon"', 'legs "water"', 'walls', 'canopyPrint'],
         'spanbanden': ['length'], 'prikkabel': ['cable colour'],
     },
-    'new_models': sorted(set(models) - {'easyUpTent', 'statafel', 'statafelCover', 'klaptafel', 'biertafelset', 'gewichten', 'haringen', 'spanbanden', 'wielset', 'draagtas', 'prikkabel', 'stretchtent', 'stertent', 'opblaasbareTent', 'items'}),
+    'new_models': sorted(set(models) - set(EXISTING_MODELS) - {'items'}),
     'unique_renders_per_model': dict(models.most_common()),
 }
 claims = []

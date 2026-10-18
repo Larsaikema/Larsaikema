@@ -13,7 +13,7 @@ COLOR_CODE = {
     'Bordeaux': 'BOR', 'Roze': 'ROZ', 'Fuchsia': 'FUC', 'Paars': 'PRS', 'Groen': 'GRN',
     'Lichtgroen': 'LGN', 'Oranje': 'ORA', 'Geel': 'GEL', 'Goud': 'GOU', 'Beige': 'BEI', 'Zandkleur': 'ZND',
     'Taupe': 'TAU', 'Bruin': 'BRU', 'Camel': 'CAM', 'Crème': 'CRM', 'Champagne': 'CHA', 'Berken': 'BRK',
-    'Houtlook': 'HLK', 'Transparant': 'TRP', 'Warm wit': 'WWT',
+    'Houtlook': 'HLK', 'Transparant': 'TRP', 'Warm wit': 'WWT', 'Graniet': 'GRT',
 }
 
 # Hex values: the theme's swatch_colors default (settings_schema.json). Tents, walls, roofs and inflatables are sold in the
@@ -25,13 +25,13 @@ SWATCH_HEX = {
     'Paars': '#57297F', 'Groen': '#1F6C3C', 'Lichtgroen': '#7DB744', 'Oranje': '#E2681B', 'Geel': '#F1C21A',
     'Goud': '#C49A45', 'Beige': '#D8CBB2', 'Zandkleur': '#CDBB98', 'Taupe': '#8B7D6E', 'Bruin': '#6A4A33',
     'Camel': '#B98A57', 'Crème': '#ECE3CF', 'Champagne': '#E4D6BC', 'Berken': '#D9B98C', 'Houtlook': '#8A6A48',
-    'Transparant': '#E9EEF0', 'Warm wit': '#F4E3BC',
+    'Transparant': '#E9EEF0', 'Warm wit': '#F4E3BC', 'Graniet': '#77736D',
 }
 
 def render_color(k):
     """Kleur value -> renderer colour param (renders/js/materials.js COLORS keys or hex)."""
     m = {'Crème': 'creme', 'Zandkleur': 'zand', 'Warm wit': '#F4E3BC',
-         'Houtlook': '#8A6A48', 'Berken': '#D9B98C', 'Transparant': '#E9EEF0'}
+         'Houtlook': '#8A6A48', 'Berken': '#D9B98C', 'Transparant': '#E9EEF0', 'Graniet': '#77736D'}
     return m.get(k, k.lower())
 
 def render_finish(k):
@@ -132,18 +132,21 @@ def kleur_images(handle, kleuren, model, params_fn, default, extra_imgs=(), stat
     imgs.extend(extra_imgs)
     return imgs, vmap
 
-ST_TENT = [{'vanaf': 3, 'korting': 3}, {'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}]
-ST_STATAFEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 8}, {'vanaf': 50, 'korting': 12}]
-ST_TEXTIEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 10}, {'vanaf': 50, 'korting': 15}]
+# Staffels: one round scheme per family (B2B review: no arithmetic leftovers). Bundles use the scheme of their family
+# too (kk_addons.bundle_staffels checks that a bundle never ends up dearer than its loose parts at any volume).
+ST_TENT = [{'vanaf': 3, 'korting': 3}, {'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}]       # tenten, frames, marktkraam
+ST_GROOT = [{'vanaf': 2, 'korting': 3}, {'vanaf': 5, 'korting': 5}]                                    # event-/vrachttenten, karren, grote pakketten
+ST_TEXTIEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 10}, {'vanaf': 50, 'korting': 15}]  # textiel, wanden, kleine onderdelen
 ST_BEDRUKT = [{'vanaf': 10, 'korting': 10}, {'vanaf': 25, 'korting': 15}, {'vanaf': 50, 'korting': 20}, {'vanaf': 100, 'korting': 25}]
-ST_MEUBEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 8}, {'vanaf': 50, 'korting': 10}]
-ST_KLAPTAFEL = [{'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}, {'vanaf': 20, 'korting': 12}]
+ST_MEUBEL = [{'vanaf': 10, 'korting': 5}, {'vanaf': 25, 'korting': 8}, {'vanaf': 50, 'korting': 12}]    # statafels, krukken, stoelen
+ST_STATAFEL = ST_MEUBEL
+ST_KLAPTAFEL = [{'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}, {'vanaf': 25, 'korting': 12}]  # klaptafels, biertafels, prikkabels
+ST_PRIK = ST_KLAPTAFEL
 ST_LAMP = [{'vanaf': 50, 'korting': 10}, {'vanaf': 100, 'korting': 20}]
 ST_GEWICHT = [{'vanaf': 3, 'korting': 5}, {'vanaf': 6, 'korting': 10}]
-ST_PRIK = [{'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}, {'vanaf': 25, 'korting': 12}]       # prikkabels (horeca, verhuur)
-ST_SLANG = [{'vanaf': 25, 'korting': 5}, {'vanaf': 50, 'korting': 10}, {'vanaf': 100, 'korting': 15}]   # per meter
-ST_KAR = [{'vanaf': 2, 'korting': 3}, {'vanaf': 5, 'korting': 6}]                                      # transportkarren
-ST_MARKT = [{'vanaf': 3, 'korting': 3}, {'vanaf': 5, 'korting': 5}, {'vanaf': 10, 'korting': 8}]        # marktkramen (scholen, gemeenten)
+ST_SLANG = [{'vanaf': 25, 'korting': 5}, {'vanaf': 50, 'korting': 10}, {'vanaf': 100, 'korting': 15}]   # per meter / per m²
+ST_KAR = ST_GROOT
+ST_MARKT = ST_TENT
 
 AANLEVERING = 'PDF, AI, EPS, SVG of PNG ≥ 300 dpi'
 LT_DRUK = '10–15 werkdagen na akkoord drukproef'

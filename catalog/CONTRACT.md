@@ -9,11 +9,12 @@ seed script all follow this contract. Change it only deliberately, and update al
 |---|---|---|
 | `Maat` | `3 x 3 m`, `3 x 4,5 m`, `3 x 6 m`, `4 x 4 m`, `4 x 6 m`, `4 x 8 m` · tables `Ø80 cm` · covers `Ø80-85 cm` | tents, tables, covers, walls |
 | `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch, the name of the cloth colour; never a brand colour name such as `Lampion` or the old `Klaproos`, brand.md v7 §4.2) | everything with colour |
-| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur` | where relevant |
+| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur`, `Binnen` / `Buiten (compact HPL)` (statafel), `Polyester` / `Heavy duty PVC` (compleet pakket) | where relevant |
 
 Colour swatches: the theme uses `value.swatch.color` when present (seed script links `Kleur` to the
 `shopify.color-pattern` category metafield); otherwise it falls back to the theme setting `swatch_colors`
-(textarea, one `Naam: #hex` per line). Every colour used in the catalog must be listed in that setting's default.
+(textarea, one `Naam: #hex` per line). Every colour used in the catalog must be listed in that setting's default
+(also the table-top finish `Graniet`, a stone-look laminate: `Graniet: #77736D`).
 
 ## Product metafields (namespace `custom`)
 
@@ -26,6 +27,8 @@ Colour swatches: the theme uses `value.swatch.color` when present (seed script l
 | `addons` | list.product_reference | accessory upsells as checkboxes on PDP, added in the same `/cart/add.js` call; fallback for variants without `addon_varianten` (see Variant metafields) and the source for cart recommendations |
 | `addon_modus` | single_line_text_field | `per-stuk` (default) or `per-regel`: the theme multiplies `addon_aantallen` by the main quantity, except for `per-regel` products (sold per meter or m², and configurator products), where the add-on quantity is per order line |
 | `past_op` | list.product_reference | compatibility ("Past op: Easy-up Premium 3 x 3 m") |
+| `systeem` | list.single_line_text_field | the tent system(s) a part or accessory belongs to, derived by `build.py` from `past_op` (choices `Easy-up`, `Buizenframe`, `Stretchtent`, `Stertent`, `Opblaasbare tent`). Storefront filter **Past op** on the onderdelen/accessoires collections (`easy-up-onderdelen`, `buizenframe-onderdelen`, `partytent-onderdelen`); seed script enables it as a filterable metafield definition. |
+| `addon_eenmalig` | list.product_reference | add-ons (subset of `addons` / `addon_varianten`) that are added **once per order line**, whatever the main quantity (a transportkar with 4 statafels). The PDP renders their checkbox with `data-addon-follow="false"` and the note `product.addon_once` ("1 per bestelling, los van het aantal"); all other add-ons follow the quantity (`addon_aantallen` × aantal). |
 | `andere_maten` | list.product_reference | the other sizes of a line that is split into one product per size (`easy-up-partytent-premium-3x3`, `-3x4-5`, `-3x6`); set on every product of the line, listing the others (the product itself may be left out). The PDP shows them as pills in the `Maat` option, sorted by size, each linking to the sibling variant with the same `Kleur`/`Uitvoering`; the card lists the sizes. Every sibling has a `Maat` option with its single size value. |
 | `levertijd` | single_line_text_field | overrides the default delivery promise ("Levertijd 2–3 weken") |
 | `verzending` | single_line_text_field | `pakket` (default) or `pallet` → delivery copy + shipping profile |
@@ -108,7 +111,13 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 `opblaasbare-tenten` · `stertenten` · `ster-en-opblaasbare-tenten` (both lines, one menu landing page) · `bedrukte-partytenten` · `partytent-onderdelen` · `zijwanden` ·
 `gewichten-en-verankering` · `tassen-en-wielsets` · `statafels` · `statafelrokken` · `statafelhoezen-met-strik` ·
 `statafelkleden` · `bedrukte-statafelhoezen` · `actiepakketten` · `meubilair` · `verlichting` · `accessoires` ·
-`zakelijk` (smart: tag = zakelijk) · `all`.
+`zakelijk` (smart: tag = zakelijk) · `all` ·
+`easy-up-onderdelen` and `buizenframe-onderdelen` (manual: parts, walls, weights, lighting and heating whose `custom.systeem` holds `Easy-up` resp. `Buizenframe`; both under Accessoires in the main menu) ·
+`verwarming` (smart: product type = Verwarming, own menu entry under Accessoires) · `evenement` (afzetpalen, marktkraam, loper; the marktkraam is no longer in `accessoires`).
+
+Collection image: `build.py` sets the image field in `collections.json` and the preview fixture to the first real render among the
+collection's `image_candidates` (kk_site.py) or, failing that, the hero of its first member with a real render; draft
+cards are never used. The seed script uploads it as the collection image (`collection.image`).
 
 ## Menus (handles)
 

@@ -155,19 +155,20 @@ def build():
         ('partytent-pe-basis-buizenframe', 'Partytent PE Basis met buizenframe', 'pe-basic', 'PE', 'PE 180–200 g/m², waterafstotend', 2.6,
          {'3 x 4 m': (249, 279), '3 x 6 m': (309, 349), '4 x 4 m': (299, 335), '4 x 6 m': (349, 389), '4 x 8 m': (399, 439), '5 x 10 m': (479, 525)},
          'Instap voor een paar keer per jaar: PE-doek, zijwanden met ramen; niet voor lang laten staan.', ['gebruik:tuinfeest']),
-        ('partytent-pvc-500-comfort', 'Partytent PVC 500 Comfort', 'pvc-classic', 'C5', 'PVC 500 g/m², brandvertragend, gelaste naden', 3.5,
+        ('partytent-pvc-500-comfort', 'Partytent PVC 500 Comfort', 'pvc-classic', 'C5', 'PVC 500 g/m², gelaste naden', 3.5,
          {'3 x 4 m': (399, None), '3 x 6 m': (479, 529), '3 x 8 m': (539, None), '4 x 6 m': (509, 559), '4 x 8 m': (589, None), '5 x 8 m': (649, 729),
           '5 x 10 m': (789, None), '5 x 12 m': (899, None), '6 x 6 m': (619, 729), '6 x 8 m': (699, 725), '6 x 10 m': (919, None), '6 x 12 m': (1049, None)},
-         'PVC voor regelmatig gebruik: stevig doek, brandvertragend; kortere evenementen.', ['gebruik:tuinfeest', 'gebruik:evenement']),
-        ('partytent-pvc-550-premium', 'Partytent PVC 550 Premium brandvertragend', 'pvc-premium', 'P55', 'PVC 550 g/m², brandvertragend, gelaste naden, treksterkte 860 N', 3.8,
+         'PVC voor regelmatig gebruik: stevig doek; kortere evenementen.', ['gebruik:tuinfeest', 'gebruik:evenement']),
+        # price rises with the floor area (30 → 32 → 36 → 40 → 48 m²: 749 · 799 · 819 · 849 · 899); Outmate has 5 x 8 and 6 x 8 both at € 949
+        ('partytent-pvc-550-premium', 'Partytent PVC 550 Premium', 'pvc-premium', 'P55', 'PVC 550 g/m², gelaste naden, treksterkte 860 N', 3.8,
          {'3 x 3 m': (399, 439), '3 x 4 m': (459, None), '3 x 6 m': (549, 589), '3 x 8 m': (719, 789), '4 x 4 m': (529, 579), '4 x 6 m': (669, 719),
-          '4 x 8 m': (799, 869), '5 x 6 m': (749, None), '5 x 8 m': (879, 949), '6 x 6 m': (799, 875), '6 x 8 m': (879, 949), '6 x 12 m': (1379, 1499),
+          '4 x 8 m': (799, 869), '5 x 6 m': (749, None), '5 x 8 m': (849, 949), '6 x 6 m': (819, 875), '6 x 8 m': (899, 949), '6 x 12 m': (1379, 1499),
           '8 x 12 m': (1699, 1850)},
          'Het werkpaard: 550 g/m² PVC met grondframe en nokversteviging, ook voor weken laten staan.', ['zakelijk', 'gebruik:evenement']),
-        ('partytent-pvc-550-compleet', 'Partytent PVC 550 compleet met toebehoren', 'pvc-ultimate', 'P55C', 'PVC 550 g/m², brandvertragend', 3.9,
+        ('partytent-pvc-550-compleet', 'Partytent PVC 550 compleet met toebehoren', 'pvc-ultimate', 'P55C', 'PVC 550 g/m², gelaste naden', 3.9,
          {'3 x 4 m': (499, 539), '4 x 4 m': (579, 599), '4 x 6 m': (719, 729), '4 x 8 m': (849, 915), '5 x 10 m': (1099, 1129)},
          'Premium-tent met stormbandenset en opbergtassen erbij: alles in één bestelling.', ['zakelijk', 'gebruik:evenement']),
-        ('partytent-pvc-620-professional', 'Partytent PVC 620 Professional', 'pvc-professional', 'P62', 'PVC 620 g/m², brandvertragend, gelaste naden, treksterkte 930 N', 4.3,
+        ('partytent-pvc-620-professional', 'Partytent PVC 620 Professional', 'pvc-professional', 'P62', 'PVC 620 g/m², gelaste naden, treksterkte 930 N', 4.3,
          {'4 x 6 m': (869, None), '4 x 8 m': (979, 1049), '5 x 10 m': (1199, 1275), '6 x 12 m': (1599, 1725)},
          'Zwaarste PVC met 220 cm zijhoogte voor verhuur en langdurig gebruik.', ['zakelijk', 'gebruik:evenement']),
     ]
@@ -185,7 +186,8 @@ def build():
                {'kenmerk_kort': f'38 mm verzinkt staal · {doek.split(",")[0]}' + (' · zijhoogte 220 cm' if sub == 'pvc-professional' else ''),
                 'specificaties': [sp('Frame', 'Buizen', '38 mm, verzinkt staal, wand 1,2 mm'), sp('Doek', 'Materiaal', doek),
                                   sp('Levering', 'Inbegrepen', incl), sp('Levering', 'Vervoer', 'Vracht op pallet')],
-                'vergelijk_groep': 'partytent-buizenframe', 'verzending': 'pallet', 'staffelkorting': None, 'garantie': '1 jaar op frame en doek'},
+                'vergelijk_groep': 'partytent-buizenframe', 'verzending': 'pallet', 'staffelkorting': ST_GROOT if 'zakelijk' in tags else ST_TENT,
+                'garantie': '1 jaar op frame en doek'},
                [f'partytenten-buizenframe.{sub}'], 'buizenframe', brief, [f'partytent {list(sizes)[0].replace(" m", "").replace(" ", "")}', 'partytent buizenframe', 'partytent pvc'],
                {'outmate': {m: v[1] for m, v in sizes.items()}, 'ours': {m: v[0] for m, v in sizes.items()}}, weight=1)
 
@@ -198,30 +200,41 @@ def build():
            {'kenmerk_kort': 'Vervangend dak · PVC 550 g/m² of PE', 'verzending': 'pakket', 'levertijd': 'Levertijd 1–2 weken', 'past_op': bf_handles},
            ['partytent-onderdelen-accessoires.dakzeilen'], 'buizenframe', 'Vervangend dak voor onze buizenframe-tenten; past gegarandeerd op Klapklaar-frames, op andere merken alleen bij gelijke maatvoering.',
            ['dakzeil partytent 4x8', 'vervangend dak partytent'], {'outmate': '3x4 PVC €189 · 5x10 €469 · 6x12 €599 · 8x12 €559 · PE 4x8 €169', 'ours': {f'{m} {u}': p for m, u, p in BFD}})
-    ZW2 = [('Met raam', 24.95, 'RA'), ('Dicht', 24.95, 'DI'), ('Met raam en ritsen', 39.95, 'RR')]
-    simple('zijwand-partytent-2-m-pvc', 'Zijwand partytent 2 m PVC', 'Zijwand', ['gebruik:evenement'], [opt('Uitvoering', [z[0] for z in ZW2])],
-           [variant(f'KK-ZW-BF-2M-{c}', [n], p, 1800, inv(20, c + 'zw2')) for n, p, c in ZW2],
+    # Maat = breedte x hoogte: 2 x 2 m for the 200 cm side height (PE Basis, PVC 500/550), 2 x 2,2 m for the PVC 620 Professional (220 cm)
+    ZW2 = [('2 x 2 m', 'PVC met raam', 24.95, 'RA', 1800), ('2 x 2 m', 'PVC dicht', 24.95, 'DI', 1800), ('2 x 2 m', 'PVC met raam en ritsen', 39.95, 'RR', 2000),
+           ('2 x 2 m', 'PE met raam', 14.95, 'PE-RA', 900), ('2 x 2 m', 'PE dicht', 13.95, 'PE-DI', 900),
+           ('2 x 2,2 m', 'PVC met raam', 28.95, 'RA-220', 2300), ('2 x 2,2 m', 'PVC dicht', 28.95, 'DI-220', 2300), ('2 x 2,2 m', 'PVC met raam en ritsen', 44.95, 'RR-220', 2500)]
+    ZW2U = ['PVC met raam', 'PVC dicht', 'PVC met raam en ritsen', 'PE met raam', 'PE dicht']
+    simple('zijwand-partytent-2-m-pvc', 'Zijwand partytent buizenframe 2 m (PVC of PE)', 'Zijwand', ['gebruik:evenement'],
+           [opt('Maat', ['2 x 2 m', '2 x 2,2 m']), opt('Uitvoering', ZW2U)],
+           [variant(f'KK-ZW-BF-2M-{c}', [m, n], p, g, inv(20, c + 'zw2')) for m, n, p, c, g in ZW2],
            [img('zijwand-partytent-2-m-pvc-hero.webp', 'hero', 1, 'sideWall', {'length': 2, 'height': 2.0, 'type': 'windows', 'color': 'wit', 'material': 'pvc'}, 'hero', 'Wit', 'needs-model')],
-           {'kenmerk_kort': 'Paneel 2 m · PVC 500 g/m² · 200 cm hoog', 'verzending': 'pakket', 'past_op': bf_handles},
-           ['partytent-onderdelen-accessoires.zijwanden'], 'buizenframe', 'Los paneel om een buizenframe-tent aan te vullen of te vervangen; ook bruikbaar voor een veranda.',
-           ['zijwand partytent 2 meter', 'zijwand pvc raam'], {'outmate': '2 m raam €24–€29 · ritsen €45–€49', 'ours': {z[0]: z[1] for z in ZW2}})
+           {'kenmerk_kort': 'Paneel 2 m · 200 of 220 cm hoog · PVC of PE', 'verzending': 'pakket', 'past_op': bf_handles,
+            'specificaties': [sp('Wand', 'Breedte', '2 m (één vak tussen twee staanders)'), sp('Wand', 'Hoogte', '200 cm (2 x 2 m) of 220 cm (2 x 2,2 m, PVC 620 Professional)'),
+                              sp('Wand', 'PVC', 'PVC 500 g/m² (200 cm) of 620 g/m² (220 cm), gelaste naden'), sp('Wand', 'PE', 'PE 180 g/m², voor de PE Basis')]},
+           ['partytent-onderdelen-accessoires.zijwanden'], 'buizenframe', 'Los paneel om een buizenframe-tent aan te vullen of te vervangen: 200 cm hoog in PVC of PE, 220 cm hoog voor de PVC 620 Professional.',
+           ['zijwand partytent 2 meter', 'zijwand pvc raam', 'zijwand partytent 220 cm'],
+           {'outmate': '2 m raam €24–€29 · ritsen €45–€49 · Professional 2,2 m hoog €29 / met ritsen €49', 'ours': {f'{m} {n}': p for m, n, p, c, g in ZW2}})
     ET = {'3 m': 44.95, '4 m': 54.95, '5 m': 64.95, '6 m': 74.95, '8 m': 94.95}
+    ETU = ['Eindwand', 'Tussenwand', 'Eindwand, zijhoogte 220 cm', 'Tussenwand, zijhoogte 220 cm']
+    ET220 = ['4 m', '5 m', '6 m']   # the widths of the PVC 620 Professional (220 cm side height, higher gable)
     simple('eindwand-en-tussenwand-partytent', 'Eindwand en tussenwand partytent met ritsen', 'Zijwand', ['gebruik:evenement'],
-           [opt('Maat', list(ET)), opt('Uitvoering', ['Eindwand', 'Tussenwand'])],
-           [variant(f'KK-ZW-BF-{"EW" if u == "Eindwand" else "TW"}-{code(m)}', [m, u], p + (0 if u == 'Eindwand' else 5), 2500 + 600 * i, inv(4, m + u))
-            for i, (m, p) in enumerate(ET.items()) for u in ['Eindwand', 'Tussenwand']],
+           [opt('Maat', list(ET)), opt('Uitvoering', ETU)],
+           [variant(f'KK-ZW-BF-{"EW" if u.startswith("Eindwand") else "TW"}-{code(m)}' + ('-220' if '220' in u else ''), [m, u],
+                    p + (0 if u.startswith('Eindwand') else 5) + (10 if '220' in u else 0), 2500 + 600 * i + (300 if '220' in u else 0), inv(4, m + u))
+            for i, (m, p) in enumerate(ET.items()) for u in ETU if '220' not in u or m in ET220],
            [img('eindwand-en-tussenwand-partytent-hero.webp', 'hero', 1, 'sideWall', {'length': 4, 'height': 2.0, 'gable': True, 'type': 'door', 'color': 'wit', 'material': 'pvc'}, 'hero', 'Wit', 'needs-model')],
-           {'kenmerk_kort': 'Kopse wand met ritsen · tot de nok · PVC', 'verzending': 'pakket', 'past_op': bf_handles},
+           {'kenmerk_kort': 'Kopse wand met ritsen · tot de nok · PVC · 200 of 220 cm', 'verzending': 'pakket', 'past_op': bf_handles},
            ['partytent-onderdelen-accessoires.eindwanden', 'partytent-onderdelen-accessoires.tussenwanden'], 'buizenframe',
            'Eindwand (kopse kant tot in de nok) of tussenwand om de tent in twee ruimtes te delen; maat = tentbreedte.',
-           ['eindwand partytent', 'tussenwand partytent'], {'outmate': 'eindwand 3 m vanaf €49', 'ours': ET})
+           ['eindwand partytent', 'tussenwand partytent'], {'outmate': 'eindwand 3 m vanaf €49', 'ours': ET, 'zijhoogte_220': '+ € 10 (4, 5 en 6 m)'})
     KB = [('Koppelstuk 2-weg (20 cm)', 6.95, 'K2', 300), ('Koppelstuk 3-weg 140°', 8.95, 'K3', 400), ('Koppelstuk 4-weg 120°', 10.95, 'K4', 500),
           ('Koppelstuk 3-weg grondframe', 8.95, 'K3G', 400), ('Buis 159 cm', 8.49, 'B159', 1900), ('Buis 192 cm', 8.95, 'B192', 2300),
           ('Staander 212 cm', 11.95, 'S212', 2600), ('Buis 216 cm', 11.95, 'B216', 2600)]
     simple('koppelstukken-en-buizen-38-mm', 'Koppelstukken en buizen 38 mm', 'Frame-onderdeel', ['zakelijk'], [opt('Uitvoering', [k[0] for k in KB])],
            [variant(f'KK-FRM-BF-{c}', [n], p, g, inv(25, c)) for n, p, c, g in KB],
            [img('koppelstukken-en-buizen-38-mm-hero.webp', 'hero', 1, 'tubeFittings', {'parts': ['2-weg', '3-weg', '4-weg', 'buis']}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': '38 mm verzinkt staal · gelaste moeren', 'verzending': 'pakket', 'past_op': bf_handles,
+           {'kenmerk_kort': '38 mm verzinkt staal · gelaste moeren', 'verzending': 'pakket', 'past_op': bf_handles, 'staffelkorting': ST_TEXTIEL,
             'specificaties': [sp('Koppelstuk', 'Maten', 'Buiten 42 mm, binnen 38 mm, wand 1,4 mm'), sp('Buis', 'Materiaal', 'Verzinkt staal 38 mm, wand 1,2 mm')]},
            ['partytent-onderdelen-accessoires.koppelstukken', 'partytent-onderdelen-accessoires.buizen'], 'buizenframe',
            'Losse koppelstukken en buizen voor 38 mm buizenframes; hoe je het juiste onderdeel herkent (hoek, aantal aansluitingen, lengte).',
@@ -246,6 +259,7 @@ def build():
            [img('opslagtent-pvc-hero.webp', 'hero', 1, 'frameTent', {'w': 4, 'd': 6, 'line': 'pvc', 'color': 'wit', 'variant': 'opslag', 'door': 'rolled'}, 'hero', 'Wit', 'needs-model'),
             img('opslagtent-pvc-front.webp', 'front', 3, 'frameTent', {'w': 4, 'd': 6, 'line': 'pvc', 'color': 'wit', 'variant': 'opslag', 'door': 'open'}, 'front', 'Wit', 'needs-model')],
            {'kenmerk_kort': '38 mm verzinkt staal · PVC 500, 550 of 620 g/m² · roldeur', 'verzending': 'pallet', 'garantie': '1 jaar op frame en doek',
+            'staffelkorting': ST_GROOT,
             'specificaties': [sp('Doek', 'PVC 500', 'Kort gebruik (seizoen, evenement)'), sp('Doek', 'PVC 550', 'Langer gebruik, bv. tijdens een verbouwing'),
                               sp('Doek', 'PVC 620 Professional', 'Langdurig, zwaarste doek')]},
            ['opslagtenten.opslag-lines', 'opslagtenten.opslag-pvc-classic', 'opslagtenten.opslag-pvc-premium', 'opslagtenten.opslag-pvc-professional'], 'opslag',
@@ -262,3 +276,4 @@ def build():
     HANDLES['stormbandenset-partytent']['metafields']['past_op'] = bf_handles + ['opslagtent-pvc']
     HANDLES['opbergtassenset-partytent']['metafields']['past_op'] = bf_handles + ['opslagtent-pvc']
     HANDLES['stormbandenset-partytent'].pop('past_op_note', None)
+    HANDLES['regengoot-partytent']['metafields']['past_op'] = EU + bf_handles + ['opslagtent-pvc']

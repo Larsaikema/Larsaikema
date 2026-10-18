@@ -671,7 +671,116 @@
      "admin_type": "COLLECTION",
      "items": [
       {
-       "title": "Partytent-onderdelen",
+       "title": "Voor easy-up",
+       "type": "collection",
+       "url": "/collections/easy-up-onderdelen",
+       "handle": "easy-up-onderdelen",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Zijwanden en sets",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Zijwand&filter.p.product_type=Zijwandenset",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Dakzeilen",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Dakzeil",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Gewichten en verankering",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Verzwaring&filter.p.product_type=Verankering",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Tassen en wielsets",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Tas+%26+wielset",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Regengoten en koppelingen",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Regengoot+%26+koppeling",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Frame-onderdelen",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Frame-onderdeel",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "Licht en warmte",
+         "type": "http",
+         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Tentverlichting&filter.p.product_type=Verwarming",
+         "admin_type": "HTTP"
+        }
+       ]
+      },
+      {
+       "title": "Voor buizenframe-tenten",
+       "type": "collection",
+       "url": "/collections/buizenframe-onderdelen",
+       "handle": "buizenframe-onderdelen",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Zijwand 2 m (200 of 220 cm)",
+         "type": "product",
+         "url": "/products/zijwand-partytent-2-m-pvc",
+         "handle": "zijwand-partytent-2-m-pvc",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Eind- en tussenwand",
+         "type": "product",
+         "url": "/products/eindwand-en-tussenwand-partytent",
+         "handle": "eindwand-en-tussenwand-partytent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Dakzeil",
+         "type": "product",
+         "url": "/products/dakzeil-partytent-buizenframe",
+         "handle": "dakzeil-partytent-buizenframe",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Koppelstukken en buizen",
+         "type": "product",
+         "url": "/products/koppelstukken-en-buizen-38-mm",
+         "handle": "koppelstukken-en-buizen-38-mm",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Stormbandenset",
+         "type": "product",
+         "url": "/products/stormbandenset-partytent",
+         "handle": "stormbandenset-partytent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Opbergtassenset",
+         "type": "product",
+         "url": "/products/opbergtassenset-partytent",
+         "handle": "opbergtassenset-partytent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Regengoot",
+         "type": "product",
+         "url": "/products/regengoot-partytent",
+         "handle": "regengoot-partytent",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
+       "title": "Alle onderdelen",
        "type": "collection",
        "url": "/collections/partytent-onderdelen",
        "handle": "partytent-onderdelen",
@@ -697,32 +806,15 @@
          "url": "/collections/tassen-en-wielsets",
          "handle": "tassen-en-wielsets",
          "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Dakzeilen",
-         "type": "http",
-         "url": "/collections/partytent-onderdelen?filter.p.product_type=Dakzeil",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Regengoten en koppelingen",
-         "type": "http",
-         "url": "/collections/partytent-onderdelen?filter.p.product_type=Regengoot+%26+koppeling",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Frame-onderdelen",
-         "type": "http",
-         "url": "/collections/partytent-onderdelen?filter.p.product_type=Frame-onderdeel",
-         "admin_type": "HTTP"
         }
        ]
       },
       {
        "title": "Verwarming",
-       "type": "http",
-       "url": "/collections/accessoires?filter.p.product_type=Verwarming",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/verwarming",
+       "handle": "verwarming",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Elektrische heater",
@@ -751,34 +843,12 @@
          "url": "/products/flameheater-gas-9-kw",
          "handle": "flameheater-gas-9-kw",
          "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Evenement",
-       "type": "http",
-       "url": "/collections/accessoires?filter.p.product_type=Afzetpaal&filter.p.product_type=Marktkraam&filter.p.product_type=Loper",
-       "admin_type": "HTTP",
-       "items": [
-        {
-         "title": "Afzetpalen",
-         "type": "product",
-         "url": "/products/afzetpaal-met-trekband",
-         "handle": "afzetpaal-met-trekband",
-         "admin_type": "PRODUCT"
         },
         {
-         "title": "Marktkraam",
+         "title": "Reservebrander",
          "type": "product",
-         "url": "/products/marktkraam-2-m",
-         "handle": "marktkraam-2-m",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Loper",
-         "type": "product",
-         "url": "/products/loper-per-meter",
-         "handle": "loper-per-meter",
+         "url": "/products/infraroodbrander-elektrische-heater",
+         "handle": "infraroodbrander-elektrische-heater",
          "admin_type": "PRODUCT"
         }
        ]
@@ -868,6 +938,13 @@
          "url": "/products/barkruk-draad-stapelbaar",
          "handle": "barkruk-draad-stapelbaar",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Barkruk chroom",
+         "type": "product",
+         "url": "/products/barkruk-chroom-stapelbaar",
+         "handle": "barkruk-chroom-stapelbaar",
+         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -949,6 +1026,43 @@
          "admin_type": "PRODUCT"
         }
        ]
+      },
+      {
+       "title": "Evenement en markt",
+       "type": "collection",
+       "url": "/collections/evenement",
+       "handle": "evenement",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Afzetpalen",
+         "type": "product",
+         "url": "/products/afzetpaal-met-trekband",
+         "handle": "afzetpaal-met-trekband",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Afzetpaal met logo",
+         "type": "product",
+         "url": "/products/afzetpaal-met-logo",
+         "handle": "afzetpaal-met-logo",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Marktkraam",
+         "type": "product",
+         "url": "/products/marktkraam-2-m",
+         "handle": "marktkraam-2-m",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Loper",
+         "type": "product",
+         "url": "/products/loper-per-meter",
+         "handle": "loper-per-meter",
+         "admin_type": "PRODUCT"
+        }
+       ]
       }
      ]
     },
@@ -1020,6 +1134,13 @@
          "type": "product",
          "url": "/products/led-vloedlicht-easy-up",
          "handle": "led-vloedlicht-easy-up",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "LED voor opblaasbare tent",
+         "type": "product",
+         "url": "/products/led-verlichting-opblaasbare-tent",
+         "handle": "led-verlichting-opblaasbare-tent",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1246,6 +1367,13 @@
      "type": "collection",
      "url": "/collections/accessoires",
      "handle": "accessoires",
+     "admin_type": "COLLECTION"
+    },
+    {
+     "title": "Evenement en markt",
+     "type": "collection",
+     "url": "/collections/evenement",
+     "handle": "evenement",
      "admin_type": "COLLECTION"
     },
     {

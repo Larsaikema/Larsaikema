@@ -11,6 +11,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import { rng } from '../js/rng.js';
 import { statafel, statafelDims } from './statafel.js';
+import { resolvePrint, artTexture, decalMaterial } from '../js/printDecal.js';
 
 const { V3, lerp, clamp, smoothstep } = G;
 const TAU = Math.PI * 2;
@@ -178,6 +179,43 @@ function buildStretch(group, S, p, color) {
   const uv = lower.attributes.uv;
   for (let j = 0; j <= nV; j++) for (let k = 0; k <= nT; k++) uv.setXY(j * (nT + 1) + k, (k / nT) * TAU * 0.2, (j / nV) * 0.75);
   group.add(G.mesh(lower, mat));
+  // optional one-colour print (logo) on the flat part of a panel, between two feet:
+  // print {svg|name, color, width (m), y (centre height, m), azimuth (deg) | 'panel-mid'}
+  if (p.print) {
+    const art = resolvePrint(p.print);
+    if (art) {
+      const radiusAt = (th, y) => {
+        let dlt = th - S.footAngle;
+        dlt = ((dlt % sector) + sector) % sector; if (dlt > sector / 2) dlt -= sector;
+        const m = clamp(sabs(dlt, 0.045) / (sector / 2));
+        const psi = sector / 2 - Math.min(sector / 2, sabs(dlt, 0.045));
+        const rHem = (Rtip * Math.cos(sector / 2)) / Math.cos(psi) - 0.022 * m * m;
+        const yHem = 0.004 + lift * (1 - Math.cos(Math.PI * m)) / 2;
+        const t = clamp((yW - y) / (yW - yHem));
+        return rW + (rHem - rW) * g(t) - 0.016 * Math.sin(Math.PI * Math.min(1, t * 1.15)) * Math.pow(m, 1.3);
+      };
+      const wP = Number(p.print.width ?? 0.15), hP = wP * art.vb[1] / art.vb[0];
+      const yc = Number(p.print.y ?? 0.3);
+      let thC = typeof p.print.azimuth === 'number' ? p.print.azimuth * DEG : null;
+      if (thC === null) { // the panel middle nearest the hero camera (34 deg)
+        let best = 9;
+        for (let k = 0; k < n; k++) {
+          const mth = S.footAngle + sector / 2 + k * sector, d = Math.abs(Math.atan2(Math.sin(mth - 34 * DEG), Math.cos(mth - 34 * DEG)));
+          if (d < best) { best = d; thC = mth; }
+        }
+      }
+      const tex = artTexture(art, M.resolveColor(p.print.color, '#FFFFFF'), 512, Math.max(16, Math.round(512 * hP / wP)));
+      const decal = G.surface((u, v, out) => {
+        const y = yc - hP / 2 + v * hP;
+        let th = thC;
+        for (let it = 0; it < 3; it++) th = thC + ((u - 0.5) * wP) / Math.max(0.04, radiusAt(th, y));
+        const r = radiusAt(th, y) + 0.0025;
+        out.set(Math.sin(th) * r, y, Math.cos(th) * r);
+      }, 32, 32);
+      decal.computeVertexNormals();
+      group.add(G.mesh(decal, decalMaterial(tex), { cast: false }));
+    }
+  }
   // hem: rolled edge following the free border
   const hem = G.surface((u, v, out) => {
     const th = u * TAU;

@@ -87,10 +87,14 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
 - `w`, `d` (m): 3×3, 3×4.5, 3×6, 4×4, 4×6, 4×8 … De lange zijde komt automatisch naar voren (`"orient":"keep"` om dat uit te zetten).
   Zijden > 4 m krijgen een tussenpoot (3×4.5/3×6/4×6/4×8 = 6 poten) en per vak een eigen piek, maar
   het dak blijft **één doek** met een zachte, doorhangende kil boven de middenschaar.
-- `legs`: `premium` (zeskant 40 → 34 mm, nylon hoekstukken, dakrand 2,10 m, schaar 50 cm diep) of
-  `professional` (zeskant 50 → 44 mm, aluminium hoekstukken, zwaardere profielen, 2,14 m, schaar 56 cm).
+- `legs`: `premium` (zeskant 40 → 34 mm zwart gepoedercoat staal, zwarte nylon hoekstukken, dakrand 2,10 m, schaar 58 cm diep) of
+  `professional` (zeskant 50 → 44 mm aluminium, aluminium hoekstukken, zwaardere profielen, 2,14 m, schaar 60 cm). De schaardiepte is zo gekozen dat
+  elk kruis mét scharnierbout ~9 cm onder de valancezoom zichtbaar is: elke zijde leest als X-schaar, niet als zigzag.
+  `frameFinish`: `powder` (zwart staal) of `alu`; standaard volgt het de lijn.
 - `color`: kleurnaam of `#hex` (dak, valance, wanden). `wallColor` voor afwijkende wanden. Wit doek wordt
-  op ~80 % albedo gezet (PVC), zwart op ~6,7 % met glans, zodat beide op een lichte achtergrond tekening houden.
+  op ~85 % albedo gezet (PVC, leest als wit en niet als lichtgrijs), zwart op ~4–5 % met één zachte glans, zodat beide op een lichte achtergrond tekening houden.
+  Wit wordt belicht als gefotografeerd wit PVC: het belichte dakvlak komt op **~245–250 sRGB** (lichter dan
+  de #EFEDE8-achtergrond, dus het silhouet komt los), het afgewende vlak op ~195–215.
 - `walls`: per zijde (`front`, `back`, `left`, `right`) één type, of een lijst per vak van 3/4 m
   (`"back":["window","door"]`). Alle indelingen staan gecentreerd in hun vak:
 
@@ -99,7 +103,7 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   | `closed` | dichte wand |
   | `window` | één rechthoekig PVC-raam (max 1,5 m breed, 0,86–1,56 m hoog) met gestikte doekrand |
   | `windows` (`church`) | twee kerkraampjes met roede en marges van ≥ 0,5 m tot de poten |
-  | `door` | deuropening van ~1 m met gestikte deurrand (4 cm band, dubbel stiksel), verticale rits in het midden (twee geweven tapes, ~520 in elkaar grijpende gegoten tanden per kant op 3,4 mm steek, schuiver als wig met brug, trekker met gat en trekkoord), stormflap van 5 cm links van de rits waarvan de vrije, omgezoomde rand 1,3 cm van de wand staat (werpt een schaduwlijn op de rits), verstevigingsdriehoek, twee oprolbanden van echte singelband (dikte, afgeronde zelfkant, randstiksel, boxstiksel bovenaan) met kliksluiting (female huis met ribbel en drukknoppen opzij, male tong met sleuf) |
+  | `door` | deuropening van ~1 m met gestikte deurrand (platte 4 cm band van 0,7 mm met scherpe randen, dubbel stiksel), verticale rits in het midden (twee geweven tapes, ~520 in elkaar grijpende gegoten tanden per kant op 3,4 mm steek, schuiver als wig met brug, trekker met gat en trekkoord), stormflap: een platte band van 5 cm links van de rits met een omgevouwen rand van 2 mm, die maar ~3 mm van de rits staat (fijne schaduwlijn op de tanden), verstevigingsdriehoek, twee oprolbanden van echte singelband (dikte, afgeronde zelfkant, randstiksel, boxstiksel bovenaan) met kliksluiting (female huis met ribbel en drukknoppen opzij, male tong met sleuf) |
   | `door-open` | deur open: opening tot 1,96 m, opgerolde deur met twee lussen erboven |
   | `panorama` | breed PVC-raam over bijna het hele vak |
   | `rolled` | hele wand opgerold onder de valance (met drie banden) |
@@ -113,8 +117,15 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   klittenbandlipje bovenaan ~0,8 m naar beneden uitlopen, een buik van ~3 cm tussen de poten. Panelen eindigen
   op de poothartlijn: op een hoek blijft een smalle sleuf waarin de poot en de **velcrobanden** zichtbaar
   zijn — van elke wandrand loopt op drie hoogtes een band van 5 cm in een lus om de poot. PVC-ramen:
-  gestikte doekrand, ~70 % doorlaat met een lichte melkwaas, glanzend en licht golvend zodat de softbox er
-  als onregelmatige streep in spiegelt.
+  gestikte doekrand, helder folie met een vleugje rookwaas (~58 % doorkijk), glanzend en licht golvend zodat
+  de lage studiokaarten er als zachte streep in spiegelen.
+
+  **Binnenkant (≥ 3 hangende wanden):** de rig krijgt `interior` (zie Rig): naar binnen gerichte vlakken
+  (binnenkant wanden, onderkant dak, binnenkant valance) houden alleen het licht dat de schaduwmappen al
+  afschermen (key, koepel); fill/rim/bounce en de omgevingsbelichting gaan naar 10 %, en de vloer binnen de
+  footprint gaat naar 22 % (4 wanden: 12 %). Ramen lezen daardoor donker met een reflectie, nooit als
+  matglas. Voor een productfoto "met zijwanden" zet je alle vier de zijden (de achterkant die de camera niet
+  ziet `closed`), anders kijk je door de ramen naar buiten via de open zijde.
 
   **Hoofdbeeld met wanden:** de hero-camera ziet twee aangrenzende zijden van buiten (34° = voor+rechts,
   −34° = voor+links, 146° = achter+rechts, −146° = achter+links). De bouwer kiest het paar met de meest
@@ -146,19 +157,32 @@ de spanning van hoekzak naar top en zakken maar ~4 cm door, zodat de **silhouett
 buigen**; de spanten buigen ~2 cm. Vier zachte spanningsruggen (0,9–1,4 cm, met ondiepe dalen ernaast)
 waaieren vanuit elke hoekzak rond de graatrichting uit, drie per vlak vanuit de topkap. Getapete en dubbel
 gestikte graat- en middennaden (die stoppen waar de dakrandvouw begint), versterkingslappen op de hoeken en
-de top. **Dakrand:** het dakdoek slaat in één ronde vouw (radius 1,2 cm, verticaal aan de rand) om de
-schaar heen en loopt door als valance; één stiksel 8 mm onder de vouw, geen bies. Tussen twee vakken
+de top (afgeronde driehoek op de hoeken, cirkel op de top, beide met een gelijkmatig dubbel stiksel op 6 en
+12 mm van de rand; onder de stijve dubbele laag lopen de spanningsruggen uit, zodat de randen recht blijven).
+Rond de topkap is het doek strak: de holval van de panelen loopt binnen ~35 cm van de kap naar nul (geen
+"hoorntjes" van de spantruggen naast de kap). **Dakrand:** het dak wordt over de laatste ~6 cm strak over de
+schaar getrokken (lichte bolle schouder) en slaat dan in een **scherpe vouw van 4 mm** om naar de valance;
+één stiksel 7 mm onder de vouw, geen bies, geen worst. Tussen twee vakken
 (3×6, 4×8) wordt de zachte kil naar de dakrand toe scherper, zodat de dakrand recht blijft.
-Doek: PVC-gecoat polyester zonder clearcoat (die gaf plasvormige softbox-reflecties): ruwheid 0,58–0,66,
-één brede zachte glans (`envSpec` 0,3–0,38: het doek spiegelt de studio maar voor ~⅓), vezelglans in de
-kleur van het doek, en een **isotrope platbinding** als normalmap (draad 1 mm, herhaling 2 mm, lage
-reliëfhoogte onder de coating, onregelmatigheid per kruising in 2D, geen 1D-garenstrepen — die lazen als
-geborsteld metaal). Alle doek-uv's zijn in meters óp het oppervlak gemeten (dakvlakken per vlak langs de
-helling, wanden/zomen/banden langs en dwars), dus het weefsel rekt nergens uit. Wit doek: albedo 85 %.
-Valance: één doorlopende rok rond een afgeronde rechthoek (hoekradius 2,6 cm bovenaan tot 5,8 cm bij de
-zoom, zachte hoeknaad), bovenaan exact aan de dakrandvouw genaaid, lichte uitwaaiering, buik van ~1 cm
-naar de zoom toe, zachte valgolven, een **festoen van 3–6 mm** in de zoom tussen de bevestigingspunten
-(poten en bovenste schaarknooppunten, ~1 m uit elkaar), en een omgeslagen zoom met stiksel op 2 cm.
+Doek: `M.pvcCloth(color)` (PVC-gecoat polyester; ook `M.pvcPatch` voor dubbele lagen en `M.pvcThread`):
+geen clearcoat (die gaf plasvormige softbox-reflecties), ruwheid 0,5–0,62, één brede zachte glans
+(`envSpec`; zwart 0,62 zodat zwart doek één zachte glansgradiënt per vlak/wand krijgt), vezelglans in de kleur
+van het doek, een **isotrope platbinding** als normalmap (draad 1 mm, herhaling 2 mm) en een **macrolaag**
+(garenspanning, verdikkingen, coating-golving). De engine (`weave`) bepaalt per pixel hoeveel
+weefselherhalingen erop vallen: dichtbij (detail, ~0,5–1 mm/px) wordt het reliëf versterkt en varieert de
+glans van de coating over garenkoppen en flanken; is het weefsel onoplosbaar klein, dan wordt de normalmap
+vlak en wordt de glanslob iets matter (geen moiré, geen stippenraster). Licht doek laat licht door
+(`translucency` 0,62 bij wit): de onderkant van een wit dak is lichtgrijs-wit, met het frame en de
+naden/lappen (dubbele laag) donkerder ertegen. Alle doek-uv's zijn in meters óp het oppervlak gemeten,
+dus het weefsel rekt nergens uit. Wit doek: albedo 85 %. Stiksels: toon-op-toon garen (op wit gelijk aan
+het doek, op zwart een fractie lichter) dat leest door reliëf: elke steek duikt aan beide uiteinden het doek
+in (naaldgaten donkerder via vertexkleur), steeklengte ±8 %, lijn slingert ~0,15 mm.
+Valance: dunne rok van vier rechte panelen met **genaaide hoeknaden** (hoek 9 mm, geen afgeronde doos), die
+bij de zoom licht uitschoppen; bovenaan strak aan de dakrandvouw genaaid, lichte uitwaaiering, buik van ~1 cm,
+zachte onregelmatige **verticale valplooien** (golflengtes ~20–70 cm, groeien naar de zoom), een **festoen van
+3–6 mm** in de zoom tussen de bevestigingspunten (poten en bovenste schaarknooppunten, ~1 m uit elkaar), en
+een omgeslagen zoom van 2 cm waarvan van buiten alleen de echte ~2 mm dikke rand zichtbaar is + één stiksel
+op 17 mm (geen grijze "dienbladrand").
 
 **Standaardbeelden per tent:** `hero` + `detail`. Het detail is een close-up van de hoek die het dichtst
 bij de hero-camera staat (hoekstuk, schuif, schaar met bouten, valancezoom, doekstructuur) van net onder
@@ -300,6 +324,15 @@ gelijkgekleurde productkaart staan.
   kant): de afgewende dakvlakken van een wit doek blijven duidelijk donkerder dan het belichte vlak.
 - `envRotation` — draait de reflectie-omgeving (graden, t.o.v. de camera); voor donker doek zo gekozen dat
   het belichte dakvlak de lichte kant van de ruimte spiegelt.
+- `interior` — `{ box: [cx, cz, hx, hz], top, k, floor, feather }`: een omsloten ruimte (tent met ≥ 3
+  hangende wanden). Materialen met `userData.interior` (al het tentdoek, garen en vensterfolie) bepalen per
+  fragment of ze binnen de box liggen én naar binnen kijken (binnenkant wand, onderkant dak); daar worden de
+  niet-schaduwwerpende lichten (fill, rim, bounce) en de omgevingsbelichting met `k` vermenigvuldigd. De
+  vloer binnen de footprint gaat × `floor` (zachte rand van `feather` m). Zonder `interior` verandert er niets.
+- Materiaal-`userData` die de engine begrijpt: `envSpec` (sterkte van de omgevingsreflectie),
+  `translucency` (doorschijnend doek), `macro` (tweede normaallaag), `weave` (`{repeats, boost, roughVar,
+  matte}`: afstandsafhankelijk weefselreliëf + glansvariatie), `stochasticAlpha` (doorkijkfolie),
+  `interior` (zie boven).
 
 **Tentbelichting** (voorgesteld door `easyUpTent`, `tentRig()` in het model): studio-omgeving (`env:
 "studio"`); sleutel als softbox-spot op 1,78× de halve productdiagonaal van links-voor (−72° t.o.v. de
@@ -313,10 +346,20 @@ naar de sleutelkant gekanteld (25°), vloerschaduw van bijna recht boven (`floor
 Wit doek: `neutral` met `shoulder` 0,88 en belichting 0,52; zwart een sterkere key; overige kleuren
 `auto`. Vloer: `groundSplit` met `shadowFloor` 0,6, een strakke contactschaduw (`h0` 3 cm) en een brede
 contacthalo (`wide`: `h0` 5 cm, σ 2,8 cm, sterkte 0,42); met wanden is de hemelocclusie sterker (0,5).
-`front` krijgt een eigen scherende key van links (−50°, 30°) die het vlak op de spantnaad splitst;
-`detail` een richtingslicht (bij een deur scherend van opzij).
+`front` krijgt een eigen scherende key van links (−50°, 30°) die het vlak op de spantnaad splitst, zonder
+vulling en met de hemelkap naar links gekanteld (de schaduwkant blijft los van de achtergrond); `detail`
+een richtingslicht met een lichtere vulling (3,5), bij een deur scherend van opzij.
 
-Gemeten op de 2000 px-samples (sRGB-luminantie, achtergrond #EFEDE8 = 237): zie de tabel onder.
+Gemeten (sRGB-luminantie; achtergrond #EFEDE8 = 237):
+
+| beeld | meting |
+|---|---|
+| `tent-3x3-wit-hero` | belicht vlak tot 246 (holte 221 → 246 van graat naar spant), rechterhelft voorvlak 227–236, afgewend vlak 204–221; silhouet links ≥ 15 niveaus onder de achtergrond (mediaan 218), rechts ≥ 23 (mediaan 208) |
+| dak-close-up 34°/35° | elk half paneel een gradiënt: voorvlak 219 → 245, afgewend vlak 188 → 205 en 193 → 218 |
+| `tent-3x3-wit-front` | linkerhelft 243–249, rechterhelft 207 → 228 (holte); silhouet links +6…12, rechts −9…−14 |
+| `tent-3x6-zwart-zijwanden-hero` | dak 50–82 (één zachte glans, geen spiegelplassen), vloer direct langs de wandzoom 135–148, ~200 op ~25 cm, 218 op ~65 cm |
+| voetplaat / gewichten (close-up) | plaatrand 170 → 229 over 3,4 cm; onder de gewichtenstapel 108 → 226 over 3,3 cm |
+
 
 `keyShadow` (aandeel van de softbox in het vloerlicht) wordt standaard uit de lichtsterktes berekend.
 **Belichting `auto`:** zoals een fotograaf per product belicht, wordt de belichting afgeleid uit de

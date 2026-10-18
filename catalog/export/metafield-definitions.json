@@ -357,6 +357,37 @@
    "pin": true
   },
   {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "systeem",
+   "name": "Systeem",
+   "type": "list.single_line_text_field",
+   "description": "Tentsysteem dat het product is of waarop het past (filter \"Past op\")",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "validations": [
+    {
+     "name": "choices",
+     "value": "[\"Easy-up\", \"Buizenframe\", \"Stretchtent\", \"Stertent\", \"Opblaasbare tent\"]"
+    }
+   ],
+   "use_as_filter": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "addon_eenmalig",
+   "name": "Add-ons eenmalig",
+   "type": "list.product_reference",
+   "description": "Add-ons die één keer per orderregel meegaan, niet × het aantal (transportkar)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
    "owner_type": "PRODUCTVARIANT",
    "namespace": "custom",
    "key": "componenten",

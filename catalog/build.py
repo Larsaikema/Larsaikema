@@ -35,6 +35,7 @@ import argparse
 import copy
 import csv
 import glob
+import hashlib
 import io
 import json
 import re
@@ -94,6 +95,8 @@ PRODUCT_MF = [
     ('component_aantallen', 'list.number_integer', 'Component-aantallen', 'Aantal per component, zelfde volgorde'),
     # contract extension (skeleton.contract_extensions)
     ('andere_maten', 'list.product_reference', 'Andere maten', 'Zustermaten (één product per maat), maatwisselaar'),
+    ('systeem', 'list.single_line_text_field', 'Systeem', 'Tentsysteem dat het product is of waarop het past (filter "Past op")'),
+    ('addon_eenmalig', 'list.product_reference', 'Add-ons eenmalig', 'Add-ons die één keer per orderregel meegaan, niet × het aantal (transportkar)'),
 ]
 VARIANT_MF = [
     ('componenten', 'list.variant_reference', 'Componenten', 'Pakketinhoud: de exacte componentvarianten'),
@@ -116,8 +119,9 @@ CHOICES = {
     'verzending': ['pakket', 'pallet'],
     'addon_modus': ['per-stuk', 'per-regel'],
     'availability_status': ['binnenkort', 'pre-order', 'permanent-uitverkocht'],
+    'systeem': ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent', 'Opblaasbare tent'],
 }
-FILTERABLE = {'bedrukbaar'}
+FILTERABLE = {'bedrukbaar', 'systeem'}
 
 # CSV metafield columns: every non-reference product definition
 # (componenten / component_aantallen are set per bundle variant, so they are not product columns either)
@@ -141,10 +145,8 @@ PAST_OP_REMOVE = {
     'zijwandenset-easy-up-heavy-duty-pvc': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
                                             'G2: no 2x2/5x5 heavy duty PVC set'),
     'zijwandenset-easy-up': (['easy-up-partytent-professional-2x2'], 'G2: the set has no 2 x 2 m option'),
-    'halve-zijwand-easy-up': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
-                              'G2: no 2 m / 5 m half wall'),
-    'zijwand-partytent-2-m-pvc': (['partytent-pvc-620-professional'], 'G2: PVC 620 side height 220 cm vs 200 cm panels'),
-    'eindwand-en-tussenwand-partytent': (['partytent-pvc-620-professional'], 'G2: PVC 620 side height 220 cm vs 200 cm panels'),
+    'halve-zijwand-easy-up': (['easy-up-partytent-professional-2x2'], 'G2: no 2 m half wall (5 m and 8 m exist since the merchandising review)'),
+    # zijwand-partytent-2-m-pvc / eindwand-en-tussenwand-partytent: the PVC 620 Professional is back in past_op, both now have a 220 cm version
     'bedrukte-zijwand-easy-up': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
                                  'G5: no 2 m / 5 m printed wall'),
     'bedrukt-dakzeil-easy-up': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
@@ -171,6 +173,65 @@ NOT_PRINTABLE = {
 DOWNLOAD_KINDS = ('opbouwhandleiding', 'productblad')
 
 CLAIM_COMMENT = re.compile(r'<!--\s*claim:(.*?)-->', re.S)
+
+# Draft placeholders ("VOORBEELD · render volgt" cards from catalog/tools/draft_images.py) are listed in catalog/images/.drafts.json
+# with the sha256 of the card. A file is a draft only while its bytes still match that hash, so a real render that overwrites
+# the card is picked up automatically. Drafts are never exported: not as Image Src, not as Variant Image, not in the fixture.
+DRAFTS_FILE = IMAGES / '.drafts.json'
+_DRAFTS: dict | None = None
+
+
+def file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, 'rb') as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def draft_registry() -> dict:
+    global _DRAFTS
+    if _DRAFTS is None:
+        try:
+            d = read_json(DRAFTS_FILE)
+        except (OSError, ValueError):
+            d = {}
+        _DRAFTS = d.get('files', {}) if isinstance(d, dict) else {f: None for f in d}  # legacy: a bare list (no hashes)
+    return _DRAFTS
+
+
+def is_draft(file: str) -> bool:
+    reg = draft_registry()
+    if file not in reg:
+        return False
+    path = IMAGES / file
+    if not path.exists():
+        return False
+    if reg[file] is None:  # legacy list entry: still the 1200 px card?
+        try:
+            with open(path, 'rb') as fh:
+                head = fh.read(64)
+            return b'VP8' in head and _webp_size(path) == (1200, 1200)
+        except OSError:
+            return True
+    return file_sha256(path) == reg[file]
+
+
+def _webp_size(path: Path):
+    data = path.read_bytes()[:40]
+    if data[12:16] == b'VP8X':
+        return (1 + int.from_bytes(data[24:27], 'little'), 1 + int.from_bytes(data[27:30], 'little'))
+    if data[12:16] == b'VP8 ':
+        return (int.from_bytes(data[26:28], 'little') & 0x3FFF, int.from_bytes(data[28:30], 'little') & 0x3FFF)
+    if data[12:16] == b'VP8L':
+        b = data[21:25]
+        return (1 + (((b[1] & 0x3F) << 8) | b[0]), 1 + (((b[3] & 0xF) << 10) | (b[2] << 2) | ((b[1] & 0xC0) >> 6)))
+    return None
+
+
+def is_real(file: str) -> bool:
+    """The file exists in catalog/images and is a real render (not a draft placeholder)."""
+    return bool(file) and (IMAGES / file).exists() and not is_draft(file)
 
 
 def strip_comments(html: str | None) -> str:
@@ -328,7 +389,30 @@ class Build:
         self.by_handle = {p['handle']: p for p in out}
         self.apply_fixes(out)
         self.resolve_bundles(out)
+        self.export_images(out)
         return out
+
+    def export_images(self, products):
+        """Which images go to Shopify: only real renders. A variant whose own render is still a draft (or missing) shows the
+        product's real hero instead; a product without any real render exports no image at all (never a placeholder card)."""
+        self.image_stats = {'real': 0, 'draft': 0, 'missing': 0, 'products_without_image': [], 'variants_on_hero': 0}
+        for p in products:
+            for img in p['images']:
+                f = img['file']
+                img['draft'] = is_draft(f)
+                img['exported'] = (IMAGES / f).exists() and not img['draft']
+                self.image_stats['real' if img['exported'] else ('draft' if img['draft'] else 'missing')] += 1
+            real = [i['file'] for i in p['images'] if i['exported']]
+            if not real:
+                self.image_stats['products_without_image'].append(p['handle'])
+            for v in p['variants']:
+                own = v.get('image')
+                if own and own in real:
+                    v['export_image'] = own
+                else:
+                    v['export_image'] = real[0] if real else None
+                    if own and real:
+                        self.image_stats['variants_on_hero'] += 1
 
     def merge_product(self, sp, part):
         p = copy.deepcopy(sp)
@@ -532,6 +616,7 @@ class Build:
                                              + html_claims(c['body_html'])))
             c['template_suffix'] = None
             c['published'] = True
+            c['image'] = None  # resolved in collection_images() once the member list is known
             if c['type'] == 'smart':
                 c['products'] = None
                 members = [p['handle'] for p in products if rules_match(p, c['rules'], c['disjunctive'])]
@@ -541,8 +626,25 @@ class Build:
                 members = [x for x in (c['products'] or [])]
             c['members'] = members
             c['product_count'] = len(members)
+            c['image'] = self.collection_image(sc, members, products)
             out.append(c)
         return out
+
+    def collection_image(self, sc, members, products):
+        """A real product render for the collection tile / banner / mega menu: the first real candidate from the skeleton, else
+        the first real hero among the member products. Never a draft placeholder."""
+        P = {p['handle']: p for p in products}
+        alts = {i['file']: i['alt'] for p in products for i in p['images']}
+        if sc.get('image_render'):
+            alts[sc['image_render']['file']] = sc['image_render'].get('alt')
+        for f in sc.get('image_candidates') or []:
+            if is_real(f):
+                return {'src': f, 'alt': alts.get(f) or sc['title']}
+        for h in members:
+            for i in (P.get(h) or {}).get('images', []):
+                if i.get('exported'):
+                    return {'src': i['file'], 'alt': i['alt']}
+        return None
 
     # ---------------------------------------------------------------- pages, blog
     def pages(self):
@@ -706,7 +808,7 @@ def csv_rows(products):
     for p in products:
         opts = p['options'] or [{'name': 'Title', 'values': ['Default Title']}]
         variants = p['variants']
-        images = p['images']
+        images = [i for i in p['images'] if i.get('exported')]  # real renders only (no draft cards, no missing files)
         n = max(len(variants), len(images))
         mf = p['metafields']
         for i in range(n):
@@ -751,7 +853,7 @@ def csv_rows(products):
                 r['Variant Requires Shipping'] = tf(v.get('requires_shipping', True))
                 r['Variant Taxable'] = tf(v.get('taxable', True))
                 r['Variant Barcode'] = v.get('barcode') or ''
-                r['Variant Image'] = image_url(v['image']) if v.get('image') else ''
+                r['Variant Image'] = image_url(v['export_image']) if v.get('export_image') else ''
                 r['Variant Weight Unit'] = 'kg'
             if i < len(images):
                 img = images[i]
@@ -818,7 +920,7 @@ def definitions_export():
         for key, mtype, name, desc in rows:
             d = {'owner_type': owner, 'namespace': NS, 'key': key, 'name': name, 'type': mtype,
                  'description': desc, 'access': {'storefront': 'PUBLIC_READ'}, 'pin': True}
-            if key in CHOICES and mtype == 'single_line_text_field' and owner == 'PRODUCT':
+            if key in CHOICES and mtype in ('single_line_text_field', 'list.single_line_text_field') and owner == 'PRODUCT':
                 d['validations'] = [{'name': 'choices', 'value': json.dumps(CHOICES[key])}]
             if key in FILTERABLE and owner == 'PRODUCT':
                 d['use_as_filter'] = True
@@ -842,6 +944,9 @@ def render_spec(img, size=2000):
     spec = {'model': r.get('model')}
     if r.get('params') is not None:
         spec['params'] = r['params']
+    # several products in one image: render.mjs reads a top-level "items" list (renders/js/main.js), not model 'items'
+    if spec['model'] in (None, 'items') and isinstance(spec.get('params'), dict) and spec['params'].get('items'):
+        spec = {'model': 'items', 'items': spec['params']['items'], **{k: v for k, v in spec['params'].items() if k != 'items'}}
     for k, v in r.items():
         if k not in ('model', 'params'):
             spec[k] = v
@@ -859,7 +964,7 @@ def models_in(spec) -> list[str]:
     return [spec.get('model')]
 
 
-def image_jobs(products, article_jobs, existing_models=()):
+def image_jobs(products, article_jobs, existing_models=(), collections=()):
     jobs = {}
     for p in products:
         for img in p['images']:
@@ -872,7 +977,8 @@ def image_jobs(products, article_jobs, existing_models=()):
                     'model': img['render'].get('model'), 'model_status': img.get('model_status'),
                     'spec': render_spec(img), 'alt': img['alt'], 'alt_hint': img.get('alt_hint'),
                     'used_by': [],
-                    'exists': (IMAGES / f).exists(),
+                    'exists': is_real(f),          # a real render is in catalog/images
+                    'draft': is_draft(f),          # only the placeholder card is there
                 }
             else:
                 if json.dumps(render_spec(img), sort_keys=True) != json.dumps(j['spec'], sort_keys=True):
@@ -899,6 +1005,19 @@ def image_jobs(products, article_jobs, existing_models=()):
             'file': f, 'out': f'catalog/images/{f}', 'kind': 'article-banner', 'priority': 2, 'role': 'banner',
             'kleur': None, 'model': model, 'model_status': status, 'spec': spec, 'alt': a.get('alt'),
             'used_by': [{'article': a['article'], 'role': 'banner'}], 'exists': (IMAGES / f).exists(),
+        })
+    for c in collections or ():
+        cr = c.get('image_render')
+        if not cr:
+            continue
+        f = cr['file']
+        spec = render_spec({'render': cr['render']})
+        jobs.setdefault(f, {
+            'file': f, 'out': f'catalog/images/{f}', 'kind': 'collection', 'priority': 2, 'role': 'collection',
+            'kleur': None, 'model': spec.get('model'),
+            'model_status': 'existing' if all(m in existing_models for m in models_in(spec)) else 'needs-model',
+            'spec': spec, 'alt': cr.get('alt'), 'used_by': [{'collection': c['handle'], 'role': 'image'}],
+            'exists': is_real(f), 'draft': is_draft(f),
         })
     lst = sorted(jobs.values(), key=lambda j: (j['priority'], j['kind'] != 'product', j['file']))
     return lst
@@ -938,7 +1057,7 @@ def fixture(cat, swatches):
                 'inventory_policy': v.get('inventory_policy') or 'deny',
                 'grams': int(v.get('grams') or 0), 'weight_unit': 'kg',
                 'requires_shipping': v.get('requires_shipping', True), 'taxable': v.get('taxable', True),
-                'image': v.get('image'),
+                'image': v.get('export_image'),
                 'metafields': vmf,
             }
             if v.get('quantity_rule'):
@@ -950,7 +1069,7 @@ def fixture(cat, swatches):
             'vendor': p['vendor'], 'product_type': p['product_type'], 'tags': p['tags'], 'status': p['status'],
             'published_at': when, 'created_at': when, 'template_suffix': p.get('template_suffix'),
             'gift_card': bool(p.get('gift_card')), 'seo': p['seo'], 'options': opts, 'variants': variants,
-            'images': [{'src': i['file'], 'alt': i['alt'], 'width': 2000, 'height': 2000} for i in p['images']],
+            'images': [{'src': i['file'], 'alt': i['alt'], 'width': 2000, 'height': 2000} for i in p['images'] if i.get('exported')],
             'metafields': typed_mf(PRODUCT_MF, p['metafields']),
         })
     colls = []
@@ -958,6 +1077,8 @@ def fixture(cat, swatches):
         e = {'handle': c['handle'], 'title': c['title'], 'body_html': strip_comments(c['body_html']),
              'sort_order': c['sort_order'], 'template_suffix': c.get('template_suffix'), 'seo': c['seo'],
              'metafields': typed_mf(COLLECTION_MF, c['metafields'])}
+        if c.get('image'):
+            e['image'] = {'src': c['image']['src'], 'alt': c['image']['alt']}
         if c['type'] == 'smart':
             e['rules'] = c['rules']
             e['disjunctive'] = bool(c['disjunctive'])
@@ -1107,13 +1228,17 @@ def main(argv=None):
         'coverage': sk.get('coverage'),
         'claims': claims,
         'build': {'fixes': b.fixes, 'warnings': b.warnings, 'bundle_errors': b.bundle_errors,
-                  'open_data_notes': b.part_notes},
+                  'open_data_notes': b.part_notes, 'images': b.image_stats},
     }
 
     c = cat['meta']['counts']
     print(f"products {c['products']} · variants {c['variants']} · images {c['images']} ({c['unique_images']} unique) · "
           f"collections {c['collections']} · menus {c['menus']} · pages {c['pages']} · articles {c['articles']}")
     print(f'fixes applied: {len(b.fixes)} · warnings: {len(b.warnings)} · bundle errors: {len(b.bundle_errors)}')
+    st = b.image_stats
+    print(f"images: {st['real']} real renders exported · {st['draft']} draft cards and {st['missing']} missing files held back · "
+          f"{st['variants_on_hero']} variants show the product hero · {len(st['products_without_image'])} products without a real render yet "
+          f"· collections with an image: {sum(1 for c in collections if c.get('image'))}/{len(collections)}")
     for e in b.bundle_errors:
         print('  bundle:', e)
     for w in b.warnings:
@@ -1131,6 +1256,7 @@ def main(argv=None):
         'type': x['type'], 'sort_order': x['sort_order'], 'rules': x['rules'], 'disjunctive': x['disjunctive'],
         'products': x['products'], 'parent': x['parent'], 'template_suffix': x['template_suffix'],
         'published': x['published'], 'seo': x['seo'], 'metafields': typed_mf(COLLECTION_MF, x['metafields']),
+        'image': ({'src': x['image']['src'], 'url': image_url(x['image']['src']), 'alt': x['image']['alt']} if x.get('image') else None),
         'product_count': x['product_count'],
     } for x in collections]})
     write_json(EXPORT / 'menus.json', {'menus': menus_export(sk['menus'])})
@@ -1173,7 +1299,7 @@ def main(argv=None):
                  'file_reference → file name in catalog/images, upload it to Files first), bundle components and per-variant '
                  'add-ons by variant SKU. Resolve to GIDs after products, pages and files exist.'),
         'products': refs})
-    jobs = image_jobs(products, article_jobs, set((sk.get('render_models') or {}).get('existing') or []))
+    jobs = image_jobs(products, article_jobs, set((sk.get('render_models') or {}).get('existing') or []), sk.get('collections') or [])
     write_json(EXPORT / 'image-jobs.json', {
         'note': ('One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, '
                  'article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | '

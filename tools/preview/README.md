@@ -18,11 +18,17 @@ tools/dev.sh stop
 ```
 
 Data: `$PREVIEW_DATA`, else `catalog/preview-data.json` when it exists, else `tools/preview/fixtures/sample.json`.
-The bar (:4200) is Horizon **set up by a merchant**: before starting it, `dev.sh` runs
-`tools/preview/bar/merchant_setup.py`, which writes an overlay (`$SCRATCH/bar/horizon-merchant`: Dutch copy instead of the
-English demo text, colour swatches on in the variant picker, cart drawer opens after add-to-cart, hero image + a
-"Kies een categorie" collection grid on the home page, footer menu headings) that the server applies with `--overlay`.
-Horizon itself stays pristine; `BAR_STOCK=1 tools/dev.sh restart bar` serves the fresh-install look.
+The bar (:4200) is Horizon **set up by a skilled merchant** for the Klapklaar store: before starting it, `dev.sh` runs
+`tools/preview/bar/merchant_setup.py`, which writes an overlay (`$SCRATCH/bar/horizon-merchant`) with only what the theme
+editor produces (`templates/*.json`, `sections/*-group.json`, `config/settings_data.json`, `locales/nl.json`): logo, inverse
+logo and favicon, the Klapklaar palette (Zand/Inkt, Lampion primary buttons, Linnen/Lijn surfaces, Wit cards and drawers),
+Figtree via the font pickers, announcement bar and home page built from Horizon's own sections with the same copy as
+`theme/templates/index.json` and our header/footer groups (read at setup time), main-menu as mega menu, product page with
+swatches, option buttons, gallery thumbnails, open description and one buy button, sidebar filters and the same product
+card on collection and search pages, auto-open cart drawer, real footer menus, a Horizon page template for every
+`page.<suffix>.json` of ours (zakelijk, offerte, bedrukken, faq, garantie, vergelijking, handleidingen, contact) with the same
+content built from Horizon's sections and blocks, and Dutch theme-content overrides. Logo, favicon and brand renders the merchant uploads to Files are copied into the fixture's
+images directory as `merchant-*` (Shopify's Files namespace in the preview). Horizon itself stays pristine; `BAR_STOCK=1 tools/dev.sh restart bar` serves the fresh-install look.
 Images: `$PREVIEW_IMAGES`, else `<fixture dir>/images`. Logs and PID files: `$SCRATCH/logs/preview-<name>.{log,pid}`.
 If `theme/layout/theme.liquid` does not exist yet, :4100 serves a clear placeholder page.
 
@@ -140,6 +146,7 @@ URLs, so `'https:' | append: url` works); `page_image` = product featured media 
 a collection are canonical at `/products/<handle>`; on a secondary locale (`/en/…`) every resource `url`, menu link and
 `shopify://` url setting carries the prefix, and the localization form's `country_code` is remembered (cookie
 `localization`) for `localization.country`; variable Google Fonts with an `opsz` axis (Inter 4) are served with the
-axis pinned to its default (text design), as Shopify's font library serves static text cuts.
+axis pinned to its default (text design), as Shopify's font library serves static text cuts. A static block hidden in the editor (`"disabled": true`) renders nothing; `?option_values=` that leaves out a
+option with a single value (Horizon shows such an option as plain text and does not send it) still resolves the variant.
 
 Fixture format: see `FIXTURE_SCHEMA.md`. Regenerate the sample: `python3 tools/preview/fixtures/make_sample.py`.

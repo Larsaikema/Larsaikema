@@ -51,12 +51,23 @@ def r_easy_up(p, v):
     r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
         r.append(('spanbanden-en-haringen-easy-up', {}, sets4))       # Premium ships without banden/haringen
+    if m == '2 x 2 m':
+        # no 2 x 2 m zijwandenset: the four 2 m walls in the set's make-up (1 dicht, 2 met raam, 1 met deur) = 4 walls
+        r += [('zijwand-easy-up-dicht', {'Maat': '2 m', 'Kleur': k}, 1), ('zijwand-easy-up-met-raam', {'Maat': '2 m', 'Kleur': k}, 2),
+              ('zijwand-easy-up-met-deur', {'Maat': '2 m', 'Kleur': k}, 1)]
     r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('beschermhoes-easy-up', {'Maat': m}, 1))
     r.append(('zandzakken-partytent-set-van-4', {}, sets4))
     r.append(('regengoot-partytent', {'Maat': lenstr(long_side), 'Kleur': 'Wit' if k in ('Wit', 'Zandkleur') else 'Zwart'}, 1))
     # one klem per pootpaar along the coupled (long) side; a set holds 2 klemmen
     r.append(('koppelset-easy-up', {'Uitvoering': 'Professional (50 mm)' if pro else 'Premium (40 mm)'}, 1 if long_side <= 4 else 2))
+    if pro:
+        # Outmate's easy-up accessory set: light and heat that clamp to a 50 mm leg
+        r.append(('led-vloedlicht-easy-up', {}, 1))
+        r.append(('elektrische-heater-partytent', {'Uitvoering': '1500 W met klem voor easy-up'}, 1))
     return r
+
+
+BEDRUKTE_WAND = ['3 m', '4 m', '4,5 m', '6 m']   # bedrukte-zijwand-easy-up lengths
 
 
 def r_easy_up_logo(p, v):
@@ -67,6 +78,11 @@ def r_easy_up_logo(p, v):
     r = []
     if o.get('Kleur'):
         r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': o['Kleur']}, 1))
+    if o.get('Uitvoering') == 'Dak en luifel':
+        # full colour roof without walls: offer one printed back wall, on the long side when that length exists (4 x 8 m: the 4 m side)
+        w, d = DIMS[m]
+        side = lenstr(max(w, d)) if lenstr(max(w, d)) in BEDRUKTE_WAND else lenstr(min(w, d))
+        r.append(('bedrukte-zijwand-easy-up', {'Maat': side, 'Uitvoering': 'Buitenzijde'}, 1))
     r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
         r.append(('spanbanden-en-haringen-easy-up', {}, math.ceil(n / 4)))
@@ -87,11 +103,50 @@ def r_buizenframe(p, v):
     return r
 
 
+PLAAT = {'Ø70 cm': 'Ø68 cm', 'Ø80 cm': 'Ø78 cm', 'Ø85 cm': 'Ø83 cm'}   # beschermplaat 2 cm under the blad
+
+
 def r_statafel_rond(p, v):
     o = vopts(p, v)
     rok = 'Ø60-70 cm' if o['Maat'] == 'Ø70 cm' else 'Ø80-85 cm'
     k = o.get('Kleur') if o.get('Kleur') in ROK_KLEUREN else 'Zwart'
-    return [('statafelrok-stretch', {'Maat': rok, 'Uitvoering': 'Met topcover', 'Kleur': k}, 1)]
+    ks = o.get('Kleur') if o.get('Kleur') in STRIK_KLEUREN else 'Wit'
+    r = [('statafelrok-stretch', {'Maat': rok, 'Uitvoering': 'Met topcover', 'Kleur': k}, 1),
+         ('statafelhoes-met-strik', {'Maat': rok, 'Kleur': ks}, 1),
+         ('beschermplaat-statafel', {'Maat': PLAAT[o['Maat']]}, 1)]
+    if p['handle'] != 'statafel-met-kruisvoet':   # a fixed kruisvoet does not fold, so it does not go on the kar
+        r.append(('transportkar-statafels', {'Uitvoering': 'Klein, voor 5 statafels'}, 1))
+    return r
+
+
+def r_rok(p, v):
+    """Stretchrok: the 'Zonder topcover' variants get a topcover in the same size and colour; a rok that already has one gets
+    none. Both get the beschermplaat that fits the smaller blad of the size range."""
+    o = vopts(p, v)
+    r = []
+    if o['Uitvoering'] == 'Zonder topcover':
+        r.append(('topcover-stretch-statafel', {'Maat': o['Maat'], 'Kleur': o['Kleur']}, 1))
+    r.append(('beschermplaat-statafel', {'Maat': 'Ø68 cm' if o['Maat'] == 'Ø60-70 cm' else 'Ø78 cm'}, 1))
+    return r
+
+
+def r_pakket_plaat(n):
+    def rule(p, v):
+        o = vopts(p, v)
+        return [('beschermplaat-statafel', {'Maat': PLAAT.get(o.get('Maat'), 'Ø78 cm')}, n)]
+    return rule
+
+
+def r_stertent(p, v):
+    """Anchoring: longer pegs for soft ground (one per point) and ballast for hard ground (one block per point + one per mast)."""
+    m = vopts(p, v)['Maat']
+    if p['handle'] == 'stertent-enkele-mast':
+        points, masts = (6 if m in ('Ø8 m', 'Ø10 m') else 8), 1
+    else:
+        points, masts = (8 if m in ('8 x 13 m', '10 x 16 m') else 10), 2
+    return [('zijwanden-stertent', {'Maat': m, 'Uitvoering': 'Set rondom'}, 1),
+            ('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 100 cm'}, points),
+            ('betonblok-ballast-tent', {'Uitvoering': '140 kg'}, points + masts)]
 
 
 def r_stretch(p, v):
@@ -110,7 +165,9 @@ def r_air_square(p, v):
     return [('pomp-opblaasbare-tent', {'Uitvoering': 'Elektrische pomp'}, 1),
             ('zijwand-opblaasbare-promotietent', {'Maat': n, 'Uitvoering': 'Dicht'}, 1),
             ('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': lk}, 1),
-            ('watergewichtzakken-4x20-kg', {}, 1)]
+            ('watergewichtzakken-4x20-kg', {}, 1),
+            ('led-verlichting-opblaasbare-tent', {}, 1),
+            ('opbergtas-opblaasbare-tent', {'Maat': o['Maat']}, 1)]
 
 
 def r_air_hex(p, v):
@@ -128,7 +185,7 @@ RULES = {
     'statafel-inklapbaar-professional': r_statafel_rond,
     'statafel-inklapbaar-hdpe-80': r_statafel_rond,
     'statafel-met-kruisvoet': r_statafel_rond,
-    'statafelrok-stretch': lambda p, v: [('topcover-stretch-statafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': vopts(p, v)['Kleur']}, 1)],
+    'statafelrok-stretch': r_rok,
     'statafelhoes-met-strik': lambda p, v: [('losse-strik-statafelhoes', {'Kleur': STRIK_CONTRAST.get(vopts(p, v)['Kleur'], 'Goud')}, 1)],
     'klaptafel-hdpe-rechthoekig': lambda p, v: [('stretchhoes-klaptafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Zwart'}, 1)],
     'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit'}, 1)],
@@ -140,8 +197,17 @@ RULES = {
     'opslagtent-pvc': r_buizenframe,
     'carport-opslagtent-vast-frame': lambda p, v: [('betonblok-ballast-tent', {'Uitvoering': '140 kg'}, 1)],
     'stretchtent-compleet': r_stretch,
-    'stertent-enkele-mast': lambda p, v: [('zijwanden-stertent', {'Maat': vopts(p, v)['Maat'], 'Uitvoering': 'Set rondom'}, 1)],
-    'stertent-dubbele-mast': lambda p, v: [('zijwanden-stertent', {'Maat': vopts(p, v)['Maat'], 'Uitvoering': 'Set rondom'}, 1)],
+    'stertent-enkele-mast': r_stertent,
+    'stertent-dubbele-mast': r_stertent,
+    'tuinpaviljoen-aluminium': lambda p, v: [('zijwanden-tuinpaviljoen', {'Maat': vopts(p, v)['Maat'], 'Uitvoering': 'Dicht'}, 1)],
+    'terrasheater-gas-13-kw': lambda p, v: [('beschermhoes-terrasheater', {}, 1)],
+    'flameheater-gas-9-kw': lambda p, v: [('beschermhoes-terrasheater', {}, 1)],
+    'elektrische-heater-partytent': lambda p, v: [('infraroodbrander-elektrische-heater',
+                                                   {'Uitvoering': 'Voor 2100 W heater' if '2100' in vopts(p, v)['Uitvoering'] else 'Voor 1500 W heater'}, 1)],
+    'klaptafel-hdpe-rond': lambda p, v: [('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] == 'Ø150 cm' else 'Ø330 cm', 'Kleur': 'Wit'}, 1)],
+    'pakket-statafel-met-stretchrok': r_pakket_plaat(1),
+    'pakket-4-statafels-met-stretchrokken': r_pakket_plaat(4),
+    'terraspakket-statafel-barkrukken': r_pakket_plaat(1),
     'opblaasbare-promotietent': r_air_square,
     'opblaasbare-promotietent-pro': r_air_square,
     'opblaasbare-partytent-3x3-waterpoten': r_air_square,
@@ -227,11 +293,35 @@ def _holds(p, tiers, n_max=200):
     return True
 
 
+# Bundle staffel = the round scheme of the family the bundle belongs to (B2B review: no 2/3/4 % or 5/9/13 % leftovers).
+# Single-unit statafel packs follow the statafel scheme, the easy-up packs the tent scheme, the prikkabelset the prikkabel
+# scheme, and the multi-unit packs (4 statafels, karren, 10 biertafelsets, 24 barkrukken, wijnvat-set) the high-ticket
+# scheme from 2 pieces. The guarantee stays: at any volume 1..200 the bundle is never dearer than its parts with their own
+# staffels (checked here and again in validate.py); a scheme that breaks it raises.
+BUNDLE_FAMILY = {
+    'pakket-statafel-met-stretchrok': ST_MEUBEL, 'terraspakket-statafel-barkrukken': ST_MEUBEL,
+    'starterspakket-easy-up-premium': ST_TENT, 'compleet-pakket-easy-up-professional': ST_TENT,
+    'prikkabelset-led': ST_PRIK,
+    'pakket-4-statafels-met-stretchrokken': ST_GROOT, 'pakket-statafels-met-transportkar': ST_GROOT,
+    'pakket-statafels-stretchrokken-transportkar': ST_GROOT, 'buffetpakket-klaptafels-stretchhoezen': ST_GROOT,
+    'biertafelsets-10-stuks': ST_GROOT, 'pakket-24-barkrukken-met-transportkar': ST_GROOT, 'wijnvat-set-statafel-barkrukken': ST_GROOT,
+}
+
+
 def bundle_staffels(max_tiers=3):
-    """Staffel for every bundle, derived from its parts: at each volume where a component's staffel starts, the bundle gets
-    the value-weighted discount of its parts (max over the bundle variants, rounded up to a whole %). Tiers that the bundle's
-    own base saving already covers are dropped (smallest first) while the guarantee holds: at any order size the bundle is
-    never dearer than the loose parts with their own staffels. validate.py re-checks the guarantee."""
+    out = {}
+    for p in PRODUCTS:
+        if not p.get('bundle'):
+            continue
+        tiers = [dict(t) for t in BUNDLE_FAMILY[p['handle']]]
+        assert _holds(p, tiers), f'{p["handle"]}: family staffel makes the bundle dearer than its parts'
+        p['metafields']['staffelkorting'] = tiers
+        out[p['handle']] = tiers
+    return out
+
+
+def bundle_staffels_derived(max_tiers=3):
+    """Former rule (kept for reference): tiers derived from the parts' value-weighted discount."""
     out = {}
     for p in PRODUCTS:
         b = p.get('bundle')

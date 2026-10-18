@@ -473,9 +473,19 @@ export async function capture(page, file, { full = false, tiles = 0, meta = null
     m.pageHeight = info.scrollHeight;
     const unlocked = await page.evaluate(() => window.__shoot.unlock());
     if (unlocked) await page.evaluate(() => window.__shoot.settle(document.scrollingElement, 800));
+    // content-visibility:auto (Horizon's footer) skips painting far from the viewport; a shopper who scrolls
+    // there sees it, so paint everything for the one-shot full-page PNG.
+    await page.evaluate(() => {
+      const st = document.createElement('style');
+      st.id = '__shoot-cv';
+      st.textContent = '*{content-visibility:visible!important}';
+      document.head.appendChild(st);
+    });
+    await page.waitForTimeout(150);
     try {
       await page.screenshot({ path: file, fullPage: true });
     } finally {
+      await page.evaluate(() => document.getElementById('__shoot-cv')?.remove());
       if (unlocked) await page.evaluate(() => window.__shoot.relock());
     }
     m.unlocked = unlocked;

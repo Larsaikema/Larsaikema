@@ -340,6 +340,71 @@ export function fabricMacroNormal({ size = 1024, seed = 31 } = {}) {
   });
 }
 
+// Surface of a PVC/PU coating on woven polyester, for pvcCloth's macro layer. Isotropic on
+// purpose (1D yarn streaks read as brushed metal or linen under a raking light): a fine matte
+// coating grain of ~2-5 mm, a soft cockle of the coated cloth (7-25 cm), and a few short,
+// faint slubs along warp and weft. 1 tile = 1 m, 1 texel ~ 1 mm; same encoding as
+// fabricMacroNormal (R,G = slope, B = roughness modulation).
+export function coatingMacroNormal({ size = 1024, seed = 37 } = {}) {
+  return cached(`coatingMacro3:${size}:${seed}`, () => {
+    const R = rng(seed);
+    const N = size;
+    const blur2 = (a, r, passes = 3) => {
+      let src = a;
+      for (let p = 0; p < passes; p++) {
+        const t = new Float32Array(N * N), o = new Float32Array(N * N);
+        for (let y = 0; y < N; y++) { let acc = 0; for (let k = -r; k <= r; k++) acc += src[y * N + ((k + N) % N)]; for (let x = 0; x < N; x++) { t[y * N + x] = acc / (2 * r + 1); acc += src[y * N + ((x + r + 1) % N)] - src[y * N + ((x - r + N) % N)]; } }
+        for (let x = 0; x < N; x++) { let acc = 0; for (let k = -r; k <= r; k++) acc += t[((k + N) % N) * N + x]; for (let y = 0; y < N; y++) { o[y * N + x] = acc / (2 * r + 1); acc += t[((y + r + 1) % N) * N + x] - t[((y - r + N) % N) * N + x]; } }
+        src = o;
+      }
+      return src;
+    };
+    const norm = (a) => { let m = 0, s2 = 0; for (const v of a) m += v; m /= a.length; for (let i = 0; i < a.length; i++) { a[i] -= m; s2 += a[i] * a[i]; } s2 = Math.sqrt(s2 / a.length) || 1; for (let i = 0; i < a.length; i++) a[i] /= s2; return a; };
+    const white = () => { const a = new Float32Array(N * N); for (let i = 0; i < a.length; i++) a[i] = R() * 2 - 1; return a; };
+    const grain = norm(blur2(white(), 1));
+    const grain2 = norm(blur2(white(), 3));
+    // cockle: sum of integer-frequency waves (tileable), 4-14 cycles per metre
+    const cockle = new Float32Array(N * N);
+    for (let w = 0; w < 26; w++) {
+      const kk = 4 + 10 * R(), th = R() * Math.PI * 2;
+      const kx = Math.round(kk * Math.cos(th)), ky = Math.round(kk * Math.sin(th));
+      if (!kx && !ky) continue;
+      const amp = Math.pow(Math.hypot(kx, ky) / 4, -1.2), ph = R() * Math.PI * 2;
+      for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) cockle[y * N + x] += amp * Math.sin((2 * Math.PI * (kx * x + ky * y)) / N + ph);
+    }
+    norm(cockle);
+    // sparse short slubs along warp (x) and weft (y): 15-40 mm, ~1.5 mm wide, very low
+    const slub = new Float32Array(N * N);
+    for (let i = 0; i < 420; i++) {
+      const cx = Math.floor(R() * N), cy = Math.floor(R() * N), len = 15 + 25 * R(), alongX = R() < 0.5, a = 0.5 + 0.5 * R();
+      for (let t = -len / 2; t <= len / 2; t++) {
+        const f = Math.cos((Math.PI * t) / len) ** 2;
+        for (let wdt = -1; wdt <= 1; wdt++) {
+          const x = (cx + (alongX ? Math.round(t) : wdt) + N) % N, y = (cy + (alongX ? wdt : Math.round(t)) + N) % N;
+          slub[y * N + x] += a * f * (wdt === 0 ? 1 : 0.45);
+        }
+      }
+    }
+    const h = new Float32Array(N * N), rr = new Float32Array(N * N);
+    for (let i = 0; i < N * N; i++) {
+      // a taut coated roof is smooth: the relief is tiny (it mostly shows as gloss variation)
+      h[i] = 0.012 * grain[i] + 0.006 * grain2[i] + 0.06 * cockle[i] + 0.02 * slub[i];
+      rr[i] = 0.35 * grain2[i] + 0.25 * grain[i] - 0.3 * slub[i];
+    }
+    const out = new Uint8Array(N * N * 4);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const xl = (x - 1 + N) % N, xr = (x + 1) % N, yu = (y - 1 + N) % N, yd = (y + 1) % N;
+      const dx = (h[y * N + xr] - h[y * N + xl]) / 2, dy = (h[yd * N + x] - h[yu * N + x]) / 2;
+      const i = (y * N + x) * 4;
+      out[i] = Math.round(Math.min(255, Math.max(0, (-dx * 2 + 0.5) * 255)));
+      out[i + 1] = Math.round(Math.min(255, Math.max(0, (-dy * 2 + 0.5) * 255)));
+      out[i + 2] = Math.round(Math.min(255, Math.max(0, (0.5 + rr[y * N + x] * 0.2) * 255)));
+      out[i + 3] = 255;
+    }
+    return dataTex(out, N, { key: 'coatingMacro' });
+  });
+}
+
 // Embossed moulding mark (raised lettering on a plastic/cast part) as a normal map,
 // drawn on a 2D canvas. The plaque geometry carries uv 0..1 over its face.
 export function embossNormal({ text = 'KLAPKLAAR', sub = '', w = 512, h = 160, strength = 3.5 } = {}) {

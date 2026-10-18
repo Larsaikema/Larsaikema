@@ -13,6 +13,15 @@ module Preview
     def rc = @context.registers[:rc]
     private :rc
 
+    # Shopify's HTML tag filters return HTML-safe strings that `escape` leaves alone: Horizon pipes
+    # `image_tag | escape` for its gallery thumbnails (slideshow-controls, zoom dialog) and they show as images.
+    class SafeHtml < String; end
+
+    def escape(input)
+      return input if input.is_a?(SafeHtml)
+      super
+    end
+
     # ---------------------------------------------------------------- money
     def money(input)
       return '' if input.nil? || input == ''
@@ -260,7 +269,7 @@ module Preview
         attrs << [k, v]
       end
       html = attrs.map { |k, v| v == true ? k : %(#{k}="#{Util.escape_once(v)}") }.join(' ')
-      "<img #{html}>"
+      SafeHtml.new("<img #{html}>")
     end
 
     def placeholder_svg_tag(input, klass = nil)

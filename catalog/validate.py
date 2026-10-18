@@ -445,6 +445,8 @@ def run(verbose=False):
                     rep.e('variants', f'{va}: {k} must be boolean')
             if v.get('image') and v['image'] not in img_files:
                 rep.e('variants', f'{va}: variant image {v["image"]} is not one of the product images')
+            if v.get('export_image') and v['export_image'] not in [i['file'] for i in p['images'] if i.get('exported')]:
+                rep.e('variants', f'{va}: export image {v["export_image"]} is not an exported (real) product image')
             if not v.get('image') and len(vs) > 1 and p['images'] and p.get('variant_image_by'):
                 rep.w('variants', f'{va}: no variant image although images vary by {p["variant_image_by"]}')
             qr = v.get('quantity_rule')
@@ -466,6 +468,8 @@ def run(verbose=False):
         # images
         if not p['images']:
             rep.e('images', f'{a}: no images')
+        elif not any(i.get('exported') for i in p['images']):
+            rep.i('images', f'{a}: no real render yet; the CSV and the fixture carry no image for it (never a draft card)')
         if len(set(img_files)) != len(img_files):
             rep.e('images', f'{a}: duplicate image files')
         for img in p['images']:
@@ -657,6 +661,13 @@ def run(verbose=False):
                 check_metafield_value(rep, a, k, cmf_types[k], val, ctx)
         if not (c.get('body_html') or mfc.get('intro')):
             rep.e('copy', f'{a}: no description or intro')
+        cimg = c.get('image') or {}
+        if not cimg.get('src'):
+            rep.w('images', f'{a}: no collection image (no real render among its candidates and members yet)')
+        elif build.is_draft(cimg['src']) or not (IMAGES / cimg['src']).exists():
+            rep.e('images', f'{a}: collection image {cimg["src"]} is a draft or missing')
+        elif not (cimg.get('alt') or '').strip():
+            rep.e('images', f'{a}: collection image without alt text')
         seo = c.get('seo') or {}
         if not seo.get('title') or not seo.get('description'):
             rep.e('copy', f'{a}: SEO title/description missing')
@@ -1198,12 +1209,21 @@ def check_csv(rep, products):
                 rep.e('csv', f'{a} {v["sku"]}: inventory tracker {r["Variant Inventory Tracker"]!r}')
             if r['Variant Requires Shipping'] not in ('TRUE', 'FALSE') or r['Variant Taxable'] not in ('TRUE', 'FALSE'):
                 rep.e('csv', f'{a} {v["sku"]}: shipping/taxable not TRUE/FALSE')
-            exp_img = build.image_url(v['image']) if v.get('image') else ''
+            exp_img = build.image_url(v['export_image']) if v.get('export_image') else ''
             if r['Variant Image'] != exp_img:
                 rep.e('csv', f'{a} {v["sku"]}: variant image differs')
         irows = [r for r in rs if r['Image Src']]
-        if [r['Image Src'] for r in irows] != [build.image_url(i['file']) for i in p['images']]:
+        if [r['Image Src'] for r in irows] != [build.image_url(i['file']) for i in p['images'] if i.get('exported')]:
             rep.e('csv', f'{a}: image list differs')
+        # never a draft placeholder card or a missing file as a product photo (the CSV import would publish it)
+        for r in irows + [r for r in vrows if r['Variant Image']]:
+            for url in (r.get('Image Src'), r.get('Variant Image')):
+                if url and url.startswith(IMAGE_BASE_URL):
+                    f = url[len(IMAGE_BASE_URL):]
+                    if build.is_draft(f):
+                        rep.e('csv', f'{a}: exports the draft placeholder {f}')
+                    elif not (IMAGES / f).exists():
+                        rep.e('csv', f'{a}: exports {f}, which is not in catalog/images')
         if [r['Image Position'] for r in irows] != [str(i) for i in range(1, len(irows) + 1)]:
             rep.e('csv', f'{a}: image positions not 1..n')
         for r in irows:
@@ -1289,6 +1309,8 @@ def check_fixture(rep, cat, products):
         for img in p['images']:
             if not (IMAGES / img['src']).exists():
                 missing_img.add(img['src'])
+            elif build.is_draft(img['src']):
+                rep.e('fixture', f'{a}: draft placeholder {img["src"]} in the fixture')
             if not img.get('alt'):
                 rep.e('fixture', f'{a}: image without alt')
         for m in p['metafields']:
