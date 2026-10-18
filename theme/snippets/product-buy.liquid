@@ -22,7 +22,8 @@
     scrolling back up), never before the options were seen and never next to the main button (brand 4.2); the total
     carries 'excl. btw' in Zakelijk mode; a keyboard-focused element (:focus-visible, not a tap that focuses <main>) is
     scrolled clear of it (WCAG 2.4.11).
-  - Inline offerte form: Dutch validation messages per field (data-msg-required), focus on the confirmation.
+  - Inline offerte and stock-alert forms: Dutch validation messages (form/field data-msg-required, data-msg-email), and
+    after the post the confirmation ([data-form-success]) is scrolled into view and focused, so it is read out.
 {%- endcomment -%}
 {%- if is_discontinued -%}
   {%- liquid
@@ -129,11 +130,13 @@
   <div data-dynamic="notify">
     {%- unless current_variant.available or block.settings.notify_form == false -%}
       {%- assign notify_id = 'Notify-' | append: section_id -%}
-      {%- form 'contact', id: notify_id, class: 'notify' -%}
+      {%- assign n_msg_req = 'forms.error_required_email' | t -%}
+      {%- assign n_msg_email = 'forms.error_email' | t -%}
+      {%- form 'contact', id: notify_id, class: 'notify', data-msg-required: n_msg_req, data-msg-email: n_msg_email -%}
         {%- comment -%} contact[id] tells this form's post apart from the offerte form on the same page {%- endcomment -%}
         <input type="hidden" name="contact[id]" value="{{ notify_id }}">
         {%- if form.posted_successfully? and form.id == notify_id -%}
-          <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span>{{ 'product.notify_success' | t }}</span></p>
+          <p class="notice notice--success" role="status" tabindex="-1" data-form-success>{%- render 'icon', icon: 'check' -%}<span>{{ 'product.notify_success' | t }}</span></p>
         {%- else -%}
           <input type="hidden" name="contact[Onderwerp]" value="{{ 'product.notify_title' | t | escape }}">
           <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}{% unless product.has_only_default_variant %} – {{ current_variant.title | escape }}{% endunless %} ({{ current_variant.sku }})">

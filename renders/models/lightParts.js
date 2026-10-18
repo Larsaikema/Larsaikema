@@ -10,6 +10,13 @@
 //   dimmer    plug-in dimmer: white housing with rounded edges, Schuko socket in front (recess,
 //             two contact holes, earth clips), rotary knob with grip ribs and an orange
 //             indicator on top, Schuko plug (round base, two pins) at the back
+//   dimmer-ab plug-in dimmer with remote: the same white housing and socket without the knob (a small
+//             status LED instead), the remote lying in front of it (rounded handset, on/off and
+//             up/down keys, lens at the top)
+//   timer     plug-in 24-hour timer: taller white housing, segment dial with 96 push tabs (a run of
+//             them pushed in), arrow mark and centre hub in the upper half of the front, Schuko socket
+//             below it, plug at the back
+// A part named alone ('dimmer-ab', 'timer') is placed at the centre.
 // Laid out as a tidy group.
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
@@ -90,6 +97,56 @@ export function lightParts(p = {}) {
     for (const s of [-1, 1]) {
       const pg = K.lathe([[0.0001, 0], [0.0024, 0], [0.0024, 0.0175], [0.0016, 0.0188], [0.0001, 0.019]], 16); pg.rotateX(-Math.PI / 2); pg.translate(s * 0.0095, H / 2, -D / 2 - 0.01); add(pin, pg, T);
     }
+  }
+  // shared housing of the plug-in parts (dimmer-ab, timer): body, bezel, Schuko socket at height ys, plug at the back
+  const housing = (T, W, H, D, ys) => {
+    const body = G.roundedBox(W, H, D, 0.011, 4); body.translate(0, H / 2, 0); add(plastic, body, T);
+    const bz = G.roundedBox(W - 0.004, H - 0.004, 0.003, 0.0095, 4); bz.translate(0, H / 2, D / 2 - 0.0005); add(plastic, bz, T);
+    const zf = D / 2 + 0.001;
+    const rim = new THREE.TorusGeometry(0.0195, 0.0016, 10, 48); rim.translate(0, ys, zf); add(plastic, rim, T);
+    const floor = K.lathe([[0.0001, -0.002], [0.0185, -0.002], [0.0185, 0.0], [0.0001, 0.0]], 48); floor.rotateX(Math.PI / 2); floor.translate(0, ys, zf); add(grey, floor, T);
+    for (const s of [-1, 1]) add(dark, G.tube(V3(s * 0.0095, ys, zf + 0.0001), V3(s * 0.0095, ys, zf + 0.0012), 0.0028, 16), T);
+    for (const s of [-1, 1]) { const clip = G.roundedBox(0.009, 0.0032, 0.0035, 0.001); clip.translate(0, ys + s * 0.0172, zf + 0.0006); add(zinc, clip, T); }
+    const base = K.lathe([[0.0001, 0], [0.018, 0], [0.0185, 0.004], [0.0175, 0.011], [0.0001, 0.011]], 40); base.rotateX(-Math.PI / 2); base.translate(0, ys, -D / 2 + 0.001); add(plastic, base, T);
+    for (const s of [-1, 1]) {
+      const pg = K.lathe([[0.0001, 0], [0.0024, 0], [0.0024, 0.0175], [0.0016, 0.0188], [0.0001, 0.019]], 16); pg.rotateX(-Math.PI / 2); pg.translate(s * 0.0095, ys, -D / 2 - 0.01); add(pin, pg, T);
+    }
+    return zf;
+  };
+  const solo = parts.length === 1;
+  if (parts.includes('dimmer-ab')) {
+    const T = new THREE.Matrix4().makeRotationY(-16 * DEG).setPosition(solo ? -0.03 : 0.14, 0, solo ? -0.03 : -0.07);
+    const W = 0.066, H = 0.066, D = 0.044;
+    housing(T, W, H, D, H / 2);
+    // status LED on top
+    add(SG.moulded('#E2681B', { rough: 0.3, spec: 0.7 }), K.lathe([[0.0001, 0.0015], [0.0022, 0.0015], [0.0024, 0.0], [0.0001, 0.0]].reverse(), 20).translate(0.016, H, 0.008), T);
+    // remote lying in front, slightly turned
+    const R = new THREE.Matrix4().makeRotationY(24 * DEG).setPosition(solo ? 0.06 : 0.2, 0, solo ? 0.07 : 0.03);
+    const hand = G.roundedBox(0.04, 0.011, 0.105, 0.0055, 4); hand.translate(0, 0.0055, 0); add(SG.moulded('#2A2B2D', { rough: 0.42, spec: 0.55 }), hand, R);
+    const keyMat = SG.moulded('#D8D8D4', { rough: 0.5 });
+    const keys = [[-0.009, 0.03, '#3E9A4A'], [0.009, 0.03, '#C2302A'], [0, 0.006, null], [0, -0.014, null]];
+    for (const [x, z, c] of keys) {
+      const k = G.roundedBox(0.012, 0.0024, 0.012, 0.0035, 3); k.translate(x, 0.0118, z); add(c ? SG.moulded(c, { rough: 0.45 }) : keyMat, k, R);
+    }
+    const lens = G.roundedBox(0.012, 0.004, 0.006, 0.002, 2); lens.translate(0, 0.006, -0.051); add(SG.moulded('#5A1A1A', { rough: 0.15, spec: 0.9 }), lens, R);
+  }
+  if (parts.includes('timer')) {
+    const T = new THREE.Matrix4().makeRotationY(-14 * DEG).setPosition(solo ? 0 : 0.2, 0, solo ? 0 : -0.06);
+    const W = 0.064, H = 0.104, D = 0.05;
+    const zf = housing(T, W, H, D, 0.03);
+    // dial: recessed ring, 96 tabs (06:00-23:00 pushed in), arrow mark, centre hub
+    const yc = 0.073, Rd = 0.023;
+    const ring = K.lathe([[0.0001, 0.0], [Rd + 0.003, 0.0], [Rd + 0.003, 0.0015], [0.0001, 0.0015]], 64); ring.rotateX(Math.PI / 2); ring.translate(0, yc, zf - 0.0005); add(grey, ring, T);
+    for (let k = 0; k < 96; k++) {
+      const a = (k / 96) * TAU;
+      const pushed = k >= 24 && k < 92;
+      const tab = G.roundedBox(0.0011, 0.0045, pushed ? 0.0012 : 0.0028, 0.0003);
+      tab.translate(0, Rd - 0.0022, 0); tab.rotateZ(-a); tab.translate(0, yc, zf + 0.001 + (pushed ? 0 : 0.0008));
+      add(pushed ? SG.moulded('#2F6FB0', { rough: 0.4 }) : plastic, tab, T);
+    }
+    const hub = K.lathe([[0.0001, 0], [0.0175, 0], [0.0175, 0.0035], [0.0165, 0.0045], [0.0001, 0.0045]], 48); hub.rotateX(Math.PI / 2); hub.translate(0, yc, zf + 0.0015); add(plastic, hub, T);
+    for (let k = 0; k < 24; k++) { const a = (k / 24) * TAU; const tk = G.roundedBox(0.0006, k % 6 === 0 ? 0.004 : 0.0022, 0.0004, 0.0001); tk.translate(0, 0.0145, 0); tk.rotateZ(-a); tk.translate(0, yc, zf + 0.0062); add(dark, tk, T); }
+    const arrow = G.roundedBox(0.003, 0.006, 0.0012, 0.0006); arrow.translate(0, yc + Rd + 0.0055, zf + 0.0006); add(SG.moulded('#E2681B', { rough: 0.4 }), arrow, T);
   }
   B.build(g);
   return {

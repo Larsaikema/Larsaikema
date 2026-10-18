@@ -184,8 +184,9 @@ def build():
     # 3 x 3 m and the extended 3 x 4,5 / 3 x 6 m (extra pair of water legs per 1,5 m); handle kept, title without the size
     WPM = {'3 x 3 m': (1349.0, 22000), '3 x 4,5 m': (1749.0, 29000), '3 x 6 m': (2149.0, 36000)}
     vs = [variant(f'KK-AIR-WP-{code(m)}-{COLOR_CODE[k]}', [m, k], pr, g, None, tracked=False) for m, (pr, g) in WPM.items() for k in WK]
+    # handle renamed (it also sells 3 x 4,5 and 3 x 6 m; redirect from the old URL in export/redirects.csv); render files keep their names
     imgs, vmap = kleur_images('opblaasbare-partytent-3x3-waterpoten', WK, 'opblaasbareTent', lambda k: {'w': 3, 'legs': 'water', 'height': 3.2, 'color': render_color(k)}, 'Wit', status='needs-param', p2=3)
-    simple('opblaasbare-partytent-3x3-waterpoten', 'Opblaasbare partytent met waterpoten', 'Opblaasbare tent', ['gebruik:tuinfeest', 'gebruik:evenement'],
+    simple('opblaasbare-partytent-met-waterpoten', 'Opblaasbare partytent met waterpoten', 'Opblaasbare tent', ['gebruik:tuinfeest', 'gebruik:evenement'],
            [opt('Maat', list(WPM)), opt('Kleur', WK)], vs, imgs,
            {'kenmerk_kort': 'Hogedruk-staanders · met water te verzwaren · rugzak', 'verzending': 'pakket', 'levertijd': 'Levertijd 2–3 weken', 'vergelijk_groep': 'opblaasbare-tent',
             'addons': ['pomp-opblaasbare-tent']},
@@ -207,17 +208,17 @@ def build():
            [img('zijwand-opblaasbare-promotietent-hero.webp', 'hero', 1, 'opblaasbareTent', {'w': 3, 'color': 'wit', 'walls': {'back': 'closed'}}, 'hero', 'Wit', 'needs-param',
                 alt='aan een opblaasbare promotietent (tent niet inbegrepen)')],
            {'kenmerk_kort': 'Met rits aan het luchtframe · dicht of met deur', 'verzending': 'pakket',
-            'past_op': ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']},
+            'past_op': ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-met-waterpoten']},
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar', 'Wand per zijde met rits; ook bedrukbaar via offerte.', ['zijwand opblaasbare tent'],
            {'outmate': 'zijwand dicht €179 · raam/deur €199', 'ours': AW})
     simple('pomp-opblaasbare-tent', 'Pomp voor opblaasbare tent', 'Opblaasbare tent accessoire', ['zakelijk'], [opt('Uitvoering', ['Elektrische pomp', 'Handpomp'])],
            [variant('KK-AIR-POMP-EL', ['Elektrische pomp'], 69.95, 2200, 10), variant('KK-AIR-POMP-HA', ['Handpomp'], 34.95, 1500, 15)],
            [img('pomp-opblaasbare-tent-hero.webp', 'hero', 1, 'airPump', {'kind': 'elektrisch'}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Elektrisch (230 V) of hand · met verloopstukken', 'verzending': 'pakket',
-            'past_op': ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten', 'opblaasbare-zeshoektent']},
+            'past_op': ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-met-waterpoten', 'opblaasbare-zeshoektent']},
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar', 'Elektrisch voor snel opbouwen, handpomp als reserve of zonder stroom.', ['pomp opblaasbare tent'],
            {'outmate': 'elektrisch €75 · hand €39', 'ours': {'Elektrische pomp': 69.95, 'Handpomp': 34.95}})
-    AIR_SQ = ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']
+    AIR_SQ = ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-met-waterpoten']
     # luifel per tentzijde, in de framekleuren van de promotietenten
     LF = {'3 m': 249, '4 m': 289, '5 m': 329, '6 m': 369}
     LFK = AK + ['Antraciet']
@@ -295,14 +296,14 @@ def build():
     vs = [variant(f'KK-SCH-{code(m)}-{"WD" if i == 0 else "WDI"}-{COLOR_CODE[k]}', [m, u, k], v[i], 1500 + 300 * j, inv(6, m + u + k))
           for j, (m, v) in enumerate(SCH.items()) for i, u in enumerate(['Waterdoorlatend', 'Waterdicht']) for k in SCK]
     imgs, vmap = kleur_images('schaduwdoek', SCK, 'shadeSail', lambda k: {'shape': 'vierkant', 'w': 4, 'd': 4, 'color': render_color(k)}, 'Antraciet', status='needs-model', p2=3)
-    simple('schaduwdoek', 'Schaduwdoek', 'Schaduwdoek', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Maat', list(SCH)), opt('Uitvoering', ['Waterdoorlatend', 'Waterdicht']), opt('Kleur', SCK)], vs, imgs,
+    simple('schaduwdoek', 'Schaduwdoek', 'Schaduwdoek', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:horeca'], [opt('Maat', list(SCH)), opt('Uitvoering', ['Waterdoorlatend', 'Waterdicht']), opt('Kleur', SCK)], vs, imgs,
            {'kenmerk_kort': 'HDPE 95% UV-blokkering of waterdicht polyester · RVS-ringen', 'verzending': 'pakket',
             'specificaties': [sp('Doek', 'Waterdoorlatend', 'HDPE, blokkeert ca. 95% UV'), sp('Doek', 'Waterdicht', 'PU-gecoat polyester; span met min. 30° helling')]},
            ['schaduw-overkapping.schaduwdoeken'], 'schaduw', 'Schaduw voor tuin en terras: verschil waterdoorlatend/waterdicht (helling!), vierkant vs driehoek, ophangpunten.',
            ['schaduwdoek', 'schaduwdoek waterdicht', 'schaduwdoek driehoek'], {'outmate': '3x3 €39 · 5x3 €59 · 5x5 €69', 'ours': SCH}, vmap=vmap)
     OKK = ['Wit', 'Antraciet', 'Zwart', 'Transparant']
     vs = [variant(f'KK-OVK-OM-{COLOR_CODE[k]}', [k], 32.95, 600, None, tracked=False, policy='continue', qrule={'min': 2, 'max': 200, 'increment': 1}) for k in OKK]
-    simple('overkappingzeil-op-maat', 'Overkappingzeil op maat (per m²)', 'Overkapping', ['gebruik:horeca'], [opt('Kleur', OKK)], vs,
+    simple('overkappingzeil-op-maat', 'Overkappingzeil op maat (per m²)', 'Overkapping', ['zakelijk', 'gebruik:horeca'], [opt('Kleur', OKK)], vs,
            [img('overkappingzeil-op-maat-hero.webp', 'hero', 1, 'tarp', {'w': 4, 'h': 2.5, 'color': 'transparant', 'eyelets': True}, 'hero', 'Transparant', 'needs-model')]
            + [img(f'overkappingzeil-op-maat-{slug(k)}-hero.webp', 'variant', 3, 'tarp', {'w': 4, 'h': 2.5, 'color': render_color(k), 'eyelets': True}, 'hero', k, 'existing')
               for k in OKK if k != 'Transparant'],
@@ -315,7 +316,7 @@ def build():
     OZK = ['Wit', 'Antraciet']
     vs = [variant(f'KK-OVK-ZW-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 3500 + 1500 * i, inv(3, m + k)) for i, (m, p) in enumerate(OZ.items()) for k in OZK]
     imgs, vmap = kleur_images('zijwand-overkapping-pvc', OZK, 'sideWall', lambda k: {'length': 4, 'height': 2.5, 'type': 'panorama', 'zips': True, 'rail': True, 'color': render_color(k), 'material': 'pvc'}, 'Wit', status='existing', p2=3)
-    simple('zijwand-overkapping-pvc', 'Zijwand overkapping PVC met raam en ritsen', 'Overkapping', ['gebruik:horeca'], [opt('Maat', list(OZ)), opt('Kleur', OZK)], vs, imgs,
+    simple('zijwand-overkapping-pvc', 'Zijwand overkapping PVC met raam en ritsen', 'Overkapping', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(OZ)), opt('Kleur', OZK)], vs, imgs,
            {'kenmerk_kort': '250 cm hoog · PVC 550 g/m² · raam en ritsen', 'verzending': 'pakket'},
            ['schaduw-overkapping.overkapping-zijwanden'], 'schaduw', 'Wand voor veranda of terrasoverkapping: windvrij met zicht; lengtes 3–10 m.',
            ['zijwand overkapping', 'veranda zijwand pvc'], {'outmate': '3 m €109 · 4 m €149 · 6 m €189 · 8 m €249 · 10 m €269', 'ours': OZ}, vmap=vmap)

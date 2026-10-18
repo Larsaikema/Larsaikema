@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
+import * as T2 from '../js/tentkit2.js';
 import * as TX from '../js/textures.js';
 
 const { V3 } = K;
@@ -110,28 +111,65 @@ export function gardenPavilion(p = {}) {
       { a: V3(hx - 0.1, 0, -hz + 0.09), b: V3(-hx + 0.1, 0, -hz + 0.09), out: V3(0, 0, -1) },
       { a: V3(-hx + 0.09, 0, -hz + 0.1), b: V3(-hx + 0.09, 0, hz - 0.1), out: V3(-1, 0, 0) },
     ];
+    // gathered curtains (round 2): ring-hung at the top in tight, rounded pleats, opening up
+    // towards the hem into broader, irregular soft folds; 'half-open' / 'open' curtains are
+    // drawn to the posts and held by a tie-back band at ~1.05 m, so each panel sweeps in to the
+    // band and flares out below it (no comb of identical sine pleats)
+    const tieM = M.polyCloth(K.col(p.curtainColor || 'beige', M.COLORS.beige), { satin: 0.25 });
+    const ringM = M.aluminium({ tone: '#BFC3C7', roughness: 0.35 });
+    let seed = 1;
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
     for (const sd of sides) {
       const L = sd.a.distanceTo(sd.b), along = sd.b.clone().sub(sd.a).normalize();
       for (const end of [0, 1]) {
-        const w = L * frac;
-        const s0 = end === 0 ? 0 : L - w, s1 = end === 0 ? w : L;
-        const pleats = Math.max(4, Math.round(w / 0.11));
-        const nx = pleats * 8, ny = 30;
+        const w = L * frac;                    // stack width at the rail
+        const tied = cur !== 'closed';
+        const yTie = 1.05, vTie = 1 - yTie / yTopC;
+        const nF = Math.max(5, Math.round(w / 0.09));
+        const amps = [], phs = [];
+        for (let k = 0; k <= nF + 1; k++) { amps.push(0.75 + 0.5 * rnd()); phs.push((rnd() - 0.5) * 0.5); }
+        const nx = nF * 10, ny = 44;
         const rows = [];
         for (let j = 0; j <= ny; j++) {
-          const y = yTopC * (1 - j / ny), row = [];
+          const v = j / ny, y = yTopC * (1 - v), row = [];
+          // width of the panel at this height (fraction of the rail stack width)
+          let wf;
+          if (!tied) wf = 1 + 0.12 * v * v;
+          else if (v < vTie) { const t = v / vTie; wf = 1 - 0.42 * Math.sin(t * Math.PI / 2) ** 1.4; }
+          else { const t = (v - vTie) / (1 - vTie); wf = 0.58 + 0.62 * Math.sin(t * Math.PI / 2) ** 0.9; }
+          // fold depth: tight rounded pleats at the rings, compressed at the band, deep and soft below
+          const amp = tied ? (v < vTie ? 0.032 + 0.012 * (v / vTie) : 0.038 + 0.03 * ((v - vTie) / (1 - vTie))) : 0.03 + 0.03 * v;
           for (let i = 0; i <= nx; i++) {
-            const f = i / nx;
-            // gathered: deep pleats, a little more open towards the hem; the hem pools 3 cm
-            const s = s0 + (s1 - s0) * f;
-            const amp = 0.04 + 0.02 * (j / ny);
-            const off = amp * Math.sin(f * pleats * Math.PI * 2) + 0.008 * Math.sin(f * 37 + j * 0.3);
-            const pool = y < 0.03 ? (0.03 - y) * 1.5 : 0;
-            row.push(sd.a.clone().addScaledVector(along, s).addScaledVector(sd.out, off - 0.03 + pool).setY(Math.max(0.004, y)));
+            const u = i / nx;
+            const fi = u * nF, k = Math.floor(fi), fr = fi - k;
+            const A = amp * (amps[k] * (1 - fr) + amps[k + 1] * fr);
+            // softer, longer folds towards the hem: the pleat phase drifts with height
+            const ph = (fi + (phs[k] * (1 - fr) + phs[k + 1] * fr) * v) * Math.PI * 2;
+            const z = A * (Math.sin(ph) * 0.85 + 0.15 * Math.sin(ph * 2 + 0.7 * v));
+            const sLoc = u * w * wf;
+            const s = end === 0 ? sLoc : L - sLoc;
+            const pool = y < 0.025 ? (0.025 - y) * 1.6 : 0;
+            row.push(sd.a.clone().addScaledVector(along, s).addScaledVector(sd.out, z - 0.035 + pool).setY(Math.max(0.004, y)));
           }
+          if (end === 1) row.reverse();
           rows.push(row);
         }
         bins.add(cloth, K.gridGeometry(rows));
+        // rings on the rail at every fold crest
+        for (let k = 0; k <= nF; k++) {
+          const sLoc = (k / nF) * w, s = end === 0 ? sLoc : L - sLoc;
+          const rp = sd.a.clone().addScaledVector(along, s).addScaledVector(sd.out, -0.035).setY(yTopC + 0.012);
+          const ring = new THREE.TorusGeometry(0.014, 0.0025, 6, 14); ring.lookAt(along); ring.translate(rp.x, rp.y, rp.z); bins.add(ringM, ring);
+        }
+        if (tied) {
+          // tie-back band round the gathered cloth, hooked to the post
+          const sMid = w * 0.58 * 0.5, s = end === 0 ? sMid : L - sMid;
+          const c0 = sd.a.clone().addScaledVector(along, s).addScaledVector(sd.out, -0.035).setY(yTie);
+          const hw2 = w * 0.58 * 0.5 + 0.02;
+          const band = [];
+          for (let t = 0; t <= 32; t++) { const a = (t / 32) * Math.PI * 2; band.push(c0.clone().addScaledVector(along, Math.cos(a) * hw2).addScaledVector(sd.out, Math.sin(a) * 0.06).setY(yTie + 0.004 * Math.sin(a * 3))); }
+          bins.add(tieM, T2.bandAlong(band, band.map((q) => q.clone().sub(c0).setY(0).normalize()), 0.06, 0.004));
+        }
       }
     }
   }

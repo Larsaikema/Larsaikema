@@ -1,6 +1,6 @@
 # Actiepakketten: prijzen berekend uit de losse onderdelen (componenten).
 from kk_base import *
-from fam_easyup import x9, tent_params, legs, h_pro
+from fam_easyup import x9, tent_params, legs, h_pro, PRO_KLEUREN
 
 def find(handle, sel):
     p = HANDLES[handle]
@@ -43,48 +43,52 @@ def build():
     D = ['Ø70 cm', 'Ø80 cm', 'Ø85 cm']
     rokmaat = lambda d: 'Ø60-70 cm' if d == 'Ø70 cm' else 'Ø80-85 cm'
     # blad colour of the statafel in every statafel bundle (Statafelshop's Colorado / Sacramento packs offer the top colour too).
-    # Under the stretchrok + topcover the blad is hidden, so the bundles with a rok keep 8 rok colours (Maat x blad x rok <= 100
-    # variants); all 24 colours stay on statafelrok-stretch and on the terraspakket.
+    # Merchandising review 3: every pakket with a stretchrok offers all 24 rok colours, like statafelrok-stretch (Statafelshop lets you
+    # pick any rok colour in a pakket). Under the stretchrok with topcover the blad is not visible, so those pakketten offer the blad in
+    # wit, zwart or antraciet without the Berken surcharge: 3 maten x 3 bladen x 24 rokken = 216 variants, under the 250 that Liquid's
+    # product.variants returns (the theme builds its variant picker from it). Berken stays on the statafel itself and in the pakket
+    # without a rok (pakket-statafels-met-transportkar).
     BLAD = ['Wit', 'Zwart', 'Antraciet', 'Berken']
     BLADU = [f'{b} blad' for b in BLAD]
+    BLADR = [f'{b} blad' for b in BLAD if b != 'Berken']
     blad_of = lambda u: u.split(' ')[0]
-    ROK8 = ['Zwart', 'Wit', 'Antraciet', 'Crème', 'Zilver', 'Marineblauw', 'Bordeaux', 'Rood']
+    ROK = ['Zwart'] + [k for k in ROK_KLEUREN if k != 'Zwart']
     STF = lambda d, u: ('statafel-inklapbaar-professional', {'Maat': d, 'Kleur': blad_of(u), 'Uitvoering': 'Binnen'})
     rok_vmap = {k: f'statafelrok-stretch-{slug(k)}-hero.webp' for k in ROK_KLEUREN}
     def rok_imgs(h, kleuren=ROK_KLEUREN):
         return [img(f'statafelrok-stretch-{slug(k)}-hero.webp', 'hero' if k == 'Zwart' else 'variant', 1 if k == 'Zwart' else 2, 'statafelCover',
                     {'type': 'stretch', 'color': render_color(k), 'diameter': 0.8, 'topcover': render_color(k)}, 'hero', k, 'existing', extra={'shared_with': 'statafelrok-stretch'})
                 for k in ['Zwart'] + [x for x in kleuren if x != 'Zwart']]
-    bundle('pakket-statafel-met-stretchrok', 'Statafel met stretchrok (pakket)', [opt('Maat', D), opt('Uitvoering', BLADU), opt('Kleur', ROK8)],
-           [(d, u, k) for d in D for u in BLADU for k in ROK8],
-           lambda los, d, u, k: {'Ø70 cm': 99.95, 'Ø80 cm': 104.95, 'Ø85 cm': 109.95}[d] + (15 if u.startswith('Berken') else 0),
+    bundle('pakket-statafel-met-stretchrok', 'Statafel met stretchrok (pakket)', [opt('Maat', D), opt('Uitvoering', BLADR), opt('Kleur', ROK)],
+           [(d, u, k) for d in D for u in BLADR for k in ROK],
+           lambda los, d, u, k: {'Ø70 cm': 99.95, 'Ø80 cm': 104.95, 'Ø85 cm': 109.95}[d],
            lambda d, u, k: [(*STF(d, u), 1), ('statafelrok-stretch', {'Maat': rokmaat(d), 'Uitvoering': 'Met topcover', 'Kleur': k}, 1)],
-           rok_imgs('pakket-statafel-met-stretchrok', ROK8), {k: rok_vmap[k] for k in ROK8}, 'Kleur',
-           'Statafel Professional + stretchrok met topcover · blad en rok naar keuze',
-           'Instappakket: één statafel aangekleed; noem los- en pakketprijs; kies de bladkleur (wit, zwart, antraciet, berken) en de kleur van rok en topcover (8 kleuren; alle 24 los).',
+           rok_imgs('pakket-statafel-met-stretchrok', ROK), {k: rok_vmap[k] for k in ROK}, 'Kleur',
+           'Statafel Professional + stretchrok met topcover · rok in 24 kleuren',
+           'Instappakket: één statafel aangekleed; noem los- en pakketprijs; kies de bladkleur (wit, zwart of antraciet: onder de topcover zie je het blad niet) en de kleur van rok en topcover (alle 24).',
            ['statafel met rok', 'statafel inclusief statafelrok'],
            ['statafelrokken-hoezen.actiepakketten'], ['gebruik:tuinfeest', 'gebruik:evenement'], {'statafelshop': 'Savannah Ø80 + stretchrok €120,94 · Colorado/Sacramento-pakketten met bladkleur'}, sku='STFROK')
     # entry pack (merchandising review 2026-10-18: our packs started at € 99,95, Statafelshop's at about € 70): the HDPE statafel Ø80 +
     # stretchrok Ø80-85 met topcover, los € 74,90, pakket € 69,95. Blad wit or lichtgrijs, rok in the 8 pack colours.
     HDPE_B = ['Wit blad', 'Lichtgrijs blad']
-    bundle('pakket-statafel-hdpe-met-stretchrok', 'Statafel HDPE met stretchrok (pakket)', [opt('Maat', ['Ø80 cm']), opt('Uitvoering', HDPE_B), opt('Kleur', ROK8)],
-           [('Ø80 cm', u, k) for u in HDPE_B for k in ROK8],
+    bundle('pakket-statafel-hdpe-met-stretchrok', 'Statafel HDPE met stretchrok (pakket)', [opt('Maat', ['Ø80 cm']), opt('Uitvoering', HDPE_B), opt('Kleur', ROK)],
+           [('Ø80 cm', u, k) for u in HDPE_B for k in ROK],
            lambda los, d, u, k: 69.95,
            lambda d, u, k: [('statafel-inklapbaar-hdpe-80', {'Kleur': blad_of(u)}, 1), ('statafelrok-stretch', {'Maat': 'Ø80-85 cm', 'Uitvoering': 'Met topcover', 'Kleur': k}, 1)],
-           rok_imgs('pakket-statafel-hdpe-met-stretchrok', ROK8), {k: rok_vmap[k] for k in ROK8}, 'Kleur',
-           'Statafel HDPE Ø80 cm + stretchrok met topcover · rok in 8 kleuren',
+           rok_imgs('pakket-statafel-hdpe-met-stretchrok', ROK), {k: rok_vmap[k] for k in ROK}, 'Kleur',
+           'Statafel HDPE Ø80 cm + stretchrok met topcover · rok in 24 kleuren',
            'Instappakket onder de € 70: de lichte HDPE-statafel Ø80 met een stretchrok en topcover; los € 74,90, in het pakket € 69,95; eerlijk vergelijken met het pakket met de Professional.',
            ['statafel met rok goedkoop', 'statafel met statafelrok pakket', 'statafel hdpe met rok'],
            ['statafelrokken-hoezen.actiepakketten'], ['gebruik:tuinfeest', 'gebruik:evenement'],
            {'statafelshop': 'goedkoopste statafelpakketten ca. € 70 (merchandising review)'}, sku='HDPEROK')
-    bundle('pakket-4-statafels-met-stretchrokken', '4 statafels met stretchrokken (pakket)', [opt('Maat', D), opt('Uitvoering', BLADU), opt('Kleur', ROK8)],
-           [(d, u, k) for d in D for u in BLADU for k in ROK8],
-           lambda los, d, u, k: {'Ø70 cm': 389.0, 'Ø80 cm': 409.0, 'Ø85 cm': 429.0}[d] + (55 if u.startswith('Berken') else 0),
+    bundle('pakket-4-statafels-met-stretchrokken', '4 statafels met stretchrokken (pakket)', [opt('Maat', D), opt('Uitvoering', BLADR), opt('Kleur', ROK)],
+           [(d, u, k) for d in D for u in BLADR for k in ROK],
+           lambda los, d, u, k: {'Ø70 cm': 389.0, 'Ø80 cm': 409.0, 'Ø85 cm': 429.0}[d],
            lambda d, u, k: [(*STF(d, u), 4), ('statafelrok-stretch', {'Maat': rokmaat(d), 'Uitvoering': 'Met topcover', 'Kleur': k}, 4)],
            [img('pakket-4-statafels-met-stretchrokken-zwart-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'statafelCover', 'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart', 'position': [x, 0, z]}
                                                                                                     for x, z in [(-0.6, -0.5), (0.6, -0.5), (-0.6, 0.6), (0.6, 0.6)]]}, 'hero', 'Zwart', 'existing')] +
-           [i for i in rok_imgs('x', ROK8) if i['kleur'] != 'Zwart'], {**{k: rok_vmap[k] for k in ROK8}, 'Zwart': 'pakket-4-statafels-met-stretchrokken-zwart-hero.webp'}, 'Kleur',
-           '4 statafels + 4 stretchrokken met topcover · blad en rok naar keuze', 'Voor het tuinfeest of de kantine: vier complete statafels; Statafelshop heeft geen 4-pakket.',
+           [i for i in rok_imgs('x', ROK) if i['kleur'] != 'Zwart'], {**{k: rok_vmap[k] for k in ROK}, 'Zwart': 'pakket-4-statafels-met-stretchrokken-zwart-hero.webp'}, 'Kleur',
+           '4 statafels + 4 stretchrokken met topcover · rok in 24 kleuren', 'Voor het tuinfeest of de kantine: vier complete statafels; Statafelshop heeft geen 4-pakket.',
            ['4 statafels met rok', 'statafels set'], ['statafelrokken-hoezen.actiepakketten'], ['gebruik:tuinfeest', 'gebruik:evenement'], sku='4STF')
     KAR = ['5 statafels + kleine kar', '10 statafels + grote kar', '15 statafels + grote kar']
     karn = {KAR[0]: (5, 'Klein, voor 5 statafels'), KAR[1]: (10, 'Groot, voor 15 statafels'), KAR[2]: (15, 'Groot, voor 15 statafels')}
@@ -105,28 +109,28 @@ def build():
         hero = f'pakket-{n}-statafels-stretchrokken-transportkar-zwart-hero.webp' if n == 5 else 'pakket-statafels-stretchrokken-transportkar-zwart-hero.webp'
         hero_spec = {'items': [{'model': 'trolley', 'kind': 'statafel', 'size': ksize, 'loaded': 4 if n == 5 else 10, 'position': [-0.9 if n > 5 else -0.75, 0, 0]},
                                {'model': 'statafelCover', 'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart', 'position': [0.7, 0, 0]}]}
-        imgs = [img(hero, 'hero', 1, 'items', hero_spec, 'hero', 'Zwart', 'existing')] + [i for i in rok_imgs('x', ROK8) if i['kleur'] != 'Zwart']
-        vmap = {**{k: rok_vmap[k] for k in ROK8}, 'Zwart': hero}
-        bundle(hn, f'{n} statafels met stretchrokken en transportkar (pakket)', [opt('Maat', D), opt('Uitvoering', BLADU), opt('Kleur', ROK8)],
-               [(d, u, k) for d in D for u in BLADU for k in ROK8], lambda los, d, u, k: float(x9(0.89 * los)),
+        imgs = [img(hero, 'hero', 1, 'items', hero_spec, 'hero', 'Zwart', 'existing')] + [i for i in rok_imgs('x', ROK) if i['kleur'] != 'Zwart']
+        vmap = {**{k: rok_vmap[k] for k in ROK}, 'Zwart': hero}
+        bundle(hn, f'{n} statafels met stretchrokken en transportkar (pakket)', [opt('Maat', D), opt('Uitvoering', BLADR), opt('Kleur', ROK)],
+               [(d, u, k) for d in D for u in BLADR for k in ROK], lambda los, d, u, k: float(x9(0.89 * los)),
                lambda d, u, k, n=n, kar=kar: [(*STF(d, u), n), ('statafelrok-stretch', {'Maat': rokmaat(d), 'Uitvoering': 'Met topcover', 'Kleur': k}, n),
                                               ('transportkar-statafels', {'Uitvoering': kar}, 1)],
                imgs, vmap, 'Kleur',
                f'{n} statafels + {n} stretchrokken met topcover + {"kleine" if n == 5 else "grote"} transportkar',
-               f'Verhuur- en evenementpakket van {n} statafels Professional, {n} stretchrokken met topcover en de {"kleine" if n == 5 else "grote"} kar; Maat, blad en rokkleur (8) apart te kiezen; besparing t.o.v. los.',
+               f'Verhuur- en evenementpakket van {n} statafels Professional, {n} stretchrokken met topcover en de {"kleine" if n == 5 else "grote"} kar; Maat, blad (3) en rokkleur (24) apart te kiezen; besparing t.o.v. los.',
                [f'{n} statafels met rokken en trolley', 'statafel verhuurpakket', 'statafels met transportkar en rokken'], ['statafelrokken-hoezen.actiepakketten'],
                ['zakelijk', 'pallet', 'gebruik:evenement'], {'statafelshop': 'kar klein + Colorado + rokken €1.148,29 · groot €1.996,50'}, sku=f'KARROK{n}', verz='pallet')
-    bundle('terraspakket-statafel-barkrukken', 'Terraspakket: statafel, stretchrok en 4 barkrukken', [opt('Kleur', ROK8), opt('Uitvoering', BLADU)],
-           [(k, u) for k in ROK8 for u in BLADU],
-           lambda los, k, u: 229.0 + (15 if u.startswith('Berken') else 0),
+    bundle('terraspakket-statafel-barkrukken', 'Terraspakket: statafel, stretchrok en 4 barkrukken', [opt('Kleur', ROK), opt('Uitvoering', BLADR)],
+           [(k, u) for k in ROK for u in BLADR],
+           lambda los, k, u: 229.0,
            lambda k, u: [(*STF('Ø80 cm', u), 1), ('statafelrok-stretch', {'Maat': 'Ø80-85 cm', 'Uitvoering': 'Met topcover', 'Kleur': k}, 1),
                          ('barkruk-stapelbaar-metaal', {'Kleur': 'Zwart'}, 4)],
            [img('terraspakket-statafel-barkrukken-zwart-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'statafelCover', 'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart'}] +
                                                                                       [{'model': 'barStool', 'style': 'metaal', 'color': 'zwart', 'position': p} for p in [[0.7, 0, 0], [-0.7, 0, 0], [0, 0, 0.7], [0, 0, -0.7]]]},
-                'hero', 'Zwart', 'existing')] + [i for i in rok_imgs('x', ROK8) if i['kleur'] != 'Zwart'],
-           {**{k: rok_vmap[k] for k in ROK8}, 'Zwart': 'terraspakket-statafel-barkrukken-zwart-hero.webp'}, 'Kleur',
-           'Statafel Ø80 + stretchrok met topcover + 4 zwarte barkrukken · blad naar keuze', 'Complete sta-plek voor terras of kantine; kleur = rok (8, zoals de andere statafelpakketten), bladkleur naar keuze.',
-           ['statafel met barkrukken', 'statafel set barkrukken'], ['statafelrokken-hoezen.actiepakketten'], ['gebruik:horeca', 'gebruik:tuinfeest'],
+                'hero', 'Zwart', 'existing')] + [i for i in rok_imgs('x', ROK) if i['kleur'] != 'Zwart'],
+           {**{k: rok_vmap[k] for k in ROK}, 'Zwart': 'terraspakket-statafel-barkrukken-zwart-hero.webp'}, 'Kleur',
+           'Statafel Ø80 + stretchrok met topcover + 4 zwarte barkrukken · rok in 24 kleuren', 'Complete sta-plek voor terras of kantine; kleur = rok (24, zoals de andere statafelpakketten), blad wit, zwart of antraciet.',
+           ['statafel met barkrukken', 'statafel set barkrukken'], ['statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'],
            {'statafelshop': 'Colorado + rok + 4 Angara €411,40'}, sku='TERRAS')
     BK = ['Wit', 'Zwart', 'Antraciet']
     bundle('buffetpakket-klaptafels-stretchhoezen', 'Buffetpakket: 10 klaptafels met stretchhoezen en transportkar', [opt('Kleur', BK)], [(k,) for k in BK],
@@ -141,13 +145,48 @@ def build():
            '10 klaptafels 183 x 76 cm + 10 stretchhoezen + transportkar', 'Catering en evenementen: buffet- of vergaderopstelling in één keer.',
            ['buffettafels set', 'klaptafels met hoezen'], ['statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'pallet', 'gebruik:evenement'],
            {'statafelshop': '25 buffettafels + rokken + platen + kar €5.196,95'}, sku='BUFFET', verz='pallet')
-    bundle('biertafelsets-10-stuks', 'Biertafelsets 10 stuks (pakket)', [opt('Maat', ['220 x 50 cm', '220 x 70 cm'])], [('220 x 50 cm',), ('220 x 70 cm',)],
-           lambda los, m: float(x9(0.88 * los)),
-           lambda m: [('biertafelset', {'Maat': m, 'Uitvoering': 'Set: tafel en 2 banken'}, 10)],
-           [img('biertafelsets-10-stuks-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'biertafelset', 'length': 2.2, 'tableWidth': 0.5, 'position': [0, 0, z]} for z in [-1.2, 0, 1.2]]}, 'hero', None, 'existing')],
-           None, None, '10 sets: tafel + 2 banken · vurenhout', 'Voor verenigingen en buurtfeesten: tien sets, besparing t.o.v. los.',
-           ['biertafelsets 10 stuks', 'feestsets vereniging'], ['tafels-stoelen.biertafels', 'statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'pallet', 'gebruik:tuinfeest'],
-           {'statafelshop': '10 biertafels standaard vanaf €1.017,55 (alleen tafels)'}, sku='BTS10', verz='pallet')
+    # Kwaliteit (Standaard / Brouwerijkwaliteit, like Statafelshop's 10-pakketten) and the transportkar as an option (merchandising
+    # review 3): a vereniging buying ten sets also needs to move and store them
+    BTQ = ['Standaard', 'Brouwerijkwaliteit']
+    BTU = ['Zonder kar', 'Met transportkar']
+    bundle('biertafelsets-10-stuks', 'Biertafelsets 10 stuks (pakket)', [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Kwaliteit', BTQ), opt('Uitvoering', BTU)],
+           [(m, q, u) for m in ['220 x 50 cm', '220 x 70 cm'] for q in BTQ for u in BTU],
+           lambda los, m, q, u: float(x9(0.89 * los)),
+           lambda m, q, u: [('biertafelset', {'Maat': m, 'Uitvoering': 'Set: tafel en 2 banken', 'Kwaliteit': q}, 10)] +
+                           ([('transportkar-biertafelsets', {}, 1)] if u == 'Met transportkar' else []),
+           [img('biertafelsets-10-stuks-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'biertafelset', 'length': 2.2, 'tableWidth': 0.5, 'position': [0, 0, z]} for z in [-1.2, 0, 1.2]]}, 'hero', None, 'existing'),
+            img('transportkar-biertafelsets-gevuld.webp', 'variant', 2, 'trolley', {'kind': 'biertafel', 'loaded': 10, 'tableWidth': 0.5}, 'hero', None, 'existing',
+                alt='10 biertafelsets op de transportkar', extra={'shared_with': 'transportkar-biertafelsets'})],
+           {'Zonder kar': 'biertafelsets-10-stuks-hero.webp', 'Met transportkar': 'transportkar-biertafelsets-gevuld.webp'}, 'Uitvoering',
+           '10 sets: tafel + 2 banken · standaard of brouwerij · met of zonder kar',
+           'Voor verenigingen en buurtfeesten: tien sets in standaard- of brouwerijkwaliteit, desgewenst met de transportkar; besparing t.o.v. los.',
+           ['biertafelsets 10 stuks', 'feestsets vereniging', 'biertafels brouwerijkwaliteit 10 stuks'], ['tafels-stoelen.biertafels', 'statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'pallet', 'gebruik:tuinfeest'],
+           {'statafelshop': '10 biertafels standaard vanaf €1.017,55 / brouwerij vanaf €1.376,92 (alleen tafels)'}, sku='BTS10', verz='pallet')
+    # pakketten with a kar (merchandising review 3), the pattern of pakket-24-barkrukken-met-transportkar: furniture + its kar, ca. 10% under los
+    bundle('pakket-10-ronde-klaptafels-met-transportkar', '10 ronde klaptafels met transportkar (pakket)', [opt('Maat', ['Ø150 cm', 'Ø180 cm'])], [('Ø150 cm',), ('Ø180 cm',)],
+           lambda los, m: float(x9(0.9 * los)),
+           lambda m: [('klaptafel-hdpe-rond', {'Maat': m}, 10), ('transportkar-ronde-klaptafels', {}, 1)],
+           [img('pakket-10-ronde-klaptafels-met-transportkar-hero.webp', 'hero', 1, 'items',
+                {'items': [{'model': 'trolley', 'kind': 'rond', 'loaded': 9, 'diameter': 1.8, 'position': [-0.9, 0, 0]},
+                           {'model': 'klaptafel', 'shape': 'rond', 'diameter': 1.8, 'position': [1.0, 0, 0.35]}]}, 'hero', None, 'existing')],
+           None, None, '10 ronde klaptafels Ø150 of Ø180 cm + transportkar',
+           'Banket, bruiloft, gala: tien ronde tafels (8 of 10 personen per tafel) en de kar waarop ze staan; besparing t.o.v. los.',
+           ['ronde klaptafels met trolley', 'banket tafels 10 stuks', 'ronde tafels verhuur'], ['tafels-stoelen.bundels', 'tafels-stoelen.trolleys', 'statafelrokken-hoezen.actiepakketten'],
+           ['zakelijk', 'pallet', 'gebruik:evenement'], {'outmate': 'klaptafel rond 180 €254,50 + trolley vanaf €482,50 (10% korting op de trolley met de tafels)'},
+           sku='10KLR', verz='pallet')
+    SK = ['Zwart', 'Wit', 'Antraciet']
+    bundle('pakket-40-stapelstoelen-met-transportkar', '40 stapelstoelen met transportkar (pakket)', [opt('Kleur', SK)], [(k,) for k in SK],
+           lambda los, k: float(x9(0.9 * los)),
+           lambda k: [('stapelstoel-metaal', {'Kleur': k}, 40), ('transportkar-stapelstoelen', {'Uitvoering': 'Voor 40 stapelstoelen'}, 1)],
+           [img(f'pakket-40-stapelstoelen-met-transportkar-{slug(k)}-hero.webp', 'hero' if k == 'Zwart' else 'variant', 1 if k == 'Zwart' else 3, 'items',
+                {'items': [{'model': 'trolley', 'kind': 'stapelstoel', 'chairs': 40, 'loaded': 39, 'chairStyle': 'metaal', 'chairColor': render_color(k), 'position': [-0.45, 0, 0]},
+                           {'model': 'chair', 'style': 'metaal', 'color': render_color(k), 'position': [0.75, 0, 0.45], 'rotationY': -30}]}, 'hero', k, 'existing') for k in SK],
+           {k: f'pakket-40-stapelstoelen-met-transportkar-{slug(k)}-hero.webp' for k in SK}, 'Kleur',
+           '40 metalen stapelstoelen + transportkar · één kleur',
+           'Kantine, terras en verhuur: 40 stapelstoelen in 4 stapels van 10 op één kar, rijden en opslaan; besparing t.o.v. los.',
+           ['stapelstoelen met trolley', 'stapelstoelen 40 stuks', 'stoelen met transportkar'], ['tafels-stoelen.bundels', 'tafels-stoelen.trolleys', 'statafelrokken-hoezen.actiepakketten'],
+           ['zakelijk', 'pallet', 'gebruik:horeca', 'gebruik:evenement'], {'statafelshop': 'transportkar voor stapelstoel Waal 20/40 st (gevuld, prijs niet gevonden)'},
+           sku='40STM', verz='pallet')
     # one starter pack per Premium size; 6-legged tents get 2 sets of spanbanden (one band per poot)
     PRM = {'3 x 3 m': ('easy-up-partytent-premium-3x3', 1, 449.0), '3 x 4,5 m': ('easy-up-partytent-premium-3x4-5', 2, 549.0),
            '3 x 6 m': ('easy-up-partytent-premium-3x6', 2, 669.0)}
@@ -161,19 +200,33 @@ def build():
            'Kleur', 'Easy-up Premium + zijwandenset + spanbanden en haringen · 3 maten', 'Alles voor je eerste tuinfeest in 3 × 3, 3 × 4,5 of 3 × 6 m; los vs pakketprijs.',
            ['partytent 3x3 met zijwanden', 'partytent 3x6 met zijwanden', 'easy up set'], ['easy-up-partytenten.easy-up-premium', 'statafelrokken-hoezen.actiepakketten'],
            ['gebruik:tuinfeest'], sku='EUPRM')
-    CM = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m']
+    # every Professional size (merchandising review 3 added 2 x 2 and 5 x 5 m: polyester only, in the colours of those tents). The
+    # 2 x 2 m has no zijwandenset: its four loose 2 m walls in the set's layout (1 dicht, 1 met deur, 2 met raam) instead.
+    CM = ['2 x 2 m', '3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
     CU = ['Polyester', 'Heavy duty PVC']
     wset = lambda u: 'zijwandenset-easy-up' if u == 'Polyester' else 'zijwandenset-easy-up-heavy-duty-pvc'
+    def cp_walls(m, u, k):
+        if m == '2 x 2 m':
+            return [('zijwand-easy-up-dicht', {'Maat': '2 m', 'Kleur': k}, 1), ('zijwand-easy-up-met-deur', {'Maat': '2 m', 'Kleur': k}, 1),
+                    ('zijwand-easy-up-met-raam', {'Maat': '2 m', 'Kleur': k}, 2)]
+        return [(wset(u), {'Maat': m, 'Kleur': k}, 1)]
+    def cp_combos():
+        for m in CM:
+            for u in CU:
+                if m in PRO_KLEUREN and u != 'Polyester':
+                    continue
+                for k in (PRO_KLEUREN.get(m) or (TENT_KLEUREN if u == 'Polyester' else HD_KLEUREN)):
+                    yield (m, u, k)
     bundle('compleet-pakket-easy-up-professional', 'Compleet pakket easy-up Professional', [opt('Maat', CM), opt('Uitvoering', CU), opt('Kleur', TENT_KLEUREN)],
-           [(m, u, k) for m in CM for u in CU for k in (TENT_KLEUREN if u == 'Polyester' else HD_KLEUREN)],
+           list(cp_combos()),
            lambda los, m, u, k: float(x9(0.9 * los)),
-           lambda m, u, k: [(h_pro(m), {'Uitvoering': u, 'Kleur': k}, 1), (wset(u), {'Maat': m, 'Kleur': k}, 1),
-                            ('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {legs(m)}'}, 1)],
+           lambda m, u, k: [(h_pro(m), {'Uitvoering': u, 'Kleur': k}, 1)] + cp_walls(m, u, k) +
+                           [('voetgewicht-partytent-15-kg', {'Uitvoering': f'Set van {legs(m)}'}, 1)],
            *(lambda: (lambda imgs: (imgs, {i['kleur']: i['file'] for i in imgs}))(
                [img(f'compleet-pakket-easy-up-professional-{slug(k)}-hero.webp', 'hero' if k == 'Rood' else 'variant', 1 if k == 'Rood' else 3, 'easyUpTent',
                     tent_params('3 x 3 m', 'professional', k, walls={'back': 'window', 'left': 'closed', 'right': 'door'}, weights=2), 'hero', k, 'existing') for k in TENT_KLEUREN]))(),
-           'Kleur', 'Professional-tent + zijwandenset + voetgewichten · 6 maten · polyester of PVC',
-           'Zakelijk startklaar: tent, wanden en verzwaring in één keer, in 3 x 3 tot 4 x 8 m; met polyester dak (7 kleuren) of heavy duty PVC dak en PVC-wanden (wit of zwart); besparing noemen.',
+           'Kleur', 'Professional-tent + zijwanden + voetgewichten · 8 maten · polyester of PVC',
+           'Zakelijk startklaar: tent, wanden en verzwaring in één keer, in 2 x 2 tot 5 x 5 m; met polyester dak (7 kleuren; 2 x 2 en 5 x 5 m in de kleuren van die tenten) of heavy duty PVC dak en PVC-wanden (wit of zwart, 3 x 3 tot 4 x 8 m); besparing noemen.',
            ['easy up professional set', 'partytent compleet pakket'], ['easy-up-partytenten.easy-up-professional', 'statafelrokken-hoezen.actiepakketten'],
            ['zakelijk', 'pallet', 'gebruik:evenement', 'gebruik:markt'], sku='EUPRO', verz='pallet')
     BKK = ['Zwart', 'Wit', 'Antraciet']
@@ -201,5 +254,5 @@ def build():
            [img('wijnvat-set-statafel-barkrukken-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'barrelTable'}] + [{'model': 'barStool', 'style': 'hout', 'color': 'zwart', 'position': p}
                                                                                                                        for p in [[0.75, 0, 0], [-0.75, 0, 0], [0, 0, 0.75], [0, 0, -0.75]]]}, 'hero', None, 'existing')],
            None, None, 'Wijnvat-statafel + 4 barkrukken met houten zitting', 'Sfeerset voor terras en feestzaal; besparing t.o.v. los.',
-           ['wijnvat set', 'barrel set statafel'], ['tafels-stoelen.barrels-sets', 'statafelrokken-hoezen.actiepakketten'], ['gebruik:horeca', 'pallet'],
+           ['wijnvat set', 'barrel set statafel'], ['tafels-stoelen.barrels-sets', 'statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'gebruik:horeca', 'pallet'],
            {'outmate': 'Barrel-set 1 + 4 €775 (was €895)'}, sku='VAT', verz='pallet')

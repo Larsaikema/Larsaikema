@@ -171,17 +171,28 @@ def build():
            {'kenmerk_kort': '75 cm hoog · klapblad · weerbestendig blad', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket'},
            ['tafels-stoelen.terrastafels'], 'meubilair', 'Terrastafel met klapblad: snel opruimen na sluitingstijd; binnen en buiten.', ['terrastafel inklapbaar', 'horeca terrastafel'],
            {'outmate': '70x70 €132 · 120x70 €299', 'ours': TT}, vmap=vmap)
-    BTS = [('220 x 50 cm', 'Set: tafel en 2 banken', 169.0, 28), ('220 x 50 cm', 'Alleen tafel', 89.95, 14), ('220 x 70 cm', 'Set: tafel en 2 banken', 199.0, 32), ('220 x 70 cm', 'Alleen tafel', 109.0, 18)]
-    simple('biertafelset', 'Biertafelset', 'Biertafelset', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Uitvoering', ['Set: tafel en 2 banken', 'Alleen tafel'])],
-           [variant(f'KK-MEU-BTS-{code(m)}-{"SET" if "Set" in u else "T"}', [m, u], p, kg * 1000, inv(20, m + u)) for m, u, p, kg in BTS],
+    # Kwaliteit Standaard / Brouwerijkwaliteit (merchandising review 3: Statafelshop sells both, singly and per 10). Brouwerij =
+    # 35 mm blad and banken, rounded and twice lacquered, heavier galvanised onderstel: a supplier claim. A set is always cheaper
+    # than its tafel + 2 banken (the 220 x 70 set was € 199 against € 188,90 los: now € 185).
+    BTS = [('220 x 50 cm', 'Set: tafel en 2 banken', 'Standaard', 169.0, 28), ('220 x 50 cm', 'Alleen tafel', 'Standaard', 89.95, 14),
+           ('220 x 70 cm', 'Set: tafel en 2 banken', 'Standaard', 185.0, 32), ('220 x 70 cm', 'Alleen tafel', 'Standaard', 109.0, 18),
+           ('220 x 50 cm', 'Set: tafel en 2 banken', 'Brouwerijkwaliteit', 215.0, 34), ('220 x 50 cm', 'Alleen tafel', 'Brouwerijkwaliteit', 119.0, 17),
+           ('220 x 70 cm', 'Set: tafel en 2 banken', 'Brouwerijkwaliteit', 235.0, 39), ('220 x 70 cm', 'Alleen tafel', 'Brouwerijkwaliteit', 139.0, 22)]
+    KWAL = ['Standaard', 'Brouwerijkwaliteit']
+    simple('biertafelset', 'Biertafelset', 'Biertafelset', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
+           [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Uitvoering', ['Set: tafel en 2 banken', 'Alleen tafel']), opt('Kwaliteit', KWAL)],
+           [variant(f'KK-MEU-BTS-{code(m)}-{"SET" if "Set" in u else "T"}{"-BR" if q != "Standaard" else ""}', [m, u, q], p, kg * 1000, inv(20, m + u))
+            for m, u, q, p, kg in BTS],
            [img('biertafelset-hero.webp', 'hero', 1, 'biertafelset', {'length': 2.2, 'tableWidth': 0.5}, 'hero', None, 'existing'),
             img('biertafelset-70-hero.webp', 'variant', 3, 'biertafelset', {'length': 2.2, 'tableWidth': 0.7}, 'hero', None, 'existing', alt='breed blad 70 cm')],
            {'kenmerk_kort': 'Vurenhout · inklapbaar stalen onderstel · 220 cm', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pallet', 'addons': ['hoes-biertafelset'],
             'specificaties': [sp('Blad', 'Materiaal', 'Vurenhout, gelakt'), sp('Onderstel', 'Materiaal', 'Staal, verzinkt, inklapbaar'), sp('Set', 'Bank', '220 x 25 cm')]},
            ['tafels-stoelen.biertafels'], 'meubilair', 'Klassieke feestset: 50 cm standaard, 70 cm breed voor meer bordruimte; ook alleen de tafel.',
-           ['biertafelset', 'biertafel kopen', 'feestset'], {'statafelshop': 'biertafel 220x50 €114,89 · set €225', 'ours': {f'{m} {u}': p for m, u, p, kg in BTS}})
-    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [],
-           [variant('KK-MEU-BB-220', [], 39.95, 7000, 40)],
+           ['biertafelset', 'biertafel kopen', 'feestset', 'biertafel brouwerijkwaliteit'],
+           {'statafelshop': 'biertafel 220x50 standaard €114,89 · set €225 · 10 standaard vanaf €1.017,55 / brouwerij vanaf €1.376,92',
+            'ours': {f'{m} {u} {q}': p for m, u, q, p, kg in BTS}})
+    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Kwaliteit', KWAL)],
+           [variant('KK-MEU-BB-220', ['Standaard'], 39.95, 7000, 40), variant('KK-MEU-BB-220-BR', ['Brouwerijkwaliteit'], 49.95, 8500, 20)],
            [img('bierbank-220-hero.webp', 'hero', 1, 'biertafelset', {'length': 2.2, 'only': 'bank'}, 'hero', None, 'needs-param')],
            {'kenmerk_kort': 'Vurenhout 220 x 25 cm · inklapbaar', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pakket', 'past_op': ['biertafelset']},
            ['tafels-stoelen.banken', 'tafels-stoelen.biertafels'], 'meubilair', 'Extra bank bij je biertafel, of los als zitbank op het feest.', ['bierbank', 'bierbank los'],
@@ -349,7 +360,7 @@ def build():
            {'outmate': 'fitting €1,50–€1,69 · dimmer €9,99', 'ours': {p[0]: p[1] for p in PO}})
 
     # ------------------------------------------------------------ verwarming
-    simple('elektrische-heater-partytent', 'Elektrische heater voor partytent', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement'],
+    simple('elektrische-heater-partytent', 'Elektrische heater voor partytent', 'Verwarming', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
            [opt('Uitvoering', ['1500 W met klem voor easy-up', '1500 W met afstandsbediening en LED-lamp', '2100 W IP24 met beugel'])],
            [variant('KK-VRW-EL-1500', ['1500 W met klem voor easy-up'], 109.0, 3500, 12), variant('KK-VRW-EL-1500AB', ['1500 W met afstandsbediening en LED-lamp'], 119.0, 3800, 8),
             variant('KK-VRW-EL-2100', ['2100 W IP24 met beugel'], 149.0, 4200, 8)],
@@ -375,13 +386,13 @@ def build():
            ['verwarming.verwarming-accessoires'], 'verwarming',
            'Reservebrander zodat je heater na een kapotte buis niet afgeschreven is; welke buis bij welke heater; wisselen zonder gereedschap behalve een schroevendraaier; nooit aanraken met blote handen (vet op halogeen).',
            ['infraroodbrander heater', 'vervangende brander terrasheater', 'infrarood lamp heater'], {'outmate': 'vervangende infrarood brander (prijs niet gevonden)', 'ours': {'1500 W': 29.95, '2100 W': 39.95}})
-    simple('terrasheater-gas-13-kw', 'Terrasheater op gas 13 kW', 'Verwarming', ['gebruik:horeca', 'pallet'], [],
+    simple('terrasheater-gas-13-kw', 'Terrasheater op gas 13 kW', 'Verwarming', ['zakelijk', 'gebruik:horeca', 'pallet'], [],
            [variant('KK-VRW-GAS-13', [], 179.0, 22000, 6)],
            [img('terrasheater-gas-13-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'paddenstoel'}, 'hero', None, 'existing')],
            {'kenmerk_kort': 'RVS · 13 kW · omvalbeveiliging · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar'},
            ['verwarming.gas'], 'verwarming', 'Klassieke paddenstoelheater voor buiten; nooit in een gesloten tent; gasfles en drukregelaar niet inbegrepen.',
            ['terrasheater gas', 'gasheater terras'], {'note': 'geen referentieprijs gevonden', 'ours': 179})
-    simple('loungeheater-gas', 'Loungeheater op gas', 'Verwarming', ['gebruik:horeca', 'gebruik:tuinfeest'],
+    simple('loungeheater-gas', 'Loungeheater op gas', 'Verwarming', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'],
            [opt('Uitvoering', ['Staand model 9 kW', 'Tafelmodel 3 kW'])],
            [variant('KK-VRW-LOUNGE-9', ['Staand model 9 kW'], 249.0, 16000, 6), variant('KK-VRW-LOUNGE-3', ['Tafelmodel 3 kW'], 109.0, 6500, 10)],
            [img('loungeheater-gas-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'lounge'}, 'hero', None, 'existing'),
@@ -394,7 +405,7 @@ def build():
            ['verwarming.gas'], 'verwarming', 'Warmte op zithoogte voor lounge en terras; staand of tafelmodel; nooit in een gesloten tent; gasfles apart.',
            ['loungeheater', 'tafelheater gas', 'terrasverwarming gas'], {'outmate': 'area lounge heater en table lounge heater 3000 W (prijzen niet gevonden)', 'ours': {'staand': 249, 'tafel': 109}},
            vmap={'Staand model 9 kW': 'loungeheater-gas-hero.webp', 'Tafelmodel 3 kW': 'loungeheater-gas-tafelmodel.webp'}, vby='Uitvoering')
-    simple('flameheater-gas-9-kw', 'Flameheater op gas 9 kW', 'Verwarming', ['gebruik:horeca', 'gebruik:evenement', 'pallet'], [],
+    simple('flameheater-gas-9-kw', 'Flameheater op gas 9 kW', 'Verwarming', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement', 'pallet'], [],
            [variant('KK-VRW-FLAME-9', [], 329.0, 32000, 5)],
            [img('flameheater-gas-9-kw-hero.webp', 'hero', 1, 'heater', {'kind': 'gas', 'style': 'flame'}, 'hero', None, 'existing')],
            {'kenmerk_kort': 'Zichtbare vlam in glazen buis · 9 kW · ca. 225 cm hoog · gasfles apart', 'verzending': 'pallet', 'garantie': '1 jaar',

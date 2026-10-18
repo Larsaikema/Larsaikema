@@ -1,6 +1,6 @@
 {%- comment -%}
   JSON-LD: Organization + WebSite/SearchAction (home), Product with one Offer per variant, BreadcrumbList,
-  FAQPage for product FAQ metafield. AggregateRating ONLY from review-app metafields (never fabricated).
+  FAQPage for the visible product FAQ (snippets/product-tab). AggregateRating ONLY from review-app metafields (never fabricated).
 {%- endcomment -%}
 {%- liquid
   assign org_phone = settings.phone | default: shop.phone
@@ -84,20 +84,7 @@
   ]
 }
 </script>
-  {%- assign faq = product.metafields.custom.faq.value -%}
-  {%- if faq != blank and faq.size > 0 -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {%- for item in faq -%}
-    { "@type": "Question", "name": {{ item.vraag | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.antwoord | json }} } }{% unless forloop.last %},{% endunless %}
-    {%- endfor -%}
-  ]
-}
-</script>
-  {%- endif -%}
+  {%- comment -%} FAQPage: snippets/product-tab (source 'faq') outputs it with exactly the questions the page shows {%- endcomment -%}
 {%- endif -%}
 
 {%- comment -%} Collection pages: sections/main-collection outputs the BreadcrumbList of its visible menu trail. Product, article, page and blog: below, matching snippets/breadcrumbs. {%- endcomment -%}

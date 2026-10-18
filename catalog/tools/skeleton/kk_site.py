@@ -282,7 +282,7 @@ def build_menus():
             L('Voor buizenframe-tenten', 'collection', 'buizenframe-onderdelen', items=[
                 P('Zijwand 2 m (200 of 220 cm)', 'zijwand-partytent-2-m-pvc'), P('Eind- en tussenwand', 'eindwand-en-tussenwand-partytent'),
                 P('Dakzeil', 'dakzeil-partytent-buizenframe'), P('Koppelstukken en buizen', 'koppelstukken-en-buizen-38-mm'),
-                P('Voetgewicht per staander', 'voetgewicht-easy-up-15-kg'), P('Stormbandenset', 'stormbandenset-partytent'),
+                P('Voetgewicht per staander', 'voetgewicht-partytent-15-kg'), P('Stormbandenset', 'stormbandenset-partytent'),
                 P('Opbergtassenset', 'opbergtassenset-partytent'), P('Regengoot', 'regengoot-partytent')]),
             L('Voor stretch-, ster- en opblaasbare tenten', 'collection', 'onderdelen-stretch-ster-en-opblaasbare-tenten', items=[
                 P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal en koppelgoten', 'onderdelen-stretchtent'),

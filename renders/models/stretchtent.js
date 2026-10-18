@@ -176,7 +176,7 @@ export function stretchtent(p = {}) {
     view: { low: { azimuth: 28, elevation: 3 } },
     // the catalogue tent light (current easy-up rig): white stretch cloth reads white (lit sail
     // ~240-248), not light grey; stretch fabric is matte, so the white key is not tempered
-    rig: { default: T2.tentRig2(hex) },
+    rig: { default: { ...T2.tentRig2(hex), ...(lum > 0.7 ? { exposure: 0.72 } : {}) } },
     meta: { W, D, hypar, poles: poles.length },
   };
 }

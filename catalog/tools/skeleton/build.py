@@ -13,10 +13,11 @@ for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
     HANDLES[h]['metafields']['addons'] = [a for a in HANDLES[h]['metafields']['addons'] if a != 'beschermplaat-statafel']
     HANDLES[h].setdefault('complementary', []).append('beschermplaat-statafel')
 errors = []
-# every barkruk: the kar for 24 barkrukken goes along once per order line (merchandising review: no dead-end barkruk pages)
+# the kar of every meubeltype goes along once per order line (merchandising reviews: no dead-end barkruk pages; a kar for every
+# stapelstoel, klapstoel, klaptafel, ronde tafel, biertafelset and terrastafel; never on the PE-rotan barkruk, which does not stack)
 for p in PRODUCTS:
-    if p['product_type'] == 'Barkruk':
-        p['metafields']['addon_eenmalig'] = ['transportkar-klaptafels-en-stoelen']
+    if p['handle'] in kk_addons.KAR_EENMALIG:
+        p['metafields']['addon_eenmalig'] = [kk_addons.KAR_EENMALIG[p['handle']]]
 # add-ons per variant (custom.addon_varianten / addon_aantallen) + product-level union, then staffels on every bundle
 kk_addons.apply(errors)
 # every zakelijk line says something on the B2B route: a staffel of its family (price band) when it has none yet
@@ -43,7 +44,7 @@ for p in PRODUCTS:
             errors.append(f'{p["handle"]}: addon_eenmalig {x} is not one of its add-ons')
 # accessories that also fit the inflatables. NB: never `+=` on a past_op list: the easy-up accessories share ONE list object
 # (fam_acc EU), and an in-place add once put the inflatables on wieltas, beschermhoes, voetgewicht, regengoot and zandzakken.
-for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten',
+for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-met-waterpoten',
                                                   'opblaasbare-zeshoektent']),
                    ('zitkussen-stoel-en-barkruk', ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal'])]:
     HANDLES[_h]['metafields']['past_op'] = list(HANDLES[_h]['metafields']['past_op']) + _extra
@@ -82,6 +83,10 @@ for p in PRODUCTS:
             sy.add(own_system(HANDLES[x]))
     sy |= set(SYSTEEM_EXTRA.get(p['handle'], []))
     p['metafields']['systeem'] = [x for x in SYSTEMEN if x in sy] or None
+# multi-size printed easy-ups: custom.gewicht_kg was the 2 x 2 / 3 x 3 m weight (22 / 27 kg) on sizes up to 4 x 8 m (84-90 kg). Left
+# empty, so the PDP takes the chosen variant's weight (merchandising review 3); build.py (catalog) keeps it empty too.
+NO_PRODUCT_WEIGHT = {'easy-up-partytent-professional-met-logo-op-de-luifel', 'easy-up-partytent-professional-full-colour-bedrukt',
+                     'easy-up-partytent-premium-met-logo-op-de-luifel'}
 for p in PRODUCTS:
     mf = p['metafields']
     for key in ['addons', 'past_op', 'andere_maten']:
@@ -94,17 +99,22 @@ for p in PRODUCTS:
     for key in ['addons', 'past_op']:
         if mf.get(key) == []:
             mf[key] = None
-    mf['gewicht_kg'] = mf.get('gewicht_kg') or (round(p['variants'][0]['grams'] / 1000, 1) if p['variants'][0]['grams'] else None)
+    if p['handle'] in NO_PRODUCT_WEIGHT:
+        mf['gewicht_kg'] = None   # weight per variant only (variants[].grams): one product weight would show the smallest size on every size
+    else:
+        mf['gewicht_kg'] = mf.get('gewicht_kg') or (round(p['variants'][0]['grams'] / 1000, 1) if p['variants'][0]['grams'] else None)
     p['tags'] = sorted(set(t.lower() for t in p['tags']))
     if mf['bedrukbaar'] and 'bedrukbaar' not in p['tags']:
         errors.append(f'{p["handle"]}: bedrukbaar without tag')
     if 'badge:actie' in p['tags']:
         errors.append(f'{p["handle"]}: badge:actie without compare_at')
-    if len(p['variants']) > 100:
-        errors.append(f'{p["handle"]}: {len(p["variants"])} variants > 100')
+    # Shopify takes 2048 variants per product, but Liquid's product.variants returns at most 250 and the theme builds its variant
+    # JSON from it: keep every product at 250 or fewer
+    if len(p['variants']) > 250:
+        errors.append(f'{p["handle"]}: {len(p["variants"])} variants > 250 (Liquid product.variants limit)')
     names = [o['name'] for o in p['options']]
     for o in p['options']:
-        if o['name'] not in ('Maat', 'Kleur', 'Uitvoering', 'Bedrag'):
+        if o['name'] not in ('Maat', 'Kleur', 'Uitvoering', 'Kwaliteit', 'Bedrag'):
             errors.append(f'{p["handle"]}: option {o["name"]}')
         if o['name'] == 'Kleur':
             for v in o['values']:
@@ -371,7 +381,7 @@ doc['claims_to_confirm'] = {
     'per_product': claims,
     'general': ['Every price and staffel (owner review).', 'What is in the box: Premium = frame, dak, beschermhoes; Professional = frame, dak, wieltas, 4 spanbanden + 4 haringen.',
                 'Kleur Rood on tents, walls, roofs, inflatables and marktkraam = the supplier\'s stock red (brand.md §4.5: no own Klaproos dye lot); check the swatch against the real cloth.',
-                'Add-on defaults: buizenframe and opslagtent = 1 voetgewicht 15 kg + 1 lange haring per staander (spanten om de 2 m: 4 to 14); zeshoektent = watergewicht for 3/4/5 zakken of 20 kg per poot (its 50/75/100 kg advice); betonblokken are no add-on anywhere: ballast for stretch-, ster- and big tents on hard ground is ballastadvies via offerte (no ballast calculation in the shop).',
+                'Add-on defaults: buizenframe and opslagtent = 1 voetgewicht 15 kg + 1 lange haring per staander (spanten om de 2 m: 4 to 14); zeshoektent = watergewicht for 3/4/5 zakken of 20 kg per poot (its 50/75/100 kg advice); the stretchtent offers 1 betonblok of 500 kg as a start (its copy says the number per ankerpunt follows from ballastadvies via offerte); no other tent has a betonblok add-on and the shop makes no ballast calculation.',
                 'Bundle staffels are derived from the component staffels (value-weighted, rounded up), so a bundle never loses to its parts at the same volume.',
                 'Specs (materials, g/m², weights, packed sizes, heights, capacity) are definitions to confirm with the supplier.',
                 'Brandvertragend / brandklasse statements need a supplier certificate on file; until then no fire class anywhere in the shop (stretch M2 removed 2026-10-18).', 'Maatwerk and printed goods excluded from herroepingsrecht (check terms).',

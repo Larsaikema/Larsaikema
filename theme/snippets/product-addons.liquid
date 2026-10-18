@@ -33,7 +33,7 @@
 {%- comment -%} a sold-out variant offers no extras to tick under a disabled button {%- endcomment -%}
 {%- if addon_n > 0 and current_variant.available -%}
   {%- assign addon_visible = block.settings.visible | default: 3 -%}
-  <fieldset class="addons" data-addon-follow="{{ addon_follow }}" data-addons data-visible="{{ addon_visible }}">
+  <fieldset class="addons js-only" data-addon-follow="{{ addon_follow }}" data-addons data-visible="{{ addon_visible }}">
     <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
     {%- comment -%}
       What is not in the box (custom.excluded) right above the add-ons that supply it, before the buy button:
@@ -49,13 +49,18 @@
     {%- comment -%} right above the buy button the button's live total says what a tick does; the how-to line only shows without a 'Niet inbegrepen' line {%- endcomment -%}
     {%- liquid
       # Order: first the add-ons that supply what is not in the box (custom.excluded: 'Haringen en spanbanden' finds
-      # 'Spanbanden en haringen easy-up'), cheapest first, so the set a tent cannot stand without is never behind
-      # 'Nog x tonen'; then the rest in catalog order. Keys: the words of each excluded item, plural 'en' cut off.
+      # 'Spanbanden en haringen easy-up'), in the order of that list (the side walls it names first come first), so what
+      # a tent cannot stand without is never behind 'Nog x tonen'; then the rest in catalog order. Keys: the words of
+      # each excluded item with its list position ('haring~1'), plural 'en' cut off, short and filler words left out
+      # ('Haringen voor de 2 middenpoten' must not find 'LED-vloedlicht voor easy-up').
+      assign ess_stop = ',voor,naar,met,zonder,extra,losse,apart,aparte,inclusief,exclusief,eerste,tweede,derde,vierde,alle,andere,stuks,poten,sets,bestellen,'
       assign ess_keys = ''
       for x in a_exc
+        assign xi = forloop.index0
         assign xw = x | split: ' (' | first | downcase | split: ' '
         for w in xw
-          if w.size < 4
+          assign w_chk = ',' | append: w | append: ','
+          if w.size < 4 or ess_stop contains w_chk
             continue
           endif
           assign wk = w
@@ -64,7 +69,7 @@
           if wend == 'en' and w.size > 5
             assign wk = w | slice: 0, wl
           endif
-          assign ess_keys = ess_keys | append: wk | append: ','
+          assign ess_keys = ess_keys | append: wk | append: '~' | append: xi | append: ','
         endfor
       endfor
       assign ess_keys = ess_keys | split: ','
@@ -99,10 +104,12 @@
           assign a_t = addon.title | downcase
           assign a_idx = '000' | append: forloop.index | slice: -3, 3
           assign a_sort = '1' | append: a_idx
-          for k in ess_keys
+          for ek in ess_keys
+            assign k = ek | split: '~' | first
             if k != blank and a_t contains k
-              assign a_pad = '000000000' | append: a_price | slice: -9, 9
-              assign a_sort = '0' | append: a_pad
+              assign a_rank = ek | split: '~' | last
+              assign a_rank = '00' | append: a_rank | slice: -2, 2
+              assign a_sort = '0' | append: a_rank | append: a_idx
               break
             endif
           endfor

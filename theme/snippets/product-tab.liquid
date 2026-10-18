@@ -175,6 +175,7 @@
           endfor
           assign skip_qs = skip_qs | split: '|'
         -%}
+        {%- assign faq_ld = '' -%}
         {%- capture faq_rows -%}
           {%- for item in faq -%}
             {%- assign q_lc = item.vraag | downcase -%}
@@ -186,9 +187,17 @@
             {%- endunless -%}
             {%- if q_dup -%}{%- continue -%}{%- endif -%}
             <dt>{{ item.vraag }}</dt><dd>{{ item.antwoord }}</dd>
+            {%- capture faq_q -%}{"@type":"Question","name":{{ item.vraag | json }},"acceptedAnswer":{"@type":"Answer","text":{{ item.antwoord | json }}}}{%- endcapture -%}
+            {%- assign faq_ld = faq_ld | append: ',' | append: faq_q -%}
           {%- endfor -%}
         {%- endcapture -%}
-        {%- if faq_rows != blank -%}<dl class="pdp-faq">{{ faq_rows }}</dl>{%- endif -%}
+        {%- comment -%}
+          FAQPage JSON-LD sits here, not in snippets/structured-data: it lists exactly the questions this accordion shows
+          (structured data must describe visible content), and nothing when the FAQ tab is removed in the editor.
+        {%- endcomment -%}
+        {%- if faq_rows != blank -%}<dl class="pdp-faq">{{ faq_rows }}</dl>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ faq_ld | remove_first: ',' }}]}</script>
+        {%- endif -%}
       {%- endif -%}
     {%- when 'safety' -%}
       {%- assign ptype = product.type | downcase -%}

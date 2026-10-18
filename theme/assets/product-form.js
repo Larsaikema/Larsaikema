@@ -80,11 +80,12 @@ class ProductForm extends HTMLElement {
 		sync(q);
 	}
 	initQuote() {
-		const form = this.$('form[data-quote-form]');
-		const ok = form?.querySelector('[data-quote-success]');
-		if (ok) return requestAnimationFrame(() => ((ok.closest('details').open = true), ok.scrollIntoView({ block: 'center' }), ok.focus({ preventScroll: true })));
-		form?.addEventListener('invalid', ({ target: el }) => (el.setCustomValidity(el.validity.valueMissing ? el.dataset.msgRequired || form.dataset.msgRequired : form.dataset.msgEmail), el.setAttribute('aria-invalid', 'true')), true);
-		form?.addEventListener('input', ({ target: el }) => (el.setCustomValidity?.(''), el.removeAttribute('aria-invalid')));
+		const ok = this.$('[data-form-success]');
+		const d = ok?.closest('details');
+		if (ok) requestAnimationFrame(() => (d && (d.open = true), ok.scrollIntoView({ block: 'center' }), ok.focus({ preventScroll: true })));
+		const f = (el) => el.form?.dataset.msgRequired && el.form;
+		this.root.addEventListener('invalid', ({ target: el }) => f(el) && (el.setCustomValidity(el.validity.valueMissing ? el.dataset.msgRequired || el.form.dataset.msgRequired : el.form.dataset.msgEmail), el.setAttribute('aria-invalid', 'true')), true);
+		this.root.addEventListener('input', ({ target: el }) => f(el) && (el.setCustomValidity(''), el.removeAttribute('aria-invalid')));
 	}
 	get quantity() {
 		const q = this.qty;

@@ -41,7 +41,7 @@
     <summary><span>{{ heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
     <div class="accordion__body">
       {%- if quote_ok -%}
-        <p class="notice notice--success" role="status" tabindex="-1" data-quote-success>{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'product.quote_success' | t }}</strong></span></p>
+        <p class="notice notice--success" role="status" tabindex="-1" data-form-success>{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'product.quote_success' | t }}</strong></span></p>
       {%- else -%}
         {%- if quote_errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
         {%- if block.settings.text != blank -%}<p class="text-sm muted">{{ block.settings.text }}</p>{%- endif -%}

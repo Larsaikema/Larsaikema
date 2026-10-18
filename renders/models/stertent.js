@@ -171,7 +171,7 @@ export function stertent(p = {}) {
     bins.add(alu, G.tube(foot.clone().setY(0.012), top, 0.03, 18));
     bins.add(steel, G.tube(top.clone(), top.clone().add(V3(0, 0.1, 0)), 0.009, 10, { caps: true }));
     bins.add(steel, K.footPlate(foot.x, foot.z, 0.12, 0.01));
-    const stake = top.clone().setY(0).addScaledVector(t.d, Hp * 0.5 + 0.3);
+    const stake = top.clone().setY(0).addScaledVector(t.d, Hp * 0.36 + 0.25);
     bins.add(ropeM, K.rope(top.clone().add(V3(0, 0.03, 0)), stake.clone().setY(0.1), 0.006, 0.006));
     bins.add(steel, K.stakeGeo(stake, t.d.clone().negate(), { len: 0.12, r: 0.011 }));
   }
@@ -246,7 +246,9 @@ export function stertent(p = {}) {
   return {
     object: group,
     detail: { target: [0, Hc - 0.5, 0], size: 2.2, azimuth: 30, elevation: 5 },
-    rig: { default: T2.tentRig2(hex, { walled: !!walls, print: !!print }) },
+    // white canvas: the big sail is mostly turned away from the softbox, so it gets a brighter
+    // exposure than an easy-up roof (lit canvas ~240-248, not light grey against the Linnen)
+    rig: { default: { ...T2.tentRig2(hex, { walled: !!walls, print: !!print }), ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.7 } : {}) } },
     meta: { Dm, N, masts, Hc, Hp },
   };
 }

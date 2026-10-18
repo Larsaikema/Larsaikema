@@ -61,6 +61,8 @@ import { heaterCover } from './heaterCover.js';
 import { carpetRunner } from './carpetRunner.js';
 import { seatCushion } from './seatCushion.js';
 import { sideWall } from './sideWall.js';
+// merchandising review 3: tentelastieken as their own product
+import { tentElastics } from './tentElastics.js';
 
 export const MODELS = {
   easyUpTent,
@@ -73,5 +75,5 @@ export const MODELS = {
   draagtas, easyUpParts, connectionStrip, rainGutter, tentCoupler, tubeFittings, tentPoles, footCaps, haringen, gewichten,
   wielset, sandbag, waterBag, concreteBlock, protectionDisc, repairKit, airPump, tubeBag, stretchParts, lightParts,
   prikkabel, ropeLight, stringLights, ledBulb, heaterCover,
-  carpetRunner, seatCushion, sideWall,
+  carpetRunner, seatCushion, sideWall, tentElastics,
 };

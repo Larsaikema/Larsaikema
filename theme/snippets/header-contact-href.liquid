@@ -1,0 +1,28 @@
+{%- comment -%}
+  Header only: the href of a phone or WhatsApp link, in international form so it also works for a visitor in Belgium.
+  '038 123 45 67' → tel:+31381234567 · '+31 (0)38 123 45 67' → tel:+31381234567 · '0032 3 123 45 67' → tel:+3231234567
+  WhatsApp ('06-12345678', '+31 6 12345678' or '31612345678') → https://wa.me/31612345678. A national number (leading 0)
+  gets the country code cc (default 31, the shop's own country). Prints nothing when no digits are left.
+  Params: number (string), type ('tel' | 'wa'), cc (optional country code without +)
+{%- endcomment -%}
+{%- liquid
+  assign hx_cc = cc | default: '31' | append: ''
+  assign hx = number | strip | replace: '(0)', '' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.' | remove: '/' | remove: ' '
+  assign hx_1 = hx | slice: 0, 1
+  assign hx_2 = hx | slice: 0, 2
+  if hx_1 == '+'
+    assign hx = hx | remove_first: '+'
+  elsif hx_2 == '00'
+    assign hx = hx | slice: 2, 30
+  elsif hx_1 == '0'
+    assign hx = hx | slice: 1, 30 | prepend: hx_cc
+  endif
+  assign hx_digits = hx | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+  if hx != blank and hx_digits == blank
+    if type == 'wa'
+      echo 'https://wa.me/' | append: hx
+    else
+      echo 'tel:+' | append: hx
+    endif
+  endif
+-%}

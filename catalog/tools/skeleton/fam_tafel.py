@@ -105,7 +105,7 @@ def build():
            {'kenmerk_kort': 'Lang blad voor 8–10 personen staand · 110 cm · inklapbaar', 'staffelkorting': ST_STATAFEL, 'verzending': 'pallet', 'vergelijk_groep': 'statafel', 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Lange statafel als bar of buffet op stahoogte; inklapbaar voor opslag.',
            ['statafel rechthoekig', 'lange statafel'], {'statafelshop': 'Indus Breed €252,89 · Purus 160x60 €204,49', 'ours': RH}, vmap=vmap)
-    simple('statafel-wijnvat-houtlook', 'Statafel wijnvat houtlook', 'Statafel', ['gebruik:horeca', 'gebruik:tuinfeest'], [opt('Maat', ['Ø80 cm'])],
+    simple('statafel-wijnvat-houtlook', 'Statafel wijnvat houtlook', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'], [opt('Maat', ['Ø80 cm'])],
            [variant('KK-STF-VAT-D80', ['Ø80 cm'], 349.0, 25000, 6)],
            [img('statafel-wijnvat-houtlook-hero.webp', 'hero', 1, 'barrelTable', {'top': 0.8, 'height': 1.05, 'finish': 'houtlook'}, 'hero', 'Houtlook', 'needs-model')],
            {'kenmerk_kort': 'Kunststof vat in houtlook · vulbaar met water of zand · binnen en buiten', 'verzending': 'pallet', 'gewicht_kg': 25, 'vergelijk_groep': 'statafel'},
