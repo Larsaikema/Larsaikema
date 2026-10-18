@@ -19,28 +19,32 @@
           "type": "question",
           "settings": {
             "question": "Hoe kan ik betalen?",
-            "answer": "<p>Bij het afrekenen zie je de betaalmethoden die voor jouw land werken, zonder toeslag. Zakelijke klanten met een goedgekeurd account kunnen op factuur betalen. Alles op een rij staat bij <a href=\"/pages/betaalmethoden\">betaalmethoden</a>.</p>"
+            "answer": "<p>Bij het afrekenen zie je de betaalmethoden die voor jouw land werken, zonder toeslag. Zakelijke klanten met een goedgekeurd account kunnen op factuur betalen. Alles op een rij staat bij <a href=\"/pages/betaalmethoden\">betaalmethoden</a>.</p>",
+            "keywords": "betaalmethoden, iDEAL, Bancontact, creditcard, Visa, Mastercard, PayPal, Apple Pay, Google Pay, afrekenen, betaling"
           }
         },
         "q2": {
           "type": "question",
           "settings": {
             "question": "Kan ik achteraf betalen?",
-            "answer": "<p>Nee, achteraf betalen bieden we op dit moment niet aan. Bestel je als bedrijf, club of school, dan kun je met een goedgekeurd zakelijk account op factuur betalen.</p>"
+            "answer": "<p>Nee, achteraf betalen bieden we op dit moment niet aan. Bestel je als bedrijf, club of school, dan kun je met een goedgekeurd zakelijk account op factuur betalen.</p>",
+            "keywords": "achteraf, later betalen, in termijnen, Klarna, Riverty, factuur"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
             "question": "Kan ik een offerte krijgen?",
-            "answer": "<p>Ja. Vul het <a href=\"/pages/offerte\">offerteformulier</a> in met de producten, aantallen en je leverdatum, dan krijg je een offerte op maat.</p>"
+            "answer": "<p>Ja. Vul het <a href=\"/pages/offerte\">offerteformulier</a> in met de producten, aantallen en je leverdatum, dan krijg je een offerte op maat.</p>",
+            "keywords": "offerte, prijsopgave, offerteaanvraag, grote aantallen, prijs op maat"
           }
         },
         "q4": {
           "type": "question",
           "settings": {
             "question": "Kan ik mijn bestelling nog wijzigen?",
-            "answer": "<p>Neem zo snel mogelijk <a href=\"/pages/contact\">contact</a> op met je bestelnummer. Is je bestelling nog niet verzonden, dan kijken we samen wat er kan.</p>"
+            "answer": "<p>Neem zo snel mogelijk <a href=\"/pages/contact\">contact</a> op met je bestelnummer. Is je bestelling nog niet verzonden, dan kijken we samen wat er kan.</p>",
+            "keywords": "annuleren, aanpassen, wijzigen, adres wijzigen, bestelling annuleren"
           }
         },
         "g2": {
@@ -53,28 +57,32 @@
           "type": "question",
           "settings": {
             "question": "Wanneer heb ik mijn bestelling?",
-            "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Op voorraad en op een werkdag vóór [besteltijd] besteld: dan gaat je pakket dezelfde dag de deur uit. Grote tenten leveren we per pallet, op afspraak.</p>"
+            "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Op voorraad en op een werkdag vóór [besteltijd] besteld: dan gaat je pakket dezelfde dag de deur uit. Grote tenten leveren we per pallet, op afspraak.</p>",
+            "keywords": "levertijd, levertermijn, leverdatum, bezorgen, bezorging, bezorgtijd, wanneer geleverd, verzending, verzonden, besteltijd"
           }
         },
         "q6": {
           "type": "question",
           "settings": {
             "question": "Wat kost verzenden?",
-            "answer": "<p>Dat hangt af van je land en of je bestelling als pakket of op een pallet komt. Je ziet de verzendkosten in je winkelwagen, vóór je afrekent. Alle tarieven staan bij <a href=\"/pages/verzenden-en-bezorgen\">verzenden en bezorgen</a>.</p>"
+            "answer": "<p>Dat hangt af van je land en of je bestelling als pakket of op een pallet komt. Je ziet de verzendkosten in je winkelwagen, vóór je afrekent. Alle tarieven staan bij <a href=\"/pages/verzenden-en-bezorgen\">verzenden en bezorgen</a>.</p>",
+            "keywords": "verzendkosten, bezorgkosten, leveringskosten, gratis verzending, verzending, verzendtarief"
           }
         },
         "q7": {
           "type": "question",
           "settings": {
             "question": "Pakket of pallet: hoe zit dat?",
-            "answer": "<p>Grote en zware tenten en grote aantallen komen op een pallet, op een dag die de vervoerder vooraf met je afspreekt. Zit er één palletproduct in je bestelling, dan gaat alles samen op de pallet en betaal je één keer palletkosten.</p>"
+            "answer": "<p>Grote en zware tenten en grote aantallen komen op een pallet, op een dag die de vervoerder vooraf met je afspreekt. Zit er één palletproduct in je bestelling, dan gaat alles samen op de pallet en betaal je één keer palletkosten.</p>",
+            "keywords": "palletlevering, pallet, vrachtwagen, afleverdag, zware tent, betonblok"
           }
         },
         "q8": {
           "type": "question",
           "settings": {
             "question": "Leveren jullie ook in België?",
-            "answer": "<p>Ja, we leveren in Nederland en België. In België is je pakket meestal een werkdag later bij je.</p>"
+            "answer": "<p>Ja, we leveren in Nederland en België. In België is je pakket meestal een werkdag later bij je.</p>",
+            "keywords": "Belgie, buitenland, Vlaanderen, Waddeneilanden, levergebied"
           }
         },
         "g3": {
@@ -87,28 +95,32 @@
           "type": "question",
           "settings": {
             "question": "Kan ik iets terugsturen?",
-            "answer": "<p>Ja, je hebt [bedenktijd] dagen bedenktijd vanaf de dag dat je je bestelling ontvangt. Meld je retour binnen die termijn, met je bestelnummer. Hoe het werkt lees je bij <a href=\"/pages/retourneren\">retourneren</a>.</p>"
+            "answer": "<p>Ja, je hebt [bedenktijd] dagen bedenktijd vanaf de dag dat je je bestelling ontvangt. Meld je retour binnen die termijn, met je bestelnummer. Hoe het werkt lees je bij <a href=\"/pages/retourneren\">retourneren</a>.</p>",
+            "keywords": "retour, retourneren, terugsturen, ruilen, omruilen, bedenktijd, geld terug, herroepen, herroepingsrecht"
           }
         },
         "q10": {
           "type": "question",
           "settings": {
             "question": "Wat kan ik niet retourneren?",
-            "answer": "<p>Bedrukte producten en maatwerk dat we volgens jouw maten maken. Daarom krijg je bij die producten altijd eerst een drukproef of tekening ter akkoord.</p>"
+            "answer": "<p>Bedrukte producten en maatwerk dat we volgens jouw maten maken. Daarom krijg je bij die producten altijd eerst een drukproef of tekening ter akkoord.</p>",
+            "keywords": "maatwerk, bedrukt, uitzondering, niet retour"
           }
         },
         "q11": {
           "type": "question",
           "settings": {
             "question": "Er is iets kapot of het is niet compleet. Wat nu?",
-            "answer": "<p>Meld het zo snel mogelijk met je bestelnummer en een paar foto's. Dan sturen we een onderdeel, een nieuw exemplaar of je geld terug, en de kosten zijn voor ons. Zie ook <a href=\"/pages/garantie\">garantie</a>.</p>"
+            "answer": "<p>Meld het zo snel mogelijk met je bestelnummer en een paar foto's. Dan sturen we een onderdeel, een nieuw exemplaar of je geld terug, en de kosten zijn voor ons. Zie ook <a href=\"/pages/garantie\">garantie</a>.</p>",
+            "keywords": "beschadigd, schade, kapot, ontbreekt, onderdeel mist, klacht, defect, incompleet"
           }
         },
         "q12": {
           "type": "question",
           "settings": {
             "question": "Hoeveel garantie krijg ik?",
-            "answer": "<p>Altijd de wettelijke garantie: een product moet doen wat je ervan mag verwachten. Op een deel van het assortiment krijg je extra garantie op het frame; hoeveel, staat bij het product.</p>"
+            "answer": "<p>Altijd de wettelijke garantie: een product moet doen wat je ervan mag verwachten. Op een deel van het assortiment krijg je extra garantie op het frame; hoeveel, staat bij het product.</p>",
+            "keywords": "garantie, garantietermijn, frame, defect, reparatie, klacht"
           }
         },
         "g4": {
@@ -121,28 +133,32 @@
           "type": "question",
           "settings": {
             "question": "Welke maat partytent heb ik nodig?",
-            "answer": "<p>Reken op 1 persoon per m² aan tafel en 1,5 per m² staand. Een tent van 3 × 3 m is dus goed voor 9 mensen aan tafel of 13 staand. Meer rekenvoorbeelden staan in het <a href=\"/pages/maatadvies-partytenten\">maatadvies voor partytenten</a>.</p>"
+            "answer": "<p>Reken op 1 persoon per m² aan tafel en 1,5 per m² staand. Een tent van 3 × 3 m is dus goed voor 9 mensen aan tafel of 13 staand. Meer rekenvoorbeelden staan in het <a href=\"/pages/maatadvies-partytenten\">maatadvies voor partytenten</a>.</p>",
+            "keywords": "hoeveel personen, gasten, afmeting, maat, 3x3, 3x4,5, 3x6, 4x4, 4x6, 4x8, m2"
           }
         },
         "q14": {
           "type": "question",
           "settings": {
             "question": "Easy-up Premium of Professional?",
-            "answer": "<p>Zet je de tent een paar keer per jaar op, dan is de Premium met 40 mm staal genoeg. Zet je hem elke week op of verhuur je hem, kies dan de Professional met 50 mm aluminium en een wieltas. Het hele verschil lees je in <a href=\"/blogs/advies/easy-up-premium-of-professional\">Easy-up Premium of Professional</a>.</p>"
+            "answer": "<p>Zet je de tent een paar keer per jaar op, dan is de Premium met 40 mm staal genoeg. Zet je hem elke week op of verhuur je hem, kies dan de Professional met 50 mm aluminium en een wieltas. Het hele verschil lees je in <a href=\"/blogs/advies/easy-up-premium-of-professional\">Easy-up Premium of Professional</a>.</p>",
+            "keywords": "verschil, vergelijken, staal, aluminium, Premium, Professional"
           }
         },
         "q15": {
           "type": "question",
           "settings": {
             "question": "Welke statafelrok past op mijn tafel?",
-            "answer": "<p>Meet het blad van rand tot rand en de hoogte. Kijk dan in ons <a href=\"/pages/maatadvies-statafelrokken\">maatadvies voor statafelrokken</a>.</p>"
+            "answer": "<p>Meet het blad van rand tot rand en de hoogte. Kijk dan in ons <a href=\"/pages/maatadvies-statafelrokken\">maatadvies voor statafelrokken</a>.</p>",
+            "keywords": "statafelhoes, statafelrok, maat, diameter, Ø80, Ø70, Ø85, stretch, strik"
           }
         },
         "q16": {
           "type": "question",
           "settings": {
             "question": "Kan ik onderdelen los kopen?",
-            "answer": "<p>Ja. Gaat er een hoekstuk, schaararm of voetplaat stuk, dan vervang je dat ene onderdeel en niet de hele tent. Kijk bij <a href=\"/collections/partytent-onderdelen\">partytent-onderdelen</a>.</p>"
+            "answer": "<p>Ja. Gaat er een hoekstuk, schaararm of voetplaat stuk, dan vervang je dat ene onderdeel en niet de hele tent. Kijk bij <a href=\"/collections/partytent-onderdelen\">partytent-onderdelen</a>.</p>",
+            "keywords": "onderdelen, reserveonderdelen, hoekstuk, schaararm, voetplaat, poot, reparatie, vervangen"
           }
         },
         "g5": {
@@ -155,21 +171,24 @@
           "type": "question",
           "settings": {
             "question": "Met hoeveel mensen zet ik een easy-up op?",
-            "answer": "<p>Tot 3 × 6 m met twee personen. Een 4 × 4 m of groter zet je met vier personen neer, één per hoek. Stap voor stap: <a href=\"/blogs/advies/easy-up-partytent-opzetten\">easy-up partytent opzetten</a>.</p>"
+            "answer": "<p>Tot 3 × 6 m met twee personen. Een 4 × 4 m of groter zet je met vier personen neer, één per hoek. Stap voor stap: <a href=\"/blogs/advies/easy-up-partytent-opzetten\">easy-up partytent opzetten</a>.</p>",
+            "keywords": "opzetten, opbouwen, handleiding, hoeveel personen, afbreken"
           }
         },
         "q18": {
           "type": "question",
           "settings": {
             "question": "Hoe zet ik een partytent goed vast?",
-            "answer": "<p>Zet elke poot vast met een haring en spanband, of op verharding met een voetgewicht. Bij harde wind haal je de zijwanden en het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p>"
+            "answer": "<p>Zet elke poot vast met een haring en spanband, of op verharding met een voetgewicht. Bij harde wind haal je de zijwanden en het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p>",
+            "keywords": "haringen, spanbanden, voetgewichten, gewicht, wind, storm, verankeren, vastzetten, windkracht"
           }
         },
         "q19": {
           "type": "question",
           "settings": {
             "question": "Hoe berg ik mijn tent op?",
-            "answer": "<p>Alleen droog. Moest hij nat mee naar huis, zet hem dan binnen een dag weer op om te drogen, anders krijg je schimmel. Zie <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p>"
+            "answer": "<p>Alleen droog. Moest hij nat mee naar huis, zet hem dan binnen een dag weer op om te drogen, anders krijg je schimmel. Zie <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p>",
+            "keywords": "opbergen, schimmel, schoonmaken, drogen, onderhoud, wassen, nat"
           }
         },
         "g6": {
@@ -182,14 +201,16 @@
           "type": "question",
           "settings": {
             "question": "Welke bestanden kan ik aanleveren?",
-            "answer": "<p>Het liefst PDF, AI, EPS of SVG. Een PNG van minimaal 2000 px breed kan ook; die maken wij drukklaar.</p>"
+            "answer": "<p>Het liefst PDF, AI, EPS of SVG. Een PNG van minimaal 2000 px breed kan ook; die maken wij drukklaar.</p>",
+            "keywords": "logo, bestandstype, bestand, PDF, AI, EPS, SVG, PNG, vector, resolutie, dpi"
           }
         },
         "q21": {
           "type": "question",
           "settings": {
             "question": "Hoe lang duurt een bedrukte bestelling?",
-            "answer": "<p>Je krijgt eerst een digitale drukproef. Na jouw akkoord duurt het 10–15 werkdagen. Hoe het hele traject werkt, staat op <a href=\"/pages/bedrukken\">bedrukken</a>.</p>"
+            "answer": "<p>Je krijgt eerst een digitale drukproef. Na jouw akkoord duurt het 10–15 werkdagen. Hoe het hele traject werkt, staat op <a href=\"/pages/bedrukken\">bedrukken</a>.</p>",
+            "keywords": "levertijd, bedrukken, drukproef, werkdagen, duur, hoe lang"
           }
         },
         "g7": {
@@ -202,21 +223,64 @@
           "type": "question",
           "settings": {
             "question": "Kan ik prijzen excl. btw zien?",
-            "answer": "<p>Ja. Zet de schakelaar bovenin de winkel op Zakelijk, dan zie je overal de prijs excl. btw. Je kunt altijd terug naar incl. btw.</p>"
+            "answer": "<p>Ja. Zet de schakelaar bovenin de winkel op Zakelijk, dan zie je overal de prijs excl. btw. Je kunt altijd terug naar incl. btw.</p>",
+            "keywords": "zakelijk, btw, excl btw, exclusief, factuur, B2B, bedrijf"
           }
         },
         "q23": {
           "type": "question",
           "settings": {
             "question": "Krijg ik korting bij grote aantallen?",
-            "answer": "<p>Bij veel producten staat een staffeltabel op de productpagina. Voor grotere aantallen, een vaste leverdatum of je logo erop maken we een offerte op maat. Lees meer bij <a href=\"/pages/zakelijk\">zakelijk bestellen</a>.</p>"
+            "answer": "<p>Bij veel producten staat een staffeltabel op de productpagina. Voor grotere aantallen, een vaste leverdatum of je logo erop maken we een offerte op maat. Lees meer bij <a href=\"/pages/zakelijk\">zakelijk bestellen</a>.</p>",
+            "keywords": "korting, staffelkorting, staffelprijs, kwantumkorting, grote aantallen, verhuur, volume"
           }
         },
         "q24": {
           "type": "question",
           "settings": {
             "question": "Hoe drukken jullie?",
-            "answer": "<p>Een logo op de luifel drukken we digitaal, in full colour. Een helemaal bedrukt dak, dakzeil, zijwand of stertent drukken we met sublimatie. Je krijgt altijd eerst een digitale drukproef.</p>"
+            "answer": "<p>Een logo op de luifel drukken we digitaal, in full colour. Een helemaal bedrukt dak, dakzeil, zijwand of stertent drukken we met sublimatie, ook in full colour. Welke methode bij jouw product hoort, staat bij de specificaties. Je krijgt altijd eerst een digitale drukproef.</p>",
+            "keywords": "drukmethode, sublimatie, digitaal, druktechniek, full colour, bedrukken"
+          }
+        },
+        "q25": {
+          "type": "question",
+          "settings": {
+            "question": "Kan ik mijn bestelling afhalen?",
+            "answer": "<p>Op dit moment niet: we bezorgen alles, als pakket of op een pallet. Wat dat kost en hoe snel het gaat, staat bij <a href=\"/pages/verzenden-en-bezorgen\">verzenden en bezorgen</a>.</p>",
+            "keywords": "afhalen, ophalen, showroom, langskomen, afhaalpunt"
+          }
+        },
+        "q26": {
+          "type": "question",
+          "settings": {
+            "question": "Kan ik mijn zending volgen?",
+            "answer": "<p>Ja. Zodra je pakket onderweg is, krijg je een mail met een track &amp; trace-link. Komt je bestelling op een pallet, dan spreekt de vervoerder vooraf een afleverdag met je af.</p>",
+            "keywords": "track & trace, volgen, trackingcode, waar is mijn pakket, verzendbevestiging, bezorging"
+          }
+        },
+        "q27": {
+          "type": "question",
+          "settings": {
+            "question": "Wat kan ik laten bedrukken?",
+            "answer": "<p>Easy-up partytenten met je logo op de luifel of helemaal in full colour, losse dakzeilen en zijwanden, stertenten, opblaasbare promotietenten, een marktkraam met bedrukte kap, statafelhoezen, klaptafelhoezen, beschermplaten en afzetpalen. Alles met prijs staat op <a href=\"/pages/bedrukken\">bedrukken</a>.</p>",
+            "keywords": "logo, opdruk, bedrukken, eigen logo, huisstijl, stertent, marktkraam, afzetpaal, statafelhoes"
+          }
+        },
+        "q28": {
+          "type": "question",
+          "settings": {
+            "question": "Kan ik één stuk laten bedrukken?",
+            "answer": "<p>Ja, de meeste producten bedrukken we vanaf 1 stuk. Vanaf 10 stuks krijg je staffelprijs. Afzetpalen met logo bedrukken we vanaf 10 stuks.</p>",
+            "keywords": "minimum, minimale afname, aantal, 1 stuk, los, staffelprijs"
+          }
+        },
+        "q29": {
+          "type": "question",
+          "settings": {
+            "question": "Is er een sjabloon voor een full colour ontwerp?",
+            "answer": "<p>Ja. Bij een full colour tent, dak, wand of hoes krijg je een sjabloon voor jouw maat, met de vouwlijnen en een veilige zone voor tekst en logo's. <a href=\"/pages/bedrukken#sjabloon\">Vraag het sjabloon aan</a> op de bedrukpagina en lever je ontwerp daarna aan als PDF.</p>",
+            "keywords": "sjabloon, template, ontwerp, full colour, vouwlijnen, drukbestand"
           }
         }
       },
@@ -231,6 +295,8 @@
         "q6",
         "q7",
         "q8",
+        "q25",
+        "q26",
         "g3",
         "q9",
         "q10",
@@ -246,9 +312,12 @@
         "q18",
         "q19",
         "g6",
+        "q27",
         "q20",
-        "q21",
         "q24",
+        "q29",
+        "q28",
+        "q21",
         "g7",
         "q22",
         "q23"

@@ -5,17 +5,25 @@
 .article__eyebrow{text-decoration:none;color:var(--c-kiezel)}
 .article__eyebrow:hover{color:var(--c-inkt);text-decoration:underline;text-underline-offset:3px}
 .article__title{max-width:none;text-wrap:balance;hyphens:manual;font-size:calc(var(--heading-scale) * clamp(32px, 1.6vw + 25px, 52px));line-height:1.06;letter-spacing:-.022em;margin:0 0 16px}
-.article__lead{font-size:calc(var(--body-scale) * clamp(18px, .3vw + 17px, 21px));line-height:1.5;max-width:60ch;margin:0 0 16px}
+.article__lead{font-size:calc(var(--body-scale) * clamp(18px, .2vw + 17px, 20px));line-height:1.5;max-width:60ch;margin:0 0 18px}
+.article__lead p{margin:0}
+.article__lead p+p{margin-top:.6em}
 .article__meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;color:var(--c-kiezel);font-size:14.5px}
 .article__meta span{display:inline-flex;align-items:center;gap:6px}
 .article__wrap{max-width:calc(1140px + 2 * var(--gutter-desktop))}
-.article__image{margin:0 0 28px;border-radius:var(--radius-panel);overflow:hidden;background:var(--c-media);aspect-ratio:4/3;line-height:0}
+/* header: text, then the image; from 990px the image stands beside the title so the text starts in the first screen */
+.article__head-grid{display:grid;gap:24px}
+.article__image{margin:0;border-radius:var(--radius-panel);overflow:hidden;background:var(--c-media);aspect-ratio:4/3;line-height:0}
 .article__image img{width:100%;height:100%;object-fit:contain}
 .article__image--cover{aspect-ratio:3/2}
 .article__image--cover img{object-fit:cover}
-@media (min-width:750px){.article__image,.article__image--cover{aspect-ratio:16/9;margin-bottom:48px}}
 @media (max-width:749px){.article__head .breadcrumbs li:last-child{display:none}}
-@media (min-width:990px){.article__head{padding-block:28px 32px}}
+@media (min-width:990px){
+  .article__head{padding-block:28px 48px}
+  .article__head--media .article__head-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:56px;align-items:center}
+  .article__head--media .article__title{font-size:calc(var(--heading-scale) * clamp(34px, 1.3vw + 24px, 48px))}
+  .article__image--contain{aspect-ratio:5/4}
+}
 
 .article__layout{display:grid;gap:40px}
 .article__main{min-width:0;max-width:720px}
@@ -30,7 +38,8 @@
 .article__content h2{font-size:calc(var(--heading-scale) * clamp(24px, .5vw + 22px, 30px));scroll-margin-top:calc(var(--header-h,0px) + 20px);margin-top:1.7em}
 .article__content h3{font-size:20px}
 .article__content table{width:100%;border-collapse:collapse;background:var(--c-wit);border-radius:var(--radius-card);overflow:hidden;box-shadow:0 0 0 1px var(--c-lijn)}
-.article__content thead th,.article__content tr:first-child th{background:var(--c-linnen);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.article__content thead th,.article__content table:not(:has(thead)) tr:first-child th{background:var(--c-linnen);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.article__content table tbody tr th[scope="row"]{background:none;font-size:inherit;letter-spacing:0;text-transform:none}
 .article__content td,.article__content th{vertical-align:top}
 .article__content li::marker{color:var(--c-kiezel)}
 @media (max-width:749px){.article__content table{display:block;overflow-x:auto;font-size:14px}}

@@ -158,7 +158,7 @@ function foldedRoof(p, hex) {
     if (k < nL - 1) {
       // U-bend up to the next layer at xb, bulging out a little and sagging
       const rr = pitch / 2, cx = xb, cy = L.y + rr, nB = 14;
-      const bulge = 0.004 + 0.003 * Math.sin(k * 2.7);
+      const bulge = 0.007 + 0.004 * Math.sin(k * 2.7);
       for (let i = 1; i < nB; i++) { const a = -Math.PI / 2 + (Math.PI * i) / nB; prof.push({ x: cx + dir * (Math.cos(a) * (rr + bulge * Math.cos(a))), y: cy + Math.sin(a) * rr, layer: k + 0.5, t: i / nB, bend: true }); }
     }
   }
@@ -174,7 +174,10 @@ function foldedRoof(p, hex) {
     const crease = top ? 0.0035 * nz.fbm(q.x * 7 + 3, z * 7, 4) + 0.0016 * Math.sin(q.x * 30 + z * 9) * Math.sin(z * 17 + 1) : 0.0007 * nz.noise(q.x * 18 + k, z * 18);
     const edge = Math.min(1, v * 14, (1 - v) * 14);
     const y = q.y + (settle + crease) * edge + side * tc / 2;
-    return V3(q.x + skew + 0.003 * nz.noise(k * 3.1, z * 9) * (q.bend ? 1 : 0.3), y, z + 0.004 * Math.sin(q.x * 9 + k) * (1 - edge));
+    // every layer ends at its own depth at the front and back (cut edges and folds never line up),
+    // with a soft wave along the edge
+    const zOff = (v > 0.5 ? 1 : -1) * (0.008 * Math.sin(k * 2.3 + (v > 0.5 ? 0 : 1.7)) + 0.004 * Math.sin(q.x * 11 + k * 1.3)) * (1 - edge);
+    return V3(q.x + skew + 0.003 * nz.noise(k * 3.1, z * 9) * (q.bend ? 1 : 0.3), y - (1 - edge) * 0.0015 * (k % 2), z + zOff);
   };
   for (const side of [1, -1]) {
     const rows = [];
@@ -214,7 +217,7 @@ function foldedRoof(p, hex) {
   bins.build(group);
   return {
     object: group,
-    view: { hero: { azimuth: 34, elevation: 30 } },
+    view: { hero: { azimuth: 30, elevation: 26 } },
     rig: { default: { ...K.tentRig(hex), exposure: K.lumOf(hex) > 0.7 ? 0.6 : 'auto' } },
     meta: { display: 'folded' },
   };

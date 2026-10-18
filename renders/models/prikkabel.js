@@ -232,7 +232,7 @@ export function prikkabel(p = {}) {
     for (const [m, g] of L.festoonSocket(rub)) { g.applyMatrix4(M4); bins.add(m, g); }
     if (!lamps) continue;
     const LM = new THREE.Matrix4().makeBasis(x.clone().negate(), yL.clone().negate(), z).setPosition(head.clone().addScaledVector(yL, L.SOCKET.lampContact));
-    const r = g45(GC, bins, LM, { kind, on, color: colours[S.i % colours.length], bloomR: 0.095, bloom: 1.1 });
+    const r = g45(GC, bins, LM, { kind, on, color: colours[S.i % colours.length], bloomR: 0.11, bloom: 1.3 });
     if (on) {
       const col = kind === 'filament' ? [1.25, 0.72, 0.3] : r.light.map((v) => v * 1.2);
       sources.push({ p: r.centre.clone(), I: 1, color: col, axis: r.axis.clone() });
@@ -250,7 +250,7 @@ export function prikkabel(p = {}) {
       const f = (dx * s.axis.x + dz * s.axis.z) / l;
       return 0.18 + 0.82 * G.smoothstep(-0.55, 0.35, f);
     };
-    GC.floorPool(sources, { pad: 0.45, res: 256, k: 0.0036, max: 0.26, minH: 0.07, occl });
+    GC.floorPool(sources, { pad: 0.5, res: 256, k: 0.0075, max: 0.38, minH: 0.075, occl });
   }
   if (!GC.isEmpty()) group.add(GC.build(ctr.clone().setY(0.02)));
 

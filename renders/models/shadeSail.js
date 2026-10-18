@@ -1,13 +1,16 @@
 // Schaduwdoek (shade sail): knitted HDPE shade cloth (~185 g/m2, ~90 % shade), cut with
 // concave edges, a doubled webbing hem with a rope inside along every edge, stainless D-rings
-// at the reinforced corners. Shown tensioned in a hypar (two opposite corners higher) as a
-// cut-out, with short tension lines from the corner rings; no posts (not included).
+// at the reinforced corners. Shown tensioned in a hypar (two opposite corners higher) between
+// four galvanised posts on base plates (posts not included): every corner D-ring is pulled to
+// an eye bolt on its post by a snap hook and a stainless turnbuckle, so the sail stands on the
+// studio floor with its shadow under it like every other catalogue image (round 2).
 // Form found with the force-density method (js/tentkit.js): uniform stress, edge cables.
 //   { shape: 'vierkant'|'driehoek'|'rechthoek', w, d, color }
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
+import * as T2 from '../js/tentkit2.js';
 
 const { V3 } = K;
 
@@ -16,7 +19,10 @@ export function shadeSail(p = {}) {
   let W = Number(p.w ?? 4), D = Number(p.d ?? (shape.startsWith('vier') || shape.startsWith('square') ? W : 3));
   if (shape.startsWith('vier') || shape.startsWith('square')) D = W;
   const hex = K.col(p.color || 'antraciet', M.COLORS.antraciet);
-  const cloth = K.shadeCloth(hex);
+  // knitted HDPE reads as a fine open knit at catalogue distance: opaque here (the engine's
+  // stochastic see-through turns into salt-and-pepper noise at preview sample counts)
+  const cloth = K.shadeCloth(hex).clone();
+  cloth.userData = { ...K.shadeCloth(hex).userData }; delete cloth.userData.stochasticAlpha;
   const hemC = new THREE.Color(hex).multiplyScalar(0.82);
   const hemMat = M.webbing('#' + hemC.getHexString());
   const ss = M.chrome();
@@ -98,20 +104,38 @@ export function shadeSail(p = {}) {
     const thin = edge.filter((_, k) => k % 2 === 0); thin.push(thin[0].clone());
     bins.add(hemMat, K.sweep(thin, 0.012, 6, { rFn: (i, a) => 0.012 * (Math.abs(Math.sin(a)) > 0.7 ? 0.35 : 1) }));
   }
-  // corners: reinforcement triangle, D-ring, short tension line
+  // corners: reinforcement triangle, D-ring, snap hook + turnbuckle to an eye bolt on a post
+  const postM = M.galvanised();
+  const capM = M.mouldedNylon('#2A2B2D');
   for (const { at, out } of cornersOut) {
     const ring = new THREE.TorusGeometry(0.032, 0.005, 10, 24);
     ring.rotateX(Math.PI / 2); ring.rotateY(Math.atan2(out.x, out.z));
     const rp = at.clone().addScaledVector(out, 0.035);
     ring.translate(rp.x, rp.y, rp.z); bins.add(ss, ring);
-    const end = rp.clone().addScaledVector(out, 0.45).add(V3(0, (at.y > base + 0.1 ? 0.06 : -0.02), 0));
-    bins.add(ropeM, K.rope(rp.clone().addScaledVector(out, 0.03), end, 0.0045, 0.01));
+    // reinforcement triangle (double layer of webbing-coloured cloth) in the corner
+    const lift = at.y;
+    const post = rp.clone().addScaledVector(out, 0.5 + 0.04);
+    const eye = post.clone().addScaledVector(out, -0.045).setY(lift + 0.05);
+    // turnbuckle: two eyes and a stainless body between the D-ring and the eye bolt
+    const a = rp.clone().addScaledVector(out, 0.03), b = eye.clone().addScaledVector(out, -0.02);
+    const mid = a.clone().lerp(b, 0.55), dir = b.clone().sub(a).normalize();
+    bins.add(ss, G.tube(a, mid.clone().addScaledVector(dir, -0.07), 0.004, 8));
+    bins.add(ss, G.tube(mid.clone().addScaledVector(dir, -0.07), mid.clone().addScaledVector(dir, 0.07), 0.009, 14, { caps: true }));
+    bins.add(ss, G.tube(mid.clone().addScaledVector(dir, 0.07), b, 0.004, 8));
+    const eyeRing = new THREE.TorusGeometry(0.016, 0.0042, 8, 18); eyeRing.rotateY(Math.atan2(out.x, out.z)); eyeRing.translate(b.x, b.y, b.z); bins.add(ss, eyeRing);
+    // galvanised post on a base plate, domed cap
+    const H = lift + 0.22;
+    bins.add(postM, G.tube(post.clone().setY(0.012), post.clone().setY(H), 0.038, 28));
+    bins.add(capM, G.lathe([[0.0001, 0.025], [0.025, 0.022], [0.04, 0.012], [0.041, 0.0], [0.036, -0.02]].reverse(), 28).translate(post.x, H, post.z));
+    bins.add(postM, K.footPlate(post.x, post.z, 0.24, 0.012));
+    for (const [dx, dz] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) bins.add(postM, G.tube(V3(post.x + dx * 0.09, 0.012, post.z + dz * 0.09), V3(post.x + dx * 0.09, 0.03, post.z + dz * 0.09), 0.009, 6, { caps: true }));
+    bins.add(postM, G.tube(post.clone().setY(lift + 0.05).addScaledVector(out, -0.03), post.clone().setY(lift + 0.05).addScaledVector(out, 0.05), 0.006, 8, { caps: true }));
   }
   bins.build(group);
   return {
     object: group,
-    view: { hero: { elevation: 24 } },
-    rig: { default: { ...K.tentRig(hex), keyShadow: 0, groundAO: { strength: 0 }, contact: { strength: 0 } } },
+    view: { hero: { elevation: 20 } },
+    rig: { default: T2.tentRig2(hex) },
     meta: { shape, W, D },
   };
 }

@@ -15,6 +15,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
+import * as T2 from '../js/tentkit2.js';
 
 const { V3 } = K;
 
@@ -143,7 +144,7 @@ export function stretchtent(p = {}) {
     bins.add(capM, G.tube(pl.foot.clone().setY(0), pl.foot.clone().setY(0.03), poleR * 1.25, 18, { caps: true }));
     for (const gd of pl.guys) {
       const ropeTop = top.clone().addScaledVector(dirP, 0.04);
-      const stake = top.clone().setY(0).addScaledVector(gd, hypar ? top.y * 0.45 + 0.35 : top.y * 0.75 + 0.6);
+      const stake = top.clone().setY(0).addScaledVector(gd, hypar ? top.y * 0.42 + 0.3 : top.y * 0.5 + 0.35);
       bins.add(ropeM, K.rope(ropeTop, stake.clone().setY(0.1), 0.0045, 0.006));
       bins.add(steel, K.stakeGeo(stake, gd.clone().negate()));
     }
@@ -173,7 +174,9 @@ export function stretchtent(p = {}) {
     object: group,
     detail: { target: [top0.x, top0.y - 0.6, top0.z], size: 1.6, azimuth: 30, elevation: -8 },
     view: { low: { azimuth: 28, elevation: 3 } },
-    rig: { default: { ...K.tentRig(hex), ...(lum > 0.7 ? {} : {}) } },
+    // the catalogue tent light (current easy-up rig): white stretch cloth reads white (lit sail
+    // ~240-248), not light grey; stretch fabric is matte, so the white key is not tempered
+    rig: { default: T2.tentRig2(hex) },
     meta: { W, D, hypar, poles: poles.length },
   };
 }

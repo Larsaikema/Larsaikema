@@ -9,6 +9,10 @@ class MediaGallery extends HTMLElement {
 		if (!this.slides) return;
 		this.items = [...this.slides.children];
 		this.thumbs = [...this.querySelectorAll('[data-gallery-thumb]')];
+		// vertical rail (990 px+): fades out at the bottom while more thumbnails sit below the fold of the rail
+		const rail = (this.rail = this.querySelector('.gallery__thumbs'));
+		const more = () => rail.toggleAttribute('data-more', rail.scrollHeight - rail.scrollTop - rail.clientHeight > 4);
+		if (rail) rail.addEventListener('scroll', more, { passive: true }), addEventListener('resize', KK.debounce(more, 100)), requestAnimationFrame(more);
 		this.counter = this.querySelector('[data-gallery-current]');
 		this.live = this.querySelector('[data-gallery-live]');
 		this.dialog = this.querySelector('[data-gallery-dialog]');
@@ -51,16 +55,14 @@ class MediaGallery extends HTMLElement {
 		if (had) cur.querySelector('button,video,iframe,model-viewer,[tabindex]')?.focus({ preventScroll: true });
 		this.thumbs.forEach((t, i) => (i === this.index ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
 		const t = this.thumbs[this.index];
-		const strip = t?.parentElement.parentElement;
-		if (t && strip.scrollWidth > strip.clientWidth) {
-			const left = t.offsetLeft - strip.offsetLeft;
-			if (left < strip.scrollLeft || left + t.offsetWidth > strip.scrollLeft + strip.clientWidth) strip.scrollTo({ left: Math.max(0, left - (strip.clientWidth - t.offsetWidth) / 2), behavior: 'instant' });
-		}
+		const s = this.rail?.getBoundingClientRect();
+		const r = t?.getBoundingClientRect();
+		if (r && (r.left < s.left || r.right > s.right || r.top < s.top || r.bottom > s.bottom)) this.rail.scrollBy({ left: r.left - s.left - (s.width - r.width) / 2, top: r.top - s.top - (s.height - r.height) / 2, behavior: 'instant' });
 		if (this.counter) this.counter.textContent = this.index + 1;
 	}
-	goToMedia(id) {
+	goToMedia(id, smooth = true) {
 		const i = this.items.findIndex((li) => li.dataset.mediaId === String(id));
-		if (i >= 0) this.go(i);
+		if (i >= 0) this.go(i, smooth);
 	}
 }
 customElements.get('media-gallery') || customElements.define('media-gallery', MediaGallery);

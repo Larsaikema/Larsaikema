@@ -19,7 +19,8 @@
           "settings": {
             "size_guide_page": "maatadvies-partytenten",
             "size_option_names": "Maat, Tafelmaat, Diameter, Afmeting, Formaat",
-            "size_prices": true
+            "size_prices": true,
+            "hint_groups": "Pasvorm"
           }
         },
         "staffel": {
@@ -161,10 +162,19 @@
         "intent": "complementary",
         "limit": 4
       }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Bekijk ook",
+        "intent": "related",
+        "limit": 4
+      }
     }
   },
   "order": [
     "main",
-    "recommendations"
+    "recommendations",
+    "related"
   ]
 }

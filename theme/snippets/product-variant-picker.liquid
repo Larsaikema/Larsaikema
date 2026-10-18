@@ -28,6 +28,12 @@
   # Maatgids + size help belong to the size option only (Maat, Tafelmaat, Diameter, ...), never to colour.
   assign size_names_lc = block.settings.size_option_names | default: 'Maat, Tafelmaat, Diameter, Afmeting, Formaat' | downcase | replace: ', ', ',' | replace: ' ,', ',' | strip | split: ','
   assign guide_page = product.metafields.custom.maatgids.value | default: block.settings.size_guide_page
+  # Option hints: a spec row (custom.specificaties) whose label is an option value and whose group is in the block
+  # setting hint_groups (default 'Pasvorm') or is named after the option itself shows under that option for the chosen
+  # value: 'Ø80-85 cm' -> 'Bladen Ø 80–85 cm, tafelhoogte 105–115 cm', 'Met topcover' -> 'Rok en losse topcover in
+  # dezelfde kleur'. variant-picker.js swaps it on change.
+  assign vp_specs = product.metafields.custom.specificaties.value
+  assign hint_groups = block.settings.hint_groups | default: 'Pasvorm' | downcase | replace: ', ', ',' | split: ','
   assign current_variant = product.selected_or_first_available_variant
   assign size_index = -1
   for option in product.options_with_values
@@ -268,7 +274,20 @@
           <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
         {%- endif -%}
       </legend>
-      <div class="vp__values">
+      {%- liquid
+        # swatches: as many per row as fit (12 / 10 / 8 / 7 / 6 by width band), spread over the fewest rows so every row
+        # holds about the same number (24 colours: 2 x 12, 3 x 8, never 11 + 11 + 2)
+        assign sw_cols = ''
+        if is_swatch
+          assign n = option.values.size
+          for cap in (6..12)
+            assign rows = n | plus: cap | minus: 1 | divided_by: cap
+            assign cols = n | plus: rows | minus: 1 | divided_by: rows
+            assign sw_cols = sw_cols | append: '--c' | append: cap | append: ':' | append: cols | append: ';'
+          endfor
+        endif
+      -%}
+      <div class="vp__values"{% if sw_cols != blank %} style="{{ sw_cols }}"{% endif %}>
         {%- if with_siblings -%}{{ sib_before }}{%- endif -%}
         {%- for value in option.values -%}
           {%- capture input_id -%}Opt-{{ section_id }}-{{ option_index }}-{{ forloop.index0 }}{%- endcapture -%}
@@ -289,6 +308,21 @@
         {%- endfor -%}
         {%- if with_siblings -%}{{ sib_after }}{%- endif -%}
       </div>
+      {%- if vp_specs != blank -%}
+        {%- assign on_lc = option.name | downcase | strip -%}
+        {%- for value in option.values -%}
+          {%- assign vname = value.name | default: value -%}
+          {%- for row in vp_specs -%}
+            {%- assign rg = row.groep | downcase | strip -%}
+            {%- if row.label == vname and row.waarde != blank -%}
+              {%- if hint_groups contains rg or rg == on_lc -%}
+                <p class="vp__hint" data-hint="{{ vname | escape }}"{% unless value.selected %} hidden{% endunless %}>{%- render 'icon', icon: 'check', class: 'icon--xs' -%}<span>{{ row.waarde }}</span></p>
+                {%- break -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
     </fieldset>
   {%- endfor -%}
   {%- endunless -%}

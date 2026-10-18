@@ -688,6 +688,13 @@
   "print": {
     "step": "Step {{ index }}",
     "min_qty": "From {{ count }} pieces",
-    "from_one": "From 1 piece"
+    "from_one": "From 1 piece",
+    "filter_label": "Choose a type of product",
+    "filter_all": "All",
+    "shown": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "logo_placeholder": "e.g. wetransfer.com/..."
   }
 }

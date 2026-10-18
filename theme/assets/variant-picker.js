@@ -6,6 +6,29 @@ class VariantPicker extends HTMLElement {
 	connectedCallback() {
 		this.variants = JSON.parse(this.querySelector('script[data-variants]').textContent);
 		this.addEventListener('change', (e) => e.target.matches('.vp__input') && this.onChange(e.target));
+		this.hl = null;
+		this.addEventListener('pointerover', (e) => {
+			const l = e.target.closest('.vp__swatch');
+			if (e.pointerType === 'mouse' && (l || !e.target.closest('.vp__option--swatch .vp__values'))) this.hover(l);
+		});
+		this.addEventListener('pointerleave', () => this.hover(null));
+	}
+	hover(l) {
+		if (l === this.hl) return;
+		const g = this.closest('product-info')?.querySelector('media-gallery');
+		if (!this.hl) this.gi = g?.index;
+		const fs = (l || this.hl).closest('fieldset');
+		this.hl = l;
+		const c = l ? document.getElementById(l.htmlFor) : fs.querySelector('input:checked');
+		const out = fs.querySelector('[data-selected-value]');
+		if (out && c) out.textContent = c.value;
+		if (!g || !c) return;
+		if (!l) return g.go(this.gi, false);
+		const i = +fs.dataset.optionIndex;
+		const cur = [...this.querySelectorAll('fieldset[data-option-index]')].map((f) => f.querySelector('input:checked')?.value);
+		cur[i] = c.value;
+		const v = this.variants.find((x) => x.options.every((o, k) => o === cur[k])) || this.variants.find((x) => x.options[i] === c.value);
+		if (v?.media_id) g.goToMedia(v.media_id, false);
 	}
 	onChange(input) {
 		const sets = [...this.querySelectorAll('fieldset[data-option-index]')];
@@ -20,10 +43,12 @@ class VariantPicker extends HTMLElement {
 				if (r) r.checked = true;
 			});
 		}
+		this.hl = null;
 		sets.forEach((fs) => {
 			const out = fs.querySelector('[data-selected-value]');
 			const c = fs.querySelector('input:checked');
 			if (out && c) out.textContent = c.value.replace(/ x /g, ' × ');
+			fs.querySelectorAll('[data-hint]').forEach((h) => (h.hidden = h.dataset.hint !== c?.value));
 		});
 		this.syncSiblings(v);
 		this.closest('product-info')?.setVariant(v);
@@ -68,6 +93,11 @@ class ProductInfo extends HTMLElement {
 		wide.addEventListener?.('change', syncCards);
 		const cb = this.querySelector('[data-clamp-toggle]');
 		const body = cb && byId(cb.getAttribute('aria-controls'));
+		// phones: the clamp ends just before a heading near 26em (else before a paragraph), not halfway through a table
+		const top = (x) => x.getBoundingClientRect().top;
+		const pick = (sel, max) => [...body.querySelectorAll(sel)].map((x) => top(x) - top(body)).filter((t) => t > 190 && t < max).sort((a, b) => Math.abs(a - 416) - Math.abs(b - 416))[0];
+		const cut = body && !wide.matches && (pick('h2,h3', 640) || pick('.rte > *', 480));
+		if (cut) body.style.setProperty('--clamp', `${cut - 6}px`);
 		if (body && body.scrollHeight > body.clientHeight + 40) cb.hidden = false;
 		cb?.addEventListener('click', () => {
 			const open = cb.getAttribute('aria-expanded') !== 'true';

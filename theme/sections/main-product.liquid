@@ -428,7 +428,8 @@
     { "type": "variant_picker", "name": "Varianten", "limit": 1, "settings": [
       { "type": "page", "id": "size_guide_page", "label": "Standaard maatgids-pagina", "info": "Per product te vervangen met custom.maatgids. De link staat alleen bij de maat-optie." },
       { "type": "text", "id": "size_option_names", "label": "Namen van maat-opties", "default": "Maat, Tafelmaat, Diameter, Afmeting, Formaat" },
-      { "type": "checkbox", "id": "size_prices", "label": "Prijs onder elke maat tonen", "default": true }
+      { "type": "checkbox", "id": "size_prices", "label": "Prijs onder elke maat tonen", "default": true },
+      { "type": "text", "id": "hint_groups", "label": "Uitleg onder de gekozen optie", "default": "Pasvorm", "info": "Specificatiegroepen (custom.specificaties) waarvan een regel met als label een optiewaarde onder die optie verschijnt, bv. 'Ø80-85 cm' → 'Bladen Ø 80–85 cm, tafelhoogte 105–115 cm'. Een groep met de naam van de optie zelf (Uitvoering) telt altijd mee." }
     ] },
     { "type": "bundle", "name": "Pakketinhoud", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest custom.componenten (lijst van varianten) en custom.component_aantallen per variant, of op productniveau. Toont de onderdelen en wat je bespaart ten opzichte van de losse prijzen." } ] },
     { "type": "configurator", "name": "Maatwerk-configurator", "limit": 1, "settings": [

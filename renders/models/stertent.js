@@ -14,6 +14,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
+import * as T2 from '../js/tentkit2.js';
 
 const { V3, TAU } = K;
 
@@ -170,7 +171,7 @@ export function stertent(p = {}) {
     bins.add(alu, G.tube(foot.clone().setY(0.012), top, 0.03, 18));
     bins.add(steel, G.tube(top.clone(), top.clone().add(V3(0, 0.1, 0)), 0.009, 10, { caps: true }));
     bins.add(steel, K.footPlate(foot.x, foot.z, 0.12, 0.01));
-    const stake = top.clone().setY(0).addScaledVector(t.d, Hp * 0.85 + 0.3);
+    const stake = top.clone().setY(0).addScaledVector(t.d, Hp * 0.5 + 0.3);
     bins.add(ropeM, K.rope(top.clone().add(V3(0, 0.03, 0)), stake.clone().setY(0.1), 0.006, 0.006));
     bins.add(steel, K.stakeGeo(stake, t.d.clone().negate(), { len: 0.12, r: 0.011 }));
   }
@@ -228,7 +229,7 @@ export function stertent(p = {}) {
   return {
     object: group,
     detail: { target: [0, Hc - 0.5, 0], size: 2.2, azimuth: 30, elevation: 5 },
-    rig: { default: K.tentRig(hex, { walled: !!walls, print: !!print }) },
+    rig: { default: T2.tentRig2(hex, { walled: !!walls, print: !!print }) },
     meta: { Dm, N, masts, Hc, Hp },
   };
 }

@@ -48,7 +48,7 @@ function smdTex(nx = 8, ny = 6) {
         const dx = (u - cx) * 1.0, dy = (v - cy) * (H / W);
         spot += Math.exp(-(dx * dx + dy * dy) / (2 * 0.026 * 0.026));
       }
-      e *= 0.82 + 0.3 * Math.min(1, spot);
+      e *= 0.62 + 0.5 * Math.min(1, spot);
       const k = (y * W + x) * 4; const c = Math.round(Math.min(1, e) * 255);
       d[k] = d[k + 1] = d[k + 2] = c; d[k + 3] = 255;
     }
@@ -95,7 +95,7 @@ function head(bins, { watt, on, body, knobMat, tilt, GC, extra }) {
     // the glowing front face with the SMD spots, and the tempered cover glass over it (real,
     // noise-free reflections of the studio)
     const face = roundedPlane(glassW - 0.001, glassH - 0.001, 0.004); face.translate(0, 0, D / 2 + 0.00445);
-    add(L.cached('floodFace', () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.3, emissive: new THREE.Color('#FFEFD8'), emissiveIntensity: 6.2, emissiveMap: smdTex(), name: 'flood front lit' }), 0.8, 0.4)), face);
+    add(L.cached('floodFace', () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.3, emissive: new THREE.Color('#FFEFD8'), emissiveIntensity: 2.6, emissiveMap: smdTex(), name: 'flood front lit' }), 0.8, 0.4)), face);
   }
   const cover = roundedPlane(glassW + 0.003, glassH + 0.003, 0.0055); cover.translate(0, 0, D / 2 + 0.0052);
   extra.push(cover);

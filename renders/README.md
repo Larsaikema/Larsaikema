@@ -100,10 +100,12 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   zwart ~40–50, antraciet ~80, grijs ~135; afgewend vlak zwart ~20 (sRGB-luminantie). Zwart krijgt vorm uit
   één brede zachte glans van de overhead-scrim op de PVC-coating, niet uit meer licht. Controle:
   `python3 renders/tools/check-tent-values.py` (zie *Toonbewaking*).
-  Wit wordt belicht als gefotografeerd wit PVC: een hogere, iets naar rechts gerichte key laat het belichte
-  vlak van ~247 in het midden **afvallen naar ~225–235 bij de linkergraat en de dakrand**, zodat de
-  linkerbovencontour ook in een collectieraster tegen de #EFEDE8-achtergrond leest; de verticale valance
-  blijft duidelijk donkerder (~205–220) dan de dakvlakken, het afgewende vlak ~195–215.
+  Wit wordt belicht als gefotografeerd wit PVC: een hogere key, rechts van het midden en hoger op het vlak
+  gericht, en belichting 0,53 (bij 0,58 lag het hele belichte vlak in de schouder van de toonkromme op ~248:
+  een vlakke, gegoten plaat) laten het belichte vlak van ~247 bij de spant **afvallen naar ~230 aan de
+  dakrand en ~215–225 bij de linkergraat**: elk hol half paneel leest, en de linkerbovencontour leest ook
+  in een collectieraster tegen de #EFEDE8-achtergrond; de verticale valance blijft duidelijk donkerder
+  (~205–215) dan de dakvlakken, het afgewende vlak ~195–210. Het detail houdt zijn eigen belichting 0,58.
 - `walls`: per zijde (`front`, `back`, `left`, `right`) één type, of een lijst per vak van 3/4 m
   (`"back":["window","door"]`). Alle indelingen staan gecentreerd in hun vak:
 
@@ -547,9 +549,10 @@ belichte silhouet van een wit dak los van de achtergrond door afval in plaats va
 Vulling van rechts-áchter (100°, 12°): die raakt het voorvlak niet (een vulling van rechts-voor heft de
 gradiënt van de holte op) en geeft het verre vlak een eigen, donkerdere waarde met gradiënt. Hemelkap 2,4
 naar de sleutelkant gekanteld (25°), vloerschaduw van bijna recht boven (`floorKey`), `keyShadow` 0,46.
-Wit doek: `neutral` met `shoulder` 0,88, een hogere key (−70°, 40°, op 2,3× gericht iets rechts van het
-midden, bundel 34°) zodat het belichte vlak naar links en naar de dakrand afvalt, vulling 2,2, een lage
-reflectiekaart vóór (`bounce` −20°/−25°, 1,5) die de valance licht ophaalt, belichting 0,58. **Alle andere
+Wit doek: `neutral` met `shoulder` 0,88, een hogere key (−70°, 40°, op 2,3×, gericht op `aimRel`
+[0,34, 0,6, 0,43]: rechts van het midden en hoog op het vlak, bundel 32,5°) zodat het belichte vlak naar links
+en naar de dakrand afvalt, vulling 2,2, een lage reflectiekaart vóór (`bounce` −20°/−25°, 1,5) die de valance
+licht ophaalt, belichting 0,53 (detail 0,58). **Alle andere
 kleuren (zwart inbegrepen): hetzelfde licht en `auto` met `max` 0,72**, d.w.z. één vaste belichting voor
 donkere en middenkleuren (lichte kleuren iets minder). Vulling 3,0 (afgewende vlakken ~55 % van het belichte
 vlak: diepere schaduwtint). **Met wanden:** de key-bundel is 60° en op halve wandhoogte gericht (de wand aan de

@@ -1,5 +1,6 @@
 {%- comment -%}
-  Article (feature content.blog): topic, title, lead and meta; wide image; the text with a table of contents built from
+  Article (feature content.blog): topic, title, lead (the first paragraph of the text, moved up so it is not shown twice;
+  else the excerpt) and meta beside the image from 990px; the text with a table of contents built from
   its <h2> headings (sticky beside the text from 1100px, a fold-out above it on smaller screens); the products of the
   article (custom.producten, else a tag 'collectie:<handle>', else the fallback collection) compact in the sidebar and as
   cards below; share, topics, a question card, comments; BlogPosting JSON-LD. Tags with ':' are internal and never shown.
@@ -17,10 +18,23 @@
     endunless
   endfor
 
+  # lead: the opening paragraph of the text (answer first), so the excerpt and that paragraph never say the same twice
+  assign content_src = article.content | strip
+  assign lead_html = ''
+  if section.settings.show_lead
+    assign c_head = content_src | slice: 0, 3
+    if c_head == '<p>' or c_head == '<p '
+      assign lead_html = content_src | split: '</p>' | first | append: '</p>'
+      assign content_src = content_src | remove_first: lead_html
+    elsif article.excerpt != blank
+      assign lead_html = article.excerpt | strip_html | strip | prepend: '<p>' | append: '</p>'
+    endif
+  endif
+
   # ids on every <h2> of the text + the table of contents
   assign toc_count = 0
   assign toc_items = ''
-  assign parts = article.content | split: '<h2'
+  assign parts = content_src | split: '<h2'
   capture body_html
     for part in parts
       if forloop.first
@@ -95,31 +109,30 @@
 {%- endcapture -%}
 
 <article class="article">
-  <header class="page-width article__wrap article__head">
+  <header class="page-width article__wrap article__head{% if article.image %} article__head--media{% endif %}">
     {%- render 'breadcrumbs' -%}
-    <div class="article__head-inner">
-      {%- if topic != blank -%}<a class="eyebrow article__eyebrow" href="{{ blog.url }}/tagged/{{ topic | handleize }}">{{ topic }}</a>{%- endif -%}
-      {%- comment -%} words with a hyphen (easy-up) never break at the hyphen in the balanced title {%- endcomment -%}
-      {%- assign title_words = article.title | split: ' ' -%}
-      <h1 class="article__title">{%- for w in title_words -%}{%- unless forloop.first -%}{{ ' ' }}{%- endunless -%}{%- if w contains '-' -%}<span class="nowrap">{{ w }}</span>{%- else -%}{{ w }}{%- endif -%}{%- endfor -%}</h1>
-      {%- if section.settings.show_lead and article.excerpt != blank -%}<div class="article__lead">{{ article.excerpt | strip_html | strip }}</div>{%- endif -%}
-      <p class="article__meta">
-        <span class="article__author">{{ 'blog.by' | t: author: article.author }}</span>
-        <span aria-hidden="true">·</span>
-        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'date' }}</time>
-        <span aria-hidden="true">·</span>
-        <span>{%- render 'icon', icon: 'clock', class: 'icon--xs' -%} {{ 'blog.reading_time' | t: count: minutes }}</span>
-      </p>
+    <div class="article__head-grid">
+      <div class="article__head-inner">
+        {%- if topic != blank -%}<a class="eyebrow article__eyebrow" href="{{ blog.url }}/tagged/{{ topic | handleize }}">{{ topic }}</a>{%- endif -%}
+        {%- comment -%} words with a hyphen (easy-up) never break at the hyphen in the balanced title {%- endcomment -%}
+        {%- assign title_words = article.title | split: ' ' -%}
+        <h1 class="article__title">{%- for w in title_words -%}{%- unless forloop.first -%}{{ ' ' }}{%- endunless -%}{%- if w contains '-' -%}<span class="nowrap">{{ w }}</span>{%- else -%}{{ w }}{%- endif -%}{%- endfor -%}</h1>
+        {%- if lead_html != blank -%}<div class="article__lead">{{ lead_html }}</div>{%- endif -%}
+        <p class="article__meta">
+          <span class="article__author">{{ 'blog.by' | t: author: article.author }}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'date' }}</time>
+          <span aria-hidden="true">·</span>
+          <span>{%- render 'icon', icon: 'clock', class: 'icon--xs' -%} {{ 'blog.reading_time' | t: count: minutes }}</span>
+        </p>
+      </div>
+      {%- if article.image -%}
+        {%- comment -%} landscape renders fill the frame; square product renders stay whole on their Linnen ground {%- endcomment -%}
+        {%- assign img_fit = 'contain' -%}{%- if article.image.aspect_ratio >= 1.4 -%}{%- assign img_fit = 'cover' -%}{%- endif -%}
+        <figure class="article__image article__image--{{ img_fit }}">{%- render 'image', image: article.image, sizes: '(min-width: 1200px) 560px, (min-width: 990px) 46vw, (min-width: 750px) 94vw, 100vw', widths: '400, 560, 800, 1120, 1400', priority: true, alt: article.image.alt -%}</figure>
+      {%- endif -%}
     </div>
   </header>
-
-  {%- if article.image -%}
-    {%- comment -%} landscape renders fill the frame; square product renders stay whole on their Linnen ground {%- endcomment -%}
-    {%- assign img_fit = 'contain' -%}{%- if article.image.aspect_ratio >= 1.4 -%}{%- assign img_fit = 'cover' -%}{%- endif -%}
-    <div class="page-width article__wrap">
-      <figure class="article__image article__image--{{ img_fit }}">{%- render 'image', image: article.image, sizes: '(min-width: 1200px) 1140px, (min-width: 750px) 94vw, 100vw', widths: '480, 640, 800, 1140, 1400, 1800', priority: true, alt: article.image.alt -%}</figure>
-    </div>
-  {%- endif -%}
 
   <div class="page-width article__wrap article__layout{% unless show_toc or has_products %} article__layout--single{% endunless %}">
     <div class="article__main">
@@ -187,7 +200,6 @@
             </ul>
           </div>
         {%- endif -%}
-        {{ share_html }}
       </aside>
     {%- endif -%}
   </div>
@@ -207,25 +219,54 @@
   {%- if blog.comments_enabled? -%}
     <div class="page-width page-width--text article__comments" id="comments">
       <h2 class="h3">{{ 'blog.comments_title' | t }} ({{ article.comments_count }})</h2>
-      {%- if article.comments_count > 0 -%}
-        <ol class="comments" role="list">
-          {%- for comment in article.comments -%}
-            <li class="comment">
-              <p class="comment__meta"><strong>{{ comment.author }}</strong> · <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: format: 'date' }}</time></p>
-              <div class="rte">{{ comment.content }}</div>
-            </li>
-          {%- endfor -%}
-        </ol>
-      {%- endif -%}
+      {%- paginate article.comments by 5 -%}
+        {%- if article.comments_count > 0 -%}
+          <ol class="comments" role="list">
+            {%- for comment in article.comments -%}
+              <li class="comment" id="comment-{{ comment.id }}">
+                <p class="comment__meta"><strong>{{ comment.author }}</strong> · <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: format: 'date' }}</time></p>
+                <div class="rte">{{ comment.content }}</div>
+              </li>
+            {%- endfor -%}
+          </ol>
+          {%- render 'pagination', paginate: paginate, anchor: '#comments' -%}
+        {%- endif -%}
+      {%- endpaginate -%}
       {%- form 'new_comment', article, class: 'comment-form' -%}
+        {%- liquid
+          assign ce_author = false
+          assign ce_email = false
+          assign ce_body = false
+          if form.errors contains 'author'
+            assign ce_author = true
+          endif
+          if form.errors contains 'email'
+            assign ce_email = true
+          endif
+          if form.errors contains 'body'
+            assign ce_body = true
+          endif
+        -%}
         {%- if form.posted_successfully? -%}
           <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span>{% if blog.moderated? %}{{ 'blog.comment_success_moderated' | t }}{% else %}{{ 'blog.comment_success' | t }}{% endif %}</span></p>
         {%- endif -%}
-        {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span>{{ 'forms.error_heading' | t }}</span></div>{%- endif -%}
+        {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
         <div class="form-grid form-grid--2">
-          <div class="field"><label class="field__label" for="CommentAuthor">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="CommentAuthor" name="comment[author]" autocomplete="name" required value="{{ form.author }}"></div>
-          <div class="field"><label class="field__label" for="CommentEmail">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="CommentEmail" type="email" name="comment[email]" autocomplete="email" required value="{{ form.email }}"></div>
-          <div class="field field--full"><label class="field__label" for="CommentBody">{{ 'blog.comment_body' | t }} <span class="required" aria-hidden="true">*</span></label><textarea class="textarea" id="CommentBody" name="comment[body]" rows="5" required>{{ form.body }}</textarea></div>
+          <div class="field">
+            <label class="field__label" for="CommentAuthor">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label>
+            <input class="input" id="CommentAuthor" name="comment[author]" autocomplete="name" required value="{{ form.author | escape }}"{% if ce_author %} aria-invalid="true" aria-describedby="CommentAuthor-error"{% endif %}>
+            {%- if ce_author -%}<p class="field__error" id="CommentAuthor-error">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'forms.error_required_name' | t }}</p>{%- endif -%}
+          </div>
+          <div class="field">
+            <label class="field__label" for="CommentEmail">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label>
+            <input class="input" id="CommentEmail" type="email" name="comment[email]" autocomplete="email" spellcheck="false" required value="{{ form.email | escape }}"{% if ce_email %} aria-invalid="true" aria-describedby="CommentEmail-error"{% endif %}>
+            {%- if ce_email -%}<p class="field__error" id="CommentEmail-error">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'forms.error_email' | t }}</p>{%- endif -%}
+          </div>
+          <div class="field field--full">
+            <label class="field__label" for="CommentBody">{{ 'blog.comment_body' | t }} <span class="required" aria-hidden="true">*</span></label>
+            <textarea class="textarea" id="CommentBody" name="comment[body]" rows="5" required{% if ce_body %} aria-invalid="true" aria-describedby="CommentBody-error"{% endif %}>{{ form.body }}</textarea>
+            {%- if ce_body -%}<p class="field__error" id="CommentBody-error">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'forms.error_required' | t }}</p>{%- endif -%}
+          </div>
         </div>
         {%- if blog.moderated? -%}<p class="text-sm muted">{{ 'blog.comment_moderated_note' | t }}</p>{%- endif -%}
         <button type="submit" class="btn">{{ 'blog.comment_submit' | t }}</button>
@@ -255,13 +296,13 @@
   "name": "Artikel",
   "class": "section-main-article",
   "settings": [
-    { "type": "checkbox", "id": "show_lead", "label": "Samenvatting onder de titel", "default": true, "info": "De samenvatting (excerpt) van het artikel." },
+    { "type": "checkbox", "id": "show_lead", "label": "Intro onder de titel", "default": true, "info": "De eerste alinea van het artikel, groot onder de titel (en dan niet nog eens in de tekst). Begint het artikel niet met een alinea, dan de samenvatting (excerpt)." },
     { "type": "checkbox", "id": "show_toc", "label": "Inhoudsopgave", "default": true, "info": "Uit de H2-koppen van het artikel, vanaf 3 koppen." },
     { "type": "text", "id": "products_heading", "label": "Kop producten", "default": "Producten uit dit artikel" },
     { "type": "collection", "id": "products_collection", "label": "Reservecollectie", "info": "Alleen voor artikelen zonder custom.producten en zonder tag 'collectie:<handle>'. Leeg = dan geen producten." },
     { "type": "header", "content": "Vraagblok onder het artikel" },
-    { "type": "text", "id": "help_heading", "label": "Kop", "default": "Vraag over je opstelling?", "info": "Leeg = geen vraagblok." },
-    { "type": "text", "id": "help_text", "label": "Tekst", "default": "Stel je vraag over maat, verankering of aantallen.", "info": "De reactietijd uit Thema-instellingen › Contact komt erachter." },
+    { "type": "text", "id": "help_heading", "label": "Kop", "default": "Vraag over dit onderwerp?", "info": "Leeg = geen vraagblok. Staat onder elk artikel, dus houd het algemeen." },
+    { "type": "text", "id": "help_text", "label": "Tekst", "default": "Stel je vraag, dan denken we mee over jouw situatie.", "info": "De reactietijd uit Thema-instellingen › Contact komt erachter." },
     { "type": "text", "id": "help_label", "label": "Knop", "default": "Stel je vraag" },
     { "type": "url", "id": "help_link", "label": "Link" }
   ]

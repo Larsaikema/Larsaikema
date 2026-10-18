@@ -1,17 +1,69 @@
 {%- comment -%}
-  Loaded lazily through /recommendations/products?section_id=…&product_id=…&intent=… (Section Rendering API).
+  Product recommendations under the main product, loaded when the section nears the viewport through
+  /recommendations/products?section_id=…&product_id=…&limit=…&intent=… (Section Rendering API).
+  'Aanvullend' (complementary) starts from the product's own cross-sells, so the row is not one lonely card while Search &
+  Discovery has few or no complementary products yet: custom.addons (beschermplaat, topcover) and then custom.past_op (the
+  statafels a rok fits on) render server-side, readable without JavaScript. product-recommendations.js puts the Search &
+  Discovery products in front, drops doubles and keeps 'Aantal' cards. 'Vergelijkbaar' (related) asks two extra products,
+  so it still fills its row after leaving out the products another row on the page already shows.
 {%- endcomment -%}
 <script src="{{ 'product-recommendations.js' | asset_url }}" defer></script>
-<product-recommendations class="section recommendations color-{{ section.settings.color_scheme }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}&intent={{ section.settings.intent }}">
-  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+{%- liquid
+  assign rec_heading = section.settings.heading
+  if rec_heading == blank
+    if section.settings.intent == 'complementary'
+      assign rec_heading = 'product.complementary' | t
+    else
+      assign rec_heading = 'product.recommendations' | t
+    endif
+  endif
+  assign rec_limit = section.settings.limit
+  assign has_api = false
+  if recommendations.performed and recommendations.products_count > 0
+    assign has_api = true
+  endif
+  assign shown = 0
+  capture rec_fallback
+    if section.settings.intent == 'complementary' and product != blank and recommendations.performed != true
+      assign seen = ',' | append: product.handle | append: ','
+      for src in (1..2)
+        if src == 1
+          assign rec_list = product.metafields.custom.addons.value
+        else
+          assign rec_list = product.metafields.custom.past_op.value
+        endif
+        for rec in rec_list
+          if shown >= rec_limit
+            break
+          endif
+          assign rec_key = ',' | append: rec.handle | append: ','
+          if seen contains rec_key or rec.available == false
+            continue
+          endif
+          assign seen = seen | append: rec.handle | append: ','
+          assign shown = shown | plus: 1
+          echo '<li data-handle="' | append: rec.handle | append: '">'
+          render 'product-card', product: rec, sizes: '(min-width: 990px) 320px, 68vw'
+          echo '</li>'
+        endfor
+      endfor
+    endif
+  endcapture
+-%}
+<product-recommendations class="section recommendations color-{{ section.settings.color_scheme }}" data-limit="{{ rec_limit }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={% if section.settings.intent == 'related' %}{{ rec_limit | plus: 2 }}{% else %}{{ rec_limit }}{% endif %}&intent={{ section.settings.intent }}">
+  {%- if has_api or shown > 0 -%}
     <div class="page-width">
       <div class="section-head">
-        <h2 class="section-head__title">{%- if section.settings.heading != blank -%}{{ section.settings.heading }}{%- elsif section.settings.intent == 'complementary' -%}{{ 'product.complementary' | t }}{%- else -%}{{ 'product.recommendations' | t }}{%- endif -%}</h2>
+        <h2 class="section-head__title">{{ rec_heading }}</h2>
       </div>
-      <ul class="slider slider--desktop-grid" role="list" style="--cols: {{ section.settings.limit }}; --slide-w: 68%">
-        {%- for rec in recommendations.products -%}
-          <li>{%- render 'product-card', product: rec, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>
-        {%- endfor -%}
+      <ul class="slider slider--desktop-grid" role="list" data-rec-list style="--cols: {{ rec_limit }}; --slide-w: 68%">
+        {%- if has_api -%}
+          {%- for rec in recommendations.products -%}
+            <li data-handle="{{ rec.handle }}">{%- render 'product-card', product: rec, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>
+          {%- endfor -%}
+        {%- else -%}
+          {{- rec_fallback -}}
+        {%- endif -%}
       </ul>
     </div>
   {%- endif -%}
@@ -24,7 +76,7 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Vaak samen bekeken" },
-    { "type": "select", "id": "intent", "label": "Soort", "options": [ { "value": "related", "label": "Vergelijkbaar" }, { "value": "complementary", "label": "Aanvullend (Search & Discovery)" } ], "default": "related" },
+    { "type": "select", "id": "intent", "label": "Soort", "options": [ { "value": "related", "label": "Vergelijkbaar" }, { "value": "complementary", "label": "Aanvullend (Search & Discovery)" } ], "default": "related", "info": "Aanvullend begint met de add-ons (custom.addons) en 'Past op'-producten (custom.past_op) van het product; producten uit Search & Discovery komen daar vóór." },
     { "type": "range", "id": "limit", "min": 2, "max": 6, "step": 1, "label": "Aantal", "default": 4 }
   ]
 }

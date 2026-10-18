@@ -688,6 +688,13 @@
   "print": {
     "step": "Stap {{ index }}",
     "min_qty": "Vanaf {{ count }} stuks",
-    "from_one": "Vanaf 1 stuk"
+    "from_one": "Vanaf 1 stuk",
+    "filter_label": "Kies een soort product",
+    "filter_all": "Alles",
+    "shown": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} producten"
+    },
+    "logo_placeholder": "bijv. wetransfer.com/..."
   }
 }

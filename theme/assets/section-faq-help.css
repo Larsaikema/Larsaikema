@@ -9,6 +9,7 @@ faq-help{display:block}
 .faq-help__status{margin:0;font-size:14px;color:var(--c-kiezel);min-height:1.45em}
 .faq-help__chips{margin-bottom:8px}
 .faq-help__chips .chip{min-height:40px}
+.faq-help__chips .chip[aria-current="true"]{background:var(--option-selected);border-color:var(--c-inkt);box-shadow:inset 0 0 0 .5px var(--c-inkt);font-weight:var(--font-body-weight-bold)}
 .faq-help__layout{display:grid;gap:24px}
 .faq-help__aside{display:none}
 .faq-help__group{scroll-margin-top:calc(var(--header-h,0px) + 16px);padding-top:24px}

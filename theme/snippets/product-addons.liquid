@@ -47,8 +47,6 @@
       {%- endfor -%}
     {%- endcapture -%}
     {%- comment -%} right above the buy button the button's live total says what a tick does; the how-to line only shows without a 'Niet inbegrepen' line {%- endcomment -%}
-    <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}.{%- else -%}{{ 'product.addons_help' | t }}{%- endif -%}</p>
-    {%- if block.settings.deal != blank -%}<p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
     {%- liquid
       # Order: first the add-ons that supply what is not in the box (custom.excluded: 'Haringen en spanbanden' finds
       # 'Spanbanden en haringen easy-up'), cheapest first, so the set a tent cannot stand without is never behind
@@ -135,6 +133,14 @@
       {%- endfor -%}
     {%- endcapture -%}
     {%- assign addon_sorted = addon_rows | split: '¦' | sort -%}
+    {%- comment -%}
+      'Niet inbegrepen' only when an add-on below supplies it (rows sorted '0…' first); a statafelrok whose add-ons are a
+      beschermplaat and a topcover gets the how-to line instead of 'Niet inbegrepen: statafel' ('Wat zit erin' says so)
+    {%- endcomment -%}
+    {%- assign a_first = addon_sorted.first | strip | slice: 0 -%}
+    {%- if a_first != '0' -%}{%- assign a_exc_text = '' -%}{%- endif -%}
+    <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}.{%- else -%}{{ 'product.addons_help' | t }}{%- endif -%}</p>
+    {%- if block.settings.deal != blank -%}<p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
     <ul class="addons__list" role="list">
       {%- for row in addon_sorted -%}
         {%- assign row_html = row | split: '§' | last -%}

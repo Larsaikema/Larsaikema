@@ -60,7 +60,8 @@
 .print-card__title a{text-decoration:none;color:inherit}
 .print-card__title a::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
 .print-card__title a:focus-visible{outline:none}
-.print-card__title a:focus-visible::after{outline:3px solid var(--c-inkt);outline-offset:2px}
+.print-card:has(.print-card__title a:focus-visible){outline:3px solid var(--focus,var(--c-inkt));outline-offset:3px}
+.print-card:has(.print-card__title a:focus-visible) .print-card__cta{text-decoration-thickness:3px}
 .print-card__text{margin:0;font-size:14.5px;line-height:1.45;color:var(--c-kiezel)}
 .print-card__facts{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:4px;font-size:13.5px;line-height:1.35}
 .print-card__facts li{display:flex;gap:6px;align-items:flex-start}
@@ -79,13 +80,35 @@
 }
 @media (min-width:1100px){.print-card__body{padding:16px 18px 18px}.print-card__title{font-size:17px}}
 
-/* large format / large series: Zakelijk-style band (Linnen, Inkt button) */
-.print-quote{margin-top:28px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:center;padding:20px;border-radius:var(--radius-panel);background:var(--c-linnen);color:var(--c-inkt)}
-.print-quote__icon{width:52px;height:52px;border-radius:50%;background:var(--c-wit);display:grid;place-items:center;align-self:start}
-.print-quote h3{margin:0 0 4px;font-size:19px}
+/* filter chips (only with JS, from three groups) */
+print-filter{display:block}
+.print-filter__bar{margin:0 0 18px}
+.print-filter__chips .chip{min-height:40px;gap:6px}
+.print-filter__chips .chip[aria-pressed="true"]{background:var(--option-selected);border-color:var(--c-inkt);box-shadow:inset 0 0 0 .5px var(--c-inkt);font-weight:var(--font-body-weight-bold)}
+.print-filter__chips .chip[aria-pressed="true"] .print-filter__count{color:var(--c-inkt)}
+.print-filter__count{font-size:13px;font-variant-numeric:tabular-nums;color:var(--c-kiezel);font-weight:var(--font-body-weight-semibold)}
+.print-grid>li[hidden]{display:none}
+
+/* quote tile: the last cell of the grid (two columns wide on desktop), Linnen with an Inkt button */
+.print-grid__quote{grid-column:1/-1}
+.print-quote{height:100%;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-content:start;padding:20px;border-radius:var(--radius-card);background:var(--c-linnen);color:var(--c-inkt)}
+.print-quote__icon{width:52px;height:52px;border-radius:50%;background:var(--c-wit);display:grid;place-items:center}
+.print-quote h3{margin:0 0 6px;font-size:20px;line-height:1.2}
 .print-quote p{margin:0;font-size:15.5px;line-height:1.5}
-.print-quote .btn{grid-column:1/-1;justify-self:start}
-@media (min-width:750px){.print-quote{grid-template-columns:auto minmax(0,1fr) auto;padding:24px 28px;gap:24px}.print-quote__icon{align-self:center}.print-quote .btn{grid-column:auto}.print-quote p{max-width:68ch}}
+.print-quote__points{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;font-size:15px;line-height:1.35;font-weight:var(--font-body-weight-semibold)}
+.print-quote__points li{display:flex;gap:8px;align-items:flex-start}
+.print-quote__points .icon{flex:none;margin-top:1px}
+.print-quote__actions{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.print-quote__alt{font-weight:var(--font-body-weight-bold);font-size:15px}
+@media (min-width:750px){.print-grid__quote{grid-column:auto}.print-quote{grid-template-columns:1fr;padding:22px}.print-quote__actions{margin-top:auto;padding-top:6px}}
+@media (min-width:1100px){
+  .print-grid__quote{grid-column:span 2}
+  .print-quote{grid-template-columns:auto minmax(0,1fr);gap:22px 22px;padding:36px;align-content:center}
+  .print-quote__icon{width:60px;height:60px}
+  .print-quote h3{font-size:24px}
+  .print-quote p{font-size:16.5px;max-width:52ch}
+  .print-quote__actions{grid-column:2;margin-top:0;padding-top:0}
+}
 
 /* artwork rules + form */
 .print-artwork h2{margin-bottom:0}
@@ -94,6 +117,11 @@
 .print-rules__icon{width:32px;height:32px;border-radius:50%;background:var(--c-wit);color:var(--c-inkt);display:grid;place-items:center;flex:none;margin-top:-4px}
 .print-artwork__notice{margin-top:26px}
 .print-artwork__links{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
+.print-template{margin-top:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;padding:18px;border-radius:var(--radius-card);background:var(--c-wit);border:1px solid var(--c-lijn);scroll-margin-top:calc(var(--header-h,0px) + 16px)}
+.print-template__icon{width:40px;height:40px;border-radius:50%;background:var(--c-linnen);display:grid;place-items:center}
+.print-template__title{margin:0 0 4px;font-size:17px}
+.print-template p{margin:0 0 8px;font-size:15px;line-height:1.45;color:var(--c-kiezel)}
+.print-template__link{display:inline-flex;gap:6px;align-items:center;font-weight:var(--font-body-weight-bold)}
 .print-artwork__links a{display:inline-flex;gap:8px;align-items:center;font-weight:var(--font-body-weight-bold)}
 .print-artwork__form .muted{margin:0 0 20px}
 .field__opt{font-weight:var(--font-body-weight);color:var(--c-kiezel)}

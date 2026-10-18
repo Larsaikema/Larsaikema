@@ -1,10 +1,12 @@
 {%- comment -%}
   Bedrukken landing page (feature content.print-landing): hero with the page content, process steps, the printable
-  products (option blocks with a product: real image, 'vanaf' price, minimum order from custom.drukopties), a
-  large-format / large-volume quote band, artwork rules with a question form. The FAQ is its own section.
+  products (option blocks with a product: image, 'vanaf' price and link of the cheapest print variant, minimum order
+  and print positions from custom.drukopties; a filter by the blocks' group), a quote tile for volume and custom sizes,
+  artwork rules with a question form (refilled after an error). The FAQ is its own section.
 {%- endcomment -%}
 {{ 'section-pages.css' | asset_url | stylesheet_tag }}
 {{ 'section-page-bedrukken.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'content-pages.js' | asset_url }}" defer></script>
 {%- liquid
   assign form_id = 'PrintForm-' | append: section.id
   assign heading = section.settings.heading | default: page.title | escape
@@ -15,14 +17,23 @@
   endif
   assign step_count = 0
   assign option_count = 0
+  assign group_keys = '|'
   for block in section.blocks
     case block.type
       when 'step'
         assign step_count = step_count | plus: 1
       when 'option'
         assign option_count = option_count | plus: 1
+        assign g_name = block.settings.group | strip
+        if g_name != blank
+          assign g_key = '|' | append: g_name | append: '|'
+          unless group_keys contains g_key
+            assign group_keys = group_keys | append: g_name | append: '|'
+          endunless
+        endif
     endcase
   endfor
+  assign group_list = group_keys | split: '|' | compact
 -%}
 <div class="print-hero color-scheme-3">
   <div class="page-width">
@@ -31,7 +42,7 @@
       <div class="print-hero__text">
         <p class="eyebrow print-hero__eyebrow">{%- render 'icon', icon: 'upload', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
         <h1 class="print-hero__title">{{ heading }}</h1>
-        <div class="rte text-lg print-hero__intro">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
+        <div class="rte text-lg print-hero__intro">{% if section.settings.intro != blank %}{{ section.settings.intro }}{% else %}{{ page.content }}{% endif %}</div>
         {%- capture c1_ok -%}{%- render 'link-exists', url: section.settings.cta_1_link -%}{%- endcapture -%}
         {%- capture c2_ok -%}{%- render 'link-exists', url: section.settings.cta_2_link -%}{%- endcapture -%}
         <div class="btn-row print-hero__ctas">
@@ -93,78 +104,142 @@
   <div class="page-width">
     <div class="section-head">
       <div>
-        <h2 class="section-head__title">{{ section.settings.options_heading }}</h2>
+        <h2 class="section-head__title" id="PrintOptions-{{ section.id }}">{{ section.settings.options_heading }}</h2>
         {%- if section.settings.options_text != blank -%}<p class="section-head__text muted">{{ section.settings.options_text }}</p>{%- endif -%}
       </div>
     </div>
-    <ul class="print-grid" role="list">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'option' -%}
-          {%- liquid
-            assign p = block.settings.product
-            assign o_link = block.settings.link
-            if o_link == blank and p != blank
-              assign o_link = p.url
-            endif
-            assign o_ok = 'false'
-            if o_link != blank
-              capture o_ok
-                render 'link-exists', url: o_link
-              endcapture
-            endif
-            assign o_title = block.settings.title | default: p.title
-            assign o_img = block.settings.image | default: p.featured_image
-            assign o_min = p.metafields.custom.drukopties.value.min_aantal | default: 0
-            assign o_pos = p.metafields.custom.drukopties.value.posities
-          -%}
-          <li {{ block.shopify_attributes }}>
-            <article class="print-card{% if o_ok == 'true' %} print-card--link{% endif %}">
-              <div class="print-card__media">
-                {%- if o_img != blank -%}
-                  {%- render 'image', image: o_img, sizes: '(min-width: 1360px) 320px, (min-width: 990px) 24vw, (min-width: 750px) 33vw, 50vw', widths: '240, 360, 480, 640, 800', alt: '' -%}
-                {%- else -%}
-                  {%- render 'fallback-image', key: block.settings.fallback_image, alt: '' -%}
-                {%- endif -%}
-              </div>
-              <div class="print-card__body">
-                <h3 class="print-card__title">
-                  {%- if o_ok == 'true' -%}<a href="{{ o_link }}">{{ o_title }}</a>{%- else -%}{{ o_title }}{%- endif -%}
-                </h3>
-                {%- if block.settings.text != blank -%}<p class="print-card__text">{{ block.settings.text }}</p>{%- endif -%}
-                {%- if o_pos.size > 0 or o_min > 0 -%}
-                  <ul class="print-card__facts" role="list">
-                    {%- if o_pos.size > 0 -%}<li class="print-card__fact--pos">{%- render 'icon', icon: 'pin', class: 'icon--xs' -%}<span>{{ o_pos | join: ' · ' }}</span></li>{%- endif -%}
-                    {%- if o_min > 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.min_qty' | t: count: o_min }}</span></li>{%- elsif o_min == 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.from_one' | t }}</span></li>{%- endif -%}
-                  </ul>
-                {%- endif -%}
-                <div class="print-card__foot">
-                  {%- if p != blank and block.settings.show_price -%}
-                    <p class="print-card__price">
-                      {%- if p.price_varies -%}<span class="print-card__from">{{ 'price.from' | t }}</span> {% endif -%}
-                      {%- render 'vat-money', cents: p.price_min, tag: 'strong' -%}
-                      <span class="print-card__vat" data-vat-show="incl">{{ 'price.incl' | t }}</span><span class="print-card__vat" data-vat-show="excl">{{ 'price.excl' | t }}</span>
-                    </p>
+    <print-filter class="print-filter" data-shown-one="{{ 'print.shown' | t: count: 1 }}" data-shown-other="{{ 'print.shown' | t: count: 7777 }}">
+      {%- if group_list.size > 2 -%}
+        <div class="print-filter__bar" hidden data-print-filter-bar>
+          <div class="chips chips--scroll print-filter__chips" role="group" aria-label="{{ 'print.filter_label' | t }}">
+            <button type="button" class="chip" aria-pressed="true" data-print-filter="">{{ 'print.filter_all' | t }} <span class="print-filter__count">{{ option_count }}</span></button>
+            {%- for g in group_list -%}
+              {%- if g == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign g_n = 0 -%}
+              {%- for b in section.blocks -%}{%- if b.type == 'option' -%}{%- assign b_g = b.settings.group | strip -%}{%- if b_g == g -%}{%- assign g_n = g_n | plus: 1 -%}{%- endif -%}{%- endif -%}{%- endfor -%}
+              <button type="button" class="chip" aria-pressed="false" data-print-filter="{{ g | handleize }}">{{ g }} <span class="print-filter__count">{{ g_n }}</span></button>
+            {%- endfor -%}
+          </div>
+          <p class="visually-hidden" role="status" aria-live="polite" data-print-filter-status></p>
+        </div>
+      {%- endif -%}
+      <ul class="print-grid" role="list" aria-labelledby="PrintOptions-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'option' -%}
+            {%- liquid
+              assign p = block.settings.product
+              assign dk = p.metafields.custom.drukopties.value
+              assign o_price = p.price_min
+              assign o_varies = p.price_varies
+              assign pv = nil
+              assign pv_price = -1
+              assign pv_max = 0
+              if p != blank and dk.optie != blank
+                for v in p.variants
+                  capture v_print
+                    render 'print-active', product: p, variant: v
+                  endcapture
+                  if v_print == 'true'
+                    if pv_price < 0 or v.price < pv_price
+                      assign pv = v
+                      assign pv_price = v.price
+                    endif
+                    if v.price > pv_max
+                      assign pv_max = v.price
+                    endif
+                  endif
+                endfor
+                if pv_price >= 0
+                  assign o_price = pv_price
+                  assign o_varies = false
+                  if pv_max > pv_price
+                    assign o_varies = true
+                  endif
+                endif
+              endif
+              assign o_link = block.settings.link
+              if o_link == blank and p != blank
+                if pv_price >= 0
+                  assign o_link = pv.url
+                else
+                  assign o_link = p.url
+                endif
+              endif
+              assign o_ok = 'false'
+              if o_link != blank
+                capture o_ok
+                  render 'link-exists', url: o_link
+                endcapture
+              endif
+              assign o_title = block.settings.title | default: p.title
+              assign o_img = block.settings.image
+              if o_img == blank and pv_price >= 0
+                assign o_img = pv.featured_image
+              endif
+              if o_img == blank
+                assign o_img = p.featured_image
+              endif
+              assign o_min = dk.min_aantal | default: 0
+              assign o_pos = dk.posities
+              assign o_group = block.settings.group | strip | handleize
+            -%}
+            <li {% if o_group != blank %}data-print-group="{{ o_group }}" {% endif %}{{ block.shopify_attributes }}>
+              <article class="print-card{% if o_ok == 'true' %} print-card--link{% endif %}">
+                <div class="print-card__media">
+                  {%- if o_img != blank -%}
+                    {%- render 'image', image: o_img, sizes: '(min-width: 1360px) 320px, (min-width: 1100px) 24vw, (min-width: 750px) 31vw, 46vw', widths: '240, 360, 480, 640, 800', alt: '' -%}
+                  {%- else -%}
+                    {%- render 'fallback-image', key: block.settings.fallback_image, alt: '' -%}
                   {%- endif -%}
-                  {%- if o_ok == 'true' and block.settings.link_label != blank -%}<span class="print-card__cta" aria-hidden="true">{{ block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>{%- endif -%}
                 </div>
+                <div class="print-card__body">
+                  <h3 class="print-card__title">
+                    {%- if o_ok == 'true' -%}<a href="{{ o_link }}">{{ o_title }}</a>{%- else -%}{{ o_title }}{%- endif -%}
+                  </h3>
+                  {%- if block.settings.text != blank -%}<p class="print-card__text">{{ block.settings.text }}</p>{%- endif -%}
+                  {%- if o_pos.size > 0 or o_min > 0 -%}
+                    <ul class="print-card__facts" role="list">
+                      {%- if o_pos.size > 0 -%}<li class="print-card__fact--pos">{%- render 'icon', icon: 'pin', class: 'icon--xs' -%}<span>{{ o_pos | join: ' · ' }}</span></li>{%- endif -%}
+                      {%- if o_min > 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.min_qty' | t: count: o_min }}</span></li>{%- elsif o_min == 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.from_one' | t }}</span></li>{%- endif -%}
+                    </ul>
+                  {%- endif -%}
+                  <div class="print-card__foot">
+                    {%- if p != blank and block.settings.show_price -%}
+                      <p class="print-card__price">
+                        {%- if o_varies -%}<span class="print-card__from">{{ 'price.from' | t }}</span> {% endif -%}
+                        {%- render 'vat-money', cents: o_price, tag: 'strong' -%}
+                        <span class="print-card__vat" data-vat-show="incl">{{ 'price.incl' | t }}</span><span class="print-card__vat" data-vat-show="excl">{{ 'price.excl' | t }}</span>
+                      </p>
+                    {%- endif -%}
+                    {%- if o_ok == 'true' and block.settings.link_label != blank -%}<span class="print-card__cta" aria-hidden="true">{{ block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>{%- endif -%}
+                  </div>
+                </div>
+              </article>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- capture q_ok -%}{%- render 'link-exists', url: section.settings.quote_link -%}{%- endcapture -%}
+        {%- if section.settings.quote_heading != blank -%}
+          <li class="print-grid__quote">
+            <div class="print-quote">
+              <span class="print-quote__icon" aria-hidden="true">{%- render 'icon', icon: 'tent' -%}</span>
+              <div class="print-quote__text">
+                <h3>{{ section.settings.quote_heading }}</h3>
+                {%- if section.settings.quote_text != blank -%}<p>{{ section.settings.quote_text }}</p>{%- endif -%}
+                {%- assign q_points = section.settings.quote_points | newline_to_br | split: '<br />' -%}
+                {%- capture q_list -%}{%- for it in q_points -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li>{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}{%- endcapture -%}
+                {%- if q_list != blank -%}<ul class="print-quote__points" role="list">{{ q_list }}</ul>{%- endif -%}
               </div>
-            </article>
+              <div class="print-quote__actions">
+                {%- if section.settings.quote_label != blank and section.settings.quote_link != blank and q_ok == 'true' -%}<a class="btn" href="{{ section.settings.quote_link }}">{{ section.settings.quote_label }}</a>{%- endif -%}
+                {%- if section.settings.quote_alt_label != blank -%}<a class="link print-quote__alt" href="#PrintContact">{{ section.settings.quote_alt_label }}</a>{%- endif -%}
+              </div>
+            </div>
           </li>
         {%- endif -%}
-      {%- endfor -%}
-    </ul>
-
-    {%- capture q_ok -%}{%- render 'link-exists', url: section.settings.quote_link -%}{%- endcapture -%}
-    {%- if section.settings.quote_heading != blank -%}
-      <div class="print-quote">
-        <span class="print-quote__icon" aria-hidden="true">{%- render 'icon', icon: 'tent' -%}</span>
-        <div class="print-quote__text">
-          <h3>{{ section.settings.quote_heading }}</h3>
-          {%- if section.settings.quote_text != blank -%}<p>{{ section.settings.quote_text }}</p>{%- endif -%}
-        </div>
-        {%- if section.settings.quote_label != blank and section.settings.quote_link != blank and q_ok == 'true' -%}<a class="btn" href="{{ section.settings.quote_link }}">{{ section.settings.quote_label }}</a>{%- endif -%}
-      </div>
-    {%- endif -%}
+      </ul>
+    </print-filter>
   </div>
 </div>
 {%- endif -%}
@@ -180,7 +255,6 @@
       <p class="notice notice--warn print-artwork__notice">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>
       {%- liquid
         assign show_guide = false
-        assign show_template = false
         if section.settings.guide_link != blank and section.settings.guide_label != blank
           capture g_ok
             render 'link-exists', url: section.settings.guide_link
@@ -189,14 +263,30 @@
             assign show_guide = true
           endif
         endif
+        assign template_mode = ''
         if section.settings.template_link != blank and section.settings.template_label != blank
-          assign show_template = true
+          assign template_mode = 'download'
+        elsif section.settings.template_request_label != blank and section.settings.template_topic != blank
+          assign template_mode = 'request'
         endif
       -%}
-      {%- if show_guide or show_template -%}
+      {%- if template_mode != '' -%}
+        <div class="print-template" id="sjabloon">
+          <span class="print-template__icon" aria-hidden="true">{%- render 'icon', icon: 'file' -%}</span>
+          <div>
+            <h3 class="print-template__title">{{ section.settings.template_heading }}</h3>
+            {%- if section.settings.template_text != blank -%}<p>{{ section.settings.template_text }}</p>{%- endif -%}
+            {%- if template_mode == 'download' -%}
+              <a class="link print-template__link" href="{{ section.settings.template_link }}" download>{%- render 'icon', icon: 'download', class: 'icon--sm' -%}<span>{{ section.settings.template_label }}</span></a>
+            {%- else -%}
+              <a class="link print-template__link" href="#PrintForm-{{ section.id }}-topic" data-print-topic="{{ section.settings.template_topic | escape }}">{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}<span>{{ section.settings.template_request_label }}</span></a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if show_guide -%}
         <ul class="print-artwork__links" role="list">
-          {%- if show_guide -%}<li><a class="link" href="{{ section.settings.guide_link }}">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}<span>{{ section.settings.guide_label }}</span></a></li>{%- endif -%}
-          {%- if show_template -%}<li><a class="link" href="{{ section.settings.template_link }}" download>{%- render 'icon', icon: 'download', class: 'icon--sm' -%}<span>{{ section.settings.template_label }}</span></a></li>{%- endif -%}
+          <li><a class="link" href="{{ section.settings.guide_link }}">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}<span>{{ section.settings.guide_label }}</span></a></li>
         </ul>
       {%- endif -%}
     </div>
@@ -206,18 +296,44 @@
       {%- form 'contact', id: form_id -%}
         <input type="hidden" name="contact[Onderwerp]" value="Vraag over bedrukken">
         {%- if form.posted_successfully? -%}
-          <div class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'forms.contact_success' | t }}</strong></span></div>
+          <div class="notice notice--success" role="status" tabindex="-1">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'forms.contact_success' | t }}</strong></span></div>
         {%- else -%}
+          {%- liquid
+            assign f_err_email = false
+            if form.errors contains 'email'
+              assign f_err_email = true
+            endif
+            assign f_name = form.name | default: customer.name
+            assign f_email = form.email | default: customer.email
+            assign f_topic = form['Ik wil']
+            assign topics = section.settings.form_topics | newline_to_br | split: '<br />'
+          -%}
           {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
           <div class="form-grid form-grid--2">
-            <div class="field"><label class="field__label" for="P-name">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-name" name="contact[name]" autocomplete="name" required></div>
-            <div class="field"><label class="field__label" for="P-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-email" type="email" name="contact[email]" autocomplete="email" required></div>
-            <div class="field"><label class="field__label" for="P-company">{{ 'forms.company' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="P-company" name="contact[Bedrijfsnaam]" autocomplete="organization"></div>
-            <div class="field"><label class="field__label" for="P-phone">{{ 'forms.phone' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="P-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
-            <div class="field"><label class="field__label" for="P-product">{{ 'quote.line_product' | t }}</label><input class="input" id="P-product" name="contact[Product]"></div>
-            <div class="field"><label class="field__label" for="P-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="P-qty" type="number" min="1" inputmode="numeric" name="contact[Aantal]"></div>
-            <div class="field field--full"><label class="field__label" for="P-logo">{{ 'quote.logo_link' | t }}</label><input class="input" id="P-logo" type="url" name="contact[Link naar logo]" placeholder="https://" aria-describedby="P-logo-help"><p class="field__help" id="P-logo-help">{{ 'quote.logo_link_help' | t }}</p></div>
-            <div class="field field--full"><label class="field__label" for="P-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="P-body" name="contact[body]" rows="4"></textarea></div>
+            {%- if section.settings.form_topics != blank -%}
+              <div class="field field--full">
+                <label class="field__label" for="{{ form_id }}-topic">{{ section.settings.form_topic_label }}</label>
+                <select class="select" id="{{ form_id }}-topic" name="contact[Ik wil]" data-print-topic-select>
+                  {%- for t in topics -%}
+                    {%- assign ts = t | strip -%}
+                    {%- if ts == blank -%}{%- continue -%}{%- endif -%}
+                    <option value="{{ ts | escape }}"{% if f_topic == ts %} selected{% endif %}>{{ ts }}</option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+            <div class="field"><label class="field__label" for="{{ form_id }}-name">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="{{ form_id }}-name" name="contact[name]" autocomplete="name" required value="{{ f_name | escape }}"></div>
+            <div class="field">
+              <label class="field__label" for="{{ form_id }}-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label>
+              <input class="input" id="{{ form_id }}-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" required value="{{ f_email | escape }}"{% if f_err_email %} aria-invalid="true" aria-describedby="{{ form_id }}-email-error"{% endif %}>
+              {%- if f_err_email -%}<p class="field__error" id="{{ form_id }}-email-error">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'forms.error_email' | t }}</p>{%- endif -%}
+            </div>
+            <div class="field"><label class="field__label" for="{{ form_id }}-company">{{ 'forms.company' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="{{ form_id }}-company" name="contact[Bedrijfsnaam]" autocomplete="organization" value="{{ form['Bedrijfsnaam'] | escape }}"></div>
+            <div class="field"><label class="field__label" for="{{ form_id }}-phone">{{ 'forms.phone' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="{{ form_id }}-phone" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone | escape }}"></div>
+            <div class="field"><label class="field__label" for="{{ form_id }}-product">{{ 'quote.line_product' | t }}</label><input class="input" id="{{ form_id }}-product" name="contact[Product]" value="{{ form['Product'] | escape }}"></div>
+            <div class="field"><label class="field__label" for="{{ form_id }}-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="{{ form_id }}-qty" type="number" min="1" inputmode="numeric" name="contact[Aantal]" value="{{ form['Aantal'] | escape }}"></div>
+            <div class="field field--full"><label class="field__label" for="{{ form_id }}-logo">{{ 'quote.logo_link' | t }}</label><input class="input" id="{{ form_id }}-logo" type="text" inputmode="url" autocomplete="off" spellcheck="false" name="contact[Link naar logo]" placeholder="{{ 'print.logo_placeholder' | t }}" aria-describedby="{{ form_id }}-logo-help" value="{{ form['Link naar logo'] | escape }}"><p class="field__help" id="{{ form_id }}-logo-help">{{ 'quote.logo_link_help' | t }}</p></div>
+            <div class="field field--full"><label class="field__label" for="{{ form_id }}-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="{{ form_id }}-body" name="contact[body]" rows="4">{{ form.body }}</textarea></div>
           </div>
           <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
           {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
@@ -236,7 +352,7 @@
     { "type": "text", "id": "eyebrow", "label": "Bovenregel", "default": "Met jouw logo" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Jouw logo op je tent of statafelrok" },
     { "type": "text", "id": "accent_word", "label": "Woord met luifelstreep", "info": "Eén woord uit de kop dat de oranje streep eronder krijgt (merkboek 4.2). Leeg = geen streep.", "default": "logo" },
-    { "type": "richtext", "id": "intro", "label": "Intro (als de pagina leeg is)", "default": "<p>Je uploadt je logo, wij maken een drukproef. Pas na jouw akkoord gaan we drukken.</p>" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "info": "Leeg = de tekst van de pagina (Online Store › Pagina's)." },
     { "type": "image_picker", "id": "image", "label": "Beeld" },
     { "type": "text", "id": "image_alt", "label": "Alt-tekst beeld", "default": "Easy-up partytent in rood met voorbeeldopdruk Klapklaar op de luifel, schuin vooraanzicht" },
     { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
@@ -259,17 +375,25 @@
     { "type": "text", "id": "options_text", "label": "Tekst drukopties" },
     { "type": "text", "id": "quote_heading", "label": "Kop offerteband", "info": "Leeg = geen band onder de producten." },
     { "type": "text", "id": "quote_text", "label": "Tekst offerteband" },
+    { "type": "textarea", "id": "quote_points", "label": "Punten offerteband", "info": "Eén per regel, met een vinkje ervoor." },
     { "type": "text", "id": "quote_label", "label": "Knop offerteband", "default": "Offerte aanvragen" },
     { "type": "url", "id": "quote_link", "label": "Link offerteband" },
+    { "type": "text", "id": "quote_alt_label", "label": "Tweede link (naar het formulier)", "default": "Of stel eerst je vraag" },
     { "type": "header", "content": "Aanleveren en formulier" },
     { "type": "text", "id": "specs_heading", "label": "Kop aanleveren", "default": "Zo lever je je logo aan" },
-    { "type": "textarea", "id": "specs", "label": "Aanleverregels", "default": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nGeef je Pantone- of HEX-kleuren door als je die hebt\nLevertijd 10–15 werkdagen na akkoord drukproef" },
+    { "type": "textarea", "id": "specs", "label": "Aanleverregels", "default": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nZet tekst om naar contouren, of stuur het lettertype mee\nGeef je Pantone- of HEX-kleuren door als je die hebt" },
     { "type": "url", "id": "guide_link", "label": "Link naar aanleverguide", "info": "Bijvoorbeeld het artikel over logo aanleveren. Leeg of niet gevonden = geen link." },
     { "type": "text", "id": "guide_label", "label": "Tekst link aanleverguide", "default": "Lees alles over logo aanleveren" },
-    { "type": "url", "id": "template_link", "label": "Link naar drukssjabloon", "info": "Een bestand uit Content › Bestanden (PDF of AI). Leeg = geen downloadlink." },
+    { "type": "text", "id": "template_heading", "label": "Kop sjabloon", "default": "Full colour ontwerp?" },
+    { "type": "text", "id": "template_text", "label": "Tekst sjabloon", "default": "Ontwerp op ons sjabloon voor jouw maat, met vouwlijnen en een veilige zone voor tekst en logo's." },
+    { "type": "url", "id": "template_link", "label": "Link naar drukssjabloon", "info": "Een bestand uit Content › Bestanden (PDF of AI). Leeg = een link die het sjabloon aanvraagt via het formulier." },
     { "type": "text", "id": "template_label", "label": "Tekst downloadlink", "default": "Download het drukssjabloon" },
+    { "type": "text", "id": "template_request_label", "label": "Tekst aanvraaglink (zonder bestand)", "default": "Vraag het sjabloon voor je maat aan" },
+    { "type": "text", "id": "template_topic", "label": "Onderwerp dat de aanvraaglink kiest", "info": "Precies zoals in 'Onderwerpen formulier'.", "default": "Het sjabloon voor een full colour ontwerp" },
     { "type": "text", "id": "form_heading", "label": "Kop formulier", "default": "Vraag over bedrukken?" },
-    { "type": "text", "id": "form_text", "label": "Tekst formulier", "default": "Laat weten wat je wilt laten bedrukken. Je krijgt een voorstel met drukproef." }
+    { "type": "text", "id": "form_text", "label": "Tekst formulier", "default": "Laat weten wat je wilt laten bedrukken. Je krijgt een voorstel met drukproef." },
+    { "type": "text", "id": "form_topic_label", "label": "Label onderwerpkeuze", "default": "Waarmee kunnen we je helpen?" },
+    { "type": "textarea", "id": "form_topics", "label": "Onderwerpen formulier", "info": "Eén per regel; de eerste is standaard gekozen. Leeg = geen keuzelijst.", "default": "Een voorstel met drukproef\nHet sjabloon voor een full colour ontwerp\nEen offerte voor een grote serie of eigen maat\nIets anders" }
   ],
   "blocks": [
     { "type": "proof", "name": "Zekerheid (bovenaan)", "settings": [
@@ -300,8 +424,9 @@
       ], "default": "none" },
       { "type": "text", "id": "title", "label": "Titel", "info": "Leeg = de producttitel." },
       { "type": "text", "id": "text", "label": "Tekst" },
-      { "type": "checkbox", "id": "show_price", "label": "'Vanaf'-prijs tonen", "default": true },
-      { "type": "url", "id": "link", "label": "Link", "info": "Leeg = naar het product." },
+      { "type": "text", "id": "group", "label": "Groep (filter)", "info": "Bijvoorbeeld 'Easy-up'. Met drie of meer groepen komen er filterknoppen boven de producten." },
+      { "type": "checkbox", "id": "show_price", "label": "'Vanaf'-prijs tonen", "default": true, "info": "Bij een product met een optie zonder bedrukking (custom.drukopties.zonder) de laagste prijs mét bedrukking." },
+      { "type": "url", "id": "link", "label": "Link", "info": "Leeg = naar het product, op de goedkoopste variant met bedrukking." },
       { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk" }
     ] }
   ],
