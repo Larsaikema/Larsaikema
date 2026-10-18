@@ -40,7 +40,7 @@ export function lumOf(hex) { const c = new THREE.Color(hex); return 0.2126 * c.r
 // half-diagonal from front-left, fill from behind-right, tilted sky dome, overhead floor key.
 export function tentRig(hex, { walled = false, print = false } = {}) {
   const L = lumOf(hex);
-  const white = L > 0.7 && !print, black = L < 0.06;
+  const white = L > 0.7 && !print;
   const key = { azimuth: -72, elevation: 32, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.0, 0.4, 0.69], angle: 40, penumbra: 1.0 };
   return {
     env: 'studio', envIntensity: 1.0,
@@ -48,23 +48,19 @@ export function tentRig(hex, { walled = false, print = false } = {}) {
     floorKey: { azimuth: -15, elevation: 80, cone: 16, intensity: 3.0 },
     keyShadow: 0.46,
     rim: { azimuth: -155, elevation: 35, intensity: 0.3 },
-    fill: { azimuth: 100, elevation: 12, intensity: 5.5 },
+    // low fill: faces turned from the key fall to ~55 % (dyed cloth keeps its deeper shaded tone)
+    fill: { azimuth: 100, elevation: 12, intensity: 3.0 },
     bounce: { intensity: 0.5 },
     dome: { count: 2, intensity: 2.4, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
     exposure: white ? 0.52 : 'auto',
     ...(white ? { toneMapping: 'neutral', shoulder: 0.88 } : {}),
-    exposureAuto: { ref: 0.2, base: 0.64, power: 0.22, min: 0.45, max: 1.0 },
+    // one fixed exposure (0.72) for dark and mid colours: zwart, antraciet and grijs render at
+    // their own value (no extra light or exposure for black); light colours a little less
+    exposureAuto: { ref: 0.2, base: 0.64, power: 0.22, min: 0.45, max: 0.72 },
     groundSplit: true,
     shadowFloor: 0.6,
     groundAO: { strength: walled ? 0.5 : 0.32, maxZenith: 75 },
     contact: { res: 2048, h0: 0.03, strength: 1.0, blur: 2.6, wide: { h0: 0.05, sigma: 0.028, strength: 0.42 } },
-    ...(black ? {
-      key: { ...key, intensity: 8 },
-      dome: { count: 2, intensity: 1.2, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-      fill: { azimuth: 100, elevation: 12, intensity: 5.0 },
-      rim: { azimuth: -155, elevation: 35, intensity: 0.2 },
-      exposure: 0.85,
-    } : {}),
   };
 }
 
@@ -410,7 +406,7 @@ export function artwork(kind = 'panel', { text = 'JOUW ONTWERP' } = {}) {
       for (let i = 0; i <= 40; i++) { const x = cx - W * 0.2 + (i / 40) * W * 0.4, y = cy + H * 0.13 + Math.sin(i / 40 * TAU * 1.5) * H * 0.02; if (i) g.lineTo(x, y); else g.moveTo(x, y); }
       g.stroke();
       g.fillStyle = '#FFFFFF'; g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.font = `800 ${Math.round(H * 0.046)}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
+      g.font = `800 ${Math.round(H * 0.04)}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
       if ('letterSpacing' in g) g.letterSpacing = `${Math.round(H * 0.004)}px`;
       g.fillText(text, cx, H * 0.71);
       for (let k = 0; k < 40; k++) { g.fillStyle = ['#F4C430', '#EF5B4B', '#FFFFFF'][k % 3]; g.globalAlpha = 0.85; const a = R() * TAU, rr = (0.28 + 0.2 * R()) * W; g.beginPath(); g.arc(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.9 - H * 0.06, W * (0.005 + 0.007 * R()), 0, TAU); g.fill(); }

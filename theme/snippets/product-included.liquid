@@ -1,0 +1,15 @@
+{%- comment -%}
+  'Wat zit erin' (feature product.whats-included): custom.included as ticks, custom.excluded struck as 'niet inbegrepen'
+  (with a dash). Renders nothing when both are empty. Params: product, block (heading setting).
+{%- endcomment -%}
+{%- assign inc = product.metafields.custom.included.value -%}
+{%- assign exc = product.metafields.custom.excluded.value -%}
+{%- if inc != blank or exc != blank -%}
+  <div class="included" {{ block.shopify_attributes }}>
+    <h2 class="included__title">{%- render 'icon', icon: 'box', class: 'icon--sm' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.included_title' | t }}{% endif %}</h2>
+    <ul class="included__list" role="list">
+      {%- for x in inc -%}<li class="included__item">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.included_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
+      {%- for x in exc -%}<li class="included__item included__item--no">{%- render 'icon', icon: 'minus', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.excluded_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

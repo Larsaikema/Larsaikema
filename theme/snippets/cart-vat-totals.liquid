@@ -1,0 +1,39 @@
+{%- comment -%}
+  Outputs 'incl|excl|items_incl|items_excl' (cents): the first pair after cart-level discounts (what the products cost),
+  the second before them (the lines added up). Btw is worked out per line on the line total and rounded per line, the
+  way Shopify charges it, so the excl. amounts match the order and the invoice (100 × € 19,95 → € 1.648,76 excl.).
+  Cart-level discounts are allocated to the lines (item.discount_allocations) and come off a line before its btw.
+  With prices entered excl. btw (shop.taxes_included false) the incl. amounts are derived per line the same way. A line
+  without btw (a gift card, or a variant with 'Btw heffen' off: item.taxable false) has the same amount in both.
+  Use: {%- capture t -%}{% render 'cart-vat-totals' %}{%- endcapture -%}{%- assign t = t | strip | split: '|' -%}
+{%- endcomment -%}
+{%- liquid
+  assign vt_factor = settings.vat_rate | default: 0 | plus: 100
+  assign vt_net = 0
+  assign vt_items = 0
+  for item in cart.items
+    assign vt_alloc = 0
+    for a in item.discount_allocations
+      assign vt_alloc = vt_alloc | plus: a.amount
+    endfor
+    assign vt_alloc = vt_alloc | minus: item.line_level_total_discount | at_least: 0
+    assign vt_line_net = item.final_line_price | minus: vt_alloc | at_least: 0
+    if item.taxable == false or item.gift_card
+      assign vt_a = item.final_line_price
+      assign vt_b = vt_line_net
+    elsif shop.taxes_included
+      assign vt_a = item.final_line_price | times: 100.0 | divided_by: vt_factor | round
+      assign vt_b = vt_line_net | times: 100.0 | divided_by: vt_factor | round
+    else
+      assign vt_a = item.final_line_price | times: vt_factor | divided_by: 100.0 | round
+      assign vt_b = vt_line_net | times: vt_factor | divided_by: 100.0 | round
+    endif
+    assign vt_items = vt_items | plus: vt_a
+    assign vt_net = vt_net | plus: vt_b
+  endfor
+  if shop.taxes_included
+    echo cart.total_price | append: '|' | append: vt_net | append: '|' | append: cart.items_subtotal_price | append: '|' | append: vt_items
+  else
+    echo vt_net | append: '|' | append: cart.total_price | append: '|' | append: vt_items | append: '|' | append: cart.items_subtotal_price
+  endif
+-%}

@@ -69,10 +69,30 @@ window.renderSpec = async function renderSpec(spec) {
     width, height, samples, bg: spec.bg || '#EFEDE8', rig,
     onProgress: (i, n, ms) => console.log(`[render] ${i}/${n} ${(ms / 1000).toFixed(1)}s`),
   });
+  // measurement probes: product builders may name world points (meta.probes: {name: [x,y,z] |
+  // [[x,y,z], ...]}, in the product's own frame); they come back as image pixels [[px, py], ...]
+  // so tools (tools/check-tent-values.mjs) can read the rendered value of e.g. the lit roof face
+  const probes = {};
+  {
+    const pc = new THREE.PerspectiveCamera(view.fov, width / height, 0.01, 1000);
+    pc.position.copy(view.position); pc.up.set(0, 1, 0); pc.lookAt(view.target); pc.updateMatrixWorld(); pc.updateProjectionMatrix();
+    root.updateMatrixWorld(true);
+    meta.forEach((m, i) => {
+      if (!m || !m.probes) return;
+      const obj = root.children[i];
+      for (const [k, pts] of Object.entries(m.probes)) {
+        const list = Array.isArray(pts[0]) ? pts : [pts];
+        probes[k] = list.map((q) => {
+          const v = new THREE.Vector3(...q).applyMatrix4(obj.matrixWorld).project(pc);
+          return [(v.x + 1) / 2 * width, (1 - v.y) / 2 * height];
+        });
+      }
+    });
+  }
   // dispose product geometry (materials/textures are cached for the batch)
   root.traverse((o) => { if (o.isMesh) o.geometry.dispose(); });
   s.scene.remove(root); s.root = null;
-  return { ms: performance.now() - t0, buildMs: tBuild, renderMs: res.ms, samples, exposure: res.exposure, view: { ...view, position: view.position.toArray(), target: view.target.toArray() }, meta };
+  return { ms: performance.now() - t0, buildMs: tBuild, renderMs: res.ms, samples, exposure: res.exposure, probes, view: { ...view, position: view.position.toArray(), target: view.target.toArray() }, meta };
 };
 
 window.grabImage = function grabImage(type = 'image/png', quality = 0.92) {

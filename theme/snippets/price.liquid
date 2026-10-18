@@ -6,6 +6,8 @@
   - id (string): id on the wrapper (main product uses price-<section id>)
   - quantity (number): multiply (cart totals)
   - unit (string): price per unit, e.g. 'm²' for made-to-measure products
+  - note (string, optional): a short addition after the secondary (excl./incl.) line, e.g. the staffel hint on cards;
+    without the secondary line (setting off) it gets its own line
   A sale price sits in the Zon label (brand book 4.2); the compare-at price is Kiezel and struck through.
 {%- endcomment -%}
 {%- liquid
@@ -56,8 +58,11 @@
     {%- if on_sale -%}<s class="price__compare"><span class="visually-hidden">{{ 'price.regular' | t }}</span>{{ cp_excl | money }}</s>{%- endif -%}
     <span class="price__label">{{ 'price.excl' | t }}</span>
   </div>
+  {%- if note != blank -%}{%- capture price_note -%}<span class="price__note"><span class="price__note-sep" aria-hidden="true"> · </span>{{ note }}</span>{%- endcapture -%}{%- endif -%}
   {%- if settings.price_show_secondary -%}
-    <div class="price__alt" data-vat-mode="incl"><span class="price__value">{{ p_excl_fmt }}</span>&nbsp;{{ 'price.excl' | t }}</div>
-    <div class="price__alt" data-vat-mode="excl"><span class="price__value">{{ p_fmt }}</span>&nbsp;{{ 'price.incl' | t }}</div>
+    <div class="price__alt" data-vat-mode="incl"><span class="price__value">{{ p_excl_fmt }}</span>&nbsp;{{ 'price.excl' | t }}{{ price_note }}</div>
+    <div class="price__alt" data-vat-mode="excl"><span class="price__value">{{ p_fmt }}</span>&nbsp;{{ 'price.incl' | t }}{{ price_note }}</div>
+  {%- elsif note != blank -%}
+    <div class="price__alt price__alt--note">{{ note }}</div>
   {%- endif -%}
 </div>

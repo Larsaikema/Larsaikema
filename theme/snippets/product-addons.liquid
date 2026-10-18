@@ -1,0 +1,147 @@
+{%- comment -%}
+  Add-ons per selected variant: custom.addon_varianten (list.variant_reference) + custom.addon_aantallen on the
+  variant, so a 3 x 6 m tent offers the 3 x 6 m side walls and 'Set van 6' foot weights. Fallback: the product
+  list custom.addons (first available variant, 1 each). The add-on quantity follows the main quantity, except
+  for per-meter products (custom.addon_modus = 'per-regel') and configurator products. Swapped on variant change
+  by product-form.js (data-dynamic="addons"): a ticked add-on stays ticked, also when the new variant has another product
+  of the same type (polyester side walls become the heavy duty PVC set for a PVC tent). The first n (block setting
+  'visible') show, the rest behind 'Nog x tonen'. Params: product, block, section_id, current_variant, is_config.
+{%- endcomment -%}
+{%- liquid
+  assign addon_vs = current_variant.metafields.custom.addon_varianten.value
+  assign addon_qs = current_variant.metafields.custom.addon_aantallen.value
+  assign addons = product.metafields.custom.addons.value
+  # custom.addon_eenmalig: add-on products that go along once per order line, not x the main quantity
+  # (10 statafels + 1 transportkar). Their checkbox carries data-addon-follow="false"; product-form.js reads the
+  # nearest data-addon-follow, so the input's own attribute wins over the fieldset.
+  assign addon_once_ids = ''
+  for x in product.metafields.custom.addon_eenmalig.value
+    assign addon_once_ids = addon_once_ids | append: ',' | append: x.id | append: ','
+  endfor
+  assign addon_follow = true
+  if product.metafields.custom.addon_modus.value == 'per-regel' or is_config
+    assign addon_follow = false
+  endif
+  assign addon_n = 0
+  if addon_vs != blank
+    assign addon_n = addon_vs.size
+  elsif addons != blank
+    assign addon_n = addons.size
+  endif
+-%}
+<div class="addons-slot" data-dynamic="addons" {{ block.shopify_attributes }}>
+{%- if addon_n > 0 -%}
+  {%- assign addon_visible = block.settings.visible | default: 3 -%}
+  <fieldset class="addons" data-addon-follow="{{ addon_follow }}" data-addons data-visible="{{ addon_visible }}">
+    <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
+    {%- comment -%}
+      What is not in the box (custom.excluded) right above the add-ons that supply it, before the buy button:
+      'Niet inbegrepen: zijwanden, haringen en spanbanden, voetgewichten.' (the '(los te bestellen)' part is left out)
+    {%- endcomment -%}
+    {%- assign a_exc = product.metafields.custom.excluded.value -%}
+    {%- capture a_exc_text -%}
+      {%- for x in a_exc -%}
+        {%- assign xs = x | split: ' (' | first | strip -%}
+        {%- assign x0 = xs | slice: 0 | downcase -%}{{ x0 }}{{ xs | slice: 1, 200 }}{% unless forloop.last %}, {% endunless %}
+      {%- endfor -%}
+    {%- endcapture -%}
+    <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}. {% endif -%}{{ 'product.addons_help' | t }}</p>
+    {%- if block.settings.deal != blank -%}<p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
+    {%- liquid
+      # Order: first the add-ons that supply what is not in the box (custom.excluded: 'Haringen en spanbanden' finds
+      # 'Spanbanden en haringen easy-up'), cheapest first, so the set a tent cannot stand without is never behind
+      # 'Nog x tonen'; then the rest in catalog order. Keys: the words of each excluded item, plural 'en' cut off.
+      assign ess_keys = ''
+      for x in a_exc
+        assign xw = x | split: ' (' | first | downcase | split: ' '
+        for w in xw
+          if w.size < 4
+            continue
+          endif
+          assign wk = w
+          assign wl = w.size | minus: 2
+          assign wend = w | slice: wl, 2
+          if wend == 'en' and w.size > 5
+            assign wk = w | slice: 0, wl
+          endif
+          assign ess_keys = ess_keys | append: wk | append: ','
+        endfor
+      endfor
+      assign ess_keys = ess_keys | split: ','
+      if addon_vs != blank
+        assign addon_list = addon_vs
+      else
+        assign addon_list = addons
+      endif
+    -%}
+    {%- capture addon_rows -%}
+      {%- for item in addon_list -%}
+        {%- liquid
+          if addon_vs != blank
+            assign av = item
+            assign addon = item.product
+            assign aq = addon_qs[forloop.index0] | default: 1
+          else
+            assign addon = item
+            assign av = item.selected_or_first_available_variant
+            assign aq = 1
+          endif
+          if addon == blank or av == blank or av.available == false
+            continue
+          endif
+          assign a_price = av.price | times: aq
+          assign a_img = av.featured_image | default: addon.featured_media.preview_image
+          assign a_key = ',' | append: addon.id | append: ','
+          assign a_once = false
+          if addon_follow and addon_once_ids contains a_key
+            assign a_once = true
+          endif
+          assign a_t = addon.title | downcase
+          assign a_idx = '000' | append: forloop.index | slice: -3, 3
+          assign a_sort = '1' | append: a_idx
+          for k in ess_keys
+            if k != blank and a_t contains k
+              assign a_pad = '000000000' | append: a_price | slice: -9, 9
+              assign a_sort = '0' | append: a_pad
+              break
+            endif
+          endfor
+        -%}
+        {{ a_sort }}§<li class="addons__item">
+          <label class="addon" for="Addon-{{ section_id }}-{{ forloop.index }}">
+            <input class="addon__check" type="checkbox" id="Addon-{{ section_id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-type="{{ addon.type | escape }}" data-title="{{ addon.title | escape }}"{% if a_once %} data-addon-follow="false"{% endif %}>
+            <span class="addon__media">
+              {%- if a_img -%}
+                {{ a_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '48px' }}
+              {%- else -%}
+                {%- comment -%} no photo yet: a line icon, never an empty box {%- endcomment -%}
+                {%- if a_t contains 'haring' or a_t contains 'spanband' or a_t contains 'anker' -%}{%- render 'icon', icon: 'peg' -%}{%- else -%}{%- render 'icon', icon: 'box' -%}{%- endif -%}
+              {%- endif -%}
+            </span>
+            <span class="addon__text">
+              <span class="addon__title">{% if aq > 1 %}{{ aq }} × {% endif %}{{ addon.title }}</span>
+              {%- capture a_meta -%}
+                {%- unless addon.has_only_default_variant -%}{{ av.title | replace: ' x ', ' × ' }}{%- endunless -%}
+                {%- if addon.metafields.custom.kenmerk_kort != blank -%}{%- unless addon.has_only_default_variant %} · {% endunless -%}{{ addon.metafields.custom.kenmerk_kort.value }}{%- endif -%}
+              {%- endcapture -%}
+              {%- if a_meta != blank -%}<span class="addon__spec">{{ a_meta }}</span>{%- endif -%}
+              {%- if a_once -%}<span class="addon__spec">{{ 'product.addon_once' | t }}</span>{%- endif -%}
+            </span>
+            <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: a_price -%}</span>
+          </label>
+        </li>¦
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- assign addon_sorted = addon_rows | split: '¦' | sort -%}
+    <ul class="addons__list" role="list">
+      {%- for row in addon_sorted -%}
+        {%- assign row_html = row | split: '§' | last -%}
+        {%- if row contains '§' -%}{{ row_html }}{%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <button type="button" class="addons__more js-only" data-addons-more aria-expanded="false" hidden>
+      <span data-more-label>{{ 'product.addons_more' | t: n: '__N__' }}</span><span data-less-label hidden>{{ 'product.addons_less' | t }}</span>{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}
+    </button>
+  </fieldset>
+{%- endif -%}
+</div>

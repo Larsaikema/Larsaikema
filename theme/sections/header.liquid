@@ -11,7 +11,7 @@
   # collection holds the product (URL context first, then product.collections), else the item with the current
   # page in its menu (not for pages: a page linked from a mega menu is not 'in' that category), else (product
   # page) the first item with an active child.
-  assign deal_titles = section.settings.deal_items | downcase | split: ','
+  assign deal_titles = section.settings.deal_items | downcase | replace: ', ', ',' | replace: ' ,', ',' | strip | split: ','
   assign nav_active = 0
   for link in menu.links
     if link.current
@@ -52,13 +52,49 @@
       endif
     endfor
   endif
--%}
 
-<sticky-header class="header-wrap color-{{ section.settings.color_scheme }}" data-sticky="{{ section.settings.sticky }}">
+  # Key of the shown page for snippets/header-current (aria-current and the selected size chip): path + the active
+  # storefront filters. link.current ignores the query string, so on a collection every filter link would be 'current'.
+  assign here = request.path
+  if here.size > 1
+    assign here_end = here | slice: -1
+    if here_end == '/'
+      assign here = here | remove_last: '/'
+    endif
+  endif
+  assign here_list = ''
+  if template.name == 'collection' and collection
+    for f in collection.filters
+      if f.type == 'price_range'
+        if f.min_value.value != nil or f.max_value.value != nil
+          assign here_list = here_list | append: 'filter.v.price|'
+        endif
+      else
+        for v in f.active_values
+          assign here_list = here_list | append: v.param_name | append: '=' | append: v.value | append: '|'
+        endfor
+      endif
+    endfor
+  endif
+  assign here_key = here_list | split: '|' | sort | join: '|'
+  assign here = here | append: '?' | append: here_key
+-%}
+{%- comment -%} the one menu entry with aria-current ('3', '3-2' or '3-2-4'), see snippets/header-current-key {%- endcomment -%}
+{%- capture cur_key -%}{%- render 'header-current-key', menu: menu, here: here -%}{%- endcapture -%}
+{%- assign cur_key = cur_key | strip -%}
+
+{%- comment -%}
+  Without JavaScript the desktop mega menu opens on hover/focus (CSS) and the Menu button opens the drawer natively
+  (invoker command); the drawer's top items are then plain links to their category. With JavaScript, section-header.js
+  loads the menu files (-mega.css/.js on desktop, -drawer.css/.js on mobile) while the page is idle or on first reach,
+  and shows a busy state if a menu is opened before they have arrived.
+{%- endcomment -%}
+<noscript>{{ 'section-header-mega.css' | asset_url | stylesheet_tag }}{{ 'section-header-drawer.css' | asset_url | stylesheet_tag }}</noscript>
+<sticky-header class="header-wrap color-{{ section.settings.color_scheme }}" data-sticky="{{ section.settings.sticky }}" data-mega-css="{{ 'section-header-mega.css' | asset_url }}" data-mega-js="{{ 'section-header-mega.js' | asset_url }}" data-drawer-css="{{ 'section-header-drawer.css' | asset_url }}" data-drawer-js="{{ 'section-header-drawer.js' | asset_url }}">
   <header class="header">
     <div class="page-width header__main">
-      <button type="button" class="icon-btn header__menu-btn" data-menu-open aria-controls="MenuDrawer" aria-expanded="false" aria-label="{{ 'header.menu_open' | t }}">
-        {%- render 'icon', icon: 'menu' -%}
+      <button type="button" class="header__action header__menu-btn" data-menu-open commandfor="MenuDrawer" command="show-modal" aria-controls="MenuDrawer" aria-expanded="false" aria-label="{{ 'header.menu_open' | t }}">
+        {%- render 'icon', icon: 'menu' -%}<span class="header__action-label" aria-hidden="true">{{ 'general.menu' | t }}</span>
       </button>
 
       <div class="header__logo-wrap">
@@ -67,16 +103,18 @@
         </a>
       </div>
 
-      <predictive-search class="header__search search" data-enabled="{{ settings.predictive_search_enabled }}" data-limit="{{ settings.predictive_search_limit }}"{% if settings.predictive_search_enabled %} data-src="{{ 'predictive-search.js' | asset_url }}"{% endif %}>
+      <predictive-search class="header__search search" data-enabled="{{ settings.predictive_search_enabled }}" data-params="resources[type]=product,collection,page,article,query&amp;resources[limit_scope]=each&amp;resources[options][unavailable_products]=last&amp;resources[options][fields]=title,product_type,variants.title,vendor,variants.sku,tag&amp;resources[limit]={{ settings.predictive_search_limit | default: 6 }}"{% if settings.predictive_search_enabled %} data-src="{{ 'predictive-search.js' | asset_url }}" data-css="{{ 'section-header-search.css' | asset_url }}"{% endif %}>
         <form action="{{ routes.search_url }}" method="get" role="search" class="search__form">
           <label class="visually-hidden" for="HeaderSearch-{{ section.id }}">{{ 'header.search_label' | t }}</label>
           {%- render 'icon', icon: 'search', class: 'search__icon' -%}
           <input class="search__input" type="search" id="HeaderSearch-{{ section.id }}" name="q" value="{{ search.terms | escape }}"
-            placeholder="{{ 'header.search_placeholder' | t }}" data-placeholder-short="{{ 'header.search_placeholder_short' | t }}" autocomplete="off" spellcheck="false"
-            {% if settings.predictive_search_enabled %}role="combobox" aria-expanded="false" aria-controls="PredictiveListbox" aria-haspopup="listbox" aria-autocomplete="list"{% endif %}>
+            placeholder="{{ 'header.search_placeholder' | t }}" autocomplete="off" spellcheck="false" enterkeyhint="search"
+            {% if settings.predictive_search_enabled %}role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-autocomplete="list"{% endif %}>
+          {%- comment -%} the visible placeholder: the longest of three wordings that fits the field (CSS container query); the input keeps the full text for assistive tech {%- endcomment -%}
+          <span class="search__ph" aria-hidden="true"><span>{{ 'header.search_placeholder' | t }}</span><span>{{ 'header.search_placeholder_short' | t }}</span><span>{{ 'header.search_label' | t }}</span></span>
           <input type="hidden" name="options[prefix]" value="last">
-          <button type="button" class="search__clear" data-search-clear hidden aria-label="{{ 'header.search_clear' | t }}">{%- render 'icon', icon: 'close', class: 'icon--sm' -%}</button>
-          <button type="submit" class="search__submit btn btn--outline btn--sm">{{ 'header.search_submit' | t }}</button>
+          <button type="button" class="search__clear" data-search-clear{% if search.terms == blank %} hidden{% endif %} aria-label="{{ 'header.search_clear' | t }}">{%- render 'icon', icon: 'close', class: 'icon--sm' -%}</button>
+          <button type="submit" class="search__submit" aria-label="{{ 'header.search_submit' | t }}">{%- render 'icon', icon: 'search' -%}<span class="search__submit-label">{{ 'header.search_submit' | t }}</span></button>
           {%- if settings.predictive_search_enabled -%}
             <div class="predictive" id="PredictiveResults-{{ section.id }}" data-predictive-results hidden></div>
             <span class="visually-hidden" role="status" aria-live="polite" data-predictive-status></span>
@@ -86,10 +124,16 @@
 
       <div class="header__actions">
         {%- if show_toggle -%}
-          <vat-toggle class="vat-toggle header__vat" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
-            <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }}</button>
-            <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }}</button>
-          </vat-toggle>
+          {%- comment -%}
+            each segment carries its own context ('Particulier' over 'incl. btw'), at every width: it never reads as a
+            second 'Zakelijk' menu item, and its name ('Zakelijk excl. btw') differs from the menu item for voice control
+          {%- endcomment -%}
+          <div class="header__vat">
+            <vat-toggle class="vat-toggle vat-toggle--stack" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
+              <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
+              <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
+            </vat-toggle>
+          </div>
         {%- endif -%}
         {%- if section.settings.show_quote -%}
           <a href="{{ quote_url }}" class="header__action header__action--quote">{%- render 'icon', icon: 'invoice' -%}<span class="header__action-label">{{ 'header.quote' | t }}</span></a>
@@ -109,150 +153,293 @@
       <div class="page-width header__nav-inner">
         <ul class="nav" role="list">
           {%- for link in menu.links -%}
-            {%- assign mega_id = 'Mega-' | append: section.id | append: '-' | append: forloop.index -%}
-            {%- assign link_lc = link.title | downcase | strip -%}
-            {%- assign is_deal = false -%}
-            {%- for d in deal_titles -%}{%- assign dd = d | strip -%}{%- if dd != blank and dd == link_lc -%}{%- assign is_deal = true -%}{%- endif -%}{%- endfor -%}
-            <li class="nav__item{% if link.links != blank %} nav__item--has-mega{% endif %}">
+            {%- liquid
+              assign ti = forloop.index | append: ''
+              assign mega_id = 'Mega-' | append: section.id | append: '-' | append: forloop.index
+              assign link_lc = link.title | downcase | strip
+              assign is_deal = false
+              if deal_titles contains link_lc
+                assign is_deal = true
+              endif
+              # a menu item with one column opens a compact dropdown under the item instead of a full-width panel
+              assign compact = false
+              if link.links.size == 1
+                assign compact = true
+              endif
+            -%}
+            {%- capture promo_url -%}{%- render 'header-promo', link: link, blocks: section.blocks, context: 'url' -%}{%- endcapture -%}
+            <li class="nav__item{% if link.links != blank %} nav__item--has-mega{% endif %}{% if compact %} nav__item--compact{% endif %}">
               {%- if link.links != blank -%}
                 {%- comment -%}
                   Disclosure pattern (WCAG 2.1.1 / 1.4.13): the top item is a button that opens its panel on click,
                   Enter/Space or (fine pointer) hover. Focus never opens a panel, so Tab moves from top item to top
                   item; Esc closes the panel and returns focus without re-opening it. The category page itself is
-                  the first link inside the panel ('Alles in …').
+                  the first link inside the panel ('Alles in …') or the collection card beside the columns.
                 {%- endcomment -%}
                 <mega-menu class="mega-trigger">
-                  <button type="button" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}" data-mega-trigger aria-expanded="false" aria-controls="{{ mega_id }}">
-                    {%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}{{ link.title }}{%- endif -%}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
+                  <button type="button" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}" data-mega-trigger data-url="{{ link.url }}" aria-expanded="false" aria-controls="{{ mega_id }}">
+                    {%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}<span class="nav__label">{{ link.title }}</span>{%- endif -%}
                   </button>
-                  <div class="mega" id="{{ mega_id }}" data-mega-panel>
-                    <div class="page-width mega__inner">
-                      <div class="mega__cols">
-                        <a class="mega__all" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
-                        {%- for child in link.links -%}
-                          <div class="mega__col">
-                            <a class="mega__heading" href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a>
-                            {%- if child.links != blank -%}
-                              <ul role="list" class="mega__list">
-                                {%- for grandchild in child.links -%}
-                                  <li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title }}</a></li>
-                                {%- endfor -%}
-                              </ul>
-                            {%- endif -%}
-                          </div>
-                        {%- endfor -%}
-                      </div>
-                      {%- for block in section.blocks -%}
-                        {%- assign promo_for = block.settings.menu_item | strip | downcase -%}
-                        {%- assign link_title = link.title | strip | downcase -%}
-                        {%- if block.type == 'promo' and promo_for == link_title -%}
-                          <a class="mega__promo" href="{{ block.settings.link | default: link.url }}" {{ block.shopify_attributes }}>
-                            <span class="mega__promo-media">
-                              {%- if block.settings.image != blank -%}
-                                {%- render 'image', image: block.settings.image, sizes: '360px', widths: '360, 540, 720' -%}
-                              {%- else -%}
-                                {%- render 'fallback-image', key: block.settings.fallback_image, alt: '', placeholder: 'collection-1' -%}
-                              {%- endif -%}
-                            </span>
-                            <span class="mega__promo-body">
-                              {%- if block.settings.eyebrow != blank -%}<span class="eyebrow">{{ block.settings.eyebrow }}</span>{%- endif -%}
-                              <span class="mega__promo-title">{{ block.settings.heading }}</span>
-                              {%- if block.settings.text != blank -%}<span class="mega__promo-text">{{ block.settings.text }}</span>{%- endif -%}
-                              <span class="mega__promo-cta">{{ block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>
-                            </span>
+                  <div class="mega{% if compact %} mega--compact{% endif %}" id="{{ mega_id }}" data-mega-panel>
+                    {%- capture mega_promo -%}{%- render 'header-promo', link: link, blocks: section.blocks, context: 'mega', current: cur_key, key: ti -%}{%- endcapture -%}
+                    <div class="{% unless compact %}page-width {% endunless %}mega__inner">
+                      <div class="mega__main">
+                        {%- comment -%}
+                          one 'Alles in …' per panel: the collection card beside the columns carries it when there is one;
+                          a compact panel whose only column links to the item's own page lets that heading carry it
+                        {%- endcomment -%}
+                        {%- liquid
+                          assign show_all = true
+                          if mega_promo contains 'hpromo--collection'
+                            assign show_all = false
+                          elsif compact and link.links.first.url == link.url
+                            assign show_all = false
+                          endif
+                        -%}
+                        {%- if show_all -%}
+                          {%- liquid
+                            assign all_n = 0
+                            if link.type == 'collection_link'
+                              assign all_n = link.object.all_products_count
+                            endif
+                          -%}
+                          {%- capture all_label -%}{%- render 'header-all-label', link: link -%}{%- endcapture -%}
+                          <a class="mega__all" href="{{ link.url }}"{% if cur_key == ti %} aria-current="page"{% endif %}{% if all_n > 0 %} aria-label="{{ all_label | strip }}, {{ 'header.products_count' | t: count: all_n }}"{% endif %}>
+                            <span>{{ all_label }}</span>
+                            {%- if all_n > 0 -%}<span class="mega__count" aria-hidden="true">{{ all_n }}</span>{%- endif -%}
+                            {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
                           </a>
-                          {%- break -%}
                         {%- endif -%}
-                      {%- endfor -%}
+                        {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
+                        <div class="mega__cols mega__cols--{{ link.links.size | at_most: 6 }}">
+                          {%- for child in link.links -%}
+                            {%- liquid
+                              assign tj = ti | append: '-' | append: forloop.index
+                              assign head_cur = false
+                              if cur_key == tj
+                                assign head_cur = true
+                              elsif cur_key == ti and compact and show_all == false and child.url == link.url
+                                unless mega_promo contains 'hpromo--collection'
+                                  assign head_cur = true
+                                endunless
+                              endif
+                              assign skip_urls = child.url | append: '|' | append: promo_url
+                            -%}
+                            <div class="mega__col">
+                              {%- if thumbs_ok == 'yes' -%}
+                                <a class="mega__heading mega__heading--thumb" href="{{ child.url }}"{% if head_cur %} aria-current="page"{% endif %}>
+                                  <span class="mega__thumb">{{ child.object.image | image_url: width: 168 | image_tag: widths: '56, 112, 168', sizes: '56px', loading: 'lazy', alt: '' }}</span>
+                                  <span>{{ child.title }}</span>
+                                </a>
+                              {%- else -%}
+                                <a class="mega__heading" href="{{ child.url }}"{% if head_cur %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                              {%- endif -%}
+                              {%- if child.links != blank -%}
+                                {%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}
+                              {%- endif -%}
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                      {%- if mega_promo != blank -%}<div class="mega__aside">{{ mega_promo }}</div>{%- endif -%}
                     </div>
                   </div>
                 </mega-menu>
               {%- else -%}
-                <a href="{{ link.url }}" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>{%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}{{ link.title }}{%- endif -%}</a>
+                <a href="{{ link.url }}" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}"{% if cur_key == ti %} aria-current="page"{% endif %}>{%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}<span class="nav__label">{{ link.title }}</span>{%- endif -%}</a>
               {%- endif -%}
             </li>
           {%- endfor -%}
         </ul>
         {%- if section.settings.show_contact -%}
-          <div class="header__contact">
-            {%- if settings.whatsapp != blank -%}
-              <a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}</span></a>
-            {%- endif -%}
-            {%- if phone != blank -%}
-              <a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ phone }}</span></a>
-            {%- endif -%}
-          </div>
+          {%- if settings.whatsapp != blank or phone != blank -%}
+            <div class="header__contact">
+              {%- if settings.whatsapp != blank -%}
+                <a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}</span></a>
+              {%- endif -%}
+              {%- if phone != blank -%}
+                <a href="tel:{{ phone_href }}" class="header__contact-phone">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ phone }}</span></a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
         {%- endif -%}
       </div>
     </nav>
   </header>
+  <div class="header__scrim" aria-hidden="true"></div>
 </sticky-header>
 
+{%- comment -%}
+  Mobile menu: a modal <dialog> (focus trap, Esc, backdrop click from global.js). The root view lists the top items;
+  an item with children opens its own panel that slides over the root (in the HTML a link to its category, made a
+  button with aria-expanded/aria-controls by section-header-drawer.js; the root is inert meanwhile, Esc or 'Terug' goes
+  back one level first). Inside a panel the subcategories are accordions with their links, size chips and advice, and
+  the panel ends with the item's picture card. Without JavaScript the Menu button opens the dialog natively (command).
+{%- endcomment -%}
 <menu-drawer>
   <dialog class="drawer drawer--left menu-drawer" id="MenuDrawer" aria-label="{{ 'general.menu' | t }}">
-    <div class="drawer__head">
-      <span class="menu-drawer__logo" aria-hidden="true">{%- render 'logo', variant: 'klein' -%}</span>
-      <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'header.menu_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
-    </div>
-    <div class="drawer__body menu-drawer__body">
-      {%- if show_toggle -%}
-        <vat-toggle class="vat-toggle vat-toggle--block" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
-          <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
-          <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
-        </vat-toggle>
-      {%- endif -%}
-      <nav aria-label="{{ 'header.main_nav' | t }}">
-        <ul class="menu-drawer__list" role="list">
-          {%- for link in menu.links -%}
-            {%- assign link_lc = link.title | downcase | strip -%}
-            {%- assign is_deal = false -%}
-            {%- for d in deal_titles -%}{%- assign dd = d | strip -%}{%- if dd != blank and dd == link_lc -%}{%- assign is_deal = true -%}{%- endif -%}{%- endfor -%}
-            <li>
-              {%- if link.links != blank -%}
-                <details class="menu-drawer__details">
-                  <summary class="menu-drawer__link">{%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}{{ link.title }}{%- endif -%}{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</summary>
-                  <ul class="menu-drawer__sub" role="list">
-                    <li><a class="menu-drawer__all" href="{{ link.url }}">{{ 'header.all_in' | t: title: link.title }}</a></li>
-                    {%- for child in link.links -%}
-                      <li>
-                        {%- if child.links != blank -%}
-                          <details class="menu-drawer__details menu-drawer__details--l2">
-                            <summary class="menu-drawer__sublink">{{ child.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}</summary>
-                            <ul class="menu-drawer__sub menu-drawer__sub--l3" role="list">
-                              <li><a href="{{ child.url }}">{{ 'header.all_in' | t: title: child.title }}</a></li>
-                              {%- for grandchild in child.links -%}
-                                <li><a href="{{ grandchild.url }}"{% if grandchild.current %} aria-current="page"{% endif %}>{{ grandchild.title }}</a></li>
-                              {%- endfor -%}
-                            </ul>
-                          </details>
+    <div class="mdrawer__view mdrawer__view--root" data-mdrawer-root>
+      <div class="drawer__head mdrawer__head">
+        <a href="{{ routes.root_url }}" class="mdrawer__logo">{%- render 'logo', variant: 'klein' -%}</a>
+        <button type="button" class="mdrawer__close" data-drawer-close commandfor="MenuDrawer" command="close" aria-label="{{ 'header.menu_close' | t }}">{%- render 'icon', icon: 'close' -%}<span aria-hidden="true">{{ 'general.close' | t }}</span></button>
+      </div>
+      <div class="drawer__body mdrawer__body">
+        <nav aria-label="{{ 'header.main_nav' | t }}">
+          <ul class="mdrawer__list" role="list">
+            {%- for link in menu.links -%}
+              {%- assign link_lc = link.title | downcase | strip -%}
+              {%- assign is_deal = false -%}
+              {%- if deal_titles contains link_lc -%}{%- assign is_deal = true -%}{%- endif -%}
+              <li>
+                {%- if link.links != blank -%}
+                  {%- comment -%} a link to the category until section-header.js makes it the button of its panel {%- endcomment -%}
+                  <a href="{{ link.url }}" class="mdrawer__link{% if forloop.index == nav_active %} is-active{% endif %}" data-mdrawer-open data-controls="MenuPanel-{{ section.id }}-{{ forloop.index }}">
+                    {%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}<span>{{ link.title }}</span>{%- endif -%}
+                    {%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}
+                  </a>
+                {%- else -%}
+                  {%- assign ti = forloop.index | append: '' -%}
+                  <a class="mdrawer__link{% if forloop.index == nav_active %} is-active{% endif %}" href="{{ link.url }}"{% if cur_key == ti %} aria-current="page"{% endif %}>{%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}<span>{{ link.title }}</span>{%- endif -%}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+
+        {%- comment -%} the Offerte action of the header, once more as a button under the menu {%- endcomment -%}
+        {%- if section.settings.show_quote -%}
+          <a class="btn btn--outline btn--block mdrawer__quote" href="{{ quote_url }}">{%- render 'icon', icon: 'invoice' -%}<span>{{ 'product.quote_cta' | t }}</span></a>
+        {%- endif -%}
+
+        {%- comment -%} the header's promotion blocks as a row of picture cards under the menu {%- endcomment -%}
+        {%- assign promo_blocks = section.blocks | where: 'type', 'promo' -%}
+        {%- if promo_blocks.size > 0 -%}
+          <div class="mdrawer__featured">
+            <p class="eyebrow mdrawer__label" id="MenuFeatured-{{ section.id }}">{{ 'header.featured' | t }}</p>
+            <ul class="mdrawer__cards" role="list" aria-labelledby="MenuFeatured-{{ section.id }}">
+              {%- for b in promo_blocks -%}
+                {%- if b.settings.link != blank -%}
+                  {%- comment -%} editor attributes live on the block's mega menu card; here only when no menu item shows that card {%- endcomment -%}
+                  {%- liquid
+                    assign b_for = b.settings.menu_item | strip | downcase
+                    assign b_in_mega = false
+                    for l in menu.links
+                      assign l_title = l.title | strip | downcase
+                      if l.links != blank and l_title == b_for
+                        assign b_in_mega = true
+                        break
+                      endif
+                    endfor
+                  -%}
+                  <li>
+                    <a class="hpromo" href="{{ b.settings.link }}"{% unless b_in_mega %} {{ b.shopify_attributes }}{% endunless %}>
+                      <span class="hpromo__media">
+                        {%- if b.settings.image != blank -%}
+                          {{- b.settings.image | image_url: width: 600 | image_tag: widths: '280, 420, 600', sizes: '260px', loading: 'lazy', alt: '' -}}
                         {%- else -%}
-                          <a class="menu-drawer__sublink" href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                          {%- render 'fallback-image', key: b.settings.fallback_image, alt: '', placeholder: 'collection-1', class: 'is-contain' -%}
                         {%- endif -%}
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                </details>
-              {%- else -%}
-                <a class="menu-drawer__link" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}{{ link.title }}{%- endif -%}</a>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
+                      </span>
+                      <span class="hpromo__body">
+                        {%- if b.settings.eyebrow != blank -%}<span class="eyebrow hpromo__eyebrow">{{ b.settings.eyebrow }}</span>{%- endif -%}
+                        <span class="hpromo__title">{{ b.settings.heading }}</span>
+                      </span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <ul class="mdrawer__secondary" role="list" data-service-links>
+          {%- if shop.customer_accounts_enabled -%}<li><a href="{{ routes.account_url }}">{%- render 'icon', icon: 'user' -%}<span>{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.login' | t }}{% endif %}</span></a></li>{%- endif -%}
+          {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone' -%}<span>{{ phone }}</span></a></li>{%- endif -%}
+          {%- if settings.whatsapp != blank -%}<li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp' -%}<span>{{ 'contact.whatsapp_cta' | t }}</span></a></li>{%- endif -%}
+          {%- comment -%} only an address the owner entered in Thema-instellingen › Contact (claims-to-confirm) {%- endcomment -%}
+          {%- if settings.email != blank -%}<li><a href="mailto:{{ settings.email }}">{%- render 'icon', icon: 'mail' -%}<span>{{ settings.email }}</span></a></li>{%- endif -%}
         </ul>
-      </nav>
-      <ul class="menu-drawer__secondary" role="list">
-        {%- if section.settings.show_quote -%}<li><a href="{{ quote_url }}">{%- render 'icon', icon: 'invoice', class: 'icon--sm' -%}{{ 'product.quote_cta' | t }}</a></li>{%- endif -%}
-        {%- if shop.customer_accounts_enabled -%}<li><a href="{{ routes.account_url }}">{%- render 'icon', icon: 'user', class: 'icon--sm' -%}{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.login' | t }}{% endif %}</a></li>{%- endif -%}
-        {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a></li>{%- endif -%}
-        {%- if settings.whatsapp != blank -%}<li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'contact.whatsapp_cta' | t }}</a></li>{%- endif -%}
-        {%- assign drawer_email = settings.email | default: shop.email -%}
-        {%- if drawer_email != blank -%}<li><a href="mailto:{{ drawer_email }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ drawer_email }}</a></li>{%- endif -%}
-      </ul>
-      {%- if settings.openingstijden != blank -%}
-        <p class="menu-drawer__hours text-sm muted"><strong>{{ 'general.opening_hours' | t }}</strong><br>{{ settings.openingstijden | newline_to_br }}</p>
-      {%- endif -%}
+
+        {%- if show_toggle -%}
+          <div class="mdrawer__vat">
+            <p class="eyebrow mdrawer__label" id="MenuVatLabel-{{ section.id }}">{{ 'header.vat_toggle' | t }}</p>
+            <vat-toggle class="vat-toggle vat-toggle--block" role="group" aria-labelledby="MenuVatLabel-{{ section.id }}">
+              <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
+              <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
+            </vat-toggle>
+          </div>
+        {%- endif -%}
+
+        {%- capture drawer_loc -%}{%- render 'header-localization', context: 'drawer' -%}{%- endcapture -%}
+        {%- if drawer_loc != blank -%}<div class="mdrawer__loc">{{ drawer_loc }}</div>{%- endif -%}
+
+        {%- if settings.openingstijden != blank -%}
+          <div class="mdrawer__hours">
+            <p class="eyebrow mdrawer__label">{{ 'general.opening_hours' | t }}</p>
+            <p>{{ settings.openingstijden | newline_to_br }}</p>
+          </div>
+        {%- endif -%}
+      </div>
     </div>
+
+    {%- for link in menu.links -%}
+      {%- if link.links != blank -%}
+        {%- assign ti = forloop.index | append: '' -%}
+        {%- capture promo_url -%}{%- render 'header-promo', link: link, blocks: section.blocks, context: 'url' -%}{%- endcapture -%}
+        <div class="mdrawer__view mdrawer__view--panel" id="MenuPanel-{{ section.id }}-{{ forloop.index }}" data-mdrawer-panel role="group" aria-labelledby="MenuPanelTitle-{{ section.id }}-{{ forloop.index }}" hidden>
+          <div class="drawer__head mdrawer__head mdrawer__head--panel">
+            <button type="button" class="mdrawer__back" data-mdrawer-back>{%- render 'icon', icon: 'chevron-left' -%}<span>{{ 'general.back' | t }}</span></button>
+            <p class="mdrawer__panel-title" id="MenuPanelTitle-{{ section.id }}-{{ forloop.index }}">{{ link.title }}</p>
+            <button type="button" class="icon-btn mdrawer__x" data-drawer-close commandfor="MenuDrawer" command="close" aria-label="{{ 'header.menu_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
+          </div>
+          <div class="drawer__body mdrawer__body">
+            <a class="mdrawer__all" href="{{ link.url }}"{% if cur_key == ti %} aria-current="page"{% endif %}>
+              {%- if link.type == 'collection_link' and link.object.image != blank -%}
+                <span class="mdrawer__all-media">{{ link.object.image | image_url: width: 192 | image_tag: widths: '64, 128, 192', sizes: '64px', loading: 'lazy', alt: '' }}</span>
+              {%- endif -%}
+              <span class="mdrawer__all-text">
+                <span class="mdrawer__all-title">{%- render 'header-all-label', link: link -%}</span>
+                {%- if link.type == 'collection_link' and link.object.all_products_count > 0 -%}<span class="mdrawer__all-count">{{ 'header.products_count' | t: count: link.object.all_products_count }}</span>{%- endif -%}
+              </span>
+              {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+            </a>
+            {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
+            <ul class="mdrawer__groups{% if thumbs_ok == 'yes' %} mdrawer__groups--thumbs{% endif %}" role="list">
+              {%- for child in link.links -%}
+                {%- capture group_thumb -%}
+                  {%- if thumbs_ok == 'yes' -%}<span class="mdrawer__thumb">{{ child.object.image | image_url: width: 144 | image_tag: widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '' }}</span>{%- endif -%}
+                {%- endcapture -%}
+                {%- assign tj = ti | append: '-' | append: forloop.index -%}
+                {%- assign skip_urls = child.url | append: '|' | append: promo_url -%}
+                <li>
+                  {%- if child.links != blank -%}
+                    <details class="mdrawer__group">
+                      <summary class="mdrawer__group-title">
+                        {{ group_thumb }}<span class="mdrawer__group-name">{{ child.title }}</span>
+                        <span class="mdrawer__pm" aria-hidden="true"></span>
+                      </summary>
+                      <div class="mdrawer__group-body">
+                        {%- unless child.url == link.url -%}
+                          <a class="mdrawer__group-all" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>{%- render 'header-all-label', link: child -%}</a>
+                        {%- endunless -%}
+                        {%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <a class="mdrawer__group-title" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>{{ group_thumb }}<span class="mdrawer__group-name">{{ child.title }}</span>{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- render 'header-promo', link: link, blocks: section.blocks, context: 'drawer', collection_fallback: false -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
   </dialog>
 </menu-drawer>
+<script src="{{ 'section-header.js' | asset_url }}" defer></script>
+{%- if request.design_mode -%}<script src="{{ 'section-header-editor.js' | asset_url }}" defer></script>{%- endif -%}
 
 {% schema %}
 {
@@ -280,7 +467,7 @@
       "type": "promo",
       "name": "Megamenu-promotie",
       "settings": [
-        { "type": "text", "id": "menu_item", "label": "Bij menu-item", "info": "Exacte titel van het hoofdmenu-item, bv. Partytenten." },
+        { "type": "text", "id": "menu_item", "label": "Bij menu-item", "info": "Exacte titel van het hoofdmenu-item, bv. Partytenten. De kaart staat naast de kolommen van het megamenu en onderaan dat onderdeel in het mobiele menu. Zonder promotie toont een collectie-item zijn eigen collectiebeeld." },
         { "type": "image_picker", "id": "image", "label": "Afbeelding" },
         { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
         { "value": "none", "label": "Geen (lege plek)" },

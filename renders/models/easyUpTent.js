@@ -56,6 +56,38 @@ const SPEC = {
 const TAU = Math.PI * 2;
 // material for contact proxies (never drawn: layer 3 is only seen by the floor contact pass)
 const PROXY_MAT = new THREE.MeshBasicMaterial({ color: 0xff00ff, side: THREE.DoubleSide });
+// invisible in the beauty pass (writes neither colour nor depth) but seen by the floor's tight
+// contact pass (layer 0, height override): a ground-hugging stand-in that shapes a contact shadow
+const CONTACT_PROXY_MAT = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
+
+// galvanised foot plate (pl x pl, 6 mm): 1 mm bevel all round, four 11 mm peg holes, uv in metres
+const plateGeoCache = new Map();
+function footPlateGeo(pl) {
+  if (plateGeoCache.has(pl)) return plateGeoCache.get(pl);
+  const bv = 0.001, h = pl / 2 - bv, r = 0.012 - bv;
+  const sh = new THREE.Shape();
+  sh.moveTo(-h + r, -h); sh.lineTo(h - r, -h); sh.absarc(h - r, -h + r, r, -Math.PI / 2, 0, false);
+  sh.lineTo(h, h - r); sh.absarc(h - r, h - r, r, 0, Math.PI / 2, false);
+  sh.lineTo(-h + r, h); sh.absarc(-h + r, h - r, r, Math.PI / 2, Math.PI, false);
+  sh.lineTo(-h, -h + r); sh.absarc(-h + r, -h + r, r, Math.PI, Math.PI * 1.5, false);
+  for (const [hx, hz] of [[1, 1], [-1, -1], [1, -1], [-1, 1]]) {
+    const hp = new THREE.Path(); hp.absarc(hx * pl * 0.36, hz * pl * 0.36, 0.0055 + bv, 0, TAU, true); sh.holes.push(hp);
+  }
+  const g = new THREE.ExtrudeGeometry(sh, { depth: 0.006 - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 2, curveSegments: 10 });
+  g.translate(0, 0, bv);
+  g.rotateX(-Math.PI / 2);
+  plateGeoCache.set(pl, g);
+  return g;
+}
+// 3 mm triangular gusset welded between plate and socket: local x = radial (0 at the socket
+// face), y = up, z = thickness (centred); slightly rounded, bevelled edges
+function gussetGeo() {
+  const sh = new THREE.Shape();
+  sh.moveTo(0, 0); sh.lineTo(0.03, 0); sh.lineTo(0.03, 0.0035); sh.lineTo(0.0035, 0.044); sh.lineTo(0, 0.044); sh.lineTo(0, 0);
+  const g = new THREE.ExtrudeGeometry(sh, { depth: 0.002, bevelEnabled: true, bevelThickness: 0.0005, bevelSize: 0.0005, bevelSegments: 1, curveSegments: 2 });
+  g.translate(0, 0, -0.001);
+  return g;
+}
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const sstep = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 const smax = (a, b, k) => { if (k <= 0) return Math.max(a, b); const h = Math.max(k - Math.abs(a - b), 0) / k; return Math.max(a, b) + h * h * k * 0.25; };
@@ -197,8 +229,11 @@ export function easyUpTent(p = {}) {
   // Frame tubes: Premium = black powder-coated steel (catalogue: 'zwart gepoedercoat staal 40 mm', the visible
   // difference to Professional), Professional = bare aluminium. p.frameFinish ('powder' | 'alu') overrides.
   const powder = (p.frameFinish || (kind === 'premium' ? 'powder' : 'alu')) === 'powder';
-  const alu = powder ? M.steelPowder('#1C1D1F', { roughness: 0.4 }) : M.aluminium({ roughness: 0.26 });
-  const aluInner = powder ? M.steelPowder('#202124', { roughness: 0.46 }) : M.aluminium({ tone: '#C9CCD0', roughness: 0.34 });
+  // satin black powder coat (roughness 0.4 under a satin clear layer): every hex facet carries a
+  // faint highlight strip from the studio's vertical strip boxes, so hex profile and the step from
+  // outer to inner tube read at catalogue size instead of a flat black stick
+  const alu = powder ? M.steelPowder('#1C1D1F', { roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.24 }) : M.aluminium({ roughness: 0.26 });
+  const aluInner = powder ? M.steelPowder('#202124', { roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3 }) : M.aluminium({ tone: '#C9CCD0', roughness: 0.34 });
   // Premium: injection-moulded glass-filled nylon; Professional: cast aluminium brackets
   const pro = S.bracket !== 'nylon';
   const bracketMat = pro ? M.castAluminium('#9A9FA4') : M.mouldedNylon('#161616');
@@ -208,6 +243,7 @@ export function easyUpTent(p = {}) {
     m.userData = {}; m.name = `${bracketMat.name} mark`; return m;
   })();
   const galv = M.galvanised();
+  const galvS = M.galvanisedSteel();
   const dark = M.rubber('#0B0B0B');
   const chrome = M.chrome();
   const bins = new G.PartBin();
@@ -265,7 +301,7 @@ export function easyUpTent(p = {}) {
   const corners = [[X0, Z1, 1, -1], [X1, Z1, -1, -1], [X1, Z0, -1, 1], [X0, Z0, 1, 1]];
   // the canopy outline is a rectangle with tight corners (radius rcTop, the sewn corner of
   // the skirt): distance inside it
-  const rcTop = 0.009;
+  const rcTop = 0.016;
   const patchL = 0.30; // corner reinforcement patch leg length
   const RX = (X1 - X0) / 2, RZ = (Z1 - Z0) / 2, RCX = (X0 + X1) / 2, RCZ = (Z0 + Z1) / 2;
   function edgeDist(x, z) {
@@ -284,7 +320,9 @@ export function easyUpTent(p = {}) {
     const hx = du < 0 ? b.cx - b.x0 : b.x1 - b.cx;
     const hz = dv < 0 ? b.cz - b.z0 : b.z1 - b.cz;
     const a = Math.abs(du) / hx, c = Math.abs(dv) / hz;
-    const kh = 0.024 / Math.min(hx, hz); // hip crease rounded over ~2 cm
+    // hip crease rounded over ~2 cm; round the peak cap the cloth is pulled over a round cap,
+    // so the hips soften (~11 cm) and the circular apex patch reads as a circle, not a scallop
+    const kh = (0.024 + 0.09 * (1 - sstep(0.12, 0.45, Math.hypot(du, dv)))) / Math.min(hx, hz);
     const m = smax(a, c, kh);
     const ea = 0.035 / Math.min(hx, hz); // rounded apex (fabric over the pole cap)
     const m2 = (Math.sqrt(m * m + ea * ea) - ea) / (Math.sqrt(1 + ea * ea) - ea);
@@ -318,7 +356,14 @@ export function easyUpTent(p = {}) {
   // soft tension ridges: 4 fanning from every corner pocket (around the hip direction) and
   // 3 per face from the peak cap, each a raised fold with shallow troughs that widens and
   // flattens as it runs out. Deterministic per tent.
-  const cornerRidges = corners.map(() => [-0.38, -0.17, 0.15, 0.36].map((o) => ({ ang: Math.PI / 4 + o + (rr() - 0.5) * 0.08, len: 0.4 + 0.35 * rr(), amp: 0.009 + 0.005 * rr(), w0: 0.011 + 0.006 * rr() })));
+  // corner pocket: 2 shallow, straight tension wrinkles on each face next to the hip (5-13 deg
+  // off the hip line, 3.5-5 mm high, no troughs beside them), so the dish between rafter and hip
+  // stays one smooth curve and the corner never reads as a funnel
+  const cornerRidges = corners.map(([cx0, cz0]) => {
+    const b = bays.slice().sort((p1, p2) => Math.hypot(p1.cx - cx0, p1.cz - cz0) - Math.hypot(p2.cx - cx0, p2.cz - cz0))[0];
+    const hip = Math.atan2(Math.abs(b.cz - cz0), Math.abs(b.cx - cx0));
+    return [-0.2, -0.09, 0.09, 0.2].map((o) => ({ ang: hip + o * (1 + (rr() - 0.5) * 0.3), len: 0.36 + 0.2 * rr(), amp: 0.0035 + 0.0015 * rr(), w0: 0.007 + 0.003 * rr(), plain: true }));
+  });
   const apexRidges = bays.map(() => {
     const out = [];
     for (let f = 0; f < 4; f++) for (const o of [-0.5, -0.05, 0.42]) out.push({ ang: f * Math.PI / 2 + Math.PI / 4 + o + (rr() - 0.5) * 0.12, len: 0.2 + 0.16 * rr(), amp: 0.0028 + 0.0016 * rr(), w0: 0.014 });
@@ -331,10 +376,10 @@ export function easyUpTent(p = {}) {
       if (Math.abs(dphi) > 1.2) continue;
       const along = rho * Math.cos(dphi), dl = rho * Math.sin(dphi);
       if (along <= 0) continue;
-      const wdt = rk.w0 + 0.035 * along;
+      const wdt = rk.w0 + (rk.plain ? 0.012 : 0.035) * along;
       const g = (dl / wdt) ** 2;
       if (g > 12) continue;
-      s += rk.amp * (1 - 0.55 * g) * Math.exp(-g) * startFade(along) * Math.exp(-along / rk.len);
+      s += rk.amp * (rk.plain ? 1 : 1 - 0.55 * g) * Math.exp(-g) * startFade(along) * Math.exp(-along / rk.len);
     }
     return s;
   }
@@ -363,6 +408,36 @@ export function easyUpTent(p = {}) {
   // last ~6 cm) and turns down in a crisp fold (radius 4 mm, vertical at the outline) into the
   // valance: one sewn edge, no bullnose
   const foldR = 0.004, shoulderW = 0.06, shoulderD = 0.0045;
+  // eave scallops: the canopy edge is velcroed to the truss at the legs and at every top node of
+  // the scissor (~1 m apart) and sags ~4 mm between those points; the valance hangs from the
+  // edge, so the skirt follows the same shallow festoon (no dead-straight board)
+  const pinsAlong = (ls) => {
+    const out = [];
+    for (let i = 0; i < ls.length - 1; i++) {
+      const a2 = ls[i], b2 = ls[i + 1], n = Math.max(2, Math.round((b2 - a2) / 1.0)), gp = legAF / 2 + 0.024;
+      out.push(a2); for (const v of linspace(a2 + gp, b2 - gp, n)) out.push(v);
+    }
+    out.push(ls[ls.length - 1]);
+    return out.sort((a2, b2) => a2 - b2);
+  };
+  const pinsX = pinsAlong(xs), pinsZ = pinsAlong(zs);
+  const scallop = (pins, s) => {
+    for (let i = 0; i < pins.length - 1; i++) {
+      const a2 = pins[i], b2 = pins[i + 1];
+      if (s >= a2 && s <= b2) { const Ls = b2 - a2; return Math.min(1, Ls / 0.9) * Math.pow(Math.sin(Math.PI * (s - a2) / Math.max(1e-6, Ls)), 1.3); }
+    }
+    return 0;
+  };
+  const eaveDip = 0.004, eaveDipW = 0.22;
+  function eaveSag(x, z, e) {
+    if (e > eaveDipW) return 0;
+    const dX = RX - Math.abs(x - RCX), dZ = RZ - Math.abs(z - RCZ);
+    // near a corner blend both sides (the corner itself is pinned: scallop 0 beyond the legs)
+    const wz = sstep(-0.05, 0.05, dX - dZ); // 1: front/back edge is the nearer one
+    const sc = wz * scallop(pinsX, x) + (1 - wz) * scallop(pinsZ, z);
+    const f = 1 - sstep(0, eaveDipW, e);
+    return eaveDip * sc * f * f;
+  }
   function H(x, z) {
     const e = edgeDist(x, z);
     // the soft valley between bays sharpens towards the eave (no bump in the eave line)
@@ -371,6 +446,7 @@ export function easyUpTent(p = {}) {
     for (const b of bays) { const hb = bayHeight(b, x, z); h = h === null ? hb : smax(h, hb, kv); }
     h += tensionRidges(x, z) * sstep(0.03, 0.13, e);
     if (e < shoulderW) { const q = 1 - Math.max(0, e) / shoulderW; h -= shoulderD * q * q * q; }
+    h -= eaveSag(x, z, Math.max(0, e));
     if (e < foldR) { const k = foldR - Math.max(0, e); h -= foldR - Math.sqrt(Math.max(0, foldR * foldR - k * k)); }
     return h;
   }
@@ -458,6 +534,30 @@ export function easyUpTent(p = {}) {
     }
   }
 
+  // seam welt: the folded seam allowance under the tape stands up as a rounded bead down the
+  // middle of the tape (width w, height h above the tape top `base`), with a faint gutter either
+  // side where the stitching pulls the tape down. 6-7 mm wide: 2-3 px at 2000 px, so hip and
+  // rafter lines read as sewn seams in the catalogue image, not as creases
+  function roofWelt(fn, len, w, h, base) {
+    const nu = Math.max(2, Math.ceil(len / 0.012));
+    const P = (t) => fn(t);
+    const perpAt = (t) => { const e = 1e-3; const a = P(Math.max(0, t - e)), b = P(Math.min(1, t + e)); const dx = b[0] - a[0], dz = b[1] - a[1]; const l = Math.hypot(dx, dz) || 1; return [-dz / l, dx / l]; };
+    const W = w * 1.8; // bead + gutters
+    const geo = G.surface((u, v, o) => {
+      const [x, z] = P(u); const [px, pz] = perpAt(u);
+      const c = (v - 0.5) * W, k = Math.abs(c) / (w / 2);
+      // end taper over the last 3 cm so the bead runs out into the tape
+      const endF = sstep(0, 0.03 / len, u) * sstep(0, 0.03 / len, 1 - u);
+      const bead = k < 1 ? Math.pow(1 - k * k, 0.65) : 0;
+      const gutter = k > 0.85 ? -0.22 * Math.exp(-(((k - 1.15) / 0.2) ** 2)) : 0;
+      const ramp = 1 - sstep(0.75, 1, Math.abs(c) / (W / 2));
+      o.copy(roofPt(x + px * c, z + pz * c, base + endF * h * (bead + gutter) * ramp - 0.0002 * (1 - ramp)));
+    }, nu, 14, { uvScale: [len, W] });
+    const n0 = new THREE.Vector3(); geo.computeVertexNormals(); n0.fromBufferAttribute(geo.attributes.normal, 7 * (nu + 1) + 1);
+    if (n0.y < 0) flipGeo(geo);
+    bins.add(M.pvcPatch(color), geo);
+  }
+
   // hip seam tapes (corner -> apex of every bay), valley seams between bays. Seams stop
   // where the eave fold starts (2 cm inside the outline): the fold stays one clean curve
   const apexR = 0.16;
@@ -467,16 +567,17 @@ export function easyUpTent(p = {}) {
     while (t1 > 0.5 && edgeDist(...fn(t1)) < 0.02) t1 -= 0.002;
     return [t0, t1];
   };
-  const seam = (fn, len, width, lift, opts) => {
+  const seam = (fn, len, width, lift, opts, welt = null) => {
     const [t0, t1] = clipT(fn);
     roofRibbon((t) => fn(t0 + (t1 - t0) * t), len * (t1 - t0), width, lift, opts);
+    if (welt) roofWelt((t) => fn(t0 + (t1 - t0) * t), len * (t1 - t0), welt[0], welt[1], lift);
   };
   for (const b of bays) {
     const bc = [[b.x0, b.z0], [b.x1, b.z0], [b.x1, b.z1], [b.x0, b.z1]];
     for (const [x0, z0] of bc) {
       const L = Math.hypot(b.cx - x0, b.cz - z0);
       const tEnd = 1 - (apexR - 0.01) / L;
-      seam((t) => { const tt = t * tEnd; return [x0 + (b.cx - x0) * tt, z0 + (b.cz - z0) * tt]; }, L * tEnd, 0.03, 0.0016);
+      seam((t) => { const tt = t * tEnd; return [x0 + (b.cx - x0) * tt, z0 + (b.cz - z0) * tt]; }, L * tEnd, 0.03, 0.0016, undefined, [0.0068, 0.0024]);
     }
   }
   // each roof face is sewn from two panels: a narrower felled seam runs down the rafter line
@@ -484,11 +585,11 @@ export function easyUpTent(p = {}) {
     for (const [mx, mz] of [[b.cx, b.z0], [b.cx, b.z1], [b.x0, b.cz], [b.x1, b.cz]]) {
       const L = Math.hypot(b.cx - mx, b.cz - mz);
       const tEnd = 1 - (apexR - 0.01) / L;
-      seam((t) => { const tt = t * tEnd; return [mx + (b.cx - mx) * tt, mz + (b.cz - mz) * tt]; }, L * tEnd, 0.022, 0.0012, { stitchInset: 0.004 });
+      seam((t) => { const tt = t * tEnd; return [mx + (b.cx - mx) * tt, mz + (b.cz - mz) * tt]; }, L * tEnd, 0.022, 0.0012, { stitchInset: 0.004 }, [0.0052, 0.0017]);
     }
   }
-  for (let i = 1; i < nbx; i++) seam((t) => [xs[i], Z0 + (Z1 - Z0) * t], Z1 - Z0, 0.034, 0.0016);
-  for (let j = 1; j < nbz; j++) seam((t) => [X0 + (X1 - X0) * t, zs[j]], X1 - X0, 0.034, 0.0016);
+  for (let i = 1; i < nbx; i++) seam((t) => [xs[i], Z0 + (Z1 - Z0) * t], Z1 - Z0, 0.034, 0.0016, undefined, [0.0068, 0.0024]);
+  for (let j = 1; j < nbz; j++) seam((t) => [X0 + (X1 - X0) * t, zs[j]], X1 - X0, 0.034, 0.0016, undefined, [0.0068, 0.0024]);
 
   // corner reinforcement patches (rounded triangles) + apex patch + cap
   const patchMat = M.pvcPatch(color);
@@ -629,14 +730,18 @@ export function easyUpTent(p = {}) {
     const at = attachS[k];
     for (let i = 0; i < at.length - 1; i++) {
       const a2 = at[i], b2 = at[i + 1];
-      if (s >= a2 && s <= b2) { const Ls = b2 - a2; return 0.0055 * Math.min(1, Ls / 0.9) * Math.pow(Math.sin(Math.PI * (s - a2) / Math.max(1e-6, Ls)), 1.25); }
+      if (s >= a2 && s <= b2) { const Ls = b2 - a2; return 0.0018 * Math.min(1, Ls / 0.9) * Math.pow(Math.sin(Math.PI * (s - a2) / Math.max(1e-6, Ls)), 1.25); }
     }
     return 0;
   }
   // outline point of side k: part 'S' = straight run (f 0..1 between the corner arcs),
   // part 'C' = corner arc after side k (f 0..1 = angle 0..90 deg) -> {b, nrm, s}
-  function valBase(k, part, f) {
-    const side = sides[k], rc = rcV;
+  // the sewn corner of the skirt is tight at the roof (rcTop) and rounds off towards the hem
+  // (~3 cm): no knife-sharp box corner
+  const rcHem = 0.03;
+  const rcAt = (t) => rcV + (rcHem - rcV) * Math.pow(t, 1.4);
+  function valBase(k, part, f, t = 0) {
+    const side = sides[k], rc = rcAt(t);
     if (part === 'S') {
       const s = rc + (side.L - 2 * rc) * f;
       return { b: side.A.clone().addScaledVector(side.dir, s), nrm: side.n.clone(), s };
@@ -651,7 +756,7 @@ export function easyUpTent(p = {}) {
   function valPt(k, part, f, y, off = 0) {
     const yTop = valTop(k, part, f), dd = valDrop(k, part, f);
     const t = clamp01((yTop - y) / dd);
-    const q = valBase(k, part, f);
+    const q = valBase(k, part, f, t);
     // corner arc: blend the offsets at the two straight ends so the skirt is continuous
     const sd = sides[k], nx = sides[(k + 1) % 4];
     const o = part === 'S' ? valOffset(sd, q.s, t) : (1 - f) * valOffset(sd, sd.L - rcV, t) + f * valOffset(nx, rcV, t);
@@ -671,14 +776,30 @@ export function easyUpTent(p = {}) {
   };
   const parts = [];
   for (let k = 0; k < 4; k++) { parts.push([k, 'S', Math.ceil(sides[k].L / 0.015), sides[k].L]); parts.push([k, 'C', 8, rcV * Math.PI / 2]); }
+  // the 2 cm hem band seen from outside: double layer, stitched twice (5 and 13.5 mm up). The
+  // stitch rows pull the cloth into two fine gutters, the cloth between them puffs a little and
+  // the edge of the turned-up layer inside shows as a faint ridge at 19 mm: a band with two
+  // lines that still reads after the downsample to 2000 px (the threads alone vanish)
+  const hemRows = [0.005, 0.0135];
+  const hemBand = (dy) => {
+    const puff = 0.00045 * sstep(0, 0.002, dy) * (1 - sstep(hemH - 0.0022, hemH - 0.0002, dy));
+    const ridge = 0.0003 * Math.exp(-(((dy - (hemH - 0.0014)) / 0.0009) ** 2));
+    let gut = 0; for (const r of hemRows) gut -= 0.0006 * Math.exp(-(((dy - r) / 0.0008) ** 2));
+    return puff + ridge + gut;
+  };
   for (const [k, part, nu, len] of parts) {
     const outward = valBase(k, part, 0.5).nrm;
     const yBot = (u) => valTop(k, part, u) - valDrop(k, part, u);
-    const nvS = 20;
+    // rows: 16 over the skirt, 26 over the bottom 3.2 cm (hem band relief)
+    const hb = 0.032 / drop, vRows = [];
+    for (let i = 0; i <= 16; i++) vRows.push((1 - hb) * i / 16);
+    for (let i = 1; i <= 26; i++) vRows.push(1 - hb + hb * i / 26);
     const geo = G.surface((u, v, o) => {
-      const yT = valTop(k, part, u);
-      o.copy(valPt(k, part, u, yT - v * (yT - yBot(u) - hemT)));
-    }, nu, nvS, { uvScale: [len, drop] });
+      const vv = vRows[Math.round(v * (vRows.length - 1))];
+      const yT = valTop(k, part, u), yB = yBot(u) + hemT;
+      const y = yT - vv * (yT - yB);
+      o.copy(valPt(k, part, u, y, hemBand(y - yB)));
+    }, nu, vRows.length - 1, { uvScale: [len, drop] });
     { const nn = V3().fromBufferAttribute(geo.attributes.normal, 10 * (nu + 1) + Math.floor(nu / 2)); if (nn.dot(outward) < 0) flipGeo(geo); }
     bins.add(fabric, geo);
     const hem = G.surface((u, v, o) => { const [off, y] = hemProf(v, yBot(u)); o.copy(valPt(k, part, u, y, off)); }, nu, 10, { uvScale: [len, hemH * 2] });
@@ -686,12 +807,13 @@ export function easyUpTent(p = {}) {
     { const nn = V3().fromBufferAttribute(hem.attributes.normal, 2 * (nu + 1) + Math.floor(nu / 2)); if (nn.y > 0) flipGeo(hem); }
     bins.add(fabric, hem);
   }
-  // stitch rows all round: hem 17 mm up, roof seam 7 mm below the eave fold
-  for (const yf of [(k, part, u) => valTop(k, part, u) - valDrop(k, part, u) + 0.017, (k, part, u) => valTop(k, part, u) - 0.007]) {
+  // stitch rows all round: two on the hem (in their gutters), roof seam 7 mm below the eave fold
+  const hemRowY = (r) => (k, part, u) => valTop(k, part, u) - valDrop(k, part, u) + hemT + r;
+  for (const [yf, off] of [[hemRowY(hemRows[0]), hemBand(hemRows[0]) - 0.0002], [hemRowY(hemRows[1]), hemBand(hemRows[1]) - 0.0002], [(k, part, u) => valTop(k, part, u) - 0.007, 0]]) {
     const smp = [];
     for (const [k, part, , len] of parts) {
       const n = Math.max(3, Math.ceil(len / 0.006));
-      for (let i = 0; i < n; i++) { const u = i / n; smp.push({ p: valPt(k, part, u, yf(k, part, u)), n: valBase(k, part, u).nrm }); }
+      for (let i = 0; i < n; i++) { const u = i / n; smp.push({ p: valPt(k, part, u, yf(k, part, u), off), n: valBase(k, part, u).nrm }); }
     }
     smp.push(smp[0]);
     stitches.push(stitchGeo(smp));
@@ -770,20 +892,35 @@ export function easyUpTent(p = {}) {
       const hp = L(btnY + k * 0.085).addScaledVector(out, face);
       bins.add(dark, G.tube(hp.clone().addScaledVector(out, -0.001), hp.clone().addScaledVector(out, 0.0005), 0.0047, 16));
     }
-    // foot plate + hex socket + gussets + peg holes
-    const pl = S.plate;
-    bins.add(galv, G.prism(G.roundedRectProfile(pl, pl, 0.012, 3), L(0), L(0.006), { side: V3(1, 0, 0) }));
-    bins.add(galv, G.prism(hexP(S.inner + 0.008, 0.1), L(0.005), L(0.078), { side }));
+    // foot plate: hot-dip galvanised steel, 6 mm with 1 mm bevelled edges and four real
+    // through-holes for pegs (the floor shows through); welded hex socket with a rolled top
+    // edge, four 3 mm triangular gussets, an M8 bolt through the socket (head outside, nut and
+    // thread end inside); an invisible contact proxy offset to the rear/away-from-key side
+    // gives the plate a crisp contact shadow on its rear and side edges
+    const pl = S.plate, sa = S.inner + 0.008;
+    bins.add(galvS, footPlateGeo(pl).clone().translate(x, 0, z));
+    bins.add(galvS, G.prism(hexP(sa, 0.1), L(0.005), L(0.075), { side }));
+    bins.add(galvS, taperPrism(hexP(sa, 0.1), hexP(sa - 0.003, 0.14), L(0.075), L(0.078), side));
     for (const a of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
       const dx = Math.cos(a), dz = Math.sin(a);
-      const r0 = (S.inner + 0.008) / 2;
-      const g = G.prism(G.roundedRectProfile(0.004, 0.03, 0.001, 1), V3(x + dx * r0, 0.006, z + dz * r0), V3(x + dx * (r0 + 0.028), 0.006, z + dz * (r0 + 0.028)), { side: V3(-dz, 0, dx) });
-      g.translate(0, 0.012, 0);
-      bins.add(galv, g);
+      const r0 = sa / 2 * 0.95;
+      const g = gussetGeo();
+      g.applyMatrix4(new THREE.Matrix4().makeBasis(V3(dx, 0, dz), V3(0, 1, 0), V3(-dz, 0, dx)).setPosition(x + dx * r0, 0.0058, z + dz * r0));
+      bins.add(galvS, g);
     }
-    for (const [hx, hz] of [[1, 1], [-1, -1], [1, -1], [-1, 1]]) {
-      const px = x + hx * pl * 0.36, pz = z + hz * pl * 0.36;
-      bins.add(dark, G.tube(V3(px, 0.0055, pz), V3(px, 0.0068, pz), 0.0055, 14));
+    {
+      const by = 0.048, o2 = out.clone(), t2 = V3(-out.z, 0, out.x);
+      const head = G.prism(G.roundedPolygonProfile(6, 0.013, 0.0009, 1, Math.PI / 6), L(by).addScaledVector(o2, sa / 2 - 0.0004), L(by).addScaledVector(o2, sa / 2 + 0.0052), { side: t2 });
+      bins.add(galv, head);
+      bins.add(galv, G.tube(L(by).addScaledVector(o2, sa / 2 + 0.0052), L(by).addScaledVector(o2, sa / 2 + 0.0062), 0.0055, 16));
+      bins.add(galv, G.prism(G.roundedPolygonProfile(6, 0.013, 0.0009, 1, Math.PI / 6), L(by).addScaledVector(o2, -sa / 2 + 0.0004), L(by).addScaledVector(o2, -sa / 2 - 0.0065), { side: t2 }));
+      bins.add(galv, G.tube(L(by).addScaledVector(o2, -sa / 2 - 0.0065), L(by).addScaledVector(o2, -sa / 2 - 0.0095), 0.0039, 12));
+    }
+    {
+      const away = V3(-markDir.x, 0, -markDir.z).normalize(), right = V3(markDir.z, 0, -markDir.x);
+      const cp = new THREE.Mesh(new THREE.BoxGeometry(pl + 0.004, 0.0016, pl + 0.004).translate(x, 0.0008, z).translate(away.x * 0.007 + right.x * 0.005, 0, away.z * 0.007 + right.z * 0.005), CONTACT_PROXY_MAT);
+      cp.castShadow = false; cp.receiveShadow = false; cp.userData.contactProxy = true; cp.userData.noFrame = true;
+      group.add(cp);
     }
     // tall fixed corner bracket: top under the canopy, lower end visible below the valance.
     // Crisp moulded/cast block: small edge radius, chamfered ends, stiffening ribs on the
@@ -926,10 +1063,11 @@ export function easyUpTent(p = {}) {
       // 'half': a half-height wall (bar / market stall front) strapped low between the legs
       const half = type === 'half';
       const wTop = half ? Number(p.halfWallHeight ?? 1.0) : He - 0.012;
-      buildWall({ group, bins, fabric: wallFabric, thread: wallThread, a, b, n: def.n, top: wTop, type: half ? 'closed' : type, seed: k * 3 + sideName.length });
+      buildWall({ group, bins, fabric: wallFabric, thread: wallThread, a, b, n: def.n, top: wTop, type: half ? 'closed' : type, seed: k * 3 + sideName.length,
+        print: p.wallPrint && typeof p.wallPrint === 'object' && (p.wallPrint.side || 'back') === sideName ? p.wallPrint : null, doorState: p.doorState || 'half' });
       strapAt(def.pts[k], a, def.n, along.clone(), wTop);
       strapAt(def.pts[k + 1], b, def.n, along.clone().negate(), wTop);
-      if (type === 'door' || type === 'door-open') doors.push({ mid: a.clone().lerp(b, 0.5), n: def.n.clone(), side: sideName });
+      if (type === 'door' || type === 'door-open') doors.push({ mid: a.clone().lerp(b, 0.5), n: def.n.clone(), along: along.clone(), side: sideName, half: type === 'door' && (p.doorState || 'half') === 'half' });
     }
   }
   // velcro straps: from every wall edge a 5 cm strap wraps round the leg (teardrop loop:
@@ -964,32 +1102,58 @@ export function easyUpTent(p = {}) {
   }
 
   // ---- weights ---------------------------------------------------------------------------
-  // rubber-coated stackable plates lying ON the foot plate (raised by its 6 mm), slot and
-  // grip holes turned away from the hero camera so the buyer sees a clean round stack;
-  // a moulded rim lip and an embossed "10 KG" pad on top, a visible seam between plates
+  // rubber-coated stackable plates lying ON the foot plate (raised by its 6 mm). On the leg
+  // nearest to the camera the slot and the two grip holes face the camera (turned 24 deg aside),
+  // so the buyer sees how a plate slides round the leg; on the other legs they face away (a
+  // clean round stack). Semi-gloss coating: the bevels of each plate catch a highlight, so the
+  // seam between stacked plates reads as a dark groove between two light edges; moulded lip and
+  // an embossed '10 KG' pad on top, and a raised '10 KG' plaque on the rim facing the camera
+  // (the side is what the hero camera sees)
   const wcount = typeof p.weights === 'object' && p.weights ? (p.weights.count ?? 1) : Number(p.weights || 0);
   if (wcount > 0) {
-    const rubberW = M.mouldedRubber('#242527');
+    const rubberW = (() => { const m = M.mouldedRubber('#242527').clone(); m.roughness = 0.5; m.specularIntensity = 0.75; m.sheen = 0.35; m.name = 'weight rubber'; return m; })();
     const padMat = (() => { const m = rubberW.clone(); m.normalMap = TX.embossNormal({ text: '10 KG', sub: 'KLAPKLAAR', w: 512, h: 222, strength: 2.6 }); m.normalScale = new THREE.Vector2(1, 1); m.userData = {}; m.name = 'weight label'; return m; })();
-    const plateH = 0.034, Rw = 0.125, plateTop = 0.006;
+    const rimMat = weightRimLabelMat(rubberW);
+    const plateH = 0.034, Rw = 0.125, plateTop = 0.006, bev = 0.003, gapW = 0.0025;
     const az = (heroAz * Math.PI) / 180;
-    const rot = Math.atan2(Math.cos(az), -Math.sin(az)); // local +X (slot) -> away from the camera
+    const camD = V3(Math.sin(az), 0, Math.cos(az)), camR = V3(camD.z, 0, -camD.x);
+    const rotAway = Math.atan2(Math.cos(az), -Math.sin(az)); // local +X (slot) -> away from the camera
+    const nearLeg = legPts.slice().sort((a2, b2) => (b2[0] * camD.x + b2[1] * camD.z) - (a2[0] * camD.x + a2[1] * camD.z))[0];
     for (const [x, z] of legPts) {
+      const front = x === nearLeg[0] && z === nearLeg[1];
+      // front leg: slot towards the camera, turned 24 deg to the camera's right
+      const rot = front ? rotAway + Math.PI - 0.42 : rotAway;
+      // rim plaque: centred 38 deg to the camera's left on the front leg (beside the slot),
+      // straight at the camera elsewhere
+      const labelAng = front ? -0.66 : 0;
       for (let k = 0; k < wcount; k++) {
-        const y0 = plateTop + k * (plateH + 0.002);
-        const g = weightPlate({ R: Rw, h: plateH, slotHalf: (S.inner + 0.008) * 0.58 + 0.004, bore: 0.054 });
+        const y0 = plateTop + k * (plateH + gapW);
+        const g = weightPlate({ R: Rw, h: plateH, slotHalf: (S.inner + 0.008) * 0.58 + 0.004, bore: 0.054, bevel: bev });
         g.rotateY(rot); g.translate(x, y0, z);
         bins.add(rubberW, g);
         // moulded lip round the top face
         const lip = G.lathe([[Rw - 0.016, 0], [Rw - 0.0135, 0.0022], [Rw - 0.0075, 0.0024], [Rw - 0.005, 0]], 72, Math.PI / 2 + rot + 0.32, TAU - 0.64);
         lip.translate(x, y0 + plateH - 0.0002, z);
         bins.add(rubberW, lip);
+        // raised plaque on the rim (outer radius = Rw + bevel)
+        {
+          const Rr = Rw + bev + 0.0006, arc = 0.1 / Rr, hh = 0.0254, yc = y0 + plateH / 2;
+          const dC = camD.clone().multiplyScalar(Math.cos(labelAng)).addScaledVector(camR, Math.sin(labelAng));
+          const rC = V3(dC.z, 0, -dC.x);
+          const geo = G.surface((u, v, o) => {
+            const ph = (u - 0.5) * arc;
+            o.set(x, yc + (v - 0.5) * hh, z).addScaledVector(dC, Math.cos(ph) * Rr).addScaledVector(rC, Math.sin(ph) * Rr);
+          }, 24, 2);
+          geo.computeVertexNormals();
+          orientTo(geo, dC);
+          const pm = new THREE.Mesh(geo, rimMat); pm.castShadow = false; pm.receiveShadow = true; group.add(pm);
+        }
         if (k === wcount - 1) {
           // embossed label pad on the top plate, on the half facing the camera
           const PW = 0.06, PD = 0.026;
           const pad = G.roundedBox(PW, PD, 0.0012, 0.004, 3);
           pad.rotateX(-Math.PI / 2); pad.rotateY(az);
-          const pc = V3(x, y0 + plateH + 0.0006, z).addScaledVector(V3(Math.sin(az), 0, Math.cos(az)), 0.085);
+          const pc = V3(x, y0 + plateH + 0.0006, z).addScaledVector(front ? camD.clone().multiplyScalar(Math.cos(-0.9)).addScaledVector(camR, Math.sin(-0.9)) : camD, 0.085);
           pad.translate(pc.x, pc.y, pc.z);
           // planar uv over the pad face (0..1)
           const P = pad.attributes.position, U = pad.attributes.uv;
@@ -1014,17 +1178,63 @@ export function easyUpTent(p = {}) {
   // engine keeps only shadowed light on the inward faces and darkens the floor inside, so
   // PVC windows read dark with a reflection, never as frosted white panes
   const hanging = Object.values(walls).filter((v) => v && !['none', 'open', 'rolled', 'half'].includes(Array.isArray(v) ? v[0] : v)).length;
-  const enclosure = hanging >= 3 ? { box: [(xs[0] + xs[nbx]) / 2, (zs[0] + zs[nbz]) / 2, (xs[nbx] - xs[0]) / 2 + 0.07, (zs[nbz] - zs[0]) / 2 + 0.07], top: peak + 0.05, k: 0.1, floor: hanging >= 4 ? 0.1 : 0.2, feather: 0.1 } : null;
+  const wallPlane = (legAF + 0.03) / 2 + 0.008; // = wallOff below: the walls hang this far outside the leg lines
+  const enclosure = hanging >= 3 ? {
+    box: [(xs[0] + xs[nbx]) / 2, (zs[0] + zs[nbz]) / 2, (xs[nbx] - xs[0]) / 2 + 0.07, (zs[nbz] - zs[0]) / 2 + 0.07],
+    floorBox: [(xs[0] + xs[nbx]) / 2, (zs[0] + zs[nbz]) / 2, (xs[nbx] - xs[0]) / 2 + wallPlane, (zs[nbz] - zs[0]) / 2 + wallPlane],
+    top: peak + 0.05, k: 0.1, floor: hanging >= 4 ? 0.1 : 0.2, feather: 0.14,
+  } : null;
   // detail close-up: the door (zip, storm flap, straps) when there is one, else the corner
   // bracket of the leg nearest to the hero camera
   let detail;
   if (doors.length) {
     const dd = doors[0];
     const naz = (Math.atan2(dd.n.x, dd.n.z) * 180) / Math.PI;
-    detail = { target: [dd.mid.x + dd.n.x * 0.03, 1.52, dd.mid.z + dd.n.z * 0.03], size: 1.0, azimuth: naz + 24, elevation: 4, aperture: 0.0025 };
+    // half-open door: centre a little towards the rolled leaf (zip + flap of the closed leaf on the
+    // left, the opening and the strapped roll on the right)
+    const sh = dd.half ? 0.1 : 0;
+    detail = { target: [dd.mid.x + dd.n.x * 0.03 + dd.along.x * sh, dd.half ? 1.48 : 1.52, dd.mid.z + dd.n.z * 0.03 + dd.along.z * sh], size: 1.0, azimuth: naz + 24, elevation: 4, aperture: 0.0025 };
   } else {
     const sx = Math.sign(Math.sin((heroAz * Math.PI) / 180)) || 1, sz = Math.sign(Math.cos((heroAz * Math.PI) / 180)) || 1;
     detail = { target: [sx * (fx - 0.14), He - 0.38, sz * (fz + 0.02)], size: 0.92, azimuth: heroAz + 2, elevation: -4, aperture: 0.0085, shift: [walls.right && walls.right !== 'none' && walls.right !== 'open' ? 0.3 : 0.05, 0] };
+  }
+  // measurement probes (tools/check-tent-values.mjs): points on the roof face and the valance the
+  // hero camera sees on its left (lit by the key) and right (turned away), and on the axis of the
+  // leg nearest to the camera, outer and inner tube
+  const probes = {};
+  {
+    const wrap = (a) => ((a + 540) % 360) - 180;
+    const faceAz = { front: 0, right: 90, back: 180, left: -90 };
+    const vis = Object.entries(faceAz).map(([nm, az]) => [nm, wrap(az - heroAz)]).filter(([, r]) => Math.abs(r) < 89);
+    const pick = (sgn) => (vis.filter(([, r]) => Math.sign(r) === sgn).sort((a2, b2) => Math.abs(a2[1]) - Math.abs(b2[1]))[0] || [null])[0];
+    const roofPts = (nm) => {
+      const out = [];
+      if (!nm) return out;
+      const nv = { front: [0, 1], back: [0, -1], right: [1, 0], left: [-1, 0] }[nm];
+      for (const b of bays) {
+        const hx = (b.x1 - b.x0) / 2, hz = (b.z1 - b.z0) / 2;
+        // only bays on that edge of the canopy
+        if ((nv[1] > 0 && b.z1 < Z1 - 1e-6) || (nv[1] < 0 && b.z0 > Z0 + 1e-6) || (nv[0] > 0 && b.x1 < X1 - 1e-6) || (nv[0] < 0 && b.x0 > X0 + 1e-6)) continue;
+        for (const f of [-0.32, -0.12, 0.12, 0.32]) for (const dq of [0.42, 0.62]) {
+          const x = b.cx + (nv[0] ? nv[0] * hx * dq : f * hx), z = b.cz + (nv[1] ? nv[1] * hz * dq : f * hz);
+          out.push([x, H(x, z) + 0.002, z]);
+        }
+      }
+      return out;
+    };
+    const valPts = (nm) => {
+      const side = sides.find((sd) => sd.name === nm); if (!side) return [];
+      const out = [];
+      for (const f of [0.18, 0.32, 0.46, 0.6, 0.74, 0.88]) { const s2 = side.L * f; const q = valPoint(side, s2, valTopY(side, s2) - drop * 0.45, 0.002); out.push([q.x, q.y, q.z]); }
+      return out;
+    };
+    const lit = pick(-1), shade = pick(1);
+    probes.roofLit = roofPts(lit); probes.roofShade = roofPts(shade);
+    probes.valanceLit = valPts(lit); probes.valanceShade = valPts(shade);
+    const cd = V3(Math.sin((heroAz * Math.PI) / 180), 0, Math.cos((heroAz * Math.PI) / 180));
+    const near = legPts.slice().sort((a2, b2) => (b2[0] * cd.x + b2[1] * cd.z) - (a2[0] * cd.x + a2[1] * cd.z))[0];
+    probes.legOuter = [1.3, 1.45, 1.6].map((y) => [near[0], y, near[1]]);
+    probes.legInner = [0.35, 0.55, 0.75].map((y) => [near[0], y, near[1]]);
   }
   return {
     object: group,
@@ -1044,7 +1254,7 @@ export function easyUpTent(p = {}) {
       // included, clearly below the backdrop, so the right silhouette never melts into it)
       front: { key: { azimuth: -50, elevation: 30, distanceRel: 2.0, aimRel: [-0.1, 0.35, 0.6], angle: 40, penumbra: 0.8, ...(lumOf(colorHex) > 0.7 ? { azimuth: -74, elevation: 28, intensity: 5.4 } : {}) }, fill: { intensity: 0 }, dome: { intensity: 1.0, tilt: 45, tiltAzimuth: -90, ...(lumOf(colorHex) > 0.7 ? { tilt: 60 } : {}) }, ...(lumOf(colorHex) > 0.7 ? { exposure: 0.8 } : {}) },
     },
-    meta: { w, d, kind, legs: legPts.length, eave: He, peak, valance: drop, trussDrop: S.trussDrop },
+    meta: { w, d, kind, legs: legPts.length, eave: He, peak, valance: drop, trussDrop: S.trussDrop, probes },
   };
 }
 
@@ -1054,14 +1264,17 @@ export function easyUpTent(p = {}) {
 // inverse-square falloff), so every roof face gets its own value with a soft gradient.
 function tentRig(colorHex, walled = false, enclosure = null) {
   const L = lumOf(colorHex);
-  const white = L > 0.7, black = L < 0.06;
+  const white = L > 0.7;
   // softbox front-left (-38 deg world on the hero) at ~1.8x the product's half-diagonal: it
   // rakes across the front roof face, so the dish between rafter and hip reads as a
   // light-to-dark gradient. The beam is feathered (soft 40 deg cone on the front face): the
   // light falls off towards the left hip, the apex and the far face, so the lit side of a
   // white roof separates from the backdrop by its falloff instead of melting into it, and the
   // far face is modelled by the fill alone.
-  const key = { azimuth: -72, elevation: 32, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.0, 0.4, 0.69], angle: 40, penumbra: 1.0 };
+  const key0 = { azimuth: -72, elevation: 32, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.0, 0.4, 0.69], angle: 40, penumbra: 1.0 };
+  // with side walls the beam is wider and aimed a little lower, so the wall on the key side gets
+  // the key too (it reads lighter than the wall turned away: the box corner keeps its form)
+  const key = walled ? { ...key0, angle: 54, aimRel: [0.0, 0.26, 0.69] } : key0;
   return {
     env: 'studio', envIntensity: 1.0,
     // studio reflections (camera-relative): the default softboxes plus two large, very soft
@@ -1069,34 +1282,46 @@ function tentRig(colorHex, walled = false, enclosure = null) {
     // that band, so black cloth shows one broad sheen gradient per wall and every window a soft
     // reflection streak, on whichever sides the hero shows
     envStudio: { boxes: [...STUDIO_ENV_DEFAULT.boxes,
-      { az: -58, el: -10, w: 64, h: 30, I: 4.2, soft: 0.95, hot: 0.6 },
-      { az: 112, el: -10, w: 54, h: 28, I: 2.4, soft: 0.95, hot: 0.6 }] },
+      { az: -62, el: -10, w: 64, h: 30, I: 3.4, soft: 0.95, hot: 0.6 },
+      { az: 112, el: -10, w: 54, h: 28, I: 1.3, soft: 0.95, hot: 0.6 },
+      // two tall strip boxes left and right at product height: each facet of a hex leg mirrors
+      // a different one (light / medium / dark facets plus thin edge glints)
+      { az: -100, el: 2, w: 14, h: 64, I: 3.4, soft: 0.35, hot: 0.25 },
+      { az: 136, el: 2, w: 12, h: 64, I: 1.4, soft: 0.35, hot: 0.25 }] },
     key,
     floorKey: { azimuth: -15, elevation: 80, cone: 16, intensity: 3.0 },
     keyShadow: 0.46,
     rim: { azimuth: -155, elevation: 35, intensity: 0.3 },
     // fill from behind-right: lifts the far roof face and valance without striking the
-    // front face from the opposite side (that would cancel its dish gradient)
-    fill: { azimuth: 100, elevation: 12, intensity: 5.5 },
+    // front face from the opposite side (that would cancel its dish gradient). Kept low (the
+    // same as for white): faces turned away from the key fall to ~55 % of the lit face, so
+    // dyed cloth gets its deeper shaded tone and black stays black on its far side
+    fill: { azimuth: 100, elevation: 12, intensity: 3.0 },
     bounce: { intensity: 0.5 },
     // soft overhead dome, tipped towards the key so it models with it
     dome: { count: 2, intensity: 2.4, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-    exposure: white ? 0.62 : 'auto',
+    exposure: white ? 0.58 : 'auto',
     interior: enclosure,
-    // white cloth: more key, less fill and sky, so the roof models like photographed white PVC:
-    // the lit face reaches ~245-250 (above the backdrop, so its silhouette separates) and the
-    // far face falls to ~205-215
+    // white cloth: a higher key aimed a little right of centre with a 34 deg beam, so the lit face
+    // peaks at ~247 by the rafter and falls off to ~225-235 towards the left hip and the eave (the
+    // top-left outline reads against the backdrop by its falloff, also at collection-grid size);
+    // the vertical valance gets less of that key than the upward roof faces (clearly darker,
+    // ~205-225), lifted a little by a low reflector card in front; the far face ~190-215
     ...(white ? {
-      key: { ...key, intensity: 5.4 },
-      fill: { azimuth: 100, elevation: 12, intensity: 3.0 },
+      key: { ...key, azimuth: -70, elevation: 40, distanceRel: 2.3, aimRel: [0.3, 0.55, 0.45], angle: walled ? 50 : 34, intensity: 4.8 },
+      fill: { azimuth: 100, elevation: 12, intensity: 2.2 },
+      bounce: { azimuth: -20, elevation: -25, intensity: 1.5 },
       dome: { count: 2, intensity: 2.0, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
     } : {}),
     // white cloth: a late shoulder (the default filmic shoulder squashes the light-to-dark
     // gradient of the lit faces into flat paper white); the lit face peaks at ~248
     ...(white ? { toneMapping: 'neutral', shoulder: 0.88 } : {}),
     // the cloth itself limits its reflections (material envSpec), so the frame keeps the
-    // same studio reflections whatever the canopy colour
-    exposureAuto: { ref: 0.2, base: 0.64, power: 0.22, min: 0.45, max: 1.0 },
+    // same studio reflections whatever the canopy colour. Exposure: one fixed exposure (0.72)
+    // for every dark and mid colour, so a swatch's value is the cloth's own value (zwart,
+    // antraciet and grijs are three different products); only light colours (geel, lichtgrijs,
+    // beige ...) are pulled down a little so they keep their lit-face gradient
+    exposureAuto: { ref: 0.2, base: 0.64, power: 0.22, min: 0.45, max: 0.72 },
     // floor: the canopy footprint is a firm soft shadow; enclosed floor (inside walls)
     // keeps getting darker after the soft knee
     groundSplit: true,
@@ -1105,15 +1330,8 @@ function tentRig(colorHex, walled = false, enclosure = null) {
     // tight contact line under plates and hems + a wide soft halo (plates, weights, and
     // the contact proxies along wall hems)
     contact: { res: 2048, h0: 0.03, strength: 1.0, blur: 2.6, wide: { h0: 0.05, sigma: 0.028, strength: 0.42 } },
-    // black cloth: more key, less sky; its form reads through one soft sheen of the
-    // overhead scrim (cloth reflections are limited by the material's envSpec)
-    ...(black ? {
-      key: { ...key, intensity: 8 },
-      dome: { count: 2, intensity: 1.2, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-      fill: { azimuth: 100, elevation: 12, intensity: 5.0 },
-      rim: { azimuth: -155, elevation: 35, intensity: 0.2 },
-      exposure: 0.85,
-    } : {}),
+    // black cloth gets NO extra light or exposure: it renders at its real value (lit roof ~40,
+    // turned away ~20 sRGB) and takes its form from the coating's sheen of the overhead scrim
   };
 }
 
@@ -1213,6 +1431,31 @@ function mouldedBlock(bins, mat, markMat, { x, z, w, y0, y1, out, ribs = true, m
   }
 }
 
+// Raised '10 KG' plaque moulded into the rim of a weight plate: a thin curved patch in the plate's
+// rubber whose normal map carries the raised letters and border, the letter faces a little
+// lighter (worn high spots), so the weight reads at catalogue size. uv 0..1 over the patch.
+let rimLabelCache = null;
+function weightRimLabelMat(rubber) {
+  if (rimLabelCache) return rimLabelCache;
+  const w = 1024, h = 260;
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.fillStyle = '#808080'; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#D2D2D2'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = `800 ${Math.round(h * 0.72)}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
+  if ('letterSpacing' in g) g.letterSpacing = `${Math.round(h * 0.04)}px`;
+  g.fillText('10 KG', w / 2, h * 0.53);
+  const map = new THREE.CanvasTexture(c); map.colorSpace = THREE.SRGBColorSpace; map.anisotropy = 8;
+  const m = rubber.clone();
+  // #808080 is 0.216 linear: scale the colour so the plaque's flat part matches the rubber
+  m.color = rubber.color.clone().multiplyScalar(1 / 0.2159);
+  m.map = map;
+  m.normalMap = TX.embossNormal({ text: '10 KG', sub: '', w, h, strength: 3.2, fontScale: 0.72, border: false }); m.normalScale = new THREE.Vector2(1, 1);
+  m.userData = {}; m.name = 'weight rim label';
+  rimLabelCache = m;
+  return m;
+}
+
 // Stackable weight plate: round, radial slot to slide around the leg, central bore that
 // clears the foot socket, grip hole on the opposite side. Local +X = slot direction.
 export function weightPlate({ R = 0.125, h = 0.034, slotHalf = 0.026, bore = 0.033, bevel = 0.003 } = {}) {
@@ -1261,7 +1504,7 @@ function artTexture(art, color, cw, ch, fill) {
   return t;
 }
 
-function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
+function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed, print = null, doorState = 'half' }) {
   stitchAO = thread.userData.threadAO ?? 1;
   const along = b.clone().sub(a); const L = along.length(); along.normalize();
   const Hh = top; // the panel's (s, y) frame starts at the ground: y is the real height
@@ -1273,7 +1516,7 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
   // ---- hang of the cloth ----------------------------------------------------------------
   // hem: the panel is a few cm too long, so between the legs the hem rests on the ground and
   // kinks outward irregularly; near the legs (velcro straps) it is lifted ~4 cm
-  const edgeLift = (s) => 0.042 * (1 - sstep(0.0, 0.26, Math.min(s, L - s)));
+  const edgeLift = (s) => 0.022 * (1 - sstep(0.0, 0.26, Math.min(s, L - s)));
   const bottomAt = (s) => {
     const irr = Math.max(0, nz.noise(s * 2.7 + 3.1, 0.37) + 0.15) * 0.011 + Math.max(0, nz.noise(s * 7.3 - 2, 5.1)) * 0.004;
     return 0.0015 + edgeLift(s) + irr * (1 - sstep(0.0, 0.03, edgeLift(s)));
@@ -1289,19 +1532,19 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     // freer and slightly fanning out towards the hem
     const sd = s + 0.06 * (1 - v) * nz.noise(s * 0.9 + 4, 2.2);
     const folds = 0.017 * pinS * (0.35 + 0.65 * Math.pow(1 - v, 1.1)) * (0.6 + 0.4 * nz.noise(sd * 0.7 + 9, 6.6))
-      * (nz.noise(sd * 1.9 + seed, 0.3 + v * 0.35) * 0.62 + nz.noise(sd * 4.3 - seed, 1.7 + v * 0.6) * 0.28 + nz.noise(sd * 9.1, 3.3 + v) * 0.1);
+      * (nz.noise(sd * 1.9 + seed, 0.3 + v * 0.35) * 0.74 + nz.noise(sd * 3.6 - seed, 1.7 + v * 0.6) * 0.22);
     // each top tab pulls a narrow vertical fold that runs ~0.8 m down; the cloth between
     // the tabs sags into a shallow scallop
     const ph = s / tabSp - Math.round(s / tabSp);
-    const tabFold = 0.009 * pinS * Math.exp(-(((ph * tabSp) / 0.035) ** 2)) * Math.exp(-(top - y) / 0.75);
-    const vfold = -0.004 * pinS * Math.cos(TAU * ph) * Math.exp(-(top - y) / 0.3);
+    const tabFold = 0.005 * pinS * Math.exp(-(((ph * tabSp) / 0.045) ** 2)) * Math.exp(-(top - y) / 0.45);
+    const vfold = -0.002 * pinS * Math.cos(TAU * ph) * Math.exp(-(top - y) / 0.25);
     const scallop = 0.006 * Math.abs(Math.sin(Math.PI * s / tabSp)) * sstep(0.88, 1.0, v) + tabFold + vfold;
     let diag = 0;
     for (const [s0, sg] of [[0, 1], [L, -1]]) {
       const ds = (s - s0) * sg, dy = top - y;
       if (ds < 0) continue;
       const rho = Math.hypot(ds, dy);
-      diag += 0.0035 * Math.sin(((ds - dy) / 0.07) * Math.PI) * Math.exp(-rho / 0.35) * (1 - Math.exp(-rho / 0.05));
+      diag += 0.002 * Math.sin(((ds - dy) / 0.11) * Math.PI) * Math.exp(-rho / 0.28) * (1 - Math.exp(-rho / 0.05));
     }
     // where the hem rests on the ground the last few cm kink outward
     const yb = bottomAt(s), kz = 0.075;
@@ -1330,6 +1573,24 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     for (let i = 0; i < P.count; i++) U.setXY(i, sOf(i), P.getY(i));
     U.needsUpdate = true; return geo;
   };
+  // optional one-colour print (wallPrint {svg|name, color, width}) centred on the panel, following its drape
+  const art = print ? resolvePrint(print) : null;
+  if (art && type !== 'rolled') {
+    let wP = Math.min(L * 0.78, Number(print.width ?? L * 0.7)), hP = wP * art.vb[1] / art.vb[0];
+    if (hP > top * 0.42) { wP *= (top * 0.42) / hP; hP = top * 0.42; }
+    const yc = Number(print.y ?? Math.min(top * 0.56, top - 0.45 - hP / 2));
+    const ink = M.resolveColor(print.color, '#1D1E20');
+    const tex = artTexture(art, ink, 1024, Math.max(16, Math.round(1024 * hP / wP)), 0.98);
+    const s0 = (L - wP) / 2;
+    const mat = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.45, roughness: 0.55, side: THREE.DoubleSide, name: 'wall print' });
+    // outside face; with print.both also the inside face (mirrored in s so it reads from inside)
+    for (const sg of print.both ? [1, -1] : [1]) {
+      const geo = G.surface((u, v, o) => o.copy(point(s0 + (sg > 0 ? u : 1 - u) * wP, yc - hP / 2 + v * hP, 0.0022 * sg)), 64, 24);
+      geo.computeVertexNormals();
+      const m = new THREE.Mesh(geo, mat); m.castShadow = false; m.receiveShadow = true;
+      group.add(m);
+    }
+  }
 
   // layout (in wall coordinates s, y)
   const openings = []; // {kind:'rect'|'arch', s0, s1, y0, y1, r}
@@ -1345,11 +1606,19 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
   }
   const doorOpen = type === 'door-open';
   const doorW = Math.min(1.05, L * 0.4), doorTop = Math.min(1.8, top - 0.27); // door head clear of the valance
+  // door 'half' (default): the right leaf is unzipped (centre zip + a zip along the right edge of
+  // the doorway), rolled up to the door head and strapped; the left leaf stays closed with its
+  // zip, storm flap and hanging strap. From the hero camera the door reads as a door (a dark
+  // opening with a roll of cloth above it), and the closed leaf still shows how it closes
+  const doorHalf = type === 'door' && doorState === 'half';
+  const dHalf = { s0: mid + 0.004, s1: mid + doorW / 2 - 0.026, rollY: doorTop - 0.04, r: 0.041 };
+  // bottom hem and its stitching run only where there is cloth down to the ground
+  const hemSpans = doorHalf ? [[0, dHalf.s0], [dHalf.s1, L]] : doorOpen ? [[0, mid - doorW / 2], [mid + doorW / 2, L]] : [[0, L]];
 
   // mask: white = fabric (canvas covers y = top .. 0)
   let mat = fabric, mask = null;
-  const needsMask = openings.length > 0 || doorOpen;
-  const key = `${type}:${L.toFixed(3)}:${Hh.toFixed(3)}`;
+  const needsMask = openings.length > 0 || doorOpen || doorHalf;
+  const key = `${type}${doorHalf ? '-half' : ''}:${L.toFixed(3)}:${Hh.toFixed(3)}`;
   if (needsMask) {
     const Wp = 2048, Hp = Math.round(2048 * Hh / L);
     mask = TX.maskTexture(`wall3:${key}`, Wp, Hp, (g) => {
@@ -1358,6 +1627,7 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
       g.fillStyle = '#000';
       for (const o of openings) { g.beginPath(); outlinePath(o).forEach(([s, y], i) => (i ? g.lineTo(s * px, Y(y)) : g.moveTo(s * px, Y(y)))); g.closePath(); g.fill(); }
       if (doorOpen) g.fillRect((mid - doorW / 2) * px, Y(doorTop), doorW * px, Hp);
+      if (doorHalf) g.fillRect(dHalf.s0 * px, Y(dHalf.rollY + 0.004), (dHalf.s1 - dHalf.s0) * px, Hp);
       g.fillStyle = '#fff';
       for (const o of openings) if (o.bars) {
         const bw = 0.03 * px, cx = (o.s0 + o.s1) / 2;
@@ -1376,18 +1646,21 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
   if (needsMask) group.add(m); else bins.add(fabric, geo);
 
   // bottom hem (5 cm, folded) with stitching; vertical edge bands
-  const hem = G.surface((u, v, o) => { const pr = hemProfile(v, bottomAt(u * L), 0.05, 0.0012); o.copy(point(u * L, pr[1], pr[0])); }, nu, 14);
-  metricUV(hem, (i) => (i % (nu + 1)) / nu * L);
-  hem.computeVertexNormals();
-  // the outer layer must face outwards (an inward normal biases its shadow lookup behind the
-  // wall and paints a dark band along the hem)
-  { const nn = V3().fromBufferAttribute(hem.attributes.normal, 1 * (nu + 1) + Math.floor(nu / 2)); if (nn.dot(n) < 0) flipGeo(hem); }
-  bins.add(fabric, hem);
+  for (const [h0, h1] of hemSpans) {
+    const nuh = Math.max(2, Math.ceil((h1 - h0) / 0.015));
+    const hem = G.surface((u, v, o) => { const sh = h0 + (h1 - h0) * u; const pr = hemProfile(v, bottomAt(sh), 0.05, 0.0012); o.copy(point(sh, pr[1], pr[0])); }, nuh, 14);
+    metricUV(hem, (i) => h0 + (i % (nuh + 1)) / nuh * (h1 - h0));
+    hem.computeVertexNormals();
+    // the outer layer must face outwards (an inward normal biases its shadow lookup behind the
+    // wall and paints a dark band along the hem)
+    { const nn = V3().fromBufferAttribute(hem.attributes.normal, 1 * (nuh + 1) + Math.floor(nuh / 2)); if (nn.dot(n) < 0) flipGeo(hem); }
+    bins.add(fabric, hem);
+  }
   const sline = (pts) => stitches.push(stitchGeo(pts.map(([s, y, off]) => ({ p: point(s, y, off), n }))));
   const hlineF = (yf, off, s0 = 0.01, s1 = L - 0.01) => { const pts = []; const k = Math.ceil((s1 - s0) / 0.008); for (let i = 0; i <= k; i++) { const s = s0 + (s1 - s0) * i / k; pts.push([s, yf(s), off]); } sline(pts); };
   const hline = (y, off, s0, s1) => hlineF(() => y, off, s0, s1);
   const vline = (s, y0, y1, off) => { const pts = []; const k = Math.ceil((y1 - y0) / 0.008); for (let i = 0; i <= k; i++) pts.push([s, y0 + (y1 - y0) * i / k, off]); sline(pts); };
-  hlineF((s) => bottomAt(s) + 0.04, 0.0012);
+  for (const [h0, h1] of hemSpans) hlineF((s) => bottomAt(s) + 0.04, 0.0012, Math.max(0.01, h0 + 0.006), Math.min(L - 0.01, h1 - 0.006));
   for (const [s0, s1] of [[0, 0.045], [L - 0.045, L]]) {
     const yb = Math.max(bottomAt(s0), bottomAt(s1)) + 0.05;
     const band = G.surface((u, v, o) => { const s = s0 + (s1 - s0) * u; const k = Math.abs(2 * u - 1); o.copy(point(s, yb + v * (top - yb - 0.01), 0.0011 * (1 - Math.pow(k, 8)))); }, 4, nv, { flipNormals: flip });
@@ -1407,6 +1680,8 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
   }
   if (openings.length) {
     const pvc = cloneWithMask(windowFoil(), mask, key, true);
+    const yW = openings.reduce((acc, o) => acc + (o.y0 + o.y1) / 2, 0) / openings.length;
+    pvc.userData.sheet = { L, H: Hh, c: [mid, yW], strength: 0.14 / 0.25 };
     const g2 = G.surface((u, v, o) => o.copy(point(u * L, yAt(u, v), -0.0025)), nu, nv, { flipNormals: flip });
     metricUV(g2, (i) => (i % (nu + 1)) / nu * L);
     const pm = new THREE.Mesh(g2, pvc); pm.castShadow = false; pm.receiveShadow = true;
@@ -1488,17 +1763,17 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     g2.computeVertexNormals(); return g2;
   }
   // #8 moulded-tooth zip: two woven tapes, interlocking teeth down the middle
-  const zip = (s, y0, y1, off = 0.0014) => {
-    for (const sg of [-1, 1]) webbingRun(s + sg * 0.0085, y0, y1, 0.0145, 0.0008, off, { mat: tapeMat, stitch: false });
+  const zip = (s, y0, y1, off = 0.0014, zsides = [-1, 1]) => {
+    for (const sg of zsides) webbingRun(s + sg * 0.0085, y0, y1, 0.0145, 0.0008, off, { mat: tapeMat, stitch: false });
     const pitch = 0.0034, count = Math.floor((y1 - y0 - 0.004) / pitch);
-    for (let k = 0; k < count; k++) for (const sg of [-1, 1]) {
+    for (let k = 0; k < count; k++) for (const sg of zsides) {
       const yy = y0 + 0.002 + (k + (sg > 0 ? 0.5 : 0)) * pitch;
       const tooth = G.roundedBox(0.0058, 0.0024, 0.0026, 0.0008, 1);
       tooth.translate(sg * 0.0011, 0, 0.0013);
       tooth.applyMatrix4(frameAt(s, yy, off + 0.0008));
       bins.add(toothMat, tooth);
     }
-    vline(s - 0.019, y0 + 0.01, y1, 0.001); vline(s + 0.019, y0 + 0.01, y1, 0.001);
+    for (const sg of zsides) vline(s + sg * 0.019, y0 + 0.01, y1, 0.001);
   };
   const slider = (s, yS, off) => {
     const F = frameAt(s, yS, off);
@@ -1517,6 +1792,53 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     const cord = []; for (let i = 0; i <= 24; i++) { const a2 = (i / 24) * TAU; cord.push(V3(Math.sin(a2) * 0.005, -0.031 - 0.022 * (1 - Math.cos(a2)) / 2, 0.0112 + 0.0025 * (1 - Math.cos(a2)) / 2)); }
     put(sweepTube(cord, 0.0016, 8, true), strapMat);
   };
+  // the released door leaf rolled up (outside) to the door head: a slightly irregular, a little
+  // flattened roll of cloth whose ends show the spiral of the rolled layers, held by the leaf's
+  // own strap, which runs down from its box stitch, loops round the roll and closes with the buckle
+  function rolledLeaf(sStrap, yTop) {
+    const { s0, s1, rollY, r } = dHalf, len = s1 - s0, off = r + 0.003;
+    const rr = rng(311 + seed);
+    const wob = [rr() * TAU, rr() * TAU];
+    const radAt = (u, th) => r * (1 + 0.05 * Math.sin(th * 2 + wob[0]) + 0.035 * Math.sin(u * Math.PI * 3 + wob[1])) * (1 - 0.06 * Math.sin(Math.PI * u));
+    const ctr = (sx) => point(sx, rollY, off).addScaledVector(n, 0);
+    const up = V3(0, 1, 0);
+    const body = G.surface((v, u, o) => {
+      const sx = s0 + 0.006 + (len - 0.012) * u, th = v * TAU, R = radAt(u, th);
+      // sag: the roll hangs a little lower between strap and ends (soft cloth)
+      const sag = 0.004 * Math.sin(Math.PI * u);
+      o.copy(ctr(sx)).addScaledVector(n, Math.cos(th) * R).addScaledVector(up, Math.sin(th) * R * 0.9 - sag);
+    }, 40, Math.ceil(len / 0.012), { closedU: true });
+    // the surface winds so its normals face outwards
+    { const N = body.attributes.normal, P = body.attributes.position; const c0 = ctr(s0 + len / 2); let dd = 0; for (let i = 0; i < N.count; i += 7) dd += (P.getX(i) - c0.x) * N.getX(i) + (P.getY(i) - c0.y) * N.getY(i) + (P.getZ(i) - c0.z) * N.getZ(i); if (dd < 0) flipGeo(body); }
+    metricUV(body, (i) => (i % 41) / 40 * TAU * r);
+    bins.add(fabric, body);
+    // ends: a recessed disc and the spiral edge of the rolled layers
+    for (const [sx, sgn] of [[s0 + 0.006, -1], [s1 - 0.006, 1]]) {
+      const c = ctr(sx);
+      const disc = new THREE.CircleGeometry(r * 0.96, 32);
+      disc.applyMatrix4(new THREE.Matrix4().makeBasis(n.clone(), V3(0, 0.9, 0), along.clone().multiplyScalar(sgn)).setPosition(c.clone().addScaledVector(along, -sgn * 0.003)));
+      orientTo(disc, along.clone().multiplyScalar(sgn));
+      bins.add(fabric, disc);
+      const sp = [];
+      for (let i = 0; i <= 160; i++) { const t = i / 160, th = t * 4.2 * TAU, R = (0.007 + (r * 0.93 - 0.007) * t); sp.push(c.clone().addScaledVector(along, -sgn * 0.0005).addScaledVector(n, Math.cos(th) * R).addScaledVector(up, Math.sin(th) * R * 0.9)); }
+      bins.add(fabric, sweepTube(sp, 0.0011, 6));
+    }
+    // strap: box-stitched on below the valance, down the wall to the roll, a loop round it
+    webbingRun(sStrap, rollY + r * 0.6, yTop, 0.025, 0.0016, 0.0016, { bulge: 0.0008 });
+    const bx = [[sStrap - 0.009, yTop - 0.006], [sStrap + 0.009, yTop - 0.006], [sStrap + 0.009, yTop - 0.034], [sStrap - 0.009, yTop - 0.034], [sStrap - 0.009, yTop - 0.006], [sStrap + 0.009, yTop - 0.034]];
+    const pts = []; for (let i = 0; i < bx.length - 1; i++) for (let k = 0; k < 6; k++) { const t = k / 6; pts.push([bx[i][0] + (bx[i + 1][0] - bx[i][0]) * t, bx[i][1] + (bx[i + 1][1] - bx[i][1]) * t, 0.0034]); }
+    sline(pts);
+    const uS = (sStrap - s0 - 0.006) / (len - 0.012);
+    const loop = G.surface((v, w2, o) => {
+      const th = -Math.PI / 2 - 0.25 + v * (TAU - 0.1), R = radAt(uS, th) + 0.0022;
+      o.copy(ctr(sStrap + (w2 - 0.5) * 0.025)).addScaledVector(n, Math.cos(th) * R).addScaledVector(up, Math.sin(th) * R * 0.9 - 0.004 * Math.sin(Math.PI * uS));
+    }, 48, 2);
+    { const N = loop.attributes.normal, P = loop.attributes.position; const c0 = ctr(sStrap); let dd = 0; for (let i = 0; i < N.count; i++) dd += (P.getX(i) - c0.x) * N.getX(i) + (P.getY(i) - c0.y) * N.getY(i) + (P.getZ(i) - c0.z) * N.getZ(i); if (dd < 0) flipGeo(loop); }
+    const U = loop.attributes.uv; for (let i = 0; i < U.count; i++) U.setXY(i, (i % 49) / 48 * TAU * r, Math.floor(i / 49) / 2 * 0.025);
+    bins.add(strapMat, loop);
+    // buckle on the front of the roll
+    buckle(sStrap, rollY - 0.004, off + r * 0.93 + 0.0025);
+  }
   if (type === 'door') {
     // door outline: a sewn reinforcement band (3 cm, double stitched) round the doorway
     const dl = mid - doorW / 2, dr = mid + doorW / 2, bw2 = 0.02, y0d = bottomAt(mid) + 0.055;
@@ -1524,7 +1846,9 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     band(dl - bw2, dr + bw2, doorTop - bw2, doorTop + bw2, 0.0007);
     for (const x of [dl, dr]) { vline(x - 0.014, y0d + 0.005, doorTop + (x === dl ? 0.014 : 0.014), 0.001); vline(x + 0.014, y0d + 0.005, doorTop - 0.014, 0.001); }
     hline(doorTop + 0.014, 0.001, dl - 0.014, dr + 0.014); hline(doorTop - 0.014, 0.001, dl + 0.014, dr - 0.014);
-    zip(mid, y0d - 0.04, doorTop);
+    zip(mid, y0d - 0.04, doorTop, 0.0014, doorHalf ? [-1] : [-1, 1]);
+    // the right edge of the doorway carries the second zip of the released leaf (wall side only)
+    if (doorHalf) zip(dHalf.s1, y0d - 0.04, doorTop - 0.02, 0.0014, [1]);
     // storm flap: a flat 5 cm band of cloth sewn on the left of the zip; it lies almost flat,
     // its free edge (a 2 mm folded hem) stands only ~3 mm off the zip tape, throwing a fine
     // shadow line onto the teeth
@@ -1543,7 +1867,7 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
       for (let i = 0; i <= k; i++) { const v = i / k; sp.push([f1 - 0.007, y0f + 0.01 + (y1f - y0f - 0.02) * v, so(1 - 0.007 / (f1 - f0))]); }
       sline(sp);
     }
-    slider(mid, 1.3, 0.0024);
+    slider(doorHalf ? mid - 0.004 : mid, doorHalf ? y0d + 0.06 : 1.3, 0.0024);
     // reinforcement triangle at the top of the zip
     const tri = G.surface((u, v, o) => { const yy = doorTop + 0.002 + v * 0.07; const half = (1 - v) * 0.06; o.copy(point(mid + (u - 0.5) * 2 * half, yy, 0.0013)); }, 8, 6, { flipNormals: flip });
     bins.add(fabric, tri);
@@ -1551,6 +1875,7 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     // closed with a side-release buckle, short tail below
     for (const sg of [-1, 1]) {
       const s = mid + sg * doorW * 0.32, yTop = top - 0.17, yB = top - 0.43;
+      if (doorHalf && sg > 0) { rolledLeaf(s, yTop); continue; }
       webbingRun(s, yB + 0.027, yTop, 0.025, 0.0016, 0.0016, { bulge: 0.0012 });
       webbingRun(s, yB - 0.2, yB - 0.034, 0.025, 0.0016, 0.0016, { bulge: 0.001 });
       buckle(s, yB, 0.0022);
@@ -1675,8 +2000,13 @@ let windowFoilMat = null;
 function windowFoil() {
   if (windowFoilMat) return windowFoilMat;
   const m = M.pvcWindow().clone();
-  m.color.set('#262B2E'); m.roughness = 0.08; m.clearcoat = 1.0; m.clearcoatRoughness = 0.05; m.specularIntensity = 1.0;
-  m.userData = { stochasticAlpha: 0.42, interior: true };
+  m.color.set('#15191B'); m.roughness = 0.1; m.clearcoat = 0.8; m.clearcoatRoughness = 0.06; m.specularIntensity = 0.9;
+  // a taut foil: only a long, gentle waviness (a strong wrinkle map mirrors the studio as marble)
+  m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(0.55, 0.55); m.normalMap.needsUpdate = true; m.normalScale = new THREE.Vector2(0.018, 0.018);
+  // clear foil: ~75 % see-through (the inside of the opposite wall, its windows and the frame
+  // show through), plus the reflection of a strip softbox as one soft diagonal sheet highlight
+  // (engine `sheet`, set per panel in buildWall: metric size of the panel)
+  m.userData = { stochasticAlpha: 0.25, interior: true };
   m.name = 'pvc window foil';
   windowFoilMat = m;
   return m;

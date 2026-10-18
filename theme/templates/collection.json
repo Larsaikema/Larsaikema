@@ -7,7 +7,7 @@
         "columns": 3,
         "enable_filtering": true,
         "enable_sorting": true,
-        "promo_position": 5
+        "promo_position": 6
       }
     },
     "usps": {
@@ -61,11 +61,11 @@
       "settings": {
         "color_scheme": "scheme-1",
         "heading": "Vergelijk de uitvoeringen",
-        "text": "Zelfde idee, ander gebruik. Kies op frame, dak en gewicht.",
+        "text": "De belangrijkste verschillen naast elkaar.",
         "use_current": true,
         "require_group": true,
         "max": 3,
-        "guide_link": "shopify://blogs/advies/easy-up-premium-of-professional",
+        "guide_link": "",
         "guide_label": "Lees het hele verschil"
       }
     }

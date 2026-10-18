@@ -1,0 +1,73 @@
+{%- comment -%}
+  When the order arrives, next to the checkout button (drawer + cart page). One promise for the whole cart, from the same
+  theme settings and product metafields as the product page (snippet delivery-promise): the slowest line decides.
+  - Every line in stock: assets/delivery-countdown.js (loaded on every page) turns cutoff_time, shipping_days,
+    delivery_days, holidays and the transit days of the heaviest class (a pallet line beats pakket; BE adds its extra
+    days) into 'Verwacht in huis: di 20 okt' and, on the page, the order-by countdown. Without JS the settings text shows.
+  - Otherwise the slowest line with a lead time (snippets/cart-lead-time: custom.levertijd, a print line with
+    drukopties.levertijd, or a tracked variant sold beyond its stock) is named with its lead time instead (Oker half dot:
+    wachten), so the cart never promises a date it cannot keep; with one line in the cart just the lead time, with more
+    the product it is about. data-wait-days sets the earliest 'Gewenste leverdatum'.
+  Param: context ('drawer' = one short line | 'page')
+{%- endcomment -%}
+{%- liquid
+  assign cd_ship = 'pakket'
+  for item in cart.items
+    assign cd_cls = item.product.metafields.custom.verzending.value | default: 'pakket' | downcase
+    if cd_cls == 'pallet' or item.product.tags contains 'pallet'
+      assign cd_ship = 'pallet'
+    endif
+  endfor
+  capture cd_lt
+    render 'cart-lead-time'
+  endcapture
+  assign cd_lt = cd_lt | strip | split: '|'
+  assign cd_wait_days = cd_lt[0] | plus: 0
+  assign cd_wait = cd_lt[1]
+  assign cd_wait_title = cd_lt[2]
+  assign cd_country = localization.country.iso_code | default: 'NL'
+  if cd_ship == 'pallet'
+    assign cd_transit = settings.transit_days_pallet
+  else
+    assign cd_transit = settings.transit_days_pakket
+  endif
+  if cd_country == 'BE'
+    assign cd_transit = cd_transit | plus: settings.transit_days_be_extra
+  endif
+  assign cd_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
+  if cd_ship == 'pallet'
+    assign cd_text = settings.delivery_text_pallet
+  else
+    assign cd_text = settings.delivery_text_pakket | replace: '[besteltijd]', settings.cutoff_time
+  endif
+-%}
+{%- if cart.requires_shipping -%}
+  {%- if cd_wait_days > 0 -%}
+    <p class="cart-delivery cart-delivery--wait" data-wait-days="{{ cd_wait_days }}"><span class="stock stock--later">
+      {%- if cart.items.size == 1 -%}{{ cd_wait }}
+      {%- else -%}
+        {%- liquid
+          # after the product name the lead time goes on in lower case: '…, leverbaar over 2–3 weken'
+          if cd_lt[3] != '1'
+            assign cd_lead = cd_wait | remove_first: 'Levertijd '
+          else
+            assign cd_lead = cd_wait
+          endif
+          assign cd_rest = cd_lead | slice: 1, 500
+          assign cd_lead = cd_lead | slice: 0 | downcase | append: cd_rest
+        -%}
+        {%- if cd_lt[3] != '1' -%}{{ 'cart.delivery_wait_slowest' | t: title: cd_wait_title, lead_time: cd_lead }}{%- else -%}{{ 'cart.delivery_wait' | t: title: cd_wait_title, lead_time: cd_lead }}{%- endif -%}
+      {%- endif -%}
+    </span></p>
+  {%- else -%}
+    {%- capture cd_attrs -%}data-delivery data-state="stock" data-ship="{{ cd_ship }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ cd_holidays | escape }}" data-transit="{{ cd_transit }}" data-country="{{ cd_country }}"{%- endcapture -%}
+    {%- if context == 'drawer' -%}
+      <p class="cart-delivery cart-delivery--short" {{ cd_attrs }}>{%- render 'icon', icon: 'truck', class: 'icon--sm' -%}<span data-delivery-eta>{{ cd_text }}</span></p>
+    {%- else -%}
+      <div class="cart-delivery" {{ cd_attrs }}>
+        <p class="cart-delivery__eta js-only" data-delivery-eta-row hidden>{%- render 'icon', icon: 'truck', class: 'icon--sm' -%}<span data-delivery-eta></span></p>
+        <p class="cart-delivery__when">{%- render 'icon', icon: 'clock', class: 'icon--sm' -%}<span{% if cd_ship != 'pallet' %} data-delivery-countdown{% endif %}>{{ cd_text }}</span></p>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

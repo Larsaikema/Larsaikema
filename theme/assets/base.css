@@ -219,36 +219,72 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
 :root{--swatch-print:conic-gradient(from 45deg,#00A0DF 0 25%,#E5007E 0 50%,#FFED00 0 75%,#1D2420 0)}
 .swatches{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--c-kiezel)}
 
-/* product card */
-.card{position:relative;display:flex;flex-direction:column;background:var(--c-wit);border:1px solid var(--c-lijn);border-radius:var(--radius-card);overflow:hidden;height:100%;transition:box-shadow var(--dur-fast);color:var(--c-inkt)}
-.card{--fg:var(--c-inkt);--fg-rgb:var(--c-inkt-rgb);--muted:var(--c-kiezel);--btn2-fg:var(--c-inkt);--btn2-hover:var(--c-tint-wit);--disabled:var(--c-kiezel);--focus:var(--c-inkt)}
-.card:hover{box-shadow:0 1px 2px rgba(29,36,32,.06),0 10px 24px -14px rgba(29,36,32,.22)}
+/* product card: Wit, 1 px Lijn rim (brand 4.2/10), Linnen image field with the one round outlined action on it */
+.card{position:relative;display:flex;flex-direction:column;background:var(--c-wit);border:1px solid var(--c-lijn);border-radius:var(--radius-card);overflow:hidden;height:100%;transition:box-shadow var(--dur);color:var(--c-inkt);--fg:var(--c-inkt);--fg-rgb:var(--c-inkt-rgb);--muted:var(--c-kiezel);--btn2-fg:var(--c-inkt);--btn2-hover:var(--c-tint-wit);--disabled:var(--c-kiezel);--focus:var(--c-inkt)}
+.card__visual{position:relative}
 .card__media{position:relative;display:block;aspect-ratio:var(--card-ratio);background:var(--c-media);overflow:hidden}
-.card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity var(--dur),transform var(--dur)}
+.card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity var(--dur),transform .6s cubic-bezier(.16,1,.3,1)}
 .card__media .card__img2{opacity:0}
-@media (hover:hover){.card:hover .card__img2{opacity:1}.card:hover .card__media img{transform:scale(1.02)}}
-.card__badges{position:absolute;top:10px;left:10px;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
-.card__body{display:flex;flex-direction:column;gap:8px;padding:12px 12px 14px;flex:1}
-@media (min-width:750px){.card__body{padding:16px 16px 18px}}
+@media (hover:hover){.card:hover{box-shadow:0 1px 2px rgba(29,36,32,.05),0 18px 36px -20px rgba(29,36,32,.32)}.card:hover .card__media:not(.is-previewing) .card__img2{opacity:1}.card:hover .card__media img{transform:scale(1.035)}.card:hover .card__title a{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}}
+.card__badges{position:absolute;top:10px;left:10px;right:10px;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px;pointer-events:none}
+.card__actions{position:absolute;right:10px;bottom:10px;z-index:2}
+.card__cta{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;padding:0 10px;border-radius:999px;border:2px solid var(--c-inkt);background:var(--c-wit);color:var(--c-inkt);font-size:14.5px;font-weight:var(--font-body-weight-bold);text-decoration:none;box-shadow:0 4px 12px -6px rgba(29,36,32,.35);transition:background-color var(--dur-fast),transform var(--dur-fast);-webkit-tap-highlight-color:transparent}
+.card__cta .icon{width:20px;height:20px}
+.card__cta-text{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width var(--dur) cubic-bezier(.16,1,.3,1),margin var(--dur)}
+.card__cta:hover{background:var(--c-tint-wit)}
+@media (hover:hover){.card__cta:hover .card__cta-text,.card__cta:focus-visible .card__cta-text{max-width:180px;margin:0 4px 0 8px}}
+.card__cta:active{transform:translateY(1px)}
+.card__cta.is-loading{color:transparent;position:relative;pointer-events:none}
+.card__cta.is-loading::after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;border:2.5px solid var(--c-inkt);border-right-color:transparent;animation:spin .7s linear infinite}
+.card__body{container:card/inline-size;display:flex;flex-direction:column;gap:6px;padding:12px 12px 14px;flex:1}
+@media (min-width:750px){.card__body{padding:16px 18px 18px;gap:7px}}
 .card__vendor{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-kiezel);margin:0}
-.card__title{font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:16px;line-height:1.25;margin:0}
+.card__title{font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:15.5px;line-height:1.3;letter-spacing:-.005em;margin:0;text-wrap:balance}
 @media (min-width:750px){.card__title{font-size:17px}}
 .card__title a{text-decoration:none}
 .card__title a::after{content:"";position:absolute;inset:0;z-index:0}
 .card__title a:focus-visible{outline:none}
 .card:has(.card__title a:focus-visible){outline:3px solid var(--c-inkt);outline-offset:2px}
-.card__spec{font-size:13.5px;color:var(--c-kiezel);margin:0;line-height:1.35}
-.card__sizes{font-size:13px;color:var(--c-kiezel);margin:0;line-height:1.35;font-variant-numeric:tabular-nums;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card__sizes strong{color:var(--c-inkt);font-weight:var(--font-body-weight-semibold)}
-.card__footer{margin-top:auto;display:flex;flex-direction:column;gap:8px}
-.card__price .price__value{font-size:17px}
-@media (min-width:750px){.card__price .price__value{font-size:19px}}
+.card__spec{font-size:13.5px;color:var(--c-kiezel);margin:0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-wrap:pretty}
+.card__meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;margin-top:3px}
+.card__swatches{position:relative;z-index:1;gap:2px;align-self:flex-start;flex-wrap:nowrap}
+.card__swatch{display:inline-grid;place-items:center;width:28px;height:28px;margin:-2px 0;border-radius:50%}
+.swatch--card{--size:20px;transition:box-shadow var(--dur-fast)}
+.card__swatch:hover .swatch,.card__swatch.is-active .swatch{box-shadow:inset 0 0 0 1px rgba(29,36,32,.42),0 0 0 2px var(--c-wit),0 0 0 3.5px var(--c-inkt)}
+.card__swatch.is-unavailable .swatch{opacity:.55}
+.card__more{font-size:13px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel);margin-left:4px}
+.card__sizes{font-size:13px;color:var(--c-kiezel);margin:0;line-height:1.35;font-variant-numeric:tabular-nums}
+.card__sizes-short,.card__more--narrow{display:none}
+.card__meta:has(.card__swatches) .card__sizes-long{display:none}
+.card__meta:has(.card__swatches) .card__sizes-short{display:inline}
+.price__note{white-space:nowrap}
+@container card (max-width:265px){.card__price .price__note{display:block}.price__note-sep{display:none}}
+.card__footer{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:5px}
+.card__price .price__main .price__value{font-size:18px;letter-spacing:-.01em}
+@media (min-width:750px){.card__price .price__main .price__value{font-size:20px}}
+.card__price .price__alt{font-size:13px}
 .card .stock{font-size:13px}
-.card__actions{position:relative;z-index:1}
-.card__quick{margin-top:2px}
-.card__quick .btn{width:100%;min-height:42px;font-size:15px;padding:0 12px}
-.card .swatches{position:relative;z-index:1}
 .card--soldout .card__media img{opacity:.7}
+@container card (max-width:200px){.card__swatch{width:25px;height:25px}.swatch--card{--size:18px}.card__swatch:nth-of-type(n+5),.card__more--wide,.card__sizes-long,.card__price .price__note{display:none}.card__sizes-short,.card__more--narrow{display:inline}}
+/* narrow cards (two columns on a phone): the spec gets three lines instead of an ellipsis, the main price line drops its
+   'incl. btw' label (the line under it names the other one: '€ 495,04 excl. btw'; screen readers still hear both) and the
+   delivery date gets its own line (the " · " separator of the wide card is clipped off) */
+@container card (max-width:230px){
+  .card__spec{-webkit-line-clamp:3}
+  .card__price .price__main .price__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .card .stock__extra{display:block;white-space:nowrap;text-indent:-.5em;overflow:clip}
+  .card .stock[data-state="stock"]:has(.stock__extra){min-height:2.7em}
+}
+/* wide cards (desktop grid): the other btw price joins the price line ('€ 279,00 incl. btw · € 230,58 excl. btw'), one line
+   less. When it does not fit it wraps without its dot: each part starts with a 14px gutter (the dot sits in it) and the
+   price box is pulled 14px left inside the clipped .card__price, so a gutter at the start of a line is out of sight */
+@container card (min-width:280px){
+  .card__price{overflow:hidden}
+  .card__price .price{flex-direction:row;flex-wrap:wrap;align-items:baseline;margin-left:-14px}
+  .card__price .price>*{padding-left:14px}
+  .card__price .price__alt{position:relative}
+  .card__price .price__alt::before{content:"·" / "";position:absolute;left:5px}
+}
 
 /* sliders (scroll-snap) */
 .slider{display:grid;grid-auto-flow:column;grid-auto-columns:var(--slide-w,72%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:calc(-1 * var(--gutter-mobile));padding-inline:var(--gutter-mobile);scroll-padding-inline:var(--gutter-mobile)}

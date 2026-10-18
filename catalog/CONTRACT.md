@@ -16,6 +16,12 @@ Colour swatches: the theme uses `value.swatch.color` when present (seed script l
 (textarea, one `Naam: #hex` per line). Every colour used in the catalog must be listed in that setting's default
 (also the table-top finish `Graniet`, a stone-look laminate: `Graniet: #77736D`).
 
+## Product category (Shopify Standard Product Taxonomy)
+
+Every product carries `product_category` (full taxonomy path, CSV column `Product Category`) and `product_category_id`
+(`gid://shopify/TaxonomyCategory/<id>`, seed script). Products with a `Kleur` option sit in a category with the `color` attribute
+where one fits, so `Kleur` can be linked to `shopify.color-pattern`. Mapping: `catalog/tools/skeleton/kk_site.py`.
+
 ## Product metafields (namespace `custom`)
 
 | key | type | purpose / theme use |
@@ -114,6 +120,10 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 `zakelijk` (smart: tag = zakelijk) · `all` ·
 `easy-up-onderdelen` and `buizenframe-onderdelen` (manual: parts, walls, weights, lighting and heating whose `custom.systeem` holds `Easy-up` resp. `Buizenframe`; both under Accessoires in the main menu) ·
 `verwarming` (smart: product type = Verwarming, own menu entry under Accessoires) · `evenement` (afzetpalen, marktkraam, loper; the marktkraam is no longer in `accessoires`).
+Landing pages instead of filter URLs in the main menu (merchandising review 2026-10-18), each with its own intro, seo_tekst and
+kenmerken: `barkrukken`, `stoelen-en-banken`, `tafels` (Klaptafel, Terrastafel, Biertafelset, Bierbank), `transportkarren` (children of
+`meubilair`), `prikkabels`, `lampen-en-lichtslangen` (children of `verlichting`), `topcovers-en-beschermplaten`, `tafelhoezen` (children of
+`statafelrokken`), all smart on product type, and `statafel-onderdelen` (manual, child of `statafels`).
 
 Collection image: `build.py` sets the image field in `collections.json` and the preview fixture to the first real render among the
 collection's `image_candidates` (kk_site.py) or, failing that, the hero of its first member with a real render; draft

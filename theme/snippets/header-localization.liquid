@@ -1,0 +1,63 @@
+{%- comment -%}
+  Header only: country (market NL / BE) and language chooser. Every choice is a submit button of Shopify's localization
+  form, so it works without JavaScript and nothing changes until the shopper picks (WCAG 3.2.2).
+  - context 'bar': a disclosure in the USP bar (desktop), summary 'NL · EUR' (plus the language when it differs from the
+    country: 'BE · EUR · NL'); section-header.js closes it on Esc and on a click outside.
+  - context 'drawer': two rows of chips in the mobile menu.
+  Renders nothing with one country and one language. Optional uid (the section id) keeps the ids unique when the
+  snippet is on the page more than once.
+{%- endcomment -%}
+{%- liquid
+  assign hl_countries = localization.available_countries.size
+  assign hl_languages = localization.available_languages.size
+  assign hl_id = context
+  if uid != blank
+    assign hl_id = context | append: '-' | append: uid
+  endif
+-%}
+{%- if hl_countries > 1 or hl_languages > 1 -%}
+  {%- capture hl_options -%}
+    {%- if hl_countries > 1 -%}
+      <div class="hloc__group" role="group" aria-labelledby="HlocCountry-{{ hl_id }}">
+        <p class="eyebrow hloc__label" id="HlocCountry-{{ hl_id }}">{{ 'footer.country' | t }}</p>
+        <ul class="hloc__list" role="list">
+          {%- for country in localization.available_countries -%}
+            {%- assign hl_current = false -%}
+            {%- if country.iso_code == localization.country.iso_code -%}{%- assign hl_current = true -%}{%- endif -%}
+            <li><button type="submit" class="chip hloc__opt{% if hl_current %} chip--active{% endif %}" name="country_code" value="{{ country.iso_code }}"{% if hl_current %} aria-current="true"{% endif %}>
+              {{- country.name -}}<span class="hloc__meta">{{ country.currency.iso_code }}</span>
+            </button></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    {%- if hl_languages > 1 -%}
+      <div class="hloc__group" role="group" aria-labelledby="HlocLanguage-{{ hl_id }}">
+        <p class="eyebrow hloc__label" id="HlocLanguage-{{ hl_id }}">{{ 'footer.language' | t }}</p>
+        <ul class="hloc__list" role="list">
+          {%- for language in localization.available_languages -%}
+            <li><button type="submit" class="chip hloc__opt{% if language.iso_code == localization.language.iso_code %} chip--active{% endif %}" name="language_code" value="{{ language.iso_code }}" lang="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} aria-current="true"{% endif %}>{{ language.endonym_name | capitalize }}</button></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- assign hl_form_id = 'HeaderLocalization-' | append: hl_id -%}
+  {%- assign hl_class = 'hloc hloc--' | append: context -%}
+  {%- form 'localization', id: hl_form_id, class: hl_class -%}
+    {%- if context == 'bar' -%}
+      <details class="hloc__details">
+        <summary class="hloc__summary">
+          <span class="visually-hidden">{{ 'footer.country' | t }}, {{ 'footer.language' | t }}: </span>
+          {{- localization.country.iso_code }} · {{ localization.country.currency.iso_code -}}
+          {%- assign hl_lang = localization.language.iso_code | upcase -%}
+          {%- if hl_languages > 1 and hl_lang != localization.country.iso_code %} · {{ hl_lang }}{% endif -%}
+          {%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
+        </summary>
+        <div class="hloc__panel">{{ hl_options }}</div>
+      </details>
+    {%- else -%}
+      {{ hl_options }}
+    {%- endif -%}
+  {%- endform -%}
+{%- endif -%}

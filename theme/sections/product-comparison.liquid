@@ -49,6 +49,7 @@
     endfor
   endif
   assign handles = ''
+  assign filled = 0
   assign count = 0
   assign keys = ''
   for p in src.products limit: 50
@@ -63,12 +64,22 @@
     endif
     assign count = count | plus: 1
     assign handles = handles | append: ',' | append: p.handle | append: ','
+    assign filled = filled | plus: p.metafields.custom.specificaties.value.size
     for row in p.metafields.custom.specificaties.value
       assign keys = keys | append: row.groep | append: '|' | append: row.label | append: '§'
     endfor
   endfor
   assign keys = keys | split: '§' | uniq
   assign show_table = true
+  # Collection page: products whose specs mostly do not line up (more than a third of the cells '–', e.g. a stretch rok
+  # next to a hoes met strik) are not a comparison; no table rather than a misleading one.
+  if template.name == 'collection'
+    assign cells_x2 = keys.size | times: count | times: 2
+    assign filled_x3 = filled | times: 3
+    if filled_x3 < cells_x2
+      assign show_table = false
+    endif
+  endif
   if on_product
     assign current_key = ',' | append: product.handle | append: ','
     if grp == ''
@@ -95,7 +106,7 @@
           {%- endunless -%}
         {%- endif -%}
       </div>
-      <div class="table-wrap comparison__wrap">
+      <div class="table-wrap comparison__wrap" role="region" aria-labelledby="Title-{{ section.id }}" tabindex="0">
         <table class="table comparison__table">
           <thead>
             <tr>
@@ -105,7 +116,7 @@
                 <th scope="col" class="comparison__product{% if p.id == product.id %} is-current{% endif %}">
                   <a href="{{ p.url }}">
                     {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', widths: '120, 240', sizes: '120px' }}{%- endif -%}
-                    <span>{{ p.title }}</span>
+                    <span>{{ p.title | replace: ' x ', ' × ' }}</span>
                   </a>
                   {%- render 'price', product: p -%}
                 </th>
@@ -151,6 +162,16 @@
     .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-media);border-radius:10px}
     .comparison__product.is-current a span::after{content:" ✓";color:var(--c-inkt)}
     .comparison__group th{background:var(--c-band);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-inkt)}
+    .comparison__wrap:focus-visible{outline:3px solid var(--c-inkt);outline-offset:2px}
+    /* phones: the label column stays put while the products scroll sideways; the next product peeks in as the cue */
+    @media (max-width:749px){
+      .comparison__table{min-width:0;width:max-content}
+      .comparison__table th[scope="row"],.comparison__table thead th:first-child{position:sticky;left:0;z-index:1;width:112px;min-width:112px;max-width:112px;padding-inline:10px;font-size:13.5px;background:var(--c-wit);box-shadow:inset -1px 0 0 var(--c-lijn),inset 0 -1px 0 var(--c-lijn)}
+      .comparison__table td,.comparison__product{width:150px;min-width:150px;max-width:150px}
+      .comparison__group th{position:sticky;left:0}
+      .comparison__product img{width:72px;height:72px}
+      .comparison__product a{font-size:15px}
+    }
   </style>
 {%- endif -%}
 

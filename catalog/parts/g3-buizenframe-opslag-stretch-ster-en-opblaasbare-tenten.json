@@ -278,11 +278,6 @@
    },
    {
     "groep": "Doek",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
-   },
-   {
-    "groep": "Doek",
     "label": "Kleur",
     "waarde": "Wit"
    },
@@ -372,7 +367,7 @@
    },
    {
     "vraag": "Is het doek brandvertragend?",
-    "antwoord": "Volgens de leverancier is het PVC-doek van 500 g/m² brandvertragend; het certificaat hebben we nog niet in huis. Vraagt je gemeente of de locatie om een certificaat, vraag het ons dan vóór je bestelt."
+    "antwoord": "Dat zetten we pas op de pagina als de leverancier de norm en de brandklasse met een certificaat heeft bevestigd. Vraagt de gemeente of de locatie om een brandcertificaat, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is."
    },
    {
     "vraag": "Hoe wordt de tent bezorgd?",
@@ -389,12 +384,12 @@
   },
   "claims": [
    "Specificaties zijn definities voor de leverancier: zijhoogte, nokhoogte per breedte (zijhoogte + 80/100/120/140/180 cm bij 3/4/5/6/8 m), staanders elke 2 m, knevelbouten, buislengte ca. 2,2 m.",
-   "'Brandvertragend' en 'certificaat op aanvraag': alleen met certificaat van de leverancier.",
    "Opzettijden en aantal personen per maat: laten bevestigen na een proefopbouw.",
    "Veiligheidsadvies: minimaal 50 kg ballast per staander op verharding en afbreken vanaf windkracht 6 of bij sneeuw; laten bevestigen door leverancier.",
    "'Bouwtekening met onderdelenlijst' in de levering: bevestigen (of als PDF in custom.downloads zetten).",
    "Garantie (metafield garantie, 1 jaar op frame en doek): eigenaar; staat niet in de bodytekst.",
-   "Nieuwe maten 3x4 (€ 399), 3x8 (€ 539), 5x10 (€ 789), 5x12 (€ 899), 6x10 (€ 919): Outmate PVC Classic heeft ze, prijzen daar niet bevestigd; eigenaar beoordeelt. Gewichten per maat afgeleid (m² × 3,5 + 10 kg)."
+   "Nieuwe maten 3x4 (€ 399), 3x8 (€ 539), 5x10 (€ 789), 5x12 (€ 899), 6x10 (€ 919): Outmate PVC Classic heeft ze, prijzen daar niet bevestigd; eigenaar beoordeelt. Gewichten per maat afgeleid (m² × 3,5 + 10 kg).",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "partytent-pvc-550-premium": {
@@ -459,11 +454,6 @@
     "groep": "Doek",
     "label": "Waterdicht",
     "waarde": "Waterdicht, gelaste naden"
-   },
-   {
-    "groep": "Doek",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    },
    {
     "groep": "Doek",
@@ -579,15 +569,14 @@
   "claims": [
    "Specificaties zijn definities voor de leverancier: zijhoogte, nokhoogte per breedte (zijhoogte + 80/100/120/140/180 cm bij 3/4/5/6/8 m), staanders elke 2 m, knevelbouten, buislengte ca. 2,2 m.",
    "Treksterkte 860 N: datasheet leverancier.",
-   "'Brandvertragend' en 'certificaat op aanvraag': alleen met certificaat van de leverancier.",
    "Opzettijden en aantal personen per maat: laten bevestigen na een proefopbouw.",
    "Veiligheidsadvies: minimaal 50 kg ballast per staander op verharding en afbreken vanaf windkracht 6 of bij sneeuw; laten bevestigen door leverancier.",
    "'Bouwtekening met onderdelenlijst' in de levering: bevestigen (of als PDF in custom.downloads zetten).",
    "Garantie (metafield garantie, 1 jaar op frame en doek): eigenaar; staat niet in de bodytekst.",
    "Nieuwe maten 3x4 (€ 459) en 5x6 (€ 749): Outmate PVC Premium heeft ze, prijzen daar niet bevestigd; eigenaar beoordeelt.",
    "'Bouwtekening met onderdelenlijst': de PDF in custom.downloads is ons eigen productblad, geen leveranciersbouwtekening.",
-   "Titel zonder ‘brandvertragend’ (was ‘Partytent PVC 550 Premium brandvertragend’): URL en SEO hangen niet aan een onbewezen claim; brandvertragend staat alleen in de specificaties met ‘certificaat volgt’.",
-   "Prijzen 5 x 8 / 6 x 6 / 6 x 8 m nu € 849 / € 819 / € 899 (oplopend met het vloeroppervlak; waren € 879 / € 799 / € 879)."
+   "Prijzen 5 x 8 / 6 x 6 / 6 x 8 m nu € 849 / € 819 / € 899 (oplopend met het vloeroppervlak; waren € 879 / € 799 / € 879).",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "partytent-pvc-550-compleet": {
@@ -653,11 +642,6 @@
     "groep": "Doek",
     "label": "Waterdicht",
     "waarde": "Waterdicht, gelaste naden"
-   },
-   {
-    "groep": "Doek",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    },
    {
     "groep": "Doek",
@@ -773,13 +757,13 @@
   "claims": [
    "Specificaties zijn definities voor de leverancier: zijhoogte, nokhoogte per breedte (zijhoogte + 80/100/120/140/180 cm bij 3/4/5/6/8 m), staanders elke 2 m, knevelbouten, buislengte ca. 2,2 m.",
    "Treksterkte 860 N: datasheet leverancier.",
-   "'Brandvertragend' en 'certificaat op aanvraag': alleen met certificaat van de leverancier.",
    "Opzettijden en aantal personen per maat: laten bevestigen na een proefopbouw.",
    "Veiligheidsadvies: minimaal 50 kg ballast per staander op verharding en afbreken vanaf windkracht 6 of bij sneeuw; laten bevestigen door leverancier.",
    "'Bouwtekening met onderdelenlijst' in de levering: bevestigen (of als PDF in custom.downloads zetten).",
    "Garantie (metafield garantie, 1 jaar op frame en doek): eigenaar; staat niet in de bodytekst.",
    "Aantal stormbandensets in de levering (1 per 2 m tentlengte) en welke opbergtassenset (4 of 5 m breed): bevestigen; variant-gewichten zijn nauwelijks hoger dan bij de Premium.",
-   "Nieuwe maat 3x4 (€ 499; Outmate Ultimate 3x4 € 539 regulier): eigenaar beoordeelt."
+   "Nieuwe maat 3x4 (€ 499; Outmate Ultimate 3x4 € 539 regulier): eigenaar beoordeelt.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "partytent-pvc-620-professional": {
@@ -844,11 +828,6 @@
     "groep": "Doek",
     "label": "Waterdicht",
     "waarde": "Waterdicht, gelaste naden"
-   },
-   {
-    "groep": "Doek",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    },
    {
     "groep": "Doek",
@@ -964,15 +943,15 @@
   "claims": [
    "Specificaties zijn definities voor de leverancier: zijhoogte, nokhoogte per breedte (zijhoogte + 80/100/120/140/180 cm bij 3/4/5/6/8 m), staanders elke 2 m, knevelbouten, buislengte ca. 2,2 m.",
    "Treksterkte 930 N: datasheet leverancier.",
-   "'Brandvertragend' en 'certificaat op aanvraag': alleen met certificaat van de leverancier.",
    "Opzettijden en aantal personen per maat: laten bevestigen na een proefopbouw.",
    "Veiligheidsadvies: minimaal 50 kg ballast per staander op verharding en afbreken vanaf windkracht 6 of bij sneeuw; laten bevestigen door leverancier.",
    "'Bouwtekening met onderdelenlijst' in de levering: bevestigen (of als PDF in custom.downloads zetten).",
-   "Garantie (metafield garantie, 1 jaar op frame en doek): eigenaar; staat niet in de bodytekst."
+   "Garantie (metafield garantie, 1 jaar op frame en doek): eigenaar; staat niet in de bodytekst.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "opslagtent-pvc": {
-  "body_html": "<p>Even ergens droog iets kwijt? Een opslagtent geeft je tijdelijk een droge ruimte die je dicht kunt ritsen: voor je inboedel tijdens een verbouwing, voor de oogst of het hooi, voor voorraad van je zaak of het materiaal van je vereniging.</p><p>Het frame is van verzinkte stalen buizen van 38 mm, bij elke uitvoering met grondframe en nokversteviging, want een opslagtent staat lang. De wanden zijn dicht, zonder ramen, en aan één kopse kant zit een roldeur met ritsen. Je kiest zelf het doek.</p><h3>Welk doek kies je?</h3><ul><li><strong>PVC 500</strong> (500 g/m²): voor een paar weken tot een seizoen, bijvoorbeeld voorraad in de zomer of materiaal tijdens een evenement.</li><li><strong>PVC 550</strong> (550 g/m²): voor maanden, bijvoorbeeld tijdens een verbouwing.</li><li><strong>PVC 620 Professional</strong> (620 g/m²): voor langdurig gebruik, ook in het najaar en de winter. Met 220 cm zijhoogte in plaats van 200 cm.</li></ul><p>Twijfel je, kies dan het zwaardere doek: PVC slijt vooral door zon en wind, en hoe dikker het doek, hoe langer het meegaat. Alle drie hebben gelaste naden.</p><h3>Wat je krijgt</h3><ul><li>Buizenframe van verzinkt staal, Ø 38 mm, met grondframe, nokversteviging, koppelstukken en knevelbouten</li><li>Dak en dichte zijwanden van wit PVC in het doek dat je kiest</li><li>Roldeur met ritsen aan één kopse kant, op te rollen en vast te zetten met banden</li><li>Haringen voor de voetplaten</li><li>Bouwtekening met onderdelenlijst</li></ul><p><strong>Niet inbegrepen:</strong> een vloer, stormbanden, ballast voor verharding en een slot.</p><h3>Maten</h3><ul><li><strong>3 × 4 m</strong>: 12 m², nokhoogte ca. 280 cm, ca. 55 / 60 / 65 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>4 × 6 m</strong>: 24 m², nokhoogte ca. 300 cm, ca. 98 / 108 / 118 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>4 × 8 m</strong>: 32 m², nokhoogte ca. 300 cm, ca. 127 / 140 kg (PVC 500 / PVC 550); niet in PVC 620 Professional</li><li><strong>5 × 10 m</strong>: 50 m², nokhoogte ca. 320 cm, ca. 192 / 212 / 232 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>6 × 12 m</strong>: 72 m², nokhoogte ca. 340 cm, ca. 271 / 300 / 329 kg (PVC 500 / PVC 550 / PVC 620)</li></ul><p>Bij PVC 620 Professional liggen zij- en nokhoogte 20 cm hoger.</p><h3>Opzetten</h3><ol><li>Kies een vlakke, liefst iets hoger gelegen plek, zodat regenwater niet naar binnen loopt. Houd ca. 1 m ruimte rondom vrij.</li><li>Bouw het dakframe op de grond en zet elke verbinding vast met de knevelbout.</li><li>Trek het dakzeil over het frame, til het dak per lange kant op en zet de staanders eronder.</li><li>Monteer het grondframe en zet elke voetplaat vast met een haring.</li><li>Hang de wanden en de roldeur op en span alles strak.</li><li>Leg stormbanden over het dak en span ze af naar lange haringen.</li></ol><p>Een 3 × 4 m zet je met 2–3 personen in ca. 1 tot 1,5 uur neer, voor een 6 × 12 m heb je 4–6 personen en een halve dag nodig.</p><h3>Goed om te weten</h3><ul><li><strong>Vergunning.</strong> Laat je een opslagtent langere tijd staan, dan kan je gemeente een omgevingsvergunning of melding vragen. Dat verschilt per gemeente en per situatie: check het vóór je hem neerzet.</li><li><strong>Geen vloer.</strong> Zet je spullen op pallets of leg er een grondzeil onder. Laat niets tegen het doek staan: daar slaat condens neer. Zet de roldeur op droge dagen even open om te luchten.</li><li><strong>Geen slot.</strong> De roldeur sluit met ritsen. Bewaar er dus geen waardevolle spullen in.</li><li><strong>Vastzetten.</strong> Op gras gaat er een haring door elke voetplaat, plus één <a href=\"/products/stormbandenset-partytent\">stormbandenset</a> per 2 m lengte. Op verharding zet je minimaal 50 kg ballast op elke staander, of je gebruikt <a href=\"/products/betonblok-ballast-tent\">betonblokken</a>.</li><li><strong>Wind en sneeuw.</strong> De tent is niet berekend op sneeuwlast: veeg sneeuw er meteen af. Houd de roldeur dicht als het waait, want wind die naar binnen blaast, tilt het dak op.</li><li><strong>Bezorging.</strong> Als vracht op een pallet, in meerdere dozen: ca. 55 kg (3 × 4 m, PVC 500) tot 329 kg (6 × 12 m, PVC 620).</li></ul><p>Een auto, aanhanger of boot stallen? Kijk dan naar de <a href=\"/products/carport-opslagtent-vast-frame\">carport en opslagtent 3,3 × 4,8 m</a> met vast frame.</p>",
+  "body_html": "<p>Even ergens droog iets kwijt? Een opslagtent geeft je tijdelijk een droge ruimte die je dicht kunt ritsen: voor je inboedel tijdens een verbouwing, voor de oogst of het hooi, voor voorraad van je zaak of het materiaal van je vereniging.</p><p>Het frame is van verzinkte stalen buizen van 38 mm, bij elke uitvoering met grondframe en nokversteviging, want een opslagtent staat lang. De wanden zijn dicht, zonder ramen, en aan één kopse kant zit een roldeur met ritsen. Je kiest zelf het doek.</p><h3>Welk doek kies je?</h3><ul><li><strong>PVC 500</strong> (500 g/m²): voor een paar weken tot een seizoen, bijvoorbeeld voorraad in de zomer of materiaal tijdens een evenement.</li><li><strong>PVC 550</strong> (550 g/m²): voor maanden, bijvoorbeeld tijdens een verbouwing.</li><li><strong>PVC 620 Professional</strong> (620 g/m²): voor langdurig gebruik, ook in het najaar en de winter. Met 220 cm zijhoogte in plaats van 200 cm.</li></ul><p>Twijfel je, kies dan het zwaardere doek: PVC slijt vooral door zon en wind, en hoe dikker het doek, hoe langer het meegaat. Alle drie hebben gelaste naden.</p><h3>Wat je krijgt</h3><ul><li>Buizenframe van verzinkt staal, Ø 38 mm, met grondframe, nokversteviging, koppelstukken en knevelbouten</li><li>Dak en dichte zijwanden van wit PVC in het doek dat je kiest</li><li>Roldeur met ritsen aan één kopse kant, op te rollen en vast te zetten met banden</li><li>Haringen voor de voetplaten</li><li>Bouwtekening met onderdelenlijst</li></ul><p><strong>Niet inbegrepen:</strong> een vloer, stormbanden, ballast voor verharding en een slot.</p><h3>Maten</h3><ul><li><strong>3 × 4 m</strong>: 12 m², nokhoogte ca. 280 cm, ca. 55 / 60 / 65 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>3 × 6 m</strong>: 18 m², nokhoogte ca. 280 cm, ca. 77 / 84 / 91 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>4 × 6 m</strong>: 24 m², nokhoogte ca. 300 cm, ca. 98 / 108 / 118 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>4 × 8 m</strong>: 32 m², nokhoogte ca. 300 cm, ca. 127 / 140 / 153 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>5 × 10 m</strong>: 50 m², nokhoogte ca. 320 cm, ca. 192 / 212 / 232 kg (PVC 500 / PVC 550 / PVC 620)</li><li><strong>6 × 12 m</strong>: 72 m², nokhoogte ca. 340 cm, ca. 271 / 300 / 329 kg (PVC 500 / PVC 550 / PVC 620)</li></ul><p>Bij PVC 620 Professional liggen zij- en nokhoogte 20 cm hoger.</p><h3>Opzetten</h3><ol><li>Kies een vlakke, liefst iets hoger gelegen plek, zodat regenwater niet naar binnen loopt. Houd ca. 1 m ruimte rondom vrij.</li><li>Bouw het dakframe op de grond en zet elke verbinding vast met de knevelbout.</li><li>Trek het dakzeil over het frame, til het dak per lange kant op en zet de staanders eronder.</li><li>Monteer het grondframe en zet elke voetplaat vast met een haring.</li><li>Hang de wanden en de roldeur op en span alles strak.</li><li>Leg stormbanden over het dak en span ze af naar lange haringen.</li></ol><p>Een 3 × 4 m zet je met 2–3 personen in ca. 1 tot 1,5 uur neer, voor een 6 × 12 m heb je 4–6 personen en een halve dag nodig.</p><h3>Goed om te weten</h3><ul><li><strong>Vergunning.</strong> Laat je een opslagtent langere tijd staan, dan kan je gemeente een omgevingsvergunning of melding vragen. Dat verschilt per gemeente en per situatie: check het vóór je hem neerzet.</li><li><strong>Geen vloer.</strong> Zet je spullen op pallets of leg er een grondzeil onder. Laat niets tegen het doek staan: daar slaat condens neer. Zet de roldeur op droge dagen even open om te luchten.</li><li><strong>Geen slot.</strong> De roldeur sluit met ritsen. Bewaar er dus geen waardevolle spullen in.</li><li><strong>Vastzetten.</strong> Op gras gaat er een haring door elke voetplaat, plus één <a href=\"/products/stormbandenset-partytent\">stormbandenset</a> per 2 m lengte. Op verharding zet je minimaal 50 kg ballast op elke staander, of je gebruikt <a href=\"/products/betonblok-ballast-tent\">betonblokken</a>.</li><li><strong>Wind en sneeuw.</strong> De tent is niet berekend op sneeuwlast: veeg sneeuw er meteen af. Houd de roldeur dicht als het waait, want wind die naar binnen blaast, tilt het dak op.</li><li><strong>Bezorging.</strong> Als vracht op een pallet, in meerdere dozen: ca. 55 kg (3 × 4 m, PVC 500) tot 329 kg (6 × 12 m, PVC 620).</li></ul><p>Een auto, aanhanger of boot stallen? Kijk dan naar de <a href=\"/products/carport-opslagtent-vast-frame\">carport en opslagtent 3,3 × 4,8 m</a> met vast frame.</p>",
   "kenmerk_kort": "38 mm verzinkt staal · PVC 500, 550 of 620 g/m² · roldeur",
   "included": [
    "Buizenframe Ø 38 mm met grondframe en nokversteviging",
@@ -1032,7 +1011,7 @@
    {
     "groep": "Doek",
     "label": "Eigenschappen",
-    "waarde": "Gelaste naden, waterdicht; brandvertragend volgens de leverancier (certificaat volgt)"
+    "waarde": "Gelaste naden, waterdicht"
    },
    {
     "groep": "Doek",
@@ -1134,9 +1113,10 @@
    "Grondframe en nokversteviging bij alle drie de doeken (ook PVC 500): definitie, bevestigen met leverancier.",
    "Zijhoogte 200/220 cm, nokhoogte, roldeur over één kopse kant zonder slot: bevestigen.",
    "Gebruiksduur per doek (weken / maanden / ook winter): advies, geen garantie; laten bevestigen.",
-   "'Brandvertragend' voor alle drie: certificaat leverancier.",
    "Opzettijden en personen: proefopbouw.",
-   "Vergunningstekst is bewust algemeen (geen juridisch advies)."
+   "Vergunningstekst is bewust algemeen (geen juridisch advies).",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP.",
+   "Opslagtent 3 x 6 m (alle drie de doeken) en PVC 620 Professional 4 x 8 m toegevoegd: maten, gewicht en prijs (449/549/619 en 869) bij de leverancier bevestigen."
   ]
  },
  "carport-opslagtent-vast-frame": {
@@ -1531,7 +1511,11 @@
    "stretchdoek-los-zandkleur-hero.webp": "Stretchdoek los, Zandkleur, opgevouwen",
    "stretchdoek-los-taupe-hero.webp": "Stretchdoek los, Taupe, opgevouwen",
    "stretchdoek-los-wit-hero.webp": "Stretchdoek los, Wit, opgevouwen",
-   "stretchdoek-los-zwart-hero.webp": "Stretchdoek los, Zwart, opgevouwen"
+   "stretchdoek-los-zwart-hero.webp": "Stretchdoek los, Zwart, opgevouwen",
+   "stretchtent-compleet-zandkleur-hero.webp": "Stretchdoek zandkleur, opgespannen op palen (palen en spanmateriaal niet inbegrepen), schuin vooraanzicht",
+   "stretchtent-compleet-taupe-hero.webp": "Stretchdoek taupe, opgespannen op palen (palen en spanmateriaal niet inbegrepen), schuin vooraanzicht",
+   "stretchtent-compleet-wit-hero.webp": "Stretchdoek wit, opgespannen op palen (palen en spanmateriaal niet inbegrepen), schuin vooraanzicht",
+   "stretchtent-compleet-zwart-hero.webp": "Stretchdoek zwart, opgespannen op palen (palen en spanmateriaal niet inbegrepen), schuin vooraanzicht"
   },
   "claims": [
    "Variant-gewichten (30/34/38/42 kg) kloppen niet met 750 g/m²: ca. 20/27/59/118 kg doek. Verzendgewicht aanpassen.",
@@ -1711,7 +1695,10 @@
    "description": "Stretchtent op maat: vul lengte en breedte in, betaal per m² (min. 20 m²). Doek 750 g/m², brandklasse M2. Eerst een tekening ter akkoord."
   },
   "image_alts": {
-   "stretchdoek-op-maat-hero.webp": "Stretchdoek op maat, Zandkleur, voorbeeld van 7,5 × 9 m op aluminium palen, schuin vooraanzicht"
+   "stretchdoek-op-maat-hero.webp": "Stretchdoek op maat, Zandkleur, voorbeeld van 7,5 × 9 m op aluminium palen, schuin vooraanzicht",
+   "stretchtent-compleet-taupe-hero.webp": "Stretchdoek taupe, opgespannen op palen (palen en spanmateriaal niet inbegrepen; op maat gemaakt), schuin vooraanzicht",
+   "stretchtent-compleet-wit-hero.webp": "Stretchdoek wit, opgespannen op palen (palen en spanmateriaal niet inbegrepen; op maat gemaakt), schuin vooraanzicht",
+   "stretchtent-compleet-zwart-hero.webp": "Stretchdoek zwart, opgespannen op palen (palen en spanmateriaal niet inbegrepen; op maat gemaakt), schuin vooraanzicht"
   },
   "claims": [
    "Maatwerk niet retour (geen herroepingsrecht): juridisch laten controleren.",
@@ -1808,7 +1795,7 @@
    "description": "Zijwand voor stretchtent: zwart PVC 580 g/m² met panoramavenster, 230 cm hoog. Startwand met 2 palen of uitbreidingswand, aan elkaar te ritsen."
   },
   "image_alts": {
-   "zijwand-stretchtent-hero.webp": "Zijwand stretchtent 3 m, zwart PVC met panoramavenster, startwand met 2 palen, vooraanzicht"
+   "zijwand-stretchtent-hero.webp": "Zijwand stretchtent 3 m, zwart PVC met panoramavenster en ritsen, startwand tussen 2 palen, schuin vooraanzicht"
   },
   "claims": [
    "Hoogte 230 cm, aluminium wandpalen, rits-koppeling, bandjes en haringen inbegrepen: definities, bevestigen.",
@@ -2129,7 +2116,7 @@
    {
     "groep": "Doek",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, UV-bestendig; brandvertragend volgens de leverancier (certificaat volgt)"
+    "waarde": "Waterdicht, UV-bestendig"
    },
    {
     "groep": "Doek",
@@ -2243,9 +2230,9 @@
    "Skeleton-inhoud noemt geen zijpalen; een stertent met open ingang heeft een paal per punt nodig. Zijpalen, spanbanden, mast- en zijpaalhoogtes en aantal punten per maat: bevestigen met leverancier.",
    "Capaciteitsregel 0,6/0,4 per m², ingang = halve diameter: eigen definitie.",
    "Opzettijden: proefopbouw.",
-   "'Brandvertragend': certificaat leverancier.",
    "Full colour (€ 1.849 Ø8 · € 2.049 Ø10 · € 2.249 Ø12 · € 2.449 Ø14 · € 2.649 Ø16, meerprijs loopt op met de diameter; Outmate tot € 2.071–€ 3.278): sublimatie op wit doek, levertijd na drukproef; prijzen en drukproces bevestigen.",
-   "Maatwerk niet retour (bedrukt): juridisch laten bevestigen."
+   "Maatwerk niet retour (bedrukt): juridisch laten bevestigen.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "stertent-dubbele-mast": {
@@ -2297,7 +2284,7 @@
    {
     "groep": "Doek",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, UV-bestendig; brandvertragend volgens de leverancier (certificaat volgt)"
+    "waarde": "Waterdicht, UV-bestendig"
    },
    {
     "groep": "Doek",
@@ -2396,29 +2383,30 @@
    "Masthoogtes, punten, zijpalen, haringen 50/100 cm: definities, bevestigen met leverancier.",
    "Opzettijd 'half uur' voor 8 x 13 m (copy brief): proefopbouw.",
    "Full colour (€ 3.899–€ 5.649, geen referentieprijs): prijzen en drukproces bevestigen.",
-   "Zijwanden dubbele mast als standaardproduct (zijwanden-stertent): maten en setsamenstelling bevestigen."
+   "Zijwanden dubbele mast als standaardproduct (zijwanden-stertent): maten en setsamenstelling bevestigen.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "zijwanden-stertent": {
-  "body_html": "<p>Maak je stertent helemaal of gedeeltelijk dicht: tegen wind en regen, voor een warme avond of om een deel af te schermen. De wanden hangen tussen de punten van de tent, met klittenband aan de rand van het doek.</p><p>Ze zijn 215 cm hoog en gemaakt van hetzelfde doek als de tent (polyester, PVC-gecoat, 320 g/m²). Een panoramawand heeft een groot venster van heldere folie, zodat het binnen licht blijft.</p><h3>Los of als set</h3><ul><li><strong>Losse wand met raam</strong>: één panoramawand voor één vak. Handig om alleen de windkant dicht te maken.</li><li><strong>Set rondom</strong>: wanden voor alle vakken, met oproldeuren die je met ritsen opent en opgerold vastzet.</li></ul><h3>Per maat</h3><ul><li><strong>Ø 8 m</strong>: 6 vakken van ca. 4,2 m; set rondom = 5 panoramawanden + 1 oproldeur</li><li><strong>Ø 10 m</strong>: 6 vakken van ca. 5,2 m; set rondom = 5 panoramawanden + 1 oproldeur</li><li><strong>Ø 12 m</strong>: 8 vakken van ca. 4,7 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>Ø 14 m</strong>: 8 vakken van ca. 5,5 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>Ø 16 m</strong>: 8 vakken van ca. 6,3 m; set rondom = 6 panoramawanden + 2 oproldeuren</li></ul><h3>Dubbele mast</h3><ul><li><strong>8 × 13 m</strong>: 8 vakken van ca. 4,4 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>10 × 16 m</strong>: 8 vakken van ca. 5,4 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>12 × 19 m</strong>: 10 vakken van ca. 5,2 m; set rondom = 8 panoramawanden + 2 oproldeuren</li><li><strong>13 × 21 m</strong>: 10 vakken van ca. 5,7 m; set rondom = 8 panoramawanden + 2 oproldeuren</li></ul><h3>Ophangen</h3><ol><li>Begin aan de windkant.</li><li>Druk het klittenband bovenaan vast langs de rand van het doek, van zijpaal tot zijpaal.</li><li>Zet de onderkant vast met <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">wandharingen</a>.</li><li>Zet de oproldeur waar je de ingang wilt hebben.</li></ol><h3>Goed om te weten</h3><ul><li>Past op de <a href=\"/products/stertent-enkele-mast\">stertent met enkele mast</a> van Ø 8 tot Ø 16 m en op de <a href=\"/products/stertent-dubbele-mast\">stertent met dubbele mast</a>. Kies de maat van je tent.</li><li>De wanden zijn wit. Bij harde wind vangt een dichte tent veel kracht: span na, en haal bij storm wanden en doek eraf.</li><li>Begonnen met losse wanden? Je kunt later aanvullen tot rondom.</li></ul>",
-  "kenmerk_kort": "215 cm hoog · klittenband · los of als set rondom",
+  "body_html": "<p>Maak je stertent helemaal of gedeeltelijk dicht: tegen wind en regen, voor een warme avond of om een deel af te schermen. De wanden hangen tussen de punten van de tent, met klittenband aan de rand van het doek.</p><p>Ze zijn 215 cm hoog en gemaakt van hetzelfde doek als de tent (polyester, PVC-gecoat, 320 g/m²). Een panoramawand heeft een groot venster van heldere folie, zodat het binnen licht blijft.</p><h3>Los of als set</h3><ul><li><strong>Losse wand dicht</strong>: één dichte wand voor één vak, voor de windkant of als achterwand achter een podium of bar.</li><li><strong>Losse wand met raam</strong>: één panoramawand voor één vak, met een groot venster zodat het binnen licht blijft.</li><li><strong>Losse wand met oproldeur</strong>: één wand met een deur die je met ritsen opent en opgerold vastzet. Zo maak je een extra in- of uitgang.</li><li><strong>Set rondom</strong>: wanden voor alle vakken, met oproldeuren die je met ritsen opent en opgerold vastzet.</li></ul><h3>Per maat</h3><ul><li><strong>Ø 8 m</strong>: 6 vakken van ca. 4,2 m; set rondom = 5 panoramawanden + 1 oproldeur</li><li><strong>Ø 10 m</strong>: 6 vakken van ca. 5,2 m; set rondom = 5 panoramawanden + 1 oproldeur</li><li><strong>Ø 12 m</strong>: 8 vakken van ca. 4,7 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>Ø 14 m</strong>: 8 vakken van ca. 5,5 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>Ø 16 m</strong>: 8 vakken van ca. 6,3 m; set rondom = 6 panoramawanden + 2 oproldeuren</li></ul><h3>Dubbele mast</h3><ul><li><strong>8 × 13 m</strong>: 8 vakken van ca. 4,4 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>10 × 16 m</strong>: 8 vakken van ca. 5,4 m; set rondom = 6 panoramawanden + 2 oproldeuren</li><li><strong>12 × 19 m</strong>: 10 vakken van ca. 5,2 m; set rondom = 8 panoramawanden + 2 oproldeuren</li><li><strong>13 × 21 m</strong>: 10 vakken van ca. 5,7 m; set rondom = 8 panoramawanden + 2 oproldeuren</li></ul><h3>Ophangen</h3><ol><li>Begin aan de windkant.</li><li>Druk het klittenband bovenaan vast langs de rand van het doek, van zijpaal tot zijpaal.</li><li>Zet de onderkant vast met <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">wandharingen</a>.</li><li>Zet de oproldeur waar je de ingang wilt hebben.</li></ol><h3>Goed om te weten</h3><ul><li>Past op de <a href=\"/products/stertent-enkele-mast\">stertent met enkele mast</a> van Ø 8 tot Ø 16 m en op de <a href=\"/products/stertent-dubbele-mast\">stertent met dubbele mast</a>. Kies de maat van je tent.</li><li>De wanden zijn wit. Bij harde wind vangt een dichte tent veel kracht: span na, en haal bij storm wanden en doek eraf.</li><li>Begonnen met losse wanden? Je kunt later aanvullen tot rondom, met dichte wanden, ramen en deuren door elkaar.</li></ul>",
+  "kenmerk_kort": "215 cm hoog · per vak dicht, raam of oproldeur, of rondom",
   "included": [
-   "Panoramawand (los) of alle wanden met oproldeur(en) (set)"
+   "Losse wand (dicht, met raam of met oproldeur) of alle wanden met oproldeur(en) (set rondom)"
   ],
   "excluded": [
    "Wandharingen"
   ],
   "usps": [
    "215 cm hoog, zelfde doek als de tent",
-   "Panoramavenster voor licht en zicht",
-   "Los voor de windkant of als set rondom",
+   "Per vak dicht, met raam of met oproldeur",
+   "Of als set rondom",
    "Voor Ø 8 tot Ø 16 m en de dubbele mast"
   ],
   "specificaties": [
    {
     "groep": "Wand",
     "label": "Materiaal",
-    "waarde": "Polyester, PVC-gecoat, 320 g/m² (brandvertragend volgens de leverancier, certificaat volgt)"
+    "waarde": "Polyester, PVC-gecoat, 320 g/m²"
    },
    {
     "groep": "Wand",
@@ -2429,6 +2417,11 @@
     "groep": "Wand",
     "label": "Venster",
     "waarde": "Panoramavenster van heldere folie"
+   },
+   {
+    "groep": "Wand",
+    "label": "Uitvoeringen",
+    "waarde": "Los: dicht, met panoramavenster of met oproldeur (ritsen) · set rondom"
    },
    {
     "groep": "Wand",
@@ -2487,7 +2480,7 @@
   ],
   "seo": {
    "title": "Zijwanden stertent Ø 8 tot 16 m en dubbele mast | Klapklaar",
-   "description": "Zijwanden voor stertent Ø 8 tot 16 m en dubbele mast: 215 cm hoog, panoramavenster, klittenband. Los voor de windkant of als set rondom."
+   "description": "Zijwanden voor stertent Ø 8 tot 16 m en dubbele mast: 215 cm hoog, per vak dicht, met raam of met oproldeur, of als set rondom."
   },
   "image_alts": {
    "zijwanden-stertent-hero.webp": "Stertent Ø 10 m, wit, met zijwanden met panoramavenster rondom, schuin vooraanzicht"
@@ -2497,11 +2490,13 @@
    "Wanden alleen in Wit (geen Kleur-optie terwijl de tent ook Zwart en Zandkleur is): overweeg een Kleur-optie.",
    "Kenmerk 'panorama of dicht' uit de skeleton aangepast: er is geen dichte variant.",
    "Wandharingen niet inbegrepen: bevestigen.",
-   "Maten Ø16 (los € 165, set € 839) en dubbele mast (los € 189–€ 219, set € 649–€ 949; Outmate dubbelmast per wand € 210–€ 339) toegevoegd: vakbreedtes zijn berekend, setsamenstelling en prijzen bevestigen."
+   "Maten Ø16 (los € 165, set € 839) en dubbele mast (los € 189–€ 219, set € 649–€ 949; Outmate dubbelmast per wand € 210–€ 339) toegevoegd: vakbreedtes zijn berekend, setsamenstelling en prijzen bevestigen.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP.",
+   "Losse wand dicht (€ 10 onder de raamwand) en met oproldeur (€ 20 erboven): prijs en levertijd bij de leverancier bevestigen."
   ]
  },
  "opblaasbare-promotietent": {
-  "body_html": "<p>Voor beurzen, sportevents, markten en promotieacties: een tent die opvalt in je eigen kleur of met je eigen ontwerp op het dak. Geen buizen, geen schaar: opblazen, verzwaren en je staat. Een 3 × 3 m zet je in 5 tot 10 minuten alleen neer.</p><p>Het luchtframe is een TPU-binnenbuis (250 micron) in een hoes van Dacron (170 g/m²), met overdrukventielen. Het dak is van 600D polyester met PU-coating en zit met een rits aan het frame. Je kiest de framekleur (Rood, Wit, Zwart, Blauw, Groen of Oranje) en een dak in dezelfde kleur, of een full colour bedrukt dak.</p><h3>Wat je krijgt</h3><ul><li>Luchtframe met dak in de maat en kleur die je kiest</li><li>4 vulbare zandzakken, 4 scheerlijnen en 4 haringen</li><li>Draagtas</li></ul><p><strong>Niet inbegrepen:</strong> de <a href=\"/products/pomp-opblaasbare-tent\">pomp</a> (elektrisch of hand) en <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden</a>.</p><h3>Maten</h3><ul><li><strong>3 × 3 m</strong>: 9 m², ca. 9 zittend of 13 staand, doorloophoogte ca. 2,2 m, totale hoogte ca. 2,6 m, ca. 17 kg</li><li><strong>4 × 4 m</strong>: 16 m², ca. 16 zittend of 24 staand, doorloophoogte ca. 2,3 m, totale hoogte ca. 3 m, ca. 24 kg</li><li><strong>5 × 5 m</strong>: 25 m², ca. 25 zittend of 37 staand, doorloophoogte ca. 2,4 m, totale hoogte ca. 3,4 m, ca. 32 kg</li><li><strong>6 × 6 m</strong>: 36 m², ca. 36 zittend of 54 staand, doorloophoogte ca. 2,5 m, totale hoogte ca. 3,8 m, ca. 40 kg</li></ul><h3>Opzetten</h3><ol><li>Rol de tent uit op de plek, met het vulventiel aan de buitenkant.</li><li>Sluit de pomp aan op het vulventiel en pomp tot de aanbevolen druk (ca. 0,3 bar). De tent richt zich vanzelf op.</li><li>Draai het ventiel dicht en zet de dop erop.</li><li>Hang aan elke poot een gevulde zandzak en span de scheerlijnen af naar de haringen.</li></ol><p>Een 3 × 3 m doe je alleen, vanaf 4 × 4 m gaat het makkelijker met z’n tweeën. Afbreken is het omgekeerde: ventiel open, lucht eruit, oprollen. Klaar is Kees.</p><h3>Full colour bedrukt dak</h3><p>Kies je de uitvoering ‘Full colour bedrukt dak’, dan drukken we jouw ontwerp over alle vlakken van het dak: logo, kleurvlakken, foto of verloop. Zo werkt het:</p><ol><li>Upload je ontwerp bij je bestelling (PDF, AI, EPS, SVG of PNG van minimaal 300 dpi), of lever het later aan. Liever ons sjabloon? Vraag het op, dan zie je precies waar de naden en randen zitten.</li><li>Je krijgt eerst een drukproef. We drukken pas na jouw akkoord.</li><li>De levertijd voor bedrukte tenten telt vanaf je akkoord op de drukproef.</li></ol><p>Bij ‘Dak in framekleur’ is het dak effen, in dezelfde kleur als het luchtframe. Meer over aanleveren: <a href=\"/blogs/advies/logo-aanleveren-voor-bedrukking\">Bedrukken: zo lever je je logo aan</a>.</p><h3>Goed om te weten</h3><ul><li><strong>Altijd verzwaren.</strong> Een opblaasbare tent is licht en vangt wind. Vul elke zandzak met ca. 15 kg zand of grind en gebruik op gras ook de scheerlijnen en haringen. Vanaf windkracht 5 laat je de tent leeglopen. Lees ook <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">Partytent verankeren bij wind</a>.</li><li><strong>Overdrukventielen.</strong> In de zon zet de lucht uit; de ventielen laten dan vanzelf wat lucht ontsnappen. Als het afkoelt, zakt de druk wat: pomp ’s middags en ’s avonds even na.</li><li><strong>Hogere doorloop nodig?</strong> De <a href=\"/products/opblaasbare-promotietent-pro\">opblaasbare promotietent Pro</a> heeft dikkere buizen en tot 2,7 m doorloophoogte.</li><li><strong>Meer tenten?</strong> Voor meerdere stuks geldt een staffelprijs; je ziet hem in de tabel bij de prijs.</li><li><strong>Droog opbergen.</strong> Laat de tent na regen eerst drogen voor je hem oprolt, anders krijg je schimmel.</li></ul>",
+  "body_html": "<p>Voor beurzen, sportevents, markten en promotieacties: een tent die opvalt in je eigen kleur of met je eigen ontwerp op het dak. Geen buizen, geen schaar: opblazen, verzwaren en je staat. Een 3 × 3 m zet je in 5 tot 10 minuten alleen neer.</p><p>Het luchtframe is een TPU-binnenbuis (250 micron) in een hoes van Dacron (170 g/m²), met overdrukventielen. Het dak is van 600D polyester met PU-coating en zit met een rits aan het frame. Je kiest de framekleur (Rood, Wit, Zwart, Blauw, Groen, Oranje, Geel of Grijs) en een dak in dezelfde kleur, of een full colour bedrukt dak.</p><h3>Wat je krijgt</h3><ul><li>Luchtframe met dak in de maat en kleur die je kiest</li><li>4 vulbare zandzakken, 4 scheerlijnen en 4 haringen</li><li>Draagtas</li></ul><p><strong>Niet inbegrepen:</strong> de <a href=\"/products/pomp-opblaasbare-tent\">pomp</a> (elektrisch of hand) en <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden</a>.</p><h3>Maten</h3><ul><li><strong>3 × 3 m</strong>: 9 m², ca. 9 zittend of 13 staand, doorloophoogte ca. 2,2 m, totale hoogte ca. 2,6 m, ca. 17 kg</li><li><strong>4 × 4 m</strong>: 16 m², ca. 16 zittend of 24 staand, doorloophoogte ca. 2,3 m, totale hoogte ca. 3 m, ca. 24 kg</li><li><strong>5 × 5 m</strong>: 25 m², ca. 25 zittend of 37 staand, doorloophoogte ca. 2,4 m, totale hoogte ca. 3,4 m, ca. 32 kg</li><li><strong>6 × 6 m</strong>: 36 m², ca. 36 zittend of 54 staand, doorloophoogte ca. 2,5 m, totale hoogte ca. 3,8 m, ca. 40 kg</li></ul><h3>Opzetten</h3><ol><li>Rol de tent uit op de plek, met het vulventiel aan de buitenkant.</li><li>Sluit de pomp aan op het vulventiel en pomp tot de aanbevolen druk (ca. 0,3 bar). De tent richt zich vanzelf op.</li><li>Draai het ventiel dicht en zet de dop erop.</li><li>Hang aan elke poot een gevulde zandzak en span de scheerlijnen af naar de haringen.</li></ol><p>Een 3 × 3 m doe je alleen, vanaf 4 × 4 m gaat het makkelijker met z’n tweeën. Afbreken is het omgekeerde: ventiel open, lucht eruit, oprollen. Klaar is Kees.</p><h3>Full colour bedrukt dak</h3><p>Kies je de uitvoering ‘Full colour bedrukt dak’, dan drukken we jouw ontwerp over alle vlakken van het dak: logo, kleurvlakken, foto of verloop. Zo werkt het:</p><ol><li>Upload je ontwerp bij je bestelling (PDF, AI, EPS, SVG of PNG van minimaal 300 dpi), of lever het later aan. Liever ons sjabloon? Vraag het op, dan zie je precies waar de naden en randen zitten.</li><li>Je krijgt eerst een drukproef. We drukken pas na jouw akkoord.</li><li>De levertijd voor bedrukte tenten telt vanaf je akkoord op de drukproef.</li></ol><p>Bij ‘Dak in framekleur’ is het dak effen, in dezelfde kleur als het luchtframe. Meer over aanleveren: <a href=\"/blogs/advies/logo-aanleveren-voor-bedrukking\">Bedrukken: zo lever je je logo aan</a>.</p><h3>Goed om te weten</h3><ul><li><strong>Altijd verzwaren.</strong> Een opblaasbare tent is licht en vangt wind. Vul elke zandzak met ca. 15 kg zand of grind en gebruik op gras ook de scheerlijnen en haringen. Vanaf windkracht 5 laat je de tent leeglopen. Lees ook <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">Partytent verankeren bij wind</a>.</li><li><strong>Overdrukventielen.</strong> In de zon zet de lucht uit; de ventielen laten dan vanzelf wat lucht ontsnappen. Als het afkoelt, zakt de druk wat: pomp ’s middags en ’s avonds even na.</li><li><strong>Hogere doorloop nodig?</strong> De <a href=\"/products/opblaasbare-promotietent-pro\">opblaasbare promotietent Pro</a> heeft dikkere buizen en tot 2,7 m doorloophoogte.</li><li><strong>Meer tenten?</strong> Voor meerdere stuks geldt een staffelprijs; je ziet hem in de tabel bij de prijs.</li><li><strong>Droog opbergen.</strong> Laat de tent na regen eerst drogen voor je hem oprolt, anders krijg je schimmel.</li></ul>",
   "kenmerk_kort": "Luchtframe · in 5–10 minuten staand · full colour dak",
   "included": [
    "Luchtframe met dak",
@@ -2548,7 +2543,7 @@
    {
     "groep": "Frame",
     "label": "Kleuren",
-    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje"
+    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje, Geel, Grijs"
    },
    {
     "groep": "Dak",
@@ -2665,7 +2660,7 @@
   },
   "seo": {
    "title": "Opblaasbare promotietent 3x3 tot 6x6 m | Klapklaar",
-   "description": "Opblaasbare promotietent 3x3 tot 6x6 m: in 5–10 minuten staand, frame in 6 kleuren, dak in kleur of full colour bedrukt met drukproef."
+   "description": "Opblaasbare promotietent 3x3 tot 6x6 m: in 5–10 minuten staand, frame in 8 kleuren, dak in kleur of full colour bedrukt met drukproef."
   },
   "image_alts": {
    "opblaasbare-promotietent-rood-hero.webp": "Opblaasbare promotietent 3 × 3 m, Rood, schuin vooraanzicht",
@@ -2674,7 +2669,9 @@
    "opblaasbare-promotietent-blauw-hero.webp": "Opblaasbare promotietent 3 × 3 m, Blauw, schuin vooraanzicht",
    "opblaasbare-promotietent-groen-hero.webp": "Opblaasbare promotietent 3 × 3 m, Groen, schuin vooraanzicht",
    "opblaasbare-promotietent-oranje-hero.webp": "Opblaasbare promotietent 3 × 3 m, Oranje, schuin vooraanzicht",
-   "opblaasbare-promotietent-full-colour.webp": "Opblaasbare promotietent 3 × 3 m, wit frame, met voorbeeld van een full colour bedrukt dak, schuin vooraanzicht"
+   "opblaasbare-promotietent-full-colour.webp": "Opblaasbare promotietent 3 × 3 m, wit frame, met voorbeeld van een full colour bedrukt dak, schuin vooraanzicht",
+   "opblaasbare-promotietent-geel-hero.webp": "Opblaasbare promotietent 3 × 3 m, Geel, schuin vooraanzicht",
+   "opblaasbare-promotietent-grijs-hero.webp": "Opblaasbare promotietent 3 × 3 m, Grijs, schuin vooraanzicht"
   },
   "claims": [
    "Doorloop-/totale hoogtes, buisdiameter en werkdruk ca. 0,3 bar: definities, bevestigen met leverancier.",
@@ -2683,7 +2680,8 @@
    "Losse binnenbuis vervangbaar en TPU-reparatiepleister: bevestigen.",
    "Rood als framekleur is het stockrood van de leverancier (brand.md §4.5): kleurstaal controleren.",
    "Drukopties.levertijd 10–15 werkdagen na akkoord: eigenaar.",
-   "Full colour prijzen = effen prijs + drukmeerprijs, afgerond op de prijsladder ...49/...99 (bv. € 1.349, € 1.949, € 2.599)."
+   "Full colour prijzen = effen prijs + drukmeerprijs, afgerond op de prijsladder ...49/...99 (bv. € 1.349, € 1.949, € 2.599).",
+   "Framekleuren Geel en Grijs toegevoegd (de referentie verkoopt ze ook): kleurstaal en levertijd bij de leverancier bevestigen."
   ]
  },
  "opblaasbare-promotietent-pro": {
@@ -2734,7 +2732,7 @@
    {
     "groep": "Frame",
     "label": "Kleuren",
-    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje"
+    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje, Geel, Grijs"
    },
    {
     "groep": "Dak",
@@ -2856,31 +2854,34 @@
    "opblaasbare-promotietent-pro-blauw-hero.webp": "Opblaasbare promotietent Pro 4 × 4 m, Blauw, schuin vooraanzicht",
    "opblaasbare-promotietent-pro-groen-hero.webp": "Opblaasbare promotietent Pro 4 × 4 m, Groen, schuin vooraanzicht",
    "opblaasbare-promotietent-pro-oranje-hero.webp": "Opblaasbare promotietent Pro 4 × 4 m, Oranje, schuin vooraanzicht",
-   "opblaasbare-promotietent-pro-full-colour.webp": "Opblaasbare promotietent Pro 4 × 4 m, wit frame, met voorbeeld van een full colour bedrukt dak, schuin vooraanzicht"
+   "opblaasbare-promotietent-pro-full-colour.webp": "Opblaasbare promotietent Pro 4 × 4 m, wit frame, met voorbeeld van een full colour bedrukt dak, schuin vooraanzicht",
+   "opblaasbare-promotietent-pro-geel-hero.webp": "Opblaasbare promotietent Pro 4 × 4 m, Geel, schuin vooraanzicht",
+   "opblaasbare-promotietent-pro-grijs-hero.webp": "Opblaasbare promotietent Pro 4 × 4 m, Grijs, schuin vooraanzicht"
   },
   "claims": [
    "'Dikkere luchtkamers' gemaakt tot buisdiameter Ø 30 cm; skeleton-spec Luchtkamers is gelijk aan de standaard: bevestigen.",
    "Doorloop 2,5/2,6/2,7 m en totale hoogte: definities.",
    "Zijwand-hoogte verschilt van de standaard: zie _meta.data_notes.",
    "Rood-framekleur: stockrood van de leverancier, kleurstaal controleren.",
-   "Full colour prijzen = effen prijs + drukmeerprijs, afgerond op de prijsladder ...49/...99 (bv. € 1.349, € 1.949, € 2.599)."
+   "Full colour prijzen = effen prijs + drukmeerprijs, afgerond op de prijsladder ...49/...99 (bv. € 1.349, € 1.949, € 2.599).",
+   "Framekleuren Geel en Grijs toegevoegd (de referentie verkoopt ze ook): kleurstaal en levertijd bij de leverancier bevestigen."
   ]
  },
  "opblaasbare-partytent-3x3-waterpoten": {
-  "body_html": "<p>Een partytent van 3 × 3 m zonder stalen frame: de poten zijn opblaasbare hogedruk-staanders, en onderin elke poot zit een waterkamer. Je verzwaart de tent dus met water uit de kraan in plaats van met gewichten of zandzakken. Handig in de tuin, op de camping of op een plek waar je niet wilt sjouwen.</p><p>Het luchtframe is een TPU-binnenbuis (250 micron) in een hoes van Dacron (170 g/m²), met overdrukventielen. Het dak is van 600D polyester met PU-coating, in dezelfde kleur als het frame: Wit, Zwart of Antraciet. Alles past in een rugzak.</p><h3>Wat je krijgt</h3><ul><li>Luchtframe met hogedruk-staanders, waterkamers en dak</li><li>4 scheerlijnen en 4 haringen</li><li>Rugzak</li></ul><p><strong>Niet inbegrepen:</strong> de <a href=\"/products/pomp-opblaasbare-tent\">pomp</a> en <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden van 3 m</a>.</p><h3>Maat</h3><ul><li>3 × 3 m: 9 m², ca. 9 zittend of 13 staand</li><li>Doorloophoogte ca. 2,2 m, totale hoogte ca. 3,2 m</li><li>Gewicht ca. 22 kg (zonder water)</li></ul><h3>Opzetten</h3><ol><li>Rol de tent uit op de plek.</li><li>Pomp de staanders op tot de aanbevolen druk (ca. 0,5 bar) en draai het ventiel dicht.</li><li>Vul de waterkamer onderin elke poot met ca. 15 liter water via de vulopening. Samen is dat ca. 60 kg.</li><li>Span op gras ook de scheerlijnen af naar de haringen.</li></ol><p>Met 1 of 2 personen staat hij in ca. 10 minuten, plus de tijd om het water te tappen. Afbreken: water eruit, lucht eruit, oprollen.</p><h3>Goed om te weten</h3><ul><li><strong>Water is je verzwaring.</strong> Zet de tent nooit op zonder gevulde waterkamers. Op gras gebruik je ook de scheerlijnen. Vanaf windkracht 5 laat je de tent leeglopen.</li><li><strong>Vorst.</strong> Laat geen water in de poten staan als het gaat vriezen.</li><li><strong>Uitbreiden.</strong> Met <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden van 3 m</a> maak je één of meer kanten dicht; ze zitten met een rits aan het frame.</li><li><strong>Droog opbergen.</strong> Laat de tent na regen eerst drogen voor je hem oprolt, anders krijg je schimmel.</li></ul>",
+  "body_html": "<p>Een partytent van 3 × 3, 3 × 4,5 of 3 × 6 m zonder stalen frame: de poten zijn opblaasbare hogedruk-staanders, en onderin elke poot zit een waterkamer. Je verzwaart de tent dus met water uit de kraan in plaats van met gewichten of zandzakken. Handig in de tuin, op de camping of op een plek waar je niet wilt sjouwen.</p><p>Het luchtframe is een TPU-binnenbuis (250 micron) in een hoes van Dacron (170 g/m²), met overdrukventielen. Het dak is van 600D polyester met PU-coating, in dezelfde kleur als het frame: Wit, Zwart of Antraciet. De 3 × 3 m past in een rugzak, de langere maten in een draagtas.</p><h3>Wat je krijgt</h3><ul><li>Luchtframe met hogedruk-staanders, waterkamers en dak</li><li>4 scheerlijnen en 4 haringen</li><li>Rugzak (3 × 3 m) of draagtas (3 × 4,5 en 3 × 6 m)</li></ul><p><strong>Niet inbegrepen:</strong> de <a href=\"/products/pomp-opblaasbare-tent\">pomp</a> en <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden van 3 m</a>.</p><h3>Maten</h3><ul><li><strong>3 × 3 m</strong>: 9 m², 4 poten, ca. 9 zittend of 13 staand, ca. 22 kg zonder water</li><li><strong>3 × 4,5 m</strong>: 13,5 m², 6 poten, ca. 13 zittend of 20 staand, ca. 29 kg</li><li><strong>3 × 6 m</strong>: 18 m², 8 poten, ca. 18 zittend of 27 staand, ca. 36 kg</li><li>Doorloophoogte ca. 2,2 m, totale hoogte ca. 3,2 m bij alle maten</li></ul><h3>Opzetten</h3><ol><li>Rol de tent uit op de plek.</li><li>Pomp de staanders op tot de aanbevolen druk (ca. 0,5 bar) en draai het ventiel dicht.</li><li>Vul de waterkamer onderin elke poot met ca. 15 liter water via de vulopening. Samen is dat ca. 60 kg bij 3 × 3 m, 90 kg bij 3 × 4,5 m en 120 kg bij 3 × 6 m.</li><li>Span op gras ook de scheerlijnen af naar de haringen.</li></ol><p>Met 1 of 2 personen staat hij in ca. 10 minuten, plus de tijd om het water te tappen. Afbreken: water eruit, lucht eruit, oprollen.</p><h3>Goed om te weten</h3><ul><li><strong>Water is je verzwaring.</strong> Zet de tent nooit op zonder gevulde waterkamers. Op gras gebruik je ook de scheerlijnen. Vanaf windkracht 5 laat je de tent leeglopen.</li><li><strong>Vorst.</strong> Laat geen water in de poten staan als het gaat vriezen.</li><li><strong>Uitbreiden.</strong> Met <a href=\"/products/zijwand-opblaasbare-promotietent\">zijwanden van 3 m</a> maak je één of meer kanten dicht; ze zitten met een rits aan het frame.</li><li><strong>Droog opbergen.</strong> Laat de tent na regen eerst drogen voor je hem oprolt, anders krijg je schimmel.</li></ul>",
   "kenmerk_kort": "Hogedruk-staanders · met water te verzwaren · in een rugzak",
   "included": [
    "Luchtframe met waterkamers en dak",
    "4 scheerlijnen en 4 haringen",
-   "Rugzak"
+   "Rugzak (3 × 3 m) of draagtas"
   ],
   "excluded": [
    "Pomp (los te bestellen)",
    "Zijwanden (los te bestellen)"
   ],
   "usps": [
-   "Verzwaren met water: ca. 60 kg in 4 poten",
-   "Geen stalen frame, past in een rugzak",
+   "Verzwaren met water: ca. 15 kg per poot",
+   "Geen stalen frame: 3 × 3, 3 × 4,5 of 3 × 6 m",
    "Hogedruk-staanders, strak als een vouwtent",
    "Uit te breiden met zijwanden van 3 m"
   ],
@@ -2888,7 +2889,7 @@
    {
     "groep": "Frame",
     "label": "Type",
-    "waarde": "Hogedruk-staanders met waterkamer, 4 poten"
+    "waarde": "Hogedruk-staanders met waterkamer: 4 poten (3 x 3 m), 6 (3 x 4,5 m) of 8 (3 x 6 m)"
    },
    {
     "groep": "Frame",
@@ -2933,7 +2934,7 @@
    {
     "groep": "Afmetingen",
     "label": "Maten",
-    "waarde": "3 x 3 m"
+    "waarde": "3 x 3 m, 3 x 4,5 m of 3 x 6 m"
    },
    {
     "groep": "Afmetingen",
@@ -2953,7 +2954,7 @@
    {
     "groep": "Gewicht",
     "label": "Totaal",
-    "waarde": "ca. 22 kg"
+    "waarde": "ca. 22 kg (3 x 3 m), 29 kg (3 x 4,5 m), 36 kg (3 x 6 m), zonder water"
    },
    {
     "groep": "Opzetten",
@@ -2978,7 +2979,7 @@
    {
     "groep": "Levering",
     "label": "Inbegrepen",
-    "waarde": "Luchtframe met dak, 4 scheerlijnen, 4 haringen, rugzak"
+    "waarde": "Luchtframe met dak, 4 scheerlijnen, 4 haringen, rugzak of draagtas"
    },
    {
     "groep": "Levering",
@@ -2994,7 +2995,7 @@
   "faq": [
    {
     "vraag": "Hoeveel water gaat er in de poten?",
-    "antwoord": "Ca. 15 liter per poot, samen ca. 60 kg. Je vult ze met een gieter of tuinslang via de vulopening onderin."
+    "antwoord": "Ca. 15 liter per poot, dus ca. 60 kg bij 3 × 3 m (4 poten), 90 kg bij 3 × 4,5 m (6 poten) en 120 kg bij 3 × 6 m (8 poten). Vul ze met een tuinslang via de vulopening onderin."
    },
    {
     "vraag": "Is water genoeg als verzwaring?",
@@ -3010,17 +3011,18 @@
    }
   ],
   "seo": {
-   "title": "Opblaasbare partytent 3x3 m met waterpoten | Klapklaar",
-   "description": "Opblaasbare partytent 3x3 m met hogedruk-staanders die je met water verzwaart (ca. 60 kg). Geen stalen frame, past in een rugzak. Wit, zwart of antraciet."
+   "title": "Opblaasbare partytent met waterpoten | Klapklaar",
+   "description": "Opblaasbare partytent 3x3, 3x4,5 of 3x6 m met hogedruk-staanders die je met water verzwaart. Geen stalen frame. Wit, zwart of antraciet."
   },
   "image_alts": {
-   "opblaasbare-partytent-3x3-waterpoten-wit-hero.webp": "Opblaasbare partytent 3 × 3 m met waterpoten, Wit, schuin vooraanzicht",
-   "opblaasbare-partytent-3x3-waterpoten-zwart-hero.webp": "Opblaasbare partytent 3 × 3 m met waterpoten, Zwart, schuin vooraanzicht",
-   "opblaasbare-partytent-3x3-waterpoten-antraciet-hero.webp": "Opblaasbare partytent 3 × 3 m met waterpoten, Antraciet, schuin vooraanzicht"
+   "opblaasbare-partytent-3x3-waterpoten-wit-hero.webp": "Opblaasbare partytent met waterpoten, 3 × 3 m, Wit, schuin vooraanzicht",
+   "opblaasbare-partytent-3x3-waterpoten-zwart-hero.webp": "Opblaasbare partytent met waterpoten, 3 × 3 m, Zwart, schuin vooraanzicht",
+   "opblaasbare-partytent-3x3-waterpoten-antraciet-hero.webp": "Opblaasbare partytent met waterpoten, 3 × 3 m, Antraciet, schuin vooraanzicht"
   },
   "claims": [
    "Waterkamer ca. 15 liter per poot, werkdruk ca. 0,5 bar, doorloop 2,2 m: definities, bevestigen met leverancier.",
-   "Dakbevestiging met rits (nodig voor de zijwand): bevestigen."
+   "Dakbevestiging met rits (nodig voor de zijwand): bevestigen.",
+   "Maten 3 x 4,5 en 3 x 6 m (6 en 8 waterpoten, gewicht, capaciteit, prijs € 1.749 / € 2.149): leverancier bevestigen. Handle blijft opblaasbare-partytent-3x3-waterpoten."
   ]
  },
  "opblaasbare-zeshoektent": {
@@ -3348,7 +3350,7 @@
   "usps": [
    "Een meter extra schaduw en droogte voor je ingang",
    "Opblazen met dezelfde pomp als je tent",
-   "Maat 3, 4, 5 of 6 m, in 6 kleuren",
+   "Maat 3, 4, 5 of 6 m, in 8 kleuren",
    "Met rits in een paar minuten aan of af"
   ],
   "included": [
@@ -3378,7 +3380,7 @@
    {
     "groep": "Luifel",
     "label": "Kleuren",
-    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje"
+    "waarde": "Rood, Wit, Zwart, Blauw, Groen, Oranje, Geel, Grijs"
    },
    {
     "groep": "Afmetingen",
@@ -3412,7 +3414,7 @@
   ],
   "seo": {
    "title": "Luifel voor opblaasbare promotietent 3 tot 6 m | Klapklaar",
-   "description": "Opblaasbare luifel van ca. 1 m diep voor je promotietent: 3, 4, 5 of 6 m breed, 6 kleuren, met rits aan de dakrand."
+   "description": "Opblaasbare luifel van ca. 1 m diep voor je promotietent: 3, 4, 5 of 6 m breed, 8 kleuren, met rits aan de dakrand."
   },
   "image_alts": {
    "luifel-opblaasbare-promotietent-rood-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, Rood, schuin vooraanzicht",
@@ -3420,7 +3422,9 @@
    "luifel-opblaasbare-promotietent-zwart-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, zwart, schuin vooraanzicht",
    "luifel-opblaasbare-promotietent-blauw-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, blauw, schuin vooraanzicht",
    "luifel-opblaasbare-promotietent-groen-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, groen, schuin vooraanzicht",
-   "luifel-opblaasbare-promotietent-oranje-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, oranje, schuin vooraanzicht"
+   "luifel-opblaasbare-promotietent-oranje-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, oranje, schuin vooraanzicht",
+   "luifel-opblaasbare-promotietent-geel-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, Geel, schuin vooraanzicht",
+   "luifel-opblaasbare-promotietent-grijs-hero.webp": "Opblaasbare promotietent met luifel aan de voorkant, Grijs, schuin vooraanzicht"
   },
   "claims": [
    "Luifel ca. 100 cm diep met eigen luchtkamer: productdefinitie, bevestigen met de leverancier.",

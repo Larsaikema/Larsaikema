@@ -1,0 +1,27 @@
+{"model": "draagtas", "params": {"height": 1.55, "color": "zwart"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/beschermhoes-easy-up-hero.webp"}
+{"model": "protectionDisc", "params": {"diameter": 0.78, "print": {"svg": "brand/tools/print-mark.json", "color": "#C83812"}, "onCover": {"type": "stretch", "color": "wit"}}, "angle": "hero", "size": 2000, "out": "../../catalog/images/beschermplaat-met-opdruk-hero.webp"}
+{"model": "protectionDisc", "params": {"diameter": 0.78, "onCover": {"type": "stretch", "color": "zwart"}}, "angle": "hero", "size": 2000, "out": "../../catalog/images/beschermplaat-statafel-hero.webp"}
+{"model": "concreteBlock", "params": {"weight": 500, "lifting": "lepelgat"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/betonblok-ballast-tent-hero.webp"}
+{"model": "easyUpParts", "params": {"parts": ["hoekstuk-premium", "hoekstuk-professional", "voetplaat-professional", "schuifstuk"]}, "angle": "hero", "size": 2000, "out": "../../catalog/images/frame-onderdelen-easy-up-hoekstukken-hero.webp"}
+{"model": "haringen", "params": {"count": 3, "length": 0.75}, "angle": "hero", "size": 2000, "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-hero.webp"}
+{"model": "tentCoupler", "params": {"line": "professional"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/koppelset-easy-up-hero.webp"}
+{"model": "tubeFittings", "params": {"parts": ["2-weg", "3-weg", "4-weg", "buis"]}, "angle": "hero", "size": 2000, "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-hero.webp"}
+{"model": "lightParts", "params": {"parts": ["fitting", "eindkap", "dimmer"]}, "angle": "hero", "size": 2000, "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-hero.webp"}
+{"model": "stretchParts", "params": {"parts": ["spanband", "touwenset", "paalverbinder"]}, "angle": "hero", "size": 2000, "out": "../../catalog/images/onderdelen-stretchtent-hero.webp"}
+{"model": "draagtas", "params": {"height": 1.0, "color": "zwart", "wheels": true, "shape": "duffel"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/opbergtas-opblaasbare-tent-hero.webp"}
+{"model": "tubeBag", "params": {"count": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/opbergtassenset-partytent-hero.webp"}
+{"model": "tentPoles", "params": {"material": "hout", "length": 3, "count": 2}, "angle": "hero", "size": 2000, "out": "../../catalog/images/palen-stretchtent-hero.webp"}
+{"model": "airPump", "params": {"kind": "elektrisch"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/pomp-opblaasbare-tent-hero.webp"}
+{"model": "rainGutter", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/regengoot-partytent-wit-hero.webp"}
+{"model": "repairKit", "params": {"kind": "pvc"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/reparatieset-tentdoek-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/verbindingsstrook-easy-up-wit-hero.webp"}
+{"model": "footCaps", "params": {"count": 4}, "angle": "hero", "size": 2000, "out": "../../catalog/images/voetdoppen-set-van-4-hero.webp"}
+{"model": "gewichten", "params": {"count": 2, "stacks": 4}, "angle": "hero", "size": 2000, "out": "../../catalog/images/voetgewicht-easy-up-15-kg-hero.webp"}
+{"model": "waterBag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "out": "../../catalog/images/watergewichtzakken-4x20-kg-hero.webp"}
+{"model": "wielset", "params": {}, "angle": "hero", "size": 2000, "out": "../../catalog/images/wielset-easy-up-hero.webp"}
+{"model": "draagtas", "params": {"height": 1.7, "color": "zwart", "wheels": true, "logo": true}, "angle": "hero", "size": 2000, "out": "../../catalog/images/wieltas-easy-up-hero.webp"}
+{"model": "sandbag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "out": "../../catalog/images/zandzakken-partytent-set-van-4-hero.webp"}
+{"model": "easyUpParts", "params": {"parts": ["staander-professional"]}, "angle": "hero", "size": 2000, "out": "../../catalog/images/frame-onderdelen-easy-up-staander.webp"}
+{"model": "rainGutter", "params": {"length": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/regengoot-partytent-zwart-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "out": "../../catalog/images/verbindingsstrook-easy-up-zwart-hero.webp"}
+{"model": "draagtas", "params": {"height": 1.7, "color": "zwart", "wheels": true}, "angle": "detail", "size": 2000, "out": "../../catalog/images/wieltas-easy-up-detail.webp"}

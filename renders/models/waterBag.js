@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -58,36 +59,37 @@ function ringBag(bins, mats, { Rc = 0.16, w = 0.093, H = 0.12, hs = 0.05, gap = 
     // second layer (welded), thickness
     const f2 = f.clone(); f2.translate(0, -0.0016, 0); bins.add(mats.pvc, f2);
   }
-  for (const pe of [phi0, phi1]) {
-    const d = V3(Math.cos(pe), 0, -Math.sin(pe));
-    const tdir = V3(-Math.sin(pe), 0, -Math.cos(pe)).multiplyScalar(pe < Math.PI ? -1 : 1);
-    const strip = G.roundedBox(2 * w + 2 * fl - 0.004, 0.003, 0.016, 0.0012);
-    strip.applyMatrix4(K.basisAt(d.clone().multiplyScalar(Rc).setY(hs * 0.75).addScaledVector(tdir, 0.004), d, V3(0, 1, 0), d.clone().cross(V3(0, 1, 0))));
-    bins.add(mats.pvc, strip);
+  // surface height of the top at (phi, r) (same section as the body, without the wobble)
+  const topY = (phi, r) => {
+    const dEnd = Math.min(phi - phi0, phi1 - phi);
+    const k = K.sstep(0, endTaper, Math.max(0, dEnd)) * 0.92 + 0.08;
+    const Hk = hs + (H - hs) * k, hsk = hs * (0.5 + 0.5 * k);
+    const sN = (r - Rc) / (w * (0.6 + 0.4 * k));
+    if (Math.abs(sN) >= 1) return hsk;
+    return hsk + (Hk - hsk) * Math.pow(Math.max(0, 1 - Math.pow(Math.abs(sN), 3.4)), 0.5);
+  };
+  // closures across the slit, lying on the top: a hook-and-loop tab (inner) and a webbing strap
+  // with a side-release buckle (outer); over the gap they span straight, sagging a little
+  const across = (r, half, lift) => {
+    const pts = [];
+    const pA = (phi) => V3(Math.cos(phi) * r, topY(phi, r) + lift, -Math.sin(phi) * r);
+    for (let i = 0; i <= 30; i++) { const phi = phi0 + 0.002 + half * (1 - i / 30); pts.push(pA(phi)); }
+    const a = pA(phi0 + 0.002), b = pA(phi1 - 0.002);
+    for (let i = 1; i < 10; i++) { const q = a.clone().lerp(b, i / 10); q.y -= 0.006 * Math.sin(Math.PI * i / 10); pts.push(q); }
+    for (let i = 0; i <= 30; i++) { const phi = phi1 - 0.002 - half * (i / 30); pts.push(pA(phi)); }
+    return pts;
+  };
+  const tab = across(Rc - w * 0.18, 0.2, 0.0025);
+  bins.add(mats.hook, K.strapAlong(tab, 0.05, 0.003, { up: V3(0, 1, 0) }));
+  const str = across(Rc + w * 0.5, 0.26, 0.0022);
+  bins.add(mats.web, K.strapAlong(str, 0.025, 0.0022, { up: V3(0, 1, 0) }));
+  {
+    const i = Math.round(str.length * 0.62);
+    const T = str[i + 1].clone().sub(str[i - 1]).normalize();
+    const bk = K.buckleGeo(0.025);
+    bk.applyMatrix4(K.basisAt(str[i].clone().add(V3(0, 0.001, 0)), V3().crossVectors(V3(0, 1, 0), T).normalize(), V3(0, 1, 0), T));
+    bins.add(mats.buckle, bk);
   }
-  // hook-and-loop tab bridging the slit on top (near the outer edge)
-  const tabR = Rc + w * 0.45;
-  const tabPts = [];
-  for (let i = 0; i <= 24; i++) {
-    const phi = -gap * 2.2 + (gap * 4.4) * (i / 24);
-    const r = tabR;
-    // height follows the bag top, dipping over the gap
-    const dEnd = Math.min(Math.abs(phi - phi0), Math.abs(phi - (phi1 - TAU)));
-    const inGap = Math.abs(phi) < gap;
-    const y = inGap ? H * 0.72 + 0.018 * (1 - Math.abs(phi) / gap) * 0 : H * (0.82 + 0.1 * K.sstep(0, 0.2, dEnd));
-    tabPts.push(V3(Math.cos(phi) * r, y + 0.003, -Math.sin(phi) * r));
-  }
-  bins.add(mats.hook, K.strapAlong(K.smoothPath(tabPts, 40), 0.05, 0.003, { up: V3(0, 1, 0) }));
-  // webbing strap with buckle along the inner edge, across the slit
-  const sR = Rc - w * 0.55;
-  const sp = [];
-  for (let i = 0; i <= 40; i++) { const phi = -gap * 4 + gap * 8 * (i / 40); sp.push(V3(Math.cos(phi) * sR, H * 0.55, -Math.sin(phi) * sR)); }
-  const spN = sp.map((q) => V3(q.x, 0, q.z).normalize().negate());
-  bins.add(mats.web, K.strapAlong(sp, 0.025, 0.0022, { normals: spN }));
-  const bk = K.buckleGeo(0.025);
-  const bc = sp[20].clone().addScaledVector(spN[20], 0.004);
-  bk.applyMatrix4(K.basisAt(bc, V3(0, 1, 0), spN[20], V3(0, 0, 1).cross(spN[20]).normalize().negate()));
-  bins.add(mats.buckle, bk);
   // filler spout + screw cap opposite the slit
   const cp = V3(-Rc, H - 0.004, 0);
   bins.add(mats.pvc, K.lathe([[0.034, -0.002], [0.034, 0.002], [0.03, 0.003], [0.02, 0.004], [0.02, 0.0]], 48).translate(cp.x, cp.y, cp.z));
@@ -101,8 +103,8 @@ function ringBag(bins, mats, { Rc = 0.16, w = 0.093, H = 0.12, hs = 0.05, gap = 
 export function waterBag(p = {}) {
   const n = Number(p.count ?? 4);
   const filled = p.filled !== false;
-  const pvc = K.pvcTarp(p.color && p.color !== 'zwart' ? p.color : '#141516');
-  const mats = { pvc, hook: K.velcro('hook', '#18191A'), web: M.webbing('#141516'), buckle: K.abs('#151516', 0.4), cap: K.abs('#1E1F21', 0.35) };
+  const pvc = SG.pvcTarp(p.color && p.color !== 'zwart' ? p.color : '#18191A', { gloss: 0.3, weave: 0.35 });
+  const mats = { pvc, hook: SG.hookTape('#1B1C1D'), web: M.webbing('#141516'), buckle: SG.moulded('#151617', { rough: 0.42, spec: 0.6 }), cap: SG.moulded('#1E1F21', { rough: 0.35, spec: 0.6 }) };
   const bins = new G.PartBin();
   const cols = 2, pitch = 0.56;
   for (let i = 0; i < n; i++) {
@@ -120,7 +122,7 @@ export function waterBag(p = {}) {
     object: g,
     detail: { target: [-0.1, 0.1, 0.25], size: 0.4, azimuth: 30, elevation: 30 },
     view: { hero: { elevation: 26 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.01, res: 1024, blur: 1.4 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
+    rig: { default: { contact: { strength: 0.85, h0: 0.01, res: 1024, blur: 1.4 }, groundAO: { strength: 0.8, maxZenith: 80 }, key: { intensity: 3.6 }, fill: { azimuth: 80, elevation: 16, intensity: 1.4 }, rim: { azimuth: 150, elevation: 34, intensity: 1.4 }, exposure: 1.2 } },
     meta: { n, filled },
   };
 }

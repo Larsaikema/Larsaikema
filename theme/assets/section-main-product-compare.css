@@ -1,0 +1,9 @@
+/* Main product: 'Premium of Professional?' (snippets/product-compare); loaded only on products with custom.vergelijk_groep. */
+.compare__list{list-style:none;display:grid;gap:8px}
+.compare__item{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:10px 12px;border-radius:var(--pri);background:var(--pw);box-shadow:inset 0 0 0 1px var(--pl)}
+.compare__item.is-current{box-shadow:inset 0 0 0 1.5px var(--pi)}
+.compare__name,.compare__price{font-weight:var(--p7)}
+.compare__here{font-weight:var(--p4);color:var(--pk)}
+.compare__price{white-space:nowrap}
+.compare__spec{grid-column:1/-1;font-size:14px;color:var(--pk)}
+.compare__more{margin:10px 0 0}

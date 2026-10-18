@@ -1,0 +1,113 @@
+{%- comment -%}
+  Quick-add panel for product cards on collection and search pages. Not placed in a template: assets/facets.js fetches it
+  through the Section Rendering API on the product URL (/products/<handle>?variant=<id>&section_id=quick-add) and shows
+  it in a drawer. The option choice refetches it for that variant (price, stock, button stay Liquid-rendered); other sizes
+  of a line split per size (custom.andere_maten) load that product's panel. The form is a plain form[data-product-form],
+  so assets/cart.js adds it (/cart/add.js) and opens the cart drawer like any card quick add.
+  Products with a configurator or a logo upload never get here: their card links to the product page.
+{%- endcomment -%}
+{%- liquid
+  assign qv = product.selected_or_first_available_variant
+  assign swatch_names = settings.swatch_option_names | downcase | split: ','
+  assign size_names = 'maat,tafelmaat,diameter,afmeting,formaat' | split: ','
+  assign qa_image = qv.featured_image | default: product.featured_media.preview_image
+  assign qa_siblings = product.metafields.custom.andere_maten.value
+  assign times_nb = ' × '
+-%}
+{{ 'component-quick-add.css' | asset_url | stylesheet_tag }}
+<div class="qa" data-qa data-url="{{ product.url }}" data-label="{{ 'quick_add.label' | t | escape }}">
+  <script type="application/json" data-qa-variants>
+    [{%- for v in product.variants -%}{"id":{{ v.id }},"options":{{ v.options | json }},"available":{{ v.available | json }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+  </script>
+  <div class="qa__head">
+    <div class="qa__media">
+      {%- if qa_image -%}
+        {{ qa_image | image_url: width: 480 | image_tag: widths: '240, 360, 480', sizes: '(min-width: 750px) 140px, 112px', alt: qa_image.alt | default: product.title, loading: 'eager' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="qa__info">
+      <h2 class="qa__title" id="QuickAddTitle">{{ product.title | replace: ' x ', times_nb }}</h2>
+      {%- if product.metafields.custom.kenmerk_kort != blank -%}<p class="qa__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>{%- endif -%}
+      <div class="qa__price">{%- render 'price', product: product, variant: qv -%}</div>
+    </div>
+  </div>
+
+  {%- form 'product', product, class: 'qa__form', data-product-form: '', novalidate: 'novalidate' -%}
+    <input type="hidden" name="id" value="{{ qv.id }}" data-qa-id>
+    {%- if qa_siblings != blank and qa_siblings.size > 0 -%}
+      {%- liquid
+        capture qa_order
+          render 'size-siblings-order', product: product, siblings: qa_siblings, size_names: size_names
+        endcapture
+        assign qa_idx = qa_order | split: ','
+        assign size_opt_name = ''
+        for option in product.options_with_values
+          assign on = option.name | downcase | strip
+          if size_names contains on
+            assign size_opt_name = option.name
+          endif
+        endfor
+      -%}
+      <div class="qa__option">
+        <p class="qa__legend">{{ size_opt_name | default: 'Maat' }}</p>
+        <div class="qa__values">
+          {%- for ci in qa_idx -%}
+            {%- assign cin = ci | plus: 0 -%}
+            {%- if cin == 0 -%}{%- assign sp = product -%}{%- else -%}{%- assign cj = cin | minus: 1 -%}{%- assign sp = qa_siblings[cj] -%}{%- endif -%}
+            {%- capture sl -%}{%- render 'size-label', p: sp, size_names: size_names -%}{%- endcapture -%}
+            {%- assign sl = sl | strip | replace: ' x ', times_nb -%}
+            {%- if cin == 0 -%}
+              <span class="qa__pill is-selected" aria-current="true">{{ sl }}</span>
+            {%- else -%}
+              <a class="qa__pill{% unless sp.available %} is-unavailable{% endunless %}" href="{{ sp.url }}" data-qa-load="{{ sp.url }}">{{ sl }}{% unless sp.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless %}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- for option in product.options_with_values -%}
+      {%- if option.values.size > 1 -%}
+        {%- assign opt_lc = option.name | downcase | strip -%}
+        {%- assign is_swatch = false -%}
+        {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_lc -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
+        {%- assign opt_index = forloop.index0 -%}
+        <fieldset class="qa__option" data-option-index="{{ opt_index }}">
+          <legend class="qa__legend">{{ option.name }}: <strong>{{ option.selected_value }}</strong></legend>
+          <div class="qa__values{% if is_swatch %} qa__values--swatch{% endif %}">
+            {%- for value in option.values -%}
+              {%- assign in_id = 'QA-' | append: opt_index | append: '-' | append: forloop.index -%}
+              <input class="qa__input visually-hidden" type="radio" id="{{ in_id }}" name="qa-option-{{ opt_index }}" value="{{ value.name | escape }}"{% if value.selected %} checked{% endif %}>
+              {%- if is_swatch -%}
+                <label class="qa__swatch{% if value.available == false %} is-unavailable{% endif %}" for="{{ in_id }}" title="{{ value.name | escape }}">
+                  {%- render 'swatch', value: value -%}<span class="visually-hidden">{{ value.name }}{% if value.available == false %}, {{ 'product.option_unavailable' | t }}{% endif %}</span>
+                </label>
+              {%- else -%}
+                <label class="qa__pill{% if value.available == false %} is-unavailable{% endif %}" for="{{ in_id }}">{{ value.name | replace: ' x ', times_nb }}{% if value.available == false %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endif %}</label>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="qa__stock">{%- render 'delivery-promise', product: product, variant: qv, style: 'short' -%}</div>
+    <div class="qa__buy">
+      {%- render 'quantity-input', id: 'QA-qty', min: 1 -%}
+      {%- if qv.available -%}
+        <button type="submit" name="add" class="btn btn--buy qa__add">{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}{{ 'product.add_to_cart' | t }}</button>
+      {%- else -%}
+        <button type="submit" name="add" class="btn qa__add" disabled>{{ 'product.sold_out' | t }}</button>
+      {%- endif -%}
+    </div>
+  {%- endform -%}
+  <a class="qa__details link" href="{{ qv.url | default: product.url }}">{{ 'quick_add.details' | t }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
+</div>
+{% schema %}
+{
+  "name": "Snel toevoegen",
+  "class": "section-quick-add",
+  "settings": []
+}
+{% endschema %}

@@ -7,6 +7,17 @@ ROUND = ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80', 'sta
 def top_param(k):
     return {'Wit': 'wit', 'Zwart': 'zwart', 'Berken': 'berken', 'Antraciet': 'antraciet', 'Lichtgrijs': 'hdpe-grijs', 'Houtlook': 'houtlook', 'Graniet': 'graniet'}[k]
 
+
+def _lum(k):
+    h = SWATCH_HEX.get(k, '#808080').lstrip('#')
+    r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast_textile(k):
+    """The rok / hoes a loose topcover, strik or kleed is shown on: wit under a dark colour, zwart under a light one."""
+    return 'wit' if _lum(k) < 0.42 else 'zwart'
+
 def build():
     # ------------------------------------------------------------ statafels
     SP = {'Ø70 cm': (89.95, 12), 'Ø80 cm': (94.95, 13), 'Ø85 cm': (99.95, 14)}
@@ -50,7 +61,7 @@ def build():
     vs = [variant(f'KK-STF-HDPE-D80-{COLOR_CODE[k]}', ['Ø80 cm', k], 54.95, 9000, inv(40, 'hdpe' + k, k)) for k in HK]
     imgs, vmap = kleur_images('statafel-inklapbaar-hdpe-80', HK, 'statafel', lambda k: {'diameter': 0.8, 'height': 1.1, 'top': 'hdpe' if k == 'Wit' else 'hdpe-grijs', 'frame': 'zwart', 'base': 'klap'}, 'Wit',
                               [img('statafel-inklapbaar-hdpe-80-wit-ingeklapt.webp', 'detail', 3, 'statafel', {'diameter': 0.8, 'top': 'hdpe', 'frame': 'zwart', 'base': 'klap', 'folded': True}, 'hero', 'Wit')])
-    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['gebruik:tuinfeest', 'gebruik:evenement', 'badge:nieuw'], [opt('Maat', ['Ø80 cm']), opt('Kleur', HK)], vs, imgs,
+    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', ['Ø80 cm']), opt('Kleur', HK)], vs, imgs,
            {'kenmerk_kort': '110 cm hoog · 45 mm HDPE-blad · 9 kg', 'staffelkorting': ST_STATAFEL, 'addons': ['statafelrok-stretch'], 'verzending': 'pakket',
             'addon_eenmalig': ['transportkar-statafels'],
             'specificaties': [sp('Blad', 'Materiaal', 'HDPE blow-mould 45 mm, wit of lichtgrijs, binnen en buiten'), sp('Onderstel', 'Materiaal', 'Staal, zwart gepoedercoat, inklapbaar'),
@@ -124,12 +135,12 @@ def build():
     vs = [variant(f'KK-ROK-TH-{code(m)}-{"RWB" if u == TU[0] else "VB"}', [m, u], 42.95, 650, inv(20 if m == RM[0] else 8, m + u + 'thema'))
           for m in RM for u in TU]
     th_imgs = [img('statafelrok-stretch-oranje-thema-rood-wit-blauw-hero.webp', 'hero', 1, 'statafelCover',
-                   {'type': 'stretch', 'color': 'oranje', 'diameter': 0.8, 'topcover': 'rood', 'topcoverPrint': 'stripes-rwb'}, 'hero', None, 'needs-param',
+                   {'type': 'stretch', 'color': 'oranje', 'diameter': 0.8, 'topcover': 'rood', 'topcoverPrint': 'stripes-rwb'}, 'hero', None, 'existing',
                    alt='oranje rok met topcover in rood, wit en blauw'),
                img('statafelrok-stretch-oranje-thema-voetbal-hero.webp', 'variant', 2, 'statafelCover',
-                   {'type': 'stretch', 'color': 'oranje', 'diameter': 0.8, 'topcover': 'wit', 'topcoverPrint': 'voetbal'}, 'hero', None, 'needs-param',
+                   {'type': 'stretch', 'color': 'oranje', 'diameter': 0.8, 'topcover': 'wit', 'topcoverPrint': 'voetbal'}, 'hero', None, 'existing',
                    alt='oranje rok met topcover in voetbalprint')]
-    simple('statafelrok-stretch-oranje-thema', 'Statafelrok stretch oranje met themacover', 'Statafelrok', ['zakelijk', 'badge:nieuw', 'gebruik:evenement', 'gebruik:horeca'],
+    simple('statafelrok-stretch-oranje-thema', 'Statafelrok stretch oranje met themacover', 'Statafelrok', ['zakelijk', 'gebruik:evenement', 'gebruik:horeca'],
            [opt('Maat', RM), opt('Uitvoering', TU)], vs, th_imgs,
            {'kenmerk_kort': 'Oranje stretchrok + bedrukte topcover · Ø 60–70 of 80–85 cm',
             'specificaties': [sp('Stof', 'Materiaal', '90% polyester, 10% elastaan, 220 g/m²'), sp('Topcover', 'Opdruk', 'Rood-wit-blauwe banen of voetbalprint, sublimatie'),
@@ -142,7 +153,9 @@ def build():
            {'statafelshop': 'EK/WK stretchrok €48,34 (actie, was €54,45)', 'ours': 42.95}, vmap={'Topcover rood-wit-blauw': th_imgs[0]['file'], 'Topcover voetbal': th_imgs[1]['file']},
            vby='Uitvoering')
     vs = [variant(f'KK-TOP-ST-{code(m)}-{COLOR_CODE[k]}', [m, k], 7.95, 120, inv(40, m + k + 'tc', k)) for m in RM for k in ROK_KLEUREN]
-    imgs, vmap = kleur_images('topcover-stretch-statafel', ROK_KLEUREN, 'topcover', lambda k: {'color': render_color(k), 'diameter': 0.8, 'onTable': True}, 'Zwart', status='needs-model', p2=3)
+    # packshot: the topcover on a stretchrok in a contrasting colour (the alt says the rok is not included)
+    imgs, vmap = kleur_images('topcover-stretch-statafel', ROK_KLEUREN, 'statafelCover',
+                              lambda k: {'type': 'stretch', 'color': contrast_textile(k), 'diameter': 0.8, 'topcover': render_color(k)}, 'Zwart', status='existing', p2=3)
     simple('topcover-stretch-statafel', 'Topcover stretch voor statafel', 'Topcover', ['zakelijk', 'gebruik:horeca'], [opt('Maat', RM), opt('Kleur', ROK_KLEUREN)], vs, imgs,
            {'kenmerk_kort': 'Los blad-hoesje · contrastkleur of vervanging · 24 kleuren', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND + ['statafelrok-stretch'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.topcovers'], 'textiel', 'Losse topcover voor een tweede kleur of als reserve; zelfde 24 kleuren als de rok.',
@@ -158,27 +171,40 @@ def build():
            ['statafelhoes met strik', 'strikrok statafel'], {'statafelshop': '€30,19–€35,03', 'ours': 26.95}, vmap=vmap)
     SL = STRIK_KLEUREN + ['Roze', 'Groen']
     vs = [variant(f'KK-STRIK-{COLOR_CODE[k]}', [k], 6.95, 150, inv(25, k + 'sl', k)) for k in SL]
-    imgs, vmap = kleur_images('losse-strik-statafelhoes', SL, 'sash', lambda k: {'color': render_color(k), 'tied': True}, 'Goud',
-                              [img('losse-strik-statafelhoes-op-hoes.webp', 'in-gebruik', 2, 'statafelCover', {'type': 'strik', 'color': 'wit', 'sashColor': 'goud', 'diameter': 0.8}, 'hero', 'Goud', 'existing',
-                                   alt='goud om een witte hoes met strik (hoes niet inbegrepen)')], status='needs-model', p2=3)
-    simple('losse-strik-statafelhoes', 'Losse strik voor statafelhoes', 'Strik', ['zakelijk', 'badge:nieuw', 'gebruik:evenement'], [opt('Kleur', SL)], vs, imgs,
+    # per colour: the strik tied round a hoes met strik in a contrasting colour, close up on the bow (statafelCover detail)
+    imgs, vmap = kleur_images('losse-strik-statafelhoes', SL, 'statafelCover', lambda k: {'type': 'strik', 'color': contrast_textile(k), 'sashColor': render_color(k), 'diameter': 0.8},
+                              'Goud', [img('losse-strik-statafelhoes-op-hoes.webp', 'in-gebruik', 2, 'statafelCover', {'type': 'strik', 'color': 'wit', 'sashColor': 'goud', 'diameter': 0.8}, 'hero', 'Goud', 'existing',
+                                           alt='goud om een witte hoes met strik (hoes niet inbegrepen)')], status='existing', p2=3)
+    for i in imgs:
+        if i['file'] != 'losse-strik-statafelhoes-op-hoes.webp':
+            i['render']['angle'] = 'detail'
+    simple('losse-strik-statafelhoes', 'Losse strik voor statafelhoes', 'Strik', ['zakelijk', 'gebruik:evenement'], [opt('Kleur', SL)], vs, imgs,
            {'kenmerk_kort': 'Satijnen sjerp 300 cm · contrast op je hoes', 'staffelkorting': ST_TEXTIEL, 'past_op': ['statafelhoes-met-strik', 'statafelrok-stretch'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.statafelhoes-strik'], 'textiel', 'Kleur van de strik zelf kiezen (bv. wit met goud voor een bruiloft); werkt ook om een stretchrok.',
            ['strik statafel', 'sjerp statafelhoes'], {'note': 'geen referentie; Statafelshop biedt geen losse strikkleur', 'ours': 6.95}, vmap=vmap)
     KL = ['Wit', 'Crème', 'Zwart', 'Antraciet', 'Bordeaux', 'Marineblauw']
     KM = ['Ø130 cm', '140 x 140 cm']
     vs = [variant(f'KK-KLD-{code(m)}-{COLOR_CODE[k]}', [m, k], 15.95, 400, inv(15, m + k + 'kl', k)) for m in KM for k in KL]
-    imgs, vmap = kleur_images('statafelkleed', KL, 'tableCloth', lambda k: {'shape': 'rond', 'size': 1.3, 'color': render_color(k), 'over': 'stretch', 'underColor': 'zwart' if k != 'Zwart' else 'wit'}, 'Wit',
-                              status='needs-model', p2=3)
+    # round Ø130 kleed (25 cm overhang on a Ø80 blad) over a stretchrok in a contrasting colour (statafelCover kleed with drop + over)
+    imgs, vmap = kleur_images('statafelkleed', KL, 'statafelCover',
+                              lambda k: {'type': 'kleed', 'color': render_color(k), 'diameter': 0.8, 'drop': 0.25, 'over': 'stretch', 'underColor': contrast_textile(k)}, 'Wit',
+                              status='existing', p2=3)
+    # square 140 x 140 kleed: own render per colour (the four points hang lower than the sides), image per SKU
+    for k in KL:
+        imgs.append(img(f'statafelkleed-{slug(k)}-vierkant-hero.webp', 'variant', 3, 'statafelCover',
+                        {'type': 'kleed', 'color': render_color(k), 'diameter': 0.8, 'square': 1.4, 'over': 'stretch', 'underColor': contrast_textile(k)},
+                        'hero', k, 'existing'))
+    kld_sq = {f'KK-KLD-{code(KM[1])}-{COLOR_CODE[k]}': f'statafelkleed-{slug(k)}-vierkant-hero.webp' for k in KL}
     simple('statafelkleed', 'Statafelkleed', 'Statafelkleed', ['zakelijk', 'gebruik:evenement', 'gebruik:horeca'], [opt('Maat', KM), opt('Kleur', KL)], vs, imgs,
            {'kenmerk_kort': 'Rond Ø 130 of vierkant 140 x 140 cm · over je stretchrok', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND, 'verzending': 'pakket', 'vergelijk_groep': 'statafeltextiel'},
            ['statafelrokken-hoezen.statafelkleden'], 'textiel', 'Kleed over een stretchrok: chiquer en beschermt de rok; rond of vierkant (punten vallen anders).',
-           ['statafelkleed', 'tafelkleed statafel'], {'statafelshop': '€18,09', 'ours': 15.95}, vmap=vmap)
+           ['statafelkleed', 'tafelkleed statafel'], {'statafelshop': '€18,09', 'ours': 15.95}, vmap=vmap,
+           extra={'variant_image_sku': kld_sq})
     KG = ['Wit', 'Crème', 'Champagne', 'Zwart']
     KGM = {'Ø300 cm': (34.95, 1300), 'Ø330 cm': (39.95, 1600)}   # Ø330: Ø180 banket-tafel, 180 + 2 x 74 = 328 cm
     vs = [variant(f'KK-KLD-{code(m)}-{COLOR_CODE[k]}', [m, k], p, g, inv(10, (k + 'kg') if m == 'Ø300 cm' else (m + k + 'kg'), k)) for m, (p, g) in KGM.items() for k in KG]
     imgs, vmap = kleur_images('statafelkleed-rond-tot-de-grond', KG, 'statafelCover', lambda k: {'type': 'kleed', 'color': render_color(k), 'diameter': 0.8}, 'Wit', p2=3)
-    simple('statafelkleed-rond-tot-de-grond', 'Rond tafelkleed tot de grond', 'Statafelkleed', ['badge:nieuw', 'gebruik:evenement'], [opt('Maat', list(KGM)), opt('Kleur', KG)], vs, imgs,
+    simple('statafelkleed-rond-tot-de-grond', 'Rond tafelkleed tot de grond', 'Statafelkleed', ['gebruik:evenement'], [opt('Maat', list(KGM)), opt('Kleur', KG)], vs, imgs,
            {'kenmerk_kort': 'Ø 300 of 330 cm · tot de grond op statafel of banket-tafel', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND + ['klaptafel-hdpe-rond'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.statafelkleden'], 'textiel', 'Rond kleed dat tot de grond valt, voor diners en recepties; uitleg waarom Ø 300 cm (80 + 2 × 110).',
            ['statafelkleed tot de grond', 'rond tafelkleed 300', 'tafelkleed ronde tafel 180'], {'note': 'Statafelshop heeft geen kleed tot de grond', 'ours': {m: v[0] for m, v in KGM.items()}}, vmap=vmap)
@@ -197,12 +223,15 @@ def build():
            {'kenmerk_kort': 'Stretch voor tafel + 2 banken · 220 x 50 of 70 cm', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.biertafelset-hoezen'], 'textiel', 'Biertafelset feestklaar in één keer: 3 hoezen, ook buiten.',
            ['hoes biertafelset', 'biertafel hoes'], {'note': 'geen referentieprijs voor effen biertafelsethoezen', 'ours': BT}, vmap=vmap)
-    BP = {'Ø68 cm': 15.95, 'Ø78 cm': 16.95, 'Ø83 cm': 17.95, '182 x 75 cm': 26.95}
+    # round plates 2 cm under the blad; square and rectangular plates in the size of the vierkante / rechthoekige statafel and the terrastafel
+    BP = {'Ø68 cm': 15.95, 'Ø78 cm': 16.95, 'Ø83 cm': 17.95, '60 x 60 cm': 16.95, '70 x 70 cm': 18.95, '80 x 80 cm': 19.95,
+          '120 x 60 cm': 22.95, '120 x 70 cm': 23.95, '160 x 60 cm': 25.95, '182 x 75 cm': 26.95}
     simple('beschermplaat-statafel', 'Beschermplaat transparant voor statafel', 'Beschermplaat', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(BP))],
            [variant(f'KK-BPL-{code(m)}', [m], p, 900 + 300 * i, inv(20, m + 'bp')) for i, (m, p) in enumerate(BP.items())],
            [img('beschermplaat-statafel-hero.webp', 'hero', 1, 'protectionDisc', {'diameter': 0.78, 'onCover': {'type': 'stretch', 'color': 'zwart'}}, 'hero', 'Transparant', 'needs-model',
                 alt='op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen)')],
-           {'kenmerk_kort': 'Transparant PVC over hoes en topcover · tegen vlekken', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND + ['klaptafel-hdpe-rechthoekig'], 'verzending': 'pakket'},
+           {'kenmerk_kort': 'Transparant PVC over hoes en topcover · tegen vlekken', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
+            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig']},
            ['statafelrokken-hoezen.beschermplaten'], 'textiel', 'Glasheldere plaat die de rok schoon houdt (bier, wijn); maat iets kleiner dan het blad.',
            ['beschermplaat statafel', 'transparante plaat statafel'], {'statafelshop': 'Ø68/78/83 vanaf €18,09 · 182x75 €30,19', 'ours': BP})
 

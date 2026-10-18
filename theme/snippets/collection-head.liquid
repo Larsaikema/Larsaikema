@@ -1,0 +1,242 @@
+{%- comment -%}
+  Collection page head (sections/main-collection): breadcrumbs from the menu trail, title, intro (custom.intro or the
+  description), the guide link, custom.kenmerken and the sub-collection chips, plus the BreadcrumbList JSON-LD for the
+  same trail. Feature collection.nested-tree / collection.seo-intro.
+  Params: menu (link list: main-menu = category -> subcategory -> links), section_id, color_scheme, show_description (bool)
+{%- endcomment -%}
+{%- liquid
+  assign intro = collection.metafields.custom.intro.value
+  assign kenmerken = collection.metafields.custom.kenmerken.value
+  # Where this collection sits in the menu (catalog/CONTRACT.md: main-menu = category -> subcategory -> links):
+  # the trail feeds the breadcrumbs, the categories below it (or, when it has none, the ones next to it) the chips.
+  assign trail_1 = nil
+  assign trail_2 = nil
+  assign self_link = nil
+  assign kids = nil
+  assign sibs = nil
+  assign in_menu = false
+  for l1 in menu.links
+    if l1.url == collection.url
+      assign in_menu = true
+      assign self_link = l1
+      assign kids = l1.links
+      break
+    endif
+    for l2 in l1.links
+      if l2.url == collection.url
+        assign in_menu = true
+        assign trail_1 = l1
+        assign self_link = l2
+        assign kids = l2.links
+        assign sibs = l1.links
+        break
+      endif
+      for l3 in l2.links
+        if l3.url == collection.url
+          assign in_menu = true
+          assign trail_1 = l1
+          assign trail_2 = l2
+          assign self_link = l3
+          assign sibs = l2.links
+          break
+        endif
+      endfor
+      if in_menu
+        break
+      endif
+    endfor
+    if in_menu
+      break
+    endif
+  endfor
+
+  # Breadcrumbs without repeats: a level that links to the same place as the one above it ('Zakelijk' >
+  # 'Klapklaar Zakelijk', both the zakelijk page) or to this collection is left out. When the collection title repeats a
+  # crumb ('Zakelijk / Zakelijk'), the last crumb takes the menu's own name for this link ('Zakelijk assortiment').
+  if trail_2 and trail_1 and trail_2.url == trail_1.url
+    assign trail_2 = nil
+  endif
+  if trail_2 and trail_2.url == collection.url
+    assign trail_2 = nil
+  endif
+  if trail_1 and trail_1.url == collection.url
+    assign trail_1 = nil
+  endif
+  assign crumb_title = collection.title
+  assign ct_lc = collection.title | downcase | strip
+  assign t1_lc = trail_1.title | downcase | strip
+  assign t2_lc = trail_2.title | downcase | strip
+  if self_link
+    if ct_lc == t1_lc or ct_lc == t2_lc
+      assign crumb_title = self_link.title
+    endif
+  endif
+
+  # Chips: only categories (collection links and links to a filtered collection page; never products, guides or the
+  # 'Maat' quick filters, which the filter already has). The categories below this one; with none, the ones next to it
+  # with this one marked. A row with nothing but this collection is left out. The first guide link (article, page,
+  # blog: 'Premium of Professional?') becomes one text link under the intro.
+  assign kid_cats = 0
+  for l in kids
+    if l.url contains '/collections/' and l.url != collection.url
+      unless l.url contains '/products/' or l.url contains 'filter.v.option.'
+        assign kid_cats = kid_cats | plus: 1
+      endunless
+    endif
+  endfor
+  assign sub_links = kids
+  assign sub_siblings = false
+  if kid_cats == 0
+    assign sub_links = sibs
+    assign sub_siblings = true
+  endif
+  assign guide_link = nil
+  for l in sub_links
+    if l.type == 'article_link' or l.type == 'page_link' or l.type == 'blog_link'
+      if l.url != request.path
+        assign guide_link = l
+        break
+      endif
+    endif
+  endfor
+  if guide_link == nil and sub_siblings == false
+    for l in sibs
+      if l.type == 'article_link' or l.type == 'blog_link'
+        assign guide_link = l
+        break
+      endif
+    endfor
+  endif
+  assign chip_count = 0
+  assign chip_others = 0
+  assign chip_seen = ''
+-%}
+{%- capture sub_chips -%}
+  {%- for l in sub_links -%}
+    {%- unless l.url contains '/collections/' -%}{%- continue -%}{%- endunless -%}
+    {%- if l.url contains '/products/' or l.url contains 'filter.v.option.' -%}{%- continue -%}{%- endif -%}
+    {%- if l.url == collection.url and sub_siblings == false -%}{%- continue -%}{%- endif -%}
+    {%- assign chip_key = '|' | append: l.url | append: '|' -%}
+    {%- if chip_seen contains chip_key -%}{%- continue -%}{%- endif -%}
+    {%- liquid
+      # two menu links to the same page ('Statafels' and 'Per maat') make one chip
+      assign chip_seen = chip_seen | append: chip_key
+      assign chip_count = chip_count | plus: 1
+      assign l_img = nil
+      if l.type == 'collection_link'
+        assign l_img = l.object.image | default: l.object.featured_image
+      endif
+      assign l_current = false
+      if l.url == collection.url
+        assign l_current = true
+      else
+        assign chip_others = chip_others | plus: 1
+      endif
+    -%}
+    <a class="subnav__item{% if l_current %} is-current{% endif %}{% if l_img %} subnav__item--img{% endif %}" href="{{ l.url }}"{% if l_current %} aria-current="page"{% endif %}>
+      {%- if l_img -%}<span class="subnav__img">{{ l_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', width: 60, height: 60 }}</span>{%- endif -%}
+      <span class="subnav__label">{{ l.title }}</span>
+    </a>
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if chip_others == 0 -%}{%- assign sub_chips = '' -%}{%- assign chip_count = 0 -%}{%- endif -%}
+<div class="collection-head color-{{ color_scheme }}" data-collection-head>
+  <div class="page-width collection-head__inner">
+    {%- capture head_more -%}
+      {%- if intro != blank -%}
+        <p class="collection-head__intro">{{ intro | newline_to_br }}</p>
+      {%- elsif collection.description != blank and show_description -%}
+        <div class="collection-head__intro rte">{%- render 'text-excerpt', html: collection.description, words: 40 -%}</div>
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- comment -%}
+      custom.kenmerken (catalog/CONTRACT.md): desktop, a short list next to the title, under the sub-collections when those
+      fit beside it (at most 3). Phone: behind 'Lees meer' with the rest of the intro, so the products start sooner.
+    {%- endcomment -%}
+    {%- capture head_usps -%}
+      {%- if kenmerken != blank -%}
+        <ul class="collection-head__usps" role="list" id="CollectionUsps-{{ section_id }}">
+          {%- for k in kenmerken -%}<li>{%- render 'icon', icon: 'check', class: 'icon--xs' -%}<span>{{ k }}</span></li>{%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- liquid
+      assign chips_side = false
+      if chip_count > 0 and chip_count <= 3
+        assign chips_side = true
+      endif
+      assign has_aside = false
+      if head_usps != blank or chips_side
+        assign has_aside = true
+      endif
+    -%}
+    {%- capture chips_nav -%}
+      {%- if sub_chips != blank -%}
+        <nav class="subnav subnav--{% if chip_count <= 2 %}pair{% else %}scroll{% endif %}" aria-label="{{ 'collection.subcollections' | t }}"><div class="subnav__track">{{ sub_chips }}</div></nav>
+      {%- endif -%}
+    {%- endcapture -%}
+    <div class="collection-head__grid{% if has_aside %} collection-head__grid--aside{% endif %}">
+      <div class="collection-head__main">
+        {%- if in_menu -%}
+          <nav class="breadcrumbs" aria-label="{{ 'general.breadcrumbs' | t }}">
+            <ol>
+              <li><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a></li>
+              {%- if trail_1 -%}<li><a href="{{ trail_1.url }}">{{ trail_1.title }}</a></li>{%- endif -%}
+              {%- if trail_2 -%}<li><a href="{{ trail_2.url }}">{{ trail_2.title }}</a></li>{%- endif -%}
+              <li><span aria-current="page">{{ crumb_title }}</span></li>
+            </ol>
+          </nav>
+        {%- else -%}
+          {%- render 'breadcrumbs' -%}
+        {%- endif -%}
+        <h1 class="collection-head__title">{{ collection.title }}</h1>
+        {%- if head_more != blank or guide_link -%}
+          <div class="collection-head__text">
+            {%- if head_more != blank -%}
+              <div class="collection-head__more" id="CollectionIntro-{{ section_id }}" data-clamp>{{ head_more }}</div>
+            {%- endif -%}
+            <div class="collection-head__links">
+              {%- if head_more != blank -%}
+                <button type="button" class="collection-head__toggle link js-only" data-clamp-toggle aria-controls="CollectionIntro-{{ section_id }}{% if kenmerken != blank %} CollectionUsps-{{ section_id }}{% endif %}" aria-expanded="false" data-more="{{ 'collection.read_more' | t }}" data-less="{{ 'collection.read_less' | t }}">{{ 'collection.read_more' | t }}</button>
+              {%- endif -%}
+              {%- if guide_link -%}
+                <a class="collection-head__guide link" href="{{ guide_link.url }}">{%- render 'icon', icon: 'info', class: 'icon--xs' -%}{{ guide_link.title }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if has_aside -%}
+        <div class="collection-head__aside">
+          {%- if chips_side -%}{{ chips_nav }}{%- endif -%}
+          {{ head_usps }}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- unless chips_side -%}{{ chips_nav }}{%- endunless -%}
+  </div>
+</div>
+
+{%- comment -%} BreadcrumbList for the trail shown above (snippets/structured-data leaves collection pages to this section) {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": {{ 'general.home' | t | json }}, "item": {{ request.origin | append: routes.root_url | json }} },
+    {%- assign crumb_pos = 1 -%}
+    {%- if in_menu -%}
+      {%- if trail_1 -%}{%- assign crumb_pos = crumb_pos | plus: 1 -%}
+    { "@type": "ListItem", "position": {{ crumb_pos }}, "name": {{ trail_1.title | json }}, "item": {{ request.origin | append: trail_1.url | json }} },
+      {%- endif -%}
+      {%- if trail_2 -%}{%- assign crumb_pos = crumb_pos | plus: 1 -%}
+    { "@type": "ListItem", "position": {{ crumb_pos }}, "name": {{ trail_2.title | json }}, "item": {{ request.origin | append: trail_2.url | json }} },
+      {%- endif -%}
+    {%- else -%}{%- assign crumb_pos = crumb_pos | plus: 1 -%}
+    { "@type": "ListItem", "position": {{ crumb_pos }}, "name": {{ 'search.collections' | t | json }}, "item": {{ request.origin | append: routes.collections_url | json }} },
+    {%- endif -%}
+    {%- assign crumb_pos = crumb_pos | plus: 1 -%}
+    { "@type": "ListItem", "position": {{ crumb_pos }}, "name": {{ crumb_title | json }}, "item": {{ request.origin | append: collection.url | json }} }
+  ]
+}
+</script>

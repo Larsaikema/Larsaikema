@@ -276,7 +276,7 @@
    "image": {
     "src": "partytent-pvc-550-premium-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/partytent-pvc-550-premium-hero.webp",
-    "alt": "Partytent PVC 550 Premium met buizenframe, 4 × 8 m, wit, met zijwanden met ramen, schuin vooraanzicht"
+    "alt": "Zijwanden met raam van wit PVC aan een partytent met buizenframe (tent niet inbegrepen), schuin vooraanzicht"
    },
    "product_count": 5
   },
@@ -374,7 +374,7 @@
    "image": {
     "src": "stretchtent-compleet-zandkleur-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stretchtent-compleet-zandkleur-hero.webp",
-    "alt": "Stretchtent 6 × 6 m, Zandkleur, op houten palen met spanbanden, schuin vooraanzicht"
+    "alt": "Stretchdoek zandkleur, opgespannen op palen (palen en spanmateriaal niet inbegrepen), schuin vooraanzicht"
    },
    "product_count": 7
   },
@@ -954,9 +954,9 @@
     }
    ],
    "image": {
-    "src": "dakzeil-partytent-buizenframe-hero.webp",
-    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/dakzeil-partytent-buizenframe-hero.webp",
-    "alt": "Dakzeil partytent buizenframe 4 × 8 m, wit PVC, los van het frame, schuin vooraanzicht"
+    "src": "koppelstukken-en-buizen-38-mm-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/koppelstukken-en-buizen-38-mm-hero.webp",
+    "alt": "Koppelstukken en buis 38 mm: 2-weg, 3-weg en 4-weg koppelstuk naast een verzinkte buis"
    },
    "product_count": 10
   },
@@ -1002,7 +1002,11 @@
      "value": "[\"Elektrisch in de tent\", \"Gas alleen buiten\", \"Vermogen per m²\"]"
     }
    ],
-   "image": null,
+   "image": {
+    "src": "elektrische-heater-partytent-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/elektrische-heater-partytent-hero.webp",
+    "alt": "Elektrische heater 1500 W met klem voor een easy-up-poot, schuin vooraanzicht"
+   },
    "product_count": 6
   },
   {
@@ -1170,7 +1174,11 @@
      "value": "[\"15 kg per poot op verharding\", \"Haringen op gras\", \"Bij harde wind: dak eraf\"]"
     }
    ],
-   "image": null,
+   "image": {
+    "src": "collectie-gewichten-en-verankering.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/collectie-gewichten-en-verankering.webp",
+    "alt": "Voetgewichten op de poten van een easy-up partytent"
+   },
    "product_count": 7
   },
   {
@@ -1215,7 +1223,11 @@
      "value": "[\"Per tentmaat, 2 × 2 tot 5 × 5 m\", \"Past op Premium en Professional\", \"Wieltas bij de Professional al inbegrepen\"]"
     }
    ],
-   "image": null,
+   "image": {
+    "src": "wieltas-easy-up-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/wieltas-easy-up-hero.webp",
+    "alt": "Wieltas easy-up partytent, zwart met logo, rechtop op de wielen"
+   },
    "product_count": 4
   },
   {
@@ -1263,7 +1275,7 @@
    "image": {
     "src": "statafel-inklapbaar-professional-wit-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafel-inklapbaar-professional-wit-hero.webp",
-    "alt": "Statafel inklapbaar Professional Ø 80 cm, Wit, schuin vooraanzicht"
+    "alt": "Statafel inklapbaar Professional Ø 80 cm, Wit, schuin vooraanzicht (onderdeel van dit pakket)"
    },
    "product_count": 6
   },
@@ -1496,7 +1508,11 @@
      "value": "[\"Rond, vierkant of tot de grond\", \"Voor bladen Ø 70–85 cm\", \"Kreukarm polyester\", \"Wasbaar op 30 °C\"]"
     }
    ],
-   "image": null,
+   "image": {
+    "src": "statafelkleed-rond-tot-de-grond-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafelkleed-rond-tot-de-grond-wit-hero.webp",
+    "alt": "Statafelkleed rond tot de grond Ø 300 cm, Wit, op een statafel, schuin vooraanzicht"
+   },
    "product_count": 2
   },
   {
@@ -1539,7 +1555,163 @@
      "value": "[\"Vanaf 1 stuk\", \"Drukproef vooraf\", \"Tot 25% staffel\"]"
     }
    ],
-   "image": null,
+   "image": {
+    "src": "statafelhoes-stretch-met-logo-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/statafelhoes-stretch-met-logo-zwart-hero.webp",
+    "alt": "Statafelhoes stretch met logo, Zwart, met voorbeeldopdruk Klapklaar op het vlakke deel van de rok, schuin vooraanzicht"
+   },
+   "product_count": 3
+  },
+  {
+   "handle": "statafel-onderdelen",
+   "title": "Statafel-onderdelen en transport",
+   "body_html": "",
+   "type": "manual",
+   "sort_order": "manual",
+   "rules": null,
+   "disjunctive": null,
+   "products": [
+    "onderdelen-statafel",
+    "los-statafelblad",
+    "voetdoppen-set-van-4",
+    "transportkar-statafels",
+    "beschermplaat-statafel"
+   ],
+   "parent": "statafels",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Statafel-onderdelen: onderstel, blad en meer | Klapklaar",
+    "description": "Onderstel, schuifring, bladscharnier, los blad en voetdoppen voor de inklapbare statafels, plus beschermplaat en transportkar. Vervang het onderdeel."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Onderdelen die je statafel langer laten meegaan: onderstel, schuifring, scharnier, los blad, voetdoppen en beschermplaat, plus de kar om ze te vervoeren."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen voor je statafel\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een kapotte schuifring of een beschadigd blad is geen reden om een hele statafel weg te doen. Deze onderdelen passen op de \"}, {\"type\": \"link\", \"url\": \"/products/statafel-inklapbaar-professional\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafel inklapbaar Professional\"}]}, {\"type\": \"text\", \"value\": \"; het onderstel, de schuifring en het scharnier ook op de \"}, {\"type\": \"link\", \"url\": \"/products/statafel-inklapbaar-hdpe-80\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"HDPE-statafel\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/onderdelen-statafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Onderdelen statafel inklapbaar\"}]}, {\"type\": \"text\", \"value\": \": onderstel compleet, schuifring met draaiknop, of bladscharnier met schroeven.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/los-statafelblad\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Los statafelblad\"}]}, {\"type\": \"text\", \"value\": \": Ø 70, 80 of 85 cm in wit, zwart, antraciet of berken, voor een nieuw blad of een andere kleur.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/voetdoppen-set-van-4\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Voetdoppen\"}]}, {\"type\": \"text\", \"value\": \": set van 4, beschermen je vloer.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/beschermplaat-statafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Beschermplaat\"}]}, {\"type\": \"text\", \"value\": \": transparant PVC dat blad en rok schoon houdt.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/transportkar-statafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Transportkar\"}]}, {\"type\": \"text\", \"value\": \" voor 5 of 15 ingeklapte statafels.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Weet je niet welk onderdeel je nodig hebt? Stuur ons via \"}, {\"type\": \"link\", \"url\": \"/pages/contact\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"contact\"}]}, {\"type\": \"text\", \"value\": \" een foto, dan zoeken we het samen uit.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Per onderdeel te bestellen\", \"Past op onze inklapbare statafels\", \"Kar voor 5 of 15 statafels\"]"
+    }
+   ],
+   "image": {
+    "src": "onderdelen-statafel-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/onderdelen-statafel-hero.webp",
+    "alt": "Onderstel van de inklapbare statafel zonder blad: zwarte kolom met vier poten, schuifring en bladscharnier bovenaan"
+   },
+   "product_count": 5
+  },
+  {
+   "handle": "topcovers-en-beschermplaten",
+   "title": "Topcovers en beschermplaten",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Topcover"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Beschermplaat"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": "statafelrokken",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Topcovers en beschermplaten voor statafels | Klapklaar",
+    "description": "Losse topcover stretch in 24 kleuren en transparante beschermplaten voor ronde, vierkante en rechthoekige statafels, ook met jouw opdruk."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Een losse topcover in 24 kleuren voor een tweede kleur op je stretchrok, en transparante beschermplaten die rok en blad schoon houden, ook met je logo."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Topcovers en beschermplaten\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De topcover is het strakke hoesje over het blad. Bij een \"}, {\"type\": \"link\", \"url\": \"/products/statafelrok-stretch\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretchrok met topcover\"}]}, {\"type\": \"text\", \"value\": \" zit hij erbij; los gebruik je hem voor een tweede kleur, als reserve of op een rok zonder topcover.\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/topcover-stretch-statafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Topcover stretch\"}]}, {\"type\": \"text\", \"value\": \": voor bladen Ø 60–70 of Ø 80–85 cm, in dezelfde 24 kleuren als de rok.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/beschermplaat-statafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Beschermplaat transparant\"}]}, {\"type\": \"text\", \"value\": \": PVC over hoes en topcover, rond, vierkant, rechthoekig of voor een klaptafel van 183 cm. Bier en wijn veeg je eraf.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/beschermplaat-met-opdruk\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Beschermplaat met jouw opdruk\"}]}, {\"type\": \"text\", \"value\": \": je logo bovenop de statafel, onder transparant PVC. Eerst een drukproef.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Welke maat?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een ronde plaat is 2 cm kleiner dan het blad: Ø 78 cm op een blad van Ø 80 cm. Een vierkante of rechthoekige plaat heeft de maat van het blad. Twijfel je, kijk dan bij het \"}, {\"type\": \"link\", \"url\": \"/pages/maatadvies-statafelrokken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"maatadvies\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"24 kleuren topcover\", \"Rond, vierkant of rechthoekig\", \"Ook met jouw opdruk\"]"
+    }
+   ],
+   "image": {
+    "src": "beschermplaat-statafel-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/beschermplaat-statafel-hero.webp",
+    "alt": "Beschermplaat transparant Ø 78 cm op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen), schuin vooraanzicht"
+   },
+   "product_count": 3
+  },
+  {
+   "handle": "tafelhoezen",
+   "title": "Tafelhoezen",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Tafelhoes"
+    }
+   ],
+   "disjunctive": false,
+   "products": null,
+   "parent": "statafelrokken",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Stretchhoezen voor klaptafel en biertafelset | Klapklaar",
+    "description": "Stretchhoezen voor klaptafels van 122, 183 en 244 cm en voor biertafelsets, in wit, zwart of antraciet of met jouw logo. Strak tot de grond."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Stretchhoezen die klaptafels en biertafelsets strak aankleden tot de grond, in wit, zwart of antraciet, of met jouw logo."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Hoezen voor klaptafels en biertafelsets\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een stretchhoes trek je over het blad en de poten. De stof spant strak, zodat je geen poten en geen kreukels ziet. Zo wordt een klaptafel een buffet, bar of registratietafel.\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stretchhoes-klaptafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stretchhoes klaptafel\"}]}, {\"type\": \"text\", \"value\": \": voor 122 × 61, 183 × 76 en 244 × 76 cm, in wit, zwart of antraciet.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/hoes-biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Hoes biertafelset\"}]}, {\"type\": \"text\", \"value\": \": drie hoezen voor tafel en 2 banken, 220 × 50 of 70 cm.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stretchhoes-klaptafel-met-logo\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stretchhoes met jouw logo\"}]}, {\"type\": \"text\", \"value\": \": logo op de voorkant of full colour rondom, voor beurs en evenement.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"De maat van de hoes is de maat van het blad. Tien klaptafels met hoezen en een kar koop je voordelig als \"}, {\"type\": \"link\", \"url\": \"/products/buffetpakket-klaptafels-stretchhoezen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"buffetpakket\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Strak tot de grond\", \"Klaptafel 122, 183 of 244 cm\", \"Ook met jouw logo\"]"
+    }
+   ],
+   "image": {
+    "src": "stretchhoes-klaptafel-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stretchhoes-klaptafel-zwart-hero.webp",
+    "alt": "Stretchhoes klaptafel 183 × 76 cm, Zwart, schuin vooraanzicht"
+   },
    "product_count": 3
   },
   {
@@ -1575,7 +1747,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Actiepakketten: zo werken ze\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Zo lees je de prijs\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Statafelpakketten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-statafel-met-stretchrok\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafel met stretchrok\"}]}, {\"type\": \"text\", \"value\": \": één statafel met rok en topcover, om te beginnen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-4-statafels-met-stretchrokken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"4 statafels met stretchrokken\"}]}, {\"type\": \"text\", \"value\": \": voor een borrel met 30 tot 40 gasten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-statafels-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafels met transportkar\"}]}, {\"type\": \"text\", \"value\": \": 5, 10 of 15 statafels op een kar, voor verhuur en horeca.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-statafels-stretchrokken-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafels met stretchrokken en transportkar\"}]}, {\"type\": \"text\", \"value\": \": het complete pakket, rokken in 6 kleuren.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/terraspakket-statafel-barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Terraspakket\"}]}, {\"type\": \"text\", \"value\": \": statafel, rok en 4 barkrukken.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/wijnvat-set-statafel-barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Wijnvat-set\"}]}, {\"type\": \"text\", \"value\": \": wijnvat-statafel met 4 barkrukken met houten zitting.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Andere pakketten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/starterspakket-easy-up-premium\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Starterspakket easy-up Premium\"}]}, {\"type\": \"text\", \"value\": \": tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/compleet-pakket-easy-up-professional\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Compleet pakket easy-up Professional\"}]}, {\"type\": \"text\", \"value\": \": tent, zijwanden en voetgewichten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-24-barkrukken-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"24 barkrukken met transportkar\"}]}, {\"type\": \"text\", \"value\": \": stapelbare metalen barkrukken in één kleur, op hun eigen kar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/buffetpakket-klaptafels-stretchhoezen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Buffetpakket\"}]}, {\"type\": \"text\", \"value\": \": 10 klaptafels met stretchhoezen en een transportkar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/biertafelsets-10-stuks\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Biertafelsets per 10\"}]}, {\"type\": \"text\", \"value\": \": voor vereniging en buurtfeest.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/prikkabelset-led\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabelset met LED-lampen\"}]}, {\"type\": \"text\", \"value\": \": prikkabel met een lamp in elke fitting.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat betekent de kleur in een pakket?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Levering\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Kleine pakketten, zoals een statafel met rok of de prikkabelset, komen als pakket. Pakketten met een transportkar, biertafelsets of een grote tent komen op een pallet, op een dag die je vooraf afspreekt. Bij elk pakket staat hoe het komt.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Liever zelf samenstellen?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je \"}, {\"type\": \"link\", \"url\": \"/pages/offerte\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"een offerte aanvragen\"}]}, {\"type\": \"text\", \"value\": \". Hoeveel statafels je nodig hebt, lees je in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/hoeveel-statafels-per-gast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"hoeveel statafels per gast\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Actiepakketten: zo werken ze\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Zo lees je de prijs\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Statafelpakketten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-statafel-met-stretchrok\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafel met stretchrok\"}]}, {\"type\": \"text\", \"value\": \": één statafel met rok en topcover, om te beginnen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-4-statafels-met-stretchrokken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"4 statafels met stretchrokken\"}]}, {\"type\": \"text\", \"value\": \": voor een borrel met 30 tot 40 gasten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-statafels-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafels met transportkar\"}]}, {\"type\": \"text\", \"value\": \": 5, 10 of 15 statafels op een kar, voor verhuur en horeca.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-10-statafels-stretchrokken-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Statafels met stretchrokken en transportkar\"}]}, {\"type\": \"text\", \"value\": \": het complete pakket met 5, 10 of 15 statafels, rokken in 8 kleuren.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/terraspakket-statafel-barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Terraspakket\"}]}, {\"type\": \"text\", \"value\": \": statafel, rok en 4 barkrukken.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/wijnvat-set-statafel-barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Wijnvat-set\"}]}, {\"type\": \"text\", \"value\": \": wijnvat-statafel met 4 barkrukken met houten zitting.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Andere pakketten\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/starterspakket-easy-up-premium\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Starterspakket easy-up Premium\"}]}, {\"type\": \"text\", \"value\": \": tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/compleet-pakket-easy-up-professional\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Compleet pakket easy-up Professional\"}]}, {\"type\": \"text\", \"value\": \": tent, zijwanden en voetgewichten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/pakket-24-barkrukken-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"24 barkrukken met transportkar\"}]}, {\"type\": \"text\", \"value\": \": stapelbare metalen barkrukken in één kleur, op hun eigen kar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/buffetpakket-klaptafels-stretchhoezen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Buffetpakket\"}]}, {\"type\": \"text\", \"value\": \": 10 klaptafels met stretchhoezen en een transportkar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/biertafelsets-10-stuks\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Biertafelsets per 10\"}]}, {\"type\": \"text\", \"value\": \": voor vereniging en buurtfeest.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/prikkabelset-led\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabelset met LED-lampen\"}]}, {\"type\": \"text\", \"value\": \": prikkabel met een lamp in elke fitting.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Wat betekent de kleur in een pakket?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Levering\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Kleine pakketten, zoals een statafel met rok of de prikkabelset, komen als pakket. Pakketten met een transportkar, biertafelsets of een grote tent komen op een pallet, op een dag die je vooraf afspreekt. Bij elk pakket staat hoe het komt.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Liever zelf samenstellen?\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je \"}, {\"type\": \"link\", \"url\": \"/pages/offerte\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"een offerte aanvragen\"}]}, {\"type\": \"text\", \"value\": \". Hoeveel statafels je nodig hebt, lees je in \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/hoeveel-statafels-per-gast\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"hoeveel statafels per gast\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -1589,7 +1761,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/pakket-4-statafels-met-stretchrokken-zwart-hero.webp",
     "alt": "4 statafels met stretchrok en topcover, Zwart, schuin vooraanzicht"
    },
-   "product_count": 12
+   "product_count": 14
   },
   {
    "handle": "meubilair",
@@ -1683,7 +1855,233 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
     "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
    },
-   "product_count": 22
+   "product_count": 23
+  },
+  {
+   "handle": "barkrukken",
+   "title": "Barkrukken",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Barkruk"
+    }
+   ],
+   "disjunctive": false,
+   "products": null,
+   "parent": "meubilair",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Barkrukken voor statafel en bar, stapelbaar | Klapklaar",
+    "description": "Barkrukken met zithoogte 76 cm voor statafels van 107 tot 110 cm: metaal, hout, velours, chroom, draad en PE-rotan. Stapelbaar, staffel vanaf 10."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Barkrukken op de juiste hoogte bij een statafel van 107 tot 110 cm: zithoogte 76 cm, stapelbaar, in metaal, hout, velours, chroom, draad of PE-rotan voor buiten."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Barkrukken bij je statafel\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een statafel is 107 tot 110 cm hoog. Daar hoort een barkruk met een zithoogte van ongeveer 76 cm bij: dan zitten je knieën vrij onder het blad en zit je op dezelfde hoogte als wie ernaast staat. Alle barkrukken hier hebben die hoogte.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Welke past bij jou?\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-stapelbaar-metaal\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Metaal stapelbaar\"}]}, {\"type\": \"text\", \"value\": \": gepoedercoat staal, binnen en buiten, stapelt tot 10 hoog. Het werkpaard voor horeca en verhuur.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-houten-zitting\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Met houten zitting\"}]}, {\"type\": \"text\", \"value\": \": zwart frame met een zitting in eikenlook, warmer dan alleen metaal.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-velours-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Velours\"}]}, {\"type\": \"text\", \"value\": \": gestoffeerd met een lage rug, voor receptie en lounge binnen. Stapelt tot 5.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-chroom-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Chroom\"}]}, {\"type\": \"text\", \"value\": \": verchroomd frame met een kunstleren zitting die je schoon veegt. Stapelt tot 6.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-draad-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Draad\"}]}, {\"type\": \"text\", \"value\": \": gelast draadstaal met rugleuning, binnen en buiten, stapelt tot 8.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/barkruk-pe-rotan\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"PE-rotan\"}]}, {\"type\": \"text\", \"value\": \": aluminium frame dat niet roest, voor een terras dat het hele seizoen buiten staat.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Opslaan en vervoeren\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Stapelbare krukken rijd je met de \"}, {\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar voor 24 barkrukken\"}]}, {\"type\": \"text\", \"value\": \" in één keer naar binnen. Met kar en al is het een pakket: \"}, {\"type\": \"link\", \"url\": \"/products/pakket-24-barkrukken-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"24 barkrukken met transportkar\"}]}, {\"type\": \"text\", \"value\": \". Een \"}, {\"type\": \"link\", \"url\": \"/products/zitkussen-stoel-en-barkruk\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zitkussen\"}]}, {\"type\": \"text\", \"value\": \" maakt een houten of draadkruk zachter. Vanaf 10 stuks geldt een staffelprijs.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Zithoogte 76 cm\", \"Stapelbaar tot 10\", \"Kar voor 24 krukken\"]"
+    }
+   ],
+   "image": {
+    "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
+    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+   },
+   "product_count": 6
+  },
+  {
+   "handle": "stoelen-en-banken",
+   "title": "Stoelen, krukken en banken",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Stoel"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Kruk"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Bank"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Bierbank"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": "meubilair",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Stoelen, krukken en banken voor feest en horeca | Klapklaar",
+    "description": "Klapstoelen, stapelstoelen in metaal of hout, gestoffeerde banquetstoelen, lage krukken en banken. Zithoogte ca. 45 cm, staffelprijs vanaf 10 stuks."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Zitplaatsen voor feest, diner en terras: klapstoelen, stapelstoelen in metaal of hout, gestoffeerde banquetstoelen, lage krukken en banken."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Stoelen, krukken en banken\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij een tafel van 72 tot 76 cm hoog hoort een zithoogte van ongeveer 45 cm. De stoelen, banken en de lage kruk hier zitten op die hoogte. Voor een statafel kies je een \"}, {\"type\": \"link\", \"url\": \"/collections/barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"barkruk\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Kiezen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klapstoel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klapstoel\"}]}, {\"type\": \"text\", \"value\": \": plat opvouwbaar en licht, voor ceremonies, scholen en feesten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-metaal\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stapelstoel metaal\"}]}, {\"type\": \"text\", \"value\": \": bistrostoel voor terras en kantine, stapelt tot 10.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-cross-back\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Cross back\"}]}, {\"type\": \"text\", \"value\": \": massief hout met kruisrug, voor bruiloft en diner.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/banquetstoel-gestoffeerd\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Banquetstoel\"}]}, {\"type\": \"text\", \"value\": \": gestoffeerd en stapelbaar tot 10, voor zalen en congressen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/kruk-laag-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Lage kruk\"}]}, {\"type\": \"text\", \"value\": \": extra zitplek bij een gewone tafel of een biertafel.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bank-houten-frame\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Bank met houten frame\"}]}, {\"type\": \"text\", \"value\": \" voor lounge en receptie, of een losse \"}, {\"type\": \"link\", \"url\": \"/products/bierbank-220\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" bij je biertafel.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Comfort en opslag\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/zitkussen-stoel-en-barkruk\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zitkussen\"}]}, {\"type\": \"text\", \"value\": \" maakt een houten of metalen stoel zachter. Klapstoelen rijd je met de \"}, {\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar voor 30 klapstoelen\"}]}, {\"type\": \"text\", \"value\": \". Vanaf 10 stuks geldt een staffelprijs.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Stapelbaar of plat opvouwbaar\", \"Zithoogte ca. 45 cm\", \"Staffel vanaf 10\"]"
+    }
+   ],
+   "image": {
+    "src": "stapelstoel-cross-back-houtlook-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stapelstoel-cross-back-houtlook-hero.webp",
+    "alt": "Stapelstoel cross back hout, Houtlook (naturel), schuin vooraanzicht"
+   },
+   "product_count": 7
+  },
+  {
+   "handle": "tafels",
+   "title": "Klaptafels, terrastafels en biertafelsets",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Klaptafel"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Terrastafel"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Biertafelset"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Bierbank"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": "meubilair",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Klaptafels, terrastafels en biertafelsets | Klapklaar",
+    "description": "Klaptafels van HDPE, rechthoekig en rond, terrastafels met klapblad en biertafelsets. Inklapbaar, binnen en buiten, met passende hoezen en transportkar."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Tafels om aan te zitten: HDPE-klaptafels voor buffet en vergadering, ronde banket-tafels, terrastafels met klapblad en biertafelsets."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafels, terrastafels en biertafelsets\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor een buffet, een vergadering of een diner zoek je een tafel van ongeveer 74 cm hoog die je na afloop inklapt. Tafels om aan te staan vind je bij de \"}, {\"type\": \"link\", \"url\": \"/collections/statafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafels\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Welke tafel?\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rechthoekig\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rechthoekig\"}]}, {\"type\": \"text\", \"value\": \": 122, 183 of 244 cm lang; de 183 cm ook in het midden inklapbaar, als koffermodel.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rond\"}]}, {\"type\": \"text\", \"value\": \": Ø 150 cm voor 8 of Ø 180 cm voor 10 personen, voor diners en bruiloften.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/terrastafel-inklapbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Terrastafel\"}]}, {\"type\": \"text\", \"value\": \": 75 cm hoog met klapblad, snel opgeruimd na sluitingstijd.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Biertafelset\"}]}, {\"type\": \"text\", \"value\": \": tafel en 2 banken van 220 cm, 50 of 70 cm breed; een extra \"}, {\"type\": \"link\", \"url\": \"/products/bierbank-220\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" los.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Aankleden en vervoeren\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/stretchhoes-klaptafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretchhoes\"}]}, {\"type\": \"text\", \"value\": \" maakt van een klaptafel een nette buffet- of registratietafel; de \"}, {\"type\": \"link\", \"url\": \"/products/hoes-biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"hoes voor de biertafelset\"}]}, {\"type\": \"text\", \"value\": \" doet hetzelfde voor tafel en banken. Tien klaptafels van 183 cm rijd je met de \"}, {\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Inklapbaar\", \"Rechthoekig of rond\", \"Binnen en buiten\"]"
+    }
+   ],
+   "image": {
+    "src": "klaptafel-hdpe-rechthoekig-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/klaptafel-hdpe-rechthoekig-hero.webp",
+    "alt": "Klaptafel HDPE rechthoekig 183 × 76 cm, lichtgrijs blad, schuin vooraanzicht"
+   },
+   "product_count": 5
+  },
+  {
+   "handle": "transportkarren",
+   "title": "Transportkarren",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Transportkar"
+    }
+   ],
+   "disjunctive": false,
+   "products": null,
+   "parent": "meubilair",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Transportkar voor statafels en klaptafels | Klapklaar",
+    "description": "Transportkarren voor 5 of 15 statafels, 10 klaptafels, 24 barkrukken of 30 klapstoelen. Rijden in plaats van sjouwen, ook als voordelig pakket."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Statafels, klaptafels, barkrukken en klapstoelen rijden in plaats van sjouwen: een kar per meubeltype, ook om netjes op te slaan."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Transportkarren voor meubilair\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Wie vaak opbouwt, verliest de meeste tijd met sjouwen. Een kar per meubeltype houdt alles bij elkaar, ook in de opslag.\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/transportkar-statafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Transportkar voor statafels\"}]}, {\"type\": \"text\", \"value\": \": de kleine kar neemt 5 ingeklapte statafels, de grote 15. De kleine (ca. 65 cm breed) past door een gewone binnendeur, de grote (ca. 97 cm) niet.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Transportkar voor klaptafels en stoelen\"}]}, {\"type\": \"text\", \"value\": \": voor 10 klaptafels van 183 cm, 24 stapelbare barkrukken of 30 klapstoelen.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Als pakket\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Samen met de meubels is het voordeliger: \"}, {\"type\": \"link\", \"url\": \"/products/pakket-statafels-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafels met kar\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/pakket-10-statafels-stretchrokken-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafels met rokken en kar\"}]}, {\"type\": \"text\", \"value\": \", \"}, {\"type\": \"link\", \"url\": \"/products/pakket-24-barkrukken-met-transportkar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"24 barkrukken met kar\"}]}, {\"type\": \"text\", \"value\": \" of het \"}, {\"type\": \"link\", \"url\": \"/products/buffetpakket-klaptafels-stretchhoezen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"buffetpakket\"}]}, {\"type\": \"text\", \"value\": \". Karren komen als palletzending.\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"5 of 15 statafels\", \"Klaptafels, barkrukken, klapstoelen\", \"Levering op pallet\"]"
+    }
+   ],
+   "image": {
+    "src": "transportkar-statafels-gevuld.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/transportkar-statafels-gevuld.webp",
+    "alt": "Grote transportkar gevuld met 15 ingeklapte statafels (statafels niet inbegrepen)"
+   },
+   "product_count": 2
   },
   {
    "handle": "verlichting",
@@ -1757,8 +2155,130 @@
      "value": "[\"Prikkabel: elke meter een fitting\", \"Op maat tot 200 m\", \"LED-lampen van 1–2 W\", \"Spatwaterdicht voor buiten\"]"
     }
    ],
-   "image": null,
-   "product_count": 9
+   "image": {
+    "src": "collectie-verlichting.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/collectie-verlichting.webp",
+    "alt": "Prikkabel met brandende lampen"
+   },
+   "product_count": 10
+  },
+  {
+   "handle": "prikkabels",
+   "title": "Prikkabels",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Prikkabel"
+    },
+    {
+     "column": "title",
+     "relation": "starts_with",
+     "condition": "Prikkabelset"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": "verlichting",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "Prikkabels met E27-fitting, ook op maat | Klapklaar",
+    "description": "Prikkabel E27 van 10 tot 50 m, op maat vanaf 5 m of als set met LED-lampen. Fitting elke meter, IP44 voor buiten, zwarte of witte kabel."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "Prikkabels met een E27-fitting elke meter, van 10 tot 50 m of op maat, en als set met de LED-lampen erbij."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabels voor tuin, terras en tent\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een prikkabel is een kabel met fittingen waarin je zelf de lampen draait. De lengte is het aantal fittingen: aan een kabel van 20 m zitten 20 lampen.\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Kiezen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/prikkabel-e27\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabel E27\"}]}, {\"type\": \"text\", \"value\": \": 10, 20, 30 of 50 m, zwarte of witte kabel, IP44.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/prikkabelset-led\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabelset met LED-lampen\"}]}, {\"type\": \"text\", \"value\": \": kabel van 10 of 20 m met een lamp per fitting, direct aan.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/prikkabel-op-maat\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Prikkabel op maat\"}]}, {\"type\": \"text\", \"value\": \": jouw lengte vanaf 5 m, gemonteerd. Rekenhulp: \"}, {\"type\": \"link\", \"url\": \"/blogs/advies/prikkabel-op-maat-berekenen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"prikkabel op maat berekenen\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Lampen en onderdelen\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Onbreekbare \"}, {\"type\": \"link\", \"url\": \"/products/led-lamp-e27\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-lampen E27\"}]}, {\"type\": \"text\", \"value\": \" gebruiken 1 tot 2 W, dus je kunt lange kabels doorkoppelen. Een dimmer, tijdschakelaar, losse fitting of kabel per meter vind je bij de \"}, {\"type\": \"link\", \"url\": \"/products/onderdelen-prikkabel-en-lichtslang\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"onderdelen\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Fitting elke meter\", \"IP44, voor buiten\", \"Ook op maat tot 200 m\"]"
+    }
+   ],
+   "image": {
+    "src": "prikkabel-e27-zwart-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/prikkabel-e27-zwart-hero.webp",
+    "alt": "Prikkabelset zwart: prikkabel met brandende warm witte LED-lampen, schuin vooraanzicht"
+   },
+   "product_count": 3
+  },
+  {
+   "handle": "lampen-en-lichtslangen",
+   "title": "Lampen, lichtslangen en tentverlichting",
+   "body_html": "",
+   "type": "smart",
+   "sort_order": "manual",
+   "rules": [
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "LED-lamp"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Lichtslang"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Kerstverlichting"
+    },
+    {
+     "column": "type",
+     "relation": "equals",
+     "condition": "Tentverlichting"
+    }
+   ],
+   "disjunctive": true,
+   "products": null,
+   "parent": "verlichting",
+   "template_suffix": null,
+   "published": true,
+   "seo": {
+    "title": "LED-lampen, lichtslangen en tentverlichting | Klapklaar",
+    "description": "Onbreekbare LED-lampen E27, lichtslang per meter of als rol van 15 of 20 m, kerstverlichting en LED-verlichting voor easy-up en opblaasbare tent."
+   },
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "intro",
+     "type": "multi_line_text_field",
+     "value": "LED-lampen voor je prikkabel, lichtslang per meter of als vaste rol, kerstverlichting en licht dat je aan een easy-up of opblaasbare tent hangt."
+    },
+    {
+     "namespace": "custom",
+     "key": "seo_tekst",
+     "type": "rich_text_field",
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Lampen, lichtslangen en tentverlichting\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/led-lamp-e27\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-lampen E27\"}]}, {\"type\": \"text\", \"value\": \": onbreekbaar, warm wit melkglas of helder, filament dimbaar, of een set van 5 gekleurde lampen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/led-lichtslang\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-lichtslang per meter\"}]}, {\"type\": \"text\", \"value\": \" in 6 kleuren, of een vaste \"}, {\"type\": \"link\", \"url\": \"/products/led-lichtslang-set-warm-wit\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"rol van 15 of 20 m warm wit\"}]}, {\"type\": \"text\", \"value\": \" met stekker en eindkap.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/kerstverlichting-10-m\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Kerstverlichting\"}]}, {\"type\": \"text\", \"value\": \": 10 m met 100 LEDs, doorkoppelbaar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/led-vloedlicht-easy-up\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-vloedlicht\"}]}, {\"type\": \"text\", \"value\": \": 30 W, klemt aan de poot van een easy-up.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/led-verlichting-opblaasbare-tent\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"LED-verlichting voor opblaasbare tenten\"}]}, {\"type\": \"text\", \"value\": \": 12 W onder de nok.\"}]}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een kabel om de lampen in te draaien vind je bij de \"}, {\"type\": \"link\", \"url\": \"/collections/prikkabels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"prikkabels\"}]}, {\"type\": \"text\", \"value\": \".\"}]}]}"
+    },
+    {
+     "namespace": "custom",
+     "key": "kenmerken",
+     "type": "list.single_line_text_field",
+     "value": "[\"Zuinige LED\", \"IP44 of beter\", \"Ook voor in de tent\"]"
+    }
+   ],
+   "image": {
+    "src": "led-lichtslang-warm-wit-hero.webp",
+    "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/led-lichtslang-warm-wit-hero.webp",
+    "alt": "LED-lichtslang warm wit, brandend, schuin vooraanzicht"
+   },
+   "product_count": 6
   },
   {
    "handle": "zakelijk",
@@ -1807,7 +2327,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/compleet-pakket-easy-up-professional-rood-hero.webp",
     "alt": "Compleet pakket easy-up Professional, Rood, met zijwanden en voetgewichten, schuin vooraanzicht"
    },
-   "product_count": 91
+   "product_count": 94
   },
   {
    "handle": "all",
@@ -1856,7 +2376,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-3x3-rood-hero.webp",
     "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht"
    },
-   "product_count": 150
+   "product_count": 154
   }
  ]
 }

@@ -1,13 +1,23 @@
 {%- comment -%}
   Shared product card (feature collection.card-parity): studio media + hover image, badges, title,
-  custom.kenmerk_kort, swatches, price incl/excl (+ vanaf / actie), stock + dispatch line, quick add.
-  Params: product (required), sizes (string), priority (bool), heading_tag (default h3), show_quick_add (bool, default setting)
+  custom.kenmerk_kort, colour swatches (hover previews that colour, click opens it), sizes of the line, price incl/excl
+  (+ vanaf / actie), stock + dispatch line and one action (the staffel discount is on the product page and in the
+  grid's Zakelijk band, not repeated on every card):
+  - 'add'    one variant: added straight from the card (cart.js handles form[data-product-form])
+  - 'quick'  several variants: opens the quick-add panel (facets.js + sections/quick-add.liquid); without JS a link
+  - 'link'   made to measure or with your logo: to the product page, where the configurator / upload lives
+  Params: product (required), sizes (string), priority (true: LCP candidate, eager + fetchpriority high; 'eager': in the first
+  row but not the LCP, eager only), heading_tag (default h3), show_quick_add (bool, default setting),
+  color (string, optional): an active colour filter value; the card then shows and links that colour's variant
+  show_sizes (bool, default true): false leaves out the sizes of the line (collection grid: the other sizes stand next to it)
 {%- endcomment -%}
 {%- liquid
-  assign card_sizes = sizes | default: '(min-width: 990px) 320px, (min-width: 750px) 33vw, 50vw'
+  assign img_sizes = sizes | default: '(min-width: 990px) 320px, (min-width: 750px) 33vw, 50vw'
   assign h_tag = heading_tag | default: 'h3'
   assign first_variant = product.selected_or_first_available_variant
   assign swatch_names = settings.swatch_option_names | downcase | split: ','
+  assign times_nb = ' × '
+  assign card_title = product.title | replace: ' x ', times_nb | replace: ' × ', times_nb
   assign is_print = false
   if product.tags contains 'bedrukbaar' or product.metafields.custom.bedrukbaar.value == true
     assign is_print = true
@@ -22,8 +32,7 @@
   if card_cfg != blank and card_cfg.velden != blank
     assign card_unit = card_cfg.eenheid | default: 'm²'
   endif
-  # the CTA names the first option a shopper can actually choose (more than one value), e.g. 'Kies je kleur' on a
-  # line split per size; sibling sizes (custom.andere_maten) are listed on the card and chosen on the product page
+  # the first option a shopper can actually choose (more than one value) names the action: 'Kies je kleur'
   assign choose_opt = ''
   for option in product.options_with_values
     if option.values.size > 1
@@ -31,61 +40,113 @@
       break
     endif
   endfor
+
+  # sizes of a line split per size (custom.andere_maten): '3 maten, van 3 × 3 m tot 3 × 6 m'
   assign card_siblings = product.metafields.custom.andere_maten.value
-  assign card_sizes = ''
-  assign card_size_count = 0
-  if card_siblings != blank and card_siblings.size > 0
+  assign card_size_line = ''
+  if card_siblings != blank and card_siblings.size > 0 and show_sizes != false
     assign size_names_lc = 'maat,tafelmaat,diameter,afmeting,formaat' | split: ','
     capture card_order
       render 'size-siblings-order', product: product, siblings: card_siblings, size_names: size_names_lc
     endcapture
     assign card_idx = card_order | split: ','
-    assign card_size_count = card_idx.size
-    capture card_sizes
-      for ci in card_idx
-        assign cin = ci | plus: 0
-        if cin == 0
-          assign csp = product
-        else
-          assign cj = cin | minus: 1
-          assign csp = card_siblings[cj]
-        endif
-        capture cl
-          render 'size-label', p: csp, size_names: size_names_lc
-        endcapture
-        if cin == 0
-          echo '<strong class="nowrap">' | append: cl | append: '</strong>'
-        else
-          echo '<span class="nowrap">' | append: cl | append: '</span>'
-        endif
-        unless forloop.last
-          echo ' · '
-        endunless
-      endfor
+    assign first_i = card_idx.first | plus: 0
+    assign last_i = card_idx.last | plus: 0
+    if first_i == 0
+      assign fsp = product
+    else
+      assign fj = first_i | minus: 1
+      assign fsp = card_siblings[fj]
+    endif
+    if last_i == 0
+      assign lsp = product
+    else
+      assign lj = last_i | minus: 1
+      assign lsp = card_siblings[lj]
+    endif
+    capture size_first
+      render 'size-label', p: fsp, size_names: size_names_lc
     endcapture
+    capture size_last
+      render 'size-label', p: lsp, size_names: size_names_lc
+    endcapture
+    assign size_first = size_first | strip | replace: ' x ', times_nb
+    assign size_last = size_last | strip | replace: ' x ', times_nb
+    if size_first != blank and size_last != blank and size_first != size_last
+      assign card_size_line = 'card.sizes_range_html' | t: count: card_idx.size, first: size_first, last: size_last
+      assign card_size_short = 'card.sizes_count' | t: count: card_idx.size
+    endif
+  endif
+
+  # the action
+  assign cta = 'none'
+  if quick and product.available
+    if card_unit != ''
+      assign cta = 'link'
+      assign cta_label = 'card.configure' | t
+    elsif is_print
+      assign cta = 'link'
+      assign cta_label = 'card.design' | t
+    elsif product.variants.size == 1
+      assign cta = 'add'
+      assign cta_label = 'card.quick_add' | t
+    else
+      assign cta = 'quick'
+      if choose_opt != ''
+        assign cta_label = 'product.choose' | t: option: choose_opt
+      else
+        assign cta_label = 'card.choose_options' | t
+      endif
+    endif
+  endif
+
+  # low stock on a one-variant product (feature global.low-stock-badge): real tracked stock only, never invented
+  assign low_stock = 0
+  if product.variants.size == 1 and first_variant.available and first_variant.inventory_management != blank and first_variant.inventory_policy == 'deny'
+    if first_variant.inventory_quantity > 0 and first_variant.inventory_quantity <= settings.low_stock_threshold
+      assign low_stock = first_variant.inventory_quantity
+    endif
+  endif
+
+  # filtered on a colour: show (and link) the first variant in that colour that has its own image
+  assign card_image = product.featured_media.preview_image
+  assign card_url = product.url
+  assign card_color_hit = false
+  if color != blank
+    for v in product.variants
+      if v.options contains color and v.featured_image
+        assign card_image = v.featured_image
+        assign card_url = v.url
+        assign card_color_hit = true
+        break
+      endif
+    endfor
   endif
 -%}
-<article class="card product-card{% unless product.available %} card--soldout{% endunless %}">
-  <a class="card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
-    {%- if product.featured_media -%}
-      {%- assign card_alt = product.featured_media.alt | default: product.title -%}
-      {%- render 'image', image: product.featured_media.preview_image, sizes: card_sizes, priority: priority, alt: card_alt, class: 'card__img' -%}
-      {%- if settings.card_second_image and product.media[1] -%}
-        {%- render 'image', image: product.media[1].preview_image, sizes: card_sizes, alt: '', class: 'card__img2' -%}
+<article class="card product-card{% unless product.available %} card--soldout{% endunless %}" data-card>
+  <div class="card__visual">
+  <a class="card__media" href="{{ card_url }}" tabindex="-1" aria-hidden="true">
+    {%- if card_image -%}
+      {%- assign card_alt = card_image.alt | default: product.title -%}
+      {%- if priority == 'eager' -%}
+        {{- card_image | image_url: width: 960 | image_tag: widths: '240, 360, 480, 640, 800, 960', sizes: img_sizes, loading: 'eager', alt: card_alt, class: 'card__img', decoding: 'async' -}}
+      {%- else -%}
+        {%- render 'image', image: card_image, sizes: img_sizes, widths: '240, 360, 480, 640, 800, 960', priority: priority, alt: card_alt, class: 'card__img' -%}
+      {%- endif -%}
+      {%- if settings.card_second_image and product.media[1] and card_color_hit == false -%}
+        {%- render 'image', image: product.media[1].preview_image, sizes: img_sizes, widths: '240, 360, 480, 640, 800, 960', alt: '', class: 'card__img2' -%}
       {%- endif -%}
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {%- endif -%}
   </a>
-  <div class="card__badges">
+  {%- comment -%} 'Voordeelset' only when the set really is cheaper than its parts (catalog/CONTRACT.md: bundles) {%- endcomment -%}
+  {%- capture card_bundle -%}{%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}{%- endcapture -%}
+  {%- capture card_badges -%}
     {%- if product.compare_at_price > product.price -%}
       {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
       <span class="badge badge--actie">{{ 'price.save' | t: percent: save_pct }}</span>
     {%- endif -%}
-    {%- if product.tags contains 'badge:nieuw' -%}<span class="badge badge--nieuw">{{ 'card.badge_new' | t }}</span>{%- endif -%}
-    {%- if is_print -%}<span class="badge badge--logo">{% render 'icon', icon: 'upload' %}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
-    {%- if product.metafields.custom.staffelkorting != blank -%}<span class="badge badge--staffel">{{ 'card.badge_staffel' | t }}</span>{%- endif -%}
-    {%- if product.tags contains 'set' -%}<span class="badge badge--staffel">{{ 'card.badge_set' | t }}</span>{%- endif -%}
     {%- if card_status == 'permanent-uitverkocht' -%}
       <span class="badge badge--soldout">{{ 'card.badge_discontinued' | t }}</span>
     {%- elsif card_status == 'binnenkort' and product.available == false -%}
@@ -93,62 +154,91 @@
     {%- elsif product.available == false -%}
       <span class="badge badge--soldout">{{ 'card.badge_sold_out' | t }}</span>
     {%- endif -%}
+    {%- if product.tags contains 'badge:nieuw' -%}<span class="badge badge--nieuw">{{ 'card.badge_new' | t }}</span>{%- endif -%}
+    {%- if is_print -%}<span class="badge badge--logo">{% render 'icon', icon: 'upload' %}{{ 'card.badge_logo' | t }}</span>{%- endif -%}
+    {%- if card_bundle != blank -%}<span class="badge badge--staffel">{{ 'card.badge_set' | t }}</span>{%- endif -%}
     {%- if card_unit != '' -%}<span class="badge badge--staffel">{{ 'card.badge_custom' | t }}</span>{%- endif -%}
+    {%- if low_stock > 0 -%}<span class="badge badge--staffel">{{ 'product.stock_low' | t: count: low_stock }}</span>{%- endif -%}
+  {%- endcapture -%}
+  {%- if card_badges != blank -%}<div class="card__badges">{{ card_badges }}</div>{%- endif -%}
+  {%- if cta != 'none' -%}
+    {%- capture cta_icon -%}
+      {%- if cta == 'link' -%}
+        {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+      {%- else -%}
+        <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 3.5h2.8l2.3 11.5h11.4l1.2-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M17.5 2.5v6M14.5 5.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="19.5" r="1.8" fill="currentColor"/><circle cx="17" cy="19.5" r="1.8" fill="currentColor"/></svg>
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- assign cta_aria = 'card.cta_label' | t: action: cta_label, title: card_title -%}
+    <div class="card__actions">
+      {%- if cta == 'add' -%}
+        {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ first_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" name="add" class="card__cta" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></button>
+        {%- endform -%}
+      {%- elsif cta == 'quick' -%}
+        <a class="card__cta" href="{{ card_url }}" data-quick-add="{{ card_url }}" aria-haspopup="dialog" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
+      {%- else -%}
+        <a class="card__cta" href="{{ product.url }}" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
   </div>
   <div class="card__body">
     {%- if settings.card_vendor -%}<p class="card__vendor">{{ product.vendor }}</p>{%- endif -%}
-    <{{ h_tag }} class="card__title"><a href="{{ product.url }}">{{ product.title | replace: ' × ', ' × ' }}</a></{{ h_tag }}>
+    <{{ h_tag }} class="card__title"><a href="{{ card_url }}">{{ card_title }}</a></{{ h_tag }}>
     {%- if settings.card_kenmerk and product.metafields.custom.kenmerk_kort != blank -%}
       <p class="card__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>
     {%- endif -%}
-    {%- if card_sizes != blank -%}
-      <p class="card__sizes">{{ 'card.sizes_html' | t: count: card_size_count, sizes: card_sizes }}</p>
-    {%- endif -%}
     {%- render 'rating', product: product -%}
-    {%- if settings.card_swatches -%}
-      {%- for option in product.options_with_values -%}
-        {%- assign opt_name = option.name | downcase | strip -%}
-        {%- assign is_swatch = false -%}
-        {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_name -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
-        {%- if is_swatch and option.values.size > 1 -%}
-          <div class="swatches" aria-label="{{ 'card.colors_label' | t: count: option.values.size }}" role="img">
-            {%- for value in option.values limit: settings.card_swatch_limit -%}
-              {%- render 'swatch', value: value, class: 'swatch--sm' -%}
-            {%- endfor -%}
-            {%- if option.values.size > settings.card_swatch_limit -%}
-              {%- assign more_count = option.values.size | minus: settings.card_swatch_limit -%}
-              <span aria-hidden="true">{{ 'card.more_colors' | t: count: more_count }}</span>
-            {%- endif -%}
-          </div>
-          {%- break -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
+    {%- capture card_meta -%}
+      {%- if settings.card_swatches -%}
+        {%- for option in product.options_with_values -%}
+          {%- assign opt_name = option.name | downcase | strip -%}
+          {%- assign is_swatch = false -%}
+          {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_name -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
+          {%- if is_swatch and option.values.size > 1 -%}
+            {%- assign opt_idx = option.position | minus: 1 -%}
+            <div class="card__swatches swatches">
+              <span class="visually-hidden">{{ 'card.colors_label' | t: count: option.values.size }}</span>
+              {%- for value in option.values limit: settings.card_swatch_limit -%}
+                {%- assign sw_variant = nil -%}
+                {%- for v in product.variants -%}
+                  {%- if v.options[opt_idx] == value.name and v.available -%}{%- assign sw_variant = v -%}{%- break -%}{%- endif -%}
+                {%- endfor -%}
+                {%- unless sw_variant -%}
+                  {%- for v in product.variants -%}{%- if v.options[opt_idx] == value.name -%}{%- assign sw_variant = v -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                {%- endunless -%}
+                {%- assign sw_img = sw_variant.featured_image -%}
+                <a class="card__swatch{% if sw_variant.available == false %} is-unavailable{% endif %}" href="{{ product.url }}{% if sw_variant %}?variant={{ sw_variant.id }}{% endif %}" tabindex="-1" aria-hidden="true" title="{{ value.name | escape }}"
+                  {%- if sw_img %} data-srcset="{{ sw_img | image_url: width: 360 }} 360w, {{ sw_img | image_url: width: 540 }} 540w, {{ sw_img | image_url: width: 720 }} 720w, {{ sw_img | image_url: width: 960 }} 960w" data-alt="{{ sw_img.alt | default: product.title | escape }}"{% endif %}>
+                  {%- render 'swatch', value: value, class: 'swatch--card' -%}
+                </a>
+              {%- endfor -%}
+              {%- if option.values.size > settings.card_swatch_limit -%}
+                {%- assign more_count = option.values.size | minus: settings.card_swatch_limit -%}
+                <span class="card__more card__more--wide" aria-hidden="true">{{ 'card.more_colors' | t: count: more_count }}</span>
+              {%- endif -%}
+              {%- comment -%} narrow cards (2 columns on a phone) show 4 swatches {%- endcomment -%}
+              {%- if option.values.size > 4 and settings.card_swatch_limit > 4 -%}
+                {%- assign more_narrow = option.values.size | minus: 4 -%}
+                <span class="card__more card__more--narrow" aria-hidden="true">{{ 'card.more_colors' | t: count: more_narrow }}</span>
+              {%- endif -%}
+            </div>
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if card_size_line != '' -%}<p class="card__sizes" title="{{ card_size_line | strip_html | escape }}"><span class="card__sizes-long">{{ card_size_line }}</span><span class="card__sizes-short">{{ card_size_short }}</span></p>{%- endif -%}
+    {%- endcapture -%}
+    {%- if card_meta != blank -%}<div class="card__meta">{{ card_meta }}</div>{%- endif -%}
     <div class="card__footer">
       <div class="card__price">
         {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit -%}{%- else -%}{%- render 'price', product: product -%}{%- endif -%}
-        {%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}
+        {{- card_bundle -}}
       </div>
       {%- if settings.card_stock -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endif -%}
-      {%- if quick -%}
-        <div class="card__actions card__quick">
-          {%- if product.variants.size == 1 and product.available and card_sizes == blank -%}
-            {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
-              <input type="hidden" name="id" value="{{ first_variant.id }}">
-              <input type="hidden" name="quantity" value="1">
-              <button type="submit" name="add" class="btn btn--outline btn--sm" aria-label="{{ 'card.quick_add_label' | t: title: product.title | escape }}">
-                {%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span>{{ 'card.quick_add' | t }}</span>
-              </button>
-            {%- endform -%}
-          {%- elsif card_unit != '' and product.available -%}
-            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">{{ 'card.configure' | t }}</a>
-          {%- elsif product.available -%}
-            <a class="btn btn--outline btn--sm" href="{{ product.url }}" tabindex="-1">
-              {%- if choose_opt != '' -%}{{ 'product.choose' | t: option: choose_opt }}{%- else -%}{{ 'card.choose_size' | t }}{%- endif -%}
-            </a>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
     </div>
   </div>
 </article>

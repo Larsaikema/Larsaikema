@@ -619,7 +619,7 @@ export function chestnut() {
       }
       const low = tlo(u, v * 2) * 1.6;
       const k = (y * W + x) * 4;
-      const base = [168, 128, 86];
+      const base = [150, 122, 92];
       const sh = 1 + g1 * 0.18 + g2 * 0.07 + low * 0.1 - kn * 0.45 + (facet - 0.5) * 0.05;
       albedo[k] = base[0] * sh; albedo[k + 1] = base[1] * sh; albedo[k + 2] = base[2] * sh * 0.97; albedo[k + 3] = 255;
       Hm[y * W + x] = g2 * 0.25 + g1 * 0.4 + facet * 0.35 - kn * 0.8;
@@ -676,7 +676,7 @@ export function wingNutGeo(s = 1) {
     g.translate(sg * 0.005 * s, 0, 0);
     parts.push(g);
   }
-  return G.merge(parts.map((g) => { g.deleteAttribute && g.attributes.uv; return g; }));
+  return G.merge(parts);
 }
 
 // Hex nut, axis +Y, centred; af = across flats.
@@ -768,4 +768,73 @@ export function lyingBag(bins, fab, { L, W, D, r = 0.05, re = 0.035, bulge = 0.0
   }
   // in world terms: fr.left = top face, fr.right = bottom face, 0 = front (+z), fr.back = back
   return { pt, frac: fr, L, W, D, matrix: Mx };
+}
+
+// ---------------------------------------------------------------------------------------
+// Rolled strip (connection strip, rain gutter): a strip of coated cloth of width `width`,
+// rolled up from its inner end into a loose spiral roll that rests on the floor, the free
+// end unrolled flat towards +Z for `tail` metres. `section(w, a, tailT)` returns a lateral /
+// vertical offset for the cross-section (w in [-width/2, width/2], a = arc length from the
+// free end, tailT = 0 on the roll .. 1 far out on the tail) to shape gutters.
+// Returns { geo (double-sided surface, uv in metres), at(w, a, lift) -> {p, n}, rollR, tailLen }.
+export function rolledStrip({ width = 0.3, length = 3, tail = 0.9, pitch = 0.0028, core = 0.018, thick = 0.0006, section = null, seed = 1, waviness = 0.004, nw = 40 }) {
+  const nz = makeNoise2(seed);
+  const rollLen = length - tail;
+  // outer radius from the rolled length: area = rollLen * pitch
+  const Rout = Math.sqrt(core * core + (rollLen * pitch) / Math.PI);
+  // spiral: r(phi) = Rout + pitch * phi / TAU for phi in [-Phi, 0], centre (y = Rout, z = 0)
+  // arc length from the outer end ~ integral r dphi
+  const Phi = (Rout - core) / pitch * TAU;
+  const N = Math.max(400, Math.ceil(rollLen / 0.004));
+  const pts = []; // ordered from the free tail end to the inner end of the roll
+  const tailN = Math.ceil(tail / 0.01);
+  // the tail lies ~1 mm clear of the floor plane (no depth fighting with the shadow-catcher floor)
+  for (let i = tailN; i >= 1; i--) { const a = (i / tailN) * tail; pts.push({ z: a, y: thick / 2 + 0.001 * Math.min(1, a / 0.05), a: 0, tail: a / tail, nY: 1, nZ: 0 }); }
+  for (let i = 0; i <= N; i++) {
+    const phi = -(i / N) * Phi;
+    const r = Rout + pitch * phi / TAU;
+    const z = r * Math.sin(phi), y = Rout - r * Math.cos(phi);
+    // normal of the top face (towards the roll centre at the bottom = +y)
+    const nZ = -Math.sin(phi), nY = Math.cos(phi);
+    pts.push({ z, y: y + thick / 2, a: 0, tail: 0, nY, nZ });
+  }
+  // arc length from the free end
+  let acc = 0;
+  for (let i = 0; i < pts.length; i++) { if (i) acc += Math.hypot(pts[i].z - pts[i - 1].z, pts[i].y - pts[i - 1].y); pts[i].a = acc; }
+  const rows = [];
+  const W = width;
+  for (let j = 0; j <= nw; j++) {
+    const w = -W / 2 + W * (j / nw);
+    const row = [];
+    for (const q of pts) {
+      let lx = w, ly = 0;
+      if (section) { const o = section(w, q.a, q.tail); lx = o[0]; ly = o[1]; }
+      // a little waviness of the free tail (cloth relaxing on the floor)
+      const wave = q.tail > 0 ? waviness * (0.55 + 0.45 * nz.fbm(q.z * 3 + 1.3, w * 2, 2)) * Math.min(1, q.tail * 3) : 0;
+      row.push(V3(lx, q.y + (ly + wave) * q.nY, q.z + (ly + wave) * q.nZ));
+    }
+    rows.push(row);
+  }
+  const geo = gridGeometry(rows, { closedU: false, flip: true });
+  // uv in metres: u along the strip (arc length), v across
+  const uv = geo.attributes.uv;
+  const cols = pts.length;
+  for (let j = 0; j <= nw; j++) for (let i = 0; i < cols; i++) uv.setXY(j * cols + i, pts[i].a, (j / nw) * W);
+  const at = (w, a, lift = 0) => {
+    // interpolate between the two samples around arc length a (binary search)
+    let lo = 0, hi = pts.length - 1;
+    if (a <= 0) hi = 1; else if (a >= pts[hi].a) lo = hi - 1;
+    else while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (pts[mid].a <= a) lo = mid; else hi = mid; }
+    const A = pts[lo], Bq = pts[hi];
+    const f = Math.min(1, Math.max(0, (a - A.a) / Math.max(1e-9, Bq.a - A.a)));
+    const L2 = (k) => A[k] + (Bq[k] - A[k]) * f;
+    const nl = Math.hypot(L2('nY'), L2('nZ')) || 1;
+    const q = { z: L2('z'), y: L2('y'), a, tail: L2('tail'), nY: L2('nY') / nl, nZ: L2('nZ') / nl };
+    let lx = w, ly = 0;
+    if (section) { const o = section(w, q.a, q.tail); lx = o[0]; ly = o[1]; }
+    const wave = q.tail > 0 ? waviness * (0.55 + 0.45 * nz.fbm(q.z * 3 + 1.3, w * 2, 2)) * Math.min(1, q.tail * 3) : 0;
+    const n = V3(0, q.nY, q.nZ);
+    return { p: V3(lx, q.y + (ly + wave) * q.nY, q.z + (ly + wave) * q.nZ).addScaledVector(n, lift), n };
+  };
+  return { geo, at, rollR: Rout, tailLen: tail, pts };
 }

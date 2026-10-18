@@ -36,12 +36,15 @@
       ship = addDays(today, 1);
       for (let i = 0; i < 14 && !isShipDay(ship); i++) ship = addDays(ship, 1);
     }
-    let eta = ship;
-    for (let i = 0; i < transit; ) {
-      eta = addDays(eta, 1);
-      if (isWorkDay(eta)) i++;
-    }
-    return { shipsToday, minsLeft, ship, eta, today, cutoff: el.dataset.cutoff || '14:00' };
+    const etaAt = (t) => {
+      let d = ship;
+      for (let i = 0; i < t; ) {
+        d = addDays(d, 1);
+        if (isWorkDay(d)) i++;
+      }
+      return d;
+    };
+    return { shipsToday, minsLeft, ship, eta: etaAt(transit), etaAt, transit, today, cutoff: el.dataset.cutoff || '14:00' };
   }
 
   function label(dt, today) {
@@ -49,6 +52,13 @@
     if (diff === 0) return KK.strings?.today || 'vandaag';
     if (diff === 1) return KK.strings?.tomorrow || 'morgen';
     return nice.format(dt).replace('.', '');
+  }
+
+  // a short date window: '21–23 okt', across a month '30 okt – 2 nov'
+  const dm = new Intl.DateTimeFormat(document.documentElement.lang || 'nl', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  function span(a, b) {
+    const f = (d) => dm.format(d).replace('.', '');
+    return a.getUTCMonth() === b.getUTCMonth() ? `${a.getUTCDate()}–${f(b)}` : `${f(a)} – ${f(b)}`;
   }
 
   function duration(mins) {
@@ -68,12 +78,20 @@
     }
     const eta = el.querySelector('[data-delivery-eta]');
     if (eta && KK.t) {
-      eta.innerHTML = KK.t('arrives', { date: label(r.eta, r.today) });
+      // data-eta-range="n" (pallet, delivered by appointment): a window of transit ± n work days, never one exact day
+      const n = +eta.dataset.etaRange || 0;
+      const lbl = (t) => label(r.etaAt(t), r.today);
+      eta.innerHTML = n && eta.dataset.tpl ? eta.dataset.tpl.replace('__FROM__', lbl(Math.max(1, r.transit - n))).replace('__TO__', lbl(r.transit + n)) : KK.t('arrives', { date: label(r.eta, r.today) });
       const row = eta.closest('[data-delivery-eta-row]');
       if (row) row.hidden = false;
     }
+    // product cards: '· di 20 okt in huis'; pallet (by appointment) gets the product page's window of ± 1 work day, compact
+    // ('· 21–23 okt in huis'), so every card in stock carries a delivery promise
     const short = el.querySelector('[data-delivery-short]');
-    if (short) short.textContent = el.dataset.ship === 'pallet' ? '' : ` · ${KK.t('etaShort', { date: label(r.eta, r.today) })}`;
+    if (short && KK.t) {
+      const w = el.dataset.ship === 'pallet' ? +short.dataset.etaRange || 1 : 0;
+      short.textContent = ` · ${KK.t('etaShort', { date: w ? span(r.etaAt(Math.max(1, r.transit - w)), r.etaAt(r.transit + w)) : label(r.eta, r.today) })}`;
+    }
   }
 
   const run = (root = document) => root.querySelectorAll('[data-delivery]').forEach(update);

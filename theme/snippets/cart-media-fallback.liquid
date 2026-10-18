@@ -1,0 +1,14 @@
+{%- comment -%}
+  Image frame for a 'Vergeet niet' product that has no photo yet: a drawn mark for its kind (tent part, table,
+  else a parcel) on the Linnen image field, so the row reads as deliberate instead of an empty frame. Param: product
+{%- endcomment -%}
+{%- liquid
+  assign mf_type = product.type | append: ' ' | append: product.title | downcase
+  assign mf_icon = 'box'
+  if mf_type contains 'statafel' or mf_type contains 'topcover' or mf_type contains 'strik' or mf_type contains 'tafel'
+    assign mf_icon = 'table'
+  elsif mf_type contains 'zijwand' or mf_type contains 'stretchtent' or mf_type contains 'overkap' or mf_type contains 'dakzeil'
+    assign mf_icon = 'tent'
+  endif
+-%}
+<span class="media-mark">{%- render 'icon', icon: mf_icon -%}</span>

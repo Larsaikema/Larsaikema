@@ -1,0 +1,64 @@
+{%- comment -%}
+  The slowest line in the cart that has a lead time, so the cart never promises a date it cannot keep. A line waits when
+  it has a print lead time (drukopties.levertijd, only with a logo), its own custom.levertijd, or when a tracked variant is
+  sold beyond its stock (theme setting delivery_text_backorder). Lines compare on the upper number of the lead time in
+  calendar days: '4–6 weken' = 42, '10–15 werkdagen na akkoord drukproef' = 21, '5–8 werkdagen (vracht)' = 12; text
+  without a number counts as 1 day, so any number beats it.
+  Outputs 'days|lead time|product title|lines that wait' (days 0 = everything ships from stock).
+  Use: {%- capture lt -%}{% render 'cart-lead-time' %}{%- endcapture -%}{%- assign lt = lt | strip | split: '|' -%}
+{%- endcomment -%}
+{%- liquid
+  assign lt_days = 0
+  assign lt_text = ''
+  assign lt_title = ''
+  assign lt_n = 0
+  for item in cart.items
+    if item.requires_shipping == false
+      continue
+    endif
+    assign lt_t = ''
+    assign lt_druk = item.product.metafields.custom.drukopties.value
+    if lt_druk.levertijd != blank and item.properties['Logo'] != blank
+      assign lt_t = 'delivery.lead_time' | t: lead_time: lt_druk.levertijd
+    elsif item.product.metafields.custom.levertijd.value != blank
+      assign lt_t = item.product.metafields.custom.levertijd.value
+    elsif item.variant.inventory_management != blank and item.variant.inventory_quantity < item.quantity
+      assign lt_t = settings.delivery_text_backorder
+    endif
+    if lt_t == blank
+      continue
+    endif
+    assign lt_n = lt_n | plus: 1
+    assign lt_d = 0
+    assign lt_prev = 0
+    assign lt_words = lt_t | downcase | replace: '–', ' ' | replace: '-', ' ' | split: ' '
+    for w in lt_words
+      if lt_prev > 0
+        assign lt_u = w | slice: 0, 3
+        case lt_u
+          when 'wek', 'wee'
+            assign lt_d = lt_prev | times: 7
+          when 'wer'
+            assign lt_d = lt_prev | times: 7 | plus: 4 | divided_by: 5
+          when 'dag'
+            assign lt_d = lt_prev
+          when 'maa'
+            assign lt_d = lt_prev | times: 31
+        endcase
+        if lt_d > 0
+          break
+        endif
+      endif
+      assign lt_prev = w | plus: 0
+    endfor
+    if lt_d == 0
+      assign lt_d = 1
+    endif
+    if lt_d > lt_days
+      assign lt_days = lt_d
+      assign lt_text = lt_t | replace: '|', '/'
+      assign lt_title = item.product.title | replace: '|', '/'
+    endif
+  endfor
+  echo lt_days | append: '|' | append: lt_text | append: '|' | append: lt_title | append: '|' | append: lt_n
+-%}

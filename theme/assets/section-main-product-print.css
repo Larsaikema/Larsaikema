@@ -1,0 +1,31 @@
+/* Main product: logo upload and 'Zo werkt bedrukken' steps, loaded only on bedrukbaar products. */
+.print{border:1.5px solid var(--pi);border-radius:var(--pr);padding:16px;margin:0;background:var(--pw);min-width:0}
+.print__legend{display:flex;align-items:center;gap:8px;padding:0 6px;font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:18px}
+.print__intro{margin:0 0 14px;font-size:15px}
+.print__drop{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 16px;border:1.5px dashed var(--pk);border-radius:var(--pri);background:var(--pw);cursor:pointer;font-weight:var(--p6);font-size:15px;overflow-wrap:anywhere}
+.print__drop:hover{border-color:var(--pi)}
+.print__drop.is-over{border-style:solid;border-color:var(--pi)}
+.print__drop-text{display:grid;gap:2px}
+.print__drop-limits{font-weight:var(--p4);font-size:13.5px;color:var(--pk)}
+.print__files{list-style:none;display:grid;gap:6px;margin:8px 0 0;padding:0}.print__files:empty{margin:0}
+.print__file-item{display:flex;align-items:center;gap:8px;min-width:0;padding:4px 4px 4px 12px;border:1px solid var(--pl);border-left:3px solid var(--done);border-radius:var(--pri);background:var(--pw);font-size:14.5px}
+.print__file-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--p6)}
+.print__file-size{flex:none;color:var(--pk);font-size:13px;font-variant-numeric:tabular-nums}
+.print__file-remove{flex:none;display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:var(--pri);background:none;color:inherit;cursor:pointer}
+.print__file-remove:hover{background:var(--c-band)}
+.print__file{position:absolute;width:1px;height:1px;opacity:0}
+.field:has(.print__file:focus-visible) .print__drop{outline:3px solid var(--pi);outline-offset:2px}
+.print__later{margin:0 0 16px;font-size:15px}
+.print__specs{display:grid;gap:6px;margin:0 0 14px;font-size:14px}
+.print__specs div{display:grid;grid-template-columns:110px 1fr;gap:8px}
+.print__specs dt{color:var(--pk)}
+.print__specs dd{margin:0}
+.print__steps{margin:0 0 16px;padding:12px 14px;border-radius:var(--pri);background:var(--c-band);border:1px solid var(--pl)}
+.print__steps-title{margin:0 0 8px;font-weight:var(--p7);font-size:15px}
+.print__steps-list{list-style:none;display:grid;gap:8px;font-size:14.5px;line-height:1.35}
+.print__steps-list li{display:flex;gap:10px;align-items:flex-start}
+.print__step-num{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--pi);color:var(--c-zand);font-size:12.5px;font-weight:var(--p7)}
+.print__steps .link{display:inline-block;margin-top:8px}
+.field.is-disabled .print__drop{opacity:.5;cursor:not-allowed}
+.delivery__cost{color:var(--pi)}
+.print .textarea{min-height:72px}

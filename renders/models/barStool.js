@@ -1,47 +1,45 @@
 // Barkruk / lage kruk.
 //
 // { style, height, color, back, stack, frame, seat }
-//   style 'metaal'  stackable industrial steel stool (Tolix type): pressed round seat pan
-//                   with a rolled skirt, four splayed legs of folded V-section sheet with
-//                   hemmed edges, riveted to the skirt, flat-bar footrest ring on the outside
-//                   of the legs, plastic glides. Nests in a stack (pitch 6 cm).
-//         'draad'    wire stool: welded wire grid seat (two layers of 4 mm wire, dished) in a
-//                   8 mm rim ring, support ring, four Ø20 tube legs, wire footrest ring.
-//         'hout'     solid oak round seat (32 mm, rounded arrises) on a steel mounting plate,
-//                   four splayed Ø22 tube legs, Ø18 tube footrest ring, glides.
-//         'rotan'    outdoor bar chair: powder-coated aluminium frame, seat and curved back
-//                   woven with flat PE wicker strands; front footrest + stretchers.
-//         'velours'  upholstered bar stool: velvet seat cushion with piping, curved channel-
-//                   tufted back, thin steel legs with footrest ring.
-//         'chroom'   the same frame in polished chrome with a faux-leather (kunstleer) seat
-//                   cushion with piping, no back by default; stackable.
+//   style 'metaal'  stackable industrial steel stool: pressed round seat pan (rolled skirt,
+//                   drainage holes), four splayed V-section legs of folded sheet riveted to the
+//                   skirt, flat-bar footrest on the outside of the legs, plastic glides. The
+//                   open V legs nest, so the stools stack at a 6 cm pitch.
+//         'draad'    welded steel wire stool: round seat of a two-layer wire grid (Ø3.6 mm,
+//                   24 mm pitch, gently dished, ends welded into an 8 mm rim rod), low curved
+//                   wire backrest (rail + verticals + mid wire), four Ø11 rod legs, footrest ring.
+//         'hout'     square seat 35 x 35 cm of multiplex with an oak top veneer (plies visible
+//                   on the edge) on a square tube seat frame, four splayed Ø22 tube legs,
+//                   square tube footrest, glides.
+//         'rotan'    outdoor bar chair: powder-coated aluminium legs and footrest, seat rim and
+//                   back loop wrapped with a flat PE strand, seat and back panels a real
+//                   over-under weave of 7.5 mm flat strands (three tones).
+//         'velours'  upholstered bar stool: velvet seat cushion (crowned, gathered corners,
+//                   piping on the top and bottom seam), channel-tufted curved back, thin black
+//                   steel legs with a square footrest.
+//         'chroom'   chrome Ø25 tube frame (seat ring, four splayed legs, foot ring) with a
+//                   round faux-leather (kunstleer) seat pad Ø36 with piping; stackable.
 //   height   seat height (m): 0.76 bar (default), 0.65 counter, 0.45 low stool.
 //   color    seat / shell colour (frame colour for 'metaal', 'draad', 'hout').
-//   back     backrest (default: true for 'rotan' and 'velours').
-//   stack    n stools stacked (metaal / draad / velours).
+//   back     backrest (default: true for 'rotan', 'velours' and 'draad').
+//   stack    n stools stacked (metaal / draad / chroom / velours).
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
+import * as S from '../js/seatKit.js';
+import { rng } from '../js/rng.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
-const VELVET = { grijs: '#7B7E82', camel: '#B07E4C', groen: '#2D5641', marineblauw: '#172039', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
-const WICKER = { zwart: '#2B2927', bruin: '#5E4532', grijs: '#7E7C77', naturel: '#A88B62', wit: '#E4E0D6' };
-const WICKER_FRAME = { zwart: '#1F1E1D', bruin: '#3A2C21', grijs: '#55575A', naturel: '#3A2C21', wit: '#D9D8D3' };
-
-// faux leather (PU kunstleer): smooth, low sheen, fine grain, a little clear-coat gloss
-const LEATHER = { zwart: '#1F1F21', wit: '#E9E7E1', antraciet: '#3C3F43', grijs: '#7A7D80', bruin: '#5A3E2B', cognac: '#8A5A33' };
-const leatherCache = new Map();
-function fauxLeather(color) {
-  const hex = LEATHER[String(color).toLowerCase()] || M.resolveColor(color, '#1F1F21');
-  if (leatherCache.has(hex)) return leatherCache.get(hex);
-  const m = new THREE.MeshPhysicalMaterial({ color: hex, roughness: 0.5, metalness: 0, specularIntensity: 0.45, clearcoat: 0.3, clearcoatRoughness: 0.42, name: `faux leather ${hex}` });
-  leatherCache.set(hex, m);
-  return m;
-}
+const VELVET = { grijs: '#7B7E82', camel: '#B07E4C', groen: '#2D5641', marineblauw: '#1C2747', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
+const WICKER = { zwart: '#2E2C2A', bruin: '#6A4D36', grijs: '#8A8781', naturel: '#A88B62', wit: '#E4E0D6' };
+const WICKER_FRAME = { zwart: '#1F1E1D', bruin: '#3A2C21', grijs: '#4F5154', naturel: '#3A2C21', wit: '#D9D8D3' };
+// faux leather (PU kunstleer) as it photographs
+const LEATHER = { zwart: '#1E1E20', wit: '#E6E3DC', antraciet: '#4C5055', grijs: '#7A7D80', bruin: '#5A3E2B', cognac: '#8A5A33' };
 
 const legDirs = () => [45, 135, 225, 315].map((a) => V3(Math.sin(a * DEG), 0, Math.cos(a * DEG)));
+const glideCap = (bins, mat, x, z, r) => bins.add(mat, G.lathe([[0.0001, 0.0], [r + 0.001, 0.0], [r + 0.0016, 0.003], [r + 0.0012, 0.016], [0.0001, 0.016]].reverse(), 20).translate(x, 0, z));
 
 // ----------------------------------------------------------------------------- metaal
 function stoolMetal(bins, H, color) {
@@ -54,11 +52,18 @@ function stoolMetal(bins, H, color) {
   const out = [[0.0001, 0.0015], [R * 0.6, 0.0008], [R - rr - 0.002, -0.0005]];
   for (let i = 0; i <= 6; i++) { const a = (Math.PI / 2) * (1 - i / 6); out.push([R - rr + Math.cos(a) * rr, -0.0005 - rr + Math.sin(a) * rr]); }
   out.push([R + 0.0012, -sk * 0.55], [R + 0.0025, -sk + 0.002]);
-  // rolled hem (outwards, 3 mm)
   for (let i = 0; i <= 6; i++) { const a = Math.PI - (Math.PI * i) / 6; out.push([R + 0.0025 + 0.0022 + Math.cos(a) * 0.0022, -sk + Math.sin(-Math.PI * i / 6) * 0.0022 - 0.0002]); }
   out.push([R + 0.0025 - t, -sk + 0.002], [R - t + 0.0012, -sk * 0.55], [R - t, -rr - 0.0005]);
   out.push([R - rr - 0.002, -0.0005 - t], [R * 0.6, 0.0008 - t], [0.0001, 0.0015 - t]);
-  bins.add(mat, G.lathe(out.reverse(), 96).translate(0, H, 0));
+  const pan = G.lathe(out.reverse(), 128);
+  // drainage holes: centre, ring of 6, ring of 12 (alpha-cut, planar uv over the pan)
+  const sz = 2 * (R + 0.01);
+  // planar uv over the seat, the skirt unrolled radially (no stretched orange-peel on it)
+  { const p = pan.attributes.position, uv = pan.attributes.uv; for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i), r = Math.hypot(x, z) || 1e-6, k = (r + Math.max(0, -p.getY(i))) / r; uv.setXY(i, (x * k) / (sz * 1.25) + 0.5, (z * k) / (sz * 1.25) + 0.5); } }
+  const holes = [[0, 0, 0.0042]];
+  for (let k = 0; k < 6; k++) holes.push([Math.sin(k * 60 * DEG) * 0.045, Math.cos(k * 60 * DEG) * 0.045, 0.0042]);
+  for (let k = 0; k < 12; k++) holes.push([Math.sin((k * 30 + 15) * DEG) * 0.095, Math.cos((k * 30 + 15) * DEG) * 0.095, 0.0042]);
+  bins.add(S.holedSheet(mat, holes, sz * 1.25, `tolix2${R}`), pan.translate(0, H, 0));
   // legs: V-section (2 x 26 mm flanges at 90 deg, apex outwards), hemmed edges
   const wf = bar ? 0.026 : 0.024, ytop = H - 0.006, yfoot = 0.014;
   const Rf = bar ? 0.3 : 0.235;
@@ -72,19 +77,16 @@ function stoolMetal(bins, H, color) {
       const d = u.clone().negate().applyAxisAngle(V3(0, 1, 0), s * 45 * DEG);
       bins.add(mat, G.flatBar(A.clone().addScaledVector(d, wf / 2), B.clone().addScaledVector(d, wf / 2), wf, 0.0016, d, 0.0007));
       bins.add(mat, G.tube(A.clone().addScaledVector(d, wf), B.clone().addScaledVector(d, wf), 0.0018, 8));
-      // two rivets through the flange into the skirt
       for (const yy of [H - 0.012, H - 0.026]) {
         const pr = apex(u, yy).addScaledVector(d, wf * 0.55);
         const n = u.clone().applyAxisAngle(V3(0, 1, 0), s * 45 * DEG);
         F.rivet(bins, mat, pr.addScaledVector(n, 0.0009), n, 0.0035);
       }
     }
-    bins.add(mat, G.tube(A, B, 0.0016, 8)); // rounded apex
-    // glide in the foot
+    bins.add(mat, G.tube(A, B, 0.0016, 8));
     const g0 = apex(u, 0.0).addScaledVector(u, -0.012);
     bins.add(glide, G.lathe([[0.0001, 0.0], [0.012, 0.0], [0.0135, 0.004], [0.013, 0.02], [0.0001, 0.02]].reverse(), 24).translate(g0.x, 0, g0.z));
   });
-  // footrest: four flat bars riveted on the outside of the legs
   for (let k = 0; k < 4; k++) {
     const a = apex(dirs[k], yRing), b = apex(dirs[(k + 1) % 4], yRing);
     const out1 = a.clone().add(b).setY(0).normalize();
@@ -93,195 +95,239 @@ function stoolMetal(bins, H, color) {
     F.rivet(bins, mat, a.clone().addScaledVector(out1, 0.0062).addScaledVector(e, 0.002), out1, 0.0035);
     F.rivet(bins, mat, b.clone().addScaledVector(out1, 0.0062).addScaledVector(e, -0.002), out1, 0.0035);
   }
-  return { pitch: 0.06, seatR: R, footR: Rf };
+  return { pitch: 0.06, seatR: R, footR: Rf, topY: H };
 }
 
 // ----------------------------------------------------------------------------- draad
-function stoolWire(bins, H, color) {
+function stoolWire(bins, H, color, back) {
   const mat = F.powder(color);
   const glide = F.plastic('#161616', 0.6);
-  const Rs = 0.17, rim = 0.0045, w = 0.0022, dish = 0.012, sp = 0.026;
-  const yRim = H - rim;
-  bins.add(mat, F.ring(Rs, yRim, rim));
-  const yd = (x, z) => yRim - 0.001 - dish * (1 - (x * x + z * z) / (Rs * Rs));
-  // two crossing layers of straight wires, welded under/onto the rim
-  for (let layer = 0; layer < 2; layer++) {
-    for (let k = -6; k <= 6; k++) {
-      const c = k * sp + (layer ? 0 : sp / 2);
-      if (Math.abs(c) > Rs - 0.01) continue;
-      const half = Math.sqrt(Rs * Rs - c * c) - 0.002;
-      const pts = [];
-      for (let i = 0; i <= 12; i++) {
-        const s = -half + (2 * half * i) / 12;
-        const x = layer ? s : c, z = layer ? c : s;
-        pts.push(V3(x, yd(x, z) + (layer ? w * 1.8 : 0), z));
-      }
-      bins.add(mat, F.sweep(pts, G.circleProfile(w, 8)));
-    }
+  const Rr = 0.19, rimR = 0.004, wr = 0.0018, dish = 0.009, sp = 0.024;
+  const yRim = H - rimR;
+  bins.add(mat, F.ring(Rr, yRim, rimR, { segs: 160 }));
+  const yd = (x, z) => yRim - 0.0006 - dish * Math.max(0, 1 - (x * x + z * z) / (Rr * Rr));
+  // two welded layers: bottom wires along x, top wires along z resting on them; every end
+  // runs into the rim rod
+  const wire = G.circleProfile(wr, 10);
+  for (let layer = 0; layer < 2; layer++) for (let k = -8; k <= 8; k++) {
+    const c = k * sp;
+    if (Math.abs(c) > Rr - 0.01) continue;
+    const half = Math.sqrt((Rr - 0.0012) ** 2 - c * c);
+    const pts = [];
+    for (let i = 0; i <= 48; i++) { const s = -half + (2 * half * i) / 48; const x = layer ? c : s, z = layer ? s : c; pts.push(V3(x, yd(x, z) + (layer ? 2 * wr - 0.0002 : 0), z)); }
+    bins.add(mat, F.sweep(pts, wire));
   }
-  const yS = H - 0.032, rS = 0.135;
-  bins.add(mat, F.ring(rS, yS, 0.0045));
-  const Rf = H > 0.6 ? 0.275 : 0.22;
-  const yRing = H > 0.6 ? 0.3 : 0.15;
-  const legR = 0.0095;
-  const legAt = (u, y) => { const f = (y - 0.012) / (yS + 0.01 - 0.012); return u.clone().multiplyScalar(Rf + (rS + 0.002 - Rf) * f).setY(y); };
+  // support ring under the grid and legs
+  const ySup = yRim - 0.045, rSup = 0.145;
+  bins.add(mat, F.ring(rSup, ySup, 0.004, { segs: 128 }));
+  const bar = H > 0.6;
+  const Rf = bar ? 0.28 : 0.225, legR = 0.0055;
+  const yTopLeg = yRim;
+  const rTop = Rr + rimR + legR - 0.0005;
+  const legAt = (u, y) => { const f = (y - 0.012) / (yTopLeg - 0.012); return u.clone().multiplyScalar(Rf + (rTop - Rf) * f).setY(y); };
   for (const u of legDirs()) {
-    const A = legAt(u, H - 0.012), B = legAt(u, 0.012);
-    bins.add(mat, G.tube(A, B, legR, 18));
-    // short strut from the leg top to the rim
-    bins.add(mat, G.tube(A, u.clone().multiplyScalar(Rs - 0.004).setY(yRim - 0.002), 0.004, 8));
-    bins.add(glide, G.lathe([[0.0001, 0.0], [legR + 0.001, 0.0], [legR + 0.0015, 0.003], [legR + 0.001, 0.016], [0.0001, 0.016]].reverse(), 20).translate(B.x, 0, B.z));
+    const A = legAt(u, yTopLeg), B = legAt(u, 0.012);
+    bins.add(mat, G.tube(A, B, legR, 14));
+    // the support ring is welded to the inside of each leg by a short wire spoke
+    const L = legAt(u, ySup);
+    bins.add(mat, G.tube(u.clone().multiplyScalar(rSup).setY(ySup), L.clone().addScaledVector(u, -legR * 0.6), 0.003, 8));
+    glideCap(bins, glide, B.x, B.z, legR + 0.001);
   }
-  const rr = legAt(V3(1, 0, 0), yRing).x + legR + 0.004;
-  bins.add(mat, F.ring(rr, yRing, 0.0055));
-  bins.add(mat, F.ring(legAt(V3(1, 0, 0), 0.09).x + legR + 0.003, 0.09, 0.004));
-  return { pitch: 0.07, seatR: Rs, footR: Rf };
+  const yRing = bar ? 0.3 : 0.16;
+  bins.add(mat, F.ring(legAt(V3(1, 0, 0), yRing).x + legR + 0.0045, yRing, 0.005, { segs: 128 }));
+  bins.add(mat, F.ring(legAt(V3(1, 0, 0), 0.08).x + legR + 0.0035, 0.08, 0.0035, { segs: 128 }));
+  if (back) {
+    // low curved back over the rear 110 deg: rail (Ø8) whose ends run down into the rim,
+    // vertical wires 24 mm apart, one horizontal wire welded on their outside
+    const a0 = 125 * DEG, a1 = 235 * DEG, hb = 0.16, flare = 0.014, yTop = yRim + hb;
+    const rad = (y) => Rr + flare * (y - yRim) / hb;
+    const P = (a, y) => V3(Math.sin(a) * rad(y), y, Math.cos(a) * rad(y));
+    const rail = [P(a0, yRim)];
+    for (let i = 0; i <= 24; i++) rail.push(P(a0 + ((a1 - a0) * i) / 24, yTop));
+    rail.push(P(a1, yRim));
+    bins.add(mat, F.sweep(F.filletPath(rail, 0.035, 8), G.circleProfile(rimR, 12)));
+    const arcLen = (a1 - a0) * Rr;
+    const nV = Math.round(arcLen / sp);
+    for (let i = 1; i < nV; i++) {
+      const a = a0 + ((a1 - a0) * i) / nV;
+      const pts = []; for (let k = 0; k <= 8; k++) pts.push(P(a, yRim + (hb * k) / 8));
+      bins.add(mat, F.sweep(pts, wire));
+    }
+    const yM = yRim + hb * 0.48;
+    const mid = []; for (let i = 0; i <= 40; i++) { const a = a0 + 0.03 + ((a1 - a0 - 0.06) * i) / 40; const p = P(a, yM); const n = V3(Math.sin(a), 0, Math.cos(a)); mid.push(p.addScaledVector(n, 2 * wr - 0.0002)); }
+    bins.add(mat, F.sweep(mid, wire));
+  }
+  return { pitch: 0.07, seatR: Rr, footR: Rf, topY: back ? yRim + 0.16 : H };
 }
 
 // ----------------------------------------------------------------------------- hout
-function stoolWood(bins, H, color, seat = 'eiken') {
+function stoolWood(bins, H, color) {
   const mat = F.powder(color);
   const glide = F.plastic('#161616', 0.6);
-  const woodMat = F.wood(seat === 'beuken' ? 'beuken' : 'eiken', { stain: seat === 'beuken' ? null : '#A9845B', seed: 11 });
-  const Rs = 0.18, T = 0.032, r1 = 0.012, r2 = 0.006;
-  const prof = [[0.0001, 0]];
-  prof.push([Rs - r1, 0]);
-  for (let i = 1; i <= 6; i++) { const a = (Math.PI / 2) * (1 - i / 6); prof.push([Rs - r1 + Math.cos(a) * r1, -r1 + Math.sin(a) * r1]); }
-  for (let i = 1; i <= 4; i++) { const a = -(Math.PI / 2) * (i / 4); prof.push([Rs - r2 + Math.cos(a) * r2, -T + r2 + Math.sin(a) * r2]); }
-  prof.push([0.0001, -T]);
-  const seatG = G.lathe(prof.reverse(), 96);
-  // planar uv in metres (grain along x)
-  const pos = seatG.attributes.position, uv = seatG.attributes.uv;
-  for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) + 0.3, pos.getZ(i) + 0.11 + pos.getY(i) * 0.5);
-  bins.add(woodMat, seatG.translate(0, H, 0));
-  // mounting plate + screws
-  const yP = H - T - 0.003;
-  bins.add(mat, G.roundedBox(0.2, 0.004, 0.2, 0.004).rotateY(45 * DEG).translate(0, yP, 0));
-  const Rf = H > 0.6 ? 0.255 : 0.215, rTop = 0.1, yTop = yP - 0.004;
-  const yRing = H > 0.6 ? 0.29 : 0.15, legR = 0.011;
-  const legAt = (u, y) => { const f = (y - 0.012) / (yTop - 0.012); return u.clone().multiplyScalar(Rf + (rTop - Rf) * f).setY(y); };
-  for (const u of legDirs()) {
-    const A = legAt(u, yTop), B = legAt(u, 0.012);
-    bins.add(mat, G.tube(A, B, legR, 20));
-    bins.add(mat, G.lathe([[0.0001, 0], [legR + 0.004, 0], [legR + 0.004, 0.006], [0.0001, 0.006]].reverse(), 20).translate(A.x, yTop - 0.006, A.z));
-    bins.add(glide, G.lathe([[0.0001, 0.0], [legR + 0.001, 0.0], [legR + 0.0015, 0.003], [legR + 0.001, 0.016], [0.0001, 0.016]].reverse(), 20).translate(B.x, 0, B.z));
+  const veneer = S.woodMat('eiken', { stain: '#B8935F', seed: 11 });
+  const W = 0.35, T = 0.018;
+  const board = S.plyBoard(W, W, T, { rc: 0.028 });
+  S.uvJitter(board.faces, rng(17), { du: 0.6, dv: 0.15, flip: false });
+  bins.add(veneer, board.faces.translate(0, H, 0)); bins.add(M.birchEdge(), board.edge.translate(0, H, 0));
+  // seat frame: square ring of 20 x 20 tube under the board, inset 3 cm
+  const fs = W - 0.06, yF = H - T - 0.01;
+  bins.add(mat, F.sweep(F.rectPath(fs, fs, 0.014, yF, 6), G.roundedRectProfile(0.02, 0.02, 0.004, 3), { closed: true }));
+  const bar = H > 0.6;
+  const legR = 0.011, half = bar ? 0.235 : 0.205;
+  const top = (sx, sz) => V3(sx * (fs / 2 + legR - 0.002), H - T - 0.001, sz * (fs / 2 + legR - 0.002));
+  const foot = (sx, sz) => V3(sx * half, 0.012, sz * half);
+  const at = (sx, sz, y) => { const a = top(sx, sz), b = foot(sx, sz); return b.clone().lerp(a, (y - b.y) / (a.y - b.y)); };
+  const cs = [[1, 1], [-1, 1], [-1, -1], [1, -1]];
+  for (const [sx, sz] of cs) {
+    bins.add(mat, G.tube(top(sx, sz), foot(sx, sz), legR, 20));
+    const f = foot(sx, sz); glideCap(bins, glide, f.x, f.z, legR + 0.0005);
   }
-  for (let k = 0; k < 4; k++) {
-    const a = (45 + 90 * k) * DEG;
-    F.rivet(bins, M.chrome(), V3(Math.sin(a) * 0.075, yP - 0.002, Math.cos(a) * 0.075), V3(0, -1, 0), 0.004);
-  }
-  bins.add(mat, F.ring(legAt(V3(1, 0, 0), yRing).x, yRing, 0.009));
-  return { pitch: 0, seatR: Rs, footR: Rf };
+  const yR = bar ? 0.29 : 0.15;
+  for (let k = 0; k < 4; k++) { const [ax, az] = cs[k], [bx, bz] = cs[(k + 1) % 4]; bins.add(mat, G.tube(at(ax, az, yR), at(bx, bz, yR), 0.008, 16)); }
+  // four screws through the frame into the board (seen from below only)
+  for (const [sx, sz] of cs) F.rivet(bins, M.galvanised(), V3(sx * 0.1, yF - 0.01, sz * 0.1), V3(0, -1, 0), 0.0035);
+  return { pitch: 0, seatR: W / 2, footR: half * 1.41, topY: H };
 }
 
 // ----------------------------------------------------------------------------- rotan
-// Outdoor wicker bar chair: aluminium frame fully wrapped in flat PE strands (legs, seat
-// rim, footrest, back loop); seat and back panels woven over-under inside the rims.
+// Outdoor wicker bar chair: aluminium legs + footrest (powder coat), seat rim and back loop
+// wrapped with flat PE strand, seat and back a real over-under weave.
 function chairRattan(bins, H, color, back) {
   const key = String(color).toLowerCase();
-  const hex = WICKER[key] || color;
-  const weave = F.peRattan(hex), wrap = F.peRattanWrap(hex);
-  const cap = M.steelPowder(WICKER_FRAME[key] || '#2A2A2A', { roughness: 0.45 });
-  const W = 0.46, D = 0.44, rc = 0.07, rRim = 0.017;
+  const hex = WICKER[key] || M.resolveColor(color, '#2E2C2A');
+  const mats = S.rattanMats(hex);
+  const alu = M.steelPowder(WICKER_FRAME[key] || '#2A2A2A', { roughness: 0.45, clearcoat: 0.15 });
+  const cap = F.plastic('#1A1A1A', 0.6);
+  const W = 0.46, D = 0.44, rc = 0.07, rRim = 0.014;
   const ySeat = H - rRim;
-  // seat rim + dished woven seat
-  bins.add(wrap, F.sweep(F.rectPath(W - 2 * rRim, D - 2 * rRim, rc, ySeat, 10), G.circleProfile(rRim, 16), { closed: true }));
-  bins.add(weave, F.cushion(W - 2 * rRim - 0.006, 0.018, D - 2 * rRim - 0.006, { r: 0.007, puff: -0.006, seg: [32, 4, 32] }).translate(0, ySeat + 0.001, 0));
-  // legs (wrapped Ø29 tube), slightly splayed, aluminium foot caps
-  const legR = 0.0145;
+  const Wi = W - 2 * rRim, Di = D - 2 * rRim;
+  bins.add(mats[0], S.ribbedTube(F.rectPath(Wi, Di, rc, ySeat, 14), rRim, { closed: true, pitch: 0.0078 }));
+  // seat weave: dished 6 mm, strand ends run into the rim tube
+  const dish = 0.006;
+  const inRR = (x, z, w, d, r) => { const qx = Math.abs(x) - (w / 2 - r), qz = Math.abs(z) - (d / 2 - r); return qx <= 0 || qz <= 0 ? Math.abs(x) <= w / 2 && Math.abs(z) <= d / 2 : Math.hypot(qx, qz) <= r; };
+  S.weavePanel(bins, mats, (s, t) => {
+    const x = -Wi / 2 + s, z = Di / 2 - t;
+    const b = Math.max(0, 1 - (2 * x / Wi) ** 2) * Math.max(0, 1 - (2 * z / Di) ** 2);
+    return { p: V3(x, ySeat - 0.001 - dish * b, z), n: V3(0, 1, 0) };
+  }, Wi, Di, { clip: (s, t) => inRR(-Wi / 2 + s, Di / 2 - t, Wi + 0.006, Di + 0.006, rc + 0.003), seed: 5 });
+  // legs: Ø25 aluminium, slightly splayed, under the rim corners
+  const legR = 0.0125;
   const legs = [];
   for (const [sx, sz] of [[1, 1], [-1, 1], [-1, -1], [1, -1]]) {
-    const A = V3(sx * (W / 2 - 0.055), ySeat, sz * (D / 2 - 0.055)), B = V3(sx * (W / 2 - 0.055) * 1.13, 0.02, sz * (D / 2 - 0.055) * 1.13);
-    bins.add(wrap, G.tube(A, B, legR, 18));
+    const A = V3(sx * (W / 2 - 0.05), ySeat - rRim * 0.6, sz * (D / 2 - 0.05)), B = V3(sx * (W / 2 - 0.05) * 1.12, 0.022, sz * (D / 2 - 0.05) * 1.12);
+    bins.add(alu, G.tube(A, B, legR, 20));
     bins.add(cap, G.lathe([[0.0001, 0], [legR + 0.0012, 0], [legR + 0.0016, 0.004], [legR + 0.0012, 0.022], [0.0001, 0.022]].reverse(), 18).translate(B.x, 0, B.z));
     legs.push([A, B]);
   }
   const at = (i, y) => { const [A, B] = legs[i]; return B.clone().lerp(A, (y - B.y) / (A.y - B.y)); };
   const yF = H > 0.6 ? 0.27 : 0.14;
-  for (let k = 0; k < 4; k++) bins.add(wrap, G.tube(at(k, yF), at((k + 1) % 4, yF), 0.011, 14));
+  for (let k = 0; k < 4; k++) bins.add(alu, G.tube(at(k, yF), at((k + 1) % 4, yF), 0.0105, 16));
   if (back) {
-    const hw = 0.19, bh = 0.37, rf = 0.075, Rb = 0.5, rec = 10 * Math.PI / 180;
+    const hw = 0.19, bh = 0.37, rf = 0.075, Rb = 0.5, rec = 10 * DEG, lr = 0.013;
     const zR = -(D / 2 - rRim);
     const top = ySeat + bh;
     const toW = (x, y) => V3(x, y, zR + (Rb - Math.sqrt(Rb * Rb - x * x)) - (y - ySeat) * Math.tan(rec));
-    // wrapped back loop (inverted U, rounded top corners), bent and reclined
-    const loop2d = F.filletPath([V3(-hw, ySeat, 0), V3(-hw, top, 0), V3(hw, top, 0), V3(hw, ySeat, 0)], rf, 10);
-    const dense = [];
-    for (let i = 0; i < loop2d.length - 1; i++) { const a = loop2d[i], b = loop2d[i + 1]; const n = Math.max(1, Math.ceil(a.distanceTo(b) / 0.02)); for (let k = 0; k < n; k++) dense.push(a.clone().lerp(b, k / n)); }
-    dense.push(loop2d[loop2d.length - 1]);
-    bins.add(wrap, F.sweep(dense.map((p) => toW(p.x, p.y)), G.circleProfile(0.015, 14)));
-    // woven panel inside the loop, corners clipped to the loop's fillets
-    const y0 = ySeat + 0.05, y1 = top - 0.012, x0 = hw - 0.012, cy = top - rf, cx = hw - rf, rin = rf - 0.012;
-    const at2 = (u, v) => {
-      let x = -x0 + 2 * x0 * u, y = y0 + (y1 - y0) * v;
-      if (Math.abs(x) > cx && y > cy) { const dx = Math.abs(x) - cx, dy = y - cy, d = Math.hypot(dx, dy); if (d > rin) { x = Math.sign(x) * (cx + dx * rin / d); y = cy + dy * rin / d; } }
-      return [x, y];
-    };
-    for (const side of [1, -1]) {
-      const g = G.surface((u, v, o) => { const [x, y] = at2(u, v); o.copy(toW(x, y)).add(V3(0, 0, side * 0.006)); }, 36, 30, { flipNormals: side < 0 });
-      const pos = g.attributes.position, uv = g.attributes.uv;
-      for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getY(i));
-      bins.add(weave, g);
-    }
+    const nW = (x, y) => { const e = 0.002; const p = toW(x, y), px = toW(x + e, y), py = toW(x, y + e); return px.sub(p).cross(py.sub(p)).normalize(); };
+    const loop2d = F.filletPath([V3(-hw, ySeat, 0), V3(-hw, top, 0), V3(hw, top, 0), V3(hw, ySeat, 0)], rf, 12);
+    bins.add(mats[0], S.ribbedTube(S.densify(loop2d, 0.01).map((p) => toW(p.x, p.y)), lr, { pitch: 0.0078 }));
+    // bottom rail of the back panel (strand ends run into it)
+    const y0 = ySeat + 0.06;
+    bins.add(mats[0], S.ribbedTube(S.densify([V3(-hw, y0, 0), V3(hw, y0, 0)], 0.01).map((p) => toW(p.x, p.y)), 0.011, { pitch: 0.0078 }));
+    const cy = top - rf, cx = hw - rf;
+    S.weavePanel(bins, mats, (s, t) => {
+      const x = -hw + s, y = y0 + t;
+      return { p: toW(x, y), n: nW(x, y) };
+    }, 2 * hw, top - y0, {
+      clip: (s, t) => { const x = Math.abs(-hw + s), y = y0 + t; if (x > cx && y > cy) return Math.hypot(x - cx, y - cy) <= rf + 0.002; return true; }, seed: 9,
+    });
   }
-  return { pitch: 0, seatR: 0.25, footR: 0.3 };
+  return { pitch: 0, seatR: 0.25, footR: 0.3, topY: back ? ySeat + 0.37 : H };
 }
 
 // ----------------------------------------------------------------------------- velours
-function stoolVelvet(bins, H, color, back, frameColor = 'zwart', opts = {}) {
+function stoolVelvet(bins, H, color, back, frameColor = 'zwart') {
   const key = String(color).toLowerCase();
-  const vel = opts.seatMat || F.velvet(VELVET[key] || color);
-  const frame = opts.frameMat || F.powder(frameColor);
+  const vel = S.velvetMat(VELVET[key] || M.resolveColor(color, '#7B7E82'));
+  const frame = F.powder(frameColor);
   const glide = F.plastic('#161616', 0.6);
   const W = 0.44, D = 0.42, T = 0.075;
-  const seat = F.cushion(W, T, D, { r: 0.028, puff: 0.012, puffBottom: 0.0, seg: [26, 10, 26] });
-  seat.translate(0, H - T / 2 - 0.006, 0);
-  bins.add(vel, seat);
-  // piping round the top edge
-  bins.add(vel, F.sweep(F.pipingPath(W - 0.012, D - 0.012, 0.03, H - 0.022), G.circleProfile(0.0035, 8), { closed: true }));
-  // base board + frame under the cushion
-  const yB = H - T - 0.006;
-  bins.add(frame, G.roundedBox(0.32, 0.018, 0.3, 0.004).translate(0, yB - 0.009, 0));
-  const legR = 0.0095, Rf = 0.285, rTop = 0.19, yTop = yB - 0.018;
+  const seat = S.softBlock(W, T, D, { r: 0.024, crown: 0.011, belly: 0.004, gather: 0.0018, seed: 4 });
+  const yC = H - T / 2 - 0.008;
+  const shape = seat.userData.shape;
+  bins.add(vel, seat.translate(0, yC, 0));
+  for (const side of [1, -1]) bins.add(vel, F.sweep(S.weltPath(shape, side, { cr: 0.0032 }).map((p) => p.setY(p.y + yC)), G.circleProfile(0.0032, 10), { closed: true }));
+  const yB = H - T - 0.008;
+  bins.add(frame, G.roundedBox(0.32, 0.016, 0.3, 0.004).translate(0, yB - 0.006, 0));
+  const legR = 0.0095, Rf = 0.285, rTop = 0.19, yTop = yB - 0.014;
   const legAt = (u, y) => { const f = (y - 0.012) / (yTop - 0.012); return u.clone().multiplyScalar(Rf + (rTop - Rf) * f).setY(y); };
   for (const u of legDirs()) {
     const A = legAt(u, yTop), B = legAt(u, 0.012);
     bins.add(frame, G.tube(A, B, legR, 18));
-    bins.add(glide, G.lathe([[0.0001, 0.0], [legR + 0.001, 0.0], [legR + 0.0015, 0.003], [legR + 0.001, 0.016], [0.0001, 0.016]].reverse(), 20).translate(B.x, 0, B.z));
+    glideCap(bins, glide, B.x, B.z, legR);
   }
   const yF = H > 0.6 ? 0.28 : 0.15;
-  // square footrest of round tube welded to the legs
   const corners = legDirs().map((u) => legAt(u, yF));
   for (let k = 0; k < 4; k++) bins.add(frame, G.tube(corners[k], corners[(k + 1) % 4], 0.0085, 14));
   if (back) {
-    const bw = 0.43, bh = 0.3, bt = 0.06, Rb = 0.42;
-    const panel = F.cushion(bw, bh, bt, { r: 0.024, puff: 0.012, puffBottom: 0, seg: [110, 22, 8] });
+    const bw = 0.43, bh = 0.3, bt = 0.062, Rb = 0.42;
+    const panel = S.softBlock(bw, bh, bt, { r: 0.022, crown: 0.0, belly: 0.003, gather: 0.0012, seg: [130, 36, 10], seed: 7 });
     const pp = panel.attributes.position;
-    // channel tufting on the front face: 5 vertical grooves
+    // channel tufting on the front face: 5 vertical grooves, then bend round Rb
     for (let i = 0; i < pp.count; i++) {
       let x = pp.getX(i), y = pp.getY(i), z = pp.getZ(i);
       if (z > 0) {
         let g = 0;
-        for (let c = -2; c <= 2; c++) g = Math.max(g, Math.exp(-(((x - c * 0.075) / 0.007) ** 2)));
-        const fadeY = 1 - Math.pow(Math.abs(y) / (bh / 2), 6);
-        z -= 0.009 * g * Math.max(0, fadeY) * Math.min(1, z / (bt / 2));
+        for (let c = -2; c <= 2; c++) g = Math.max(g, Math.exp(-(((x - c * 0.074) / 0.0065) ** 2)));
+        // the channels between the grooves pillow outwards a little
+        const pil = 0.004 * Math.cos(((x + 0.037) / 0.074) * Math.PI * 2) ** 2;
+        const fadeY = Math.max(0, 1 - Math.pow(Math.abs(y) / (bh / 2), 8));
+        const fz = Math.min(1, z / (bt / 2));
+        z += (-0.01 * g + pil * (1 - g)) * fadeY * fz;
       }
       const a = x / Rb, rad = Rb - z;
-      pp.setXYZ(i, Math.sin(a) * rad, y, Rb - Math.cos(a) * rad - Rb + Rb);
+      pp.setXYZ(i, Math.sin(a) * rad, y, Rb - Math.cos(a) * rad);
     }
     panel.computeVertexNormals();
-    // the bending above put the panel's centre at z = 0 with the front towards +z
-    const tilt = -12 * DEG;
-    panel.rotateX(tilt);
+    panel.rotateX(-12 * DEG);
     panel.translate(0, H + 0.05 + bh / 2, -D / 2 + 0.02);
     bins.add(vel, panel);
-    // two flat steel back supports from the seat frame up behind the back
     for (const s of [-1, 1]) {
       const a = V3(s * 0.11, yB - 0.01, -0.13), b = V3(s * 0.11, H + 0.02, -D / 2 - 0.02), c = V3(s * 0.11, H + 0.13, -D / 2 - 0.035);
       bins.add(frame, F.sweep(F.filletPath([a, b, c], 0.04), G.roundedRectProfile(0.03, 0.006, 0.002, 2), { up: V3(1, 0, 0) }));
     }
   }
-  return { pitch: 0.05, seatR: 0.24, footR: Rf };
+  return { pitch: 0.05, seatR: 0.24, footR: Rf, topY: back ? H + 0.36 : H };
+}
+
+// ----------------------------------------------------------------------------- chroom
+// Chrome Ø25 tube frame, round faux-leather seat pad Ø36 with piping.
+function stoolChrome(bins, H, color) {
+  const key = String(color).toLowerCase();
+  const leather = S.leatherMat(LEATHER[key] || M.resolveColor(color, '#1E1E20'));
+  const chrome = M.chrome();
+  const black = F.plastic('#141414', 0.55);
+  const R = 0.18, h = 0.07;
+  const yS = H - h;
+  const cu = S.roundCushion(R, h, { r: 0.024, crown: 0.009, seed: 3 });
+  bins.add(leather, cu.geo.translate(0, yS, 0));
+  bins.add(leather, F.sweep(cu.welt(1, 0.0032).map((p) => p.setY(p.y + yS)), G.circleProfile(0.0032, 10), { closed: true }));
+  // seat pan under the pad (black moulded) + chrome seat ring
+  bins.add(black, G.lathe([[0.0001, 0], [R - 0.022, 0], [R - 0.018, 0.006], [R - 0.02, 0.012], [0.0001, 0.012]].reverse(), 96).translate(0, yS - 0.012, 0));
+  const legR = 0.0125, yRing = yS - 0.03, rRing = 0.125;
+  bins.add(chrome, F.ring(rRing, yRing, 0.011, { segs: 128 }));
+  const bar = H > 0.6;
+  const Rf = bar ? 0.3 : 0.24, rTop = rRing + 0.011 + legR - 0.002, yTop = yS - 0.014;
+  const legAt = (u, y) => { const f = (y - 0.012) / (yTop - 0.012); return u.clone().multiplyScalar(Rf + (rTop - Rf) * f).setY(y); };
+  for (const u of legDirs()) {
+    const A = legAt(u, yTop), B = legAt(u, 0.012);
+    // the leg's top is bent inwards under the seat pan and welded to the ring
+    const C = A.clone().addScaledVector(u, -0.04).setY(yS - 0.016);
+    bins.add(chrome, F.bentTube([B, A, C], legR, 0.03, { segs: 18 }));
+    bins.add(black, G.lathe([[0.0001, 0.0], [legR + 0.0012, 0.0], [legR + 0.002, 0.004], [legR + 0.0014, 0.022], [0.0001, 0.022]].reverse(), 20).translate(B.x, 0, B.z));
+  }
+  const yF = bar ? 0.3 : 0.15;
+  bins.add(chrome, F.ring(legAt(V3(1, 0, 0), yF).x + legR + 0.0095 - 0.002, yF, 0.0095, { segs: 160 }));
+  return { pitch: 0.075, seatR: R, footR: Rf, topY: H + 0.009 };
 }
 
 export function barStool(p = {}) {
@@ -289,15 +335,15 @@ export function barStool(p = {}) {
   let H = Number(p.height ?? (style === 'rotan' || style === 'velours' ? 0.75 : 0.76));
   if (H > 5) H /= 100;
   const color = p.color || 'zwart';
-  const back = p.back ?? (style === 'rotan' || style === 'velours');
+  const back = p.back ?? (style === 'rotan' || style === 'velours' || style === 'draad' || style === 'wire');
   const stack = Math.max(1, Math.round(Number(p.stack ?? 1)));
   const bins = new G.PartBin();
   let info;
-  if (style === 'draad' || style === 'wire') info = stoolWire(bins, H, color);
-  else if (style === 'hout' || style === 'wood') info = stoolWood(bins, H, p.frame || color, p.seat);
+  if (style === 'draad' || style === 'wire') info = stoolWire(bins, H, color, back);
+  else if (style === 'hout' || style === 'wood') info = stoolWood(bins, H, p.frame || color);
   else if (style === 'rotan' || style === 'rattan') info = chairRattan(bins, H, color, back);
   else if (style === 'velours' || style === 'velvet') info = stoolVelvet(bins, H, color, back, p.frame || 'zwart');
-  else if (style === 'chroom' || style === 'chrome') info = stoolVelvet(bins, H, color, back, 'zwart', { seatMat: fauxLeather(color), frameMat: M.chrome() });
+  else if (style === 'chroom' || style === 'chrome') info = stoolChrome(bins, H, color);
   else info = stoolMetal(bins, H, color);
   const one = new THREE.Group(); one.name = `barStool ${style}`;
   bins.build(one);
@@ -312,6 +358,9 @@ export function barStool(p = {}) {
   return {
     object: group,
     detail: { target: [Math.sin(34 * DEG) * info.seatR * 0.8, topY - 0.03, Math.cos(34 * DEG) * info.seatR * 0.8], size: 0.32, azimuth: 34, elevation: 22 },
-    meta: { style, H, stack, color },
+    meta: { style, H, stack, color, pitch, footR: info.footR },
+    // chrome only reads as chrome with something dark and something bright to mirror: the
+    // studio environment (black flags, softboxes, scrim) instead of the grey room
+    rig: S.seatRig(group, style === 'chroom' || style === 'chrome' ? { default: { env: 'studio' } } : {}),
   };
 }

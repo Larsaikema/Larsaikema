@@ -1,0 +1,56 @@
+{%- comment -%}
+  'Premium of Professional?' (features collection.quality-line-explainer, product.related-guides): the other products of
+  the same line choice, found in the block's collection by custom.vergelijk_groep (catalog/CONTRACT.md), each with its
+  spec line (custom.kenmerk_kort), weight (custom.gewicht_kg), warranty (custom.garantie) and price, the current product
+  first. Under it the link to the full comparison ('Lees het hele verschil', hidden when the target does not exist).
+  Renders nothing without a group or without a second product. Params: product, block.
+{%- endcomment -%}
+{%- liquid
+  assign cmp_group = product.metafields.custom.vergelijk_groep.value
+  assign cmp_src = block.settings.collection
+  assign cmp_n = 0
+  assign cmp_others = ''
+  if cmp_group != blank and cmp_src != blank
+    for p in cmp_src.products limit: 50
+      if p.id != product.id and p.metafields.custom.vergelijk_groep.value == cmp_group
+        assign cmp_n = cmp_n | plus: 1
+        assign cmp_others = cmp_others | append: p.handle | append: ','
+        if cmp_n >= 2
+          break
+        endif
+      endif
+    endfor
+  endif
+-%}
+{%- if cmp_n > 0 -%}
+  {%- assign cmp_handles = product.handle | append: ',' | append: cmp_others | split: ',' -%}
+  <div class="included compare" {{ block.shopify_attributes }}>
+    <h2 class="included__title">{%- render 'icon', icon: 'tent', class: 'icon--sm' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.compare_title' | t }}{% endif %}</h2>
+    <ul class="compare__list" role="list">
+      {%- for h in cmp_handles -%}
+        {%- assign cp = all_products[h] -%}
+        {%- if cp == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign cp_kg = cp.metafields.custom.gewicht_kg.value -%}
+        <li class="compare__item{% if cp.id == product.id %} is-current{% endif %}">
+          <span class="compare__name">
+            {%- if cp.id == product.id -%}
+              {{ cp.title | replace: ' x ', ' × ' }} <span class="compare__here">{{ 'product.compare_current' | t }}</span>
+            {%- else -%}
+              <a class="link" href="{{ cp.url }}">{{ cp.title | replace: ' x ', ' × ' }}</a>
+            {%- endif -%}
+          </span>
+          <span class="compare__price">{%- render 'vat-money', cents: cp.price -%}</span>
+          <span class="compare__spec">
+            {{- cp.metafields.custom.kenmerk_kort.value -}}
+            {%- if cp_kg != blank %} · {{ cp_kg | round: 1 | replace: '.', ',' | remove: ',0' }} kg{% endif -%}
+            {%- if cp.metafields.custom.garantie != blank %} · {{ cp.metafields.custom.garantie.value }}{% endif -%}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+      {%- capture cmp_ok -%}{%- render 'link-exists', url: block.settings.link -%}{%- endcapture -%}
+      {%- unless cmp_ok == 'false' -%}<p class="compare__more"><a class="link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a></p>{%- endunless -%}
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -17,6 +17,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
+import * as S from '../js/seatKit.js';
 import { rng } from '../js/rng.js';
 
 const { V3 } = G;
@@ -109,7 +110,7 @@ export function biertafelset(p = {}) {
   const only = p.only ? String(p.only).toLowerCase() : null;
   const frame = String(p.frame || 'galv').toLowerCase();
   const mats = {
-    wood: F.wood('vuren', { seed: 5 }),
+    wood: S.woodMat('vuren', { seed: 5 }),
     steel: frame === 'galv' || frame === 'verzinkt' ? M.galvanised() : F.powder(frame),
     cap: F.plastic('#1B1B1B', 0.6),
     lever: F.plastic('#C8C9C6', 0.45),
@@ -131,6 +132,6 @@ export function biertafelset(p = {}) {
     object: group,
     detail: { target: [L / 2 - 0.2, (single ? HB : HT) - 0.15, single ? 0.05 : TW / 2], size: 0.55, azimuth: 40, elevation: 12 },
     meta: { L, TW, only },
-    rig: { default: { groundAO: { maxZenith: 55 } } },
+    rig: S.seatRig(group, { default: { groundAO: { maxZenith: 55 } } }),
   };
 }

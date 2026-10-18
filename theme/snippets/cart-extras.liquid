@@ -1,0 +1,80 @@
+{%- comment -%}
+  Reference / PO number, preferred delivery date and order note (cart attributes 'Referentie' and 'Gewenste leverdatum'
+  + cart note, saved on change by cart-ui.js and sent with the cart form) and the discount code field (JS only), as two
+  collapsible rows. The drawer puts them at the end of its scrolling body, the cart page in its summary card.
+  Params: form_id (cart form), context ('drawer' | 'page'), show_extras, show_date, show_discount
+{%- endcomment -%}
+{%- liquid
+  assign ref = cart.attributes['Referentie']
+  assign wish_date = cart.attributes['Gewenste leverdatum']
+  assign extras_filled = false
+  if ref != blank or wish_date != blank or cart.note != blank
+    assign extras_filled = true
+  endif
+  assign codes = ''
+  for c in cart.discount_codes
+    if c.applicable
+      assign codes = codes | append: c.code | append: ','
+    endif
+  endfor
+  assign codes = codes | split: ','
+-%}
+{%- if show_extras or show_discount -%}
+  <div class="cart-extras">
+    {%- if show_extras -%}
+      <details class="cart-extras__item" id="CartExtras-{{ context }}"{% if extras_filled %} open{% endif %}>
+        <summary>{{ 'cart.extras_label' | t }}{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</summary>
+        <div class="cart-extras__panel">
+          <div class="field">
+            <label class="field__label" for="CartRef-{{ context }}">{{ 'cart.reference_label' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+            <input class="input" type="text" id="CartRef-{{ context }}" name="attributes[Referentie]" form="{{ form_id }}" value="{{ ref | escape }}" maxlength="60" autocomplete="off" data-cart-attribute="Referentie">
+          </div>
+          {%- if show_date -%}
+            {%- comment -%} earliest day without JS: today + transit + 1, or the slowest lead time in the cart (cart-lead-time);
+              cart-extras.js sets the exact expected delivery date {%- endcomment -%}
+            {%- capture ce_lt -%}{% render 'cart-lead-time' %}{%- endcapture -%}
+            {%- assign ce_days = settings.transit_days_pakket | default: 1 | plus: 1 -%}
+            {%- assign ce_wait = ce_lt | strip | split: '|' | first | plus: 1 -%}
+            {%- if ce_wait > ce_days -%}{%- assign ce_days = ce_wait -%}{%- endif -%}
+            {%- assign ce_add = ce_days | times: 86400 -%}
+            {%- assign tomorrow = 'now' | date: '%s' | plus: ce_add | date: '%Y-%m-%d' -%}
+            <div class="field">
+              <label class="field__label" for="CartDate-{{ context }}">{{ 'cart.date_label' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+              <input class="input" type="date" id="CartDate-{{ context }}" name="attributes[Gewenste leverdatum]" form="{{ form_id }}" value="{{ wish_date | escape }}" min="{{ tomorrow }}" aria-describedby="CartDateHelp-{{ context }}" data-cart-attribute="Gewenste leverdatum">
+              <span class="field__help" id="CartDateHelp-{{ context }}">{{ 'cart.date_help' | t }}</span>
+            </div>
+          {%- endif -%}
+          {%- if settings.cart_show_note -%}
+            <div class="field">
+              <label class="field__label" for="CartNote-{{ context }}">{{ 'cart.note_short' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+              <textarea class="textarea" id="CartNote-{{ context }}" name="note" form="{{ form_id }}" rows="2" placeholder="{{ 'cart.note_placeholder' | t }}" data-cart-note>{{ cart.note }}</textarea>
+            </div>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+    {%- if show_discount -%}
+      <details class="cart-extras__item js-only" id="CartDiscount-{{ context }}"{% if codes.size > 0 %} open{% endif %}>
+        <summary>{{ 'cart.discount_label' | t }}{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</summary>
+        <div class="cart-extras__panel" data-discount data-refocus="discount" data-codes="{{ codes | join: ',' | escape }}">
+          <div class="discount">
+            <label class="visually-hidden" for="CartDiscountCode-{{ context }}">{{ 'cart.discount_label' | t }}</label>
+            <input class="input" type="text" id="CartDiscountCode-{{ context }}" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="{{ 'cart.discount_label' | t }}" aria-describedby="CartDiscountError-{{ context }}" data-discount-input>
+            <button type="button" class="btn btn--outline" id="CartDiscountApply-{{ context }}" data-discount-apply>{{ 'cart.discount_apply' | t }}</button>
+          </div>
+          <p class="field__error" id="CartDiscountError-{{ context }}" role="alert" data-discount-error data-msg-invalid="{{ 'cart.discount_invalid' | t | escape }}" data-msg-empty="{{ 'cart.discount_empty' | t | escape }}" hidden></p>
+          {%- if codes.size > 0 -%}
+            <ul class="discount__codes" role="list">
+              {%- for code in codes -%}
+                <li class="discount__code">
+                  <span>{{ code }}</span>
+                  <button type="button" class="discount__remove" data-discount-remove="{{ code | escape }}" aria-label="{{ 'cart.discount_remove' | t: code: code | escape }}">{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</button>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -601,11 +601,6 @@
     "groep": "Gewicht",
     "label": "Per wand",
     "waarde": "ca. 2,6 kg (3 m) tot 6,6 kg (8 m)"
-   },
-   {
-    "groep": "Wand",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    }
   ],
   "faq": [
@@ -627,7 +622,7 @@
    },
    {
     "vraag": "Is de wand brandvertragend?",
-    "antwoord": "Volgens de leverancier wel; het certificaat hebben we nog niet in huis. Vraagt de gemeente of de locatie om een brandcertificaat, neem dan contact met ons op voordat je bestelt."
+    "antwoord": "Dat zetten we pas op de pagina als de leverancier de norm en de brandklasse met een certificaat heeft bevestigd. Vraagt de gemeente of de locatie om een brandcertificaat, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is."
    }
   ],
   "drukopties": null,
@@ -638,7 +633,10 @@
   "image_alts": {
    "zijwand-easy-up-heavy-duty-pvc-wit-hero.webp": "Zijwand easy-up heavy duty PVC wit met ramen aan de achterzijde van een easy-up Professional 3 × 3 m (tent niet inbegrepen)",
    "zijwand-easy-up-heavy-duty-pvc-zwart-hero.webp": "Zijwand easy-up heavy duty PVC zwart met ramen aan de achterzijde van een easy-up Professional 3 × 3 m (tent niet inbegrepen)"
-  }
+  },
+  "claims": [
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
+  ]
  },
  "zijwandenset-easy-up": {
   "body_html": "<p>Alle vier de zijden in één keer dicht, in de kleur van je dak. De set heeft per tentmaat precies de juiste lengtes en kost minder dan dezelfde vier wanden los. Voor tuinfeest, markt of evenement op een easy-up van ons, Premium of Professional.</p><h3>Wat je krijgt</h3><ul><li>4 zijwanden van 500D polyester met PVC-coating, 320 g/m², ca. 200 cm hoog</li><li>Korte zijden: 1 dichte wand en 1 wand met ritsdeur. Lange zijden: 2 wanden met ramen. Bij een vierkante tent komen deur en dicht tegenover elkaar, de ramen aan de andere twee zijden.</li><li>Ramen van helder PVC, ritsdeur met 2 oprolbanden</li><li>Klittenband langs de bovenrand en aan de zijkanten, ogen in de onderrand voor haringen</li><li>7 kleuren, gelijk aan de dakkleuren: rood, wit, zwart, antraciet, blauw, groen en zandkleur</li></ul><h3>Set of los: wat je betaalt</h3><p>Los gekocht betaal je voor dezelfde vier wanden (1 dicht en 1 deur voor de korte zijden, 2 met ramen voor de lange zijden) meer dan voor de set:</p><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Wanden</th><th scope=\"col\">Los gekocht</th><th scope=\"col\">Setprijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">3 × 3 m</th><td>4 van 3 m</td><td>€ 229,80</td><td>€ 199,00</td><td>€ 30,80</td></tr><tr><th scope=\"row\">3 × 4,5 m</th><td>2 van 3 m + 2 van 4,5 m</td><td>€ 259,80</td><td>€ 219,00</td><td>€ 40,80</td></tr><tr><th scope=\"row\">3 × 6 m</th><td>2 van 3 m + 2 van 6 m</td><td>€ 309,80</td><td>€ 269,00</td><td>€ 40,80</td></tr><tr><th scope=\"row\">4 × 4 m</th><td>4 van 4 m</td><td>€ 269,80</td><td>€ 229,00</td><td>€ 40,80</td></tr><tr><th scope=\"row\">4 × 6 m</th><td>2 van 4 m + 2 van 6 m</td><td>€ 329,80</td><td>€ 289,00</td><td>€ 40,80</td></tr><tr><th scope=\"row\">4 × 8 m</th><td>2 van 4 m + 2 van 8 m</td><td>€ 379,80</td><td>€ 329,00</td><td>€ 50,80</td></tr><tr><th scope=\"row\">5 × 5 m</th><td>4 van 5 m</td><td>€ 309,80</td><td>€ 269,00</td><td>€ 40,80</td></tr></tbody></table><h3>Opzetten</h3><ol><li>Zet de tent op de hoogte die je wilt en veranker hem: haringen en spanbanden op gras, 15 kg per poot op verharding.</li><li>Begin met de dichte wand aan de kant waar de wind vandaan komt. Dan de twee raamwanden, de deur als laatste aan de luwe kant.</li><li>Klittenband bovenaan tegen de dakrand, lussen om de poten, onderrand met haringen. Klaar is Kees.</li></ol><h3>Goed om te weten</h3><ul><li>Met vier wanden vangt je tent veel meer wind. Veranker elke poot, ook de middenpoten. Bij harde wind: eerst de wanden los, dan het dak eraf.</li><li>Voor de 2 × 2 m is er geen set: neem vier losse wanden van 2 m.</li><li>Liever twee deuren of alleen ramen? Stel je indeling samen uit <a href=\"/collections/zijwanden\">losse wanden</a>.</li><li>Berg de wanden droog en opgerold op, zonder vouw door de ramen.</li><li>Wand en dak zijn van hetzelfde doek in dezelfde kleur. Tussen productiepartijen kan de tint licht verschillen.</li></ul>",
@@ -798,11 +796,6 @@
     "groep": "Gewicht",
     "label": "Set",
     "waarde": "ca. 10,4 kg (3 × 3 m) tot 20 kg (4 × 8 m)"
-   },
-   {
-    "groep": "Wand",
-    "label": "Brandvertragend",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    }
   ],
   "faq": [
@@ -824,7 +817,7 @@
    },
    {
     "vraag": "Is het PVC brandvertragend?",
-    "antwoord": "Volgens de leverancier wel; het certificaat hebben we nog niet in huis. Vraagt de gemeente of de locatie om een brandcertificaat, neem dan contact met ons op voordat je bestelt."
+    "antwoord": "Dat zetten we pas op de pagina als de leverancier de norm en de brandklasse met een certificaat heeft bevestigd. Vraagt de gemeente of de locatie om een brandcertificaat, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is."
    }
   ],
   "drukopties": null,
@@ -837,7 +830,8 @@
    "zijwandenset-easy-up-heavy-duty-pvc-zwart-hero.webp": "Zijwandenset easy-up heavy duty PVC zwart rondom een easy-up Professional 3 × 3 m met open deur (tent niet inbegrepen)"
   },
   "claims": [
-   "Setprijs heavy duty PVC (3 × 3 m € 299, 28 % onder de losse wanden) staat boven de polyester-band € 175–€ 279 omdat het PVC 580 g/m² is; Outmate-snapshots HD-set 3 × 3 € 199–€ 299 (de € 199 lijkt een actieprijs). Eigenaar beslist."
+   "Setprijs heavy duty PVC (3 × 3 m € 299, 28 % onder de losse wanden) staat boven de polyester-band € 175–€ 279 omdat het PVC 580 g/m² is; Outmate-snapshots HD-set 3 × 3 € 199–€ 299 (de € 199 lijkt een actieprijs). Eigenaar beslist.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "voetgewicht-easy-up-15-kg": {
@@ -1093,7 +1087,7 @@
    "description": "4 spanbanden van ca. 3 m en 4 haringen van 30 cm om je easy-up op gras vast te zetten. Met klemgesp en opbergzak. Past op elke maat."
   },
   "image_alts": {
-   "spanbanden-en-haringen-easy-up-hero.webp": "Spanbanden en haringen voor easy-up: zwarte spanbanden met gesp en vier haringen van 30 cm"
+   "spanbanden-en-haringen-easy-up-hero.webp": "Spanband, opgerold met spanner, en vier haringen van 30 cm (de set bevat 4 spanbanden en 4 haringen)"
   }
  },
  "stormbandenset-partytent": {
@@ -1241,10 +1235,10 @@
   }
  },
  "betonblok-ballast-tent": {
-  "body_html": "<p>Waar je geen haringen kunt slaan, zoals op pleinen, parkeerterreinen en festivalterreinen op asfalt, houdt ballast een grote tent op zijn plek. Deze betonblokken zijn voor stretchtenten, stertenten en grote buizenframe-tenten. Ze komen met vracht op een pallet; afladen doe je met een heftruck of kraan.</p><h3>Wat je krijgt</h3><ul><li>1 betonblok van 140, 500 of 1000 kg</li><li>Ingestorte stalen hijslepel bovenop, voor kraan of hijsband en als aanslagpunt voor een spanband</li><li>Afmetingen: 140 kg ca. 40 × 40 × 40 cm, 500 kg ca. 60 × 60 × 60 cm, 1000 kg ca. 80 × 80 × 65 cm</li><li>Levering per blok op een pallet</li></ul><h3>Zo werkt het</h3><ol><li>Bepaal hoeveel ballast je nodig hebt. Dat hangt af van tentmaat, hoogte, wanden en plek; weet je het niet, vraag het ons dan voordat je bestelt.</li><li>Zet de blokken met heftruck, verreiker of kraan op hun plek, bij de staanders, masten of spanpunten.</li><li>Span de tent af met spanbanden of kettingen van het tentpunt naar de hijslepel en zet ze op spanning.</li><li>Controleer de spanning elke dag zolang de tent staat.</li></ol><h3>Goed om te weten</h3><ul><li>Zorg dat er op het afleveradres een heftruck of kraan is om de blokken af te laden. Til ze nooit met de hand, ook het blok van 140 kg niet.</li><li>Leg op kwetsbare bestrating een rubbermat of plaat onder het blok tegen krassen en afdrukken.</li><li>Voor een tent op een evenement met publiek kan de gemeente een ballastberekening of tentcertificaat vragen. Regel dat vóór de opbouw.</li><li>Voor een easy-up is dit te veel van het goede: daar gebruik je <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewichten van 15 kg per poot</a>.</li></ul>",
-  "kenmerk_kort": "Ballast met hijslepel · 140, 500 of 1000 kg · levering op pallet",
+  "body_html": "<p>Waar je geen haringen kunt slaan, zoals op pleinen, parkeerterreinen en festivalterreinen op asfalt, houdt ballast een grote tent op zijn plek. Deze betonblokken zijn voor stretchtenten, stertenten en grote buizenframe-tenten. Ze komen met vracht op een pallet; afladen doe je met een heftruck of kraan.</p><h3>Wat je krijgt</h3><ul><li>1 betonblok van 120, 140, 240, 500, 750 of 1000 kg, of een blok van 500 kg met M16-inserts voor een truss-voetplaat</li><li>Ingestorte stalen hijslepel bovenop, voor kraan of hijsband en als aanslagpunt voor een spanband</li><li>Afmetingen: 120 kg ca. 40 × 40 × 35 cm, 140 kg ca. 40 × 40 × 40 cm, 240 kg ca. 50 × 50 × 45 cm, 500 kg ca. 60 × 60 × 60 cm, 750 kg ca. 70 × 70 × 65 cm, 1000 kg ca. 80 × 80 × 65 cm</li><li>Levering per blok op een pallet</li></ul><h3>Zo werkt het</h3><ol><li>Bepaal hoeveel ballast je nodig hebt. Dat hangt af van tentmaat, hoogte, wanden en plek; weet je het niet, vraag het ons dan voordat je bestelt.</li><li>Zet de blokken met heftruck, verreiker of kraan op hun plek, bij de staanders, masten of spanpunten.</li><li>Span de tent af met spanbanden of kettingen van het tentpunt naar de hijslepel en zet ze op spanning.</li><li>Controleer de spanning elke dag zolang de tent staat.</li></ol><h3>Goed om te weten</h3><ul><li>Zorg dat er op het afleveradres een heftruck of kraan is om de blokken af te laden. Til ze nooit met de hand, ook het blok van 140 kg niet.</li><li>Leg op kwetsbare bestrating een rubbermat of plaat onder het blok tegen krassen en afdrukken.</li><li>Voor een tent op een evenement met publiek kan de gemeente een ballastberekening of tentcertificaat vragen. Regel dat vóór de opbouw.</li><li>Voor een easy-up is dit te veel van het goede: daar gebruik je <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewichten van 15 kg per poot</a>.</li></ul>",
+  "kenmerk_kort": "Ballast met hijslepel · 120 tot 1000 kg · ook voor truss · op pallet",
   "usps": [
-   "140, 500 of 1000 kg ballast",
+   "Ballast van 120 tot 1000 kg",
    "Hijslepel voor kraan en spanband",
    "Voor stretch-, ster- en grote tenten op verharding",
    "Geleverd op pallet, met vracht"
@@ -1253,7 +1247,12 @@
    {
     "groep": "Ballast",
     "label": "Gewichten",
-    "waarde": "140, 500 of 1000 kg"
+    "waarde": "120, 140, 240, 500, 750 of 1000 kg; 500 kg ook met M16-inserts voor truss"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "120 kg",
+    "waarde": "ca. 40 × 40 × 35 cm"
    },
    {
     "groep": "Afmetingen",
@@ -1262,8 +1261,18 @@
    },
    {
     "groep": "Afmetingen",
+    "label": "240 kg",
+    "waarde": "ca. 50 × 50 × 45 cm"
+   },
+   {
+    "groep": "Afmetingen",
     "label": "500 kg",
     "waarde": "ca. 60 × 60 × 60 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "750 kg",
+    "waarde": "ca. 70 × 70 × 65 cm"
    },
    {
     "groep": "Afmetingen",
@@ -1289,6 +1298,11 @@
     "groep": "Levering",
     "label": "Afladen",
     "waarde": "Met heftruck, verreiker of kraan"
+   },
+   {
+    "groep": "Truss-versie",
+    "label": "500 kg met M16-inserts",
+    "waarde": "Vier ingestorte M16-inserts bovenop om een truss-voetplaat vast te bouten, plus hijslepel"
    }
   ],
   "faq": [
@@ -1307,16 +1321,23 @@
    {
     "vraag": "Kan ik een betonblok voor mijn easy-up gebruiken?",
     "antwoord": "Het kan, maar het is niet nodig en lastig te verplaatsen. Voor een easy-up houden we 15 kg per poot aan met voetgewichten."
+   },
+   {
+    "vraag": "Wat is de truss-versie?",
+    "antwoord": "Een blok van 500 kg met vier ingestorte M16-schroefbussen bovenop. Daar bout je een truss-voetplaat op, voor een spandoekframe, lichtmast of truss-poort. De voetplaat zelf zit er niet bij."
    }
   ],
   "drukopties": null,
   "seo": {
-   "title": "Betonblok ballast tent: 140, 500 of 1000 kg | Klapklaar",
-   "description": "Betonblok als ballast voor stretch-, ster- en grote tenten op verharding. 140, 500 of 1000 kg, met hijslepel, geleverd op pallet."
+   "title": "Betonblok ballast voor tenten, 120 tot 1000 kg | Klapklaar",
+   "description": "Betonblok als ballast voor stretch-, ster- en grote tenten op verharding. 120 tot 1000 kg, met hijslepel, ook met inserts voor truss, geleverd op pallet."
   },
   "image_alts": {
    "betonblok-ballast-tent-hero.webp": "Betonblok ballast 500 kg met stalen hijslepel, schuin vooraanzicht"
-  }
+  },
+  "claims": [
+   "Gewichten 120, 240 en 750 kg en de truss-versie (M16) toegevoegd naar het referentie-assortiment: maten, prijzen (99/149/259/239) en de insert-maat bij de leverancier bevestigen."
+  ]
  },
  "opbergtassenset-partytent": {
   "body_html": "<p>Een buizenframe-tent bestaat uit tientallen buizen, een doos koppelstukken en een paar grote doeken. Met deze set gaat alles na het feest geordend de schuur in en ligt volgend jaar alles bij elkaar. Uitpakken, opbouwen, klaar is Kees.</p><h3>Wat je krijgt</h3><ul><li>Buizentas van ca. 230 cm lang voor buizen tot 216 cm en staanders van 212 cm, met rits over de volle lengte en handgrepen</li><li>Koppelstukkentas met stevige bodem, voor koppelstukken, haringen en elastieken</li><li>Doektas voor dak en wanden</li><li>600D polyester met PVC-coating, zwart</li><li>Formaat afgestemd op de breedte van je tent: 3, 4, 5, 6 of 8 m</li></ul><h3>Zo werkt het</h3><ol><li>Breek de tent af in omgekeerde volgorde en pak per soort in: buizen bij buizen, koppelstukken bij koppelstukken.</li><li>Leg een lijstje in de koppelstukkentas met wat erin hoort, dan zie je bij het opbouwen meteen of er iets mist.</li><li>Vouw dak en wanden alleen droog in de doektas.</li></ol><h3>Goed om te weten</h3><ul><li>Kies de breedte van je tent, de korte zijde: een tent van 4 × 8 m is 4 m breed.</li><li>Een volle buizentas is zwaar: til hem met z’n tweeën aan de handgrepen en sleep hem niet over asfalt.</li><li>Ging het doek nat mee, haal het er thuis binnen een dag uit om te drogen. Schimmel krijg je er niet meer uit.</li><li>Voor een easy-up is dit niet bedoeld: daar gebruik je de <a href=\"/products/beschermhoes-easy-up\">beschermhoes</a> of <a href=\"/products/wieltas-easy-up\">wieltas</a>.</li></ul>",
@@ -1429,11 +1450,6 @@
     "groep": "Pasvorm",
     "label": "Past op",
     "waarde": "Klapklaar buizenframe-tenten van dezelfde maat"
-   },
-   {
-    "groep": "Dak",
-    "label": "Brandvertragend (PVC 550)",
-    "waarde": "Volgens de leverancier; certificaat volgt"
    }
   ],
   "faq": [
@@ -1465,7 +1481,10 @@
   },
   "image_alts": {
    "dakzeil-partytent-buizenframe-hero.webp": "Dakzeil partytent buizenframe 4 × 8 m, wit PVC, los van het frame, schuin vooraanzicht"
-  }
+  },
+  "claims": [
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
+  ]
  },
  "zijwand-partytent-2-m-pvc": {
   "body_html": "<p>Eén wandpaneel van 2 m breed voor je buizenframe-tent: om een kapot paneel te vervangen of een open zijde dicht te maken. Er is een paneel van 200 cm hoog voor de PE Basis en de PVC 500 en 550, en een paneel van 220 cm hoog voor de PVC 620 Professional. Ook handig voor een veranda of carport met staanders om de 2 m.</p><h3>Welk paneel past op jouw tent?</h3><table data-kk=\"paneel-per-tent\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Maat</th><th scope=\"col\">Doek en uitvoering</th></tr></thead><tbody><tr><th scope=\"row\">PE Basis</th><td>2 × 2 m (200 cm hoog)</td><td>PE: dicht of met raam</td></tr><tr><th scope=\"row\">PVC 500 Comfort, PVC 550 Premium en compleet</th><td>2 × 2 m (200 cm hoog)</td><td>PVC 500 g/m²: dicht, met raam, of met raam en ritsen</td></tr><tr><th scope=\"row\">PVC 620 Professional</th><td>2 × 2,2 m (220 cm hoog)</td><td>PVC 620 g/m²: dicht, met raam, of met raam en ritsen</td></tr></tbody></table><p>Maat is breedte × hoogte. Een PVC-paneel hangt ook aan de PE Basis, maar dan zie je het verschil in doek.</p><h3>Wat je krijgt</h3><ul><li>1 paneel van 2 m breed, 200 of 220 cm hoog, wit</li><li>PVC: dicht, met 1 raam van helder PVC, of met raam en ritsen aan beide zijkanten</li><li>PE (ca. 180 g/m²): dicht of met raam; licht en voordelig, voor een paar keer per jaar</li><li>Ogen langs boven- en zijkanten voor tentelastieken, ogen in de onderrand voor haringen van 18 cm</li></ul><h3>Zo werkt het</h3><ol><li>Zet het paneel bovenaan met tentelastieken om de dakrandbuis.</li><li>Zet de zijkanten met elastieken om de staanders. Bij de ritsversie rits je het paneel aan het buurpaneel.</li><li>Zet de onderrand vast met haringen van 18 cm.</li></ol><h3>Goed om te weten</h3><ul><li>Met ritsen maak je van één paneel een doorgang: rits open, paneel opzij.</li><li>PE is waterafstotend; bij een lange bui kan er langs naden en ringen wat water doorkomen. PVC is met gelaste naden waterdicht. Meer in <a href=\"/blogs/advies/pe-of-pvc-partytent\">PE of PVC</a>.</li><li>Elastieken en haringen zitten er niet bij: gebruik die van je tent of bestel ze <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">los</a>.</li><li>Een nieuw wit paneel kan iets lichter ogen dan een paneel dat al een paar zomers buiten heeft gestaan.</li></ul>",
@@ -1556,7 +1575,7 @@
    "description": "Los wandpaneel van 2 m voor je buizenframe-tent: 200 cm hoog in PVC of PE, 220 cm hoog voor de PVC 620 Professional. Dicht, met raam of met ritsen."
   },
   "image_alts": {
-   "zijwand-partytent-2-m-pvc-hero.webp": "Zijwand partytent 2 m van wit PVC met raam, schuin vooraanzicht"
+   "partytent-pvc-550-premium-hero.webp": "Zijwanden met raam van wit PVC aan een partytent met buizenframe (tent niet inbegrepen), schuin vooraanzicht"
   },
   "claims": [
    "Paneel 2 × 2,2 m (PVC 620 g/m², € 28,95 / met ritsen € 44,95) en PE-paneel (€ 13,95 / € 14,95): maten, doek en prijs bevestigen met de leverancier."
@@ -1637,7 +1656,7 @@
    "description": "Kopse wand tot in de nok of tussenwand voor je buizenframe-tent: PVC, doorgang met 2 ritsen, 3 tot 8 m breed, zijhoogte 200 of 220 cm."
   },
   "image_alts": {
-   "eindwand-en-tussenwand-partytent-hero.webp": "Eindwand partytent 4 m wit PVC met doorgang en ritsen, tot in de nok, schuin vooraanzicht"
+   "partytent-pvc-550-premium-front.webp": "Eindwand van wit PVC met deur aan de kopse kant van een partytent, tot in de nok (tent niet inbegrepen), vooraanzicht"
   },
   "claims": [
    "Eind- en tussenwand voor zijhoogte 220 cm (PVC 620 g/m², + € 10): bevestigen met de leverancier."

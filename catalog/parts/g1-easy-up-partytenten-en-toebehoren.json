@@ -85,7 +85,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -193,12 +193,12 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-premium-3x4-5": {
@@ -264,7 +264,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -372,12 +372,12 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-premium-3x6": {
@@ -443,7 +443,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, naden afgeplakt, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -551,12 +551,12 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 1 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-2x2": {
@@ -622,7 +622,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -726,14 +726,14 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
       "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
-      "Totale hoogte 330 cm voor 2 x 2 m komt uit de skeleton (zelfde als 3 m); lijkt hoog voor deze overspanning, laten bevestigen."
+      "Totale hoogte 330 cm voor 2 x 2 m komt uit de skeleton (zelfde als 3 m); lijkt hoog voor deze overspanning, laten bevestigen.",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-3x3": {
@@ -804,7 +804,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -917,13 +917,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-3x4-5": {
@@ -995,7 +995,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -1108,13 +1108,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-3x6": {
@@ -1186,7 +1186,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -1299,13 +1299,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-4x4": {
@@ -1376,7 +1376,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -1489,13 +1489,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-4x6": {
@@ -1567,7 +1567,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -1680,13 +1680,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-4x8": {
@@ -1758,7 +1758,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -1871,13 +1871,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "easy-up-partytent-professional-5x5": {
@@ -1944,7 +1944,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -2049,13 +2049,13 @@
     },
     "claims": [
       "Specificaties (materiaal, g/m², gewichten, maten, hoogtes, capaciteit) zijn definities: bevestigen met leverancier.",
-      "'Brandvertragend' alleen laten staan met certificaat van de leverancier.",
       "Kleur 'Rood' is het stockrood van de leverancier (geen eigen verfpartij, brand.md §4.5): kleurstaal naast het echte doek leggen.",
       "Opzettijd 'in een paar minuten' en het aantal personen per maat: laten bevestigen na een proefopbouw.",
       "Staffelkorting en prijs: eigenaar (docs/claims-to-confirm.md).",
       "Garantie 2 jaar op het frame (metafield garantie): eigenaar bevestigen; staat niet in de bodytekst.",
       "Inhoud doos (wieltas, 4 spanbanden, 4 haringen, ook bij 6/8 poten): bevestigen met leverancier.",
-      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst)."
+      "Autoadvies bij verpakte maat is een inschatting (gehedged in de tekst).",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "dakzeil-easy-up": {
@@ -2088,7 +2088,7 @@
       {
         "groep": "Dak",
         "label": "Eigenschappen",
-        "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+        "waarde": "Waterdicht, UV-bestendig"
       },
       {
         "groep": "Dak",
@@ -2181,8 +2181,8 @@
     "claims": [
       "Pasvorm alleen op Klapklaar-frames (bewust geen belofte voor andere merken).",
       "Doekgewichten per m² afgeleid uit variantgewichten; bevestigen met leverancier.",
-      "'Brandvertragend' alleen met certificaat.",
-      "Prijzen polyester 3x3 € 119, 3x4,5 € 149, 4x4 € 159, 3x6 € 199, 4x6 € 229, 5x5 € 249, 4x8 € 279; heavy duty PVC 3x3 € 219, 3x4,5 € 279, 3x6 € 359: zo is los frame + dak nooit goedkoper dan de complete tent (validate.py controleert dat). Outmate: polyester 3x3 € 129, 4x8 € 319; HD 3x3 € 219."
+      "Prijzen polyester 3x3 € 119, 3x4,5 € 149, 4x4 € 159, 3x6 € 199, 4x6 € 229, 5x5 € 249, 4x8 € 279; heavy duty PVC 3x3 € 219, 3x4,5 € 279, 3x6 € 359: zo is los frame + dak nooit goedkoper dan de complete tent (validate.py controleert dat). Outmate: polyester 3x3 € 129, 4x8 € 319; HD 3x3 € 219.",
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
     ]
   },
   "los-frame-easy-up-premium": {

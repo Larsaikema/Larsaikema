@@ -14,6 +14,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
+import * as S from '../js/seatKit.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -25,8 +26,11 @@ export function klaptafel(p = {}) {
   if (L > 10) L /= 100; if (W > 5) W /= 100; if (D > 5) D /= 100; if (H > 5) H /= 100;
   if (round) { L = D; W = D; }
   const folded = !!p.folded;
-  const topMat = F.hdpeGranite(p.color && p.color !== 'wit' ? p.color : '#E2E2DE');
-  const dimple = F.hdpeGranite('#DCDCD8');
+  // catalogue colour: lichtgrijs (blow-moulded HDPE, light warm grey with a fine speckle)
+  const TOPS = { lichtgrijs: '#C3C4BF', grijs: '#A9AAA5', wit: '#E6E6E2' };
+  const topHex = TOPS[String(p.color || 'lichtgrijs').toLowerCase()] || M.resolveColor(p.color, '#C3C4BF');
+  const topMat = F.hdpeGranite(topHex);
+  const dimple = F.hdpeGranite(new THREE.Color(topHex).multiplyScalar(0.96).getHexString().replace(/^/, '#'));
   const steel = F.powder(p.frame || 'grijs');
   const cap = F.plastic('#1A1A1A', 0.6);
   const T = 0.045;
@@ -124,6 +128,9 @@ export function klaptafel(p = {}) {
     detail: folded ? { target: [L / 2 - 0.25, W / 2, 0.05], size: 0.5, azimuth: 30, elevation: 10 }
       : { target: [L / 2 - 0.14, H - 0.15, W / 2 - 0.06], size: 0.45, azimuth: 40, elevation: 12 },
     meta: { L, W, H, round, folded },
-    rig: { default: { groundAO: { maxZenith: 55 } } },
+    // a big round top makes a broad sky shadow: keep it soft and open (no dark blotch)
+    rig: S.seatRig(group, { default: round && !folded
+      ? { groundAO: { maxZenith: 50, strength: 0.5, blur: 4.5 }, shadowFloor: 0.76, keyShadow: 0.3, contact: { strength: 0.5 } }
+      : { groundAO: { maxZenith: 55, blur: 3.0 }, shadowFloor: 0.72 } }),
   };
 }

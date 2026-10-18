@@ -54,6 +54,7 @@
 
   # shipping cost line per class (product.shipping-cost-line); product metafield custom.verzendkosten overrides
   assign dp_cost_line = product.metafields.custom.verzendkosten.value
+  assign dp_excl_label = 'price.excl' | t
   if dp_cost_line == blank and settings.show_shipping_cost
     if dp_ship == 'pallet'
       assign dp_cost_raw = settings.shipping_cost_pallet
@@ -62,16 +63,21 @@
     endif
     if dp_cost_raw != blank
       assign dp_cost_cents = dp_cost_raw | replace: ',', '.' | times: 100 | round
+      # the rate is entered incl. btw; in excl. mode (Zakelijk) the line shows the excl. figure with its label
+      assign dp_vat_f = settings.vat_rate | plus: 100
+      assign dp_cost_excl = dp_cost_cents | times: 100.0 | divided_by: dp_vat_f | round | money
+      assign dp_cost_money = dp_cost_cents | money | prepend: '<span data-vat-show="incl">' | append: '</span><span data-vat-show="excl">' | append: dp_cost_excl | append: ' ' | append: dp_excl_label | append: '</span>'
       if dp_cost_cents == 0
         assign dp_cost_line = 'delivery.shipping_free' | t
       elsif dp_ship == 'pallet'
-        assign dp_cost_money = dp_cost_cents | money
-        assign dp_cost_line = 'delivery.shipping_cost_pallet' | t: amount: dp_cost_money
+        assign dp_cost_line = 'delivery.shipping_cost_pallet' | t: amount: '__AMOUNT__' | replace: '__AMOUNT__', dp_cost_money
       else
-        assign dp_cost_money = dp_cost_cents | money
-        assign dp_cost_line = 'delivery.shipping_cost' | t: amount: dp_cost_money
+        assign dp_cost_line = 'delivery.shipping_cost' | t: amount: '__AMOUNT__' | replace: '__AMOUNT__', dp_cost_money
         assign dp_free = settings.free_shipping_threshold | default: 0 | times: 100
-        if dp_free > 0
+        if dp_free > 0 and dv.price >= dp_free
+          # this product alone clears the free-shipping threshold (the cart says 'gratis' too)
+          assign dp_cost_line = 'delivery.shipping_free' | t
+        elsif dp_free > 0
           assign dp_free_money = dp_free | money_without_trailing_zeros
           assign dp_free_line = 'delivery.shipping_free_from' | t: amount: dp_free_money
           assign dp_cost_line = dp_cost_line | append: ' · ' | append: dp_free_line
@@ -103,22 +109,27 @@
         {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
         {%- when 'leadtime' -%}{{ dp_leadtime }}
         {%- else -%}
-          {%- if dv.inventory_management != blank and dv.inventory_quantity <= 5 -%}
+          {%- assign dp_low = settings.low_stock_threshold | default: 5 -%}
+          {%- if dv.inventory_management != blank and dv.inventory_quantity <= dp_low and dp_low > 0 -%}
             {{ 'product.stock_low' | t: count: dv.inventory_quantity }}
           {%- else -%}
             {{ 'product.stock_in' | t }}
           {%- endif -%}
       {%- endcase -%}
     </p>
-    {%- if dp_state == 'stock' or dp_cost_line != blank -%}
+    {%- if dp_state == 'stock' or dp_state == 'backorder' or dp_state == 'leadtime' or dp_cost_line != blank -%}
       <ul class="delivery__lines">
+        {%- if dp_state == 'backorder' or dp_state == 'leadtime' -%}
+          {%- if dp_state == 'backorder' -%}{%- assign dp_lead = settings.delivery_text_backorder -%}{%- else -%}{%- assign dp_lead = dp_leadtime -%}{%- endif -%}
+          <li class="js-only" data-delivery-later-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span><span data-delivery-later data-lead="{{ dp_lead | escape }}" data-tpl="{{ 'delivery.arrives_range_html' | t: from: '__FROM__', to: '__TO__' | escape }}"></span>{%- assign dp_contact = pages['contact'] -%}{% if dp_contact.url != blank %} · <a class="link" href="{{ dp_contact.url }}">{{ 'delivery.sooner' | t }}</a>{% endif %}</span></li>
+        {%- endif -%}
         {%- if dp_state == 'stock' -%}
           {%- if dp_ship == 'pallet' -%}
             <li>{% render 'icon', icon: 'pallet', class: 'icon--sm' %}<span>{{ settings.delivery_text_pallet }}</span></li>
           {%- else -%}
             <li>{% render 'icon', icon: 'clock', class: 'icon--sm' %}<span data-delivery-countdown>{{ settings.delivery_text_pakket | replace: '[besteltijd]', settings.cutoff_time }}</span></li>
           {%- endif -%}
-          <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta></span></li>
+          <li class="js-only" data-delivery-eta-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span data-delivery-eta{% if dp_ship == 'pallet' %} data-eta-range="1" data-tpl="{{ 'delivery.arrives_range_html' | t: from: '__FROM__', to: '__TO__' | escape }}"{% endif %}></span></li>
         {%- endif -%}
         {%- if dp_cost_line != blank -%}
           <li class="delivery__cost">{% render 'icon', icon: 'euro', class: 'icon--sm' %}<span>{{ dp_cost_line }}{% if settings.shipping_page != blank %} <a class="link" href="{{ settings.shipping_page }}">{{ 'delivery.shipping_more' | t }}</a>{% endif %}</span></li>

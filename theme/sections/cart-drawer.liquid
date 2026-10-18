@@ -1,26 +1,40 @@
 {%- comment -%}
   Cart drawer. Rendered statically in layout/theme.liquid and re-rendered through the Section Rendering API
-  (sections=cart-drawer) after every add / change. The <dialog> stays in the DOM; JS swaps its contents.
+  (sections=cart-drawer) after every add / change: cart.js swaps the contents of #CartDrawerInner and keeps open panels,
+  scroll position and focus. The live region [data-cart-live] sits outside it, inside the dialog (the page behind a modal
+  dialog is inert), so screen readers hear 'Staat in je winkelwagen' and every new subtotal.
+  After an add: one slim line 'Staat in je winkelwagen.' (the added line right under it gets a short highlight, so the
+  product is not named twice; screen readers hear the product with it). Body (scrolls): free-shipping progress (only
+  with a threshold), lines, 'Vergeet niet' (the add-on variants of what is in the cart, one click each; two on a phone),
+  and, when switched on, reference / note and discount code (default off here: the cart page has them). Foot (stays put):
+  subtotal, shipping, the total to pay with its btw, expected delivery, checkout, express checkout, links.
+  component-cart.css (+ component-cart-extras.css when the drawer shows extras or a free-shipping threshold is set) loads
+  when the drawer opens, cart-ui.js (and cart-extras.js with extras) on the first interaction with it (cart.js); the cart
+  page links them itself.
+  cart.js: cart.run queues every cart request (add, change, note) so they never cross; earlier clicks are replayed once
+  cart-ui.js is there; a new line gets a short highlight and is scrolled into view. On the cart page the drawer is not
+  re-rendered (it never opens there).
 {%- endcomment -%}
-{{ 'component-cart.css' | asset_url | stylesheet_tag }}
 {%- capture kk_count -%}{% render 'cart-count' %}{%- endcapture -%}{%- assign kk_count = kk_count | plus: 0 -%}
-<cart-drawer class="cart-drawer-wrap">
+{%- assign cd_extras = false -%}
+{%- if section.settings.show_extras or section.settings.show_discount -%}{%- assign cd_extras = true -%}{%- endif -%}
+{%- assign cd_fs = settings.free_shipping_threshold | default: 0 | plus: 0 -%}
+<cart-drawer class="cart-drawer-wrap" data-css="{{ 'component-cart.css' | asset_url }}" data-ui="{{ 'cart-ui.js' | asset_url }}"{% if cd_extras %} data-extras="{{ 'cart-extras.js' | asset_url }}"{% endif %}{% if cd_extras or cd_fs > 0 %} data-extras-css="{{ 'component-cart-extras.css' | asset_url }}"{% endif %} data-msg-updated="{{ 'cart.updated_status' | t: total: '__TOTAL__' | escape }}" data-msg-empty="{{ 'cart.empty_title' | t | escape }}">
   <dialog class="drawer cart-drawer" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-item-count="{{ kk_count }}">
+    <div class="cart-drawer__inner" id="CartDrawerInner" data-item-count="{{ kk_count }}">
     <div class="drawer__head">
-      <h2 class="drawer__title h3" id="CartDrawerTitle">
-        {%- if cart.item_count > 0 -%}{{ 'cart.title_count' | t: count: kk_count }}{%- else -%}{{ 'cart.title' | t }}{%- endif -%}
+      <h2 class="drawer__title cart-drawer__title" id="CartDrawerTitle" tabindex="-1" data-refocus-fallback>
+        {{- 'cart.title' | t -}}
+        {%- if kk_count > 0 -%}<span class="cart-pill"><span class="visually-hidden">, </span>{{ 'header.cart_count' | t: count: kk_count }}</span>{%- endif -%}
       </h2>
       <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'general.close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
     </div>
-    <div class="cart-added notice notice--success" data-cart-added role="status" hidden>
-      {%- render 'icon', icon: 'check' -%}
-      <p><strong>{{ 'cart.added_title' | t }}</strong><span data-cart-added-line></span></p>
-    </div>
+    <p class="cart-added" data-cart-added hidden><span class="cart-added__icon">{%- render 'icon', icon: 'check', class: 'icon--xs' -%}</span>{{ 'cart.added_title' | t }}</p>
     {%- if cart.item_count > 0 -%}
-      {%- render 'cart-free-shipping' -%}
-      <div class="drawer__body">
+      <div class="drawer__body cart-drawer__body">
+        {%- render 'cart-free-shipping', hide_done: true -%}
         <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" novalidate>
-          <cart-items data-section-id="cart-drawer">
+          <cart-items data-section-id="cart-drawer" data-msg-adjusted="{{ 'cart.quantity_adjusted' | t: count: '__COUNT__' | escape }}" data-msg-whole="{{ 'cart.qty_whole' | t | escape }}" data-msg-min="{{ 'cart.qty_min' | t: count: '__COUNT__' | escape }}" data-msg-max="{{ 'cart.qty_max' | t: count: '__COUNT__' | escape }}" data-msg-step="{{ 'cart.qty_step' | t: count: '__COUNT__' | escape }}">
             <ul class="cart-lines" role="list">
               {%- for item in cart.items -%}
                 {%- render 'cart-line', item: item, index: forloop.index, compact: true -%}
@@ -28,26 +42,43 @@
             </ul>
           </cart-items>
         </form>
-        {%- capture upsell_items -%}{%- render 'cart-related', collection: settings.cart_upsell_collection, limit: settings.cart_upsell_limit, style: 'row', fallback: settings.cart_upsell_fallback -%}{%- endcapture -%}
-        {%- if upsell_items != blank -%}
-          <section class="upsell" aria-labelledby="UpsellTitle">
-            <h3 class="upsell__heading h4" id="UpsellTitle">{{ 'cart.upsell_title' | t }}</h3>
-            <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
-          </section>
+        {%- if section.settings.show_upsell -%}
+          {%- capture upsell_items -%}{%- render 'cart-addons', collection: settings.cart_upsell_collection, limit: settings.cart_upsell_limit, fallback: settings.cart_upsell_fallback -%}{%- endcapture -%}
+          {%- if upsell_items != blank -%}
+            <section class="upsell" aria-labelledby="UpsellTitle">
+              <h3 class="upsell__heading" id="UpsellTitle">{{ 'cart.upsell_title' | t }}</h3>
+              <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
+            </section>
+          {%- endif -%}
         {%- endif -%}
+        {%- if cd_extras -%}{%- render 'cart-extras', form_id: 'CartDrawerForm', context: 'drawer', show_extras: section.settings.show_extras, show_date: section.settings.show_date, show_discount: section.settings.show_discount -%}{%- endif -%}
       </div>
-      <div class="drawer__foot">
-        {%- render 'cart-summary', form_id: 'CartDrawerForm', context: 'drawer' -%}
+      <div class="drawer__foot cart-drawer__foot">
+        {%- render 'cart-summary', form_id: 'CartDrawerForm', context: 'drawer', express: section.settings.show_express -%}
       </div>
     {%- else -%}
+      {%- liquid
+        assign empty_url = section.settings.empty_link
+        if empty_url == blank
+          assign empty_url = collections['partytenten'].url | default: routes.all_products_collection_url
+        endif
+      -%}
       <div class="drawer__body cart-empty">
-        {%- render 'icon', icon: 'tent', class: 'icon--lg' -%}
-        <p class="h3">{{ 'cart.empty_title' | t }}</p>
+        <span class="cart-empty__icon">{%- render 'icon', icon: 'tent', class: 'icon--lg' -%}</span>
+        <p class="cart-empty__title">{{ 'cart.empty_title' | t }}</p>
         <p class="muted">{{ 'cart.empty_text' | t }}</p>
-        <a class="btn" href="{{ section.settings.empty_link | default: routes.all_products_collection_url }}">{{ 'cart.empty_cta' | t }}</a>
-        <button type="button" class="btn btn--ghost" data-drawer-close>{{ 'cart.continue' | t }}</button>
+        <a class="btn" href="{{ empty_url }}">{{ 'cart.empty_cta' | t }}</a>
+        {%- if section.settings.empty_menu.links.size > 0 -%}
+          <ul class="cart-empty__links" role="list">
+            {%- for link in section.settings.empty_menu.links limit: 10 -%}
+              <li><a class="chip" href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
     {%- endif -%}
+    </div>
+    <p class="visually-hidden" role="status" data-cart-live></p>
   </dialog>
 </cart-drawer>
 
@@ -55,7 +86,13 @@
 {
   "name": "Winkelwagen-drawer",
   "settings": [
-    { "type": "url", "id": "empty_link", "label": "Link bij lege winkelwagen", "info": "Standaard alle producten." }
+    { "type": "url", "id": "empty_link", "label": "Link bij lege winkelwagen", "info": "Standaard de collectie partytenten." },
+    { "type": "link_list", "id": "empty_menu", "label": "Snelle links bij lege winkelwagen", "default": "main-menu" },
+    { "type": "checkbox", "id": "show_upsell", "label": "'Vergeet niet' tonen", "default": true, "info": "De add-ons van wat in de winkelwagen ligt (custom.addon_varianten), in dezelfde maat en kleur." },
+    { "type": "checkbox", "id": "show_express", "label": "Snel afrekenen (Apple Pay, Google Pay, PayPal)", "default": true, "info": "Shopify's knoppen voor snel afrekenen onder Afrekenen, alleen als ze in Shopify > Betalingen aan staan." },
+    { "type": "checkbox", "id": "show_extras", "label": "Referentie, leverdatum en opmerking", "default": false, "info": "Opgeslagen als winkelwagen-attributen 'Referentie' en 'Gewenste leverdatum' en als opmerking bij de bestelling. Staan altijd op de winkelwagenpagina; hier uit houdt de drawer rustig." },
+    { "type": "checkbox", "id": "show_date", "label": "Veld 'Gewenste leverdatum'", "default": true },
+    { "type": "checkbox", "id": "show_discount", "label": "Kortingscode-veld", "default": false, "info": "Staat altijd op de winkelwagenpagina." }
   ]
 }
 {% endschema %}

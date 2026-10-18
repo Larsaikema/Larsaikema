@@ -1,0 +1,23 @@
+{%- comment -%}
+  Readable label for one storefront filter value (collection/search filters, active filter pills):
+  - tag filter: 'gebruik:horeca' -> 'Horeca' (catalog/CONTRACT.md tags are lowercase with a prefix)
+  - boolean filter (e.g. custom.bedrukbaar): 'true' / 'false' -> 'Ja' / 'Nee'
+  - option values with ' x ' sizes: '3 x 3 m' -> '3 × 3 m' (brand notation, non-breaking)
+  Params: filter, value
+{%- endcomment -%}
+{%- liquid
+  assign fv = value.label | default: value.value | append: ''
+  assign fv_raw = fv | downcase | strip
+  if filter.param_name == 'filter.p.tag' and fv contains ':'
+    assign fv = fv | split: ':' | last | replace: '-', ' ' | strip | capitalize
+  elsif filter.type == 'boolean' or fv_raw == 'true' or fv_raw == 'false'
+    if fv_raw == 'true' or fv_raw == 'yes' or fv_raw == '1'
+      assign fv = 'collection.filter_yes' | t
+    elsif fv_raw == 'false' or fv_raw == 'no' or fv_raw == '0'
+      assign fv = 'collection.filter_no' | t
+    endif
+  else
+    assign fv = fv | replace: ' x ', ' × '
+  endif
+  echo fv
+-%}

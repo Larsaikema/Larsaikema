@@ -10,6 +10,8 @@
   variant-picker.js keeps those links in step when the colour changes.
 {%- endcomment -%}
 {%- liquid
+  # sizes read '3 × 3 m' (non-breaking, like the product cards); option values themselves stay '3 x 3 m'
+  assign times_nb = ' × '
   assign swatch_names = settings.swatch_option_names | downcase | split: ','
   # Maatgids + size help belong to the size option only (Maat, Tafelmaat, Diameter, ...), never to colour.
   assign size_names_lc = block.settings.size_option_names | default: 'Maat, Tafelmaat, Diameter, Afmeting, Formaat' | downcase | replace: ', ', ',' | replace: ' ,', ',' | strip | split: ','
@@ -23,6 +25,14 @@
       break
     endif
   endfor
+
+  # price under each size pill (block setting size_prices): the variant with that size and the current other options
+  assign show_size_prices = false
+  if block.settings.size_prices
+    if size_index != -1 or product.metafields.custom.andere_maten != blank
+      assign show_size_prices = true
+    endif
+  endif
 
   assign siblings = product.metafields.custom.andere_maten.value
   assign has_siblings = false
@@ -78,8 +88,11 @@
         if sp_label == blank
           assign sp_label = sp.title
         endif
+        assign sp_label = sp_label | replace: ' x ', times_nb
         assign m_id = ''
         assign m_av = sp.available
+        assign m_price = sp.price
+        assign m_from = sp.price_varies
         capture vmap
           echo '{'
           for v in sp.variants
@@ -94,14 +107,58 @@
             if vk == cur_key and m_id == ''
               assign m_id = v.id
               assign m_av = v.available
+              assign m_price = v.price
+              assign m_from = false
             endif
-            echo vk | json | append: ':[' | append: v.id | append: ',' | append: v.available | append: ']'
+            echo vk | json | append: ':[' | append: v.id | append: ',' | append: v.available | append: ',' | append: v.price | append: ']'
             unless forloop.last
               echo ','
             endunless
           endfor
           echo '}'
         endcapture
+        # no variant of this size in the current colour / uitvoering (2 x 2 m has no Heavy duty PVC): the pill says
+        # 'niet in Heavy duty PVC' instead of a price and links to the sibling's default variant
+        assign sp_miss = ''
+        if m_id == ''
+          assign m_av = false
+          for option in product.options_with_values
+            assign on = option.name | downcase | strip
+            if size_names_lc contains on or sp_miss != ''
+              continue
+            endif
+            assign cv = current_variant.options[forloop.index0]
+            assign sp_found = false
+            for so in sp.options_with_values
+              if so.name == option.name
+                for sv in so.values
+                  assign svn = sv.name | default: sv
+                  if svn == cv
+                    assign sp_found = true
+                  endif
+                endfor
+              endif
+            endfor
+            unless sp_found
+              assign sp_miss = cv
+            endunless
+          endfor
+        endif
+        if show_size_prices
+          capture sp_label_html
+            echo '<span class="vp__pill-label">' | append: sp_label | append: '</span><span class="vp__pill-price" data-sibling-price>'
+            if m_from
+              echo 'price.from' | t | append: ' '
+            endif
+            if sp_miss != ''
+              echo 'product.sibling_missing' | t: value: sp_miss
+            else
+              render 'vat-money', cents: m_price
+            endif
+            echo '</span>'
+          endcapture
+          assign sp_label = sp_label_html
+        endif
         render 'size-sibling-link', sp: sp, label: sp_label, variant_id: m_id, available: m_av, vmap: vmap
       endfor
     endcapture
@@ -110,13 +167,14 @@
     assign sib_after = sib_parts[1]
   endif
 -%}
-<variant-picker class="vp js-only" data-section-id="{{ section_id }}"{% if has_siblings %} data-key-names="{{ key_names | escape }}"{% endif %} {{ block.shopify_attributes }}>
+<variant-picker class="vp js-only" data-section-id="{{ section_id }}"{% if has_siblings %} data-key-names="{{ key_names | escape }}" data-miss-tpl="{{ 'product.sibling_missing' | t: value: '__VALUE__' | escape }}"{% endif %} {{ block.shopify_attributes }}>
   {%- if has_siblings and size_index == -1 -%}
     {%- capture self_label -%}{%- render 'size-label', p: product, size_names: size_names_lc -%}{%- endcapture -%}
     {%- if self_label == blank -%}{%- assign self_label = product.title -%}{%- endif -%}
+    {%- assign self_label = self_label | replace: ' x ', times_nb -%}
     <div class="vp__option" role="group" aria-labelledby="SizeSiblings-{{ section_id }}">
       <p class="vp__legend" id="SizeSiblings-{{ section_id }}"><span class="vp__name">{{ 'product.size_label' | t }}:</span> <span class="vp__selected">{{ self_label }}</span></p>
-      <div class="vp__values">{{ sib_before }}<span class="vp__pill" aria-current="true">{{ self_label }}</span>{{ sib_after }}</div>
+      <div class="vp__values">{{ sib_before }}<span class="vp__pill" aria-current="true">{%- if show_size_prices -%}<span class="vp__pill-label">{{ self_label }}</span><span class="vp__pill-price">{%- render 'vat-money', cents: current_variant.price -%}</span>{%- else -%}{{ self_label }}{%- endif -%}</span>{{ sib_after }}</div>
     </div>
   {%- endif -%}
   {%- unless product.has_only_default_variant -%}
@@ -127,13 +185,43 @@
     {%- assign option_index = forloop.index0 -%}
     {%- assign with_siblings = false -%}
     {%- if has_siblings and option_index == size_index -%}{%- assign with_siblings = true -%}{%- endif -%}
+    {%- comment -%}
+      Price under each pill (block setting size_prices) when the price depends on this option (sizes, Polyester vs
+      Heavy duty PVC): the variant with that value and the current other options, else the first variant with that value.
+    {%- endcomment -%}
+    {%- assign show_opt_prices = false -%}
+    {%- assign opt_price_list = '' | split: ',' -%}
+    {%- if block.settings.size_prices and is_swatch == false -%}
+      {%- assign opt_prices = '' -%}
+      {%- assign first_p = '' -%}
+      {%- for value in option.values -%}
+        {%- assign vname = value.name | default: value -%}
+        {%- assign pp = '' -%}
+        {%- assign pp_any = '' -%}
+        {%- for v in product.variants -%}
+          {%- if v.options[option_index] != vname -%}{%- continue -%}{%- endif -%}
+          {%- if pp_any == '' -%}{%- assign pp_any = v.price -%}{%- endif -%}
+          {%- assign v_hit = true -%}
+          {%- for o in v.options -%}
+            {%- unless forloop.index0 == option_index -%}{%- if o != current_variant.options[forloop.index0] -%}{%- assign v_hit = false -%}{%- endif -%}{%- endunless -%}
+          {%- endfor -%}
+          {%- if v_hit -%}{%- assign pp = v.price -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if pp == '' -%}{%- assign pp = pp_any -%}{%- endif -%}
+        {%- assign opt_prices = opt_prices | append: pp | append: ',' -%}
+        {%- if forloop.first -%}{%- assign first_p = pp -%}{%- elsif pp != first_p -%}{%- assign show_opt_prices = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- assign opt_price_list = opt_prices | split: ',' -%}
+      {%- if with_siblings -%}{%- assign show_opt_prices = true -%}{%- endif -%}
+    {%- endif -%}
     <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}">
       <legend class="vp__legend">
-        <span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value }}</span>
-        {%- if option_index == size_index and guide_page != blank -%}
-          <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
-        {%- endif -%}
+        <span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value | replace: ' x ', times_nb }}</span>
       </legend>
+      {%- comment -%} after the legend, not in it: the group is named 'Maat: 3 × 3 m', without 'Maatgids' {%- endcomment -%}
+      {%- if option_index == size_index and guide_page != blank -%}
+        <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
+      {%- endif -%}
       <div class="vp__values">
         {%- if with_siblings -%}{{ sib_before }}{%- endif -%}
         {%- for value in option.values -%}
@@ -146,23 +234,48 @@
               <span class="visually-hidden">{{ value }}{% unless value.available %}, {{ 'product.option_unavailable' | t }}{% endunless %}</span>
             </label>
           {%- else -%}
+            {%- assign pill_price = opt_price_list[forloop.index0] -%}
             <label for="{{ input_id }}" class="vp__pill{% unless value.available %} is-unavailable{% endunless %}">
-              {{ value }}{% unless value.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless %}
+              {%- if show_opt_prices and pill_price != blank -%}<span class="vp__pill-label">{{ value | replace: ' x ', times_nb }}</span><span class="vp__pill-price">{%- render 'vat-money', cents: pill_price -%}</span>{%- else -%}{{ value | replace: ' x ', times_nb }}{%- endif -%}
+              {%- unless value.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless -%}
             </label>
           {%- endif -%}
         {%- endfor -%}
         {%- if with_siblings -%}{{ sib_after }}{%- endif -%}
       </div>
-      {%- if option_index == size_index and guide_page != blank -%}
-        <p class="vp__help text-sm muted">{{ 'product.size_guide_help' | t }}</p>
-      {%- endif -%}
     </fieldset>
   {%- endfor -%}
   {%- endunless -%}
   <script type="application/json" data-variants>
     [{%- for v in product.variants -%}
       {%- capture v_print -%}{%- if is_print -%}{%- render 'print-active', product: product, variant: v -%}{%- else -%}false{%- endif -%}{%- endcapture -%}
-      {"id":{{ v.id }},"options":{{ v.options | json }},"available":{{ v.available | json }},"price":{{ v.price }},"compare_at_price":{{ v.compare_at_price | default: 0 }},"media_id":{{ v.featured_media.id | default: 0 }},"print":{{ v_print }}}{% unless forloop.last %},{% endunless %}
+      {%- liquid
+        # max: the quantity limit for the stepper (quantity rule, or tracked stock that cannot be oversold); 0 = none
+        assign v_max = v.quantity_rule.max | default: 0
+        if v.inventory_management == 'shopify' and v.inventory_policy == 'deny' and v.inventory_quantity > 0
+          if v_max == 0 or v.inventory_quantity < v_max
+            assign v_max = v.inventory_quantity
+          endif
+        endif
+        # ad: this variant's add-ons (custom.addon_varianten) as [add-on product id, variant id, price, quantity, type], so
+        # product-form.js swaps the ticked add-ons the moment the variant changes, before the section HTML arrives
+        assign v_avs = v.metafields.custom.addon_varianten.value
+        assign v_aqs = v.metafields.custom.addon_aantallen.value
+        assign v_ad = 'null'
+        if v_avs != blank
+          capture v_ad
+            for a in v_avs
+              if a.available
+                assign v_aq = v_aqs[forloop.index0] | default: 1
+                assign v_at = a.product.type | json
+                echo ',[' | append: a.product.id | append: ',' | append: a.id | append: ',' | append: a.price | append: ',' | append: v_aq | append: ',' | append: v_at | append: ']'
+              endif
+            endfor
+          endcapture
+          assign v_ad = v_ad | remove_first: ',' | prepend: '[' | append: ']'
+        endif
+      -%}
+      {"id":{{ v.id }},"options":{{ v.options | json }},"available":{{ v.available | json }},"price":{{ v.price }},"compare_at_price":{{ v.compare_at_price | default: 0 }},"media_id":{{ v.featured_media.id | default: 0 }},"max":{{ v_max }},"print":{{ v_print }},"ad":{{ v_ad }}}{% unless forloop.last %},{% endunless %}
     {%- endfor -%}]
   </script>
 </variant-picker>

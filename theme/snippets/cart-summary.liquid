@@ -1,82 +1,115 @@
 {%- comment -%}
-  Cart totals block shared by drawer and cart page: free-shipping progress, discounts, subtotal incl. btw,
-  btw breakdown, shipping note, note field, checkout + offerte link. Params: form_id (string), context: 'drawer' | 'page'
+  Cart totals shared by drawer and cart page (reference, note and discount code: cart-extras). Params: form_id (cart
+  form), context ('drawer' | 'page'), show_guest (page: 'Afrekenen kan als gast of met je account', only true when
+  customer accounts are optional in Shopify), express (bool: Shopify's express checkout buttons under Afrekenen, from
+  the section setting; they render only when the store has them), payment (bool: the store's payment icons right under
+  Afrekenen). The cart page puts its 'Liever een offerte' link with the reassurance list (sections/main-cart).
+  Rows follow the header btw switch (html[data-vat]): Particulier = subtotal, discounts, shipping, Totaal (incl. btw,
+  one line 'waarvan btw · excl. btw' under it); Zakelijk = the same rows excl. btw, Btw, Totaal incl. btw. The total is
+  what the shopper pays: products + shipping (cart-shipping: the highest shipping cost in the cart, from the same theme
+  settings as the product page, which must match the Shopify rates; NL only); outside NL or without a rate it says
+  'Totaal zonder verzending'. Btw is per line like Shopify (cart-vat-totals; none on a gift card or untaxed variant);
+  shipping carries btw too. A cart without btw shows no btw lines. Right above the checkout button: when it arrives
+  (cart-delivery); right under it the payment icons (page: payment true).
 {%- endcomment -%}
 {%- liquid
-  # cart.taxes_included: are cart prices incl. btw (Dutch default) or excl. (B2B catalogue / prices excl. tax)?
-  assign vat_factor = settings.vat_rate | plus: 100
-  if cart.taxes_included
-    assign total_incl = cart.total_price
-    assign total_excl = cart.total_price | times: 100.0 | divided_by: vat_factor | round
-  else
-    assign total_excl = cart.total_price
-    assign total_incl = cart.total_price | times: vat_factor | divided_by: 100.0 | round
-  endif
-  assign vat_amount = total_incl | minus: total_excl
+  capture cs_t
+    render 'cart-vat-totals'
+  endcapture
+  assign cs_t = cs_t | strip | split: '|'
+  assign net_incl = cs_t[0] | plus: 0
+  assign net_excl = cs_t[1] | plus: 0
+  assign items_incl = cs_t[2] | plus: 0
+  assign items_excl = cs_t[3] | plus: 0
 
-  # Shipping estimate per class (feature cart.shipping-excluded-note): one shipment at the heaviest class in the
-  # cart (pallet beats pakket); pakket is free above the threshold. Rates are theme settings that must match
-  # Shopify > Verzending; checkout calculates the real amount.
-  assign cs_ship = 'pakket'
-  for item in cart.items
-    assign cs_cls = item.product.metafields.custom.verzending.value | default: 'pakket' | downcase
-    if cs_cls == 'pallet' or item.product.tags contains 'pallet'
-      assign cs_ship = 'pallet'
-      break
-    endif
-  endfor
-  assign cs_cost = -1
-  if settings.show_shipping_cost and cart.requires_shipping
-    if cs_ship == 'pallet'
-      assign cs_raw = settings.shipping_cost_pallet
-    else
-      assign cs_raw = settings.shipping_cost_pakket
-    endif
-    if cs_raw != blank
-      assign cs_cost = cs_raw | replace: ',', '.' | times: 100 | round
-      assign cs_free_from = settings.free_shipping_threshold | default: 0 | times: 100
-      if cs_ship == 'pakket' and cs_free_from > 0 and cart.total_price >= cs_free_from
-        assign cs_cost = 0
-      endif
-    endif
+  capture cs_s
+    render 'cart-shipping'
+  endcapture
+  assign cs_s = cs_s | strip | split: '|'
+  assign ship = cs_s[0] | plus: 0
+  assign ship_class = cs_s[1]
+
+  assign cs_factor = settings.vat_rate | default: 0 | plus: 100
+  assign grand_incl = net_incl
+  assign grand_excl = net_excl
+  if ship > 0
+    assign ship_excl = ship | times: 100.0 | divided_by: cs_factor | round
+    assign grand_incl = grand_incl | plus: ship
+    assign grand_excl = grand_excl | plus: ship_excl
   endif
+  assign vat_total = grand_incl | minus: grand_excl
+  assign vat_shown = vat_total | money
+  assign cs_breakdown = settings.cart_show_vat_breakdown
+  assign cs_discounts = cart.cart_level_discount_applications
   assign quote_url = settings.quote_page | default: '/pages/offerte'
 -%}
-<div class="cart-summary">
-  {%- if settings.cart_show_note -%}
-    <details class="cart-summary__note"{% if cart.note != blank %} open{% endif %}>
-      <summary class="link">{{ 'cart.note_label' | t | split: ' (' | first }}</summary>
-      <label class="visually-hidden" for="CartNote-{{ context }}">{{ 'cart.note_label' | t }}</label>
-      <textarea class="textarea" id="CartNote-{{ context }}" name="note" form="{{ form_id }}" data-cart-note placeholder="{{ 'cart.note_label' | t }}" rows="3">{{ cart.note }}</textarea>
-    </details>
-  {%- endif -%}
+<div class="cart-summary cart-summary--{{ context }}">
   <dl class="cart-summary__rows">
-    {%- for discount in cart.cart_level_discount_applications -%}
-      <div class="cart-summary__row cart-summary__row--discount"><dt>{{ 'cart.discount' | t }}: {{ discount.title }}</dt><dd>−{{ discount.total_allocated_amount | money }}</dd></div>
+    <div class="cart-summary__row">
+      <dt>{{ 'cart.subtotal' | t }}{% if vat_total > 0 %} <span class="cart-summary__vat" data-vat-show="excl">{{ 'price.excl' | t }}</span>{% endif %}</dt>
+      <dd><span data-vat-show="incl">{{ items_incl | money }}</span><span data-vat-show="excl">{{ items_excl | money }}</span></dd>
+    </div>
+    {%- for discount in cs_discounts -%}
+      <div class="cart-summary__row cart-summary__row--discount">
+        <dt>{{ 'cart.discount' | t }} · {{ discount.title }}</dt>
+        <dd>
+          {%- if cs_discounts.size == 1 -%}
+            {%- assign cs_off_excl = items_excl | minus: net_excl -%}
+            <span data-vat-show="incl">−{{ discount.total_allocated_amount | money }}</span><span data-vat-show="excl">−{{ cs_off_excl | money }}</span>
+          {%- else -%}
+            −{%- render 'vat-money', cents: discount.total_allocated_amount -%}
+          {%- endif -%}
+        </dd>
+      </div>
     {%- endfor -%}
-    {%- if cart.taxes_included -%}
-      <div class="cart-summary__row cart-summary__row--total"><dt>{{ 'cart.subtotal_incl' | t }}</dt><dd>{{ cart.total_price | money }}</dd></div>
-      {%- if settings.cart_show_vat_breakdown -%}
-        <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.total_excl' | t }}</dt><dd>{{ total_excl | money }}</dd></div>
-        <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.vat_line' | t: rate: settings.vat_rate }}</dt><dd>{{ vat_amount | money }}</dd></div>
-      {%- endif -%}
-    {%- else -%}
-      <div class="cart-summary__row cart-summary__row--total"><dt>{{ 'cart.subtotal_excl' | t }}</dt><dd>{{ cart.total_price | money }}</dd></div>
-      {%- if settings.cart_show_vat_breakdown -%}
-        <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.vat_line_estimate' | t: rate: settings.vat_rate }}</dt><dd>{{ vat_amount | money }}</dd></div>
-        <div class="cart-summary__row cart-summary__row--sub"><dt>{{ 'cart.total_incl_estimate' | t }}</dt><dd>{{ total_incl | money }}</dd></div>
-      {%- endif -%}
-    {%- endif -%}
-    {%- if cs_cost >= 0 -%}
-      <div class="cart-summary__row cart-summary__row--sub cart-summary__row--shipping">
-        <dt>{% if cs_ship == 'pallet' %}{{ 'cart.shipping_estimate_pallet' | t }}{% else %}{{ 'cart.shipping_estimate_pakket' | t }}{% endif %}</dt>
-        <dd>{% if cs_cost == 0 %}{{ 'delivery.shipping_free' | t }}{% else %}{{ cs_cost | money }}{% endif %}</dd>
+    {%- if cart.requires_shipping -%}
+      <div class="cart-summary__row cart-summary__row--ship">
+        <dt>{% if ship < 0 %}{{ 'cart.shipping_label' | t }}{% elsif ship_class == 'pallet' %}{{ 'cart.shipping_label_pallet' | t }}{% else %}{{ 'cart.shipping_label_pakket' | t }}{% endif %}</dt>
+        <dd>
+          {%- if ship < 0 -%}<span class="cart-summary__later">{{ 'cart.shipping_at_checkout_value' | t }}</span>
+          {%- elsif ship == 0 -%}<span class="cart-summary__free">{{ 'cart.shipping_free_value' | t }}</span>
+          {%- else -%}<span data-vat-show="incl">{{ ship | money }}</span><span data-vat-show="excl">{{ ship_excl | money }}</span>
+          {%- endif -%}
+        </dd>
       </div>
     {%- endif -%}
+    {%- if cs_breakdown and vat_total > 0 -%}
+      <div class="cart-summary__row" data-vat-show="excl"><dt>{{ 'cart.vat_line' | t: rate: settings.vat_rate }}</dt><dd>{{ vat_total | money }}</dd></div>
+    {%- endif -%}
+    <div class="cart-summary__row cart-summary__row--total">
+      <dt>
+        {%- if cart.requires_shipping and ship < 0 -%}{{ 'cart.grand_total_no_shipping' | t }}{%- else -%}{{ 'cart.grand_total' | t }}{%- endif -%}
+        {%- if vat_total > 0 %}
+          {% if context == 'drawer' and cs_breakdown -%}
+            <span class="cart-summary__vat" data-vat-show="incl">{{ 'cart.vat_incl_html' | t: amount: vat_shown | downcase }}</span><span class="cart-summary__vat" data-vat-show="excl">{{ 'price.incl' | t }}</span>
+          {%- else -%}
+            <span class="cart-summary__vat">{{ 'price.incl' | t }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </dt>
+      <dd>{{ grand_incl | money }}</dd>
+    </div>
   </dl>
-  <p class="cart-summary__shipping text-sm muted">{% if cs_cost >= 0 %}{{ 'cart.shipping_note_estimate' | t }}{% else %}{{ 'cart.shipping_note' | t }}{% endif %}</p>
-  <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--buy btn--block cart-summary__checkout">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
-  {%- if settings.cart_quote_link -%}
-    <a class="cart-summary__quote link" href="{{ quote_url }}?from=cart">{{ 'cart.quote_link' | t }}</a>
+  {%- if context == 'page' and cs_breakdown and vat_total > 0 -%}
+    {%- capture cs_excl_shown -%}{{ grand_excl | money }}{%- endcapture -%}
+    <p class="cart-summary__vatline" data-vat-show="incl">{{ 'cart.vat_split' | t: rate: settings.vat_rate, vat: vat_shown, excl: cs_excl_shown }}</p>
+  {%- endif -%}
+  {%- render 'cart-delivery', context: context -%}
+  <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--buy btn--block cart-summary__checkout" data-checkout>{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
+  {%- if payment and shop.enabled_payment_types.size > 0 -%}
+    <ul class="payment-icons cart-summary__pay" role="list" aria-label="{{ 'footer.payment' | t }}">
+      {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
+    </ul>
+  {%- endif -%}
+  {%- if express and additional_checkout_buttons -%}
+    <div class="cart-summary__express">{{ content_for_additional_checkout_buttons }}</div>
+  {%- endif -%}
+  {%- if context == 'page' -%}
+    {%- if show_guest -%}<p class="cart-summary__guest">{{ 'cart.guest_checkout' | t }}</p>{%- endif -%}
+  {%- else -%}
+    <p class="cart-summary__links">
+      <a class="link" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+      {%- if settings.cart_quote_link -%}<a class="link" href="{{ quote_url }}?from=cart">{{ 'cart.quote_short' | t }}</a>{%- endif -%}
+    </p>
   {%- endif -%}
 </div>

@@ -84,9 +84,9 @@ export function gardenPavilion(p = {}) {
     // common bars between the ridge ends, jack bars from the eave to the hips
     const n = Math.max(1, Math.round((2 * ridgeHalf) / step));
     for (let i = 0; i <= n; i++) { const xr = -ridgeHalf + (2 * ridgeHalf * i) / n; bar(P(xr, sz * RZ), P(xr, 0), 0.04, 0.024); }
-    for (const sx of [-1, 1]) for (let k = 1; k <= 2; k++) { const xe = sx * (ridgeHalf + (RZ * k) / 3); bar(P(xe, sz * RZ), P(xe, sz * (RZ - (Math.abs(xe) - ridgeHalf))), 0.04, 0.024); }
+    for (const sx of [-1, 1]) for (let k = 1; k <= 2; k++) { const xe = sx * (ridgeHalf + (RZ * k) / 3); bar(P(xe, sz * RZ), P(xe, sz * (Math.abs(xe) - ridgeHalf)), 0.04, 0.024); }
   }
-  for (const sx of [-1, 1]) for (const z of [-RZ / 2, 0, RZ / 2]) bar(P(sx * RX, z), P(sx * (ridgeHalf + RZ - Math.abs(z)), z), 0.04, 0.024);
+  for (const sx of [-1, 1]) for (const z of [-RZ / 2, 0, RZ / 2]) bar(P(sx * RX, z), P(sx * (ridgeHalf + Math.abs(z)), z), 0.04, 0.024);
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     const a = V3(sx * RX, 0, sz * RZ), b = V3(sx * ridgeHalf, 0, 0); a.y = roofY(a.x, a.z); b.y = roofY(b.x, b.z);
     bar(a, b, 0.06, 0.04);

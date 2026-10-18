@@ -94,7 +94,7 @@
    {
     "groep": "Dak",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+    "waarde": "Waterdicht, UV-bestendig"
    },
    {
     "groep": "Dak",
@@ -267,8 +267,8 @@
    "Drukmethode 'digitaal, full colour' en 'ook wit op een donkere luifel': leverancier bevestigen (sublimatie kan geen wit op gekleurd doek; dan luifelstrook in tentkleur meedrukken of transfer).",
    "Levertijd 10–15 werkdagen na akkoord drukproef, aanlevereisen (PNG ≥ 2000 px, max. 20 MB) en 'wij maken hem drukklaar': eigenaar/leverancier.",
    "Niet retour bij bedrukt maatwerk: juridisch laten controleren (brand.md §8.6).",
-   "Frame- en dakspecificaties gelijk aan Easy-up Professional (G1): bevestigen met leverancier; 'brandvertragend' alleen met certificaat.",
-   "Staffelkorting (10/25/50/100 stuks): eigenaar."
+   "Staffelkorting (10/25/50/100 stuks): eigenaar.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "easy-up-partytent-professional-full-colour-bedrukt": {
@@ -332,7 +332,7 @@
    {
     "groep": "Doek",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+    "waarde": "Waterdicht, UV-bestendig"
    },
    {
     "groep": "Doek",
@@ -489,8 +489,8 @@
    "Gewicht met 3 zijwanden = dak en luifel + 6 kg (skeleton grams) voor alle maten: per maat laten wegen (4 x 8 m heeft 16 m wand, 3 x 3 m 9 m).",
    "Levertijd 10–15 werkdagen na akkoord en aanlevereisen: eigenaar/leverancier.",
    "Niet retour bij bedrukt maatwerk: juridisch laten controleren.",
-   "Frame gelijk aan Easy-up Professional (G1); 'brandvertragend' alleen met certificaat.",
-   "Staffelkorting: eigenaar."
+   "Staffelkorting: eigenaar.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "easy-up-partytent-premium-met-logo-op-de-luifel": {
@@ -553,7 +553,7 @@
    {
     "groep": "Dak",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, naden afgeplakt, UV-bestendig, brandvertragend (certificaat volgt)"
+    "waarde": "Waterdicht, naden afgeplakt, UV-bestendig"
    },
    {
     "groep": "Dak",
@@ -709,7 +709,8 @@
    "Niet retour bij bedrukt maatwerk: juridisch laten controleren.",
    "Frame- en dakspecificaties gelijk aan Easy-up Premium (G1): bevestigen met leverancier.",
    "Garantie 1 jaar op het frame (metafield garantie): eigenaar; staat niet in de bodytekst.",
-   "Staffelkorting: eigenaar."
+   "Staffelkorting: eigenaar.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "bedrukte-zijwand-easy-up": {
@@ -863,7 +864,7 @@
   },
   "image_alts": {
    "bedrukte-zijwand-easy-up-hero.webp": "Bedrukte zijwand als achterwand van een witte easy-up 3 × 3 m, met voorbeeldopdruk Klapklaar, schuin vooraanzicht (tent niet inbegrepen)",
-   "bedrukte-zijwand-easy-up-front.webp": "Bedrukte zijwand als achterwand van een witte easy-up 3 × 3 m, met voorbeeldopdruk Klapklaar, vooraanzicht (tent niet inbegrepen)"
+   "bedrukte-zijwand-easy-up-front.webp": "Bedrukte zijwand als achterwand van een witte easy-up 3 × 3 m, voorbeeldopdruk Klapklaar aan binnen- en buitenzijde, vooraanzicht (tent niet inbegrepen)"
   },
   "claims": [
    "Binnen- en buitenzijde: constructie (twee doeken of één doek met lichtdichte tussenlaag) en een eigen ontwerp per zijde: leverancier bevestigen; gewicht dan per variant aanpassen (skeleton heeft voor beide uitvoeringen hetzelfde gewicht).",
@@ -906,7 +907,7 @@
    {
     "groep": "Dak",
     "label": "Eigenschappen",
-    "waarde": "Waterdicht, UV-bestendig, brandvertragend (certificaat volgt)"
+    "waarde": "Waterdicht, UV-bestendig"
    },
    {
     "groep": "Dak",
@@ -1048,7 +1049,8 @@
    "Gewichten per maat = ca. 0,42 kg/m² (gelijk aan effen dakzeil G1): bevestigen.",
    "Levertijd 10–15 werkdagen na akkoord en aanlevereisen: eigenaar/leverancier.",
    "Niet retour bij bedrukt maatwerk: juridisch laten controleren.",
-   "Staffelkorting: eigenaar."
+   "Staffelkorting: eigenaar.",
+   "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
   ]
  },
  "statafelrok-stretch": {
@@ -1292,30 +1294,30 @@
    "Staffelkorting: eigenaar."
   ],
   "image_alts": {
-   "topcover-stretch-statafel-zwart-hero.webp": "Topcover stretch, Zwart, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-wit-hero.webp": "Topcover stretch, Wit, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-creme-hero.webp": "Topcover stretch, Crème, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-beige-hero.webp": "Topcover stretch, Beige, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-taupe-hero.webp": "Topcover stretch, Taupe, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-zilver-hero.webp": "Topcover stretch, Zilver, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-grijs-hero.webp": "Topcover stretch, Grijs, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-antraciet-hero.webp": "Topcover stretch, Antraciet, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-goud-hero.webp": "Topcover stretch, Goud, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-geel-hero.webp": "Topcover stretch, Geel, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-oranje-hero.webp": "Topcover stretch, Oranje, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-rood-hero.webp": "Topcover stretch, Rood, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-bordeaux-hero.webp": "Topcover stretch, Bordeaux, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-roze-hero.webp": "Topcover stretch, Roze, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-fuchsia-hero.webp": "Topcover stretch, Fuchsia, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-paars-hero.webp": "Topcover stretch, Paars, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-lichtblauw-hero.webp": "Topcover stretch, Lichtblauw, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-turquoise-hero.webp": "Topcover stretch, Turquoise, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-blauw-hero.webp": "Topcover stretch, Blauw, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-marineblauw-hero.webp": "Topcover stretch, Marineblauw, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-lichtgroen-hero.webp": "Topcover stretch, Lichtgroen, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-groen-hero.webp": "Topcover stretch, Groen, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-camel-hero.webp": "Topcover stretch, Camel, op het blad van een statafel, schuin vooraanzicht",
-   "topcover-stretch-statafel-bruin-hero.webp": "Topcover stretch, Bruin, op het blad van een statafel, schuin vooraanzicht"
+   "topcover-stretch-statafel-zwart-hero.webp": "Topcover stretch, zwart, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-wit-hero.webp": "Topcover stretch, wit, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-creme-hero.webp": "Topcover stretch, crème, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-beige-hero.webp": "Topcover stretch, beige, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-taupe-hero.webp": "Topcover stretch, taupe, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-zilver-hero.webp": "Topcover stretch, zilver, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-grijs-hero.webp": "Topcover stretch, grijs, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-antraciet-hero.webp": "Topcover stretch, antraciet, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-goud-hero.webp": "Topcover stretch, goud, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-geel-hero.webp": "Topcover stretch, geel, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-oranje-hero.webp": "Topcover stretch, oranje, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-rood-hero.webp": "Topcover stretch, rood, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-bordeaux-hero.webp": "Topcover stretch, bordeaux, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-roze-hero.webp": "Topcover stretch, roze, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-fuchsia-hero.webp": "Topcover stretch, fuchsia, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-paars-hero.webp": "Topcover stretch, paars, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-lichtblauw-hero.webp": "Topcover stretch, lichtblauw, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-turquoise-hero.webp": "Topcover stretch, turquoise, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-blauw-hero.webp": "Topcover stretch, blauw, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-marineblauw-hero.webp": "Topcover stretch, marineblauw, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-lichtgroen-hero.webp": "Topcover stretch, lichtgroen, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-groen-hero.webp": "Topcover stretch, groen, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-camel-hero.webp": "Topcover stretch, camel, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
+   "topcover-stretch-statafel-bruin-hero.webp": "Topcover stretch, bruin, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht"
   }
  },
  "statafelhoes-met-strik": {
@@ -1518,19 +1520,19 @@
    "Staffelkorting: eigenaar."
   ],
   "image_alts": {
-   "losse-strik-statafelhoes-goud-hero.webp": "Losse strik voor statafelhoes, Goud, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-wit-hero.webp": "Losse strik voor statafelhoes, Wit, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-creme-hero.webp": "Losse strik voor statafelhoes, Crème, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-champagne-hero.webp": "Losse strik voor statafelhoes, Champagne, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-zilver-hero.webp": "Losse strik voor statafelhoes, Zilver, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-antraciet-hero.webp": "Losse strik voor statafelhoes, Antraciet, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-zwart-hero.webp": "Losse strik voor statafelhoes, Zwart, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-bordeaux-hero.webp": "Losse strik voor statafelhoes, Bordeaux, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-marineblauw-hero.webp": "Losse strik voor statafelhoes, Marineblauw, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-rood-hero.webp": "Losse strik voor statafelhoes, Rood, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-roze-hero.webp": "Losse strik voor statafelhoes, Roze, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-groen-hero.webp": "Losse strik voor statafelhoes, Groen, geknoopt, schuin vooraanzicht",
-   "losse-strik-statafelhoes-op-hoes.webp": "Losse strik, Goud, om een witte statafelhoes met strik (hoes niet inbegrepen)"
+   "losse-strik-statafelhoes-op-hoes.webp": "Losse strik, Goud, om een witte statafelhoes met strik (hoes niet inbegrepen)",
+   "losse-strik-statafelhoes-goud-hero.webp": "Losse strik, goud, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-wit-hero.webp": "Losse strik, wit, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-creme-hero.webp": "Losse strik, crème, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-champagne-hero.webp": "Losse strik, champagne, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-zilver-hero.webp": "Losse strik, zilver, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-antraciet-hero.webp": "Losse strik, antraciet, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-zwart-hero.webp": "Losse strik, zwart, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-bordeaux-hero.webp": "Losse strik, bordeaux, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-marineblauw-hero.webp": "Losse strik, marineblauw, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-rood-hero.webp": "Losse strik, rood, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-roze-hero.webp": "Losse strik, roze, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
+   "losse-strik-statafelhoes-groen-hero.webp": "Losse strik, groen, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik"
   }
  },
  "statafelkleed": {
@@ -1631,15 +1633,22 @@
   "claims": [
    "100% polyester kreukarm met omgestikte zoom: leverancier bevestigen.",
    "Overhangmaten zijn berekend (kleed − blad) en houden geen rekening met de dikte van rok en blad.",
-   "Staffelkorting: eigenaar."
+   "Staffelkorting: eigenaar.",
+   "Beeld: het ronde kleed (Ø 130 cm) staat ook bij de vierkante maat 140 x 140 cm; een vierkante render volgt."
   ],
   "image_alts": {
-   "statafelkleed-wit-hero.webp": "Statafelkleed rond Ø 130 cm, Wit, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
-   "statafelkleed-creme-hero.webp": "Statafelkleed rond Ø 130 cm, Crème, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
-   "statafelkleed-zwart-hero.webp": "Statafelkleed rond Ø 130 cm, Zwart, over een witte stretchrok op een statafel, schuin vooraanzicht",
-   "statafelkleed-antraciet-hero.webp": "Statafelkleed rond Ø 130 cm, Antraciet, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
-   "statafelkleed-bordeaux-hero.webp": "Statafelkleed rond Ø 130 cm, Bordeaux, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
-   "statafelkleed-marineblauw-hero.webp": "Statafelkleed rond Ø 130 cm, Marineblauw, over een zwarte stretchrok op een statafel, schuin vooraanzicht"
+   "statafelkleed-wit-hero.webp": "Statafelkleed rond Ø 130 cm, wit, over een zwarte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-creme-hero.webp": "Statafelkleed rond Ø 130 cm, crème, over een zwarte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-zwart-hero.webp": "Statafelkleed rond Ø 130 cm, zwart, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-antraciet-hero.webp": "Statafelkleed rond Ø 130 cm, antraciet, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-bordeaux-hero.webp": "Statafelkleed rond Ø 130 cm, bordeaux, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-marineblauw-hero.webp": "Statafelkleed rond Ø 130 cm, marineblauw, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "statafelkleed-wit-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, wit, over een zwarte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "statafelkleed-creme-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, crème, over een zwarte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "statafelkleed-zwart-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, zwart, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "statafelkleed-antraciet-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, antraciet, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "statafelkleed-bordeaux-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, bordeaux, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "statafelkleed-marineblauw-vierkant-hero.webp": "Statafelkleed vierkant 140 x 140 cm, marineblauw, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)"
   }
  },
  "statafelkleed-rond-tot-de-grond": {
@@ -1944,7 +1953,7 @@
   }
  },
  "beschermplaat-statafel": {
-  "body_html": "<p>Een glasheldere plaat van flexibel PVC die je op de statafel legt, over de rok of topcover. Bier, wijn en kringen blijven op de plaat en niet in de stof. Voor horeca, verhuur en iedereen die rokken niet na elke borrel wil wassen.</p><h3>Wat je krijgt</h3><ul><li>1 plaat van transparant, flexibel PVC, ca. 2 mm dik, met afgeronde rand</li><li>Rond Ø 68, 78 of 83 cm, of rechthoekig 182 × 75 cm</li></ul><p><strong>Niet inbegrepen:</strong> tafel en rok.</p><h3>Welke maat?</h3><p>De plaat is net iets kleiner dan het blad, zodat hij niet over de rand steekt en de rok strak blijft.</p><table><thead><tr><th>Blad</th><th>Plaat</th></tr></thead><tbody><tr><td>Ø 70 cm</td><td>Ø 68 cm</td></tr><tr><td>Ø 80 cm</td><td>Ø 78 cm</td></tr><tr><td>Ø 85 cm</td><td>Ø 83 cm</td></tr><tr><td>Klaptafel 183 × 76 cm</td><td>182 × 75 cm</td></tr></tbody></table><h3>Gebruik</h3><ol><li>Trek eerst de rok en eventueel de topcover om de tafel.</li><li>Leg de plaat er midden op en strijk hem vanuit het midden glad.</li><li>Na afloop: afnemen met een vochtige doek en wat afwasmiddel, droogwrijven, klaar.</li></ol><h3>Goed om te weten</h3><ul><li><strong>Geen schuurmiddel</strong> of schuursponsje: dan wordt het PVC dof.</li><li><strong>Niet hittebestendig:</strong> zet er geen hete pannen of schalen op en laat hem niet urenlang in de volle zon liggen.</li><li><strong>Opbergen:</strong> plat, op elkaar gestapeld, met een doek ertussen tegen krassen.</li><li><strong>Met je logo?</strong> Bekijk de <a href=\"/products/beschermplaat-met-opdruk\">beschermplaat met jouw opdruk</a>.</li><li><strong>Meer platen:</strong> vanaf 10 stuks geldt een staffelprijs; je ziet hem in de tabel bij de prijs. Grote aantallen of een vaste leverdatum? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
+  "body_html": "<p>Een glasheldere plaat van flexibel PVC die je op de statafel legt, over de rok of topcover. Bier, wijn en kringen blijven op de plaat en niet in de stof. Voor horeca, verhuur en iedereen die rokken niet na elke borrel wil wassen.</p><h3>Wat je krijgt</h3><ul><li>1 plaat van transparant, flexibel PVC, ca. 2 mm dik, met afgeronde rand</li><li>Rond Ø 68, 78 of 83 cm, vierkant 60 × 60, 70 × 70 of 80 × 80 cm, of rechthoekig 120 × 60, 120 × 70, 160 × 60 of 182 × 75 cm</li></ul><p><strong>Niet inbegrepen:</strong> tafel en rok.</p><h3>Welke maat?</h3><p>Een ronde plaat is net iets kleiner dan het blad, zodat hij niet over de rand steekt en de rok strak blijft. Een vierkante of rechthoekige plaat heeft de maat van het blad.</p><table><thead><tr><th>Blad</th><th>Plaat</th></tr></thead><tbody><tr><td>Ø 70 cm</td><td>Ø 68 cm</td></tr><tr><td>Ø 80 cm</td><td>Ø 78 cm</td></tr><tr><td>Ø 85 cm</td><td>Ø 83 cm</td></tr><tr><td>Vierkante statafel of terrastafel 60 × 60, 70 × 70 of 80 × 80 cm</td><td>Zelfde maat</td></tr><tr><td>Rechthoekige statafel 120 × 60, 120 × 70 of 160 × 60 cm, terrastafel 120 × 70 cm</td><td>Zelfde maat</td></tr><tr><td>Klaptafel 183 × 76 cm</td><td>182 × 75 cm</td></tr></tbody></table><h3>Gebruik</h3><ol><li>Trek eerst de rok en eventueel de topcover om de tafel.</li><li>Leg de plaat er midden op en strijk hem vanuit het midden glad.</li><li>Na afloop: afnemen met een vochtige doek en wat afwasmiddel, droogwrijven, klaar.</li></ol><h3>Goed om te weten</h3><ul><li><strong>Geen schuurmiddel</strong> of schuursponsje: dan wordt het PVC dof.</li><li><strong>Niet hittebestendig:</strong> zet er geen hete pannen of schalen op en laat hem niet urenlang in de volle zon liggen.</li><li><strong>Opbergen:</strong> plat, op elkaar gestapeld, met een doek ertussen tegen krassen.</li><li><strong>Met je logo?</strong> Bekijk de <a href=\"/products/beschermplaat-met-opdruk\">beschermplaat met jouw opdruk</a>.</li><li><strong>Meer platen:</strong> vanaf 10 stuks geldt een staffelprijs; je ziet hem in de tabel bij de prijs. Grote aantallen of een vaste leverdatum? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li></ul>",
   "kenmerk_kort": "Transparant PVC, 2 mm · over rok of topcover · tegen vlekken",
   "included": [
    "1 transparante beschermplaat in de gekozen maat"
@@ -1954,9 +1963,9 @@
    "Statafelrok"
   ],
   "usps": [
-   "Houdt rok en topcover vrij van vlekken",
+   "Houdt rok, topcover en blad vrij van vlekken",
    "Glashelder, flexibel PVC van ca. 2 mm",
-   "Voor Ø 70, 80 en 85 cm en klaptafel 183 cm",
+   "Rond, vierkant en rechthoekig, ook voor de klaptafel",
    "Schoon met een vochtige doek"
   ],
   "specificaties": [
@@ -1992,6 +2001,16 @@
    },
    {
     "groep": "Maat",
+    "label": "60 x 60, 70 x 70, 80 x 80 cm",
+    "waarde": "Voor de vierkante statafel en de terrastafel in dezelfde maat"
+   },
+   {
+    "groep": "Maat",
+    "label": "120 x 60, 120 x 70, 160 x 60 cm",
+    "waarde": "Voor de rechthoekige statafel (en de terrastafel 120 x 70 cm)"
+   },
+   {
+    "groep": "Maat",
     "label": "182 x 75 cm",
     "waarde": "Voor klaptafels 183 x 76 cm"
    },
@@ -2019,7 +2038,7 @@
   "faq": [
    {
     "vraag": "Welke maat heb ik nodig?",
-    "antwoord": "Kies de plaat die net kleiner is dan je blad: Ø68 cm voor Ø 70, Ø78 cm voor Ø 80, Ø83 cm voor Ø 85 cm. Voor een klaptafel van 183 × 76 cm is er een plaat van 182 × 75 cm."
+    "antwoord": "Rond: de plaat die net kleiner is dan je blad, Ø68 cm voor Ø 70, Ø78 cm voor Ø 80, Ø83 cm voor Ø 85 cm. Vierkant en rechthoekig: dezelfde maat als het blad, van 60 × 60 tot 160 × 60 cm. Voor een klaptafel van 183 × 76 cm is er een plaat van 182 × 75 cm."
    },
    {
     "vraag": "Blijft de plaat liggen?",
@@ -2036,12 +2055,13 @@
   ],
   "seo": {
    "title": "Beschermplaat transparant voor statafel | Klapklaar",
-   "description": "Transparante PVC-beschermplaat voor je statafel: Ø68, Ø78 of Ø83 cm, of 182x75 cm voor klaptafels. Houdt rok en topcover vrij van vlekken."
+   "description": "Transparante PVC-beschermplaat voor statafel, terrastafel en klaptafel: rond, vierkant of rechthoekig. Houdt rok, topcover en blad vrij van vlekken."
   },
   "claims": [
    "Dikte ca. 2 mm en 'flexibel PVC': leverancier bevestigen. Skeleton grams 182 x 75 cm (1,8 kg) passen niet bij 2 mm (≈ 3,7 kg); gewicht of dikte corrigeren.",
    "'Schuift niet bij normaal gebruik': testen.",
-   "Staffelkorting: eigenaar."
+   "Staffelkorting: eigenaar.",
+   "Vierkante en rechthoekige platen (60x60 tot 160x60 cm) toegevoegd: leverancier en prijzen bevestigen."
   ],
   "image_alts": {
    "beschermplaat-statafel-hero.webp": "Beschermplaat transparant Ø 78 cm op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen), schuin vooraanzicht"

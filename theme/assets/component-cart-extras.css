@@ -1,0 +1,25 @@
+/* cart extras: reference / delivery date / note and discount code, and the free-shipping progress (cart page; the
+   drawer only when it shows extras or the owner set a free-shipping threshold) */
+.free-ship{padding:14px 0;border-bottom:1px solid var(--c-lijn)}
+.free-ship__text{display:flex;align-items:center;gap:8px;margin:0;font-size:14.5px;line-height:1.35}
+.free-ship__bar{margin-top:10px;height:4px;border-radius:4px;background:var(--c-linnen);overflow:hidden}
+.free-ship__bar span{display:block;height:100%;border-radius:inherit;background:var(--c-inkt);transition:width var(--dur)}
+.free-ship--done .free-ship__text{color:var(--done);font-weight:var(--font-body-weight-semibold)}
+.cart-drawer .cart-extras{margin-top:20px;border-top:1px solid var(--c-lijn)}
+.cart-extras__item{border-bottom:1px solid var(--c-lijn)}
+.cart-extras__item>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;font-size:14.5px;font-weight:var(--font-body-weight-semibold)}
+.cart-extras__item>summary .icon{transition:transform var(--dur)}
+.cart-extras__item[open]>summary .icon{transform:rotate(45deg)}
+.cart-extras__panel{padding:2px 0 14px}
+.cart-extras__panel .field{margin-bottom:12px}
+.cart-extras__panel .field:last-child{margin-bottom:0}
+.cart-extras .textarea{min-height:72px}
+.discount{display:flex;gap:8px}
+.discount .input{flex:1;min-width:0}
+.discount .input:not(:placeholder-shown){text-transform:uppercase}
+.discount .btn{flex:none;min-height:48px;padding:0 18px}
+.cart-extras .field__error{margin:8px 0 0}
+.discount__codes{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0;padding:0}
+.discount__code{display:inline-flex;align-items:center;padding-left:12px;text-transform:uppercase;border-radius:999px;background:var(--c-linnen);font-size:13.5px;font-weight:var(--font-body-weight-bold);letter-spacing:.03em}
+.discount__remove{display:grid;place-items:center;width:40px;height:36px;border-radius:999px}
+.discount__remove:hover{background:var(--c-tint-linnen)}

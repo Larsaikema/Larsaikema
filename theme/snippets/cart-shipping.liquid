@@ -1,0 +1,76 @@
+{%- comment -%}
+  Shipping estimate for the cart (feature cart.shipping-excluded-note, with cart.highest-shipping-only): one shipment,
+  and the highest shipping cost in the cart is what it costs. Per line that is the product's own cost
+  (custom.verzendkosten, the same override the product page shows, e.g. "€ 12,50" or "Verzendkosten op dit product:
+  € 12,50"; "gratis" = 0) or else its class rate (theme settings shipping_cost_pakket / shipping_cost_pallet, incl.
+  btw; custom.verzending = pallet or tag pallet). Parcels are free from free_shipping_threshold (only when the owner set
+  one). Only for the Netherlands and only when the owner shows shipping costs; anything it cannot read makes the cart
+  say checkout shows the cost. It is an estimate: the cart labels it 'indicatie' and checkout has the final amount.
+  Outputs 'cost|class|override' (cost in cents incl. btw, -1 = unknown; class pakket | pallet; override true | false).
+  Use: {%- capture s -%}{% render 'cart-shipping' %}{%- endcapture -%}{%- assign s = s | strip | split: '|' -%}
+{%- endcomment -%}
+{%- liquid
+  assign sh_class = 'pakket'
+  assign sh_override = false
+  assign sh_cost = -1
+  assign sh_country = localization.country.iso_code | default: 'NL'
+  if settings.show_shipping_cost and cart.requires_shipping and sh_country == 'NL'
+    assign sh_free_from = settings.free_shipping_threshold | default: 0 | times: 100
+    assign sh_free = false
+    if sh_free_from > 0 and cart.total_price >= sh_free_from
+      assign sh_free = true
+    endif
+    assign sh_cost = 0
+    for item in cart.items
+      if item.requires_shipping == false
+        continue
+      endif
+      assign sh_cls = item.product.metafields.custom.verzending.value | default: 'pakket' | downcase
+      if item.product.tags contains 'pallet'
+        assign sh_cls = 'pallet'
+      endif
+      if sh_cls == 'pallet'
+        assign sh_class = 'pallet'
+      endif
+      assign sh_raw = item.product.metafields.custom.verzendkosten.value | strip
+      if sh_raw != blank
+        assign sh_override = true
+        assign sh_low = sh_raw | downcase
+        if sh_low contains 'gratis'
+          assign sh_line = 0
+        else
+          assign sh_num = sh_raw | split: '€' | last | strip | split: ' ' | first
+          if sh_num contains ','
+            assign sh_num = sh_num | remove: '.' | replace: ',', '.'
+          endif
+          assign sh_first = sh_num | slice: 0
+          assign sh_line = sh_num | times: 100 | round
+          if sh_line <= 0 and sh_first != '0'
+            assign sh_line = -1
+          endif
+        endif
+      else
+        if sh_cls == 'pallet'
+          assign sh_rate = settings.shipping_cost_pallet
+        else
+          assign sh_rate = settings.shipping_cost_pakket
+        endif
+        if sh_rate == blank
+          assign sh_line = -1
+        elsif sh_cls != 'pallet' and sh_free
+          assign sh_line = 0
+        else
+          assign sh_line = sh_rate | strip | replace: ',', '.' | times: 100 | round
+        endif
+      endif
+      if sh_line < 0
+        assign sh_cost = -1
+        break
+      endif
+      if sh_line > sh_cost
+        assign sh_cost = sh_line
+      endif
+    endfor
+  endif
+  echo sh_cost | append: '|' | append: sh_class | append: '|' | append: sh_override
+-%}

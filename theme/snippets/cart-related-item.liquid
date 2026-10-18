@@ -5,9 +5,9 @@
 {%- if style == 'card' -%}
   <li>{%- render 'product-card', product: p, sizes: sizes -%}</li>
 {%- else -%}
-  <li class="upsell__item">
+  <li class="upsell__item" data-refocus="upsell">
     <a class="upsell__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
-      {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', widths: '80, 160', sizes: '64px' }}{%- endif -%}
+      {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 320 | image_tag: loading: 'lazy', alt: '', widths: '80, 160, 320', sizes: '(min-width: 750px) 160px, 64px' }}{%- else -%}{%- render 'cart-media-fallback', product: p -%}{%- endif -%}
     </a>
     <div class="upsell__info">
       <a class="upsell__title" href="{{ p.url }}">{{ p.title }}</a>
@@ -16,10 +16,10 @@
     {%- if p.has_only_default_variant -%}
       {%- form 'product', p, data-product-form: '', class: 'upsell__form' -%}
         <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
-        <button type="submit" name="add" class="icon-btn upsell__add" aria-label="{{ 'card.quick_add_label' | t: title: p.title | escape }}">{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</button>
+        <button type="submit" class="btn btn--outline btn--sm upsell__add" data-refocus-target>{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}<span class="upsell__add-label">{{ 'cart.upsell_add' | t }}</span><span class="visually-hidden">: {{ p.title }}</span></button>
       {%- endform -%}
     {%- else -%}
-      <a class="icon-btn upsell__add" href="{{ p.url }}" aria-label="{{ 'card.choose' | t }}: {{ p.title | escape }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}</a>
+      <a class="btn btn--outline btn--sm upsell__add" href="{{ p.url }}" data-refocus-target><span class="upsell__add-label">{{ 'cart.upsell_choose' | t }}</span><span class="visually-hidden">: {{ p.title }}</span>{%- render 'icon', icon: 'chevron-right', class: 'icon--sm' -%}</a>
     {%- endif -%}
   </li>
 {%- endif -%}

@@ -1,25 +1,26 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 531,
+  "jobs": 540,
   "by_priority": {
-   "1": 151,
-   "2": 152,
-   "3": 228
+   "1": 152,
+   "2": 155,
+   "3": 233
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 330,
-   "needs-model": 154,
-   "needs-param": 44
+   "existing": 494,
+   "generated": 1,
+   "needs-model": 5,
+   "needs-param": 37
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 519
+   "product": 528
   },
-  "already_present": 134
+  "already_present": 403
  },
  "jobs": [
   {
@@ -30,7 +31,7 @@
    "role": "hero",
    "kleur": null,
    "model": "stanchion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "stanchion",
     "params": {
@@ -65,7 +66,7 @@
    "role": "hero",
    "kleur": null,
    "model": "stanchion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "stanchion",
     "params": {
@@ -96,7 +97,7 @@
    "role": "hero",
    "kleur": "Antraciet",
    "model": "bench",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "bench",
     "params": {
@@ -127,7 +128,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -177,7 +178,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -219,7 +220,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "barStool",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barStool",
     "params": {
@@ -282,7 +283,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "barStool",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barStool",
     "params": {
@@ -345,7 +346,7 @@
    "role": "hero",
    "kleur": null,
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -380,7 +381,7 @@
    "role": "hero",
    "kleur": null,
    "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model_status": "existing",
    "spec": {
     "model": "easyUpTent",
     "params": {
@@ -409,8 +410,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "beschermhoes-easy-up-hero.webp",
@@ -439,8 +440,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "beschermhoes-terrasheater-hero.webp",
@@ -450,7 +451,7 @@
    "role": "hero",
    "kleur": null,
    "model": "heaterCover",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "heaterCover",
     "params": {},
@@ -466,8 +467,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "beschermplaat-met-opdruk-hero.webp",
@@ -477,7 +478,7 @@
    "role": "hero",
    "kleur": null,
    "model": "protectionDisc",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "protectionDisc",
     "params": {
@@ -503,8 +504,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "beschermplaat-statafel-hero.webp",
@@ -514,7 +515,7 @@
    "role": "hero",
    "kleur": "Transparant",
    "model": "protectionDisc",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "protectionDisc",
     "params": {
@@ -536,8 +537,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "betonblok-ballast-tent-hero.webp",
@@ -547,7 +548,7 @@
    "role": "hero",
    "kleur": null,
    "model": "concreteBlock",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "concreteBlock",
     "params": {
@@ -566,8 +567,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "bierbank-220-hero.webp",
@@ -733,8 +734,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "cadeaubon-hero.webp",
@@ -744,16 +745,17 @@
    "role": "hero",
    "kleur": null,
    "model": "giftCard",
-   "model_status": "needs-model",
+   "model_status": "generated",
    "spec": {
     "model": "giftCard",
     "params": {
-     "design": "brand"
+     "design": "brand",
+     "generator": "catalog/tools/giftcard.py"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Klapklaar cadeaubon",
+   "alt": "Klapklaar cadeaubon: donkere kaart met het logo en het woord Cadeaubon",
    "alt_hint": "Klapklaar cadeaubon",
    "used_by": [
     {
@@ -762,8 +764,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "carport-opslagtent-vast-frame-hero.webp",
@@ -773,7 +775,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "carportTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "carportTent",
     "params": {
@@ -842,7 +844,7 @@
    "role": "hero",
    "kleur": "Rood",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -875,7 +877,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -1377,40 +1379,6 @@
    "draft": false
   },
   {
-   "file": "eindwand-en-tussenwand-partytent-hero.webp",
-   "out": "catalog/images/eindwand-en-tussenwand-partytent-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "sideWall",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "sideWall",
-    "params": {
-     "length": 4,
-     "height": 2.0,
-     "gable": true,
-     "type": "door",
-     "color": "wit",
-     "material": "pvc"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Eindwand partytent 4 m wit PVC met doorgang en ritsen, tot in de nok, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "eindwand-en-tussenwand-partytent",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
    "file": "elektrische-heater-partytent-hero.webp",
    "out": "catalog/images/elektrische-heater-partytent-hero.webp",
    "kind": "product",
@@ -1438,8 +1406,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "flameheater-gas-9-kw-hero.webp",
@@ -1468,8 +1436,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "frame-onderdelen-easy-up-hoekstukken-hero.webp",
@@ -1479,7 +1447,7 @@
    "role": "hero",
    "kleur": null,
    "model": "easyUpParts",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "easyUpParts",
     "params": {
@@ -1502,8 +1470,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "halve-zijwand-easy-up-wit-hero.webp",
@@ -1537,8 +1505,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "haringen-en-bevestigingsmateriaal-partytent-hero.webp",
@@ -1567,8 +1535,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "hoes-biertafelset-wit-hero.webp",
@@ -1599,8 +1567,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "hypar-schaduwzeil-stretch-zandkleur-hero.webp",
@@ -1661,7 +1629,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -1672,7 +1640,7 @@
    "role": "hero",
    "kleur": null,
    "model": "stringLights",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "stringLights",
     "params": {
@@ -1692,8 +1660,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "klapstoel-wit-hero.webp",
@@ -1703,7 +1671,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -1795,7 +1763,7 @@
    "role": "hero",
    "kleur": null,
    "model": "tentCoupler",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tentCoupler",
     "params": {
@@ -1813,8 +1781,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "koppelstukken-en-buizen-38-mm-hero.webp",
@@ -1824,7 +1792,7 @@
    "role": "hero",
    "kleur": null,
    "model": "tubeFittings",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tubeFittings",
     "params": {
@@ -1847,8 +1815,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "kruk-laag-stapelbaar-zwart-hero.webp",
@@ -1889,7 +1857,7 @@
    "role": "hero",
    "kleur": null,
    "model": "ledBulb",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ledBulb",
     "params": {
@@ -1908,8 +1876,39 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "led-lichtslang-set-warm-wit-hero.webp",
+   "out": "catalog/images/led-lichtslang-set-warm-wit-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Warm wit",
+   "model": "ropeLight",
+   "model_status": "existing",
+   "spec": {
+    "model": "ropeLight",
+    "params": {
+     "color": "#F4E3BC",
+     "length": 5,
+     "on": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "LED-lichtslang warm wit, brandend, losjes opgerold op de grond",
+   "alt_hint": "warm wit, brandend, op de haspel",
+   "used_by": [
+    {
+     "handle": "led-lichtslang-set-warm-wit",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-warm-wit-hero.webp",
@@ -1919,7 +1918,7 @@
    "role": "hero",
    "kleur": "Warm wit",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -1939,8 +1938,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-verlichting-opblaasbare-tent-hero.webp",
@@ -1969,7 +1968,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -1999,8 +1998,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "loper-per-meter-rood-hero.webp",
@@ -2010,7 +2009,7 @@
    "role": "hero",
    "kleur": "Rood",
    "model": "carpetRunner",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "carpetRunner",
     "params": {
@@ -2021,7 +2020,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Loper van naaldvilt in rood, 1 m breed, uitgerold, schuin vooraanzicht",
+   "alt": "Loper van naaldvilt in rood, 1 m breed, op de rol met het eind uitgerold, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -2040,15 +2039,14 @@
    "priority": 1,
    "role": "hero",
    "kleur": null,
-   "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model": "easyUpFrame",
+   "model_status": "existing",
    "spec": {
-    "model": "easyUpTent",
+    "model": "easyUpFrame",
     "params": {
      "w": 3,
      "d": 3,
-     "legs": "premium",
-     "roof": false
+     "legs": "premium"
     },
     "angle": "hero",
     "size": 2000
@@ -2062,8 +2060,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-frame-easy-up-professional-hero.webp",
@@ -2072,15 +2070,14 @@
    "priority": 1,
    "role": "hero",
    "kleur": null,
-   "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model": "easyUpFrame",
+   "model_status": "existing",
    "spec": {
-    "model": "easyUpTent",
+    "model": "easyUpFrame",
     "params": {
      "w": 3,
      "d": 3,
-     "legs": "professional",
-     "roof": false
+     "legs": "professional"
     },
     "angle": "hero",
     "size": 2000
@@ -2094,8 +2091,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-statafelblad-hero.webp",
@@ -2105,7 +2102,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "tableTop",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tableTop",
     "params": {
@@ -2121,7 +2118,7 @@
     {
      "handle": "los-statafelblad",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -2134,18 +2131,20 @@
    "priority": 1,
    "role": "hero",
    "kleur": "Goud",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "goud",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "goud",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Goud, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, goud, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -2154,8 +2153,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "loungeheater-gas-hero.webp",
@@ -2184,8 +2183,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-rood-hero.webp",
@@ -2227,7 +2226,7 @@
    "role": "hero",
    "kleur": "Rood",
    "model": "marketStall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "marketStall",
     "params": {
@@ -2257,7 +2256,7 @@
    "role": "hero",
    "kleur": null,
    "model": "lightParts",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "lightParts",
     "params": {
@@ -2279,8 +2278,53 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-statafel-hero.webp",
+   "out": "catalog/images/onderdelen-statafel-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "statafel",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.8,
+     "height": 1.1,
+     "top": "wit",
+     "frame": "zwart",
+     "base": "klap",
+     "noTop": true
+    },
+    "angle": "detail",
+    "detail": {
+     "target": [
+      0,
+      0.54,
+      0
+     ],
+     "size": 1.42,
+     "azimuth": 34,
+     "elevation": 8,
+     "aperture": 0
+    },
+    "size": 2000
+   },
+   "alt": "Onderstel van de inklapbare statafel zonder blad: zwarte kolom met vier poten, schuifring en bladscharnier bovenaan",
+   "alt_hint": "onderstel compleet met schuifring en bladscharnier, zonder blad",
+   "used_by": [
+    {
+     "handle": "onderdelen-statafel",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
   },
   {
    "file": "onderdelen-stretchtent-hero.webp",
@@ -2290,7 +2334,7 @@
    "role": "hero",
    "kleur": null,
    "model": "stretchParts",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "stretchParts",
     "params": {
@@ -2312,8 +2356,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opbergtas-opblaasbare-tent-hero.webp",
@@ -2344,8 +2388,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opbergtassenset-partytent-hero.webp",
@@ -2355,7 +2399,7 @@
    "role": "hero",
    "kleur": null,
    "model": "tubeBag",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tubeBag",
     "params": {
@@ -2374,8 +2418,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-partytent-3x3-waterpoten-wit-hero.webp",
@@ -2397,7 +2441,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent 3 × 3 m met waterpoten, Wit, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, 3 × 3 m, Wit, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -2510,7 +2554,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2544,7 +2588,7 @@
    "role": "hero",
    "kleur": "Transparant",
    "model": "tarp",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tarp",
     "params": {
@@ -2694,6 +2738,57 @@
    "draft": false
   },
   {
+   "file": "pakket-5-statafels-stretchrokken-transportkar-zwart-hero.webp",
+   "out": "catalog/images/pakket-5-statafels-stretchrokken-transportkar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "items",
+   "model_status": "existing",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "statafel",
+      "size": "klein",
+      "loaded": 4,
+      "position": [
+       -0.75,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "statafelCover",
+      "type": "stretch",
+      "color": "zwart",
+      "diameter": 0.8,
+      "topcover": "zwart",
+      "position": [
+       0.7,
+       0,
+       0
+      ]
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafel met stretchrok en topcover, zwart, naast de kleine transportkar met ingeklapte statafels, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "pakket-statafels-met-transportkar-hero.webp",
    "out": "catalog/images/pakket-statafels-met-transportkar-hero.webp",
    "kind": "product",
@@ -2764,17 +2859,22 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafels met stretchrok en topcover, Zwart, naast de transportkar, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, zwart, naast de grote transportkar met ingeklapte statafels, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "pakket-statafels-stretchrokken-transportkar",
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "hero",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
      "role": "hero",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "palen-stretchtent-hero.webp",
@@ -2784,7 +2884,7 @@
    "role": "hero",
    "kleur": null,
    "model": "tentPoles",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "tentPoles",
     "params": {
@@ -2804,8 +2904,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "partytent-pe-basis-buizenframe-hero.webp",
@@ -2815,7 +2915,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2848,7 +2948,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2881,7 +2981,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2907,6 +3007,45 @@
    "draft": false
   },
   {
+   "file": "partytent-pvc-550-premium-front.webp",
+   "out": "catalog/images/partytent-pvc-550-premium-front.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "front",
+   "kleur": "Wit",
+   "model": "frameTent",
+   "model_status": "existing",
+   "spec": {
+    "model": "frameTent",
+    "params": {
+     "w": 4,
+     "d": 8,
+     "line": "pvc",
+     "color": "wit",
+     "walls": "windows",
+     "door": "open"
+    },
+    "angle": "front",
+    "size": 2000
+   },
+   "alt": "Partytent PVC 550 Premium met buizenframe, 4 × 8 m, wit, vooraanzicht met open deur",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "partytent-pvc-550-premium",
+     "role": "front",
+     "variant": false
+    },
+    {
+     "handle": "eindwand-en-tussenwand-partytent",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "partytent-pvc-550-premium-hero.webp",
    "out": "catalog/images/partytent-pvc-550-premium-hero.webp",
    "kind": "product",
@@ -2914,7 +3053,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2934,6 +3073,11 @@
      "handle": "partytent-pvc-550-premium",
      "role": "hero",
      "variant": false
+    },
+    {
+     "handle": "zijwand-partytent-2-m-pvc",
+     "role": "hero",
+     "variant": false
     }
    ],
    "exists": true,
@@ -2947,7 +3091,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -2980,7 +3124,7 @@
    "role": "hero",
    "kleur": null,
    "model": "airPump",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "airPump",
     "params": {
@@ -2998,8 +3142,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "prikkabel-e27-zwart-hero.webp",
@@ -3036,8 +3180,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "prikkabel-op-maat-hero.webp",
@@ -3065,11 +3209,11 @@
     {
      "handle": "prikkabel-op-maat",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "regengoot-partytent-wit-hero.webp",
@@ -3079,7 +3223,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "rainGutter",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "rainGutter",
     "params": {
@@ -3098,8 +3242,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "reparatieset-tentdoek-hero.webp",
@@ -3109,7 +3253,7 @@
    "role": "hero",
    "kleur": null,
    "model": "repairKit",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "repairKit",
     "params": {
@@ -3127,8 +3271,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "schaduwdoek-antraciet-hero.webp",
@@ -3138,7 +3282,7 @@
    "role": "hero",
    "kleur": "Antraciet",
    "model": "shadeSail",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "shadeSail",
     "params": {
@@ -3178,9 +3322,9 @@
       "model": "spanbanden",
       "color": "zwart",
       "position": [
-       -0.15,
+       -0.32,
        0,
-       0
+       -0.06
       ]
      },
      {
@@ -3188,17 +3332,17 @@
       "count": 4,
       "length": 0.3,
       "position": [
-       0.2,
+       0.26,
        0,
-       0
+       0.16
       ]
      }
     ],
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Spanbanden en haringen voor easy-up: zwarte spanbanden met gesp en vier haringen van 30 cm",
-   "alt_hint": null,
+   "alt": "Spanband, opgerold met spanner, en vier haringen van 30 cm (de set bevat 4 spanbanden en 4 haringen)",
+   "alt_hint": "4 spanbanden en 4 haringen van 30 cm",
    "used_by": [
     {
      "handle": "spanbanden-en-haringen-easy-up",
@@ -3206,8 +3350,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stapelstoel-cross-back-houtlook-hero.webp",
@@ -3217,7 +3361,7 @@
    "role": "hero",
    "kleur": "Houtlook",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -3247,7 +3391,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -3367,6 +3511,11 @@
      "handle": "statafel-inklapbaar-professional",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafels-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -3483,7 +3632,7 @@
    "role": "hero",
    "kleur": "Houtlook",
    "model": "barrelTable",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barrelTable",
     "params": {
@@ -3573,8 +3722,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-rond-tot-de-grond-wit-hero.webp",
@@ -3604,8 +3753,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-wit-hero.webp",
@@ -3614,21 +3763,22 @@
    "priority": 1,
    "role": "hero",
    "kleur": "Wit",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
+     "type": "kleed",
      "color": "wit",
+     "diameter": 0.8,
+     "drop": 0.25,
      "over": "stretch",
      "underColor": "zwart"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Wit, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed rond Ø 130 cm, wit, over een zwarte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -3637,8 +3787,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-oranje-thema-rood-wit-blauw-hero.webp",
@@ -3648,7 +3798,7 @@
    "role": "hero",
    "kleur": null,
    "model": "statafelCover",
-   "model_status": "needs-param",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -3670,8 +3820,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-zwart-hero.webp",
@@ -3784,7 +3934,7 @@
    "role": "hero",
    "kleur": null,
    "model": "items",
-   "model_status": "needs-param",
+   "model_status": "existing",
    "spec": {
     "model": "items",
     "items": [
@@ -3825,36 +3975,6 @@
    "draft": true
   },
   {
-   "file": "stretchdoek-los-zandkleur-hero.webp",
-   "out": "catalog/images/stretchdoek-los-zandkleur-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zandkleur",
-   "model": "foldedFabric",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "foldedFabric",
-    "params": {
-     "color": "zand",
-     "kind": "stretch"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stretchdoek los, Zandkleur, opgevouwen",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stretchdoek-los",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
    "file": "stretchdoek-op-maat-hero.webp",
    "out": "catalog/images/stretchdoek-op-maat-hero.webp",
    "kind": "product",
@@ -3880,7 +4000,7 @@
     {
      "handle": "stretchdoek-op-maat",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -3919,8 +4039,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchhoes-klaptafel-zwart-hero.webp",
@@ -3951,8 +4071,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchtent-compleet-zandkleur-hero.webp",
@@ -3980,6 +4100,11 @@
    "used_by": [
     {
      "handle": "stretchtent-compleet",
+     "role": "hero",
+     "variant": true
+    },
+    {
+     "handle": "stretchdoek-los",
      "role": "hero",
      "variant": true
     }
@@ -4014,8 +4139,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "terraspakket-statafel-barkrukken-zwart-hero.webp",
@@ -4089,8 +4214,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "terrastafel-inklapbaar-zwart-hero.webp",
@@ -4100,7 +4225,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "patioTable",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "patioTable",
     "params": {
@@ -4132,19 +4257,20 @@
    "priority": 1,
    "role": "hero",
    "kleur": "Zwart",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "zwart",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "zwart"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Zwart, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, zwart, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -4153,8 +4279,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "transportkar-klaptafels-en-stoelen-hero.webp",
@@ -4164,7 +4290,7 @@
    "role": "hero",
    "kleur": null,
    "model": "trolley",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "trolley",
     "params": {
@@ -4194,7 +4320,7 @@
    "role": "hero",
    "kleur": null,
    "model": "trolley",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "trolley",
     "params": {
@@ -4225,7 +4351,7 @@
    "role": "hero",
    "kleur": "Antraciet",
    "model": "gardenPavilion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "gardenPavilion",
     "params": {
@@ -4257,7 +4383,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "connectionStrip",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "connectionStrip",
     "params": {
@@ -4276,8 +4402,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "verbindingstunnel-opblaasbare-tent-wit-hero.webp",
@@ -4339,7 +4465,7 @@
    "role": "hero",
    "kleur": null,
    "model": "footCaps",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "footCaps",
     "params": {
@@ -4357,8 +4483,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "voetgewicht-easy-up-15-kg-hero.webp",
@@ -4387,8 +4513,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "watergewichtzakken-4x20-kg-hero.webp",
@@ -4398,7 +4524,7 @@
    "role": "hero",
    "kleur": null,
    "model": "waterBag",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "waterBag",
     "params": {
@@ -4418,8 +4544,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "wielset-easy-up-hero.webp",
@@ -4445,8 +4571,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "wieltas-easy-up-hero.webp",
@@ -4477,8 +4603,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "wijnvat-set-statafel-barkrukken-hero.webp",
@@ -4559,7 +4685,7 @@
    "role": "hero",
    "kleur": null,
    "model": "sandbag",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "sandbag",
     "params": {
@@ -4579,8 +4705,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-wit-hero.webp",
@@ -4649,8 +4775,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-wit-hero.webp",
@@ -4684,8 +4810,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-wit-hero.webp",
@@ -4797,7 +4923,7 @@
    "role": "hero",
    "kleur": "Wit",
    "model": "sideWall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "sideWall",
     "params": {
@@ -4805,6 +4931,7 @@
      "height": 2.5,
      "type": "panorama",
      "zips": true,
+     "rail": true,
      "color": "wit",
      "material": "pvc"
     },
@@ -4820,41 +4947,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "zijwand-partytent-2-m-pvc-hero.webp",
-   "out": "catalog/images/zijwand-partytent-2-m-pvc-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "sideWall",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "sideWall",
-    "params": {
-     "length": 2,
-     "height": 2.0,
-     "type": "windows",
-     "color": "wit",
-     "material": "pvc"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Zijwand partytent 2 m van wit PVC met raam, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "zijwand-partytent-2-m-pvc",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-stretchtent-hero.webp",
@@ -4864,7 +4958,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "sideWall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "sideWall",
     "params": {
@@ -4878,7 +4972,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Zijwand stretchtent 3 m, zwart PVC met panoramavenster, startwand met 2 palen, vooraanzicht",
+   "alt": "Zijwand stretchtent 3 m, zwart PVC met panoramavenster en ritsen, startwand tussen 2 palen, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -4887,8 +4981,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwanden-stertent-hero.webp",
@@ -4931,7 +5025,7 @@
    "role": "hero",
    "kleur": "Antraciet",
    "model": "gardenPavilion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "gardenPavilion",
     "params": {
@@ -4990,8 +5084,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-wit-hero.webp",
@@ -5039,7 +5133,7 @@
    "role": "hero",
    "kleur": "Antraciet",
    "model": "seatCushion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "seatCushion",
     "params": {
@@ -5048,7 +5142,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Zitkussen voor stoel en barkruk, Antraciet, schuin vooraanzicht",
+   "alt": "Zitkussen voor stoel en barkruk, antraciet, met bies en strikbandjes, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -5183,10 +5277,15 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-blauw-hero.webp",
@@ -5215,10 +5314,15 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-groen-hero.webp",
@@ -5247,10 +5351,15 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-rood-detail.webp",
@@ -5311,6 +5420,11 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -5343,10 +5457,15 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-zwart-hero.webp",
@@ -5375,10 +5494,15 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "starterspakket-easy-up-premium",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-antraciet-hero.webp",
@@ -5409,8 +5533,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-blauw-hero.webp",
@@ -5441,8 +5565,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-groen-hero.webp",
@@ -5473,8 +5597,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-rood-detail.webp",
@@ -5569,8 +5693,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-zwart-hero.webp",
@@ -5601,8 +5725,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-antraciet-hero.webp",
@@ -5633,8 +5757,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-blauw-hero.webp",
@@ -5665,8 +5789,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-groen-hero.webp",
@@ -5697,8 +5821,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-rood-detail.webp",
@@ -5793,8 +5917,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-zwart-hero.webp",
@@ -5825,8 +5949,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-2x2-rood-detail.webp",
@@ -5921,8 +6045,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-antraciet-hero.webp",
@@ -5951,10 +6075,15 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-blauw-hero.webp",
@@ -5983,10 +6112,15 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-groen-hero.webp",
@@ -6015,10 +6149,15 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-rood-detail.webp",
@@ -6079,6 +6218,11 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -6111,10 +6255,15 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-zwart-hero.webp",
@@ -6143,10 +6292,15 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-antraciet-hero.webp",
@@ -6177,8 +6331,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-blauw-hero.webp",
@@ -6209,8 +6363,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-groen-hero.webp",
@@ -6241,8 +6395,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-rood-detail.webp",
@@ -6337,8 +6491,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-zwart-hero.webp",
@@ -6369,8 +6523,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-antraciet-hero.webp",
@@ -6401,8 +6555,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-blauw-hero.webp",
@@ -6433,8 +6587,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-groen-hero.webp",
@@ -6465,8 +6619,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-rood-detail.webp",
@@ -6561,8 +6715,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-zwart-hero.webp",
@@ -6593,8 +6747,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-antraciet-hero.webp",
@@ -6625,8 +6779,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-blauw-hero.webp",
@@ -6657,8 +6811,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-groen-hero.webp",
@@ -6689,8 +6843,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-rood-detail.webp",
@@ -6753,8 +6907,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-zandkleur-hero.webp",
@@ -6785,8 +6939,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-zwart-hero.webp",
@@ -6817,8 +6971,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-antraciet-hero.webp",
@@ -6849,8 +7003,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-blauw-hero.webp",
@@ -6881,8 +7035,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-groen-hero.webp",
@@ -6913,8 +7067,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-rood-detail.webp",
@@ -6977,8 +7131,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-zandkleur-hero.webp",
@@ -7009,8 +7163,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-zwart-hero.webp",
@@ -7041,8 +7195,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-antraciet-hero.webp",
@@ -7073,8 +7227,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-blauw-hero.webp",
@@ -7105,8 +7259,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-groen-hero.webp",
@@ -7137,8 +7291,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-rood-detail.webp",
@@ -7201,8 +7355,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-zandkleur-hero.webp",
@@ -7233,8 +7387,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-zwart-hero.webp",
@@ -7265,8 +7419,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-antraciet-hero.webp",
@@ -7297,8 +7451,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-rood-detail.webp",
@@ -7361,8 +7515,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-zwart-hero.webp",
@@ -7393,8 +7547,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-full-colour-bedrukt-zijwanden-hero.webp",
@@ -7607,8 +7761,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-wit-hero.webp",
@@ -7703,15 +7857,14 @@
    "priority": 2,
    "role": "detail",
    "kleur": null,
-   "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model": "easyUpFrame",
+   "model_status": "existing",
    "spec": {
-    "model": "easyUpTent",
+    "model": "easyUpFrame",
     "params": {
      "w": 3,
      "d": 3,
-     "legs": "professional",
-     "roof": false
+     "legs": "professional"
     },
     "angle": "detail",
     "size": 2000
@@ -7727,6 +7880,96 @@
    ],
    "exists": false,
    "draft": true
+  },
+  {
+   "file": "los-statafelblad-antraciet-hero.webp",
+   "out": "catalog/images/los-statafelblad-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "tableTop",
+   "model_status": "existing",
+   "spec": {
+    "model": "tableTop",
+    "params": {
+     "diameter": 0.8,
+     "top": "antraciet"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Los statafelblad Ø 80 cm, antraciet, schuin van boven",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "los-statafelblad",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "los-statafelblad-berken-hero.webp",
+   "out": "catalog/images/los-statafelblad-berken-hero.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Berken",
+   "model": "tableTop",
+   "model_status": "existing",
+   "spec": {
+    "model": "tableTop",
+    "params": {
+     "diameter": 0.8,
+     "top": "berken"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Los statafelblad Ø 80 cm, berken, schuin van boven",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "los-statafelblad",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "los-statafelblad-zwart-hero.webp",
+   "out": "catalog/images/los-statafelblad-zwart-hero.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "tableTop",
+   "model_status": "existing",
+   "spec": {
+    "model": "tableTop",
+    "params": {
+     "diameter": 0.8,
+     "top": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Los statafelblad Ø 80 cm, zwart, schuin van boven",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "los-statafelblad",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-op-hoes.webp",
@@ -7757,8 +8000,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "marktkraam-2-m-bedrukte-kap.webp",
@@ -7768,7 +8011,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "marketStall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "marketStall",
     "params": {
@@ -7889,8 +8132,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-antraciet-hero.webp",
@@ -7920,10 +8163,15 @@
      "handle": "statafel-inklapbaar-professional",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafels-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-berken-hero.webp",
@@ -7953,10 +8201,15 @@
      "handle": "statafel-inklapbaar-professional",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafels-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-graniet-hero.webp",
@@ -7988,7 +8241,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8052,10 +8305,15 @@
      "handle": "statafel-inklapbaar-professional",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafels-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-antraciet-hero.webp",
@@ -8085,8 +8343,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-bordeaux-hero.webp",
@@ -8147,8 +8405,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-creme-hero.webp",
@@ -8240,8 +8498,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-rood-hero.webp",
@@ -8302,8 +8560,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-zilver-hero.webp",
@@ -8364,8 +8622,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-antraciet-hero.webp",
@@ -8406,13 +8664,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-beige-hero.webp",
@@ -8441,15 +8714,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-blauw-hero.webp",
@@ -8478,15 +8746,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-bordeaux-hero.webp",
@@ -8527,13 +8790,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-bruin-hero.webp",
@@ -8562,15 +8840,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-camel-hero.webp",
@@ -8599,15 +8872,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-creme-hero.webp",
@@ -8648,13 +8916,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-fuchsia-hero.webp",
@@ -8683,15 +8966,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-geel-hero.webp",
@@ -8720,15 +8998,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-goud-hero.webp",
@@ -8757,15 +9030,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-grijs-hero.webp",
@@ -8794,15 +9062,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-groen-hero.webp",
@@ -8831,15 +9094,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-lichtblauw-hero.webp",
@@ -8868,15 +9126,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-lichtgroen-hero.webp",
@@ -8905,15 +9158,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-marineblauw-hero.webp",
@@ -8954,13 +9202,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-oranje-hero.webp",
@@ -8989,15 +9252,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-oranje-thema-voetbal-hero.webp",
@@ -9007,7 +9265,7 @@
    "role": "variant",
    "kleur": null,
    "model": "statafelCover",
-   "model_status": "needs-param",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -9029,8 +9287,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-paars-hero.webp",
@@ -9059,15 +9317,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-rood-hero.webp",
@@ -9108,13 +9361,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-roze-hero.webp",
@@ -9143,15 +9411,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-taupe-hero.webp",
@@ -9180,15 +9443,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-turquoise-hero.webp",
@@ -9217,15 +9475,10 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "terraspakket-statafel-barkrukken",
-     "role": "variant",
-     "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-wit-hero.webp",
@@ -9266,13 +9519,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-zilver-hero.webp",
@@ -9313,13 +9581,28 @@
      "variant": true
     },
     {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-zwart-detail.webp",
@@ -9480,6 +9763,16 @@
      "handle": "stretchtent-compleet",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "stretchdoek-los",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "stretchdoek-op-maat",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9511,6 +9804,16 @@
    "used_by": [
     {
      "handle": "stretchtent-compleet",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "stretchdoek-los",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "stretchdoek-op-maat",
      "role": "variant",
      "variant": true
     }
@@ -9546,6 +9849,16 @@
      "handle": "stretchtent-compleet",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "stretchdoek-los",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "stretchdoek-op-maat",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9559,7 +9872,7 @@
    "role": "in-gebruik",
    "kleur": null,
    "model": "trolley",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "trolley",
     "params": {
@@ -9828,8 +10141,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-groen-hero.webp",
@@ -9980,8 +10293,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-zwart-hero.webp",
@@ -10321,7 +10634,7 @@
      "role": "image"
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10356,7 +10669,7 @@
      "role": "image"
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10367,7 +10680,7 @@
    "role": "variant",
    "kleur": "Zandkleur",
    "model": "bench",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "bench",
     "params": {
@@ -10398,7 +10711,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -10428,7 +10741,7 @@
    "role": "variant",
    "kleur": "Bordeaux",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -10458,7 +10771,7 @@
    "role": "variant",
    "kleur": "Marineblauw",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -10508,7 +10821,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10539,7 +10852,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10645,7 +10958,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "barStool",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barStool",
     "params": {
@@ -10676,7 +10989,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "barStool",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barStool",
     "params": {
@@ -10707,7 +11020,7 @@
    "role": "detail",
    "kleur": "Zwart",
    "model": "barStool",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "barStool",
     "params": {
@@ -10834,7 +11147,7 @@
    "role": "front",
    "kleur": null,
    "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model_status": "existing",
    "spec": {
     "model": "easyUpTent",
     "params": {
@@ -10848,13 +11161,14 @@
      "wallPrint": {
       "svg": "brand/tools/print-wordmark.json",
       "color": "#C83812",
-      "side": "back"
+      "side": "back",
+      "both": true
      }
     },
     "angle": "front",
     "size": 2000
    },
-   "alt": "Bedrukte zijwand als achterwand van een witte easy-up 3 × 3 m, met voorbeeldopdruk Klapklaar, vooraanzicht (tent niet inbegrepen)",
+   "alt": "Bedrukte zijwand als achterwand van een witte easy-up 3 × 3 m, voorbeeldopdruk Klapklaar aan binnen- en buitenzijde, vooraanzicht (tent niet inbegrepen)",
    "alt_hint": null,
    "used_by": [
     {
@@ -11132,7 +11446,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11154,8 +11468,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-blauw-hero.webp",
@@ -11165,7 +11479,7 @@
    "role": "variant",
    "kleur": "Blauw",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11187,8 +11501,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-groen-hero.webp",
@@ -11198,7 +11512,7 @@
    "role": "variant",
    "kleur": "Groen",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11220,8 +11534,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-rood-gevouwen.webp",
@@ -11231,7 +11545,7 @@
    "role": "detail",
    "kleur": "Rood",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11252,8 +11566,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-wit-hero.webp",
@@ -11263,7 +11577,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11285,8 +11599,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-zandkleur-hero.webp",
@@ -11296,7 +11610,7 @@
    "role": "variant",
    "kleur": "Zandkleur",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11318,8 +11632,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "dakzeil-easy-up-zwart-hero.webp",
@@ -11329,7 +11643,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "canopyRoof",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "canopyRoof",
     "params": {
@@ -11351,8 +11665,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-rood-front.webp",
@@ -12467,7 +12781,7 @@
    "role": "variant",
    "kleur": null,
    "model": "easyUpParts",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "easyUpParts",
     "params": {
@@ -12487,8 +12801,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "halve-zijwand-easy-up-antraciet-hero.webp",
@@ -12522,8 +12836,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "halve-zijwand-easy-up-blauw-hero.webp",
@@ -12627,8 +12941,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "halve-zijwand-easy-up-zandkleur-hero.webp",
@@ -12729,8 +13043,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "hoes-biertafelset-zwart-hero.webp",
@@ -12761,8 +13075,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "hypar-schaduwzeil-stretch-taupe-hero.webp",
@@ -12794,8 +13108,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "hypar-schaduwzeil-stretch-wit-hero.webp",
@@ -12827,8 +13141,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "klapstoel-zwart-hero.webp",
@@ -12838,7 +13152,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -12961,7 +13275,7 @@
    "role": "variant",
    "kleur": null,
    "model": "ledBulb",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ledBulb",
     "params": {
@@ -12981,8 +13295,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-blauw-hero.webp",
@@ -12992,7 +13306,7 @@
    "role": "variant",
    "kleur": "Blauw",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -13012,8 +13326,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-geel-hero.webp",
@@ -13023,7 +13337,7 @@
    "role": "variant",
    "kleur": "Geel",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -13043,8 +13357,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-groen-hero.webp",
@@ -13054,7 +13368,7 @@
    "role": "variant",
    "kleur": "Groen",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -13074,8 +13388,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-oranje-hero.webp",
@@ -13085,7 +13399,7 @@
    "role": "variant",
    "kleur": "Oranje",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -13105,8 +13419,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-lichtslang-rood-hero.webp",
@@ -13116,7 +13430,7 @@
    "role": "variant",
    "kleur": "Rood",
    "model": "ropeLight",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "ropeLight",
     "params": {
@@ -13136,8 +13450,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "led-verlichting-opblaasbare-tent-in-tent.webp",
@@ -13221,7 +13535,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "carpetRunner",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "carpetRunner",
     "params": {
@@ -13232,7 +13546,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Loper van naaldvilt in antraciet, 1 m breed, uitgerold, schuin vooraanzicht",
+   "alt": "Loper van naaldvilt in antraciet, 1 m breed, op de rol met het eind uitgerold, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -13241,8 +13555,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "loper-per-meter-zwart-hero.webp",
@@ -13252,7 +13566,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "carpetRunner",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "carpetRunner",
     "params": {
@@ -13263,7 +13577,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Loper van naaldvilt in zwart, 1 m breed, uitgerold, schuin vooraanzicht",
+   "alt": "Loper van naaldvilt in zwart, 1 m breed, op de rol met het eind uitgerold, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -13272,8 +13586,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-frame-easy-up-premium-detail.webp",
@@ -13282,15 +13596,14 @@
    "priority": 3,
    "role": "detail",
    "kleur": null,
-   "model": "easyUpTent",
-   "model_status": "needs-param",
+   "model": "easyUpFrame",
+   "model_status": "existing",
    "spec": {
-    "model": "easyUpTent",
+    "model": "easyUpFrame",
     "params": {
      "w": 3,
      "d": 3,
-     "legs": "premium",
-     "roof": false
+     "legs": "premium"
     },
     "angle": "detail",
     "size": 2000
@@ -13314,18 +13627,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Antraciet",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "antraciet",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "antraciet",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Antraciet, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, antraciet, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13334,8 +13649,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-bordeaux-hero.webp",
@@ -13344,18 +13659,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Bordeaux",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "bordeaux",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "bordeaux",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Bordeaux, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, bordeaux, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13374,18 +13691,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Champagne",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "champagne",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "champagne",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Champagne, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, champagne, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13404,18 +13723,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Crème",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "creme",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "creme",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Crème, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, crème, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13434,18 +13755,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Groen",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "groen",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "groen",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Groen, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, groen, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13464,18 +13787,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Marineblauw",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "marineblauw",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "marineblauw",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Marineblauw, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, marineblauw, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13494,18 +13819,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Rood",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "rood",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "rood",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Rood, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, rood, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13524,18 +13851,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Roze",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "roze",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "roze",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Roze, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, roze, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13554,18 +13883,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Wit",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "wit",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "wit",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Wit, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, wit, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13574,8 +13905,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-zilver-hero.webp",
@@ -13584,18 +13915,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Zilver",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "zilver",
-     "tied": true
+     "type": "strik",
+     "color": "zwart",
+     "sashColor": "zilver",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Zilver, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, zilver, geknoopt om een zwarte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13614,18 +13947,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Zwart",
-   "model": "sash",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "sash",
+    "model": "statafelCover",
     "params": {
-     "color": "zwart",
-     "tied": true
+     "type": "strik",
+     "color": "wit",
+     "sashColor": "zwart",
+     "diameter": 0.8
     },
-    "angle": "hero",
+    "angle": "detail",
     "size": 2000
    },
-   "alt": "Losse strik voor statafelhoes, Zwart, geknoopt, schuin vooraanzicht",
+   "alt": "Losse strik, zwart, geknoopt om een witte statafelhoes met strik (hoes niet inbegrepen), detail van de strik",
    "alt_hint": null,
    "used_by": [
     {
@@ -13664,8 +13999,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-blauw-hero.webp",
@@ -13696,8 +14031,72 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "luifel-opblaasbare-promotietent-geel-hero.webp",
+   "out": "catalog/images/luifel-opblaasbare-promotietent-geel-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Geel",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "geel",
+     "canopyColor": "geel",
+     "awning": "front"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent met luifel aan de voorkant, Geel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "luifel-opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "luifel-opblaasbare-promotietent-grijs-hero.webp",
+   "out": "catalog/images/luifel-opblaasbare-promotietent-grijs-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "grijs",
+     "canopyColor": "grijs",
+     "awning": "front"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent met luifel aan de voorkant, Grijs, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "luifel-opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-groen-hero.webp",
@@ -13728,8 +14127,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-oranje-hero.webp",
@@ -13760,8 +14159,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-wit-hero.webp",
@@ -13792,8 +14191,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "luifel-opblaasbare-promotietent-zwart-hero.webp",
@@ -13824,8 +14223,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "marktkraam-2-m-blauw-hero.webp",
@@ -13835,7 +14234,7 @@
    "role": "variant",
    "kleur": "Blauw",
    "model": "marketStall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "marketStall",
     "params": {
@@ -13854,8 +14253,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "marktkraam-2-m-groen-hero.webp",
@@ -13865,7 +14264,7 @@
    "role": "variant",
    "kleur": "Groen",
    "model": "marketStall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "marketStall",
     "params": {
@@ -13884,8 +14283,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "marktkraam-2-m-wit-hero.webp",
@@ -13895,7 +14294,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "marketStall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "marketStall",
     "params": {
@@ -13914,8 +14313,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-partytent-3x3-waterpoten-antraciet-hero.webp",
@@ -13937,7 +14336,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent 3 × 3 m met waterpoten, Antraciet, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, 3 × 3 m, Antraciet, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -13946,8 +14345,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-partytent-3x3-waterpoten-zwart-hero.webp",
@@ -13969,7 +14368,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent 3 × 3 m met waterpoten, Zwart, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, 3 × 3 m, Zwart, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -13978,8 +14377,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-blauw-hero.webp",
@@ -14009,8 +14408,70 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "opblaasbare-promotietent-geel-hero.webp",
+   "out": "catalog/images/opblaasbare-promotietent-geel-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Geel",
+   "model": "opblaasbareTent",
+   "model_status": "existing",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "geel",
+     "canopyColor": "geel"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent 3 × 3 m, Geel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
+  },
+  {
+   "file": "opblaasbare-promotietent-grijs-hero.webp",
+   "out": "catalog/images/opblaasbare-promotietent-grijs-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs",
+   "model": "opblaasbareTent",
+   "model_status": "existing",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "grijs",
+     "canopyColor": "grijs"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent 3 × 3 m, Grijs, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-groen-hero.webp",
@@ -14040,8 +14501,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-oranje-hero.webp",
@@ -14071,8 +14532,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-pro-blauw-hero.webp",
@@ -14102,8 +14563,70 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "opblaasbare-promotietent-pro-geel-hero.webp",
+   "out": "catalog/images/opblaasbare-promotietent-pro-geel-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Geel",
+   "model": "opblaasbareTent",
+   "model_status": "existing",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 4,
+     "color": "geel",
+     "canopyColor": "geel"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent Pro 4 × 4 m, Geel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "opblaasbare-promotietent-pro",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
+  },
+  {
+   "file": "opblaasbare-promotietent-pro-grijs-hero.webp",
+   "out": "catalog/images/opblaasbare-promotietent-pro-grijs-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs",
+   "model": "opblaasbareTent",
+   "model_status": "existing",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 4,
+     "color": "grijs",
+     "canopyColor": "grijs"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent Pro 4 × 4 m, Grijs, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "opblaasbare-promotietent-pro",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-pro-groen-hero.webp",
@@ -14133,8 +14656,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-pro-oranje-hero.webp",
@@ -14164,8 +14687,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-pro-wit-hero.webp",
@@ -14195,8 +14718,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-pro-zwart-hero.webp",
@@ -14226,8 +14749,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-wit-hero.webp",
@@ -14257,8 +14780,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-promotietent-zwart-hero.webp",
@@ -14288,8 +14811,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-zeshoektent-blauw-hero.webp",
@@ -14319,8 +14842,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-zeshoektent-rood-hero.webp",
@@ -14350,8 +14873,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opblaasbare-zeshoektent-zwart-hero.webp",
@@ -14381,8 +14904,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "opslagtent-pvc-front.webp",
@@ -14392,7 +14915,7 @@
    "role": "front",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -14415,8 +14938,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "pakket-24-barkrukken-met-transportkar-antraciet-hero.webp",
@@ -14517,159 +15040,6 @@
    "draft": false
   },
   {
-   "file": "pakket-statafels-stretchrokken-transportkar-antraciet-hero.webp",
-   "out": "catalog/images/pakket-statafels-stretchrokken-transportkar-antraciet-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Antraciet",
-   "model": "items",
-   "model_status": "existing",
-   "spec": {
-    "model": "items",
-    "items": [
-     {
-      "model": "trolley",
-      "kind": "statafel",
-      "size": "groot",
-      "loaded": 10,
-      "position": [
-       -0.9,
-       0,
-       0
-      ]
-     },
-     {
-      "model": "statafelCover",
-      "type": "stretch",
-      "color": "antraciet",
-      "diameter": 0.8,
-      "topcover": "antraciet",
-      "position": [
-       0.7,
-       0,
-       0
-      ]
-     }
-    ],
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafels met stretchrok en topcover, Antraciet, naast de transportkar, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "pakket-statafels-stretchrokken-transportkar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "pakket-statafels-stretchrokken-transportkar-marineblauw-hero.webp",
-   "out": "catalog/images/pakket-statafels-stretchrokken-transportkar-marineblauw-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Marineblauw",
-   "model": "items",
-   "model_status": "existing",
-   "spec": {
-    "model": "items",
-    "items": [
-     {
-      "model": "trolley",
-      "kind": "statafel",
-      "size": "groot",
-      "loaded": 10,
-      "position": [
-       -0.9,
-       0,
-       0
-      ]
-     },
-     {
-      "model": "statafelCover",
-      "type": "stretch",
-      "color": "marineblauw",
-      "diameter": 0.8,
-      "topcover": "marineblauw",
-      "position": [
-       0.7,
-       0,
-       0
-      ]
-     }
-    ],
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafels met stretchrok en topcover, Marineblauw, naast de transportkar, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "pakket-statafels-stretchrokken-transportkar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "pakket-statafels-stretchrokken-transportkar-wit-hero.webp",
-   "out": "catalog/images/pakket-statafels-stretchrokken-transportkar-wit-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "items",
-   "model_status": "existing",
-   "spec": {
-    "model": "items",
-    "items": [
-     {
-      "model": "trolley",
-      "kind": "statafel",
-      "size": "groot",
-      "loaded": 10,
-      "position": [
-       -0.9,
-       0,
-       0
-      ]
-     },
-     {
-      "model": "statafelCover",
-      "type": "stretch",
-      "color": "wit",
-      "diameter": 0.8,
-      "topcover": "wit",
-      "position": [
-       0.7,
-       0,
-       0
-      ]
-     }
-    ],
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafels met stretchrok en topcover, Wit, naast de transportkar, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "pakket-statafels-stretchrokken-transportkar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
    "file": "partytent-pe-basis-buizenframe-front.webp",
    "out": "catalog/images/partytent-pe-basis-buizenframe-front.webp",
    "kind": "product",
@@ -14677,7 +15047,7 @@
    "role": "front",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -14700,8 +15070,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "partytent-pvc-500-comfort-front.webp",
@@ -14711,7 +15081,7 @@
    "role": "front",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -14734,8 +15104,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "partytent-pvc-550-compleet-front.webp",
@@ -14745,7 +15115,7 @@
    "role": "front",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -14768,42 +15138,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "partytent-pvc-550-premium-front.webp",
-   "out": "catalog/images/partytent-pvc-550-premium-front.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "front",
-   "kleur": "Wit",
-   "model": "frameTent",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "frameTent",
-    "params": {
-     "w": 4,
-     "d": 8,
-     "line": "pvc",
-     "color": "wit",
-     "walls": "windows",
-     "door": "open"
-    },
-    "angle": "front",
-    "size": 2000
-   },
-   "alt": "Partytent PVC 550 Premium met buizenframe, 4 × 8 m, wit, vooraanzicht met open deur",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "partytent-pvc-550-premium",
-     "role": "front",
-     "variant": false
-    }
-   ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "partytent-pvc-620-professional-front.webp",
@@ -14813,7 +15149,7 @@
    "role": "front",
    "kleur": "Wit",
    "model": "frameTent",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "frameTent",
     "params": {
@@ -14836,8 +15172,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "prikkabel-e27-wit-hero.webp",
@@ -14869,13 +15205,18 @@
      "variant": true
     },
     {
+     "handle": "prikkabel-op-maat",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "prikkabelset-led",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "prikkabel-e27-zwart-uit.webp",
@@ -14906,8 +15247,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "regengoot-partytent-tussen-twee-tenten.webp",
@@ -14975,7 +15316,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "rainGutter",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "rainGutter",
     "params": {
@@ -14994,8 +15335,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "schaduwdoek-zandkleur-hero.webp",
@@ -15005,7 +15346,7 @@
    "role": "variant",
    "kleur": "Zandkleur",
    "model": "shadeSail",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "shadeSail",
     "params": {
@@ -15026,8 +15367,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stapelstoel-cross-back-zwart-hero.webp",
@@ -15037,7 +15378,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -15067,7 +15408,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -15097,7 +15438,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "chair",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "chair",
     "params": {
@@ -15371,8 +15712,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-met-rok.webp",
@@ -15501,8 +15842,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-met-kruisvoet-wit-hero.webp",
@@ -15534,8 +15875,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-rechthoekig-inklapbaar-zwart-hero.webp",
@@ -15569,8 +15910,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-vierkant-stapelbaar-houtlook-hero.webp",
@@ -15604,8 +15945,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-vierkant-stapelbaar-wit-hero.webp",
@@ -15639,8 +15980,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-stretch-met-logo-antraciet-hero.webp",
@@ -15844,21 +16185,56 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Antraciet",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
+     "type": "kleed",
      "color": "antraciet",
+     "diameter": 0.8,
+     "drop": 0.25,
      "over": "stretch",
-     "underColor": "zwart"
+     "underColor": "wit"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Antraciet, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed rond Ø 130 cm, antraciet, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "statafelkleed-antraciet-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-antraciet-vierkant-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "antraciet",
+     "diameter": 0.8,
+     "square": 1.4,
+     "over": "stretch",
+     "underColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed vierkant 140 x 140 cm, antraciet, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
    "alt_hint": null,
    "used_by": [
     {
@@ -15868,7 +16244,7 @@
     }
    ],
    "exists": false,
-   "draft": true
+   "draft": false
   },
   {
    "file": "statafelkleed-bordeaux-hero.webp",
@@ -15877,21 +16253,56 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Bordeaux",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
+     "type": "kleed",
      "color": "bordeaux",
+     "diameter": 0.8,
+     "drop": 0.25,
      "over": "stretch",
-     "underColor": "zwart"
+     "underColor": "wit"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Bordeaux, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed rond Ø 130 cm, bordeaux, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "statafelkleed-bordeaux-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-bordeaux-vierkant-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Bordeaux",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "bordeaux",
+     "diameter": 0.8,
+     "square": 1.4,
+     "over": "stretch",
+     "underColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed vierkant 140 x 140 cm, bordeaux, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
    "alt_hint": null,
    "used_by": [
     {
@@ -15901,7 +16312,7 @@
     }
    ],
    "exists": false,
-   "draft": true
+   "draft": false
   },
   {
    "file": "statafelkleed-creme-hero.webp",
@@ -15910,21 +16321,22 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Crème",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
+     "type": "kleed",
      "color": "creme",
+     "diameter": 0.8,
+     "drop": 0.25,
      "over": "stretch",
      "underColor": "zwart"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Crème, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed rond Ø 130 cm, crème, over een zwarte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -15937,27 +16349,62 @@
    "draft": true
   },
   {
-   "file": "statafelkleed-marineblauw-hero.webp",
-   "out": "catalog/images/statafelkleed-marineblauw-hero.webp",
+   "file": "statafelkleed-creme-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-creme-vierkant-hero.webp",
    "kind": "product",
    "priority": 3,
    "role": "variant",
-   "kleur": "Marineblauw",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "kleur": "Crème",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
-     "color": "marineblauw",
+     "type": "kleed",
+     "color": "creme",
+     "diameter": 0.8,
+     "square": 1.4,
      "over": "stretch",
      "underColor": "zwart"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Marineblauw, over een zwarte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed vierkant 140 x 140 cm, crème, over een zwarte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "statafelkleed-marineblauw-hero.webp",
+   "out": "catalog/images/statafelkleed-marineblauw-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Marineblauw",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "marineblauw",
+     "diameter": 0.8,
+     "drop": 0.25,
+     "over": "stretch",
+     "underColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed rond Ø 130 cm, marineblauw, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -15968,6 +16415,40 @@
    ],
    "exists": false,
    "draft": true
+  },
+  {
+   "file": "statafelkleed-marineblauw-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-marineblauw-vierkant-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Marineblauw",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "marineblauw",
+     "diameter": 0.8,
+     "square": 1.4,
+     "over": "stretch",
+     "underColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed vierkant 140 x 140 cm, marineblauw, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "statafelkleed-rond-tot-de-grond-champagne-hero.webp",
@@ -15997,8 +16478,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-rond-tot-de-grond-creme-hero.webp",
@@ -16059,8 +16540,42 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "statafelkleed-wit-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-wit-vierkant-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "wit",
+     "diameter": 0.8,
+     "square": 1.4,
+     "over": "stretch",
+     "underColor": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed vierkant 140 x 140 cm, wit, over een zwarte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
   },
   {
    "file": "statafelkleed-zwart-hero.webp",
@@ -16069,21 +16584,22 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Zwart",
-   "model": "tableCloth",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "tableCloth",
+    "model": "statafelCover",
     "params": {
-     "shape": "rond",
-     "size": 1.3,
+     "type": "kleed",
      "color": "zwart",
+     "diameter": 0.8,
+     "drop": 0.25,
      "over": "stretch",
      "underColor": "wit"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelkleed rond Ø 130 cm, Zwart, over een witte stretchrok op een statafel, schuin vooraanzicht",
+   "alt": "Statafelkleed rond Ø 130 cm, zwart, over een witte stretchrok op een statafel (rok en tafel niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16094,6 +16610,40 @@
    ],
    "exists": false,
    "draft": true
+  },
+  {
+   "file": "statafelkleed-zwart-vierkant-hero.webp",
+   "out": "catalog/images/statafelkleed-zwart-vierkant-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "statafelCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "statafelCover",
+    "params": {
+     "type": "kleed",
+     "color": "zwart",
+     "diameter": 0.8,
+     "square": 1.4,
+     "over": "stretch",
+     "underColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Statafelkleed vierkant 140 x 140 cm, zwart, over een witte stretchrok op een statafel: de vier punten hangen lager dan de zijkanten (rok en tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafelkleed",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "statafelrok-stretch-wit-zwarte-topcover.webp",
@@ -16124,8 +16674,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stertent-dubbele-mast-full-colour.webp",
@@ -16161,8 +16711,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stertent-dubbele-mast-zandkleur-hero.webp",
@@ -16195,98 +16745,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "stretchdoek-los-taupe-hero.webp",
-   "out": "catalog/images/stretchdoek-los-taupe-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Taupe",
-   "model": "foldedFabric",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "foldedFabric",
-    "params": {
-     "color": "taupe",
-     "kind": "stretch"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stretchdoek los, Taupe, opgevouwen",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stretchdoek-los",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "stretchdoek-los-wit-hero.webp",
-   "out": "catalog/images/stretchdoek-los-wit-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "foldedFabric",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "foldedFabric",
-    "params": {
-     "color": "wit",
-     "kind": "stretch"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stretchdoek los, Wit, opgevouwen",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stretchdoek-los",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
-  },
-  {
-   "file": "stretchdoek-los-zwart-hero.webp",
-   "out": "catalog/images/stretchdoek-los-zwart-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "foldedFabric",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "foldedFabric",
-    "params": {
-     "color": "zwart",
-     "kind": "stretch"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stretchdoek los, Zwart, opgevouwen",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stretchdoek-los",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchhoes-klaptafel-antraciet-hero.webp",
@@ -16322,8 +16782,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchhoes-klaptafel-wit-hero.webp",
@@ -16391,8 +16851,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "terrastafel-inklapbaar-houtlook-hero.webp",
@@ -16402,7 +16862,7 @@
    "role": "variant",
    "kleur": "Houtlook",
    "model": "patioTable",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "patioTable",
     "params": {
@@ -16435,7 +16895,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "patioTable",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "patioTable",
     "params": {
@@ -16467,19 +16927,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Antraciet",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "antraciet",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "antraciet"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Antraciet, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, antraciet, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16488,8 +16949,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-beige-hero.webp",
@@ -16498,19 +16959,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Beige",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "beige",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "beige"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Beige, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, beige, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16519,8 +16981,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-blauw-hero.webp",
@@ -16529,19 +16991,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Blauw",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "blauw",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "blauw"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Blauw, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, blauw, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16550,8 +17013,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-bordeaux-hero.webp",
@@ -16560,19 +17023,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Bordeaux",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "bordeaux",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "bordeaux"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Bordeaux, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, bordeaux, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16581,8 +17045,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-bruin-hero.webp",
@@ -16591,19 +17055,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Bruin",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "bruin",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "bruin"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Bruin, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, bruin, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16612,8 +17077,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-camel-hero.webp",
@@ -16622,19 +17087,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Camel",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "camel",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "camel"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Camel, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, camel, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16643,8 +17109,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-creme-hero.webp",
@@ -16653,19 +17119,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Crème",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "creme",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "creme"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Crème, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, crème, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16674,8 +17141,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-fuchsia-hero.webp",
@@ -16684,19 +17151,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Fuchsia",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "fuchsia",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "fuchsia"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Fuchsia, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, fuchsia, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16705,8 +17173,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-geel-hero.webp",
@@ -16715,19 +17183,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Geel",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "geel",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "geel"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Geel, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, geel, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16736,8 +17205,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-goud-hero.webp",
@@ -16746,19 +17215,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Goud",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "goud",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "goud"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Goud, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, goud, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16767,8 +17237,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-grijs-hero.webp",
@@ -16777,19 +17247,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Grijs",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "grijs",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "grijs"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Grijs, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, grijs, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16798,8 +17269,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-groen-hero.webp",
@@ -16808,19 +17279,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Groen",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "groen",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "groen"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Groen, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, groen, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16839,19 +17311,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Lichtblauw",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "lichtblauw",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "lichtblauw"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Lichtblauw, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, lichtblauw, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16870,19 +17343,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Lichtgroen",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "lichtgroen",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "lichtgroen"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Lichtgroen, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, lichtgroen, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16901,19 +17375,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Marineblauw",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "marineblauw",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "marineblauw"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Marineblauw, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, marineblauw, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16932,19 +17407,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Oranje",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "oranje",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "oranje"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Oranje, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, oranje, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16963,19 +17439,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Paars",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "paars",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "paars"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Paars, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, paars, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -16994,19 +17471,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Rood",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "rood",
+     "type": "stretch",
+     "color": "wit",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "rood"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Rood, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, rood, op een statafel met witte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17025,19 +17503,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Roze",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "roze",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "roze"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Roze, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, roze, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17056,19 +17535,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Taupe",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "taupe",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "taupe"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Taupe, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, taupe, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17087,19 +17567,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Turquoise",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "turquoise",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "turquoise"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Turquoise, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, turquoise, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17118,19 +17599,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Wit",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "wit",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "wit"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Wit, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, wit, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17139,8 +17621,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-zilver-hero.webp",
@@ -17149,19 +17631,20 @@
    "priority": 3,
    "role": "variant",
    "kleur": "Zilver",
-   "model": "topcover",
-   "model_status": "needs-model",
+   "model": "statafelCover",
+   "model_status": "existing",
    "spec": {
-    "model": "topcover",
+    "model": "statafelCover",
     "params": {
-     "color": "zilver",
+     "type": "stretch",
+     "color": "zwart",
      "diameter": 0.8,
-     "onTable": true
+     "topcover": "zilver"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Topcover stretch, Zilver, op het blad van een statafel, schuin vooraanzicht",
+   "alt": "Topcover stretch, zilver, op een statafel met zwarte stretchrok (rok niet inbegrepen), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -17181,7 +17664,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "connectionStrip",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "connectionStrip",
     "params": {
@@ -17200,8 +17683,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "verbindingstunnel-opblaasbare-tent-zwart-hero.webp",
@@ -17252,8 +17735,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "wieltas-easy-up-detail.webp",
@@ -17283,8 +17766,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-antraciet-hero.webp",
@@ -17318,8 +17801,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-blauw-hero.webp",
@@ -17353,8 +17836,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-groen-hero.webp",
@@ -17388,8 +17871,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-rood-hero.webp",
@@ -17423,8 +17906,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-zandkleur-hero.webp",
@@ -17458,8 +17941,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-zwart-hero.webp",
@@ -17493,8 +17976,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-antraciet-hero.webp",
@@ -17528,8 +18011,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-blauw-hero.webp",
@@ -17563,8 +18046,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-groen-hero.webp",
@@ -17598,8 +18081,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-rood-hero.webp",
@@ -17633,8 +18116,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-zandkleur-hero.webp",
@@ -17668,8 +18151,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-zwart-hero.webp",
@@ -17738,8 +18221,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-blauw-hero.webp",
@@ -17773,8 +18256,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-groen-hero.webp",
@@ -17808,8 +18291,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-rood-hero.webp",
@@ -17843,8 +18326,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-zandkleur-hero.webp",
@@ -17878,8 +18361,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-zwart-hero.webp",
@@ -17913,8 +18396,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-opblaasbare-zeshoektent-zwart-hero.webp",
@@ -17947,8 +18430,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-overkapping-pvc-antraciet-hero.webp",
@@ -17958,7 +18441,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "sideWall",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "sideWall",
     "params": {
@@ -17966,6 +18449,7 @@
      "height": 2.5,
      "type": "panorama",
      "zips": true,
+     "rail": true,
      "color": "antraciet",
      "material": "pvc"
     },
@@ -18030,7 +18514,7 @@
    "role": "variant",
    "kleur": "Zandkleur",
    "model": "seatCushion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "seatCushion",
     "params": {
@@ -18039,7 +18523,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Zitkussen voor stoel en barkruk, Zandkleur, schuin vooraanzicht",
+   "alt": "Zitkussen voor stoel en barkruk, zandkleur, met bies en strikbandjes, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -18048,8 +18532,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zitkussen-stoel-en-barkruk-zwart-hero.webp",
@@ -18059,7 +18543,7 @@
    "role": "variant",
    "kleur": "Zwart",
    "model": "seatCushion",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "seatCushion",
     "params": {
@@ -18068,7 +18552,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Zitkussen voor stoel en barkruk, Zwart, schuin vooraanzicht",
+   "alt": "Zitkussen voor stoel en barkruk, zwart, met bies en strikbandjes, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -18077,8 +18561,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   }
  ]
 }

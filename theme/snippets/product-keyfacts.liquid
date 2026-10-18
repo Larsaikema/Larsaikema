@@ -1,0 +1,34 @@
+{%- comment -%}
+  Key facts strip under the product title (feature product.capacity-keyfacts): rows of custom.specificaties picked by
+  label, in the order of the block setting (comma separated, case-insensitive, e.g. 'Oppervlak, Capaciteit,
+  Doorloophoogte, Personen'). 'Personen' (group Opzetten) reads as 'Opzetten: 2 personen'. Renders nothing with fewer
+  than two facts, so products without these specs keep a clean title block. Params: product, labels (string), class.
+{%- endcomment -%}
+{%- liquid
+  assign kf_specs = product.metafields.custom.specificaties.value
+  assign kf_count = 0
+  assign kf_wanted = labels | default: '' | split: ','
+-%}
+{%- if kf_specs != blank and kf_wanted.size > 0 -%}
+  {%- capture kf_items -%}
+    {%- for w in kf_wanted -%}
+      {%- assign wl = w | strip | downcase -%}
+      {%- if wl == blank -%}{%- continue -%}{%- endif -%}
+      {%- for row in kf_specs -%}
+        {%- assign rl = row.label | strip | downcase -%}
+        {%- if rl == wl and row.waarde != blank -%}
+          {%- assign kf_count = kf_count | plus: 1 -%}
+          {%- if rl == 'personen' -%}
+            <li class="keyfacts__item"><span class="keyfacts__label">{{ row.groep | default: row.label }}</span><span class="keyfacts__value">{{ 'product.keyfact_people' | t: n: row.waarde }}</span></li>
+          {%- else -%}
+            <li class="keyfacts__item"><span class="keyfacts__label">{{ row.label }}</span><span class="keyfacts__value">{{ row.waarde | replace: ' x ', ' × ' }}</span></li>
+          {%- endif -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if kf_count > 1 -%}
+    <ul class="keyfacts {{ class }}" role="list" aria-label="{{ 'product.keyfacts_label' | t }}" style="--n: {{ kf_count }}">{{ kf_items }}</ul>
+  {%- endif -%}
+{%- endif -%}

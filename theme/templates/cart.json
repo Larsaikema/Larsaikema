@@ -3,23 +3,9 @@
     "main": {
       "type": "main-cart",
       "settings": {}
-    },
-    "recommendations": {
-      "type": "featured-collection",
-      "settings": {
-        "heading": "Vergeet niet",
-        "collection": "accessoires",
-        "limit": 4,
-        "columns": 4,
-        "link_label": "Alle accessoires",
-        "hide_sold_out": true,
-        "exclude_in_cart": true,
-        "cart_related": true
-      }
     }
   },
   "order": [
-    "main",
-    "recommendations"
+    "main"
   ]
 }

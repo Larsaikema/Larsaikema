@@ -5,7 +5,10 @@
       "blocks": {
         "title": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "show_keyfacts": true,
+            "keyfacts": "Oppervlak, Capaciteit, Doorloophoogte, Personen"
+          }
         },
         "price": {
           "type": "price",
@@ -15,7 +18,8 @@
           "type": "variant_picker",
           "settings": {
             "size_guide_page": "maatadvies-partytenten",
-            "size_option_names": "Maat, Tafelmaat, Diameter, Afmeting, Formaat"
+            "size_option_names": "Maat, Tafelmaat, Diameter, Afmeting, Formaat",
+            "size_prices": true
           }
         },
         "staffel": {
@@ -32,7 +36,10 @@
         },
         "addons": {
           "type": "addons",
-          "settings": {}
+          "settings": {
+            "heading": "Handig erbij",
+            "visible": 3
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -90,7 +97,9 @@
           "type": "collapsible_tab",
           "settings": {
             "source": "safety",
-            "heading": "Opzetten & veiligheid"
+            "heading": "Opzetten & veiligheid",
+            "link": "shopify://blogs/advies/partytent-verankeren-bij-wind",
+            "link_label": "Partytent verankeren bij wind"
           }
         },
         "configurator": {
@@ -115,6 +124,15 @@
             "heading": "Offerte voor dit product",
             "text": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw."
           }
+        },
+        "compare": {
+          "type": "compare",
+          "settings": {
+            "collection": "easy-up-partytenten",
+            "heading": "Premium of Professional?",
+            "link": "shopify://blogs/advies/easy-up-premium-of-professional",
+            "link_label": "Lees het hele verschil"
+          }
         }
       },
       "block_order": [
@@ -123,50 +141,40 @@
         "variant_picker",
         "configurator",
         "bundle",
-        "staffel",
         "bedrukken",
-        "addons",
         "buy_buttons",
         "delivery",
+        "addons",
         "usps",
-        "included",
+        "staffel",
         "b2b",
+        "compare",
+        "included",
         "tab_description",
         "tab_specs",
+        "tab_downloads",
         "tab_safety",
         "tab_delivery",
-        "tab_downloads",
         "tab_faq",
         "quote_form"
       ],
       "settings": {
         "sticky_bar": true,
-        "show_breadcrumbs": true
+        "show_breadcrumbs": true,
+        "details_below": true
       }
     },
     "recommendations": {
       "type": "product-recommendations",
       "settings": {
-        "heading": "Vaak samen bekeken",
-        "intent": "related",
+        "heading": "Nog iets erbij?",
+        "intent": "complementary",
         "limit": 4
-      }
-    },
-    "comparison": {
-      "type": "product-comparison",
-      "settings": {
-        "heading": "Premium of Professional?",
-        "text": "Zelfde idee, ander gebruik. Vergelijk frame, dak en gewicht.",
-        "collection": "easy-up-partytenten",
-        "max": 3,
-        "guide_link": "shopify://blogs/advies/easy-up-premium-of-professional",
-        "guide_label": "Lees het hele verschil"
       }
     }
   },
   "order": [
     "main",
-    "comparison",
     "recommendations"
   ]
 }

@@ -1,0 +1,60 @@
+{%- comment -%}
+  Header only. Prints the position of the one menu entry that gets aria-current: '3' (top item), '3-2' (its second
+  column) or '3-2-4' (a link in that column); nothing when no entry points at the shown page. Several entries may point
+  at the same page (Statafelpakketten under Statafels and under Actie): the highest level wins, then menu order. A top
+  item with a panel passes it to its 'Alles in …' link or collection card (sections/header.liquid).
+  Params: menu (link list), here (key of the shown page, built in sections/header.liquid; see snippets/header-current)
+{%- endcomment -%}
+{%- liquid
+  assign ck = ''
+  for link in menu.links
+    capture hc
+      render 'header-current', url: link.url, here: here
+    endcapture
+    if hc == 'yes'
+      assign ck = forloop.index | append: ''
+      break
+    endif
+  endfor
+  if ck == ''
+    for link in menu.links
+      assign ci = forloop.index
+      for child in link.links
+        capture hc
+          render 'header-current', url: child.url, here: here
+        endcapture
+        if hc == 'yes'
+          assign ck = ci | append: '-' | append: forloop.index
+          break
+        endif
+      endfor
+      if ck != ''
+        break
+      endif
+    endfor
+  endif
+  if ck == ''
+    for link in menu.links
+      assign ci = forloop.index
+      for child in link.links
+        assign cj = ci | append: '-' | append: forloop.index
+        for grand in child.links
+          capture hc
+            render 'header-current', url: grand.url, here: here
+          endcapture
+          if hc == 'yes'
+            assign ck = cj | append: '-' | append: forloop.index
+            break
+          endif
+        endfor
+        if ck != ''
+          break
+        endif
+      endfor
+      if ck != ''
+        break
+      endif
+    endfor
+  endif
+  echo ck
+-%}

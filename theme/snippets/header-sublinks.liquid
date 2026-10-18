@@ -1,0 +1,64 @@
+{%- comment -%}
+  Header only: the third-level links of one menu column, in the desktop mega menu and in the mobile menu drawer.
+  - Size links ('3 × 3 m', 'Ø80 cm': first character a digit or Ø, last word m or cm) are grouped into one row of
+    chips at the place of the first one, so 'shop by size' is one compact block instead of eight lines.
+  - Article links (advice: 'Premium of Professional?') get the info icon and read as help, not as a category.
+  - A link to the same page as the column heading or as the panel's promotion card is left out (no 'Offerte aanvragen'
+    twice in one panel).
+  - The selected state (chip--active, aria-current) is set by sections/header.liquid as one key for the whole menu
+    (path + exact filters, highest menu level first), so a page linked from several places is marked once.
+  - Size titles are shown in the brand notation 'Ø 70 cm' (brand.md §5), whatever spacing the menu uses.
+  Params: links (array of link objects, required), label (string: accessible name of the size chips),
+  key (position of the column, e.g. '1-2'), current (the menu key of the shown page), skip ('url|url': links to leave out)
+{%- endcomment -%}
+{%- assign hs_sizes_done = false -%}
+{%- assign hs_skip = skip | split: '|' -%}
+<ul role="list" class="hlinks">
+  {%- for hs_link in links -%}
+    {%- liquid
+      assign hs_key = key | append: '-' | append: forloop.index
+      if hs_skip contains hs_link.url
+        continue
+      endif
+      assign hs_words = hs_link.title | strip | split: ' '
+      assign hs_unit = hs_words | last
+      assign hs_first = hs_link.title | strip | slice: 0
+      assign hs_is_size = false
+      if hs_unit == 'm' or hs_unit == 'cm'
+        if '0123456789Ø' contains hs_first
+          assign hs_is_size = true
+        endif
+      endif
+    -%}
+    {%- if hs_is_size -%}
+      {%- unless hs_sizes_done -%}
+        {%- assign hs_sizes_done = true -%}
+        <li class="hlinks__sizes">
+          <ul role="list" class="chips hlinks__chips"{% if label != blank %} aria-label="{{ label | escape }}"{% endif %}>
+            {%- for hs_size in links -%}
+              {%- liquid
+                assign hs_k = key | append: '-' | append: forloop.index
+                assign hs_w = hs_size.title | strip | split: ' '
+                assign hs_u = hs_w | last
+                assign hs_f = hs_size.title | strip | slice: 0
+                assign hs_s = false
+                if hs_u == 'm' or hs_u == 'cm'
+                  if '0123456789Ø' contains hs_f
+                    assign hs_s = true
+                  endif
+                endif
+              -%}
+              {%- if hs_s -%}
+                <li><a class="chip hlinks__chip{% if current == hs_k %} chip--active{% endif %}" href="{{ hs_size.url }}"{% if current == hs_k %} aria-current="page"{% endif %}>{{ hs_size.title | strip | replace: 'Ø', 'Ø ' | replace: 'Ø  ', 'Ø ' }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </li>
+      {%- endunless -%}
+    {%- elsif hs_link.type == 'article_link' -%}
+      <li><a class="hlinks__advice" href="{{ hs_link.url }}"{% if current == hs_key %} aria-current="page"{% endif %}>{%- render 'icon', icon: 'info', class: 'icon--sm' -%}<span>{{ hs_link.title }}</span></a></li>
+    {%- else -%}
+      <li><a class="hlinks__link" href="{{ hs_link.url }}"{% if current == hs_key %} aria-current="page"{% endif %}>{{ hs_link.title }}</a></li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

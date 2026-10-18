@@ -1,0 +1,8 @@
+/* Main product gallery: uploaded and external video, 3D models (no zoom; the thumbnail carries a play mark). Loaded only
+   on products with such media (sections/main-product). */
+.gallery__frame{width:100%;height:100%;display:grid;place-items:center;background:var(--c-media)}
+.gallery__frame video,.gallery__frame iframe,.gallery__frame model-viewer{width:100%;height:100%;border:0;object-fit:contain;display:block}
+.gallery__thumb{position:relative}
+.gallery__thumb[data-media-type="video"]::after,.gallery__thumb[data-media-type="external_video"]::after,.gallery__thumb[data-media-type="model"]::after{content:"";position:absolute;inset:auto auto 6px 6px;width:22px;height:22px;border-radius:50%;background:var(--pi);box-shadow:0 0 0 2px var(--pw)}
+.gallery__thumb[data-media-type="video"]::before,.gallery__thumb[data-media-type="external_video"]::before{content:"";position:absolute;left:15px;bottom:12px;z-index:1;width:8px;height:10px;background:var(--pw);clip-path:polygon(0 0,100% 50%,0 100%)}
+.gallery__thumb[data-media-type="model"]::before{content:"3D";position:absolute;left:6px;bottom:6px;z-index:1;width:22px;line-height:22px;text-align:center;font-size:9px;font-weight:var(--p7);color:var(--pw)}

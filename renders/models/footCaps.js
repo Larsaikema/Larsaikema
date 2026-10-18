@@ -10,6 +10,7 @@
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -54,7 +55,7 @@ export function footCaps(p = {}) {
   const n = Number(p.count ?? 4);
   const type = String(p.type || 'statafel');
   const dims = type === 'klaptafel' ? { ai: 0.0127, bi: 0.0127, H: 0.026 } : type === 'barkruk' ? { ai: 0.0112, bi: 0.0112, H: 0.024 } : { ai: 0.0153, bi: 0.0083, H: 0.024 };
-  const pe = K.abs('#161616', 0.42, { clearcoat: 0.1 });
+  const pe = SG.moulded('#161616', { rough: 0.42, clearcoat: 0.1 });
   const bins = new G.PartBin();
   const W = 2 * (dims.ai + 0.0018);
   const poses = [

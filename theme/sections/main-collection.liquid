@@ -2,10 +2,14 @@
 <script src="{{ 'facets.js' | asset_url }}" defer></script>
 {%- liquid
   assign per_page = section.settings.per_page
-  assign intro = collection.metafields.custom.intro.value
   assign seo = collection.metafields.custom.seo_tekst
+  assign has_filters = false
+  assign coll_filters = collection.filters
+  if section.settings.enable_filtering and coll_filters.size > 0
+    assign has_filters = true
+  endif
   assign active_filters = 0
-  for f in collection.filters
+  for f in coll_filters
     assign active_filters = active_filters | plus: f.active_values.size
     if f.type == 'price_range'
       if f.min_value.value != nil or f.max_value.value != nil
@@ -13,126 +17,232 @@
       endif
     endif
   endfor
-  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  # an active colour filter (Kleur) makes each card show that colour
+  assign active_color = ''
+  assign swatch_names_mc = settings.swatch_option_names | downcase | split: ','
+  for f in coll_filters
+    assign fl = f.label | downcase | strip
+    for n in swatch_names_mc
+      assign nn = n | strip
+      if nn == fl and f.active_values.size > 0
+        assign active_color = f.active_values.first.value
+      endif
+    endfor
+  endfor
+  # Sorting (brand book 7.2): Aanbevolen (the collection's own order, whatever the merchant set) / Prijs laag-hoog /
+  # Prijs hoog-laag / Nieuwste. Another sort_by that arrives in the address (an old link) is listed too, so the select
+  # always shows what the grid is sorted by.
+  assign sort_default = collection.default_sort_by | default: 'manual'
+  assign sort_by = collection.sort_by | default: sort_default
+  assign sort_form = 'FacetsForm-' | append: section.id
+  unless has_filters
+    assign sort_form = 'SortForm-' | append: section.id
+  endunless
+  assign sort_values = sort_default | append: ',price-ascending,price-descending,created-descending,' | append: sort_by | split: ',' | uniq
+  assign sort_label = 'collection.sort_options.manual' | t
+  if sort_by != sort_default
+    assign sort_key = sort_by | replace: '-', '_'
+    assign sort_label_key = 'collection.sort_options.' | append: sort_key
+    assign sort_label = sort_label_key | t
+  endif
 -%}
-<div class="collection-head color-{{ section.settings.color_scheme }}">
-  <div class="page-width collection-head__inner">
-    {%- render 'breadcrumbs' -%}
-    <div class="collection-head__text">
-      <h1 class="collection-head__title">{{ collection.title }}</h1>
-      {%- if intro != blank -%}
-        <p class="collection-head__intro text-lg">{{ intro | newline_to_br }}</p>
-      {%- elsif collection.description != blank and section.settings.show_description -%}
-        <div class="collection-head__intro rte text-lg">{%- render 'text-excerpt', html: collection.description, words: 40 -%}</div>
-      {%- endif -%}
-      {%- assign kenmerken = collection.metafields.custom.kenmerken.value -%}
-      {%- if kenmerken != blank -%}
-        <ul class="collection-head__usps" role="list">
-          {%- for k in kenmerken -%}<li>{%- render 'icon', icon: 'check', class: 'icon--sm' -%}{{ k }}</li>{%- endfor -%}
-        </ul>
-      {%- endif -%}
-    </div>
-    {%- comment -%}
-      Sub-collection chips: the children of this collection in the chosen menu (main-menu, catalog/CONTRACT.md: category →
-      subcategory → links), so the owner edits them in Navigation; no extra metafield needed.
-    {%- endcomment -%}
-    {%- capture sub_chips -%}
-      {%- for l1 in section.settings.menu.links -%}
-        {%- if l1.url == collection.url and l1.links != blank -%}
-          {%- for l2 in l1.links -%}<a class="chip" href="{{ l2.url }}">{{ l2.title }}</a>{%- endfor -%}{%- break -%}
-        {%- endif -%}
-        {%- for l2 in l1.links -%}
-          {%- if l2.url == collection.url and l2.links != blank -%}
-            {%- for l3 in l2.links -%}<a class="chip" href="{{ l3.url }}">{{ l3.title }}</a>{%- endfor -%}
-          {%- endif -%}
-        {%- endfor -%}
-      {%- endfor -%}
-    {%- endcapture -%}
-    {%- if sub_chips != blank -%}
-      <nav class="collection-head__subs chips chips--scroll" aria-label="{{ 'collection.subcollections' | t }}">{{ sub_chips }}</nav>
-    {%- endif -%}
-  </div>
-</div>
+{%- render 'collection-head', menu: section.settings.menu, section_id: section.id, color_scheme: section.settings.color_scheme, show_description: section.settings.show_description -%}
 
-<facet-filters class="page-width collection section section--flush-top" data-section-id="{{ section.id }}" id="Collection-{{ section.id }}">
-  <div class="collection__toolbar">
-    {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
-      <button type="button" class="btn btn--outline btn--sm collection__filter-btn" data-facets-open aria-controls="FilterDrawer-{{ section.id }}" aria-expanded="false">
-        {%- render 'icon', icon: 'filter', class: 'icon--sm' -%}<span>{{ 'collection.filter' | t }}</span>{%- if active_filters > 0 -%}<span class="facet__badge" data-active-count>{{ active_filters }}</span>{%- endif -%}
-      </button>
-    {%- endif -%}
-    <p class="collection__count" id="ProductCount-{{ section.id }}" role="status">{{ 'collection.products_count' | t: count: collection.products_count }}</p>
-    {%- if section.settings.enable_sorting -%}
-      <div class="collection__sort">
-        <label for="SortBy-{{ section.id }}">{{ 'collection.sort_label' | t }}</label>
-        <select class="select select--sm" id="SortBy-{{ section.id }}" name="sort_by" form="FacetsForm-{{ section.id }}" data-sort>
-          {%- for option in collection.sort_options -%}
-            {%- assign sort_key = option.value | replace: '-', '_' -%}
-            {%- assign sort_label_key = 'collection.sort_options.' | append: sort_key -%}
-            <option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ sort_label_key | t | default: option.name }}</option>
-          {%- endfor -%}
-        </select>
-      </div>
-    {%- endif -%}
-  </div>
-
-  <div class="collection__layout{% unless section.settings.enable_filtering and collection.filters.size > 0 %} collection__layout--full{% endunless %}">
-    {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
-      <aside class="facets-panel" id="FilterDrawer-{{ section.id }}" aria-label="{{ 'collection.filters' | t }}" data-facets-panel tabindex="-1">
+<facet-filters class="page-width collection section section--flush-top" data-section-id="{{ section.id }}" data-qa-src="{{ 'quick-add.js' | asset_url }}" id="Collection-{{ section.id }}">
+  <p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-facets-status></p>
+  <div class="collection__layout{% unless has_filters %} collection__layout--full{% endunless %}">
+    {%- if has_filters -%}
+      {%- comment -%} phone without JavaScript: the 'Filteren' link opens this drawer with :target; the close link goes back to
+        the results and 'Toon … producten' submits the filter form {%- endcomment -%}
+      <aside class="facets-panel facets-panel--target" id="FilterDrawer-{{ section.id }}" aria-labelledby="FiltersTitle-{{ section.id }}" data-facets-panel tabindex="-1">
         <div class="facets-panel__head">
-          <h2 class="h3">{{ 'collection.filters' | t }}</h2>
-          <button type="button" class="icon-btn" data-facets-close aria-label="{{ 'general.close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
+          <h2 class="facets-panel__title" id="FiltersTitle-{{ section.id }}">{{ 'collection.filters' | t }}</h2>
+          <span class="facets-panel__clear" data-facets-clear-top>
+            {%- if active_filters > 0 -%}<a class="link" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.clear_all' | t }}</a>{%- endif -%}
+          </span>
+          <a href="#ProductGridContainer-{{ section.id }}" role="button" class="icon-btn facets-panel__close" data-facets-close aria-label="{{ 'general.close' | t }}">{%- render 'icon', icon: 'close' -%}</a>
         </div>
         <div class="facets-panel__body" data-facets-body>
-          {%- render 'facets', results: collection, section_id: section.id, open_count: 4 -%}
+          {%- render 'facets', results: collection, filters: coll_filters, section_id: section.id, open_count: 5, hidden_values: section.settings.hidden_filter_values, total: collection.products_count, scope: section.settings.filter_scope, handle: collection.handle -%}
         </div>
         <div class="facets-panel__foot">
-          <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facets-clear>{{ 'collection.clear_all' | t }}</a>
-          <button type="button" class="btn" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
+          <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link data-facets-clear>{{ 'collection.clear_all' | t }}</a>
+          <button type="button" class="btn js-only" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
+          {%- comment -%} without JavaScript the same button sends the filter form (a submit button here would be the form's
+            default button and catch Enter in the price fields) {%- endcomment -%}
+          <button type="submit" form="FacetsForm-{{ section.id }}" class="btn no-js-only">{{ 'collection.show_results' | t: count: collection.products_count }}</button>
         </div>
       </aside>
       <div class="facets-backdrop" data-facets-close hidden></div>
     {%- endif -%}
 
     <div class="collection__results" id="ProductGridContainer-{{ section.id }}" data-results>
-      {%- if active_filters > 0 -%}
-        <div class="active-filters" aria-label="{{ 'collection.filter_count' | t: count: active_filters }}">
-          {%- for f in collection.filters -%}
-            {%- for v in f.active_values -%}
-              <a class="chip chip--active active-filters__pill" href="{{ v.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: v.label | escape }}">{{ f.label }}: {{ v.label }}{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
-            {%- endfor -%}
-            {%- if f.type == 'price_range' -%}
-              {%- if f.min_value.value != nil or f.max_value.value != nil -%}
-                {%- assign pmin = f.min_value.value | default: 0 | money_without_trailing_zeros -%}
-                {%- assign pmax = f.max_value.value | default: f.range_max | money_without_trailing_zeros -%}
-                <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link>{{ pmin }} – {{ pmax }}{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+      <div class="collection-bar" data-collection-bar>
+        {%- if has_filters -%}
+          <button type="button" class="collection-bar__btn collection-bar__filter js-only" data-facets-open aria-controls="FilterDrawer-{{ section.id }}" aria-expanded="false">
+            {%- render 'icon', icon: 'filter', class: 'icon--sm' -%}<span>{{ 'collection.filter' | t }}</span>
+            {%- if active_filters > 0 -%}<span class="facet__badge" data-active-count><span class="visually-hidden">, {{ 'collection.filter_count' | t: count: active_filters }}</span><span aria-hidden="true">{{ active_filters }}</span></span>{%- endif -%}
+          </button>
+          {%- comment -%} without JavaScript: a link to the drawer, which opens with :target {%- endcomment -%}
+          <a href="#FilterDrawer-{{ section.id }}" class="collection-bar__btn collection-bar__filter no-js-only">
+            {%- render 'icon', icon: 'filter', class: 'icon--sm' -%}<span>{{ 'collection.filter' | t }}</span>
+            {%- if active_filters > 0 -%}<span class="facet__badge" data-active-count><span class="visually-hidden">, {{ 'collection.filter_count' | t: count: active_filters }}</span><span aria-hidden="true">{{ active_filters }}</span></span>{%- endif -%}
+          </a>
+        {%- endif -%}
+        <p class="collection-bar__count" id="ProductCount-{{ section.id }}" tabindex="-1" data-results-count>{{ 'collection.products_count' | t: count: collection.products_count }}</p>
+        {%- if section.settings.enable_sorting -%}
+          <div class="collection-bar__btn collection-bar__sort{% if sort_by != sort_default %} is-active{% endif %}">
+            <span class="collection-bar__sort-face" aria-hidden="true">
+              <svg class="icon icon--sm collection-bar__sort-icon" viewBox="0 0 24 24" focusable="false"><path d="M7.5 4v15M3.5 15l4 4 4-4M16.5 20V5M12.5 9l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- comment -%} phone: 'Sorteren', or the chosen order itself once it is not the default ('Prijs laag-hoog') {%- endcomment -%}
+              <span class="collection-bar__sort-short" data-label="{{ 'collection.sort_short' | t | escape }}">{% if sort_by != sort_default %}{{ sort_label }}{% else %}{{ 'collection.sort_short' | t }}{% endif %}</span>
+              <span class="collection-bar__sort-long">{{ 'collection.sort_label' | t }}: <strong>{{ sort_label }}</strong></span>
+              {%- render 'icon', icon: 'chevron-down', class: 'icon--xs collection-bar__chev' -%}
+            </span>
+            <select class="collection-bar__select" id="SortBy-{{ section.id }}" name="sort_by" form="{{ sort_form }}" aria-label="{{ 'collection.sort_label' | t }}" data-sort>
+              {%- for sv in sort_values -%}
+                {%- if sv == sort_default -%}
+                  {%- assign sv_label = 'collection.sort_options.manual' | t -%}
+                {%- else -%}
+                  {%- assign sort_key = sv | replace: '-', '_' -%}
+                  {%- assign sort_label_key = 'collection.sort_options.' | append: sort_key -%}
+                  {%- assign sv_label = sort_label_key | t -%}
+                {%- endif -%}
+                <option value="{{ sv }}"{% if sv == sort_by %} selected{% endif %}>{{ sv_label }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+          {%- comment -%} without JavaScript the choice is sent with this button (with filters: together with the filter form) {%- endcomment -%}
+          <noscript><button type="submit" form="{{ sort_form }}" class="btn btn--sm btn--outline collection-bar__apply">{{ 'collection.apply' | t }}</button></noscript>
+          {%- unless has_filters -%}<form id="{{ sort_form }}" action="{{ collection.url }}" method="get" hidden></form>{%- endunless -%}
+        {%- endif -%}
+      </div>
+
+      <div class="collection-meta">
+        <p class="collection-meta__count" tabindex="-1">{{ 'collection.products_count' | t: count: collection.products_count }}</p>
+        {%- if active_filters > 0 -%}
+          <div class="active-filters" role="group" aria-label="{{ 'collection.filter_count' | t: count: active_filters }}">
+            {%- for f in coll_filters -%}
+              {%- for v in f.active_values -%}
+                {%- capture v_label -%}{%- render 'facet-value-label', filter: f, value: v -%}{%- endcapture -%}
+                {%- liquid
+                  # a yes/no filter ('Met jouw logo': true) reads as its name alone
+                  assign v_raw = v.value | append: '' | downcase
+                  assign v_switch = false
+                  if v_raw == 'true' or v_raw == '1'
+                    assign v_switch = true
+                    assign v_label = f.label
+                  endif
+                -%}
+                <a class="chip chip--active active-filters__pill" href="{{ v.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: v_label | escape }}">{% unless v_switch %}<span class="active-filters__group">{{ f.label }}:</span> {% endunless %}{{ v_label }}{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+              {%- endfor -%}
+              {%- if f.type == 'price_range' -%}
+                {%- if f.min_value.value != nil or f.max_value.value != nil -%}
+                  {%- liquid
+                    assign pmin_c = f.min_value.value | default: 0
+                    assign pmax_c = f.max_value.value | default: f.range_max
+                    if pmin_c > pmax_c
+                      assign p_swap = pmin_c
+                      assign pmin_c = pmax_c
+                      assign pmax_c = p_swap
+                    endif
+                    assign pmin = pmin_c | money_without_trailing_zeros
+                    assign pmax = pmax_c | money_without_trailing_zeros
+                  -%}
+                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ pmin }} – {{ pmax }}{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+                {%- endif -%}
               {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-          <a class="link active-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.clear_all' | t }}</a>
-        </div>
-      {%- endif -%}
+            {%- endfor -%}
+            <a class="link active-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.clear_all' | t }}</a>
+          </div>
+        {%- endif -%}
+      </div>
 
       {%- paginate collection.products by per_page -%}
         {%- if collection.products.size > 0 -%}
-          <ul class="grid product-grid" role="list" style="--cols: {{ section.settings.columns }}; --cols-tablet: 3">
+          {%- liquid
+            assign card_sizes = '(min-width: 1360px) 340px, (min-width: 990px) calc((100vw - 400px) / 3), (min-width: 750px) 33vw, calc(50vw - 22px)'
+            if section.settings.columns == 4
+              assign card_sizes = '(min-width: 1360px) 260px, (min-width: 990px) calc((100vw - 400px) / 4), (min-width: 750px) 33vw, calc(50vw - 22px)'
+            elsif section.settings.columns == 2
+              assign card_sizes = '(min-width: 990px) 500px, (min-width: 750px) 33vw, calc(50vw - 22px)'
+            endif
+            # the band sits after a full row on desktop (columns) and on the phone (2 columns): round up to a common multiple
+            assign promo_on = false
+            assign promo_at = 0
+            if section.settings.promo_position > 0
+              assign promo_step = section.settings.columns
+              assign col_mod = section.settings.columns | modulo: 2
+              if col_mod == 1
+                assign promo_step = section.settings.columns | times: 2
+              endif
+              assign promo_at = section.settings.promo_position | plus: promo_step | minus: 1 | divided_by: promo_step | times: promo_step
+            endif
+            if promo_at > 0 and section.settings.promo_heading != blank and paginate.current_page == 1 and collection.products.size > promo_at
+              assign promo_on = true
+            endif
+          -%}
+          {%- if paginate.previous -%}
+            <div class="load-prev" data-load-prev>
+              <a class="btn btn--outline load-prev__btn" href="{{ paginate.previous.url }}" data-load-prev-btn>{%- render 'icon', icon: 'chevron-up', class: 'icon--xs' -%}{{ 'collection.load_previous' | t }}</a>
+            </div>
+          {%- endif -%}
+          <h2 class="visually-hidden" id="ProductsTitle-{{ section.id }}">{{ 'collection.products_heading' | t: title: collection.title }}</h2>
+          <ul class="grid product-grid" role="list" style="--cols: {{ section.settings.columns }}; --cols-tablet: 3" data-product-grid data-first-page="{{ paginate.current_page }}" aria-labelledby="ProductsTitle-{{ section.id }}">
             {%- for product in collection.products -%}
-              <li>
-                {%- assign card_priority = false -%}
-                {%- if forloop.index <= 2 -%}{%- assign card_priority = true -%}{%- endif -%}
-                {%- render 'product-card', product: product, priority: card_priority, sizes: '(min-width: 1200px) 320px, (min-width: 990px) 30vw, (min-width: 750px) 33vw, 50vw' -%}
+              <li class="product-grid__item">
+                {%- liquid
+                  # first row in view: the two cards a phone shows load with high priority, the rest of the desktop row eagerly
+                  assign card_priority = false
+                  if paginate.current_page == 1
+                    if forloop.index <= 2
+                      assign card_priority = true
+                    elsif forloop.index <= section.settings.columns
+                      assign card_priority = 'eager'
+                    endif
+                  endif
+                -%}
+                {%- render 'product-card', product: product, priority: card_priority, sizes: card_sizes, color: active_color, show_sizes: false -%}
               </li>
-              {%- if forloop.index == section.settings.promo_position and section.settings.promo_heading != blank and paginate.current_page == 1 -%}
-                <li class="product-grid__promo color-scheme-4">
-                  <p class="eyebrow">{%- render 'icon', icon: 'case', class: 'icon--xs' -%} {{ section.settings.promo_eyebrow }}</p>
-                  <p class="h3">{{ section.settings.promo_heading }}</p>
-                  <p class="muted">{{ section.settings.promo_text }}</p>
-                  <a class="btn btn--sm" href="{{ section.settings.promo_link | default: settings.quote_page }}">{{ section.settings.promo_label }}</a>
+              {%- if promo_on and forloop.index == promo_at -%}
+                <li class="promo-band color-scheme-4">
+                  <div class="promo-band__media">
+                    {%- if section.settings.promo_image != blank -%}
+                      {{ section.settings.promo_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 420px, 100vw', alt: section.settings.promo_image.alt | default: '' }}
+                    {%- else -%}
+                      {%- render 'fallback-image', key: 'scene-zakelijk', alt: '' -%}
+                    {%- endif -%}
+                  </div>
+                  <div class="promo-band__body">
+                    {%- if section.settings.promo_eyebrow != blank -%}<p class="eyebrow promo-band__eyebrow">{%- render 'icon', icon: 'case', class: 'icon--xs' -%}{{ section.settings.promo_eyebrow }}</p>{%- endif -%}
+                    <p class="promo-band__title h3">{{ section.settings.promo_heading }}</p>
+                    {%- if section.settings.promo_text != blank -%}<p class="promo-band__text">{{ section.settings.promo_text }}</p>{%- endif -%}
+                    {%- if section.settings.promo_label != blank -%}
+                      <a class="btn btn--sm promo-band__btn" href="{{ section.settings.promo_link | default: settings.quote_page | default: routes.root_url }}">{{ section.settings.promo_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
+                    {%- endif -%}
+                  </div>
                 </li>
               {%- endif -%}
             {%- endfor -%}
           </ul>
-          {%- render 'pagination', paginate: paginate -%}
+          {%- if paginate.pages > 1 -%}
+            {%- liquid
+              assign shown = paginate.current_offset | plus: collection.products.size
+              assign shown_from = paginate.current_offset | plus: 1
+              assign bar_from = paginate.current_offset | times: 100.0 | divided_by: paginate.items | round: 1
+              assign bar_width = collection.products.size | times: 100.0 | divided_by: paginate.items | round: 1
+            -%}
+            <div class="load-more" data-load-more data-from="{{ shown_from }}" data-to="{{ shown }}" data-total="{{ paginate.items }}" data-tpl-all="{{ 'collection.progress' | t: shown: '[to]', total: '[total]' | escape }}" data-tpl-range="{{ 'collection.progress_range' | t: from: '[from]', to: '[to]', total: '[total]' | escape }}">
+              <p class="load-more__progress" data-progress>
+                {%- if shown_from > 1 -%}{{ 'collection.progress_range' | t: from: shown_from, to: shown, total: paginate.items }}{%- else -%}{{ 'collection.progress' | t: shown: shown, total: paginate.items }}{%- endif -%}
+              </p>
+              <div class="load-more__bar" aria-hidden="true"><span data-progress-bar style="margin-left: {{ bar_from }}%; width: {{ bar_width }}%"></span></div>
+              {%- if paginate.next -%}
+                <a class="btn btn--outline load-more__btn js-only" href="{{ paginate.next.url }}" data-load-more-btn>{{ 'collection.load_more' | t }}</a>
+              {%- endif -%}
+              <div class="load-more__pages">{%- render 'pagination', paginate: paginate -%}</div>
+            </div>
+          {%- endif -%}
         {%- else -%}
           <div class="empty-state">
             {%- if active_filters > 0 -%}
@@ -176,14 +286,17 @@
   "blocks": [ { "type": "@app" } ],
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema kop", "default": "scheme-1" },
-    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Producten per pagina", "default": 24 },
-    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 3 },
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Producten per pagina", "default": 24, "info": "Daarna laadt de knop 'Meer laden' de volgende producten erbij." },
+    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "label": "Kolommen desktop", "default": 3 },
     { "type": "checkbox", "id": "show_description", "label": "Collectiebeschrijving tonen als er geen intro is", "default": true },
-    { "type": "link_list", "id": "menu", "label": "Menu voor subcategorieën", "default": "main-menu", "info": "De chips onder de titel zijn de onderliggende links van deze collectie in dit menu." },
+    { "type": "link_list", "id": "menu", "label": "Menu voor subcategorieën", "default": "main-menu", "info": "Kruimelpad en de knoppen onder de titel komen uit dit menu: de onderliggende links van deze collectie, of bij een laatste niveau de collecties ernaast." },
     { "type": "checkbox", "id": "enable_filtering", "label": "Filters", "default": true, "info": "Filters stel je in met de app Search & Discovery." },
+    { "type": "textarea", "id": "hidden_filter_values", "label": "Tags niet als filter tonen", "default": "pallet, zakelijk, bedrukbaar, set, badge:nieuw, badge:actie", "info": "Interne tags (komma's ertussen) die niet in het filter 'Gebruik' horen. Tags als 'gebruik:horeca' tonen we als 'Horeca'." },
+    { "type": "textarea", "id": "filter_scope", "label": "Filters alleen op deze collecties", "default": "Past op: accessoires, partytent-onderdelen, easy-up-onderdelen, buizenframe-onderdelen, zijwanden, gewichten-en-verankering, tassen-en-wielsets, verlichting, verwarming", "info": "Eén filter per regel: 'Filternaam: collectie-handle, collectie-handle'. Op andere collecties blijft dat filter weg." },
     { "type": "checkbox", "id": "enable_sorting", "label": "Sorteren", "default": true },
-    { "type": "header", "content": "Zakelijk-tegel in het raster" },
-    { "type": "range", "id": "promo_position", "min": 0, "max": 12, "step": 1, "label": "Na product nr. (0 = uit)", "default": 5 },
+    { "type": "header", "content": "Zakelijk-band in het raster" },
+    { "type": "range", "id": "promo_position", "min": 0, "max": 12, "step": 1, "label": "Na product nr. (0 = uit)", "default": 6 },
+    { "type": "image_picker", "id": "promo_image", "label": "Beeld", "info": "Leeg: de zakelijke opstelling uit de theme." },
     { "type": "text", "id": "promo_eyebrow", "label": "Bovenregel", "default": "Klapklaar Zakelijk" },
     { "type": "text", "id": "promo_heading", "label": "Kop", "default": "Meer dan 10 nodig?" },
     { "type": "text", "id": "promo_text", "label": "Tekst", "default": "Staffelprijs, prijzen excl. btw en een offerte op maat." },

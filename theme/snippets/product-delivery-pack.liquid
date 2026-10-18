@@ -1,0 +1,26 @@
+{%- comment -%}
+  Carrier and parcel line under the delivery promise on the product page (feature product.shipping-method-label):
+  'Pakketdienst · verpakt 155 × 28 × 28 cm · 27 kg' or 'Palletvervoer …', from custom.verzending (or tag 'pallet'),
+  custom.verpakt and the weight of the chosen variant (variant.weight, grams; Heavy duty PVC is heavier than polyester), else
+  custom.gewicht_kg. Renders nothing without packed size and weight. Params: product, variant.
+{%- endcomment -%}
+{%- liquid
+  assign ship_class = product.metafields.custom.verzending.value | default: 'pakket' | downcase
+  if product.tags contains 'pallet'
+    assign ship_class = 'pallet'
+  endif
+  assign packed = product.metafields.custom.verpakt.value
+  assign kg = product.metafields.custom.gewicht_kg.value
+  if variant.weight > 0
+    assign kg = variant.weight | divided_by: 1000.0
+  endif
+-%}
+{%- if packed != blank or kg != blank -%}
+  <p class="delivery__pack">
+    {%- render 'icon', icon: 'box', class: 'icon--sm' -%}
+    <span><strong>{% if ship_class == 'pallet' %}{{ 'product.ship_pallet' | t }}{% else %}{{ 'product.ship_parcel' | t }}{% endif %}</strong>
+      {%- if packed != blank %} · {{ 'product.packed' | t | downcase }} {{ packed | replace: ' x ', ' × ' }}{% endif -%}
+      {%- if kg != blank %} · {{ kg | round: 1 | replace: '.', ',' | remove: ',0' }} kg{% endif -%}
+    </span>
+  </p>
+{%- endif -%}

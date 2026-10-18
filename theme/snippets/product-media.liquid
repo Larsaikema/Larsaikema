@@ -1,0 +1,32 @@
+{%- comment -%}
+  One slide of the main product gallery by media type: image (zoom button; the featured one eager with
+  fetchpriority=high), uploaded video (own controls, preload none), YouTube / Vimeo (lazy iframe), 3D model
+  (Shopify model-viewer). assets/product-media.js pauses video out of view and loads the model viewer UI.
+  Params: media, product, featured_index, index (0-based).
+{%- endcomment -%}
+{%- assign zoom_n = index | plus: 1 -%}
+{%- assign m_alt = media.alt | default: product.title -%}
+{%- case media.media_type -%}
+  {%- when 'video' -%}
+    {%- comment -%} uploaded video: own controls, nothing loads before play {%- endcomment -%}
+    <div class="gallery__frame" data-gallery-video>{{ media | video_tag: image_size: '1100x', controls: true, preload: 'none', playsinline: true }}</div>
+  {%- when 'external_video' -%}
+    <div class="gallery__frame" data-gallery-video>
+      {%- if media.host == 'youtube' -%}
+        {{ media | external_video_url: rel: 0, enablejsapi: 1 | external_video_tag: loading: 'lazy', title: m_alt }}
+      {%- else -%}
+        {{ media | external_video_url | external_video_tag: loading: 'lazy', title: m_alt }}
+      {%- endif -%}
+    </div>
+  {%- when 'model' -%}
+    {%- comment -%} 3D model: Shopify's model-viewer (UI loaded by product-media.js via Shopify.loadFeatures) {%- endcomment -%}
+    <div class="gallery__frame" data-gallery-model>{{ media | model_viewer_tag: image_size: '1100x', reveal: 'interaction', toggleable: true, data-model-id: media.id, alt: m_alt }}</div>
+  {%- else -%}
+    <button type="button" class="gallery__zoom" data-gallery-zoom="{{ index }}" aria-label="{{ 'product.gallery_zoom' | t: index: zoom_n }}">
+      {%- if index == featured_index -%}
+        {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), (min-width: 750px) 48vw, 100vw', widths: '390, 560, 760, 900, 1100, 1400', priority: true, alt: m_alt -%}
+      {%- else -%}
+        {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), (min-width: 750px) 48vw, 100vw', widths: '390, 560, 760, 900, 1100, 1400', alt: m_alt -%}
+      {%- endif -%}
+    </button>
+{%- endcase -%}

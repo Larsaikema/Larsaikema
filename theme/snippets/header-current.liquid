@@ -1,0 +1,35 @@
+{%- comment -%}
+  Header only. Prints 'yes' when a menu link points at exactly the page being shown: the same path and the same
+  storefront filters (every filter.* parameter, URL-decoded, in any order; sort_by and page do not count). Shopify's
+  link.current ignores the query string, so a size chip ('…?filter.v.option.maat=3+x+3+m') would count as current on
+  its whole collection, and every chip would look selected.
+  Params: url (link.url), here (key of the shown page, built once in sections/header.liquid as path + '?' + its active
+  filter parameters, sorted and joined with '|')
+  Use: {%- capture cur -%}{% render 'header-current', url: link.url, here: here %}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign hc_parts = url | split: '#' | first | split: '?'
+  assign hc_path = hc_parts.first | default: '/'
+  if hc_path.size > 1
+    assign hc_last = hc_path | slice: -1
+    if hc_last == '/'
+      assign hc_path = hc_path | remove_last: '/'
+    endif
+  endif
+  assign hc_list = ''
+  if hc_parts.size > 1
+    assign hc_pairs = hc_parts[1] | split: '&'
+    for hc_p in hc_pairs
+      assign hc_d = hc_p | url_decode
+      assign hc_head = hc_d | slice: 0, 7
+      if hc_head == 'filter.'
+        assign hc_list = hc_list | append: hc_d | append: '|'
+      endif
+    endfor
+  endif
+  assign hc_key = hc_list | split: '|' | sort | join: '|'
+  assign hc_full = hc_path | append: '?' | append: hc_key
+  if hc_full == here
+    echo 'yes'
+  endif
+-%}

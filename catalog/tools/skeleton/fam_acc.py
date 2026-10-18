@@ -17,8 +17,14 @@ def simple(h, title, ptype, tags, options, variants, images, mf, covers, family,
         p.update(extra)
     return add(p)
 
+EU_PRINT = ['easy-up-partytent-premium-met-logo-op-de-luifel', 'easy-up-partytent-professional-met-logo-op-de-luifel',
+            'easy-up-partytent-professional-full-colour-bedrukt']
+
+
 def build():
     EU = eu_all()
+    # the printed easy-ups are the same frames: everything they offer as an add-on lists them in past_op too (new list, never +=)
+    EUX = EU + EU_PRINT
     # ------------------------------------------------------------ verzwaring & verankering
     # one voetgewicht per poot: set of 4 (2x2, 3x3, 4x4), 6 (3x4,5, 3x6, 4x6, 4x8), 8 (5x5)
     VG = [('Set van 4', 159.0, 60000, 'S4'), ('Set van 6', 235.0, 90000, 'S6'), ('Set van 8', 309.0, 120000, 'S8'), ('1 stuk', 42.95, 15000, '1')]
@@ -27,7 +33,7 @@ def build():
            [img('voetgewicht-easy-up-15-kg-hero.webp', 'hero', 1, 'gewichten', {'count': 2, 'stacks': 4}, 'hero', None, 'existing', alt='set van 4 (2 platen van 7,5 kg per poot)'),
             img('voetgewicht-easy-up-15-kg-op-poot.webp', 'in-gebruik', 2, 'easyUpTent', {'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit', 'weights': 2}, 'detail', 'Wit', 'existing',
                 alt='twee platen om de poot van een easy-up (tent niet inbegrepen)')],
-           {'kenmerk_kort': '2 platen van 7,5 kg per poot · poten tot 50 mm', 'staffelkorting': ST_GEWICHT, 'past_op': EU, 'verzending': 'pakket',
+           {'kenmerk_kort': '2 platen van 7,5 kg per poot · poten tot 50 mm', 'staffelkorting': ST_GEWICHT, 'past_op': EUX, 'verzending': 'pakket',
             'specificaties': [sp('Gewicht', 'Per poot', '15 kg (2 stapelbare platen van 7,5 kg)'), sp('Materiaal', 'Plaat', 'Gietijzer, zwart gecoat'),
                               sp('Pasvorm', 'Poten', 'Zeskant 40 en 50 mm'), sp('Afmetingen', 'Plaat', 'Ø 25 cm, 3,4 cm dik')],
             'gewicht_kg': 15, 'verpakt': '27 x 27 x 8 cm per paar platen', 'garantie': None},
@@ -54,16 +60,17 @@ def build():
            ['watergewicht partytent', 'waterzak tent', 'watergewichten opblaasbare tent'], {'outmate': 'watergewichtzakken 4x20 kg €99', 'ours': 89.0})
     simple('spanbanden-en-haringen-easy-up','Spanbanden en haringen voor easy-up (set)', 'Verankering', ['gebruik:tuinfeest', 'gebruik:markt'], [],
            [variant('KK-VER-SPH-44', [], 17.95, 1400, 50)],
-           [img('spanbanden-en-haringen-easy-up-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'zwart', 'position': [-0.15, 0, 0]},
-                                                                                          {'model': 'haringen', 'count': 4, 'length': 0.3, 'position': [0.2, 0, 0]}]}, 'hero', None, 'existing')],
-           {'kenmerk_kort': '4 spanbanden ca. 3 m + 4 haringen 30 cm + opbergzak', 'past_op': EU, 'verzending': 'pakket', 'gewicht_kg': 1.4},
+           [img('spanbanden-en-haringen-easy-up-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'zwart', 'position': [-0.32, 0, -0.06]},
+                                                                                          {'model': 'haringen', 'count': 4, 'length': 0.3, 'position': [0.26, 0, 0.16]}]}, 'hero', None, 'existing',
+                alt='4 spanbanden en 4 haringen van 30 cm')],
+           {'kenmerk_kort': '4 spanbanden ca. 3 m + 4 haringen 30 cm + opbergzak', 'past_op': EUX, 'verzending': 'pakket', 'gewicht_kg': 1.4},
            ['easy-up-accessoires.easy-up-bevestiging'], 'verankering', 'Basisverankering op gras: banden van dakhoek naar haring; altijd gebruiken, ook als het rustig lijkt.',
            ['haringen easy up', 'spanbanden partytent'], {'outmate': '€19,99', 'ours': 17.95})
     SB = {'3 m breed': 18.95, '4 m breed': 21.95, '5 m breed': 24.95, '6 m breed': 27.95, '8 m breed': 32.95}
     simple('stormbandenset-partytent', 'Stormbandenset partytent', 'Verankering', ['gebruik:evenement'], [opt('Maat', list(SB))],
            [variant(f'KK-VER-STB-{code(m.split()[0] + " m")}', [m], p, 1800 + 200 * i, inv(10, m + 'stb')) for i, (m, p) in enumerate(SB.items())],
            [img('stormbandenset-partytent-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'oranje', 'length': 12, 'position': [-0.15, 0, 0]},
-                                                                                    {'model': 'haringen', 'count': 2, 'length': 0.75, 'position': [0.25, 0, 0]}]}, 'hero', None, 'needs-param')],
+                                                                                    {'model': 'haringen', 'count': 2, 'length': 0.75, 'position': [0.25, 0, 0]}]}, 'hero', None, 'existing')],
            {'kenmerk_kort': '1 band over het dak + 2 lange haringen per set', 'verzending': 'pakket'},
            ['partytent-onderdelen-accessoires.stormbandensets'], 'buizenframe', 'Per tentbreedte één set over het dak; hoeveel sets per lengte (elke 2 m). Voor buizenframe- en opslagtenten.',
            ['stormband partytent', 'stormbanden set'], {'outmate': '1 set €16–€24', 'ours': SB},
@@ -78,13 +85,15 @@ def build():
             'specificaties': [sp('Haring', 'Materiaal', 'Thermisch verzinkt hoekijzer 30 x 30 mm')]},
            ['partytent-onderdelen-accessoires.bevestigingsmaterialen'], 'verankering', 'Welke haring in welke grond (lang in zacht, draaiharing in los zand), elastieken voor wanden.',
            ['lange haringen partytent', 'tentelastieken'], {'outmate': '50 cm €6,95 · 75 cm €12,50 · 100 cm €15 · draaiharing 4 st €7,50', 'ours': {b[0]: b[1] for b in BV}})
-    BB = [('140 kg', 109.0, 140000, '140'), ('500 kg', 219.0, 500000, '500'), ('1000 kg', 299.0, 1000000, '1000')]
+    # 120 tot 1000 kg like the reference range, plus a 500 kg block with M16 inserts for a truss-voetplaat
+    BB = [('120 kg', 99.0, 120000, '120'), ('140 kg', 109.0, 140000, '140'), ('240 kg', 149.0, 240000, '240'), ('500 kg', 219.0, 500000, '500'),
+          ('750 kg', 259.0, 750000, '750'), ('1000 kg', 299.0, 1000000, '1000'), ('500 kg met M16-inserts voor truss', 239.0, 500000, '500T')]
     simple('betonblok-ballast-tent', 'Betonblok ballast voor tenten', 'Verzwaring', ['zakelijk', 'pallet', 'gebruik:evenement'],
            [opt('Uitvoering', [b[0] for b in BB])], [variant(f'KK-GEW-BETON-{c}', [n], p, g, None, tracked=False) for n, p, g, c in BB],
            [img('betonblok-ballast-tent-hero.webp', 'hero', 1, 'concreteBlock', {'weight': 500, 'lifting': 'lepelgat'}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Ballast met lepelgat · 140, 500 of 1000 kg · levering op pallet', 'verzending': 'pallet', 'levertijd': 'Levertijd 5–8 werkdagen (vracht)'},
+           {'kenmerk_kort': 'Ballast met lepelgat · 120 tot 1000 kg · ook voor truss · op pallet', 'verzending': 'pallet', 'levertijd': 'Levertijd 5–8 werkdagen (vracht)'},
            ['partytent-onderdelen-accessoires.betonblokken'], 'verankering', 'Ballast voor evenementen op verharding (stretch-, ster- en grote tenten); levering met vracht, afladen met heftruck of kraan.',
-           ['betonblok tent', 'ballast evenement'], {'outmate': '140 kg €117 · 500 kg €235 · 1000 kg €319', 'ours': {b[0]: b[1] for b in BB}})
+           ['betonblok tent', 'ballast evenement'], {'outmate': '140 kg €117 · 500 kg €235 · 1000 kg €319 (ook 120, 240 en 750 kg en een truss-versie M16)', 'ours': {b[0]: b[1] for b in BB}})
 
     # ------------------------------------------------------------ tassen & wielen
     SIZES8 = ['2 x 2 m', '3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
@@ -93,14 +102,14 @@ def build():
     simple('beschermhoes-easy-up', 'Beschermhoes easy-up partytent', 'Tas & wielset', ['gebruik:tuinfeest'], [opt('Maat', SIZES8)],
            [variant(f'KK-TAS-BH-{code(m)}', [m], p, 900 + 100 * i, inv(8, m + 'bh')) for i, (m, p) in enumerate(zip(SIZES8, BH))],
            [img('beschermhoes-easy-up-hero.webp', 'hero', 1, 'draagtas', {'height': 1.55, 'color': 'zwart'}, 'hero', None, 'existing')],
-           {'kenmerk_kort': 'Schuift over frame en dak · 2 handvatten · gesp', 'past_op': EU, 'verzending': 'pakket'},
+           {'kenmerk_kort': 'Schuift over frame en dak · 2 handvatten · gesp', 'past_op': EUX, 'verzending': 'pakket'},
            ['easy-up-accessoires.easy-up-transport'], 'tassen', 'Stofhoes voor opslag in schuur of bus; maat = tentmaat; past op Premium en Professional.',
            ['beschermhoes easy up', 'hoes vouwtent'], {'outmate': '€19,99–€27,50', 'ours': dict(zip(SIZES8, BH))})
-    simple('wieltas-easy-up', 'Wieltas easy-up partytent', 'Tas & wielset', ['zakelijk', 'gebruik:evenement', 'badge:nieuw'], [opt('Maat', SIZES8)],
+    simple('wieltas-easy-up', 'Wieltas easy-up partytent', 'Tas & wielset', ['zakelijk', 'gebruik:evenement'], [opt('Maat', SIZES8)],
            [variant(f'KK-TAS-WT-{code(m)}', [m], p, 3000 + 300 * i, inv(5, m + 'wt')) for i, (m, p) in enumerate(zip(SIZES8, WT))],
            [img('wieltas-easy-up-hero.webp', 'hero', 1, 'draagtas', {'height': 1.7, 'color': 'zwart', 'wheels': True, 'logo': True}, 'hero', None, 'needs-param'),
             img('wieltas-easy-up-detail.webp', 'detail', 3, 'draagtas', {'height': 1.7, 'color': 'zwart', 'wheels': True}, 'detail', None, 'needs-param', alt='wielen en handgreep')],
-           {'kenmerk_kort': '600D polyester · 2 wielen · rits over de volle lengte', 'past_op': EU, 'verzending': 'pakket'},
+           {'kenmerk_kort': '600D polyester · 2 wielen · rits over de volle lengte', 'past_op': EUX, 'verzending': 'pakket'},
            ['easy-up-accessoires.easy-up-transport'], 'tassen', 'Rijden in plaats van tillen: voor wie de tent vaak verplaatst; bij Professional al inbegrepen (zeg dat), extra of vervanging.',
            ['wieltas partytent', 'tas met wielen easy up'], {'ours': dict(zip(SIZES8, WT)), 'note': 'geen referentieprijs gevonden'})
     simple('wielset-easy-up', 'Wielset easy-up (4 zwenkwielen)', 'Tas & wielset', ['zakelijk'], [],
@@ -208,7 +217,9 @@ def build():
     simple('zijwand-partytent-2-m-pvc', 'Zijwand partytent buizenframe 2 m (PVC of PE)', 'Zijwand', ['gebruik:evenement'],
            [opt('Maat', ['2 x 2 m', '2 x 2,2 m']), opt('Uitvoering', ZW2U)],
            [variant(f'KK-ZW-BF-2M-{c}', [m, n], p, g, inv(20, c + 'zw2')) for m, n, p, c, g in ZW2],
-           [img('zijwand-partytent-2-m-pvc-hero.webp', 'hero', 1, 'sideWall', {'length': 2, 'height': 2.0, 'type': 'windows', 'color': 'wit', 'material': 'pvc'}, 'hero', 'Wit', 'needs-model')],
+           # the walls in use: the render of the PVC 550 Premium with its window walls (alt: tent not included)
+           [img('partytent-pvc-550-premium-hero.webp', 'hero', 1, 'frameTent', {'w': 4, 'd': 8, 'line': 'pvc', 'color': 'wit', 'walls': 'windows'}, 'hero', 'Wit', 'existing',
+                extra={'shared_with': 'partytent-pvc-550-premium'})],
            {'kenmerk_kort': 'Paneel 2 m · 200 of 220 cm hoog · PVC of PE', 'verzending': 'pakket', 'past_op': bf_handles,
             'specificaties': [sp('Wand', 'Breedte', '2 m (één vak tussen twee staanders)'), sp('Wand', 'Hoogte', '200 cm (2 x 2 m) of 220 cm (2 x 2,2 m, PVC 620 Professional)'),
                               sp('Wand', 'PVC', 'PVC 500 g/m² (200 cm) of 620 g/m² (220 cm), gelaste naden'), sp('Wand', 'PE', 'PE 180 g/m², voor de PE Basis')]},
@@ -223,7 +234,9 @@ def build():
            [variant(f'KK-ZW-BF-{"EW" if u.startswith("Eindwand") else "TW"}-{code(m)}' + ('-220' if '220' in u else ''), [m, u],
                     p + (0 if u.startswith('Eindwand') else 5) + (10 if '220' in u else 0), 2500 + 600 * i + (300 if '220' in u else 0), inv(4, m + u))
             for i, (m, p) in enumerate(ET.items()) for u in ETU if '220' not in u or m in ET220],
-           [img('eindwand-en-tussenwand-partytent-hero.webp', 'hero', 1, 'sideWall', {'length': 4, 'height': 2.0, 'gable': True, 'type': 'door', 'color': 'wit', 'material': 'pvc'}, 'hero', 'Wit', 'needs-model')],
+           # the kopse kant of the PVC 550 Premium (front view: eindwand tot in de nok, with the deur)
+           [img('partytent-pvc-550-premium-front.webp', 'hero', 1, 'frameTent', {'w': 4, 'd': 8, 'line': 'pvc', 'color': 'wit', 'walls': 'windows', 'door': 'open'}, 'front', 'Wit', 'existing',
+                extra={'shared_with': 'partytent-pvc-550-premium'})],
            {'kenmerk_kort': 'Kopse wand met ritsen · tot de nok · PVC · 200 of 220 cm', 'verzending': 'pakket', 'past_op': bf_handles},
            ['partytent-onderdelen-accessoires.eindwanden', 'partytent-onderdelen-accessoires.tussenwanden'], 'buizenframe',
            'Eindwand (kopse kant tot in de nok) of tussenwand om de tent in twee ruimtes te delen; maat = tentbreedte.',
@@ -247,7 +260,9 @@ def build():
            ['reparatieset partytent', 'pvc tentdoek repareren'], {'note': 'geen referentieprijs gevonden'})
 
     # ------------------------------------------------------------ opslagtenten
-    OS = {'3 x 4 m': (369, 459, 529), '4 x 6 m': (519, 669, 719), '4 x 8 m': (619, 799, None), '5 x 10 m': (779, 1039, 1099), '6 x 12 m': (1099, 1299, 1569)}
+    # 3 x 6 m and the PVC 620 Professional in 4 x 8 m added after the merchandising review (the reference sells both)
+    OS = {'3 x 4 m': (369, 459, 529), '3 x 6 m': (449, 549, 619), '4 x 6 m': (519, 669, 719), '4 x 8 m': (619, 799, 869), '5 x 10 m': (779, 1039, 1099),
+          '6 x 12 m': (1099, 1299, 1569)}
     OSU = ['PVC 500', 'PVC 550', 'PVC 620 Professional']
     vs = []
     for m, prs in OS.items():

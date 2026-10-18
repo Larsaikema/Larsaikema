@@ -13,6 +13,10 @@ for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
     HANDLES[h]['metafields']['addons'] = [a for a in HANDLES[h]['metafields']['addons'] if a != 'beschermplaat-statafel']
     HANDLES[h].setdefault('complementary', []).append('beschermplaat-statafel')
 errors = []
+# every barkruk: the kar for 24 barkrukken goes along once per order line (merchandising review: no dead-end barkruk pages)
+for p in PRODUCTS:
+    if p['product_type'] == 'Barkruk':
+        p['metafields']['addon_eenmalig'] = ['transportkar-klaptafels-en-stoelen']
 # add-ons per variant (custom.addon_varianten / addon_aantallen) + product-level union, then staffels on every bundle
 kk_addons.apply(errors)
 # every zakelijk line says something on the B2B route: a staffel of its family (price band) when it has none yet
@@ -123,6 +127,14 @@ for p in PRODUCTS:
             v['image'] = vmap.get(v[f'option{names.index(vby) + 1}'])
         else:
             v['image'] = None
+# Shopify Standard Product Taxonomy category (CSV 'Product Category', seed script category GID), see kk_site.product_category
+for p in PRODUCTS:
+    pc = site.product_category(p)
+    if not pc:
+        errors.append(f'{p["handle"]}: no product category for type {p["product_type"]!r}')
+        continue
+    p['product_category'] = pc[0]
+    p['product_category_id'] = 'gid://shopify/TaxonomyCategory/' + pc[1]
 for p in PRODUCTS:
     files = {i['file'] for i in p['images']}
     for k, f_ in (p.get('variant_images') or {}).items():
@@ -185,8 +197,10 @@ errors += [f'uncovered {m}' for m in missing] + [f'bad cover key {b}' for b in b
 
 # ---------------------------------------------------------------- copy groups
 EU_SETS = ['starterspakket-easy-up-premium', 'compleet-pakket-easy-up-professional']
-STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar', 'pakket-statafels-stretchrokken-transportkar']
-G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank-220', 'los-statafelblad', 'voetdoppen-set-van-4']
+STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar',
+           'pakket-5-statafels-stretchrokken-transportkar', 'pakket-10-statafels-stretchrokken-transportkar', 'pakket-15-statafels-stretchrokken-transportkar']
+G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank-220', 'los-statafelblad', 'voetdoppen-set-van-4',
+             'onderdelen-statafel']
 BF_TENTS = [p['handle'] for p in PRODUCTS if p['product_type'] == 'Partytent']
 SEATS = ['barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'klapstoel', 'stapelstoel-cross-back', 'zitkussen-stoel-en-barkruk',
          'barkruk-velours-stapelbaar', 'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'kruk-laag-stapelbaar', 'stapelstoel-metaal',
@@ -265,7 +279,8 @@ doc['meta'] = {
         'images': 'catalog/images/<file>; render spec = renders/render.mjs spec (model + params + angle). model_status: existing | needs-param | needs-patch (brand/tools/renders-svgprint.patch) | needs-model.',
         'quantity_rule': 'used for per-meter/per-m² and min-10 products; Shopify enforces variant quantity rules only in B2B catalogs, so the theme must also respect it (quantity-input min/step) and the copy must state the minimum.',
         'specs': 'specificaties, gewicht_kg, verpakt and "wat zit erin" are product DEFINITIONS (proposals) to confirm with the supplier before launch.',
-        'inventory': 'placeholder stock; untracked (inventory_management null) = made to order / bundle / maatwerk.',
+        'inventory': 'no real stock count yet: every shipped variant is tracked with 0 on hand and policy continue (shows the levertijd / backorder text, never an invented "Op voorraad" or "Nog x op voorraad"); the owner enters real counts before launch. Gift card: untracked.',
+        'product_category': 'Shopify Standard Product Taxonomy ' + site.TAXONOMY_VERSION + ': product_category = full path (CSV), product_category_id = category GID (seed script).',
     },
     'counts': {'products': len(PRODUCTS), 'variants': sum(len(p['variants']) for p in PRODUCTS), 'collections': len(cols),
                'renders_unique': len(renders), 'renders_by_priority': dict(sorted(by_prio.items())), 'renders_by_model_status': dict(by_status)},
@@ -275,6 +290,10 @@ doc['contract_extensions'] = [
     {'what': 'collections partytenten-buizenframe, opslagtenten, overkappingen-en-schaduwdoeken, stretch-statafelrokken', 'why': 'Assortment categories without a contract handle; needed for menus and coverage. Generic collection template, no theme work.'},
     {'what': 'collections easy-up-onderdelen, buizenframe-onderdelen, verwarming, evenement', 'why': 'Merchandising review: partytent-onderdelen and zijwanden mixed easy-up and buizenframe parts; verwarming was a filter URL on accessoires; the marktkraam (€479–€729) sat between € 5 parts. Manual (onderdelen, from custom.systeem) or smart (type). Also in CONTRACT.md.'},
     {'what': 'product metafield custom.systeem (list.single_line_text_field)', 'why': 'Tent system a product is or fits: Easy-up, Buizenframe, Stretchtent, Stertent, Opblaasbare tent (from past_op). Storefront filter (Search & Discovery) on partytent-onderdelen / zijwanden. Also in CONTRACT.md.'},
+    {'what': 'collections barkrukken, stoelen-en-banken, tafels, transportkarren, prikkabels, lampen-en-lichtslangen, topcovers-en-beschermplaten, tafelhoezen, statafel-onderdelen',
+     'why': 'Merchandising review: the main-menu links Barkrukken, Stoelen/krukken/banken, Tafels, Transportkarren, Prikkabels, Lampen en slangen, Tafelhoezen and Statafel-onderdelen were filter URLs on meubilair / verlichting / statafelrokken (page title of the parent, no own intro, no indexable landing page). Smart on product type (statafel-onderdelen: manual), each with intro, seo_tekst and kenmerken. Generic collection template, no theme work. Also in CONTRACT.md.'},
+    {'what': 'product field product_category / product_category_id (Shopify Standard Product Taxonomy)',
+     'why': 'Google Shopping category and the Kleur → shopify.color-pattern link. CSV column Product Category = full path; the seed script sets productCreate category = GID. Mapping in kk_site.py, checked against the taxonomy file.'},
     {'what': 'product metafield custom.addon_eenmalig (list.product_reference)', 'why': 'Add-ons added once per order line instead of x the main quantity (transportkar on a statafel: 10 statafels + 1 kar). Theme: data-addon-follow=false on that add-on. Also in CONTRACT.md.'},
     {'what': 'Uitvoering values beyond the contract examples', 'why': 'Dakdoek (Polyester / Heavy duty PVC), pack sizes (Set van 4 / 6 / 8 / 1 stuk), part names, print scope (Effen doek / Full colour bedrukt, Effen kap / Bedrukte kap), Zonder / Met parasolgat. Spelling fixed in this file.'},
     {'what': 'Maat values beyond the contract list', 'why': '2 x 2 m, 5 x 5 m, buizenframe/stretch sizes (3 x 4 m, 10,5 x 15 m), lengths (3 m, 10 m), Ø8 m, 70 x 70 cm, 183 x 76 cm, Ø300 cm, "3 m breed". Same format rules.'},
@@ -305,16 +324,27 @@ doc['copy_groups'] = [{'id': g, 'name': GROUPS[g][0], 'notes': GROUPS[g][1], 'ha
                        'product_count': len(groups[g]), 'effort': round(sum(p['weight'] for p in groups[g]), 2)} for g in GROUPS]
 doc['coverage'] = coverage
 EXISTING_MODELS = ['easyUpTent', 'statafel', 'statafelCover', 'klaptafel', 'biertafelset', 'gewichten', 'haringen', 'spanbanden', 'wielset', 'draagtas',
+                   'carpetRunner', 'seatCushion', 'sideWall',  # catalog fixes 2026-10-18
+                   # parts / lighting groups (renders/models/index.js registry, 2026-10-18)
+                   'easyUpParts', 'connectionStrip', 'rainGutter', 'tentCoupler', 'tubeFittings', 'tentPoles', 'footCaps', 'sandbag', 'waterBag', 'concreteBlock',
+                   'protectionDisc', 'repairKit', 'airPump', 'tubeBag', 'stretchParts', 'lightParts', 'ropeLight', 'stringLights', 'ledBulb', 'heaterCover',
                    'prikkabel', 'stretchtent', 'stertent', 'opblaasbareTent',
                    # renders/models/index.js registry since the furniture / tents-other / catalogue-review work
                    'barStool', 'chair', 'patioTable', 'bench', 'barrelTable', 'tableTop', 'trolley', 'stanchion', 'opblaasbareTunnel', 'frameTent',
                    'canopyRoof', 'marketStall', 'gardenPavilion', 'carportTent', 'shadeSail', 'tarp', 'buffetCover', 'heater', 'heaterElement',
-                   'floodLight', 'tentLight']
+                   'floodLight', 'tentLight', 'easyUpFrame']
+# a model that exists in the renderer registry is 'existing' for every image that asks for it (family files set the status when written)
+for _p in PRODUCTS:
+    for _i in _p['images']:
+        if _i.get('model_status') == 'needs-model' and _i['render'].get('model') in EXISTING_MODELS:
+            _i['model_status'] = 'existing'
+_st = collections.Counter(i['model_status'] for p in PRODUCTS for i in {x['file']: x for x in p['images']}.values())
+doc['meta']['counts']['renders_by_model_status'] = dict(_st)
 doc['render_models'] = {
     'existing': EXISTING_MODELS,
     'multi_item': '"model": "items" = spec with an items[] list (renders/README.md); each item names its own model.',
     'params_needed_on_existing': {
-        'easyUpTent': ['roof:false (los frame)', 'wallPrint'],  # done: walls "half", valancePrint {svg}; full colour roof = canopyRoof {withFrame:true}
+        'easyUpTent': [],  # done: walls "half", valancePrint {svg}, wallPrint {svg, side, both}; los frame = easyUpFrame; full colour roof = canopyRoof {withFrame:true}
         'statafelCover': ['print {...} via renders-svgprint.patch'],
         'klaptafel': ['shape "rond" + diameter', 'folded'], 'biertafelset': ['only "bank"'], 'draagtas': ['wheels:true'],
         'stretchtent': ['shape "hypar"'], 'stertent': ['masts:2 + length', 'walls'], 'opblaasbareTent': ['shape "hexagon"', 'legs "water"', 'walls', 'canopyPrint'],
@@ -345,7 +375,7 @@ doc['products'] = []
 for p in PRODUCTS:
     lo, hi = price_range(p)
     q = collections.OrderedDict()
-    for k in ['handle', 'title', 'product_type', 'vendor', 'status', 'tags', 'collections', 'copy_group', 'family', 'covers', 'gift_card', 'template_suffix',
+    for k in ['handle', 'title', 'product_type', 'product_category', 'product_category_id', 'vendor', 'status', 'tags', 'collections', 'copy_group', 'family', 'covers', 'gift_card', 'template_suffix',
               'options', 'variants', 'images', 'variant_image_by', 'variant_images', 'metafields', 'complementary', 'line_item_properties', 'bundle',
               'price_ref', 'copy_brief', 'seo_keywords', 'body_html', 'seo']:
         if k in p:

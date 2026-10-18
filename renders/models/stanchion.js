@@ -15,6 +15,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
+import * as S from '../js/seatKit.js';
 import { resolvePrint } from '../js/brandPrints.js';
 
 const { V3 } = G;
@@ -106,6 +107,6 @@ export function stanchion(p = {}) {
     object: group,
     detail: { target: [xA + 0.02, yBelt, 0.02], size: 0.22, azimuth: 40, elevation: 12 },
     meta: { finish, pair, span },
-    rig: pair ? { default: { groundAO: { maxZenith: 60 } } } : undefined,
+    rig: S.seatRig(group, pair ? { default: { groundAO: { maxZenith: 60 } } } : {}),
   };
 }

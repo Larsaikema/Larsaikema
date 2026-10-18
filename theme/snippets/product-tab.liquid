@@ -1,47 +1,111 @@
 {%- comment -%}
   Collapsible tab of the main product (description, grouped specs, levering & retour, downloads, FAQ, safety, own text).
-  Renders nothing when the chosen source is empty. Params: product, block, current_variant.
+  Renders nothing when the chosen source is empty. Params: product, block, current_variant, strip_included (description: leave out 'Wat je krijgt'), mode:
+  - blank / 'accordion': a closed (or 'Standaard open') accordion
+  - 'panel': always open, a section with an h2 (the description in the details band)
+  - 'card': an accordion on phones that is an open card with an h2 from 990 px: there the summary is hidden (no button
+    that does nothing) and the h2 inside the body names the card (data-open-desktop, variant-picker.js); rendered open, so
+    it also reads without JavaScript
 {%- endcomment -%}
 {%- capture tab_body -%}
   {%- case block.settings.source -%}
     {%- when 'description' -%}
-      {%- if product.description != blank -%}<div class="rte">{{ product.description }}</div>{%- endif -%}
+      {%- liquid
+        # strip_included: the 'Wat zit erin' card is shown next to the description, so its 'Wat je krijgt' section
+        # (up to the next h3) is left out here
+        assign desc = product.description
+        if strip_included and desc contains '<h3>Wat je krijgt</h3>' and product.metafields.custom.included != blank
+          assign d_parts = desc | split: '<h3>Wat je krijgt</h3>'
+          assign d_rest = d_parts[1] | split: '<h3>'
+          assign desc = d_parts[0]
+          for chunk in d_rest offset: 1
+            assign desc = desc | append: '<h3>' | append: chunk
+          endfor
+        endif
+      -%}
+      {%- if desc != blank -%}<div class="rte">{{ desc }}</div>{%- endif -%}
     {%- when 'specs' -%}
       {%- assign specs = product.metafields.custom.specificaties.value -%}
       {%- if specs != blank and specs.size > 0 -%}
-        {%- assign groups = specs | map: 'groep' | uniq -%}
+        {%- liquid
+          assign groups = specs | map: 'groep' | uniq
+          # 'Wat zit erin' (custom.included / custom.excluded) already lists the contents: no second copy in the table
+          assign skip_incl = false
+          if product.metafields.custom.included != blank or product.metafields.custom.excluded != blank
+            assign skip_incl = true
+          endif
+          # weight and packed size come from custom.gewicht_kg / custom.verpakt only when the spec rows do not have them
+          assign has_weight = false
+          assign has_packed = false
+          for row in specs
+            assign rg = row.groep | downcase
+            assign rl = row.label | downcase
+            if rg == 'gewicht' or rl contains 'gewicht'
+              assign has_weight = true
+            endif
+            if rg contains 'verpak' or rl contains 'verpak'
+              assign has_packed = true
+            endif
+          endfor
+        -%}
         <div class="specs">
+          {%- if current_variant.sku != blank -%}<p class="specs__sku">{{ 'product.sku' | t }} <span data-dynamic="sku">{{ current_variant.sku }}</span></p>{%- endif -%}
           {%- for g in groups -%}
-            <table class="specs__table">
-              {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
-              <tbody>
-                {%- for row in specs -%}
-                  {%- if row.groep == g and row.waarde != blank -%}<tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde }}</td></tr>{%- endif -%}
-                {%- endfor -%}
-              </tbody>
-            </table>
+            {%- capture g_rows -%}
+              {%- for row in specs -%}
+                {%- if row.groep == g and row.waarde != blank -%}
+                  {%- if skip_incl -%}{%- assign rl = row.label | downcase -%}{%- if rl == 'inbegrepen' or rl == 'niet inbegrepen' -%}{%- continue -%}{%- endif -%}{%- endif -%}
+                  <tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde | replace: ' x ', ' × ' }}</td></tr>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- if g_rows != blank -%}
+              <table class="specs__table">
+                {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
+                <tbody>{{ g_rows }}</tbody>
+              </table>
+            {%- endif -%}
           {%- endfor -%}
-          {%- if current_variant.sku != blank or product.metafields.custom.verpakt != blank or product.metafields.custom.gewicht_kg != blank -%}
+          {%- assign show_weight = false -%}
+          {%- if product.metafields.custom.gewicht_kg != blank and has_weight == false -%}{%- assign show_weight = true -%}{%- endif -%}
+          {%- assign show_packed = false -%}
+          {%- if product.metafields.custom.verpakt != blank and has_packed == false -%}{%- assign show_packed = true -%}{%- endif -%}
+          {%- if show_weight or show_packed -%}
             <table class="specs__table">
+              <caption>{{ 'cart.shipping_label' | t }}</caption>
               <tbody>
-                {%- if product.metafields.custom.gewicht_kg != blank -%}<tr><th scope="row">{{ 'product.weight' | t }}</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' }} kg</td></tr>{%- endif -%}
-                {%- if product.metafields.custom.verpakt != blank -%}<tr><th scope="row">{{ 'product.packed' | t }}</th><td>{{ product.metafields.custom.verpakt.value }}</td></tr>{%- endif -%}
-                {%- if current_variant.sku != blank -%}<tr><th scope="row">{{ 'product.sku' | t }}</th><td data-dynamic="sku">{{ current_variant.sku }}</td></tr>{%- endif -%}
+                {%- if show_weight -%}<tr><th scope="row">{{ 'product.weight' | t }}</th><td>{{ product.metafields.custom.gewicht_kg.value | round: 1 | replace: '.', ',' | remove: ',0' }} kg</td></tr>{%- endif -%}
+                {%- if show_packed -%}<tr><th scope="row">{{ 'product.packed' | t }}</th><td>{{ product.metafields.custom.verpakt.value | replace: ' x ', ' × ' }}</td></tr>{%- endif -%}
               </tbody>
             </table>
           {%- endif -%}
         </div>
       {%- endif -%}
     {%- when 'delivery' -%}
-      <div class="rte">{{ 'product.delivery_returns_html' | t: days: settings.return_days }}</div>
-      {%- if settings.shipping_page != blank -%}<p><a class="link" href="{{ settings.shipping_page }}">{{ 'delivery.label' | t }}</a></p>{%- endif -%}
+      {%- liquid
+        assign t_ship = product.metafields.custom.verzending.value | default: 'pakket' | downcase
+        if product.tags contains 'pallet'
+          assign t_ship = 'pallet'
+        endif
+      -%}
+      <div class="rte">
+        {%- if t_ship == 'pallet' -%}{{ 'product.delivery_pallet_html' | t }}{%- else -%}{{ 'product.delivery_parcel_html' | t }}{%- endif -%}
+        {{- 'product.returns_html' | t: days: settings.return_days -}}
+      </div>
+      {%- if settings.shipping_page != blank or settings.returns_page != blank -%}
+        <p class="tab-links">
+          {%- if settings.shipping_page != blank -%}<a class="link" href="{{ settings.shipping_page }}">{{ 'product.shipping_link' | t }}</a>{%- endif -%}
+          {%- if settings.returns_page != blank -%}<a class="link" href="{{ settings.returns_page }}">{{ 'product.returns_link' | t }}</a>{%- endif -%}
+        </p>
+      {%- endif -%}
     {%- when 'downloads' -%}
       {%- assign files = product.metafields.custom.downloads.value -%}
       {%- if files != blank and files.size > 0 -%}
         <script src="{{ 'download-size.js' | asset_url }}" defer></script>
         <ul class="downloads" role="list" data-downloads>
+          {%- assign dl_title = product.title | replace: ' x ', ' × ' -%}
           {%- for f in files -%}
-            {%- render 'download-link', file: f, title: product.title -%}
+            {%- render 'download-link', file: f, title: dl_title -%}
           {%- endfor -%}
         </ul>
       {%- endif -%}
@@ -55,8 +119,29 @@
     {%- when 'safety' -%}
       {%- assign ptype = product.type | downcase -%}
       {%- if ptype contains 'tent' or product.tags contains 'partytent' -%}
-        <p>{{ 'product.safety_note' | t }}</p>
-        {%- if block.settings.page != blank -%}<p><a class="link" href="{{ block.settings.page.url }}">{{ block.settings.page.title }}</a></p>{%- endif -%}
+        {%- liquid
+          # the product's own anchoring and set-up rows (custom.specificaties, group 'Opzetten') under the general rule
+          assign s_rows = ''
+          assign s_specs = product.metafields.custom.specificaties.value
+          for row in s_specs
+            assign rg = row.groep | downcase
+            if rg == 'opzetten' and row.waarde != blank
+              assign s_rows = s_rows | append: '<li><strong>' | append: row.label | append: ':</strong> ' | append: row.waarde | append: '</li>'
+            endif
+          endfor
+        -%}
+        <div class="rte">
+          <p>{{ 'product.safety_note' | t }}</p>
+          {%- if s_rows != blank -%}<ul>{{ s_rows }}</ul>{%- endif -%}
+        </div>
+        {%- capture s_links -%}
+          {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+            {%- capture s_ok -%}{%- render 'link-exists', url: block.settings.link -%}{%- endcapture -%}
+            {%- unless s_ok == 'false' -%}<a class="link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>{%- endunless -%}
+          {%- endif -%}
+          {%- if block.settings.page != blank -%}<a class="link" href="{{ block.settings.page.url }}">{{ block.settings.page.title }}</a>{%- endif -%}
+        {%- endcapture -%}
+        {%- if s_links != blank -%}<p class="tab-links">{{ s_links }}</p>{%- endif -%}
       {%- endif -%}
     {%- when 'custom' -%}
       {%- if block.settings.content != blank -%}<div class="rte">{{ block.settings.content }}</div>{%- endif -%}
@@ -64,8 +149,19 @@
   {%- endcase -%}
 {%- endcapture -%}
 {%- if tab_body != blank -%}
-  <details class="accordion product__tab" id="{{ block.settings.heading | handleize }}" {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
-    <summary><span>{{ block.settings.heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
-    <div class="accordion__body">{{ tab_body }}</div>
-  </details>
+  {%- assign tab_id = block.settings.heading | handleize -%}
+  {%- if mode == 'panel' -%}
+    <section class="pdp-panel" id="{{ tab_id }}" aria-labelledby="{{ tab_id }}-title" {{ block.shopify_attributes }}>
+      <h2 class="pdp-panel__title" id="{{ tab_id }}-title">{{ block.settings.heading }}</h2>
+      <div class="pdp-panel__body" id="{{ tab_id }}-body" data-clamp>{{ tab_body }}</div>
+      <button type="button" class="pdp-panel__more js-only" data-clamp-toggle aria-controls="{{ tab_id }}-body" aria-expanded="false" hidden>
+        <span data-more-label>{{ 'product.read_more' | t }}</span><span data-less-label hidden>{{ 'product.read_less' | t }}</span>{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}
+      </button>
+    </section>
+  {%- else -%}
+    <details class="accordion product__tab{% if mode == 'card' %} pdp-card pdp-card--{{ block.settings.source }}{% endif %}" id="{{ tab_id }}" {{ block.shopify_attributes }}{% if mode == 'card' %} data-open-desktop open{% elsif block.settings.open %} open{% endif %}>
+      <summary><span>{{ block.settings.heading }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
+      <div class="accordion__body">{% if mode == 'card' %}<h2 class="pdp-card__title">{{ block.settings.heading }}</h2>{% endif %}{{ tab_body }}</div>
+    </details>
+  {%- endif -%}
 {%- endif -%}

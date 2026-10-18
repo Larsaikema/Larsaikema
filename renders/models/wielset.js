@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -70,8 +71,6 @@ function castor(bins, mats, { heading = 0, socketYaw = 0 }) {
   sh.holes.push(hole);
   const sock = K.extrudeY(sh, 0.12, { y0: topY + 0.005, bevel: 0.001, bevelSegs: 1, curveSegs: 6 });
   sock.rotateY(sy + Math.PI / 6); bins.add(mats.galv, sock);
-  // weld fillet at the socket foot
-  const wf = []; for (let k = 0; k <= 60; k++) { const a = (k / 60) * TAU; const r = Ro * (Math.cos(Math.PI / 6) / Math.cos(((a + sy) % (Math.PI / 3)) - Math.PI / 6)) + 0.0015; wf.push(V3(Math.cos(a) * r, topY + 0.0065, -Math.sin(a) * r)); }
   // wing bolt through a flat of the socket, facing `socketYaw`
   const fdir = V3(Math.sin(sy + Math.PI / 2), 0, Math.cos(sy + Math.PI / 2));
   const bc = fdir.clone().multiplyScalar(AF / 2).setY(topY + 0.075);
@@ -88,8 +87,8 @@ function castor(bins, mats, { heading = 0, socketYaw = 0 }) {
 export function wielset(p = {}) {
   const n = Number(p.count ?? 4);
   const mats = {
-    tyre: K.softRubber('#55585C', 0.7), centre: K.abs('#1A1B1C', 0.45), zinc: K.zinc(), fork: M.galvanised(),
-    galv: M.galvanised(), brake: K.abs('#B3231C', 0.5),
+    tyre: SG.rubberSG('#55585C', { rough: 0.7 }), centre: SG.moulded('#1A1B1C', { rough: 0.45 }), zinc: SG.zincSG(), fork: SG.zincSG({ rough: 0.34 }),
+    galv: SG.zincSG({ rough: 0.34 }), brake: SG.moulded('#B3231C', { rough: 0.5 }),
   };
   const bins = new G.PartBin();
   const pitch = 0.17;

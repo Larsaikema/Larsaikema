@@ -361,15 +361,23 @@
       },
       {
        "title": "Transport en onderdelen",
-       "type": "http",
-       "url": "/collections/meubilair?filter.p.product_type=Transportkar&filter.p.product_type=Meubelonderdeel",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/statafel-onderdelen",
+       "handle": "statafel-onderdelen",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Transportkar statafels",
          "type": "product",
          "url": "/products/transportkar-statafels",
          "handle": "transportkar-statafels",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Onderstel, ring en scharnier",
+         "type": "product",
+         "url": "/products/onderdelen-statafel",
+         "handle": "onderdelen-statafel",
          "admin_type": "PRODUCT"
         },
         {
@@ -414,6 +422,13 @@
          "type": "product",
          "url": "/products/pakket-statafels-met-transportkar",
          "handle": "pakket-statafels-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "10 statafels met rokken en kar",
+         "type": "product",
+         "url": "/products/pakket-10-statafels-stretchrokken-transportkar",
+         "handle": "pakket-10-statafels-stretchrokken-transportkar",
          "admin_type": "PRODUCT"
         }
        ]
@@ -497,10 +512,41 @@
        ]
       },
       {
-       "title": "Tafelhoezen en bescherming",
-       "type": "http",
-       "url": "/collections/statafelrokken?filter.p.product_type=Tafelhoes&filter.p.product_type=Beschermplaat",
-       "admin_type": "HTTP",
+       "title": "Topcovers en beschermplaten",
+       "type": "collection",
+       "url": "/collections/topcovers-en-beschermplaten",
+       "handle": "topcovers-en-beschermplaten",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Losse topcover",
+         "type": "product",
+         "url": "/products/topcover-stretch-statafel",
+         "handle": "topcover-stretch-statafel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Beschermplaat",
+         "type": "product",
+         "url": "/products/beschermplaat-statafel",
+         "handle": "beschermplaat-statafel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Beschermplaat met opdruk",
+         "type": "product",
+         "url": "/products/beschermplaat-met-opdruk",
+         "handle": "beschermplaat-met-opdruk",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
+       "title": "Tafelhoezen",
+       "type": "collection",
+       "url": "/collections/tafelhoezen",
+       "handle": "tafelhoezen",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Stretchhoes klaptafel",
@@ -517,10 +563,10 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Beschermplaat",
+         "title": "Tafelhoes met logo",
          "type": "product",
-         "url": "/products/beschermplaat-statafel",
-         "handle": "beschermplaat-statafel",
+         "url": "/products/stretchhoes-klaptafel-met-logo",
+         "handle": "stretchhoes-klaptafel-met-logo",
          "admin_type": "PRODUCT"
         }
        ]
@@ -864,9 +910,10 @@
      "items": [
       {
        "title": "Tafels",
-       "type": "http",
-       "url": "/collections/meubilair?filter.p.product_type=Klaptafel&filter.p.product_type=Terrastafel&filter.p.product_type=Biertafelset",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/tafels",
+       "handle": "tafels",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Klaptafel rechthoekig",
@@ -900,9 +947,10 @@
       },
       {
        "title": "Barkrukken",
-       "type": "http",
-       "url": "/collections/meubilair?filter.p.product_type=Barkruk",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/barkrukken",
+       "handle": "barkrukken",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Barkruk metaal",
@@ -950,9 +998,10 @@
       },
       {
        "title": "Stoelen, krukken en banken",
-       "type": "http",
-       "url": "/collections/meubilair?filter.p.product_type=Stoel&filter.p.product_type=Kruk&filter.p.product_type=Bank&filter.p.product_type=Bierbank",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/stoelen-en-banken",
+       "handle": "stoelen-en-banken",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Klapstoel",
@@ -1007,9 +1056,10 @@
       },
       {
        "title": "Transportkarren",
-       "type": "http",
-       "url": "/collections/meubilair?filter.p.product_type=Transportkar",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/transportkarren",
+       "handle": "transportkarren",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Voor statafels",
@@ -1075,9 +1125,10 @@
      "items": [
       {
        "title": "Prikkabels",
-       "type": "http",
-       "url": "/collections/verlichting?filter.p.product_type=Prikkabel&filter.p.product_type=Actiepakket",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/prikkabels",
+       "handle": "prikkabels",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "Prikkabel E27",
@@ -1104,9 +1155,10 @@
       },
       {
        "title": "Lampen en slangen",
-       "type": "http",
-       "url": "/collections/verlichting?filter.p.product_type=LED-lamp&filter.p.product_type=Lichtslang&filter.p.product_type=Kerstverlichting&filter.p.product_type=Tentverlichting",
-       "admin_type": "HTTP",
+       "type": "collection",
+       "url": "/collections/lampen-en-lichtslangen",
+       "handle": "lampen-en-lichtslangen",
+       "admin_type": "COLLECTION",
        "items": [
         {
          "title": "LED-lampen",
@@ -1116,10 +1168,17 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "LED-lichtslang",
+         "title": "LED-lichtslang per meter",
          "type": "product",
          "url": "/products/led-lichtslang",
          "handle": "led-lichtslang",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Lichtslang 15 of 20 m",
+         "type": "product",
+         "url": "/products/led-lichtslang-set-warm-wit",
+         "handle": "led-lichtslang-set-warm-wit",
          "admin_type": "PRODUCT"
         },
         {
@@ -1147,12 +1206,13 @@
       },
       {
        "title": "Onderdelen",
-       "type": "http",
-       "url": "/collections/verlichting?filter.p.product_type=Verlichting+onderdeel",
-       "admin_type": "HTTP",
+       "type": "product",
+       "url": "/products/onderdelen-prikkabel-en-lichtslang",
+       "handle": "onderdelen-prikkabel-en-lichtslang",
+       "admin_type": "PRODUCT",
        "items": [
         {
-         "title": "Fittingen, dimmers, timers",
+         "title": "Fittingen, dimmers, timers en kabel per meter",
          "type": "product",
          "url": "/products/onderdelen-prikkabel-en-lichtslang",
          "handle": "onderdelen-prikkabel-en-lichtslang",
@@ -1191,10 +1251,10 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Met rokken en kar",
+         "title": "Statafels met rokken en kar",
          "type": "product",
-         "url": "/products/pakket-statafels-stretchrokken-transportkar",
-         "handle": "pakket-statafels-stretchrokken-transportkar",
+         "url": "/products/pakket-10-statafels-stretchrokken-transportkar",
+         "handle": "pakket-10-statafels-stretchrokken-transportkar",
          "admin_type": "PRODUCT"
         }
        ]

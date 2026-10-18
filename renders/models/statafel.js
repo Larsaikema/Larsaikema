@@ -11,6 +11,7 @@
 //        square-tube legs ('stapel', stackable), rectangular ones on two folding leg frames.
 // frame: 'zwart' | 'wit' | 'chroom' | 'alu' | 'antraciet'
 // folded: true -> top flipped vertical, legs folded up along the column.
+// noTop: true -> onderstel only (no blad; the cross bracket and hinge under the blad stay), for spare-part shots.
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
@@ -87,7 +88,9 @@ export function statafel(p = {}) {
   // ---------------- top (built flat, centred at origin, top surface at y = 0) ---------
   const topGroup = new THREE.Group();
   const topBins = new G.PartBin();
-  if (top.startsWith('hdpe')) {
+  if (p.noTop) {
+    // onderstel only (spare-part shot): no blad, the cross bracket and hinge stay
+  } else if (top.startsWith('hdpe')) {
     const col = top.includes('grijs') ? '#9C9EA0' : top.includes('zwart') ? '#232426' : '#F0F0EC';
     const mat = M.hdpe(col);
     const r = 0.011;

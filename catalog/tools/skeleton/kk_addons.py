@@ -35,36 +35,39 @@ def find_one(handle, sel):
 
 
 # ------------------------------------------------------------------------------------------------ rules
+def r_zitkussen(p, v):
+    k = vopts(p, v).get('Kleur')
+    return [('zitkussen-stoel-en-barkruk', {'Kleur': {'Zwart': 'Zwart', 'Antraciet': 'Antraciet'}.get(k, 'Zandkleur')}, 1)]
+
+
 def r_easy_up(p, v):
+    """Merchandising review: at most four add-ons that belong to ONE tent: the zijwandenset in the same Maat and Kleur, the
+    voetgewicht set for its number of poten, spanbanden en haringen (Premium only: Professional ships with them) and a tas
+    (Premium: wieltas, Professional: beschermhoes; the wieltas is in the Professional box). Regengoot and koppelset only help
+    with 2+ tents, LED-vloedlicht, heater and zandzakken are extras: they are cart recommendations (complementary)."""
     o = vopts(p, v)
     m, k = o['Maat'], o['Kleur']
     pro = 'professional' in p['handle']
     n = legs(m)
-    w, d = DIMS[m]
-    long_side = max(w, d)
-    sets4 = math.ceil(n / 4)
     r = []
     if o.get('Uitvoering') == 'Heavy duty PVC':
         r.append(('zijwandenset-easy-up-heavy-duty-pvc', {'Maat': m, 'Kleur': k}, 1))
     else:
-        r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': k}, 1))
+        r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': k}, 1))   # no 2 x 2 m set: the 2 x 2 m tent gets none (walls in complementary)
     r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
-        r.append(('spanbanden-en-haringen-easy-up', {}, sets4))       # Premium ships without banden/haringen
-    if m == '2 x 2 m':
-        # no 2 x 2 m zijwandenset: the four 2 m walls in the set's make-up (1 dicht, 2 met raam, 1 met deur) = 4 walls
-        r += [('zijwand-easy-up-dicht', {'Maat': '2 m', 'Kleur': k}, 1), ('zijwand-easy-up-met-raam', {'Maat': '2 m', 'Kleur': k}, 2),
-              ('zijwand-easy-up-met-deur', {'Maat': '2 m', 'Kleur': k}, 1)]
+        r.append(('spanbanden-en-haringen-easy-up', {}, math.ceil(n / 4)))   # Premium ships without banden/haringen
     r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('beschermhoes-easy-up', {'Maat': m}, 1))
-    r.append(('zandzakken-partytent-set-van-4', {}, sets4))
-    r.append(('regengoot-partytent', {'Maat': lenstr(long_side), 'Kleur': 'Wit' if k in ('Wit', 'Zandkleur') else 'Zwart'}, 1))
-    # one klem per pootpaar along the coupled (long) side; a set holds 2 klemmen
-    r.append(('koppelset-easy-up', {'Uitvoering': 'Professional (50 mm)' if pro else 'Premium (40 mm)'}, 1 if long_side <= 4 else 2))
-    if pro:
-        # Outmate's easy-up accessory set: light and heat that clamp to a 50 mm leg
-        r.append(('led-vloedlicht-easy-up', {}, 1))
-        r.append(('elektrische-heater-partytent', {'Uitvoering': '1500 W met klem voor easy-up'}, 1))
     return r
+
+
+# cart recommendations (complementary) for the easy-up tents: what used to crowd the add-on block, plus the pakket
+EU_COMPLEMENTARY_PREMIUM = ['starterspakket-easy-up-premium', 'zandzakken-partytent-set-van-4', 'regengoot-partytent', 'koppelset-easy-up',
+                            'verbindingsstrook-easy-up', 'beschermhoes-easy-up']
+EU_COMPLEMENTARY_PRO = ['compleet-pakket-easy-up-professional', 'zandzakken-partytent-set-van-4', 'regengoot-partytent', 'koppelset-easy-up',
+                        'led-vloedlicht-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
+EU_COMPLEMENTARY_2X2 = ['zijwand-easy-up-dicht', 'zijwand-easy-up-met-raam', 'zijwand-easy-up-met-deur', 'zandzakken-partytent-set-van-4',
+                        'led-vloedlicht-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
 
 
 BEDRUKTE_WAND = ['3 m', '4 m', '4,5 m', '6 m']   # bedrukte-zijwand-easy-up lengths
@@ -104,18 +107,56 @@ def r_buizenframe(p, v):
 
 
 PLAAT = {'Ø70 cm': 'Ø68 cm', 'Ø80 cm': 'Ø78 cm', 'Ø85 cm': 'Ø83 cm'}   # beschermplaat 2 cm under the blad
+# one default for rok AND strikhoes when the blad colour is not a textile colour (Graniet, Berken, Lichtgrijs HDPE): zwart, the
+# best-selling rok colour; a wit blad gets wit, zwart zwart, antraciet antraciet (both textiles have those three)
+TEXTIEL_DEFAULT = 'Zwart'
 
 
 def r_statafel_rond(p, v):
+    """Rok in the colour of the blad when the rok comes in it, else zwart; the strikhoes follows the same rule, so rok and hoes
+    never default to two different colours. A blad met parasolgat gets the rok WITHOUT topcover (a topcover cannot go over a
+    parasolstok) and no strikhoes or beschermplaat (both cover the gat)."""
     o = vopts(p, v)
     rok = 'Ø60-70 cm' if o['Maat'] == 'Ø70 cm' else 'Ø80-85 cm'
-    k = o.get('Kleur') if o.get('Kleur') in ROK_KLEUREN else 'Zwart'
-    ks = o.get('Kleur') if o.get('Kleur') in STRIK_KLEUREN else 'Wit'
-    r = [('statafelrok-stretch', {'Maat': rok, 'Uitvoering': 'Met topcover', 'Kleur': k}, 1),
-         ('statafelhoes-met-strik', {'Maat': rok, 'Kleur': ks}, 1),
-         ('beschermplaat-statafel', {'Maat': PLAAT[o['Maat']]}, 1)]
+    blad = o.get('Kleur')
+    k = blad if blad in ROK_KLEUREN and blad in STRIK_KLEUREN else TEXTIEL_DEFAULT
+    parasol = 'parasolgat' in (o.get('Uitvoering') or '')
+    r = [('statafelrok-stretch', {'Maat': rok, 'Uitvoering': 'Zonder topcover' if parasol else 'Met topcover', 'Kleur': k}, 1)]
+    if not parasol:
+        r += [('statafelhoes-met-strik', {'Maat': rok, 'Kleur': k}, 1),
+              ('beschermplaat-statafel', {'Maat': PLAAT[o['Maat']]}, 1)]
     if p['handle'] != 'statafel-met-kruisvoet':   # a fixed kruisvoet does not fold, so it does not go on the kar
         r.append(('transportkar-statafels', {'Uitvoering': 'Klein, voor 5 statafels'}, 1))
+    return r
+
+
+KRUK_KLEUREN = ['Zwart', 'Wit', 'Antraciet']   # barkruk-stapelbaar-metaal / stapelstoel-metaal
+
+
+def r_statafel_hoekig(n_by_maat):
+    """Square / rectangular statafel: a beschermplaat cut to the same Maat and barkrukken around it (kruk in the frame colour
+    when it exists, else zwart)."""
+    def rule(p, v):
+        o = vopts(p, v)
+        k = o.get('Kleur') if o.get('Kleur') in KRUK_KLEUREN else 'Zwart'
+        return [('beschermplaat-statafel', {'Maat': o['Maat']}, 1),
+                ('barkruk-stapelbaar-metaal', {'Kleur': k}, n_by_maat.get(o['Maat'], 4))]
+    return rule
+
+
+def r_terrastafel(p, v):
+    o = vopts(p, v)
+    k = o.get('Kleur') if o.get('Kleur') in KRUK_KLEUREN else 'Zwart'
+    return [('beschermplaat-statafel', {'Maat': o['Maat']}, 1),
+            ('stapelstoel-metaal', {'Kleur': k}, {'60 x 60 cm': 2, '70 x 70 cm': 4, '120 x 70 cm': 6}.get(o['Maat'], 4))]
+
+
+def r_barkruk(p, v):
+    """Every barkruk: the kar for 24 barkrukken (once per order line, custom.addon_eenmalig); a zitkussen where the seat takes one."""
+    r = []
+    if p['handle'] in ('barkruk-houten-zitting', 'barkruk-draad-stapelbaar'):
+        r += r_zitkussen(p, v)
+    r.append(('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 24 barkrukken'}, 1))
     return r
 
 
@@ -161,7 +202,7 @@ def r_air_square(p, v):
     o = vopts(p, v)
     n = o['Maat'].split(' x ')[0] + ' m'
     k = o.get('Kleur')
-    lk = k if k in ('Rood', 'Wit', 'Zwart', 'Blauw', 'Groen', 'Oranje') else 'Zwart'
+    lk = k if find_one('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': k}) else 'Zwart'
     return [('pomp-opblaasbare-tent', {'Uitvoering': 'Elektrische pomp'}, 1),
             ('zijwand-opblaasbare-promotietent', {'Maat': n, 'Uitvoering': 'Dicht'}, 1),
             ('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': lk}, 1),
@@ -176,9 +217,6 @@ def r_air_hex(p, v):
             ('zijwand-opblaasbare-zeshoektent', {'Maat': o['Maat'], 'Uitvoering': 'Dicht', 'Kleur': 'Zwart' if o['Kleur'] == 'Zwart' else 'Wit'}, 1)]
 
 
-def r_zitkussen(p, v):
-    k = vopts(p, v).get('Kleur')
-    return [('zitkussen-stoel-en-barkruk', {'Kleur': {'Zwart': 'Zwart', 'Antraciet': 'Antraciet'}.get(k, 'Zandkleur')}, 1)]
 
 
 RULES = {
@@ -191,7 +229,15 @@ RULES = {
     'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit'}, 1)],
     'stapelstoel-cross-back': r_zitkussen,
     'stapelstoel-metaal': r_zitkussen,
-    'barkruk-draad-stapelbaar': r_zitkussen,
+    'barkruk-stapelbaar-metaal': r_barkruk,
+    'barkruk-houten-zitting': r_barkruk,
+    'barkruk-velours-stapelbaar': r_barkruk,
+    'barkruk-pe-rotan': r_barkruk,
+    'barkruk-draad-stapelbaar': r_barkruk,
+    'barkruk-chroom-stapelbaar': r_barkruk,
+    'statafel-vierkant-stapelbaar': r_statafel_hoekig({'60 x 60 cm': 4, '70 x 70 cm': 4, '80 x 80 cm': 4}),
+    'statafel-rechthoekig-inklapbaar': r_statafel_hoekig({'120 x 60 cm': 6, '120 x 70 cm': 6, '160 x 60 cm': 8}),
+    'terrastafel-inklapbaar': r_terrastafel,
     'prikkabel-e27': lambda p, v: [('led-lamp-e27', {'Uitvoering': 'Warm wit melkglas 1 W'}, int(vopts(p, v)['Maat'].split()[0]))],  # fitting per meter
     'led-lichtslang': lambda p, v: [('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Aansluitsnoer lichtslang met stekker'}, 1)],
     'opslagtent-pvc': r_buizenframe,
@@ -208,6 +254,9 @@ RULES = {
     'pakket-statafel-met-stretchrok': r_pakket_plaat(1),
     'pakket-4-statafels-met-stretchrokken': r_pakket_plaat(4),
     'terraspakket-statafel-barkrukken': r_pakket_plaat(1),
+    'pakket-5-statafels-stretchrokken-transportkar': r_pakket_plaat(5),
+    'pakket-10-statafels-stretchrokken-transportkar': r_pakket_plaat(10),
+    'pakket-15-statafels-stretchrokken-transportkar': r_pakket_plaat(15),
     'opblaasbare-promotietent': r_air_square,
     'opblaasbare-promotietent-pro': r_air_square,
     'opblaasbare-partytent-3x3-waterpoten': r_air_square,
@@ -258,6 +307,10 @@ def apply(errors):
         missing = [v['sku'] for v in p['variants'] if not (v.get('metafields') or {}).get('addon_varianten')]
         if union and missing:
             errors.append(f'{p["handle"]}: {len(missing)} variant(s) without matched add-ons ({missing[:2]})')
+        if fn is r_easy_up:
+            # what left the add-on block goes to the cart recommendations
+            p['complementary'] = list(EU_COMPLEMENTARY_2X2 if p['handle'].endswith('-2x2') else
+                                      EU_COMPLEMENTARY_PRO if 'professional' in p['handle'] else EU_COMPLEMENTARY_PREMIUM)
 
 
 # ------------------------------------------------------------------------------------------------ bundle staffels
@@ -303,7 +356,8 @@ BUNDLE_FAMILY = {
     'starterspakket-easy-up-premium': ST_TENT, 'compleet-pakket-easy-up-professional': ST_TENT,
     'prikkabelset-led': ST_PRIK,
     'pakket-4-statafels-met-stretchrokken': ST_GROOT, 'pakket-statafels-met-transportkar': ST_GROOT,
-    'pakket-statafels-stretchrokken-transportkar': ST_GROOT, 'buffetpakket-klaptafels-stretchhoezen': ST_GROOT,
+    'pakket-5-statafels-stretchrokken-transportkar': ST_GROOT, 'pakket-10-statafels-stretchrokken-transportkar': ST_GROOT,
+    'pakket-15-statafels-stretchrokken-transportkar': ST_GROOT, 'buffetpakket-klaptafels-stretchhoezen': ST_GROOT,
     'biertafelsets-10-stuks': ST_GROOT, 'pakket-24-barkrukken-met-transportkar': ST_GROOT, 'wijnvat-set-statafel-barkrukken': ST_GROOT,
 }
 

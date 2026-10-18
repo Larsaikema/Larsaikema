@@ -1,0 +1,38 @@
+{%- comment -%}
+  Stylesheets of the main product. The rarely needed parts only load on the products that use them (CSS budget):
+  logo upload (-print), bundle (-bundle), configurator (-config), 'Premium of Professional?' (-compare), discontinued /
+  binnenkort (-status), video and 3D (-media). Params: product, is_print, is_config, is_discontinued, avail_status,
+  media_types (comma list of the product's media types).
+{%- endcomment -%}
+{%- liquid
+  assign is_bundle = false
+  if product.metafields.custom.componenten != blank
+    assign is_bundle = true
+  else
+    for v in product.variants
+      if v.metafields.custom.componenten != blank
+        assign is_bundle = true
+        break
+      endif
+    endfor
+  endif
+  echo 'section-main-product.css' | asset_url | stylesheet_tag
+  if is_print
+    echo 'section-main-product-print.css' | asset_url | stylesheet_tag
+  endif
+  if is_bundle
+    echo 'section-main-product-bundle.css' | asset_url | stylesheet_tag
+  endif
+  if is_config
+    echo 'section-main-product-config.css' | asset_url | stylesheet_tag
+  endif
+  if product.metafields.custom.vergelijk_groep != blank
+    echo 'section-main-product-compare.css' | asset_url | stylesheet_tag
+  endif
+  if is_discontinued or avail_status == 'binnenkort'
+    echo 'section-main-product-status.css' | asset_url | stylesheet_tag
+  endif
+  if media_types contains 'video' or media_types contains 'model'
+    echo 'section-main-product-media.css' | asset_url | stylesheet_tag
+  endif
+-%}

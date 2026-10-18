@@ -1,0 +1,19 @@
+/* Main product: bundle (actiepakket) components and savings; loaded only on products with custom.componenten. */
+.bundle-save{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:10px 0 0;font-size:14px}
+.bundle-save__text{color:var(--pk)}
+.bundle{border-radius:var(--pr);background:var(--pw);border:1px solid var(--pl);padding:14px 16px}
+.bundle__title{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-weight:var(--p7)}
+.bundle__list{list-style:none;display:grid;gap:8px}
+.bundle__item{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center}
+.bundle__media{width:52px;height:52px;border-radius:8px;overflow:hidden;background:var(--c-media)}
+.bundle__media img{width:100%;height:100%;object-fit:contain}
+.bundle__text{display:flex;flex-direction:column;min-width:0;font-size:14.5px;line-height:1.3}
+.bundle__name{font-weight:var(--p6)}
+.bundle__qty{font-variant-numeric:tabular-nums}
+.bundle__variant{font-size:13px;color:var(--pk)}
+.bundle__price{font-size:14.5px;font-variant-numeric:tabular-nums;color:var(--pk)}
+.bundle__sum{display:grid;gap:4px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--pl);font-size:14.5px;font-variant-numeric:tabular-nums}
+.bundle__sum div{display:flex;justify-content:space-between;gap:12px}
+.bundle__sum dd{margin:0}
+.bundle__sum-total{font-weight:var(--p7)}
+.bundle__save{display:flex;gap:8px;align-items:center;margin:10px 0 0;padding:6px 10px;border-radius:var(--radius-badge);background:var(--deal-bg);color:var(--deal-fg);font-size:14.5px;width:fit-content}

@@ -63,15 +63,11 @@ COLOR_WEIGHT = {'Wit': 1.5, 'Zwart': 1.4, 'Antraciet': 1.0, 'Crème': 0.8, 'Blau
                 'Marineblauw': 0.7, 'Groen': 0.5, 'Zandkleur': 0.4, 'Rood': 0.7, 'Bordeaux': 0.6}
 
 def inv(base, sku, kleur=None, factor=1.0, zero_every=29):
-    """Plausible launch stock (placeholder for the owner's real count)."""
-    if base is None:
-        return None
-    j = jit(sku)
-    if zero_every and j % zero_every == 0:
-        return 0  # a few sold-out variants so the theme's 'Tijdelijk uitverkocht' state is exercised
-    w = COLOR_WEIGHT.get(kleur, 0.55) if kleur else 1.0
-    q = base * w * factor * (0.8 + (j % 41) / 100)
-    return max(1, int(round(q)))
+    """Launch stock. The catalog has no real stock count, so every shipped variant starts at 0 on hand and keeps selling
+    (inventory policy continue): the shop shows the levertijd / 'Leverbaar over 2–3 weken' text instead of an invented
+    'Op voorraad' or 'Nog x op voorraad' (brand.md §7.1). The owner enters real counts in Shopify before launch; the
+    arguments are kept so the family files do not change. docs/claims-to-confirm.md lists it."""
+    return None if base is None else 0
 
 ANGLE_NL = {'hero': 'schuin vooraanzicht', 'front': 'vooraanzicht', 'side': 'zijaanzicht', 'back': 'achteraanzicht',
             'top': 'bovenaanzicht', 'low': 'laag standpunt', 'detail': 'detail'}
@@ -85,12 +81,15 @@ def img(file, role, priority, model, params, angle='hero', kleur=None, status='e
         d['render'].update(extra)
     return d
 
-def variant(sku, opts, price, grams, inv_qty, tracked=True, policy='deny', qrule=None, shipping=True):
+def variant(sku, opts, price, grams, inv_qty, tracked=True, policy='continue', qrule=None, shipping=True):
+    """Every shipped variant is tracked with 0 on hand and policy continue (see inv): no fabricated stock, no fabricated
+    scarcity, and a business buyer can always add the quantity the staffel advertises. Non-shipped (gift card): untracked."""
+    managed = bool(shipping)
     v = {'sku': sku, 'option1': opts[0] if len(opts) > 0 else None,
          'option2': opts[1] if len(opts) > 1 else None, 'option3': opts[2] if len(opts) > 2 else None,
          'price': cents(price), 'compare_at_price': None,
-         'inventory_management': 'shopify' if tracked else None,
-         'inventory_policy': policy, 'inventory_quantity': inv_qty if tracked else None,
+         'inventory_management': 'shopify' if managed else None,
+         'inventory_policy': 'continue' if managed else 'deny', 'inventory_quantity': 0 if managed else None,
          'grams': int(grams), 'requires_shipping': shipping, 'taxable': True}
     if qrule:
         v['quantity_rule'] = qrule

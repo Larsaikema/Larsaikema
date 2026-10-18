@@ -275,7 +275,12 @@ export function frameTent(p = {}) {
     detail: { target: [length / 2, He - 0.2, span / 2], size: 1.2, azimuth: 30, elevation: 8 },
     view: { hero: frame ? { elevation: walled ? 20 : 17 } : { azimuth: 56, elevation: 13 }, front: { elevation: 6 } },
     // the loose roof cover is shown as a cut-out in its pitched shape: no floor shadow under it
-    rig: { default: { ...K.tentRig(hex, { walled }), ...(frame ? {} : { keyShadow: 0, groundAO: { strength: 0 }, contact: { strength: 0 } }) } },
+    rig: {
+      default: { ...K.tentRig(hex, { walled }), ...(frame ? {} : { keyShadow: 0, groundAO: { strength: 0 }, contact: { strength: 0 } }) },
+      // straight-on view of a walled tent: the walls face the camera, so the softbox comes
+      // from front-left (not raking) and white cloth gets the easy-up front exposure
+      front: { key: { azimuth: -38, elevation: 28, distanceRel: 2.0, aimRel: [-0.05, 0.3, 0.6], angle: 46, penumbra: 0.9 }, fill: { azimuth: 55, elevation: 10, intensity: 2.2 }, ...(K.lumOf(hex) > 0.7 ? { exposure: 0.74 } : {}) },
+    },
     meta: { span, length, He, Hr, line, opslag, frame },
   };
 }

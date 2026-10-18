@@ -26,6 +26,8 @@ export function resolveColor(c, fallback = '#888888') {
 const cache = new Map();
 function cached(key, make) { if (!cache.has(key)) cache.set(key, make()); return cache.get(key); }
 
+// sRGB chroma (max - min channel, 0..1): neutral greys / black / white ~0, dyed colours > 0.2
+const chromaOf = (hex) => { const c = new THREE.Color(hex).convertLinearToSRGB(); return Math.max(c.r, c.g, c.b) - Math.min(c.r, c.g, c.b); };
 const lum = (hex) => { const c = new THREE.Color(hex); return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; };
 
 // Polyester 600D-style tent fabric with PVC/PU coating: soft clearcoat-like sheen,
@@ -41,7 +43,11 @@ export function tentFabricBase(color) {
   // white PVC-coated polyester reflects ~85 %: bright enough to read as white (not light
   // grey) next to a light backdrop, still below a 90 %+ paper white
   if (L > 0.85) base.multiplyScalar(0.85 / L);
-  if (L < 0.06) base.lerp(new THREE.Color().setRGB(0.042, 0.043, 0.046), Math.min(1, (0.06 - L) / 0.06 + 0.35));
+  // black: the swatch itself (#1D1E20 = 1.2 %) is a hair darker than real black coated
+  // polyester (the coating adds its own sheen on top). Only true blacks are lifted, and only to
+  // 1.6 %: antraciet (5 %) and grijs (16 %) keep their swatch albedo, so zwart / antraciet /
+  // grijs stay three clearly different products under the same light
+  if (L < 0.016) base.multiplyScalar(0.016 / Math.max(L, 1e-4));
   return base;
 }
 // Weave tile: 32 threads of 1 mm -> 3.2 cm per tile (uv in metres on all fabric geometry).
@@ -96,13 +102,21 @@ export function pvcCloth(color, { side = THREE.DoubleSide, translucent = true } 
     const L = lum(hex);
     const dark = L < 0.1, light = L > 0.6;
     const m = tentFabric(hex, { side, translucent }).clone();
-    m.roughness = dark ? 0.5 : light ? 0.62 : 0.58;
-    m.specularIntensity = dark ? 0.7 : 0.5;
-    m.sheen = dark ? 0.45 : 0.25;
+    // one PVC coating for every colour (white aside): the same broad soft sheen of the overhead
+    // scrim lies on top of every dye, so black gets its form from that sheen (not from more
+    // light), lit faces of coloured cloth turn a little lighter and less saturated, and
+    // faces turned away keep the deeper dye
+    m.roughness = light ? 0.62 : 0.5;
+    m.specularIntensity = light ? 0.5 : 0.62;
+    m.sheen = dark ? 0.35 : 0.25;
     m.sheenRoughness = dark ? 0.5 : 0.6;
+    if (dark) m.sheenColor = m.color.clone().multiplyScalar(1.6);
     m.normalScale = new THREE.Vector2(1.1, 1.1);
     m.userData = {
-      envSpec: dark ? 0.62 : light ? 0.32 : 0.36,
+      envSpec: light ? 0.32 : 0.5,
+      // dyed cloth in shade reads deeper and a little more saturated (light that reaches a shaded
+      // face has mostly bounced off the same dyed cloth); engine `dye` hook
+      dye: chromaOf(hex) < 0.12 ? 0 : 0.35,
       // white: the underside glows light grey-white from the overhead light, faces turned from
       // the key a little less (the key's share is damped so the near face does not burn out)
       translucency: translucent ? (light ? 0.55 : 0.3 * Math.min(1, L * 1.4)) : 0,
@@ -123,8 +137,11 @@ export function pvcPatch(color) {
   return cached(`pvcPatch:${hex}`, () => {
     const base = pvcCloth(hex);
     const m = base.clone();
-    m.roughness = Math.min(0.72, base.roughness + 0.03);
-    m.userData = { ...JSON.parse(JSON.stringify(base.userData)), translucency: (base.userData.translucency || 0) * 0.45 };
+    // a double layer carries a double coating: a touch glossier, so patches, tapes and seam welts
+    // read through their different sheen (same colour: a different albedo reads as a smudge)
+    m.roughness = Math.max(0.3, base.roughness - 0.1);
+    m.specularIntensity = Math.min(1, base.specularIntensity + 0.12);
+    m.userData = { ...JSON.parse(JSON.stringify(base.userData)), translucency: (base.userData.translucency || 0) * 0.45, envSpec: (base.userData.envSpec ?? 0.4) * 1.18 };
     delete m.userData.__hooked;
     m.name = `pvcPatch ${hex}`;
     return m;
@@ -146,9 +163,12 @@ export function pvcThread(color) {
     // gloss as the cloth, so it reads a hair lighter, never as a dark dashed line
     const m = new THREE.MeshPhysicalMaterial({
       color: c, vertexColors: true, roughness: dark ? 0.5 : 0.62, specularIntensity: dark ? 0.7 : 0.4, sheen: dark ? 0.6 : 0.4, sheenRoughness: 0.45,
-      sheenColor: dark ? c.clone().multiplyScalar(2.6) : c.clone().lerp(new THREE.Color('#ffffff'), 0.12), side: THREE.DoubleSide, name: `pvcThread ${hex}`,
+      sheenColor: dark ? c.clone().multiplyScalar(2.6) : c.clone(), side: THREE.DoubleSide, name: `pvcThread ${hex}`,
     });
-    m.userData.envSpec = dark ? 0.62 : 0.25;
+    // coloured / white cloth: no white sheen or env glints on the tiny thread crowns (they
+    // sparkle as white specks along a seam at catalogue size)
+    if (!dark) m.specularIntensity = 0.25;
+    m.userData.envSpec = dark ? 0.62 : 0.12;
     m.userData.threadAO = dark ? 0.55 : 1;
     m.userData.interior = true;
     return m;
@@ -272,11 +292,11 @@ export function aluminium({ tone = '#D5D8DB', roughness = 0.3 } = {}) {
   });
 }
 
-export function steelPowder(color = '#1C1D1F', { roughness = 0.42, clearcoat = 0.25 } = {}) {
+export function steelPowder(color = '#1C1D1F', { roughness = 0.42, clearcoat = 0.25, clearcoatRoughness = 0.35 } = {}) {
   const hex = resolveColor(color, '#1C1D1F');
-  return cached(`powder:${hex}:${roughness}`, () => {
+  return cached(`powder:${hex}:${roughness}:${clearcoat}:${clearcoatRoughness}`, () => {
     const m = new THREE.MeshPhysicalMaterial({
-      color: hex, metalness: 0.0, roughness, clearcoat, clearcoatRoughness: 0.35,
+      color: hex, metalness: 0.0, roughness, clearcoat, clearcoatRoughness,
       normalMap: TX.stippleNormal().clone(), normalScale: new THREE.Vector2(0.08, 0.08),
     });
     m.normalMap.repeat.set(40, 40); m.normalMap.needsUpdate = true;
@@ -294,6 +314,22 @@ export function galvanised() {
     const m = new THREE.MeshStandardMaterial({
       color: '#AEB2B6', metalness: 0.85, roughness: 0.42,
       normalMap: TX.stippleNormal({ scale: 30 }).clone(), normalScale: new THREE.Vector2(0.035, 0.035), name: 'galvanised',
+    });
+    m.normalMap.repeat.set(40, 40); m.normalMap.needsUpdate = true;
+    return m;
+  });
+}
+
+// Hot-dip galvanised steel (foot plates): metallic grey, mottled spangle gloss (roughness
+// ~0.3-0.6 per zinc crystal) and a faint tone difference between crystals. uv in metres.
+export function galvanisedSteel() {
+  return cached('galvSteel', () => {
+    const sp = TX.galvSpangle();
+    const rough = sp.rough.clone(), tone = sp.tone.clone();
+    for (const t of [rough, tone]) { t.repeat.set(10, 10); t.needsUpdate = true; }
+    const m = new THREE.MeshPhysicalMaterial({
+      color: '#B4B8BB', metalness: 0.8, roughness: 1.0, roughnessMap: rough, map: tone, specularIntensity: 0.8,
+      normalMap: TX.stippleNormal({ scale: 30 }).clone(), normalScale: new THREE.Vector2(0.03, 0.03), name: 'galvanised steel',
     });
     m.normalMap.repeat.set(40, 40); m.normalMap.needsUpdate = true;
     return m;

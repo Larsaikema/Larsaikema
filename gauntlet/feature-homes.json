@@ -43,7 +43,7 @@
     },
     "header.cart-count": {
       "status": "theme",
-      "where": "sections/header.liquid cart bubble (Polder, Zand digit) + assets/global.js KK.updateCartCount + snippets/favicon.liquid (PNG 16/32 cart state)"
+      "where": "sections/header.liquid cart bubble (Lampion, Inkt digit, brand.md §7.2) + assets/global.js KK.updateCartCount + snippets/favicon.liquid (PNG 16/32 cart state)"
     },
     "header.quote-button": {
       "status": "theme",
@@ -51,7 +51,7 @@
     },
     "header.mega-menu": {
       "status": "theme",
-      "where": "sections/header.liquid (disclosure buttons, 3 levels, promo blocks) + mobile drawer accordions; assets/global.js mega-menu"
+      "where": "sections/header.liquid (disclosure buttons, 3 levels, size chips, promo blocks; exact current state via snippets/header-current.liquid) + mobile drawer panels with accordions; assets/section-header.js mega-menu, assets/section-header-drawer.js"
     },
     "home.hero": {
       "status": "theme",

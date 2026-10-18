@@ -163,7 +163,8 @@ MAATGIDS = {
     'maatadvies-statafelrokken': [
         'statafelrok-stretch', 'topcover-stretch-statafel', 'statafelhoes-met-strik', 'statafelhoes-stretch-met-logo',
         'pakket-statafel-met-stretchrok', 'pakket-4-statafels-met-stretchrokken',
-        'pakket-statafels-stretchrokken-transportkar'],  # not pakket-statafels-met-transportkar: no rok in it
+        'pakket-5-statafels-stretchrokken-transportkar', 'pakket-10-statafels-stretchrokken-transportkar',
+        'pakket-15-statafels-stretchrokken-transportkar'],  # not pakket-statafels-met-transportkar: no rok in it
 }
 NOT_PRINTABLE = {
     # bedrukbaar without a print variant forces an upload on every variant (G3 note). Empty since the skeleton itself no
@@ -393,26 +394,71 @@ class Build:
         return out
 
     def export_images(self, products):
-        """Which images go to Shopify: only real renders. A variant whose own render is still a draft (or missing) shows the
-        product's real hero instead; a product without any real render exports no image at all (never a placeholder card)."""
-        self.image_stats = {'real': 0, 'draft': 0, 'missing': 0, 'products_without_image': [], 'variants_on_hero': 0}
+        """Which images go to Shopify, and which one each variant shows. Only real renders are exported (never a draft card or
+        a missing file). A variant gets a Variant Image only when that image shows the variant as it is:
+          1. its own image (skeleton variant_images), when that is a real render;
+          2. else, for a variant with a Kleur, another real image of the product in exactly that Kleur;
+          3. else, for a bundle variant, the real image of one of its components in that Kleur (added to the bundle's images,
+             the alt says it is a part of the pakket);
+          4. else, for a product whose images do not vary per option (no variant_image_by) and a variant without a Kleur,
+             the product's first real image;
+          5. otherwise none: Variant Image stays empty and the product images carry the page. A Zwart render (with Zwart alt
+             text) is never exported as the image of a Bordeaux variant (merchandising review)."""
+        st = self.image_stats = {'real': 0, 'draft': 0, 'missing': 0, 'products_without_image': [], 'variants_own': 0,
+                                 'variants_same_kleur': 0, 'variants_component': 0, 'variants_hero': 0, 'variants_no_image': 0,
+                                 'variants_no_image_by_product': {}}
         for p in products:
             for img in p['images']:
                 f = img['file']
                 img['draft'] = is_draft(f)
                 img['exported'] = (IMAGES / f).exists() and not img['draft']
-                self.image_stats['real' if img['exported'] else ('draft' if img['draft'] else 'missing')] += 1
-            real = [i['file'] for i in p['images'] if i['exported']]
-            if not real:
-                self.image_stats['products_without_image'].append(p['handle'])
+                st['real' if img['exported'] else ('draft' if img['draft'] else 'missing')] += 1
+        sku_variant = {v['sku']: (p, v) for p in products for v in p['variants']}
+
+        def kleur_of(p, v):
+            names = [o['name'] for o in p['options']]
+            return v.get(f'option{names.index("Kleur") + 1}') if 'Kleur' in names else None
+
+        def pick(p, v, allow_components):
+            real = [i for i in p['images'] if i['exported']]
+            own = v.get('image')
+            if own and any(i['file'] == own for i in real):
+                return own, 'own'
+            k = kleur_of(p, v)
+            if k:
+                same = [i['file'] for i in real if i.get('kleur') == k]
+                if same:
+                    return same[0], 'same_kleur'
+                if allow_components:
+                    # only the component the bundle's Kleur refers to: its product offers every Kleur of the bundle (the rok in a
+                    # statafel + rok pakket, not the statafel whose blad colour happens to have the same name)
+                    bk = set(next((o['values'] for o in p['options'] if o['name'] == 'Kleur'), []))
+                    for s in v['metafields'].get('componenten') or []:
+                        cp, cv = sku_variant.get(s, (None, None))
+                        if not cp or not bk <= set(next((o['values'] for o in cp['options'] if o['name'] == 'Kleur'), [])):
+                            continue
+                        ci = next((i for i in cp['images'] if i['file'] == cv.get('export_image') and i['exported'] and i.get('kleur') == k), None)
+                        if ci:
+                            if not any(i['file'] == ci['file'] for i in p['images']):
+                                p['images'].append({**copy.deepcopy(ci), 'role': 'component', 'priority': max(3, ci.get('priority', 3)),
+                                                    'alt': f"{ci['alt']} (onderdeel van dit pakket)", 'component_of': cp['handle']})
+                            return ci['file'], 'component'
+                return None, 'no_image'
+            if not p.get('variant_image_by') and real:
+                return real[0]['file'], 'hero'
+            return None, 'no_image'
+
+        # components first, so a bundle can fall back on the export image of its component
+        for p in sorted(products, key=lambda x: 1 if x.get('bundle') else 0):
             for v in p['variants']:
-                own = v.get('image')
-                if own and own in real:
-                    v['export_image'] = own
-                else:
-                    v['export_image'] = real[0] if real else None
-                    if own and real:
-                        self.image_stats['variants_on_hero'] += 1
+                f, how = pick(p, v, bool(p.get('bundle')))
+                v['export_image'] = f
+                st['variants_' + how] += 1
+                if how == 'no_image':
+                    st['variants_no_image_by_product'][p['handle']] = st['variants_no_image_by_product'].get(p['handle'], 0) + 1
+        for p in products:
+            if not any(i['exported'] for i in p['images']):
+                st['products_without_image'].append(p['handle'])
 
     def merge_product(self, sp, part):
         p = copy.deepcopy(sp)
@@ -1069,6 +1115,9 @@ def fixture(cat, swatches):
             'vendor': p['vendor'], 'product_type': p['product_type'], 'tags': p['tags'], 'status': p['status'],
             'published_at': when, 'created_at': when, 'template_suffix': p.get('template_suffix'),
             'gift_card': bool(p.get('gift_card')), 'seo': p['seo'], 'options': opts, 'variants': variants,
+            # Shopify product.category (Standard Product Taxonomy); unknown keys are ignored by renderers that do not support it
+            'category': ({'id': p.get('product_category_id'), 'name': p['product_category'].split(' > ')[-1], 'full_name': p['product_category']}
+                         if p.get('product_category') else None),
             'images': [{'src': i['file'], 'alt': i['alt'], 'width': 2000, 'height': 2000} for i in p['images'] if i.get('exported')],
             'metafields': typed_mf(PRODUCT_MF, p['metafields']),
         })
@@ -1237,7 +1286,9 @@ def main(argv=None):
     print(f'fixes applied: {len(b.fixes)} · warnings: {len(b.warnings)} · bundle errors: {len(b.bundle_errors)}')
     st = b.image_stats
     print(f"images: {st['real']} real renders exported · {st['draft']} draft cards and {st['missing']} missing files held back · "
-          f"{st['variants_on_hero']} variants show the product hero · {len(st['products_without_image'])} products without a real render yet "
+          f"variant images: {st['variants_own']} own, {st['variants_same_kleur']} same Kleur, {st['variants_component']} pakket component, "
+          f"{st['variants_hero']} hero (no colour), {st['variants_no_image']} none (no render in their colour yet) · "
+          f"{len(st['products_without_image'])} products without a real render yet "
           f"· collections with an image: {sum(1 for c in collections if c.get('image'))}/{len(collections)}")
     for e in b.bundle_errors:
         print('  bundle:', e)

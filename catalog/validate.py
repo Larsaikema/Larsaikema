@@ -447,6 +447,12 @@ def run(verbose=False):
                 rep.e('variants', f'{va}: variant image {v["image"]} is not one of the product images')
             if v.get('export_image') and v['export_image'] not in [i['file'] for i in p['images'] if i.get('exported')]:
                 rep.e('variants', f'{va}: export image {v["export_image"]} is not an exported (real) product image')
+            # merchandising review: a variant image shows the variant's own Kleur (never a Zwart render on a Bordeaux variant)
+            if v.get('export_image') and 'Kleur' in names:
+                vk = v.get(f'option{names.index("Kleur") + 1}')
+                ik = next((i.get('kleur') for i in p['images'] if i['file'] == v['export_image']), None)
+                if ik != vk:
+                    rep.e('images', f'{va}: variant image {v["export_image"]} shows Kleur {ik!r}, the variant is {vk!r}')
             if not v.get('image') and len(vs) > 1 and p['images'] and p.get('variant_image_by'):
                 rep.w('variants', f'{va}: no variant image although images vary by {p["variant_image_by"]}')
             qr = v.get('quantity_rule')

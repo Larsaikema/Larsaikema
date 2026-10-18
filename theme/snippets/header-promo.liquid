@@ -1,0 +1,61 @@
+{%- comment -%}
+  Header only: the picture card of one top menu item, in the desktop mega menu (beside the columns) and at the foot of
+  its mobile menu panel. The header's 'Megamenu-promotie' block for that item wins (theme editor: image, or a brand render
+  shipped with the theme while no image is chosen); without one, a collection item shows its own collection image with
+  'Alles in …' and the product count. Nothing renders when there is neither.
+  Params: link (top-level link), blocks (section.blocks), context ('mega' | 'drawer' | 'url': only print the link of the
+  item's promotion block, so the menu can leave out a link to the same page), collection_fallback (default true;
+  false = only a promotion block, as in the mobile panel, whose first row already shows the collection image),
+  current + key (optional: the collection card is aria-current when the menu key of the shown page is this item's key)
+{%- endcomment -%}
+{%- liquid
+  assign hp_block = nil
+  assign hp_title = link.title | strip | downcase
+  for hp_b in blocks
+    if hp_b.type == 'promo'
+      assign hp_for = hp_b.settings.menu_item | strip | downcase
+      if hp_for == hp_title
+        assign hp_block = hp_b
+        break
+      endif
+    endif
+  endfor
+  if context == 'drawer'
+    assign hp_sizes = '(min-width: 750px) 400px, 92vw'
+    assign hp_widths = '360, 540, 720, 900'
+  else
+    assign hp_sizes = '320px'
+    assign hp_widths = '320, 480, 640'
+  endif
+-%}
+{%- if context == 'url' -%}
+  {%- if hp_block -%}{{ hp_block.settings.link }}{%- endif -%}
+{%- elsif hp_block -%}
+  {%- comment -%} the block's editor attributes go on the mega menu card only: one element per block id {%- endcomment -%}
+  <a class="hpromo hpromo--{{ context }}" href="{{ hp_block.settings.link | default: link.url }}"{% if context == 'mega' %} {{ hp_block.shopify_attributes }}{% endif %}>
+    <span class="hpromo__media">
+      {%- if hp_block.settings.image != blank -%}
+        {{- hp_block.settings.image | image_url: width: 900 | image_tag: widths: hp_widths, sizes: hp_sizes, loading: 'lazy', alt: '' -}}
+      {%- else -%}
+        {%- render 'fallback-image', key: hp_block.settings.fallback_image, alt: '', placeholder: 'collection-1', class: 'is-contain' -%}
+      {%- endif -%}
+    </span>
+    <span class="hpromo__body">
+      {%- if hp_block.settings.eyebrow != blank -%}<span class="eyebrow hpromo__eyebrow">{{ hp_block.settings.eyebrow }}</span>{%- endif -%}
+      <span class="hpromo__title">{{ hp_block.settings.heading }}</span>
+      {%- if hp_block.settings.text != blank -%}<span class="hpromo__text">{{ hp_block.settings.text }}</span>{%- endif -%}
+      {%- if hp_block.settings.link_label != blank -%}<span class="hpromo__cta">{{ hp_block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>{%- endif -%}
+    </span>
+  </a>
+{%- elsif collection_fallback != false and link.type == 'collection_link' and link.object.image != blank -%}
+  <a class="hpromo hpromo--{{ context }} hpromo--collection" href="{{ link.url }}"{% if key != blank and current == key %} aria-current="page"{% endif %}>
+    <span class="hpromo__media">
+      {{- link.object.image | image_url: width: 900 | image_tag: widths: hp_widths, sizes: hp_sizes, loading: 'lazy', alt: '' -}}
+    </span>
+    <span class="hpromo__body">
+      <span class="hpromo__title">{{ link.title }}</span>
+      {%- if link.object.all_products_count > 0 -%}<span class="hpromo__text">{{ 'header.products_count' | t: count: link.object.all_products_count }}</span>{%- endif -%}
+      <span class="hpromo__cta">{{ 'header.view_all' | t }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>
+    </span>
+  </a>
+{%- endif -%}

@@ -124,11 +124,28 @@ def build():
     LB = {'Ø70 cm': 39.95, 'Ø80 cm': 44.95, 'Ø85 cm': 49.95}
     LBK = ['Wit', 'Zwart', 'Antraciet', 'Berken']
     vs = [variant(f'KK-MEU-BLAD-{code(m)}-{COLOR_CODE[k]}', [m, k], p + (10 if k == 'Berken' else 0), 6000, inv(6, m + k + 'blad', k)) for m, p in LB.items() for k in LBK]
+    # one render per blad colour (the wit one keeps its file name)
+    lb_imgs = [img('los-statafelblad-hero.webp', 'hero', 1, 'tableTop', {'diameter': 0.8, 'top': 'wit'}, 'hero', 'Wit', 'existing')] + \
+              [img(f'los-statafelblad-{slug(k)}-hero.webp', 'variant', 2, 'tableTop', {'diameter': 0.8, 'top': {'Zwart': 'zwart', 'Antraciet': 'antraciet', 'Berken': 'berken'}[k]},
+                   'hero', k, 'existing') for k in LBK if k != 'Wit']
     simple('los-statafelblad', 'Los statafelblad', 'Meubelonderdeel', ['zakelijk'], [opt('Maat', list(LB)), opt('Kleur', LBK)], vs,
-           [img('los-statafelblad-hero.webp', 'hero', 1, 'tableTop', {'diameter': 0.8, 'top': 'wit'}, 'hero', 'Wit', 'needs-model')],
+           lb_imgs,
            {'kenmerk_kort': 'Vervangend blad met kantenband · Ø 70, 80 of 85 cm', 'past_op': ['statafel-inklapbaar-professional'], 'verzending': 'pakket'},
            ['tafels-stoelen.meubel-onderdelen'], 'meubilair', 'Blad beschadigd of andere look? Nieuw blad op hetzelfde onderstel.', ['statafelblad los', 'statafel blad vervangen'],
-           {'note': 'Statafelshop verkoopt losse bladen (prijs onbekend)', 'ours': LB})
+           {'note': 'Statafelshop verkoopt losse bladen (prijs onbekend)', 'ours': LB}, vmap={i['kleur']: i['file'] for i in lb_imgs})
+    # spare parts per model, like the onderstel / middenstuk / schroeven Statafelshop sells (merchandising review)
+    OSP = [('Onderstel compleet', 54.95, 'ONS', 8200), ('Schuifring met draaiknop', 9.95, 'SR', 300), ('Bladscharnier en schroeven', 7.95, 'BS', 250)]
+    simple('onderdelen-statafel', 'Onderdelen statafel inklapbaar', 'Meubelonderdeel', ['zakelijk'], [opt('Uitvoering', [o[0] for o in OSP])],
+           [variant(f'KK-MEU-OSTF-{c}', [n], pr, g, inv(10, c + 'ostf')) for n, pr, c, g in OSP],
+           [img('onderdelen-statafel-hero.webp', 'hero', 1, 'statafel', {'diameter': 0.8, 'height': 1.1, 'top': 'wit', 'frame': 'zwart', 'base': 'klap', 'noTop': True}, 'detail', None, 'existing',
+                alt='onderstel compleet met schuifring en bladscharnier, zonder blad',
+                extra={'detail': {'target': [0, 0.54, 0], 'size': 1.42, 'azimuth': 34, 'elevation': 8, 'aperture': 0}})],
+           {'kenmerk_kort': 'Onderstel, schuifring of scharnier · voor onze inklapbare statafels', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
+            'past_op': ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80']},
+           ['tafels-stoelen.meubel-onderdelen'], 'meubilair',
+           'Kapotte ring of verbogen poot? Vervang het onderdeel in plaats van de hele statafel: onderstel compleet, schuifring met draaiknop, bladscharnier met schroeven; welk onderdeel waar zit.',
+           ['onderdelen statafel', 'onderstel statafel', 'statafel onderstel los'], {'statafelshop': 'onderstel, middenstuk en schroeven per model (prijzen niet gevonden)',
+                                                                                   'ours': {o[0]: o[1] for o in OSP}})
     # ------------------------------------------------------------ tafels
     KT = [('122 x 61 cm', 'Vast blad', 59.95, 10), ('183 x 76 cm', 'Vast blad', 74.95, 16), ('183 x 76 cm', 'In het midden inklapbaar', 79.95, 15), ('244 x 76 cm', 'Vast blad', 99.0, 23)]
     simple('klaptafel-hdpe-rechthoekig', 'Klaptafel HDPE rechthoekig', 'Klaptafel', ['zakelijk', 'gebruik:evenement', 'gebruik:tuinfeest'],
@@ -184,7 +201,8 @@ def build():
            [variant(f'KK-MEU-TKK-{c}', [n], p, kg * 1000, inv(3, c + 'tkk')) for n, p, c, kg in TK3],
            [img('transportkar-klaptafels-en-stoelen-hero.webp', 'hero', 1, 'trolley', {'kind': 'klaptafel', 'loaded': 0}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Zwenkwielen met rem · voor klaptafels, barkrukken of klapstoelen', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
-            'past_op': ['klaptafel-hdpe-rechthoekig', 'barkruk-stapelbaar-metaal', 'klapstoel']},
+            'past_op': ['klaptafel-hdpe-rechthoekig', 'klapstoel', 'barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'barkruk-velours-stapelbaar',
+                        'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'barkruk-chroom-stapelbaar']},
            ['tafels-stoelen.trolleys'], 'meubilair', 'Eén kar per meubeltype; capaciteit en afmetingen.', ['transportkar klaptafels', 'trolley stoelen'],
            {'outmate': 'trolley klaptafel rond 180 vanaf €482,50', 'ours': {t[0]: t[1] for t in TK3}})
 
@@ -201,11 +219,15 @@ def build():
            ['prikkabel', 'prikkabel 10 meter', 'lichtsnoer buiten'], {'outmate': '10 m €49 · 20 m €87 · 30 m €126', 'ours': {m: v[0] for m, v in PK.items()}}, vmap=vmap)
     vs = [variant(f'KK-LCHT-PKM-{COLOR_CODE[k]}', [k], 4.49, 120, None, tracked=False, policy='continue', qrule={'min': 5, 'max': 200, 'increment': 1}) for k in PKK]
     simple('prikkabel-op-maat', 'Prikkabel op maat (per meter)', 'Prikkabel', ['zakelijk', 'gebruik:horeca'], [opt('Kleur', PKK)], vs,
-           [img('prikkabel-op-maat-hero.webp', 'hero', 1, 'prikkabel', {'bulbs': 14, 'spacing': 0.5, 'sag': 0.2, 'on': True}, 'hero', 'Zwart', 'existing')],
+           [img('prikkabel-op-maat-hero.webp', 'hero', 1, 'prikkabel', {'bulbs': 14, 'spacing': 0.5, 'sag': 0.2, 'on': True}, 'hero', 'Zwart', 'existing'),
+            # witte kabel: the prikkabel E27 render with the white cable (same cable and fittings)
+            img('prikkabel-e27-wit-hero.webp', 'variant', 3, 'prikkabel', {'bulbs': 10, 'spacing': 1.0, 'sag': 0.25, 'on': True, 'cable': 'wit'}, 'hero', 'Wit', 'existing',
+                extra={'shared_with': 'prikkabel-e27'})],
            {'kenmerk_kort': 'Jouw lengte tot 200 m · fittingafstand naar keuze · gemonteerd', 'levertijd': 'Levertijd 3–5 werkdagen', 'verzending': 'pakket'},
            ['verlichting.prikkabels'], 'verlichting',
            'Lengte in de configurator (aantal = meters, min. 5 m); fittingafstand, aanloop en eindstuk als keuzes; maatwerk kan niet retour.',
-           ['prikkabel op maat'], {'outmate': 'op maat vanaf €9', 'ours': '€4,49 per meter, min. 5 m'})
+           ['prikkabel op maat'], {'outmate': 'op maat vanaf €9', 'ours': '€4,49 per meter, min. 5 m'},
+           vmap={'Zwart': 'prikkabel-op-maat-hero.webp', 'Wit': 'prikkabel-e27-wit-hero.webp'})
     LL = [('Warm wit melkglas 1 W', 1.29, 'MW'), ('Warm wit helder 1 W', 1.29, 'HW'), ('Filament dimbaar 2 W', 1.79, 'FD'), ('Set van 5 gekleurde lampen', 4.95, 'S5')]
     simple('led-lamp-e27', 'LED-lamp E27 onbreekbaar', 'LED-lamp', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [l[0] for l in LL])],
            [variant(f'KK-LCHT-LED-{c}', [n], p, 40 if c != 'S5' else 200, inv(400, c + 'led')) for n, p, c in LL],
@@ -223,6 +245,17 @@ def build():
             'specificaties': [sp('Slang', 'LEDs', '36 per meter'), sp('Slang', 'Diameter', '13 mm'), sp('Slang', 'Beschermingsklasse', 'IP44')]},
            ['verlichting.lichtslangen'], 'verlichting', 'Lichtslang per hele meter (aantal = meters); aansluitsnoer met stekker apart (onderdelen).',
            ['led lichtslang', 'lichtslang buiten'], {'outmate': 'warm wit €8,95–€9,99 per m; 20 m €58', 'ours': '€7,95 per meter'}, vmap=vmap)
+    LSS = {'15 m': (44.95, 2900), '20 m': (54.95, 3800)}
+    simple('led-lichtslang-set-warm-wit', 'LED-lichtslang warm wit, set van 15 of 20 m', 'Lichtslang', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Maat', list(LSS))],
+           [variant(f'KK-LCHT-LSS-{code(m)}', [m], pr, g, inv(10, m + 'lss')) for m, (pr, g) in LSS.items()],
+           [img('led-lichtslang-set-warm-wit-hero.webp', 'hero', 1, 'ropeLight', {'color': render_color('Warm wit'), 'length': 5, 'on': True}, 'hero', 'Warm wit', 'existing',
+                alt='warm wit, brandend, op de haspel')],
+           {'kenmerk_kort': 'Vaste rol 15 of 20 m · warm wit · stekker en eindkap gemonteerd', 'verzending': 'pakket', 'staffelkorting': ST_PRIK,
+            'specificaties': [sp('Slang', 'LEDs', '36 per meter, warm wit (ca. 2200 K)'), sp('Slang', 'Diameter', '13 mm'), sp('Slang', 'Beschermingsklasse', 'IP44'),
+                              sp('Set', 'Inbegrepen', 'Lichtslang op lengte, aansluitsnoer met stekker en eindkap gemonteerd')]},
+           ['verlichting.lichtslangen'], 'verlichting',
+           'Klaar om in te pluggen: vaste lengte 15 of 20 m warm wit met stekker en eindkap; goedkoper per meter dan los op maat; voor wie geen eigen lengte nodig heeft.',
+           ['lichtslang 20 meter', 'lichtslang warm wit set', 'led lichtslang 15 m'], {'outmate': 'lichtslang 20 m set €58', 'ours': {m: v[0] for m, v in LSS.items()}})
     simple('kerstverlichting-10-m', 'Kerstverlichting 10 m, 100 LEDs', 'Kerstverlichting', ['gebruik:horeca'], [opt('Uitvoering', ['Warm wit', 'Warm wit fonkelend'])],
            [variant('KK-LCHT-KV-WW', ['Warm wit'], 29.95, 700, 40), variant('KK-LCHT-KV-FK', ['Warm wit fonkelend'], 32.95, 700, 30)],
            [img('kerstverlichting-10-m-hero.webp', 'hero', 1, 'stringLights', {'kind': 'kerst', 'count': 100, 'on': True}, 'hero', None, 'needs-model')],
@@ -244,11 +277,13 @@ def build():
            ['led lamp partytent', 'verlichting easy up', 'vloedlicht tent'], {'outmate': 'Easy-up LED-vloedlicht 30 W €129', 'ours': 74.95,
                                                                             'note': 'onder Outmate gezet: 30 W LED-vloedlicht is elders een standaardartikel (eigenaar beoordeelt)'})
     PO = [('E27-fitting zwart', 1.39, 'FZ'), ('E27-fitting wit', 1.49, 'FW'), ('Eindkap', 1.95, 'EK'), ('Stekkerdimmer tot 280 W', 9.95, 'SD'),
-          ('Dimmer met afstandsbediening tot 500 W', 24.95, 'DA'), ('Tijdschakelaar', 7.95, 'TS'), ('Aansluitsnoer lichtslang met stekker', 9.95, 'AS'), ('Verlengkabel 10 m zwart', 12.95, 'VK')]
+          ('Dimmer met afstandsbediening tot 500 W', 24.95, 'DA'), ('Tijdschakelaar', 7.95, 'TS'), ('Aansluitsnoer lichtslang met stekker', 9.95, 'AS'), ('Verlengkabel 10 m zwart', 12.95, 'VK'),
+          ('Rubberkabel per meter zwart (2 x 1,5 mm²)', 1.95, 'KPM')]
     simple('onderdelen-prikkabel-en-lichtslang', 'Onderdelen prikkabel en lichtslang', 'Verlichting onderdeel', [], [opt('Uitvoering', [p[0] for p in PO])],
-           [variant(f'KK-LCHT-OND-{c}', [n], p, 100, inv(60, c + 'po')) for n, p, c in PO],
+           [variant(f'KK-LCHT-OND-{c}', [n], p, 110 if c == 'KPM' else 100, inv(60, c + 'po')) for n, p, c in PO],
            [img('onderdelen-prikkabel-en-lichtslang-hero.webp', 'hero', 1, 'lightParts', {'parts': ['fitting', 'eindkap', 'dimmer']}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Fittingen, dimmers, tijdschakelaar en aansluitsnoeren', 'verzending': 'pakket', 'past_op': ['prikkabel-e27', 'prikkabel-op-maat', 'led-lichtslang']},
+           {'kenmerk_kort': 'Fittingen, dimmers, timer, snoeren en kabel per meter', 'verzending': 'pakket',
+            'past_op': ['prikkabel-e27', 'prikkabel-op-maat', 'led-lichtslang', 'led-lichtslang-set-warm-wit']},
            ['verlichting.verlichting-onderdelen'], 'verlichting', 'Reserve-onderdelen en slimme extra’s (dimmer, timer).', ['dimmer prikkabel', 'fitting prikkabel'],
            {'outmate': 'fitting €1,50–€1,69 · dimmer €9,99', 'ours': {p[0]: p[1] for p in PO}})
 
@@ -359,7 +394,7 @@ def build():
     add({'handle': 'cadeaubon', 'title': 'Klapklaar cadeaubon', 'product_type': 'Cadeaubon', 'tags': [], 'gift_card': True, 'template_suffix': None,
          'options': [opt('Bedrag', [f'€ {b}' for b in BG])],
          'variants': [variant(f'KK-CADEAU-{b}', [f'€ {b}'], b, 0, None, tracked=False, shipping=False) for b in BG],
-         'images': [img('cadeaubon-hero.webp', 'hero', 1, 'giftCard', {'design': 'brand'}, 'hero', None, 'needs-model', alt='Klapklaar cadeaubon')],
+         'images': [img('cadeaubon-hero.webp', 'hero', 1, 'giftCard', {'design': 'brand', 'generator': 'catalog/tools/giftcard.py'}, 'hero', None, 'generated', alt='Klapklaar cadeaubon')],
          'metafields': {'kenmerk_kort': 'Digitaal · direct in je mail · te besteden aan alles'},
          'covers': [], 'family': 'cadeaubon', 'weight': 1,
          'copy_brief': 'Digitale cadeaubon; geldigheid is een owner-claim (wettelijk minimum controleren).', 'seo_keywords': ['cadeaubon partytent'], 'price_ref': {}})

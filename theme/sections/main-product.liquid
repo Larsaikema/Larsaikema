@@ -1,6 +1,8 @@
-{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'media-gallery.js' | asset_url }}" defer></script>
 <script src="{{ 'variant-picker.js' | asset_url }}" defer></script>
+{%- assign media_types = product.media | map: 'media_type' | uniq | join: ',' -%}
+{%- if media_types contains 'video' or media_types contains 'model' -%}<script src="{{ 'product-media.js' | asset_url }}" defer></script>{%- endif %}
+{%- if product.metafields.custom.bedrukbaar.value == true or product.tags contains 'bedrukbaar' -%}<script src="{{ 'product-print.js' | asset_url }}" defer></script>{%- endif %}
 <script src="{{ 'product-form.js' | asset_url }}" defer></script>
 {%- if product.metafields.custom.configurator != blank -%}<script src="{{ 'product-configurator.js' | asset_url }}" defer></script>{%- endif -%}
 {%- liquid
@@ -38,11 +40,41 @@
   assign quote_url = settings.quote_page | default: '/pages/offerte'
   # the Zakelijk nudge opens the inline offerte form when the section has one (block 'quote_form')
   assign nudge_url = quote_url | append: '?product=' | append: product.handle | append: '&variant=' | append: current_variant.id
+  # staffel in quote mode carries the Zakelijk / offerte route itself (snippets/product-staffel), so the separate
+  # Zakelijk nudge ('Vanaf 10 stuks ...') is left out there: one offerte message, no clashing quantities
+  assign staffel_quote = false
   for b in section.blocks
     if b.type == 'quote_form'
       assign nudge_url = '#ProductQuote'
+    elsif b.type == 'staffel' and staffel.size > 0 and settings.staffel_mode == 'quote'
+      assign staffel_quote = true
     endif
   endfor
+  # Long content (description, specs, downloads, FAQ, 'Wat zit erin', offerte) goes in a full-width band under the
+  # product grid (desktop: two columns aligned with gallery and buy column), so the buy column stays short.
+  # key facts: under the photo from 990 px; on smaller screens after the delivery block (or in the title block)
+  assign kf_labels = ''
+  assign kf_after_delivery = false
+  # 'Wat zit erin' (block 'included') sits next to the description: the description's own 'Wat je krijgt' section is
+  # then left out (product-tab, strip_included), so the contents are not listed twice side by side
+  assign strip_inc = false
+  for b in section.blocks
+    case b.type
+      when 'title'
+        if b.settings.show_keyfacts
+          assign kf_labels = b.settings.keyfacts
+        endif
+      when 'delivery'
+        assign kf_after_delivery = true
+      when 'included'
+        assign strip_inc = true
+    endcase
+  endfor
+  if is_discontinued
+    assign kf_after_delivery = false
+  endif
+  assign details_below = section.settings.details_below
+  assign details_types = 'collapsible_tab,included,quote_form,compare' | split: ','
   assign featured_index = 0
   for media in product.media
     if media.id == current_variant.featured_media.id
@@ -50,25 +82,20 @@
     endif
   endfor
 -%}
+{%- render 'product-styles', product: product, is_print: is_print, is_config: is_config, is_discontinued: is_discontinued, avail_status: avail_status, media_types: media_types %}
 <product-info class="product section" id="ProductInfo-{{ section.id }}" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-form-id="{{ product_form_id }}">
+  <p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-variant-live></p>
   <div class="page-width">
     {%- if section.settings.show_breadcrumbs -%}{%- render 'breadcrumbs' -%}{%- endif -%}
     <div class="product__grid">
       {%- comment -%} ---------- media gallery ---------- {%- endcomment -%}
       <div class="product__media">
-        <media-gallery class="gallery" data-start="{{ featured_index }}" aria-label="{{ 'product.gallery_label' | t }}">
+        <media-gallery class="gallery" data-start="{{ featured_index }}" role="region" aria-label="{{ 'product.gallery_label' | t }}">
           <div class="gallery__viewer">
             <ul class="gallery__slides" role="list" data-gallery-slides>
               {%- for media in product.media -%}
-                <li class="gallery__slide" data-media-id="{{ media.id }}" data-index="{{ forloop.index0 }}">
-                  <button type="button" class="gallery__zoom" data-gallery-zoom="{{ forloop.index0 }}" aria-label="{{ 'product.gallery_zoom' | t: index: forloop.index }}">
-                    {%- assign m_alt = media.alt | default: product.title -%}
-                    {%- if forloop.index0 == featured_index -%}
-                      {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), (min-width: 750px) 48vw, 100vw', widths: '390, 560, 760, 900, 1100, 1400', priority: true, alt: m_alt -%}
-                    {%- else -%}
-                      {%- render 'image', image: media.preview_image, sizes: '(min-width: 990px) min(56vw, 760px), (min-width: 750px) 48vw, 100vw', widths: '390, 560, 760, 900, 1100, 1400', alt: m_alt -%}
-                    {%- endif -%}
-                  </button>
+                <li class="gallery__slide gallery__slide--{{ media.media_type }}" data-media-id="{{ media.id }}" data-index="{{ forloop.index0 }}">
+                  {%- render 'product-media', media: media, product: product, featured_index: featured_index, index: forloop.index0 -%}
                 </li>
               {%- else -%}
                 <li class="gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</li>
@@ -94,28 +121,35 @@
             <ul class="gallery__thumbs" role="list">
               {%- for media in product.media -%}
                 <li>
-                  <button type="button" class="gallery__thumb" data-gallery-thumb="{{ forloop.index0 }}" aria-label="{{ 'product.gallery_thumb' | t: index: forloop.index }}"{% if forloop.index0 == featured_index %} aria-current="true"{% endif %}>
+                  <button type="button" class="gallery__thumb" data-gallery-thumb="{{ forloop.index0 }}" data-media-type="{{ media.media_type }}" aria-label="{{ 'product.gallery_thumb' | t: index: forloop.index }}"{% if forloop.index0 == featured_index %} aria-current="true"{% endif %}>
                     {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '', widths: '90, 180', sizes: '90px' }}
                   </button>
                 </li>
               {%- endfor -%}
             </ul>
           {%- endif -%}
-          <dialog class="modal zoom" aria-label="{{ product.title | escape }}" data-gallery-dialog>
+          <dialog class="modal zoom" aria-label="{{ product.title | replace: ' x ', ' × ' | escape }}" data-gallery-dialog>
             <button type="button" class="icon-btn zoom__close" data-drawer-close aria-label="{{ 'product.gallery_close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
             <ul class="zoom__list" role="list">
               {%- for media in product.media -%}
+                {%- if media.media_type != 'image' -%}{%- continue -%}{%- endif -%}
                 <li data-zoom-index="{{ forloop.index0 }}">{{ media.preview_image | image_url: width: 2000 | image_tag: loading: 'lazy', alt: media.alt, widths: '1000, 1400, 2000', sizes: 'min(1100px, 100vw)' }}</li>
               {%- endfor -%}
             </ul>
           </dialog>
         </media-gallery>
+        {%- comment -%} key facts: under the photo from 990 px (the title block holds the copy for smaller screens) {%- endcomment -%}
+        {%- if kf_labels != blank -%}{%- render 'product-keyfacts', product: product, labels: kf_labels, class: 'keyfacts--media' -%}{%- endif -%}
       </div>
 
       {%- comment -%} ---------- product info ---------- {%- endcomment -%}
       <div class="product__info">
         <div class="product__info-inner">
           {%- for block in section.blocks -%}
+            {%- if details_below -%}
+              {%- assign bt = block.type -%}
+              {%- if details_types contains bt -%}{%- continue -%}{%- endif -%}
+            {%- endif -%}
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
@@ -125,8 +159,9 @@
                   {%- assign eyebrow = product.type -%}
                   {%- if collection -%}{%- assign eyebrow = collection.title -%}{%- endif -%}
                   {%- if eyebrow != blank -%}<p class="eyebrow product__eyebrow">{{ eyebrow }}</p>{%- endif -%}
-                  <h1 class="product__title">{{ product.title | replace: ' × ', ' × ' }}</h1>
+                  <h1 class="product__title">{{ product.title | replace: ' x ', ' × ' | replace: ' × ', ' × ' }}</h1>
                   {%- if product.metafields.custom.kenmerk_kort != blank -%}<p class="product__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>{%- endif -%}
+                  {%- if block.settings.show_keyfacts and kf_after_delivery == false -%}{%- render 'product-keyfacts', product: product, labels: block.settings.keyfacts, class: 'keyfacts--info' -%}{%- endif -%}
                   {%- if is_discontinued -%}<p class="status-label status-label--out">{{ 'product.status_discontinued' | t }}</p>{%- elsif avail_status == 'binnenkort' -%}<p class="status-label status-label--later">{{ 'product.status_coming' | t }}</p>{%- endif -%}
                   {%- render 'rating', product: product, show_count: true -%}
                 </div>
@@ -165,47 +200,13 @@
                 {%- endif -%}
 
               {%- when 'included' -%}
-                {%- assign inc = product.metafields.custom.included.value -%}
-                {%- assign exc = product.metafields.custom.excluded.value -%}
-                {%- if inc != blank or exc != blank -%}
-                  <div class="included" {{ block.shopify_attributes }}>
-                    <p class="included__title">{%- render 'icon', icon: 'box', class: 'icon--sm' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.included_title' | t }}{% endif %}</p>
-                    <ul class="included__list" role="list">
-                      {%- for x in inc -%}<li class="included__item">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.included_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
-                      {%- for x in exc -%}<li class="included__item included__item--no">{%- render 'icon', icon: 'minus', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.excluded_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
-                    </ul>
-                  </div>
-                {%- endif -%}
+                {%- render 'product-included', product: product, block: block -%}
+
+              {%- when 'compare' -%}
+                {%- render 'product-compare', product: product, block: block -%}
 
               {%- when 'staffel' -%}
-                {%- if staffel != blank and staffel.size > 0 -%}
-                  <div class="staffel" data-dynamic="staffel" data-staffel="{{ staffel | json | escape }}" data-unit-price="{{ current_variant.price }}" {{ block.shopify_attributes }}>
-                    <p class="staffel__title">{%- render 'icon', icon: 'euro', class: 'icon--sm' -%}{{ 'product.staffel_title' | t }}</p>
-                    <table class="staffel__table">
-                      <thead><tr><th scope="col">{{ 'product.staffel_qty' | t }}</th><th scope="col">{{ 'product.staffel_discount' | t }}</th><th scope="col">{{ 'product.staffel_price' | t }}</th></tr></thead>
-                      <tbody>
-                        {%- assign first_tier = staffel.first.vanaf | minus: 1 -%}
-                        <tr data-tier-min="1"><td>1–{{ first_tier }}</td><td>–</td><td>{%- render 'staffel-price', cents: current_variant.price -%}</td></tr>
-                        {%- for tier in staffel -%}
-                          {%- assign tier_off = current_variant.price | times: tier.korting | divided_by: 100.0 | round -%}
-                          {%- assign tier_cents = current_variant.price | minus: tier_off -%}
-                          <tr data-tier-min="{{ tier.vanaf }}">
-                            <td>{{ 'product.staffel_from' | t: qty: tier.vanaf }}</td>
-                            <td>{{ tier.korting }}%</td>
-                            <td>{%- render 'staffel-price', cents: tier_cents -%}</td>
-                          </tr>
-                        {%- endfor -%}
-                      </tbody>
-                    </table>
-                    <p class="staffel__hint" data-staffel-hint aria-live="polite"></p>
-                    {%- case settings.staffel_mode -%}
-                      {%- when 'automatic' -%}
-                        <p class="staffel__note text-xs muted">{{ 'product.staffel_note' | t }}</p>
-                      {%- when 'quote' -%}
-                        <p class="staffel__note text-xs muted">{{ 'product.staffel_note_quote' | t }} <a class="link" href="{{ quote_url }}?product={{ product.handle }}&amp;variant={{ current_variant.id }}">{{ 'product.quote_cta' | t }}</a></p>
-                    {%- endcase -%}
-                  </div>
-                {%- endif -%}
+                {%- render 'product-staffel', product: product, block: block, section_id: section.id, current_variant: current_variant, staffel: staffel, quote_url: quote_url, nudge_url: nudge_url, is_config: is_config, unit: cfg_unit -%}
 
               {%- when 'bedrukken' -%}
                 {%- if is_print -%}
@@ -213,86 +214,7 @@
                 {%- endif -%}
 
               {%- when 'addons' -%}
-                {%- comment -%}
-                  Add-ons per selected variant: custom.addon_varianten (list.variant_reference) + custom.addon_aantallen on the
-                  variant, so a 3 x 6 m tent offers the 3 x 6 m side walls and 'Set van 6' foot weights. Fallback: the product
-                  list custom.addons (first available variant, 1 each). The add-on quantity follows the main quantity, except
-                  for per-meter products (custom.addon_modus = 'per-regel') and configurator products. Swapped on variant change
-                  by product-form.js (data-dynamic="addons", ticked add-ons stay ticked per add-on product).
-                {%- endcomment -%}
-                {%- liquid
-                  assign addon_vs = current_variant.metafields.custom.addon_varianten.value
-                  assign addon_qs = current_variant.metafields.custom.addon_aantallen.value
-                  assign addons = product.metafields.custom.addons.value
-                  # custom.addon_eenmalig: add-on products that go along once per order line, not x the main quantity
-                  # (10 statafels + 1 transportkar). Their checkbox carries data-addon-follow="false"; product-form.js reads the
-                  # nearest data-addon-follow, so the input's own attribute wins over the fieldset.
-                  assign addon_once_ids = ''
-                  for x in product.metafields.custom.addon_eenmalig.value
-                    assign addon_once_ids = addon_once_ids | append: ',' | append: x.id | append: ','
-                  endfor
-                  assign addon_follow = true
-                  if product.metafields.custom.addon_modus.value == 'per-regel' or is_config
-                    assign addon_follow = false
-                  endif
-                  assign addon_n = 0
-                  if addon_vs != blank
-                    assign addon_n = addon_vs.size
-                  elsif addons != blank
-                    assign addon_n = addons.size
-                  endif
-                -%}
-                <div class="addons-slot" data-dynamic="addons" {{ block.shopify_attributes }}>
-                {%- if addon_n > 0 -%}
-                  <fieldset class="addons" data-addon-follow="{{ addon_follow }}">
-                    <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
-                    <p class="addons__help text-sm muted">{{ 'product.addons_help' | t }}</p>
-                    <ul class="addons__list" role="list">
-                      {%- if addon_vs != blank -%}
-                        {%- assign addon_list = addon_vs -%}
-                      {%- else -%}
-                        {%- assign addon_list = addons -%}
-                      {%- endif -%}
-                      {%- for item in addon_list -%}
-                        {%- liquid
-                          if addon_vs != blank
-                            assign av = item
-                            assign addon = item.product
-                            assign aq = addon_qs[forloop.index0] | default: 1
-                          else
-                            assign addon = item
-                            assign av = item.selected_or_first_available_variant
-                            assign aq = 1
-                          endif
-                          if addon == blank or av == blank or av.available == false
-                            continue
-                          endif
-                          assign a_price = av.price | times: aq
-                          assign a_img = av.featured_image | default: addon.featured_media.preview_image
-                          assign a_key = ',' | append: addon.id | append: ','
-                          assign a_once = false
-                          if addon_follow and addon_once_ids contains a_key
-                            assign a_once = true
-                          endif
-                        -%}
-                        <li>
-                          <label class="addon" for="Addon-{{ section.id }}-{{ forloop.index }}">
-                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-title="{{ addon.title | escape }}"{% if a_once %} data-addon-follow="false"{% endif %}>
-                            <span class="addon__media">{%- if a_img -%}{{ a_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px' }}{%- endif -%}</span>
-                            <span class="addon__text">
-                              <span class="addon__title">{% if aq > 1 %}{{ aq }} × {% endif %}{{ addon.title }}</span>
-                              {%- unless addon.has_only_default_variant -%}<span class="addon__variant text-sm">{{ av.title }}</span>{%- endunless -%}
-                              {%- if addon.metafields.custom.kenmerk_kort != blank -%}<span class="addon__spec">{{ addon.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
-                              {%- if a_once -%}<span class="addon__spec">{{ 'product.addon_once' | t }}</span>{%- endif -%}
-                            </span>
-                            <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: a_price -%}</span>
-                          </label>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </fieldset>
-                {%- endif -%}
-                </div>
+                {%- render 'product-addons', product: product, block: block, section_id: section.id, current_variant: current_variant, is_config: is_config -%}
 
               {%- when 'buy_buttons' -%}
                 {%- render 'product-buy', product: product, block: block, section_id: section.id, form_id: product_form_id, current_variant: current_variant, is_config: is_config, cfg: cfg, avail_status: avail_status, is_discontinued: is_discontinued, print_active: print_active, druk: druk, is_maatwerk: is_maatwerk -%}
@@ -301,39 +223,16 @@
                 {%- unless is_discontinued -%}
                   <div class="product__delivery" data-dynamic="delivery" {{ block.shopify_attributes }}>
                     {%- render 'delivery-promise', product: product, variant: current_variant, style: 'full', print_active: print_active -%}
+                    {%- render 'product-delivery-pack', product: product, variant: current_variant -%}
                   </div>
+                  {%- if kf_labels != blank -%}{%- render 'product-keyfacts', product: product, labels: kf_labels, class: 'keyfacts--info' -%}{%- endif -%}
                 {%- endunless -%}
 
               {%- when 'usps' -%}
-                {%- assign usps = product.metafields.custom.usps.value -%}
-                {%- assign past_op = product.metafields.custom.past_op.value -%}
-                {%- comment -%}
-                  The fallback list holds shop promises (levering, bedenktijd). They contradict 'Binnenkort leverbaar',
-                  'Permanent uitverkocht' or sold out, so they only show while the product can be ordered.
-                {%- endcomment -%}
-                {%- assign usp_fallback = block.settings.fallback -%}
-                {%- if product.available == false or is_discontinued or avail_status == 'binnenkort' -%}
-                  {%- assign usp_fallback = blank -%}
-                {%- endif -%}
-                {%- if usps != blank or usp_fallback != blank or past_op != blank or product.metafields.custom.garantie != blank -%}
-                  <div class="product__usps" {{ block.shopify_attributes }}>
-                    <ul class="checklist" role="list">
-                      {%- if usps != blank -%}
-                        {%- for u in usps -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>{%- endfor -%}
-                      {%- else -%}
-                        {%- assign fb = usp_fallback | newline_to_br | split: '<br />' -%}
-                        {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
-                      {%- endif -%}
-                      {%- if product.metafields.custom.garantie != blank -%}<li>{%- render 'icon', icon: 'shield' -%}<span>{{ product.metafields.custom.garantie.value }}</span></li>{%- endif -%}
-                    </ul>
-                    {%- if past_op != blank -%}
-                      <p class="product__fits text-sm"><strong>{{ 'product.compatible' | t }}:</strong>{% for p in past_op %} <a class="link" href="{{ p.url }}">{{ p.title }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}</p>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
+                {%- render 'product-usps', product: product, block: block, is_discontinued: is_discontinued, avail_status: avail_status -%}
 
               {%- when 'b2b' -%}
-                {%- if is_discontinued -%}{%- continue -%}{%- endif -%}
+                {%- if is_discontinued or staffel_quote -%}{%- continue -%}{%- endif -%}
                 <div class="product__b2b" {{ block.shopify_attributes }}>
                   {%- render 'icon', icon: 'case' -%}
                   <p>
@@ -361,17 +260,81 @@
         </div>
       </div>
     </div>
+
+    {%- if details_below -%}
+      {%- comment -%}
+        Details band: description (open) + the other tabs as accordions on the left, under the gallery; 'Wat zit erin',
+        specifications and downloads on the right, under the buy column. Specs and downloads are accordions on phones
+        and open cards from 990 px (data-open-desktop, variant-picker.js). Tab ids stay deep-linkable.
+      {%- endcomment -%}
+      {%- capture details_main -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'collapsible_tab' and block.settings.source == 'description' -%}
+            {%- render 'product-tab', product: product, block: block, current_variant: current_variant, mode: 'panel', strip_included: strip_inc -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- capture details_side -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'included' -%}
+              {%- render 'product-included', product: product, block: block -%}
+            {%- when 'compare' -%}
+              {%- render 'product-compare', product: product, block: block -%}
+            {%- when 'collapsible_tab' -%}
+              {%- if block.settings.source == 'specs' or block.settings.source == 'downloads' -%}
+                {%- render 'product-tab', product: product, block: block, current_variant: current_variant, mode: 'card' -%}
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- capture details_more -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'collapsible_tab' -%}
+              {%- unless block.settings.source == 'description' or block.settings.source == 'specs' or block.settings.source == 'downloads' -%}
+                {%- render 'product-tab', product: product, block: block, current_variant: current_variant -%}
+              {%- endunless -%}
+            {%- when 'quote_form' -%}
+              {%- unless is_discontinued -%}
+                {%- render 'product-quote', product: product, block: block, section_id: section.id, current_variant: current_variant -%}
+              {%- endunless -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign dm = details_main | strip -%}
+      {%- assign ds = details_side | strip -%}
+      {%- assign dx = details_more | strip -%}
+      {%- if dm != blank or ds != blank or dx != blank -%}
+        <div class="pdp-details{% if ds == blank %} pdp-details--single{% endif %}">
+          {%- if dm != blank -%}<div class="pdp-details__main">{{ dm }}</div>{%- endif -%}
+          {%- if ds != blank -%}<div class="pdp-details__side">{{ ds }}</div>{%- endif -%}
+          {%- if dx != blank -%}<div class="pdp-details__more">{{ dx }}</div>{%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
   </div>
 
   {%- if section.settings.sticky_bar and is_discontinued == false -%}
+    {%- comment -%}
+      Sticky buy bar: shows whenever the main buy button is off screen (scrolled past, or still below the fold on a
+      phone), never next to it (one buy button per screen, brand v7 4.2). Phones: a full-width bar; from 990 px a
+      floating card with thumbnail, title, choice, price and the button.
+    {%- endcomment -%}
     <div class="sticky-buy" data-sticky-buy aria-hidden="true">
       <div class="page-width sticky-buy__inner">
+        <span class="sticky-buy__media" data-dynamic="sticky-media" aria-hidden="true">
+          {%- assign sb_img = current_variant.featured_media.preview_image | default: product.featured_media.preview_image -%}
+          {%- if sb_img -%}{{ sb_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '52px' }}{%- endif -%}
+        </span>
         <div class="sticky-buy__info">
-          <span class="sticky-buy__title">{{ product.title }}</span>
-          <span class="sticky-buy__variant" data-dynamic="sticky-variant">{% unless product.has_only_default_variant %}{{ current_variant.title }}{% endunless %}</span>
+          <span class="sticky-buy__title">{{ product.title | replace: ' x ', ' × ' | replace: ' × ', ' × ' }}</span>
+          <span class="sticky-buy__variant" data-dynamic="sticky-variant">{% unless product.has_only_default_variant %}{{ current_variant.title | replace: ' x ', ' × ' }}{% endunless %}</span>
+          {%- comment -%} the delivery block's stock / lead-time line, so the bar never adds to the cart without it {%- endcomment -%}
+          <div class="sticky-buy__stock" data-dynamic="sticky-stock">{%- render 'delivery-promise', product: product, variant: current_variant, style: 'short', print_active: print_active -%}</div>
         </div>
         <div class="sticky-buy__price" data-dynamic="sticky-price">{%- if is_config -%}{%- render 'price', product: product, variant: current_variant, unit: cfg_unit -%}{%- else -%}{%- render 'price', product: product, variant: current_variant -%}{%- endif -%}</div>
-        <button type="submit" form="{{ product_form_id }}" class="btn btn--buy sticky-buy__btn" tabindex="-1" data-sticky-add{% unless current_variant.available %} disabled{% endunless %}>{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span>{{ 'product.sticky_buy' | t }}</span></button>
+        <button type="submit" form="{{ product_form_id }}" class="btn btn--buy sticky-buy__btn" tabindex="-1" data-sticky-add{% unless current_variant.available %} disabled{% endunless %}>{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span data-sticky-label>{%- if current_variant.available == false -%}{{ 'product.sold_out' | t }}{%- elsif avail_status == 'pre-order' -%}{{ 'product.pre_order' | t }}{%- else -%}{{ 'product.sticky_buy' | t }}{%- endif -%}</span></button>
       </div>
     </div>
   {%- endif -%}
@@ -383,15 +346,20 @@
   "class": "section-main-product",
   "settings": [
     { "type": "checkbox", "id": "show_breadcrumbs", "label": "Kruimelpad tonen", "default": true },
-    { "type": "checkbox", "id": "sticky_bar", "label": "Vaste koopbalk op mobiel", "default": true }
+    { "type": "checkbox", "id": "sticky_bar", "label": "Vaste koopbalk", "default": true, "info": "Verschijnt zodra de koopknop uit beeld is: op mobiel onderaan, op desktop als zwevende balk." },
+    { "type": "checkbox", "id": "details_below", "label": "Beschrijving en specificaties onder het product", "default": true, "info": "Uitklapblokken, 'Wat zit erin' en het offerteformulier staan dan in een brede band onder foto en koopknop (desktop: twee kolommen). Uit: alles in de kolom naast de foto." }
   ],
   "blocks": [
     { "type": "@app" },
-    { "type": "title", "name": "Titel en spec-regel", "limit": 1, "settings": [] },
+    { "type": "title", "name": "Titel en spec-regel", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_keyfacts", "label": "Kerncijfers tonen", "default": true, "info": "Een strook onder de titel met waarden uit custom.specificaties (bv. oppervlak, capaciteit). Verschijnt bij minstens twee gevonden waarden." },
+      { "type": "text", "id": "keyfacts", "label": "Kerncijfers (labels uit de specificaties)", "default": "Oppervlak, Capaciteit, Doorloophoogte, Personen" }
+    ] },
     { "type": "price", "name": "Prijs", "limit": 1, "settings": [] },
     { "type": "variant_picker", "name": "Varianten", "limit": 1, "settings": [
       { "type": "page", "id": "size_guide_page", "label": "Standaard maatgids-pagina", "info": "Per product te vervangen met custom.maatgids. De link staat alleen bij de maat-optie." },
-      { "type": "text", "id": "size_option_names", "label": "Namen van maat-opties", "default": "Maat, Tafelmaat, Diameter, Afmeting, Formaat" }
+      { "type": "text", "id": "size_option_names", "label": "Namen van maat-opties", "default": "Maat, Tafelmaat, Diameter, Afmeting, Formaat" },
+      { "type": "checkbox", "id": "size_prices", "label": "Prijs onder elke maat tonen", "default": true }
     ] },
     { "type": "bundle", "name": "Pakketinhoud", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest custom.componenten (lijst van varianten) en custom.component_aantallen per variant, of op productniveau. Toont de onderdelen en wat je bespaart ten opzichte van de losse prijzen." } ] },
     { "type": "configurator", "name": "Maatwerk-configurator", "limit": 1, "settings": [
@@ -401,6 +369,13 @@
     { "type": "included", "name": "Wat zit erin", "limit": 1, "settings": [
       { "type": "paragraph", "content": "Leest custom.included en custom.excluded (lijsten met tekst)." },
       { "type": "text", "id": "heading", "label": "Kop", "default": "Wat zit erin" }
+    ] },
+    { "type": "compare", "name": "Uitvoeringen vergelijken", "limit": 1, "settings": [
+      { "type": "paragraph", "content": "Toont de producten uit de gekozen collectie met dezelfde custom.vergelijk_groep (bv. Premium en Professional 3 × 3 m), met specregel, gewicht, garantie en prijs." },
+      { "type": "collection", "id": "collection", "label": "Zoeken in collectie" },
+      { "type": "text", "id": "heading", "label": "Kop", "default": "Welke uitvoering past bij jou?" },
+      { "type": "url", "id": "link", "label": "Link naar de uitleg", "info": "Een link naar een artikel dat niet bestaat wordt verborgen." },
+      { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Lees het hele verschil" }
     ] },
     { "type": "staffel", "name": "Staffelkorting", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest product.metafields.custom.staffelkorting. De echte korting stel je in als automatische korting." } ] },
     { "type": "bedrukken", "name": "Bedrukken (logo-upload)", "limit": 1, "settings": [
@@ -415,9 +390,14 @@
       { "type": "range", "id": "max_files", "label": "Maximaal aantal bestanden", "min": 1, "max": 10, "step": 1, "default": 5 },
       { "type": "range", "id": "max_mb", "label": "Maximale grootte per bestand", "min": 1, "max": 20, "step": 1, "unit": "MB", "default": 20, "info": "Shopify accepteert bestanden tot 20 MB. Grotere bestanden mailt je klant na de bestelling ('Ik lever mijn logo later aan')." }
     ] },
-    { "type": "addons", "name": "Handig erbij (add-ons)", "limit": 1, "settings": [ { "type": "text", "id": "heading", "label": "Kop", "default": "Handig erbij" } ] },
+    { "type": "addons", "name": "Handig erbij (add-ons)", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "label": "Kop", "default": "Handig erbij" },
+      { "type": "range", "id": "visible", "label": "Zichtbaar vóór 'Nog … tonen'", "min": 1, "max": 10, "step": 1, "default": 3, "info": "Wat niet in de doos zit (custom.excluded) staat altijd bovenaan, goedkoopste eerst." },
+      { "type": "text", "id": "deal", "label": "Korting bij de tent (optioneel)", "info": "Bv. '10% korting op zijwanden als je ze met de tent bestelt'. Alleen invullen als die korting als automatische korting in Shopify staat; leeg = niet tonen." }
+    ] },
     { "type": "buy_buttons", "name": "Koopknop", "limit": 1, "settings": [
-      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false }
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false },
+      { "type": "checkbox", "id": "notify_form", "label": "'Mail me als dit weer op voorraad is' bij uitverkocht", "default": true, "info": "Zonder app is dit het contactformulier: elke aanvraag komt als mail bij je binnen en jij mailt de klant zodra er weer voorraad is. Met een back-in-stock-app: zet dit uit en voeg het app-blok toe." }
     ] },
     { "type": "delivery", "name": "Voorraad en levering", "limit": 1, "settings": [] },
     { "type": "usps", "name": "USP's", "limit": 1, "settings": [
@@ -438,6 +418,8 @@
         { "value": "faq", "label": "Veelgestelde vragen (custom.faq)" }, { "value": "safety", "label": "Veilig opzetten" }, { "value": "custom", "label": "Eigen tekst of pagina" } ], "default": "description" },
       { "type": "richtext", "id": "content", "label": "Eigen tekst" },
       { "type": "page", "id": "page", "label": "Pagina" },
+      { "type": "url", "id": "link", "label": "Link (bv. een advies-artikel)", "info": "Bij 'Veilig opzetten': verschijnt onder de tekst. Een link naar een artikel dat niet bestaat wordt verborgen." },
+      { "type": "text", "id": "link_label", "label": "Linktekst" },
       { "type": "checkbox", "id": "open", "label": "Standaard open", "default": false }
     ] }
   ]

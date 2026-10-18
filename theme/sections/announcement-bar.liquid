@@ -1,45 +1,112 @@
 {%- liquid
   assign phone = settings.phone | default: shop.phone
   assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  # [reactietijd]: the 'binnen …' part of Thema-instellingen › Contact › Reactietijd ('We reageren binnen één werkdag.'),
+  # so a USP like 'Zakelijk? Offerte [reactietijd]' changes with that setting; without 'binnen' it reads 'op maat'.
+  assign reply = 'op maat'
+  if settings.response_time contains 'binnen'
+    assign reply = settings.response_time | split: 'binnen' | last | strip | remove_last: '.' | prepend: 'binnen '
+  endif
 -%}
+{%- comment -%}
+  USP bar. usp-rotator (section-header.js) shows as many messages as fit on one line and rotates the rest, on every
+  width; the others stay readable for screen readers and come into view when reached with Tab. The delivery line takes
+  the longest wording that fits, and every wording (also the shortest, on a phone) starts with its condition 'Uit
+  voorraad' and follows the same rule as 'Vóór 14:00 besteld, vandaag verzonden', so it never reads as a second promise:
+  before the cutoff 'Uit voorraad: bestel binnen 3 u 13 min, vandaag verzonden', after it 'Uit voorraad: na 14:00
+  besteld, morgen verzonden', in the weekend 'Uit voorraad: zondag besteld, maandag verzonden', on a holiday 'Uit
+  voorraad: nu besteld, dinsdag verzonden'; shortest 'Uit voorraad: maandag verzonden'. A temporary notice with dates is
+  checked in the browser (Amsterdam date), because Shopify serves cached pages: a Liquid date check could show it too
+  long. The first message that is shown (also a dated notice placed on top) opens the bar, also on a phone and with
+  reduced motion. Placeholders in texts: [besteltijd] = cutoff time, [bedenktijd] = return days, [reactietijd] = the
+  'binnen …' part of the reply time (Thema-instellingen). The service links sit right on desktop; the <template> copies
+  them into the mobile menu.
+{%- endcomment -%}
 <div class="utility-bar color-{{ section.settings.color_scheme }}">
   <div class="page-width utility-bar__inner">
     <usp-rotator class="utility-bar__usps" id="UspRotator-{{ section.id }}" data-interval="{{ section.settings.interval | times: 1000 }}" data-autoplay="{{ section.settings.autorotate }}" aria-live="off">
+      {%- assign usp_n = 0 -%}
+      {%- assign usp_active = false -%}
       {%- for block in section.blocks -%}
-        <div class="utility-bar__usp{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
-          {%- case block.type -%}
-            {%- when 'usp' -%}
-              {%- if block.settings.icon != 'none' -%}{%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}{%- endif -%}
-              {%- if block.settings.link != blank -%}
-                <a href="{{ block.settings.link }}">{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</a>
-              {%- else -%}
-                <span>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</span>
-              {%- endif -%}
-            {%- when 'countdown' -%}
-              {%- render 'icon', icon: 'clock', class: 'icon--xs' -%}
-              <span data-delivery data-state="stock" data-ship="pakket" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"><span data-delivery-countdown data-compact>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</span></span>
-          {%- endcase -%}
-        </div>
+        {%- if block.type == 'link' -%}{%- continue -%}{%- endif -%}
+        {%- assign dated = false -%}
+        {%- if block.type == 'notice' -%}
+          {%- if block.settings.text == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign notice_from = block.settings.start | strip | remove: '-' | plus: 0 -%}
+          {%- assign notice_to = block.settings.end | strip | remove: '-' | plus: 0 -%}
+          {%- if notice_from > 0 or notice_to > 0 -%}{%- assign dated = true -%}{%- endif -%}
+        {%- endif -%}
+        {%- assign usp_n = usp_n | plus: 1 -%}
+        {%- assign is_first = false -%}
+        {%- unless dated or usp_active -%}{%- assign is_first = true -%}{%- assign usp_active = true -%}{%- endunless -%}
+        {%- case block.type -%}
+          {%- when 'countdown' -%}
+            {%- assign cut = settings.cutoff_time | escape -%}
+            <div class="utility-bar__usp{% if is_first %} is-active{% endif %}" {{ block.shopify_attributes }} data-bar-delivery data-cutoff="{{ cut }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"
+              data-cd-l="{{ 'header.usp_countdown_html' | t: time: '__LEFT__' | escape }}" data-cd-m="{{ 'header.usp_countdown_mid_html' | t: time: '__LEFT__' | escape }}" data-today-l="{{ 'header.usp_today_html' | t: time: '__TIME__' | escape }}"
+              data-after="{{ 'header.usp_after_html' | t: time: '__TIME__', date: '__DATE__' | escape }}" data-later="{{ 'header.usp_later_html' | t: date: '__DATE__' | escape }}" data-day="{{ 'header.usp_day_html' | t: day: '__DAY__', date: '__DATE__' | escape }}" data-ships="{{ 'header.usp_ships_html' | t: date: '__DATE__' | escape }}"
+              data-h="{{ 'delivery.hours' | t: h: '__H__', m: '__M__' | escape }}" data-hw="{{ 'header.usp_hours_whole' | t: h: '__H__' | escape }}" data-m="{{ 'delivery.minutes' | t: m: '__M__' | escape }}" data-today="{{ 'delivery.today' | t | escape }}" data-tomorrow="{{ 'delivery.tomorrow' | t | escape }}">
+              {%- capture cd_text -%}{%- render 'icon', icon: 'truck', class: 'icon--xs' -%}<span data-delivery-text>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days }}</span>{%- endcapture -%}
+              {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ cd_text }}</a>{%- else -%}{{ cd_text }}{%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="utility-bar__usp{% if is_first %} is-active{% endif %}" {{ block.shopify_attributes }}{% if dated %} data-from="{{ notice_from }}" data-to="{{ notice_to }}" hidden{% endif %}>
+              {%- capture usp_text -%}
+                {%- if block.type == 'notice' -%}
+                  {%- render 'icon', icon: 'info', class: 'icon--xs' -%}
+                {%- elsif block.settings.icon != 'none' -%}
+                  {%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}
+                {%- endif -%}
+                <span>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days | replace: '[reactietijd]', reply }}</span>
+              {%- endcapture -%}
+              {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ usp_text }}</a>{%- else -%}{{ usp_text }}{%- endif -%}
+            </div>
+        {%- endcase -%}
       {%- endfor -%}
     </usp-rotator>
-    {%- if section.blocks.size > 1 -%}
-      {%- comment -%} WCAG 2.2.2: moving content can be paused; without autoplay the button shows the next message {%- endcomment -%}
+    {%- if usp_n > 1 -%}
+      {%- comment -%} WCAG 2.2.2: rotating messages can be paused; without autoplay the button shows the next page {%- endcomment -%}
       {%- if section.settings.autorotate -%}
         <button type="button" class="utility-bar__ctrl" data-rotator-toggle aria-controls="UspRotator-{{ section.id }}" aria-pressed="false" aria-label="{{ 'general.rotator_pause' | t }}" data-label-pause="{{ 'general.rotator_pause' | t | escape }}" data-label-play="{{ 'general.rotator_play' | t | escape }}">
-          <svg class="icon icon--xs" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path data-icon-pause d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.5" fill="none"/><path data-icon-play d="M8 5l11 7-11 7z" fill="currentColor" hidden/></svg>
+          <svg class="icon icon--xs" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path data-icon-pause d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.5" fill="none"/><path data-icon-play d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
         </button>
       {%- else -%}
         <button type="button" class="utility-bar__ctrl" data-rotator-next aria-controls="UspRotator-{{ section.id }}" aria-label="{{ 'general.rotator_next' | t }}">{%- render 'icon', icon: 'chevron-right', class: 'icon--xs' -%}</button>
       {%- endif -%}
     {%- endif -%}
-    <nav class="utility-bar__links" aria-label="{{ section.settings.menu.title | default: 'Service' | escape }}">
-      {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- capture bar_links -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link' and block.settings.label != blank -%}
+          <a href="{{ block.settings.link | default: '#' }}"{% if block.settings.link == request.path %} aria-current="page"{% endif %} {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != 'none' -%}{%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}{%- endif -%}<span>{{ block.settings.label }}</span>
+          </a>
+        {%- endif -%}
       {%- endfor -%}
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}><span>{{ link.title }}</span></a>
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- capture nav_label -%}{{ 'header.service_nav' | t }}{%- endcapture -%}
+    <nav class="utility-bar__links" aria-label="{{ section.settings.menu.title | default: nav_label | escape }}">
+      {{ bar_links }}
       {%- if section.settings.show_phone and phone != blank -%}
         <a href="tel:{{ phone_href }}" class="utility-bar__phone">{%- render 'icon', icon: 'phone', class: 'icon--xs' -%}{{ phone }}</a>
       {%- endif -%}
     </nav>
+    {%- if bar_links != blank -%}
+      <template data-bar-links>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'link' and block.settings.label != blank -%}
+            {%- assign li_icon = block.settings.icon -%}{%- if li_icon == 'none' -%}{%- assign li_icon = 'info' -%}{%- endif -%}
+            <li><a href="{{ block.settings.link | default: '#' }}">{%- render 'icon', icon: li_icon -%}<span>{{ block.settings.label }}</span></a></li>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for link in section.settings.menu.links -%}
+          <li><a href="{{ link.url }}">{%- render 'icon', icon: 'chevron-right' -%}<span>{{ link.title }}</span></a></li>
+        {%- endfor -%}
+      </template>
+    {%- endif -%}
+    {%- if section.settings.show_localization -%}{%- render 'header-localization', context: 'bar', uid: section.id -%}{%- endif -%}
   </div>
 </div>
 
@@ -48,12 +115,14 @@
   "name": "USP-balk",
   "tag": "aside",
   "class": "section-utility-bar",
-  "max_blocks": 6,
+  "max_blocks": 8,
+  "enabled_on": { "groups": ["header"] },
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-5" },
-    { "type": "link_list", "id": "menu", "label": "Servicelinks rechts", "info": "Bijvoorbeeld Offerte aanvragen, Klantenservice, Zakelijk." },
+    { "type": "link_list", "id": "menu", "label": "Menu rechts (optioneel)", "info": "Komt na de servicelink-blokken. Bijvoorbeeld Offerte aanvragen, Klantenservice, Zakelijk." },
     { "type": "checkbox", "id": "show_phone", "label": "Telefoonnummer tonen", "default": true },
-    { "type": "checkbox", "id": "autorotate", "label": "Berichten automatisch wisselen op mobiel", "default": true, "info": "Met pauzeknop. Uit: bezoekers bladeren zelf met een pijltje." },
+    { "type": "checkbox", "id": "show_localization", "label": "Land- en taalkeuze tonen (desktop)", "default": true, "info": "Verschijnt met meer dan één land of taal in Instellingen › Markten. Op mobiel staat de keuze in het menu." },
+    { "type": "checkbox", "id": "autorotate", "label": "Berichten automatisch wisselen", "default": true, "info": "Passen niet alle berichten op één regel (mobiel, smalle schermen), dan wisselen ze, met pauzeknop. Uit: bezoekers bladeren zelf met een pijltje." },
     { "type": "range", "id": "interval", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Wisselen na", "default": 6 }
   ],
   "blocks": [
@@ -70,8 +139,36 @@
           ],
           "default": "check"
         },
-        { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis in NL & BE", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis in NL & BE", "info": "[besteltijd] wordt de besteltijd en [bedenktijd] het aantal dagen bedenktijd (Thema-instellingen › Levering), [reactietijd] het deel 'binnen …' van de reactietijd (Thema-instellingen › Contact). Zet hier alleen beloftes die kloppen, met hun uitzondering: '14 dagen bedenktijd (niet bij maatwerk)'." },
         { "type": "url", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "notice",
+      "name": "Tijdelijke melding",
+      "settings": [
+        { "type": "paragraph", "content": "Bijvoorbeeld rond de feestdagen of bij vertraging van de vervoerder. Zet dit blok bovenaan: dan staat de melding vooraan, ook op mobiel." },
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Tussen kerst en oud en nieuw verzenden we niet. Vanaf 2 januari weer gewoon." },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "start", "label": "Tonen vanaf", "info": "Datum als 2026-12-20 (Nederlandse tijd, de browser van de bezoeker controleert de datum). Leeg = meteen." },
+        { "type": "text", "id": "end", "label": "Tonen tot en met", "info": "Datum als 2027-01-01. Leeg = tot je het blok weghaalt." }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Servicelink (rechts)",
+      "settings": [
+        { "type": "paragraph", "content": "Staat rechts in de balk op desktop, bv. Klantenservice of Veelgestelde vragen. Op mobiel staan deze links in het menu." },
+        { "type": "text", "id": "label", "label": "Tekst", "default": "Klantenservice" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select", "id": "icon", "label": "Icoon",
+          "options": [
+            { "value": "none", "label": "Geen" }, { "value": "chat", "label": "Chat" }, { "value": "info", "label": "Info" },
+            { "value": "phone", "label": "Telefoon" }, { "value": "mail", "label": "E-mail" }, { "value": "invoice", "label": "Offerte" }
+          ],
+          "default": "none"
+        }
       ]
     },
     {
@@ -79,8 +176,9 @@
       "name": "Besteltijd-teller",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Toont 'Bestel binnen 2 u 13 min, dan gaat hij vandaag de deur uit' op basis van de besteltijd en verzenddagen (Thema-instellingen > Levering)." },
-        { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." }
+        { "type": "paragraph", "content": "Toont 'Uit voorraad: bestel binnen 2 u 13 min, vandaag verzonden', na de besteltijd 'Uit voorraad: na 14:00 besteld, morgen verzonden', in het weekend 'Uit voorraad: zondag besteld, maandag verzonden' en op een feestdag 'Uit voorraad: nu besteld, dinsdag verzonden', op basis van de besteltijd, verzenddagen en feestdagen (Thema-instellingen > Levering). Op een smal scherm korter, maar altijd met 'Uit voorraad'." },
+        { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Uit voorraad op werkdagen vóór [besteltijd] besteld, dezelfde dag verzonden", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." },
+        { "type": "url", "id": "link", "label": "Link", "info": "Bijvoorbeeld je pagina over verzenden en bezorgen." }
       ]
     }
   ],

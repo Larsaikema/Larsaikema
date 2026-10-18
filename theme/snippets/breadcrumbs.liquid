@@ -8,7 +8,7 @@
         {%- if crumb_collection and crumb_collection.handle != 'all' and crumb_collection.handle != 'frontpage' -%}
           <li><a href="{{ crumb_collection.url }}">{{ crumb_collection.title }}</a></li>
         {%- endif -%}
-        <li><span aria-current="page">{{ product.title }}</span></li>
+        <li><span aria-current="page">{{ product.title | replace: ' x ', ' × ' }}</span></li>
       {%- when 'collection' -%}
         <li><a href="{{ routes.collections_url }}">{{ 'search.collections' | t }}</a></li>
         <li><span aria-current="page">{{ collection.title }}</span></li>

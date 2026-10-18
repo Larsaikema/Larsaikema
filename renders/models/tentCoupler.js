@@ -3,91 +3,94 @@
 // { line, count }
 //   line  'professional' (50 mm hex legs, default) | 'premium' (40 mm)
 //   count clamps in the set (2)
-// Each clamp: an aluminium centre block between two hinged jaws. Both jaws are extrusions
-// that wrap three faces of a hex leg (6 mm wall, rounded edges); each hinges on a steel pin
-// at the back of the block and closes at the front with a zinc-plated wing bolt that pulls
-// the jaw against the block. Height 60 mm. The set lies as a tidy pair: one clamp standing,
-// one lying on its side, jaws closed, wing bolts towards the viewer.
+// Each clamp: two cast aluminium hexagonal collars (5.5 mm wall, flats facing each other)
+// joined by a web; each collar is split at its outer flat, with two lugs and a zinc-plated
+// wing bolt + hex nut that close it round the leg. Height 60 mm. The set lies as a tidy pair:
+// one clamp standing, one lying on its side, shown a little smaller in frame (small part).
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
 const TAU = Math.PI * 2;
 
-// shape helpers in the XZ plane (shape y = -z)
-function poly(pts) { const s = new THREE.Shape(); pts.forEach(([x, z], i) => (i ? s.lineTo(x, -z) : s.moveTo(x, -z))); s.closePath(); return s; }
-
-function clamp(bins, mats, { AF = 0.05, H = 0.06 } = {}) {
-  const wall = 0.006, gapC = 0.0;
-  const Rv = AF / 2 / Math.cos(Math.PI / 6); // hex circumradius, flats facing +-x
-  const cb = 0.012; // centre block half-thickness (x)
-  // leg centres at x = +-(cb + AF/2)
-  const xc = cb + AF / 2;
-  // centre block: x in [-cb, cb], z in [-(Rv + 0.012), Rv + 0.012] with the hinge knuckles at the back
-  const zb = Rv * 0.5 + 0.004;
-  bins.add(mats.alu, K.extrudeY(poly([[-cb, -zb - 0.016], [cb, -zb - 0.016], [cb, zb + 0.016], [-cb, zb + 0.016]].reverse()), H, { bevel: 0.0015, bevelSegs: 2 }));
-  for (const s of [-1, 1]) {
-    // jaw: offset of the far half of the hex (three faces) + two tabs back to the block
-    const cx = s * xc;
-    const hexPt = (a, r) => [cx + Math.cos(a) * r, Math.sin(a) * r];
-    // hex vertices with flats facing x: vertices at 30 + k*60 deg
-    const angs = s > 0 ? [-90, -30, 30, 90] : [90, 150, 210, 270];
-    const inner = angs.map((d) => hexPt(d * DEG, Rv));
-    const outer = angs.map((d) => hexPt(d * DEG, Rv + wall / Math.cos(Math.PI / 6)));
-    // tabs: from the top/bottom vertices (z = +-Rv) inwards along z to the block faces
-    const tabIn = Rv, tabOut = Rv + wall;
-    const pts = [];
-    pts.push([s * cb, tabIn]); // inner tab corner at the block, front
-    inner.slice().reverse().forEach((q) => pts.push(q)); // hmm order fixed below
-    const pathPts = [];
-    // build CCW outline: start at block front-inner, go along inner hex (front -> back), to block back-inner,
-    // then back-outer, outer hex (back -> front), front-outer
-    const innerF2B = s > 0 ? inner.slice().reverse() : inner.slice(); // from z=+Rv to z=-Rv
-    const outerB2F = s > 0 ? outer.slice() : outer.slice().reverse();
-    pathPts.push([s * (cb + 0.0005), tabIn]);
-    innerF2B.forEach((q) => pathPts.push(q));
-    pathPts.push([s * (cb + 0.0005), -tabIn]);
-    pathPts.push([s * (cb + 0.0005), -tabOut - 0.003]);
-    outerB2F.forEach((q) => pathPts.push(q));
-    pathPts.push([s * (cb + 0.0005), tabOut + 0.003]);
-    // ensure CCW for three (signed area)
-    let A = 0; for (let i = 0; i < pathPts.length; i++) { const [x1, z1] = pathPts[i], [x2, z2] = pathPts[(i + 1) % pathPts.length]; A += x1 * (-z2) - x2 * (-z1); }
-    if (A < 0) pathPts.reverse();
-    bins.add(mats.alu, K.extrudeY(poly(pathPts), H, { bevel: 0.0015, bevelSegs: 2 }));
-    // hinge knuckles + pin at the back (z = -(Rv + wall/2)), wing bolt at the front
-    const zk = -(Rv + wall / 2 + 0.003);
-    const xk = s * (cb + 0.006);
-    for (let k = 0; k < 3; k++) {
-      const y0 = k * (H / 3) + 0.001, y1 = (k + 1) * (H / 3) - 0.001;
-      bins.add(mats.alu, G.tube(V3(xk, y0, zk), V3(xk, y1, zk), 0.0075, 24));
-    }
-    bins.add(mats.zinc, G.tube(V3(xk, -0.0015, zk), V3(xk, H + 0.0015, zk), 0.0042, 16));
-    // wing bolt through the front tab into the block (axis along x), wing head outside
-    const zf = Rv + wall / 2 + 0.003;
-    const xa = s * (cb + 0.012);
-    bins.add(mats.zinc, G.tube(V3(-s * cb * 0.5, H / 2, zf), V3(xa + s * 0.004, H / 2, zf), 0.0038, 12));
-    bins.add(mats.alu, G.tube(V3(s * (cb - 0.002), H / 2, zf), V3(s * (cb + 0.012), H / 2, zf), 0.0085, 20)); // boss
-    const wn = K.wingNutGeo(1.15);
-    // wing nut axis +Y -> +x*s
-    wn.applyMatrix4(new THREE.Matrix4().makeBasis(V3(0, 1, 0), V3(s, 0, 0), V3(0, 0, -s)).setPosition(V3(xa + s * 0.0035, H / 2, zf)));
-    bins.add(mats.zinc, wn);
+// wing bolt: threaded shank along +Y from 0 to len, wing head at the top (two rounded wings
+// in the XY plane, 3 mm thick, on a round boss)
+function wingBolt(len, s = 1) {
+  const parts = [];
+  parts.push(G.tube(V3(0, -0.002, 0), V3(0, len, 0), 0.0039 * s, 14));
+  for (let k = 0; k < Math.floor(len / 0.00125); k++) { const t = new THREE.TorusGeometry(0.0039 * s, 0.00045, 4, 14); t.rotateX(Math.PI / 2); t.translate(0, k * 0.00125, 0); parts.push(t); }
+  parts.push(K.lathe([[0.0001, len], [0.0085 * s, len], [0.009 * s, len + 0.002 * s], [0.0068 * s, len + 0.012 * s], [0.0045 * s, len + 0.0135 * s], [0.0001, len + 0.0135 * s]], 28));
+  for (const sg of [-1, 1]) {
+    const sh = new THREE.Shape();
+    sh.moveTo(0.004 * s, 0.001 * s); sh.lineTo(0.013 * s, 0.003 * s);
+    sh.quadraticCurveTo(0.021 * s, 0.005 * s, 0.0205 * s, 0.013 * s);
+    sh.quadraticCurveTo(0.019 * s, 0.02 * s, 0.012 * s, 0.017 * s);
+    sh.lineTo(0.004 * s, 0.0115 * s); sh.closePath();
+    const g = new THREE.ExtrudeGeometry(sh, { depth: 0.0026 * s, bevelEnabled: true, bevelThickness: 0.0006 * s, bevelSize: 0.0006 * s, bevelSegments: 2, curveSegments: 14 });
+    g.translate(0, 0, -0.0013 * s);
+    if (sg < 0) g.rotateY(Math.PI);
+    g.translate(0, len, 0);
+    parts.push(g);
   }
+  return G.merge(parts);
+}
+
+// double clamp: two hexagonal collars side by side (flats facing each other, joined by a cast
+// web), each split at its outer flat with two lugs and a wing bolt + nut to tighten it
+function clamp(bins, mats, { AF = 0.05, H = 0.06 } = {}) {
+  const t = 0.0055, gap = 0.003;
+  const ai = (AF + 0.001) / 2, ao = ai + t; // apothems
+  const ri = ai / Math.cos(Math.PI / 6), ro = ao / Math.cos(Math.PI / 6);
+  const c = ao + 0.002;
+  const quad = (pts) => { const sh = new THREE.Shape(); pts.forEach(([x, z], i) => (i ? sh.lineTo(x, -z) : sh.moveTo(x, -z))); sh.closePath(); return sh; };
+  for (const sx of [-1, 1]) {
+    const cx = sx * c;
+    // hex with flats facing +-x: vertices at 30 + k*60 deg
+    for (let k = 0; k < 6; k++) {
+      const a0 = (30 + k * 60) * DEG, a1 = (90 + k * 60) * DEG;
+      const mid = (60 + k * 60) % 360; // direction of this flat
+      const iv0 = [cx + Math.cos(a0) * ri, Math.sin(a0) * ri], iv1 = [cx + Math.cos(a1) * ri, Math.sin(a1) * ri];
+      const ov0 = [cx + Math.cos(a0) * ro, Math.sin(a0) * ro], ov1 = [cx + Math.cos(a1) * ro, Math.sin(a1) * ro];
+      const outerFlat = (sx > 0 && mid === 0) || (sx < 0 && mid === 180);
+      if (!outerFlat) { bins.add(mats.alu, K.extrudeY(quad([iv0, iv1, ov1, ov0]), H, { bevel: 0.0012, bevelSegs: 2 })); continue; }
+      // split flat: two halves with a gap, each with a lug
+      const xm = cx + sx * ai, xo = cx + sx * ao;
+      for (const sz of [-1, 1]) {
+        const zEnd = sz * ri / 2, zG = sz * gap / 2;
+        bins.add(mats.alu, K.extrudeY(quad(sz * sx > 0 ? [[xm, zG], [xm, zEnd], [xo, zEnd], [xo, zG]] : [[xm, zEnd], [xm, zG], [xo, zG], [xo, zEnd]]), H, { bevel: 0.0012, bevelSegs: 2 }));
+        const lug = G.roundedBox(0.017, H * 0.62, 0.0062, 0.0022, 3);
+        lug.translate(xo + sx * 0.0075, H / 2, sz * (gap / 2 + 0.0031));
+        bins.add(mats.alu, lug);
+      }
+      // wing bolt through both lugs (+z side head), hex nut at the back
+      const bx = xo + sx * 0.0095;
+      const wb = wingBolt(0.03, 1.05); wb.rotateX(Math.PI / 2); // +Y -> +Z? rotateX(+90): y -> z
+      wb.translate(bx, H / 2, -0.016);
+      bins.add(mats.zinc, wb);
+      const nut = K.hexNutGeo(0.013, 0.0065, 0.0); nut.rotateX(Math.PI / 2); nut.translate(bx, H / 2, -(gap / 2 + 0.0062 + 0.0033));
+      bins.add(mats.zinc, nut);
+    }
+  }
+  // cast web between the two collars + a rib on top and bottom
+  const web = G.roundedBox(2 * (c - ao) + 0.004, H, ai * 1.0, 0.0015, 2); web.translate(0, H / 2, 0); bins.add(mats.alu, web);
 }
 
 export function tentCoupler(p = {}) {
   const pro = String(p.line || 'professional') !== 'premium';
   const AF = pro ? 0.0505 : 0.0405;
   const n = Number(p.count ?? 2);
-  const mats = { alu: M.aluminium({ tone: '#C3C7CB', roughness: 0.34 }), zinc: K.zinc() };
+  const mats = { alu: SG.castSG('#B2B7BC', { rough: 0.44 }), zinc: SG.zincSG() };
   const bins = new G.PartBin();
   const H = 0.06;
   const poses = [
-    { m: new THREE.Matrix4().makeRotationY(-8 * DEG).setPosition(-0.02, 0, -0.06) },
-    // second clamp lying on its back (jaw axis vertical -> horizontal), in front
-    { m: new THREE.Matrix4().makeRotationY(22 * DEG).multiply(new THREE.Matrix4().makeRotationX(-Math.PI / 2)).setPosition(0.03, 0, 0.1) },
+    // one clamp standing, wing bolts towards the camera side
+    { m: new THREE.Matrix4().makeRotationY(-8 * DEG).setPosition(-0.05, 0, -0.06) },
+    // one lying on its side in front (collar axes horizontal), lugs up
+    { m: new THREE.Matrix4().makeRotationY(24 * DEG).multiply(new THREE.Matrix4().makeRotationX(-Math.PI / 2)).setPosition(0.07, 0, 0.1) },
   ];
   for (let i = 0; i < n; i++) {
     const sub = new G.PartBin();
@@ -102,8 +105,8 @@ export function tentCoupler(p = {}) {
   return {
     object: g,
     detail: { target: [0, H / 2, 0], size: 0.16, azimuth: 30, elevation: 25 },
-    view: { hero: { elevation: 24 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+    view: { hero: { elevation: 30, fill: 0.64 } },
+    rig: { default: { env: 'studio', envIntensity: 1.0, contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
     meta: { pro, n },
   };
 }

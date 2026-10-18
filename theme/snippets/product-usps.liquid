@@ -1,0 +1,52 @@
+{%- comment -%}
+  USP checklist under the buy area: custom.usps (or the block's fallback lines), custom.garantie and the 'Past op' links
+  (custom.past_op). Params: product, block, is_discontinued, avail_status.
+{%- endcomment -%}
+{%- assign usps = product.metafields.custom.usps.value -%}
+{%- assign past_op = product.metafields.custom.past_op.value -%}
+{%- comment -%}
+  The fallback list holds shop promises (levering, bedenktijd). They contradict 'Binnenkort leverbaar',
+  'Permanent uitverkocht' or sold out, so they only show while the product can be ordered.
+{%- endcomment -%}
+{%- assign usp_fallback = block.settings.fallback -%}
+{%- if product.available == false or is_discontinued or avail_status == 'binnenkort' -%}
+  {%- assign usp_fallback = blank -%}
+{%- endif -%}
+{%- if usps != blank or usp_fallback != blank or past_op != blank or product.metafields.custom.garantie != blank -%}
+  <div class="product__usps" {{ block.shopify_attributes }}>
+    <ul class="checklist" role="list">
+      {%- if usps != blank -%}
+        {%- for u in usps -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>{%- endfor -%}
+      {%- else -%}
+        {%- assign fb = usp_fallback | newline_to_br | split: '<br />' -%}
+        {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
+      {%- endif -%}
+      {%- if product.metafields.custom.garantie != blank -%}<li>{%- render 'icon', icon: 'shield' -%}<span>{{ product.metafields.custom.garantie.value }}</span></li>{%- endif -%}
+    </ul>
+    {%- comment -%}
+      Service under the buy area (brand 8.5): the bedenktijd (settings.return_days [claim]; not for print or maatwerk,
+      which have their own notice) and the payment methods that are switched on in Shopify. Only while orderable. The
+      icons' title ids get a 'pdp-' prefix: the footer shows the same icons, and ids must be unique (WCAG 4.1.1).
+    {%- endcomment -%}
+    {%- assign show_service = false -%}
+    {%- if usp_fallback != blank or usps != blank -%}{%- if product.available and is_discontinued == false and avail_status != 'binnenkort' -%}{%- assign show_service = true -%}{%- endif -%}{%- endif -%}
+    {%- if show_service -%}
+      {%- assign no_return = false -%}
+      {%- if product.tags contains 'bedrukbaar' or product.metafields.custom.bedrukbaar.value == true or product.metafields.custom.maatwerk.value == true or product.metafields.custom.configurator != blank -%}{%- assign no_return = true -%}{%- endif -%}
+      <div class="product__service">
+        {%- if settings.return_days > 0 and no_return == false -%}
+          <p class="product__service-line">{%- render 'icon', icon: 'return', class: 'icon--sm' -%}<span>{{ 'product.returns_short' | t: days: settings.return_days }}</span></p>
+        {%- endif -%}
+        {%- if shop.enabled_payment_types.size > 0 -%}
+          <div class="product__pay">
+            <span class="product__pay-label">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'product.pay_secure' | t }}</span>
+            <ul class="product__pay-list" role="list">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' | replace: 'id="pi-', 'id="pdp-pi-' | replace: 'aria-labelledby="pi-', 'aria-labelledby="pdp-pi-' }}</li>{%- endfor -%}</ul>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if past_op != blank -%}
+      <p class="product__fits text-sm"><strong>{{ 'product.compatible' | t }}:</strong>{% for p in past_op %} <a class="link" href="{{ p.url }}">{{ p.title }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

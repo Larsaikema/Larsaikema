@@ -1,0 +1,122 @@
+{%- comment -%}
+  'Vergeet niet' for the cart drawer and the cart page: the add-on variants of what is in the cart
+  (variant metafields custom.addon_varianten + custom.addon_aantallen), so a 3 x 3 m tent in Rood offers the 3 x 3 m
+  zijwandenset in Rood, and 4 statafels offer 4 rokken in the matching size, each with one click. Quantity = aantal per
+  stuk × the line quantity, except per-regel / configurator products and custom.addon_eenmalig (once per line); capped at
+  the stock of a tracked variant that cannot be oversold. Products already in the cart and sold-out variants are skipped,
+  and of the table covers (rok, hoes met strik, kleed: alternatives for the same table) only the first, none once the
+  cart has a cover.
+  Add-ons with a photo come first (pass 1); ones without a photo only fill up when fewer than two have one (pass 2), and
+  then show a drawn category mark instead of an empty frame: nobody adds what they cannot see.
+  Falls back to 'cart-related' (product add-ons, then custom.past_op from `collection`) when no line has variant add-ons.
+  Outputs <li class="upsell__item"> rows only; the caller captures the output and hides its wrapper when it is blank.
+  Params: limit (default 3), collection, fallback
+{%- endcomment -%}
+{%- liquid
+  assign ca_max = limit | default: 3
+  assign ca_in_cart = cart.items | map: 'product_id'
+  assign ca_seen = ','
+  assign ca_shown = 0
+  # table covers are alternatives (a rok, a hoes met strik or a kleed goes on the same table): offer one, and none when
+  # the cart already has one, so one click never puts 8 covers on 4 tables
+  assign ca_cover_words = 'statafelrok,statafelhoes,statafelkleed,tafelhoes,tafelkleed' | split: ','
+  assign ca_covered = false
+  for item in cart.items
+    assign ca_t = item.product.type | downcase
+    for w in ca_cover_words
+      if ca_t contains w
+        assign ca_covered = true
+      endif
+    endfor
+  endfor
+-%}
+{%- for ca_pass in (1..2) -%}
+  {%- if ca_pass == 2 and ca_shown >= 2 -%}{%- break -%}{%- endif -%}
+  {%- for item in cart.items -%}
+    {%- if ca_shown >= ca_max -%}{%- break -%}{%- endif -%}
+    {%- liquid
+      assign ca_vs = item.variant.metafields.custom.addon_varianten.value
+      if ca_vs == blank
+        continue
+      endif
+      assign ca_qs = item.variant.metafields.custom.addon_aantallen.value
+      assign ca_follow = true
+      if item.product.metafields.custom.addon_modus.value == 'per-regel' or item.properties._eenheid != blank
+        assign ca_follow = false
+      endif
+      assign ca_once = ','
+      for x in item.product.metafields.custom.addon_eenmalig.value
+        assign ca_once = ca_once | append: x.id | append: ','
+      endfor
+    -%}
+    {%- for av in ca_vs -%}
+      {%- liquid
+        if ca_shown >= ca_max
+          break
+        endif
+        assign ap = av.product
+        if ap == blank or av.available == false or ca_in_cart contains ap.id
+          continue
+        endif
+        assign ca_key = ',' | append: ap.id | append: ','
+        if ca_seen contains ca_key
+          continue
+        endif
+        assign ca_cover = false
+        assign ca_t = ap.type | downcase
+        for w in ca_cover_words
+          if ca_t contains w
+            assign ca_cover = true
+          endif
+        endfor
+        if ca_cover and ca_covered
+          continue
+        endif
+        assign ca_img = av.featured_image | default: ap.featured_media.preview_image
+        if ca_pass == 1 and ca_img == blank
+          continue
+        endif
+        assign ca_seen = ca_seen | append: ap.id | append: ','
+        assign ca_shown = ca_shown | plus: 1
+        if ca_cover
+          assign ca_covered = true
+        endif
+        assign ca_q = ca_qs[forloop.index0] | default: 1
+        if ca_follow
+          unless ca_once contains ca_key
+            assign ca_q = ca_q | times: item.quantity
+          endunless
+        endif
+        if av.inventory_management == 'shopify' and av.inventory_policy == 'deny' and ca_q > av.inventory_quantity
+          assign ca_q = av.inventory_quantity | at_least: 1
+        endif
+        assign ca_price = av.price | times: ca_q
+      -%}
+      <li class="upsell__item" data-refocus="upsell">
+        <a class="upsell__media" href="{{ av.url }}" tabindex="-1" aria-hidden="true">
+          {%- if ca_img -%}{{ ca_img | image_url: width: 320 | image_tag: loading: 'lazy', alt: '', widths: '80, 160, 320', sizes: '(min-width: 750px) 160px, 64px' }}{%- else -%}{%- render 'cart-media-fallback', product: ap -%}{%- endif -%}
+        </a>
+        <div class="upsell__info">
+          <a class="upsell__title" href="{{ av.url }}">{{ ap.title }}</a>
+          {%- capture ca_meta -%}{% unless ap.has_only_default_variant %}{{ av.title | replace: ' / ', ' · ' }}{% endunless %}{%- endcapture -%}
+          {%- if ca_meta != blank -%}<span class="upsell__variant">{{ ca_meta }}</span>{%- endif -%}
+          {%- comment -%} the total for the suggested quantity, and how it is made up: '€ 67,80 (4 × € 16,95)' {%- endcomment -%}
+          <span class="upsell__price">{%- render 'vat-money', cents: ca_price -%}
+            {%- if ca_q > 1 -%}{%- capture ca_each -%}{%- render 'vat-money', cents: av.price -%}{%- endcapture -%}{%- assign ca_each = ca_each | strip %} <span class="upsell__each">{{ 'cart.upsell_each_html' | t: count: ca_q, price: ca_each }}</span>{%- endif -%}
+          </span>
+        </div>
+        {%- form 'product', ap, data-product-form: '', class: 'upsell__form' -%}
+          <input type="hidden" name="id" value="{{ av.id }}">
+          <input type="hidden" name="quantity" value="{{ ca_q }}">
+          {%- comment -%} the accessible name starts with the visible word (WCAG 2.5.3): 'Toevoegen: 5 × Zijwandenset easy-up, 3 x 3 m · Rood' {%- endcomment -%}
+          <button type="submit" class="btn btn--outline btn--sm upsell__add" data-refocus-target>
+            {%- render 'icon', icon: 'plus', class: 'icon--sm' -%}<span class="upsell__add-label">{{ 'cart.upsell_add' | t }}</span><span class="visually-hidden">: {% if ca_q > 1 %}{{ ca_q }} × {% endif %}{{ ap.title }}{% if ca_meta != blank and ap.has_only_default_variant == false %}, {{ av.title | replace: ' / ', ' · ' }}{% endif %}</span>
+          </button>
+        {%- endform -%}
+      </li>
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if ca_shown == 0 -%}
+  {%- render 'cart-related', collection: collection, limit: ca_max, style: 'row', fallback: fallback -%}
+{%- endif -%}

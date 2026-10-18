@@ -15,19 +15,16 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
 import * as TX from '../js/textures.js';
+import * as SG from '../js/softGoods.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
 
 function coatedIron(color = '#1C1D1F') {
-  return K.cached(`coatedIron:${color}`, () => {
-    const m = new THREE.MeshPhysicalMaterial({
-      color, metalness: 0, roughness: 0.5, specularIntensity: 0.55, clearcoat: 0.35, clearcoatRoughness: 0.42,
-      normalMap: TX.stippleNormal({ size: 256, strength: 1.5, scale: 34, seed: 101 }).clone(), normalScale: new THREE.Vector2(0.16, 0.16), name: `coated cast iron ${color}`,
-    });
-    m.normalMap.repeat.set(45, 45); m.normalMap.needsUpdate = true;
-    return m;
-  });
+  // powder-coated cast iron: satin with a fine cast grain (seam-free, world space)
+  return K.cached(`coatedIron2:${color}`, () => SG.procSurface(new THREE.MeshPhysicalMaterial({
+    color, metalness: 0, roughness: 0.5, specularIntensity: 0.55, clearcoat: 0.35, clearcoatRoughness: 0.42, side: THREE.DoubleSide, name: `coated cast iron ${color}`,
+  }), { kind: 'cast', scale: 0.0011, bump: 0.00003, albedo: 0.05, rough: 0.08, mottle: 0.03, mottleAmt: 0.03 }));
 }
 
 // plate outline with slot + bore + grip holes; local +X = slot direction

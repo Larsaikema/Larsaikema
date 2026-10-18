@@ -1,0 +1,16 @@
+{%- comment -%}
+  Header only: the label of the 'see everything' link of a menu item. A collection (or a filtered collection URL) reads
+  'Alles in Partytenten'; a page reads as its own title ('Bedrukken met jouw logo'), never 'Alles in Met jouw logo'.
+  Param: link
+{%- endcomment -%}
+{%- liquid
+  if link.type == 'collection_link' or link.type == 'collections_link' or link.type == 'catalog_link'
+    echo 'header.all_in' | t: title: link.title
+  elsif link.type == 'http_link' and link.url contains '/collections/'
+    echo 'header.all_in' | t: title: link.title
+  elsif link.type == 'page_link' and link.object.title != blank
+    echo link.object.title | escape
+  else
+    echo link.title | escape
+  endif
+-%}

@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
+import * as S from '../js/seatKit.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -19,7 +20,7 @@ const DEG = Math.PI / 180;
 function topMaterials(top) {
   const t = String(top || 'zwart').toLowerCase();
   if (t === 'houtlook' || t === 'hout' || t === 'eiken') {
-    const face = F.wood('eiken', { stain: '#9C7A55', finish: 'lak', seed: 31 });
+    const face = S.woodMat('eiken', { stain: '#9C7A55', finish: 'lak', seed: 31 });
     return { face, edge: face };
   }
   const hex = t === 'wit' ? '#EDEDE9' : t === 'antraciet' ? '#3C3F43' : t === 'grijs' ? '#8D9093' : '#1E1F21';
@@ -28,7 +29,7 @@ function topMaterials(top) {
 }
 
 export function patioTable(p = {}) {
-  let Wt = Number(p.w ?? 0.7), Dt = Number(p.d ?? Wt), H = Number(p.height ?? 0.74);
+  let Wt = Number(p.w ?? 0.7), Dt = Number(p.d ?? Wt), H = Number(p.height ?? 0.75);
   if (Wt > 5) Wt /= 100; if (Dt > 5) Dt /= 100; if (H > 5) H /= 100;
   const round = p.diameter != null;
   let Dm = Number(p.diameter ?? 0.7); if (Dm > 5) Dm /= 100;
@@ -37,13 +38,14 @@ export function patioTable(p = {}) {
   const glide = F.plastic('#141414', 0.6);
   const { face, edge } = topMaterials(p.top);
   const bins = new G.PartBin();
-  const T = 0.02;
+  const T = 0.012; // compact HPL 12 mm
   // top
   if (round) {
-    const g = F.roundBoard(Dm / 2, T, { re: 0.007 });
+    const g = F.roundBoard(Dm / 2, T, { re: 0.004 });
     bins.add(face, g.translate(0, H, 0));
   } else {
-    const { faces, band } = F.slab(Wt, Dt, T, { rc: 0.035, re: 0.007 });
+    const { faces, band } = F.slab(Wt, Dt, T, { rc: 0.035, re: 0.004 });
+    S.swapUV(band); // decor grain runs along the edge, not across it
     bins.add(face, faces.translate(0, H, 0)); bins.add(edge, band.translate(0, H, 0));
   }
   // flip-top mechanism: cross plate + hinge head + lever
@@ -90,5 +92,6 @@ export function patioTable(p = {}) {
     object: group,
     detail: { target: [cR * 0.7, H - 0.02, cR * 0.7], size: 0.35, azimuth: 40, elevation: 18 },
     meta: { Wt, Dt, H, round },
+    rig: S.seatRig(group),
   };
 }

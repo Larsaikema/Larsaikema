@@ -185,7 +185,7 @@
    },
    {
     "vraag": "Kan ik er een parasol in zetten?",
-    "antwoord": "Ja, met de uitvoering Met parasolgat. De stok (tot Ø 38 mm) gaat door het blad en de holle kolom tot op de voet. Haal de parasol eruit voordat je de tafel inklapt, en klap hem in als het gaat waaien."
+    "antwoord": "Ja, met de uitvoering Met parasolgat. De stok (tot Ø 38 mm) gaat door het blad en de holle kolom tot op de voet. Haal de parasol eruit voordat je de tafel inklapt, en klap hem in als het gaat waaien. Een stretchrok kan erom, maar dan zonder topcover: een topcover, een hoes met strik of een beschermplaat dekt het gat af. Bij de uitvoering met parasolgat bieden we daarom de rok zonder topcover aan."
    },
    {
     "vraag": "Wat is graniet?",
@@ -1269,9 +1269,9 @@
    "description": "Zitkussen van ca. 36 x 36 cm met strikbandjes en afneembare hoes, wasbaar op 30 °C. Voor cross back stoel en barkruk. Antraciet, zandkleur of zwart."
   },
   "image_alts": {
-   "zitkussen-stoel-en-barkruk-antraciet-hero.webp": "Zitkussen voor stoel en barkruk, Antraciet, schuin vooraanzicht",
-   "zitkussen-stoel-en-barkruk-zandkleur-hero.webp": "Zitkussen voor stoel en barkruk, Zandkleur, schuin vooraanzicht",
-   "zitkussen-stoel-en-barkruk-zwart-hero.webp": "Zitkussen voor stoel en barkruk, Zwart, schuin vooraanzicht"
+   "zitkussen-stoel-en-barkruk-antraciet-hero.webp": "Zitkussen voor stoel en barkruk, antraciet, met bies en strikbandjes, schuin vooraanzicht",
+   "zitkussen-stoel-en-barkruk-zandkleur-hero.webp": "Zitkussen voor stoel en barkruk, zandkleur, met bies en strikbandjes, schuin vooraanzicht",
+   "zitkussen-stoel-en-barkruk-zwart-hero.webp": "Zitkussen voor stoel en barkruk, zwart, met bies en strikbandjes, schuin vooraanzicht"
   },
   "claims": [
    "Maat ca. 36 x 36 x 3 cm, schuim, hoes polyester 30 °C: bevestigen."
@@ -1424,7 +1424,10 @@
    "description": "Vervangend statafelblad van 18 mm met kantenband, Ø70, Ø80 of Ø85 cm, in wit, zwart, antraciet of berken. Voorgeboord, met 4 schroeven."
   },
   "image_alts": {
-   "los-statafelblad-hero.webp": "Los statafelblad Ø 80 cm, Wit, met kantenband"
+   "los-statafelblad-hero.webp": "Los statafelblad Ø 80 cm, Wit, met kantenband",
+   "los-statafelblad-zwart-hero.webp": "Los statafelblad Ø 80 cm, zwart, schuin van boven",
+   "los-statafelblad-antraciet-hero.webp": "Los statafelblad Ø 80 cm, antraciet, schuin van boven",
+   "los-statafelblad-berken-hero.webp": "Los statafelblad Ø 80 cm, berken, schuin van boven"
   },
   "claims": [
    "Voorgeboord + 4 schroeven meegeleverd: bevestigen.",
@@ -2236,7 +2239,7 @@
   ]
  },
  "pakket-statafels-met-transportkar": {
-  "body_html": "<p>Voor verhuur, horeca, vereniging en evenementenlocatie: 5, 10 of 15 statafels inklapbaar Professional met de transportkar erbij. Ingeklapt op de kar rijd je ze in één keer van de opslag naar de zaal, zonder sjouwen.</p><h3>Wat je krijgt</h3><ul><li>5, 10 of 15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, in Ø 70, 80 of 85 cm, met een blad in wit, zwart of antraciet (HPL met kantenband) of berken</li><li><strong>5 statafels</strong>: met de kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li><li><strong>10 of 15 statafels</strong>: met de grote transportkar, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li><li>De karren hebben heavy duty wielen en een grijze hamerslag-poedercoating</li></ul><p>Alle statafels krijgen het blad dat je bij Kleur kiest. Rokken zitten er niet bij; die zitten wel in het <a href=\"/products/pakket-statafels-stretchrokken-transportkar\">pakket met stretchrokken en transportkar</a>.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 70 cm + kleine kar</th><td>Los € 718,75 · in het pakket € 639,00</td><td>Los € 793,75 · in het pakket € 709,00</td></tr><tr><th scope=\"row\">5 statafels Ø 80 cm + kleine kar</th><td>Los € 743,75 · in het pakket € 669,00</td><td>Los € 818,75 · in het pakket € 729,00</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm + kleine kar</th><td>Los € 768,75 · in het pakket € 689,00</td><td>Los € 843,75 · in het pakket € 759,00</td></tr><tr><th scope=\"row\">10 statafels Ø 70 cm + grote kar</th><td>Los € 1.268,50 · in het pakket € 1.139,00</td><td>Los € 1.418,50 · in het pakket € 1.269,00</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm + grote kar</th><td>Los € 1.318,50 · in het pakket € 1.179,00</td><td>Los € 1.468,50 · in het pakket € 1.319,00</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm + grote kar</th><td>Los € 1.368,50 · in het pakket € 1.229,00</td><td>Los € 1.518,50 · in het pakket € 1.359,00</td></tr><tr><th scope=\"row\">15 statafels Ø 70 cm + grote kar</th><td>Los € 1.718,25 · in het pakket € 1.539,00</td><td>Los € 1.943,25 · in het pakket € 1.739,00</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm + grote kar</th><td>Los € 1.793,25 · in het pakket € 1.609,00</td><td>Los € 2.018,25 · in het pakket € 1.809,00</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm + grote kar</th><td>Los € 1.868,25 · in het pakket € 1.679,00</td><td>Los € 2.093,25 · in het pakket € 1.879,00</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van de statafels en de kar.</p><h3>Zo werkt het</h3><ol><li>Klap de tafels in: blad rechtop, knop los, ring omhoog.</li><li>Zet ze naast elkaar in de kar, blad tegen blad.</li><li>Rij de kar naar de zaal en zet de tafels daar weer uit.</li></ol><h3>Goed om te weten</h3><ul><li>Met 10 statafels op de grote kar heb je nog plek voor 5 extra; die kun je later los bijbestellen.</li><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm); de kleine kar (65 cm) past er wel door.</li><li>Reken bij een borrel op 1 statafel per 8 à 10 gasten: 15 tafels zijn genoeg voor 120 tot 150 gasten.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs. Andere aantallen? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li><li>Komt als palletzending.</li></ul>",
+  "body_html": "<p>Voor verhuur, horeca, vereniging en evenementenlocatie: 5, 10 of 15 statafels inklapbaar Professional met de transportkar erbij. Ingeklapt op de kar rijd je ze in één keer van de opslag naar de zaal, zonder sjouwen.</p><h3>Wat je krijgt</h3><ul><li>5, 10 of 15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, in Ø 70, 80 of 85 cm, met een blad in wit, zwart of antraciet (HPL met kantenband) of berken</li><li><strong>5 statafels</strong>: met de kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li><li><strong>10 of 15 statafels</strong>: met de grote transportkar, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li><li>De karren hebben heavy duty wielen en een grijze hamerslag-poedercoating</li></ul><p>Alle statafels krijgen het blad dat je bij Kleur kiest. Rokken zitten er niet bij; die zitten wel in het <a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">pakket met stretchrokken en transportkar</a> (5, 10 of 15 statafels).</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 70 cm + kleine kar</th><td>Los € 718,75 · in het pakket € 639,00</td><td>Los € 793,75 · in het pakket € 709,00</td></tr><tr><th scope=\"row\">5 statafels Ø 80 cm + kleine kar</th><td>Los € 743,75 · in het pakket € 669,00</td><td>Los € 818,75 · in het pakket € 729,00</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm + kleine kar</th><td>Los € 768,75 · in het pakket € 689,00</td><td>Los € 843,75 · in het pakket € 759,00</td></tr><tr><th scope=\"row\">10 statafels Ø 70 cm + grote kar</th><td>Los € 1.268,50 · in het pakket € 1.139,00</td><td>Los € 1.418,50 · in het pakket € 1.269,00</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm + grote kar</th><td>Los € 1.318,50 · in het pakket € 1.179,00</td><td>Los € 1.468,50 · in het pakket € 1.319,00</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm + grote kar</th><td>Los € 1.368,50 · in het pakket € 1.229,00</td><td>Los € 1.518,50 · in het pakket € 1.359,00</td></tr><tr><th scope=\"row\">15 statafels Ø 70 cm + grote kar</th><td>Los € 1.718,25 · in het pakket € 1.539,00</td><td>Los € 1.943,25 · in het pakket € 1.739,00</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm + grote kar</th><td>Los € 1.793,25 · in het pakket € 1.609,00</td><td>Los € 2.018,25 · in het pakket € 1.809,00</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm + grote kar</th><td>Los € 1.868,25 · in het pakket € 1.679,00</td><td>Los € 2.093,25 · in het pakket € 1.879,00</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van de statafels en de kar.</p><h3>Zo werkt het</h3><ol><li>Klap de tafels in: blad rechtop, knop los, ring omhoog.</li><li>Zet ze naast elkaar in de kar, blad tegen blad.</li><li>Rij de kar naar de zaal en zet de tafels daar weer uit.</li></ol><h3>Goed om te weten</h3><ul><li>Met 10 statafels op de grote kar heb je nog plek voor 5 extra; die kun je later los bijbestellen.</li><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm); de kleine kar (65 cm) past er wel door.</li><li>Reken bij een borrel op 1 statafel per 8 à 10 gasten: 15 tafels zijn genoeg voor 120 tot 150 gasten.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs. Andere aantallen? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</li><li>Komt als palletzending.</li></ul>",
   "kenmerk_kort": "5, 10 of 15 statafels Professional + transportkar · blad naar keuze",
   "usps": [
    "5, 10 of 15 statafels met de passende kar",
@@ -2343,131 +2346,6 @@
    "Grote kar \"tot 15 statafels\" ook voor Ø85 (kar-spec zegt \"tot 15 statafels Ø80\"): bevestigen.",
    "Deurbreedte-advies (grote kar 97 cm) volgt uit de kar-maten.",
    "Bladkleur als optie (Kleur = blad: wit, zwart, antraciet, berken); pakketprijs = 90 % van los, afgerond op ...9."
-  ]
- },
- "pakket-statafels-stretchrokken-transportkar": {
-  "body_html": "<p>Het complete pakket voor verhuur en evenementen: 5, 10 of 15 statafels inklapbaar Professional, voor elke tafel een stretchrok met topcover, en de transportkar om alles in één keer te rijden. Je kiest het aantal met de kar, het blad, de maat (Ø 80 of Ø 85 cm) en de rokkleur: wit, zwart, antraciet of marineblauw.</p><h3>Wat je krijgt</h3><ul><li>5, 10 of 15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, Ø 80 of 85 cm, blad in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>Evenveel <a href=\"/products/statafelrok-stretch\">stretchrokken met topcover</a> Ø 80–85 cm in de gekozen kleur</li><li><strong>5 statafels</strong>: met de kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li><li><strong>10 of 15 statafels</strong>: met de grote transportkar, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li></ul><p>Bij <strong>Uitvoering</strong> kies je het aantal tafels met de kar en het blad in één keer, bij <strong>Kleur</strong> de kleur van alle rokken en topcovers. Ø 70 cm of een andere rokkleur? Kijk bij het <a href=\"/products/pakket-statafels-met-transportkar\">pakket statafels met transportkar</a> en bestel de rokken los, in 24 kleuren.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 80 cm + kleine kar</th><td>Los € 843,50 · in het pakket € 749,00</td><td>Los € 918,50 · in het pakket € 809,00</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm + kleine kar</th><td>Los € 868,50 · in het pakket € 769,00</td><td>Los € 943,50 · in het pakket € 839,00</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm + grote kar</th><td>Los € 1.518,00 · in het pakket € 1.349,00</td><td>Los € 1.668,00 · in het pakket € 1.479,00</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm + grote kar</th><td>Los € 1.568,00 · in het pakket € 1.389,00</td><td>Los € 1.718,00 · in het pakket € 1.529,00</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm + grote kar</th><td>Los € 2.092,50 · in het pakket € 1.859,00</td><td>Los € 2.317,50 · in het pakket € 2.059,00</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm + grote kar</th><td>Los € 2.167,50 · in het pakket € 1.929,00</td><td>Los € 2.392,50 · in het pakket € 2.129,00</td></tr></tbody></table><p>De prijs is voor elke rokkleur gelijk. Prijzen incl. btw; los is de som van de huidige losse prijzen van tafels, rokken met topcover en kar.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Na afloop: rokken eraf, tafels inklappen en blad tegen blad in de kar. Vouw de rokken in een krat of tas, dan blijven ze schoon.</p><h3>Goed om te weten</h3><ul><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm); de kleine kar (65 cm) past er wel door.</li><li>Rokken wassen op 30 °C, niet in de droger. Een paar reserverokken in dezelfde kleur zijn handig bij verhuur; die bestel je los.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs.</li><li>Komt als palletzending.</li></ul>",
-  "kenmerk_kort": "Statafels, stretchrokken en transportkar · blad naar keuze",
-  "usps": [
-   "Statafels, rokken met topcover en kar in één keer",
-   "5, 10 of 15 statafels, Ø 80 of Ø 85 cm",
-   "Blad in 4 kleuren, rokken in 4 zakelijke kleuren",
-   "Goedkoper dan los"
-  ],
-  "included": [
-   "5, 10 of 15 × statafel inklapbaar Professional, blad in de gekozen kleur en maat",
-   "Evenveel stretchrokken met topcover Ø 80–85 cm in de gekozen kleur",
-   "Transportkar klein (bij 5) of groot (bij 10 en 15)"
-  ],
-  "excluded": [
-   "Krat of tas voor de rokken"
-  ],
-  "specificaties": [
-   {
-    "groep": "Pakket",
-    "label": "Statafels",
-    "waarde": "5, 10 of 15 x statafel inklapbaar Professional, blad naar keuze, Ø80 of Ø85 cm"
-   },
-   {
-    "groep": "Pakket",
-    "label": "Rokken",
-    "waarde": "Evenveel statafelrokken stretch met topcover Ø80-85 cm"
-   },
-   {
-    "groep": "Pakket",
-    "label": "Transportkar",
-    "waarde": "Klein bij 5 statafels; groot bij 10 en 15 statafels"
-   },
-   {
-    "groep": "Pakket",
-    "label": "Kleur",
-    "waarde": "Blad: wit, zwart, antraciet of berken · rokken en topcovers: wit, zwart, antraciet of marineblauw"
-   },
-   {
-    "groep": "Statafel",
-    "label": "Hoogte",
-    "waarde": "110 cm"
-   },
-   {
-    "groep": "Statafel",
-    "label": "Blad",
-    "waarde": "18 mm plaat met HPL-toplaag en kantenband (wit, zwart, antraciet) of 18 mm berken multiplex"
-   },
-   {
-    "groep": "Rok",
-    "label": "Stof",
-    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
-   },
-   {
-    "groep": "Rok",
-    "label": "Wassen",
-    "waarde": "30 °C, niet in de droger, kreukherstellend"
-   },
-   {
-    "groep": "Transportkar",
-    "label": "Klein",
-    "waarde": "ca. 65 x 95 x 114 cm, tot 5 statafels"
-   },
-   {
-    "groep": "Transportkar",
-    "label": "Groot",
-    "waarde": "ca. 126 x 97 x 113 cm, tot 15 statafels"
-   },
-   {
-    "groep": "Gewicht",
-    "label": "5 statafels + kleine kar",
-    "waarde": "ca, 106,2 kg (Ø80 cm) tot 111,2 kg (Ø85 cm)"
-   },
-   {
-    "groep": "Gewicht",
-    "label": "10 statafels + grote kar",
-    "waarde": "ca, 191,5 kg (Ø80 cm) tot 201,5 kg (Ø85 cm)"
-   },
-   {
-    "groep": "Gewicht",
-    "label": "15 statafels + grote kar",
-    "waarde": "ca, 259,8 kg (Ø80 cm) tot 274,8 kg (Ø85 cm)"
-   },
-   {
-    "groep": "Levering",
-    "label": "Verzending",
-    "waarde": "Palletzending"
-   }
-  ],
-  "faq": [
-   {
-    "vraag": "Wat kies ik bij dit pakket?",
-    "antwoord": "Bij Uitvoering het aantal tafels met de passende kar en het blad (wit, zwart, antraciet of berken), bij Maat Ø 80 of Ø 85 cm, en bij Kleur de kleur van alle rokken en topcovers."
-   },
-   {
-    "vraag": "Wat bespaar ik met dit pakket?",
-    "antwoord": "Afhankelijk van aantal, maat en blad betaal je bij de huidige prijzen € 94,50 tot € 263,50 minder dan los. Voorbeeld: 10 statafels Ø 80 cm met wit blad, rokken en grote kar kosten los € 1.518,00 en in het pakket € 1.349,00."
-   },
-   {
-    "vraag": "Kan ik een andere rokkleur of Ø 70 cm kiezen?",
-    "antwoord": "In dit pakket kies je uit wit, zwart, antraciet en marineblauw, voor tafels van Ø 80 of Ø 85 cm. Wil je een andere kleur of Ø 70 cm, neem dan het pakket statafels met transportkar en bestel de rokken los: de stretchrok is er in 24 kleuren."
-   },
-   {
-    "vraag": "Past de kar door een deur?",
-    "antwoord": "De kleine kar (ca. 65 cm breed) past door een gewone binnendeur. De grote kar is ca. 97 cm breed en heeft een dubbele deur, roldeur of brede gang nodig."
-   }
-  ],
-  "seo": {
-   "title": "Statafels, stretchrokken en transportkar | Klapklaar",
-   "description": "5, 10 of 15 inklapbare statafels Ø80 of Ø85 cm met blad naar keuze, stretchrokken met topcover in 4 kleuren en de passende transportkar. Goedkoper dan los."
-  },
-  "image_alts": {
-   "pakket-statafels-stretchrokken-transportkar-zwart-hero.webp": "Statafels met stretchrok en topcover, Zwart, naast de transportkar, schuin vooraanzicht",
-   "pakket-statafels-stretchrokken-transportkar-wit-hero.webp": "Statafels met stretchrok en topcover, Wit, naast de transportkar, schuin vooraanzicht",
-   "pakket-statafels-stretchrokken-transportkar-antraciet-hero.webp": "Statafels met stretchrok en topcover, Antraciet, naast de transportkar, schuin vooraanzicht",
-   "pakket-statafels-stretchrokken-transportkar-marineblauw-hero.webp": "Statafels met stretchrok en topcover, Marineblauw, naast de transportkar, schuin vooraanzicht",
-   "pakket-statafels-stretchrokken-transportkar-creme-hero.webp": "Statafels met stretchrok en topcover, Crème, naast de transportkar, schuin vooraanzicht",
-   "pakket-statafels-stretchrokken-transportkar-bordeaux-hero.webp": "Statafels met stretchrok en topcover, Bordeaux, naast de transportkar, schuin vooraanzicht"
-  },
-  "claims": [
-   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-17): opnieuw genereren bij prijswijziging.",
-   "Grote kar \"tot 15 statafels\" ook voor Ø85: bevestigen.",
-   "Pakket herschikt (max. 3 opties, < 100 varianten): Uitvoering = kar + blad, Maat Ø80/Ø85, 4 rokkleuren (was 6 kleuren en Ø70–85 met alleen wit blad)."
   ]
  },
  "barkruk-velours-stapelbaar": {
@@ -4252,7 +4130,7 @@
         "children": [
          {
           "type": "link",
-          "url": "/products/pakket-statafels-stretchrokken-transportkar",
+          "url": "/products/pakket-10-statafels-stretchrokken-transportkar",
           "title": null,
           "children": [
            {
@@ -4263,7 +4141,7 @@
          },
          {
           "type": "text",
-          "value": ": het complete pakket, rokken in 6 kleuren."
+          "value": ": het complete pakket met 5, 10 of 15 statafels, rokken in 8 kleuren."
          }
         ]
        },
@@ -4500,12 +4378,407 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.</p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket, rokken in 6 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/pakket-24-barkrukken-met-transportkar\">24 barkrukken met transportkar</a>: stapelbare metalen barkrukken in één kleur, op hun eigen kar.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.</p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket met 5, 10 of 15 statafels, rokken in 8 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/pakket-24-barkrukken-met-transportkar\">24 barkrukken met transportkar</a>: stapelbare metalen barkrukken in één kleur, op hun eigen kar.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
    "body_html": "<p>Combinaties die je anders los bij elkaar zoekt, voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt.</p>",
    "seo": {
     "title": "Actiepakketten: statafels, rokken en meer | Klapklaar",
     "description": "Statafels met rokken of transportkar, tentpakketten, terras- en buffetsets. Per pakket zie je de losse prijs en de pakketprijs naast elkaar."
    }
   }
+ },
+ "pakket-5-statafels-stretchrokken-transportkar": {
+  "body_html": "<p>5 inklapbare statafels Professional, 5 stretchrokken met topcover en de kleine transportkar om alles in één keer te rijden. Je kiest drie dingen los van elkaar: de maat van het blad (Ø 70, 80 of 85 cm), de kleur van het blad en de kleur van de rokken.</p><h3>Wat je krijgt</h3><ul><li>5 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, blad van 18 mm in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>5 × <a href=\"/products/statafelrok-stretch\">stretchrok met topcover</a> in de maat van het blad (Ø 60–70 cm bij Ø 70, Ø 80–85 cm bij Ø 80 en 85), in één kleur</li><li>1 × kleine <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 65 × 95 × 114 cm, tot 5 ingeklapte statafels</li></ul><p>Bij <strong>Maat</strong> kies je het blad, bij <strong>Uitvoering</strong> de bladkleur en bij <strong>Kleur</strong> de kleur van alle rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux of rood, dezelfde kleuren als bij de andere statafelpakketten. Meer of minder tafels? Kijk bij <a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">10 statafels</a> en <a href=\"/products/pakket-15-statafels-stretchrokken-transportkar\">15 statafels</a>.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">5 statafels Ø 70 cm</th><td>Los € 818,50 · in het pakket € 719,00</td><td>Los € 893,50 · in het pakket € 789,00</td></tr><tr><th scope=\"row\">5 statafels Ø 80 cm</th><td>Los € 843,50 · in het pakket € 749,00</td><td>Los € 918,50 · in het pakket € 809,00</td></tr><tr><th scope=\"row\">5 statafels Ø 85 cm</th><td>Los € 868,50 · in het pakket € 769,00</td><td>Los € 943,50 · in het pakket € 839,00</td></tr></tbody></table><p>De prijs is voor elke rokkleur gelijk. Prijzen incl. btw; los is de som van de huidige losse prijzen van tafels, rokken met topcover en kar.</p><h3>Opzetten</h3><ol><li>Klap de statafel uit: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Na afloop: rokken eraf, tafels inklappen en blad tegen blad in de kar.</p><h3>Goed om te weten</h3><ul><li>De kleine kar (ca. 65 cm breed) past door een gewone binnendeur.</li><li>Rokken wassen op 30 °C, niet in de droger. Een paar reserverokken in dezelfde kleur zijn handig bij verhuur; die bestel je los, in 24 kleuren.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "5 statafels + 5 stretchrokken + kleine kar · blad en rok naar keuze",
+  "usps": [
+   "5 statafels, 5 rokken met topcover en de kleine kar in één keer",
+   "Ø 70, 80 of 85 cm",
+   "Blad in 4 kleuren, rokken in 8 kleuren",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "5 × statafel inklapbaar Professional, blad in de gekozen maat en kleur",
+   "5 × stretchrok met topcover in de passende maat en de gekozen kleur",
+   "1 × transportkar klein"
+  ],
+  "excluded": [
+   "Krat of tas voor de rokken"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "5 x statafel inklapbaar Professional, Ø70, Ø80 of Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rokken",
+    "waarde": "5 x statafelrok stretch met topcover, Ø60-70 cm (bij Ø70) of Ø80-85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Transportkar",
+    "waarde": "Klein, ca. 65 x 95 x 114 cm, tot 5 ingeklapte statafels"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleuren",
+    "waarde": "Blad: wit, zwart, antraciet of berken · rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux, rood"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband (wit, zwart, antraciet) of 18 mm berken multiplex"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Pakket",
+    "waarde": "ca. 101,2 kg (Ø70 cm) tot 111,2 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat kies ik bij dit pakket?",
+    "antwoord": "Bij Maat de maat van het blad (Ø 70, 80 of 85 cm), bij Uitvoering de kleur van het blad (wit, zwart, antraciet of berken) en bij Kleur de kleur van alle rokken en topcovers."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Bij de huidige prijzen betaal je € 94,50 tot € 109,50 minder dan los, afhankelijk van maat en blad. Voorbeeld: 5 statafels Ø 80 cm met wit blad, rokken en kar kosten los € 843,50 en in het pakket € 749,00."
+   },
+   {
+    "vraag": "Welke rok hoort bij Ø 70 cm?",
+    "antwoord": "Bij een blad van Ø 70 cm krijg je de stretchrok Ø 60–70 cm, bij Ø 80 en 85 cm de rok Ø 80–85 cm. Dat regelt het pakket voor je."
+   },
+   {
+    "vraag": "Past de kar door een deur?",
+    "antwoord": "De kleine kar (ca. 65 cm breed) past door een gewone binnendeur."
+   }
+  ],
+  "seo": {
+   "title": "5 statafels met stretchrokken en kar | Klapklaar",
+   "description": "5 inklapbare statafels Ø70, Ø80 of Ø85 cm, 5 stretchrokken met topcover in 8 kleuren en de kleine transportkar. Blad naar keuze, goedkoper dan los."
+  },
+  "image_alts": {
+   "pakket-5-statafels-stretchrokken-transportkar-zwart-hero.webp": "Statafel met stretchrok en topcover, zwart, naast de kleine transportkar met ingeklapte statafels, schuin vooraanzicht",
+   "statafelrok-stretch-wit-hero.webp": "Statafel met stretchrok en topcover, wit, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-antraciet-hero.webp": "Statafel met stretchrok en topcover, antraciet, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-creme-hero.webp": "Statafel met stretchrok en topcover, crème, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-zilver-hero.webp": "Statafel met stretchrok en topcover, zilver, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-marineblauw-hero.webp": "Statafel met stretchrok en topcover, marineblauw, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-bordeaux-hero.webp": "Statafel met stretchrok en topcover, bordeaux, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-rood-hero.webp": "Statafel met stretchrok en topcover, rood, schuin vooraanzicht (één statafel uit het pakket)"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-18): opnieuw genereren bij prijswijziging.",
+   "Kleine kar: 5 statafels Ø70–Ø85 cm: bevestigen met de leverancier.",
+   "Pakket opgesplitst per aantal (merchandising review): Maat, blad en rokkleur elk een eigen optie, 8 rokkleuren zoals de andere statafelpakketten, Ø70 erbij."
+  ]
+ },
+ "pakket-10-statafels-stretchrokken-transportkar": {
+  "body_html": "<p>10 inklapbare statafels Professional, 10 stretchrokken met topcover en de grote transportkar om alles in één keer te rijden. Je kiest drie dingen los van elkaar: de maat van het blad (Ø 70, 80 of 85 cm), de kleur van het blad en de kleur van de rokken.</p><h3>Wat je krijgt</h3><ul><li>10 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, blad van 18 mm in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>10 × <a href=\"/products/statafelrok-stretch\">stretchrok met topcover</a> in de maat van het blad (Ø 60–70 cm bij Ø 70, Ø 80–85 cm bij Ø 80 en 85), in één kleur</li><li>1 × grote <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li></ul><p>Bij <strong>Maat</strong> kies je het blad, bij <strong>Uitvoering</strong> de bladkleur en bij <strong>Kleur</strong> de kleur van alle rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux of rood, dezelfde kleuren als bij de andere statafelpakketten. Meer of minder tafels? Kijk bij <a href=\"/products/pakket-5-statafels-stretchrokken-transportkar\">5 statafels</a> en <a href=\"/products/pakket-15-statafels-stretchrokken-transportkar\">15 statafels</a>.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">10 statafels Ø 70 cm</th><td>Los € 1.468,00 · in het pakket € 1.299,00</td><td>Los € 1.618,00 · in het pakket € 1.439,00</td></tr><tr><th scope=\"row\">10 statafels Ø 80 cm</th><td>Los € 1.518,00 · in het pakket € 1.349,00</td><td>Los € 1.668,00 · in het pakket € 1.479,00</td></tr><tr><th scope=\"row\">10 statafels Ø 85 cm</th><td>Los € 1.568,00 · in het pakket € 1.389,00</td><td>Los € 1.718,00 · in het pakket € 1.529,00</td></tr></tbody></table><p>De prijs is voor elke rokkleur gelijk. Prijzen incl. btw; los is de som van de huidige losse prijzen van tafels, rokken met topcover en kar.</p><h3>Opzetten</h3><ol><li>Klap de statafel uit: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Na afloop: rokken eraf, tafels inklappen en blad tegen blad in de kar.</p><h3>Goed om te weten</h3><ul><li>Meet je deuren: de grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). Een dubbele deur, roldeur of brede gang gaat wel.</li><li>Rokken wassen op 30 °C, niet in de droger. Een paar reserverokken in dezelfde kleur zijn handig bij verhuur; die bestel je los, in 24 kleuren.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "10 statafels + 10 stretchrokken + grote kar · blad en rok naar keuze",
+  "usps": [
+   "10 statafels, 10 rokken met topcover en de grote kar in één keer",
+   "Ø 70, 80 of 85 cm",
+   "Blad in 4 kleuren, rokken in 8 kleuren",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "10 × statafel inklapbaar Professional, blad in de gekozen maat en kleur",
+   "10 × stretchrok met topcover in de passende maat en de gekozen kleur",
+   "1 × transportkar groot"
+  ],
+  "excluded": [
+   "Krat of tas voor de rokken"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "10 x statafel inklapbaar Professional, Ø70, Ø80 of Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rokken",
+    "waarde": "10 x statafelrok stretch met topcover, Ø60-70 cm (bij Ø70) of Ø80-85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Transportkar",
+    "waarde": "Groot, ca. 126 x 97 x 113 cm, tot 15 ingeklapte statafels"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleuren",
+    "waarde": "Blad: wit, zwart, antraciet of berken · rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux, rood"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband (wit, zwart, antraciet) of 18 mm berken multiplex"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Pakket",
+    "waarde": "ca. 181,5 kg (Ø70 cm) tot 201,5 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat kies ik bij dit pakket?",
+    "antwoord": "Bij Maat de maat van het blad (Ø 70, 80 of 85 cm), bij Uitvoering de kleur van het blad (wit, zwart, antraciet of berken) en bij Kleur de kleur van alle rokken en topcovers."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Bij de huidige prijzen betaal je € 169,00 tot € 189,00 minder dan los, afhankelijk van maat en blad. Voorbeeld: 10 statafels Ø 80 cm met wit blad, rokken en kar kosten los € 1.518,00 en in het pakket € 1.349,00."
+   },
+   {
+    "vraag": "Welke rok hoort bij Ø 70 cm?",
+    "antwoord": "Bij een blad van Ø 70 cm krijg je de stretchrok Ø 60–70 cm, bij Ø 80 en 85 cm de rok Ø 80–85 cm. Dat regelt het pakket voor je."
+   },
+   {
+    "vraag": "Past de kar door een deur?",
+    "antwoord": "Meet je deuren: de grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). Een dubbele deur, roldeur of brede gang gaat wel."
+   }
+  ],
+  "seo": {
+   "title": "10 statafels met stretchrokken en kar | Klapklaar",
+   "description": "10 inklapbare statafels Ø70, Ø80 of Ø85 cm, 10 stretchrokken met topcover in 8 kleuren en de grote transportkar. Blad naar keuze, goedkoper dan los."
+  },
+  "image_alts": {
+   "pakket-statafels-stretchrokken-transportkar-zwart-hero.webp": "Statafel met stretchrok en topcover, zwart, naast de grote transportkar met ingeklapte statafels, schuin vooraanzicht",
+   "statafelrok-stretch-wit-hero.webp": "Statafel met stretchrok en topcover, wit, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-antraciet-hero.webp": "Statafel met stretchrok en topcover, antraciet, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-creme-hero.webp": "Statafel met stretchrok en topcover, crème, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-zilver-hero.webp": "Statafel met stretchrok en topcover, zilver, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-marineblauw-hero.webp": "Statafel met stretchrok en topcover, marineblauw, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-bordeaux-hero.webp": "Statafel met stretchrok en topcover, bordeaux, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-rood-hero.webp": "Statafel met stretchrok en topcover, rood, schuin vooraanzicht (één statafel uit het pakket)"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-18): opnieuw genereren bij prijswijziging.",
+   "Grote kar: tot 15 statafels, ook Ø85 cm: bevestigen met de leverancier.",
+   "Pakket opgesplitst per aantal (merchandising review): Maat, blad en rokkleur elk een eigen optie, 8 rokkleuren zoals de andere statafelpakketten, Ø70 erbij."
+  ]
+ },
+ "pakket-15-statafels-stretchrokken-transportkar": {
+  "body_html": "<p>15 inklapbare statafels Professional, 15 stretchrokken met topcover en de grote transportkar om alles in één keer te rijden. Je kiest drie dingen los van elkaar: de maat van het blad (Ø 70, 80 of 85 cm), de kleur van het blad en de kleur van de rokken.</p><h3>Wat je krijgt</h3><ul><li>15 × <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: 110 cm hoog, blad van 18 mm in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>15 × <a href=\"/products/statafelrok-stretch\">stretchrok met topcover</a> in de maat van het blad (Ø 60–70 cm bij Ø 70, Ø 80–85 cm bij Ø 80 en 85), in één kleur</li><li>1 × grote <a href=\"/products/transportkar-statafels\">transportkar</a>, ca. 126 × 97 × 113 cm, tot 15 ingeklapte statafels</li></ul><p>Bij <strong>Maat</strong> kies je het blad, bij <strong>Uitvoering</strong> de bladkleur en bij <strong>Kleur</strong> de kleur van alle rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux of rood, dezelfde kleuren als bij de andere statafelpakketten. Meer of minder tafels? Kijk bij <a href=\"/products/pakket-5-statafels-stretchrokken-transportkar\">5 statafels</a> en <a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">10 statafels</a>.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Wit, zwart of antraciet blad</th><th scope=\"col\">Berken blad</th></tr></thead><tbody><tr><th scope=\"row\">15 statafels Ø 70 cm</th><td>Los € 2.017,50 · in het pakket € 1.789,00</td><td>Los € 2.242,50 · in het pakket € 1.989,00</td></tr><tr><th scope=\"row\">15 statafels Ø 80 cm</th><td>Los € 2.092,50 · in het pakket € 1.859,00</td><td>Los € 2.317,50 · in het pakket € 2.059,00</td></tr><tr><th scope=\"row\">15 statafels Ø 85 cm</th><td>Los € 2.167,50 · in het pakket € 1.929,00</td><td>Los € 2.392,50 · in het pakket € 2.129,00</td></tr></tbody></table><p>De prijs is voor elke rokkleur gelijk. Prijzen incl. btw; los is de som van de huidige losse prijzen van tafels, rokken met topcover en kar.</p><h3>Opzetten</h3><ol><li>Klap de statafel uit: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden en laat de onderkant rond de voeten vallen.</li><li>Trek de topcover over het blad en strijk hem rond de rand glad. Klaar is Kees.</li></ol><p>Na afloop: rokken eraf, tafels inklappen en blad tegen blad in de kar.</p><h3>Goed om te weten</h3><ul><li>Meet je deuren: de grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). Een dubbele deur, roldeur of brede gang gaat wel.</li><li>Rokken wassen op 30 °C, niet in de droger. Een paar reserverokken in dezelfde kleur zijn handig bij verhuur; die bestel je los, in 24 kleuren.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs.</li><li>Komt als palletzending.</li></ul>",
+  "kenmerk_kort": "15 statafels + 15 stretchrokken + grote kar · blad en rok naar keuze",
+  "usps": [
+   "15 statafels, 15 rokken met topcover en de grote kar in één keer",
+   "Ø 70, 80 of 85 cm",
+   "Blad in 4 kleuren, rokken in 8 kleuren",
+   "Goedkoper dan los"
+  ],
+  "included": [
+   "15 × statafel inklapbaar Professional, blad in de gekozen maat en kleur",
+   "15 × stretchrok met topcover in de passende maat en de gekozen kleur",
+   "1 × transportkar groot"
+  ],
+  "excluded": [
+   "Krat of tas voor de rokken"
+  ],
+  "specificaties": [
+   {
+    "groep": "Pakket",
+    "label": "Statafels",
+    "waarde": "15 x statafel inklapbaar Professional, Ø70, Ø80 of Ø85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Rokken",
+    "waarde": "15 x statafelrok stretch met topcover, Ø60-70 cm (bij Ø70) of Ø80-85 cm"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Transportkar",
+    "waarde": "Groot, ca. 126 x 97 x 113 cm, tot 15 ingeklapte statafels"
+   },
+   {
+    "groep": "Pakket",
+    "label": "Kleuren",
+    "waarde": "Blad: wit, zwart, antraciet of berken · rokken en topcovers: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux, rood"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Hoogte",
+    "waarde": "110 cm"
+   },
+   {
+    "groep": "Statafel",
+    "label": "Blad",
+    "waarde": "18 mm plaat met HPL-toplaag en kantenband (wit, zwart, antraciet) of 18 mm berken multiplex"
+   },
+   {
+    "groep": "Rok",
+    "label": "Stof",
+    "waarde": "90% polyester, 10% elastaan, 220 g/m²"
+   },
+   {
+    "groep": "Rok",
+    "label": "Wassen",
+    "waarde": "30 °C, niet in de droger, kreukherstellend"
+   },
+   {
+    "groep": "Gewicht",
+    "label": "Pakket",
+    "waarde": "ca. 244,8 kg (Ø70 cm) tot 274,8 kg (Ø85 cm)"
+   },
+   {
+    "groep": "Levering",
+    "label": "Verzending",
+    "waarde": "Palletzending"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Wat kies ik bij dit pakket?",
+    "antwoord": "Bij Maat de maat van het blad (Ø 70, 80 of 85 cm), bij Uitvoering de kleur van het blad (wit, zwart, antraciet of berken) en bij Kleur de kleur van alle rokken en topcovers."
+   },
+   {
+    "vraag": "Wat bespaar ik met dit pakket?",
+    "antwoord": "Bij de huidige prijzen betaal je € 228,50 tot € 263,50 minder dan los, afhankelijk van maat en blad. Voorbeeld: 15 statafels Ø 80 cm met wit blad, rokken en kar kosten los € 2.092,50 en in het pakket € 1.859,00."
+   },
+   {
+    "vraag": "Welke rok hoort bij Ø 70 cm?",
+    "antwoord": "Bij een blad van Ø 70 cm krijg je de stretchrok Ø 60–70 cm, bij Ø 80 en 85 cm de rok Ø 80–85 cm. Dat regelt het pakket voor je."
+   },
+   {
+    "vraag": "Past de kar door een deur?",
+    "antwoord": "Meet je deuren: de grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). Een dubbele deur, roldeur of brede gang gaat wel."
+   }
+  ],
+  "seo": {
+   "title": "15 statafels met stretchrokken en kar | Klapklaar",
+   "description": "15 inklapbare statafels Ø70, Ø80 of Ø85 cm, 15 stretchrokken met topcover in 8 kleuren en de grote transportkar. Blad naar keuze, goedkoper dan los."
+  },
+  "image_alts": {
+   "pakket-statafels-stretchrokken-transportkar-zwart-hero.webp": "Statafel met stretchrok en topcover, zwart, naast de grote transportkar met ingeklapte statafels, schuin vooraanzicht",
+   "statafelrok-stretch-wit-hero.webp": "Statafel met stretchrok en topcover, wit, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-antraciet-hero.webp": "Statafel met stretchrok en topcover, antraciet, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-creme-hero.webp": "Statafel met stretchrok en topcover, crème, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-zilver-hero.webp": "Statafel met stretchrok en topcover, zilver, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-marineblauw-hero.webp": "Statafel met stretchrok en topcover, marineblauw, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-bordeaux-hero.webp": "Statafel met stretchrok en topcover, bordeaux, schuin vooraanzicht (één statafel uit het pakket)",
+   "statafelrok-stretch-rood-hero.webp": "Statafel met stretchrok en topcover, rood, schuin vooraanzicht (één statafel uit het pakket)"
+  },
+  "claims": [
+   "Tabel en FAQ noemen bedragen uit bundle-data (2026-10-18): opnieuw genereren bij prijswijziging.",
+   "Grote kar: tot 15 statafels, ook Ø85 cm: bevestigen met de leverancier.",
+   "Pakket opgesplitst per aantal (merchandising review): Maat, blad en rokkleur elk een eigen optie, 8 rokkleuren zoals de andere statafelpakketten, Ø70 erbij."
+  ]
+ },
+ "onderdelen-statafel": {
+  "body_html": "<p>Een kapotte schuifring of een verbogen poot hoeft niet het einde van je statafel te zijn. Deze onderdelen passen op de <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> en de <a href=\"/products/statafel-inklapbaar-hdpe-80\">statafel inklapbaar HDPE</a>. Je vervangt ze zelf, met een inbussleutel en een kruiskopschroevendraaier.</p><h3>Welk onderdeel?</h3><ul><li><strong>Onderstel compleet</strong>: kolom met 4 inklapbare poten, schuifring en scharnierbeugel, zonder blad. Voor een tafel die scheef staat of een nieuw blad dat je op een tweede onderstel wilt zetten.</li><li><strong>Schuifring met draaiknop</strong>: de ring om de kolom die de poten op hun plek houdt. Draait de knop door of klemt de ring niet meer, dan is dit het onderdeel.</li><li><strong>Bladscharnier en schroeven</strong>: de beugel onder het blad waarmee het blad kantelt, met 4 schroeven. Voor een blad dat wiebelt of niet meer vastklikt.</li></ul><h3>Zo vervang je de schuifring</h3><ol><li>Klap de tafel in en leg hem op de kant.</li><li>Draai de knop los en schuif de oude ring van de kolom.</li><li>Schuif de nieuwe ring erop, zet de poten terug en draai de knop vast.</li></ol><h3>Goed om te weten</h3><ul><li>Het onderstel past bij elke maat blad van de statafel Professional (Ø 70, 80 en 85 cm); een nieuw blad vind je bij het <a href=\"/products/los-statafelblad\">losse statafelblad</a>.</li><li>Voetdoppen zitten niet bij het onderstel; die zijn er als <a href=\"/products/voetdoppen-set-van-4\">set van 4</a>.</li><li>Twijfel je welk onderdeel je nodig hebt, stuur ons via <a href=\"/pages/contact\">contact</a> een foto van de plek waar het misgaat.</li></ul>",
+  "kenmerk_kort": "Onderstel, schuifring of scharnier · voor onze inklapbare statafels",
+  "usps": [
+   "Vervang het onderdeel, niet de hele statafel",
+   "Past op de statafel Professional en HDPE",
+   "Zelf te monteren",
+   "Staffelprijs vanaf 10"
+  ],
+  "included": [
+   "1 onderdeel naar keuze: onderstel compleet, schuifring met draaiknop of bladscharnier met 4 schroeven"
+  ],
+  "excluded": [
+   "Blad",
+   "Voetdoppen"
+  ],
+  "specificaties": [
+   {
+    "groep": "Onderstel compleet",
+    "label": "Uitvoering",
+    "waarde": "Kolom Ø 32 mm, 4 inklapbare poten, schuifring en scharnierbeugel, staal zwart gepoedercoat"
+   },
+   {
+    "groep": "Onderstel compleet",
+    "label": "Gewicht",
+    "waarde": "ca. 8 kg"
+   },
+   {
+    "groep": "Schuifring",
+    "label": "Uitvoering",
+    "waarde": "Stalen ring met draaiknop, past om de kolom Ø 32 mm"
+   },
+   {
+    "groep": "Bladscharnier",
+    "label": "Uitvoering",
+    "waarde": "Stalen scharnierbeugel met 4 schroeven"
+   },
+   {
+    "groep": "Past op",
+    "label": "Statafels",
+    "waarde": "Statafel inklapbaar Professional (Ø70, Ø80, Ø85 cm) en statafel inklapbaar HDPE Ø80 cm"
+   },
+   {
+    "groep": "Montage",
+    "label": "Gereedschap",
+    "waarde": "Inbussleutel en kruiskopschroevendraaier"
+   }
+  ],
+  "faq": [
+   {
+    "vraag": "Past het onderstel onder elk blad?",
+    "antwoord": "Onder de bladen van onze statafel inklapbaar Professional (Ø 70, 80 en 85 cm) en de HDPE-statafel wel. Op een ander merk moet de scharnierbeugel op het gatenpatroon van het blad passen."
+   },
+   {
+    "vraag": "Mijn tafel klapt in tijdens gebruik. Welk onderdeel heb ik nodig?",
+    "antwoord": "Meestal de schuifring: als de knop doordraait, houdt de ring de poten niet meer vast. Stop met de tafel te gebruiken tot de ring is vervangen."
+   },
+   {
+    "vraag": "Zitten er schroeven bij?",
+    "antwoord": "Bij het bladscharnier zitten 4 schroeven. Het onderstel komt met de schuifring en de scharnierbeugel al gemonteerd."
+   }
+  ],
+  "seo": {
+   "title": "Onderdelen statafel: onderstel, ring, scharnier | Klapklaar",
+   "description": "Onderstel compleet, schuifring met draaiknop of bladscharnier met schroeven voor de inklapbare statafels Professional en HDPE. Zelf te vervangen."
+  },
+  "image_alts": {
+   "onderdelen-statafel-hero.webp": "Onderstel van de inklapbare statafel zonder blad: zwarte kolom met vier poten, schuifring en bladscharnier bovenaan"
+  },
+  "claims": [
+   "Pasvorm op de HDPE-statafel (zelfde onderstel en scharnier?) en de prijzen van de onderdelen: bevestigen met de leverancier.",
+   "Gewicht onderstel ca. 8 kg: leverancier."
+  ]
  }
 }

@@ -21,6 +21,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as TX from '../js/textures.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -33,14 +34,15 @@ const SPEC = {
 
 function mats(kind) {
   const pro = kind === 'professional';
-  const body = pro ? M.castAluminium('#9A9FA4') : M.mouldedNylon('#161616');
+  const body = pro ? SG.castSG('#9DA2A7', { rough: 0.46 }) : M.mouldedNylon('#161616');
   const mark = (() => {
-    const m = body.clone(); m.normalMap = TX.embossNormal({ text: 'KLAPKLAAR', sub: pro ? 'PRO 50' : 'PREMIUM 40' }); m.normalScale = new THREE.Vector2(1, 1);
+    const m = pro ? new THREE.MeshPhysicalMaterial({ color: '#9DA2A7', metalness: 1, roughness: 0.42, name: 'cast mark' }) : body.clone();
+    m.normalMap = TX.embossNormal({ text: 'KLAPKLAAR', sub: pro ? 'PRO 50' : 'PREMIUM 40' }); m.normalScale = new THREE.Vector2(1, 1);
     m.userData = {}; m.name = `${body.name} mark`; return m;
   })();
-  return { body, mark, chrome: M.chrome(), zinc: K.zinc(), galv: M.galvanised(), dark: M.rubber('#0B0B0B'), nylon: M.mouldedNylon('#161616'),
-    tube: pro ? M.aluminium({ roughness: 0.26 }) : M.steelPowder('#1C1D1F', { roughness: 0.4 }),
-    tubeInner: pro ? M.aluminium({ tone: '#C9CCD0', roughness: 0.34 }) : M.steelPowder('#202124', { roughness: 0.46 }) };
+  return { body, mark, chrome: M.chrome(), zinc: K.zinc(), galv: SG.galvSG({ cell: 0.005 }), dark: M.rubber('#0B0B0B'), nylon: M.mouldedNylon('#161616'),
+    tube: pro ? M.aluminium({ tone: '#C4C8CC', roughness: 0.34 }) : SG.powderSG('#1C1D1F', { rough: 0.4 }),
+    tubeInner: pro ? M.aluminium({ tone: '#C9CCD0', roughness: 0.34 }) : SG.powderSG('#202124', { rough: 0.46 }) };
 }
 
 const hexP = (af, r = 0.07) => G.roundedPolygonProfile(6, af, af * r, 3, Math.PI / 6);
@@ -221,25 +223,37 @@ export function easyUpParts(p = {}) {
     const sub = new G.PartBin(); const subEx = [];
     const { length } = staander(sub, subEx, kind);
     const S = SPEC[kind];
-    // lay down: leg axis along +X (foot at -X), rotate so one bracket face rests flat
+    // lay down: leg axis along +X (foot at -X), spun 30 deg about its axis so a flat of the hex
+    // tube faces up (three faces read: lit top flat, two flanks), resting on the foot plate edge
+    // and the bracket (found from the geometry)
     const lay = new THREE.Group();
     const inner = new THREE.Group();
     sub.build(inner); subEx.forEach((e) => inner.add(e));
-    inner.rotation.z = -Math.PI / 2; // +Y -> +X
+    inner.rotation.set((p.spin ?? 0) * DEG, 0, -Math.PI / 2);
     inner.position.x = -length / 2;
-    // supports: plate half-size at the foot, bracket half-width at the head -> slight tilt
-    const hFoot = S.plate / 2, hHead = SPEC[kind].bw / 2 + 0.003;
-    inner.rotation.x = 0;
-    lay.add(inner);
-    lay.rotation.z = Math.atan2(hFoot - hHead, length);
-    lay.position.y = (hFoot + hHead) / 2;
+    lay.add(inner); lay.updateMatrixWorld(true);
+    let foot = { y: Infinity, x: 0 }, head = { y: Infinity, x: 0 };
+    const v = new THREE.Vector3();
+    inner.traverse((o) => {
+      if (!o.isMesh) return;
+      const pa = o.geometry.attributes.position;
+      for (let i = 0; i < pa.count; i++) {
+        v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+        if (v.x < -length / 2 + 0.3 && v.y < foot.y) foot = { y: v.y, x: v.x };
+        if (v.x > length / 2 - 0.4 && v.y < head.y) head = { y: v.y, x: v.x };
+      }
+    });
+    const phi = Math.atan((head.y - foot.y) / (foot.x - head.x));
+    lay.rotation.z = phi;
+    lay.position.y = -(foot.x * Math.sin(phi) + foot.y * Math.cos(phi)) + 0.0005;
     lay.rotation.y = -28 * DEG;
     group.add(lay);
     return {
       object: group,
       detail: { target: [0.75, 0.06, 0.35], size: 0.4, azimuth: 30, elevation: 25 },
-      view: { hero: { elevation: 34 } },
-      rig: { default: { contact: { strength: 0.85, h0: 0.008, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+      // high flat-lay view: the top flat and both flanks of the hex tubes read (three faces)
+      view: { hero: { elevation: 58 } },
+      rig: { default: { env: 'studio', envIntensity: 1.0, contact: { strength: 0.85, h0: 0.008, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
       meta: { parts, kind },
     };
   }

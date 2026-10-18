@@ -407,20 +407,20 @@ export function coatingMacroNormal({ size = 1024, seed = 37 } = {}) {
 
 // Embossed moulding mark (raised lettering on a plastic/cast part) as a normal map,
 // drawn on a 2D canvas. The plaque geometry carries uv 0..1 over its face.
-export function embossNormal({ text = 'KLAPKLAAR', sub = '', w = 512, h = 160, strength = 3.5 } = {}) {
-  return cached(`emboss:${text}:${sub}:${w}:${h}:${strength}`, () => {
+export function embossNormal({ text = 'KLAPKLAAR', sub = '', w = 512, h = 160, strength = 3.5, fontScale = null, border = true } = {}) {
+  return cached(`emboss:${text}:${sub}:${w}:${h}:${strength}:${fontScale}:${border}`, () => {
     const c = document.createElement('canvas'); c.width = w; c.height = h;
     const g = c.getContext('2d');
     g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
     g.fillStyle = '#fff'; g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.font = `800 ${Math.round(h * (sub ? 0.42 : 0.56))}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
+    g.font = `800 ${Math.round(h * (fontScale ?? (sub ? 0.42 : 0.56)))}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
     if ('letterSpacing' in g) g.letterSpacing = `${Math.round(h * 0.04)}px`;
     const tw = g.measureText(text).width;
     if (tw > w * 0.86) g.font = g.font.replace(/\d+px/, `${Math.floor(parseInt(/\d+px/.exec(g.font)[0], 10) * w * 0.86 / tw)}px`);
     g.fillText(text, w / 2, sub ? h * 0.38 : h * 0.53);
     if (sub) { g.font = `700 ${Math.round(h * 0.22)}px "Helvetica Neue", Arial, sans-serif`; g.fillText(sub, w / 2, h * 0.78); }
     // thin raised border
-    g.strokeStyle = '#fff'; g.lineWidth = h * 0.045; g.strokeRect(h * 0.06, h * 0.06, w - h * 0.12, h - h * 0.12);
+    if (border) { g.strokeStyle = '#fff'; g.lineWidth = h * 0.045; g.strokeRect(h * 0.06, h * 0.06, w - h * 0.12, h - h * 0.12); }
     const src = g.getImageData(0, 0, w, h).data;
     // soften 1 px (draft angle) then height -> normal (non-tiling, clamp at the border)
     const H = new Float32Array(w * h);
@@ -441,5 +441,36 @@ export function embossNormal({ text = 'KLAPKLAAR', sub = '', w = 512, h = 160, s
     t.colorSpace = THREE.NoColorSpace; t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter;
     t.generateMipmaps = true; t.anisotropy = maxAniso; t.flipY = false; t.needsUpdate = true;
     return t;
+  });
+}
+
+// Hot-dip galvanised steel spangle: irregular zinc crystals (Voronoi cells, ~4-14 mm at the
+// default repeat of 10 per metre) with their own gloss and a faint tone difference, plus a fine
+// mottle. Returns { rough, tone }: rough is a roughness map (G channel, three convention),
+// tone a mild sRGB albedo modulation (multiplies the material colour).
+export function galvSpangle({ size = 256, cells = 90, seed = 43 } = {}) {
+  return cached(`galvSpangle:${size}:${cells}:${seed}`, () => {
+    const R = rng(seed), nz = makeNoise2(seed + 1);
+    const pts = [];
+    for (let i = 0; i < cells; i++) pts.push([R() * size, R() * size, R(), R()]);
+    const rough = new Uint8Array(size * size * 4), tone = new Uint8Array(size * size * 4);
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      let d1 = 1e9, d2 = 1e9, c = null;
+      for (const p of pts) {
+        for (let oy = -1; oy <= 1; oy++) for (let ox = -1; ox <= 1; ox++) {
+          const dx = x - (p[0] + ox * size), dy = y - (p[1] + oy * size), d = dx * dx + dy * dy;
+          if (d < d1) { d2 = d1; d1 = d; c = p; } else if (d < d2) d2 = d;
+        }
+      }
+      const edge = Math.min(1, (Math.sqrt(d2) - Math.sqrt(d1)) / 2.5); // crystal boundaries
+      const m = nz.fbm((x / size) * 9, (y / size) * 9, 3) * 0.5 + 0.5;
+      const r = 0.34 + 0.16 * c[2] + 0.08 * (m - 0.5) + 0.07 * (1 - edge);
+      const t = 0.95 + 0.06 * c[3] + 0.03 * (m - 0.5) - 0.04 * (1 - edge);
+      const k = (y * size + x) * 4;
+      rough[k] = 255; rough[k + 1] = Math.round(Math.min(1, Math.max(0, r)) * 255); rough[k + 2] = 255; rough[k + 3] = 255;
+      const tv = Math.round(Math.min(1, Math.max(0, t)) * 255);
+      tone[k] = tv; tone[k + 1] = tv; tone[k + 2] = tv; tone[k + 3] = 255;
+    }
+    return { rough: dataTex(rough, size, { key: 'galvRough' }), tone: dataTex(tone, size, { srgb: true, key: 'galvTone' }) };
   });
 }

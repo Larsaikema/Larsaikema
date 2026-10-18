@@ -770,11 +770,21 @@
         "default": "Leverbaar over 2–3 weken"
       },
       {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "label": "'Nog x op voorraad' vanaf",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "default": 5,
+        "info": "Alleen bij bijgehouden voorraad, uit de echte voorraad. 0 = nooit tonen."
+      },
+      {
         "type": "number",
         "id": "free_shipping_threshold",
         "label": "Gratis verzending vanaf (EUR, incl. btw)",
-        "default": 150,
-        "info": "0 = geen drempel tonen."
+        "default": 0,
+        "info": "0 = geen drempel (standaard). Vul alleen een bedrag in als je in Shopify > Verzending een gratis tarief vanaf dat bedrag hebt."
       },
       {
         "type": "checkbox",
@@ -974,7 +984,7 @@
         "type": "text",
         "id": "email",
         "label": "E-mailadres",
-        "default": "hallo@klapklaar.nl"
+        "info": "Leeg = het e-mailadres van je winkel (Instellingen › Winkelgegevens). In het mobiele menu alleen als je het hier invult."
       },
       {
         "type": "text",
@@ -995,7 +1005,7 @@
         "type": "textarea",
         "id": "openingstijden",
         "label": "Openingstijden klantenservice",
-        "default": "ma–vr 08:30–17:00\nza op afspraak"
+        "info": "Bv. ma–vr 08:30–17:00. Vul alleen echte tijden in; leeg = niet tonen."
       },
       {
         "type": "text",

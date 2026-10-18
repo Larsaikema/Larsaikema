@@ -1,24 +1,97 @@
 {%- comment -%}
   One cart line (drawer + page). Params: item (line item), index (1-based line number), compact (bool, drawer)
-  Line-item properties are shown except private keys (starting with _); uploaded files show as a link with the file name.
+  Grid children: media · info · controls · price (component-cart.css places them per context).
+  The variant line shows option values only and skips a value the title already says ("3 x 3 m" in "… Premium 3 x 3 m");
+  labels for screen readers use the same short name. Prices go through vat-money, so the header btw switch (Particulier /
+  Zakelijk) also switches the cart. Line-item properties are shown except private keys (starting with _); uploaded files
+  show as a link with the file name. The quantity follows the variant's quantity rule (min, increment, max; B2B catalogs)
+  and tracked stock; cart-ui.js checks a typed quantity against them before it is sent. When stock caps the quantity the
+  line says so ('Er zijn er nog 2 op voorraad…') and the + button points at it, so a greyed + is never silent; a typed
+  quantity above the stock is set to the stock with 'Er zijn er nog 5 op voorraad. We hebben je aantal aangepast.'
+  (data-stock). The − and + buttons are named with the product ('Eén meer: Statafelrok stretch, Wit'). Unit price
+  (EU per-measure pricing) when the variant has one. Btw is taken per line on the line total, the way Shopify charges
+  it (snippets/cart-vat-totals), so the lines add up to the summary and match the invoice; line discounts and the
+  subscription name (selling plan) are shown too. A gift card or an untaxed variant (item.taxable false) has no btw.
+  cart-ui.js: after a re-render focus goes back to the element with the same id (−, +, input, Verwijderen; ids follow the
+  line key), else to the [data-refocus-target] of the row at the same place ([data-refocus] group), else the heading. A
+  typed quantity is sent once: Enter, the blur after it and the re-render all fire change, so a detached list and a value
+  already sent are ignored.
 {%- endcomment -%}
-<li class="cart-line{% if compact %} cart-line--compact{% endif %}" data-line="{{ index }}" data-key="{{ item.key }}">
+{%- liquid
+  assign line_unit = item.properties['_eenheid']
+  assign line_variant = ''
+  unless item.product.has_only_default_variant
+    for option in item.options_with_values
+      if item.product.title contains option.value
+        continue
+      endif
+      if line_variant != ''
+        assign line_variant = line_variant | append: ' · '
+      endif
+      assign line_variant = line_variant | append: option.value
+    endfor
+  endunless
+  assign line_compare = 0
+  if item.variant.compare_at_price > item.original_price
+    assign line_compare = item.variant.compare_at_price | times: item.quantity
+  elsif item.original_line_price > item.final_line_price
+    assign line_compare = item.original_line_price
+  endif
+  assign line_ctx = 'p-'
+  if compact
+    assign line_ctx = 'd-'
+  endif
+  # ids follow the line key, not the line number: after a remove elsewhere, focus (and a typed quantity) stays with the same product
+  assign line_uid = item.key | handleize | prepend: line_ctx
+  assign line_rule = item.variant.quantity_rule
+  assign rule_min = line_rule.min | default: 1
+  assign rule_step = line_rule.increment | default: 1
+  assign rule_max = line_rule.max
+  assign line_stock = 0
+  if item.variant.inventory_management == 'shopify' and item.variant.inventory_policy == 'deny' and item.variant.inventory_quantity > 0
+    if rule_max == blank or item.variant.inventory_quantity < rule_max
+      assign rule_max = item.variant.inventory_quantity
+      assign line_stock = item.variant.inventory_quantity
+    endif
+  endif
+  assign line_low = settings.low_stock_threshold | default: 5
+  assign line_stock_note = ''
+  if line_stock > 0 and line_unit == blank
+    if item.quantity >= line_stock
+      assign line_stock_note = 'cart.stock_all' | t: count: line_stock
+    elsif line_stock <= line_low
+      assign line_stock_note = 'cart.stock_left' | t: count: line_stock
+    endif
+  endif
+  assign line_factor = settings.vat_rate | plus: 100
+  assign line_taxed = true
+  if item.taxable == false or item.gift_card
+    assign line_taxed = false
+  endif
+  if line_taxed == false
+    assign line_incl = item.final_line_price
+    assign line_excl = item.final_line_price
+  elsif shop.taxes_included
+    assign line_incl = item.final_line_price
+    assign line_excl = item.final_line_price | times: 100.0 | divided_by: line_factor | round
+  else
+    assign line_excl = item.final_line_price
+    assign line_incl = item.final_line_price | times: line_factor | divided_by: 100.0 | round
+  endif
+-%}
+{%- capture line_name -%}{{ item.product.title }}{% if line_variant != '' %}, {{ line_variant }}{% endif %}{%- endcapture -%}
+<li class="cart-line{% if compact %} cart-line--compact{% endif %}" data-line="{{ index }}" data-key="{{ item.key }}" data-refocus="line">
   <a class="cart-line__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
     {%- if item.image -%}
-      {{- item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 180, 240', sizes: '96px', alt: '' -}}
+      {{- item.image | image_url: width: 280 | image_tag: loading: 'lazy', widths: '120, 200, 280', sizes: '(min-width: 750px) 120px, 88px', alt: '' -}}
     {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- render 'cart-media-fallback', product: item.product -%}
     {%- endif -%}
   </a>
   <div class="cart-line__info">
-    <a class="cart-line__title" href="{{ item.url }}">{{ item.product.title }}</a>
-    {%- unless item.product.has_only_default_variant -%}
-      <p class="cart-line__meta">
-        {%- for option in item.options_with_values -%}
-          <span>{{ option.name }}: {{ option.value }}</span>{% unless forloop.last %}<span aria-hidden="true"> · </span>{% endunless %}
-        {%- endfor -%}
-      </p>
-    {%- endunless -%}
+    <a class="cart-line__title" href="{{ item.url }}" data-refocus-target>{{ item.product.title }}</a>
+    {%- if line_variant != '' -%}<p class="cart-line__meta">{{ line_variant }}</p>{%- endif -%}
+    {%- if item.selling_plan_allocation -%}<p class="cart-line__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>{%- endif -%}
     {%- assign visible_props = 0 -%}
     {%- for p in item.properties -%}
       {%- assign first_char = p.first | slice: 0 -%}
@@ -34,7 +107,7 @@
               <dd>
                 {%- if p.last contains '/uploads/' or p.last contains 'cdn.shopify.com' -%}
                   {%- assign file_name = p.last | split: '/' | last | split: '?' | first -%}
-                  <a class="link" href="{{ p.last }}" target="_blank" rel="noopener">{% render 'icon', icon: 'file', class: 'icon--xs' %}{{ file_name }}</a>
+                  <a class="link" href="{{ p.last }}" target="_blank" rel="noopener">{% render 'icon', icon: 'file', class: 'icon--xs' %}{{ file_name }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></a>
                 {%- else -%}
                   {{ p.last }}
                 {%- endif -%}
@@ -45,38 +118,51 @@
       </dl>
     {%- endif -%}
     {%- for discount in item.line_level_discount_allocations -%}
-      <p class="cart-line__discount">{% render 'icon', icon: 'check', class: 'icon--xs' %}{{ discount.discount_application.title }} (−{{ discount.amount | money }})</p>
+      <p class="cart-line__discount">{% render 'icon', icon: 'check', class: 'icon--xs' %}{{ discount.discount_application.title }} (−{%- render 'vat-money', cents: discount.amount -%})</p>
     {%- endfor -%}
     {%- comment -%} made-to-measure lines (configurator): quantity = billed units (m²), fixed by the measured size {%- endcomment -%}
-    {%- assign line_unit = item.properties['_eenheid'] -%}
     {%- if line_unit != blank -%}
-      <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_unit' | t: unit: line_unit }}</p>
+      <p class="cart-line__unit">{%- if line_taxed -%}{%- render 'vat-money', cents: item.final_price -%}{%- else -%}{{ item.final_price | money }}{%- endif %} {{ 'price.per_unit' | t: unit: line_unit }}</p>
       {%- if item.properties['_maatwerk'] != blank -%}<p class="cart-line__note">{%- render 'icon', icon: 'alert', class: 'icon--xs' -%}{{ 'cart.maatwerk_line' | t }}</p>{%- endif -%}
-    {%- else -%}
-      <p class="cart-line__unit muted text-sm">{{ item.final_price | money }} {{ 'price.per_piece' | t }}</p>
+    {%- elsif item.quantity > 1 -%}
+      <p class="cart-line__unit">{%- if line_taxed -%}{%- render 'vat-money', cents: item.final_price -%}{%- else -%}{{ item.final_price | money }}{%- endif %} {{ 'price.per_piece' | t }}</p>
     {%- endif -%}
-    {%- comment -%} accessible names name the variant too, so two colours of one product are told apart {%- endcomment -%}
-    {%- capture line_name -%}{{ item.product.title }}{% unless item.product.has_only_default_variant %} – {{ item.variant.title }}{% endunless %}{%- endcapture -%}
-    <div class="cart-line__controls">
-      {%- capture qty_id -%}CartQty-{% if compact %}d{% else %}p{% endif %}-{{ index }}{%- endcapture -%}
-      {%- if line_unit != blank -%}
-        <p class="cart-line__fixed-qty">{{ item.quantity }} {{ line_unit }}</p>
-        <input type="hidden" name="updates[]" value="{{ item.quantity }}" data-line="{{ index }}">
-      {%- else -%}
-        {%- assign qty_label = 'cart.quantity_label' | t: title: line_name -%}
-        {%- render 'quantity-input', name: 'updates[]', value: item.quantity, min: 0, id: qty_id, line: index, size: 'sm', label: qty_label -%}
-      {%- endif -%}
-      {%- comment -%} a link to url_to_remove works without JavaScript; cart.js turns the click into /cart/change.js {%- endcomment -%}
-      <a href="{{ item.url_to_remove }}" class="cart-line__remove" data-cart-remove data-line="{{ index }}" aria-label="{{ 'cart.remove_label' | t: title: line_name | escape }}">
-        {%- render 'icon', icon: 'trash', class: 'icon--sm' -%}<span>{{ 'cart.remove' | t }}</span>
-      </a>
-    </div>
-    <p class="cart-line__error field__error" role="alert" data-line-error hidden></p>
+    {%- if item.unit_price_measurement -%}
+      {%- assign upm = item.unit_price_measurement -%}
+      <p class="cart-line__unit"><span class="visually-hidden">{{ 'price.unit_price' | t }}: </span>{%- render 'vat-money', cents: item.unit_price -%}/{% if upm.reference_value != 1 %}{{ upm.reference_value }}{% endif %}{{ upm.reference_unit }}</p>
+    {%- endif -%}
+    {%- if line_unit == blank -%}
+      {%- capture rule_text -%}
+        {%- if rule_step > 1 -%}{{ 'cart.rule_step' | t: count: rule_step }}{%- endif -%}
+        {%- if rule_min > 1 -%}{% if rule_step > 1 %} · {% endif %}{{ 'cart.rule_min' | t: count: rule_min }}{%- endif -%}
+        {%- if line_rule.max != blank -%}{% if rule_step > 1 or rule_min > 1 %} · {% endif %}{{ 'cart.rule_max' | t: count: line_rule.max }}{%- endif -%}
+      {%- endcapture -%}
+      {%- if rule_text != blank -%}<p class="cart-line__rule" id="CartRule-{{ line_uid }}">{{ rule_text | capitalize }}</p>{%- endif -%}
+    {%- endif -%}
+    {%- if line_stock_note != '' -%}<p class="cart-line__stock" id="CartStock-{{ line_uid }}">{{ line_stock_note }}</p>{%- endif -%}
+    <p class="cart-line__error field__error" id="CartLineError-{{ line_uid }}" role="alert" data-line-error hidden></p>
+  </div>
+  <div class="cart-line__controls">
+    {%- if line_unit != blank -%}
+      <p class="cart-line__fixed-qty">{{ item.quantity }} {{ line_unit }}</p>
+      <input type="hidden" name="updates[]" value="{{ item.quantity }}" data-line="{{ index }}">
+    {%- else -%}
+      {%- comment -%} the theme's quantity-input element (global.js) with min 0 (0 removes the line) and the rule minimum in data-min {%- endcomment -%}
+      <quantity-input class="qty qty--sm">
+        <button type="button" class="qty__btn" name="minus" id="CartMinus-{{ line_uid }}" aria-label="{{ 'cart.quantity_decrease_label' | t: title: line_name | escape }}">{% render 'icon', icon: 'minus', class: 'icon--sm' %}</button>
+        <input class="qty__input" type="number" inputmode="numeric" name="updates[]" id="CartQty-{{ line_uid }}" value="{{ item.quantity }}" min="0" data-min="{{ rule_min }}"{% if rule_max != blank %} max="{{ rule_max }}"{% endif %}{% if line_stock > 0 %} data-stock="{{ line_stock }}"{% endif %} step="{{ rule_step }}" data-line="{{ index }}" aria-label="{{ 'cart.quantity_label' | t: title: line_name | escape }}" aria-describedby="CartLineError-{{ line_uid }}{% if rule_text != blank %} CartRule-{{ line_uid }}{% endif %}{% if line_stock_note != '' %} CartStock-{{ line_uid }}{% endif %}">
+        <button type="button" class="qty__btn" name="plus" id="CartPlus-{{ line_uid }}" aria-label="{{ 'cart.quantity_increase_label' | t: title: line_name | escape }}"{% if line_stock_note != '' %} aria-describedby="CartStock-{{ line_uid }}"{% endif %}>{% render 'icon', icon: 'plus', class: 'icon--sm' %}</button>
+      </quantity-input>
+    {%- endif -%}
+    {%- comment -%} a link to url_to_remove works without JavaScript; with it, a button (Enter and Space, cart.js) that cart-ui.js turns into /cart/change.js by line key {%- endcomment -%}
+    <a href="{{ item.url_to_remove }}" id="CartRemove-{{ line_uid }}" class="cart-line__remove" role="button" data-cart-remove aria-label="{{ 'cart.remove_label' | t: title: line_name | escape }}">
+      {%- render 'icon', icon: 'trash', class: 'icon--sm' -%}<span>{{ 'cart.remove' | t }}</span>
+    </a>
   </div>
   <div class="cart-line__price">
-    {%- if item.original_line_price > item.final_line_price -%}
-      <s class="price__compare">{{ item.original_line_price | money }}</s>
+    {%- if line_compare > item.final_line_price -%}
+      <s class="cart-line__compare"><span class="visually-hidden">{{ 'price.regular' | t }}</span>{%- if line_taxed -%}{%- render 'vat-money', cents: line_compare -%}{%- else -%}{{ line_compare | money }}{%- endif -%}</s>
     {%- endif -%}
-    <span class="cart-line__total">{{ item.final_line_price | money }}</span>
+    <span class="cart-line__total"><span data-vat-show="incl">{{ line_incl | money }}</span><span data-vat-show="excl">{{ line_excl | money }}</span></span>
   </div>
 </li>

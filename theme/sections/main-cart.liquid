@@ -1,55 +1,153 @@
+{%- comment -%}
+  Cart page: lines with a column header on desktop; 'Vergeet niet' (the add-on variants of what is in the cart, one
+  click each, snippets/cart-addons); reference / delivery date / note and the discount code (two quiet rows,
+  snippets/cart-extras); a summary card (free-shipping progress when the owner set a threshold, subtotal, shipping and
+  the total to pay in the chosen btw mode, expected delivery, checkout with the payment icons right under it, express
+  checkout, guest line, then the reassurance list with contact and the quote link).
+  Desktop: lines, extras and 'Vergeet niet' (small tiles, so the suggestions never outweigh what is in the cart) on the
+  left, the summary sticks on the right. Phone: lines, 'Vergeet niet' (rows), extras, summary; a checkout bar with the
+  total sticks to the bottom of the screen until the summary's total is in view (cart-extras.js), so it never covers it.
+  The section re-renders its [data-cart-dependent] element after every cart change (also from an empty cart); the
+  stylesheet and script tags sit outside it, so they are not requested again.
+{%- endcomment -%}
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
-<div class="section page-width cart-page" id="CartPage-{{ section.id }}">
+{{ 'component-cart-extras.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-ui.js' | asset_url }}" defer></script>
+<script src="{{ 'cart-extras.js' | asset_url }}" defer></script>
+{%- liquid
+  assign continue_url = section.settings.continue_link | default: routes.all_products_collection_url
+  assign empty_url = section.settings.empty_link
+  if empty_url == blank
+    assign empty_url = collections['partytenten'].url | default: routes.all_products_collection_url
+  endif
+  assign quote_url = settings.quote_page | default: '/pages/offerte'
+-%}
+<div class="section page-width cart-page" id="CartPage-{{ section.id }}" data-cart-dependent data-section-id="{{ section.id }}">
   {%- if cart.item_count > 0 -%}
+    {%- capture kk_count -%}{% render 'cart-count' %}{%- endcapture -%}{%- assign kk_count = kk_count | plus: 0 -%}
     <div class="cart-page__head">
-      {%- capture kk_count -%}{% render 'cart-count' %}{%- endcapture -%}{%- assign kk_count = kk_count | plus: 0 -%}
-      <h1 class="cart-page__title">{{ 'cart.title_count' | t: count: kk_count }}</h1>
-      <a class="link" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue' | t }}</a>
+      <h1 class="cart-page__title" tabindex="-1" data-refocus-fallback>{{ 'cart.title' | t }}<span class="cart-pill"><span class="visually-hidden">, </span>{{ 'header.cart_count' | t: count: kk_count }}</span></h1>
+      <a class="cart-page__back" href="{{ continue_url }}">{%- render 'icon', icon: 'arrow-left', class: 'icon--sm' -%}<span>{{ 'cart.continue' | t }}</span></a>
     </div>
     <div class="cart-page__grid">
       <div class="cart-page__lines">
         <form action="{{ routes.cart_url }}" method="post" id="CartPageForm" novalidate>
-          <cart-items data-section-id="{{ section.id }}">
+          <cart-items data-section-id="{{ section.id }}" data-msg-adjusted="{{ 'cart.quantity_adjusted' | t: count: '__COUNT__' | escape }}" data-msg-whole="{{ 'cart.qty_whole' | t | escape }}" data-msg-min="{{ 'cart.qty_min' | t: count: '__COUNT__' | escape }}" data-msg-max="{{ 'cart.qty_max' | t: count: '__COUNT__' | escape }}" data-msg-step="{{ 'cart.qty_step' | t: count: '__COUNT__' | escape }}">
+            <div class="cart-page__labels" aria-hidden="true">
+              <span>{{ 'cart.product' | t }}</span><span>{{ 'cart.quantity' | t }}</span><span>{{ 'cart.total' | t }}</span>
+            </div>
             <ul class="cart-lines" role="list">
               {%- for item in cart.items -%}
                 {%- render 'cart-line', item: item, index: forloop.index -%}
               {%- endfor -%}
             </ul>
           </cart-items>
-          <noscript><button type="submit" class="btn btn--outline" name="update">{{ 'cart.updating' | t }}</button></noscript>
+          <noscript><button type="submit" class="btn btn--outline" name="update">{{ 'cart.update' | t }}</button></noscript>
         </form>
       </div>
-      <aside class="cart-page__summary" aria-label="{{ 'cart.subtotal' | t }}">
-        {%- render 'cart-free-shipping' -%}
-        {%- render 'cart-summary', form_id: 'CartPageForm', context: 'page' -%}
-        {%- if section.settings.show_usps -%}
-          <ul class="checklist cart-page__usps text-sm">
-            {%- for i in (1..3) -%}
-              {%- assign usp_key = 'usp_' | append: i -%}
-              {%- if section.settings[usp_key] != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ section.settings[usp_key] }}</span></li>{%- endif -%}
-            {%- endfor -%}
-          </ul>
+      {%- if section.settings.show_upsell -%}
+        {%- capture upsell_items -%}{%- render 'cart-addons', collection: settings.cart_upsell_collection, limit: section.settings.upsell_limit, fallback: settings.cart_upsell_fallback -%}{%- endcapture -%}
+        {%- if upsell_items != blank -%}
+          <section class="upsell upsell--page cart-page__more" aria-labelledby="UpsellTitle-{{ section.id }}">
+            <div class="upsell__head">
+              <h2 class="upsell__heading" id="UpsellTitle-{{ section.id }}">{{ 'cart.upsell_title' | t }}</h2>
+              <p class="upsell__text">{{ 'cart.upsell_text' | t }}</p>
+            </div>
+            <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
+          </section>
         {%- endif -%}
+      {%- endif -%}
+      {%- capture mc_extras -%}{%- render 'cart-extras', form_id: 'CartPageForm', context: 'page', show_extras: section.settings.show_extras, show_date: section.settings.show_date, show_discount: section.settings.show_discount -%}{%- endcapture -%}
+      {%- if mc_extras != blank -%}<div class="cart-page__extras">{{ mc_extras }}</div>{%- endif -%}
+      <aside class="cart-page__aside" aria-labelledby="CartSummaryTitle">
+        <div class="cart-page__summary">
+          <h2 class="cart-page__summary-title" id="CartSummaryTitle">{{ 'cart.summary_title' | t }}</h2>
+          {%- render 'cart-free-shipping' -%}
+          {%- render 'cart-summary', form_id: 'CartPageForm', context: 'page', show_guest: section.settings.show_guest, express: section.settings.show_express, payment: true -%}
+          {%- capture mc_usps -%}
+            {%- if section.settings.show_usps -%}
+              {%- for i in (1..3) -%}
+                {%- assign usp_key = 'usp_' | append: i -%}
+                {%- if section.settings[usp_key] != blank -%}<li>{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span>{{ section.settings[usp_key] | replace: '[bedenktijd]', settings.return_days }}</span></li>{%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+            {%- comment -%} contact: only a channel that is filled in (theme settings phone / whatsapp / email), as a link {%- endcomment -%}
+            {%- if section.settings.show_contact -%}
+              {%- assign mc_phone = settings.phone | default: shop.phone -%}
+              {%- assign mc_wa = settings.whatsapp | remove: '+' | remove: ' ' -%}
+              {%- if mc_phone != blank or mc_wa != blank -%}
+                <li>{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ 'cart.help_question' | t }}
+                  {%- if mc_phone != blank %} <a class="link" href="tel:{{ mc_phone | remove: ' ' | remove: '-' }}">{{ 'cart.help_call' | t: phone: mc_phone }}</a>{% endif -%}
+                  {%- if mc_wa != blank %}{% if mc_phone != blank %} {{ 'cart.help_or' | t }}{% endif %} <a class="link" href="https://wa.me/{{ mc_wa }}" target="_blank" rel="noopener">{{ 'cart.help_app' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></a>{% endif -%}
+                </span></li>
+              {%- else -%}
+                {%- assign mc_mail = settings.email | default: shop.email -%}
+                {%- if mc_mail != blank -%}<li>{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}<span>{{ 'cart.help_question' | t }} <a class="link" href="mailto:{{ mc_mail }}">{{ 'cart.help_mail' | t: email: mc_mail }}</a></span></li>{%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if section.settings.pickup_note != blank -%}<li>{%- render 'icon', icon: 'pin', class: 'icon--sm' -%}<span>{{ section.settings.pickup_note }}</span></li>{%- endif -%}
+            {%- if settings.cart_quote_link -%}<li>{%- render 'icon', icon: 'invoice', class: 'icon--sm' -%}<a class="link" href="{{ quote_url }}?from=cart">{{ 'cart.quote_link' | t }}</a></li>{%- endif -%}
+          {%- endcapture -%}
+          {%- if mc_usps != blank -%}<ul class="cart-page__usps" role="list">{{ mc_usps }}</ul>{%- endif -%}
+        </div>
         {%- for block in section.blocks -%}
           {%- if block.type == '@app' -%}<div class="cart-page__app">{% render block %}</div>{%- endif -%}
         {%- endfor -%}
-        {%- if shop.enabled_payment_types.size > 0 -%}
-          <ul class="payment-icons" role="list" aria-label="{{ 'footer.payment' | t }}">
-            {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
-          </ul>
-        {%- endif -%}
       </aside>
     </div>
+    {%- liquid
+      capture mc_totals
+        render 'cart-vat-totals'
+      endcapture
+      assign mc_totals = mc_totals | strip | split: '|'
+      capture mc_ship
+        render 'cart-shipping'
+      endcapture
+      assign mc_ship = mc_ship | strip | split: '|' | first | plus: 0
+      assign mc_grand = mc_totals[0] | plus: 0 | plus: mc_ship
+      if mc_ship < 0
+        assign mc_grand = mc_totals[0] | plus: 0
+      endif
+    -%}
+    <cart-sticky class="cart-sticky" hidden>
+      <p class="cart-sticky__total">
+        <span class="cart-sticky__label">{% if cart.requires_shipping and mc_ship < 0 %}{{ 'cart.grand_total_no_shipping' | t }}{% else %}{{ 'cart.grand_total' | t }}{% endif %} {{ 'price.incl' | t }}</span>
+        <strong>{{ mc_grand | money }}</strong>
+      </p>
+      <button type="submit" name="checkout" form="CartPageForm" class="btn btn--buy cart-sticky__btn">{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
+    </cart-sticky>
   {%- else -%}
-    <div class="empty-state cart-empty">
-      {%- render 'icon', icon: 'tent', class: 'icon--lg' -%}
-      <h1>{{ 'cart.empty_title' | t }}</h1>
+    <div class="empty-state cart-empty cart-empty--page">
+      <span class="cart-empty__icon">{%- render 'icon', icon: 'tent', class: 'icon--lg' -%}</span>
+      <h1 class="cart-empty__title h2" tabindex="-1" data-refocus-fallback>{{ 'cart.empty_title' | t }}</h1>
       <p class="muted text-lg">{{ 'cart.empty_text' | t }}</p>
       <div class="btn-row">
-        <a class="btn" href="{{ section.settings.empty_link | default: routes.all_products_collection_url }}">{{ 'cart.empty_cta' | t }}</a>
+        <a class="btn" href="{{ empty_url }}">{{ 'cart.empty_cta' | t }}</a>
         <a class="btn btn--outline" href="{{ routes.root_url }}">{{ 'not_found.home' | t }}</a>
       </div>
+      {%- if section.settings.empty_menu.links.size > 0 -%}
+        <ul class="cart-empty__links" role="list">
+          {%- for link in section.settings.empty_menu.links limit: 8 -%}
+            <li><a class="chip" href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
     </div>
+    {%- assign empty_coll = section.settings.empty_collection | default: collections['partytenten'] -%}
+    {%- if empty_coll != blank and empty_coll.products_count > 0 -%}
+      <div class="cart-empty__products">
+        <div class="section-head">
+          <h2 class="section-head__title h3">{{ empty_coll.title }}</h2>
+          <a class="link" href="{{ empty_coll.url }}">{{ 'general.view_all' | t }}</a>
+        </div>
+        <ul class="grid" role="list" style="--cols: 4">
+          {%- for product in empty_coll.products limit: 4 -%}
+            <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 50vw' -%}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
   {%- endif -%}
 </div>
 
@@ -58,11 +156,23 @@
   "name": "Winkelwagen",
   "blocks": [ { "type": "@app" } ],
   "settings": [
-    { "type": "url", "id": "empty_link", "label": "Link bij lege winkelwagen" },
+    { "type": "url", "id": "continue_link", "label": "Link 'Verder winkelen'", "info": "Standaard alle producten." },
+    { "type": "url", "id": "empty_link", "label": "Link bij lege winkelwagen", "info": "Standaard de collectie partytenten." },
+    { "type": "link_list", "id": "empty_menu", "label": "Snelle links bij lege winkelwagen", "default": "main-menu" },
+    { "type": "collection", "id": "empty_collection", "label": "Producten bij lege winkelwagen", "info": "Standaard de collectie partytenten." },
+    { "type": "checkbox", "id": "show_upsell", "label": "'Vergeet niet' tonen", "default": true, "info": "De add-ons van wat in de winkelwagen ligt (custom.addon_varianten), in dezelfde maat en kleur." },
+    { "type": "range", "id": "upsell_limit", "min": 2, "max": 8, "step": 1, "label": "Aantal in 'Vergeet niet'", "default": 3 },
+    { "type": "checkbox", "id": "show_extras", "label": "Referentie, leverdatum en opmerking", "default": true, "info": "Opgeslagen als winkelwagen-attributen 'Referentie' en 'Gewenste leverdatum' en als opmerking bij de bestelling." },
+    { "type": "checkbox", "id": "show_date", "label": "Veld 'Gewenste leverdatum'", "default": true },
+    { "type": "checkbox", "id": "show_discount", "label": "Kortingscode-veld", "default": true },
+    { "type": "checkbox", "id": "show_express", "label": "Snel afrekenen (Apple Pay, Google Pay, PayPal)", "default": true, "info": "Shopify's knoppen voor snel afrekenen onder Afrekenen, alleen als ze in Shopify > Betalingen aan staan." },
+    { "type": "checkbox", "id": "show_guest", "label": "Regel 'Afrekenen kan als gast of met je account'", "default": true, "info": "Alleen aan laten als klantaccounts optioneel zijn (Instellingen > Klantaccounts)." },
     { "type": "checkbox", "id": "show_usps", "label": "Zekerheden onder de totalen", "default": true },
     { "type": "text", "id": "usp_1", "label": "Zekerheid 1", "default": "Veilig betalen met iDEAL of Bancontact" },
-    { "type": "text", "id": "usp_2", "label": "Zekerheid 2", "default": "Zakelijk bestellen op factuur" },
-    { "type": "text", "id": "usp_3", "label": "Zekerheid 3", "default": "Vragen? Bel of app ons" }
+    { "type": "text", "id": "usp_2", "label": "Zekerheid 2", "default": "[bedenktijd] dagen bedenktijd (niet bij bedrukt maatwerk)", "info": "[bedenktijd] wordt de bedenktijd uit de thema-instellingen (Levering)." },
+    { "type": "text", "id": "usp_3", "label": "Zekerheid 3", "info": "Bijvoorbeeld 'Zakelijk bestellen op factuur', maar alleen als je factuurbetaling hebt (factuur-app of Shopify B2B)." },
+    { "type": "checkbox", "id": "show_contact", "label": "Regel 'Vragen? Bel ons'", "default": true, "info": "Met link naar het telefoonnummer en WhatsApp uit de thema-instellingen (Contact); zonder nummer het e-mailadres." },
+    { "type": "text", "id": "pickup_note", "label": "Regel over afhalen", "info": "Alleen invullen als je Lokaal afhalen hebt ingeschakeld in Shopify > Verzending, bv. 'Afhalen op afspraak kan ook: kies het bij het afrekenen.'" }
   ]
 }
 {% endschema %}

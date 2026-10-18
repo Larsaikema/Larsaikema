@@ -13,6 +13,8 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
+import * as SG from '../js/softGoods.js';
+import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -40,30 +42,30 @@ function angleProfile(w, t, rr = 0.0012) {
 }
 
 function angleIronPeg(bins, mat, { L, w = 0.03, t = 0.003, seed = 1 }) {
-  // along +Z from z = 0 (head) to z = L (tip); profile rotated so the corner points up (+Y)
-  // and both flange edges rest on the floor
+  // along +Z from z = 0 (head) to z = L (tip), lying on one flange (flange x flat on the
+  // floor, flange y standing up), so the L reads; both flanges are cut to a point at the tip
   const prof = angleProfile(w, t);
-  const rot = (x, y) => { const a = -135 * DEG; return [Math.cos(a) * x - Math.sin(a) * y, Math.sin(a) * x + Math.cos(a) * y]; };
-  const ns = 60, tipLen = 0.07;
+  const ns = 70, tipLen = 0.075;
   const zs = [];
-  for (let i = 0; i <= ns; i++) { const s = i / ns; zs.push(s < 0.5 ? s * 2 * (L - tipLen) * 0.98 : (L - tipLen) * 0.98 + (s - 0.5) * 2 * (tipLen + (L - tipLen) * 0.02)); }
+  for (let i = 0; i <= ns; i++) { const s = i / ns; zs.push(s < 0.5 ? s * 2 * (L - tipLen) : (L - tipLen) + (s - 0.5) * 2 * tipLen); }
   const rows = zs.map((z) => {
-    const k = z > L - tipLen ? Math.max(0.06, 1 - (z - (L - tipLen)) / tipLen) : 1;
-    return prof.map(([x, y]) => {
-      // flanges shorten towards the tip (diagonal cut), thickness stays
-      const sx = x > t ? t + (x - t) * k : x, sy = y > t ? t + (y - t) * k : y;
-      const [rx, ry] = rot(sx, sy);
-      return V3(rx, ry, z);
-    });
+    const k = z > L - tipLen ? Math.max(0.05, 1 - (z - (L - tipLen)) / tipLen) : 1;
+    return prof.map(([x, y]) => V3(x > t ? t + (x - t) * k : x, y > t ? t + (y - t) * k : y, z));
   });
-  const g = K.gridGeometry(rows, { closedU: false, flip: true });
-  bins.add(mat, g);
-  // head end cap (flat saw cut)
+  bins.add(mat, K.gridGeometry(rows, { closedU: false, flip: true }));
+  // saw-cut head face
   const cap = new THREE.Shape();
-  prof.forEach(([x, y], i) => { const [rx, ry] = rot(x, y); if (i === 0) cap.moveTo(rx, ry); else cap.lineTo(rx, ry); });
-  const cg = new THREE.ShapeGeometry(cap); cg.rotateY(Math.PI); bins.add(mat, cg);
-  // the profile bottom: flange edges rest at y = min
-  return { yMin: Math.min(...prof.map(([x, y]) => rot(x, y)[1])) };
+  prof.forEach(([x, y], i) => { if (i === 0) cap.moveTo(x, y); else cap.lineTo(x, y); });
+  const cg = new THREE.ShapeGeometry(cap); bins.add(mat, cg);
+  const tc = new THREE.ShapeGeometry(cap); tc.scale(0.05, 0.05, 1); tc.translate(t * 0.95, t * 0.95, L); bins.add(mat, tc);
+  return { yMin: 0 };
+}
+
+// lumpy weld bead (galvanised over) along a polyline, sitting in the corner given by normals
+function bead(bins, mat, pts, nrm, seed, { w = 0.0022, h = 0.0016 } = {}) {
+  const nz = makeNoise2(seed);
+  const prof = []; for (let i = 0; i < 12; i++) { const a = (i / 12) * TAU; prof.push([Math.cos(a) * w, Math.sin(a) * h]); }
+  bins.add(mat, K.sweep(pts, prof, { normals: nrm, scale: (i) => { const e = Math.min(1, i / 3, (pts.length - 1 - i) / 3); return [1, Math.max(0.2, e) * (0.8 + 0.35 * (0.5 + 0.5 * nz.noise(i * 0.7, 3.3)))]; } }));
 }
 
 export function haringen(p = {}) {
@@ -73,51 +75,48 @@ export function haringen(p = {}) {
   const bins = new G.PartBin();
   const extras = [];
   if (type === 'hoekijzer') {
-    const galv = K.hotDipGalv();
+    const galv = SG.galvSG({ cell: 0.006, dull: 0.4 });
     const w = 0.03, t = 0.003;
     for (let i = 0; i < n; i++) {
       const sub = new G.PartBin();
-      const { yMin } = angleIronPeg(sub, galv, { L: len, w, t, seed: i });
-      // welded hook: 10 mm round bar along the corner ridge at the head, then up and over
-      // into an open hook that turns back towards the tip
+      angleIronPeg(sub, galv, { L: len, w, t, seed: i });
+      // welded hook: 10 mm round bar in the inner corner at the head, out past the head and
+      // bent up and over into an open hook that turns back towards the tip
       const rb = 0.005;
-      const ridgeY = Math.SQRT2 * 0; // corner sits at the origin of the rotated profile
-      const yC = rb + 0.0005; // bar lies on the ridge
+      const xc = t + rb, yc = t + rb;
       const pts = [];
-      const zW0 = 0.075, zW1 = 0.006;
-      for (let k = 0; k <= 10; k++) pts.push(V3(0, yC, zW0 - (zW0 - zW1) * (k / 10)));
-      // bend: up and back over the head -> hook opening towards the tip
-      const R = 0.022;
-      const c = V3(0, yC + R, zW1 - 0.012);
-      for (let k = 1; k <= 26; k++) {
-        const a = -Math.PI / 2 - (k / 26) * Math.PI * 1.25; // from below the centre round the back to the top and forward
-        pts.push(V3(0, c.y + Math.sin(a) * R, c.z + Math.cos(a) * R));
+      const zW0 = 0.085;
+      for (let k = 0; k <= 12; k++) pts.push(V3(xc, yc, zW0 - (zW0 + 0.006) * (k / 12)));
+      const R = 0.021;
+      const c = V3(xc, yc + R, -0.006);
+      for (let k = 1; k <= 30; k++) { const a = -Math.PI / 2 - (k / 30) * Math.PI * 1.3; pts.push(V3(xc, c.y + Math.sin(a) * R, c.z + Math.cos(a) * R)); }
+      const last = pts[pts.length - 1], dir = last.clone().sub(pts[pts.length - 2]).normalize();
+      for (let k = 1; k <= 3; k++) pts.push(last.clone().addScaledVector(dir, 0.004 * k));
+      sub.add(galv, K.tubeAlong(pts, rb, 16));
+      // fillet welds bar <-> floor flange and bar <-> standing flange
+      const wl = [], wn1 = [], wl2 = [], wn2 = [];
+      for (let k = 0; k <= 24; k++) {
+        const z = 0.004 + (zW0 - 0.012) * (k / 24);
+        wl.push(V3(xc + rb * 0.85, t + 0.0003, z)); wn1.push(V3(0.7, 0.7, 0).normalize());
+        wl2.push(V3(t + 0.0003, yc + rb * 0.85, z)); wn2.push(V3(0.7, 0.7, 0).normalize());
       }
-      const last = pts[pts.length - 1];
-      const dir = last.clone().sub(pts[pts.length - 2]).normalize();
-      for (let k = 1; k <= 4; k++) pts.push(last.clone().addScaledVector(dir, 0.004 * k));
-      sub.add(galv, K.tubeAlong(pts, rb, 14));
-      // weld beads either side of the bar on the ridge
-      for (const sx of [-1, 1]) {
-        const wp = [];
-        for (let k = 0; k <= 20; k++) { const z = zW1 + 0.004 + (zW0 - zW1 - 0.01) * (k / 20); wp.push(V3(sx * rb * 0.75, yC - rb * 0.55 + 0.0006 * Math.sin(k * 2.1), z)); }
-        sub.add(galv, K.tubeAlong(wp, 0.0022, 8));
-      }
-      // place: fan + stagger, resting on the flange edges
-      const yaw = (i - (n - 1) / 2) * 5 * DEG;
-      const x = (i - (n - 1) / 2) * 0.075, z = ((i % 2) * 0.025) - len / 2;
-      const m = new THREE.Matrix4().makeRotationY(yaw).setPosition(x, -yMin, z);
+      bead(sub, galv, wl, wn1, 11 + i);
+      bead(sub, galv, wl2, wn2, 23 + i);
+      // place: parallel, slightly staggered and fanned
+      const yaw = (i - (n - 1) / 2) * 3 * DEG;
+      const x = (i - (n - 1) / 2) * 0.062, z = ((i % 2) * 0.03) - len / 2;
+      const m = new THREE.Matrix4().makeRotationY(yaw).setPosition(x, 0, z);
       for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(m); bins.add(mat, geo); }
     }
     const g = K.finish(bins, `haringen hoekijzer ${n}x${len}`, extras);
-    // lie diagonally in the frame
-    g.rotation.y = -100 * DEG;
+    // heads (with the hooks and the L-shaped saw cuts) towards the camera, running diagonally
+    g.rotation.y = 172 * DEG;
     const root = new THREE.Group(); root.add(g);
     return {
       object: root,
-      detail: { target: [0, 0.03, 0], size: 0.22, azimuth: 30, elevation: 30 },
-      view: { hero: { elevation: 32 } },
-      rig: { default: { key: { azimuth: -70, elevation: 40 }, contact: { strength: 0.85, h0: 0.006, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+      detail: { target: [0, 0.03, len / 2], size: 0.22, azimuth: 20, elevation: 24 },
+      view: { hero: { elevation: 30, azimuth: 34 } },
+      rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
       meta: { type, n, len },
     };
   }

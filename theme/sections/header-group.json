@@ -7,6 +7,7 @@
       "blocks": {
         "usp-levering": {
           "type": "usp",
+          "disabled": true,
           "settings": {
             "icon": "truck",
             "text": "Snel in huis in NL & BE",
@@ -16,31 +17,50 @@
         "countdown": {
           "type": "countdown",
           "settings": {
-            "text": "Op werkdagen vóór [besteltijd] besteld, vandaag verzonden"
+            "text": "Uit voorraad op werkdagen vóór [besteltijd] besteld, dezelfde dag verzonden",
+            "link": "shopify://pages/verzenden-en-bezorgen"
           }
         },
-        "usp-factuur": {
+        "usp-offerte": {
           "type": "usp",
           "settings": {
             "icon": "invoice",
-            "text": "Zakelijk bestellen op factuur",
-            "link": "shopify://pages/zakelijk"
+            "text": "Zakelijk? Offerte [reactietijd]",
+            "link": "shopify://pages/offerte"
           }
         },
-        "usp-logo": {
+        "usp-bedenktijd": {
           "type": "usp",
           "settings": {
-            "icon": "proof",
-            "text": "Eigen logo? Eerst een drukproef",
-            "link": "shopify://pages/bedrukken"
+            "icon": "return",
+            "text": "[bedenktijd] dagen bedenktijd (niet bij maatwerk)",
+            "link": "shopify://pages/retourneren"
+          }
+        },
+        "link-klantenservice": {
+          "type": "link",
+          "settings": {
+            "label": "Klantenservice",
+            "link": "shopify://pages/contact",
+            "icon": "chat"
+          }
+        },
+        "link-faq": {
+          "type": "link",
+          "settings": {
+            "label": "Veelgestelde vragen",
+            "link": "shopify://pages/veelgestelde-vragen",
+            "icon": "none"
           }
         }
       },
       "block_order": [
         "usp-levering",
         "countdown",
-        "usp-factuur",
-        "usp-logo"
+        "usp-offerte",
+        "usp-bedenktijd",
+        "link-faq",
+        "link-klantenservice"
       ],
       "settings": {
         "color_scheme": "scheme-5",
@@ -52,36 +72,50 @@
     "header": {
       "type": "header",
       "blocks": {
-        "promo-partytenten": {
+        "promo-statafels": {
           "type": "promo",
           "settings": {
-            "menu_item": "Partytenten",
-            "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
-            "eyebrow": "Met jouw logo",
-            "heading": "Je eigen tent, met drukproef vooraf",
+            "menu_item": "Statafels",
+            "image": "",
+            "eyebrow": "Voor bedrijven",
+            "heading": "Statafelrokken met jouw logo",
+            "text": "Logo op één of twee kanten, of full colour rondom. Vanaf 1 stuk, staffelprijs vanaf 10.",
+            "link": "shopify://collections/bedrukte-statafelhoezen",
+            "link_label": "Bekijk de rokken",
+            "fallback_image": "rok-logo"
+          }
+        },
+        "promo-logo": {
+          "type": "promo",
+          "settings": {
+            "menu_item": "Met jouw logo",
+            "image": "",
+            "eyebrow": "Drukproef vooraf",
+            "heading": "Je eigen tent, met jouw logo",
             "text": "Luifel of dak bedrukt. Eerst je akkoord, dan drukken we.",
             "link": "shopify://pages/bedrukken",
             "link_label": "Zo werkt bedrukken",
             "fallback_image": "tent-logo"
           }
         },
-        "promo-statafels": {
+        "promo-zakelijk": {
           "type": "promo",
           "settings": {
-            "menu_item": "Statafels",
-            "image": "shopify://shop_images/statafelrok-stretch-zwart-print-hero.webp",
-            "eyebrow": "Voor bedrijven",
-            "heading": "Statafelrokken met je logo",
-            "text": "Stretch rok, logo op het voorpaneel. Vanaf 10 stuks staffelprijs.",
-            "link": "shopify://collections/bedrukte-statafelhoezen",
-            "link_label": "Bekijk de rokken",
-            "fallback_image": "rok-logo"
+            "menu_item": "Zakelijk",
+            "image": "",
+            "eyebrow": "Klapklaar Zakelijk",
+            "heading": "Offerte op maat",
+            "text": "Voor je bedrijf, club of verhuur: grote aantallen, bedrukking en prijzen excl. btw in één voorstel.",
+            "link": "shopify://pages/offerte",
+            "link_label": "Offerte aanvragen",
+            "fallback_image": "scene-zakelijk"
           }
         }
       },
       "block_order": [
-        "promo-partytenten",
-        "promo-statafels"
+        "promo-statafels",
+        "promo-logo",
+        "promo-zakelijk"
       ],
       "settings": {
         "color_scheme": "scheme-1",

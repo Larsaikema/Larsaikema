@@ -1,0 +1,28 @@
+{%- comment -%}
+  Header only. Prints 'yes' when every child of the given menu item is a collection with its own image, all different
+  (then the mega menu headings and the mobile panel rows show a thumbnail of each subcategory: a shopper sees what a
+  stretchtent or a buizenframe is). Mixed rows with and without pictures, or one picture three times, never show.
+  Use: {%- capture thumbs_ok -%}{% render 'header-thumbs-ok', link: link %}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign ht_ok = true
+  assign ht_seen = '|'
+  if link.links.size < 2
+    assign ht_ok = false
+  endif
+  for ht_child in link.links
+    if ht_child.type != 'collection_link' or ht_child.object.image == blank
+      assign ht_ok = false
+      break
+    endif
+    assign ht_key = ht_child.object.image.src | append: '|'
+    if ht_seen contains ht_key
+      assign ht_ok = false
+      break
+    endif
+    assign ht_seen = ht_seen | append: ht_key
+  endfor
+  if ht_ok
+    echo 'yes'
+  endif
+-%}

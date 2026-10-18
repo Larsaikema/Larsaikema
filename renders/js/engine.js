@@ -63,7 +63,14 @@ function hookMaterial(mat) {
   const weave = mat.userData.weave && mat.normalMap ? mat.userData.weave : null;
   const envSpec = mat.userData.envSpec;
   const interior = !!mat.userData.interior;
-  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior) return;
+  // dye: dyed cloth turns deeper and more saturated where little light reaches it (the light
+  // that does arrive has mostly bounced off the same dyed cloth); 0 = off
+  const dye = mat.userData.dye || 0;
+  // sheet: {L, H, c, strength} on alpha-mapped glazing (PVC windows): the reflection of a strip
+  // softbox in a flat glossy sheet, one soft diagonal band per ~1.6 m of panel (L x H metres,
+  // c = [s, y] of the windows' centre)
+  const sheet = mat.userData.sheet && mat.alphaMap ? mat.userData.sheet : null;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -142,6 +149,33 @@ ${lightsBeginInterior()}`);
   ${envSpec != null ? `radiance *= ${Number(envSpec).toFixed(4)};` : ''}
   ${interior ? '#if defined( RE_IndirectDiffuse )\n  iblIrradiance *= intK;\n  #endif\n  #if defined( RE_IndirectSpecular )\n  radiance *= intK;\n  #endif' : ''}`);
     }
+    if (dye) {
+      // received light E (luminance of the diffuse result / albedo luminance) against the light a
+      // face turned to the key gets: in shade the diffuse result is filtered once more by the
+      // normalised dye (one extra bounce off the same cloth): deeper, purer colour
+      fs = fs.replace('#include <aomap_fragment>', `#include <aomap_fragment>
+  {
+    const vec3 LW = vec3( 0.2126, 0.7152, 0.0722 );
+    vec3 dS = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
+    float E = dot( dS, LW ) / max( dot( diffuseColor.rgb, LW ), 1e-4 );
+    float Eref = ( uKeyE * 0.8 + uDomeE * 0.75 ) * RECIPROCAL_PI;
+    float shadeF = 1.0 - smoothstep( 0.35, 1.0, E / max( Eref, 1e-4 ) );
+    vec3 dyeN = diffuseColor.rgb / max( max( diffuseColor.r, max( diffuseColor.g, diffuseColor.b ) ), 1e-4 );
+    vec3 tint = mix( vec3( 1.0 ), dyeN, ${Number(dye).toFixed(4)} * shadeF );
+    reflectedLight.directDiffuse *= tint; reflectedLight.indirectDiffuse *= tint;
+  }`);
+    }
+    if (sheet) {
+      fs = fs.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+  {
+    vec2 sp = vec2( vAlphaMapUv.x * ${Number(sheet.L).toFixed(4)}, vAlphaMapUv.y * ${Number(sheet.H).toFixed(4)} ) - vec2( ${Number((sheet.c || [0, 0])[0]).toFixed(4)}, ${Number((sheet.c || [0, 0])[1]).toFixed(4)} );
+    // main band just below-left of the panel's window centre, a thin second streak above-right
+    float dq = dot( sp, vec2( 0.6, 0.8 ) ) / 1.6 + 0.22;
+    float ph = fract( dq );
+    float bandS = smoothstep( 0.0, 0.07, ph ) * ( 1.0 - smoothstep( 0.1, 0.2, ph ) ) + 0.4 * smoothstep( 0.26, 0.285, ph ) * ( 1.0 - smoothstep( 0.3, 0.33, ph ) );
+    totalEmissiveRadiance += vec3( ${Number(sheet.strength).toFixed(4)} ) * bandS;
+  }`);
+    }
     if (transl) {
       // Light passing through thin fabric, seen from the shaded side.
       fs = fs.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
@@ -155,7 +189,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -278,7 +312,7 @@ void main() {
   float intF = 1.0;
   if ( uIntFloor.x < 0.999 ) {
     vec2 qf = abs( vWorldPos.xz - uIntBox.xy ) - uIntBox.zw;
-    intF = mix( 1.0, uIntFloor.x, 1.0 - smoothstep( -uIntFloor.y, 0.0, max( qf.x, qf.y ) ) );
+    intF = mix( 1.0, uIntFloor.x, 1.0 - smoothstep( -0.25 * uIntFloor.y, 0.75 * uIntFloor.y, max( qf.x, qf.y ) ) );
   }
   gl_FragColor = vec4( ratio, intF, 0.0, 0.25 ); // alpha 0.25 marks 'floor'
 }`;
@@ -387,9 +421,10 @@ export const DEFAULT_RIG = {
   env: 'room',                  // 'room' (three RoomEnvironment) or 'studio' (dark studio + softboxes, js/studioEnv.js;
                                 // always camera-relative). envStudio: overrides for the studio map.
   envStudio: null,
-  interior: null,               // {box:[cx, cz, hx, hz], top, k, floor, feather}: enclosure (walled tent). Inward-facing
-                                // surfaces inside the box keep only shadowed light (k scales fill/rim/bounce + IBL),
-                                // the floor inside the footprint is multiplied by `floor`
+  interior: null,               // {box:[cx, cz, hx, hz], top, k, floor, floorBox, feather}: enclosure (walled tent).
+                                // Inward-facing surfaces inside the box keep only shadowed light (k scales fill/rim/
+                                // bounce + IBL); the floor inside floorBox (default box: the wall planes) is
+                                // multiplied by `floor`, fading out over `feather` m across the wall line
 };
 
 function dirFromAzEl(azDeg, elDeg) {
@@ -779,7 +814,7 @@ export class Studio {
       globalUniforms.uIntBox.value.set(...IN.box);
       globalUniforms.uIntY.value.set(0, IN.top ?? box.max.y);
       globalUniforms.uIntK.value = IN.k ?? 0.12;
-      this.groundMat.uniforms.uIntBox.value.set(...IN.box);
+      this.groundMat.uniforms.uIntBox.value.set(...(IN.floorBox || IN.box));
       this.groundMat.uniforms.uIntFloor.value.set(IN.floor ?? 0.3, IN.feather ?? 0.12);
     } else {
       globalUniforms.uIntK.value = 1;
@@ -796,7 +831,10 @@ export class Studio {
     };
     setStatic(this.fill, fillDir, R.fill.intensity);
     setStatic(this.rim, rimDir, R.rim.intensity);
-    setStatic(this.bounce, new THREE.Vector3(0.15, -1, 0.25).normalize(), R.bounce.intensity, bounceColor);
+    // bounce: from below (floor bounce) by default; bounce.azimuth/elevation (camera-relative,
+    // elevation < 0 = from below) turn it into a low front reflector card
+    const bounceDir = R.bounce.elevation != null ? dirFromAzEl(camAz + (R.bounce.azimuth ?? 0), R.bounce.elevation) : new THREE.Vector3(0.15, -1, 0.25).normalize();
+    setStatic(this.bounce, bounceDir, R.bounce.intensity, bounceColor);
 
     // clear accumulation
     r.setRenderTarget(this.accum);

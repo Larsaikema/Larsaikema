@@ -5,7 +5,8 @@
 //                  arching up between the feet; optional separate topcover.
 // type 'strik'   : loose woven polyester cover gathered at the waist with a sash
 //                  tied in a bow, full skirt to the floor.
-// type 'kleed'   : round tablecloth over the top, draping to the floor in folds.
+// type 'kleed'   : round tablecloth over the top, draping to the floor in folds; square: side (m) for a square
+//                  kleed (140 x 140 cm on a Ø80 blad: shorter on the sides, four points that hang lower).
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
@@ -98,6 +99,12 @@ export function statafelCover(p = {}) {
   group.name = `statafelCover ${type} ${color}`;
   let detail;
   if (type === 'kleed') {
+    // drop (m): a short kleed (Ø130 on Ø80 = 25 cm overhang) instead of one to the floor; over: 'stretch' puts the
+    // statafel with a stretchrok (underColor, no topcover) underneath, the way a statafelkleed is used
+    if (p.over === 'stretch') {
+      group.add(statafel(tableParams).object);
+      buildStretch(group, S, { ...p, topcover: false, print: null }, p.underColor || 'zwart');
+    }
     buildKleed(group, S, p, color);
     detail = { target: [Math.sin(34 * DEG) * S.R * 0.9, S.H - 0.12, Math.cos(34 * DEG) * S.R * 0.9], size: 0.55, azimuth: 34, elevation: 14 };
   } else {
@@ -233,11 +240,55 @@ function buildStretch(group, S, p, color) {
 
   if (p.topcover) {
     const tcColor = typeof p.topcover === 'string' ? p.topcover : p.topcoverColor || 'wit';
-    const tmat = M.lycra(tcColor);
+    let tmat = M.lycra(tcColor);
     const tp = topProfile(S, f + 0.0028, 92, 0.0015);
     const lip = [tp.end, [tp.end[0] - 0.012, tp.end[1] - 0.001], [S.R - 0.035, S.H - S.T - f - 0.006]];
-    group.add(G.mesh(revolve(resample(concat(tp.pts, lip), 0.006), 240), tmat));
+    const tg = revolve(resample(concat(tp.pts, lip), 0.006), 240);
+    if (p.topcoverPrint) {
+      // themed topcover (sublimation print): 'stripes-rwb' = rood, wit en blauw banen; 'voetbal' = black pentagons on white.
+      // Planar uv over the blad (x, z), so the print lies flat on the top and runs over the rim.
+      const uv = tg.attributes.uv, pos = tg.attributes.position, D = 2 * (S.R + 0.02);
+      for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) / D + 0.5, pos.getZ(i) / D + 0.5);
+      uv.needsUpdate = true;
+      tmat = tmat.clone();
+      tmat.color = new THREE.Color('#FFFFFF');
+      tmat.sheenColor = new THREE.Color('#FFFFFF').multiplyScalar(0.3);
+      tmat.map = topcoverPrintTex(String(p.topcoverPrint));
+    }
+    group.add(G.mesh(tg, tmat));
   }
+}
+
+// Print for a themed topcover, drawn on a canvas (cached per kind). Colours: the catalogue's rood / wit / blauw swatches.
+const _tcPrint = new Map();
+function topcoverPrintTex(kind) {
+  if (_tcPrint.has(kind)) return _tcPrint.get(kind);
+  const N = 1024, c = document.createElement('canvas'); c.width = c.height = N;
+  const g = c.getContext('2d');
+  if (kind === 'voetbal') {
+    g.fillStyle = M.resolveColor('wit', '#F3F3F0'); g.fillRect(0, 0, N, N);
+    g.fillStyle = M.resolveColor('zwart', '#1D1E20');
+    const pent = (cx, cy, r, rot) => { g.beginPath(); for (let k = 0; k < 5; k++) { const a = rot + k * 2 * Math.PI / 5 - Math.PI / 2; g.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); } g.closePath(); g.fill(); };
+    const step = N / 2.6;
+    for (let row = -1; row < 6; row++) for (let col = -1; col < 6; col++) {
+      const cx = col * step + (row % 2 ? step / 2 : 0) + step * 0.3, cy = row * step * 0.88 + step * 0.35;
+      pent(cx, cy, step * 0.27, (row + col) % 2 ? 0 : Math.PI / 5);
+    }
+    // seams between the panels: thin dark lines from each pentagon
+    g.strokeStyle = 'rgba(29,30,32,0.6)'; g.lineWidth = N / 260;
+    for (let row = -1; row < 6; row++) for (let col = -1; col < 6; col++) {
+      const cx = col * step + (row % 2 ? step / 2 : 0) + step * 0.3, cy = row * step * 0.88 + step * 0.35;
+      for (let k = 0; k < 5; k++) { const a = k * 2 * Math.PI / 5 - Math.PI / 2; g.beginPath(); g.moveTo(cx + step * 0.27 * Math.cos(a), cy + step * 0.27 * Math.sin(a)); g.lineTo(cx + step * 0.5 * Math.cos(a), cy + step * 0.5 * Math.sin(a)); g.stroke(); }
+    }
+  } else {
+    // stripes-rwb: three equal horizontal bands, rood / wit / blauw
+    const cols = [M.resolveColor('rood', '#B5161E'), M.resolveColor('wit', '#F3F3F0'), M.resolveColor('blauw', '#1E4E9E')];
+    cols.forEach((col, i) => { g.fillStyle = col; g.fillRect(0, (i * N) / 3, N, N / 3 + 1); });
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  _tcPrint.set(kind, t);
+  return t;
 }
 
 function buildStrik(group, S, p, color) {
@@ -371,20 +422,39 @@ function buildKleed(group, S, p, color) {
   const P0 = top.end;
   const drop = [];
   const yTopEdge = P0[1];
-  const n = 70;
+  // p.drop: hang length in m below the blad edge (short kleed over a rok); default: to the floor
+  // p.square: side (m) of a square kleed; the cloth then reaches sq/2 from the centre on the sides and sq/2·√2 at the
+  // points, so the profile is built for the points and cut shorter per angle (rot: angle of a point, degrees)
+  const sq = Number(p.square || 0);
+  const rot = Number(p.squareRot ?? 45) * DEG;
+  const reach = sq ? (th) => (sq / 2) / Math.max(Math.abs(Math.cos(th - rot + Math.PI / 4)), Math.abs(Math.sin(th - rot + Math.PI / 4))) : null;
+  const dropLen = sq ? Math.max(0.05, sq / 2 * Math.SQRT2 - S.R) : Number(p.drop || 0);
+  const yEnd = dropLen ? Math.max(0.004, yTopEdge - dropLen) : 0.004;
+  const kS = clamp((yTopEdge - yEnd) / Math.max(0.01, yTopEdge - 0.004), 0.2, 1);
+  const n = dropLen ? 36 : 70;
   for (let i = 1; i <= n; i++) {
     const t = i / n;
-    const y = lerp(yTopEdge, 0.004, t);
-    const r = P0[0] + 0.004 + 0.09 * Math.pow(t, 1.5) + 0.045 * smoothstep(0.9, 1, t) ** 1.5;
+    const y = lerp(yTopEdge, yEnd, t);
+    const r = P0[0] + 0.004 + (0.09 * Math.pow(t, 1.5) + 0.045 * smoothstep(0.9, 1, t) ** 1.5) * kS;
     drop.push([r, y]);
   }
   const prof = resample(concat(top.pts, drop), 0.008);
   const topLen = resample(top.pts, 0.008).L;
   const folds = foldField(10, 5, { sharp: 1.8, warp: 1.1, ampJitter: 0.4 });
-  group.add(G.mesh(revolve(prof, 300, (th, i, pr) => {
-    const s = pr.s[i];
+  const nv = prof.pts.length - 1;
+  group.add(G.mesh(revolve(prof, sq ? 480 : 300, (th, i, pr) => {
+    // square kleed: points past the cloth's reach at this angle collapse onto the hem (interpolated, so the hem is smooth)
+    let q = pr.pts[i], s = pr.s[i];
+    if (sq) {
+      const fi = clamp(reach(th) / pr.L) * nv;
+      if (i > fi) {
+        const k0 = Math.min(nv - 1, Math.floor(fi)), w = fi - k0;
+        q = [lerp(pr.pts[k0][0], pr.pts[k0 + 1][0], w), lerp(pr.pts[k0][1], pr.pts[k0 + 1][1], w)];
+        s = lerp(pr.s[k0], pr.s[k0 + 1], w);
+      }
+    }
     const t = clamp((s - topLen) / (pr.L - topLen));
-    const amp = 0.085 * Math.pow(t, 0.8) * smoothstep(0, 0.03, t);
-    return [amp * folds(th, t), 0];
+    const amp = 0.085 * (dropLen ? Math.max(0.35, kS) : 1) * Math.pow(t, 0.8) * smoothstep(0, 0.03, t);
+    return [q[0] - pr.pts[i][0] + amp * folds(th, t), q[1] - pr.pts[i][1]];
   }), mat));
 }
