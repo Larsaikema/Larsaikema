@@ -1,0 +1,37 @@
+{%- comment -%}
+  'Met jouw logo vanaf €399' in the colour legend of the variant picker (feature product.print-option-reveal), on a
+  product without print. Params: product, block (variant_picker block; setting print_collections = collection handles).
+  The target is a printable product (custom.bedrukbaar or tag 'bedrukbaar') of the same product type from those
+  collections with the most title words (4+ letters) in common, at least one: Premium 3 × 3 m finds 'Premium met logo op
+  de luifel', Statafelrok stretch finds 'Statafelhoes stretch met logo', a square hoes never points at the round one.
+{%- endcomment -%}
+{%- liquid
+  assign print_alt = nil
+  assign pa_best = 1
+  assign pa_words = product.title | split: ' '
+  assign pa_handles = block.settings.print_collections | split: ','
+  for pa_h in pa_handles
+    assign pa_hs = pa_h | strip
+    for c in collections[pa_hs].products limit: 50
+      if c.type != product.type or c.id == product.id or c.available == false
+        continue
+      endif
+      unless c.metafields.custom.bedrukbaar.value == true or c.tags contains 'bedrukbaar'
+        continue
+      endunless
+      assign pa_score = 1
+      for w in pa_words
+        if w.size > 3 and c.title contains w
+          assign pa_score = pa_score | plus: 1
+        endif
+      endfor
+      if pa_score > pa_best
+        assign pa_best = pa_score
+        assign print_alt = c
+      endif
+    endfor
+  endfor
+-%}
+{%- if print_alt -%}
+  <a class="vp__print" href="{{ print_alt.url }}">{%- render 'icon', icon: 'paint', class: 'icon--xs' -%}<span>{{ 'product.print_link' | t }}</span><span class="vp__print-price">{{ 'price.from' | t }} {% render 'vat-money', cents: print_alt.price_min %}</span>{%- render 'icon', icon: 'chevron-right', class: 'icon--xs' -%}</a>
+{%- endif -%}

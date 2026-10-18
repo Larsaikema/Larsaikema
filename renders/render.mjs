@@ -101,7 +101,8 @@ async function main() {
     page.on('console', (m) => { const t = m.text(); if (args.verbose || /error|warn/i.test(m.type())) console.log(`  [page ${wid}] ${t}`); });
     page.on('pageerror', (e) => console.error(`  [page ${wid}] ERROR ${e.message}`));
     await page.goto(`http://127.0.0.1:${port}/scene.html`);
-    await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
+    // generous: on a loaded 4-core box SwiftShader can take minutes to compile the shaders
+    await page.waitForFunction(() => window.__ready === true, null, { timeout: 300000 });
     while (queue.length) {
       const job = queue.shift();
       const { out, __i, ...spec } = job;

@@ -630,8 +630,12 @@ export function roundBoard(R, T, { re = 0.003, segs = 128 } = {}) {
   const pos = g.attributes.position, uv = g.attributes.uv, nor = g.attributes.normal;
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
-    if (Math.abs(nor.getY(i)) > 0.7) uv.setXY(i, x + 0.4, z + 0.13);
-    else uv.setXY(i, Math.atan2(x, z) * R + 2, y);
+    // the flat faces by radius (the lathe's centre vertex has a short, tilted normal: a normal
+    // test gave it the polar edge uv, which smeared the face texture into rings)
+    if (Math.hypot(x, z) < R - re + 1e-5) {
+      uv.setXY(i, x + 0.4, z + 0.13);
+      if (Math.hypot(x, z) < 1e-3) nor.setXYZ(i, 0, y > -T / 2 ? 1 : -1, 0);
+    } else uv.setXY(i, Math.atan2(x, z) * R + 2, y);
   }
   return g;
 }

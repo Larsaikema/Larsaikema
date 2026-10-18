@@ -282,9 +282,49 @@
             "answer": "<p>Ja. Bij een full colour tent, dak, wand of hoes krijg je een sjabloon voor jouw maat, met de vouwlijnen en een veilige zone voor tekst en logo's. <a href=\"/pages/bedrukken#sjabloon\">Vraag het sjabloon aan</a> op de bedrukpagina en lever je ontwerp daarna aan als PDF.</p>",
             "keywords": "sjabloon, template, ontwerp, full colour, vouwlijnen, drukbestand"
           }
+        },
+        "t1": {
+          "type": "shortcut",
+          "settings": {
+            "icon": "truck",
+            "title": "Je bestelling volgen",
+            "text": "Status en track & trace in je account.",
+            "account": true
+          }
+        },
+        "t2": {
+          "type": "shortcut",
+          "settings": {
+            "icon": "return",
+            "title": "Iets terugsturen",
+            "text": "[bedenktijd] dagen bedenktijd. Zo meld je je retour.",
+            "link": "shopify://pages/retourneren"
+          }
+        },
+        "t3": {
+          "type": "shortcut",
+          "settings": {
+            "icon": "shield",
+            "title": "Kapot of niet compleet",
+            "text": "Meld het met je bestelnummer en een foto.",
+            "link": "shopify://pages/garantie"
+          }
+        },
+        "t4": {
+          "type": "shortcut",
+          "settings": {
+            "icon": "invoice",
+            "title": "Offerte aanvragen",
+            "text": "Grote aantallen, je logo of zakelijk.",
+            "link": "shopify://pages/offerte"
+          }
         }
       },
       "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
         "g1",
         "q1",
         "q2",
@@ -326,7 +366,8 @@
         "heading": "Alle vragen op een rij",
         "layout": "help",
         "show_contact": true,
-        "contact_link": "shopify://pages/contact"
+        "contact_link": "shopify://pages/contact",
+        "tasks_heading": "Direct regelen"
       }
     }
   },

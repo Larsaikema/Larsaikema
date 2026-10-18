@@ -7,6 +7,8 @@
      lacks ('Materiaal') -> its lines in that row
   C  two sparse rows that together cover every product once ('Beschermhoes' / 'Wieltas', 'Ingeklapt in beschermhoes' /
      'Ingeklapt in wieltas') -> one row ('Ingeklapt'), each value with its own label
+  D  more than two such rows in a group with no pair to tell apart ('Ø80-85 cm' + 'Ø60-70 cm' vs 'Bladen' + 'Tafelhoogte')
+     -> one row named after the group (runs before C)
   Params: keys (array of 'groep|label'), pres (array, same order: ',1,3,' = products that have the row), groups (array),
   count (number of products)
 {%- endcomment -%}
@@ -115,6 +117,83 @@
           endif
         endfor
       else
+        # D  more than two sparse rows that split the products into the same two complementary sets, with no pair sharing
+        #    a first word ('Ø80-85 cm' + 'Ø60-70 cm' on the rokken, 'Bladen' + 'Tafelhoogte' on the hoes): no pair can be
+        #    told apart, so they share one row named after the group, each value with its own label (rule C would pair
+        #    'Ø60-70 cm' with 'Tafelhoogte')
+        assign sp_keys = ''
+        assign sp_bits = ''
+        for k1 in keys
+          assign k1g = k1 | slice: 0, gp.size
+          assign e1 = epres[forloop.index0] | default: ''
+          assign n1 = ncount[forloop.index0] | plus: 0
+          assign k1m = '§' | append: k1 | append: '¦'
+          assign k1t = '¦' | append: k1 | append: '¦'
+          if k1g != gp or e1 == '' or n1 >= count or cmap contains k1m or cmap contains k1t
+            continue
+          endif
+          assign bits = ''
+          for i in (1..count)
+            assign ni = ',' | append: i | append: ','
+            if e1 contains ni
+              assign bits = bits | append: '1'
+            else
+              assign bits = bits | append: '0'
+            endif
+          endfor
+          assign sp_keys = sp_keys | append: k1 | append: '§'
+          assign sp_bits = sp_bits | append: bits | append: '§'
+        endfor
+        assign spk = sp_keys | split: '§'
+        assign spb = sp_bits | split: '§'
+        assign spu = spb | uniq
+        assign cl_done = ''
+        for pb in spu
+          # the complement of this presence pattern ('110' -> '001'); a cluster is every row with either pattern
+          assign cb = pb | replace: '1', 'x' | replace: '0', '1' | replace: 'x', '0'
+          assign pbk = '§' | append: pb | append: '§'
+          unless spu contains cb
+            continue
+          endunless
+          if cl_done contains pbk
+            continue
+          endif
+          assign cl_done = cl_done | append: '§' | append: cb | append: '§'
+          assign cl_s = ''
+          assign n_p = 0
+          assign n_c = 0
+          for x in spk
+            assign xb = spb[forloop.index0]
+            if xb == pb
+              assign n_p = n_p | plus: 1
+              assign cl_s = cl_s | append: x | append: '§'
+            elsif xb == cb
+              assign n_c = n_c | plus: 1
+              assign cl_s = cl_s | append: x | append: '§'
+            endif
+          endfor
+          if n_p < 2 and n_c < 2
+            continue
+          endif
+          assign cl = cl_s | split: '§'
+          assign cluster = true
+          for x in cl
+            assign xw = x | split: '|' | last | split: ' ' | first | downcase
+            for y in cl
+              assign yw = y | split: '|' | last | split: ' ' | first | downcase
+              if x != y and xw == yw
+                assign cluster = false
+              endif
+            endfor
+          endfor
+          if cluster
+            assign row_k = gp | append: g
+            for x in cl
+              assign xl = x | split: '|' | last
+              assign cmap = cmap | append: x | append: '¦' | append: row_k | append: '¦' | append: xl | append: '§'
+            endfor
+          endif
+        endfor
         for k1 in keys
           assign k1g = k1 | slice: 0, gp.size
           assign e1 = epres[forloop.index0] | default: ''

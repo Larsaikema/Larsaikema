@@ -6,7 +6,8 @@
 // Construction (catalogue: 18 mm): HPL-faced board (wit / zwart / antraciet) with a 2 mm ABS
 // edge band (kantenband) whose arrises are radiused and that stands a few tenths proud of the
 // face, so a fine shadow line separates face and band; the HPL face has a fine matte suede
-// texture with a soft satin sheen. Birch plywood 18 mm shows its plies on the edge (berken).
+// texture with a soft satin sheen. Birch plywood 18 mm (berken): rotary-cut birch face (upholstery2.birchPly),
+// plies on the edge.
 // On the underside four pre-drilled holes for the statafel's hinge bracket. The hero is shot a
 // little higher (32 deg) so the round reads as a board with an edge, not as a white ellipse.
 import * as THREE from 'three';
@@ -15,6 +16,7 @@ import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as TX from '../js/textures.js';
 import * as S from '../js/seatKit.js';
+import * as U from '../js/upholstery2.js';
 
 const { V3 } = G;
 const HPL = { wit: ['#F1F0EB', '#E3E2DC'], zwart: ['#1B1C1E', '#141517'], antraciet: ['#3A3D41', '#33363A'] };
@@ -40,12 +42,18 @@ export function tableTop(p = {}) {
     bins.add(mat, F.roundBoard(R, T, { re: 0.012 }).translate(0, T, 0));
   } else if (top === 'berken' || top === 'hout') {
     T = Number(p.thickness ?? 0.018);
-    const face = M.birchFace(), edge = M.birchEdge();
-    bins.add(face, G.prism(G.circleProfile(R - 0.0025, 192), V3(0, 0.0005, 0), V3(0, T, 0)));
-    const e = F.roundBoard(R, T, { re: 0.0025, segs: 192 });
-    const pos = e.attributes.position, uv = e.attributes.uv, nor = e.attributes.normal;
-    for (let i = 0; i < pos.count; i++) if (Math.abs(nor.getY(i)) < 0.7) uv.setXY(i, Math.atan2(pos.getX(i), pos.getZ(i)) * R, (pos.getY(i) + T) / T);
-    bins.add(edge, e.translate(0, T, 0));
+    // rotary-cut birch face (planar uv in metres, grain slightly off the camera axes), plies on the edge
+    const face = U.birchPly(), edge = M.birchEdge();
+    bins.add(face, U.planarUV(G.prism(G.circleProfile(R - 0.0025, 192), V3(0, 0.0005, 0), V3(0, T, 0)), { rot: 0.22 }));
+    // edge ring only (radiused arrises, plies across the thickness); the faces are the birch prism
+    const re = 0.0025, prof = [[R - 0.004, T]];
+    for (let i = 0; i <= 6; i++) { const a = (Math.PI / 2) * (1 - i / 6); prof.push([R - re + Math.cos(a) * re, T - re + Math.sin(a) * re]); }
+    for (let i = 1; i <= 6; i++) { const a = -(Math.PI / 2) * (i / 6); prof.push([R - re + Math.cos(a) * re, re + Math.sin(a) * re]); }
+    prof.push([R - 0.004, 0]);
+    const e = G.lathe(prof.reverse(), 192);
+    const pos = e.attributes.position, uv = e.attributes.uv;
+    for (let i = 0; i < pos.count; i++) uv.setXY(i, Math.atan2(pos.getX(i), pos.getZ(i)) * R, pos.getY(i) / T);
+    bins.add(edge, e);
   } else {
     T = Number(p.thickness ?? 0.018);
     const [fc, bc] = HPL[top] || HPL.wit;
@@ -83,6 +91,8 @@ export function tableTop(p = {}) {
     rig: (() => {
       const r = S.seatRig(group, { default: { key: { azimuth: -30, elevation: 40, distanceRel: 1.4, aimRel: [-0.3, 0, 0.3] } } });
       if (top === 'wit' || top.startsWith('hdpe')) r.default.exposure = Math.max(r.default.exposure, 0.76);
+      // pale lacquered birch: exposed as the light wood it is
+      if (top === 'berken' || top === 'hout') r.default.exposure = Math.max(r.default.exposure, 0.8);
       return r;
     })(),
   };

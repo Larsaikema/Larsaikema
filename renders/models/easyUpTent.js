@@ -970,6 +970,21 @@ export function easyUpTent(p = {}) {
   }
 
   // ---- scissor trusses --------------------------------------------------------------------
+  // Inside a fully walled tent the truss, its bolts and node blocks, the centre poles and rafters
+  // only get the light that comes in through the openings: their own material copies are dimmed
+  // in the enclosure (engine interiorSolid: env + unshadowed lights x 0.22, up to 0.55 right by an
+  // open door), so through a window or the door the frame reads as dark satin steel in a dim room
+  // with a few soft highlights, not as light-grey bars or glinting bolt heads lit by the studio.
+  // The legs keep the studio light: they stand in the velcro corner slots, seen from outside.
+  const enclosedFrame = Object.values(walls).filter((v) => v && !['none', 'open', 'rolled', 'half'].includes(Array.isArray(v) ? v[0] : v)).length >= 4;
+  const insideWalls = (m) => {
+    if (!enclosedFrame) return m;
+    const c = m.clone();
+    c.userData = { ...m.userData, interiorSolid: { k: 0.22, kNear: 0.55 } }; delete c.userData.__hooked;
+    c.name = `${m.name} (inside walls)`;
+    return c;
+  };
+  const tAlu = insideWalls(alu), tChrome = insideWalls(chrome), tNylon = insideWalls(nylon), tLug = insideWalls(bracketMat);
   const spans = [];
   for (let i = 0; i < nbx; i++) { spans.push([[xs[i], zs[0]], [xs[i + 1], zs[0]]]); spans.push([[xs[i], zs[nbz]], [xs[i + 1], zs[nbz]]]); }
   for (let j = 0; j < nbz; j++) { spans.push([[xs[0], zs[j]], [xs[0], zs[j + 1]]]); spans.push([[xs[nbx], zs[j]], [xs[nbx], zs[j + 1]]]); }
@@ -992,9 +1007,9 @@ export function easyUpTent(p = {}) {
         lug.rotateY(rot);
         const c = E.clone().addScaledVector(dd, legAF / 2 + 0.02).setY(y);
         lug.translate(c.x, c.y, c.z);
-        bins.add(bracketMat, lug);
+        bins.add(tLug, lug);
         const bc = E.clone().addScaledVector(dd, legAF / 2 + 0.032).setY(y);
-        bins.add(chrome, G.tube(bc.clone().addScaledVector(nrm, -(barT + 0.011)), bc.clone().addScaledVector(nrm, barT + 0.011), 0.0042, 10));
+        bins.add(tChrome, G.tube(bc.clone().addScaledVector(nrm, -(barT + 0.011)), bc.clone().addScaledVector(nrm, barT + 0.011), 0.0042, 10));
       }
     });
     const s0 = endGapA, s1 = Ls - endGapB;
@@ -1003,20 +1018,20 @@ export function easyUpTent(p = {}) {
     const off = barT * 0.55;
     for (let k = 0; k < n; k++) {
       const sa = nodes[k], sb = nodes[k + 1];
-      bins.add(alu, G.flatBar(P(sa, yTop, off), P(sb, yBot, off), barT, barW, nrm.clone()));
-      bins.add(alu, G.flatBar(P(sa, yBot, -off), P(sb, yTop, -off), barT, barW, nrm.clone()));
+      bins.add(tAlu, G.flatBar(P(sa, yTop, off), P(sb, yBot, off), barT, barW, nrm.clone()));
+      bins.add(tAlu, G.flatBar(P(sa, yBot, -off), P(sb, yTop, -off), barT, barW, nrm.clone()));
       // pivot bolt at the crossing: shank + domed heads both sides
       const sm = (sa + sb) / 2, ym = (yTop + yBot) / 2;
-      bins.add(chrome, G.tube(P(sm, ym, -off * 2.3), P(sm, ym, off * 2.3), 0.0042, 12));
-      bins.add(chrome, boltHead(P(sm, ym, off * 2.0), nrm.clone()));
-      bins.add(chrome, boltHead(P(sm, ym, -off * 2.0), nrm.clone().negate()));
+      bins.add(tChrome, G.tube(P(sm, ym, -off * 2.3), P(sm, ym, off * 2.3), 0.0042, 12));
+      bins.add(tChrome, boltHead(P(sm, ym, off * 2.0), nrm.clone()));
+      bins.add(tChrome, boltHead(P(sm, ym, -off * 2.0), nrm.clone().negate()));
       if (k > 0) {
         for (const y of [yTop, yBot]) {
           const c = G.roundedBox(0.044, 0.036, barT * 2 + 0.012, 0.006);
           c.rotateY(rot);
           const cp = P(sa, y, 0); c.translate(cp.x, cp.y, cp.z);
-          bins.add(nylon, c);
-          for (const sg of [-1, 1]) bins.add(chrome, boltHead(P(sa, y, sg * (barT + 0.0065)), nrm.clone().multiplyScalar(sg)));
+          bins.add(tNylon, c);
+          for (const sg of [-1, 1]) bins.add(tChrome, boltHead(P(sa, y, sg * (barT + 0.0065)), nrm.clone().multiplyScalar(sg)));
         }
       }
     }
@@ -1039,12 +1054,12 @@ export function easyUpTent(p = {}) {
       const n = Math.max(2, Math.round(L / 1.0));
       scissor([x, z], [cx, cz], trussTop, hubBot, gap * 1.2, 0.075, n, [true, false]);
     }
-    bins.add(nylon, G.prism(G.circleProfile(0.062, 28), V3(cx, hubTop - 0.03, cz), V3(cx, hubTop + 0.02, cz)));
-    bins.add(nylon, G.prism(G.circleProfile(0.057, 28), V3(cx, hubBot - 0.03, cz), V3(cx, hubBot + 0.02, cz)));
+    bins.add(tNylon, G.prism(G.circleProfile(0.062, 28), V3(cx, hubTop - 0.03, cz), V3(cx, hubTop + 0.02, cz)));
+    bins.add(tNylon, G.prism(G.circleProfile(0.057, 28), V3(cx, hubBot - 0.03, cz), V3(cx, hubBot + 0.02, cz)));
     const apexY = H(cx, cz);
-    bins.add(alu, G.tube(V3(cx, hubBot - 0.03, cz), V3(cx, He + 0.25, cz), 0.016, 18));
-    bins.add(alu, G.tube(V3(cx, He + 0.24, cz), V3(cx, apexY - 0.03, cz), 0.0125, 18));
-    bins.add(nylon, G.prism(G.circleProfile(0.03, 24), V3(cx, apexY - 0.05, cz), V3(cx, apexY - 0.018, cz)));
+    bins.add(tAlu, G.tube(V3(cx, hubBot - 0.03, cz), V3(cx, He + 0.25, cz), 0.016, 18));
+    bins.add(tAlu, G.tube(V3(cx, He + 0.24, cz), V3(cx, apexY - 0.03, cz), 0.0125, 18));
+    bins.add(tNylon, G.prism(G.circleProfile(0.03, 24), V3(cx, apexY - 0.05, cz), V3(cx, apexY - 0.018, cz)));
     // rafters from the pole top to the four mid-side connectors, just under the cloth
     const mids = [[cx, zs[j]], [cx, zs[j + 1]], [xs[i], cz], [xs[i + 1], cz]];
     for (const [mx, mz] of mids) {
@@ -1055,7 +1070,7 @@ export function easyUpTent(p = {}) {
         pts.push(V3(x, Math.min(H(x, z) - S.rafter / 2 - 0.004, t < 0.02 ? trussTop + 0.02 : 99), z));
       }
       pts[0].y = trussTop + 0.02;
-      bins.add(alu, sweepTube(pts, S.rafter / 2, 12));
+      bins.add(tAlu, sweepTube(pts, S.rafter / 2, 12));
     }
   }
 
@@ -1290,6 +1305,22 @@ export function easyUpTent(p = {}) {
       return out;
     };
     probes.wallLit = wallPts(lit); probes.wallShade = wallPts(shade);
+    // PVC window panes on the sides the hero sees (what the foil shows: the dim inside behind
+    // smoky foil, never a white card of studio seen through a window on the far side)
+    probes.windowPane = [lit, shade].filter(Boolean).flatMap((nm) => {
+      const def = sideDefs[nm], types = sideTypes(nm), out = [];
+      if (!def || !types.length) return out;
+      for (let k = 0; k < def.pts.length - 1; k++) {
+        const t = types[k % types.length];
+        if (!['window', 'panorama'].includes(t)) continue;
+        const a2 = V3(def.pts[k][0], 0, def.pts[k][1]), b2 = V3(def.pts[k + 1][0], 0, def.pts[k + 1][1]);
+        for (const f of [0.36, 0.44, 0.56, 0.64]) for (const y of [1.0, 1.42]) {
+          const q = a2.clone().lerp(b2, f).addScaledVector(def.n, wallOff);
+          out.push([q.x, y, q.z]);
+        }
+      }
+      return out;
+    });
     // door on a side the hero sees: the doorway (rolled-up leaf: what shows through the
     // opening, i.e. the inside; closed: the right leaf of the door)
     probes.doorway = doors.filter((dd) => dd.side === lit || dd.side === shade).flatMap((dd) => [0.6, 0.95, 1.3, 1.55].map((y) => {
@@ -1377,17 +1408,19 @@ function tentRig(colorHex, walled = false, enclosure = null) {
     bounce: { intensity: 0.5 },
     // soft overhead dome, tipped towards the key so it models with it
     dome: { count: 2, intensity: 2.4, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-    exposure: white ? 0.53 : 'auto',
+    exposure: white ? 0.52 : 'auto',
     interior: enclosure,
-    // white cloth: a higher key aimed right of centre and up the face with a 32.5 deg beam, and an
-    // exposure of 0.53 (at 0.58 the whole lit face sat in the tone curve's shoulder at ~248: a flat
-    // moulded slab), so the lit face peaks at ~247 by the rafter and falls off to ~230 at the eave
-    // and ~215-225 at the left hip: each dished half-panel reads (the top-left outline reads
-    // against the backdrop by its falloff, also at collection-grid size);
+    // white cloth: a higher key aimed up the face towards the apex with a soft 38 deg beam, and an
+    // exposure of 0.52 (at 0.58 the whole lit face sat in the tone curve's shoulder at ~248: a flat
+    // moulded slab; a tighter 32.5 deg beam aimed lower spotlit the face and dropped its left
+    // corner to ~165, a grey vignette), so the lit face peaks at ~246 high up by the rafter and
+    // falls off evenly to ~230 along the eave and ~200-220 down the left hip (~190 at the very
+    // corner): each dished half-panel reads, and the top-left outline reads against the backdrop
+    // by its falloff, also at collection-grid size;
     // the vertical valance gets less of that key than the upward roof faces (clearly darker,
     // ~205-225), lifted a little by a low reflector card in front; the far face ~190-215
     ...(white ? {
-      key: { ...key, azimuth: -70, elevation: 40, distanceRel: 2.3, aimRel: [0.34, 0.6, 0.43], angle: walled ? 50 : 32.5, intensity: 4.8 },
+      key: { ...key, azimuth: -70, elevation: 40, distanceRel: 2.3, aimRel: [0.28, 0.8, 0.4], angle: walled ? 50 : 38, intensity: 4.8 },
       fill: { azimuth: 100, elevation: 12, intensity: 2.2 },
       bounce: { azimuth: -20, elevation: -25, intensity: 1.5 },
       dome: { count: 2, intensity: 2.0, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
@@ -1422,7 +1455,7 @@ function tentDetailRig(colorHex, wallDetail) {
   // a near softbox has no visible falloff over a 1 m close-up: directional key; a lighter
   // back fill than the hero, so the far roof face keeps the key's dish gradient up close
   const r = { edgeFade: 0, key: { distanceRel: 0, distance: 0 }, fill: { intensity: 3.5 } };
-  // white: the close-up keeps its own exposure (the hero's lower 0.53 is for the raked softbox)
+  // white: the close-up keeps its own exposure (the hero's lower 0.52 is for the raked softbox)
   if (L > 0.7) r.exposure = 0.58;
   if (wallDetail) {
     r.key = { distanceRel: 0, distance: 0, azimuth: -88, elevation: 14, cone: 6 };

@@ -73,6 +73,7 @@ SYSTEEM_EXTRA = {  # accessories without a past_op list that fit several systems
     'haringen-en-bevestigingsmateriaal-partytent': ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent'],
     'betonblok-ballast-tent': ['Buizenframe', 'Stretchtent', 'Stertent'],
     'reparatieset-tentdoek': ['Easy-up', 'Buizenframe'],
+    'tentelastieken-met-bal': ['Easy-up', 'Buizenframe'],
 }
 for p in PRODUCTS:
     sy = set()
@@ -114,7 +115,7 @@ for p in PRODUCTS:
         errors.append(f'{p["handle"]}: {len(p["variants"])} variants > 250 (Liquid product.variants limit)')
     names = [o['name'] for o in p['options']]
     for o in p['options']:
-        if o['name'] not in ('Maat', 'Kleur', 'Uitvoering', 'Kwaliteit', 'Bedrag'):
+        if o['name'] not in ('Maat', 'Kleur', 'Uitvoering', 'Samenstelling', 'Bedrag'):
             errors.append(f'{p["handle"]}: option {o["name"]}')
         if o['name'] == 'Kleur':
             for v in o['values']:
@@ -336,6 +337,11 @@ doc['pages'] = [{'handle': h, 'title': t, 'template_suffix': s, 'published': h !
 doc['blog'] = {'handle': 'advies', 'title': 'Advies & inspiratie', 'comments': 'disabled',
                'articles': [{'handle': h, 'title': t, 'brief': b, 'required_by_contract': i < 6} for i, (h, t, b) in enumerate(site.ARTICLES)]}
 doc['filters'] = site.FILTERS
+# renamed product handles (merchandising review 3): catalog/build.py writes export/redirects.csv (Shopify URL redirect import)
+doc['redirects'] = [r for r in site.REDIRECTS]
+for _r in doc['redirects']:
+    if _r['to'].split('/')[-1] not in HANDLES or _r['from'].split('/')[-1] in HANDLES:
+        errors.append(f'redirect {_r}: target missing or source still live')
 doc['copy_groups'] = [{'id': g, 'name': GROUPS[g][0], 'notes': GROUPS[g][1], 'handles': [p['handle'] for p in groups[g]],
                        'product_count': len(groups[g]), 'effort': round(sum(p['weight'] for p in groups[g]), 2)} for g in GROUPS]
 doc['coverage'] = coverage

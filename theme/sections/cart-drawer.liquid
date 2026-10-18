@@ -3,8 +3,9 @@
   (sections=cart-drawer) after every add / change: cart.js swaps the contents of #CartDrawerInner and keeps open panels,
   scroll position and focus. The live region [data-cart-live] sits outside it, inside the dialog (the page behind a modal
   dialog is inert), so screen readers hear 'Staat in je winkelwagen' and every new subtotal.
-  After an add: one slim line 'Staat in je winkelwagen.' (the added line right under it gets a short highlight, so the
-  product is not named twice; screen readers hear the product with it). Body (scrolls): free-shipping progress (only
+  After an add: one slim strip 'Staat in je winkelwagen.' with 'Verder winkelen' (outline, closes the drawer); the added
+  line right under it gets a short highlight, so the product is not named twice; screen readers hear
+  'Staat in je winkelwagen. <product>, <variant> · 2 ×' (the quantity added, cart.js). Body (scrolls): free-shipping progress (only
   with a threshold), lines, 'Vergeet niet' (the add-on variants of what is in the cart, one click each; two on a phone),
   and, when switched on, reference / note and discount code (default off here: the cart page has them). Foot (stays put):
   subtotal, shipping, the total to pay with its btw, expected delivery, checkout, express checkout, links.
@@ -29,8 +30,13 @@
       </h2>
       <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'general.close' | t }}">{%- render 'icon', icon: 'close' -%}</button>
     </div>
-    <p class="cart-added" data-cart-added hidden><span class="cart-added__icon">{%- render 'icon', icon: 'check', class: 'icon--xs' -%}</span>{{ 'cart.added_title' | t }}</p>
-    {%- if cart.item_count > 0 -%}
+    <div class="cart-added" data-cart-added hidden>
+      <p class="cart-added__text"><span class="cart-added__icon">{%- render 'icon', icon: 'check', class: 'icon--xs' -%}</span>{{ 'cart.added_title' | t }}</p>
+      <button type="button" class="btn btn--outline cart-added__more" data-drawer-close>{{ 'cart.continue' | t }}</button>
+    </div>
+    {%- if template.name == 'cart' -%}
+      {%- comment -%} the cart page has the lines itself and never opens the drawer: no second copy (and no duplicate ids) {%- endcomment -%}
+    {%- elsif cart.item_count > 0 -%}
       <div class="drawer__body cart-drawer__body">
         {%- render 'cart-free-shipping', hide_done: true -%}
         <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm" novalidate>
@@ -47,7 +53,7 @@
           {%- if upsell_items != blank -%}
             <section class="upsell" aria-labelledby="UpsellTitle">
               <h3 class="upsell__heading" id="UpsellTitle">{{ 'cart.upsell_title' | t }}</h3>
-              <ul class="upsell__list" role="list">{{ upsell_items }}</ul>
+              <ul class="upsell__list" role="list">{{ upsell_items | replace: 'id="CartAddon-', 'id="CartDrawerAddon-' }}</ul>
             </section>
           {%- endif -%}
         {%- endif -%}

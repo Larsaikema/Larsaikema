@@ -171,32 +171,38 @@ def build():
            {'kenmerk_kort': '75 cm hoog · klapblad · weerbestendig blad', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket'},
            ['tafels-stoelen.terrastafels'], 'meubilair', 'Terrastafel met klapblad: snel opruimen na sluitingstijd; binnen en buiten.', ['terrastafel inklapbaar', 'horeca terrastafel'],
            {'outmate': '70x70 €132 · 120x70 €299', 'ours': TT}, vmap=vmap)
-    # Kwaliteit Standaard / Brouwerijkwaliteit (merchandising review 3: Statafelshop sells both, singly and per 10). Brouwerij =
+    # Uitvoering Standaard / Brouwerijkwaliteit (merchandising review 3: Statafelshop sells both, singly and per 10). Brouwerij =
     # 35 mm blad and banken, rounded and twice lacquered, heavier galvanised onderstel: a supplier claim. A set is always cheaper
-    # than its tafel + 2 banken (the 220 x 70 set was € 199 against € 188,90 los: now € 185).
+    # than its tafel + 2 banken (the 220 x 70 set was € 199 against € 188,90 los: now € 185). Set or alleen tafel is the option
+    # Samenstelling (CONTRACT: Uitvoering carries the quality, like Premium / Professional on the tents).
     BTS = [('220 x 50 cm', 'Set: tafel en 2 banken', 'Standaard', 169.0, 28), ('220 x 50 cm', 'Alleen tafel', 'Standaard', 89.95, 14),
            ('220 x 70 cm', 'Set: tafel en 2 banken', 'Standaard', 185.0, 32), ('220 x 70 cm', 'Alleen tafel', 'Standaard', 109.0, 18),
            ('220 x 50 cm', 'Set: tafel en 2 banken', 'Brouwerijkwaliteit', 215.0, 34), ('220 x 50 cm', 'Alleen tafel', 'Brouwerijkwaliteit', 119.0, 17),
            ('220 x 70 cm', 'Set: tafel en 2 banken', 'Brouwerijkwaliteit', 235.0, 39), ('220 x 70 cm', 'Alleen tafel', 'Brouwerijkwaliteit', 139.0, 22)]
     KWAL = ['Standaard', 'Brouwerijkwaliteit']
+    BTS_SPEC = [sp('Uitvoering', 'Standaard', 'Blad en banken 25 mm vurenhout, gelakt; onderstel verzinkt staal'),
+                sp('Uitvoering', 'Brouwerijkwaliteit', 'Blad en banken 35 mm vurenhout met afgeronde randen, 2 x gelakt; zwaarder verzinkt onderstel met extra dwarsverbinding')]
     simple('biertafelset', 'Biertafelset', 'Biertafelset', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
-           [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Uitvoering', ['Set: tafel en 2 banken', 'Alleen tafel']), opt('Kwaliteit', KWAL)],
+           [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Samenstelling', ['Set: tafel en 2 banken', 'Alleen tafel']), opt('Uitvoering', KWAL)],
            [variant(f'KK-MEU-BTS-{code(m)}-{"SET" if "Set" in u else "T"}{"-BR" if q != "Standaard" else ""}', [m, u, q], p, kg * 1000, inv(20, m + u))
             for m, u, q, p, kg in BTS],
            [img('biertafelset-hero.webp', 'hero', 1, 'biertafelset', {'length': 2.2, 'tableWidth': 0.5}, 'hero', None, 'existing'),
             img('biertafelset-70-hero.webp', 'variant', 3, 'biertafelset', {'length': 2.2, 'tableWidth': 0.7}, 'hero', None, 'existing', alt='breed blad 70 cm')],
-           {'kenmerk_kort': 'Vurenhout · inklapbaar stalen onderstel · 220 cm', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pallet', 'addons': ['hoes-biertafelset'],
-            'specificaties': [sp('Blad', 'Materiaal', 'Vurenhout, gelakt'), sp('Onderstel', 'Materiaal', 'Staal, verzinkt, inklapbaar'), sp('Set', 'Bank', '220 x 25 cm')]},
-           ['tafels-stoelen.biertafels'], 'meubilair', 'Klassieke feestset: 50 cm standaard, 70 cm breed voor meer bordruimte; ook alleen de tafel.',
+           {'kenmerk_kort': 'Vurenhout · standaard of brouwerijkwaliteit · 220 cm', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pallet', 'addons': ['hoes-biertafelset'],
+            'specificaties': [sp('Blad', 'Materiaal', 'Vurenhout, gelakt'), sp('Onderstel', 'Materiaal', 'Staal, verzinkt, inklapbaar'), sp('Set', 'Bank', '220 x 25 cm')] + BTS_SPEC},
+           ['tafels-stoelen.biertafels'], 'meubilair', 'Klassieke feestset: 50 cm standaard, 70 cm breed voor meer bordruimte; standaard of brouwerijkwaliteit; ook alleen de tafel.',
            ['biertafelset', 'biertafel kopen', 'feestset', 'biertafel brouwerijkwaliteit'],
            {'statafelshop': 'biertafel 220x50 standaard €114,89 · set €225 · 10 standaard vanaf €1.017,55 / brouwerij vanaf €1.376,92',
-            'ours': {f'{m} {u} {q}': p for m, u, q, p, kg in BTS}})
-    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Kwaliteit', KWAL)],
+            'ours': {f'{m} {u} {q}': p for m, u, q, p, kg in BTS}},
+           vmap={'220 x 50 cm': 'biertafelset-hero.webp', '220 x 70 cm': 'biertafelset-70-hero.webp'}, vby='Maat')
+    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Uitvoering', KWAL)],
            [variant('KK-MEU-BB-220', ['Standaard'], 39.95, 7000, 40), variant('KK-MEU-BB-220-BR', ['Brouwerijkwaliteit'], 49.95, 8500, 20)],
            [img('bierbank-220-hero.webp', 'hero', 1, 'biertafelset', {'length': 2.2, 'only': 'bank'}, 'hero', None, 'needs-param')],
-           {'kenmerk_kort': 'Vurenhout 220 x 25 cm · inklapbaar', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pakket', 'past_op': ['biertafelset']},
-           ['tafels-stoelen.banken', 'tafels-stoelen.biertafels'], 'meubilair', 'Extra bank bij je biertafel, of los als zitbank op het feest.', ['bierbank', 'bierbank los'],
-           {'outmate': 'bierbank onderstel €29,25 bij 4–10 st', 'ours': 39.95})
+           {'kenmerk_kort': 'Vurenhout 220 x 25 cm · inklapbaar · standaard of brouwerij', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pakket', 'past_op': ['biertafelset'],
+            'specificaties': [sp('Uitvoering', 'Standaard', 'Zitting 25 mm vurenhout, gelakt; onderstel verzinkt staal'),
+                              sp('Uitvoering', 'Brouwerijkwaliteit', 'Zitting 35 mm vurenhout met afgeronde randen, 2 x gelakt; zwaarder verzinkt onderstel')]},
+           ['tafels-stoelen.banken', 'tafels-stoelen.biertafels'], 'meubilair', 'Extra bank bij je biertafel, of los als zitbank op het feest; standaard of brouwerijkwaliteit.', ['bierbank', 'bierbank los'],
+           {'outmate': 'bierbank onderstel €29,25 bij 4–10 st', 'ours': {'Standaard': 39.95, 'Brouwerijkwaliteit': 49.95}})
     # 'Plateau' added after the merchandising review: the stapelbare vierkante statafel does not go in the kar for folding statafels
     # (5 stacked on a plateau of ca. 90 x 90 cm with 4 zwenkwielen). Variant images per Uitvoering, so the plateau never shows the kar.
     TK2 = [('Klein, voor 5 statafels', 269.0, 'K', 38), ('Groot, voor 15 statafels', 369.0, 'G', 55), ('Plateau, voor 5 gestapelde statafels', 149.0, 'P', 18)]
@@ -348,16 +354,49 @@ def build():
            'Werklicht en sfeerlicht in de tent: klemt aan de poot, 2.400 lumen; voor markt, opbouw in het donker en avondevenementen.',
            ['led lamp partytent', 'verlichting easy up', 'vloedlicht tent'], {'outmate': 'Easy-up LED-vloedlicht 30 W €129', 'ours': 74.95,
                                                                             'note': 'onder Outmate gezet: 30 W LED-vloedlicht is elders een standaardartikel (eigenaar beoordeelt)'})
-    PO = [('E27-fitting zwart', 1.39, 'FZ'), ('E27-fitting wit', 1.49, 'FW'), ('Eindkap', 1.95, 'EK'), ('Stekkerdimmer tot 280 W', 9.95, 'SD'),
-          ('Dimmer met afstandsbediening tot 500 W', 24.95, 'DA'), ('Tijdschakelaar', 7.95, 'TS'), ('Aansluitsnoer lichtslang met stekker', 9.95, 'AS'), ('Verlengkabel 10 m zwart', 12.95, 'VK'),
-          ('Rubberkabel per meter zwart (2 x 1,5 mm²)', 1.95, 'KPM')]
+    # Merchandising review 3: the dimmers and the tijdschakelaar sat as Uitvoeringen next to a € 1,39 fitting, behind one image and a
+    # 'vanaf' price; they are their own products now (own title, SEO and image; the reference sells them per URL). What stays are the
+    # small spare parts, the fittingen and eindkap with their own image.
+    LIGHTS = ['prikkabel-e27', 'prikkabel-op-maat', 'prikkabelset-led', 'led-lichtslang', 'led-lichtslang-set-warm-wit', 'kerstverlichting-10-m']
+    PO = [('E27-fitting zwart', 1.39, 'FZ', ('lightParts', {'parts': ['fitting']})), ('E27-fitting wit', 1.49, 'FW', ('lightParts', {'parts': ['fitting'], 'color': 'wit'})),
+          ('Eindkap', 1.95, 'EK', ('lightParts', {'parts': ['eindkap']})), ('Aansluitsnoer lichtslang met stekker', 9.95, 'AS', ('miscParts', {'parts': ['aansluitsnoer']})),
+          ('Verlengkabel 10 m zwart', 12.95, 'VK', ('miscParts', {'parts': ['verlengkabel']})),
+          ('Rubberkabel per meter zwart (2 x 1,5 mm²)', 1.95, 'KPM', ('miscParts', {'parts': ['kabel']}))]
+    PO_G = {'FZ': 40, 'FW': 40, 'EK': 20, 'AS': 150, 'VK': 1300, 'KPM': 110}   # grams (the copy's claim: 100 g on every part was wrong for the verlengkabel)
+    PO_IMG = {n: f'onderdelen-prikkabel-en-lichtslang-{slug(n.split(" (")[0])}.webp' for n, _, _, prm in PO}
     simple('onderdelen-prikkabel-en-lichtslang', 'Onderdelen prikkabel en lichtslang', 'Verlichting onderdeel', [], [opt('Uitvoering', [p[0] for p in PO])],
-           [variant(f'KK-LCHT-OND-{c}', [n], p, 110 if c == 'KPM' else 100, inv(60, c + 'po')) for n, p, c in PO],
-           [img('onderdelen-prikkabel-en-lichtslang-hero.webp', 'hero', 1, 'lightParts', {'parts': ['fitting', 'eindkap', 'dimmer']}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Fittingen, dimmers, timer, snoeren en kabel per meter', 'verzending': 'pakket',
+           [variant(f'KK-LCHT-OND-{c}', [n], p, PO_G[c], inv(60, c + 'po')) for n, p, c, _ in PO],
+           [img('onderdelen-prikkabel-en-lichtslang-hero.webp', 'hero', 1, 'lightParts', {'parts': ['fitting', 'eindkap']}, 'hero', None, 'existing',
+                alt='E27-fitting en eindkap')] +
+           [img(PO_IMG[n], 'variant', 2, prm[0], prm[1], 'hero', None, 'existing') for n, _, _, prm in PO],
+           {'kenmerk_kort': 'Fittingen, eindkap, snoeren en kabel per meter', 'verzending': 'pakket',
             'past_op': ['prikkabel-e27', 'prikkabel-op-maat', 'led-lichtslang', 'led-lichtslang-set-warm-wit']},
-           ['verlichting.verlichting-onderdelen'], 'verlichting', 'Reserve-onderdelen en slimme extra’s (dimmer, timer).', ['dimmer prikkabel', 'fitting prikkabel'],
-           {'outmate': 'fitting €1,50–€1,69 · dimmer €9,99', 'ours': {p[0]: p[1] for p in PO}})
+           ['verlichting.verlichting-onderdelen'], 'verlichting', 'Reserve-onderdelen voor prikkabel en lichtslang: fittingen, eindkap, aansluitsnoer, verlengkabel, kabel per meter.',
+           ['fitting prikkabel', 'eindkap prikkabel', 'rubberkabel per meter'],
+           {'outmate': 'fitting €1,50–€1,69', 'ours': {p[0]: p[1] for p in PO}}, vmap=PO_IMG, vby='Uitvoering')
+    DM = [('Stekkerdimmer tot 280 W', 9.95, 'SD', 150, 'dimmer'), ('Dimmer met afstandsbediening tot 500 W', 24.95, 'DA', 220, 'dimmer-ab')]
+    DM_IMG = {'Stekkerdimmer tot 280 W': 'dimmer-voor-prikkabel-stekkerdimmer.webp', 'Dimmer met afstandsbediening tot 500 W': 'dimmer-voor-prikkabel-afstandsbediening.webp'}
+    simple('dimmer-voor-prikkabel', 'Dimmer voor prikkabel en lichtslang', 'Verlichting onderdeel', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [d[0] for d in DM])],
+           [variant(f'KK-LCHT-OND-{c}', [n], p, g, inv(30, c + 'po')) for n, p, c, g, _ in DM],
+           [img(DM_IMG[n], 'hero' if i == 0 else 'variant', 1 if i == 0 else 2, 'lightParts', {'parts': [part]}, 'hero', None, 'existing')
+            for i, (n, _, _, _, part) in enumerate(DM)],
+           {'kenmerk_kort': 'Tussen stekker en stopcontact · voor dimbare LED-lampen', 'verzending': 'pakket', 'past_op': LIGHTS,
+            'specificaties': [sp('Uitvoering', 'Stekkerdimmer tot 280 W', 'Draaiknop op de dimmer; tot 280 W aangesloten vermogen'),
+                              sp('Uitvoering', 'Dimmer met afstandsbediening tot 500 W', 'Aan/uit en dimmen met de afstandsbediening (batterij inbegrepen); tot 500 W'),
+                              sp('Aansluiting', 'Stekker', 'Randaarde (Schuko), 230 V'), sp('Gebruik', 'Plaats', 'Binnen of droog en overdekt (IP20)')]},
+           ['verlichting.verlichting-onderdelen'], 'verlichting',
+           'Prikkabel of lichtslang dimmen: dimmer tussen stekker en stopcontact; alleen met dimbare lampen; vermogen optellen; met of zonder afstandsbediening.',
+           ['dimmer prikkabel', 'dimmer lichtslang', 'dimmer met afstandsbediening'], {'outmate': 'dimmer €9,99 (per URL)', 'ours': {d[0]: d[1] for d in DM}},
+           vmap=DM_IMG, vby='Uitvoering')
+    simple('tijdschakelaar-voor-prikkabel', 'Tijdschakelaar voor prikkabel en lichtslang', 'Verlichting onderdeel', ['gebruik:tuinfeest', 'gebruik:horeca'], [],
+           [variant('KK-LCHT-OND-TS', [], 7.95, 180, inv(30, 'TSpo'))],
+           [img('tijdschakelaar-voor-prikkabel-hero.webp', 'hero', 1, 'lightParts', {'parts': ['timer']}, 'hero', None, 'existing')],
+           {'kenmerk_kort': '24-uursklok per kwartier · IP44 · tot 3.680 W', 'verzending': 'pakket', 'past_op': LIGHTS,
+            'specificaties': [sp('Klok', 'Type', 'Mechanisch, 24 uur, 96 pinnen (per kwartier)'), sp('Aansluiting', 'Stekker', 'Randaarde (Schuko), 230 V'),
+                              sp('Belasting', 'Maximaal', '16 A (3.680 W)'), sp('Gebruik', 'Plaats', 'Binnen en buiten (IP44)')]},
+           ['verlichting.verlichting-onderdelen'], 'verlichting',
+           'Verlichting automatisch aan en uit: pinnetjes per kwartier indrukken, tussen stekker en stopcontact; vast schema per dag.',
+           ['tijdschakelaar buitenverlichting', 'timer prikkabel', 'tijdklok stopcontact'], {'outmate': 'tijdschakelaar (per URL)', 'ours': 7.95})
 
     # ------------------------------------------------------------ verwarming
     simple('elektrische-heater-partytent', 'Elektrische heater voor partytent', 'Verwarming', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],

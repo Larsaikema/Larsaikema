@@ -63,6 +63,8 @@ import { seatCushion } from './seatCushion.js';
 import { sideWall } from './sideWall.js';
 // merchandising review 3: tentelastieken as their own product
 import { tentElastics } from './tentElastics.js';
+// merchandising review 3: per-Uitvoering images of the mixed-parts products (kabel, verlengkabel, aansluitsnoer, draaiharing)
+import { miscParts } from './miscParts.js';
 
 export const MODELS = {
   easyUpTent,
@@ -75,5 +77,5 @@ export const MODELS = {
   draagtas, easyUpParts, connectionStrip, rainGutter, tentCoupler, tubeFittings, tentPoles, footCaps, haringen, gewichten,
   wielset, sandbag, waterBag, concreteBlock, protectionDisc, repairKit, airPump, tubeBag, stretchParts, lightParts,
   prikkabel, ropeLight, stringLights, ledBulb, heaterCover,
-  carpetRunner, seatCushion, sideWall, tentElastics,
+  carpetRunner, seatCushion, sideWall, tentElastics, miscParts,
 };

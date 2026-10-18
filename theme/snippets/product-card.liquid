@@ -12,6 +12,8 @@
   swatch (moved to the front when it would sit behind '+N') and, when that colour has no photo of its own, says which
   colour the photo shows ('Foto in rood')
   show_sizes (bool, default true): false leaves out the sizes of the line (collection grid: the other sizes stand next to it)
+  The size of a one-size product sits on the photo ('3 × 3 m'), so a row of look-alike renders can be scanned by size. The
+  price shows one btw line when the header has the Particulier/Zakelijk switch (the mode the shopper chose), else both.
 {%- endcomment -%}
 {%- liquid
   assign img_sizes = sizes | default: '(min-width: 990px) 320px, (min-width: 750px) 33vw, 50vw'
@@ -78,6 +80,23 @@
       assign card_size_line = 'card.sizes_range_html' | t: count: card_idx.size, first: size_first, last: size_last
       assign card_size_short = 'card.sizes_count' | t: count: card_idx.size
     endif
+  endif
+
+  # the size on the photo: one size only (a line split per size, or a one-size product); several sizes say nothing there
+  assign card_size_tag = ''
+  assign tag_names = 'maat,tafelmaat,diameter,afmeting,formaat' | split: ','
+  for option in product.options_with_values
+    assign tag_on = option.name | downcase | strip
+    if tag_names contains tag_on
+      if option.values.size == 1
+        assign card_size_tag = option.values.first.name | default: option.values.first | replace: ' x ', times_nb
+      endif
+      break
+    endif
+  endfor
+  assign card_secondary = true
+  if settings.price_display == 'toggle'
+    assign card_secondary = false
   endif
 
   # the action
@@ -175,9 +194,24 @@
         {%- render 'image', image: product.media[1].preview_image, sizes: img_sizes, widths: '240, 360, 480, 640, 800, 960', alt: '', class: 'card__img2' -%}
       {%- endif -%}
     {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- comment -%} no photo yet: a quiet tile with the product family's icon, not a generic placeholder (a lamp on a table cover) {%- endcomment -%}
+      {%- liquid
+        assign ph_kind = product.type | append: ' ' | append: product.title | downcase
+        assign ph_icon = 'box'
+        if ph_kind contains 'tent' or ph_kind contains 'overkapping' or ph_kind contains 'zijwand'
+          assign ph_icon = 'tent'
+        elsif ph_kind contains 'tafel' or ph_kind contains 'rok' or ph_kind contains 'hoes' or ph_kind contains 'kleed'
+          assign ph_icon = 'table'
+        endif
+      -%}
+      <span class="card__noimg">{%- render 'icon', icon: ph_icon -%}<span>{{ 'card.photo_soon' | t }}</span></span>
     {%- endif -%}
-    {%- if card_photo_color != '' -%}{%- assign photo_color_lc = card_photo_color | downcase -%}<span class="card__photo-note">{{ 'card.shown_in' | t: color: photo_color_lc }}</span>{%- endif -%}
+    {%- if card_size_tag != '' or card_photo_color != '' -%}
+      <span class="card__tags">
+        {%- if card_photo_color != '' -%}{%- assign photo_color_lc = card_photo_color | downcase -%}<span class="card__photo-note">{{ 'card.shown_in' | t: color: photo_color_lc }}</span>{%- endif -%}
+        {%- if card_size_tag != '' -%}<span class="card__size">{{ card_size_tag }}</span>{%- endif -%}
+      </span>
+    {%- endif -%}
   </a>
   {%- comment -%} 'Voordeelset' only when the set really is cheaper than its parts (catalog/CONTRACT.md: bundles) {%- endcomment -%}
   {%- capture card_bundle -%}{%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}{%- endcapture -%}
@@ -276,7 +310,7 @@
     {%- if card_meta != blank -%}<div class="card__meta">{{ card_meta }}</div>{%- endif -%}
     <div class="card__footer">
       <div class="card__price">
-        {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit -%}{%- else -%}{%- render 'price', product: product -%}{%- endif -%}
+        {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit, secondary: card_secondary -%}{%- else -%}{%- render 'price', product: product, secondary: card_secondary -%}{%- endif -%}
         {{- card_bundle -}}
       </div>
       {%- if settings.card_stock -%}

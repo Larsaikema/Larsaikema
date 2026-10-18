@@ -92,6 +92,8 @@ export function patioTable(p = {}) {
     object: group,
     detail: { target: [cR * 0.7, H - 0.02, cR * 0.7], size: 0.35, azimuth: 40, elevation: 18 },
     meta: { Wt, Dt, H, round },
+    // a wide, low product: 74 % instead of 80 % of the frame, so it does not crowd the tile
+    view: { hero: { fill: 0.74 } },
     rig: S.seatRig(group),
   };
 }

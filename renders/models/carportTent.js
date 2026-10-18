@@ -4,6 +4,7 @@
 // (drive in from the front). Built with the frame tent builder (models/frameTent.js).
 //   { w (span, 3.3), d (length, 4.8), color, line: 'pe'|'pvc', walls }
 import * as K from '../js/tentkit.js';
+import * as T2 from '../js/tentkit2.js';
 import { buildFrameTent } from './frameTent.js';
 
 export function carportTent(p = {}) {
@@ -19,7 +20,8 @@ export function carportTent(p = {}) {
   return {
     object: group,
     view: { hero: { elevation: 17 } },
-    rig: { default: K.tentRig(hex, { walled: panels > 0 }) },
+    // the catalogue tent rig with the white key (as frameTent): white PE reads white, not light grey
+    rig: { default: { ...T2.tentRig2(hex, { walled: panels > 0 }), ...(K.lumOf(hex) > 0.7 ? { exposure: 0.72 } : {}) } },
     meta: { span, length, He, Hr },
   };
 }

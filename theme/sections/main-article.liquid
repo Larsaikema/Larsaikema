@@ -31,7 +31,8 @@
     endif
   endif
 
-  # ids on every <h2> of the text + the table of contents
+  # ids on every <h2> of the text + the table of contents; a marker before the third <h2> is where the products of the
+  # article show inside the text below 1100px (there the sidebar with them is not shown)
   assign toc_count = 0
   assign toc_items = ''
   assign parts = content_src | split: '<h2'
@@ -40,6 +41,9 @@
       if forloop.first
         echo part
         continue
+      endif
+      if forloop.index == 4
+        echo '<!--kk:mid-->'
       endif
       assign head = part | split: '</h2>' | first
       assign attrs = head | split: '>' | first
@@ -144,7 +148,29 @@
           </details>
         </article-toc>
       {%- endif -%}
-      <div class="rte article__content">{{ body_html }}</div>
+      {%- assign body_parts = body_html | split: '<!--kk:mid-->' -%}
+      {%- if has_products and body_parts.size == 2 -%}
+        <div class="rte article__content">{{ body_parts[0] }}</div>
+        <aside class="article-mini article-mini--inline" aria-labelledby="InlineProducts-{{ section.id }}">
+          <p class="article-mini__title" id="InlineProducts-{{ section.id }}">{{ products_heading }}</p>
+          <ul class="article-mini__list" role="list">
+            {%- for p in rel_products limit: 3 -%}
+              <li class="article-mini__item">
+                <span class="article-mini__media">{%- if p.featured_image -%}{%- render 'image', image: p.featured_image, sizes: '72px', widths: '72, 144', alt: '' -%}{%- endif -%}</span>
+                <span class="article-mini__body">
+                  <a class="article-mini__name" href="{{ p.url }}">{{ p.title | replace: ' x ', ' × ' }}</a>
+                  {%- if p.metafields.custom.kenmerk_kort != blank -%}<span class="article-mini__spec">{{ p.metafields.custom.kenmerk_kort }}</span>{%- endif -%}
+                  <span class="article-mini__price">{%- if p.price_varies -%}{{ 'price.from' | t }} {% endif -%}{%- render 'vat-money', cents: p.price_min -%}</span>
+                </span>
+                {%- render 'icon', icon: 'chevron-right', class: 'icon--xs article-mini__arrow' -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </aside>
+        <div class="rte article__content article__content--rest">{{ body_parts[1] }}</div>
+      {%- else -%}
+        <div class="rte article__content">{{ body_html | remove: '<!--kk:mid-->' }}</div>
+      {%- endif -%}
 
       <footer class="article__footer">
         {{ share_html }}

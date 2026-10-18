@@ -125,14 +125,16 @@ function printAtlas() {
   return atlasTex;
 }
 
-// Folded cover (round 2): the roof as it comes out of the box, about 52 x 36 x 9 cm. Built as ONE
-// continuous sheet folded like an accordion (Z-fold): every layer is the thin cloth (two sheets
-// with a little air between them), joined to the next by a U-bend that alternates between the
-// left and the right side, so the right side shows stacked loops and the front shows the thin
-// layer edges with dark shadow gaps (not solid slabs). Every layer has its own length, skew and
-// waviness, the bends sag and bulge, the stack settles a little in the middle; the top layer
-// carries soft creases and the valance edge with its hem and double stitch running along the
-// front, one reinforced corner pocket peeking out at the right.
+// Folded cover (round 3): the roof as it comes out of the bag, about 50 x 36 x 9 cm, folded
+// like a blanket rather than cut into slabs. Every fold is a flattened loop of thin cloth with
+// AIR in it: each of the 7 layers is a soft cushion (a superellipsoid: flat-ish top, fully
+// rounded fold edges all round, rounded corners in plan) that pillows up in the middle and is
+// pressed down by the layers above, so the edges of the stack read as rounded folds of
+// different thickness, never as the thin cut edges of placemats. The layers do not line up:
+// each is a little longer / shorter, shifted and turned; the folds at the left and right bulge
+// out further than the front and back. The top layer is the roof's outer face with broad soft
+// creases, one diagonal fold line, the valance edge with its hem and double stitch running
+// along the front and a reinforced corner pocket at the right.
 function foldedRoof(p, hex) {
   const poly = String(p.material || '').toLowerCase().startsWith('poly');
   const fab = poly ? K.polyesterFabric(hex) : K.pvc(hex, { translucent: false });
@@ -141,79 +143,87 @@ function foldedRoof(p, hex) {
   const bins = new G.PartBin();
   const group = new THREE.Group(); group.name = 'canopyRoof folded';
   const nz = makeNoise2(57);
-  const Lx = 0.52, Lz = 0.36, nL = 8, pitch = 0.0105, tc = 0.0016;
-  // centre line of the sheet in the side profile (x, y), layer by layer, with the U-bends
-  const prof = [];
-  const lay = [];
+  const Lx = 0.5, Lz = 0.36, nL = 7;
+  const S = (c, e) => Math.sign(c) * Math.pow(Math.abs(c), e);
+  const layers = [];
+  let y0 = 0;
   for (let k = 0; k < nL; k++) {
-    const y = 0.004 + k * pitch;
-    const ext = Lx / 2 - 0.006 * ((k * 5) % 3) + 0.004 * Math.sin(k * 2.1);
-    lay.push({ y, x0: -ext + 0.008 * Math.sin(k * 1.3 + 0.5), x1: ext + 0.006 * Math.cos(k * 1.7) });
+    const h = 0.0105 + 0.0055 * (0.5 + 0.5 * Math.sin(k * 2.3 + 0.4)) * (0.6 + 0.4 * Math.cos(k * 1.7)) + (k === nL - 1 ? 0.002 : 0);
+    // folds alternate left / right: the fold side of a layer bulges out a little further
+    const side = k % 2 === 0 ? 1 : -1;
+    const ax = Lx / 2 + 0.006 * Math.sin(k * 1.7) + 0.004, az = Lz / 2 + 0.005 * Math.cos(k * 2.1) - 0.002 * k / nL;
+    layers.push({ k, h, y: y0 + h / 2, ax, az, cx: 0.007 * side + 0.004 * Math.sin(k * 3.1), cz: 0.005 * Math.sin(k * 1.3 + 1), rot: 0.012 * Math.sin(k * 2.9 + 0.5), side });
+    y0 += h * 0.86; // pressed together a little
   }
-  for (let k = 0; k < nL; k++) {
-    const L = lay[k], dir = k % 2 === 0 ? 1 : -1;
-    const xa = dir > 0 ? L.x0 : L.x1, xb = dir > 0 ? L.x1 : L.x0;
-    const nS = 40;
-    for (let i = 0; i <= nS; i++) { const t = i / nS; prof.push({ x: xa + (xb - xa) * t, y: L.y, layer: k, t }); }
-    if (k < nL - 1) {
-      // U-bend up to the next layer at xb, bulging out a little and sagging
-      const rr = pitch / 2, cx = xb, cy = L.y + rr, nB = 14;
-      const bulge = 0.007 + 0.004 * Math.sin(k * 2.7);
-      for (let i = 1; i < nB; i++) { const a = -Math.PI / 2 + (Math.PI * i) / nB; prof.push({ x: cx + dir * (Math.cos(a) * (rr + bulge * Math.cos(a))), y: cy + Math.sin(a) * rr, layer: k + 0.5, t: i / nB, bend: true }); }
+  const NT = 160, NP = 28;
+  const shape = (L, th, ph) => {
+    // superellipsoid: th round the plan, ph from the top (0) to the bottom (pi)
+    const ct = Math.cos(th), st = Math.sin(th), cp = Math.cos(ph), sp = Math.sin(ph);
+    const e1 = 0.42, e2 = 0.12; // vertical section: rounded fold edge; plan: rounded corners
+    let x = L.ax * S(sp, e1) * S(ct, e2), z = L.az * S(sp, e1) * S(st, e2), y = (L.h / 2) * S(cp, e1);
+    // the fold side bulges out further (a loop of cloth with air in it)
+    if (Math.sign(ct) === L.side) x += 0.006 * Math.pow(Math.abs(ct), 6) * sp;
+    // pillow: the top and bottom faces dome a little in the middle, more so on the top layer
+    const inner = (1 - Math.pow(Math.abs(x) / L.ax, 4)) * (1 - Math.pow(Math.abs(z) / L.az, 4));
+    const pill = (L.k === nL - 1 ? 0.0045 : 0.0022) * Math.max(0, inner);
+    y += pill * Math.max(0, cp) - 0.6 * pill * Math.max(0, -cp);
+    // soft unevenness, stronger on the top layer: broad creases + one diagonal fold line
+    if (cp > 0.2) {
+      const w = Math.min(1, (cp - 0.2) / 0.5);
+      let c = 0.0012 * nz.fbm(x * 9 + L.k * 3, z * 9, 3);
+      if (L.k === nL - 1) {
+        // crumpled cloth: broad soft swells, finer wrinkles, the two pressed fold lines of the last
+        // folds (a crease ridge along and across the package) and a few short wrinkles off them
+        c += 0.0065 * nz.fbm(x * 5 + 7, z * 5 + 2, 4) + 0.0024 * nz.fbm(x * 16 + 1, z * 16 + 5, 3);
+        const crease = (d, w) => -0.0024 * Math.exp(-((d / w) ** 2)) + 0.0016 * Math.exp(-(((Math.abs(d) - w * 1.6) / (w * 1.2)) ** 2));
+        c += crease(z - 0.035 + 0.01 * Math.sin(x * 9), 0.006) * Math.max(0, inner);
+        c += crease(x + 0.07 + 0.008 * Math.sin(z * 11), 0.007) * Math.max(0, inner) * 0.8;
+        for (const [x0, z0, a, len] of [[0.05, 0.06, 0.6, 0.09], [-0.12, -0.05, 2.2, 0.07], [0.14, -0.07, 1.2, 0.08], [-0.02, 0.1, 2.8, 0.06]]) {
+          const dx = x - x0, dz = z - z0, t = dx * Math.cos(a) + dz * Math.sin(a), n = -dx * Math.sin(a) + dz * Math.cos(a);
+          if (Math.abs(t) < len) c += 0.0018 * Math.exp(-((n / 0.005) ** 2)) * Math.cos((Math.PI * t) / (2 * len));
+        }
+      }
+      y += c * w;
     }
-  }
-  // sweep the profile across z: the sheet, as a thin double layer (outer + inner face)
-  const NZ = 64;
-  const point = (q, v, side) => {
-    const z = -Lz / 2 + Lz * v;
-    const k = Math.floor(q.layer);
-    // per layer: a slight skew in plan, wavy front and back edges, the stack settles in the middle
-    const skew = 0.01 * Math.sin(k * 1.9 + 0.3) * (v - 0.5) * 2;
-    const settle = -0.0035 * Math.sin(Math.PI * v) * Math.sin(Math.PI * (q.x / Lx + 0.5)) * (k / nL);
-    const top = Math.floor(q.layer) === nL - 1 && !q.bend;
-    const crease = top ? 0.0035 * nz.fbm(q.x * 7 + 3, z * 7, 4) + 0.0016 * Math.sin(q.x * 30 + z * 9) * Math.sin(z * 17 + 1) : 0.0007 * nz.noise(q.x * 18 + k, z * 18);
-    const edge = Math.min(1, v * 14, (1 - v) * 14);
-    const y = q.y + (settle + crease) * edge + side * tc / 2;
-    // every layer ends at its own depth at the front and back (cut edges and folds never line up),
-    // with a soft wave along the edge
-    const zOff = (v > 0.5 ? 1 : -1) * (0.008 * Math.sin(k * 2.3 + (v > 0.5 ? 0 : 1.7)) + 0.004 * Math.sin(q.x * 11 + k * 1.3)) * (1 - edge);
-    return V3(q.x + skew + 0.003 * nz.noise(k * 3.1, z * 9) * (q.bend ? 1 : 0.3), y - (1 - edge) * 0.0015 * (k % 2), z + zOff);
+    // the fold edges are cloth, not a moulded rim: they wobble in plan and in height, and the
+    // loops sag a little where the air has been pressed out
+    const rim = Math.pow(sp, 6);
+    const wob = nz.fbm(ct * 2.6 + L.k * 1.9, st * 2.6 + L.k * 0.7, 3);
+    const rr = Math.hypot(x / L.ax, z / L.az) || 1;
+    x += (x / L.ax / rr) * 0.006 * wob * rim; z += (z / L.az / rr) * 0.006 * wob * rim;
+    y += 0.0025 * nz.fbm(ct * 4 + L.k * 3.3, st * 4 + 2, 3) * rim - 0.0012 * rim * (cp < 0 ? 1 : 0.3);
+    // rotate a little in plan, shift
+    const cr = Math.cos(L.rot), sr = Math.sin(L.rot);
+    return V3(L.cx + x * cr - z * sr, L.y + y, L.cz + x * sr + z * cr);
   };
-  for (const side of [1, -1]) {
+  for (const L of layers) {
     const rows = [];
-    for (let j = 0; j <= NZ; j++) { const v = j / NZ; rows.push(prof.map((q) => point(q, v, side))); }
-    if (side < 0) for (const r of rows) r.reverse();
-    bins.add(fab, K.gridGeometry(rows));
+    for (let j = 0; j <= NP; j++) {
+      const ph = (Math.PI * j) / NP, row = [];
+      for (let i = 0; i <= NT; i++) row.push(shape(L, (i / NT) * Math.PI * 2, ph));
+      rows.push(row);
+    }
+    bins.add(fab, K.gridGeometry(rows, { closedU: true }));
   }
-  // the thin front and back edges of every layer (cut edges / hems), so layers read as cloth
-  for (const v of [0, 1]) {
-    const rows = [prof.map((q) => point(q, v, 1)), prof.map((q) => point(q, v, -1))];
-    if (v === 0) rows.reverse();
-    bins.add(fab, K.gridGeometry(rows));
-  }
-  // valance hem along the front of the top layer, double stitch, a corner pocket
-  const top = lay[nL - 1];
-  const yT = top.y + tc / 2;
+  // valance hem along the front of the top layer + double stitch, a reinforced corner pocket
+  const T = layers[nL - 1];
+  const onTop = (x, z, lift) => {
+    // find the surface point above plan position (x, z) on the top layer (local, unrotated)
+    const th = Math.atan2(z / T.az, x / T.ax);
+    const r = Math.max(Math.abs(x) / T.ax, Math.abs(z) / T.az);
+    const ph = Math.asin(Math.min(1, Math.pow(Math.max(1e-4, r), 1 / 0.42))) ;
+    return shape(T, th, Math.min(ph, Math.PI / 2 - 0.02)).add(V3(0, lift, 0));
+  };
   const hem = [], st1 = [], st2 = [];
-  for (let i = 0; i <= 50; i++) {
-    const x = top.x0 + 0.02 + (top.x1 - top.x0 - 0.04) * (i / 50);
-    const q = point({ x, y: top.y, layer: nL - 1 }, 0.985, 1);
-    hem.push(q.clone().add(V3(0, 0.0012, 0)));
-    st1.push(point({ x, y: top.y, layer: nL - 1 }, 0.95, 1).add(V3(0, 0.0009, 0)));
-    st2.push(point({ x, y: top.y, layer: nL - 1 }, 0.925, 1).add(V3(0, 0.0009, 0)));
+  for (let i = 0; i <= 60; i++) {
+    const x = -T.ax * 0.86 + T.ax * 1.6 * (i / 60);
+    hem.push(onTop(x, T.az * 0.84, 0.0012));
+    st1.push(onTop(x, T.az * 0.79, 0.0009));
+    st2.push(onTop(x, T.az * 0.755, 0.0009));
   }
-  bins.add(fab, K.sweep(hem, 0.0022, 6));
+  bins.add(fab, K.sweep(hem, 0.0024, 6));
   bins.add(thread, K.sweep(st1, 0.0008, 4));
   bins.add(thread, K.sweep(st2, 0.0008, 4));
-  {
-    // reinforced corner pocket (double layer triangle with a stitch) at the right front corner
-    const cx = top.x1 - 0.005, cz = Lz / 2 - 0.005, s = 0.075;
-    const tri = [];
-    for (let j = 0; j <= 6; j++) { const row = []; for (let i = 0; i <= 6; i++) { const u = i / 6, w = j / 6 * (1 - u); const x = cx - s * u, z = cz - s * w; const v = (z + Lz / 2) / Lz; row.push(point({ x, y: top.y, layer: nL - 1 }, v, 1).add(V3(0, 0.0011, 0))); } tri.push(row); }
-    bins.add(patch, K.gridGeometry(tri));
-    const sl = []; for (let i = 0; i <= 12; i++) { const u = i / 12; const x = cx - (s - 0.012) * u, z = cz - 0.012 - (s - 0.024) * (1 - u) * 0; const v = (z + Lz / 2) / Lz; sl.push(point({ x, y: top.y, layer: nL - 1 }, v, 1).add(V3(0, 0.0018, 0))); }
-    bins.add(thread, K.sweep(sl, 0.0007, 4));
-  }
   bins.build(group);
   return {
     object: group,

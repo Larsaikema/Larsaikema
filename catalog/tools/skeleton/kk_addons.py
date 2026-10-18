@@ -295,9 +295,9 @@ RULES = {
     'klaptafel-hdpe-rechthoekig': lambda p, v: [('stretchhoes-klaptafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Zwart'}, 1)] +
                                                ([('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 10 klaptafels 183 cm'}, 1)] if vopts(p, v)['Maat'] == '183 x 76 cm' else []),
     # the hoes that covers what you buy: set → tafel + 2 banken, 'Alleen tafel' → tafelhoes, a loose bank → bankhoes (one hoes fits
-    # both Kwaliteiten); and the kar for 10 sets, once per order line
+    # both Uitvoeringen: the brouwerij blad is 1 cm thicker, the stretch takes it); and the kar for 10 sets, once per order line
     'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit',
-                                                          'Uitvoering': 'Alleen tafel' if vopts(p, v)['Uitvoering'] == 'Alleen tafel' else 'Set: tafel en 2 banken'}, 1),
+                                                          'Uitvoering': 'Alleen tafel' if vopts(p, v)['Samenstelling'] == 'Alleen tafel' else 'Set: tafel en 2 banken'}, 1),
                                   ('transportkar-biertafelsets', {}, 1)],
     'biertafelsets-10-stuks': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit', 'Uitvoering': 'Set: tafel en 2 banken'}, 10)],
     'pakket-10-ronde-klaptafels-met-transportkar': lambda p, v: [('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] == 'Ø150 cm' else 'Ø330 cm', 'Kleur': 'Wit'}, 10)],

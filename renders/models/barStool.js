@@ -28,11 +28,15 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
-import { rng } from '../js/rng.js';
+import * as U from '../js/upholstery2.js';
+import { rng, makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
-const VELVET = { grijs: '#7B7E82', camel: '#B07E4C', groen: '#2D5641', marineblauw: '#1C2747', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
+const lumOf = (hex) => { const c = new THREE.Color(hex); return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; };
+const sstep = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+// velours as it photographs (mid tone of the pile; faces read darker, flanks lighter)
+const VELVET = { grijs: '#8A8D90', camel: '#97693D', groen: '#2C5D45', marineblauw: '#1F2843', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
 const WICKER = { zwart: '#2E2C2A', bruin: '#6A4D36', grijs: '#8A8781', naturel: '#A88B62', wit: '#E4E0D6' };
 const WICKER_FRAME = { zwart: '#1F1E1D', bruin: '#3A2C21', grijs: '#4F5154', naturel: '#3A2C21', wit: '#D9D8D3' };
 // faux leather (PU kunstleer) as it photographs
@@ -43,7 +47,7 @@ const glideCap = (bins, mat, x, z, r) => bins.add(mat, G.lathe([[0.0001, 0.0], [
 
 // ----------------------------------------------------------------------------- metaal
 function stoolMetal(bins, H, color) {
-  const mat = F.powder(color);
+  const mat = U.powder(color);
   const glide = F.plastic('#161616', 0.6);
   const bar = H > 0.6;
   const R = bar ? 0.165 : 0.155;
@@ -100,7 +104,7 @@ function stoolMetal(bins, H, color) {
 
 // ----------------------------------------------------------------------------- draad
 function stoolWire(bins, H, color, back) {
-  const mat = F.powder(color);
+  const mat = U.powder(color);
   const glide = F.plastic('#161616', 0.6);
   const Rr = 0.19, rimR = 0.004, wr = 0.0018, dish = 0.009, sp = 0.024;
   const yRim = H - rimR;
@@ -162,7 +166,7 @@ function stoolWire(bins, H, color, back) {
 
 // ----------------------------------------------------------------------------- hout
 function stoolWood(bins, H, color) {
-  const mat = F.powder(color);
+  const mat = U.powder(color);
   const glide = F.plastic('#161616', 0.6);
   const veneer = S.woodMat('eiken', { stain: '#B8935F', seed: 11 });
   const W = 0.35, T = 0.018;
@@ -245,17 +249,22 @@ function chairRattan(bins, H, color, back) {
 }
 
 // ----------------------------------------------------------------------------- velours
-function stoolVelvet(bins, H, color, back, frameColor = 'zwart') {
+function stoolVelvet(bins, H, color, back, frameColor = 'zwart', extra = []) {
   const key = String(color).toLowerCase();
-  const vel = S.velvetMat(VELVET[key] || M.resolveColor(color, '#7B7E82'));
-  const frame = F.powder(frameColor);
+  const hex = VELVET[key] || M.resolveColor(color, '#7E8184');
+  const light = lumOf(hex) > 0.12;
+  // light velvets (camel, grijs) get a gentler rim so the flanks do not go chalky
+  const vopt = light ? { face: 0.72, rimGain: 1.48, desat: 0.3, lean: 0.08 } : { desat: 0.38 };
+  const vel = U.velvetPile(hex, vopt);
+  const frame = U.powder(frameColor);
   const glide = F.plastic('#161616', 0.6);
-  const W = 0.44, D = 0.42, T = 0.075;
-  const seat = S.softBlock(W, T, D, { r: 0.024, crown: 0.011, belly: 0.004, gather: 0.0018, seed: 4 });
+  const W = 0.44, D = 0.42, T = 0.078;
+  const seat = S.softBlock(W, T, D, { r: 0.03, crown: 0.014, belly: 0.005, gather: 0.0022, uneven: 0.001, seed: 4, seg: [64, 14, 62] });
+  U.puckerSeams(seat, { amp: 0.0008, pitch: 0.026, width: 0.012, seed: 4 });
   const yC = H - T / 2 - 0.008;
   const shape = seat.userData.shape;
   bins.add(vel, seat.translate(0, yC, 0));
-  for (const side of [1, -1]) bins.add(vel, F.sweep(S.weltPath(shape, side, { cr: 0.0032 }).map((p) => p.setY(p.y + yC)), G.circleProfile(0.0032, 10), { closed: true }));
+  for (const side of [1, -1]) bins.add(vel, F.sweep(S.weltPath(shape, side, { cr: 0.0034 }).map((p) => p.setY(p.y + yC)), G.circleProfile(0.0034, 12), { closed: true }));
   const yB = H - T - 0.008;
   bins.add(frame, G.roundedBox(0.32, 0.016, 0.3, 0.004).translate(0, yB - 0.006, 0));
   const legR = 0.0095, Rf = 0.285, rTop = 0.19, yTop = yB - 0.014;
@@ -269,28 +278,55 @@ function stoolVelvet(bins, H, color, back, frameColor = 'zwart') {
   const corners = legDirs().map((u) => legAt(u, yF));
   for (let k = 0; k < 4; k++) bins.add(frame, G.tube(corners[k], corners[(k + 1) % 4], 0.0085, 14));
   if (back) {
-    const bw = 0.43, bh = 0.3, bt = 0.062, Rb = 0.42;
-    const panel = S.softBlock(bw, bh, bt, { r: 0.022, crown: 0.0, belly: 0.003, gather: 0.0012, seg: [130, 36, 10], seed: 7 });
+    // channel-tufted back: built lying flat (thickness along y, front face +y, top edge at -z),
+    // five vertical channels (8.6 cm) whose fabric is stitched down into sharp seams and
+    // pillows out between them; piping on the front seam; then stood up, curved round Rb and
+    // raked back. Seams get a little ambient occlusion (vertex colours, own mesh).
+    const bw = 0.43, bh = 0.31, bt = 0.058, Rb = 0.42, nC = 5, cw = bw / nC, Dch = 0.012;
+    const panel = S.softBlock(bw, bt, bh, { r: 0.02, crown: 0.004, crownBottom: 0.002, belly: 0.003, gather: 0, uneven: 0.0004, seg: [344, 10, 120], seed: 7 });
+    const S0 = panel.userData.shape;
+    const { noise } = makeNoise2(23);
+    const seamX = []; for (let k = 1; k < nC; k++) seamX.push(-bw / 2 + k * cw);
+    const chan = (x, z) => {
+      // returns [offset along +y (m), seam proximity 0..1]
+      let ds = Infinity; for (const sx of seamX) ds = Math.min(ds, Math.abs(x - (sx + 0.0006 * noise(sx * 40, z * 25))));
+      const s = 1 - Math.min(1, ds / (cw / 2)); // 0 channel centre, 1 seam
+      const hgt = Math.pow(Math.max(0, 1 - s * s), 0.55);
+      // pinch towards the piped edge (top / bottom) and the side rims
+      const ez = S0.hz + S0.r * 0.5 - Math.abs(z), ex = S0.hx + S0.r * 0.5 - Math.abs(x);
+      const pinch = sstep(0.0, 0.03, ez) * sstep(0.0, 0.02, ex);
+      const wob = 1 + 0.12 * noise(Math.round((x + bw / 2) / cw) * 3.1, z * 9);
+      return [(-Dch * (1 - hgt) * (0.45 + 0.55 * pinch) + 0.0035 * hgt * pinch * wob) , Math.exp(-((ds / 0.006) ** 2)) * (0.5 + 0.5 * pinch)];
+    };
     const pp = panel.attributes.position;
-    // channel tufting on the front face: 5 vertical grooves, then bend round Rb
+    const occ = new Float32Array(pp.count);
     for (let i = 0; i < pp.count; i++) {
-      let x = pp.getX(i), y = pp.getY(i), z = pp.getZ(i);
-      if (z > 0) {
-        let g = 0;
-        for (let c = -2; c <= 2; c++) g = Math.max(g, Math.exp(-(((x - c * 0.074) / 0.0065) ** 2)));
-        // the channels between the grooves pillow outwards a little
-        const pil = 0.004 * Math.cos(((x + 0.037) / 0.074) * Math.PI * 2) ** 2;
-        const fadeY = Math.max(0, 1 - Math.pow(Math.abs(y) / (bh / 2), 8));
-        const fz = Math.min(1, z / (bt / 2));
-        z += (-0.01 * g + pil * (1 - g)) * fadeY * fz;
+      const x = pp.getX(i), y = pp.getY(i), z = pp.getZ(i);
+      if (y > 0) {
+        const fy = sstep(0, bt / 2 + 0.004, y);
+        const [dy, sp] = chan(x, z);
+        pp.setY(i, y + dy * fy);
+        occ[i] = sp * fy;
       }
-      const a = x / Rb, rad = Rb - z;
-      pp.setXYZ(i, Math.sin(a) * rad, y, Rb - Math.cos(a) * rad);
     }
     panel.computeVertexNormals();
-    panel.rotateX(-12 * DEG);
-    panel.translate(0, H + 0.05 + bh / 2, -D / 2 + 0.02);
-    bins.add(vel, panel);
+    const welt = S.weltPath(S0, 1, { cr: 0.0034, n: 12 }).map((p) => { const [dy] = chan(p.x, p.z); return p.setY(p.y + dy * 0.15); });
+    // stand up (+y -> +z front, -z -> +y top), curve round Rb, rake, place
+    const rake = 12 * DEG;
+    const yb = H + 0.05 + bh / 2, zb = -D / 2 + 0.02;
+    const place = (v) => {
+      let x = v.x, y = -v.z, z = v.y; // stood up
+      const a = x / Rb, rad = Rb - z;
+      x = Math.sin(a) * rad; z = Rb - Math.cos(a) * rad;
+      const c = Math.cos(-rake), s = Math.sin(-rake);
+      return V3(x, y * c - z * s + yb, y * s + z * c + zb);
+    };
+    const tv = new THREE.Vector3();
+    for (let i = 0; i < pp.count; i++) { tv.fromBufferAttribute(pp, i); const w = place(tv); pp.setXYZ(i, w.x, w.y, w.z); }
+    panel.computeVertexNormals();
+    U.cavityColors(panel, (i) => 1 - 0.55 * occ[i]);
+    extra.push(U.meshOf(panel, U.velvetPile(hex, { ...vopt, vertexColors: true }), 'velvet back'));
+    bins.add(vel, F.sweep(welt.map(place), G.circleProfile(0.0034, 12), { closed: true }));
     for (const s of [-1, 1]) {
       const a = V3(s * 0.11, yB - 0.01, -0.13), b = V3(s * 0.11, H + 0.02, -D / 2 - 0.02), c = V3(s * 0.11, H + 0.13, -D / 2 - 0.035);
       bins.add(frame, F.sweep(F.filletPath([a, b, c], 0.04), G.roundedRectProfile(0.03, 0.006, 0.002, 2), { up: V3(1, 0, 0) }));
@@ -338,15 +374,17 @@ export function barStool(p = {}) {
   const back = p.back ?? (style === 'rotan' || style === 'velours' || style === 'draad' || style === 'wire');
   const stack = Math.max(1, Math.round(Number(p.stack ?? 1)));
   const bins = new G.PartBin();
+  const extra = []; // meshes outside the bins (vertex colours)
   let info;
   if (style === 'draad' || style === 'wire') info = stoolWire(bins, H, color, back);
   else if (style === 'hout' || style === 'wood') info = stoolWood(bins, H, p.frame || color);
   else if (style === 'rotan' || style === 'rattan') info = chairRattan(bins, H, color, back);
-  else if (style === 'velours' || style === 'velvet') info = stoolVelvet(bins, H, color, back, p.frame || 'zwart');
+  else if (style === 'velours' || style === 'velvet') info = stoolVelvet(bins, H, color, back, p.frame || 'zwart', extra);
   else if (style === 'chroom' || style === 'chrome') info = stoolChrome(bins, H, color);
   else info = stoolMetal(bins, H, color);
   const one = new THREE.Group(); one.name = `barStool ${style}`;
   bins.build(one);
+  for (const m of extra) one.add(m);
   const group = new THREE.Group(); group.name = `barStool ${style} ${color}${stack > 1 ? ' x' + stack : ''}`;
   const pitch = info.pitch || 0.06;
   for (let k = 0; k < stack; k++) {
@@ -361,6 +399,14 @@ export function barStool(p = {}) {
     meta: { style, H, stack, color, pitch, footR: info.footR },
     // chrome only reads as chrome with something dark and something bright to mirror: the
     // studio environment (black flags, softboxes, scrim) instead of the grey room
-    rig: S.seatRig(group, style === 'chroom' || style === 'chrome' ? { default: { env: 'studio' } } : {}),
+    rig: (() => {
+      const r = S.seatRig(group, style === 'chroom' || style === 'chrome' ? { default: { env: 'studio' } } : {});
+      const c = String(color).toLowerCase();
+      // white powder coat is exposed as white (the auto exposure would print it ~205 grey)
+      if ((c === 'wit' || c === 'white') && style !== 'chroom' && style !== 'chrome' && style !== 'rotan' && style !== 'rattan') r.default.exposure = Math.max(r.default.exposure, 0.84);
+      // velours: expose for the colour of the pile (rich, not washed out)
+      if (style === 'velours' || style === 'velvet') r.default.exposure = Math.min(r.default.exposure, 0.92);
+      return r;
+    })(),
   };
 }

@@ -1,0 +1,61 @@
+{%- comment -%}
+  Backorder help inside the delivery card of the product page, under the stock line. Params: product, variant, block
+  (the 'delivery' block), section_id, sooner_url ('#ProductQuote' or blank), print_active.
+  - Backorder (tracked stock 0, policy continue, no custom.levertijd): the block setting backorder_note ('Niet uit
+    voorraad: deze uitvoering bestellen we voor je bij.'), so the shop-wide 'Uit voorraad: … verzonden' in the USP bar
+    reads as the condition it is and not as a promise this variant breaks; plus up to 3 variants of this product that do
+    ship from stock ('Wel uit voorraad: Wit, Zwart'), each a link to that variant.
+  - Backorder or lead time: 'Nodig op een vaste datum?' (a disclosure with a date field). variant-picker.js (later())
+    shows it once the expected window ('Verwacht in huis: 3 – 10 nov') is known, compares the date with that window and
+    says 'Dat lukt' / 'Krap' / 'Dat halen we waarschijnlijk niet', with 'Vraag of het eerder kan' (the inline offerte
+    form, its 'Gewenste leverdatum' filled in). Without JavaScript, or for a lead time that counts from an approved proof,
+    it stays hidden.
+  The section CSS lifts the note right under the stock line (.product__delivery .delivery is display: contents there).
+{%- endcomment -%}
+{%- liquid
+  assign nd_state = ''
+  if variant.available
+    assign nd_lead = product.metafields.custom.levertijd.value
+    assign nd_druk = product.metafields.custom.drukopties.value
+    if nd_lead != blank or print_active and nd_druk.levertijd != blank
+      assign nd_state = 'leadtime'
+    elsif variant.inventory_management != blank and variant.inventory_quantity <= 0
+      assign nd_state = 'backorder'
+    endif
+  endif
+-%}
+{%- if nd_state != '' -%}
+  {%- if nd_state == 'backorder' -%}
+    {%- capture nd_alts -%}
+      {%- assign nd_n = 0 -%}
+      {%- for v in product.variants -%}
+        {%- if v.id == variant.id or v.available == false -%}{%- continue -%}{%- endif -%}
+        {%- if v.inventory_management != blank and v.inventory_quantity <= 0 -%}{%- continue -%}{%- endif -%}
+        {%- capture nd_label -%}
+          {%- for o in v.options -%}{%- if o != variant.options[forloop.index0] -%}{{ o | replace: ' x ', ' × ' }} {% endif -%}{%- endfor -%}
+        {%- endcapture -%}
+        {%- if nd_n > 0 %}, {% endif -%}<a class="link" href="{{ v.url }}">{{ nd_label | strip }}</a>
+        {%- assign nd_n = nd_n | plus: 1 -%}
+        {%- if nd_n >= 3 -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if block.settings.backorder_note != blank or nd_alts != blank -%}
+      <p class="delivery__why">
+        {{- block.settings.backorder_note -}}
+        {%- if nd_alts != blank %} <span class="delivery__alts">{{ 'product.stock_alternatives' | t }} {{ nd_alts }}</span>{% endif -%}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+  {%- if block.settings.show_need_date -%}
+    {%- assign nd_ask = sooner_url | default: pages['contact'].url -%}
+    <details class="delivery__need" data-need hidden>
+      <summary>{%- render 'icon', icon: 'calendar', class: 'icon--sm' -%}<span>{{ 'product.need_q' | t }} <span class="link">{{ 'product.need_cta' | t }}</span></span></summary>
+      <div class="delivery__need-body">
+        <label class="field__label" for="NeedDate-{{ section_id }}">{{ 'product.need_label' | t }}</label>
+        <input class="input" type="date" id="NeedDate-{{ section_id }}" min="{{ 'now' | date: '%Y-%m-%d' }}" data-need-date>
+        <p class="delivery__need-out" aria-live="polite" data-need-out data-ok="{{ 'product.need_ok_html' | t: to: '__TO__' | escape }}" data-tight="{{ 'product.need_tight_html' | t: from: '__FROM__', to: '__TO__' | escape }}" data-late="{{ 'product.need_late_html' | t: from: '__FROM__', to: '__TO__' | escape }}"></p>
+        {%- if nd_ask != blank -%}<a class="link delivery__need-ask" href="{{ nd_ask }}"{% if nd_ask == '#ProductQuote' %} data-open-details data-quote-link="1"{% endif %} data-need-ask hidden>{{ 'product.need_ask' | t }}</a>{%- endif -%}
+      </div>
+    </details>
+  {%- endif -%}
+{%- endif -%}

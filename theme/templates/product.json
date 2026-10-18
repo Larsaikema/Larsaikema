@@ -20,7 +20,8 @@
             "size_guide_page": "maatadvies-partytenten",
             "size_option_names": "Maat, Tafelmaat, Diameter, Afmeting, Formaat",
             "size_prices": true,
-            "hint_groups": "Pasvorm"
+            "hint_groups": "Pasvorm",
+            "print_collections": "bedrukte-partytenten, bedrukte-statafelhoezen"
           }
         },
         "staffel": {
@@ -48,7 +49,10 @@
         },
         "delivery": {
           "type": "delivery",
-          "settings": {}
+          "settings": {
+            "backorder_note": "Niet uit voorraad: deze uitvoering bestellen we voor je bij.",
+            "show_need_date": true
+          }
         },
         "usps": {
           "type": "usps",
@@ -107,14 +111,16 @@
         "included": {
           "type": "included",
           "settings": {
-            "heading": "Wat zit erin"
+            "heading": "Wat zit erin",
+            "parts_links": "easy-up-partytenten: easy-up-onderdelen\npartytenten-buizenframe: buizenframe-onderdelen\nstretchtenten: onderdelen-stretch-ster-en-opblaasbare-tenten\nster-en-opblaasbare-tenten: onderdelen-stretch-ster-en-opblaasbare-tenten\nstatafels: statafel-onderdelen"
           }
         },
         "quote_form": {
           "type": "quote_form",
           "settings": {
             "heading": "Offerte voor dit product",
-            "text": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw."
+            "text": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw.",
+            "vat_note": "Bedrijf in België of elders in de EU met een geldig btw-nummer? Dan krijg je een offerte zonder Nederlandse btw: de btw wordt verlegd (intracommunautaire levering)."
           }
         },
         "compare": {

@@ -72,7 +72,13 @@ function hookMaterial(mat) {
   const macro = mat.userData.macro && mat.normalMap ? mat.userData.macro : null;
   const weave = mat.userData.weave && mat.normalMap ? mat.userData.weave : null;
   const envSpec = mat.userData.envSpec;
-  const interior = !!mat.userData.interior;
+  // interiorSolid: {k, kNear}: frame parts (truss, bolts, pole) inside a fully walled tent. They
+  // are dimmed whatever way they face (a truss facet turned to the camera, seen through a window
+  // or the door, mirrors the dark inside of the tent, not the studio): environment light and the
+  // unshadowed direct lights x k, up to kNear right by an opening. Positional test only (inside
+  // the enclosure box), so the same parts outside an enclosure are untouched
+  const solid = mat.userData.interiorSolid || null;
+  const interior = !!mat.userData.interior || !!solid;
   // dye: dyed cloth turns deeper and more saturated where little light reaches it (the light
   // that does arrive has mostly bounced off the same dyed cloth); 0 = off
   const dye = mat.userData.dye || 0;
@@ -142,7 +148,20 @@ void main() {
   normal = normalize( tbn * mapN );
 #endif`);
     }
-    if (interior) {
+    if (solid) {
+      fs = fs.replace('#include <lights_fragment_begin>', `float intK = 1.0; float intAmb = 0.0;
+  if ( uIntK < 0.999 ) {
+    vec2 qb = abs( vIntW.xz - uIntBox.xy ) - uIntBox.zw;
+    float inBox = ( 1.0 - smoothstep( -0.03, 0.0, max( qb.x, qb.y ) ) ) * ( 1.0 - smoothstep( uIntY.y - 0.04, uIntY.y, vIntW.y ) );
+    float opn = 0.0;
+    for ( int oi = 0; oi < 6; oi ++ ) {
+      vec4 o = uIntOpen[ oi ];
+      if ( o.w > 0.0 ) opn = max( opn, o.w * exp( - length( vIntW.xz - o.xy ) / uIntNear.y ) );
+    }
+    intK = mix( 1.0, mix( ${Number(solid.k ?? 0.2).toFixed(4)}, ${Number(solid.kNear ?? 0.5).toFixed(4)}, opn ), inBox );
+  }
+${lightsBeginInterior()}`);
+    } else if (interior) {
       // fragment inside the enclosure box AND facing inwards (wall inside, roof underside)?
       fs = fs.replace('#include <lights_fragment_begin>', `float intK = 1.0; float intAmb = 0.0;
   if ( uIntK < 0.999 ) {
@@ -222,7 +241,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
   mat.needsUpdate = true;
 }
 

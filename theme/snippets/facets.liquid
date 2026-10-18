@@ -114,12 +114,31 @@
         render 'facet-value-order', values: fvals, sizes: f_kind
       endcapture
       assign value_order = value_order | strip | split: ','
+      # a long colour list (24 stretch colours) goes by how many products it holds, so Wit, Zwart and Antraciet are in view
+      # before the one-off colours (ties keep Shopify's order)
+      if f_kind == 'swatch' and fvals.size > 10
+        assign sw_order = ''
+        for value in fvals
+          assign sw_key = 20000 | minus: value.count
+          assign vi_pad = forloop.index0 | plus: 1000
+          assign sw_order = sw_order | append: sw_key | append: ':' | append: vi_pad | append: ','
+        endfor
+        assign value_order = sw_order | split: ',' | sort
+      endif
+      # a product-level value that every product shown holds ('Gebruik: Evenement 14' of 14) cannot narrow the list
+      assign p_level = false
+      if filter.param_name contains 'filter.p.' and total != blank and active_count == 0
+        assign p_level = true
+      endif
       # values shown (tag filter without internal tags); how many of them would narrow the list now
       assign shown_count = 0
       assign live_count = 0
       assign narrow_count = 0
       for value in fvals
         assign vkey = value.value | append: '' | downcase | strip | prepend: '|' | append: '|'
+        if p_level and value.count >= total and f_kind == 'list'
+          continue
+        endif
         unless filter.param_name == 'filter.p.tag' and hidden_list contains vkey
           assign shown_count = shown_count | plus: 1
           if value.count > 0
@@ -249,7 +268,7 @@
             </fieldset>
             {%- comment -%} storefront price filters work on the stored prices, incl. btw (also with 'Prijzen voor: Zakelijk') {%- endcomment -%}
             <p class="facet__price-note" id="PriceNote-{{ section_id }}">{{ 'collection.price_note' | t }}</p>
-            <p class="facet__price-hint" role="status" data-price-hint hidden>{{ 'collection.price_swap' | t }}</p>
+            <p class="facet__price-hint" role="status" data-price-hint data-swap="{{ 'collection.price_swap' | t | escape }}" data-format="{{ 'collection.price_format' | t | escape }}" hidden>{{ 'collection.price_swap' | t }}</p>
           {%- else -%}
             {%- assign limit_n = 8 -%}
             {%- if f_kind == 'pills' or f_kind == 'image' -%}{%- assign limit_n = 12 -%}{%- elsif f_kind == 'swatch' -%}{%- assign limit_n = 10 -%}{%- endif -%}
@@ -262,6 +281,7 @@
                   {%- assign value = fvals[v_i] -%}
                   {%- assign vkey = value.value | append: '' | downcase | strip | prepend: '|' | append: '|' -%}
                   {%- if filter.param_name == 'filter.p.tag' and hidden_list contains vkey -%}{%- continue -%}{%- endif -%}
+                  {%- if p_level and value.count >= total and f_kind == 'list' -%}{%- continue -%}{%- endif -%}
                   {%- assign vi = vi | plus: 1 -%}
                   {%- assign input_id = 'Filter-' | append: section_id | append: '-' | append: filter.param_name | handleize | append: '-' | append: v_i -%}
                   {%- assign disabled = false -%}

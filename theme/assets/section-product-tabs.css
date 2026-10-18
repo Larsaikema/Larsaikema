@@ -1,0 +1,13 @@
+.product-tabs__head{margin-bottom:20px;row-gap:20px}
+.product-tabs__intro{flex:1 1 420px;min-width:0}
+.ptabs__bar{flex:0 1 auto;min-width:0}
+@media (min-width:990px){.product-tabs__head{margin-bottom:28px}}
+@media (min-width:1200px){.product-tabs__head{flex-wrap:nowrap}.ptabs__bar{justify-content:flex-end}}
+@media (max-width:1199px){.ptabs__bar{flex-basis:100%}}
+.ptabs__tab{gap:8px;cursor:pointer;font-family:var(--font-body)}
+.ptabs__count{font-size:13px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel);font-variant-numeric:tabular-nums}
+.ptabs__tab[aria-selected="true"] .ptabs__count{color:var(--c-inkt)}
+.ptabs__panel:focus-visible{outline:3px solid var(--focus,var(--c-inkt));outline-offset:4px;border-radius:var(--radius-card)}
+.ptabs__foot{display:flex;justify-content:center;margin-top:20px}
+@media (min-width:990px){.ptabs__foot{margin-top:28px}}
+@media (max-width:749px){.ptabs__all{width:100%}}

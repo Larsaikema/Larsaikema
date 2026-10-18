@@ -1,7 +1,7 @@
 {%- comment -%}
   Inline offerte form on the product page (feature product.quote-form): a {% form 'contact' %} with the product and the
-  chosen variant prefilled (variant-picker.js keeps [data-quote-variant] in step), company, KvK and btw fields, quantity
-  (default: the Zakelijk nudge quantity) and a delivery date. It sits in an accordion like the other tabs; the Zakelijk
+  chosen variant prefilled (variant-picker.js keeps [data-quote-variant] in step), company, KvK and btw fields, delivery
+  country (with the btw-verlegd note for EU companies abroad), quantity (default: the Zakelijk nudge quantity) and a delivery date. It sits in an accordion like the other tabs; the Zakelijk
   nudge links to it (#ProductQuote). After sending, the page reloads with the accordion open and the confirmation.
   Params: product, block, section_id, current_variant.
 {%- endcomment -%}
@@ -59,6 +59,21 @@
           <div class="field"><label class="field__label" for="PQ-phone-{{ section_id }}">{{ 'forms.phone' | t }}</label><input class="input" id="PQ-phone-{{ section_id }}" type="tel" name="contact[phone]" autocomplete="tel"></div>
           <div class="field"><label class="field__label" for="PQ-kvk-{{ section_id }}">{{ 'forms.kvk' | t }}</label><input class="input" id="PQ-kvk-{{ section_id }}" name="contact[KvK-nummer]" inputmode="numeric"></div>
           <div class="field"><label class="field__label" for="PQ-btw-{{ section_id }}">{{ 'forms.btw' | t }}</label><input class="input" id="PQ-btw-{{ section_id }}" name="contact[Btw-nummer]"></div>
+          {%- comment -%}
+            Delivery country: the shop's markets (localization.available_countries, the visitor's own preselected) plus 'Ander
+            land'. Outside the home country the note on btw verlegd (intracommunautaire levering, block setting vat_note, a claim
+            in docs/claims-to-confirm.md) shows; CSS only (:has), so it costs no JS.
+          {%- endcomment -%}
+          {%- assign q_home = shop.address.country_code | default: 'NL' -%}
+          <div class="field"><label class="field__label" for="PQ-country-{{ section_id }}">{{ 'forms.country' | t }}</label>
+            <select class="select" id="PQ-country-{{ section_id }}" name="contact[Land]" autocomplete="country-name"{% if block.settings.vat_note != blank %} aria-describedby="PQ-vat-{{ section_id }}"{% endif %}>
+              {%- for c in localization.available_countries -%}<option value="{{ c.name | escape }}"{% if c.iso_code == q_home %} data-home-country{% endif %}{% if c.iso_code == localization.country.iso_code %} selected{% endif %}>{{ c.name }}</option>{%- endfor -%}
+              <option value="{{ 'forms.country_other' | t | escape }}">{{ 'forms.country_other' | t }}</option>
+            </select>
+          </div>
+          {%- if block.settings.vat_note != blank -%}
+            <p class="pdp-quote__vat" id="PQ-vat-{{ section_id }}">{%- render 'icon', icon: 'info', class: 'icon--sm' -%}<span>{{ block.settings.vat_note }}</span></p>
+          {%- endif -%}
           <div class="field field--full"><label class="field__label" for="PQ-body-{{ section_id }}">{{ 'quote.notes' | t }}</label><textarea class="textarea" id="PQ-body-{{ section_id }}" name="contact[body]" rows="3" placeholder="{{ 'quote.notes_placeholder' | t | escape }}"></textarea></div>
         </div>
         <div class="form-actions"><button type="submit" class="btn">{{ 'quote.submit' | t }}</button></div>

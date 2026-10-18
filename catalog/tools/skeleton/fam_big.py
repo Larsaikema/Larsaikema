@@ -64,14 +64,29 @@ def build():
             'past_op': ['stretchtent-compleet']},
            ['stretchtenten.stretch-zijwanden'], 'stretch', 'Startwand (met eigen palen) plus uitbreidingswanden: zo bouw je een dichte zijde.',
            ['zijwand stretchtent'], {'outmate': '2 m START €425 / UITBR. €375 · 3 m €489 / €439', 'ours': {f'{m} {u}': p for m, u, p in SW}})
-    SO = [('Spanband met ratel', 6.95, 'SPR', 700), ('Touwenset 3-punts met RVS karabijnen', 49.95, 'TS3', 2500), ('Paalverbinder met bout', 4.49, 'PV', 300),
-          ('Oogmoeren M12 (4 stuks)', 5.95, 'OM4', 200), ('Koppelgoot 3 m', 69.95, 'KG3', 2200), ('Koppelgoot 6 m', 119.0, 'KG6', 4200)]
-    simple('onderdelen-stretchtent', 'Onderdelen stretchtent', 'Stretchtent onderdeel', ['zakelijk'], [opt('Uitvoering', [s[0] for s in SO])],
-           [variant(f'KK-STR-OND-{c}', [n], p, g, inv(15, c)) for n, p, c, g in SO],
-           [img('onderdelen-stretchtent-hero.webp', 'hero', 1, 'stretchParts', {'parts': ['spanband', 'touwenset', 'paalverbinder']}, 'hero', None, 'needs-model')],
-           {'kenmerk_kort': 'Spanbanden, touwensets, paalverbinders en koppelgoten', 'verzending': 'pakket', 'past_op': ['stretchtent-compleet', 'stretchdoek-los']},
-           ['stretchtenten.stretch-onderdelen', 'stretchtenten.stretch-koppelgoten'], 'stretch', 'Losse onderdelen en koppelgoten (twee stretchtenten waterdicht verbinden).',
-           ['onderdelen stretchtent', 'koppelgoot stretchtent'], {'outmate': 'touwenset €59,95 · spanband €7,95 · paalconnector €4,99', 'ours': {s[0]: s[1] for s in SO}})
+    # Merchandising review 3: the koppelgoot (€ 69,95–€ 119) was one Uitvoering among € 4,49 oogmoeren, behind one image and a 'vanaf'
+    # price; it is its own product now (own title, SEO and image, like the reference sells it per URL). The small parts keep one
+    # product, each Uitvoering with its own image.
+    SO = [('Spanband met ratel', 6.95, 'SPR', 700, 'spanband'), ('Touwenset 3-punts met RVS karabijnen', 49.95, 'TS3', 2500, 'touwenset'),
+          ('Paalverbinder met bout', 4.49, 'PV', 300, 'paalverbinder'), ('Oogmoeren M12 (4 stuks)', 5.95, 'OM4', 200, 'oogmoeren')]
+    SO_IMG = {n: f'onderdelen-stretchtent-{slug(n.split(" (")[0])}.webp' for n, _, _, _, _ in SO}
+    simple('onderdelen-stretchtent', 'Onderdelen stretchtent', 'Stretchtent onderdeel', ['zakelijk'], [opt('Uitvoering', [s_[0] for s_ in SO])],
+           [variant(f'KK-STR-OND-{c}', [n], p, g, inv(15, c)) for n, p, c, g, _ in SO],
+           [img('onderdelen-stretchtent-hero.webp', 'hero', 1, 'stretchParts', {'parts': ['spanband', 'touwenset', 'paalverbinder']}, 'hero', None, 'needs-model')] +
+           [img(SO_IMG[n], 'variant', 2, 'stretchParts', {'parts': [part]}, 'hero', None, 'existing') for n, _, _, _, part in SO],
+           {'kenmerk_kort': 'Spanbanden, touwensets, paalverbinders en oogmoeren', 'verzending': 'pakket', 'past_op': ['stretchtent-compleet', 'stretchdoek-los']},
+           ['stretchtenten.stretch-onderdelen'], 'stretch', 'Losse onderdelen om een stretchdoek af te spannen en te bevestigen; per onderdeel een eigen foto.',
+           ['onderdelen stretchtent', 'spanband stretchtent', 'touwenset stretchtent'], {'outmate': 'touwenset €59,95 · spanband €7,95 · paalconnector €4,99', 'ours': {s_[0]: s_[1] for s_ in SO}},
+           vmap=SO_IMG, vby='Uitvoering')
+    KG = [('3 m', 69.95, 'KG3', 2200), ('6 m', 119.0, 'KG6', 4200)]
+    simple('koppelgoot-stretchtent', 'Koppelgoot stretchtent', 'Stretchtent onderdeel', ['zakelijk', 'gebruik:evenement'], [opt('Maat', [k[0] for k in KG])],
+           [variant(f'KK-STR-OND-{c}', [m], p, g, inv(15, c)) for m, p, c, g in KG],
+           [img('koppelgoot-stretchtent-hero.webp', 'hero', 1, 'rainGutter', {'length': 6, 'color': 'zwart', 'width': 0.6}, 'hero', None, 'existing',
+                alt='opgerold, het losse eind open als goot')],
+           {'kenmerk_kort': 'Verbindt twee stretchtenten waterdicht · PVC · 3 of 6 m', 'verzending': 'pakket', 'past_op': ['stretchtent-compleet', 'stretchdoek-los'],
+            'specificaties': [sp('Goot', 'Materiaal', 'PVC 650 g/m², gelast'), sp('Goot', 'Breedte', 'ca. 60 cm'), sp('Bevestiging', 'Aan het doek', 'Klittenband langs beide randen')]},
+           ['stretchtenten.stretch-koppelgoten'], 'stretch', 'Twee stretchtenten tegen elkaar: de goot sluit de naad, het water loopt naar de uiteinden; 3 of 6 m; alleen tussen TWEE tenten.',
+           ['koppelgoot stretchtent', 'regengoot stretchtent', 'stretchtenten koppelen'], {'outmate': 'koppelgoot stretchtent (per URL)', 'ours': {k[0]: k[1] for k in KG}})
     PL = [('2,5 m', 'Kastanjehout', 59.95), ('3 m', 'Kastanjehout', 69.95), ('4 m', 'Kastanjehout', 89.95),
           ('2,5 m', 'Aluminium', 79.95), ('3 m', 'Aluminium', 94.95), ('4 m', 'Aluminium', 119.0)]
     simple('palen-stretchtent', 'Palen stretchtent', 'Stretchtent onderdeel', ['zakelijk'], [opt('Maat', ['2,5 m', '3 m', '4 m']), opt('Uitvoering', ['Kastanjehout', 'Aluminium'])],

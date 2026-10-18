@@ -47,6 +47,8 @@
 .cart-sticky__total strong{font-size:19px}
 .cart-sticky__btn{flex:1;min-height:52px}
 body:has(.cart-sticky:not(.is-off,[hidden])) .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+/* keyboard focus never lands behind the bar: focus scrolling keeps this much room at the bottom */
+html:has(.cart-sticky:not(.is-off,[hidden])){scroll-padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 
 .cart-empty--page{padding:56px 0 24px}
 .cart-empty--page .cart-empty__title{margin:4px 0 0;font-size:calc(var(--heading-scale) * clamp(28px, .762vw + 25px, 36px));letter-spacing:-.015em}

@@ -55,15 +55,15 @@
     },
     "home.hero": {
       "status": "theme",
-      "where": "sections/hero.liquid (LCP eager + fetchpriority=high, alt setting)"
+      "where": "sections/hero.liquid (LCP eager + fetchpriority=high, alt setting, product chip with live price, size shortcuts into the Maat filter)"
     },
     "home.category-tiles": {
       "status": "theme",
-      "where": "sections/collection-list.liquid"
+      "where": "sections/collection-list.liquid (4 panel tiles with benefit, vanaf-price and count + compact image tiles for the other categories)"
     },
     "home.category-product-rows": {
       "status": "theme",
-      "where": "sections/featured-collection.liquid"
+      "where": "sections/product-tabs.liquid (per family: tabs Easy-up/Buizenframe/Stretch/Ster & opblaasbaar and Statafels/Rokken & hoezen/Barkrukken/Pakketten; assets/section-product-tabs.js) + sections/featured-collection.liquid"
     },
     "home.dispatch-on-cards": {
       "status": "theme",

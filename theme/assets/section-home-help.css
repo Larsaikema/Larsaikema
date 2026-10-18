@@ -1,0 +1,23 @@
+.home-help__inner{display:grid;gap:40px}
+@media (min-width:990px){.home-help__inner{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:start}}
+.home-help__title{margin:0 0 12px}
+.home-help__text{margin:0 0 24px;max-width:46ch}
+.guides{list-style:none;display:grid;gap:10px;margin:0 0 28px;padding:0}
+.guide{display:flex;align-items:center;gap:14px;min-height:72px;padding:12px 16px 12px 12px;border:1px solid var(--c-lijn);border-radius:var(--radius-card);background:var(--c-wit);color:var(--c-inkt);text-decoration:none;transition:border-color var(--dur-fast),box-shadow var(--dur-fast)}
+.guide:hover{border-color:var(--c-inkt);box-shadow:0 10px 24px -16px rgba(29,36,32,.3)}
+.guide__icon{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--c-band,var(--c-linnen));color:var(--c-inkt)}
+.guide__icon .icon{width:22px;height:22px}
+.guide__body{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.guide__title{font-weight:var(--font-body-weight-bold);font-size:16px;line-height:1.25}
+.guide__text{font-size:14px;line-height:1.35;color:var(--c-kiezel)}
+.guide__arrow{flex:none;transition:transform var(--dur-fast)}
+.guide:hover .guide__arrow{transform:translateX(3px)}
+.home-help__ask{padding-top:20px;border-top:1px solid var(--c-lijn)}
+.home-help__ask-title{margin:0 0 12px;font-weight:var(--font-body-weight-bold);font-size:16px}
+.home-help__hours{display:flex;gap:8px;align-items:flex-start;margin:-4px 0 12px;font-size:14px;color:var(--c-kiezel)}
+.home-help__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.home-help__mail{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:var(--font-body-weight-semibold)}
+.home-help__faq-title{margin:0 0 8px;font-size:20px}
+.home-help__list .accordion>summary{font-size:17px;cursor:pointer}
+.home-help__all{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:12px;font-weight:var(--font-body-weight-semibold)}
+@media (min-width:990px){.home-help__faq{padding-top:6px}.home-help__faq-title{font-size:22px;margin-bottom:12px}}

@@ -18,5 +18,5 @@
   .usp-strip--list-mobile .usp-strip__icon .icon{width:20px;height:20px}
 }
 .usp-strip--flags{border-top:0;padding-top:0}
-.usp-strip__flags{height:36px;background-size:384px 36px;background-position:center top;margin-bottom:12px}
+.usp-strip__flags{height:24px;background-size:256px 24px;background-position:center top;margin-bottom:14px}
 @media (min-width:990px){.usp-strip__flags{margin-bottom:18px}}

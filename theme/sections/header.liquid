@@ -1,12 +1,29 @@
 {%- liquid
   assign menu = section.settings.menu
   assign phone = settings.phone | default: shop.phone
-  assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  # tel:/wa.me links in international form (+31 for a national number), so they also work for a visitor in Belgium
+  capture phone_href
+    render 'header-contact-href', number: phone, type: 'tel'
+  endcapture
+  capture wa_href
+    render 'header-contact-href', number: settings.whatsapp, type: 'wa'
+  endcapture
   assign quote_url = settings.quote_page | default: '/pages/offerte'
   assign show_toggle = false
   if settings.price_display == 'toggle'
     assign show_toggle = true
   endif
+  # the toggle labels are theme settings in the shop's own language; another language (/en) gets its locale strings
+  assign vat_p = settings.b2b_toggle_particulier | default: 'Particulier'
+  assign vat_z = settings.b2b_toggle_zakelijk | default: 'Zakelijk'
+  if request.locale.primary == false
+    assign vat_p = 'header.vat_particulier' | t
+    assign vat_z = 'header.vat_zakelijk' | t
+  endif
+  # promotion blocks shown in a mega menu panel ('|id|id|'), see snippets/header-promo-ids
+  capture promo_ids
+    render 'header-promo-ids', menu: menu, blocks: section.blocks
+  endcapture
   # One top item is marked active: the item that is the current page, else (product page) the item whose own
   # collection holds the product (URL context first, then product.collections), else the item with the current
   # page in its menu (not for pages: a page linked from a mega menu is not 'in' that category), else (product
@@ -56,6 +73,11 @@
   # Key of the shown page for snippets/header-current (aria-current and the selected size chip): path + the active
   # storefront filters. link.current ignores the query string, so on a collection every filter link would be 'current'.
   assign here = request.path
+  # a product reached through a collection (/collections/x/products/y) is the same page as /products/y for the menu
+  if template.name == 'product' and here contains '/collections/' and here contains '/products/'
+    assign here_tail = here | split: '/products/' | last
+    assign here = here | split: '/collections/' | first | append: '/products/' | append: here_tail
+  endif
   if here.size > 1
     assign here_end = here | slice: -1
     if here_end == '/'
@@ -131,8 +153,8 @@
           {%- endcomment -%}
           <div class="header__vat">
             <vat-toggle class="vat-toggle vat-toggle--stack" role="group" aria-label="{{ 'header.vat_toggle' | t }}">
-              <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
-              <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
+              <button type="button" data-vat-set="incl" aria-pressed="true">{{ vat_p }} <small>{{ 'price.incl' | t }}</small></button>
+              <button type="button" data-vat-set="excl" aria-pressed="false">{{ vat_z }} <small>{{ 'price.excl' | t }}</small></button>
             </vat-toggle>
           </div>
         {%- endif -%}
@@ -199,11 +221,13 @@
                           {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
                         </a>
                         {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
+                        {%- comment -%} a link already listed in an earlier column of this panel is not repeated (panel_seen) {%- endcomment -%}
+                        {%- assign panel_seen = '' -%}
                         <div class="mega__cols mega__cols--{{ link.links.size | at_most: 6 }}">
                           {%- for child in link.links -%}
                             {%- liquid
                               assign tj = ti | append: '-' | append: forloop.index
-                              assign skip_urls = child.url | append: '|' | append: promo_url
+                              assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen
                               # a column whose heading points at the item's own page has a plain heading (no second link to the
                               # same page under another name); the only column of a panel then has none ('Alles in …' is above)
                               assign head_link = true
@@ -224,6 +248,7 @@
                               {%- endif -%}
                               {%- if child.links != blank -%}
                                 {%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}
+                                {%- for g in child.links -%}{%- assign panel_seen = panel_seen | append: '|' | append: g.url -%}{%- endfor -%}
                               {%- endif -%}
                             </div>
                           {%- endfor -%}
@@ -239,22 +264,11 @@
             </li>
           {%- endfor -%}
         </ul>
-        {%- if section.settings.show_contact -%}
-          {%- if settings.whatsapp != blank or phone != blank -%}
-            {%- comment -%} phone and WhatsApp beside the menu from 1200 px (below that the USP bar and the menu drawer carry them; the number not twice); CSS only when shown {%- endcomment -%}
-            <style>.header__contact{display:none;flex:none;gap:4px;font-size:14.5px;font-weight:var(--hsb)}.header__contact a{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;border-radius:999px;text-decoration:none}.header__contact a:hover{background:rgba(var(--fg-rgb),.07)}@media (min-width:1200px){.header__contact{display:flex}.section-utility-bar:has(.utility-bar__phone)~.section-header .header__contact-phone{display:none}}@media (min-width:1200px) and (max-width:1439px){.header__contact a span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}@media (min-width:1440px){.header__contact a{padding:0 10px}}</style>
-            <div class="header__contact">
-              {%- if settings.whatsapp != blank -%}
-                <a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}</span></a>
-              {%- endif -%}
-              {%- if phone != blank -%}
-                <a href="tel:{{ phone_href }}" class="header__contact-phone">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ phone }}</span></a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-        {%- endif -%}
+        {%- if section.settings.show_contact -%}{%- render 'header-contact', phone: phone, phone_href: phone_href, wa_href: wa_href -%}{%- endif -%}
       </div>
     </nav>
+    {%- comment -%} theme editor only: a notice for a promotion block that no menu item shows {%- endcomment -%}
+    {%- if request.design_mode -%}{%- render 'header-promo-ids', menu: menu, blocks: section.blocks, warn: true -%}{%- endif -%}
   </header>
   <div class="header__scrim" aria-hidden="true"></div>
 </sticky-header>
@@ -311,15 +325,11 @@
                 {%- if b.settings.link != blank -%}
                   {%- comment -%} editor attributes live on the block's mega menu card; here only when no menu item shows that card {%- endcomment -%}
                   {%- liquid
-                    assign b_for = b.settings.menu_item | strip | downcase
+                    assign b_key = '|' | append: b.id | append: '|'
                     assign b_in_mega = false
-                    for l in menu.links
-                      assign l_title = l.title | strip | downcase
-                      if l.links != blank and l_title == b_for
-                        assign b_in_mega = true
-                        break
-                      endif
-                    endfor
+                    if promo_ids contains b_key
+                      assign b_in_mega = true
+                    endif
                   -%}
                   <li>
                     <a class="hpromo" href="{{ b.settings.link }}"{% unless b_in_mega %} {{ b.shopify_attributes }}{% endunless %}>
@@ -344,8 +354,8 @@
 
         <ul class="mdrawer__secondary" role="list" data-service-links>
           {%- if shop.customer_accounts_enabled -%}<li><a href="{{ routes.account_url }}">{%- render 'icon', icon: 'user' -%}<span>{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.login' | t }}{% endif %}</span></a></li>{%- endif -%}
-          {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone' -%}<span>{{ phone }}</span></a></li>{%- endif -%}
-          {%- if settings.whatsapp != blank -%}<li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp' -%}<span>{{ 'contact.whatsapp_cta' | t }}</span></a></li>{%- endif -%}
+          {%- if phone_href != blank -%}<li><a href="{{ phone_href }}">{%- render 'icon', icon: 'phone' -%}<span>{{ phone }}</span></a></li>{%- endif -%}
+          {%- if wa_href != blank -%}<li><a href="{{ wa_href }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp' -%}<span>{{ 'contact.whatsapp_cta' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></span></a></li>{%- endif -%}
           {%- comment -%} only an address the owner entered in Thema-instellingen › Contact (claims-to-confirm) {%- endcomment -%}
           {%- if settings.email != blank -%}<li><a href="mailto:{{ settings.email }}">{%- render 'icon', icon: 'mail' -%}<span>{{ settings.email }}</span></a></li>{%- endif -%}
         </ul>
@@ -354,8 +364,8 @@
           <div class="mdrawer__vat">
             <p class="eyebrow mdrawer__label" id="MenuVatLabel-{{ section.id }}">{{ 'header.vat_toggle' | t }}</p>
             <vat-toggle class="vat-toggle vat-toggle--block" role="group" aria-labelledby="MenuVatLabel-{{ section.id }}">
-              <button type="button" data-vat-set="incl" aria-pressed="true">{{ settings.b2b_toggle_particulier }} <small>{{ 'price.incl' | t }}</small></button>
-              <button type="button" data-vat-set="excl" aria-pressed="false">{{ settings.b2b_toggle_zakelijk }} <small>{{ 'price.excl' | t }}</small></button>
+              <button type="button" data-vat-set="incl" aria-pressed="true">{{ vat_p }} <small>{{ 'price.incl' | t }}</small></button>
+              <button type="button" data-vat-set="excl" aria-pressed="false">{{ vat_z }} <small>{{ 'price.excl' | t }}</small></button>
             </vat-toggle>
           </div>
         {%- endif -%}
@@ -394,13 +404,15 @@
               {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
             </a>
             {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
+            {%- assign panel_seen = '' -%}
             <ul class="mdrawer__groups{% if thumbs_ok == 'yes' %} mdrawer__groups--thumbs{% endif %}" role="list">
               {%- for child in link.links -%}
                 {%- capture group_thumb -%}
                   {%- if thumbs_ok == 'yes' -%}<span class="mdrawer__thumb">{{ child.object.image | image_url: width: 144 | image_tag: widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '' }}</span>{%- endif -%}
                 {%- endcapture -%}
                 {%- assign tj = ti | append: '-' | append: forloop.index -%}
-                {%- assign skip_urls = child.url | append: '|' | append: promo_url -%}
+                {%- assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen -%}
+                {%- for g in child.links -%}{%- assign panel_seen = panel_seen | append: '|' | append: g.url -%}{%- endfor -%}
                 {%- comment -%} a panel with one group (Zakelijk) lists that group's links as its rows, without an accordion {%- endcomment -%}
                 {%- if link.links.size == 1 and child.links != blank and child.url == link.url -%}
                   <li class="mdrawer__flat">{%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}</li>
@@ -458,14 +470,14 @@
     { "type": "header", "content": "Zoeken" },
     { "type": "text", "id": "search_popular", "label": "Populaire zoekopdrachten", "default": "partytent 3x3, statafel, statafelrok, zijwanden, voetgewichten, prikkabel", "info": "Verschijnen als knoppen zodra iemand in het lege zoekveld klikt. Scheiden met een komma. Leeg = niet tonen." },
     { "type": "link_list", "id": "search_menu", "label": "Categorieën bij het lege zoekveld", "info": "Leeg = de eerste zes categorieën met een afbeelding uit het hoofdmenu." },
-    { "type": "text", "id": "deal_items", "label": "Menu-item met actielabel", "default": "Actie", "info": "Titel van het hoofdmenu-item dat het Zon-label krijgt (merkboek §7.2). Meerdere titels scheiden met een komma." }
+    { "type": "text", "id": "deal_items", "label": "Menu-item met actielabel", "default": "Actie", "info": "Titel van het hoofdmenu-item dat het Zon-label krijgt (merkboek §7.2). Meerdere titels scheiden met een komma, ook de vertaalde titel (bv. Actie, Sale). Hernoem je het menu-item, pas dit dan ook aan." }
   ],
   "blocks": [
     {
       "type": "promo",
       "name": "Megamenu-promotie",
       "settings": [
-        { "type": "text", "id": "menu_item", "label": "Bij menu-item", "info": "Exacte titel van het hoofdmenu-item, bv. Partytenten. De kaart staat naast de kolommen van het megamenu en onderaan dat onderdeel in het mobiele menu. Zonder promotie toont een collectie-item zijn eigen collectiebeeld." },
+        { "type": "text", "id": "menu_item", "label": "Bij menu-item", "info": "Titel van het hoofdmenu-item, bv. Partytenten. Meerdere titels scheiden met een komma (ook de vertaalde titel, bv. Partytenten, Party tents). De kaart staat naast de kolommen van het megamenu en onderaan dat onderdeel in het mobiele menu. Hernoem je het menu-item, pas dit dan ook aan: de editor waarschuwt als geen menu-item meer past." },
         { "type": "image_picker", "id": "image", "label": "Afbeelding" },
         { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
         { "value": "none", "label": "Geen (lege plek)" },

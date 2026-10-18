@@ -1,0 +1,34 @@
+{%- comment -%}
+  Header only. Prints '|id|id|': the ids of the 'Megamenu-promotie' blocks that a top menu item with a panel shows
+  (matching as in snippets/header-promo). sections/header.liquid uses it so the mobile menu cards carry the editor
+  attributes only for blocks without a mega menu card, and, with warn: true (theme editor only), prints instead a notice
+  for every promotion block that no menu item shows (its menu item was renamed or translated), so it never just vanishes.
+  Params: menu (link list), blocks (section.blocks), warn (optional)
+{%- endcomment -%}
+{%- liquid
+  assign hpi = '|'
+  for hpi_l in menu.links
+    if hpi_l.links != blank
+      capture hpi_id
+        render 'header-promo', link: hpi_l, blocks: blocks, context: 'id'
+      endcapture
+      if hpi_id != blank
+        assign hpi = hpi | append: hpi_id | append: '|'
+      endif
+    endif
+  endfor
+  unless warn
+    echo hpi
+  endunless
+-%}
+{%- if warn -%}
+  {%- capture hpi_warn -%}
+    {%- for hpi_b in blocks -%}
+      {%- assign hpi_key = '|' | append: hpi_b.id | append: '|' -%}
+      {%- if hpi_b.type == 'promo' and hpi_b.settings.menu_item != blank -%}
+        {%- unless hpi contains hpi_key -%}<li>Megamenu-promotie ‘{{ hpi_b.settings.heading }}’: geen hoofdmenu-item met submenu heet ‘{{ hpi_b.settings.menu_item }}’. Pas ‘Bij menu-item’ aan.</li>{%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if hpi_warn != blank -%}<ul class="page-width" role="list" style="margin:0;padding-block:8px;background:var(--c-zon);color:var(--c-inkt);font-size:13.5px;list-style:none">{{ hpi_warn }}</ul>{%- endif -%}
+{%- endif -%}

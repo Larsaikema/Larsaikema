@@ -197,10 +197,11 @@
                     {%- if o_ok == 'true' -%}<a href="{{ o_link }}">{{ o_title }}</a>{%- else -%}{{ o_title }}{%- endif -%}
                   </h3>
                   {%- if block.settings.text != blank -%}<p class="print-card__text">{{ block.settings.text }}</p>{%- endif -%}
-                  {%- if o_pos.size > 0 or o_min > 0 -%}
+                  {%- comment -%} a minimum order shows only when it is more than 1 (the hero says 'vanaf 1 stuk' once) {%- endcomment -%}
+                  {%- if o_pos.size > 0 or o_min > 1 -%}
                     <ul class="print-card__facts" role="list">
                       {%- if o_pos.size > 0 -%}<li class="print-card__fact--pos">{%- render 'icon', icon: 'pin', class: 'icon--xs' -%}<span>{{ o_pos | join: ' · ' }}</span></li>{%- endif -%}
-                      {%- if o_min > 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.min_qty' | t: count: o_min }}</span></li>{%- elsif o_min == 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.from_one' | t }}</span></li>{%- endif -%}
+                      {%- if o_min > 1 -%}<li class="print-card__fact--min">{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.min_qty' | t: count: o_min }}</span></li>{%- endif -%}
                     </ul>
                   {%- endif -%}
                   <div class="print-card__foot">

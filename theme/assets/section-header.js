@@ -73,6 +73,7 @@ def('usp-rotator', class extends HTMLElement {
 		this.tick = setInterval(() => this.layout(), 30000);
 		new ResizeObserver(() => requestAnimationFrame(() => this.layout())).observe(this);
 		document.fonts?.ready.then(() => this.layout());
+		document.fonts?.addEventListener('loadingdone', () => this.layout());
 		this.layout();
 	}
 	disconnectedCallback() {
@@ -95,7 +96,8 @@ def('usp-rotator', class extends HTMLElement {
 			DAY: dayFmt[0].format(r.today),
 			DATE: r.shipsToday ? d.today : n === 1 && shipDay ? d.tomorrow : dayFmt[n < 7 ? 0 : 1].format(r.ship).replace('.', ''),
 		};
-		return [...(r.shipsToday ? (left <= 360 ? [d.cdL, d.cdM, d.cdS, d.todayS] : [d.todayL, d.todayS, d.cdM, d.cdS]) : shipDay ? [d.after] : [wk && d.day ? d.day : d.later]), d.ships].filter(Boolean).map((s) =>
+		// longest first; before the cutoff each keeps the deadline
+		return (r.shipsToday ? (left <= 360 ? [d.cdL, d.cdM] : [d.todayL, d.cdM]) : [shipDay ? d.after : wk && d.day ? d.day : d.later, d.ships]).filter(Boolean).map((s) =>
 			s.replace(/__([A-Z]+)__/g, (all, x, i) => (x in v ? (i ? v[x] : v[x][0].toUpperCase() + v[x].slice(1)) : all))
 		);
 	}
@@ -106,21 +108,26 @@ def('usp-rotator', class extends HTMLElement {
 		const gap = parseFloat(cs.columnGap) || 0;
 		const span = this.cd?.querySelector('[data-delivery-text]');
 		this.classList.add('is-measuring');
-		if (span)
-			for (const t of this.texts()) {
-				span.innerHTML = t;
-				if (this.cd.offsetWidth <= w) break;
-			}
+		if (span) {
+			const t = this.texts();
+			const fit = t.find((x) => ((span.innerHTML = x), this.cd.offsetWidth <= w));
+			if (!fit && t[0]) span.innerHTML = t[0];
+		}
+		// a message wider than the bar wraps; the bar takes the tallest one's height (--usp-h)
 		const pages = [];
 		let pg = [];
 		let sum = 0;
+		let h = 0;
 		this.items.forEach((el, i) => {
 			const iw = el.offsetWidth;
 			if (pg.length && sum + gap + iw > w) pages.push(pg), (pg = []), (sum = 0);
 			sum += (pg.length ? gap : 0) + iw;
 			pg.push(i);
+			el.classList.toggle('is-wrap', iw > w);
+			if (iw > w) (el.style.cssText = `white-space:normal;width:${w}px`), (h = Math.max(h, el.offsetHeight)), (el.style.cssText = '');
 		});
 		pages.push(pg);
+		this.style.setProperty('--usp-h', h ? `${Math.ceil(h)}px` : '');
 		this.classList.remove('is-measuring');
 		const cur = this.items.findIndex((el) => el.classList.contains('is-active'));
 		this.pages = pages;
@@ -160,7 +167,6 @@ const init = (w) => {
 	if (w.dataset.hdr) return;
 	w.dataset.hdr = 1;
 	const { drawerCss, drawerJs } = w.dataset;
-	$$('mega-menu', w).forEach((m) => once(m, () => mega(w).catch(() => {})));
 	w.querySelector('.nav')?.addEventListener('click', (e) => {
 		const t = e.target.closest('[data-mega-trigger]');
 		if (!t || customElements.get('mega-menu')) return;
@@ -181,7 +187,10 @@ const init = (w) => {
 			drawer().then(go);
 		});
 	});
-	const idle = () => (wide.matches ? mega(w) : load(drawerCss, 1)).catch(() => {});
+	// idle: menu CSS; the mega menu script when pointer or focus reaches the menu bar
+	const nav = w.querySelector('.header__nav');
+	if (nav) once(nav, () => mega(w).catch(() => {}));
+	const idle = () => load(wide.matches ? w.dataset.megaCss : drawerCss, 1).catch(() => {});
 	const later = () => ('requestIdleCallback' in window ? requestIdleCallback(idle, { timeout: 4000 }) : setTimeout(idle, 1200));
 	document.readyState === 'complete' ? later() : addEventListener('load', later, { once: true });
 	$$('predictive-search', w).forEach((el) => {
@@ -197,6 +206,13 @@ const init = (w) => {
 	}
 };
 const run = () => ($$('.header-wrap').forEach(init), $$('[data-loc-css]').forEach((d) => once(d, () => load(d.dataset.locCss, 1).catch(() => {}))));
+// back/forward cache: refresh the cart count
+addEventListener('pageshow', (e) => {
+	if (e.persisted || performance.getEntriesByType?.('navigation')[0]?.type === 'back_forward')
+		fetch(`${window.Shopify?.routes?.root || '/'}cart.js`)
+			.then((r) => r.json())
+			.then((c) => KK.updateCartCount?.(c), () => {});
+});
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', run) : run();
 document.addEventListener('shopify:section:load', run);
 })();

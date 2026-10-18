@@ -22,12 +22,13 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
+import * as U from '../js/upholstery2.js';
 import { rng } from '../js/rng.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
 // dyed polyester as it photographs: deep wine bordeaux, navy marineblauw, dark grey antraciet
-const FABRIC = { zwart: '#232325', antraciet: '#3A3D41', bordeaux: '#5A1622', marineblauw: '#1A2440', grijs: '#7A7D80', wit: '#E8E6E0', creme: '#E3D9C4' };
+const FABRIC = { zwart: '#29292B', antraciet: '#45484C', bordeaux: '#601B27', marineblauw: '#1F2539', grijs: '#7A7D80', wit: '#E8E6E0', creme: '#E3D9C4' };
 
 // thin rectangle (len along direction (dx,dy) from (ox,oy), thickness t): convex profile
 function rectAlong(ox, oy, dx, dy, len, t) {
@@ -52,8 +53,8 @@ const glideAt = (bins, mat, x, z, r = 0.012) => bins.add(mat, G.lathe([[0.0001, 
 // -------------------------------------------------------------------------- banquet
 function banquet(bins, color, frameColor) {
   const key = String(color).toLowerCase();
-  const fab = S.fabricMat(FABRIC[key] || M.resolveColor(color, '#3A3D41'));
-  const frame = F.powder(frameColor);
+  const fab = U.wovenFabric(FABRIC[key] || M.resolveColor(color, '#3A3D41'));
+  const frame = U.powder(frameColor);
   const glide = F.plastic('#151515', 0.6);
   const sq = G.roundedRectProfile(0.022, 0.022, 0.004, 3);
   const xs = 0.2, ySeat = 0.405, zF = 0.19, zB = -0.19;
@@ -78,13 +79,16 @@ function banquet(bins, color, frameColor) {
   rail(V3(-xs, 0.15, -0.222), V3(xs, 0.15, -0.222));
   // seat: board + foam + fabric, crowned, corners gathered, piping on the top seam
   const W = 0.455, D = 0.445, T = 0.066;
-  const seat = S.softBlock(W, T, D, { r: 0.021, crown: 0.012, belly: 0.004, gather: 0.0026, uneven: 0.0012, seed: 11 });
+  const seat = S.softBlock(W, T, D, { r: 0.024, crown: 0.014, belly: 0.005, gather: 0.0026, uneven: 0.0012, seed: 11, seg: [92, 14, 90] });
+  // the cloth ripples a little along the piped seam (sewn welt pulls it in)
+  U.puckerSeams(seat, { amp: 0.0016, pitch: 0.026, width: 0.016, sides: [1], seed: 11 });
   const sy = ySeat + T / 2 + 0.003, sz = 0.006;
   bins.add(fab, seat.translate(0, sy, sz));
   bins.add(fab, F.sweep(S.weltPath(seat.userData.shape, 1, { cr: 0.0032 }).map((p) => p.add(V3(0, sy, sz))), G.circleProfile(0.0032, 10), { closed: true }));
   // back: built lying flat (thickness along y, height along z, top edge at -z), arched,
   // piping on both faces' seams, then stood up (+y -> +z) and raked like the posts
-  const back = S.softBlock(bw, bt, bh, { r: 0.018, crown: 0.007, crownBottom: 0.004, belly: 0.003, gather: 0.0012, seed: 12 });
+  const back = S.softBlock(bw, bt, bh, { r: 0.018, crown: 0.008, crownBottom: 0.004, belly: 0.003, gather: 0.0012, uneven: 0.001, seed: 12, seg: [88, 10, 82] });
+  U.puckerSeams(back, { amp: 0.0013, pitch: 0.025, width: 0.014, sides: [1, -1], seed: 12 });
   const archF = (p) => { const k = Math.max(0, 1 - (p.x / (bw / 2)) ** 2) * THREE.MathUtils.smoothstep(-p.z, 0, bh / 2); p.z -= arch * k; return p; };
   { const pp = back.attributes.position, v = new THREE.Vector3(); for (let i = 0; i < pp.count; i++) { v.fromBufferAttribute(pp, i); archF(v); pp.setXYZ(i, v.x, v.y, v.z); } back.computeVertexNormals(); }
   // rotateX(+90deg) maps +y -> +z (front) and -z -> +y (top); then tilt back by the rake
@@ -102,7 +106,7 @@ function banquet(bins, color, frameColor) {
 function klapstoel(bins, color) {
   const key = String(color).toLowerCase();
   const plast = F.hdpeSmooth(key === 'zwart' ? '#232426' : key === 'wit' ? '#F0F0EC' : M.resolveColor(color));
-  const frame = F.powder(key === 'zwart' ? 'zwart' : key === 'wit' ? 'wit' : 'grijs');
+  const frame = U.powder(key === 'zwart' ? 'zwart' : key === 'wit' ? 'wit' : 'grijs');
   const cap = F.plastic('#1A1A1A', 0.6);
   const r = 0.011;
   const xA = 0.215, xB = 0.193, ySeat = 0.445;
@@ -196,7 +200,7 @@ function crossback(bins, color) {
 
 // -------------------------------------------------------------------------- metaal
 function chairMetal(bins, color) {
-  const mat = F.powder(color);
+  const mat = U.powder(color);
   const glide = F.plastic('#161616', 0.6);
   const W = 0.4, D = 0.38, rc = 0.035, sk = 0.034, ySeat = 0.455;
   const path = F.pipingPath(W, D, rc, 0, 10);
@@ -258,7 +262,9 @@ export function chair(p = {}) {
       const r = S.seatRig(group);
       // dyed fabric (bordeaux, navy): expose for the colour, not for black, or it turns bright
       const c = String(color).toLowerCase();
-      if (style === 'banquet' && c !== 'zwart' && c !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 1.0);
+      if (style === 'banquet' && c !== 'zwart' && c !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 0.9);
+      // white powder coat / white HDPE: exposed as white (auto exposure would print it ~205 grey)
+      if (c === 'wit' && (style === 'metaal' || style === 'metal' || style === 'klapstoel' || style === 'folding')) r.default.exposure = Math.max(r.default.exposure, 0.84);
       return r;
     })(),
   };

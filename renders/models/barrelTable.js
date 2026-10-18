@@ -16,6 +16,7 @@ import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import { rng } from '../js/rng.js';
+import { mergeGeometries } from '../vendor/three/addons/utils/BufferGeometryUtils.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -25,14 +26,18 @@ export function barrelTable(p = {}) {
   let Dt = Number(p.top ?? p.diameter ?? 0.8); if (Dt > 5) Dt /= 100;
   let Htot = Number(p.height ?? 1.05); if (Htot > 5) Htot /= 100;
   const fin = String(p.finish || 'houtlook').toLowerCase();
-  const tone = fin === 'donker' ? ['#5A3E28', '#4E3522', '#634530'] : fin === 'naturel' ? ['#B48C5E', '#A57E52', '#BE9868'] : ['#8E6743', '#7E5A39', '#9A7350', '#86613F'];
-  // moulded + painted PE: satin, no clear lacquer
-  const satin = (m) => { const c = m.clone(); c.clearcoat = 0.05; c.roughness = 0.58; c.normalScale = new THREE.Vector2(0.55, 0.55); c.userData = { ...m.userData }; delete c.userData.__hooked; return c; };
-  const staveMats = tone.map((t, i) => satin(S.woodMat('eiken', { stain: t, finish: 'mat', seed: 40 + i })));
+  const tone = fin === 'donker' ? ['#5A3E28', '#4E3522', '#634530', '#553A26', '#47311F', '#6A4A33'] : fin === 'naturel' ? ['#B48C5E', '#A57E52', '#BE9868', '#AE8658', '#9C7448', '#C49F70'] : ['#8E6743', '#7A5536', '#9C7650', '#84603F', '#6E4B30', '#A27C56'];
+  // moulded + painted PE: satin, no clear lacquer; each stave its own sheen
+  const satin = (m, rough = 0.58, vc = false) => { const c = m.clone(); c.clearcoat = 0.05; c.roughness = rough; c.normalScale = new THREE.Vector2(0.7, 0.7); c.vertexColors = vc; c.userData = { ...m.userData }; delete c.userData.__hooked; return c; };
+  // staves carry vertex colours (darker towards the chimes, a tone of their own), so they are
+  // merged outside the PartBin (its merge drops colour attributes)
+  const staveMats = tone.map((t, i) => satin(S.woodMat('eiken', { stain: t, finish: 'mat', seed: 40 + i }), 0.5 + 0.035 * i, true));
+  const staveGeo = new Map();
   const topMats = [0, 1, 2].map((i) => satin(S.woodMat('eiken', { stain: tone[i % tone.length], finish: 'mat', seed: 51 + i })));
   const jointMat = new THREE.MeshPhysicalMaterial({ color: '#2A1C12', roughness: 0.8, side: THREE.DoubleSide, name: 'moulded joint' });
   const edgeMat = satin(S.woodMat('eiken', { stain: tone[1], finish: 'mat', seed: 58 }));
-  const hoopMat = M.steelPowder('#232425', { roughness: 0.55, clearcoat: 0.08 });
+  // black-painted steel hoops: satin paint with a clear sheen, so they read as metal bands
+  const hoopMat = M.steelPowder('#202123', { roughness: 0.36, clearcoat: 0.4, clearcoatRoughness: 0.28 });
   const capMat = new THREE.MeshPhysicalMaterial({ color: '#3B2A1E', roughness: 0.5, specularIntensity: 0.4, name: 'bung cap' });
   const bins = new G.PartBin();
   const R = rng(9);
@@ -58,7 +63,16 @@ export function barrelTable(p = {}) {
     const voff = R() * 3, uoff = R() * 0.2, flip = R() < 0.5 ? -1 : 1;
     const w = (a1 - a0) * Rbl;
     for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getY(i) * flip + voff, uv.getX(i) * w + uoff);
-    bins.add(mat, outer);
+    // handling / toasting: darker towards both chimes, each stave its own value
+    const kS = 0.9 + 0.2 * R(), col = new Float32Array(pos.count * 3);
+    for (let i = 0; i < pos.count; i++) {
+      const y = pos.getY(i);
+      const k = kS * (1 - 0.2 * Math.exp(-y / 0.1) - 0.24 * Math.exp(-(Hb - y) / 0.09));
+      col[i * 3] = k; col[i * 3 + 1] = k * 0.985; col[i * 3 + 2] = k * 0.97;
+    }
+    outer.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    if (!staveGeo.has(mat)) staveGeo.set(mat, []);
+    staveGeo.get(mat).push(outer);
     // stave side faces (the moulded joint walls)
     for (const u of [0, 1]) {
       const e = G.surface((s, v, o) => {
@@ -128,10 +142,17 @@ export function barrelTable(p = {}) {
   }
   const group = new THREE.Group(); group.name = `barrelTable Ø${Dt}`;
   bins.build(group);
+  for (const [mat, list] of staveGeo) {
+    const m = new THREE.Mesh(mergeGeometries(list.map((g) => g.index ? g : g), false), mat);
+    m.castShadow = true; m.receiveShadow = true; m.name = 'staves';
+    group.add(m);
+  }
   return {
     object: group,
     detail: { target: [0.18, Hb * 0.62, 0.32], size: 0.45, azimuth: 30, elevation: 10 },
     meta: { Dt, Htot },
+    // the barrel's broad floor shadow reaches the frame edge at 80 %: a little more air
+    view: { hero: { fill: 0.75 } },
     rig: S.seatRig(group),
   };
 }

@@ -248,7 +248,7 @@ export function stertent(p = {}) {
     detail: { target: [0, Hc - 0.5, 0], size: 2.2, azimuth: 30, elevation: 5 },
     // white canvas: the big sail is mostly turned away from the softbox, so it gets a brighter
     // exposure than an easy-up roof (lit canvas ~240-248, not light grey against the Linnen)
-    rig: { default: { ...T2.tentRig2(hex, { walled: !!walls, print: !!print }), ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.7 } : {}) } },
+    rig: { default: { ...T2.tentRig2(hex, { walled: !!walls, print: !!print }), ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.86 } : {}) } },
     meta: { Dm, N, masts, Hc, Hp },
   };
 }

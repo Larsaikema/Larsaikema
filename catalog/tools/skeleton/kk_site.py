@@ -285,7 +285,8 @@ def build_menus():
                 P('Voetgewicht per staander', 'voetgewicht-partytent-15-kg'), P('Stormbandenset', 'stormbandenset-partytent'),
                 P('Opbergtassenset', 'opbergtassenset-partytent'), P('Regengoot', 'regengoot-partytent')]),
             L('Voor stretch-, ster- en opblaasbare tenten', 'collection', 'onderdelen-stretch-ster-en-opblaasbare-tenten', items=[
-                P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal en koppelgoten', 'onderdelen-stretchtent'),
+                P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal stretchtent', 'onderdelen-stretchtent'),
+                P('Koppelgoot stretchtent', 'koppelgoot-stretchtent'),
                 P('Zijwanden stertent', 'zijwanden-stertent'), P('Pomp opblaasbare tent', 'pomp-opblaasbare-tent'),
                 P('Zijwand opblaasbare tent', 'zijwand-opblaasbare-promotietent'), P('Luifel opblaasbare tent', 'luifel-opblaasbare-promotietent'),
                 P('Verbindingstunnel', 'verbindingstunnel-opblaasbare-tent'), P('Opbergtas met wielen', 'opbergtas-opblaasbare-tent')]),
@@ -304,7 +305,9 @@ def build_menus():
             L('Stoelen, krukken en banken', 'collection', 'stoelen-en-banken', items=[
                 P('Klapstoel', 'klapstoel'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
                 P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank-220')]),
-            L('Transportkarren', 'collection', 'transportkarren', items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels en stoelen', 'transportkar-klaptafels-en-stoelen')]),
+            L('Transportkarren', 'collection', 'transportkarren', items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels, barkrukken en klapstoelen', 'transportkar-klaptafels-en-stoelen'),
+                                                                         P('Voor stapelstoelen', 'transportkar-stapelstoelen'), P('Voor ronde klaptafels', 'transportkar-ronde-klaptafels'),
+                                                                         P('Voor biertafelsets', 'transportkar-biertafelsets'), P('Voor terrastafels', 'transportkar-terrastafels')]),
             L('Evenement en markt', 'collection', 'evenement', items=[P('Afzetpalen', 'afzetpaal-met-trekband'), P('Afzetpaal met logo', 'afzetpaal-met-logo'),
                                                                    P('Marktkraam', 'marktkraam-2-m'), P('Loper', 'loper-per-meter')]),
         ]),
@@ -313,7 +316,8 @@ def build_menus():
             L('Lampen en slangen', 'collection', 'lampen-en-lichtslangen', items=[
                 P('LED-lampen', 'led-lamp-e27'), P('LED-lichtslang per meter', 'led-lichtslang'), P('Lichtslang 15 of 20 m', 'led-lichtslang-set-warm-wit'), P('Kerstverlichting', 'kerstverlichting-10-m'), P('LED-vloedlicht voor easy-up', 'led-vloedlicht-easy-up'),
                 P('LED voor opblaasbare tent', 'led-verlichting-opblaasbare-tent')]),
-            L('Onderdelen', 'product', 'onderdelen-prikkabel-en-lichtslang', items=[P('Fittingen, dimmers, timers en kabel per meter', 'onderdelen-prikkabel-en-lichtslang')]),
+            L('Onderdelen', 'product', 'onderdelen-prikkabel-en-lichtslang', items=[P('Fittingen, eindkap en kabel per meter', 'onderdelen-prikkabel-en-lichtslang'),
+                                                                                     P('Dimmer', 'dimmer-voor-prikkabel'), P('Tijdschakelaar', 'tijdschakelaar-voor-prikkabel')]),
         ]),
         # 'Pakketten', not 'Actie': there is no compare-at price or badge:actie anywhere, so the label must not suggest a temporary sale
         L('Pakketten', 'collection', 'actiepakketten', items=[
@@ -322,7 +326,8 @@ def build_menus():
                                                                          P('Statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
             L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium', 'starterspakket-easy-up-premium'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
             L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'),
-                                                                      P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar'), P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
+                                                                      P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar'), P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'),
+                                                                      P('10 ronde klaptafels met kar', 'pakket-10-ronde-klaptafels-met-transportkar'), P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
         ]),
         L('Zakelijk', 'page', 'zakelijk', items=[
             L('Klapklaar Zakelijk', 'page', 'zakelijk', items=[L('Zo bestel je zakelijk', 'page', 'zakelijk'), L('Offerte aanvragen', 'page', 'offerte'),
@@ -392,6 +397,13 @@ FILTERS = [
 # gid://shopify/TaxonomyCategory/<id>. Products with a Kleur option sit in a category with the 'color' attribute where one fits, so Kleur
 # can be linked to shopify.color-pattern (CONTRACT); exceptions (no colour attribute in the closest category) are listed in
 # docs/claims-to-confirm.md. A handle entry wins over the product type.
+# Renamed handles keep their old URL working (Online Store > Navigation > URL Redirects > Import export/redirects.csv): the
+# opblaasbare partytent also sells 3 x 4,5 and 3 x 6 m, the voetgewicht is also the buizenframe add-on (merchandising review 3)
+REDIRECTS = [
+    {'from': '/products/opblaasbare-partytent-3x3-waterpoten', 'to': '/products/opblaasbare-partytent-met-waterpoten'},
+    {'from': '/products/voetgewicht-easy-up-15-kg', 'to': '/products/voetgewicht-partytent-15-kg'},
+]
+
 TAXONOMY_VERSION = '2026-11-unstable'
 PRODUCT_CATEGORY_BY_TYPE = {
     'Easy-up partytent': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies', 'hg-12-2-6-1-1'),
@@ -487,6 +499,9 @@ PRODUCT_CATEGORY_BY_HANDLE = {
     'starterspakket-easy-up-premium': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies', 'hg-12-2-6-1-1'),
     'compleet-pakket-easy-up-professional': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies', 'hg-12-2-6-1-1'),
     'pakket-24-barkrukken-met-transportkar': ('Furniture > Chairs > Table & Bar Stools > Bar Stools', 'fr-7-12-2'),
+    'pakket-40-stapelstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    'pakket-10-ronde-klaptafels-met-transportkar': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
+    'tentelastieken-met-bal': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy Anchor Kits', 'hg-12-2-6-2-8'),
     'prikkabelset-led': ('Home & Garden > Lighting > Light Ropes & Strings', 'hg-13-8'),
 }
 

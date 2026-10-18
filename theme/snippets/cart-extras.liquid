@@ -29,7 +29,8 @@
             <label class="field__label" for="CartRef-{{ context }}">{{ 'cart.reference_label' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
             <input class="input" type="text" id="CartRef-{{ context }}" name="attributes[Referentie]" form="{{ form_id }}" value="{{ ref | escape }}" maxlength="60" autocomplete="off" data-cart-attribute="Referentie">
           </div>
-          {%- if show_date -%}
+          {%- comment -%} nothing to deliver (only a gift card): no delivery date {%- endcomment -%}
+          {%- if show_date and cart.requires_shipping -%}
             {%- comment -%} earliest day without JS: today + transit + 1, or the slowest lead time in the cart (cart-lead-time);
               cart-extras.js sets the exact expected delivery date {%- endcomment -%}
             {%- capture ce_lt -%}{% render 'cart-lead-time' %}{%- endcapture -%}
@@ -40,8 +41,9 @@
             {%- assign tomorrow = 'now' | date: '%s' | plus: ce_add | date: '%Y-%m-%d' -%}
             <div class="field">
               <label class="field__label" for="CartDate-{{ context }}">{{ 'cart.date_label' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
-              <input class="input" type="date" id="CartDate-{{ context }}" name="attributes[Gewenste leverdatum]" form="{{ form_id }}" value="{{ wish_date | escape }}" min="{{ tomorrow }}" aria-describedby="CartDateHelp-{{ context }}" data-cart-attribute="Gewenste leverdatum">
-              <span class="field__help" id="CartDateHelp-{{ context }}">{{ 'cart.date_help' | t }}</span>
+              <input class="input" type="date" id="CartDate-{{ context }}" name="attributes[Gewenste leverdatum]" form="{{ form_id }}" value="{{ wish_date | escape }}" min="{{ tomorrow }}" aria-describedby="CartDateError-{{ context }} CartDateHelp-{{ context }}" data-cart-attribute="Gewenste leverdatum">
+              <span class="field__help" id="CartDateHelp-{{ context }}">{{ 'cart.date_help' | t }} <span data-date-from="{{ 'cart.date_from' | t: date: '__DATE__' | escape }}"></span></span>
+              <p class="field__error" id="CartDateError-{{ context }}" role="alert" data-date-error="{{ 'cart.date_too_early' | t: date: '__DATE__' | escape }}" hidden></p>
             </div>
           {%- endif -%}
           {%- if settings.cart_show_note -%}

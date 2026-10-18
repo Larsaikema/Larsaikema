@@ -34,11 +34,13 @@ const eta = (r = d) =>
 		s.innerHTML = s.dataset.tpl.replace('__FROM__', a.split(' ')[1] == b.split(' ')[1] ? a.split(' ')[0] : a).replace('__TO__', b);
 	});
 on('DOMContentLoaded', () => eta());
-const mark = (root, item, block = 'nearest') => {
-	const row = item?.key && root?.querySelector(`.cart-line[data-key="${CSS.escape(item.key)}"]`);
-	row?.classList.add('is-new');
-	row?.scrollIntoView({ block });
-};
+/* every line of the last add (a tent with its add-ons) gets the highlight; the first is scrolled into view */
+const mark = (root, items, block = 'nearest') =>
+	items.forEach((item, k) => {
+		const row = item?.key && root?.querySelector(`.cart-line[data-key="${CSS.escape(item.key)}"]`);
+		row?.classList.add('is-new');
+		k || row?.scrollIntoView({ block });
+	});
 
 const cart = (KK.cart = {
 	load,
@@ -79,11 +81,15 @@ const cart = (KK.cart = {
 		}),
 	async add(body, { quiet } = {}) {
 		css();
-		const rev = body.items?.length > 1;
+		// an add from inside the drawer or cart page ('Vergeet niet') waits for cart-ui.js, which keeps focus through the re-render
+		const qn = body.get?.('quantity') ?? (body.items?.[0] || body).quantity, rev = body.items?.length > 1, u = zone(d.activeElement) && ui();
 		if (rev) body = { ...body, items: [...body.items].reverse() };
 		const data = await cart.req(`${KK.routes.cartAdd}.js`, body, quiet, KK.strings.addError);
 		if (rev) data.items?.reverse();
 		if (quiet) return data;
+		cart.qty = +qn || 1; // add.js answers with the whole line quantity, not what was added
+		cart.added = data.items || [data];
+		await u;
 		cart.render(data.sections);
 		const n = !page() && drawer()?.dataset.itemCount;
 		const c = n ? +n : await fetch(`${KK.routes.cart}.js`, { headers: J }).then((r) => r.json()).catch(() => 0);
@@ -108,13 +114,13 @@ const cart = (KK.cart = {
 		return i?.product_title ? i.product_title + (v.length ? `, ${v.join(' · ')}` : '') : '';
 	},
 	async afterAdd(title, item) {
-		const line = cart.label(item) || title || '', p = page();
-		if (p) return KK.toast(`<strong>${KK.escape(KK.strings.addedTitle)}</strong>${line && `<br>${KK.escape(line)}`}`), mark(p, item, 'center');
+		const line = (cart.label(item) || title || '') + ` · ${cart.qty || 1} ${item?.properties?._eenheid || '×'}`, p = page();
+		if (p) return KK.toast(`<strong>${KK.escape(KK.strings.addedTitle)}</strong><br>${KK.escape(line)}`), mark(p, cart.added || [item], 'center');
 		if (KK.cartType == 'page' || !drawer()) return void (location.href = KK.routes.cart);
 		await cart.open();
 		$('#CartDrawer [data-cart-added]')?.removeAttribute('hidden');
 		cart.say(`${KK.strings.addedTitle} ${line}`);
-		mark(drawer(), item);
+		mark(drawer(), cart.added || [item]);
 	},
 });
 

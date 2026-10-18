@@ -57,3 +57,29 @@
   .hero--compact .hero__media{min-height:420px}
   .hero__title{margin-bottom:20px}
 }
+/* 'Snel naar je maat': size shortcuts (white option chips with a Kiezel border, brand 4.3) */
+.hero__sizes{display:flex;flex-direction:column;gap:10px;min-width:0}
+.hero__sizes-title{display:flex;align-items:center;gap:6px;margin:0;font-size:12.5px;font-weight:var(--font-body-weight-bold);letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+.hero__size-group{display:grid;grid-template-columns:74px minmax(0,1fr);align-items:center;gap:10px}
+.hero__size-label{font-size:14px;font-weight:var(--font-body-weight-semibold);color:var(--muted,var(--c-kiezel))}
+.hero__size-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0}
+.hero__size{min-height:38px;padding:0 13px;font-size:14.5px;font-variant-numeric:tabular-nums}
+@media (max-width:749px){
+  .hero__sizes{padding-top:4px}
+  .hero__size-list{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gutter-mobile));padding-right:var(--gutter-mobile)}
+  .hero__size-list::-webkit-scrollbar{display:none}
+  .hero__size-list>li{flex:none}
+  .hero__size-group{grid-template-columns:64px minmax(0,1fr)}
+  .hero__size{min-height:40px}
+}
+@media (min-width:990px){
+  .hero__inner{grid-template-areas:"content media" "sizes media";row-gap:28px}
+  .hero--image-left .hero__inner{grid-template-areas:"media content" "media sizes";grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+  .hero__content{grid-area:content;align-self:end}
+  .hero__media{grid-area:media}
+  .hero__sizes{grid-area:sizes;align-self:start;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--c-inkt) 14%,transparent)}
+  .hero__inner:not(:has(.hero__sizes)) .hero__content{grid-row:1 / span 2;align-self:center}
+  .hero__subline{margin-bottom:0}
+}
+/* narrow desktop: the content column grows taller than the render's frame, so show the whole scene instead of a crop */
+@media (min-width:990px) and (max-width:1199px){.hero__media>.hero__img{object-fit:contain}}

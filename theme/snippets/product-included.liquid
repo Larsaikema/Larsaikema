@@ -1,9 +1,31 @@
 {%- comment -%}
   'Wat zit erin' (feature product.whats-included): custom.included as ticks, custom.excluded struck as 'niet inbegrepen'
   (with a dash). Renders nothing when both are empty. Params: product, block (heading setting).
+  Spare parts: block setting parts_links maps a collection of this product to its parts collection, one per line
+  ('easy-up-partytenten: easy-up-onderdelen'); the first match adds 'Iets kwijt of kapot? Bekijk de losse onderdelen'.
 {%- endcomment -%}
 {%- assign inc = product.metafields.custom.included.value -%}
 {%- assign exc = product.metafields.custom.excluded.value -%}
+{%- liquid
+  assign parts = nil
+  assign p_handles = product.collections | map: 'handle'
+  assign p_lines = block.settings.parts_links | newline_to_br | split: '<br />'
+  for l in p_lines
+    assign src = l | split: ':' | first | strip
+    assign dst = l | split: ':' | last | strip
+    # a part itself (in the parts collection already) gets no link
+    if p_handles contains dst
+      continue
+    endif
+    if src != blank and dst != blank and p_handles contains src
+      assign c = collections[dst]
+      if c != blank and c.products_count > 0
+        assign parts = c
+        break
+      endif
+    endif
+  endfor
+-%}
 {%- if inc != blank or exc != blank -%}
   <div class="included" {{ block.shopify_attributes }}>
     <h2 class="included__title">{%- render 'icon', icon: 'box', class: 'icon--sm' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.included_title' | t }}{% endif %}</h2>
@@ -11,5 +33,6 @@
       {%- for x in inc -%}<li class="included__item">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.included_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
       {%- for x in exc -%}<li class="included__item included__item--no">{%- render 'icon', icon: 'minus', class: 'icon--sm' -%}<span><span class="visually-hidden">{{ 'product.excluded_label' | t }}: </span>{{ x }}</span></li>{%- endfor -%}
     </ul>
+    {%- if parts -%}<p class="included__parts">{{ 'product.parts_link_html' | t: url: parts.url }}</p>{%- endif -%}
   </div>
 {%- endif -%}

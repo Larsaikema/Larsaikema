@@ -8,11 +8,13 @@ points the tent builder exports (meta.probes, projected to pixels by js/main.js)
 
   roofLit / roofShade        roof face the hero camera sees on its left (lit) / right (turned away)
   valanceLit / valanceShade  the valance under those faces
-  legOuter / legInner        axis of the leg nearest to the camera (outer / inner tube)
+  legOuter / legInner        the leg nearest to the camera (outer / inner tube), mean value ACROSS
+                             the tube (its light, mid and dark hex facets), not just its axis
   wallLit / wallShade        closed side-wall cloth low between the legs, on the wall the hero sees
                              on its left (lit) / right (turned away)            (walled tents only)
   doorway                    the door on a side the hero sees: closed (hero) = the door leaf;
                              rolled up (detail) = what shows through the opening, i.e. the inside
+  windowPane                 PVC window panes on the sides the hero sees (foil + what shows through)
 
 Plus the walled 3x6 zwart sample (back: window + door, left: window, the two sides the camera
 cannot see closed): its hero (door closed) and its detail (door rolled up, looking inside).
@@ -24,7 +26,8 @@ windows round the probe points. Fails (exit 1) unless:
   - zwart cloth (valance) is never lighter than the zwart frame next to it (open tents),
   - walled hero: lit wall 30-55 (target 35-50; below 30 the walls, valance and hem shadow merge
     into one black box), closed door leaf >= 30, wall turned away 15-30 (target 18-25) and at
-    least 10 levels below the lit wall (the two planes separate),
+    least 10 levels below the lit wall (the two planes separate), window panes 10-70 (smoky foil
+    over the dim inside: no black hole, no white studio card through a far-side window),
   - walled detail: the inside seen through the rolled-up door 12-60 (target 15-35: no black void).
 
   python3 renders/tools/check-tent-values.py [--size 1000] [--samples 16] [--keep DIR]
@@ -68,6 +71,25 @@ def sample_rgb(img, pts, half=2):
                     acc.append(img.getpixel((u, v))[:3])
     acc.sort(key=luma)
     return acc[len(acc) // 2] if acc else (0, 0, 0)
+
+
+def sample_across(img, pts, thresh=150):
+    """Mean luma ACROSS a thin tube (a leg): on the probe's row and the rows next to it, every
+    pixel within +-1 % of the image width that is darker than `thresh` (the tube, not the floor or
+    backdrop behind it). A hex leg shows light, mid and dark facets side by side; its axis can sit
+    on the darkest facet, so a single-point reading would call a satin black leg 'pitch black'."""
+    W, H = img.size
+    R = max(6, round(W / 100))
+    vals = []
+    for x, y in pts:
+        xi, yi = int(round(x)), int(round(y))
+        for dy in (-2, 0, 2):
+            for dx in range(-R, R + 1):
+                u, v = xi + dx, yi + dy
+                if 0 <= u < W and 0 <= v < H:
+                    l = luma(img.getpixel((u, v)))
+                    if l < thresh: vals.append(l)
+    return sum(vals) / len(vals) if vals else float('nan')
 
 
 def sat(rgb):
@@ -117,10 +139,10 @@ def main():
     rgbs = {}
     for (name, _), info in zip(jobs, infos):
         img = Image.open(os.path.join(out_dir, f'{name}.png')).convert('RGB')
-        table[name] = {k: round(sample(img, v), 1) for k, v in info['probes'].items() if v}
+        table[name] = {k: round(sample_across(img, v) if k.startswith('leg') else sample(img, v), 1) for k, v in info['probes'].items() if v}
         table[name]['exposure'] = round(info['exposure'], 3)
         rgbs[name] = {k: sample_rgb(img, info['probes'][k]) for k in ('roofLit', 'roofShade', 'valanceLit', 'valanceShade') if info['probes'].get(k)}
-    keys = ['roofLit', 'roofShade', 'valanceLit', 'valanceShade', 'legOuter', 'legInner', 'wallLit', 'wallShade', 'doorway', 'exposure']
+    keys = ['roofLit', 'roofShade', 'valanceLit', 'valanceShade', 'legOuter', 'legInner', 'wallLit', 'wallShade', 'doorway', 'windowPane', 'exposure']
     print(f"{'':13}" + ''.join(f'{k:>13}' for k in keys))
     for name in table:
         print(f'{name:13}' + ''.join(f'{table[name].get(k, float("nan")):>13}' for k in keys))
@@ -150,6 +172,8 @@ def main():
         if not 15 <= ws <= 30: fails.append(f"walled hero: wall turned away {ws} outside 15-30 (target 18-25)")
         if not wl - ws >= 10: fails.append(f"walled hero: lit wall only {wl - ws:.1f} levels above the wall turned away (need >= 10)")
         if not 30 <= t['roofLit'] <= 55: fails.append(f"walled hero: lit roof {t['roofLit']} outside 30-55")
+        wp = t.get('windowPane', nan)
+        if not 10 <= wp <= 70: fails.append(f"walled hero: PVC window pane {wp} outside 10-70 (dark smoky foil: no black void, no white card seen through it)")
     if 'zwart-deur' in table:
         dw = table['zwart-deur'].get('doorway', nan)
         if not 12 <= dw <= 60: fails.append(f"walled detail: inside through the door {dw} outside 12-60 (target 15-35)")

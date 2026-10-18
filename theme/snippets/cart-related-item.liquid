@@ -14,7 +14,8 @@
       <span class="upsell__price">{% if p.price_varies %}{{ 'price.from' | t }} {% endif %}{%- render 'vat-money', cents: p.price -%}</span>
     </div>
     {%- if p.has_only_default_variant -%}
-      {%- form 'product', p, data-product-form: '', class: 'upsell__form' -%}
+      {%- assign ri_fid = 'CartAddon-' | append: p.id -%}
+      {%- form 'product', p, id: ri_fid, data-product-form: '', class: 'upsell__form' -%}
         <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
         <button type="submit" class="btn btn--outline btn--sm upsell__add" data-refocus-target>{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}<span class="upsell__add-label">{{ 'cart.upsell_add' | t }}</span><span class="visually-hidden">: {{ p.title }}</span></button>
       {%- endform -%}

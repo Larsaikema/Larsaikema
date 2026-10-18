@@ -150,7 +150,9 @@
             {%- if ca_q > 1 -%}{%- capture ca_each -%}{%- render 'vat-money', cents: av.price -%}{%- endcapture -%}{%- assign ca_each = ca_each | strip %} <span class="upsell__each">{{ 'cart.upsell_each_html' | t: count: ca_q, price: ca_each }}</span>{%- endif -%}
           </span>
         </div>
-        {%- form 'product', ap, data-product-form: '', class: 'upsell__form' -%}
+        {%- comment -%} one id per variant: two colours of one add-on never share Shopify's product_form_<id> {%- endcomment -%}
+        {%- assign ca_fid = 'CartAddon-' | append: av.id -%}
+        {%- form 'product', ap, id: ca_fid, data-product-form: '', class: 'upsell__form' -%}
           <input type="hidden" name="id" value="{{ av.id }}">
           <input type="hidden" name="quantity" value="{{ ca_q }}">
           {%- comment -%} the accessible name starts with the visible word (WCAG 2.5.3): 'Toevoegen: 5 × Zijwandenset easy-up, 3 x 3 m · Rood' {%- endcomment -%}

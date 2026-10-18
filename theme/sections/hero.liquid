@@ -11,6 +11,8 @@
   capture b2_ok
     render 'link-exists', url: section.settings.button_2_link
   endcapture
+  assign chip_blocks = section.blocks | where: 'type', 'chip'
+  assign size_blocks = section.blocks | where: 'type', 'size'
   assign is_first = false
   if section.index == 1 and section.location == 'template'
     assign is_first = true
@@ -34,9 +36,9 @@
         </div>
       {%- endif -%}
       {%- if section.settings.subline != blank -%}<div class="hero__subline">{{ section.settings.subline }}</div>{%- endif -%}
-      {%- if section.blocks.size > 0 -%}
+      {%- if chip_blocks.size > 0 -%}
         <ul class="hero__chips" role="list">
-          {%- for block in section.blocks -%}
+          {%- for block in chip_blocks -%}
             <li class="hero__chip" {{ block.shopify_attributes }}>{%- render 'icon', icon: block.settings.icon, class: 'icon--sm' -%}<span>{{ block.settings.text }}</span></li>
           {%- endfor -%}
         </ul>
@@ -61,6 +63,52 @@
         </a>
       {%- endif -%}
     </div>
+    {%- comment -%}
+      'Kies je maat': size shortcuts straight into the filtered collection (brand promise: maat eerst). Blocks with the same
+      group name form one row; a block whose link points at a missing collection or page is left out.
+    {%- endcomment -%}
+    {%- liquid
+      # distinct group names in block order ('-' = no group name)
+      assign sz_list = ''
+      for block in size_blocks
+        assign sz_g = block.settings.group | strip | default: '-'
+        assign sz_probe = '§' | append: sz_g | append: '§'
+        assign sz_hay = '§' | append: sz_list | append: '§'
+        unless sz_hay contains sz_probe
+          if sz_list == ''
+            assign sz_list = sz_g
+          else
+            assign sz_list = sz_list | append: '§' | append: sz_g
+          endif
+        endunless
+      endfor
+      assign sz_groups = sz_list | split: '§'
+    -%}
+    {%- capture size_rows -%}
+      {%- for sz_group in sz_groups -%}
+        {%- capture sz_items -%}
+          {%- for block in size_blocks -%}
+            {%- assign sz_bg = block.settings.group | strip | default: '-' -%}
+            {%- if sz_bg != sz_group or block.settings.label == blank or block.settings.link == blank -%}{%- continue -%}{%- endif -%}
+            {%- capture sz_ok -%}{%- render 'link-exists', url: block.settings.link -%}{%- endcapture -%}
+            {%- if sz_ok != 'true' -%}{%- continue -%}{%- endif -%}
+            <li {{ block.shopify_attributes }}><a class="chip hero__size" href="{{ block.settings.link }}">{%- if sz_group != '-' -%}<span class="visually-hidden">{{ sz_group }} </span>{%- endif -%}{{ block.settings.label }}</a></li>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if sz_items != blank -%}
+          <div class="hero__size-group">
+            {%- if sz_group != '-' -%}<span class="hero__size-label" id="HeroSizeGroup-{{ section.id }}-{{ forloop.index }}">{{ sz_group }}</span>{%- endif -%}
+            <ul class="hero__size-list" role="list"{% if sz_group != '-' %} aria-labelledby="HeroSizeGroup-{{ section.id }}-{{ forloop.index }}"{% endif %}>{{ sz_items }}</ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if size_rows != blank -%}
+      <nav class="hero__sizes" aria-labelledby="HeroSizes-{{ section.id }}">
+        <p class="hero__sizes-title" id="HeroSizes-{{ section.id }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}<span>{{ section.settings.sizes_heading | default: 'Snel naar je maat' }}</span></p>
+        {{ size_rows }}
+      </nav>
+    {%- endif -%}
   </div>
   {%- if section.settings.show_flags -%}<div class="divider-flags hero__flags" aria-hidden="true"></div>{%- endif -%}
 </section>
@@ -69,7 +117,7 @@
 {
   "name": "Hero",
   "class": "section-hero",
-  "max_blocks": 4,
+  "max_blocks": 16,
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-3" },
     {
@@ -100,7 +148,9 @@
     { "type": "product", "id": "product", "label": "Product", "info": "Toont titel, spec-regel en de echte (vanaf-)prijs uit je catalogus." },
     { "type": "collection", "id": "product_collection", "label": "Of: eerste product uit collectie", "info": "Gebruikt als het product hierboven leeg is of niet (meer) bestaat." },
     { "type": "text", "id": "product_label", "label": "Titel op de chip" },
-    { "type": "checkbox", "id": "show_flags", "label": "Vlaggenlijn onder de hero", "default": false }
+    { "type": "checkbox", "id": "show_flags", "label": "Vlaggenlijn onder de hero", "default": false },
+    { "type": "header", "content": "Snel naar je maat" },
+    { "type": "text", "id": "sizes_heading", "label": "Kop boven de maatknoppen", "default": "Snel naar je maat", "info": "Voeg blokken 'Maatknop' toe; blokken met dezelfde groep staan op één regel." }
   ],
   "blocks": [
     {
@@ -110,6 +160,14 @@
           { "value": "check", "label": "Vinkje" }, { "value": "truck", "label": "Levering" }, { "value": "invoice", "label": "Factuur" },
           { "value": "proof", "label": "Drukproef" }, { "value": "chat", "label": "Chat" }, { "value": "clock", "label": "Klok" }, { "value": "flag", "label": "Vlaggetje" } ], "default": "check" },
         { "type": "text", "id": "text", "label": "Tekst", "default": "Snel in huis" }
+      ]
+    },
+    {
+      "type": "size", "name": "Maatknop",
+      "settings": [
+        { "type": "text", "id": "group", "label": "Groep", "default": "Partytent", "info": "Bv. Partytent of Statafel. Blokken met dezelfde groep staan naast elkaar." },
+        { "type": "text", "id": "label", "label": "Maat", "default": "3 × 3 m" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Bv. een collectie gefilterd op maat: /collections/partytenten?filter.v.option.maat=3+x+3+m" }
       ]
     }
   ],

@@ -3,7 +3,8 @@
   - Size links ('3 × 3 m', 'Ø80 cm': first character a digit or Ø, last word m or cm) are grouped into one row of
     chips at the place of the first one, so 'shop by size' is one compact block instead of eight lines.
   - Article links (advice: 'Premium of Professional?') get the info icon and read as help, not as a category.
-  - A link to the same page as the column heading or as the panel's promotion card is left out (no 'Offerte aanvragen'
+  - A link to the same page as the column heading, as the panel's promotion card or as a link in an earlier column of
+    the same panel is left out (sections/header.liquid passes them in skip; no 'Losse topcover' twice, no 'Offerte aanvragen'
     twice in one panel).
   - The selected state (chip--active, aria-current) is set by sections/header.liquid as one key for the whole menu
     (path + exact filters, highest menu level first), so a page linked from several places is marked once.

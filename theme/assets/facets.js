@@ -15,15 +15,23 @@ const amount = (raw) => {
   if (!/^\d*\.?\d*$/.test(v) || v === '.') return null;
   return String(Math.round(Number(v) * 100) / 100);
 };
-// 'uiterlijk ma 9 nov in huis': lead days from today in Amsterdam (a cached page can be old), weekend -> Monday
-const day = new Intl.DateTimeFormat(document.documentElement.lang || 'nl', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+// the lead line above the grid: the window the product page shows for the same wait ('verwacht in huis 3 – 10 nov'),
+// counted by delivery-countdown.js (cutoff, shipping and carrier days, holidays, transit); data-transit-max widens it for
+// a pallet in the grid. A wait that counts from something else ('na akkoord drukproef') or has no number keeps its text.
 const leadDates = (root) =>
-  root.querySelectorAll('[data-lead-days]').forEach((el) => {
-    const [y, m, d] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Amsterdam' }).format(new Date()).split('-').map(Number);
-    const t = new Date(Date.UTC(y, m - 1, d + Number(el.dataset.leadDays)));
-    const w = t.getUTCDay();
-    if (w % 6 === 0) t.setUTCDate(t.getUTCDate() + (w ? 2 : 1));
-    el.textContent = day.format(t).replace(/\./g, '');
+  KK.delivery &&
+  root.querySelectorAll('[data-lead-eta]').forEach((el) => {
+    const out = el.querySelector('[data-lead-eta-out]');
+    const m = !/\bna\b/i.test(el.dataset.lead) && el.dataset.lead.match(/(\d+)(?:\s*[–-]\s*(\d+))?\s*(werkdag|dag|week|weken)/i);
+    if (!out || !m) return;
+    const u = m[3].toLowerCase();
+    const f = u[0] === 'd' ? 5 / 7 : u.startsWith('werk') ? 1 : 5;
+    const r = KK.delivery.compute(el);
+    const fmt = (t) => r.etaAt(t).toLocaleDateString(document.documentElement.lang || 'nl', { day: 'numeric', month: 'short', timeZone: 'UTC' }).replace('.', '').split(' ');
+    const a = fmt(Math.round(m[1] * f) + r.transit);
+    const b = fmt(Math.round((m[2] || m[1]) * f) + Math.max(r.transit, +el.dataset.transitMax || 0));
+    out.innerHTML = el.dataset.tpl.replace('__FROM__', a[1] === b[1] ? a[0] : a.join(' ')).replace('__TO__', b.join(' '));
+    out.hidden = false;
   });
 
 class FacetFilters extends HTMLElement {
@@ -65,8 +73,7 @@ class FacetFilters extends HTMLElement {
     this.addEventListener('submit', (e) => {
       if (!e.target.matches('[data-facets-form]')) return;
       e.preventDefault();
-      this.priceOk(true);
-      this.submit();
+      if (this.priceOk(true)) this.submit();
     });
     this.addEventListener('click', (e) => {
       const t = e.target;
@@ -94,6 +101,7 @@ class FacetFilters extends HTMLElement {
     if (this.form) this.form.noValidate = true;
     leadDates(this);
     this.watchBar();
+    this.fitPanel();
     this.keepPlace();
     this.restore();
   }
@@ -120,6 +128,20 @@ class FacetFilters extends HTMLElement {
     mq.addEventListener('change', check);
     check();
   }
+  // desktop: a filter column taller than the screen scrolls along with the page and sticks once its last group is in view,
+  // so every group is reachable without a scrollbar inside the column
+  fitPanel() {
+    const panel = this.querySelector('[data-facets-panel]');
+    if (!panel || !window.ResizeObserver) return;
+    const fit = () => {
+      const h = panel.scrollHeight;
+      const tall = !mq.matches && h > innerHeight - (document.querySelector('sticky-header')?.offsetHeight || 0) - 32;
+      panel.classList.toggle('is-tall', tall);
+      panel.style.top = tall ? `${Math.round(innerHeight - h - 24)}px` : '';
+    };
+    new ResizeObserver(fit).observe(panel);
+    addEventListener('resize', KK.debounce(fit, 100));
+  }
   // Van above Tot: waits while typing (hint), swaps on blur / Enter / another filter
   priceOk(fix = false) {
     const a = this.querySelector('[data-price-min]');
@@ -133,9 +155,14 @@ class FacetFilters extends HTMLElement {
     }
     a.toggleAttribute('aria-invalid', bad || x === null);
     b.toggleAttribute('aria-invalid', bad || y === null);
+    // not an amount ('abc'): said under the fields and not sent, so the filter is not dropped without a word
+    const nan = x === null || y === null;
     const hint = this.querySelector('[data-price-hint]');
-    if (hint) hint.hidden = !bad;
-    return !bad;
+    if (hint) {
+      hint.hidden = !bad && !nan;
+      if (!hint.hidden && hint.dataset.format) hint.textContent = nan ? hint.dataset.format : hint.dataset.swap;
+    }
+    return !bad && !nan;
   }
   params() {
     this.priceOk(true);
@@ -242,6 +269,7 @@ class FacetFilters extends HTMLElement {
       } else swap('[data-facets-body]');
       if (this.form) this.form.noValidate = true;
       swap('[data-facets-clear-top]');
+      swap('[data-facets-clear]');
       swap('[data-show-results]');
       swap('.collection__toolbar .collection__count'); // search
       const btn = this.querySelector('.collection__toolbar [data-facets-open]');

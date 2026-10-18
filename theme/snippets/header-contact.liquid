@@ -1,0 +1,17 @@
+{%- comment -%}
+  Header only: WhatsApp and phone beside the main menu (desktop, from 1200 px; below that the USP bar's contact panel and
+  the menu drawer carry them, and the number is not shown twice). Renders nothing without a number.
+  Params: phone (as entered), phone_href, wa_href (international links from snippets/header-contact-href)
+{%- endcomment -%}
+{%- if wa_href != blank or phone_href != blank -%}
+{%- comment -%} CSS only when shown {%- endcomment -%}
+<style>.header__contact{display:none;flex:none;gap:4px;font-size:14.5px;font-weight:var(--hsb)}.header__contact a{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;border-radius:999px;text-decoration:none}.header__contact a:hover{background:rgba(var(--fg-rgb),.07)}@media (min-width:1200px){.header__contact{display:flex}.section-utility-bar:has(.utility-bar__phone)~.section-header .header__contact-phone{display:none}}@media (min-width:1200px) and (max-width:1439px){.header__contact a span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}@media (min-width:1440px){.header__contact a{padding:0 10px}}</style>
+<div class="header__contact">
+  {%- if wa_href != blank -%}
+    <a href="{{ wa_href }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></span></a>
+  {%- endif -%}
+  {%- if phone_href != blank -%}
+    <a href="{{ phone_href }}" class="header__contact-phone">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ phone }}</span></a>
+  {%- endif -%}
+</div>
+{%- endif -%}

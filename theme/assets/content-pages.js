@@ -14,6 +14,30 @@
   };
   const smooth = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 
+  /* In-page link of a topic nav or table of contents: scroll the target to just below the header as it will be when the
+     scroll ends (a 'scroll-up' header hides going down and shows going up; a native jump would end under it or a header
+     height too low), set the hash and move focus to the target. Returns true when it handled the click. */
+  const jump = (a, e) => {
+    if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return false;
+    let id = '';
+    try {
+      id = decodeURIComponent(a.hash.slice(1));
+    } catch (err) {}
+    const el = id && a.pathname === location.pathname && document.getElementById(id);
+    if (!el) return false;
+    e.preventDefault();
+    const hdr = document.querySelector('sticky-header');
+    const mode = hdr ? hdr.dataset.sticky : 'none';
+    const y = window.scrollY;
+    let dest = el.getBoundingClientRect().top + y - (parseFloat(getComputedStyle(el).scrollMarginTop) || 16);
+    if (hdr && mode && mode !== 'none' && (mode === 'always' || dest < y || dest <= hdr.offsetHeight * 2)) dest -= hdr.offsetHeight;
+    if (location.hash !== a.hash) history.pushState(null, '', a.hash);
+    window.scrollTo({ top: Math.max(0, Math.round(dest)), behavior: smooth() });
+    if (!el.matches('a[href],button,input,select,textarea,summary,[tabindex]')) el.setAttribute('tabindex', '-1');
+    el.focus({ preventScroll: true });
+    return true;
+  };
+
   /* Scrollspy: aria-current on the link of the last target whose top passed 30% of the viewport. A target that was just
      navigated to (#hash, top near the top of the viewport) wins over a short next section; at the end of the page the
      hash target, else the last visible target, is current. Before the first target is reached nothing is current,
@@ -26,8 +50,10 @@
       raf = 0;
       const vh = window.innerHeight;
       const line = vh * 0.3;
-      /* a target scrolled to by its link stops at its scroll-margin-top (below the sticky header): that counts as reached */
-      const reach = (t) => Math.max(line, (parseFloat(getComputedStyle(t).scrollMarginTop) || 0) + 8);
+      /* a target scrolled to by its link stops below the sticky header (html scroll-padding-top + its scroll-margin-top):
+         that counts as reached */
+      const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const reach = (t) => Math.max(line, pad + (parseFloat(getComputedStyle(t).scrollMarginTop) || 0) + 8);
       const shown = targets.filter((t) => t.getClientRects().length);
       let cur = null;
       for (const t of shown) {
@@ -59,6 +85,7 @@
       }
     };
     const queue = () => raf || (raf = requestAnimationFrame(update));
+    links.forEach((a) => a.addEventListener('click', (e) => jump(a, e) && queue()));
     window.addEventListener('scroll', queue, { passive: true });
     window.addEventListener('resize', queue, { passive: true });
     window.addEventListener('hashchange', queue);
@@ -109,12 +136,17 @@
             }
           });
         }
-        this.addEventListener('click', (e) => {
-          if (e.target.closest('[data-faq-nav]') && this.input && this.input.value) {
-            this.input.value = '';
-            this.filter();
-          }
-        });
+        /* capture: the filter is cleared before the nav link measures where its topic is */
+        this.addEventListener(
+          'click',
+          (e) => {
+            if (e.target.closest('[data-faq-nav]') && this.input && this.input.value) {
+              this.input.value = '';
+              this.filter();
+            }
+          },
+          true
+        );
         const chips = this.querySelector('.faq-help__chips');
         const navLinks = [...this.querySelectorAll('.faq-help__nav a, .faq-help__chips a')];
         spy(navLinks, this.groups.filter((g) => g.id), {
@@ -164,11 +196,16 @@
             }
           })
           .filter(Boolean);
+        /* capture: the fold closes before the link measures where its heading is */
+        this.addEventListener(
+          'click',
+          (e) => {
+            const d = e.target.closest('a') && this.querySelector('details[open]');
+            if (d) d.open = false;
+          },
+          true
+        );
         spy(links, targets);
-        this.addEventListener('click', (e) => {
-          const d = e.target.closest('a') && this.querySelector('details[open]');
-          if (d) d.open = false;
-        });
       }
     }
   );

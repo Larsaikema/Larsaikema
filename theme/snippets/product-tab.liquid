@@ -146,7 +146,6 @@
     {%- when 'downloads' -%}
       {%- assign files = product.metafields.custom.downloads.value -%}
       {%- if files != blank and files.size > 0 -%}
-        <script src="{{ 'download-size.js' | asset_url }}" defer></script>
         <ul class="downloads" role="list" data-downloads>
           {%- assign dl_title = product.title | replace: ' x ', ' × ' -%}
           {%- for f in files -%}

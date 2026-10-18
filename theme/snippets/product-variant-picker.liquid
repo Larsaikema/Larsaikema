@@ -17,9 +17,15 @@
   fetches the section (Section Rendering API, cached) and swaps the [data-dynamic] parts and option availability, then
   emits 'variant:rendered' ({ failed: true } when the fetch fails) and announces option, price and stock (WCAG 4.1.3).
   Details band: specs/downloads are accordions on phones and open cards with an h2 from 990 px; the description is
-  clamped on phones ('Lees verder'); in-page links to an accordion (#ProductQuote) open and focus it. Backorder / lead
+  clamped on phones ('Lees verder', the clamp ending just before a heading near 26em, else before a paragraph, never
+  halfway through a table); in-page links to an accordion (#ProductQuote) open and focus it. Backorder / lead
   time: 'Verwacht in huis: 3 – 10 nov' from the lead-time text ('Leverbaar over 2–3 weken', '5 werkdagen'; not when it
-  counts from something else, '… na akkoord drukproef'), the shipping days and transit (KK.delivery.compute).
+  counts from something else, '… na akkoord drukproef'), the shipping days and transit (KK.delivery.compute); the same
+  window drives 'Nodig op een vaste datum?' (snippets/product-delivery-need: 'Dat lukt' / 'Krap' / 'Dat halen we
+  waarschijnlijk niet', and the date goes into the offerte form's 'Gewenste leverdatum'). Download links
+  ([data-file-size-src]) get their file size ('· 687 kB') from one HEAD request once on screen. The swatch hover preview
+  follows pointermove, so a label re-rendered under a resting mouse never overrides a keyboard choice.
+  Both JS files have comments and spaces squeezed out (one statement per line) for the JS budget (70 KB per page).
 {%- endcomment -%}
 {%- liquid
   # sizes read '3 × 3 m' (non-breaking, like the product cards); option values themselves stay '3 x 3 m'
@@ -267,12 +273,20 @@
     {%- endif -%}
     {%- comment -%} the group is named by its name and value only ('Maat: 3 × 3 m'), not by the Maatgids link in the legend {%- endcomment -%}
     {%- capture opt_label_id -%}OptLabel-{{ section_id }}-{{ option_index }}{%- endcapture -%}
-    <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}" aria-labelledby="{{ opt_label_id }}">
+    {%- comment -%}
+      An option with one value and no sibling sizes (the 2 × 2 m Professional only comes in Polyester) reads as plain text,
+      'Uitvoering: Polyester', like Horizon: no one-pill radio group to choose from. Its checked radio stays (hidden) so
+      variant-picker.js still reads every option from its fieldset.
+    {%- endcomment -%}
+    {%- assign is_single = false -%}
+    {%- if option.values.size == 1 and with_siblings == false -%}{%- assign is_single = true -%}{%- assign is_swatch = false -%}{%- assign show_opt_prices = false -%}{%- endif -%}
+    <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}{% if is_single %} vp__option--single{% endif %}" data-option-index="{{ option_index }}" aria-labelledby="{{ opt_label_id }}">
       <legend class="vp__legend">
         <span id="{{ opt_label_id }}"><span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value | replace: ' x ', times_nb }}</span></span>
-        {%- if option_index == size_index and guide_page != blank -%}
+        {%- if option_index == size_index and guide_page != blank and is_single -%}
           <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
         {%- endif -%}
+        {%- if is_swatch and is_print != true -%}{%- render 'product-print-alt', product: product, block: block -%}{%- endif -%}
       </legend>
       {%- liquid
         # swatches: as many per row as fit (12 / 10 / 8 / 7 / 6 by width band), spread over the fewest rows so every row
@@ -287,7 +301,7 @@
           endfor
         endif
       -%}
-      <div class="vp__values"{% if sw_cols != blank %} style="{{ sw_cols }}"{% endif %}>
+      <div class="vp__values"{% if sw_cols != blank %} style="{{ sw_cols }}"{% endif %}{% if is_single %} hidden{% endif %}>
         {%- if with_siblings -%}{{ sib_before }}{%- endif -%}
         {%- for value in option.values -%}
           {%- capture input_id -%}Opt-{{ section_id }}-{{ option_index }}-{{ forloop.index0 }}{%- endcapture -%}
@@ -308,6 +322,14 @@
         {%- endfor -%}
         {%- if with_siblings -%}{{ sib_after }}{%- endif -%}
       </div>
+      {%- comment -%}
+        brand.md 7.2: the size guide link comes with its help line, under the sizes to choose from ('Twijfel je over de
+        maat? De maatgids rekent het voor je uit.'); a single fixed size keeps the short 'Maatgids' link in its legend
+      {%- endcomment -%}
+      {%- if option_index == size_index and guide_page != blank and is_single == false -%}
+        {%- assign gh = 'product.size_guide_help' | t -%}{%- assign gh_q = gh | split: '? ' | first -%}
+        <p class="vp__help">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}<span>{% if gh_q != gh %}<span class="vp__help-q">{{ gh_q }}? </span>{% assign gh = gh | remove_first: gh_q | remove_first: '? ' %}{% endif %}<a class="link" href="{{ guide_page.url }}">{{ gh }}</a></span></p>
+      {%- endif -%}
       {%- if vp_specs != blank -%}
         {%- assign on_lc = option.name | downcase | strip -%}
         {%- for value in option.values -%}

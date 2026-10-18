@@ -125,7 +125,9 @@ export function gardenPavilion(p = {}) {
         const w = L * frac;                    // stack width at the rail
         const tied = cur !== 'closed';
         const yTie = 1.05, vTie = 1 - yTie / yTopC;
-        const nF = Math.max(5, Math.round(w / 0.09));
+        const nF = Math.max(5, Math.round(w / 0.12));
+        const nB = Math.max(2, Math.round(nF / 2.6)); // broad folds that take over towards the hem
+        const bph = []; for (let k = 0; k <= nB + 1; k++) bph.push(rnd() * Math.PI * 2);
         const amps = [], phs = [];
         for (let k = 0; k <= nF + 1; k++) { amps.push(0.75 + 0.5 * rnd()); phs.push((rnd() - 0.5) * 0.5); }
         const nx = nF * 10, ny = 44;
@@ -137,15 +139,20 @@ export function gardenPavilion(p = {}) {
           if (!tied) wf = 1 + 0.12 * v * v;
           else if (v < vTie) { const t = v / vTie; wf = 1 - 0.42 * Math.sin(t * Math.PI / 2) ** 1.4; }
           else { const t = (v - vTie) / (1 - vTie); wf = 0.58 + 0.62 * Math.sin(t * Math.PI / 2) ** 0.9; }
-          // fold depth: tight rounded pleats at the rings, compressed at the band, deep and soft below
-          const amp = tied ? (v < vTie ? 0.032 + 0.012 * (v / vTie) : 0.038 + 0.03 * ((v - vTie) / (1 - vTie))) : 0.03 + 0.03 * v;
+          // round 3 (no hard zigzag): soft, shallow rounded folds at the rings that fade out below
+          // the band, where a few broad, irregular folds take over and fan out to the hem
+          const tB = tied ? (v < vTie ? 0 : (v - vTie) / (1 - vTie)) : v;
+          const ampF = tied ? (v < vTie ? 0.014 + 0.007 * (v / vTie) : 0.021 * (1 - 0.65 * tB)) : 0.016 * (1 - 0.45 * v);
+          const ampB = tied ? (v < vTie ? 0.003 + 0.004 * (v / vTie) : 0.007 + 0.03 * Math.pow(tB, 0.8)) : 0.004 + 0.026 * v;
           for (let i = 0; i <= nx; i++) {
             const u = i / nx;
             const fi = u * nF, k = Math.floor(fi), fr = fi - k;
-            const A = amp * (amps[k] * (1 - fr) + amps[k + 1] * fr);
-            // softer, longer folds towards the hem: the pleat phase drifts with height
-            const ph = (fi + (phs[k] * (1 - fr) + phs[k + 1] * fr) * v) * Math.PI * 2;
-            const z = A * (Math.sin(ph) * 0.85 + 0.15 * Math.sin(ph * 2 + 0.7 * v));
+            const sm = fr * fr * (3 - 2 * fr);
+            const A = ampF * (amps[k] * (1 - sm) + amps[k + 1] * sm);
+            const ph = (fi + (phs[k] * (1 - sm) + phs[k + 1] * sm) * v) * Math.PI * 2;
+            const bi = u * nB, kb = Math.floor(bi), bf = bi - kb, bs = bf * bf * (3 - 2 * bf);
+            const phB = bi * Math.PI * 2 + (bph[kb] * (1 - bs) + bph[kb + 1] * bs) * 0.35 + v * 1.3;
+            const z = A * Math.sin(ph) + ampB * (amps[kb] * 0.8) * Math.sin(phB);
             const sLoc = u * w * wf;
             const s = end === 0 ? sLoc : L - sLoc;
             const pool = y < 0.025 ? (0.025 - y) * 1.6 : 0;

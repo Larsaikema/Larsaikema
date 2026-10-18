@@ -3,13 +3,17 @@
 .utility-bar{font-size:13px;line-height:1.2}
 @media (max-width:374px){.utility-bar{font-size:12px}}
 .utility-bar__inner{position:relative;display:flex;align-items:center;gap:8px;min-height:44px}
-.utility-bar__usps{position:relative;flex:1;min-width:0;height:44px;display:flex;align-items:center;justify-content:center;gap:0 32px;padding-inline:30px;overflow:hidden}
+.utility-bar__usps{position:relative;flex:1;min-width:0;height:max(44px,var(--usp-h,0px));display:flex;align-items:center;justify-content:center;gap:0 32px;padding-inline:30px;overflow:hidden}
 .utility-bar__usp{flex:none;display:flex;align-items:center;gap:8px;max-width:100%;height:100%;white-space:nowrap;font-weight:var(--hsb)}
 .utility-bar__usp>a{display:flex;align-items:center;gap:8px;min-width:0;height:100%;min-height:44px}
 .utility-bar__usp span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.utility-bar__usp.is-wrap,.utility-bar__usps:not([data-paged])>.is-active{white-space:normal;line-height:1.25}
+.utility-bar__usp.is-wrap{padding-block:4px}
+.utility-bar__usp.is-wrap>a{min-height:0}
+@media (max-width:989px){.utility-bar__usps:not([data-paged]){height:auto;min-height:44px}}
 .utility-bar__usp:not(.is-active){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .utility-bar__usp[hidden]{display:none!important}
-.utility-bar__usps.is-measuring>.utility-bar__usp{position:absolute;visibility:hidden;width:auto;height:auto;clip-path:none;max-width:none}
+.utility-bar__usps.is-measuring>.utility-bar__usp{position:absolute;visibility:hidden;width:auto;height:auto;clip-path:none;max-width:none;white-space:nowrap;transition:none!important}
 .utility-bar__usp .icon{flex:none}
 .utility-bar a{text-decoration:none}
 .utility-bar a:hover{text-decoration:underline}
@@ -21,7 +25,7 @@
 @media (min-width:990px){
 .utility-bar{font-size:13.5px}
 .utility-bar__inner{gap:32px;min-height:36px}
-.utility-bar__usps{flex-wrap:wrap;justify-content:flex-start;height:36px;padding:0}
+.utility-bar__usps{flex-wrap:wrap;justify-content:flex-start;height:max(36px,var(--usp-h,0px));padding:0}
 .utility-bar__usp>a{min-height:36px}
 .utility-bar__ctrl{width:36px;height:36px}
 .utility-bar__usps:not([data-paged])>*{position:static;width:auto;height:auto;clip-path:none}

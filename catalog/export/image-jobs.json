@@ -1,15 +1,15 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 557,
+  "jobs": 597,
   "by_priority": {
-   "1": 153,
-   "2": 155,
-   "3": 249
+   "1": 163,
+   "2": 182,
+   "3": 252
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 507,
+   "existing": 547,
    "generated": 1,
    "needs-model": 5,
    "needs-param": 41
@@ -18,9 +18,9 @@
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 545
+   "product": 585
   },
-  "already_present": 481
+  "already_present": 538
  },
  "jobs": [
   {
@@ -624,7 +624,7 @@
     {
      "handle": "biertafelset",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -649,7 +649,7 @@
       "position": [
        0,
        0,
-       -1.2
+       -1.9
       ]
      },
      {
@@ -669,7 +669,7 @@
       "position": [
        0,
        0,
-       1.2
+       1.9
       ]
      }
     ],
@@ -682,7 +682,7 @@
     {
      "handle": "biertafelsets-10-stuks",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -898,6 +898,37 @@
      "handle": "dakzeil-partytent-buizenframe",
      "role": "hero",
      "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "dimmer-voor-prikkabel-stekkerdimmer.webp",
+   "out": "catalog/images/dimmer-voor-prikkabel-stekkerdimmer.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "dimmer"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stekkerdimmer met draaiknop en randaarde-contact, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "dimmer-voor-prikkabel",
+     "role": "hero",
+     "variant": true
     }
    ],
    "exists": true,
@@ -1756,6 +1787,37 @@
    "draft": false
   },
   {
+   "file": "koppelgoot-stretchtent-hero.webp",
+   "out": "catalog/images/koppelgoot-stretchtent-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "rainGutter",
+   "model_status": "existing",
+   "spec": {
+    "model": "rainGutter",
+    "params": {
+     "length": 6,
+     "color": "zwart",
+     "width": 0.6
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Koppelgoot stretchtent van zwart PVC, opgerold, het losse eind open als goot met klittenband langs de randen",
+   "alt_hint": "opgerold, het losse eind open als goot",
+   "used_by": [
+    {
+     "handle": "koppelgoot-stretchtent",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "koppelset-easy-up-hero.webp",
    "out": "catalog/images/koppelset-easy-up-hero.webp",
    "kind": "product",
@@ -2262,15 +2324,14 @@
     "params": {
      "parts": [
       "fitting",
-      "eindkap",
-      "dimmer"
+      "eindkap"
      ]
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Onderdelen voor prikkabel en lichtslang: E27-fitting, eindkap en stekkerdimmer",
-   "alt_hint": null,
+   "alt": "Onderdelen voor prikkabel en lichtslang: E27-prikfitting op een stuk rubberkabel en een eindkap",
+   "alt_hint": "E27-fitting en eindkap",
    "used_by": [
     {
      "handle": "onderdelen-prikkabel-en-lichtslang",
@@ -2445,7 +2506,7 @@
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "opblaasbare-partytent-3x3-waterpoten",
+     "handle": "opblaasbare-partytent-met-waterpoten",
      "role": "hero",
      "variant": false
     }
@@ -2613,6 +2674,55 @@
    "draft": false
   },
   {
+   "file": "pakket-10-ronde-klaptafels-met-transportkar-hero.webp",
+   "out": "catalog/images/pakket-10-ronde-klaptafels-met-transportkar-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "items",
+   "model_status": "existing",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "rond",
+      "loaded": 9,
+      "diameter": 1.8,
+      "position": [
+       -0.9,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "klaptafel",
+      "shape": "rond",
+      "diameter": 1.8,
+      "position": [
+       1.0,
+       0,
+       0.35
+      ]
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 9 ingeklapte ronde klaptafels en één opgezette ronde klaptafel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-10-ronde-klaptafels-met-transportkar",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "pakket-24-barkrukken-met-transportkar-zwart-hero.webp",
    "out": "catalog/images/pakket-24-barkrukken-met-transportkar-zwart-hero.webp",
    "kind": "product",
@@ -2730,6 +2840,58 @@
    "used_by": [
     {
      "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "pakket-40-stapelstoelen-met-transportkar-zwart-hero.webp",
+   "out": "catalog/images/pakket-40-stapelstoelen-met-transportkar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "items",
+   "model_status": "existing",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 40,
+      "loaded": 39,
+      "chairStyle": "metaal",
+      "chairColor": "zwart",
+      "position": [
+       -0.45,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "zwart",
+      "position": [
+       0.75,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 4 stapels zwarte metalen stapelstoelen en één losse stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-40-stapelstoelen-met-transportkar",
      "role": "hero",
      "variant": true
     }
@@ -4109,7 +4271,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4145,6 +4307,35 @@
      "handle": "stretchdoek-los",
      "role": "hero",
      "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "tentelastieken-met-bal-hero.webp",
+   "out": "catalog/images/tentelastieken-met-bal-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "tentElastics",
+   "model_status": "existing",
+   "spec": {
+    "model": "tentElastics",
+    "params": {
+     "count": 6
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Tentelastieken met zwarte bal, een greep losse lussen, schuin van boven",
+   "alt_hint": "een greep elastieken met bal",
+   "used_by": [
+    {
+     "handle": "tentelastieken-met-bal",
+     "role": "hero",
+     "variant": false
     }
    ],
    "exists": true,
@@ -4289,6 +4480,37 @@
    "draft": false
   },
   {
+   "file": "tijdschakelaar-voor-prikkabel-hero.webp",
+   "out": "catalog/images/tijdschakelaar-voor-prikkabel-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "timer"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Tijdschakelaar met 24-uursklok en pinnen, randaarde-contact eronder, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "tijdschakelaar-voor-prikkabel",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "topcover-stretch-statafel-zwart-hero.webp",
    "out": "catalog/images/topcover-stretch-statafel-zwart-hero.webp",
    "kind": "product",
@@ -4315,6 +4537,36 @@
      "handle": "topcover-stretch-statafel",
      "role": "hero",
      "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-biertafelsets-hero.webp",
+   "out": "catalog/images/transportkar-biertafelsets-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "biertafel",
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor biertafelsets, leeg, lang rek met opstaande kopse kanten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "transportkar-biertafelsets",
+     "role": "hero",
+     "variant": false
     }
    ],
    "exists": true,
@@ -4351,6 +4603,67 @@
    "draft": false
   },
   {
+   "file": "transportkar-ronde-klaptafels-hero.webp",
+   "out": "catalog/images/transportkar-ronde-klaptafels-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "rond",
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor ronde klaptafels, leeg, met dragers en duwbeugel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "transportkar-ronde-klaptafels",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-stapelstoelen-20-hero.webp",
+   "out": "catalog/images/transportkar-stapelstoelen-20-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "stapelstoel",
+     "chairs": 20,
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor 20 stapelstoelen, leeg, met duwbeugel en zwenkwielen, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "transportkar-stapelstoelen",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "transportkar-statafels-hero.webp",
    "out": "catalog/images/transportkar-statafels-hero.webp",
    "kind": "product",
@@ -4376,6 +4689,35 @@
      "handle": "transportkar-statafels",
      "role": "hero",
      "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-terrastafels-hero.webp",
+   "out": "catalog/images/transportkar-terrastafels-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "terras"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor terrastafels, leeg, met rail en duwbeugel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "transportkar-terrastafels",
+     "role": "hero",
+     "variant": false
     }
    ],
    "exists": true,
@@ -4546,7 +4888,7 @@
    "alt_hint": "set van 4 (2 platen van 7,5 kg per poot)",
    "used_by": [
     {
-     "handle": "voetgewicht-easy-up-15-kg",
+     "handle": "voetgewicht-partytent-15-kg",
      "role": "hero",
      "variant": false
     }
@@ -4776,6 +5118,11 @@
      "handle": "zijwand-easy-up-dicht",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -5285,8 +5632,39 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "dimmer-voor-prikkabel-afstandsbediening.webp",
+   "out": "catalog/images/dimmer-voor-prikkabel-afstandsbediening.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "dimmer-ab"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stekkerdimmer met afstandsbediening ervoor, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "dimmer-voor-prikkabel",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-antraciet-hero.webp",
@@ -6256,11 +6634,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -6330,11 +6703,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -7889,6 +8257,411 @@
    "draft": false
   },
   {
+   "file": "haringen-en-bevestigingsmateriaal-partytent-draaiharingen-30-cm.webp",
+   "out": "catalog/images/haringen-en-bevestigingsmateriaal-partytent-draaiharingen-30-cm.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "miscParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "miscParts",
+    "params": {
+     "parts": [
+      "draaiharing"
+     ],
+     "count": 4
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "4 draaiharingen van 30 cm, verzinkt staal, spiraal met oog",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "haringen-en-bevestigingsmateriaal-partytent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "haringen-en-bevestigingsmateriaal-partytent-haringen-18-cm-voor-wanden.webp",
+   "out": "catalog/images/haringen-en-bevestigingsmateriaal-partytent-haringen-18-cm-voor-wanden.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "haringen",
+   "model_status": "existing",
+   "spec": {
+    "model": "haringen",
+    "params": {
+     "count": 10,
+     "length": 0.18,
+     "type": "wand"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "10 wandharingen van 18 cm, verzinkt staal met haak en rode stopper",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "haringen-en-bevestigingsmateriaal-partytent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "haringen-en-bevestigingsmateriaal-partytent-lange-haring-100-cm.webp",
+   "out": "catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-100-cm.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "haringen",
+   "model_status": "existing",
+   "spec": {
+    "model": "haringen",
+    "params": {
+     "count": 1,
+     "length": 1.0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Lange haring van 100 cm, thermisch verzinkt hoekijzer met gelaste haak",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "haringen-en-bevestigingsmateriaal-partytent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "haringen-en-bevestigingsmateriaal-partytent-lange-haring-50-cm.webp",
+   "out": "catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-50-cm.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "haringen",
+   "model_status": "existing",
+   "spec": {
+    "model": "haringen",
+    "params": {
+     "count": 1,
+     "length": 0.5
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Lange haring van 50 cm, thermisch verzinkt hoekijzer met gelaste haak",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "haringen-en-bevestigingsmateriaal-partytent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "haringen-en-bevestigingsmateriaal-partytent-lange-haring-75-cm.webp",
+   "out": "catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-75-cm.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "haringen",
+   "model_status": "existing",
+   "spec": {
+    "model": "haringen",
+    "params": {
+     "count": 1,
+     "length": 0.75
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Lange haring van 75 cm, thermisch verzinkt hoekijzer met gelaste haak",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "haringen-en-bevestigingsmateriaal-partytent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-b159.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-b159.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "buis"
+     ],
+     "tubeLength": 1.59
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Buis 38 mm van 159 cm, verzinkt staal",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-b192.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-b192.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "buis"
+     ],
+     "tubeLength": 1.92
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Buis 38 mm van 192 cm, verzinkt staal",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-b216.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-b216.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "buis"
+     ],
+     "tubeLength": 2.16
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Buis 38 mm van 216 cm, verzinkt staal",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-k2.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-k2.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "2-weg"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Koppelstuk 2-weg van 20 cm, verzinkt, met borgbouten",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-k3.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-k3.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "3-weg"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Koppelstuk 3-weg 140° voor de nok, verzinkt, met borgbouten",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-k3g.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-k3g.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "3-weg-grond"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Koppelstuk 3-weg voor het grondframe, verzinkt, met borgbouten",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-k4.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-k4.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "4-weg"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Koppelstuk 4-weg 120° voor de dakrand, verzinkt, met borgbouten",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "koppelstukken-en-buizen-38-mm-s212.webp",
+   "out": "catalog/images/koppelstukken-en-buizen-38-mm-s212.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "tubeFittings",
+   "model_status": "existing",
+   "spec": {
+    "model": "tubeFittings",
+    "params": {
+     "parts": [
+      "buis"
+     ],
+     "tubeLength": 2.12
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Staander 38 mm van 212 cm, verzinkt staal",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "koppelstukken-en-buizen-38-mm",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "los-frame-easy-up-professional-detail.webp",
    "out": "catalog/images/los-frame-easy-up-professional-detail.webp",
    "kind": "product",
@@ -8067,6 +8840,317 @@
    "used_by": [
     {
      "handle": "marktkraam-2-m",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-aansluitsnoer-lichtslang-met-stekker.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-aansluitsnoer-lichtslang-met-stekker.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "miscParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "miscParts",
+    "params": {
+     "parts": [
+      "aansluitsnoer"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Aansluitsnoer voor de LED-lichtslang: zwart snoer met stekker en doorzichtige connector",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-e27-fitting-wit.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-e27-fitting-wit.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "fitting"
+     ],
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "E27-prikfitting wit op een stuk rubberkabel, met de lampopening naar voren",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-e27-fitting-zwart.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-e27-fitting-zwart.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "fitting"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "E27-prikfitting zwart op een stuk rubberkabel, met de lampopening naar voren",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-eindkap.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-eindkap.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "eindkap"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Rubberen eindkap voor het open eind van een prikkabel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-rubberkabel-per-meter-zwart.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-rubberkabel-per-meter-zwart.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "miscParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "miscParts",
+    "params": {
+     "parts": [
+      "kabel"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Platte zwarte rubberkabel 2 × 1,5 mm², opgerold, met de koperen aders zichtbaar aan het eind",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-verlengkabel-10-m-zwart.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-verlengkabel-10-m-zwart.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "miscParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "miscParts",
+    "params": {
+     "parts": [
+      "verlengkabel"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verlengkabel 10 m zwart, opgerold, met randaardestekker en spatwaterdichte contactdoos met klep",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stretchtent-oogmoeren-m12.webp",
+   "out": "catalog/images/onderdelen-stretchtent-oogmoeren-m12.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "stretchParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "stretchParts",
+    "params": {
+     "parts": [
+      "oogmoeren"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Vier oogmoeren M12, verzinkt",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stretchtent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stretchtent-paalverbinder-met-bout.webp",
+   "out": "catalog/images/onderdelen-stretchtent-paalverbinder-met-bout.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "stretchParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "stretchParts",
+    "params": {
+     "parts": [
+      "paalverbinder"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Paalverbinder met bout M12 en oogmoer, verzinkt",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stretchtent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stretchtent-spanband-met-ratel.webp",
+   "out": "catalog/images/onderdelen-stretchtent-spanband-met-ratel.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "stretchParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "stretchParts",
+    "params": {
+     "parts": [
+      "spanband"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Spanband met ratel, 35 mm breed, opgerold met haak",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stretchtent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stretchtent-touwenset-3-punts-met-rvs-karabijnen.webp",
+   "out": "catalog/images/onderdelen-stretchtent-touwenset-3-punts-met-rvs-karabijnen.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "stretchParts",
+   "model_status": "existing",
+   "spec": {
+    "model": "stretchParts",
+    "params": {
+     "parts": [
+      "touwenset"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Touwenset 3-punts: drie touwen aan één RVS ring met karabijnen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stretchtent",
      "role": "variant",
      "variant": true
     }
@@ -8757,6 +9841,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -8787,6 +9906,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -8888,6 +10042,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -8918,6 +10107,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9019,6 +10243,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9049,6 +10308,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9083,6 +10377,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9113,6 +10442,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9147,6 +10511,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9179,6 +10578,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9209,6 +10643,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9310,6 +10779,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9373,6 +10877,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9474,6 +11013,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9506,6 +11080,41 @@
      "handle": "statafelrok-stretch",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -9536,6 +11145,41 @@
    "used_by": [
     {
      "handle": "statafelrok-stretch",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-4-statafels-met-stretchrokken",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-5-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-15-statafels-stretchrokken-transportkar",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
     }
@@ -9938,6 +11582,104 @@
    "draft": false
   },
   {
+   "file": "transportkar-biertafelsets-gevuld.webp",
+   "out": "catalog/images/transportkar-biertafelsets-gevuld.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "biertafel",
+     "loaded": 10,
+     "tableWidth": 0.5
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 10 ingeklapte biertafelsets van 220 × 50 cm, tafels onderop en banken erop (sets niet inbegrepen)",
+   "alt_hint": "gevuld met 10 biertafelsets van 220 × 50 cm, tafels onder en banken erop (sets niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "transportkar-biertafelsets",
+     "role": "in-gebruik",
+     "variant": false
+    },
+    {
+     "handle": "biertafelsets-10-stuks",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-ronde-klaptafels-gevuld.webp",
+   "out": "catalog/images/transportkar-ronde-klaptafels-gevuld.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "rond",
+     "loaded": 10,
+     "diameter": 1.8
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 10 ingeklapte ronde klaptafels van Ø 180 cm op hun rand (tafels niet inbegrepen)",
+   "alt_hint": "gevuld met 10 ronde klaptafels van Ø 180 cm (tafels niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "transportkar-ronde-klaptafels",
+     "role": "in-gebruik",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-stapelstoelen-40-hero.webp",
+   "out": "catalog/images/transportkar-stapelstoelen-40-hero.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "stapelstoel",
+     "chairs": 40,
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor 40 stapelstoelen, leeg, breed plateau met duwbeugel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "transportkar-stapelstoelen",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "transportkar-statafels-gevuld.webp",
    "out": "catalog/images/transportkar-statafels-gevuld.webp",
    "kind": "product",
@@ -9993,7 +11735,7 @@
    "alt_hint": "twee platen om de poot van een easy-up (tent niet inbegrepen)",
    "used_by": [
     {
-     "handle": "voetgewicht-easy-up-15-kg",
+     "handle": "voetgewicht-partytent-15-kg",
      "role": "in-gebruik",
      "variant": false
     }
@@ -11277,7 +13019,7 @@
     {
      "handle": "biertafelset",
      "role": "variant",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -12803,8 +14545,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "elektrische-heater-partytent-in-tent.webp",
@@ -13117,7 +14859,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13150,7 +14892,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13183,7 +14925,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13216,7 +14958,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13249,7 +14991,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13282,7 +15024,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13755,7 +15497,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14302,7 +16044,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14643,7 +16385,7 @@
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "opblaasbare-partytent-3x3-waterpoten",
+     "handle": "opblaasbare-partytent-met-waterpoten",
      "role": "variant",
      "variant": false
     }
@@ -14675,7 +16417,7 @@
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "opblaasbare-partytent-3x3-waterpoten",
+     "handle": "opblaasbare-partytent-met-waterpoten",
      "role": "variant",
      "variant": false
     }
@@ -15431,6 +17173,110 @@
    "used_by": [
     {
      "handle": "pakket-24-barkrukken-met-transportkar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "pakket-40-stapelstoelen-met-transportkar-antraciet-hero.webp",
+   "out": "catalog/images/pakket-40-stapelstoelen-met-transportkar-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "items",
+   "model_status": "existing",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 40,
+      "loaded": 39,
+      "chairStyle": "metaal",
+      "chairColor": "antraciet",
+      "position": [
+       -0.45,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "antraciet",
+      "position": [
+       0.75,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 4 stapels antraciet metalen stapelstoelen en één losse stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-40-stapelstoelen-met-transportkar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "pakket-40-stapelstoelen-met-transportkar-wit-hero.webp",
+   "out": "catalog/images/pakket-40-stapelstoelen-met-transportkar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "items",
+   "model_status": "existing",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 40,
+      "loaded": 39,
+      "chairStyle": "metaal",
+      "chairColor": "wit",
+      "position": [
+       -0.45,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "wit",
+      "position": [
+       0.75,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 4 stapels witte metalen stapelstoelen en één losse stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-40-stapelstoelen-met-transportkar",
      "role": "variant",
      "variant": true
     }
@@ -17251,7 +19097,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17284,7 +19130,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17314,10 +19160,10 @@
     {
      "handle": "stretchhoes-statafel-vierkant-en-rechthoekig",
      "role": "variant",
-     "variant": false
+     "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18155,6 +20001,39 @@
    "draft": false
   },
   {
+   "file": "transportkar-stapelstoelen-40-gevuld.webp",
+   "out": "catalog/images/transportkar-stapelstoelen-40-gevuld.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "stapelstoel",
+     "chairs": 40,
+     "loaded": 40,
+     "chairStyle": "metaal",
+     "chairColor": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor 40 stapelstoelen met 4 stapels van 10 zwarte metalen stapelstoelen (stoelen niet inbegrepen)",
+   "alt_hint": "gevuld met 40 metalen stapelstoelen (stoelen niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "transportkar-stapelstoelen",
+     "role": "in-gebruik",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "transportkar-statafels-plateau.webp",
    "out": "catalog/images/transportkar-statafels-plateau.webp",
    "kind": "product",
@@ -18183,7 +20062,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18504,6 +20383,11 @@
      "handle": "zijwand-easy-up-dicht",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -18960,7 +20844,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18994,7 +20878,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {

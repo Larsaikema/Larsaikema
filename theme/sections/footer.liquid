@@ -68,6 +68,11 @@
               {%- if phone != blank -%}<li><a href="tel:{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a></li>{%- endif -%}
               {%- if settings.whatsapp != blank -%}<li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'contact.whatsapp_cta' | t }}</a></li>{%- endif -%}
               {%- if email != blank -%}<li><a href="mailto:{{ email }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ email }}</a></li>{%- endif -%}
+              {%- if pages.contact.id != blank -%}<li><a href="{{ pages.contact.url }}">{%- render 'icon', icon: 'chat', class: 'icon--sm' -%}{{ 'faq.ask_cta' | t }}</a></li>{%- endif -%}
+              {%- if settings.quote_page != blank -%}
+                {%- capture quote_ok -%}{%- render 'link-exists', url: settings.quote_page -%}{%- endcapture -%}
+                {%- if quote_ok == 'true' -%}<li><a href="{{ settings.quote_page }}">{%- render 'icon', icon: 'invoice', class: 'icon--sm' -%}{{ 'product.quote_cta' | t }}</a></li>{%- endif -%}
+              {%- endif -%}
             </ul>
             {%- if settings.openingstijden != blank -%}
               <p class="footer__hours"><span class="footer__label">{{ 'general.opening_hours' | t }}</span>{{ settings.openingstijden | newline_to_br }}</p>
@@ -141,9 +146,12 @@
           {%- endform -%}
         {%- endif -%}
         {%- if section.settings.show_payment and shop.enabled_payment_types.size > 0 -%}
-          <ul class="footer__payment" role="list" aria-label="{{ 'footer.payment' | t }}">
-            {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
-          </ul>
+          <div class="footer__pay">
+            <p class="footer__pay-label" aria-hidden="true">{%- render 'icon', icon: 'lock', class: 'icon--xs' -%}{{ 'product.pay_secure' | t }}</p>
+            <ul class="footer__payment" role="list" aria-label="{{ 'footer.payment' | t }}">
+              {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
+            </ul>
+          </div>
         {%- endif -%}
       </div>
     </div>

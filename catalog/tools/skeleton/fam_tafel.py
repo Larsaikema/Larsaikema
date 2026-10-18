@@ -261,7 +261,10 @@ def build():
            ['statafelrokken-hoezen.statafelrok-stretch'], 'textiel',
            'Stretchhoes voor de vierkante (stapelbare) en de rechthoekige statafel: maat = blad, strak tot de grond met voetzakken; wit, zwart of antraciet; staffel vanaf 10.',
            ['hoes vierkante statafel', 'stretchhoes statafel vierkant', 'hoes rechthoekige statafel'], {'note': 'geen referentieprijs gevonden; € 29,95 – € 52,95 naar oppervlak', 'ours': {m: v[0] for m, v in SQ.items()}},
-           vmap=vmap)
+           vmap=vmap,
+           # the rechthoekige zwarte hoezen show the rechthoekige render, not the square hero (merchandising review 3)
+           extra={'variant_image_sku': {f'KK-HOES-STV-{code(m)}-ZWA': 'stretchhoes-statafel-vierkant-en-rechthoekig-zwart-160x60.webp'
+                                        for m in ['120 x 60 cm', '120 x 70 cm', '160 x 60 cm']}})
     # round plates 2 cm under the blad; square and rectangular plates in the size of the vierkante / rechthoekige statafel and the terrastafel
     BP = {'Ø68 cm': 15.95, 'Ø78 cm': 16.95, 'Ø83 cm': 17.95, '60 x 60 cm': 16.95, '70 x 70 cm': 18.95, '80 x 80 cm': 19.95,
           '120 x 60 cm': 22.95, '120 x 70 cm': 23.95, '160 x 60 cm': 25.95, '182 x 75 cm': 26.95}

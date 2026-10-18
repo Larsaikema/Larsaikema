@@ -848,8 +848,8 @@
         {
          "title": "Voetgewicht per staander",
          "type": "product",
-         "url": "/products/voetgewicht-easy-up-15-kg",
-         "handle": "voetgewicht-easy-up-15-kg",
+         "url": "/products/voetgewicht-partytent-15-kg",
+         "handle": "voetgewicht-partytent-15-kg",
          "admin_type": "PRODUCT"
         },
         {
@@ -897,10 +897,17 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Spanmateriaal en koppelgoten",
+         "title": "Spanmateriaal stretchtent",
          "type": "product",
          "url": "/products/onderdelen-stretchtent",
          "handle": "onderdelen-stretchtent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Koppelgoot stretchtent",
+         "type": "product",
+         "url": "/products/koppelgoot-stretchtent",
+         "handle": "koppelgoot-stretchtent",
          "admin_type": "PRODUCT"
         },
         {
@@ -1191,10 +1198,38 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Voor klaptafels en stoelen",
+         "title": "Voor klaptafels, barkrukken en klapstoelen",
          "type": "product",
          "url": "/products/transportkar-klaptafels-en-stoelen",
          "handle": "transportkar-klaptafels-en-stoelen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor stapelstoelen",
+         "type": "product",
+         "url": "/products/transportkar-stapelstoelen",
+         "handle": "transportkar-stapelstoelen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor ronde klaptafels",
+         "type": "product",
+         "url": "/products/transportkar-ronde-klaptafels",
+         "handle": "transportkar-ronde-klaptafels",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor biertafelsets",
+         "type": "product",
+         "url": "/products/transportkar-biertafelsets",
+         "handle": "transportkar-biertafelsets",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor terrastafels",
+         "type": "product",
+         "url": "/products/transportkar-terrastafels",
+         "handle": "transportkar-terrastafels",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1334,10 +1369,24 @@
        "admin_type": "PRODUCT",
        "items": [
         {
-         "title": "Fittingen, dimmers, timers en kabel per meter",
+         "title": "Fittingen, eindkap en kabel per meter",
          "type": "product",
          "url": "/products/onderdelen-prikkabel-en-lichtslang",
          "handle": "onderdelen-prikkabel-en-lichtslang",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Dimmer",
+         "type": "product",
+         "url": "/products/dimmer-voor-prikkabel",
+         "handle": "dimmer-voor-prikkabel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Tijdschakelaar",
+         "type": "product",
+         "url": "/products/tijdschakelaar-voor-prikkabel",
+         "handle": "tijdschakelaar-voor-prikkabel",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1437,6 +1486,20 @@
          "type": "product",
          "url": "/products/pakket-24-barkrukken-met-transportkar",
          "handle": "pakket-24-barkrukken-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "40 stapelstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-40-stapelstoelen-met-transportkar",
+         "handle": "pakket-40-stapelstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "10 ronde klaptafels met kar",
+         "type": "product",
+         "url": "/products/pakket-10-ronde-klaptafels-met-transportkar",
+         "handle": "pakket-10-ronde-klaptafels-met-transportkar",
          "admin_type": "PRODUCT"
         },
         {

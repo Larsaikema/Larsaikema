@@ -396,8 +396,12 @@ def run(verbose=False):
         vs = p['variants']
         if not vs:
             rep.e('variants', f'{a}: no variants')
-        if len(vs) > 100:
-            rep.w('variants', f'{a}: {len(vs)} variants (> 100 needs the extended variant limit)')
+        # Shopify takes up to 2048 variants per product; Liquid's product.variants returns at most 250 and the theme builds
+        # its variant picker from it (merchandising review 3: the statafelpakketten have 216)
+        if len(vs) > 2048:
+            rep.e('variants', f'{a}: {len(vs)} variants (> 2048, the Shopify maximum)')
+        elif len(vs) > 250:
+            rep.w('variants', f'{a}: {len(vs)} variants (> 250: Liquid product.variants returns only the first 250)')
         combos = []
         used = defaultdict(set)
         img_files = [i['file'] for i in p['images']]

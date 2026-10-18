@@ -3,19 +3,31 @@
   its mobile menu panel. The header's 'Megamenu-promotie' block for that item wins (theme editor: image, or a brand render
   shipped with the theme while no image is chosen); without one, a collection item shows its own collection image with
   'Alles in …' and the product count. Nothing renders when there is neither.
+  The block's 'Bij menu-item' holds one or more titles separated by commas (the translated title too: 'Statafels,
+  Standing tables'); a title matches the link's title or its handle, case-insensitive.
   Params: link (top-level link), blocks (section.blocks), context ('mega' | 'drawer' | 'url': only print the link of the
-  item's promotion block, so the menu can leave out a link to the same page), collection_fallback (default true;
+  item's promotion block, so the menu can leave out a link to the same page | 'id': only print that block's id), collection_fallback (default true;
   false = only a promotion block, as in the mobile panel, whose first row already shows the collection image),
-  current + key (optional: the collection card is aria-current when the menu key of the shown page is this item's key)
+  current + key (optional: the collection card is aria-current when the menu key of the shown page is this item's key).
+  In the mega menu the collection card (and a promotion card that links to the item's own page) repeats the panel's
+  'Alles in …' link, so it is left out of the tab order and the accessibility tree (one link per destination for
+  keyboard and screen readers; a mouse can still click the picture).
 {%- endcomment -%}
 {%- liquid
   assign hp_block = nil
   assign hp_title = link.title | strip | downcase
   for hp_b in blocks
     if hp_b.type == 'promo'
-      assign hp_for = hp_b.settings.menu_item | strip | downcase
-      if hp_for == hp_title
-        assign hp_block = hp_b
+      assign hp_for = hp_b.settings.menu_item | downcase | split: ','
+      for hp_f in hp_for
+        assign hp_f = hp_f | strip
+        assign hp_h = hp_f | handleize
+        if hp_f != blank and hp_f == hp_title or hp_f != blank and hp_h == link.handle
+          assign hp_block = hp_b
+          break
+        endif
+      endfor
+      if hp_block
         break
       endif
     endif
@@ -30,9 +42,12 @@
 -%}
 {%- if context == 'url' -%}
   {%- if hp_block -%}{{ hp_block.settings.link }}{%- endif -%}
+{%- elsif context == 'id' -%}
+  {%- if hp_block -%}{{ hp_block.id }}{%- endif -%}
 {%- elsif hp_block -%}
   {%- comment -%} the block's editor attributes go on the mega menu card only: one element per block id {%- endcomment -%}
-  <a class="hpromo hpromo--{{ context }}" href="{{ hp_block.settings.link | default: link.url }}"{% if context == 'mega' %} {{ hp_block.shopify_attributes }}{% endif %}>
+  {%- assign hp_href = hp_block.settings.link | default: link.url -%}
+  <a class="hpromo hpromo--{{ context }}" href="{{ hp_href }}"{% if context == 'mega' %}{% if hp_href == link.url %} tabindex="-1" aria-hidden="true"{% endif %} {{ hp_block.shopify_attributes }}{% endif %}>
     <span class="hpromo__media">
       {%- if hp_block.settings.image != blank -%}
         {{- hp_block.settings.image | image_url: width: 900 | image_tag: widths: hp_widths, sizes: hp_sizes, loading: 'lazy', alt: '' -}}
@@ -48,7 +63,7 @@
     </span>
   </a>
 {%- elsif collection_fallback != false and link.type == 'collection_link' and link.object.image != blank -%}
-  <a class="hpromo hpromo--{{ context }} hpromo--collection" href="{{ link.url }}"{% if key != blank and current == key %} aria-current="page"{% endif %}>
+  <a class="hpromo hpromo--{{ context }} hpromo--collection" href="{{ link.url }}"{% if context == 'mega' %} tabindex="-1" aria-hidden="true"{% elsif key != blank and current == key %} aria-current="page"{% endif %}>
     <span class="hpromo__media">
       {{- link.object.image | image_url: width: 900 | image_tag: widths: hp_widths, sizes: hp_sizes, loading: 'lazy', alt: '' -}}
     </span>

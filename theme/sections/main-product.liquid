@@ -166,8 +166,9 @@
               {%- for pass in (1..2) -%}
                 {%- for media in product.media -%}
                   {%- if pass == 1 -%}{%- unless media.id == lead_media_id -%}{%- continue -%}{%- endunless -%}{%- elsif media.id == lead_media_id -%}{%- continue -%}{%- endif -%}
+                  {%- assign thumb_n = pos | plus: 1 -%}
                   <li>
-                    <button type="button" class="gallery__thumb" data-gallery-thumb="{{ pos }}" data-media-type="{{ media.media_type }}" aria-label="{{ 'product.gallery_thumb' | t: index: pos | plus: 1 }}"{% if pos == featured_index %} aria-current="true"{% endif %}>
+                    <button type="button" class="gallery__thumb" data-gallery-thumb="{{ pos }}" data-media-type="{{ media.media_type }}" aria-label="{{ 'product.gallery_thumb' | t: index: thumb_n }}"{% if pos == featured_index %} aria-current="true"{% endif %}>
                       {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '', widths: '90, 180', sizes: '90px' }}
                     </button>
                   </li>
@@ -279,6 +280,7 @@
                   <div class="product__delivery" data-dynamic="delivery" {{ block.shopify_attributes }}>
                     {%- assign sooner_url = '' -%}{%- if nudge_url == '#ProductQuote' -%}{%- assign sooner_url = nudge_url -%}{%- endif -%}
                     {%- render 'delivery-promise', product: product, variant: current_variant, style: 'full', print_active: print_active, sooner_url: sooner_url -%}
+                    {%- render 'product-delivery-need', product: product, variant: current_variant, block: block, section_id: section.id, sooner_url: sooner_url, print_active: print_active -%}
                     {%- render 'product-delivery-pack', product: product, variant: current_variant -%}
                   </div>
                   {%- if kf_labels != blank -%}{%- render 'product-keyfacts', product: product, labels: kf_labels, class: 'keyfacts--info' -%}{%- endif -%}
@@ -393,7 +395,7 @@
         </span>
         <div class="sticky-buy__info">
           <span class="sticky-buy__title">{{ product.title | replace: ' x ', ' × ' | replace: ' × ', ' × ' }}</span>
-          <span class="sticky-buy__variant" data-dynamic="sticky-variant">{% unless product.has_only_default_variant %}{{ current_variant.title | replace: ' x ', ' × ' }}{% endunless %}</span>
+          <span class="sticky-buy__variant" data-dynamic="sticky-variant" data-qty="{{ 'product.sticky_qty' | t: n: '__N__' | escape }}" data-one="{{ 'product.sticky_extra_one' | t | escape }}" data-more="{{ 'product.sticky_extra_other' | t: n: '__N__' | escape }}">{% unless product.has_only_default_variant %}{{ current_variant.title | replace: ' x ', ' × ' }}{% endunless %}</span>
           {%- comment -%}
             'Op voorraad' from the delivery block when the variant ships from stock. A lead time or sold-out state is not
             repeated here: the bar only shows after the shopper scrolled past the buy button and the delivery card under
@@ -429,6 +431,7 @@
       { "type": "page", "id": "size_guide_page", "label": "Standaard maatgids-pagina", "info": "Per product te vervangen met custom.maatgids. De link staat alleen bij de maat-optie." },
       { "type": "text", "id": "size_option_names", "label": "Namen van maat-opties", "default": "Maat, Tafelmaat, Diameter, Afmeting, Formaat" },
       { "type": "checkbox", "id": "size_prices", "label": "Prijs onder elke maat tonen", "default": true },
+      { "type": "text", "id": "print_collections", "label": "Collecties met bedrukte versies ('Met jouw logo' bij Kleur)", "default": "bedrukte-partytenten, bedrukte-statafelhoezen", "info": "Handles, met komma's. Op een product zonder bedrukking staat naast 'Kleur' een link naar een bedrukbaar product uit deze collecties: hetzelfde producttype, met de meeste woorden uit de titel gemeen (Premium → Premium met logo). Leeg = geen link." },
       { "type": "text", "id": "hint_groups", "label": "Uitleg onder de gekozen optie", "default": "Pasvorm", "info": "Specificatiegroepen (custom.specificaties) waarvan een regel met als label een optiewaarde onder die optie verschijnt, bv. 'Ø80-85 cm' → 'Bladen Ø 80–85 cm, tafelhoogte 105–115 cm'. Een groep met de naam van de optie zelf (Uitvoering) telt altijd mee." }
     ] },
     { "type": "bundle", "name": "Pakketinhoud", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest custom.componenten (lijst van varianten) en custom.component_aantallen per variant, of op productniveau. Toont de onderdelen en wat je bespaart ten opzichte van de losse prijzen." } ] },
@@ -438,7 +441,8 @@
     ] },
     { "type": "included", "name": "Wat zit erin", "limit": 1, "settings": [
       { "type": "paragraph", "content": "Leest custom.included en custom.excluded (lijsten met tekst)." },
-      { "type": "text", "id": "heading", "label": "Kop", "default": "Wat zit erin" }
+      { "type": "text", "id": "heading", "label": "Kop", "default": "Wat zit erin" },
+      { "type": "textarea", "id": "parts_links", "label": "Link naar losse onderdelen", "default": "easy-up-partytenten: easy-up-onderdelen\npartytenten-buizenframe: buizenframe-onderdelen\nstretchtenten: onderdelen-stretch-ster-en-opblaasbare-tenten\nster-en-opblaasbare-tenten: onderdelen-stretch-ster-en-opblaasbare-tenten\nstatafels: statafel-onderdelen", "info": "Per regel 'collectie van het product: collectie met onderdelen'. De eerste die past, geeft 'Iets kwijt of kapot? Bekijk de losse onderdelen'." }
     ] },
     { "type": "compare", "name": "Uitvoeringen vergelijken", "limit": 1, "settings": [
       { "type": "paragraph", "content": "Toont de producten uit de gekozen collectie met dezelfde custom.vergelijk_groep (bv. Premium en Professional 3 × 3 m), met specregel, gewicht, garantie en prijs." },
@@ -470,16 +474,20 @@
       { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false },
       { "type": "checkbox", "id": "notify_form", "label": "'Mail me als dit weer op voorraad is' bij uitverkocht", "default": true, "info": "Zonder app is dit het contactformulier: elke aanvraag komt als mail bij je binnen en jij mailt de klant zodra er weer voorraad is. Met een back-in-stock-app: zet dit uit en voeg het app-blok toe." }
     ] },
-    { "type": "delivery", "name": "Voorraad en levering", "limit": 1, "settings": [] },
+    { "type": "delivery", "name": "Voorraad en levering", "limit": 1, "settings": [
+      { "type": "text", "id": "backorder_note", "label": "Uitleg bij nabestelling", "default": "Niet uit voorraad: deze uitvoering bestellen we voor je bij.", "info": "Onder 'Leverbaar over …' als de gekozen variant voorraad 0 heeft en toch te bestellen is (voorraadbeleid 'doorgaan'). Leeg = niet tonen. Varianten die wel op voorraad zijn staan er altijd achter." },
+      { "type": "checkbox", "id": "show_need_date", "label": "'Nodig op een vaste datum?' tonen", "default": true, "info": "Bij nabestelling of levertijd: de klant vult een datum in en ziet of de verwachte levering past." }
+    ] },
     { "type": "usps", "name": "USP's", "limit": 1, "settings": [
       { "type": "textarea", "id": "fallback", "label": "Standaard-USP's (als custom.usps leeg is)", "default": "Snel in huis in NL & BE\nVeilig betalen met iDEAL of Bancontact" }
     ] },
     { "type": "b2b", "name": "Zakelijk / offerte", "limit": 1, "settings": [] },
     { "type": "text", "name": "Tekst", "settings": [ { "type": "richtext", "id": "text", "label": "Tekst" } ] },
     { "type": "quote_form", "name": "Offerteformulier", "limit": 1, "settings": [
-      { "type": "paragraph", "content": "Contactformulier met product en gekozen uitvoering ingevuld, plus bedrijfsnaam, KvK, btw-nummer, aantal en leverdatum. De Zakelijk-regel linkt hierheen." },
+      { "type": "paragraph", "content": "Contactformulier met product en gekozen uitvoering ingevuld, plus bedrijfsnaam, KvK, btw-nummer, land, aantal en leverdatum. De Zakelijk-regel linkt hierheen." },
       { "type": "text", "id": "heading", "label": "Kop", "default": "Offerte voor dit product" },
-      { "type": "text", "id": "text", "label": "Tekst", "default": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw." }
+      { "type": "text", "id": "text", "label": "Tekst", "default": "Meer stuks, op factuur of met je logo? Vul in wat je nodig hebt; je krijgt een offerte met prijzen excl. btw." },
+      { "type": "textarea", "id": "vat_note", "label": "Btw-uitleg bij levering buiten Nederland", "default": "Bedrijf in België of elders in de EU met een geldig btw-nummer? Dan krijg je een offerte zonder Nederlandse btw: de btw wordt verlegd (intracommunautaire levering).", "info": "Verschijnt zodra een ander land dan het thuisland gekozen is. Leeg = niet tonen. Laat je boekhouder dit bevestigen (docs/claims-to-confirm.md)." }
     ] },
     { "type": "collapsible_tab", "name": "Uitklapblok", "settings": [
       { "type": "text", "id": "heading", "label": "Kop", "default": "Beschrijving" },

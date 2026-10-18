@@ -66,7 +66,7 @@
           {%- render 'facets', results: collection, filters: coll_filters, section_id: section.id, open_count: 5, hidden_values: section.settings.hidden_filter_values, total: collection.products_count, scope: section.settings.filter_scope, handle: collection.handle -%}
         </div>
         <div class="facets-panel__foot">
-          <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link data-facets-clear>{{ 'collection.clear_all' | t }}</a>
+          <a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link data-facets-clear{% if active_filters == 0 %} hidden{% endif %}>{{ 'collection.clear_all' | t }}</a>
           <button type="button" class="btn js-only" data-facets-close data-show-results>{{ 'collection.show_results' | t: count: collection.products_count }}</button>
           {%- comment -%} without JavaScript the same button sends the filter form (a submit button here would be the form's
             default button and catch Enter in the price fields) {%- endcomment -%}
@@ -80,21 +80,32 @@
       {%- paginate collection.products by per_page -%}
       {%- liquid
         # Delivery line most cards on this page share. When more than half of them wait for the same thing ('Leverbaar over
-        # 2–3 weken'), it is said once above the grid with 'tenzij anders vermeld' and left off those cards, so the cards that
-        # differ (a print lead time, stock) stand out and the grid is not the same warning 14 times. Cards from 'Meer laden'
-        # follow the same rule (the style below matches their data-lead key). Only wait lines (stock--later) are
-        # gathered; 'Op voorraad' always stays on its card.
-        assign lead_keys = ''
+        # 2–3 weken'), it is said once above the grid (with 'tenzij anders vermeld' when other cards differ) and left off those
+        # cards, so the cards that differ stand out and the grid is not the same warning 14 times. Cards from 'Meer laden'
+        # follow the same rule (the style below matches their data-lead key). Only plain waits (stock--later) are gathered:
+        # 'Op voorraad' stays on its card, and so does a lead time that counts from something else ('10–15 werkdagen na
+        # akkoord drukproef'), whole. The line keeps the owner's own text; with JavaScript, facets.js adds the window the
+        # product page shows for the same wait ('verwacht in huis 3 – 10 nov'), counted by delivery-countdown.js from the
+        # same settings (cutoff, shipping days, carrier days, holidays, transit per class and market). A grid that mixes
+        # pakket and pallet gets the window that covers both.
+        assign lead_texts = ''
+        assign lead_transits = ''
         for product in collection.products
           capture lead_probe
             render 'delivery-promise', product: product, style: 'short'
           endcapture
           if lead_probe contains 'stock--later'
             assign lead_txt = lead_probe | strip_html | strip
-            assign lead_keys = lead_keys | append: lead_txt | append: '§'
+            assign lead_lc = lead_txt | downcase | prepend: ' ' | append: ' '
+            unless lead_lc contains ' na '
+              assign lead_tr = lead_probe | split: 'data-transit="' | last | split: '"' | first | strip
+              assign lead_texts = lead_texts | append: lead_txt | append: '§'
+              assign lead_transits = lead_transits | append: lead_tr | append: '§'
+            endunless
           endif
         endfor
-        assign lead_list = lead_keys | split: '§'
+        assign lead_list = lead_texts | split: '§'
+        assign lead_tr_list = lead_transits | split: '§'
         assign lead_text = ''
         assign lead_best = 1
         assign lead_uniq = lead_list | uniq
@@ -115,68 +126,36 @@
           assign lead_text = ''
         endif
         assign lead_key = lead_text | handleize
-        # the shared wait as the date it lands on ('Leverbaar over 2–3 weken' -> 'Vandaag besteld, uiterlijk ma 9 nov in huis'):
-        # the upper bound in days (weken x 7, werkdagen plus their weekends), a weekend date moves to the Monday.
-        # facets.js recounts it from today in Amsterdam (a cached page can be a day old). No number in the text: the text.
-        assign lead_days = 0
-        if lead_text != ''
-          assign lt_words = lead_text | downcase | replace: '–', '-' | split: ' '
-          assign prev_w = ''
-          for w in lt_words
-            assign lt_unit = 0
-            if w contains 'werkdag'
-              assign lt_unit = 5
-            elsif w contains 'week' or w contains 'weken'
-              assign lt_unit = 7
-            elsif w contains 'dag'
-              assign lt_unit = 1
-            endif
-            if lt_unit > 0
-              assign lt_n = prev_w | split: '-' | last | plus: 0
-              if lt_n > 0 and lt_unit == 5
-                assign lt_wk = lt_n | plus: 4 | divided_by: 5 | times: 2
-                assign lead_days = lt_n | plus: lt_wk
-              elsif lt_n > 0
-                assign lead_days = lt_n | times: lt_unit
-              endif
-              break
-            endif
-            assign prev_w = w
-          endfor
-        endif
         assign lead_line = lead_text
-        if lead_days > 0
-          assign lead_secs = lead_days | times: 86400
-          assign lead_ts = 'now' | date: '%s' | plus: lead_secs
-          assign lead_wd = lead_ts | date: '%w' | plus: 0
-          if lead_wd == 6
-            assign lead_ts = lead_ts | plus: 172800
-          elsif lead_wd == 0
-            assign lead_ts = lead_ts | plus: 86400
+        assign lead_tmin = 99
+        assign lead_tmax = 0
+        if lead_text != ''
+          for l in lead_list
+            if l == lead_text
+              assign lead_t = lead_tr_list[forloop.index0] | plus: 0
+              if lead_t < lead_tmin
+                assign lead_tmin = lead_t
+              endif
+              if lead_t > lead_tmax
+                assign lead_tmax = lead_t
+              endif
+            endif
+          endfor
+          # cards with another line on this page (stock, a print lead time): 'tenzij anders vermeld'
+          if lead_best < collection.products.size
+            assign lead_line = 'collection.lead_default' | t: text: lead_text
           endif
-          assign lead_wd = lead_ts | date: '%w' | plus: 0
-          assign lead_mon = lead_ts | date: '%m' | plus: -1
-          assign lead_wdays = 'zo,ma,di,wo,do,vr,za' | split: ','
-          assign lead_months = 'jan,feb,mrt,apr,mei,jun,jul,aug,sep,okt,nov,dec' | split: ','
-          assign lead_date = lead_ts | date: '%d' | plus: 0 | prepend: ' ' | prepend: lead_wdays[lead_wd] | append: ' ' | append: lead_months[lead_mon]
-          capture lead_time
-            echo '<time data-lead-days="' | append: lead_days | append: '">' | append: lead_date | append: '</time>'
-          endcapture
-          assign lead_line = 'collection.lead_date' | t: date: '__D__' | replace: '__D__', lead_time
         endif
-        # cards with another line on this page (stock, a print lead time): 'tenzij anders vermeld'
-        if lead_best < collection.products.size
-          assign lead_line = 'collection.lead_default' | t: text: '__L__' | replace: '__L__', lead_line
-        endif
+        assign lead_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
       -%}
       {%- capture lead_note -%}
         {%- if lead_text != '' -%}
-          <p class="collection-lead"><span class="collection-lead__line">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span>{{ lead_line }}</span></span>
+          <p class="collection-lead"><span class="collection-lead__line">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span data-lead-eta data-lead="{{ lead_text | escape }}" data-transit="{{ lead_tmin }}" data-transit-max="{{ lead_tmax }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ lead_holidays | escape }}" data-tpl="{{ 'collection.lead_eta_html' | t: from: '__FROM__', to: '__TO__' | escape }}">{{ lead_line }}<span class="collection-lead__eta" data-lead-eta-out hidden></span></span></span>
             {%- if pages.contact.url != blank -%}<a class="link collection-lead__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
           </p>
         {%- endif -%}
       {%- endcapture -%}
-      {%- if lead_text != '' -%}<style>#ProductGridContainer-{{ section.id }} [data-lead="{{ lead_key }}"]{display:none}</style>{%- endif -%}
+      {%- if lead_text != '' -%}<style>.card__stock[data-lead="{{ lead_key }}"]{display:none}</style>{%- endif -%}
       <div class="collection-bar" data-collection-bar>
         <p class="collection-bar__count" id="ProductCount-{{ section.id }}" tabindex="-1" data-results-count>{{ 'collection.products_count' | t: count: collection.products_count }}</p>
         {%- if lead_note != blank -%}<div class="collection-bar__lead">{{ lead_note }}</div>{%- endif -%}
@@ -245,17 +224,25 @@
               {%- if f.type == 'price_range' -%}
                 {%- if f.min_value.value != nil or f.max_value.value != nil -%}
                   {%- liquid
-                    assign pmin_c = f.min_value.value | default: 0
-                    assign pmax_c = f.max_value.value | default: f.range_max
-                    if pmin_c > pmax_c
+                    # one bound reads as 'vanaf € 5.000' / 'tot € 500', both as '€ 300 – € 800' (swapped when typed the wrong way round)
+                    assign pmin_c = f.min_value.value
+                    assign pmax_c = f.max_value.value
+                    if pmin_c != nil and pmax_c != nil and pmin_c > pmax_c
                       assign p_swap = pmin_c
                       assign pmin_c = pmax_c
                       assign pmax_c = p_swap
                     endif
                     assign pmin = pmin_c | money_without_trailing_zeros
                     assign pmax = pmax_c | money_without_trailing_zeros
+                    if pmax_c == nil
+                      assign p_range = 'price.from' | t | append: ' ' | append: pmin
+                    elsif pmin_c == nil
+                      assign p_range = 'collection.price_to' | t | downcase | append: ' ' | append: pmax
+                    else
+                      assign p_range = pmin | append: ' – ' | append: pmax
+                    endif
                   -%}
-                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ pmin }} – {{ pmax }}<span data-vat-show="excl">&nbsp;{{ 'price.incl' | t }}</span>{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ p_range }}<span data-vat-show="excl">&nbsp;{{ 'price.incl' | t }}</span>{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}

@@ -11,11 +11,14 @@
     data-addon-follow="false"); with a logo upload: multipart FormData, add-ons first and taken out again when the main
     product fails (all or nothing). A 422 'Je kunt maar 2 …' sets the quantity and says 'Er zijn er nog 2 op voorraad …'.
   - Live total on the button ('In mijn winkelwagen · €798,00') and in the sticky bar; the sticky label follows the button
-    (pre-order / uitverkocht). Add-on rows show '3 × €199,00 + €597,00' when they follow the quantity.
+    (pre-order / uitverkocht) and its variant line says what the total holds ('2 st. · 3 × 3 m / Rood + 1 extra'). Add-on
+    rows show '3 × €199,00 + €597,00' when they follow the quantity. The button label is updated in place (text nodes), as
+    new nodes between mousedown and mouseup (a typed quantity commits on blur) would swallow the click.
   - Variant change: the add-on rows take the new variant's add-on variants at once (variants JSON 'ad', same product or
     same type: polyester side walls become the PVC set), the error notice is cleared, and a buy click before the section
     HTML arrives waits for it (label 'Toevoegen…'; after 8 s it adds with the swapped add-ons), so an add-on of the
-    previous variant never lands in the cart. Ticks carry over into the fresh add-on list.
+    previous variant never lands in the cart. Ticks carry over into the fresh add-on list, also across a sold-out variant
+    (which shows no add-ons): the last ticks are remembered until a variant with add-ons comes back.
   - Staffel: tier buttons set the quantity; the hint compares quote and cart price in quote mode (never a cart discount).
   - 'Nog x tonen' for add-ons beyond the block's visible count; a ticked add-on is never hidden.
   - Sticky bar: once the main button has scrolled out above the header (phones: a bar; from 990 px a floating card while

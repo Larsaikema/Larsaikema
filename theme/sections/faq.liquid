@@ -1,7 +1,8 @@
 {%- comment -%}
   FAQ accordion (feature content.faq) + FAQPage JSON-LD. Layouts: 'side' (heading next to the questions), 'stacked'
   (heading above) and 'help' (the FAQ page: search in the questions, topic navigation with counts, one section per
-  group block, deep links per question, a contact card). In answers, [bedenktijd] becomes the return_days setting and
+  group block, deep links per question, a contact card, and 'shortcut' blocks as task tiles under the search: order
+  status, returns, a complaint, a quote). In answers, [bedenktijd] becomes the return_days setting and
   [besteltijd] the cutoff_time setting, so the FAQ never contradicts the shop's own claims.
 {%- endcomment -%}
 {{ 'section-faq.css' | asset_url | stylesheet_tag }}
@@ -28,6 +29,7 @@
       <span class="faq-ask__icon" aria-hidden="true">{%- render 'icon', icon: 'chat' -%}</span>
       <h3 class="faq-ask__title">{{ 'faq.ask_title' | t }}</h3>
       {%- if settings.response_time != blank -%}<p class="faq-ask__text">{{ settings.response_time }}</p>{%- endif -%}
+      {%- if settings.openingstijden != blank -%}<p class="faq-ask__hours">{%- render 'icon', icon: 'clock', class: 'icon--xs' -%}<span><span class="visually-hidden">{{ 'general.opening_hours' | t }}: </span>{{ settings.openingstijden | newline_to_br }}</span></p>{%- endif -%}
       <div class="faq-ask__actions">
         {%- assign contact_url = section.settings.contact_link | default: pages.contact.url -%}
         {%- capture cp_ok -%}{%- render 'link-exists', url: contact_url -%}{%- endcapture -%}
@@ -53,6 +55,44 @@
           </div>
           <p class="faq-help__status" role="status" aria-live="polite" data-faq-status>{{ 'faq.count' | t: count: q_total }}</p>
         </div>
+        {%- capture task_items -%}
+          {%- for b in section.blocks -%}
+            {%- if b.type != 'shortcut' or b.settings.title == blank -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign t_url = b.settings.link
+              if b.settings.account
+                assign t_url = ''
+                if shop.customer_accounts_enabled
+                  assign t_url = routes.account_url
+                endif
+              endif
+              assign t_ok = 'false'
+              if t_url != blank
+                capture t_ok
+                  render 'link-exists', url: t_url
+                endcapture
+              endif
+            -%}
+            {%- if t_ok != 'true' -%}{%- continue -%}{%- endif -%}
+            <li {{ b.shopify_attributes }}>
+              <a class="faq-task" href="{{ t_url }}">
+                <span class="faq-task__icon" aria-hidden="true">{%- render 'icon', icon: b.settings.icon, class: 'icon--sm' -%}</span>
+                <span class="faq-task__body">
+                  <span class="faq-task__title">{{ b.settings.title }}</span>
+                  {%- if b.settings.text != blank -%}<span class="faq-task__text">{{ b.settings.text | replace: '[bedenktijd]', return_days | replace: '[besteltijd]', cutoff }}</span>{%- endif -%}
+                </span>
+                {%- render 'icon', icon: 'chevron-right', class: 'icon--xs faq-task__arrow' -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if task_items != blank -%}
+          <nav class="faq-tasks" aria-labelledby="FaqTasks-{{ section.id }}">
+            {%- assign tasks_heading = section.settings.tasks_heading | default: 'faq.tasks' -%}{%- if section.settings.tasks_heading == blank -%}{%- assign tasks_heading = 'faq.tasks' | t -%}{%- endif -%}
+            <p class="faq-tasks__title" id="FaqTasks-{{ section.id }}">{{ tasks_heading }}</p>
+            <ul class="faq-tasks__list" role="list">{{ task_items }}</ul>
+          </nav>
+        {%- endif -%}
         {%- if group_total > 0 -%}
           <nav class="faq-help__chips chips chips--scroll" aria-label="{{ 'faq.topics' | t }}">
             {%- for block in section.blocks -%}
@@ -192,12 +232,25 @@
     { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "side", "label": "Kop naast de vragen" }, { "value": "stacked", "label": "Kop boven de vragen" }, { "value": "help", "label": "Vragenpagina: zoeken en onderwerpen" } ], "default": "side", "info": "Vragenpagina: een zoekveld, onderwerpen uit de groepskoppen en een contactblok. De kop is dan alleen voor schermlezers." },
     { "type": "checkbox", "id": "show_contact", "label": "Bel- en app-knoppen tonen", "default": true },
     { "type": "url", "id": "contact_link", "label": "Link 'Stel je vraag' (vragenpagina)", "info": "Alleen bij de indeling Vragenpagina. Leeg = de pagina 'contact'." },
+    { "type": "text", "id": "tasks_heading", "label": "Kop snelkoppelingen (vragenpagina)", "default": "Direct regelen", "info": "Boven de blokken 'Snelkoppeling', onder het zoekveld." },
     { "type": "checkbox", "id": "open_first", "label": "Eerste vraag open", "default": false },
     { "type": "checkbox", "id": "schema_markup", "label": "FAQPage structured data", "default": true, "info": "Zet uit als dezelfde vragen ook op een andere pagina met structured data staan." },
     { "type": "paragraph", "content": "In een antwoord wordt [bedenktijd] het aantal dagen bedenktijd en [besteltijd] de besteltijd uit Thema-instellingen › Levering." }
   ],
   "blocks": [
     { "type": "group", "name": "Groepskop", "settings": [ { "type": "text", "id": "title", "label": "Titel", "default": "Bestellen" } ] },
+    { "type": "shortcut", "name": "Snelkoppeling", "settings": [
+      { "type": "paragraph", "content": "Alleen bij de indeling Vragenpagina: een tegel onder het zoekveld naar een taak, zoals je bestelling volgen of een retour melden. Zonder werkende link geen tegel." },
+      { "type": "select", "id": "icon", "label": "Icoon", "options": [
+        { "value": "truck", "label": "Levering" }, { "value": "return", "label": "Retour" }, { "value": "shield", "label": "Garantie" },
+        { "value": "invoice", "label": "Offerte" }, { "value": "user", "label": "Account" }, { "value": "chat", "label": "Vraag" },
+        { "value": "euro", "label": "Betalen" }, { "value": "ruler", "label": "Maat" }, { "value": "upload", "label": "Logo" }, { "value": "file", "label": "Document" }
+      ], "default": "truck" },
+      { "type": "text", "id": "title", "label": "Titel", "default": "Waar is mijn bestelling?" },
+      { "type": "text", "id": "text", "label": "Tekst", "info": "Kort, één regel. [bedenktijd] en [besteltijd] werken hier ook." },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "checkbox", "id": "account", "label": "Link naar het klantaccount (bestellingen)", "default": false, "info": "Gebruikt de link naar het klantaccount in plaats van de link hierboven; geen tegel als klantaccounts uit staan." }
+    ] },
     { "type": "question", "name": "Vraag", "settings": [
       { "type": "text", "id": "question", "label": "Vraag", "default": "Wanneer heb ik mijn bestelling?" },
       { "type": "richtext", "id": "answer", "label": "Antwoord", "default": "<p>Op elke productpagina zie je de verwachte leverdatum.</p>" },

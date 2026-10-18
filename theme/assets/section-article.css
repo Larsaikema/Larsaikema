@@ -35,7 +35,7 @@
   .article-toc--inline{display:none}
 }
 .article__content{font-size:calc(var(--body-scale) * clamp(17px, .19vw + 16.3px, 18.5px));line-height:1.65}
-.article__content h2{font-size:calc(var(--heading-scale) * clamp(24px, .5vw + 22px, 30px));scroll-margin-top:calc(var(--header-h,0px) + 20px);margin-top:1.7em}
+.article__content h2{font-size:calc(var(--heading-scale) * clamp(24px, .5vw + 22px, 30px));scroll-margin-top:20px;margin-top:1.7em}
 .article__content h3{font-size:20px}
 .article__content table{width:100%;border-collapse:collapse;background:var(--c-wit);border-radius:var(--radius-card);overflow:hidden;box-shadow:0 0 0 1px var(--c-lijn)}
 .article__content thead th,.article__content table:not(:has(thead)) tr:first-child th{background:var(--c-linnen);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
@@ -77,6 +77,18 @@ article-toc{display:block}
 .article-mini__name::after{content:"";position:absolute;inset:0}
 .article-mini__item:hover .article-mini__name{text-decoration:underline;text-underline-offset:3px}
 .article-mini__price{font-size:14px;color:var(--c-kiezel);font-variant-numeric:tabular-nums}
+/* the same products inside the text below 1100px, where the sidebar is not shown */
+.article-mini--inline{margin:36px 0 40px;padding:16px 16px 14px}
+.article-mini--inline .article-mini__list{gap:0}
+.article-mini--inline .article-mini__item{grid-template-columns:72px minmax(0,1fr) auto}
+.article-mini--inline .article-mini__item+.article-mini__item{border-top:1px solid var(--c-lijn);margin-top:12px;padding-top:12px}
+.article-mini--inline .article-mini__media{width:72px;height:72px}
+.article-mini--inline .article-mini__name{font-size:15.5px}
+.article-mini__spec{font-size:13.5px;line-height:1.35;color:var(--c-kiezel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.article-mini--inline .article-mini__price{color:var(--c-inkt);font-weight:var(--font-body-weight-semibold);font-size:15px}
+.article-mini__arrow{color:var(--c-kiezel)}
+@media (min-width:1100px){.article-mini--inline{display:none}}
+.rte.article__content--rest>h2:first-child{margin-top:1.7em}
 
 /* share */
 .article-share__links{display:flex;flex-wrap:wrap;align-items:center;gap:8px}

@@ -77,16 +77,31 @@ def build():
            ['partytent-onderdelen-accessoires.stormbandensets'], 'buizenframe', 'Per tentbreedte één set over het dak; hoeveel sets per lengte (elke 2 m). Voor buizenframe- en opslagtenten.',
            ['stormband partytent', 'stormbanden set'], {'outmate': '1 set €16–€24', 'ours': SB},
            extra={'past_op_note': 'buizenframe- en opslagtenten (ingevuld in build)'})
-    BV = [('Lange haring 50 cm', 5.95, 'H50', 600), ('Lange haring 75 cm', 10.95, 'H75', 900), ('Lange haring 100 cm', 13.95, 'H100', 1200),
-          ('Draaiharingen 30 cm (4 stuks)', 6.95, 'DH4', 500), ('Haringen 18 cm voor wanden (10 stuks)', 5.95, 'H18', 400),
-          ('Tentelastieken met bal (25 stuks)', 9.95, 'EL25', 300)]
+    # Merchandising review 3: the tentelastieken were one Uitvoering behind the haringen image; they are their own product now. Each
+    # haring has its own image (the draaiharing from renders/models/miscParts.js).
+    BV = [('Lange haring 50 cm', 5.95, 'H50', 600, ('haringen', {'count': 1, 'length': 0.5})), ('Lange haring 75 cm', 10.95, 'H75', 900, ('haringen', {'count': 1, 'length': 0.75})),
+          ('Lange haring 100 cm', 13.95, 'H100', 1200, ('haringen', {'count': 1, 'length': 1.0})),
+          ('Draaiharingen 30 cm (4 stuks)', 6.95, 'DH4', 500, ('miscParts', {'parts': ['draaiharing'], 'count': 4})),
+          ('Haringen 18 cm voor wanden (10 stuks)', 5.95, 'H18', 400, ('haringen', {'count': 10, 'length': 0.18, 'type': 'wand'}))]
+    BV_IMG = {n: f'haringen-en-bevestigingsmateriaal-partytent-{slug(n.split(" (")[0])}.webp' for n, _, _, _, prm in BV}
     simple('haringen-en-bevestigingsmateriaal-partytent', 'Haringen en bevestigingsmateriaal partytent', 'Verankering', ['gebruik:evenement', 'gebruik:tuinfeest'],
-           [opt('Uitvoering', [b[0] for b in BV])], [variant(f'KK-VER-BEV-{c}', [n], p, g, inv(30, c)) for n, p, c, g in BV],
-           [img('haringen-en-bevestigingsmateriaal-partytent-hero.webp', 'hero', 1, 'haringen', {'count': 3, 'length': 0.75}, 'hero', None, 'existing', alt='lange haringen van verzinkt hoekijzer')],
+           [opt('Uitvoering', [b[0] for b in BV])], [variant(f'KK-VER-BEV-{c}', [n], p, g, inv(30, c)) for n, p, c, g, _ in BV],
+           [img('haringen-en-bevestigingsmateriaal-partytent-hero.webp', 'hero', 1, 'haringen', {'count': 3, 'length': 0.75}, 'hero', None, 'existing', alt='lange haringen van verzinkt hoekijzer')] +
+           [img(BV_IMG[n], 'variant', 2, prm[0], prm[1], 'hero', None, 'existing') for n, _, _, _, prm in BV],
            {'kenmerk_kort': 'Verzinkt hoekijzer 30 x 30 mm · 50, 75 en 100 cm', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
             'specificaties': [sp('Haring', 'Materiaal', 'Thermisch verzinkt hoekijzer 30 x 30 mm')]},
-           ['partytent-onderdelen-accessoires.bevestigingsmaterialen'], 'verankering', 'Welke haring in welke grond (lang in zacht, draaiharing in los zand), elastieken voor wanden.',
-           ['lange haringen partytent', 'tentelastieken'], {'outmate': '50 cm €6,95 · 75 cm €12,50 · 100 cm €15 · draaiharing 4 st €7,50', 'ours': {b[0]: b[1] for b in BV}})
+           ['partytent-onderdelen-accessoires.bevestigingsmaterialen'], 'verankering', 'Welke haring in welke grond (lang in zacht, draaiharing in los zand); wandharingen.',
+           ['lange haringen partytent', 'draaiharing', 'haringen partytent'], {'outmate': '50 cm €6,95 · 75 cm €12,50 · 100 cm €15 · draaiharing 4 st €7,50', 'ours': {b[0]: b[1] for b in BV}},
+           vmap=BV_IMG, vby='Uitvoering')
+    simple('tentelastieken-met-bal', 'Tentelastieken met bal (25 stuks)', 'Verankering', ['gebruik:evenement', 'gebruik:tuinfeest', 'gebruik:markt'], [],
+           [variant('KK-VER-BEV-EL25', [], 9.95, 300, inv(30, 'EL25'))],
+           [img('tentelastieken-met-bal-hero.webp', 'hero', 1, 'tentElastics', {'count': 6}, 'hero', None, 'existing', alt='een greep elastieken met bal')],
+           {'kenmerk_kort': 'Elastisch koord met kunststof bal · 25 stuks · zakje', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
+            'specificaties': [sp('Elastiek', 'Koord', 'Rond elastiek ca. 6 mm met geweven mantel'), sp('Elastiek', 'Lus', 'ca. 18 cm (ongerekt)'),
+                              sp('Elastiek', 'Bal', 'Kunststof, Ø ca. 25 mm'), sp('Verpakking', 'Aantal', '25 stuks')]},
+           ['partytent-onderdelen-accessoires.bevestigingsmaterialen'], 'verankering',
+           'Elastiek met bal: zijwand, zeil of doek om een buis of door een oog vastzetten; geeft mee bij wind; 25 stuks.',
+           ['tentelastieken', 'elastiek met bal', 'spanelastiek tent'], {'outmate': 'tentelastieken (per URL)', 'ours': 9.95})
     # 120 tot 1000 kg like the reference range, plus a 500 kg block with M16 inserts for a truss-voetplaat
     BB = [('120 kg', 99.0, 120000, '120'), ('140 kg', 109.0, 140000, '140'), ('240 kg', 149.0, 240000, '240'), ('500 kg', 219.0, 500000, '500'),
           ('750 kg', 259.0, 750000, '750'), ('1000 kg', 299.0, 1000000, '1000'), ('500 kg met M16-inserts voor truss', 239.0, 500000, '500T')]
@@ -271,17 +286,22 @@ def build():
            ['partytent-onderdelen-accessoires.eindwanden', 'partytent-onderdelen-accessoires.tussenwanden'], 'buizenframe',
            'Eindwand (kopse kant tot in de nok) of tussenwand om de tent in twee ruimtes te delen; maat = tentbreedte.',
            ['eindwand partytent', 'tussenwand partytent'], {'outmate': 'eindwand 3 m vanaf €49', 'ours': ET, 'zijhoogte_220': '+ € 10 (4, 5 en 6 m)'})
-    KB = [('Koppelstuk 2-weg (20 cm)', 6.95, 'K2', 300), ('Koppelstuk 3-weg 140°', 8.95, 'K3', 400), ('Koppelstuk 4-weg 120°', 10.95, 'K4', 500),
-          ('Koppelstuk 3-weg grondframe', 8.95, 'K3G', 400), ('Buis 159 cm', 8.49, 'B159', 1900), ('Buis 192 cm', 8.95, 'B192', 2300),
-          ('Staander 212 cm', 11.95, 'S212', 2600), ('Buis 216 cm', 11.95, 'B216', 2600)]
+    # every Uitvoering its own image (merchandising review 3: eight parts behind one hero and a 'vanaf' price)
+    KB = [('Koppelstuk 2-weg (20 cm)', 6.95, 'K2', 300, {'parts': ['2-weg']}), ('Koppelstuk 3-weg 140°', 8.95, 'K3', 400, {'parts': ['3-weg']}),
+          ('Koppelstuk 4-weg 120°', 10.95, 'K4', 500, {'parts': ['4-weg']}), ('Koppelstuk 3-weg grondframe', 8.95, 'K3G', 400, {'parts': ['3-weg-grond']}),
+          ('Buis 159 cm', 8.49, 'B159', 1900, {'parts': ['buis'], 'tubeLength': 1.59}), ('Buis 192 cm', 8.95, 'B192', 2300, {'parts': ['buis'], 'tubeLength': 1.92}),
+          ('Staander 212 cm', 11.95, 'S212', 2600, {'parts': ['buis'], 'tubeLength': 2.12}), ('Buis 216 cm', 11.95, 'B216', 2600, {'parts': ['buis'], 'tubeLength': 2.16})]
+    KB_IMG = {n: f'koppelstukken-en-buizen-38-mm-{c.lower()}.webp' for n, _, c, _, _ in KB}
     simple('koppelstukken-en-buizen-38-mm', 'Koppelstukken en buizen 38 mm', 'Frame-onderdeel', ['zakelijk'], [opt('Uitvoering', [k[0] for k in KB])],
-           [variant(f'KK-FRM-BF-{c}', [n], p, g, inv(25, c)) for n, p, c, g in KB],
-           [img('koppelstukken-en-buizen-38-mm-hero.webp', 'hero', 1, 'tubeFittings', {'parts': ['2-weg', '3-weg', '4-weg', 'buis']}, 'hero', None, 'needs-model')],
+           [variant(f'KK-FRM-BF-{c}', [n], p, g, inv(25, c)) for n, p, c, g, _ in KB],
+           [img('koppelstukken-en-buizen-38-mm-hero.webp', 'hero', 1, 'tubeFittings', {'parts': ['2-weg', '3-weg', '4-weg', 'buis']}, 'hero', None, 'needs-model')] +
+           [img(KB_IMG[n], 'variant', 2, 'tubeFittings', prm, 'hero', None, 'existing') for n, _, _, _, prm in KB],
            {'kenmerk_kort': '38 mm verzinkt staal · gelaste moeren', 'verzending': 'pakket', 'past_op': bf_handles, 'staffelkorting': ST_TEXTIEL,
             'specificaties': [sp('Koppelstuk', 'Maten', 'Buiten 42 mm, binnen 38 mm, wand 1,4 mm'), sp('Buis', 'Materiaal', 'Verzinkt staal 38 mm, wand 1,2 mm')]},
            ['partytent-onderdelen-accessoires.koppelstukken', 'partytent-onderdelen-accessoires.buizen'], 'buizenframe',
            'Losse koppelstukken en buizen voor 38 mm buizenframes; hoe je het juiste onderdeel herkent (hoek, aantal aansluitingen, lengte).',
-           ['koppelstuk partytent 38 mm', 'buis partytent'], {'outmate': '2-weg €7,50 · 3-weg €9,99 · buis 192 cm €9 · staander 212 €12,50', 'ours': {k[0]: k[1] for k in KB}})
+           ['koppelstuk partytent 38 mm', 'buis partytent'], {'outmate': '2-weg €7,50 · 3-weg €9,99 · buis 192 cm €9 · staander 212 €12,50', 'ours': {k[0]: k[1] for k in KB}},
+           vmap=KB_IMG, vby='Uitvoering')
     simple('reparatieset-tentdoek', 'Reparatieset tentdoek PVC en polyester', 'Frame-onderdeel', [], [opt('Uitvoering', ['PVC (lijm en lappen)', 'Polyester (plakband en lappen)'])],
            [variant('KK-FRM-REP-PVC', ['PVC (lijm en lappen)'], 12.95, 300, 30), variant('KK-FRM-REP-POL', ['Polyester (plakband en lappen)'], 9.95, 200, 30)],
            [img('reparatieset-tentdoek-hero.webp', 'hero', 1, 'repairKit', {'kind': 'pvc'}, 'hero', None, 'needs-model')],

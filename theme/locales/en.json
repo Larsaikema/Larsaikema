@@ -58,6 +58,9 @@
       "other": "{{ count }} items"
     },
     "vat_toggle": "Show prices for",
+    "vat_particulier": "Consumer",
+    "vat_zakelijk": "Business",
+    "contact_more": "All contact options",
     "vat_incl_hint": "Prices incl. VAT",
     "vat_excl_hint": "Prices excl. VAT",
     "all_in": "All {{ title }}",
@@ -72,8 +75,6 @@
     "featured": "Featured",
     "usp_countdown_html": "In stock: order within <strong>{{ time }}</strong>, ships today",
     "usp_countdown_mid_html": "In stock: <strong>{{ time }}</strong> left, ships today",
-    "usp_countdown_short_html": "In stock: <strong>{{ time }}</strong> left, out today",
-    "usp_today_short_html": "In stock: order by <strong>{{ time }}</strong>, out today",
     "usp_today_html": "In stock: order before <strong>{{ time }}</strong>, ships today",
     "usp_later_html": "In stock: order now, ships <strong>{{ date }}</strong>",
     "usp_after_html": "In stock: ordered after <strong>{{ time }}</strong>, ships <strong>{{ date }}</strong>",
@@ -116,6 +117,15 @@
     "quantity_in_cart": "{{ count }} in your cart",
     "stock_in": "In stock",
     "stock_low": "Only {{ count }} left in stock",
+    "stock_alternatives": "In stock:",
+    "need_q": "Need it by a set date?",
+    "need_cta": "Check if it fits",
+    "need_label": "Date of your party or event",
+    "need_ok_html": "<strong>That works.</strong> We expect your order to arrive by {{ to }}.",
+    "need_tight_html": "<strong>That's tight.</strong> We expect your order between {{ from }} and {{ to }}.",
+    "need_late_html": "<strong>We probably won't make that.</strong> We expect your order between {{ from }} and {{ to }}.",
+    "need_ask": "Ask if it can be sooner",
+    "print_link": "With your logo",
     "stock_backorder": "Available in 2–3 weeks",
     "stock_out": "Temporarily sold out",
     "sku": "Item number",
@@ -177,7 +187,7 @@
     "print_required": "Upload your logo, or choose ‘I'll send my logo later’.",
     "notify_title": "Email me when it's back",
     "notify_button": "Email me",
-    "notify_success": "Great, we'll email you as soon as it's back.",
+    "notify_success": "Thanks, we have your request. We'll let you know as soon as it's back in stock.",
     "print_choose": "Choose your files or drop them here",
     "print_limits": "PDF, AI, EPS, SVG, PNG or JPG · up to {{ files }} files of max. {{ size }} MB",
     "print_files_label": "Chosen files",
@@ -247,7 +257,11 @@
     "gallery_next": "Next image",
     "gallery_position": "Image {{ index }} of {{ count }}",
     "staffel_foot_quote": "You get these prices with a quote, also as a private customer or club.",
-    "specs_more": "All specifications ({{ count }} more)"
+    "specs_more": "All specifications ({{ count }} more)",
+    "sticky_qty": "{{ n }} pcs",
+    "sticky_extra_one": "+ 1 extra",
+    "sticky_extra_other": "+ {{ n }} extras",
+    "parts_link_html": "Lost or broken something? <a class=\"link\" href=\"{{ url }}\">See the spare parts</a>"
   },
   "delivery": {
     "label": "Delivery",
@@ -294,7 +308,8 @@
     "design": "Design with your logo",
     "cta_label": "{{ action }}: {{ title }}",
     "sizes_count": "{{ count }} sizes",
-    "shown_in": "Photo in {{ color }}"
+    "shown_in": "Photo in {{ color }}",
+    "photo_soon": "Photo coming soon"
   },
   "collection": {
     "products_count": {
@@ -353,8 +368,8 @@
     "price_swap": "From is higher than To. We swap them as soon as you move on.",
     "price_format": "Numbers only, for example 1000 or 279.50",
     "lead_default": "{{ text }}, unless stated otherwise",
-    "lead_ask": "Fixed date? Ask us",
-    "lead_date": "Order today, delivered by {{ date }} at the latest",
+    "lead_ask": "Need it sooner? Ask us",
+    "lead_eta_html": "expected delivery <strong>{{ from }} – {{ to }}</strong>",
     "no_results_in": "Nothing in {{ title }} matches this combination.",
     "no_results_text_in": "Remove a filter, or see everything in {{ title }}.",
     "filter_available": "Available only",
@@ -451,8 +466,8 @@
     "help_mail": "Email {{ email }}",
     "updated_status": "Cart updated, subtotal {{ total }}.",
     "shipping_label": "Shipping",
-    "shipping_label_pakket": "Shipping within NL",
-    "shipping_label_pallet": "Pallet delivery within NL",
+    "shipping_label_pakket": "Shipping within NL (estimate)",
+    "shipping_label_pallet": "Pallet delivery within NL (estimate)",
     "shipping_at_checkout_value": "Shown at checkout",
     "delivery_wait": "{{ title }}: {{ lead_time }}",
     "stock_all": {
@@ -468,7 +483,9 @@
     "delivery_backorder_item": "{{ title }} is not in stock yet: {{ lead_time }}",
     "delivery_eta_html": "expected <strong>{{ from }} – {{ to }}</strong>",
     "date_link": "Fixed party date? Tell us your delivery date",
-    "shipping_note_nl": "Shipping is final at checkout."
+    "shipping_note_nl": "We calculate shipping at checkout.",
+    "date_from": "Possible from {{ date }}.",
+    "date_too_early": "We cannot deliver that soon. Pick a date from {{ date }}, or leave the field empty."
   },
   "search": {
     "title": "Search",
@@ -512,7 +529,9 @@
     "error_required_email": "Enter your email address.",
     "error_required_name": "Enter your name.",
     "error_required_qty": "Enter the quantity.",
-    "privacy_note_html": "We only use your details to answer your question. Read our <a href=\"{{ url }}\">privacy policy</a>."
+    "privacy_note_html": "We only use your details to answer your question. Read our <a href=\"{{ url }}\">privacy policy</a>.",
+    "country": "Country",
+    "country_other": "Other country"
   },
   "contact": {
     "title": "Ask your question",
@@ -683,7 +702,8 @@
     "no_results_title": "No question found.",
     "no_results": "Try another word, or ask us your question.",
     "ask_title": "Question not listed?",
-    "ask_cta": "Ask your question"
+    "ask_cta": "Ask your question",
+    "tasks": "Sort it out directly"
   },
   "print": {
     "step": "Step {{ index }}",

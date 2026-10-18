@@ -104,7 +104,8 @@
   <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--buy btn--block cart-summary__checkout" data-checkout>{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
   {%- if payment and shop.enabled_payment_types.size > 0 -%}
     <ul class="payment-icons cart-summary__pay" role="list" aria-label="{{ 'footer.payment' | t }}">
-      {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>{%- endfor -%}
+      {%- comment -%} the footer shows the same icons: own title ids, so no id is on the page twice {%- endcomment -%}
+      {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' | replace: 'id="pi-', 'id="cs-pi-' | replace: 'aria-labelledby="pi-', 'aria-labelledby="cs-pi-' }}</li>{%- endfor -%}
     </ul>
   {%- endif -%}
   {%- if express and additional_checkout_buttons -%}

@@ -2,8 +2,82 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "blocks": {},
-      "block_order": [],
+      "blocks": {
+        "size-1": {
+          "type": "size",
+          "settings": {
+            "group": "Partytent",
+            "label": "3 × 3 m",
+            "link": "/collections/partytenten?filter.v.option.maat=3+x+3+m"
+          }
+        },
+        "size-2": {
+          "type": "size",
+          "settings": {
+            "group": "Partytent",
+            "label": "3 × 4,5 m",
+            "link": "/collections/partytenten?filter.v.option.maat=3+x+4%2C5+m"
+          }
+        },
+        "size-3": {
+          "type": "size",
+          "settings": {
+            "group": "Partytent",
+            "label": "3 × 6 m",
+            "link": "/collections/partytenten?filter.v.option.maat=3+x+6+m"
+          }
+        },
+        "size-4": {
+          "type": "size",
+          "settings": {
+            "group": "Partytent",
+            "label": "4 × 4 m",
+            "link": "/collections/partytenten?filter.v.option.maat=4+x+4+m"
+          }
+        },
+        "size-5": {
+          "type": "size",
+          "settings": {
+            "group": "Partytent",
+            "label": "4 × 8 m",
+            "link": "/collections/partytenten?filter.v.option.maat=4+x+8+m"
+          }
+        },
+        "size-6": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "Ø 70 cm",
+            "link": "/collections/statafels?filter.v.option.maat=%C3%9870+cm"
+          }
+        },
+        "size-7": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "Ø 80 cm",
+            "link": "/collections/statafels?filter.v.option.maat=%C3%9880+cm"
+          }
+        },
+        "size-8": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "Ø 85 cm",
+            "link": "/collections/statafels?filter.v.option.maat=%C3%9885+cm"
+          }
+        }
+      },
+      "block_order": [
+        "size-1",
+        "size-2",
+        "size-3",
+        "size-4",
+        "size-5",
+        "size-6",
+        "size-7",
+        "size-8"
+      ],
       "settings": {
         "color_scheme": "scheme-3",
         "layout": "image-right",
@@ -19,7 +93,8 @@
         "product": "easy-up-partytent-premium-3x3",
         "product_collection": "easy-up-premium",
         "product_label": "Easy-up partytent Premium",
-        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met zwarte stretch rok en een met witte hoes met strik"
+        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met zwarte stretch rok en een met witte hoes met strik",
+        "sizes_heading": "Snel naar je maat"
       }
     },
     "categories": {
@@ -112,20 +187,8 @@
         "columns": 4,
         "style": "panel",
         "show_meta": true,
-        "more_label": "Meer in de winkel"
-      }
-    },
-    "featured-tents": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Partytenten",
-        "heading": "Easy-up partytenten",
-        "text": "Van 3 × 3 tot 4 × 4 m. Staal of aluminium, met zijwanden los erbij.",
-        "collection": "easy-up-partytenten",
-        "limit": 4,
-        "columns": 4,
-        "link_label": "Alle partytenten",
-        "mobile_grid": true
+        "more_label": "Meer in de winkel",
+        "more_style": "tiles"
       }
     },
     "usps": {
@@ -162,7 +225,7 @@
           "type": "usp",
           "settings": {
             "icon": "chat",
-            "title": "Bel of app ons",
+            "title": "Hulp bij je keuze",
             "text": "Advies van mensen die het opzetten",
             "link": "shopify://pages/contact"
           }
@@ -236,19 +299,6 @@
         "image_fit": "contain"
       }
     },
-    "featured-rokken": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Statafels",
-        "heading": "Statafels en rokken",
-        "text": "Statafel Ø 80 cm met stretch rok of hoes met strik. Vanaf 10 stuks staffelprijs.",
-        "collection": "statafelrokken",
-        "limit": 4,
-        "columns": 4,
-        "link_label": "Alle rokken en hoezen",
-        "mobile_grid": true
-      }
-    },
     "zakelijk": {
       "type": "b2b-banner",
       "blocks": {
@@ -287,49 +337,6 @@
         "image": "shopify://shop_images/scene-zakelijk.webp",
         "fallback_image": "scene-zakelijk",
         "image_alt": "Twee zwarte easy-up partytenten 3 × 3 m met voorbeeldopdruk Klapklaar op de luifel, daaronder vier statafels met zwarte stretchrok en logo"
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "q1": {
-          "type": "question",
-          "settings": {
-            "question": "Wanneer heb ik mijn bestelling?",
-            "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Die rekent met onze besteltijd en verzenddagen. Grote tenten gaan per pallet en leveren we op afspraak.</p>"
-          }
-        },
-        "q2": {
-          "type": "question",
-          "settings": {
-            "question": "Welke maat partytent heb ik nodig?",
-            "answer": "<p>Een 3 × 3 m tent biedt plek aan ongeveer 8 staande gasten. Met 3 × 6 m heb je ruimte voor een buffet en een paar statafels.</p>"
-          }
-        },
-        "q3": {
-          "type": "question",
-          "settings": {
-            "question": "Kan ik zakelijk bestellen op factuur?",
-            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Vraag een offerte aan of neem contact op, dan regelen we het.</p>"
-          }
-        },
-        "q4": {
-          "type": "question",
-          "settings": {
-            "question": "Hoe werkt bedrukken met mijn logo?",
-            "answer": "<p>Je uploadt je logo bij het product. Wij sturen een drukproef en pas na jouw akkoord drukken we. De levertijd gaat in na je akkoord.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3",
-        "q4"
-      ],
-      "settings": {
-        "heading": "Veelgestelde vragen",
-        "layout": "side"
       }
     },
     "blog": {
@@ -382,19 +389,211 @@
         "page": "showroom-en-afhalen",
         "color_scheme": "scheme-3"
       }
+    },
+    "tents": {
+      "type": "product-tabs",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "collection": "easy-up-partytenten",
+            "label": "Easy-up",
+            "link_label": "Alle easy-up partytenten"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "collection": "partytenten-buizenframe",
+            "label": "Buizenframe",
+            "link_label": "Alle tenten met buizenframe"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "collection": "stretchtenten",
+            "label": "Stretchtenten",
+            "link_label": "Alles voor stretchtenten"
+          }
+        },
+        "t4": {
+          "type": "tab",
+          "settings": {
+            "collection": "ster-en-opblaasbare-tenten",
+            "label": "Ster & opblaasbaar",
+            "link_label": "Alle ster- en opblaasbare tenten"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Partytenten",
+        "heading": "Kies je partytent",
+        "text": "Easy-up in 8 maten, met een frame van staal of aluminium. Voor grotere feesten: buizenframe, stretch en ster.",
+        "limit": 4,
+        "columns": 4,
+        "link_prefix": "Alle"
+      }
+    },
+    "tafels": {
+      "type": "product-tabs",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "collection": "statafels",
+            "label": "Statafels",
+            "link_label": "Alle statafels"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "collection": "statafelrokken",
+            "label": "Rokken & hoezen",
+            "link_label": "Alle rokken en hoezen"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "collection": "barkrukken",
+            "label": "Barkrukken",
+            "link_label": "Alle barkrukken"
+          }
+        },
+        "t4": {
+          "type": "tab",
+          "settings": {
+            "collection": "actiepakketten",
+            "label": "Pakketten",
+            "link_label": "Alle pakketten"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Statafels",
+        "heading": "Statafels, rokken en barkrukken",
+        "text": "Statafel Ø 70, 80 of 85 cm met een stretch rok of een hoes met strik. Vanaf 10 stuks staffelprijs.",
+        "limit": 4,
+        "columns": 4,
+        "link_prefix": "Alle"
+      }
+    },
+    "help": {
+      "type": "home-help",
+      "blocks": {
+        "g1": {
+          "type": "guide",
+          "settings": {
+            "icon": "ruler",
+            "title": "Welke maat partytent?",
+            "text": "Hoeveel gasten per maat, zittend en staand",
+            "link": "shopify://pages/maatadvies-partytenten"
+          }
+        },
+        "g2": {
+          "type": "guide",
+          "settings": {
+            "icon": "table",
+            "title": "Welke statafelrok past?",
+            "text": "Meet je blad: Ø 60–70 of Ø 80–85 cm",
+            "link": "shopify://pages/maatadvies-statafelrokken"
+          }
+        },
+        "g3": {
+          "type": "guide",
+          "settings": {
+            "icon": "tent",
+            "title": "Premium of Professional?",
+            "text": "Staal of aluminium: de cijfers naast elkaar",
+            "link": "shopify://pages/verschil-partytenten"
+          }
+        },
+        "g4": {
+          "type": "guide",
+          "settings": {
+            "icon": "file",
+            "title": "Productbladen als pdf",
+            "text": "Maten, specificaties en wat er in de doos zit",
+            "link": "shopify://pages/handleidingen"
+          }
+        },
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Wanneer heb ik mijn bestelling?",
+            "answer": "<p>Op elke productpagina zie je de verwachte leverdatum. Die rekent met onze besteltijd en verzenddagen. Grote tenten gaan per pallet en leveren we op afspraak.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Welke maat partytent heb ik nodig?",
+            "answer": "<p>Een 3 × 3 m tent biedt plek aan ongeveer 8 staande gasten. Met 3 × 6 m heb je ruimte voor een buffet en een paar statafels.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Kan ik zakelijk bestellen op factuur?",
+            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Vraag een offerte aan of neem contact op, dan regelen we het.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "Hoe werkt bedrukken met mijn logo?",
+            "answer": "<p>Je uploadt je logo bij het product. Wij sturen een drukproef en pas na jouw akkoord drukken we. De levertijd gaat in na je akkoord.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Hulp bij kiezen",
+        "heading": "Twijfel je? We rekenen het voor je uit.",
+        "text": "Maatgidsen, de verschillen op een rij en antwoord op wat bijna iedereen vraagt.",
+        "ask_heading": "Staat je vraag er niet bij?",
+        "faq_heading": "Veelgestelde vragen",
+        "faq_link_label": "Alle veelgestelde vragen"
+      }
     }
   },
   "order": [
     "hero",
     "usps",
     "categories",
-    "featured-tents",
+    "tents",
     "promos",
     "logo",
-    "featured-rokken",
+    "tafels",
     "zakelijk",
     "visit",
-    "faq",
+    "help",
     "blog"
   ]
 }

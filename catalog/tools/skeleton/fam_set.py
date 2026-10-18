@@ -120,16 +120,17 @@ def build():
                f'Verhuur- en evenementpakket van {n} statafels Professional, {n} stretchrokken met topcover en de {"kleine" if n == 5 else "grote"} kar; Maat, blad (3) en rokkleur (24) apart te kiezen; besparing t.o.v. los.',
                [f'{n} statafels met rokken en trolley', 'statafel verhuurpakket', 'statafels met transportkar en rokken'], ['statafelrokken-hoezen.actiepakketten'],
                ['zakelijk', 'pallet', 'gebruik:evenement'], {'statafelshop': 'kar klein + Colorado + rokken €1.148,29 · groot €1.996,50'}, sku=f'KARROK{n}', verz='pallet')
-    bundle('terraspakket-statafel-barkrukken', 'Terraspakket: statafel, stretchrok en 4 barkrukken', [opt('Kleur', ROK), opt('Uitvoering', BLADR)],
-           [(k, u) for k in ROK for u in BLADR],
-           lambda los, k, u: 229.0,
+    # one size, so 24 rokken x 4 bladen = 96 variants: the terraspakket keeps the Berken blad (+ € 15, as on the statafel itself)
+    bundle('terraspakket-statafel-barkrukken', 'Terraspakket: statafel, stretchrok en 4 barkrukken', [opt('Kleur', ROK), opt('Uitvoering', BLADU)],
+           [(k, u) for k in ROK for u in BLADU],
+           lambda los, k, u: 229.0 + (15 if u.startswith('Berken') else 0),
            lambda k, u: [(*STF('Ø80 cm', u), 1), ('statafelrok-stretch', {'Maat': 'Ø80-85 cm', 'Uitvoering': 'Met topcover', 'Kleur': k}, 1),
                          ('barkruk-stapelbaar-metaal', {'Kleur': 'Zwart'}, 4)],
            [img('terraspakket-statafel-barkrukken-zwart-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'statafelCover', 'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart'}] +
                                                                                       [{'model': 'barStool', 'style': 'metaal', 'color': 'zwart', 'position': p} for p in [[0.7, 0, 0], [-0.7, 0, 0], [0, 0, 0.7], [0, 0, -0.7]]]},
                 'hero', 'Zwart', 'existing')] + [i for i in rok_imgs('x', ROK) if i['kleur'] != 'Zwart'],
            {**{k: rok_vmap[k] for k in ROK}, 'Zwart': 'terraspakket-statafel-barkrukken-zwart-hero.webp'}, 'Kleur',
-           'Statafel Ø80 + stretchrok met topcover + 4 zwarte barkrukken · rok in 24 kleuren', 'Complete sta-plek voor terras of kantine; kleur = rok (24, zoals de andere statafelpakketten), blad wit, zwart of antraciet.',
+           'Statafel Ø80 + stretchrok met topcover + 4 zwarte barkrukken · rok in 24 kleuren', 'Complete sta-plek voor terras of kantine; kleur = rok (24, zoals de andere statafelpakketten), blad wit, zwart, antraciet of berken (+ € 15).',
            ['statafel met barkrukken', 'statafel set barkrukken'], ['statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'],
            {'statafelshop': 'Colorado + rok + 4 Angara €411,40'}, sku='TERRAS')
     BK = ['Wit', 'Zwart', 'Antraciet']
@@ -145,19 +146,19 @@ def build():
            '10 klaptafels 183 x 76 cm + 10 stretchhoezen + transportkar', 'Catering en evenementen: buffet- of vergaderopstelling in één keer.',
            ['buffettafels set', 'klaptafels met hoezen'], ['statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'pallet', 'gebruik:evenement'],
            {'statafelshop': '25 buffettafels + rokken + platen + kar €5.196,95'}, sku='BUFFET', verz='pallet')
-    # Kwaliteit (Standaard / Brouwerijkwaliteit, like Statafelshop's 10-pakketten) and the transportkar as an option (merchandising
+    # Uitvoering Standaard / Brouwerijkwaliteit (like Statafelshop's 10-pakketten) and the transportkar as Samenstelling (merchandising
     # review 3): a vereniging buying ten sets also needs to move and store them
     BTQ = ['Standaard', 'Brouwerijkwaliteit']
-    BTU = ['Zonder kar', 'Met transportkar']
-    bundle('biertafelsets-10-stuks', 'Biertafelsets 10 stuks (pakket)', [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Kwaliteit', BTQ), opt('Uitvoering', BTU)],
+    BTU = ['Zonder transportkar', 'Met transportkar']
+    bundle('biertafelsets-10-stuks', 'Biertafelsets 10 stuks (pakket)', [opt('Maat', ['220 x 50 cm', '220 x 70 cm']), opt('Uitvoering', BTQ), opt('Samenstelling', BTU)],
            [(m, q, u) for m in ['220 x 50 cm', '220 x 70 cm'] for q in BTQ for u in BTU],
            lambda los, m, q, u: float(x9(0.89 * los)),
-           lambda m, q, u: [('biertafelset', {'Maat': m, 'Uitvoering': 'Set: tafel en 2 banken', 'Kwaliteit': q}, 10)] +
+           lambda m, q, u: [('biertafelset', {'Maat': m, 'Samenstelling': 'Set: tafel en 2 banken', 'Uitvoering': q}, 10)] +
                            ([('transportkar-biertafelsets', {}, 1)] if u == 'Met transportkar' else []),
-           [img('biertafelsets-10-stuks-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'biertafelset', 'length': 2.2, 'tableWidth': 0.5, 'position': [0, 0, z]} for z in [-1.2, 0, 1.2]]}, 'hero', None, 'existing'),
+           [img('biertafelsets-10-stuks-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'biertafelset', 'length': 2.2, 'tableWidth': 0.5, 'position': [0, 0, z]} for z in [-1.9, 0, 1.9]]}, 'hero', None, 'existing'),
             img('transportkar-biertafelsets-gevuld.webp', 'variant', 2, 'trolley', {'kind': 'biertafel', 'loaded': 10, 'tableWidth': 0.5}, 'hero', None, 'existing',
                 alt='10 biertafelsets op de transportkar', extra={'shared_with': 'transportkar-biertafelsets'})],
-           {'Zonder kar': 'biertafelsets-10-stuks-hero.webp', 'Met transportkar': 'transportkar-biertafelsets-gevuld.webp'}, 'Uitvoering',
+           {'Zonder transportkar': 'biertafelsets-10-stuks-hero.webp', 'Met transportkar': 'transportkar-biertafelsets-gevuld.webp'}, 'Samenstelling',
            '10 sets: tafel + 2 banken · standaard of brouwerij · met of zonder kar',
            'Voor verenigingen en buurtfeesten: tien sets in standaard- of brouwerijkwaliteit, desgewenst met de transportkar; besparing t.o.v. los.',
            ['biertafelsets 10 stuks', 'feestsets vereniging', 'biertafels brouwerijkwaliteit 10 stuks'], ['tafels-stoelen.biertafels', 'statafelrokken-hoezen.actiepakketten'], ['zakelijk', 'pallet', 'gebruik:tuinfeest'],

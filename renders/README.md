@@ -100,12 +100,14 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   zwart ~40–50, antraciet ~80, grijs ~135; afgewend vlak zwart ~20 (sRGB-luminantie). Zwart krijgt vorm uit
   één brede zachte glans van de overhead-scrim op de PVC-coating, niet uit meer licht. Controle:
   `python3 renders/tools/check-tent-values.py` (zie *Toonbewaking*).
-  Wit wordt belicht als gefotografeerd wit PVC: een hogere key, rechts van het midden en hoger op het vlak
-  gericht, en belichting 0,53 (bij 0,58 lag het hele belichte vlak in de schouder van de toonkromme op ~248:
-  een vlakke, gegoten plaat) laten het belichte vlak van ~247 bij de spant **afvallen naar ~230 aan de
-  dakrand en ~215–225 bij de linkergraat**: elk hol half paneel leest, en de linkerbovencontour leest ook
-  in een collectieraster tegen de #EFEDE8-achtergrond; de verticale valance blijft duidelijk donkerder
-  (~205–215) dan de dakvlakken, het afgewende vlak ~195–210. Het detail houdt zijn eigen belichting 0,58.
+  Wit wordt belicht als gefotografeerd wit PVC: een hogere key, hoog op het vlak naar de nok gericht met een
+  zachte bundel van 38°, en belichting 0,52 (bij 0,58 lag het hele belichte vlak in de schouder van de
+  toonkromme op ~248: een vlakke, gegoten plaat; een smallere, lager gerichte bundel zette er een spotlicht op
+  en liet de linkerhoek naar ~165 zakken: een grijze vignet) laten het belichte vlak van ~246 hoog bij de spant
+  **gelijkmatig afvallen naar ~230 langs de dakrand en ~200–220 langs de linkergraat** (~190 in de uiterste
+  hoek): elk hol half paneel leest, en de linkerbovencontour leest ook in een collectieraster tegen de
+  #EFEDE8-achtergrond; de verticale valance blijft duidelijk donkerder (~197–205) dan de dakvlakken, het
+  afgewende vlak ~189–198. Het detail houdt zijn eigen belichting 0,58.
 - `walls`: per zijde (`front`, `back`, `left`, `right`) één type, of een lijst per vak van 3/4 m
   (`"back":["window","door"]`). Alle indelingen staan gecentreerd in hun vak:
 
@@ -228,7 +230,7 @@ twee hoge striplichten in de studio-omgeving geven elk facet een eigen waarde me
 ribben, zodat zeskant en de stap van buiten- naar binnenbuis ook op 2000 px lezen. Professional is **geborsteld,
 helder geanodiseerd aluminium**: metaal, ruwheid 0,2, sterke anisotropie (0,85) langs de buis (een lange
 streep-highlight in de borstelrichting), en op de zeskantpoten **zwarte vlaggen** in de reflectie (engine
-`envFlag`: de omgeving wordt × 0,14 gespiegeld waar de gereflecteerde straal tussen 62° en 118° naast de camera
+`envFlag`: de omgeving wordt × 0,28 gespiegeld waar de gereflecteerde straal tussen 62° en 118° naast de camera
 wijst). Aangrenzende facetten spiegelen richtingen 120° uit elkaar, dus de facetten wisselen licht/donker, in
 elke stand van de poot: "aluminium Pro 50" leest als een ander materiaal dan het zwarte staal van Premium 40. **Voetplaat:** thermisch
 verzinkt staal (metalness 0,8, gevlekte ruwheid per zinkkristal), 6 mm met 1 mm afgeschuinde randen, vier
@@ -301,6 +303,24 @@ rugstijlen op een vlakke zitting) en de auto-belichting met de echte albedo van 
 | `klaptafel` | `shape`, `diameter`/`length`, `color` (standaard `lichtgrijs`) | ronde tafel met open, zachte vloerschaduw |
 
 Batch: `node renders/render.mjs --batch renders/batches/furniture.jsonl` (Linnen `#ECE4D6`, paden naar `catalog/images/`).
+
+Ronde 3 (`js/upholstery2.js`, eigen bestand naast `seatKit.js`): het materiaal dat het product benoemt moet als dat
+materiaal lezen, niet als CG-vinyl.
+- `velvetPile(hex)` (velours): kijkhoekafhankelijke albedo van een pool (vlakken naar de camera donkerder en voller,
+  flanken en randen onder een scherende hoek lichter en iets ontzadigd), pool-plekken (crush) die met de kijkrichting
+  omslaan, fijne vezelkorrel, brede Charlie-sheen, géén glanslaag. Eigen `onBeforeCompile` + cache-sleutel, geen
+  engine-hooks. Velours-barkruk: channel-rug met 5 kanalen van 8,6 cm die tussen scherpe gestikte naden opbollen
+  (vertex-AO in de naden), bies op de voornaad, zitting met bies boven en onder en licht gerimpelde naden.
+- `wovenFabric(hex)` (banquetstoel, bank): platbinding van gemêleerde garens (tweekleurige vezels, slubs, toon per
+  garen, 2 × 2-garenblokjes die op ~1 mm/px als fijne korrel lezen), fuzz-rand onder scherende hoek, grootschalige
+  vlekking op een eigen schaal (geen tegelherhaling), mat. `puckerSeams(geo)` rimpelt het doek langs de biesnaden.
+- `powder('wit')`: warm wit satijn met weinig omgevingsreflectie (leest als wit gelakt staal, niet als aluminium);
+  witte frames (metaal, draad, hout, klapstoel) krijgen belichting ≥ 0,84.
+- `birchPly()`: draaigesneden berken (lange, golvende nerf met lage contrast, brede zachte vlam, schaarse
+  pin-knoesten en vlekjes, één ovale reparatielap), vlakke uv in meters (`planarUV`), één tegel per blad.
+  `F.roundBoard` gaf het middelpunt van de bladvlakken de polaire rand-uv (ringen in elke bladtextuur); nu op straal.
+- `barrelTable`: zes duigtinten, duigen donkerder naar de kimmen (vertexkleur, eigen mesh), gelakte hoepels met glans.
+- Pakket 10 biertafelsets (`items`): sets 1,9 m hart-op-hart, zodat de banken van naburige sets elkaar niet raken.
 
 ### Overige (eenvoudiger, al bruikbaar)
 `klaptafel {length,width,height,color,frame}`, `biertafelset {length,tableWidth,frame}`,
@@ -410,6 +430,23 @@ Batch (1200 px preview, 14 frames, Linnen): `node renders/render.mjs --batch ren
 - Kleurvarianten worden gerenderd op 1200 px, 16–20 samples, achtergrond Linnen `#ECE4D6`, met dezelfde camera als de bestaande
   hero van het product, zodat een klik op een swatch niet verspringt. De cadeaubon is geen render maar een vlakke kaart:
   `python3 catalog/tools/giftcard.py catalog/images/cadeaubon-hero.webp`.
+
+### Tents-other ronde 3 (18 oktober 2026)
+- `opblaasbareTent {w, shape: "hexagon", height, color, canopyColor, legs: "water", walls, awning, canopyPrint, light, skipGuys}`
+  is herbouwd als **X-frame met zichtbare luchtbuizen**: per hoek één doorlopende dikke buis (Ø 30 cm op 3 × 3, Ø 36 op 4 × 4,
+  Ø 46 op de zeshoek van 8 m) die van een bolle voet recht omhoog gaat, door een grote elleboog (straal 0,7–1,25 m, opgebouwd
+  uit gelaste segmenten met een naad en een lichte insnoering per segment) naar binnen buigt en als dakboog naar een ronde
+  knoop in de top loopt. Het dak hangt **onder** de bogen (de buizen liggen er als dikke ronde ruggen op), de dakrand tussen
+  twee poten is een gespannen boog met een smalle bedrukbare band eronder, zodat de zijkanten als bogen lezen. Wanden vullen de
+  boog, de luifel hangt aan de band. Alle kleur- en pootvarianten van één maat hebben exact dezelfde kadrering: scheerlijnen en
+  haringen tellen niet mee, een vaste footprint (poten + 0,3 m) wel. `skipGuys: "left" | "right"` laat de scheerlijnen aan die
+  kant weg (twee tenten met een tunnel). `opblaasbareTunnel {length, color, tentW}` leidt zijn maten af van dezelfde tent.
+- `canopyRoof {display: "folded"}`: opgevouwen dak als zeven zachte, met lucht gevulde vouwlagen (afgeronde vouwranden rondom,
+  lagen die niet precies op elkaar liggen, kreukels en een vouwlijn op de bovenste laag, zoom met dubbel stiksel).
+- `stretchtent` `angle: "low"`: de camera staat **onder het doek** op ooghoogte en kijkt langs de middenpaal omhoog de piek in
+  (doek doorschijnender van onderen, meer vulling).
+- Batch (alle 99 beelden van deze groep, eindkwaliteit 2000 px): `node renders/render.mjs --batch renders/batches/tents-other.jsonl`;
+  de preview-run gebruikt 1200 px, 14–32 samples en `rig.groundAO {samples: 32, keySamples: 32}`.
 
 ## Camera
 
@@ -528,10 +565,17 @@ gelijkgekleurde productkaart staan.
   leest alleen via die glans). `openings`: `[[x, z, gewicht], …]` (max 6; open deur, ramen); de nabijheid van een
   opening valt af over `fall` m. De vloer binnen de footprint gaat × `floor`, bij een opening tot `floorNear`
   (zachte rand van `feather` m). Zonder `interior` verandert er niets.
+  Materialen met `userData.interiorSolid` (`{k, kNear}`; frame-onderdelen binnen een tent met vier hangende
+  wanden: schaartruss, bouten, knoopblokken, middenpaal, dakspanten) worden binnen de box gedimd **ongeacht hun
+  richting**: omgevingslicht en de niet-schaduwwerpende lichten × `k` (0,22) tot `kNear` (0,55) bij een opening.
+  Een trussfacet dat naar de camera kijkt (door een raam of de deur gezien) spiegelt in werkelijkheid de donkere
+  binnenkant van de tent, niet de studio: zo leest het frame binnen als donker satijnstaal met een paar zachte
+  hooglichten, geen lichtgrijze staven of glinsterende boutkoppen (die als witte stipjes door de ramen staken).
+  De poten houden het studiolicht: die staan in de klittenband-hoekslippen en zie je van buiten.
 - Materiaal-`userData` die de engine begrijpt: `envSpec` (sterkte van de omgevingsreflectie),
   `translucency` (doorschijnend doek), `macro` (tweede normaallaag), `weave` (`{repeats, boost, roughVar,
   matte}`: afstandsafhankelijk weefselreliëf + glansvariatie), `stochasticAlpha` (doorkijkfolie),
-  `interior` (zie boven), `dye` (0–1: geverfd doek wordt in de schaduw dieper en verzadigder),
+  `interior` / `interiorSolid` (zie boven), `dye` (0–1: geverfd doek wordt in de schaduw dieper en verzadigder),
   `sheet` (`{L, H, c, strength}` op folie met alphaMap: één brede, zachte, licht golvende reflectieband per
   raam), `envFlag` (`{k, a0, a1}`: zwarte vlaggen voor kaal metaal: omgevingsreflectie × `k` waar de
   gereflecteerde straal tussen `a0` en `a1` graden naast de camera wijst; zeskantfacetten wisselen licht/donker).
@@ -550,9 +594,9 @@ Vulling van rechts-áchter (100°, 12°): die raakt het voorvlak niet (een vulli
 gradiënt van de holte op) en geeft het verre vlak een eigen, donkerdere waarde met gradiënt. Hemelkap 2,4
 naar de sleutelkant gekanteld (25°), vloerschaduw van bijna recht boven (`floorKey`), `keyShadow` 0,46.
 Wit doek: `neutral` met `shoulder` 0,88, een hogere key (−70°, 40°, op 2,3×, gericht op `aimRel`
-[0,34, 0,6, 0,43]: rechts van het midden en hoog op het vlak, bundel 32,5°) zodat het belichte vlak naar links
-en naar de dakrand afvalt, vulling 2,2, een lage reflectiekaart vóór (`bounce` −20°/−25°, 1,5) die de valance
-licht ophaalt, belichting 0,53 (detail 0,58). **Alle andere
+[0,28, 0,8, 0,4]: hoog op het vlak naar de nok, zachte bundel 38°) zodat het belichte vlak gelijkmatig naar
+links en naar de dakrand afvalt, vulling 2,2, een lage reflectiekaart vóór (`bounce` −20°/−25°, 1,5) die de
+valance licht ophaalt, belichting 0,52 (detail 0,58). **Alle andere
 kleuren (zwart inbegrepen): hetzelfde licht en `auto` met `max` 0,72**, d.w.z. één vaste belichting voor
 donkere en middenkleuren (lichte kleuren iets minder). Vulling 3,0 (afgewende vlakken ~55 % van het belichte
 vlak: diepere schaduwtint). **Met wanden:** de key-bundel is 60° en op halve wandhoogte gericht (de wand aan de
@@ -577,9 +621,10 @@ Gemeten (sRGB-luminantie; achtergrond #EFEDE8 = 237):
 | `tent-3x3-wit-hero` | belicht vlak tot 246 (holte 221 → 246 van graat naar spant), rechterhelft voorvlak 227–236, afgewend vlak 204–221; silhouet links ≥ 15 niveaus onder de achtergrond (mediaan 218), rechts ≥ 23 (mediaan 208) |
 | dak-close-up 34°/35° | elk half paneel een gradiënt: voorvlak 219 → 245, afgewend vlak 188 → 205 en 193 → 218 |
 | `tent-3x3-wit-front` | linkerhelft 243–249, rechterhelft 207 → 228 (holte); silhouet links +6…12, rechts −9…−14 |
-| `tent-3x6-zwart-zijwanden-hero` | belicht dakvlak 40–50, afgewend ~20–25 (één zachte glans, geen spiegelplassen); deur als donkere opening met oprol |
-| toonbewaking 3×3 Premium hero | belicht dak zwart 48 / antraciet 81 / grijs 135; afgewend zwart 19; valance zwart 28 ≤ frame 31; zie `tools/check-tent-values.py` |
-| `tent-3x3-wit-hero` (nieuw) | belicht vlak ~247 bij de spant, 222–234 naar linkergraat en dakrand; valance 200–228 (links donkerder); afgewend vlak 190–215 |
+| `tent-3x6-zwart-zijwanden-hero` | belicht dakvlak ~43, afgewend ~19; **belichte lange wand ~43** (één brede zachte glans, 37 → 46 over de lengte), **afgewende korte wand ~23**, dichte deur ~45 (rits, stormflap, deurbanden lezen van buiten), PVC-ramen ~32 (rookfolie over de schemerige binnenkant, geen witte kaart) |
+| `tent-3x6-zwart-zijwanden-detail` | opgerolde deur: binnenkant door de opening ~19 (geen zwart gat); wanden ~45–55 |
+| toonbewaking 3×3 Premium hero | belicht dak zwart 48 / antraciet 82 / grijs 136; afgewend zwart 19; valance zwart 28 ≤ frame 46–54 (gemiddeld over de buis); zie `tools/check-tent-values.py` |
+| `tent-3x3-wit-hero` (r7) | belicht vlak ~246 hoog bij de spant; dakrand ~230 (191 in de uiterste linkerhoek → 232); linkergraat 246 → 200 (181 in de hoek); valance ~197–205; afgewend vlak ~189–198 (2000 px, 40 samples) |
 | voetplaat / gewichten (close-up) | plaatrand 170 → 229 over 3,4 cm; onder de gewichtenstapel 108 → 226 over 3,3 cm |
 
 
@@ -599,13 +644,16 @@ python3 renders/tools/check-tent-values.py [--size 1000] [--samples 16] [--colou
 Rendert dezelfde 3×3 Premium hero in zwart, antraciet en grijs, een open 3×6 zwart, en de 3×6 zwart met
 wanden uit de samples (hero met dichte deur + detail met opgerolde deur) en leest de gerenderde waarden op
 meetpunten die de tentbouwer meegeeft (`meta.probes`: belicht/afgewend dakvlak, valance onder beide, as van de
-poot die het dichtst bij de camera staat, dicht wanddoek laag tussen de poten op de belichte/afgewende wand
-(`wallLit`/`wallShade`), en de deur (`doorway`: dicht = het deurblad, opgerold = wat je door de opening ziet);
+poot die het dichtst bij de camera staat (gemiddeld óver de buis: lichte, midden- en donkere zeskantfacetten;
+de as alleen valt soms precies op het donkerste facet), dicht wanddoek laag tussen de poten op de
+belichte/afgewende wand (`wallLit`/`wallShade`), de deur (`doorway`: dicht = het deurblad, opgerold = wat je
+door de opening ziet) en de PVC-ramen op de zichtbare zijden (`windowPane`);
 `js/main.js` projecteert ze naar pixels en geeft ze terug in de render-info, `--json`). Faalt als zwart niet
 zwart is (belicht dak 30–55, afgewend 10–30), als het belichte dak tussen zwart, antraciet en grijs < 25
 niveaus verschilt, als zwart doek lichter is dan het zwarte frame ernaast, als de belichte wand onder 30 komt
 (doel 35–50: daaronder smelten wand, valance en zoomschaduw samen tot één zwarte doos), het dichte deurblad
-onder 30, de afgewende wand buiten 15–30 (doel 18–25) of < 10 niveaus onder de belichte wand ligt, of als de
+onder 30, de afgewende wand buiten 15–30 (doel 18–25) of < 10 niveaus onder de belichte wand ligt, de ramen
+buiten 10–70 vallen (rookfolie: geen zwart gat, geen witte studiokaart door een raam aan de overkant), of als de
 binnenkant door de opgerolde deur buiten 12–60 valt (doel 15–35: geen zwart gat). `--only zwart-wanden,zwart-deur`
 draait alleen de wandcontrole. `--colours` drukt ook wit/rood/blauw/groen/oranje/geel af
 (belicht vs. afgewend: waarde en verzadiging).

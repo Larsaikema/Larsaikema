@@ -8,6 +8,8 @@
   - unit (string): price per unit, e.g. 'm²' for made-to-measure products
   - note (string, optional): a short addition after the secondary (excl./incl.) line, e.g. the staffel hint on cards;
     without the secondary line (setting off) it gets its own line
+  - secondary (bool, optional): false leaves out the other btw price even when the setting shows it (product cards when
+    the header has the Particulier/Zakelijk switch: the shopper sees one price, in the mode they chose)
   A sale price sits in the Zon label (brand book 4.2); the compare-at price is Kiezel and struck through.
 {%- endcomment -%}
 {%- liquid
@@ -42,8 +44,12 @@
     assign p_fmt = p | money
     assign p_excl_fmt = p_excl | money
   endif
+  assign show_alt = settings.price_show_secondary
+  if secondary == false
+    assign show_alt = false
+  endif
 -%}
-<div class="price{% if size == 'lg' %} price--lg{% endif %}{% if on_sale %} price--sale{% endif %}"{% if id %} id="{{ id }}"{% endif %} data-price="{{ p }}" data-price-excl="{{ p_excl }}">
+<div class="price{% if size == 'lg' %} price--lg{% endif %}{% if on_sale %} price--sale{% endif %}{% unless show_alt %} price--single{% endunless %}"{% if id %} id="{{ id }}"{% endif %} data-price="{{ p }}" data-price-excl="{{ p_excl }}">
   <div class="price__main" data-vat-mode="incl">
     {%- if show_from -%}<span class="price__from">{{ 'price.from' | t }}</span>{%- endif -%}
     <span class="price__value{% if on_sale %} price__value--sale{% endif %}">{%- if on_sale -%}<span class="visually-hidden">{{ 'price.sale' | t }}</span>{%- endif -%}{{ p_fmt }}</span>
@@ -59,7 +65,7 @@
     <span class="price__label">{{ 'price.excl' | t }}</span>
   </div>
   {%- if note != blank -%}{%- capture price_note -%}<span class="price__note"><span class="price__note-sep" aria-hidden="true"> · </span>{{ note }}</span>{%- endcapture -%}{%- endif -%}
-  {%- if settings.price_show_secondary -%}
+  {%- if show_alt -%}
     {%- comment -%} a from-price stays a from-price on the second line too ('vanaf € 495,04 excl. btw') {%- endcomment -%}
     {%- if show_from -%}{%- assign alt_from = 'price.from' | t | append: ' ' -%}{%- endif -%}
     <div class="price__alt" data-vat-mode="incl">{{ alt_from }}<span class="price__value">{{ p_excl_fmt }}</span>&nbsp;{{ 'price.excl' | t }}{{ price_note }}</div>

@@ -24,7 +24,12 @@ export function stretchtent(p = {}) {
   if (D > W) [W, D] = [D, W]; // long side to the camera
   const hypar = String(p.shape || '').toLowerCase() === 'hypar';
   const hex = K.col(p.color || 'zand', M.COLORS.zand);
-  const fab = K.stretchFabric(hex);
+  let fab = K.stretchFabric(hex);
+  if (p.__angle === 'low') {
+    // seen from under the sail: the knit lets daylight through, the underside glows
+    const f2 = fab.clone(); f2.userData = { ...JSON.parse(JSON.stringify(fab.userData || {})), translucency: 0.32 }; delete f2.userData.__hooked; f2.name = fab.name + ' low';
+    fab = f2;
+  }
   const wood = String(p.poles || 'hout').toLowerCase().startsWith('h') || p.poles === 'wood';
   const poleMat = wood ? K.woodPole() : M.aluminium({ roughness: 0.32 });
   const poleR = wood ? 0.045 : 0.032;
@@ -170,13 +175,44 @@ export function stretchtent(p = {}) {
 
   const top0 = poles[0].top;
   const lum = K.lumOf(hex);
+  // `low` ("onder het doek"): the camera stands under the sail at eye height, in front of and
+  // right of the centre pole, and looks back across the space under the cloth: the underside of
+  // the sail overhead, the centre pole rising into the peak, the perimeter poles and the sail
+  // edges with the studio beyond. Eye and aim point are placed from the form-found sail (the
+  // eye stays >= 0.5 m under the cloth); the framing proxy is two points either side of the aim
+  // point, so the auto-framing lands exactly on that eye.
+  const low = p.__angle === 'low' && !hypar;
+  let lowView = null;
+  if (low) {
+    const sailY = (x, z) => { let best = null, bd = 1e9; for (const row of rows) for (const q of row) { const d = (q.x - x) ** 2 + (q.z - z) ** 2; if (d < bd) { bd = d; best = q; } } return best.y; };
+    const ex = W * 0.2, ez = D * 0.17;
+    const eye = V3(ex, Math.min(1.45, sailY(ex, ez) - 0.5), ez);
+    const aim = V3(-W * 0.1, Math.min(2.4, sailY(-W * 0.1, -D * 0.3) + 0.15), -D * 0.3);
+    const d = eye.clone().sub(aim), dist = d.length(); d.normalize();
+    const az = Math.atan2(d.x, d.z) * 180 / Math.PI, el = Math.asin(d.y) * 180 / Math.PI;
+    const fov = 72, fill = 0.5;
+    const right = V3(d.z, 0, -d.x).normalize();
+    const e = fill * dist * Math.tan((fov * Math.PI) / 360);
+    group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
+    const g = new THREE.BufferGeometry();
+    const a = aim.clone().addScaledVector(right, -e), b = aim.clone().addScaledVector(right, e);
+    g.setAttribute('position', new THREE.Float32BufferAttribute([a.x, a.y, a.z, b.x, b.y, b.z], 3)); g.setIndex([0, 0, 1]);
+    const pm = new THREE.Mesh(g, new THREE.MeshBasicMaterial()); pm.layers.set(5); pm.frustumCulled = false; pm.castShadow = false; pm.userData.frameProxy = true;
+    group.add(pm);
+    lowView = { azimuth: az, elevation: el, fov, fill };
+  }
   return {
     object: group,
     detail: { target: [top0.x, top0.y - 0.6, top0.z], size: 1.6, azimuth: 30, elevation: -8 },
-    view: { low: { azimuth: 28, elevation: 3 } },
+    view: { low: lowView || { azimuth: 28, elevation: 3 } },
     // the catalogue tent light (current easy-up rig): white stretch cloth reads white (lit sail
     // ~240-248), not light grey; stretch fabric is matte, so the white key is not tempered
-    rig: { default: { ...T2.tentRig2(hex), ...(lum > 0.7 ? { exposure: 0.72 } : {}) } },
+    rig: {
+      default: { ...T2.tentRig2(hex), ...(lum > 0.7 ? { exposure: 0.8 } : {}) },
+      // under the sail: the cloth is lit from above, so its underside glows with the light that
+      // comes through (more fill and sky, no floor halo at the frame edges)
+      ...(low ? { low: { fill: { azimuth: 100, elevation: -30, intensity: 3.2 }, bounce: { azimuth: 0, elevation: -60, intensity: 2.2 }, dome: { count: 2, intensity: 2.6, maxZenith: 62 }, edgeFade: 0.0, exposure: lum > 0.7 ? 0.7 : 'auto' } } : {}),
+    },
     meta: { W, D, hypar, poles: poles.length },
   };
 }

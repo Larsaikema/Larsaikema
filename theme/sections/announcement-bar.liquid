@@ -1,6 +1,12 @@
 {%- liquid
   assign phone = settings.phone | default: shop.phone
-  assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+  # tel:/wa.me links in international form (+31 for a national number), so they also work for a visitor in Belgium
+  capture phone_href
+    render 'header-contact-href', number: phone, type: 'tel'
+  endcapture
+  capture wa_href
+    render 'header-contact-href', number: settings.whatsapp, type: 'wa'
+  endcapture
   # [reactietijd]: the 'binnen …' part of Thema-instellingen › Contact › Reactietijd ('We reageren binnen één werkdag.'),
   # so a USP like 'Offerte op maat [reactietijd]' changes with that setting; without 'binnen' the placeholder is left out.
   assign reply = ''
@@ -11,18 +17,22 @@
 -%}
 {%- comment -%}
   USP bar. usp-rotator (section-header.js) shows as many messages as fit on one line and rotates the rest, on every
-  width; the others stay readable for screen readers and come into view when reached with Tab. The delivery line takes
-  the longest wording that fits, and every wording (also the shortest, on a phone) starts with its condition 'Uit
-  voorraad' and follows the same rule as 'Vóór 14:00 besteld, vandaag verzonden', so it never reads as a second promise:
-  before the cutoff 'Uit voorraad: bestel binnen 3 u 13 min, vandaag verzonden' (on a phone 'Uit voorraad: nog 3 u 13 min,
-  vandaag weg' or 'Uit voorraad: vóór 14:00 besteld, vandaag weg': the deadline always stays), after it 'Uit voorraad: na 14:00
-  besteld, morgen verzonden', in the weekend 'Uit voorraad: zondag besteld, maandag verzonden', on a holiday 'Uit
-  voorraad: nu besteld, dinsdag verzonden'; shortest 'Uit voorraad: maandag verzonden'. A temporary notice with dates is
+  width; the others stay readable for screen readers and come into view when reached with Tab. A message that is longer
+  than the bar (a notice on a phone) wraps onto a second line instead of being cut off; the bar then takes the height of
+  its tallest message, so it does not jump while rotating. The delivery line takes the longest wording that fits on one
+  line, and every wording starts with its condition 'Uit voorraad' and follows the same rule as 'Vóór 14:00 besteld,
+  vandaag verzonden', so it never reads as a second promise: before the cutoff 'Uit voorraad: bestel binnen 3 u 13 min,
+  vandaag verzonden' or 'Uit voorraad: nog 3 u 13 min, vandaag verzonden' (the deadline always stays: when neither fits
+  on one line, the full wording wraps), after it 'Uit voorraad: na 14:00 besteld, morgen verzonden' or 'Uit voorraad:
+  morgen verzonden', in the weekend 'Uit voorraad: zondag besteld, maandag verzonden', on a holiday 'Uit voorraad: nu
+  besteld, dinsdag verzonden'. A temporary notice with dates is
   checked in the browser (Amsterdam date), because Shopify serves cached pages: a Liquid date check could show it too
   long. The first message that is shown (also a dated notice placed on top) opens the bar, also on a phone and with
   reduced motion. Placeholders in texts: [besteltijd] = cutoff time, [bedenktijd] = return days, [reactietijd] = the
   'binnen …' part of the reply time (Thema-instellingen). The service links sit right on desktop; the <template> copies
-  them into the mobile menu.
+  them into the mobile menu. The contact panel (desktop, 'Telefoon en contactpaneel tonen') opens from the phone number:
+  phone, WhatsApp, e-mail, opening hours and reply time from Thema-instellingen › Contact, so they are one click away at
+  every desktop width (the mobile menu lists the same).
 {%- endcomment -%}
 <div class="utility-bar color-{{ section.settings.color_scheme }}">
   <div class="page-width utility-bar__inner">
@@ -45,7 +55,7 @@
           {%- when 'countdown' -%}
             {%- assign cut = settings.cutoff_time | escape -%}
             <div class="utility-bar__usp{% if is_first %} is-active{% endif %}" {{ block.shopify_attributes }} data-bar-delivery data-cutoff="{{ cut }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"
-              data-cd-l="{{ 'header.usp_countdown_html' | t: time: '__LEFT__' | escape }}" data-cd-m="{{ 'header.usp_countdown_mid_html' | t: time: '__LEFT__' | escape }}" data-cd-s="{{ 'header.usp_countdown_short_html' | t: time: '__LEFT__' | escape }}" data-today-s="{{ 'header.usp_today_short_html' | t: time: '__TIME__' | escape }}" data-today-l="{{ 'header.usp_today_html' | t: time: '__TIME__' | escape }}"
+              data-cd-l="{{ 'header.usp_countdown_html' | t: time: '__LEFT__' | escape }}" data-cd-m="{{ 'header.usp_countdown_mid_html' | t: time: '__LEFT__' | escape }}" data-today-l="{{ 'header.usp_today_html' | t: time: '__TIME__' | escape }}"
               data-after="{{ 'header.usp_after_html' | t: time: '__TIME__', date: '__DATE__' | escape }}" data-later="{{ 'header.usp_later_html' | t: date: '__DATE__' | escape }}" data-day="{{ 'header.usp_day_html' | t: day: '__DAY__', date: '__DATE__' | escape }}" data-ships="{{ 'header.usp_ships_html' | t: date: '__DATE__' | escape }}"
               data-h="{{ 'delivery.hours' | t: h: '__H__', m: '__M__' | escape }}" data-hw="{{ 'header.usp_hours_whole' | t: h: '__H__' | escape }}" data-m="{{ 'delivery.minutes' | t: m: '__M__' | escape }}" data-today="{{ 'delivery.today' | t | escape }}" data-tomorrow="{{ 'delivery.tomorrow' | t | escape }}">
               {%- capture cd_text -%}{%- render 'icon', icon: 'truck', class: 'icon--xs' -%}<span data-delivery-text>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days }}</span>{%- endcapture -%}
@@ -91,8 +101,34 @@
     {%- capture nav_label -%}{{ 'header.service_nav' | t }}{%- endcapture -%}
     <nav class="utility-bar__links" aria-label="{{ section.settings.menu.title | default: nav_label | escape }}">
       {{ bar_links }}
-      {%- if section.settings.show_phone and phone != blank -%}
-        <a href="tel:{{ phone_href }}" class="utility-bar__phone">{%- render 'icon', icon: 'phone', class: 'icon--xs' -%}{{ phone }}</a>
+      {%- if section.settings.show_phone -%}
+        {%- if phone_href != blank or wa_href != blank or settings.openingstijden != blank -%}
+          {%- comment -%} contact panel: a disclosure like the country chooser (section-header.js closes it on Esc and on a click outside; panel CSS in section-header-loc.css, loaded on first reach) {%- endcomment -%}
+          <noscript>{{ 'section-header-loc.css' | asset_url | stylesheet_tag }}</noscript>
+          <details class="hloc__details hcontact" data-loc-css="{{ 'section-header-loc.css' | asset_url }}">
+            <summary class="hloc__summary utility-bar__phone">
+              {%- if phone_href != blank -%}
+                {%- render 'icon', icon: 'phone', class: 'icon--xs' -%}<span class="visually-hidden">{{ 'contact.info_title' | t }}: </span>{{ phone }}
+              {%- else -%}
+                {%- render 'icon', icon: 'chat', class: 'icon--xs' -%}{{ 'general.call_or_app' | t }}
+              {%- endif -%}
+              {%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}
+            </summary>
+            <div class="hloc__panel hcontact__panel">
+              <p class="eyebrow hloc__label">{{ 'contact.info_title' | t }}</p>
+              <ul class="hcontact__list" role="list">
+                {%- if phone_href != blank -%}<li><a href="{{ phone_href }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}<span>{{ 'contact.call_cta' | t: phone: phone }}</span></a></li>{%- endif -%}
+                {%- if wa_href != blank -%}<li><a href="{{ wa_href }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'contact.whatsapp_cta' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></span></a></li>{%- endif -%}
+                {%- if settings.email != blank -%}<li><a href="mailto:{{ settings.email }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}<span>{{ settings.email }}</span></a></li>{%- endif -%}
+              </ul>
+              {%- if settings.openingstijden != blank -%}
+                <div><p class="eyebrow hloc__label">{{ 'general.opening_hours' | t }}</p><p class="hcontact__hours">{{ settings.openingstijden | newline_to_br }}</p></div>
+              {%- endif -%}
+              {%- if settings.response_time != blank -%}<p class="hcontact__note">{{ settings.response_time }}</p>{%- endif -%}
+              {%- if pages.contact.url != blank -%}<a class="hcontact__more" href="{{ pages.contact.url }}">{{ 'header.contact_more' | t }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>{%- endif -%}
+            </div>
+          </details>
+        {%- endif -%}
       {%- endif -%}
     </nav>
     {%- if bar_links != blank -%}
@@ -122,7 +158,7 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-5" },
     { "type": "link_list", "id": "menu", "label": "Menu rechts (optioneel)", "info": "Komt na de servicelink-blokken. Bijvoorbeeld Offerte aanvragen, Klantenservice, Zakelijk." },
-    { "type": "checkbox", "id": "show_phone", "label": "Telefoonnummer tonen", "default": true },
+    { "type": "checkbox", "id": "show_phone", "label": "Telefoon en contactpaneel tonen", "default": true, "info": "Desktop: het telefoonnummer opent een paneel met bellen, WhatsApp, e-mail, openingstijden en reactietijd (Thema-instellingen › Contact). Zonder telefoonnummer heet de knop 'Bel of app ons'." },
     { "type": "checkbox", "id": "show_localization", "label": "Land- en taalkeuze tonen (desktop)", "default": true, "info": "Verschijnt met meer dan één land of taal in Instellingen › Markten. Op mobiel staat de keuze in het menu." },
     { "type": "checkbox", "id": "autorotate", "label": "Berichten automatisch wisselen", "default": true, "info": "Passen niet alle berichten op één regel (mobiel, smalle schermen), dan wisselen ze, met pauzeknop. Uit: bezoekers bladeren zelf met een pijltje." },
     { "type": "range", "id": "interval", "min": 3, "max": 10, "step": 1, "unit": "s", "label": "Wisselen na", "default": 6 }
@@ -178,7 +214,7 @@
       "name": "Besteltijd-teller",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Toont 'Uit voorraad: bestel binnen 2 u 13 min, vandaag verzonden', na de besteltijd 'Uit voorraad: na 14:00 besteld, morgen verzonden', in het weekend 'Uit voorraad: zondag besteld, maandag verzonden' en op een feestdag 'Uit voorraad: nu besteld, dinsdag verzonden', op basis van de besteltijd, verzenddagen en feestdagen (Thema-instellingen > Levering). Op een smal scherm korter, maar altijd met 'Uit voorraad'." },
+        { "type": "paragraph", "content": "Toont 'Uit voorraad: bestel binnen 2 u 13 min, vandaag verzonden', na de besteltijd 'Uit voorraad: na 14:00 besteld, morgen verzonden', in het weekend 'Uit voorraad: zondag besteld, maandag verzonden' en op een feestdag 'Uit voorraad: nu besteld, dinsdag verzonden', op basis van de besteltijd, verzenddagen en feestdagen (Thema-instellingen > Levering). Op een smal scherm korter ('Uit voorraad: nog 2 u 13 min, vandaag verzonden'); vóór de besteltijd staat de tijd er altijd bij, en past dat niet op één regel, dan loopt de tekst door op een tweede regel." },
         { "type": "text", "id": "text", "label": "Tekst zonder JavaScript", "default": "Uit voorraad op werkdagen vóór [besteltijd] besteld, dezelfde dag verzonden", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." },
         { "type": "url", "id": "link", "label": "Link", "info": "Bijvoorbeeld je pagina over verzenden en bezorgen." }
       ]

@@ -109,7 +109,8 @@ export function marketStall(p = {}) {
     object: group,
     detail: { target: [hw - 0.2, yT, hd], size: 0.7, azimuth: 30, elevation: 20 },
     view: { hero: { elevation: 17 } },
-    rig: { default: K.tentRig(hex, { print: !!print }) },
+    // white kap: a touch more exposure than the generic white tent rig, so it reads white (~248) like the easy-up
+    rig: { default: { ...K.tentRig(hex, { print: !!print }), ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.6 } : {}) } },
     meta: { W, D },
   };
 }

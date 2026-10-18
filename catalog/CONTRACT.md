@@ -9,7 +9,8 @@ seed script all follow this contract. Change it only deliberately, and update al
 |---|---|---|
 | `Maat` | `3 x 3 m`, `3 x 4,5 m`, `3 x 6 m`, `4 x 4 m`, `4 x 6 m`, `4 x 8 m` · tables `Ø80 cm` · covers `Ø80-85 cm` | tents, tables, covers, walls |
 | `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch, the name of the cloth colour; never a brand colour name such as `Lampion` or the old `Klaproos`, brand.md v7 §4.2) | everything with colour |
-| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur`, `Binnen` / `Buiten (compact HPL)` (statafel), `Polyester` / `Heavy duty PVC` (compleet pakket) | where relevant |
+| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur`, `Binnen` / `Buiten (compact HPL)` (statafel), `Polyester` / `Heavy duty PVC` (compleet pakket), `Standaard` / `Brouwerijkwaliteit` (biertafelset, bierbank, biertafelsets 10 stuks) | where relevant |
+| `Samenstelling` | what a line or pakket is made of when `Uitvoering` already carries the quality: `Set: tafel en 2 banken` / `Alleen tafel` (biertafelset), `Zonder transportkar` / `Met transportkar` (biertafelsets 10 stuks) | biertafels (merchandising review 3); a plain option to the theme (pills), no swatch, no size guide |
 
 Colour swatches: the theme uses `value.swatch.color` when present (seed script links `Kleur` to the
 `shopify.color-pattern` category metafield); otherwise it falls back to the theme setting `swatch_colors`
@@ -134,6 +135,14 @@ cards are never used. The seed script uploads it as the collection image (`colle
 
 `main-menu` (3 levels: category → subcategory → links), `footer-assortiment`, `footer-klantenservice`,
 `footer-klapklaar` (over ons, zakelijk, bedrukken, blog), `footer-juridisch` (voorwaarden, privacy, cookies).
+
+## Redirects and stock input
+
+`catalog/export/redirects.csv` (columns `Redirect from`, `Redirect to`, Shopify's URL-redirect import) keeps a renamed product handle
+working: `build.py` writes it from `skeleton.redirects` and refuses a redirect from a live handle or to a missing one. The seed script
+must create the same redirects (`urlRedirectCreate`). `catalog/stock.csv` (`SKU,Product,Variant,Voorraad`) is owner input: a filled
+`Voorraad` becomes the variant's `inventory_quantity` (CSV `Variant Inventory Qty`, fixture), an empty one leaves 0 + policy `continue`
+(`Leverbaar over 2–3 weken`); the catalog never invents stock. `python3 catalog/build.py --stock-template` adds the fast movers' rows.
 
 ## Pages (handle → template suffix)
 

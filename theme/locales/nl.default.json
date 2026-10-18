@@ -58,6 +58,9 @@
       "other": "{{ count }} producten"
     },
     "vat_toggle": "Prijzen tonen voor",
+    "vat_particulier": "Particulier",
+    "vat_zakelijk": "Zakelijk",
+    "contact_more": "Alle contactopties",
     "vat_incl_hint": "Prijzen incl. btw",
     "vat_excl_hint": "Prijzen excl. btw",
     "all_in": "Alles in {{ title }}",
@@ -72,8 +75,6 @@
     "featured": "Uitgelicht",
     "usp_countdown_html": "Uit voorraad: bestel binnen <strong>{{ time }}</strong>, vandaag verzonden",
     "usp_countdown_mid_html": "Uit voorraad: nog <strong>{{ time }}</strong>, vandaag verzonden",
-    "usp_countdown_short_html": "Uit voorraad: nog <strong>{{ time }}</strong>, vandaag weg",
-    "usp_today_short_html": "Uit voorraad: vóór <strong>{{ time }}</strong> besteld, vandaag weg",
     "usp_today_html": "Uit voorraad: vóór <strong>{{ time }}</strong> besteld, vandaag verzonden",
     "usp_later_html": "Uit voorraad: nu besteld, <strong>{{ date }}</strong> verzonden",
     "usp_after_html": "Uit voorraad: na <strong>{{ time }}</strong> besteld, <strong>{{ date }}</strong> verzonden",
@@ -116,6 +117,15 @@
     "quantity_in_cart": "{{ count }} in je winkelwagen",
     "stock_in": "Op voorraad",
     "stock_low": "Nog {{ count }} op voorraad",
+    "stock_alternatives": "Wel uit voorraad:",
+    "need_q": "Nodig op een vaste datum?",
+    "need_cta": "Check of het lukt",
+    "need_label": "Datum van je feest of evenement",
+    "need_ok_html": "<strong>Dat lukt.</strong> We verwachten je bestelling uiterlijk {{ to }} bij je.",
+    "need_tight_html": "<strong>Dat wordt krap.</strong> We verwachten je bestelling tussen {{ from }} en {{ to }}.",
+    "need_late_html": "<strong>Dat halen we waarschijnlijk niet.</strong> We verwachten je bestelling tussen {{ from }} en {{ to }}.",
+    "need_ask": "Vraag of het eerder kan",
+    "print_link": "Met jouw logo",
     "stock_backorder": "Leverbaar over 2–3 weken",
     "stock_out": "Tijdelijk uitverkocht",
     "sku": "Artikelnummer",
@@ -177,7 +187,7 @@
     "print_required": "Upload je logo, of kies ‘Ik lever mijn logo later aan’.",
     "notify_title": "Mail me als dit weer op voorraad is",
     "notify_button": "Mail me",
-    "notify_success": "Top, we mailen je zodra dit weer op voorraad is.",
+    "notify_success": "Dank je, je aanvraag is binnen. We laten het je weten zodra dit weer op voorraad is.",
     "print_choose": "Kies je bestanden of sleep ze hierheen",
     "print_limits": "PDF, AI, EPS, SVG, PNG of JPG · tot {{ files }} bestanden van max. {{ size }} MB",
     "print_files_label": "Gekozen bestanden",
@@ -247,7 +257,11 @@
     "gallery_next": "Volgende afbeelding",
     "gallery_position": "Afbeelding {{ index }} van {{ count }}",
     "staffel_foot_quote": "Deze prijzen krijg je met een offerte, ook als particulier of vereniging.",
-    "specs_more": "Alle specificaties ({{ count }} meer)"
+    "specs_more": "Alle specificaties ({{ count }} meer)",
+    "sticky_qty": "{{ n }} st.",
+    "sticky_extra_one": "+ 1 extra",
+    "sticky_extra_other": "+ {{ n }} extra's",
+    "parts_link_html": "Iets kwijt of kapot? <a class=\"link\" href=\"{{ url }}\">Bekijk de losse onderdelen</a>"
   },
   "delivery": {
     "label": "Levering",
@@ -294,7 +308,8 @@
     "design": "Ontwerp met je logo",
     "cta_label": "{{ action }}: {{ title }}",
     "sizes_count": "{{ count }} maten",
-    "shown_in": "Foto in {{ color }}"
+    "shown_in": "Foto in {{ color }}",
+    "photo_soon": "Foto volgt"
   },
   "collection": {
     "products_count": {
@@ -353,8 +368,8 @@
     "price_swap": "Van is hoger dan Tot. We draaien ze om zodra je verder gaat.",
     "price_format": "Alleen cijfers, bijvoorbeeld 1000 of 279,50",
     "lead_default": "{{ text }}, tenzij anders vermeld",
-    "lead_ask": "Vaste datum? Vraag het ons",
-    "lead_date": "Vandaag besteld, uiterlijk {{ date }} in huis",
+    "lead_ask": "Eerder nodig? Vraag het ons",
+    "lead_eta_html": "verwacht in huis <strong>{{ from }} – {{ to }}</strong>",
     "no_results_in": "Niks in {{ title }} met deze combinatie.",
     "no_results_text_in": "Haal een filter weg, of bekijk alles in {{ title }}.",
     "filter_available": "Alleen leverbaar",
@@ -451,8 +466,8 @@
     "help_mail": "Mail {{ email }}",
     "updated_status": "Winkelwagen bijgewerkt, subtotaal {{ total }}.",
     "shipping_label": "Verzending",
-    "shipping_label_pakket": "Verzending binnen NL",
-    "shipping_label_pallet": "Palletlevering binnen NL",
+    "shipping_label_pakket": "Verzending binnen NL (indicatie)",
+    "shipping_label_pallet": "Palletlevering binnen NL (indicatie)",
     "shipping_at_checkout_value": "Zie je bij afrekenen",
     "delivery_wait": "{{ title }}: {{ lead_time }}",
     "stock_all": {
@@ -468,7 +483,9 @@
     "delivery_backorder_item": "{{ title }} is nog niet op voorraad: {{ lead_time }}",
     "delivery_eta_html": "verwacht in huis <strong>{{ from }} – {{ to }}</strong>",
     "date_link": "Vaste feestdatum? Geef je leverdatum door",
-    "shipping_note_nl": "Verzendkosten zijn definitief bij het afrekenen."
+    "shipping_note_nl": "Verzendkosten berekenen we bij het afrekenen.",
+    "date_from": "Kan vanaf {{ date }}.",
+    "date_too_early": "Zo snel kunnen we niet leveren. Kies een datum vanaf {{ date }}, of laat het veld leeg."
   },
   "search": {
     "title": "Zoeken",
@@ -512,7 +529,9 @@
     "error_required_email": "Vul je e-mailadres in.",
     "error_required_name": "Vul je naam in.",
     "error_required_qty": "Vul het aantal in.",
-    "privacy_note_html": "We gebruiken je gegevens alleen om je vraag te beantwoorden. Lees ons <a href=\"{{ url }}\">privacybeleid</a>."
+    "privacy_note_html": "We gebruiken je gegevens alleen om je vraag te beantwoorden. Lees ons <a href=\"{{ url }}\">privacybeleid</a>.",
+    "country": "Land",
+    "country_other": "Ander land"
   },
   "contact": {
     "title": "Stel je vraag",
@@ -683,7 +702,8 @@
     "no_results_title": "Geen vraag gevonden.",
     "no_results": "Probeer een ander woord, of stel je vraag aan ons.",
     "ask_title": "Staat je vraag er niet bij?",
-    "ask_cta": "Stel je vraag"
+    "ask_cta": "Stel je vraag",
+    "tasks": "Direct regelen"
   },
   "print": {
     "step": "Stap {{ index }}",

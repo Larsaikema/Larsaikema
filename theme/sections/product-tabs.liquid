@@ -1,0 +1,94 @@
+{%- comment -%}
+  Product rows per family behind tabs (feature home.category-product-rows): one heading, a row of tabs (one per collection
+  block) and per tab a grid of product cards plus 'Alle … (n)'. Every panel is rendered server-side, so each tab is a real
+  link target without JS; section-product-tabs.js only switches the panels (WAI-ARIA tabs: arrow keys, Home, End).
+  Blocks whose collection is empty or missing are left out; with a single tab no tab bar is shown.
+{%- endcomment -%}
+{{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
+{{ 'section-product-tabs.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-product-tabs.js' | asset_url }}" defer></script>
+{%- liquid
+  assign limit = section.settings.limit
+  assign tab_count = 0
+  for block in section.blocks
+    if block.settings.collection != blank and block.settings.collection.products_count > 0
+      assign tab_count = tab_count | plus: 1
+    endif
+  endfor
+-%}
+{%- if tab_count > 0 -%}
+<section class="section product-tabs color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
+  <div class="page-width">
+    <product-tabs class="ptabs">
+    <div class="section-head product-tabs__head">
+      <div class="product-tabs__intro">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="section-head__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p class="section-head__text muted">{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+      {%- if tab_count > 1 -%}
+        <div class="ptabs__bar chips chips--scroll" role="tablist" aria-labelledby="Title-{{ section.id }}">
+          {%- assign shown_tab = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- assign c = block.settings.collection -%}
+            {%- if c == blank or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+            {%- assign shown_tab = shown_tab | plus: 1 -%}
+            <button type="button" class="chip ptabs__tab{% if shown_tab == 1 %} chip--active{% endif %}" role="tab" id="Tab-{{ section.id }}-{{ block.id }}" aria-controls="Panel-{{ section.id }}-{{ block.id }}" aria-selected="{% if shown_tab == 1 %}true{% else %}false{% endif %}"{% unless shown_tab == 1 %} tabindex="-1"{% endunless %} {{ block.shopify_attributes }}>
+              <span>{{ block.settings.label | default: c.title }}</span><span class="ptabs__count" aria-hidden="true">{{ c.products_count }}</span>
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+      {%- assign shown_panel = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- if c == blank or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+        {%- assign shown_panel = shown_panel | plus: 1 -%}
+        {%- assign tab_title = block.settings.label | default: c.title -%}
+        <div class="ptabs__panel" id="Panel-{{ section.id }}-{{ block.id }}"{% if tab_count > 1 %} role="tabpanel" aria-labelledby="Tab-{{ section.id }}-{{ block.id }}" tabindex="0"{% endif %}{% if shown_panel > 1 %} hidden{% endif %}>
+          <ul class="slider slider--desktop-grid product-row product-row--mobile-grid" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
+            {%- for product in c.products limit: limit -%}
+              <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 50vw' -%}</li>
+            {%- endfor -%}
+          </ul>
+          <div class="ptabs__foot">
+            <a class="btn btn--outline ptabs__all" href="{{ c.url }}">
+              {%- if block.settings.link_label != blank -%}{{ block.settings.link_label }}{%- else -%}{{ section.settings.link_prefix | default: 'Alle' }} {{ tab_title | downcase }}{%- endif %} ({{ c.products_count }})
+              {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+            </a>
+          </div>
+        </div>
+      {%- endfor -%}
+    </product-tabs>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Producten per categorie",
+  "class": "section-product-tabs",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
+    { "type": "text", "id": "eyebrow", "label": "Bovenregel" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Partytenten" },
+    { "type": "text", "id": "text", "label": "Tekst" },
+    { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Producten per tabblad", "default": 4 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 4 },
+    { "type": "text", "id": "link_prefix", "label": "Begin van de knop onder elk tabblad", "default": "Alle", "info": "De knop wordt bv. 'Alle statafels (6)'. Per tabblad kun je een eigen tekst invullen." }
+  ],
+  "blocks": [
+    {
+      "type": "tab", "name": "Tabblad",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collectie" },
+        { "type": "text", "id": "label", "label": "Naam van het tabblad", "info": "Leeg = de naam van de collectie." },
+        { "type": "text", "id": "link_label", "label": "Eigen tekst voor de knop (optioneel)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Producten per categorie", "blocks": [{ "type": "tab" }, { "type": "tab" }, { "type": "tab" }] }]
+}
+{% endschema %}

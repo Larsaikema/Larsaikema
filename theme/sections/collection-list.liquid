@@ -69,7 +69,38 @@
       {%- endfor -%}
     </ul>
     {%- endif -%}
-    {%- if pill_blocks.size > 0 -%}
+    {%- if pill_blocks.size > 0 and section.settings.more_style == 'tiles' -%}
+      {%- comment -%} the smaller categories as compact image tiles: the whole assortment stays visible at a glance {%- endcomment -%}
+      <div class="mini-tiles">
+        {%- if section.settings.more_label != blank -%}<p class="mini-tiles__label" id="More-{{ section.id }}">{{ section.settings.more_label }}</p>{%- endif -%}
+        <ul class="mini-tiles__list" role="list"{% if section.settings.more_label != blank %} aria-labelledby="More-{{ section.id }}"{% endif %} style="--mini-count: {{ pill_blocks.size }}">
+          {%- for block in pill_blocks -%}
+            {%- liquid
+              assign c = block.settings.collection
+              assign mt_title = block.settings.title | default: c.title
+              assign mt_url = block.settings.link | default: c.url
+              assign mt_img = block.settings.image | default: c.featured_image | default: c.image
+            -%}
+            {%- if mt_title != blank and mt_url != blank -%}
+              <li {{ block.shopify_attributes }}>
+                <a class="mini-tile" href="{{ mt_url }}">
+                  <span class="mini-tile__media">
+                    {%- if mt_img != blank -%}
+                      {%- render 'image', image: mt_img, sizes: '(min-width: 990px) 200px, 31vw', widths: '160, 240, 320, 400', alt: '' -%}
+                    {%- else -%}
+                      {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </span>
+                  <span class="mini-tile__title">{{ mt_title }}</span>
+                  {%- if section.settings.show_meta and c != blank and c.products_count > 0 -%}<span class="mini-tile__count">{{ 'collection.products_count' | t: count: c.products_count }}</span>{%- endif -%}
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- elsif pill_blocks.size > 0 -%}
+      {{ 'section-collection-pills.css' | asset_url | stylesheet_tag }}
       <div class="tile-pills">
         {%- if section.settings.more_label != blank -%}<p class="tile-pills__label" id="More-{{ section.id }}">{{ section.settings.more_label }}</p>{%- endif -%}
         <ul class="tile-pills__list" role="list"{% if section.settings.more_label != blank %} aria-labelledby="More-{{ section.id }}"{% endif %}>
@@ -109,7 +140,8 @@
     { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Kolommen desktop", "default": 4 },
     { "type": "select", "id": "style", "label": "Stijl", "options": [ { "value": "card", "label": "Kaart met tekst eronder" }, { "value": "overlay", "label": "Tekst op het beeld" }, { "value": "panel", "label": "Beeldvlak met tekst erin" } ], "default": "card" },
     { "type": "checkbox", "id": "show_meta", "label": "Aantal producten en vanaf-prijs tonen", "default": false, "info": "De vanaf-prijs is de laagste prijs in de collectie." },
-    { "type": "text", "id": "more_label", "label": "Kop boven de extra categorieën", "default": "Meer in de winkel" }
+    { "type": "text", "id": "more_label", "label": "Kop boven de extra categorieën", "default": "Meer in de winkel" },
+    { "type": "select", "id": "more_style", "label": "Extra categorieën tonen als", "options": [ { "value": "pills", "label": "Knoppen met rond beeldje" }, { "value": "tiles", "label": "Kleine tegels met beeld" } ], "default": "pills" }
   ],
   "blocks": [
     {
