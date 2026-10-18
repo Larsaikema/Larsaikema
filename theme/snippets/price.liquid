@@ -60,8 +60,10 @@
   </div>
   {%- if note != blank -%}{%- capture price_note -%}<span class="price__note"><span class="price__note-sep" aria-hidden="true"> · </span>{{ note }}</span>{%- endcapture -%}{%- endif -%}
   {%- if settings.price_show_secondary -%}
-    <div class="price__alt" data-vat-mode="incl"><span class="price__value">{{ p_excl_fmt }}</span>&nbsp;{{ 'price.excl' | t }}{{ price_note }}</div>
-    <div class="price__alt" data-vat-mode="excl"><span class="price__value">{{ p_fmt }}</span>&nbsp;{{ 'price.incl' | t }}{{ price_note }}</div>
+    {%- comment -%} a from-price stays a from-price on the second line too ('vanaf € 495,04 excl. btw') {%- endcomment -%}
+    {%- if show_from -%}{%- assign alt_from = 'price.from' | t | append: ' ' -%}{%- endif -%}
+    <div class="price__alt" data-vat-mode="incl">{{ alt_from }}<span class="price__value">{{ p_excl_fmt }}</span>&nbsp;{{ 'price.excl' | t }}{{ price_note }}</div>
+    <div class="price__alt" data-vat-mode="excl">{{ alt_from }}<span class="price__value">{{ p_fmt }}</span>&nbsp;{{ 'price.incl' | t }}{{ price_note }}</div>
   {%- elsif note != blank -%}
     <div class="price__alt price__alt--note">{{ note }}</div>
   {%- endif -%}

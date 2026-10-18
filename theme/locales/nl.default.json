@@ -72,6 +72,8 @@
     "featured": "Uitgelicht",
     "usp_countdown_html": "Uit voorraad: bestel binnen <strong>{{ time }}</strong>, vandaag verzonden",
     "usp_countdown_mid_html": "Uit voorraad: nog <strong>{{ time }}</strong>, vandaag verzonden",
+    "usp_countdown_short_html": "Uit voorraad: nog <strong>{{ time }}</strong>, vandaag weg",
+    "usp_today_short_html": "Uit voorraad: vóór <strong>{{ time }}</strong> besteld, vandaag weg",
     "usp_today_html": "Uit voorraad: vóór <strong>{{ time }}</strong> besteld, vandaag verzonden",
     "usp_later_html": "Uit voorraad: nu besteld, <strong>{{ date }}</strong> verzonden",
     "usp_after_html": "Uit voorraad: na <strong>{{ time }}</strong> besteld, <strong>{{ date }}</strong> verzonden",
@@ -148,6 +150,7 @@
     "b2b_link": "Offerte aanvragen",
     "description": "Beschrijving",
     "specs": "Specificaties",
+    "spec_none": "niet opgegeven",
     "delivery_returns": "Levering & retour",
     "downloads": "Downloads",
     "faq": "Veelgestelde vragen",
@@ -239,7 +242,12 @@
     "ship_parcel": "Pakketdienst",
     "ship_pallet": "Palletvervoer",
     "read_more": "Lees verder",
-    "read_less": "Minder tonen"
+    "read_less": "Minder tonen",
+    "gallery_prev": "Vorige afbeelding",
+    "gallery_next": "Volgende afbeelding",
+    "gallery_position": "Afbeelding {{ index }} van {{ count }}",
+    "staffel_foot_quote": "Deze prijzen krijg je met een offerte, ook als particulier of vereniging.",
+    "specs_more": "Alle specificaties ({{ count }} meer)"
   },
   "delivery": {
     "label": "Levering",
@@ -346,6 +354,10 @@
     "price_format": "Alleen cijfers, bijvoorbeeld 1000 of 279,50",
     "lead_default": "{{ text }}, tenzij anders vermeld",
     "lead_ask": "Vaste datum? Vraag het ons",
+    "lead_date": "Vandaag besteld, uiterlijk {{ date }} in huis",
+    "no_results_in": "Niks in {{ title }} met deze combinatie.",
+    "no_results_text_in": "Haal een filter weg, of bekijk alles in {{ title }}.",
+    "filter_available": "Alleen leverbaar",
     "view_all_products": "Bekijk alle producten"
   },
   "cart": {
@@ -567,7 +579,15 @@
     "comment_submit": "Plaats reactie",
     "comment_success": "Bedankt, je reactie staat erbij.",
     "comment_success_moderated": "Bedankt! We plaatsen je reactie zodra we die gelezen hebben.",
-    "comment_moderated_note": "We lezen reacties eerst, daarna komen ze online."
+    "comment_moderated_note": "We lezen reacties eerst, daarna komen ze online.",
+    "toc": "In dit artikel",
+    "share": "Delen",
+    "copy_link": "Link kopiëren",
+    "link_copied": "Link gekopieerd",
+    "share_whatsapp": "Delen via WhatsApp",
+    "share_mail": "Delen per mail",
+    "read_article": "Lees het artikel",
+    "aside": "Bij dit artikel"
   },
   "not_found": {
     "title": "Deze pagina is ingeklapt.",
@@ -647,5 +667,27 @@
     "label": "Snel toevoegen",
     "details": "Alle details bekijken",
     "error": "Dit product kon niet worden geladen. Bekijk het op de productpagina."
+  },
+  "faq": {
+    "topics": "Onderwerpen",
+    "search_label": "Zoek in de vragen",
+    "search_placeholder": "Zoek een vraag, bijv. levertijd",
+    "results": {
+      "one": "{{ count }} vraag gevonden",
+      "other": "{{ count }} vragen gevonden"
+    },
+    "count": {
+      "one": "{{ count }} vraag",
+      "other": "{{ count }} vragen"
+    },
+    "no_results_title": "Geen vraag gevonden.",
+    "no_results": "Probeer een ander woord, of stel je vraag aan ons.",
+    "ask_title": "Staat je vraag er niet bij?",
+    "ask_cta": "Stel je vraag"
+  },
+  "print": {
+    "step": "Stap {{ index }}",
+    "min_qty": "Vanaf {{ count }} stuks",
+    "from_one": "Vanaf 1 stuk"
   }
 }

@@ -72,6 +72,8 @@
     "featured": "Featured",
     "usp_countdown_html": "In stock: order within <strong>{{ time }}</strong>, ships today",
     "usp_countdown_mid_html": "In stock: <strong>{{ time }}</strong> left, ships today",
+    "usp_countdown_short_html": "In stock: <strong>{{ time }}</strong> left, out today",
+    "usp_today_short_html": "In stock: order by <strong>{{ time }}</strong>, out today",
     "usp_today_html": "In stock: order before <strong>{{ time }}</strong>, ships today",
     "usp_later_html": "In stock: order now, ships <strong>{{ date }}</strong>",
     "usp_after_html": "In stock: ordered after <strong>{{ time }}</strong>, ships <strong>{{ date }}</strong>",
@@ -148,6 +150,7 @@
     "b2b_link": "Request a quote",
     "description": "Description",
     "specs": "Specifications",
+    "spec_none": "not specified",
     "delivery_returns": "Delivery & returns",
     "downloads": "Downloads",
     "faq": "Frequently asked questions",
@@ -239,7 +242,12 @@
     "ship_parcel": "Parcel service",
     "ship_pallet": "Pallet freight",
     "read_more": "Read more",
-    "read_less": "Show less"
+    "read_less": "Show less",
+    "gallery_prev": "Previous image",
+    "gallery_next": "Next image",
+    "gallery_position": "Image {{ index }} of {{ count }}",
+    "staffel_foot_quote": "You get these prices with a quote, also as a private customer or club.",
+    "specs_more": "All specifications ({{ count }} more)"
   },
   "delivery": {
     "label": "Delivery",
@@ -346,6 +354,10 @@
     "price_format": "Numbers only, for example 1000 or 279.50",
     "lead_default": "{{ text }}, unless stated otherwise",
     "lead_ask": "Fixed date? Ask us",
+    "lead_date": "Order today, delivered by {{ date }} at the latest",
+    "no_results_in": "Nothing in {{ title }} matches this combination.",
+    "no_results_text_in": "Remove a filter, or see everything in {{ title }}.",
+    "filter_available": "Available only",
     "view_all_products": "View all products"
   },
   "cart": {
@@ -567,7 +579,15 @@
     "comment_submit": "Post comment",
     "comment_success": "Thanks, your comment has been posted.",
     "comment_success_moderated": "Thanks! We'll publish your comment once we've read it.",
-    "comment_moderated_note": "We read comments before they go online."
+    "comment_moderated_note": "We read comments before they go online.",
+    "toc": "In this article",
+    "share": "Share",
+    "copy_link": "Copy link",
+    "link_copied": "Link copied",
+    "share_whatsapp": "Share on WhatsApp",
+    "share_mail": "Share by email",
+    "read_article": "Read the article",
+    "aside": "About this article"
   },
   "not_found": {
     "title": "This page has folded.",
@@ -647,5 +667,27 @@
     "label": "Quick add",
     "details": "View full details",
     "error": "This product could not be loaded. View it on the product page."
+  },
+  "faq": {
+    "topics": "Topics",
+    "search_label": "Search the questions",
+    "search_placeholder": "Search, e.g. delivery time",
+    "results": {
+      "one": "{{ count }} question found",
+      "other": "{{ count }} questions found"
+    },
+    "count": {
+      "one": "{{ count }} question",
+      "other": "{{ count }} questions"
+    },
+    "no_results_title": "No question found.",
+    "no_results": "Try another word, or ask us your question.",
+    "ask_title": "Question not listed?",
+    "ask_cta": "Ask your question"
+  },
+  "print": {
+    "step": "Step {{ index }}",
+    "min_qty": "From {{ count }} pieces",
+    "from_one": "From 1 piece"
   }
 }

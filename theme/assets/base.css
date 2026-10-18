@@ -262,12 +262,15 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
 .price__note{white-space:nowrap}
 @container card (max-width:265px){.card__price .price__note{display:block}.price__note-sep{display:none}}
 .card__footer{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:5px}
+/* the stock line sits above the price, so the price is the bottom line of every card and prices line up across a row */
+.card__footer>.stock,.card__stock{order:-1}
 .card__price .price__main .price__value{font-size:18px;letter-spacing:-.01em}
 @media (min-width:750px){.card__price .price__main .price__value{font-size:20px}}
 .card__price .price__alt{font-size:13px}
 .card .stock{font-size:13px}
 .card--soldout .card__media img{opacity:.7}
 @container card (max-width:200px){.card__swatch{width:25px;height:25px}.swatch--card{--size:18px}.card__swatch:nth-of-type(n+5),.card__more--wide,.card__sizes-long,.card__price .price__note{display:none}.card__sizes-short,.card__more--narrow{display:inline}}
+@container card (max-width:124px){.card__swatches{gap:0}.card__swatch{width:22px}.card__more{margin-left:1px}.card__title{font-size:14.5px}}
 /* narrow cards (two columns on a phone): the spec gets three lines instead of an ellipsis, the main price line drops its
    'incl. btw' label (the line under it names the other one: '€ 495,04 excl. btw'; screen readers still hear both) and the
    delivery date gets its own line (the " · " separator of the wide card is clipped off) */
@@ -277,16 +280,7 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
   .card .stock__extra{display:block;white-space:nowrap;text-indent:-.5em;overflow:clip}
   .card .stock[data-state="stock"]:has(.stock__extra){min-height:2.7em}
 }
-/* wide cards (desktop grid): the other btw price joins the price line ('€ 279,00 incl. btw · € 230,58 excl. btw'), one line
-   less. When it does not fit it wraps without its dot: each part starts with a 14px gutter (the dot sits in it) and the
-   price box is pulled 14px left inside the clipped .card__price, so a gutter at the start of a line is out of sight */
-@container card (min-width:280px){
-  .card__price{overflow:hidden}
-  .card__price .price{flex-direction:row;flex-wrap:wrap;align-items:baseline;margin-left:-14px}
-  .card__price .price>*{padding-left:14px}
-  .card__price .price__alt{position:relative}
-  .card__price .price__alt::before{content:"·" / "";position:absolute;left:5px}
-}
+/* every card has the same price block (main line, the other btw price under it), so prices line up across a row */
 
 /* sliders (scroll-snap) */
 .slider{display:grid;grid-auto-flow:column;grid-auto-columns:var(--slide-w,72%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;margin-inline:calc(-1 * var(--gutter-mobile));padding-inline:var(--gutter-mobile);scroll-padding-inline:var(--gutter-mobile)}

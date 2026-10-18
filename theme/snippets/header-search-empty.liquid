@@ -1,0 +1,58 @@
+{%- comment -%}
+  Header only: what the search field shows when it gets focus while still empty (predictive-search.js), so a shopper who
+  does not know the right word starts with one tap: popular searches as chips and the main categories with a picture.
+  Same ARIA combobox popup as the suggestions (sections/predictive-search.liquid): one listbox of labelled groups with
+  role=option links (arrow keys), the input's aria-controls points at it while it is shown.
+  Params: terms (comma-separated text), menu (link list, optional), fallback (link list: the main menu, used when menu
+  is empty: its first six collection items with an image), uid (section id)
+{%- endcomment -%}
+{%- liquid
+  assign se_terms = terms | split: ','
+  assign se_links = menu.links
+  assign se_max = 8
+  if menu == blank or menu.links.size == 0
+    assign se_links = fallback.links
+    assign se_max = 6
+  endif
+  assign se_n = 0
+-%}
+{%- capture se_cats -%}
+  {%- for se_l in se_links -%}
+    {%- if se_n >= se_max -%}{%- break -%}{%- endif -%}
+    {%- if menu == blank or menu.links.size == 0 -%}
+      {%- if se_l.type != 'collection_link' or se_l.object.image == blank -%}{%- continue -%}{%- endif -%}
+    {%- endif -%}
+    {%- assign se_n = se_n | plus: 1 -%}
+    <a class="predictive__item" href="{{ se_l.url }}" id="ps-cat-{{ se_n }}" role="option" aria-selected="false" tabindex="-1">
+      <span class="predictive__thumb">{%- if se_l.object.image != blank -%}{{ se_l.object.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}{%- endif -%}</span>
+      <span class="predictive__title">{{ se_l.title }}</span>
+    </a>
+  {%- endfor -%}
+{%- endcapture -%}
+{%- capture se_pop -%}
+  {%- for se_t in se_terms -%}
+    {%- assign se_q = se_t | strip -%}
+    {%- if se_q == blank -%}{%- continue -%}{%- endif -%}
+    <a href="{{ routes.search_url }}?q={{ se_q | url_encode }}&amp;options%5Bprefix%5D=last" id="ps-pop-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">{{ se_q | escape }}</a>
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if se_cats != blank or se_pop != blank -%}
+  <div class="predictive predictive--start" id="PredictiveStart-{{ uid }}" data-predictive-start hidden>
+    <div class="predictive__inner">
+      <div class="predictive__listbox" id="PredictiveStartList-{{ uid }}" role="listbox" aria-label="{{ 'search.empty_intro' | t }}">
+        {%- if se_pop != blank -%}
+          <div class="predictive__group predictive__queries" role="group" aria-label="{{ 'search.popular' | t }}">
+            <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.popular' | t }}</p>
+            {{ se_pop }}
+          </div>
+        {%- endif -%}
+        {%- if se_cats != blank -%}
+          <div class="predictive__group predictive__cats" role="group" aria-label="{{ 'search.collections' | t }}">
+            <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.collections' | t }}</p>
+            {{ se_cats }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}

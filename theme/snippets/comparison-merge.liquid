@@ -1,0 +1,192 @@
+{%- comment -%}
+  Row merges for sections/product-comparison.liquid: spec labels differ per product (catalog data is written per product),
+  so rows are lined up before the table is drawn. Outputs the map '§source key¦target key¦label shown in the cell§'.
+  A  'Kleuren polyester' + 'Kleuren heavy duty PVC' on one product, 'Kleuren' on the other -> one row 'Kleuren', the
+     qualified values as labelled lines (only when no product has both the base and the qualified label)
+  B  several labels only one product has ('Polyester', 'Heavy duty PVC') and exactly one row all the others have and it
+     lacks ('Materiaal') -> its lines in that row
+  C  two sparse rows that together cover every product once ('Beschermhoes' / 'Wieltas', 'Ingeklapt in beschermhoes' /
+     'Ingeklapt in wieltas') -> one row ('Ingeklapt'), each value with its own label
+  Params: keys (array of 'groep|label'), pres (array, same order: ',1,3,' = products that have the row), groups (array),
+  count (number of products)
+{%- endcomment -%}
+{%- liquid
+  assign cmap = '§'
+  assign fn_words = 'in,met,op,van,voor,de,het,een,per' | split: ','
+  for k in keys
+    assign kp = k | split: '|'
+    assign kld = kp.last | downcase
+    assign kpres = pres[forloop.index0]
+    assign best = ''
+    for b in keys
+      assign bp = b | split: '|'
+      if b == k or bp.first != kp.first
+        continue
+      endif
+      assign bpre = bp.last | downcase | append: ' '
+      assign kstart = kld | slice: 0, bpre.size
+      if kstart == bpre and bpre.size > best.size
+        assign bpres = pres[forloop.index0]
+        assign overlap = false
+        for i in (1..count)
+          assign ni = ',' | append: i | append: ','
+          if kpres contains ni and bpres contains ni
+            assign overlap = true
+          endif
+        endfor
+        unless overlap
+          assign best = bpre
+          assign best_key = b
+        endunless
+      endif
+    endfor
+    if best != ''
+      assign q = kp.last | slice: best.size, 200 | strip
+      assign q1 = q | slice: 0 | upcase
+      assign q = q | slice: 1, 200 | prepend: q1
+      assign cmap = cmap | append: k | append: '¦' | append: best_key | append: '¦' | append: q | append: '§'
+    endif
+  endfor
+  for pass in (1..2)
+    # presence per row after the merges so far ('' = merged into another row)
+    assign ep_s = ''
+    for k in keys
+      assign kn = '§' | append: k | append: '¦'
+      assign e = ''
+      unless cmap contains kn
+        assign e = pres[forloop.index0]
+        assign tn = '¦' | append: k | append: '¦'
+        if cmap contains tn
+          for j in keys
+            assign jn = '§' | append: j | append: tn
+            if cmap contains jn
+              assign e = e | append: pres[forloop.index0]
+            endif
+          endfor
+        endif
+      endunless
+      assign ep_s = ep_s | append: e | append: '¶'
+    endfor
+    assign epres = ep_s | split: '¶'
+    assign n_s = ''
+    for k in keys
+      assign e = epres[forloop.index0] | default: ''
+      assign n = 0
+      for i in (1..count)
+        assign ni = ',' | append: i | append: ','
+        if e contains ni
+          assign n = n | plus: 1
+        endif
+      endfor
+      assign n_s = n_s | append: n | append: ','
+    endfor
+    assign ncount = n_s | split: ','
+    assign count_less = count | minus: 1
+    for g in groups
+      assign gp = g | append: '|'
+      if pass == 1
+        for i in (1..count)
+          assign ni = ',' | append: i | append: ','
+          assign extras = ''
+          assign missing = ''
+          assign n_missing = 0
+          for k in keys
+            assign kg = k | slice: 0, gp.size
+            assign e = epres[forloop.index0] | default: ''
+            if kg != gp or e == ''
+              continue
+            endif
+            assign n = ncount[forloop.index0] | plus: 0
+            if e contains ni
+              if n == 1
+                assign extras = extras | append: k | append: '§'
+              endif
+            elsif n == count_less
+              assign missing = k
+              assign n_missing = n_missing | plus: 1
+            endif
+          endfor
+          assign extra_list = extras | split: '§'
+          if extra_list.size > 1 and n_missing == 1
+            for x in extra_list
+              assign xl = x | split: '|' | last
+              assign cmap = cmap | append: x | append: '¦' | append: missing | append: '¦' | append: xl | append: '§'
+            endfor
+          endif
+        endfor
+      else
+        for k1 in keys
+          assign k1g = k1 | slice: 0, gp.size
+          assign e1 = epres[forloop.index0] | default: ''
+          assign n1 = ncount[forloop.index0] | plus: 0
+          assign k1i = forloop.index0
+          assign k1m = '§' | append: k1 | append: '¦'
+          assign k1t = '¦' | append: k1 | append: '¦'
+          if k1g != gp or e1 == '' or n1 >= count or cmap contains k1m or cmap contains k1t
+            continue
+          endif
+          for k2 in keys
+            assign k2g = k2 | slice: 0, gp.size
+            assign e2 = epres[forloop.index0] | default: ''
+            assign k2m = '§' | append: k2 | append: '¦'
+            assign k2t = '¦' | append: k2 | append: '¦'
+            if forloop.index0 <= k1i or k2g != gp or e2 == '' or cmap contains k2m or cmap contains k2t or cmap contains k1m
+              continue
+            endif
+            assign fits = true
+            for i in (1..count)
+              assign ni = ',' | append: i | append: ','
+              if e1 contains ni and e2 contains ni
+                assign fits = false
+              endif
+              unless e1 contains ni or e2 contains ni
+                assign fits = false
+              endunless
+            endfor
+            if fits
+              # shared leading words name the row ('Ingeklapt'), else both names ('Beschermhoes / Wieltas')
+              assign l1 = k1 | split: '|' | last
+              assign l2 = k2 | split: '|' | last
+              assign w1 = l1 | split: ' '
+              assign w2 = l2 | split: ' '
+              assign common = 0
+              for w in w1
+                assign wa = w | downcase
+                assign wb = w2[forloop.index0] | downcase
+                if wa != wb
+                  break
+                endif
+                assign common = common | plus: 1
+              endfor
+              for t in (1..3)
+                if common > 0
+                  assign wl = common | minus: 1
+                  assign wlast = w1[wl] | downcase
+                  if fn_words contains wlast
+                    assign common = wl
+                  endif
+                endif
+              endfor
+              if common > 0 and common < w1.size and common < w2.size
+                assign row_l = w1 | slice: 0, common | join: ' '
+                assign q1 = w1 | slice: common, 20 | join: ' '
+                assign q2 = w2 | slice: common, 20 | join: ' '
+                assign c1 = q1 | slice: 0 | upcase
+                assign c2 = q2 | slice: 0 | upcase
+                assign q1 = q1 | slice: 1, 200 | prepend: c1
+                assign q2 = q2 | slice: 1, 200 | prepend: c2
+              else
+                assign row_l = l1 | append: ' / ' | append: l2
+                assign q1 = l1
+                assign q2 = l2
+              endif
+              assign row_k = gp | append: row_l
+              assign cmap = cmap | append: k1 | append: '¦' | append: row_k | append: '¦' | append: q1 | append: '§' | append: k2 | append: '¦' | append: row_k | append: '¦' | append: q2 | append: '§'
+            endif
+          endfor
+        endfor
+      endif
+    endfor
+  endfor
+  echo cmap
+-%}

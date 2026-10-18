@@ -6,3 +6,5 @@
 .iwt__content>*{margin:0}
 .iwt__title{margin:0}
 @media (min-width:990px){.iwt__inner{grid-template-columns:1fr 1fr;gap:72px}.iwt--image-right .iwt__media{order:2}.iwt__media{aspect-ratio:5/4}}
+.iwt--contain .iwt__media img{object-fit:contain}
+@media (max-width:749px){.iwt .btn-row .btn{flex:1 1 auto}}

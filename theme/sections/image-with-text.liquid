@@ -1,5 +1,5 @@
 {{ 'section-image-with-text.css' | asset_url | stylesheet_tag }}
-<section class="section iwt color-{{ section.settings.color_scheme }} iwt--{{ section.settings.layout }}" aria-labelledby="Title-{{ section.id }}">
+<section class="section iwt color-{{ section.settings.color_scheme }} iwt--{{ section.settings.layout }}{% if section.settings.image_fit == 'contain' %} iwt--contain{% endif %}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width iwt__inner">
     <div class="iwt__media">
       {%- if section.settings.image != blank -%}
@@ -55,6 +55,7 @@
         { "value": "tent-front", "label": "Partytent met logo, vooraanzicht" },
         { "value": "rok-logo", "label": "Statafelrok met logo" }
       ], "default": "none" },
+    { "type": "select", "id": "image_fit", "label": "Beeld in het vlak", "options": [ { "value": "cover", "label": "Vullen (foto)" }, { "value": "contain", "label": "Helemaal tonen (render op Linnen)" } ], "default": "cover" },
     { "type": "text", "id": "badge", "label": "Badge op het beeld", "info": "Bijvoorbeeld 'Voorbeeldopdruk' bij een render met logo." },
     { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "image-left", "label": "Beeld links" }, { "value": "image-right", "label": "Beeld rechts" } ], "default": "image-left" }
   ],

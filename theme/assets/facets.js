@@ -1,30 +1,37 @@
-/* Collection & search pages: storefront filtering + sorting (live via the Section Rendering API, sidebar on desktop,
-   drawer on mobile, history support), 'Meer laden', the sticky filter/sort bar on mobile, the clamped intro, and for
-   every product card on the page: colour swatches preview their image on hover, and the card action opens the
-   quick-add drawer (quick-add.js, loaded on first use) for products with options. */
+/* Collection & search: live filters + sort (Section Rendering API, history), 'Meer laden', the phone's Filteren/Sorteren
+   pill, the lead date, the clamped intro; cards: swatch hover preview, quick add (quick-add.js on first use). */
 (() => {
 const KK = window.KK;
 const mq = matchMedia('(max-width: 989px)');
 const SRC = document.currentScript?.src || '';
 const opts = { preventScroll: true };
 const PRICE = '[data-price-min], [data-price-max]';
-/* A typed amount as Shopify reads it: Dutch notation ('1.000', '1.250,50', '279,50') or plain ('279.50'). '' = no bound,
-   null = not an amount. */
+// typed amount, Dutch ('1.250,50') or plain ('279.50'): '' = no bound, null = not an amount
 const amount = (raw) => {
-  let v = String(raw || '').replace(/[\s€\u00a0]/g, '');
+  let v = String(raw || '').replace(/[\s€ ]/g, '');
   if (!v) return '';
   if (/^\d{1,3}(\.\d{3})+(,\d*)?$/.test(v)) v = v.replace(/\./g, '');
   v = v.replace(',', '.');
   if (!/^\d*\.?\d*$/.test(v) || v === '.') return null;
   return String(Math.round(Number(v) * 100) / 100);
 };
+// 'uiterlijk ma 9 nov in huis': lead days from today in Amsterdam (a cached page can be old), weekend -> Monday
+const day = new Intl.DateTimeFormat(document.documentElement.lang || 'nl', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+const leadDates = (root) =>
+  root.querySelectorAll('[data-lead-days]').forEach((el) => {
+    const [y, m, d] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Amsterdam' }).format(new Date()).split('-').map(Number);
+    const t = new Date(Date.UTC(y, m - 1, d + Number(el.dataset.leadDays)));
+    const w = t.getUTCDay();
+    if (w % 6 === 0) t.setUTCDate(t.getUTCDate() + (w ? 2 : 1));
+    el.textContent = day.format(t).replace(/\./g, '');
+  });
 
 class FacetFilters extends HTMLElement {
   connectedCallback() {
     this.sectionId = this.dataset.sectionId;
     this.cache = new Map();
     this.seq = 0;
-    // one polite live region outside the re-rendered results (and kept out of the drawer's inert): announces the count
+    // live region outside the re-rendered results and the drawer's inert: announces the count
     this.status = this.querySelector('[data-facets-status]');
     if (!this.status) {
       this.status = Object.assign(document.createElement('p'), { className: 'visually-hidden' });
@@ -37,17 +44,13 @@ class FacetFilters extends HTMLElement {
       if (e.target.matches('[data-sort]')) return this.sortChanged(e.target);
       if (!e.target.closest('[data-facets-form]')) return;
       if (!e.target.matches(PRICE)) return this.submit();
-      // leaving a price field (or Enter): Van above Tot is read as the range between them
       this.priceOk(true);
       this.onChange();
     });
-    // price fields: the count follows while typing, not only on blur / Enter (not while Van is above Tot)
     this.addEventListener('input', (e) => e.target.matches(PRICE) && e.target.closest('[data-facets-form]') && this.onChange());
-    /* Sort: a closed select changes its value on every arrow key (Chrome, Windows). Such a keyboard change waits for Enter
-       or for leaving the field (WCAG 3.2.2); a choice made in the opened list, by mouse or by touch applies at once. */
+    // sort: an arrow-key change of the closed select waits for Enter or blur (WCAG 3.2.2); mouse/touch apply at once
     this.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.classList.contains('is-drawer-open')) return this.close();
-      // the drawer's close is a link (it works without JavaScript too); it answers Space like a button
+      if (e.key === 'Escape' && this.drawerOpen) return this.close();
       if (e.key === ' ' && e.target.matches('a[data-facets-close]')) {
         e.preventDefault();
         return e.target.click();
@@ -71,7 +74,6 @@ class FacetFilters extends HTMLElement {
       const more = t.closest('[data-load-more-btn]');
       const prev = t.closest('[data-load-prev-btn]');
       const toggle = t.closest('[data-facets-open], [data-facets-close]');
-      // the drawer's close is a link for a page without JavaScript (:target); here it closes the drawer
       if (link || more || prev || toggle) e.preventDefault();
       if (link) return this.render(new URL(link.href, location.origin).searchParams.toString());
       if (more) return this.loadMore(more);
@@ -80,7 +82,6 @@ class FacetFilters extends HTMLElement {
       if (t.closest('[data-facets-close]')) return this.close();
       const all = t.closest('[data-facet-more]');
       if (all) {
-        // 'Bekijk alles (41)' <-> 'Minder tonen'; opening moves focus to the first value that was hidden
         const body = all.closest('.facet__body');
         const on = !body.classList.contains('is-expanded');
         body.classList.toggle('is-expanded', on);
@@ -90,8 +91,8 @@ class FacetFilters extends HTMLElement {
       }
     });
     addEventListener('popstate', () => this.render(location.search.slice(1), false).then(() => this.restore()));
-    // the amounts are checked here (Dutch notation is accepted), not by the browser's pattern check for pages without JavaScript
     if (this.form) this.form.noValidate = true;
+    leadDates(this);
     this.watchBar();
     this.keepPlace();
     this.restore();
@@ -102,22 +103,24 @@ class FacetFilters extends HTMLElement {
   get drawerOpen() {
     return this.classList.contains('is-drawer-open');
   }
-  // mobile: the filter/sort bar sticks under the header; a hairline shows once it is stuck
+  // phone: once the bar is under the header, Filteren/Sorteren float at the bottom until the end of the results shows
   watchBar() {
     let raf = 0;
     const check = () => {
       raf = 0;
-      const bar = this.querySelector('[data-collection-bar]');
-      if (!bar) return;
-      const top = parseFloat(getComputedStyle(bar).top) || 0;
-      bar.classList.toggle('is-stuck', mq.matches && bar.getBoundingClientRect().top <= top + 0.5 && scrollY > 0);
+      const tools = this.querySelector('[data-bar-tools]');
+      const res = this.querySelector('[data-results]');
+      if (!tools || !res) return;
+      const h = document.querySelector('sticky-header');
+      const top = h && h.dataset.sticky !== 'none' ? Math.max(0, h.getBoundingClientRect().bottom) : 0;
+      tools.classList.toggle('is-floating', mq.matches && tools.parentNode.getBoundingClientRect().bottom < top && res.getBoundingClientRect().bottom > innerHeight);
     };
     this.checkBar = check;
     addEventListener('scroll', () => raf || (raf = requestAnimationFrame(check)), { passive: true });
+    mq.addEventListener('change', check);
     check();
   }
-  /* Price range: Van above Tot finds nothing. While typing such a range waits (a hint says why); on leaving the field, Enter
-     or any other filter the two amounts swap places, so 'Van 1000 Tot 100' becomes € 100 – € 1.000. */
+  // Van above Tot: waits while typing (hint), swaps on blur / Enter / another filter
   priceOk(fix = false) {
     const a = this.querySelector('[data-price-min]');
     const b = this.querySelector('[data-price-max]');
@@ -128,7 +131,6 @@ class FacetFilters extends HTMLElement {
       [a.value, b.value] = [b.value, a.value];
       bad = false;
     }
-    // a field that holds no amount ('abc') is marked; it is left out of the filter until it is corrected
     a.toggleAttribute('aria-invalid', bad || x === null);
     b.toggleAttribute('aria-invalid', bad || y === null);
     const hint = this.querySelector('[data-price-hint]');
@@ -146,7 +148,6 @@ class FacetFilters extends HTMLElement {
         if (v !== '') p.append(k, v);
       }
     } else {
-      // filtering switched off (or no filters here): sorting keeps what the address already carries (q on search)
       p = new URLSearchParams(location.search);
       p.delete('page');
     }
@@ -159,8 +160,6 @@ class FacetFilters extends HTMLElement {
     this.render(this.params());
   }
   sortChanged(sel) {
-    // the face of the collection bar follows the choice right away ('Sorteer op: Prijs laag-hoog'; on the phone the
-    // button itself reads 'Prijs laag-hoog' until the default 'Aanbevolen' is chosen again)
     const name = sel.selectedOptions[0]?.textContent.trim() || '';
     const face = this.querySelector('.collection-bar__sort-long strong');
     if (face) face.textContent = name;
@@ -173,8 +172,6 @@ class FacetFilters extends HTMLElement {
       this.sortPending = true;
     } else this.submit();
   }
-  // after a change: the count, the active-filter chips and the first row in view, below the header that comes back
-  // when the page scrolls up (a scroll-up header is hidden now, so --header-h reads 0 and cannot be used)
   scrollToResults() {
     const h = document.querySelector('sticky-header');
     const cover = h && h.dataset.sticky !== 'none' ? h.offsetHeight : 0;
@@ -182,7 +179,6 @@ class FacetFilters extends HTMLElement {
     const top = Math.max(0, Math.round(res.getBoundingClientRect().top + scrollY - cover - (mq.matches ? 0 : 16)));
     if (scrollY > top + 2) scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
-  // focus that sat on a control the update removed (a chip, 'Wis alles') goes to the next chip, else to the count
   refocus(chipIndex) {
     if (this.drawerOpen) return this.querySelector('[data-facets-panel]')?.focus(opts);
     const chips = [...this.querySelectorAll('.active-filters__pill')];
@@ -203,21 +199,22 @@ class FacetFilters extends HTMLElement {
     }
     return KK.parse(html);
   }
-  /* Every change starts a new request and cancels the one before it; only the newest answer is applied, so a slow
-     earlier response can never overwrite a later choice. */
+  // each request (filter, sort, page) cancels the one before; only the newest answer is applied
+  begin() {
+    this.ctrl?.abort();
+    this.ctrl = new AbortController();
+    return [++this.seq, this.ctrl.signal];
+  }
   async render(query, push = true) {
     const url = `${location.pathname}${query ? `?${query}` : ''}`;
-    const seq = ++this.seq;
-    this.ctrl?.abort();
-    const ctrl = (this.ctrl = new AbortController());
+    const [seq, signal] = this.begin();
     this.setAttribute('aria-busy', 'true');
     this.classList.add('is-loading');
     try {
-      const doc = await this.fetchHtml(`${location.pathname}?${query}${query ? '&' : ''}section_id=${this.sectionId}`, ctrl.signal);
+      const doc = await this.fetchHtml(`${location.pathname}?${query}${query ? '&' : ''}section_id=${this.sectionId}`, signal);
       if (seq !== this.seq) return;
       const fresh = doc.getElementById(this.id);
       if (!fresh) return;
-      // keep open/closed state of filter groups, 'view all' lists and the focused control
       const params = (sel) => new Set([...this.querySelectorAll(sel)].map((d) => d.closest('.facet')?.dataset.param));
       const open = params('details.facet[open]');
       const closed = params('details.facet:not([open])');
@@ -225,10 +222,9 @@ class FacetFilters extends HTMLElement {
       const active = document.activeElement;
       const hadFocus = !!active && this.contains(active);
       const chipIndex = hadFocus && active.matches('.active-filters__pill') ? [...this.querySelectorAll('.active-filters__pill')].indexOf(active) : -1;
-      // a price field being typed in stays the same node (value, caret and focus intact); the form around it is renewed
+      // a price field being typed in stays the same node; the form around it is renewed
       const keep = hadFocus && active.matches(PRICE) ? active.closest('[data-facets-form] > .facet') : null;
       const scrollBody = this.querySelector('[data-facets-body]')?.scrollTop || 0;
-      // read before the swap moves the nodes out of the fresh document
       const countText = fresh.querySelector('[data-results-count], .collection__count')?.textContent.trim();
       const swap = (sel) => {
         const a = this.querySelector(sel);
@@ -247,7 +243,7 @@ class FacetFilters extends HTMLElement {
       if (this.form) this.form.noValidate = true;
       swap('[data-facets-clear-top]');
       swap('[data-show-results]');
-      swap('.collection__toolbar .collection__count'); // search page: its count sits in the toolbar, outside the results
+      swap('.collection__toolbar .collection__count'); // search
       const btn = this.querySelector('.collection__toolbar [data-facets-open]');
       const freshBtn = fresh.querySelector('.collection__toolbar [data-facets-open]');
       if (btn && freshBtn) btn.innerHTML = freshBtn.innerHTML;
@@ -266,19 +262,17 @@ class FacetFilters extends HTMLElement {
       if (body) body.scrollTop = scrollBody;
       if (this.drawerOpen) {
         this.querySelectorAll('[data-facets-open]').forEach((b) => b.setAttribute('aria-expanded', 'true'));
-        // the fresh results block is not inert yet: make the page behind the open drawer inert again
         this.makeInert();
       }
+      leadDates(this);
       this.announce(countText);
       const again = hadFocus && active.id && document.getElementById(active.id);
       if (again) again !== document.activeElement && again.focus(opts);
       else if (hadFocus && !this.contains(document.activeElement)) this.refocus(chipIndex);
       if (push) {
         history.pushState({ facets: true }, '', url);
-        // a pushed entry copies the scroll mode of the one before it; a fresh filter result is one page again
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
       }
-      // with the phone drawer open the page behind it waits: it scrolls once the drawer closes ('Toon 14 producten')
       if (this.drawerOpen) this.scrollPending = true;
       else this.scrollToResults();
       this.checkBar?.();
@@ -292,7 +286,6 @@ class FacetFilters extends HTMLElement {
       }
     }
   }
-  // the new number of products, read by screen readers from the persistent live region
   announce(text) {
     if (!text || !this.status) return;
     this.status.textContent = '';
@@ -304,7 +297,6 @@ class FacetFilters extends HTMLElement {
     this.restoreInert?.();
     this.restoreInert = KK.inertOutside(panel, [this.querySelector('.facets-backdrop'), this.status]);
   }
-  // progress line under the grid: '48 van 150 producten', or '25–48 van 150' when the page did not start at 1
   progress(from, to) {
     const wrap = this.querySelector('[data-load-more]');
     if (!wrap) return;
@@ -320,28 +312,30 @@ class FacetFilters extends HTMLElement {
       bar.style.width = `${((to - from + 1) * 100) / total}%`;
     }
   }
-  // fetch another page of the grid for 'Meer laden' / 'Vorige producten tonen'
+  // 'Meer laden' / 'Vorige producten tonen'; a filter or sort chosen meanwhile wins
   async page(btn, fn) {
+    if (this.getAttribute('aria-busy')) return; // a filter result is on its way
     const u = new URL(btn.href, location.origin);
     u.searchParams.set('section_id', this.sectionId);
+    const [seq, signal] = this.begin();
     btn.classList.add('is-loading');
     btn.setAttribute('aria-busy', 'true');
     try {
-      const doc = await this.fetchHtml(u.pathname + u.search);
+      const doc = await this.fetchHtml(u.pathname + u.search, signal);
+      if (seq !== this.seq || !btn.isConnected) return;
       const items = [...doc.querySelectorAll('[data-product-grid] > li')];
       fn(doc, items, this.querySelector('[data-product-grid]'));
       items[0]?.querySelector('.card__title a')?.focus(opts);
     } catch (e) {
+      if (e.name === 'AbortError' || seq !== this.seq) return;
       location.href = btn.href;
     } finally {
       btn.classList.remove('is-loading');
       btn.removeAttribute('aria-busy');
     }
   }
-  /* Pages in the grid. The address carries the last page shown (?page=3, like Shopify's own pagination) and the history
-     entry the first one ({kkFirst: 1}); replaceState, so Back still leaves the list instead of stepping through pages.
-     When the grid holds more than the page in the address, the browser cannot restore the scroll spot on its own:
-     scrollRestoration goes to manual for this entry and restore() rebuilds the grid and the spot (keepPlace). */
+  /* The address carries the last page shown (?page=3), the history entry the first ({kkFirst}); with more than one page in
+     the grid, scrollRestoration goes manual and restore() rebuilds grid and spot (keepPlace) */
   pageOf(href) {
     return Number(new URL(href, location.origin).searchParams.get('page')) || 1;
   }
@@ -352,7 +346,6 @@ class FacetFilters extends HTMLElement {
     history.replaceState({ ...(history.state || {}), kkFirst: first }, '', u);
     if ('scrollRestoration' in history) history.scrollRestoration = first < last ? 'manual' : 'auto';
   }
-  // the card at the top of the view and where it sits, kept in the history entry (on scroll and when leaving the page)
   keepPlace() {
     const save = () => {
       const st = history.state || {};
@@ -366,16 +359,15 @@ class FacetFilters extends HTMLElement {
     };
     addEventListener('scroll', KK.debounce(save, 200), { passive: true });
     addEventListener('pagehide', save);
-    // a click on a card saves at once (the scroll save may still be waiting)
     this.addEventListener('click', (e) => e.target.closest('[data-product-grid] a') && save(), true);
   }
-  // Back / reload on ?page=N after 'Meer laden': fetch pages kkFirst..N-1, put them above the grid, back to the same card
   async restore() {
     const st = history.state || {};
     const grid = this.querySelector('[data-product-grid]');
     const last = this.pageOf(location.href);
     if (!grid || !(st.kkFirst >= 1) || st.kkFirst >= last || grid.dataset.firstPage !== String(last)) return;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const [seq, signal] = this.begin();
     this.setAttribute('aria-busy', 'true');
     this.classList.add('is-loading');
     try {
@@ -385,9 +377,10 @@ class FacetFilters extends HTMLElement {
           const u = new URL(location.href);
           u.searchParams.set('page', n);
           u.searchParams.set('section_id', this.sectionId);
-          return this.fetchHtml(u.pathname + u.search);
+          return this.fetchHtml(u.pathname + u.search, signal);
         })
       );
+      if (seq !== this.seq) return;
       grid.prepend(...docs.flatMap((d) => [...d.querySelectorAll('[data-product-grid] > li')]));
       grid.dataset.firstPage = String(st.kkFirst);
       const prev = this.querySelector('[data-load-prev]');
@@ -397,19 +390,20 @@ class FacetFilters extends HTMLElement {
       const cur = this.querySelector('[data-load-more]');
       if (firstMore && cur) this.progress(Number(firstMore.dataset.from) || 1, Number(cur.dataset.to) || 0);
     } catch (e) {
-      // the earlier pages could not be fetched: this page stays as it is, with 'Vorige producten tonen'
-      this.setPages(last, last);
+      if (seq === this.seq) this.setPages(last, last);
       return;
     } finally {
-      this.removeAttribute('aria-busy');
-      this.classList.remove('is-loading');
+      if (seq === this.seq) {
+        this.removeAttribute('aria-busy');
+        this.classList.remove('is-loading');
+      }
     }
+    if (seq !== this.seq) return;
     const a = st.kkAnchor;
     const el = a && this.querySelectorAll('[data-product-grid] > li')[a.i];
     if (el) scrollTo(0, Math.max(0, el.getBoundingClientRect().top + scrollY - a.top));
     else if (st.kkY != null) scrollTo(0, st.kkY);
   }
-  // 'Meer laden': the next page's cards are appended and the address moves to that page (see setPages)
   loadMore(btn) {
     const wrap = btn.closest('[data-load-more]');
     const n = this.pageOf(btn.href);
@@ -424,7 +418,6 @@ class FacetFilters extends HTMLElement {
       this.setPages(Number(grid.dataset.firstPage) || 1, n);
     });
   }
-  // arrived on ?page=N: 'Vorige producten tonen' puts the page before it above the grid, keeping the view in place
   loadPrev(btn) {
     const wrap = btn.closest('[data-load-prev]');
     const n = this.pageOf(btn.href);
@@ -455,10 +448,8 @@ class FacetFilters extends HTMLElement {
   open() {
     const panel = this.setOpen(true);
     if (!panel) return;
-    // the page behind the drawer is inert (not only Tab-trapped); the backdrop and the live region stay reachable
     this.makeInert();
     KK.trapFocus(panel);
-    // the panel becomes visible in the same frame; retry once the style has settled (reduced motion included)
     const focus = () => panel.focus(opts);
     focus();
     if (document.activeElement !== panel) requestAnimationFrame(() => (focus(), document.activeElement !== panel && setTimeout(focus, 80)));
@@ -478,7 +469,7 @@ class FacetFilters extends HTMLElement {
 }
 customElements.get('facet-filters') || customElements.define('facet-filters', FacetFilters);
 
-// collection intro (phone): two lines with 'Lees meer' when the text is cut off; the same button opens the kenmerken
+// phone intro: two lines + 'Lees meer' when cut off
 const clamp = () =>
   document.querySelectorAll('[data-clamp]').forEach((el) => {
     if (el.classList.contains('is-open')) return;
@@ -499,7 +490,7 @@ document.addEventListener('click', (e) => {
   t.textContent = on ? t.dataset.less : t.dataset.more;
 });
 
-// card swatches: hovering a colour shows that colour's render; leaving the swatches restores the card image
+// card swatches: hover shows that colour's render
 const preview = (sw, on) => {
   const card = sw.closest('[data-card]');
   const img = card?.querySelector('.card__img');
@@ -523,7 +514,7 @@ document.addEventListener('pointerout', (e) => {
   if (sw) preview(sw, false);
 });
 
-// quick add (card action of a product with options): quick-add.js loads on the first hover, focus or tap of such a button
+// quick add: quick-add.js loads on the first hover, focus or tap
 let qa;
 const loadQA = () =>
   (qa ||= new Promise((ok, fail) => {

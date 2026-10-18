@@ -1,18 +1,40 @@
-{%- comment -%} Params: article, priority (bool) {%- endcomment -%}
-<article class="article-card">
-  <a class="article-card__media" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+{%- comment -%}
+  Params: article, priority (bool), featured (bool: the wide card on top of the blog page).
+  The topic is the first tag without ':' (tags like 'collectie:<handle>' are internal).
+{%- endcomment -%}
+{%- liquid
+  assign ac_topic = ''
+  for tag in article.tags
+    unless tag contains ':'
+      assign ac_topic = tag
+      break
+    endunless
+  endfor
+  assign ac_words = article.content | strip_html | split: ' ' | size
+  assign ac_minutes = ac_words | divided_by: 200 | at_least: 1
+  if featured
+    assign ac_sizes = '(min-width: 990px) 760px, (min-width: 750px) 50vw, 100vw'
+    assign ac_widths = '480, 640, 800, 1000, 1400'
+    assign ac_excerpt_words = 40
+  else
+    assign ac_sizes = '(min-width: 990px) 33vw, 80vw'
+    assign ac_widths = '360, 480, 640, 800'
+    assign ac_excerpt_words = 22
+  endif
+-%}
+<article class="article-card{% if featured %} article-card--featured{% endif %}">
+  <a class="article-card__media{% if article.image.aspect_ratio >= 1.4 %} article-card__media--cover{% endif %}" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
     {%- if article.image -%}
-      {%- render 'image', image: article.image, sizes: '(min-width: 990px) 33vw, 80vw', widths: '360, 480, 640, 800', alt: '', priority: priority -%}
+      {%- render 'image', image: article.image, sizes: ac_sizes, widths: ac_widths, alt: '', priority: priority -%}
     {%- else -%}
       {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
     {%- endif -%}
   </a>
   <div class="article-card__body">
-    {%- if article.tags.size > 0 -%}<p class="eyebrow article-card__tag">{{ article.tags.first }}</p>{%- endif -%}
+    {%- if ac_topic != blank -%}<p class="eyebrow article-card__tag">{{ ac_topic }}</p>{%- endif -%}
     <h3 class="article-card__title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
-    <p class="article-card__excerpt muted">{%- render 'text-excerpt', html: article.excerpt_or_content, words: 22 -%}</p>
-    {%- assign words = article.content | strip_html | split: ' ' | size -%}
-    {%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
-    <p class="article-card__meta text-sm muted">{{ article.published_at | date: format: 'date' }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
+    <p class="article-card__excerpt muted">{%- render 'text-excerpt', html: article.excerpt_or_content, words: ac_excerpt_words -%}</p>
+    <p class="article-card__meta text-sm muted">{{ article.published_at | date: format: 'date' }} · {{ 'blog.reading_time' | t: count: ac_minutes }}</p>
+    {%- if featured -%}<span class="article-card__more" aria-hidden="true">{{ 'blog.read_article' | t }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>{%- endif -%}
   </div>
 </article>

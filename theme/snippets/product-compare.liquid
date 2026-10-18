@@ -1,9 +1,15 @@
 {%- comment -%}
   'Premium of Professional?' (features collection.quality-line-explainer, product.related-guides): the other products of
   the same line choice, found in the block's collection by custom.vergelijk_groep (catalog/CONTRACT.md), each with its
-  spec line (custom.kenmerk_kort), weight (custom.gewicht_kg), warranty (custom.garantie) and price, the current product
-  first. Under it the link to the full comparison ('Lees het hele verschil', hidden when the target does not exist).
-  Renders nothing without a group or without a second product. Params: product, block.
+  spec line (custom.kenmerk_kort), weight (custom.gewicht_kg), warranty (custom.garantie) and price ('vanaf' when the
+  price varies; the current product shows the chosen variant and follows it, data-dynamic="compare-price"), the current
+  product first. Under it the link to the full comparison ('Lees het hele verschil', hidden when the target does not exist).
+
+  One answer per page: when the description has a question heading (h3 with '?') that names another product of the
+  group ('Premium of Professional?' on the Premium names 'Professional'), that section moves into this card: its heading
+  becomes the card title and its text the intro. The card ends with <!--cmp-h3:…--> so main-product leaves that section
+  out of the description and the FAQ leaves out the same question.
+  Renders nothing without a group or without a second product. Params: product, block, current_variant.
 {%- endcomment -%}
 {%- liquid
   assign cmp_group = product.metafields.custom.vergelijk_groep.value
@@ -21,11 +27,58 @@
       endif
     endfor
   endif
+  assign cv = current_variant | default: product.selected_or_first_available_variant
 -%}
 {%- if cmp_n > 0 -%}
-  {%- assign cmp_handles = product.handle | append: ',' | append: cmp_others | split: ',' -%}
+  {%- liquid
+    assign cmp_handles = product.handle | append: ',' | append: cmp_others | split: ','
+    assign cmp_h3 = ''
+    assign cmp_intro = ''
+    assign desc = product.description
+    if desc contains '<h3>'
+      assign own_words = product.title | downcase | split: ' '
+      assign other_words = ''
+      for h in cmp_handles offset: 1
+        assign ow = all_products[h].title | downcase | split: ' '
+        for w in ow
+          if w.size > 3
+            unless own_words contains w
+              assign other_words = other_words | append: w | append: '|'
+            endunless
+          endif
+        endfor
+      endfor
+      assign other_words = other_words | split: '|'
+      assign h_chunks = desc | split: '<h3>'
+      for ch in h_chunks offset: 1
+        assign h_text = ch | split: '</h3>' | first
+        unless h_text contains '?'
+          continue
+        endunless
+        assign h_lc = h_text | downcase
+        for w in other_words
+          if h_lc contains w
+            assign cmp_h3 = h_text
+            assign cmp_intro = ch | split: '</h3>' | last
+            break
+          endif
+        endfor
+        if cmp_h3 != ''
+          break
+        endif
+      endfor
+    endif
+    assign cmp_title = block.settings.heading
+    if cmp_title == blank
+      assign cmp_title = 'product.compare_title' | t
+    endif
+    if cmp_h3 != ''
+      assign cmp_title = cmp_h3
+    endif
+  -%}
   <div class="included compare" {{ block.shopify_attributes }}>
-    <h2 class="included__title">{%- render 'icon', icon: 'tent', class: 'icon--sm' -%}{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.compare_title' | t }}{% endif %}</h2>
+    <h2 class="included__title">{%- render 'icon', icon: 'tent', class: 'icon--sm' -%}{{ cmp_title }}</h2>
+    {%- if cmp_intro != blank -%}<div class="compare__intro rte">{{ cmp_intro }}</div>{%- endif -%}
     <ul class="compare__list" role="list">
       {%- for h in cmp_handles -%}
         {%- assign cp = all_products[h] -%}
@@ -39,7 +92,11 @@
               <a class="link" href="{{ cp.url }}">{{ cp.title | replace: ' x ', ' × ' }}</a>
             {%- endif -%}
           </span>
-          <span class="compare__price">{%- render 'vat-money', cents: cp.price -%}</span>
+          {%- if cp.id == product.id -%}
+            <span class="compare__price" data-dynamic="compare-price">{%- render 'vat-money', cents: cv.price -%}</span>
+          {%- else -%}
+            <span class="compare__price">{% if cp.price_varies %}<span class="compare__from">{{ 'price.from' | t }}</span> {% endif %}{%- render 'vat-money', cents: cp.price_min -%}</span>
+          {%- endif -%}
           <span class="compare__spec">
             {{- cp.metafields.custom.kenmerk_kort.value -}}
             {%- if cp_kg != blank %} · {{ cp_kg | round: 1 | replace: '.', ',' | remove: ',0' }} kg{% endif -%}
@@ -53,4 +110,5 @@
       {%- unless cmp_ok == 'false' -%}<p class="compare__more"><a class="link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a></p>{%- endunless -%}
     {%- endif -%}
   </div>
+  {%- if cmp_h3 != '' -%}<!--cmp-h3:{{ cmp_h3 }}-->{%- endif -%}
 {%- endif -%}

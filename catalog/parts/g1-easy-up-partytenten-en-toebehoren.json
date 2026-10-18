@@ -4047,7 +4047,7 @@
       "seo_tekst_html": "<h2>Easy-up Professional: voor vaak en zakelijk gebruik</h2><p>De Professional is gemaakt voor tenten die veel staan: verhuur, horeca, markt, evenementen en verenigingen. Het verschil zit in het frame, het dak en wat er in de doos zit.</p><h3>Het frame</h3><p>Geanodiseerd aluminium 6063-T5, zeskant 50 mm met een wand van 1,8 mm, aluminium schaararmen van 2 mm en aluminium hoekstukken. Geen nylon in de verbindingen, en aluminium roest niet.</p><h3>Polyester of heavy duty PVC</h3><ul><li><strong>Polyester 320 g/m²</strong>: PVC-gecoat en dubbel gestikt, lichter, in maximaal 7 kleuren. Op alle maten.</li><li><strong>Heavy duty PVC 580 g/m²</strong>: thermisch gelast, dikker en makkelijk schoon te maken, in wit en zwart. Voor 3 × 3 tot en met 4 × 8 m.</li></ul><h3>Wat er in de doos zit</h3><p>Frame, dak met luifel, een wieltas van 600D polyester met wielen, 4 spanbanden en 4 haringen. Zijwanden en voetgewichten bestel je los.</p><h3>Acht maten</h3><ul><li>2 × 2 m: 4 poten, 22 kg</li><li>3 × 3 m: 4 poten, 37 kg</li><li>3 × 4,5 m: 6 poten, 45 kg</li><li>3 × 6 m: 6 poten, 58 kg</li><li>4 × 4 m: 4 poten, 50 kg</li><li>4 × 6 m: 6 poten, 68 kg</li><li>4 × 8 m: 6 poten, 84 kg</li><li>5 × 5 m: 8 poten, 66 kg</li></ul><p>Gewichten zijn frame en dak met polyester; met heavy duty PVC komt er 4 tot 14 kg bij, afhankelijk van de maat.</p><h3>Meer tenten nodig?</h3><p>Heb je een vloot tenten nodig, eigen kleuren of je logo op de luifel? Vraag dan een <a href=\"/pages/offerte\">offerte op maat</a> aan. Onderdelen en <a href=\"/products/dakzeil-easy-up\">losse daken</a> blijven los na te bestellen.</p>"
     },
     "tassen-en-wielsets": {
-      "intro": "Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, en opbergtassen voor tenten met een buizenframe.",
+      "intro": "Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, opbergtassen voor tenten met een buizenframe en een tas met wielen voor de opblaasbare tent.",
       "kenmerken": [
         "Per tentmaat, 2 × 2 tot 5 × 5 m",
         "Past op Premium en Professional",
@@ -4202,6 +4202,40 @@
             "children": [
               {
                 "type": "text",
+                "value": "Opblaasbare tenten"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Een opblaasbare tent rol je leeg op en stop je met pomp en zandzakken in de "
+              },
+              {
+                "type": "link",
+                "url": "/products/opbergtas-opblaasbare-tent",
+                "title": null,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "opbergtas met wielen"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ", in de maat van je tent."
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 3,
+            "children": [
+              {
+                "type": "text",
                 "value": "Droog opbergen"
               }
             ]
@@ -4232,12 +4266,12 @@
           }
         ]
       },
-      "body_html": "<p>Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, en opbergtassen voor tenten met een buizenframe.</p>",
+      "body_html": "<p>Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, opbergtassen voor tenten met een buizenframe en een tas met wielen voor de opblaasbare tent.</p>",
       "seo": {
         "title": "Tassen en wielsets voor partytenten | Klapklaar",
         "description": "Beschermhoezen en wieltassen per tentmaat, een wielset met 4 zwenkwielen en opbergtassen voor buizenframe-tenten. Past op Premium en Professional."
       },
-      "seo_tekst_html": "<h2>Opbergen en verplaatsen</h2><p>Een tent gaat langer mee als hij droog en beschermd in de schuur ligt, en je rug ook als je hem niet hoeft te tillen. Hier vind je per tentmaat de hoes of tas die past.</p><h3>Beschermhoes of wieltas?</h3><ul><li><strong>Beschermhoes</strong>: schuift over de ingeklapte tent, met twee handvatten en een gesp. Licht en voordelig, voor opslag en kort dragen. Zit bij elke Premium.</li><li><strong>Wieltas</strong>: 600D polyester met twee wielen en een rits over de volle lengte. Voor wie de tent vaak verplaatst. Zit bij elke Professional.</li></ul><p>Beide kies je in de maat van je tent; ze passen op Premium en Professional van dezelfde maat.</p><h3>Wielset</h3><p>Wil je een opgezette tent verschuiven over een beursvloer of terras, dan zet je er een <a href=\"/products/wielset-easy-up\">wielset</a> onder: vier zwenkwielen met rem voor poten van 40 en 50 mm. Altijd remmen vast en elke poot verzwaren.</p><h3>Buizenframe-tenten</h3><p>Voor partytenten met een buizenframe is er een <a href=\"/products/opbergtassenset-partytent\">opbergtassenset</a>: aparte tassen voor buizen, koppelstukken en doek, zodat je bij het opbouwen niets kwijt bent.</p><h3>Droog opbergen</h3><p>Stop een tent alleen droog in hoes of tas. Moest hij nat ingepakt worden, zet hem dan zo snel mogelijk weer op om te drogen. Meer tips in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">Partytent onderhouden en opbergen</a>.</p>"
+      "seo_tekst_html": "<h2>Opbergen en verplaatsen</h2><p>Een tent gaat langer mee als hij droog en beschermd in de schuur ligt, en je rug ook als je hem niet hoeft te tillen. Hier vind je per tentmaat de hoes of tas die past.</p><h3>Beschermhoes of wieltas?</h3><ul><li><strong>Beschermhoes</strong>: schuift over de ingeklapte tent, met twee handvatten en een gesp. Licht en voordelig, voor opslag en kort dragen. Zit bij elke Premium.</li><li><strong>Wieltas</strong>: 600D polyester met twee wielen en een rits over de volle lengte. Voor wie de tent vaak verplaatst. Zit bij elke Professional.</li></ul><p>Beide kies je in de maat van je tent; ze passen op Premium en Professional van dezelfde maat.</p><h3>Wielset</h3><p>Wil je een opgezette tent verschuiven over een beursvloer of terras, dan zet je er een <a href=\"/products/wielset-easy-up\">wielset</a> onder: vier zwenkwielen met rem voor poten van 40 en 50 mm. Altijd remmen vast en elke poot verzwaren.</p><h3>Buizenframe-tenten</h3><p>Voor partytenten met een buizenframe is er een <a href=\"/products/opbergtassenset-partytent\">opbergtassenset</a>: aparte tassen voor buizen, koppelstukken en doek, zodat je bij het opbouwen niets kwijt bent.</p><h3>Opblaasbare tenten</h3><p>Een opblaasbare tent rol je leeg op en stop je met pomp en zandzakken in de <a href=\"/products/opbergtas-opblaasbare-tent\">opbergtas met wielen</a>, in de maat van je tent.</p><h3>Droog opbergen</h3><p>Stop een tent alleen droog in hoes of tas. Moest hij nat ingepakt worden, zet hem dan zo snel mogelijk weer op om te drogen. Meer tips in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">Partytent onderhouden en opbergen</a>.</p>"
     }
   }
 }

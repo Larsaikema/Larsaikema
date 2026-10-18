@@ -42,8 +42,9 @@
           "type": "usp",
           "settings": {
             "icon": "chat",
-            "title": "Bel of app ons",
-            "text": "Advies van mensen die het opzetten"
+            "title": "Stel je vraag",
+            "text": "Over maat, levertijd of een vaste datum",
+            "link": "shopify://pages/contact"
           }
         }
       },

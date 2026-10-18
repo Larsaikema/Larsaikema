@@ -1,0 +1,34 @@
+/* blog index */
+.blog-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.blog-head .breadcrumbs{margin-bottom:0}
+.blog-head__title{margin:0}
+.blog-head__intro{max-width:58ch;color:var(--c-kiezel)}
+.blog-head__intro p{margin:0}
+.blog-tags{display:flex;gap:8px;margin-top:8px}
+@media (min-width:750px){.blog-tags{flex-wrap:wrap;overflow:visible;margin-inline:0;padding-inline:0}}
+.blog-grid{list-style:none;margin:0;padding:0;display:grid;gap:20px;grid-template-columns:1fr}
+@media (min-width:750px){.blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.blog-grid--featured>li:first-child{grid-column:1/-1}}
+@media (min-width:990px){.blog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}}
+.article-card--featured{background:var(--c-wit)}
+@media (min-width:750px){
+  .article-card--featured{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
+  .article-card--featured .article-card__media{aspect-ratio:4/3}
+  .article-card--featured .article-card__media--cover{aspect-ratio:16/10}
+  .article-card--featured .article-card__body{justify-content:center;padding:32px 36px;gap:10px}
+  .article-card--featured .article-card__title{font-size:calc(var(--heading-scale) * clamp(24px, 1vw + 18px, 32px));line-height:1.12;letter-spacing:-.015em}
+  .article-card--featured .article-card__excerpt{font-size:16.5px;line-height:1.55}
+  .article-card--featured .article-card__meta{margin-top:8px;padding-top:0}
+}
+
+/* blog index on phones: the feature stays big, the rest becomes a compact list (more articles per screen) */
+@media (max-width:749px){
+  .blog-grid{gap:12px}
+  .blog-grid--featured>li:first-child{margin-bottom:8px}
+  .blog-grid .article-card:not(.article-card--featured){display:grid;grid-template-columns:112px minmax(0,1fr);align-items:stretch}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__media{aspect-ratio:auto;height:100%;min-height:112px}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__media img{object-fit:contain;transform:scale(1.12)}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__body{padding:12px 14px;gap:4px}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__title{font-size:16px;line-height:1.25}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__excerpt{display:none}
+  .blog-grid .article-card:not(.article-card--featured) .article-card__meta{padding-top:2px;font-size:13px}
+}

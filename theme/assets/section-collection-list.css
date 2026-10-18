@@ -1,5 +1,5 @@
 .tiles{list-style:none;display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:750px){.tiles{gap:16px;grid-template-columns:repeat(min(var(--cols),3),minmax(0,1fr))}}
+@media (min-width:750px){.tiles{gap:16px;grid-template-columns:repeat(min(var(--cols),4),minmax(0,1fr))}}
 @media (min-width:990px){.tiles{gap:24px;grid-template-columns:repeat(var(--cols),minmax(0,1fr))}}
 .tile__link{display:flex;flex-direction:column;height:100%;border-radius:var(--radius-card);overflow:hidden;background:var(--c-wit);text-decoration:none;color:var(--c-inkt);transition:box-shadow var(--dur-fast);border:1px solid var(--c-lijn)}
 .tile__link:hover{box-shadow:0 1px 2px rgba(29,36,32,.06),0 10px 24px -14px rgba(29,36,32,.22)}
@@ -10,9 +10,40 @@
 @media (min-width:750px){.tile__body{padding:16px 18px 20px}}
 .tile__title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:17px;line-height:1.2}
 @media (min-width:990px){.tile__title{font-size:20px}}
-.tile__title .icon{flex:none;transition:transform var(--dur-fast)}
-.tile__link:hover .tile__title .icon{transform:translateX(3px)}
+.tile__go{flex:none;display:grid;place-items:center;transition:transform var(--dur-fast)}
+.tile__link:hover .tile__go{transform:translateX(3px)}
 .tile__benefit{font-size:14px;color:var(--c-kiezel);line-height:1.35}
+.tile__meta{display:flex;flex-direction:column;gap:1px;margin-top:6px;font-size:13.5px;line-height:1.3;color:var(--c-inkt);font-variant-numeric:tabular-nums}
+.tile__from{font-weight:var(--font-body-weight-bold);font-size:14.5px}
+.tile__count{color:var(--c-kiezel)}
 .tiles--overlay .tile__link{position:relative}
 .tiles--overlay .tile__media{aspect-ratio:4/5}
 .tiles--overlay .tile__body{position:absolute;left:10px;right:10px;bottom:10px;border-radius:10px;background:rgba(255,255,255,.95)}
+/* panel: one Linnen beeldvlak holding the render and the text, so the product stands in its own tile (brand book 4.2: Linnen = beeldvlak) */
+.tiles--panel .tile__link{background:var(--c-media);border:0;border-radius:var(--radius-panel)}
+.tiles--panel .tile__link:hover{box-shadow:0 14px 30px -18px rgba(29,36,32,.35)}
+.tiles--panel .tile__link:hover img{transform:scale(1.04)}
+.tiles--panel .tile__media{aspect-ratio:1/1;background:transparent}
+.tiles--panel .tile__media img{-webkit-mask-image:linear-gradient(to bottom,#000 82%,transparent);mask-image:linear-gradient(to bottom,#000 82%,transparent)}
+.tiles--panel .tile__body{padding:0 14px 16px;margin-top:-6px;flex:1}
+.tiles--panel .tile__go{width:30px;height:30px;border-radius:50%;background:var(--c-inkt);color:var(--c-zand)}
+.tiles--panel .tile__go .icon{width:16px;height:16px}
+.tiles--panel .tile__benefit{color:var(--c-kiezel)}
+.tiles--panel .tile__meta{margin-top:auto;padding-top:10px}
+@media (min-width:750px){.tiles--panel .tile__body{padding:0 20px 22px;margin-top:-10px}.tiles--panel .tile__go{width:36px;height:36px}.tiles--panel .tile__benefit{font-size:14.5px}}
+@media (max-width:749px){.tiles--panel .tile__title{align-items:flex-start;font-size:16px}.tiles--panel .tile__go{display:none}.tiles--panel .tile__benefit{font-size:13px}.tiles--panel .tile__meta{font-size:12.5px}.tiles--panel .tile__from{font-size:13.5px}}
+/* smaller categories under the tiles: pills with a round thumbnail */
+.tile-pills{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+@media (min-width:990px){.tile-pills{flex-direction:row;align-items:center;gap:16px;margin-top:28px}}
+.tile-pills__label{margin:0;font-size:14px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel);white-space:nowrap}
+.tile-pills__list{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.tile-pill{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:5px 18px 5px 5px;border-radius:999px;background:var(--c-wit);border:1px solid var(--c-lijn);color:var(--c-inkt);text-decoration:none;font-weight:var(--font-body-weight-semibold);font-size:15px;line-height:1.2;transition:border-color var(--dur-fast),background-color var(--dur-fast)}
+.tile-pill:hover{border-color:var(--c-inkt);background:var(--c-tint-wit,#F1F2F2)}
+.tile-pill__img{flex:none;width:38px;height:38px;border-radius:50%;overflow:hidden;background:var(--c-media)}
+.tile-pill__img img{width:100%;height:100%;object-fit:cover;transform:scale(1.3)}
+@media (max-width:749px){
+  .tile-pills__list{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * var(--gutter-mobile));padding-inline:var(--gutter-mobile);scroll-padding-inline:var(--gutter-mobile);scroll-snap-type:x proximity}
+  .tile-pills__list::-webkit-scrollbar{display:none}
+  .tile-pills__list>li{flex:none;scroll-snap-align:start}
+  .tile-pill{min-height:44px;font-size:14.5px}
+}

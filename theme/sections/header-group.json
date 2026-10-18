@@ -25,7 +25,7 @@
           "type": "usp",
           "settings": {
             "icon": "invoice",
-            "text": "Zakelijk? Offerte [reactietijd]",
+            "text": "Offerte op maat [reactietijd]",
             "link": "shopify://pages/offerte"
           }
         },

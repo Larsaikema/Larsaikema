@@ -1,15 +1,146 @@
+{%- comment -%}
+  FAQ accordion (feature content.faq) + FAQPage JSON-LD. Layouts: 'side' (heading next to the questions), 'stacked'
+  (heading above) and 'help' (the FAQ page: search in the questions, topic navigation with counts, one section per
+  group block, deep links per question, a contact card). In answers, [bedenktijd] becomes the return_days setting and
+  [besteltijd] the cutoff_time setting, so the FAQ never contradicts the shop's own claims.
+{%- endcomment -%}
 {{ 'section-faq.css' | asset_url | stylesheet_tag }}
-<section class="section faq color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
-  <div class="page-width faq__inner{% if section.settings.layout == 'side' %} faq__inner--side{% endif %}">
+{%- if section.settings.layout == 'help' -%}{{ 'section-faq-help.css' | asset_url | stylesheet_tag }}{%- endif -%}
+{%- liquid
+  assign layout = section.settings.layout
+  assign return_days = settings.return_days | append: ''
+  assign cutoff = settings.cutoff_time | default: '14:00'
+  assign phone = settings.phone | default: shop.phone
+  assign mail = settings.email | default: shop.email
+  assign q_total = 0
+  assign group_total = 0
+  for block in section.blocks
+    if block.type == 'question' and block.settings.question != blank
+      assign q_total = q_total | plus: 1
+    elsif block.type == 'group' and block.settings.title != blank
+      assign group_total = group_total | plus: 1
+    endif
+  endfor
+-%}
+{%- capture contact_card -%}
+  {%- if layout == 'help' -%}
+    <div class="faq-ask">
+      <span class="faq-ask__icon" aria-hidden="true">{%- render 'icon', icon: 'chat' -%}</span>
+      <h3 class="faq-ask__title">{{ 'faq.ask_title' | t }}</h3>
+      {%- if settings.response_time != blank -%}<p class="faq-ask__text">{{ settings.response_time }}</p>{%- endif -%}
+      <div class="faq-ask__actions">
+        {%- assign contact_url = section.settings.contact_link | default: pages.contact.url -%}
+        {%- capture cp_ok -%}{%- render 'link-exists', url: contact_url -%}{%- endcapture -%}
+        {%- if contact_url != blank and cp_ok == 'true' -%}<a class="btn btn--sm" href="{{ contact_url }}">{{ 'faq.ask_cta' | t }}</a>{%- endif -%}
+        {%- if phone != blank -%}<a class="btn btn--outline btn--sm" href="tel:{{ phone | remove: ' ' | remove: '-' }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a>{%- endif -%}
+        {%- if settings.whatsapp != blank -%}<a class="btn btn--outline btn--sm" href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'general.whatsapp' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t }})</span></a>{%- endif -%}
+        {%- if mail != blank -%}<a class="link faq-ask__mail" href="mailto:{{ mail }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ mail }}</a>{%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+<section class="section faq faq--{{ layout }} color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
+  {%- if layout == 'help' -%}
+    <div class="page-width">
+      <h2 id="Title-{{ section.id }}" class="visually-hidden">{{ section.settings.heading }}</h2>
+      <faq-help class="faq-help" data-results-one="{{ 'faq.results' | t: count: 1 }}" data-results-other="{{ 'faq.results' | t: count: 7777 }}" data-count-other="{{ 'faq.count' | t: count: 7777 }}">
+        <div class="faq-help__bar">
+          <div class="faq-help__search input-icon">
+            <label class="visually-hidden" for="FaqSearch-{{ section.id }}">{{ 'faq.search_label' | t }}</label>
+            {%- render 'icon', icon: 'search', class: 'icon--sm' -%}
+            <input class="input" type="search" id="FaqSearch-{{ section.id }}" placeholder="{{ 'faq.search_placeholder' | t }}" autocomplete="off" enterkeyhint="search" data-faq-search aria-controls="FaqList-{{ section.id }}">
+          </div>
+          <p class="faq-help__status" role="status" aria-live="polite" data-faq-status>{{ 'faq.count' | t: count: q_total }}</p>
+        </div>
+        {%- if group_total > 0 -%}
+          <nav class="faq-help__chips chips chips--scroll" aria-label="{{ 'faq.topics' | t }}">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'group' and block.settings.title != blank -%}
+                <a class="chip" href="#faq-{{ block.settings.title | handleize }}" data-faq-nav>{{ block.settings.title }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </nav>
+        {%- endif -%}
+        <div class="faq-help__layout{% if group_total == 0 %} faq-help__layout--single{% endif %}">
+          {%- if group_total > 0 -%}
+            <aside class="faq-help__aside">
+              <nav class="faq-help__nav" aria-label="{{ 'faq.topics' | t }}">
+                <p class="faq-help__nav-title">{{ 'faq.topics' | t }}</p>
+                <ul role="list">
+                  {%- liquid
+                    assign g_title = ''
+                    assign g_handle = ''
+                    assign g_count = 0
+                    for block in section.blocks
+                      if block.type == 'group' and block.settings.title != blank
+                        if g_title != ''
+                          echo '<li><a href="#faq-' | append: g_handle | append: '" data-faq-nav><span>' | append: g_title | append: '</span><span class="faq-help__count">' | append: g_count | append: '</span></a></li>'
+                        endif
+                        assign g_title = block.settings.title | escape
+                        assign g_handle = block.settings.title | handleize
+                        assign g_count = 0
+                      elsif block.type == 'question' and block.settings.question != blank
+                        assign g_count = g_count | plus: 1
+                      endif
+                    endfor
+                    if g_title != ''
+                      echo '<li><a href="#faq-' | append: g_handle | append: '" data-faq-nav><span>' | append: g_title | append: '</span><span class="faq-help__count">' | append: g_count | append: '</span></a></li>'
+                    endif
+                  -%}
+                </ul>
+              </nav>
+              {{ contact_card }}
+            </aside>
+          {%- endif -%}
+          <div class="faq-help__list" id="FaqList-{{ section.id }}" data-accordion-group>
+            {%- capture lead_items -%}
+              {%- for q in section.blocks -%}
+                {%- if q.type == 'group' and q.settings.title != blank -%}{%- break -%}{%- endif -%}
+                {%- if q.type == 'question' and q.settings.question != blank -%}{%- render 'faq-question', q: q, return_days: return_days, cutoff: cutoff -%}{%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- if lead_items != blank -%}<section class="faq-help__group" data-faq-group><div class="faq-help__items">{{ lead_items }}</div></section>{%- endif -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'group' and block.settings.title != blank -%}
+                {%- assign gh = block.settings.title | handleize -%}
+                <section class="faq-help__group" id="faq-{{ gh }}" aria-labelledby="faq-{{ gh }}-title" data-faq-group {{ block.shopify_attributes }}>
+                  <h3 class="faq-help__group-title" id="faq-{{ gh }}-title">{{ block.settings.title }}</h3>
+                  <div class="faq-help__items">
+                    {%- assign in_group = false -%}
+                    {%- for q in section.blocks -%}
+                      {%- if q.type == 'group' and q.settings.title != blank -%}
+                        {%- if in_group -%}{%- break -%}{%- endif -%}
+                        {%- if q.id == block.id -%}{%- assign in_group = true -%}{%- endif -%}
+                      {%- elsif in_group and q.type == 'question' and q.settings.question != blank -%}
+                        {%- render 'faq-question', q: q, return_days: return_days, cutoff: cutoff -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </section>
+              {%- endif -%}
+            {%- endfor -%}
+            <div class="faq-help__empty" hidden data-faq-empty>
+              <p><strong>{{ 'faq.no_results_title' | t }}</strong></p>
+              <p class="muted">{{ 'faq.no_results' | t }}</p>
+            </div>
+            <div class="faq-help__ask-end">{{ contact_card }}</div>
+          </div>
+        </div>
+      </faq-help>
+    </div>
+    <script src="{{ 'content-pages.js' | asset_url }}" defer></script>
+  {%- else -%}
+  <div class="page-width faq__inner{% if layout == 'side' %} faq__inner--side{% endif %}">
     <div class="faq__head">
       {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
       <h2 id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}<div class="rte muted">{{ section.settings.text }}</div>{%- endif -%}
       {%- if section.settings.show_contact -%}
-        {%- assign phone = settings.phone | default: shop.phone -%}
         <div class="faq__contact">
           {%- if phone != blank -%}<a class="btn btn--outline btn--sm" href="tel:{{ phone | remove: ' ' | remove: '-' }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a>{%- endif -%}
           {%- if settings.whatsapp != blank -%}<a class="btn btn--outline btn--sm" href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'general.whatsapp' | t }}</a>{%- endif -%}
+          {%- if phone == blank and settings.whatsapp == blank and mail != blank -%}<a class="link faq__mail" href="mailto:{{ mail }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ mail }}</a>{%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -19,16 +150,18 @@
           {%- when 'group' -%}
             <h3 class="faq__group" {{ block.shopify_attributes }}>{{ block.settings.title }}</h3>
           {%- when 'question' -%}
+            {%- assign answer = block.settings.answer | replace: '[bedenktijd]', return_days | replace: '[besteltijd]', cutoff -%}
             <details class="accordion" {{ block.shopify_attributes }}{% if forloop.first and section.settings.open_first %} open{% endif %}>
               <summary><span>{{ block.settings.question }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
-              <div class="accordion__body rte">{{ block.settings.answer }}</div>
+              <div class="accordion__body rte">{{ answer }}</div>
             </details>
         {%- endcase -%}
       {%- endfor -%}
     </div>
   </div>
+  {%- endif -%}
 </section>
-{%- if section.settings.schema_markup -%}
+{%- if section.settings.schema_markup and q_total > 0 -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,7 +171,8 @@
     {%- for block in section.blocks -%}
       {%- if block.type == 'question' and block.settings.question != blank -%}
         {%- unless first -%},{%- endunless -%}{%- assign first = false -%}
-        { "@type": "Question", "name": {{ block.settings.question | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} } }
+        {%- assign answer = block.settings.answer | replace: '[bedenktijd]', return_days | replace: '[besteltijd]', cutoff -%}
+        { "@type": "Question", "name": {{ block.settings.question | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ answer | strip_html | json }} } }
       {%- endif -%}
     {%- endfor -%}
   ]
@@ -55,10 +189,12 @@
     { "type": "text", "id": "eyebrow", "label": "Bovenregel" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Veelgestelde vragen" },
     { "type": "richtext", "id": "text", "label": "Tekst", "default": "<p>Staat je vraag er niet bij? Bel of app ons.</p>" },
-    { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "side", "label": "Kop naast de vragen" }, { "value": "stacked", "label": "Kop boven de vragen" } ], "default": "side" },
+    { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "side", "label": "Kop naast de vragen" }, { "value": "stacked", "label": "Kop boven de vragen" }, { "value": "help", "label": "Vragenpagina: zoeken en onderwerpen" } ], "default": "side", "info": "Vragenpagina: een zoekveld, onderwerpen uit de groepskoppen en een contactblok. De kop is dan alleen voor schermlezers." },
     { "type": "checkbox", "id": "show_contact", "label": "Bel- en app-knoppen tonen", "default": true },
+    { "type": "url", "id": "contact_link", "label": "Link 'Stel je vraag' (vragenpagina)", "info": "Alleen bij de indeling Vragenpagina. Leeg = de pagina 'contact'." },
     { "type": "checkbox", "id": "open_first", "label": "Eerste vraag open", "default": false },
-    { "type": "checkbox", "id": "schema_markup", "label": "FAQPage structured data", "default": true, "info": "Zet uit als dezelfde vragen ook op een andere pagina met structured data staan." }
+    { "type": "checkbox", "id": "schema_markup", "label": "FAQPage structured data", "default": true, "info": "Zet uit als dezelfde vragen ook op een andere pagina met structured data staan." },
+    { "type": "paragraph", "content": "In een antwoord wordt [bedenktijd] het aantal dagen bedenktijd en [besteltijd] de besteltijd uit Thema-instellingen › Levering." }
   ],
   "blocks": [
     { "type": "group", "name": "Groepskop", "settings": [ { "type": "text", "id": "title", "label": "Titel", "default": "Bestellen" } ] },

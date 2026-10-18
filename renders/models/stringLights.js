@@ -11,13 +11,16 @@
 //
 // Construction: two 0.5 mm2 conductors twisted together (a ~3.2 mm wide twisted pair; at
 // catalogue scale one 2.6 mm strand with a twist highlight), every 10 cm a moulded lamp holder
-// (6.5 x 11 mm) with a 5 mm "strawberry" LED cap pointing away from the wire. The string is
-// laid down in ~5 loose, drifting loops (a lying scribble rather than a neat coil) so the LEDs
-// spread over the floor; where a loop crosses an earlier one it lies on top of it. Lit, every
-// LED glows with a small halo and the floor picks up a warm pool of light.
+// (6.5 x 11 mm) with a 5 mm "strawberry" LED cap. Lying on the floor every holder has tipped
+// over onto its side: it lies flat, angled 25-55 degrees off the wire, alternately left and
+// right, resting on its body (the wire lifts a little into it). The string is laid down in ~5
+// loose, drifting loops (a lying scribble rather than a neat coil) so the LEDs spread over the
+// floor; where a loop crosses an earlier one it lies on top of it. Lit, every LED glows with a
+// small noise-free bloom and the floor picks up a warm pool of light (js/lightGlow.js).
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as L from '../js/lightKit.js';
+import { GlowComp } from '../js/lightGlow.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -87,6 +90,13 @@ export function stringLights(p = {}) {
   const hh = Float32Array.from(h);
   const w = Math.ceil(0.03 / ds);
   for (let i = 0; i < N; i++) for (let j = Math.max(0, i - w); j <= Math.min(N - 1, i + w); j++) hh[i] = Math.max(hh[i], h[j] - 0.35 * Math.abs(i - j) * ds);
+  // the wire rises into each lamp holder (the holder lies on its 6.6 mm body)
+  const HOLD_Y = 0.0033;
+  const near = Math.ceil(0.012 / ds);
+  for (const li of lampIdx) for (let j = Math.max(0, li - near); j <= Math.min(N - 1, li + near); j++) {
+    const f = 1 - G.smoothstep(0, 0.012, Math.abs(j - li) * ds);
+    hh[j] = Math.max(hh[j], G.lerp(rw, HOLD_Y, f));
+  }
   const path = flat.map((q, i) => V3(q.x, hh[i], q.z));
 
   // --- wire, lamp holders, LEDs ----------------------------------------------------------------
@@ -101,35 +111,35 @@ export function stringLights(p = {}) {
     bins.add(wire, L.sweepProfile(strand, L.circleProfile(rw * 0.62, 8), { caps: false }).geo);
   }
   const ledOn = on ? L.emissiveMat('#FFBE6A', 5, { color: '#FFE2B0', roughness: 0.3, name: 'mini led lit' }) : null;
-  const ledOff = L.clearGlass({ tint: '#F1EFE8', coverage: 0.6, salt: 2.2 });
   const chip = L.cached('ledChip', () => new THREE.MeshPhysicalMaterial({ color: '#E9D08A', roughness: 0.4, name: 'led chip' }));
   const halos = [], sources = [];
   const multiCols = ['#FF3A2A', '#FFB020', '#2FD45A', '#2F6BFF', '#FF4FB0'];
+  const GC = new GlowComp({ name: 'stringLights' });
   lampIdx.forEach((i, k) => {
-    const q = path[i], T = frames.T[i];
-    // the LED points away from the wire: mostly up/outwards, rolled a little per lamp
-    const up = V3(0, 1, 0).addScaledVector(T, -T.y).normalize();
-    const sideV = V3().crossVectors(T, up).normalize();
-    const roll = (nz.noise(k * 0.73, 3.3) * 1.6 + (k % 2 ? 0.5 : -0.5)) * 0.9;
-    const dir = up.clone().multiplyScalar(Math.cos(roll)).addScaledVector(sideV, Math.sin(roll)).normalize();
-    // lying on the floor a lamp tips over: no LED points below the horizon
-    if (dir.y < 0.15) { dir.y = 0.15; dir.normalize(); }
-    const base = q.clone().addScaledVector(dir, 0.0006);
+    const q = path[i], T = frames.T[i].clone().setY(0).normalize();
+    // the holder lies on its side, angled off the wire, alternately left and right
+    const sideV = V3().crossVectors(V3(0, 1, 0), T).normalize();
+    const phi = (32 + 22 * (0.5 + 0.5 * nz.noise(k * 0.61, 8.7))) * DEG * (k % 2 ? 1 : -1);
+    const dir = T.clone().multiplyScalar(Math.cos(phi)).addScaledVector(sideV, Math.sin(phi)).normalize();
+    dir.y = 0.05; dir.normalize();                      // the cap end rests a hair lower than the body
+    const base = q.clone().setY(Math.max(q.y, HOLD_Y));
     const hold = G.lathe([[0.0001, 0], [0.0029, 0], [0.0033, 0.0015], [0.0033, 0.0085], [0.003, 0.0105], [0.0026, 0.011], [0.0001, 0.011]], 20);
     const cap = G.lathe([[0.0001, 0.0098], [0.0025, 0.0098], [0.0026, 0.0125], [0.0022, 0.0162], [0.0012, 0.0182], [0.0001, 0.0186]], 20);
     const die = G.roundedBox(0.0012, 0.0006, 0.0012, 0.0002); die.translate(0, 0.0128, 0);
-    const xA = V3().crossVectors(dir, Math.abs(dir.y) < 0.9 ? V3(0, 1, 0) : V3(1, 0, 0)).normalize();
+    const xA = V3().crossVectors(dir, V3(0, 1, 0)).normalize();
     const zA = V3().crossVectors(xA, dir);
-    const M4 = new THREE.Matrix4().makeBasis(xA, dir, zA).setPosition(base.x, base.y - 0.0022 * Math.max(0, 1 - dir.y), base.z);
+    // start the holder a little behind the wire centre so the wire runs into its base
+    const M4 = new THREE.Matrix4().makeBasis(xA, dir, zA).setPosition(base.clone().addScaledVector(dir, -0.002));
     hold.applyMatrix4(M4); cap.applyMatrix4(M4); die.applyMatrix4(M4);
     bins.add(holderMat, hold);
     const lc = multi ? multiCols[k % multiCols.length] : lightHex;
     if (on) {
       bins.add(multi ? L.emissiveMat(lc, 3, { color: '#FFFFFF', roughness: 0.3, name: 'mini led lit' }) : ledOn, cap);
-      const c = V3(0, 0.0135, 0).applyMatrix4(M4);
-      halos.push({ c, R: 0.032, color: L.lin(lc, 1.3), a: 0.85, core: 0.22, coreW: 0.62 });
-      sources.push({ p: c, I: 1, color: L.lin(lc, 1.1) });
-    } else { bins.add(ledOff, cap); bins.add(chip, die); }
+      const c = V3(0, 0.0145, 0).applyMatrix4(M4);
+      const lcol = L.lin(lc, 1); const pk = Math.max(...lcol); const nc = lcol.map((v) => v / pk);
+      GC.halo({ c, R: 0.034, color: nc.map((v) => v * 1.25), I: 0.62, core: 0.22, coreW: 0.6 });
+      sources.push({ p: c.clone().setY(0.006), I: 1, color: nc.map((v) => 1.15 * v) });
+    } else { bins.extra = bins.extra || []; bins.extra.push(GC.glass(cap, { T: 0.92, env: 1.0 })); bins.add(chip, die); }
   });
 
   // --- lead from the first lamp to the transformer --------------------------------------------
@@ -158,8 +168,9 @@ export function stringLights(p = {}) {
   const group = new THREE.Group(); group.name = `stringLights ${count} LED`;
   bins.build(group);
   group.traverse((o) => { if (o.isMesh) { const nm = o.material.name || ''; o.castShadow = !/lit|clear glass/.test(nm); o.receiveShadow = true; } });
-  const hm = L.haloSpheres(halos, { detail: 2 }); if (hm) group.add(hm);
-  if (sources.length) { const fg = L.floorGlow(sources, { box: 0.12, res: 220, k: 0.00045, max: 0.26, minH: 0.01 }); if (fg) group.add(fg); }
+  for (const m of bins.extra || []) group.add(m);
+  if (sources.length) GC.floorPool(sources, { pad: 0.12, res: 256, k: 0.00042, max: 0.22, minH: 0.012 });
+  if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.002, 0)));
   const dP = path[lampIdx[Math.min(3, count - 1)]];
   return {
     object: group,

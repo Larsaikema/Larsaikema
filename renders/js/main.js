@@ -26,7 +26,9 @@ export function buildScene(spec) {
   for (const it of items) {
     const fn = MODELS[it.model];
     if (!fn) throw new Error(`unknown model "${it.model}". Known: ${Object.keys(MODELS).join(', ')}`);
-    const res = fn(modelParams(it));
+    // __angle: the view being rendered, for builders that stage a product per view (e.g. a tent
+    // door closed in the hero, rolled up in the detail close-up); builders may ignore it
+    const res = fn({ ...modelParams(it), __angle: spec.angle || 'hero' });
     const obj = res.object || res;
     if (it.position) obj.position.set(...it.position);
     if (it.rotationY) obj.rotation.y = (it.rotationY * Math.PI) / 180;
@@ -81,6 +83,7 @@ window.renderSpec = async function renderSpec(spec) {
       if (!m || !m.probes) return;
       const obj = root.children[i];
       for (const [k, pts] of Object.entries(m.probes)) {
+        if (!pts || !pts.length) continue; // e.g. no walls: no wall probes
         const list = Array.isArray(pts[0]) ? pts : [pts];
         probes[k] = list.map((q) => {
           const v = new THREE.Vector3(...q).applyMatrix4(obj.matrixWorld).project(pc);

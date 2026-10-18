@@ -1,0 +1,100 @@
+/* Bedrukken (page.bedrukken): hero on Linnen with the render standing on the band, timeline steps, product cards, quote band, artwork rules */
+.print-hero{padding-top:16px;overflow:hidden}
+.print-hero .breadcrumbs{margin-bottom:4px}
+.print-hero__grid{display:grid;gap:0;align-items:end}
+.print-hero__text{padding-block:16px 8px;max-width:620px}
+.print-hero__eyebrow{display:inline-flex;align-items:center;gap:8px}
+.print-hero__title{font-size:calc(var(--heading-scale) * clamp(38px, 1.9vw + 30px, 60px));line-height:1.02;letter-spacing:-.025em;margin:0 0 18px}
+.print-hero__intro{max-width:54ch}
+.print-hero__intro p{margin:0 0 .65em}
+.print-hero__intro p:last-child{margin-bottom:0}
+.print-hero__ctas{margin-top:26px}
+.print-proof{list-style:none;display:flex;flex-wrap:wrap;gap:10px 22px;margin:26px 0 0;padding:0;font-weight:var(--font-body-weight-semibold);font-size:15px;line-height:1.3}
+.print-proof li{display:inline-flex;align-items:center;gap:8px}
+.print-hero__media{position:relative;margin-inline:calc(-1 * var(--gutter-mobile));line-height:0}
+.print-hero__media img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover}
+.print-hero__badge{position:absolute;top:18%;left:var(--gutter-mobile)}
+@media (max-width:749px){.print-hero__badge{top:14px}}
+@media (min-width:990px){
+  .print-hero{padding-top:20px}
+  .print-hero__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:40px;align-items:center}
+  .print-hero__text{padding-block:40px 88px}
+  .print-hero__media{margin:0 calc(-1 * var(--gutter-desktop)) 0 0;align-self:end}
+  .print-hero__badge{left:8%;top:14%}
+}
+
+/* steps as a timeline: vertical on mobile, one row with a connecting line from 750px */
+.print-how .section-head{margin-bottom:28px}
+.print-steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:none}
+.print-step{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding-bottom:26px}
+.print-step::before{content:"";position:absolute;left:23px;top:52px;bottom:4px;width:2px;border-radius:2px;background:var(--c-lijn)}
+.print-step:last-child{padding-bottom:0}
+.print-step:last-child::before{display:none}
+.print-step__num{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--c-inkt);color:var(--c-zand);font-family:var(--font-heading);font-weight:var(--font-heading-weight-bold);font-size:18px}
+.print-step__num .icon{width:22px;height:22px}
+.print-step__body{padding-top:2px}
+.print-step__label{margin:0 0 4px;font-size:12.5px;font-weight:var(--font-body-weight-bold);letter-spacing:.08em;text-transform:uppercase;color:var(--c-kiezel)}
+.print-step h3{margin:0 0 6px;font-size:19px}
+.print-step p{margin:0;color:var(--c-kiezel);font-size:15.5px;line-height:1.5}
+@media (min-width:750px){
+  .print-steps{grid-template-columns:repeat(var(--steps,4),minmax(0,1fr));gap:28px}
+  .print-step{grid-template-columns:1fr;gap:16px;padding-bottom:0}
+  .print-step::before{left:60px;right:-16px;top:23px;bottom:auto;width:auto;height:2px}
+  .print-step:last-child::before{display:none}
+  .print-step__body{padding-top:0;max-width:30ch}
+}
+
+/* printable products */
+.print-options .section-head{margin-bottom:24px}
+.print-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:750px){.print-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+@media (min-width:1100px){.print-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}}
+.print-grid>li{min-width:0}
+.print-card{position:relative;display:flex;flex-direction:column;height:100%;background:var(--c-wit);border:1px solid var(--c-lijn);border-radius:var(--radius-card);overflow:hidden;transition:box-shadow var(--dur-fast),border-color var(--dur-fast)}
+.print-card--link:hover{border-color:var(--c-kiezel);box-shadow:0 1px 2px rgba(29,36,32,.06),0 12px 28px -16px rgba(29,36,32,.28)}
+.print-card__media{aspect-ratio:1/1;background:var(--c-media);overflow:hidden;line-height:0}
+.print-card__media img,.print-card__media svg{width:100%;height:100%;object-fit:cover;transition:transform var(--dur)}
+.print-card--link:hover .print-card__media img{transform:scale(1.035)}
+.print-card__body{display:flex;flex-direction:column;gap:6px;padding:14px 14px 16px;flex:1}
+.print-card__title{font-size:16px;line-height:1.25;margin:0;letter-spacing:0}
+.print-card__title a{text-decoration:none;color:inherit}
+.print-card__title a::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.print-card__title a:focus-visible{outline:none}
+.print-card__title a:focus-visible::after{outline:3px solid var(--c-inkt);outline-offset:2px}
+.print-card__text{margin:0;font-size:14.5px;line-height:1.45;color:var(--c-kiezel)}
+.print-card__facts{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:4px;font-size:13.5px;line-height:1.35}
+.print-card__facts li{display:flex;gap:6px;align-items:flex-start}
+.print-card__facts .icon{margin-top:1px;color:var(--c-kiezel)}
+.print-card__foot{margin-top:auto;padding-top:10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;border-top:1px solid var(--c-lijn)}
+.print-card__price{margin:0;font-variant-numeric:tabular-nums;font-size:13.5px;line-height:1.3;color:var(--c-kiezel)}
+.print-card__price strong{font-size:17px;color:var(--c-inkt);font-weight:var(--font-body-weight-bold)}
+.print-card__vat{white-space:nowrap}
+.print-card__cta{display:inline-flex;align-items:center;gap:4px;font-weight:var(--font-body-weight-bold);font-size:14.5px;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.print-card--link:hover .print-card__cta{text-decoration-thickness:3px}
+@media (max-width:749px){
+  .print-card__body{padding:12px 12px 14px}
+  .print-card__title{font-size:15px}
+  .print-card__text,.print-card__cta,.print-card__facts .print-card__fact--pos{display:none}
+  .print-card__facts{font-size:13px}
+}
+@media (min-width:1100px){.print-card__body{padding:16px 18px 18px}.print-card__title{font-size:17px}}
+
+/* large format / large series: Zakelijk-style band (Linnen, Inkt button) */
+.print-quote{margin-top:28px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:center;padding:20px;border-radius:var(--radius-panel);background:var(--c-linnen);color:var(--c-inkt)}
+.print-quote__icon{width:52px;height:52px;border-radius:50%;background:var(--c-wit);display:grid;place-items:center;align-self:start}
+.print-quote h3{margin:0 0 4px;font-size:19px}
+.print-quote p{margin:0;font-size:15.5px;line-height:1.5}
+.print-quote .btn{grid-column:1/-1;justify-self:start}
+@media (min-width:750px){.print-quote{grid-template-columns:auto minmax(0,1fr) auto;padding:24px 28px;gap:24px}.print-quote__icon{align-self:center}.print-quote .btn{grid-column:auto}.print-quote p{max-width:68ch}}
+
+/* artwork rules + form */
+.print-artwork h2{margin-bottom:0}
+.print-rules{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:14px}
+.print-rules li{display:flex;gap:14px;align-items:flex-start;font-size:16.5px;line-height:1.45}
+.print-rules__icon{width:32px;height:32px;border-radius:50%;background:var(--c-wit);color:var(--c-inkt);display:grid;place-items:center;flex:none;margin-top:-4px}
+.print-artwork__notice{margin-top:26px}
+.print-artwork__links{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
+.print-artwork__links a{display:inline-flex;gap:8px;align-items:center;font-weight:var(--font-body-weight-bold)}
+.print-artwork__form .muted{margin:0 0 20px}
+.field__opt{font-weight:var(--font-body-weight);color:var(--c-kiezel)}
+@media (min-width:990px){.print-artwork .split{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:72px}.print-artwork__rules{padding-top:8px}}

@@ -6,6 +6,8 @@
   them into a concrete date + countdown in Europe/Amsterdam time. Params:
   - product (required), variant (optional), style: 'full' (PDP) | 'short' (cards)
   - print_active (bool): the selected variant gets a print, so the lead time counts from the approved proof
+  - sooner_url (optional, 'full'): where 'Eerder nodig?' goes; the product page passes '#ProductQuote' (its inline offerte
+    form with 'Gewenste leverdatum', quantity = the chosen quantity), else the contact page
 {%- endcomment -%}
 {%- liquid
   assign dv = variant | default: product.selected_or_first_available_variant
@@ -121,7 +123,7 @@
       <ul class="delivery__lines">
         {%- if dp_state == 'backorder' or dp_state == 'leadtime' -%}
           {%- if dp_state == 'backorder' -%}{%- assign dp_lead = settings.delivery_text_backorder -%}{%- else -%}{%- assign dp_lead = dp_leadtime -%}{%- endif -%}
-          <li class="js-only" data-delivery-later-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span><span data-delivery-later data-lead="{{ dp_lead | escape }}" data-tpl="{{ 'delivery.arrives_range_html' | t: from: '__FROM__', to: '__TO__' | escape }}"></span>{%- assign dp_contact = pages['contact'] -%}{% if dp_contact.url != blank %} · <a class="link" href="{{ dp_contact.url }}">{{ 'delivery.sooner' | t }}</a>{% endif %}</span></li>
+          <li class="js-only" data-delivery-later-row hidden>{% render 'icon', icon: 'truck', class: 'icon--sm' %}<span><span data-delivery-later data-lead="{{ dp_lead | escape }}" data-tpl="{{ 'delivery.arrives_range_html' | t: from: '__FROM__', to: '__TO__' | escape }}"></span>{%- assign dp_contact = pages['contact'] -%}{% if sooner_url != blank %} · <a class="link" href="{{ sooner_url }}" data-open-details data-quote-link="1">{{ 'delivery.sooner' | t }}</a>{% elsif dp_contact.url != blank %} · <a class="link" href="{{ dp_contact.url }}">{{ 'delivery.sooner' | t }}</a>{% endif %}</span></li>
         {%- endif -%}
         {%- if dp_state == 'stock' -%}
           {%- if dp_ship == 'pallet' -%}

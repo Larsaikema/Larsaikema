@@ -11,3 +11,12 @@
 .usp-strip__title a{text-decoration:none}
 .usp-strip__title a:hover{text-decoration:underline;text-underline-offset:3px}
 .usp-strip__sub{font-size:13.5px;color:var(--muted);line-height:1.35}
+@media (max-width:749px){
+  .usp-strip--list-mobile .usp-strip__list{grid-template-columns:minmax(0,1fr);gap:14px}
+  .usp-strip--list-mobile .usp-strip__item{align-items:center}
+  .usp-strip--list-mobile .usp-strip__icon{width:36px;height:36px}
+  .usp-strip--list-mobile .usp-strip__icon .icon{width:20px;height:20px}
+}
+.usp-strip--flags{border-top:0;padding-top:0}
+.usp-strip__flags{height:36px;background-size:384px 36px;background-position:center top;margin-bottom:12px}
+@media (min-width:990px){.usp-strip__flags{margin-bottom:18px}}

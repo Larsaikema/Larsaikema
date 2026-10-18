@@ -23,6 +23,7 @@
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as L from '../js/lightKit.js';
+import { GlowComp } from '../js/lightGlow.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -32,7 +33,9 @@ const DEG = Math.PI / 180;
 // materials
 
 function rvs(rough = 0.19) {
-  return L.cached(`htrRvs:${rough}`, () => new THREE.MeshPhysicalMaterial({ color: '#D9DCDF', metalness: 1, roughness: rough, name: 'stainless 304' }));
+  // brushed 304: anisotropic with the grain along the parts' length (uv v), so on the housing
+  // and the pole the studio's strip lights become long vertical highlights between dark bands
+  return L.cached(`htrRvs:${rough}`, () => new THREE.MeshPhysicalMaterial({ color: '#D9DCDF', metalness: 1, roughness: rough, anisotropy: 0.4, anisotropyRotation: Math.PI / 2, name: 'stainless 304' }));
 }
 function frameMat(color) {
   const c = String(color || '').toLowerCase();
@@ -53,11 +56,65 @@ function perforation() {
     return t;
   });
 }
-function emitterMat(on, rep) {
-  return L.cached(`htrEmit:${on}:${rep[0]}:${rep[1]}`, () => {
-    const map = perforation().clone(); map.repeat.set(...rep); map.needsUpdate = true;
-    const m = new THREE.MeshPhysicalMaterial({ color: on ? '#4A1E10' : '#5E6266', metalness: on ? 0.2 : 0.7, roughness: 0.55, map, name: on ? 'emitter screen lit' : 'emitter screen' });
-    if (on) { m.emissive = new THREE.Color('#FF5216'); m.emissiveIntensity = 3.4; m.emissiveMap = map; }
+// Glowing emitter screen of a mushroom heater, as a texture over the whole cylinder (u around,
+// v up): a staggered perforation (holes ~2.4 mm on a 4.5 mm pitch), three vertical seam straps,
+// dark rolled rims top and bottom, and the heat: hottest in a band a little above the middle,
+// cooler towards the rims, with slow hot/cool patches. Lit it burns orange (1000 K-ish), the
+// perforation reads as a fine dark grid; unlit it is the plain grey perforated steel.
+function emitterTex(circ, height) {
+  return L.cached(`htrEmitTex:${circ.toFixed(3)}:${height.toFixed(3)}`, () => {
+    const W = 1024, H = Math.max(96, Math.round((W * height) / circ));
+    const d = new Uint8Array(W * H * 4);
+    const pitch = 0.0045, Nu = Math.round(circ / pitch), Nv = Math.round(height / (pitch * 0.866));
+    const nz = L.noise;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const u = (x + 0.5) / W, v = (y + 0.5) / H;
+      const hv = v * Nv, row = Math.floor(hv), fv = hv - row - 0.5;
+      const hu = u * Nu + (row % 2 ? 0.5 : 0), fu = hu - Math.floor(hu) - 0.5;
+      const dh = Math.hypot(fu, fv * 0.866 / 0.866);
+      const hole = 1 - G.smoothstep(0.24, 0.32, dh);              // 1 inside a hole
+      let seam = 0;
+      for (const s0 of [0.08, 0.413, 0.746]) { const du = Math.abs(((u - s0 + 1.5) % 1) - 0.5) * circ; seam = Math.max(seam, 1 - G.smoothstep(0.005, 0.0065, du)); }
+      const rim = 1 - G.smoothstep(0.035, 0.07, v) * G.smoothstep(0.965, 0.93, v);
+      // heat: band peaking at ~0.58 of the height, slow patches round the cylinder
+      let heat = Math.exp(-Math.pow((v - 0.58) / 0.34, 2)) * (0.86 + 0.14 * nz.noise(u * 7.3, v * 2.1)) * (0.92 + 0.08 * Math.sin(u * Math.PI * 2 * 3 + 0.6));
+      heat *= (1 - 0.85 * seam) * (1 - rim);
+      const metal = 1 - 0.55 * hole;                               // the mesh glows, holes show the darker inside
+      const e = Math.max(0, Math.min(1, heat * metal));
+      const k = (y * W + x) * 4;
+      d[k] = Math.round(e * 255);
+      d[k + 1] = Math.round((1 - hole * 0.7) * (1 - 0.5 * seam) * 255); // diffuse mask (holes dark)
+      d[k + 2] = Math.round((seam > 0.5 || rim > 0.5 ? 1 : 0) * 255);
+      d[k + 3] = 255;
+    }
+    const t = new THREE.DataTexture(d, W, H, THREE.RGBAFormat);
+    t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter; t.generateMipmaps = true; t.anisotropy = 4;
+    t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.colorSpace = THREE.NoColorSpace; t.needsUpdate = true;
+    return t;
+  });
+}
+function emitterMat(on, circ, height) {
+  return L.cached(`htrEmit2:${on}:${circ.toFixed(3)}:${height.toFixed(3)}`, () => {
+    const tex = emitterTex(circ, height);
+    const m = new THREE.MeshPhysicalMaterial({ color: on ? '#2A1712' : '#8C9094', metalness: on ? 0.3 : 0.75, roughness: 0.5, name: on ? 'emitter screen lit' : 'emitter screen' });
+    m.userData.emTex = { value: tex };
+    m.onBeforeCompile = (sh) => {
+      sh.uniforms.tEm = m.userData.emTex;
+      sh.uniforms.uOn = { value: on ? 1 : 0 };
+      sh.vertexShader = sh.vertexShader.replace('#include <uv_pars_vertex>', '#include <uv_pars_vertex>\nvarying vec2 vEmUv;').replace('#include <uv_vertex>', '#include <uv_vertex>\nvEmUv = uv;');
+      sh.fragmentShader = 'uniform sampler2D tEm; uniform float uOn; varying vec2 vEmUv;\n' + sh.fragmentShader
+        .replace('#include <map_fragment>', `#include <map_fragment>
+  vec4 emT = texture2D( tEm, vEmUv );
+  diffuseColor.rgb *= mix( 0.35, 1.0, emT.g );`)
+        .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+  if ( uOn > 0.5 ) {
+    float hh = emT.r;
+    // colour follows the temperature: deep red where cooler, orange-yellow in the hot band
+    vec3 hot = mix( vec3( 0.55, 0.06, 0.012 ), vec3( 1.0, 0.36, 0.07 ), smoothstep( 0.15, 0.75, hh ) );
+    totalEmissiveRadiance += hot * pow( hh, 1.15 ) * 6.4;
+  }`);
+    };
+    m.customProgramCacheKey = () => `htrEmit2:${on}`;
     m.side = THREE.DoubleSide;
     return m;
   });
@@ -76,7 +133,7 @@ function frustum(wb, wt, y0, y1) {
 // ---------------------------------------------------------------------------------------
 // mushroom heaters (paddenstoel / tafel)
 
-function mushroom(bins, extra, { table = false, on, mat, color }) {
+function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
   const steel = mat;
   const seam = L.moulded('#2C2D2F', 0.6);
   const doorAz = 20 * DEG;
@@ -151,17 +208,34 @@ function mushroom(bins, extra, { table = false, on, mat, color }) {
   // control box with the gas knob and the piezo button, facing the door side
   bins.add(steel, G.lathe([[poleR + 0.001, yC], [0.085 * k, yC + 0.012], [0.088 * k, yC + 0.03], [0.088 * k, yC + 0.1 * k], [0.08 * k, yC + 0.112 * k], [0.04, yC + 0.116 * k]], 64));
   const cA = doorAz, cn = out(cA);
-  const kn = G.lathe([[0.0001, 0], [0.023 * k, 0], [0.023 * k, 0.02 * k], [0.019 * k, 0.026 * k], [0.0001, 0.027 * k]], 32);
-  kn.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), cn)); const kp = cn.clone().multiplyScalar(0.086 * k).setY(yC + 0.06 * k); kn.translate(kp.x, kp.y, kp.z); bins.add(knobMat(), kn);
-  const bA = cA + 0.55, bn = out(bA);
-  const bt = G.lathe([[0.0001, 0], [0.009 * k, 0], [0.009 * k, 0.008], [0.0001, 0.01]], 20);
-  bt.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), bn)); const bp = bn.clone().multiplyScalar(0.086 * k).setY(yC + 0.06 * k); bt.translate(bp.x, bp.y, bp.z);
-  bins.add(L.moulded('#B3261E', 0.4), bt);
+  // gas control knob: chrome bezel, black knob with a grip fin and a white pointer, so it reads
+  // as a knob (not a hole) from any angle; piezo ignition button in a chrome collar beside it
+  const chrome = L.cached('htrChrome', () => new THREE.MeshPhysicalMaterial({ color: '#E2E4E6', metalness: 1, roughness: 0.12, name: 'chrome' }));
+  const white = L.moulded('#F2F1EC', 0.4);
+  const mount = (g, dirV, r, y) => { g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), dirV)); const pp = dirV.clone().multiplyScalar(r).setY(y); g.translate(pp.x, pp.y, pp.z); return g; };
+  const ky = yC + 0.06 * k, kr = 0.086 * k;
+  bins.add(chrome, mount(G.lathe([[0.017 * k, -0.002], [0.027 * k, -0.002], [0.0285 * k, 0.002], [0.027 * k, 0.005], [0.0185 * k, 0.005], [0.017 * k, 0.003]], 48), cn, kr, ky));
+  bins.add(knobMat(), mount(G.lathe([[0.0001, 0], [0.021 * k, 0], [0.0215 * k, 0.006 * k], [0.02 * k, 0.014 * k], [0.017 * k, 0.017 * k], [0.0001, 0.0185 * k]], 48), cn, kr, ky));
+  {
+    // grip fin across the knob face, turned to "ON" (~35 degrees)
+    const fin = G.roundedBox(0.034 * k, 0.009 * k, 0.012 * k, 0.003 * k, 3);
+    const ptr = G.roundedBox(0.011 * k, 0.0022 * k, 0.0014 * k, 0.0006 * k, 1); ptr.translate(0.009 * k, 0, 0.0064 * k);
+    for (const [m, g] of [[knobMat(), fin], [white, ptr]]) {
+      g.rotateZ(35 * DEG); g.translate(0, 0, 0.0185 * k + 0.004 * k);
+      // local z -> outward normal cn
+      const q = new THREE.Quaternion().setFromUnitVectors(V3(0, 0, 1), cn);
+      g.applyQuaternion(q); const pp = cn.clone().multiplyScalar(kr).setY(ky); g.translate(pp.x, pp.y, pp.z);
+      bins.add(m, g);
+    }
+  }
+  const bA = cA + 0.5, bn = out(bA);
+  bins.add(chrome, mount(G.lathe([[0.0075 * k, -0.001], [0.0115 * k, -0.001], [0.012 * k, 0.003], [0.0075 * k, 0.004]], 32), bn, kr - 0.002, ky));
+  bins.add(L.moulded('#B3261E', 0.32), mount(G.lathe([[0.0001, 0], [0.0074 * k, 0], [0.0074 * k, 0.006], [0.006 * k, 0.0085], [0.0001, 0.009]], 24), bn, kr - 0.002, ky));
   // burner pan, emitter screen, guard rods
   const yE0 = yC + 0.118 * k, He = (table ? 0.14 : 0.21), yE1 = yE0 + He, Re = table ? 0.066 : 0.105, Rg = table ? 0.095 : 0.15;
   bins.add(steel, G.lathe([[0.04, yE0], [Rg + 0.006, yE0 + 0.004], [Rg + 0.006, yE0 + 0.016], [0.0001, yE0 + 0.018]], 64));
   const emit = new THREE.CylinderGeometry(Re, Re, He - 0.03, 64, 1, true); emit.translate(0, (yE0 + yE1) / 2, 0);
-  bins.add(emitterMat(on, [Math.round((TAU * Re) / 0.0045), Math.round((He - 0.03) / 0.0045)]), emit);
+  bins.add(emitterMat(on, TAU * Re, He - 0.03), emit);
   // the screen's top cap (dark steel) and inner deflector
   bins.add(steel, G.lathe([[0.0001, yE1 - 0.016], [Re + 0.006, yE1 - 0.016], [Re + 0.006, yE1 - 0.004], [0.0001, yE1 - 0.002]], 48));
   for (let i = 0; i < 12; i++) {
@@ -179,8 +253,9 @@ function mushroom(bins, extra, { table = false, on, mat, color }) {
   }
   yTop = yR + hR + 0.042;
   if (on) {
-    const pts = []; for (let i = 0; i <= 12; i++) pts.push(V3(0, yE0 + 0.02 + (He - 0.04) * (i / 12), 0));
-    extra.push(L.haloTube(pts, Re * 3.2, L.lin('#FF7A30', 1.2), 0.42, { core: 0.42, coreW: 0.75, radial: 24 }));
+    // soft orange bloom round the glowing screen (noise-free, js/lightGlow.js)
+    const pts = []; for (let i = 0; i <= 12; i++) pts.push(V3(0, yE0 + 0.03 + (He - 0.06) * (i / 12), 0));
+    GC.haloTube(pts, Re * 2.6, [1.2, 0.43, 0.1], 0.5, { core: 0.45, coreW: 0.7, radial: 24, iFn: (t) => 0.55 * Math.exp(-Math.pow((t - 0.6) / 0.6, 2)) });
   }
   return { top: yTop, detailY: (yE0 + yE1) / 2 };
 }
@@ -224,7 +299,7 @@ function flameGeometry(y0, y1, R, seed = 1) {
   return g;
 }
 
-function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false }) {
+function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, GC }) {
   const body = mat;
   const seam = L.moulded('#0E0E0F', 0.6);
   // plinth, tapered housing, top plate
@@ -251,9 +326,9 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false }) 
   const yG0 = Hb + 0.016, yG1 = H - (lounge ? 0.11 : 0.19);
   bins.add(body, G.lathe([[R * 1.25, yG0], [R * 1.25, yG0 + 0.035], [R + 0.004, yG0 + 0.04], [R + 0.004, yG0 + 0.03], [0.0001, yG0 + 0.03]], 48));
   bins.add(body, G.lathe([[R + 0.004, yG1 - 0.03], [R * 1.25, yG1 - 0.026], [R * 1.25, yG1], [0.0001, yG1 + 0.001]], 48));
-  const glass = L.clearGlass({ tint: '#F3F2EC', coverage: 0.2, salt: 4.4, emissive: on ? '#FF9A4A' : null, emissiveIntensity: on ? 0.25 : 0 });
+  // quartz tube: real (noise-free) glass, the flame is seen through it
   const tube = new THREE.CylinderGeometry(R, R, yG1 - yG0 - 0.06, 64, 1, true); tube.translate(0, (yG0 + yG1) / 2, 0);
-  bins.add(glass, tube);
+  extra.push(GC.glass(tube, { T: [0.93, 0.93, 0.92], env: 1.1, rough: 0.03, markerSide: THREE.DoubleSide }));
   // posts from the housing corners to the hood corners, two tie frames
   const c0 = Wh / 2 - 0.025, c1 = Wt / 2;
   const postAt = (sx, sz, y) => { const t = (y - Hb) / (yG1 - Hb); return V3(sx * G.lerp(c0, c1, t), y, sz * G.lerp(c0, c1, t)); };
@@ -279,9 +354,15 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false }) 
   const kn = G.lathe([[0.0001, 0], [0.021, 0], [0.021, 0.018], [0.017, 0.024], [0.0001, 0.025]], 32); kn.rotateX(Math.PI / 2); kn.translate(0.07, ky, kz); bins.add(knobMat(), kn);
   const bt = G.lathe([[0.0001, 0], [0.008, 0], [0.008, 0.008], [0.0001, 0.009]], 16); bt.rotateX(Math.PI / 2); bt.translate(0.12, ky, kz); bins.add(L.moulded('#B3261E', 0.4), bt);
   if (on) {
-    extra.push(L.glowSurface(flameGeometry(yG0 + 0.04, yG1 - 0.05, R, 1.3)));
+    // the flame: additive light inside the glass (no speckle), plus a warm bloom round the tube
+    GC.surface(flameGeometry(yG0 + 0.04, yG1 - 0.05, R, 1.3));
+    // the hot gas fills the tube with a soft amber glow, strongest low down
+    const yf0 = yG0 + 0.08, yf1 = yG1 - 0.08;
+    // (two overlapping segments: their soft round ends blend, no joints)
+    GC.line({ a: V3(0, yf0, 0), b: V3(0, yf1, 0), color: [1.0, 0.46, 0.1], I: 0.13, s1: R * 0.3, s2: R * 0.75, w2: 0.45 });
+    GC.line({ a: V3(0, yf0 + 0.02, 0), b: V3(0, G.lerp(yf0, yf1, 0.5), 0), color: [1.0, 0.5, 0.12], I: 0.16, s1: R * 0.28, s2: R * 0.7, w2: 0.4 });
     const pts = []; for (let i = 0; i <= 16; i++) pts.push(V3(0, yG0 + 0.06 + (yG1 - yG0 - 0.16) * (i / 16), 0));
-    extra.push(L.haloTube(pts, R * 2.6, L.lin('#FF8A3A', 1.25), 0.4, { core: 0.4, coreW: 0.7, radial: 24, aFn: (t) => 0.42 * (1 - 0.6 * t) }));
+    GC.haloTube(pts, R * 2.8, [1.2, 0.5, 0.12], 0.45, { core: 0.4, coreW: 0.7, radial: 24, iFn: (t) => 0.5 * (1 - 0.65 * t) * G.smoothstep(0, 0.12, t) });
   }
   return { top: H, detailY: G.lerp(yG0, yG1, 0.35) };
 }
@@ -289,7 +370,7 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false }) 
 // ---------------------------------------------------------------------------------------
 // electric infrared heater
 
-function electric(p) {
+function electric(p, GC) {
   const watt = Number(p.watt ?? 1500);
   const on = p.on !== false;
   const Lh = watt > 1800 ? 0.6 : 0.47, Hh = 0.096, Dh = 0.082;
@@ -369,11 +450,10 @@ function electric(p) {
   if (on) {
     group.updateMatrixWorld(true);
     const pts = []; for (let i = 0; i <= 10; i++) pts.push(V3(-Lh / 2 + 0.04 + (Lh - 0.08) * (i / 10), 0, zT).applyMatrix4(tiltG.matrixWorld));
-    group.add(L.haloTube(pts, 0.075, L.lin('#FF9A40', 1.25), 0.55, { core: 0.3, coreW: 0.7, radial: 20 }));
+    GC.haloTube(pts, 0.085, [1.2, 0.6, 0.19], 0.5, { core: 0.3, coreW: 0.7, radial: 20 });
     if (!mounted) {
-      const src = pts.map((q) => ({ p: q.clone().add(V3(0, 0, 0.04)), I: 1, color: L.lin('#FFA050', 1.15) }));
-      const fg = L.floorGlow(src, { box: 0.25, res: 140, k: 0.0009, max: 0.3, minH: 0.06 });
-      if (fg) group.add(fg);
+      const src = pts.map((q) => ({ p: q.clone().add(V3(0, 0, 0.04)), I: 1, color: [1.2, 0.62, 0.26] }));
+      GC.floorPool(src, { pad: 0.34, res: 160, k: 0.0012, max: 0.3, minH: 0.07 });
     }
   }
   return { object: group, detail: { target: mounted ? [0, Number(p.height ?? 2.0), 0.16] : [Lh * 0.25, yb, 0.02], size: 0.22, azimuth: 30, elevation: 12 }, meta: { kind: 'elektrisch', watt } };
@@ -384,22 +464,25 @@ function electric(p) {
 export function heater(p = {}) {
   const kind = String(p.kind || 'gas').toLowerCase();
   const on = p.on !== false;
+  const GC = new GlowComp({ name: 'heater' });
   if (kind.startsWith('elek')) {
-    const res = electric(p);
+    const res = electric(p, GC);
+    if (!GC.isEmpty()) res.object.add(GC.build(V3(0, 0.05, 0)));
     return { ...res, view: { hero: { elevation: 17 } }, rig: { default: { exposure: on ? 1.05 : 'auto', contact: { strength: 0.8, h0: 0.006, res: 1024, blur: 1.4 }, groundAO: { strength: 0.75, maxZenith: 80 } } } };
   }
   const style = String(p.style || 'paddenstoel').toLowerCase();
   const bins = new G.PartBin();
   const extra = [];
   let info;
-  if (style === 'flame' || style === 'pyramide' || style === 'piramide') info = flameColumn(bins, extra, { H: 2.27, W: 0.5, Hb: 0.66, Wt: 0.26, R: 0.05, on, mat: frameMat(p.color || 'zwart') });
-  else if (style === 'lounge') info = flameColumn(bins, extra, { H: 1.15, W: 0.4, Hb: 0.44, Wt: 0.3, R: 0.045, on, mat: frameMat(p.color || 'zwart'), lounge: true });
-  else if (style === 'tafel' || style === 'table') info = mushroom(bins, extra, { table: true, on, mat: frameMat(p.color || 'rvs') });
-  else info = mushroom(bins, extra, { on, mat: frameMat(p.color || 'rvs') });
+  if (style === 'flame' || style === 'pyramide' || style === 'piramide') info = flameColumn(bins, extra, { H: 2.27, W: 0.5, Hb: 0.66, Wt: 0.26, R: 0.05, on, mat: frameMat(p.color || 'zwart'), GC });
+  else if (style === 'lounge') info = flameColumn(bins, extra, { H: 1.15, W: 0.4, Hb: 0.44, Wt: 0.3, R: 0.045, on, mat: frameMat(p.color || 'zwart'), lounge: true, GC });
+  else if (style === 'tafel' || style === 'table') info = mushroom(bins, extra, { table: true, on, mat: frameMat(p.color || 'rvs'), GC });
+  else info = mushroom(bins, extra, { on, mat: frameMat(p.color || 'rvs'), GC });
   const group = new THREE.Group(); group.name = `heater ${kind} ${style}`;
   bins.build(group);
   group.traverse((o) => { if (o.isMesh) { const nm = o.material.name || ''; o.castShadow = !/clear glass|lit/.test(nm); o.receiveShadow = true; } });
   for (const e of extra) group.add(e);
+  if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.05, 0)));
   const steelish = !/zwart|antraciet|brons/.test(String(p.color || (style === 'flame' || style === 'lounge' ? 'zwart' : 'rvs')));
   return {
     object: group,

@@ -91,11 +91,12 @@ export function tentFabric(color, { side = THREE.DoubleSide, translucent = true 
 //  - the 1 mm plain weave shows as relief once the camera resolves it (engine `weave` hook:
 //    boosted close up, the coating's gloss varies over yarn crowns and flanks; at catalogue
 //    distance it averages into a slightly more matte lobe instead of aliasing),
-//  - an isotropic macro layer (coating grain, soft cockle, sparse slubs; textures.coatingMacroNormal),
+//  - a faint isotropic macro layer (coating grain, soft cockle, sparse slubs; textures.coatingMacroNormal),
 //  - light coloured cloth transmits light: the underside of a white roof glows light grey,
 //    with the frame and seams reading darker against it (engine `translucency`),
 //  - a broad soft sheen on dark cloth (more env reflection, fibre sheen tinted by the dye),
-//  - `interior`: inside a walled tent only shadowed light reaches the inward faces.
+//  - `interior`: inside a walled tent the inward faces keep the light that comes in through the
+//    openings (rig.interior: falls off away from an open door / window) instead of the open studio's.
 export function pvcCloth(color, { side = THREE.DoubleSide, translucent = true } = {}) {
   const hex = resolveColor(color, COLORS.wit);
   return cached(`pvcCloth:${hex}:${side}:${translucent}`, () => {
@@ -122,7 +123,10 @@ export function pvcCloth(color, { side = THREE.DoubleSide, translucent = true } 
       translucency: translucent ? (light ? 0.55 : 0.3 * Math.min(1, L * 1.4)) : 0,
       translKey: light ? 0.6 : 0.8, translSky: light ? 2.4 : 1.6,
       weave: { repeats: 16, boost: light ? 2.4 : 1.9, roughVar: 0.45, matte: 0.04 },
-      macro: { tex: 'coatingMacro', scale: 1 / WEAVE_REPEAT, strength: dark ? 0.45 : 0.4, coat: 0.6, rough: 0.2 },
+      // macro layer (yarn tension, slubs, coating cockle) kept faint (~30 % of what it was): at
+      // 0.4 it read as stucco / orange peel (leather, felt) on close-ups; the fine regular plain
+      // weave and one even coating sheen carry the surface of PVC-coated polyester
+      macro: { tex: 'coatingMacro', scale: 1 / WEAVE_REPEAT, strength: dark ? 0.135 : 0.12, coat: 0.6, rough: 0.06 },
       interior: true,
     };
     m.name = `pvcCloth ${hex}`;

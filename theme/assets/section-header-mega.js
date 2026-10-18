@@ -1,4 +1,4 @@
-/* Desktop mega menu (disclosure): click/Enter/Space toggles, fine-pointer hover opens after 120 ms (160 to switch), Esc closes */
+/* Desktop mega menu (disclosure with top-level links): the chevron toggles on click/Enter/Space, fine-pointer hover opens after 120 ms (160 to switch), Esc closes */
 (() => {
 const { load, ready, busy, $$ } = window.KK.hdr;
 const fine = matchMedia('(hover:hover) and (pointer:fine)');
@@ -14,13 +14,12 @@ document.addEventListener('keydown', (e) => {
 		});
 });
 document.addEventListener('click', (e) => opened().forEach((m) => m.contains(e.target) || m.close(0)));
-addEventListener('resize', () => opened().forEach((m) => (m.fit(), m.more())), { passive: true });
+addEventListener('resize', () => opened().forEach((m) => m.fit()), { passive: true });
 class Mega extends HTMLElement {
 	connectedCallback() {
 		this.trigger = this.querySelector('[data-mega-trigger]');
 		this.panel = this.querySelector('[data-mega-panel]');
 		this.panel.inert = !this.isOpen;
-		this.panel.addEventListener('scroll', () => this.more(), { passive: true });
 		this.addEventListener('mouseenter', () => fine.matches && !this.hold && this.open(opened().some((m) => m !== this) ? 160 : 120, 'hover'));
 		this.addEventListener('mouseleave', () => {
 			this.hold = false;
@@ -45,6 +44,7 @@ class Mega extends HTMLElement {
 					busy(t, false);
 					if (this.want !== by) return;
 					opened().forEach((m) => m !== this && m.close(0));
+					$$('predictive-search').forEach((s) => s.close?.());
 					this.by = by;
 					$$('img', this.panel).forEach((i) => (i.loading = 'eager'));
 					this.set(true);
@@ -64,14 +64,7 @@ class Mega extends HTMLElement {
 		this.classList.toggle('is-open', o);
 		this.trigger.setAttribute('aria-expanded', o);
 		this.panel.inert = !o;
-		if (o) this.more();
 	}
-	// is-more: taller than the window, not scrolled to the end
-	more() {
-		const p = this.panel;
-		p.classList.toggle('is-more', p.scrollHeight - p.scrollTop - p.clientHeight > 8);
-	}
-	// a compact panel stays 24 px inside the window
 	fit() {
 		const p = this.panel;
 		if (!p.classList.contains('mega--compact')) return;

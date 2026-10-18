@@ -1,0 +1,14 @@
+{%- comment -%} Newsletter form of the footer (customer form, tag newsletter); used in the top band or in a column. {%- endcomment -%}
+{%- form 'customer', id: 'FooterNewsletter', class: 'newsletter-form' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  {%- if form.posted_successfully? -%}
+    <p class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span>{{ 'newsletter.success' | t }}</span></p>
+  {%- else -%}
+    <div class="newsletter-form__row">
+      <label class="visually-hidden" for="FooterNewsletterEmail">{{ 'newsletter.label' | t }}</label>
+      <input class="input" type="email" id="FooterNewsletterEmail" name="contact[email]" autocomplete="email" required placeholder="{{ 'newsletter.label' | t }}"{% if form.errors %} aria-invalid="true" aria-describedby="FooterNewsletterError"{% endif %}>
+      <button type="submit" class="btn">{{ 'newsletter.button' | t }}</button>
+    </div>
+    {%- if form.errors -%}<p class="field__error" id="FooterNewsletterError">{{ 'forms.error_email' | t }}</p>{%- endif -%}
+  {%- endif -%}
+{%- endform -%}

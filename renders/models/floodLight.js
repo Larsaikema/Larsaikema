@@ -18,6 +18,7 @@
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as L from '../js/lightKit.js';
+import { GlowComp } from '../js/lightGlow.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -32,7 +33,41 @@ function dims(watt) {
 
 // The lamp head + bracket. Local frame: the tilt axis is the X axis at the origin, the light
 // faces +Z; the bracket's U opens upwards, its base plate at y = -yb.
-function head(bins, { watt, on, body, knobMat, tilt }) {
+// Emission of the lit front: the SMD array (8 x 6 LEDs) shows through the frosted glass as soft
+// brighter spots, the panel falls off a little towards the bezel.
+function smdTex(nx = 8, ny = 6) {
+  return L.cached(`floodSmd:${nx}:${ny}`, () => {
+    const W = 256, H = 192, d = new Uint8Array(W * H * 4);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const u = (x + 0.5) / W, v = (y + 0.5) / H;
+      const ex = Math.min(u, 1 - u), ey = Math.min(v, 1 - v);
+      let e = 0.8 + 0.2 * G.smoothstep(0, 0.22, Math.min(ex, ey * 1.3));
+      let spot = 0;
+      for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+        const cx = (i + 0.5) / nx, cy = (j + 0.5) / ny;
+        const dx = (u - cx) * 1.0, dy = (v - cy) * (H / W);
+        spot += Math.exp(-(dx * dx + dy * dy) / (2 * 0.026 * 0.026));
+      }
+      e *= 0.82 + 0.3 * Math.min(1, spot);
+      const k = (y * W + x) * 4; const c = Math.round(Math.min(1, e) * 255);
+      d[k] = d[k + 1] = d[k + 2] = c; d[k + 3] = 255;
+    }
+    const t = new THREE.DataTexture(d, W, H, THREE.RGBAFormat);
+    t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter; t.generateMipmaps = true; t.colorSpace = THREE.NoColorSpace; t.needsUpdate = true;
+    return t;
+  });
+}
+function roundedPlane(w, h, r) {
+  const sh = new THREE.Shape(); const x0 = -w / 2, y0 = -h / 2;
+  sh.moveTo(x0 + r, y0); sh.lineTo(x0 + w - r, y0); sh.quadraticCurveTo(x0 + w, y0, x0 + w, y0 + r); sh.lineTo(x0 + w, y0 + h - r);
+  sh.quadraticCurveTo(x0 + w, y0 + h, x0 + w - r, y0 + h); sh.lineTo(x0 + r, y0 + h); sh.quadraticCurveTo(x0, y0 + h, x0, y0 + h - r); sh.lineTo(x0, y0 + r); sh.quadraticCurveTo(x0, y0, x0 + r, y0);
+  const g = new THREE.ShapeGeometry(sh, 8);
+  const p = g.attributes.position, uv = g.attributes.uv;
+  for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / w + 0.5, p.getY(i) / h + 0.5);
+  return g;
+}
+
+function head(bins, { watt, on, body, knobMat, tilt, GC, extra }) {
   const { W, H, D } = dims(watt);
   const parts = [];
   const add = (m, g) => parts.push([m, g]);
@@ -56,6 +91,14 @@ function head(bins, { watt, on, body, knobMat, tilt }) {
     ? L.cached('floodLit', () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.03, emissive: new THREE.Color('#FFEFD8'), emissiveIntensity: 5.5, name: 'flood diffuser lit' }), 0.7, 0.4))
     : L.cached('floodOff', () => new THREE.MeshPhysicalMaterial({ color: '#E8E8E4', roughness: 0.45, clearcoat: 1, clearcoatRoughness: 0.04, sheen: 0.3, sheenColor: new THREE.Color('#ffffff'), name: 'flood diffuser' }));
   add(lit, glass);
+  if (on) {
+    // the glowing front face with the SMD spots, and the tempered cover glass over it (real,
+    // noise-free reflections of the studio)
+    const face = roundedPlane(glassW - 0.001, glassH - 0.001, 0.004); face.translate(0, 0, D / 2 + 0.00445);
+    add(L.cached('floodFace', () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.3, emissive: new THREE.Color('#FFEFD8'), emissiveIntensity: 6.2, emissiveMap: smdTex(), name: 'flood front lit' }), 0.8, 0.4)), face);
+  }
+  const cover = roundedPlane(glassW + 0.003, glassH + 0.003, 0.0055); cover.translate(0, 0, D / 2 + 0.0052);
+  extra.push(cover);
   // tilt knobs (star knobs) on both sides, and the bracket arms
   for (const sx of [-1, 1]) {
     const k = G.lathe([[0.0001, 0], [0.0045, 0], [0.0045, 0.006], [0.0001, 0.006]], 16); k.rotateZ(sx * -Math.PI / 2); k.translate(sx * (W / 2 + 0.004), 0, 0); add(knobMat, k);
@@ -67,6 +110,7 @@ function head(bins, { watt, on, body, knobMat, tilt }) {
   // housing tilted about X
   const Mt = new THREE.Matrix4().makeRotationX(-tilt);
   for (const [m, g] of parts) { g.applyMatrix4(Mt); bins.add(m, g); }
+  for (const g of extra) g.applyMatrix4(Mt);
   // U-bracket (not tilted): two arms from the tilt axis down to the base plate
   const yb = H / 2 + 0.024;
   const strap = (a, b, side) => G.flatBar(a, b, 0.024, 0.003, side, 0.0012);
@@ -98,7 +142,9 @@ export function floodLight(p = {}) {
   const bins = new G.PartBin();
   const mounted = p.mountedOn === 'leg';
   const tilt = mounted ? -25 * DEG : 12 * DEG;
-  const hd = head(bins, { watt, on, body, knobMat, tilt });
+  const GC = new GlowComp({ name: 'floodLight' });
+  const extraGeo = [];
+  const hd = head(bins, { watt, on, body, knobMat, tilt, GC, extra: extraGeo });
   const group = new THREE.Group(); group.name = `floodLight ${watt} W`;
   const headG = new THREE.Group(); bins.build(headG);
   const outer = new THREE.Group(); outer.add(headG);
@@ -136,19 +182,23 @@ export function floodLight(p = {}) {
   const g2 = new THREE.Group(); bins2.build(g2); outer.add(g2);
   group.add(outer);
   group.traverse((o) => { if (o.isMesh) { o.castShadow = !/lit/.test(o.material.name || ''); o.receiveShadow = true; } });
+  // the cover glass, baked into the product frame (the glow passes see world geometry)
+  headG.updateMatrix();
+  for (const g of extraGeo) { g.applyMatrix4(headG.matrix); group.add(GC.glass(g, { T: 0.94, env: 1.0, rough: 0.03 })); }
   if (on) {
     group.updateMatrixWorld(true);
-    const c = V3(0, 0, hd.D / 2 + 0.004).applyMatrix4(Mt).applyMatrix4(headG.matrixWorld);
-    const hm = L.haloSpheres([{ c, R: hd.W * 0.95, color: L.lin('#FFF0DA', 1.25), a: 0.65, core: 0.55, coreW: 0.75 }]);
-    group.add(hm);
+    const Mt2 = new THREE.Matrix4().makeRotationX(-tilt);
+    const c = V3(0, 0, hd.D / 2 + 0.004).applyMatrix4(Mt2).applyMatrix4(headG.matrixWorld);
+    const n = V3(0, 0, 1).applyMatrix4(Mt2).transformDirection(headG.matrixWorld);
+    GC.halo({ c: c.clone().addScaledVector(n, 0.01), R: hd.W * 0.95, color: [1.25, 1.1, 0.88], I: 0.6, core: 0.55, coreW: 0.75 });
     if (!mounted) {
       // a soft pool of light on the floor in front of the lens
       const src = [];
-      for (let k = 1; k <= 6; k++) src.push({ p: c.clone().add(V3(0, 0, 0.05 + k * 0.05)).setY(c.y * 1.1), I: 1 / k, color: L.lin('#FFF0DA', 1.2) });
-      const fg = L.floorGlow(src, { box: 0.25, res: 140, k: 0.0025, max: 0.32, minH: 0.05 });
-      if (fg) group.add(fg);
+      for (let k = 1; k <= 6; k++) src.push({ p: c.clone().addScaledVector(n.clone().setY(0).normalize(), 0.04 + k * 0.05).setY(c.y * 1.1), I: 1 / k, color: [1.2, 1.08, 0.9] });
+      GC.floorPool(src, { pad: 0.3, res: 160, k: 0.0028, max: 0.24, minH: 0.05 });
     }
   }
+  if (!GC.isEmpty() || extraGeo.length) group.add(GC.build(V3(0, 0.02, 0)));
   const tgt = mounted ? [0, Number(p.height ?? 1.95), 0.14] : [0, hd.yb, 0.01];
   return {
     object: group,

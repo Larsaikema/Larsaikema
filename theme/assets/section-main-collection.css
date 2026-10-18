@@ -1,6 +1,5 @@
-/* Collection page (sections/main-collection.liquid); search reuses the toolbar, facets, grid and drawer. Head: breadcrumbs,
-   intro (2 lines + Lees meer), kenmerken, sub-collections. Phone: Filteren/Sorteren bar sticks under the header, filters in a
-   drawer (inline without JavaScript). Desktop: sticky sidebar, count + Sorteer op. */
+/* Collection page (search reuses toolbar, facets, grid, drawer). Phone: filters in a drawer, Filteren/Sorteren float at
+   the bottom once scrolled. Desktop: sticky sidebar, count + lead date + Sorteer op. */
 
 .collection-head__inner{padding-block:10px 0}
 @media (min-width:990px){.collection-head__inner{padding-block:16px 0}}
@@ -18,7 +17,7 @@
 .collection-head__usps{list-style:none;display:grid;gap:6px;margin:0;padding:0;font-size:14px;font-weight:var(--font-body-weight-semibold);line-height:1.35}
 .collection-head__usps li{display:flex;align-items:flex-start;gap:8px}
 .collection-head__usps .icon{flex:none;margin-top:.2em;color:var(--done)}
-/* phone: the intro folds to two lines; 'Lees meer' also opens the kenmerken (they wait behind it, the products come first) */
+/* phone: intro in two lines; 'Lees meer' also opens the kenmerken */
 @media (max-width:989px){
   .js .collection-head__more:not(.is-open) .collection-head__intro{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .js .collection-head__more.is-clamped~.collection-head__links .collection-head__toggle,
@@ -27,8 +26,7 @@
   .collection-head__usps{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px;font-size:13.5px}
 }
 @media (min-width:750px) and (max-width:989px){.collection-head__usps{grid-template-columns:repeat(4,minmax(0,1fr))}}
-/* desktop: the whole intro (two or three lines), the guide link right after it; kenmerken (and up to 3 sub-collections)
-   in a column beside the title, so the grid starts high */
+/* desktop: kenmerken beside the title, so the grid starts high */
 @media (min-width:990px){
   .collection-head__intro{font-size:16px}
   .collection-head__more,.collection-head__more .collection-head__intro{display:inline}
@@ -38,8 +36,7 @@
   .collection-head__aside .subnav__track{flex-wrap:wrap}
 }
 
-/* sub-collections: chips (with the category image). Phone: two side by side fill the row; more scroll sideways with a
-   fade at the edge, so a cut-off chip reads as 'there is more' */
+/* sub-collections: chips; phone: two fill the row, more scroll sideways with a fade at the edge */
 .subnav{min-width:0}
 .subnav__track{display:flex;gap:8px}
 .subnav__item{flex:none;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border-radius:999px;background:var(--c-wit);border:1px solid var(--c-lijn);color:var(--c-inkt);font-size:14.5px;font-weight:var(--font-body-weight-semibold);line-height:1.2;text-decoration:none;white-space:nowrap;transition:border-color var(--dur-fast),box-shadow var(--dur-fast)}
@@ -72,54 +69,67 @@
 facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;pointer-events:none}
 
 .collection-bar{display:flex;align-items:center;gap:8px;min-height:44px;margin-bottom:6px}
+.collection-bar__tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;flex:1;min-width:0}
+.collection-bar__tools:not(:has(.collection-bar__filter)){grid-template-columns:minmax(0,1fr)}
 .collection-bar__count{display:none;margin:0;font-size:14.5px;color:var(--c-kiezel);font-variant-numeric:tabular-nums;white-space:nowrap}
 .collection-bar__btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:0;height:44px;padding:0 14px;border-radius:999px;background:var(--c-wit);border:1.5px solid var(--c-kiezel);color:var(--c-inkt);font-size:15px;font-weight:var(--font-body-weight-semibold);line-height:1;white-space:nowrap;text-decoration:none;cursor:pointer;transition:border-color var(--dur-fast),background-color var(--dur-fast)}
 .collection-bar__btn>span:not(.facet__badge){min-width:0;overflow:hidden;text-overflow:ellipsis}
 @media (hover:hover){.collection-bar__btn:hover{border-color:var(--c-inkt);background:var(--c-tint-wit)}}
 .collection-bar__btn .facet__badge{margin-left:-2px;flex:none}
 .collection-bar__btn .icon{flex:none}
-.collection-bar__sort-face{display:inline-flex;align-items:center;gap:8px;min-width:0;pointer-events:none}
+.collection-bar__sort-face{display:inline-flex;align-items:center;gap:8px;min-width:0;max-width:100%;pointer-events:none}
 .collection-bar__sort-long{display:none;font-weight:var(--font-body-weight)}
 .collection-bar__sort-long strong{font-weight:var(--font-body-weight-bold)}
 .collection-bar__select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;appearance:none;-webkit-appearance:none;font-size:16px;border:0}
 .collection-bar__sort:has(.collection-bar__select:focus-visible){outline:3px solid var(--c-inkt);outline-offset:2px}
-/* a sort other than 'Aanbevolen' is a choice the shopper made: shown like a set filter (phone: its name on the button) */
+/* a sort other than 'Aanbevolen': shown like a set filter */
 .collection-bar__sort.is-active{border-color:var(--c-inkt);background:var(--option-selected)}
-.collection-bar__sort .collection-bar__sort-face{overflow:visible;max-width:100%}
 .collection-bar__sort-short{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .collection-bar__chev{flex:none}
-@media (max-width:989px){.collection-bar__sort.is-active .collection-bar__sort-icon{display:none}}
 .collection-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:12px}
 .collection-meta__count{margin:0;font-size:14px;color:var(--c-kiezel);font-variant-numeric:tabular-nums;white-space:nowrap}
-/* the wait line most cards share, said once above the grid (phone: under the count, desktop: next to it) */
-.collection-lead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin:0;font-size:13.5px;line-height:1.35}
-.collection-lead__line{font-size:inherit}
+/* the delivery most cards share, once, as a date */
+.collection-lead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin:0;font-size:14px;line-height:1.35}
+.collection-lead__line{display:inline-flex;align-items:baseline;gap:7px;font-weight:var(--font-body-weight-semibold)}
+.collection-lead__line .icon{flex:none;align-self:center;color:var(--c-kiezel)}
 .collection-lead__ask{font-weight:var(--font-body-weight-semibold);white-space:nowrap}
 .collection-bar__lead{display:none;min-width:0}
-/* phone: 'Vaste datum? Vraag het ons' on the count's line, the wait line under it */
 .collection-meta__lead,.collection-meta .collection-lead{display:contents}
 .collection-meta .collection-lead__ask{order:1;margin-left:auto;font-size:13.5px}
 .collection-meta .collection-lead__line{order:2;flex-basis:100%;margin-top:-4px;font-size:13.5px}
 .collection-meta .active-filters{order:3}
 @media (max-width:989px){
-  .collection-bar{position:sticky;top:var(--header-h,0px);z-index:30;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0 calc(-1 * var(--gutter-mobile)) 4px;padding:4px var(--gutter-mobile);background:var(--c-zand);border-bottom:1px solid transparent;transition:top .25s cubic-bezier(.16,1,.3,1),border-color var(--dur-fast),box-shadow var(--dur-fast)}
-  .collection-bar:not(:has(.collection-bar__filter)){grid-template-columns:minmax(0,1fr)}
-  .collection-bar.is-stuck{border-bottom-color:var(--c-lijn);box-shadow:0 8px 16px -14px rgba(29,36,32,.35)}
+  .collection-bar{display:block;min-height:52px;margin-bottom:4px;padding-block:4px}
+  .collection-bar__sort.is-active .collection-bar__sort-icon{display:none}
+  /* scrolled past: one pill at the bottom of the screen (thumb height, the top stays free) */
+  .collection-bar__tools.is-floating{position:fixed;z-index:40;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));display:flex;gap:0;width:max-content;max-width:calc(100% - 32px);padding:2px;border-radius:999px;background:var(--c-wit);border:1.5px solid var(--c-inkt);box-shadow:0 14px 30px -12px rgba(29,36,32,.55);transform:translateX(-50%);animation:bar-in var(--dur) cubic-bezier(.16,1,.3,1)}
+  .collection-bar__tools.is-floating .collection-bar__btn{height:44px;padding:0 18px;border:0;background:transparent}
+  .collection-bar__tools.is-floating .collection-bar__btn+.collection-bar__btn{border-left:1px solid var(--c-lijn);border-radius:0 999px 999px 0}
+  .collection-bar__tools.is-floating .collection-bar__sort.is-active{background:var(--option-selected)}
 }
-@media (min-width:750px) and (max-width:989px){.collection-bar{margin-inline:-24px;padding-inline:24px;grid-template-columns:repeat(2,minmax(0,220px))}}
+@keyframes bar-in{from{opacity:0;transform:translate(-50%,24px)}}
+@media (max-width:359px){.collection-bar__btn{gap:6px;padding:0 10px}.collection-bar__tools.is-floating .collection-bar__btn{padding:0 12px}}
+@media (min-width:750px) and (max-width:989px){.collection-bar__tools{grid-template-columns:repeat(2,minmax(0,220px))}}
 @media (min-width:990px){
   .collection-bar{min-height:40px;margin-bottom:10px}
+  .collection-bar__tools{display:block;flex:none;margin-left:auto}
   .collection-bar__btn.collection-bar__sort{height:40px}
   .collection-bar__sort.is-active{background:var(--c-wit);border-color:var(--c-lijn)}
   .collection-bar__filter{display:none}
   .collection-bar__count{display:block}
-  .collection-bar__sort{margin-left:auto;border-width:1px;border-color:var(--c-lijn);padding:0 14px 0 18px}
+  .collection-bar__sort{border-width:1px;border-color:var(--c-lijn);padding:0 14px 0 18px}
   .collection-bar__sort-icon,.collection-bar__sort-short{display:none}
   .collection-bar__sort-long{display:inline}
   .collection-meta__count,.collection-meta__lead{display:none}
-  .collection-bar__lead{display:block;margin-left:6px;padding-left:14px;border-left:1px solid var(--c-lijn)}
+  .collection-bar__lead{display:block;flex:0 1 auto;margin-left:6px;padding-left:14px;border-left:1px solid var(--c-lijn)}
   .collection-meta:not(:has(.active-filters)){display:none}
   .collection-meta{margin:-4px 0 16px}
+  .collection__results{container:results/inline-size}
+}
+/* narrower results column: the lead date gets its own row */
+@container results (max-width:1040px){
+  .collection-bar{flex-wrap:wrap;row-gap:6px}
+  .collection-bar__lead{order:3;flex-basis:100%;margin:0;padding:0;border:0}
 }
 
 .collection__toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0;margin-bottom:16px;border-block:1px solid var(--c-lijn)}
@@ -138,7 +148,7 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
 .active-filters__clear{font-size:14.5px;margin-left:4px;font-weight:var(--font-body-weight-semibold)}
 
 .product-grid{--grid-gap:10px}
-/* filtered on a colour: that swatch is ringed; a photo in another colour says so */
+/* filtered on a colour: swatch ringed; a photo in another colour says so */
 .card__swatch.is-chosen .swatch{box-shadow:inset 0 0 0 1px rgba(29,36,32,.42),0 0 0 2px var(--c-wit),0 0 0 3.5px var(--c-inkt)}
 .card__photo-note{position:absolute;left:10px;bottom:10px;z-index:1;max-width:calc(100% - 76px);padding:3px 9px;border-radius:999px;background:var(--c-wit);box-shadow:inset 0 0 0 1px var(--c-lijn);color:var(--c-kiezel);font-size:12.5px;font-weight:var(--font-body-weight-semibold);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .facet__img{flex:none;width:32px;height:32px;border-radius:6px;overflow:hidden;background:var(--c-media)}
@@ -251,7 +261,7 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
 }
 .collection-bar__apply{min-height:44px}
 @media (max-width:989px){
-  /* without JavaScript: search shows its filters inline; the collection keeps its drawer and opens it with :target */
+  /* no JavaScript: search filters inline; the collection drawer opens with :target */
   .no-js .facets-panel:not(.facets-panel--target){position:static;width:auto;transform:none;visibility:visible;box-shadow:none;background:none}
   .no-js .facets-panel:not(.facets-panel--target) .facets-panel__head{padding:0;min-height:0;border:0}
   .no-js .facets-panel:not(.facets-panel--target) .facets-panel__head [data-facets-close],.no-js .facets-panel:not(.facets-panel--target) .facets-panel__foot{display:none}

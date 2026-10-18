@@ -61,7 +61,7 @@ def build():
     vs = [variant(f'KK-STF-HDPE-D80-{COLOR_CODE[k]}', ['Ø80 cm', k], 54.95, 9000, inv(40, 'hdpe' + k, k)) for k in HK]
     imgs, vmap = kleur_images('statafel-inklapbaar-hdpe-80', HK, 'statafel', lambda k: {'diameter': 0.8, 'height': 1.1, 'top': 'hdpe' if k == 'Wit' else 'hdpe-grijs', 'frame': 'zwart', 'base': 'klap'}, 'Wit',
                               [img('statafel-inklapbaar-hdpe-80-wit-ingeklapt.webp', 'detail', 3, 'statafel', {'diameter': 0.8, 'top': 'hdpe', 'frame': 'zwart', 'base': 'klap', 'folded': True}, 'hero', 'Wit')])
-    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', ['Ø80 cm']), opt('Kleur', HK)], vs, imgs,
+    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', ['Ø80 cm']), opt('Kleur', HK)], vs, imgs,
            {'kenmerk_kort': '110 cm hoog · 45 mm HDPE-blad · 9 kg', 'staffelkorting': ST_STATAFEL, 'addons': ['statafelrok-stretch'], 'verzending': 'pakket',
             'addon_eenmalig': ['transportkar-statafels'],
             'specificaties': [sp('Blad', 'Materiaal', 'HDPE blow-mould 45 mm, wit of lichtgrijs, binnen en buiten'), sp('Onderstel', 'Materiaal', 'Staal, zwart gepoedercoat, inklapbaar'),
@@ -91,6 +91,7 @@ def build():
                               status='existing', p2=3)
     simple('statafel-vierkant-stapelbaar', 'Statafel vierkant stapelbaar', 'Statafel', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(VQ)), opt('Kleur', VQK), opt('Uitvoering', VQU)], vs, imgs,
            {'kenmerk_kort': 'Vierkant blad · stapelbaar · 107 cm · zwart of RVS', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket', 'vergelijk_groep': 'statafel', 'gewicht_kg': 16,
+            'addon_eenmalig': ['transportkar-statafels'],   # the plateaukar for 5 stacked tables: once per order line
             'specificaties': [sp('Afmetingen', 'Hoogte', '107 cm'), sp('Onderstel', 'Materiaal', 'Staal zwart gepoedercoat of geborsteld RVS, stapelbaar')], 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Strakke vierkante statafel die je stapelt in plaats van inklapt; populair in horeca en lounges.',
            ['statafel vierkant', 'statafel stapelbaar', 'statafel rvs'], {'statafelshop': 'Indus €148,77 · Kansas RVS of zwart frame vanaf €163,29', 'outmate': '70x70 €159–€169', 'ours': VQ, 'rvs': '+ € 30'}, vmap=vmap)
@@ -196,7 +197,8 @@ def build():
                         'hero', k, 'existing'))
     kld_sq = {f'KK-KLD-{code(KM[1])}-{COLOR_CODE[k]}': f'statafelkleed-{slug(k)}-vierkant-hero.webp' for k in KL}
     simple('statafelkleed', 'Statafelkleed', 'Statafelkleed', ['zakelijk', 'gebruik:evenement', 'gebruik:horeca'], [opt('Maat', KM), opt('Kleur', KL)], vs, imgs,
-           {'kenmerk_kort': 'Rond Ø 130 of vierkant 140 x 140 cm · over je stretchrok', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND, 'verzending': 'pakket', 'vergelijk_groep': 'statafeltextiel'},
+           {'kenmerk_kort': 'Rond Ø 130 of vierkant 140 x 140 cm · over je stretchrok', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND + ['statafel-vierkant-stapelbaar'],
+            'verzending': 'pakket', 'vergelijk_groep': 'statafeltextiel'},
            ['statafelrokken-hoezen.statafelkleden'], 'textiel', 'Kleed over een stretchrok: chiquer en beschermt de rok; rond of vierkant (punten vallen anders).',
            ['statafelkleed', 'tafelkleed statafel'], {'statafelshop': '€18,09', 'ours': 15.95}, vmap=vmap,
            extra={'variant_image_sku': kld_sq})
@@ -216,13 +218,50 @@ def build():
            {'kenmerk_kort': 'Strak tot de grond · voor klaptafels 122, 183 en 244 cm', 'staffelkorting': ST_TEXTIEL, 'past_op': ['klaptafel-hdpe-rechthoekig'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.buffettafel-hoezen'], 'textiel', 'Buffet- en klaptafels netjes aankleden, poten uit het zicht; maat = blad.',
            ['stretchhoes buffettafel', 'hoes klaptafel 183'], {'statafelshop': '183x76 €42,29', 'ours': BH}, vmap=vmap)
-    BT = {'220 x 50 cm': 39.95, '220 x 70 cm': 44.95}
-    vs = [variant(f'KK-THOES-BT-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 1400, inv(8, m + k + 'bt', k)) for m, p in BT.items() for k in BK]
+    # Uitvoering after the merchandising review: the set (tafel + 2 banken), a tafelhoes alone (for the biertafel 'Alleen tafel') or one
+    # bankhoes (for the loose bierbank); Maat = what it covers. Set stays cheaper than tafel + 2 banken los (39,95 < 24,95 + 2 x 9,95).
+    BTU = ['Set: tafel en 2 banken', 'Alleen tafel', 'Alleen bank']
+    BT = [('220 x 50 cm', BTU[0], 39.95, 1400, 'S'), ('220 x 70 cm', BTU[0], 44.95, 1500, 'S'), ('220 x 50 cm', BTU[1], 24.95, 700, 'T'),
+          ('220 x 70 cm', BTU[1], 27.95, 800, 'T'), ('220 x 25 cm', BTU[2], 9.95, 350, 'B')]
+    BTM = ['220 x 50 cm', '220 x 70 cm', '220 x 25 cm']
+    # SKU of the set keeps its old form (KK-THOES-BT-220X50-WIT); tafel alone -T, bank alone 220X25
+    vs = [variant(f'KK-THOES-BT-{code(m)}' + ('-T' if c == 'T' else '') + f'-{COLOR_CODE[k]}', [m, u, k], p, g, inv(8, m + u + k + 'bt', k)) for m, u, p, g, c in BT for k in BK]
     imgs, vmap = kleur_images('hoes-biertafelset', BK, 'buffetCover', lambda k: {'kind': 'biertafelset', 'length': 2.2, 'width': 0.5, 'color': render_color(k)}, 'Wit', status='existing', p2=3)
-    simple('hoes-biertafelset', 'Hoes biertafelset (tafel en 2 banken)', 'Tafelhoes', ['gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', list(BT)), opt('Kleur', BK)], vs, imgs,
-           {'kenmerk_kort': 'Stretch voor tafel + 2 banken · 220 x 50 of 70 cm', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
-           ['statafelrokken-hoezen.biertafelset-hoezen'], 'textiel', 'Biertafelset feestklaar in één keer: 3 hoezen, ook buiten.',
-           ['hoes biertafelset', 'biertafel hoes'], {'note': 'geen referentieprijs voor effen biertafelsethoezen', 'ours': BT}, vmap=vmap)
+    # tafel alone and bank alone: own render per colour (buffetCover single table / one bierbank), so a bankhoes never shows the set
+    for k in BK:
+        imgs += [img(f'hoes-biertafelset-alleen-tafel-{slug(k)}.webp', 'variant', 3, 'buffetCover', {'kind': 'biertafelset', 'single': True, 'length': 2.2, 'width': 0.5,
+                                                                                                      'color': render_color(k)},
+                     'hero', k, 'existing', alt=f'alleen de tafelhoes in {k.lower()}, op een biertafel van 220 cm (tafel niet inbegrepen)'),
+                 img(f'hoes-biertafelset-alleen-bank-{slug(k)}.webp', 'variant', 3, 'buffetCover', {'kind': 'bierbank', 'length': 2.2, 'width': 0.25, 'height': 0.47,
+                                                                                                     'color': render_color(k)},
+                     'hero', k, 'existing', alt=f'één bankhoes in {k.lower()} op een bierbank van 220 × 25 cm (bank niet inbegrepen)')]
+    simple('hoes-biertafelset', 'Hoes biertafelset, biertafel of bierbank', 'Tafelhoes', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
+           [opt('Maat', BTM), opt('Uitvoering', BTU), opt('Kleur', BK)], vs, imgs,
+           {'kenmerk_kort': 'Stretch voor tafel + 2 banken, of los per tafel of bank · 220 cm', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
+           ['statafelrokken-hoezen.biertafelset-hoezen'], 'textiel', 'Biertafelset feestklaar in één keer: 3 hoezen, ook buiten; of één hoes voor een losse tafel of bank.',
+           ['hoes biertafelset', 'biertafel hoes', 'hoes bierbank'], {'note': 'geen referentieprijs voor effen biertafelsethoezen', 'ours': {f'{m} {u}': p for m, u, p, g, c in BT}}, vmap=vmap,
+           extra={'variant_image_sku': {**{f'KK-THOES-BT-{code(m)}-T-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-tafel-{slug(k)}.webp' for m in BTM[:2] for k in BK},
+                                        **{f'KK-THOES-BT-220X25-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-bank-{slug(k)}.webp' for k in BK}}})
+    # stretchhoes for the vierkante and rechthoekige statafel (merchandising review 2026-10-18: those two had no textile at all). Strak tot
+    # de grond with a voetzak per poot, like the klaptafelhoes (buffetCover model, cover only, no table). Prices: owner review.
+    SQ = {'60 x 60 cm': (29.95, 0.6, 0.6, 1.07), '70 x 70 cm': (32.95, 0.7, 0.7, 1.07), '80 x 80 cm': (34.95, 0.8, 0.8, 1.07),
+          '120 x 60 cm': (44.95, 1.2, 0.6, 1.1), '120 x 70 cm': (46.95, 1.2, 0.7, 1.1), '160 x 60 cm': (52.95, 1.6, 0.6, 1.1)}
+    vs = [variant(f'KK-HOES-STV-{code(m)}-{COLOR_CODE[k]}', [m, k], v[0], 450 + int(400 * v[1] * v[2]), inv(10, m + k + 'stv', k)) for m, v in SQ.items() for k in BK]
+    imgs, vmap = kleur_images('stretchhoes-statafel-vierkant-en-rechthoekig', BK, 'buffetCover',
+                              lambda k: {'kind': 'klaptafel', 'length': 0.7, 'width': 0.7, 'height': 1.07, 'color': render_color(k)}, 'Zwart',
+                              [img('stretchhoes-statafel-vierkant-en-rechthoekig-zwart-160x60.webp', 'variant', 3, 'buffetCover',
+                                   {'kind': 'klaptafel', 'length': 1.6, 'width': 0.6, 'height': 1.1, 'color': 'zwart'}, 'hero', 'Zwart', 'existing',
+                                   alt='zwart om een rechthoekige statafel van 160 × 60 cm (tafel niet inbegrepen)')], status='existing', p2=3)
+    simple('stretchhoes-statafel-vierkant-en-rechthoekig', 'Stretchhoes vierkante en rechthoekige statafel', 'Statafelrok', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+           [opt('Maat', list(SQ)), opt('Kleur', BK)], vs, imgs,
+           {'kenmerk_kort': 'Strak tot de grond · 60 × 60 tot 160 × 60 cm · voetzak per poot', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
+            'past_op': ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar'],
+            'specificaties': [sp('Stof', 'Materiaal', '90% polyester, 10% elastaan, 220 g/m²'), sp('Pasvorm', 'Vierkant', '60 x 60, 70 x 70 of 80 x 80 cm, 107 cm hoog'),
+                              sp('Pasvorm', 'Rechthoekig', '120 x 60, 120 x 70 of 160 x 60 cm, 110 cm hoog'), sp('Pasvorm', 'Model', 'Strak over blad en poten, voetzak per poot')]},
+           ['statafelrokken-hoezen.statafelrok-stretch'], 'textiel',
+           'Stretchhoes voor de vierkante (stapelbare) en de rechthoekige statafel: maat = blad, strak tot de grond met voetzakken; wit, zwart of antraciet; staffel vanaf 10.',
+           ['hoes vierkante statafel', 'stretchhoes statafel vierkant', 'hoes rechthoekige statafel'], {'note': 'geen referentieprijs gevonden; € 29,95 – € 52,95 naar oppervlak', 'ours': {m: v[0] for m, v in SQ.items()}},
+           vmap=vmap)
     # round plates 2 cm under the blad; square and rectangular plates in the size of the vierkante / rechthoekige statafel and the terrastafel
     BP = {'Ø68 cm': 15.95, 'Ø78 cm': 16.95, 'Ø83 cm': 17.95, '60 x 60 cm': 16.95, '70 x 70 cm': 18.95, '80 x 80 cm': 19.95,
           '120 x 60 cm': 22.95, '120 x 70 cm': 23.95, '160 x 60 cm': 25.95, '182 x 75 cm': 26.95}
@@ -231,7 +270,7 @@ def build():
            [img('beschermplaat-statafel-hero.webp', 'hero', 1, 'protectionDisc', {'diameter': 0.78, 'onCover': {'type': 'stretch', 'color': 'zwart'}}, 'hero', 'Transparant', 'needs-model',
                 alt='op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen)')],
            {'kenmerk_kort': 'Transparant PVC over hoes en topcover · tegen vlekken', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
-            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig']},
+            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-wijnvat-houtlook', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig']},
            ['statafelrokken-hoezen.beschermplaten'], 'textiel', 'Glasheldere plaat die de rok schoon houdt (bier, wijn); maat iets kleiner dan het blad.',
            ['beschermplaat statafel', 'transparante plaat statafel'], {'statafelshop': 'Ø68/78/83 vanaf €18,09 · 182x75 €30,19', 'ours': BP})
 

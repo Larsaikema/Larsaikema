@@ -1,5 +1,6 @@
 {{ 'section-usp-strip.css' | asset_url | stylesheet_tag }}
-<section class="usp-strip color-{{ section.settings.color_scheme }}{% if section.settings.boxed %} usp-strip--boxed{% endif %}" aria-label="{{ section.settings.label | escape }}">
+<section class="usp-strip color-{{ section.settings.color_scheme }}{% if section.settings.boxed %} usp-strip--boxed{% endif %}{% if section.settings.mobile_list %} usp-strip--list-mobile{% endif %}{% if section.settings.show_flags %} usp-strip--flags{% endif %}" aria-label="{{ section.settings.label | escape }}">
+  {%- if section.settings.show_flags -%}<div class="divider-flags usp-strip__flags" aria-hidden="true"></div>{%- endif -%}
   <div class="page-width">
     <ul class="usp-strip__list" role="list" style="--count: {{ section.blocks.size }}">
       {%- for block in section.blocks -%}
@@ -25,7 +26,9 @@
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
     { "type": "text", "id": "label", "label": "Label voor schermlezers", "default": "Waarom Klapklaar" },
-    { "type": "checkbox", "id": "boxed", "label": "Zonder lijnen", "default": false }
+    { "type": "checkbox", "id": "boxed", "label": "Zonder lijnen", "default": false },
+    { "type": "checkbox", "id": "mobile_list", "label": "Op mobiel als lijst (één kolom)", "default": false },
+    { "type": "checkbox", "id": "show_flags", "label": "Vlaggenlijn bovenaan", "default": false, "info": "Alleen op feestelijke plekken (home, actie) en op een licht schema; niet op Linnen of in Zakelijk." }
   ],
   "blocks": [
     {

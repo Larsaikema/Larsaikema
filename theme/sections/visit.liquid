@@ -1,0 +1,53 @@
+{%- comment -%}
+  Showroom / afhalen (feature home.visit-block). Renders only when the owner has confirmed a pickup location: the chosen
+  page exists (handle 'showroom-en-afhalen', unpublished until then) and the address is filled in (Thema-instellingen ›
+  Contact & bedrijf). Without both, nothing is shown: no invented address or opening hours.
+{%- endcomment -%}
+{%- liquid
+  assign visit_page = section.settings.page
+  assign visit_address = section.settings.address | default: settings.address
+  assign visit_hours = section.settings.hours | default: settings.openingstijden
+-%}
+{%- if visit_page != blank and visit_address != blank -%}
+{{ 'section-image-with-text.css' | asset_url | stylesheet_tag }}
+<section class="section iwt iwt--contain color-{{ section.settings.color_scheme }} iwt--image-right" aria-labelledby="Title-{{ section.id }}">
+  <div class="page-width iwt__inner">
+    <div class="iwt__media">
+      {%- if section.settings.image != blank -%}
+        {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 50vw, 100vw', widths: '480, 640, 800, 1000, 1200', alt: section.settings.image_alt -%}
+      {%- else -%}
+        {%- render 'fallback-image', key: 'scene-hero', alt: '' -%}
+      {%- endif -%}
+    </div>
+    <div class="iwt__content">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="iwt__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<div class="iwt__text rte">{{ section.settings.text }}</div>{%- endif -%}
+      <p class="visit__address"><span class="footer__label">{{ 'general.address' | t }}</span>{{ visit_address | newline_to_br }}</p>
+      {%- if visit_hours != blank -%}<p class="visit__hours"><span class="footer__label">{{ 'general.opening_hours' | t }}</span>{{ visit_hours | newline_to_br }}</p>{%- endif -%}
+      <div class="btn-row"><a class="btn" href="{{ visit_page.url }}">{{ section.settings.button_label }}</a></div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bezoek en afhalen",
+  "class": "section-visit",
+  "settings": [
+    { "type": "paragraph", "content": "Alleen zichtbaar als de pagina bestaat en er een adres is (hier of in Thema-instellingen › Contact & bedrijf)." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-3" },
+    { "type": "page", "id": "page", "label": "Pagina", "info": "Bv. 'Showroom en afhalen'." },
+    { "type": "text", "id": "eyebrow", "label": "Bovenregel", "default": "Langskomen" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Bekijk de tenten in het echt" },
+    { "type": "richtext", "id": "text", "label": "Tekst", "default": "<p>Afhalen of een tent opgezet zien kan op afspraak. Plan je bezoek, dan staat hij klaar.</p>" },
+    { "type": "textarea", "id": "address", "label": "Adres (optioneel)", "info": "Leeg = het adres uit Thema-instellingen." },
+    { "type": "textarea", "id": "hours", "label": "Openingstijden (optioneel)", "info": "Leeg = de openingstijden uit Thema-instellingen." },
+    { "type": "text", "id": "button_label", "label": "Knoptekst", "default": "Plan je bezoek" },
+    { "type": "image_picker", "id": "image", "label": "Beeld" },
+    { "type": "text", "id": "image_alt", "label": "Beschrijving van het beeld (alt-tekst)" }
+  ],
+  "presets": [{ "name": "Bezoek en afhalen" }]
+}
+{% endschema %}

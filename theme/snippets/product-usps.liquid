@@ -1,6 +1,6 @@
 {%- comment -%}
   USP checklist under the buy area: custom.usps (or the block's fallback lines), custom.garantie and the 'Past op' links
-  (custom.past_op). Params: product, block, is_discontinued, avail_status.
+  (custom.past_op). Params: product, block, is_discontinued, avail_status, current_variant.
 {%- endcomment -%}
 {%- assign usps = product.metafields.custom.usps.value -%}
 {%- assign past_op = product.metafields.custom.past_op.value -%}
@@ -16,7 +16,19 @@
   <div class="product__usps" {{ block.shopify_attributes }}>
     <ul class="checklist" role="list">
       {%- if usps != blank -%}
-        {%- for u in usps -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>{%- endfor -%}
+        {%- comment -%}
+          A ticked line about something the box does not hold ('Zijwanden 3 × 3 m in dezelfde 7 kleuren' next to 'Niet
+          inbegrepen: zijwanden') reads as included: lines that start with the first word of a custom.excluded item are
+          left out here; 'Wat zit erin' and the add-ons already cover them.
+        {%- endcomment -%}
+        {%- assign u_skip = '' -%}
+        {%- for x in product.metafields.custom.excluded.value -%}{%- assign xw = x | downcase | split: ' ' | first -%}{%- assign u_skip = u_skip | append: xw | append: '|' -%}{%- endfor -%}
+        {%- assign u_skip = u_skip | split: '|' -%}
+        {%- for u in usps -%}
+          {%- assign uw = u | downcase | split: ' ' | first -%}
+          {%- if u_skip contains uw -%}{%- continue -%}{%- endif -%}
+          <li>{%- render 'icon', icon: 'check' -%}<span>{{ u }}</span></li>
+        {%- endfor -%}
       {%- else -%}
         {%- assign fb = usp_fallback | newline_to_br | split: '<br />' -%}
         {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
@@ -29,7 +41,10 @@
       icons' title ids get a 'pdp-' prefix: the footer shows the same icons, and ids must be unique (WCAG 4.1.1).
     {%- endcomment -%}
     {%- assign show_service = false -%}
-    {%- if usp_fallback != blank or usps != blank -%}{%- if product.available and is_discontinued == false and avail_status != 'binnenkort' -%}{%- assign show_service = true -%}{%- endif -%}{%- endif -%}
+    {%- assign sv = current_variant | default: product.selected_or_first_available_variant -%}
+    {%- if usp_fallback != blank or usps != blank -%}{%- if sv.available and is_discontinued == false and avail_status != 'binnenkort' -%}{%- assign show_service = true -%}{%- endif -%}{%- endif -%}
+    {%- comment -%} per variant (data-dynamic="service"): a sold-out variant shows no bedenktijd / payment row under its disabled button {%- endcomment -%}
+    <div data-dynamic="service">
     {%- if show_service -%}
       {%- assign no_return = false -%}
       {%- if product.tags contains 'bedrukbaar' or product.metafields.custom.bedrukbaar.value == true or product.metafields.custom.maatwerk.value == true or product.metafields.custom.configurator != blank -%}{%- assign no_return = true -%}{%- endif -%}
@@ -45,6 +60,7 @@
         {%- endif -%}
       </div>
     {%- endif -%}
+    </div>
     {%- if past_op != blank -%}
       <p class="product__fits text-sm"><strong>{{ 'product.compatible' | t }}:</strong>{% for p in past_op %} <a class="link" href="{{ p.url }}">{{ p.title }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}</p>
     {%- endif -%}

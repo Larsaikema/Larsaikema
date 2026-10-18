@@ -171,6 +171,7 @@ def build():
 
     # ------------------------------------------------------------ printed easy-ups
     SIX = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m']
+    PRO8 = ['2 x 2 m'] + SIX + ['5 x 5 m']   # all Professional sizes: the printed Professional lines follow the plain line
     LOGO_K = ['Rood', 'Wit', 'Zwart', 'Blauw', 'Antraciet', 'Groen']
     def logo_params(m, line, k):
         p = tent_params(m, line, k)
@@ -179,8 +180,8 @@ def build():
         return p
     h = 'easy-up-partytent-professional-met-logo-op-de-luifel'
     variants = []
-    for m in SIX:
-        for k in LOGO_K:
+    for m in PRO8:
+        for k in [x for x in LOGO_K if x in PRO_KLEUREN.get(m, LOGO_K)]:   # 2 x 2 and 5 x 5 m only in the frame's own colours
             sku = f'KK-BDR-EUPRO-LOG-{code(m)}-{COLOR_CODE[k]}'
             variants.append(variant(sku, [m, k], PRO[m][0] + 150, (PRO[m][2]) * 1000, None, tracked=False))
     imgs, vmap = kleur_images(h, LOGO_K, 'easyUpTent', lambda k: logo_params('3 x 3 m', 'professional', k), 'Rood',
@@ -188,7 +189,7 @@ def build():
                                    alt='met voorbeeldopdruk Klapklaar op de luifel')], status='existing')
     add({'handle': h, 'title': 'Easy-up partytent Professional met jouw logo op de luifel', 'product_type': 'Easy-up partytent',
          'tags': ['bedrukbaar', 'zakelijk', 'gebruik:evenement', 'gebruik:markt', 'pallet'],
-         'options': [opt('Maat', SIX), opt('Kleur', LOGO_K)], 'variants': variants,
+         'options': [opt('Maat', PRO8), opt('Kleur', LOGO_K)], 'variants': variants,
          'images': imgs, 'variant_image_by': 'Kleur', 'variant_images': vmap,
          'metafields': {'kenmerk_kort': '50 mm aluminium · logo op 4 luifelzijden · drukproef vooraf',
                         'bedrukbaar': True, 'drukopties': {'posities': ['Luifel voorkant', 'Luifel rondom (4 zijden)'], 'aanlevering': AANLEVERING, 'levertijd': LT_DRUK, 'min_aantal': 1},
@@ -201,17 +202,19 @@ def build():
          'price_ref': {'band': 'bedrukte easy-up 3x3 €566–€795 (meest excl.)', 'ours': '3x3 €749 incl.'}})
 
     h = 'easy-up-partytent-professional-full-colour-bedrukt'
-    FC = {'3 x 3 m': (949, 1349), '3 x 4,5 m': (1129, 1579), '3 x 6 m': (1349, 1849), '4 x 4 m': (1149, 1599), '4 x 6 m': (1449, 1979), '4 x 8 m': (1749, 2349)}
+    # 2 x 2 and 5 x 5 m added: Professional price + print surcharge in the same steps (roof +300 / +450, 3 walls +300 / +580)
+    FC = {'2 x 2 m': (799, 1099), '3 x 3 m': (949, 1349), '3 x 4,5 m': (1129, 1579), '3 x 6 m': (1349, 1849), '4 x 4 m': (1149, 1599), '4 x 6 m': (1449, 1979),
+          '4 x 8 m': (1749, 2349), '5 x 5 m': (1649, 2229)}
     UV = ['Dak en luifel', 'Dak, luifel en 3 zijwanden']
     variants = []
-    for m in SIX:
+    for m in PRO8:
         for i, u in enumerate(UV):
             sku = f'KK-BDR-EUPRO-FC-{code(m)}-{"DL" if i == 0 else "DLW"}'
             variants.append(variant(sku, [m, u], FC[m][i], (PRO[m][2] + (6 if i else 0)) * 1000, None, tracked=False))
     fcp = tent_params('3 x 3 m', 'professional', 'Wit', roofPrint={'artwork': 'brand/img/voorbeeld-fullcolour.png', 'note': 'voorbeeldontwerp'})
     add({'handle': h, 'title': 'Easy-up partytent Professional full colour bedrukt', 'product_type': 'Easy-up partytent',
          'tags': ['bedrukbaar', 'zakelijk', 'gebruik:evenement', 'gebruik:markt', 'pallet'],
-         'options': [opt('Maat', SIX), opt('Uitvoering', UV)], 'variants': variants,
+         'options': [opt('Maat', PRO8), opt('Uitvoering', UV)], 'variants': variants,
          'images': [img(f'{h}-hero.webp', 'hero', 1, 'canopyRoof', dict(fcp, withFrame=True), 'hero', None, 'existing', alt='met voorbeeldontwerp in full colour op dak en luifel'),
                     img(f'{h}-zijwanden-hero.webp', 'variant', 2, 'easyUpTent', dict(fcp, walls={'back': 'closed', 'left': 'closed', 'right': 'closed'}, wallPrint=True), 'hero', None, 'needs-param',
                         alt='met voorbeeldontwerp op dak, luifel en 3 zijwanden'),
@@ -264,7 +267,7 @@ def build():
         imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k, wtype=wtype: tent_params('3 x 3 m', 'professional', k, walls={'front': wtype}),
                                   'Wit', extra, status='existing', p2=3)
         add({'handle': h, 'title': title, 'product_type': 'Zijwand',
-             'tags': ['gebruik:tuinfeest', 'gebruik:markt', 'gebruik:evenement'],
+             'tags': ['zakelijk', 'gebruik:tuinfeest', 'gebruik:markt', 'gebruik:evenement'],
              'options': [opt('Maat', list(WALL)), opt('Kleur', TENT_KLEUREN)], 'variants': variants,
              'images': imgs, 'variant_image_by': 'Kleur', 'variant_images': vmap,
              'metafields': {'kenmerk_kort': {'closed': 'Dicht · 320 g/m² polyester · klittenband', 'window': 'PVC-raam · 320 g/m² polyester · klittenband',
@@ -286,7 +289,7 @@ def build():
     variants = [variant(f'KK-ZW-EU-HA-{code(m)}-{COLOR_CODE[k]}', [m, k], pr, 600 + 200 * i, inv(6, f'h{m}{k}', k))
                 for i, (m, pr) in enumerate(HALF.items()) for k in HK]
     imgs, vmap = kleur_images(h, HK, 'easyUpTent', lambda k: tent_params('3 x 3 m', 'premium', k, walls={'front': 'half'}), 'Wit', status='existing', p2=3)
-    add({'handle': h, 'title': 'Halve zijwand easy-up', 'product_type': 'Zijwand', 'tags': ['gebruik:markt', 'gebruik:horeca'],
+    add({'handle': h, 'title': 'Halve zijwand easy-up', 'product_type': 'Zijwand', 'tags': ['zakelijk', 'gebruik:markt', 'gebruik:horeca'],
          'options': [opt('Maat', list(HALF)), opt('Kleur', HK)], 'variants': variants, 'images': imgs, 'variant_image_by': 'Kleur', 'variant_images': vmap,
          'metafields': {'kenmerk_kort': 'Borstwering 100 cm hoog · klittenband · 320 g/m²', 'past_op': all_eu, 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
                         'specificaties': [sp('Wand', 'Hoogte', '100 cm'), sp('Wand', 'Materiaal', '500D polyester, PVC-gecoat, 320 g/m²')]},
@@ -331,7 +334,7 @@ def build():
     imgs, vmap = kleur_images(h, TENT_KLEUREN, 'easyUpTent', lambda k: tent_params('3 x 3 m', 'professional', k, walls={'front': 'door', 'back': 'closed', 'left': 'window', 'right': 'window'}), 'Wit',
                               [img(f'{h}-wit-3x6-hero.webp', 'in-gebruik', 3, 'easyUpTent', tent_params('3 x 6 m', 'professional', 'Wit', walls={'front': 'window', 'back': 'window', 'left': 'door', 'right': 'closed'}), 'hero', 'Wit',
                                    alt='op een easy-up 3 × 6 m (tent niet inbegrepen)')], p2=2)
-    add({'handle': h, 'title': 'Zijwandenset easy-up', 'product_type': 'Zijwandenset', 'tags': ['gebruik:tuinfeest', 'gebruik:evenement', 'gebruik:markt'],
+    add({'handle': h, 'title': 'Zijwandenset easy-up', 'product_type': 'Zijwandenset', 'tags': ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement', 'gebruik:markt'],
          'options': [opt('Maat', SETS), opt('Kleur', TENT_KLEUREN)], 'variants': variants,
          'images': imgs, 'variant_image_by': 'Kleur', 'variant_images': vmap,
          'metafields': {'kenmerk_kort': '4 wanden: 1 dicht, 2 met raam, 1 met deur · 320 g/m²',
@@ -382,10 +385,10 @@ def build():
     imgs, vmap = kleur_images(h, TENT_KLEUREN, 'canopyRoof', lambda k: {'w': 3, 'd': 3, 'color': render_color(k), 'material': 'polyester', 'display': 'draped', **render_finish(k)},
                               'Rood', [img(f'{h}-rood-gevouwen.webp', 'detail', 3, 'canopyRoof', {'w': 3, 'd': 3, 'color': 'rood', 'display': 'folded'}, 'hero', 'Rood', 'needs-model')],
                               status='needs-model', p2=3)
-    add({'handle': h, 'title': 'Dakzeil easy-up partytent', 'product_type': 'Dakzeil', 'tags': ['gebruik:tuinfeest', 'gebruik:evenement'],
+    add({'handle': h, 'title': 'Dakzeil easy-up partytent', 'product_type': 'Dakzeil', 'tags': ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
          'options': [opt('Maat', list(DAK)), opt('Uitvoering', ['Polyester', 'Heavy duty PVC']), opt('Kleur', TENT_KLEUREN)], 'variants': variants,
          'images': imgs, 'variant_image_by': 'Kleur', 'variant_images': vmap,
-         'metafields': {'kenmerk_kort': 'Vervangend dak met luifel · 320 g/m² of PVC 580 g/m²', 'past_op': all_eu, 'verzending': 'pakket',
+         'metafields': {'kenmerk_kort': 'Vervangend dak met luifel · 320 g/m² of PVC 580 g/m²', 'past_op': all_eu, 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
                         'specificaties': [sp('Dak', 'Polyester', '500D polyester, PVC-gecoat, 320 g/m²'), sp('Dak', 'Heavy duty PVC', 'PVC 580 g/m², thermisch gelast'),
                                           sp('Pasvorm', 'Past op', 'Klapklaar easy-up Premium en Professional van dezelfde maat')]},
          'covers': ['easy-up-accessoires.easy-up-dakzeilen'], 'family': 'dakzeil', 'weight': 1,
@@ -393,10 +396,12 @@ def build():
          'seo_keywords': ['dakzeil easy up 3x3', 'vervangend dak partytent'], 'price_ref': {'outmate': '3x3 poly €129, 4x8 €319; HD 3x3 €219, 4x8 €615', 'ours': DAK}})
 
     h = 'bedrukte-zijwand-easy-up'
-    BZ = {'3 m': (149, 219), '4 m': (179, 259), '4,5 m': (195, 285), '6 m': (239, 349)}
+    # 2, 5 and 8 m added after the merchandising review: ~€ 30 (one side) / € 43 (both sides) per extra meter, like 3 → 4 → 6 m
+    BZ = {'2 m': (119, 179), '3 m': (149, 219), '4 m': (179, 259), '4,5 m': (195, 285), '5 m': (209, 309), '6 m': (239, 349), '8 m': (299, 439)}
+    BZKG = {'2 m': 1.1, '3 m': 1.4, '4 m': 1.7, '4,5 m': 2.0, '5 m': 2.2, '6 m': 2.3, '8 m': 2.9}
     BU = ['Buitenzijde', 'Binnen- en buitenzijde']
-    variants = [variant(f'KK-BDR-ZW-{code(m)}-{"B" if i == 0 else "BB"}', [m, u], v[i], (1.4 + 0.3 * j) * 1000, None, tracked=False)
-                for j, (m, v) in enumerate(BZ.items()) for i, u in enumerate(BU)]
+    variants = [variant(f'KK-BDR-ZW-{code(m)}-{"B" if i == 0 else "BB"}', [m, u], v[i], BZKG[m] * 1000, None, tracked=False)
+                for m, v in BZ.items() for i, u in enumerate(BU)]
     bzp = tent_params('3 x 3 m', 'professional', 'Wit', walls={'back': 'closed'}, wallPrint={'svg': 'brand/tools/print-wordmark.json', 'color': '#C83812', 'side': 'back'})
     add({'handle': h, 'title': 'Bedrukte zijwand voor easy-up partytent', 'product_type': 'Zijwand', 'tags': ['bedrukbaar', 'zakelijk', 'gebruik:evenement', 'gebruik:markt'],
          'options': [opt('Maat', list(BZ)), opt('Uitvoering', BU)], 'variants': variants,
@@ -412,7 +417,8 @@ def build():
          'seo_keywords': ['bedrukte zijwand partytent', 'zijwand met logo'], 'price_ref': {'ours': BZ}})
 
     h = 'bedrukt-dakzeil-easy-up'
-    BD = {'3 x 3 m': 379, '3 x 4,5 m': 459, '3 x 6 m': 549, '4 x 4 m': 479, '4 x 6 m': 599, '4 x 8 m': 729}
+    # 2 x 2 and 5 x 5 m added (every Professional size); 2 x 2 € 319 keeps tent + bedrukt dak above the full colour tent (€ 799)
+    BD = {'2 x 2 m': 319, '3 x 3 m': 379, '3 x 4,5 m': 459, '3 x 6 m': 549, '4 x 4 m': 479, '4 x 6 m': 599, '4 x 8 m': 729, '5 x 5 m': 599}
     variants = [variant(f'KK-BDR-DAK-{code(m)}', [m], pr, m2(m) * 420, None, tracked=False) for m, pr in BD.items()]
     bdp = {'w': 3, 'd': 3, 'color': 'wit', 'display': 'draped', 'roofPrint': {'artwork': 'brand/img/voorbeeld-fullcolour.png'}}
     add({'handle': h, 'title': 'Bedrukt dakzeil voor easy-up partytent', 'product_type': 'Dakzeil', 'tags': ['bedrukbaar', 'zakelijk', 'gebruik:evenement'],

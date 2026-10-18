@@ -440,7 +440,7 @@ export function polyLength(pts) { let L = 0; for (let i = 1; i < pts.length; i++
 // Returns { parts: [[material, geometry]...], glowCentre (local V3), halo radius hint }.
 export const G45 = { L: 0.078, R: 0.0225, yc: 0.0555, shellTop: 0.0275 };
 
-function e27Base(add, mats) {
+export function e27Base(add, mats) {
   // solder contact + black glass insulator
   add(mats.solder, G.lathe([[0.0001, 0], [0.0026, 0.0001], [0.0034, 0.0009], [0.0035, 0.0019], [0.0001, 0.0021]], 20));
   add(mats.insulator, G.lathe([[0.0001, 0.0016], [0.0062, 0.0016], [0.0092, 0.003], [0.0108, 0.0052], [0.0112, 0.0058], [0.0001, 0.0058]], 32));
@@ -458,7 +458,7 @@ function e27Base(add, mats) {
   }, 64, 72, { closedU: true, flipNormals: true }));
 }
 
-function globeProfile(neck = 'glass') {
+export function globeProfile(neck = 'glass') {
   const pts = [];
   // neck: glass enters the shell (glass) or sits on a plastic collar (opal/colour)
   const ys = neck === 'glass' ? [[0.0122, 0.0262], [0.0124, 0.0295], [0.0131, 0.0322], [0.0146, 0.0352], [0.0164, 0.0381]] : [[0.0134, 0.0392], [0.0156, 0.0398]];

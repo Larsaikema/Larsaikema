@@ -17,6 +17,7 @@
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as L from '../js/lightKit.js';
+import { GlowComp } from '../js/lightGlow.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -51,7 +52,6 @@ function ropeLitMat(hex, perM) {
 }
 function ropeOffMats() {
   return L.cached('ropeOff', () => ({
-    tube: L.clearGlass({ tint: '#F3F4F1', coverage: 0.38, salt: 5.1 }),
     core: new THREE.MeshPhysicalMaterial({ color: '#EDEDE8', roughness: 0.5, transmission: 0, name: 'rope core' }),
     copper: new THREE.MeshPhysicalMaterial({ color: '#C97B4A', metalness: 1, roughness: 0.35, name: 'copper' }),
     led: new THREE.MeshPhysicalMaterial({ color: '#F4E9C8', roughness: 0.3, name: 'led chip' }),
@@ -119,12 +119,14 @@ export function ropeLight(p = {}) {
 
   // --- the rope ----------------------------------------------------------------------------
   const bins = new G.PartBin();
+  const GC = new GlowComp({ name: 'ropeLight' });
+  const glassMeshes = [];
   const ring = L.circleProfile(rr, 20);
   const { geo: ropeGeo } = L.sweepProfile(path, ring, { caps: false });
   if (on) bins.add(ropeLitMat(hex, perM), ropeGeo);
   else {
     const O = ropeOffMats();
-    bins.add(O.tube, ropeGeo);
+    glassMeshes.push(GC.glass(ropeGeo, { T: 0.9, env: 0.9, rough: 0.12 }));
     // inside: a pale PVC core with two copper conductors and an LED chip every 27.8 mm
     bins.add(O.core, L.sweepProfile(path, L.circleProfile(rr * 0.42, 10), { caps: false }).geo);
     const fr = L.sweepProfile(path, [[0, 0]], { caps: false }).frames;
@@ -135,9 +137,13 @@ export function ropeLight(p = {}) {
     }
   }
   // clear end cap and power connector (moulded clear PVC sleeve), lead + Euro plug
-  const clearPVC = L.clearGlass({ tint: '#F2F3EF', coverage: 0.55, salt: 9.4 });
+  // clear PVC end cap: real (noise-free) glass over the rope's lit end
   const endA = path[path.length - 1], dA = endA.clone().sub(path[path.length - 4]).normalize();
-  bins.add(clearPVC, L.sweepProfile([endA.clone().addScaledVector(dA, -0.004), endA.clone().addScaledVector(dA, 0.018)], L.circleProfile(rr + 0.0012, 20)).geo);
+  glassMeshes.push(GC.glass(L.sweepProfile([endA.clone().addScaledVector(dA, -0.004), endA.clone().addScaledVector(dA, 0.018)], L.circleProfile(rr + 0.0012, 20)).geo, { T: [0.9, 0.91, 0.9], env: 0.9, rough: 0.1 }));
+  if (on) {
+    // the rope's lit core continues into the cap and stops short of its end face
+    bins.add(ropeLitMat(hex, perM), L.sweepProfile([endA.clone().addScaledVector(dA, -0.004), endA.clone().addScaledVector(dA, 0.009)], L.circleProfile(rr * 0.82, 16)).geo);
+  }
   const s0 = path[0], d0 = s0.clone().sub(path[3]).normalize();      // outward at the power end
   const conA = s0.clone().addScaledVector(d0, -0.006), conB = s0.clone().addScaledVector(d0, 0.042);
   const conMat = L.moulded('#E9ECE8', 0.3, { transmission: 0 });
@@ -168,16 +174,16 @@ export function ropeLight(p = {}) {
   const group = new THREE.Group(); group.name = `ropeLight ${len} m ${hex}`;
   bins.build(group);
   group.traverse((o) => { if (o.isMesh) { const nm = o.material.name || ''; o.castShadow = !/rope light lit|clear glass/.test(nm); o.receiveShadow = true; } });
+  for (const m of glassMeshes) group.add(m);
   if (on) {
     const col = L.lin(hex, 1);
     const pk = Math.max(...col);
-    const glowCol = col.map((v) => (v / pk) * 1.2);
-    const ht = L.haloTube(L.resample(path, Math.round(len * 40)).pts, 0.028, glowCol, 0.3, { core: 0.3, coreW: 0.7, radial: 14 });
-    group.add(ht);
-    const src = L.resample(path, Math.round(len * 24)).pts.map((q) => ({ p: q.clone().setY(q.y + 0.004), I: 1, color: glowCol }));
-    const fg = L.floorGlow(src, { box: 0.16, res: 200, k: 0.0007, max: 0.26, minH: 0.012 });
-    if (fg) group.add(fg);
+    const glowCol = col.map((v) => v / pk);
+    GC.haloTube(L.resample(path, Math.round(len * 40)).pts, 0.03, glowCol.map((v) => v * 1.2), 0.32, { core: 0.3, coreW: 0.7, radial: 14 });
+    const src = L.resample(path, Math.round(len * 24)).pts.map((q) => ({ p: q.clone().setY(q.y + 0.004), I: 1, color: glowCol.map((v) => v * 1.2) }));
+    GC.floorPool(src, { pad: 0.18, res: 256, k: 0.00075, max: 0.24, minH: 0.012 });
   }
+  if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.005, 0)));
   // detail: a stretch of the outer loop nearest the hero camera
   const dP = L.atLength(path, len * 0.08).p;
   return {

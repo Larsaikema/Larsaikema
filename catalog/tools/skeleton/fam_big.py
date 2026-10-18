@@ -24,7 +24,7 @@ def build():
     simple('stretchtent-compleet', 'Stretchtent compleet met palen', 'Stretchtent', ['zakelijk', 'pallet', 'gebruik:evenement', 'gebruik:horeca'],
            [opt('Maat', list(STC)), opt('Uitvoering', PU), opt('Kleur', SK)], vs, imgs,
            {'kenmerk_kort': 'Stretchdoek 750 g/m² · lussen elke 75 cm · palen en spanbanden inbegrepen',
-            'specificaties': [sp('Doek', 'Materiaal', 'Elastisch polyester, PVC-gecoat, 750 g/m², waterdicht, UV-bestendig'), sp('Doek', 'Brandklasse', 'M2 (certificaat bij levering)'),
+            'specificaties': [sp('Doek', 'Materiaal', 'Elastisch polyester, PVC-gecoat, 750 g/m², waterdicht, UV-bestendig'),
                               sp('Doek', 'Bevestiging', 'Lussen elke 75 cm'), sp('Levering', 'Inbegrepen', 'Doek, palenset, spanbanden met haringen, opbergtas'),
                               sp('Opzetten', 'Benodigd', 'Minimaal 2 m vrije ruimte rondom; 2–4 personen')],
             'levertijd': 'Levertijd 3–4 weken', 'verzending': 'pallet', 'staffelkorting': ST_GROOT, 'garantie': '1 jaar op het doek'},
@@ -106,7 +106,7 @@ def build():
     simple('stertent-enkele-mast', 'Stertent enkele mast', 'Stertent', ['zakelijk', 'pallet', 'bedrukbaar', 'gebruik:evenement', 'gebruik:tuinfeest'],
            [opt('Maat', list(ST1)), opt('Uitvoering', STU), opt('Kleur', STK)], vs, imgs,
            {'kenmerk_kort': 'Aluminium mast 75 mm · 320 g/m² doek · 1 mast',
-            'specificaties': [sp('Mast', 'Materiaal', 'Geanodiseerd aluminium Ø 75 mm, wand 2,5 mm, telescopisch'), sp('Doek', 'Materiaal', 'Polyester PVC-gecoat 320 g/m², brandvertragend'),
+            'specificaties': [sp('Mast', 'Materiaal', 'Geanodiseerd aluminium Ø 75 mm, wand 2,5 mm, telescopisch'), sp('Doek', 'Materiaal', 'Polyester PVC-gecoat 320 g/m²'),
                               sp('Levering', 'Inbegrepen', 'Doek, mast, haringen 50 cm, opbergtas, onderdelenzak, meetkoord')],
             'bedrukbaar': True,
             'drukopties': {'posities': ['Dak (alle vlakken)'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
@@ -210,7 +210,7 @@ def build():
             'past_op': ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']},
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar', 'Wand per zijde met rits; ook bedrukbaar via offerte.', ['zijwand opblaasbare tent'],
            {'outmate': 'zijwand dicht €179 · raam/deur €199', 'ours': AW})
-    simple('pomp-opblaasbare-tent', 'Pomp voor opblaasbare tent', 'Opblaasbare tent accessoire', [], [opt('Uitvoering', ['Elektrische pomp', 'Handpomp'])],
+    simple('pomp-opblaasbare-tent', 'Pomp voor opblaasbare tent', 'Opblaasbare tent accessoire', ['zakelijk'], [opt('Uitvoering', ['Elektrische pomp', 'Handpomp'])],
            [variant('KK-AIR-POMP-EL', ['Elektrische pomp'], 69.95, 2200, 10), variant('KK-AIR-POMP-HA', ['Handpomp'], 34.95, 1500, 15)],
            [img('pomp-opblaasbare-tent-hero.webp', 'hero', 1, 'airPump', {'kind': 'elektrisch'}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Elektrisch (230 V) of hand · met verloopstukken', 'verzending': 'pakket',
@@ -220,11 +220,12 @@ def build():
     AIR_SQ = ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']
     # luifel per tentzijde, in de framekleuren van de promotietenten
     LF = {'3 m': 249, '4 m': 289, '5 m': 329, '6 m': 369}
-    vs = [variant(f'KK-AIR-LUIF-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 2600 + 500 * i, None, tracked=False) for i, (m, p) in enumerate(LF.items()) for k in AK]
-    imgs, vmap = kleur_images('luifel-opblaasbare-promotietent', AK, 'opblaasbareTent', lambda k: {'w': 3, 'color': render_color(k), 'canopyColor': render_color(k), 'awning': 'front'},
+    LFK = AK + ['Antraciet']
+    vs = [variant(f'KK-AIR-LUIF-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 2600 + 500 * i, None, tracked=False) for i, (m, p) in enumerate(LF.items()) for k in LFK]
+    imgs, vmap = kleur_images('luifel-opblaasbare-promotietent', LFK, 'opblaasbareTent', lambda k: {'w': 3, 'color': render_color(k), 'canopyColor': render_color(k), 'awning': 'front'},
                               'Rood', status='needs-param', p2=3)
     simple('luifel-opblaasbare-promotietent', 'Luifel voor opblaasbare promotietent', 'Opblaasbare tent accessoire', ['zakelijk', 'gebruik:evenement', 'gebruik:markt'],
-           [opt('Maat', list(LF)), opt('Kleur', AK)], vs, imgs,
+           [opt('Maat', list(LF)), opt('Kleur', LFK)], vs, imgs,
            {'kenmerk_kort': 'Opblaasbare luifel per zijde · met rits aan het frame · 1 m diep', 'verzending': 'pakket', 'levertijd': 'Levertijd 2–3 weken',
             'past_op': AIR_SQ,
             'specificaties': [sp('Luifel', 'Diepte', 'ca. 100 cm'), sp('Luifel', 'Frame', 'Eigen luchtkamer met ventiel, opblazen met dezelfde pomp'),
@@ -272,7 +273,7 @@ def build():
            ['verlichting opblaasbare tent', 'led lamp promotietent', 'tentverlichting opblaasbaar'],
            {'outmate': 'LED-verlichting 12 W voor opblaasbare tenten €119', 'ours': 104.95})
     ZHW = {'8 x 8 m': (349, 379), '10 x 10 m': (419, 449), '12 x 12 m': (489, 519)}
-    ZWK = ['Wit', 'Zwart']
+    ZWK = ['Wit', 'Zwart', 'Rood', 'Blauw']   # the 4 colours of the zeshoektent (merchandising review: Rood / Blauw tents got Wit walls)
     vs = [variant(f'KK-ZW-HEX-{code(m)}-{"DI" if i == 0 else "DE"}-{COLOR_CODE[k]}', [m, u, k], v[i], 6000 + 1500 * j, None, tracked=False)
           for j, (m, v) in enumerate(ZHW.items()) for i, u in enumerate(['Dicht', 'Met deur']) for k in ZWK]
     imgs, vmap = kleur_images('zijwand-opblaasbare-zeshoektent', ZWK, 'opblaasbareTent', lambda k: {'w': 8, 'shape': 'hexagon', 'color': render_color(k), 'walls': {'back': 'closed'}},
@@ -302,11 +303,14 @@ def build():
     OKK = ['Wit', 'Antraciet', 'Zwart', 'Transparant']
     vs = [variant(f'KK-OVK-OM-{COLOR_CODE[k]}', [k], 32.95, 600, None, tracked=False, policy='continue', qrule={'min': 2, 'max': 200, 'increment': 1}) for k in OKK]
     simple('overkappingzeil-op-maat', 'Overkappingzeil op maat (per m²)', 'Overkapping', ['gebruik:horeca'], [opt('Kleur', OKK)], vs,
-           [img('overkappingzeil-op-maat-hero.webp', 'hero', 1, 'tarp', {'w': 4, 'h': 2.5, 'color': 'transparant', 'eyelets': True}, 'hero', 'Transparant', 'needs-model')],
+           [img('overkappingzeil-op-maat-hero.webp', 'hero', 1, 'tarp', {'w': 4, 'h': 2.5, 'color': 'transparant', 'eyelets': True}, 'hero', 'Transparant', 'needs-model')]
+           + [img(f'overkappingzeil-op-maat-{slug(k)}-hero.webp', 'variant', 3, 'tarp', {'w': 4, 'h': 2.5, 'color': render_color(k), 'eyelets': True}, 'hero', k, 'existing')
+              for k in OKK if k != 'Transparant'],
            {'kenmerk_kort': 'PVC 580 g/m² op maat · prijs per m² · ogen rondom', 'levertijd': 'Levertijd 3–5 weken', 'verzending': 'pakket'},
            ['schaduw-overkapping.overkapping-zeil-op-maat'], 'schaduw',
            'Zeil voor veranda of overkapping op jouw maat: breedte × hoogte in m in de configurator, aantal = m² (afgerond, min. 2 m²); maatwerk kan niet retour.',
-           ['overkapping zeil op maat', 'veranda zeil'], {'outmate': 'vanaf €35 (configurator, maatwerk geen retour)', 'ours': '€32,95 per m², min. 2 m²'})
+           ['overkapping zeil op maat', 'veranda zeil'], {'outmate': 'vanaf €35 (configurator, maatwerk geen retour)', 'ours': '€32,95 per m², min. 2 m²'},
+           vmap={k: ('overkappingzeil-op-maat-hero.webp' if k == 'Transparant' else f'overkappingzeil-op-maat-{slug(k)}-hero.webp') for k in OKK})
     OZ = {'3 m': 99, '4 m': 135, '6 m': 175, '8 m': 229, '10 m': 249}
     OZK = ['Wit', 'Antraciet']
     vs = [variant(f'KK-OVK-ZW-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 3500 + 1500 * i, inv(3, m + k)) for i, (m, p) in enumerate(OZ.items()) for k in OZK]

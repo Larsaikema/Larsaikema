@@ -6,3 +6,5 @@
 .faq__group:first-child{margin-top:0}
 .faq__list .accordion>summary{font-size:17px}
 @media (min-width:990px){.faq__inner--side{grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:72px}.faq__inner--side .faq__head{position:sticky;top:calc(var(--header-h,0px) + 24px);align-self:start;transition:top .25s ease}}
+
+.faq__mail{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:var(--font-body-weight-semibold)}

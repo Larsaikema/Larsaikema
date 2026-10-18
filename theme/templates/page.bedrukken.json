@@ -3,9 +3,31 @@
     "main": {
       "type": "page-bedrukken",
       "blocks": {
+        "p1": {
+          "type": "proof",
+          "settings": {
+            "icon": "proof",
+            "text": "Eerst een drukproef"
+          }
+        },
+        "p2": {
+          "type": "proof",
+          "settings": {
+            "icon": "box",
+            "text": "Vanaf 1 stuk"
+          }
+        },
+        "p3": {
+          "type": "proof",
+          "settings": {
+            "icon": "euro",
+            "text": "Staffelprijs vanaf 10 stuks"
+          }
+        },
         "s1": {
           "type": "step",
           "settings": {
+            "icon": "tent",
             "title": "Kies je product",
             "text": "Tent, statafelrok of hoes. Kies maat, kleur en drukpositie."
           }
@@ -13,6 +35,7 @@
         "s2": {
           "type": "step",
           "settings": {
+            "icon": "upload",
             "title": "Upload je logo",
             "text": "Bij het product, of later per mail. Geen vector? Wij maken hem drukklaar."
           }
@@ -20,6 +43,7 @@
         "s3": {
           "type": "step",
           "settings": {
+            "icon": "proof",
             "title": "Keur de drukproef",
             "text": "Je ziet precies hoe het wordt. Pas na jouw akkoord drukken we."
           }
@@ -27,58 +51,132 @@
         "s4": {
           "type": "step",
           "settings": {
+            "icon": "truck",
             "title": "Wij leveren",
-            "text": "De levertijd gaat in na je akkoord."
+            "text": "De levertijd gaat in na je akkoord: 10–15 werkdagen."
           }
         },
         "o1": {
           "type": "option",
           "settings": {
-            "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
-            "title": "Luifel van je partytent",
-            "text": "Je naam of logo rondom op de luifel. Goed leesbaar op afstand.",
-            "link": "shopify://collections/bedrukte-partytenten",
+            "product": "easy-up-partytent-premium-met-logo-op-de-luifel",
+            "image": "shopify://shop_images/easy-up-partytent-premium-met-logo-op-de-luifel-rood-hero.webp",
+            "title": "Easy-up Premium met logo op de luifel",
+            "text": "40 mm staal. Je logo rondom op de luifel of alleen op de voorkant.",
             "link_label": "Ontwerp je tent",
-            "fallback_image": "tent-logo"
+            "show_price": true
           }
         },
         "o2": {
           "type": "option",
           "settings": {
-            "image": "shopify://shop_images/statafelrok-stretch-zwart-print-hero.webp",
-            "title": "Statafelrok",
-            "text": "Logo op het voorpaneel van een stretch rok. Vanaf 10 stuks staffelprijs.",
-            "link": "shopify://collections/bedrukte-statafelhoezen",
-            "link_label": "Ontwerp je rok",
-            "fallback_image": "rok-logo"
+            "product": "easy-up-partytent-professional-met-logo-op-de-luifel",
+            "image": "shopify://shop_images/easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
+            "title": "Easy-up Professional met logo op de luifel",
+            "text": "50 mm aluminium, voor elke week of de verhuur. Logo rondom of voor.",
+            "link_label": "Ontwerp je tent",
+            "show_price": true
           }
         },
         "o3": {
           "type": "option",
           "settings": {
-            "image": "shopify://shop_images/tent-3x3-rood-logo-front.webp",
-            "title": "Dak of zijwand",
-            "text": "Groter in beeld? Dan drukken we op het dak of een zijwand. Vraag een offerte aan.",
-            "link": "shopify://pages/offerte",
-            "link_label": "Offerte aanvragen",
-            "fallback_image": "tent-front"
+            "product": "easy-up-partytent-professional-full-colour-bedrukt",
+            "image": "shopify://shop_images/easy-up-partytent-professional-full-colour-bedrukt-hero.webp",
+            "title": "Full colour bedrukte easy-up",
+            "text": "Dak en luifel helemaal in jouw ontwerp, desnoods met drie zijwanden.",
+            "link_label": "Ontwerp je tent",
+            "show_price": true
+          }
+        },
+        "o4": {
+          "type": "option",
+          "settings": {
+            "product": "bedrukte-zijwand-easy-up",
+            "image": "shopify://shop_images/bedrukte-zijwand-easy-up-hero.webp",
+            "title": "Bedrukte zijwand",
+            "text": "Een achter- of zijwand als groot reclamevlak, buiten of binnen en buiten.",
+            "link_label": "Ontwerp je wand",
+            "show_price": true
+          }
+        },
+        "o5": {
+          "type": "option",
+          "settings": {
+            "product": "statafelhoes-stretch-met-logo",
+            "image": "shopify://shop_images/statafelhoes-stretch-met-logo-zwart-hero.webp",
+            "title": "Statafelhoes met logo",
+            "text": "Stretch om je statafel, logo op één of twee kanten of full colour.",
+            "link_label": "Ontwerp je hoes",
+            "show_price": true
+          }
+        },
+        "o6": {
+          "type": "option",
+          "settings": {
+            "product": "stretchhoes-klaptafel-met-logo",
+            "image": "shopify://shop_images/stretchhoes-klaptafel-met-logo-hero.webp",
+            "title": "Klaptafelhoes met logo",
+            "text": "Stretch tot de grond, voor je stand of balie. 183 of 244 cm.",
+            "link_label": "Ontwerp je hoes",
+            "show_price": true
+          }
+        },
+        "o7": {
+          "type": "option",
+          "settings": {
+            "product": "bedrukt-dakzeil-easy-up",
+            "image": "shopify://shop_images/bedrukt-dakzeil-easy-up-hero.webp",
+            "title": "Bedrukt dakzeil",
+            "text": "Los dak met luifel in jouw ontwerp, voor je bestaande easy-up-frame.",
+            "link_label": "Ontwerp je dak",
+            "show_price": true
+          }
+        },
+        "o8": {
+          "type": "option",
+          "settings": {
+            "product": "afzetpaal-met-logo",
+            "image": "shopify://shop_images/afzetpaal-met-logo-hero.webp",
+            "title": "Afzetpaal met logo",
+            "text": "Je logo op de trekband, voor entree, rij of podium.",
+            "link_label": "Ontwerp je band",
+            "show_price": true
           }
         }
       },
       "block_order": [
+        "p1",
+        "p2",
+        "p3",
         "s1",
         "s2",
         "s3",
         "s4",
         "o1",
         "o2",
-        "o3"
+        "o3",
+        "o4",
+        "o5",
+        "o6",
+        "o7",
+        "o8"
       ],
       "settings": {
-        "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
+        "image": "shopify://shop_images/easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
+        "image_alt": "Easy-up partytent Professional in rood met voorbeeldopdruk Klapklaar op de luifel, schuin vooraanzicht",
+        "accent_word": "logo",
         "cta_1_link": "shopify://collections/bedrukte-partytenten",
         "cta_2_link": "shopify://collections/bedrukte-statafelhoezen",
-        "fallback_image": "tent-logo"
+        "fallback_image": "tent-logo",
+        "steps_text": "Van je logo tot de levering in vier stappen. Je zit nergens aan vast tot je de drukproef goedkeurt.",
+        "options_text": "Kies je product en upload je logo op de productpagina. De prijs is incl. bedrukking.",
+        "quote_heading": "Groter formaat of een grote serie?",
+        "quote_text": "Een stertent, opblaasbare tent of marktkraam in je huisstijl, of meer dan 10 stuks: je krijgt een offerte op maat met drukproef.",
+        "quote_label": "Offerte aanvragen",
+        "quote_link": "shopify://pages/offerte",
+        "guide_link": "shopify://blogs/advies/logo-aanleveren-voor-bedrukking",
+        "guide_label": "Lees alles over logo aanleveren"
       }
     },
     "faq": {
@@ -95,25 +193,59 @@
           "type": "question",
           "settings": {
             "question": "Wanneer gaat de levertijd in?",
-            "answer": "<p>Na jouw akkoord op de drukproef.</p>"
+            "answer": "<p>Na jouw akkoord op de drukproef. Reken vanaf dat moment op 10–15 werkdagen.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
+            "question": "Kan ik één stuk laten bedrukken?",
+            "answer": "<p>Ja, de meeste producten bedrukken we vanaf 1 stuk. Vanaf 10 stuks krijg je staffelprijs. Afzetpalen met logo bedrukken we vanaf 10 stuks.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "Wat als de drukproef niet klopt?",
+            "answer": "<p>Dan zeg je wat er anders moet en krijg je een nieuwe drukproef. We drukken pas als jij akkoord geeft.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
             "question": "Kan ik een bedrukt product retour sturen?",
             "answer": "<p>Nee. Bedrukte producten maken we speciaal voor jou. Daarom krijg je altijd eerst een drukproef.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Hoe drukken jullie?",
+            "answer": "<p>Een logo op de luifel drukken we digitaal, in full colour. Een helemaal bedrukt dak, dakzeil, zijwand of stertent drukken we met sublimatie, ook in full colour. Welke methode bij jouw product hoort, staat bij de specificaties.</p>"
+          }
+        },
+        "q7": {
+          "type": "question",
+          "settings": {
+            "question": "Is er een sjabloon voor een full colour ontwerp?",
+            "answer": "<p>Ja. Bij een full colour tent, dak, wand of hoes krijg je van ons een sjabloon per maat, met de vouwlijnen en een veilige zone voor tekst en logo's. Lever je ontwerp daarna aan als PDF.</p>"
           }
         }
       },
       "block_order": [
         "q1",
+        "q6",
+        "q7",
         "q2",
-        "q3"
+        "q3",
+        "q4",
+        "q5"
       ],
       "settings": {
         "heading": "Vragen over bedrukken",
-        "layout": "side"
+        "layout": "side",
+        "text": "<p>Staat je vraag er niet bij? Stel hem met het <a href=\"#PrintContact\">formulier hierboven</a>, dan krijg je een voorstel met drukproef.</p>",
+        "show_contact": true
       }
     }
   },

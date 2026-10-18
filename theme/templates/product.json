@@ -38,7 +38,7 @@
           "type": "addons",
           "settings": {
             "heading": "Handig erbij",
-            "visible": 3
+            "visible": 2
           }
         },
         "buy_buttons": {
@@ -120,7 +120,7 @@
           "type": "compare",
           "settings": {
             "collection": "easy-up-partytenten",
-            "heading": "Premium of Professional?",
+            "heading": "",
             "link": "shopify://blogs/advies/easy-up-premium-of-professional",
             "link_label": "Lees het hele verschil"
           }
@@ -133,9 +133,9 @@
         "configurator",
         "bundle",
         "bedrukken",
+        "addons",
         "buy_buttons",
         "delivery",
-        "addons",
         "usps",
         "staffel",
         "b2b",

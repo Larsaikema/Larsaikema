@@ -102,6 +102,11 @@
           unless sl_raw == 'true' or sl_raw == 'yes' or sl_raw == 'ja' or sl_raw == '1' or sl_raw == ''
             assign switch_label = switch_value.label
           endunless
+          # Shopify counts a variant that sells on without stock (made to order, 'Leverbaar over 2–3 weken') as available:
+          # the switch hides what cannot be ordered, so it says 'Alleen leverbaar', not 'Op voorraad'
+          if filter.param_name == 'filter.v.availability'
+            assign switch_label = 'collection.filter_available' | t
+          endif
         endif
       endif
       # display order: sizes by group and real size (snippets/facet-value-order), everything else as Shopify gives it
@@ -143,8 +148,14 @@
       if f_kind == 'switch' and switch_value.count == 0 and switch_value.active != true
         assign f_useless = true
       endif
-      # a list of mostly one-product values (more than 10 values, at least two thirds hold one product) is a product list
-      if f_useless == false and f_kind == 'list' and active_count == 0 and shown_count > 10
+      # a list of mostly one-product values (more than 10 values, at least two thirds hold one product) is a product list;
+      # an option list on a parent collection that mixes lines (more than 8 values, half of them on one product: 'Polyester',
+      # 'Houten palen', 'Dak in framekleur' on Partytenten) is too: its sub-collections filter on it
+      assign single_min = 10
+      if filter.param_name contains 'filter.v.option'
+        assign single_min = 8
+      endif
+      if f_useless == false and f_kind == 'list' and active_count == 0 and shown_count > single_min
         assign single_count = 0
         for value in fvals
           if value.count <= 1
@@ -153,6 +164,10 @@
         endfor
         assign single_x3 = single_count | times: 3
         assign shown_x2 = shown_count | times: 2
+        if single_min == 8
+          assign single_x3 = single_count | times: 2
+          assign shown_x2 = shown_count
+        endif
         if single_x3 >= shown_x2
           assign f_useless = true
         endif

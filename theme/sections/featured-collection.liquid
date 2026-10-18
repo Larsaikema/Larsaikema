@@ -1,7 +1,13 @@
 <script src="{{ 'slider.js' | asset_url }}" defer></script>
+{%- if section.settings.mobile_grid -%}{{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}{%- endif -%}
 {%- liquid
   assign c = section.settings.collection
   assign limit = section.settings.limit
+  # mobile grid: 'Alle … (n)' as a full-width button under the grid instead of the link in the head
+  assign show_more = false
+  if section.settings.mobile_grid and c != blank and c.products_count > limit
+    assign show_more = true
+  endif
 -%}
 {%- liquid
   # 'Vergeet niet' on the cart page: items that fit the cart; the section disappears when nothing fits
@@ -27,7 +33,7 @@
         {%- if section.settings.text != blank -%}<p class="section-head__text muted">{{ section.settings.text }}</p>{%- endif -%}
       </div>
       <div class="btn-row">
-        {%- if c != blank -%}<a class="link" href="{{ c.url }}">{% if section.settings.link_label != blank %}{{ section.settings.link_label }}{% else %}{{ 'general.view_all' | t }}{% endif %}</a>{%- endif -%}
+        {%- if c != blank -%}<a class="link{% if show_more %} featured-collection__head-link{% endif %}" href="{{ c.url }}">{% if section.settings.link_label != blank %}{{ section.settings.link_label }}{% else %}{{ 'general.view_all' | t }}{% endif %}</a>{%- endif -%}
         {%- unless section.settings.desktop_grid -%}
         <div class="slider-nav">
           <button type="button" class="icon-btn" data-slider-btn="prev" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.scroll_left' | t }}">{%- render 'icon', icon: 'chevron-left', class: 'icon--sm' -%}</button>
@@ -36,7 +42,7 @@
         {%- endunless -%}
       </div>
     </div>
-    <ul class="slider{% if section.settings.desktop_grid %} slider--desktop-grid{% endif %} product-row" id="Slider-{{ section.id }}" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
+    <ul class="slider{% if section.settings.desktop_grid %} slider--desktop-grid{% endif %}{% if section.settings.mobile_grid %} product-row--mobile-grid{% endif %} product-row" id="Slider-{{ section.id }}" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
       {%- if section.settings.cart_related -%}
         {%- capture related_items -%}{%- render 'cart-related', collection: c, limit: limit, style: 'card', sizes: '(min-width: 990px) 320px, 68vw', fallback: section.settings.cart_fallback -%}{%- endcapture -%}
         {{ related_items }}
@@ -47,13 +53,17 @@
             assign in_cart = cart.items | map: 'product_id'
           endif
           assign shown = 0
+          assign card_sizes = '(min-width: 990px) 320px, 68vw'
+          if section.settings.mobile_grid
+            assign card_sizes = '(min-width: 990px) 320px, 50vw'
+          endif
         -%}
         {%- for product in c.products limit: 50 -%}
           {%- if section.settings.hide_sold_out and product.available == false -%}{%- continue -%}{%- endif -%}
           {%- if section.settings.exclude_in_cart and in_cart contains product.id -%}{%- continue -%}{%- endif -%}
           {%- if shown >= limit -%}{%- break -%}{%- endif -%}
           {%- assign shown = shown | plus: 1 -%}
-          <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 68vw' -%}</li>
+          <li>{%- render 'product-card', product: product, sizes: card_sizes -%}</li>
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..4) -%}
@@ -61,6 +71,9 @@
         {%- endfor -%}
       {%- endif -%}
     </ul>
+    {%- if show_more -%}
+      <a class="btn btn--outline featured-collection__more" href="{{ c.url }}">{% if section.settings.link_label != blank %}{{ section.settings.link_label }}{% else %}{{ 'general.view_all' | t }}{% endif %} ({{ c.products_count }})</a>
+    {%- endif -%}
   </div>
 </section>
 {%- endif -%}
@@ -78,6 +91,7 @@
     { "type": "range", "id": "limit", "min": 2, "max": 12, "step": 1, "label": "Aantal producten", "default": 8 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 4 },
     { "type": "checkbox", "id": "desktop_grid", "label": "Raster op desktop (anders schuiven)", "default": true },
+    { "type": "checkbox", "id": "mobile_grid", "label": "Raster op mobiel (2 kolommen, anders schuiven)", "default": false },
     { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk alles" },
     { "type": "checkbox", "id": "hide_sold_out", "label": "Uitverkochte producten overslaan", "default": false },
     { "type": "checkbox", "id": "exclude_in_cart", "label": "Producten uit de winkelwagen overslaan", "default": false, "info": "Handig op de winkelwagenpagina." },

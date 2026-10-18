@@ -232,8 +232,20 @@ export function easyUpTent(p = {}) {
   // satin black powder coat (roughness 0.4 under a satin clear layer): every hex facet carries a
   // faint highlight strip from the studio's vertical strip boxes, so hex profile and the step from
   // outer to inner tube read at catalogue size instead of a flat black stick
-  const alu = powder ? M.steelPowder('#1C1D1F', { roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.24 }) : M.aluminium({ roughness: 0.26 });
-  const aluInner = powder ? M.steelPowder('#202124', { roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3 }) : M.aluminium({ tone: '#C9CCD0', roughness: 0.34 });
+  // Professional: brushed, clear-anodised aluminium: a satin metal with a long anisotropic streak
+  // along the tube (brushing direction) and, on the hex legs, black flags in the studio's
+  // reflection (engine envFlag) so the facets alternate light / dark like photographed metal;
+  // 'aluminium Pro 50' reads as a different material from the black steel of Premium 40
+  const anodised = (tone, roughness, flag) => {
+    const m = M.aluminium({ tone, roughness }).clone();
+    m.anisotropy = 0.85;
+    m.userData = flag ? { envFlag: { k: 0.28, a0: 62, a1: 118 } } : {};
+    m.name = `anodised aluminium${flag ? ' (flagged)' : ''}`;
+    return m;
+  };
+  const alu = powder ? M.steelPowder('#1C1D1F', { roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.24 }) : anodised('#D3D7DB', 0.2, false);
+  const aluLeg = powder ? alu : anodised('#D3D7DB', 0.2, true);
+  const aluInner = powder ? M.steelPowder('#202124', { roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3 }) : anodised('#C6CACF', 0.26, true);
   // Premium: injection-moulded glass-filled nylon; Professional: cast aluminium brackets
   const pro = S.bracket !== 'nylon';
   const bracketMat = pro ? M.castAluminium('#9A9FA4') : M.mouldedNylon('#161616');
@@ -322,7 +334,10 @@ export function easyUpTent(p = {}) {
     const a = Math.abs(du) / hx, c = Math.abs(dv) / hz;
     // hip crease rounded over ~2 cm; round the peak cap the cloth is pulled over a round cap,
     // so the hips soften (~11 cm) and the circular apex patch reads as a circle, not a scallop
-    const kh = (0.024 + 0.09 * (1 - sstep(0.12, 0.45, Math.hypot(du, dv)))) / Math.min(hx, hz);
+    // (the same softening widens the hip line of the panel dish below: one smooth round hip
+    // within ~45 cm of the cap, no pinched crease where a sharp dish meets a round hip)
+    const hipSoft = 0.09 * (1 - sstep(0.12, 0.5, Math.hypot(du, dv)));
+    const kh = (0.024 + hipSoft) / Math.min(hx, hz);
     const m = smax(a, c, kh);
     const ea = 0.035 / Math.min(hx, hz); // rounded apex (fabric over the pole cap)
     const m2 = (Math.sqrt(m * m + ea * ea) - ea) / (Math.sqrt(1 + ea * ea) - ea);
@@ -341,7 +356,7 @@ export function easyUpTent(p = {}) {
       const lat = (c >= a ? hx : hz) * r;
       const e1 = 0.016 / Math.max(lat, 0.04);
       let t = Math.min(1, sabs(q, e1) / (Math.sqrt(1 + e1 * e1) - e1));
-      const e2 = 0.03 / Math.max(lat, 0.04);
+      const e2 = (0.03 + hipSoft) / Math.max(lat, 0.04);
       t = 1 - Math.min(1, sabs(1 - t, e2) / (Math.sqrt(1 + e2 * e2) - e2));
       const across = 4 * t * (1 - t);
       const env = dishEnv(r) * apexFade;
@@ -366,7 +381,9 @@ export function easyUpTent(p = {}) {
   });
   const apexRidges = bays.map(() => {
     const out = [];
-    for (let f = 0; f < 4; f++) for (const o of [-0.5, -0.05, 0.42]) out.push({ ang: f * Math.PI / 2 + Math.PI / 4 + o + (rr() - 0.5) * 0.12, len: 0.2 + 0.16 * rr(), amp: 0.0028 + 0.0016 * rr(), w0: 0.014 });
+    // (angles off the hip line by >= ~0.2 rad: a ridge on the hip itself pinched the hip seam
+    // just behind the cap)
+    for (let f = 0; f < 4; f++) for (const o of [-0.52, -0.26, 0.4]) out.push({ ang: f * Math.PI / 2 + Math.PI / 4 + o + (rr() - 0.5) * 0.12, len: 0.2 + 0.16 * rr(), amp: 0.0028 + 0.0016 * rr(), w0: 0.014 });
     return out;
   });
   function ridgeSum(list, rho, phi, startFade) {
@@ -593,6 +610,11 @@ export function easyUpTent(p = {}) {
 
   // corner reinforcement patches (rounded triangles) + apex patch + cap
   const patchMat = M.pvcPatch(color);
+  const capMat = (() => {
+    const m = patchMat.clone(); m.normalMap = null; m.roughness = patchMat.roughness;
+    m.userData = { envSpec: patchMat.userData.envSpec, dye: patchMat.userData.dye || 0 };
+    m.name = `peak cap ${color}`; return m;
+  })();
   // rounded-triangle outline (legs along the two eaves, 3.5 cm corner radii) as a polar
   // function R(phi) around the roof corner; phi = 0 along the x eave, pi/2 along the z eave
   const pr = 0.035, pc = pr / Math.tan(Math.PI / 8);
@@ -656,11 +678,13 @@ export function easyUpTent(p = {}) {
       for (let i = 0; i <= 160; i++) { const phi = (i / 160) * TAU; const x = b.cx + Math.cos(phi) * rr, z = b.cz + Math.sin(phi) * rr; smp.push({ p: roofPt(x, z, 0.0013), n: roofNormal(x, z) }); }
       stitches.push(stitchGeo(smp));
     }
-    // moulded top cap over the pole (fabric covered)
+    // top cap over the pole: a low dome covered in the canopy cloth, smooth (no weave map: on a
+    // 5 cm dome the cloth's uv-mapped weave read as a perforated grey part / a foreign knob);
+    // profile from the rim up, so the lathe's normals face outwards
     const top = H(b.cx, b.cz);
-    const cap = G.lathe([[0.0001, 0.03], [0.022, 0.027], [0.036, 0.018], [0.046, 0.006], [0.05, 0.0]], 40);
-    cap.translate(b.cx, top - 0.012, b.cz);
-    bins.add(fabric, cap);
+    const cap = G.lathe([[0.058, 0.0], [0.053, 0.004], [0.042, 0.0085], [0.026, 0.012], [0.0001, 0.0135]], 40);
+    cap.translate(b.cx, top - 0.0075, b.cz);
+    bins.add(capMat, cap);
   }
 
   // ---- valance -------------------------------------------------------------------------
@@ -873,7 +897,7 @@ export function easyUpTent(p = {}) {
     const side = out.clone(); // a flat of the hex faces outward
     const L = (y) => V3(x, y, z);
     // outer (upper) tube from the collar into the corner bracket, inner (lower) tube
-    bins.add(alu, G.prism(hexP(legAF), L(joinY), L(He - 0.03), { side }));
+    bins.add(aluLeg, G.prism(hexP(legAF), L(joinY), L(He - 0.03), { side }));
     bins.add(aluInner, G.prism(hexP(S.inner), L(0.05), L(joinY + 0.02), { side }));
     // moulded collar at the bottom end of the outer tube (with a chamfered lip)
     bins.add(nylon, taperPrism(hexP(legAF + 0.006, 0.12), hexP(legAF + 0.012, 0.12), L(joinY - 0.004), L(joinY + 0.012), side));
@@ -1047,6 +1071,12 @@ export function easyUpTent(p = {}) {
     left: { pts: zs.map((z) => [xs[0], z]), n: V3(-1, 0, 0) },
   };
   const doors = []; // door panels (for the detail close-up)
+  const lightIn = []; // windows [x, z, weight]: openings that let light into a walled tent
+  // door state: 'half' (right leaf rolled up and strapped: an opening with the roll above it) or
+  // 'closed' (zip, storm flap, door band). Default 'auto': closed in every catalogue view
+  // except the detail close-up, which shows the rolled-up leaf and the view inside; the main
+  // image never leads with a dark opening (the builder gets the view as p.__angle)
+  const doorState = (p.doorState && p.doorState !== 'auto') ? p.doorState : (p.__angle === 'detail' ? 'half' : 'closed');
   const strapLegs = new Map(); // leg key -> [{edge point, outward normal of the wall}]
   const strapAt = (leg, E, nW, along, top = He) => { const k = leg.join(','); if (!strapLegs.has(k)) strapLegs.set(k, []); strapLegs.get(k).push({ E, nW, along, top }); };
   for (const [sideName, typeSpec] of Object.entries(walls)) {
@@ -1064,10 +1094,11 @@ export function easyUpTent(p = {}) {
       const half = type === 'half';
       const wTop = half ? Number(p.halfWallHeight ?? 1.0) : He - 0.012;
       buildWall({ group, bins, fabric: wallFabric, thread: wallThread, a, b, n: def.n, top: wTop, type: half ? 'closed' : type, seed: k * 3 + sideName.length,
-        print: p.wallPrint && typeof p.wallPrint === 'object' && (p.wallPrint.side || 'back') === sideName ? p.wallPrint : null, doorState: p.doorState || 'half' });
+        print: p.wallPrint && typeof p.wallPrint === 'object' && (p.wallPrint.side || 'back') === sideName ? p.wallPrint : null, doorState });
       strapAt(def.pts[k], a, def.n, along.clone(), wTop);
       strapAt(def.pts[k + 1], b, def.n, along.clone().negate(), wTop);
-      if (type === 'door' || type === 'door-open') doors.push({ mid: a.clone().lerp(b, 0.5), n: def.n.clone(), along: along.clone(), side: sideName, half: type === 'door' && (p.doorState || 'half') === 'half' });
+      if (['window', 'windows', 'window2', 'church', 'churchwindows', 'panorama'].includes(type)) lightIn.push([(a.x + b.x) / 2, (a.z + b.z) / 2, type === 'panorama' ? 0.6 : 0.4]);
+      if (type === 'door' || type === 'door-open') doors.push({ mid: a.clone().lerp(b, 0.5), n: def.n.clone(), along: along.clone(), side: sideName, half: type === 'door' && doorState === 'half', open: type === 'door-open' || doorState === 'half', w: Math.min(1.05, a.distanceTo(b) * 0.4) });
     }
   }
   // velcro straps: from every wall edge a 5 cm strap wraps round the leg (teardrop loop:
@@ -1174,15 +1205,22 @@ export function easyUpTent(p = {}) {
   // ---- framing hints -----------------------------------------------------------------------
   const fx = xs[nbx], fz = zs[nbz];
   const peak = Math.max(...bays.map((b) => H(b.cx, b.cz)));
-  // enclosure: with three or four hanging walls the inside of the tent is a dim room: the
-  // engine keeps only shadowed light on the inward faces and darkens the floor inside, so
-  // PVC windows read dark with a reflection, never as frosted white panes
+  // enclosure: with three or four hanging walls the inside of the tent is a dim room: inward
+  // faces lose most of the open studio's light (k) and the floor inside darkens, except near the
+  // openings, where light comes in (kNear, floorNear, falling off over `fall` m); a soft interior
+  // ambient (amb) keeps black cloth inside at ~15-25 instead of a black void. PVC windows read as
+  // dark smoky foil with a reflection, never as frosted white panes
   const hanging = Object.values(walls).filter((v) => v && !['none', 'open', 'rolled', 'half'].includes(Array.isArray(v) ? v[0] : v)).length;
   const wallPlane = (legAF + 0.03) / 2 + 0.008; // = wallOff below: the walls hang this far outside the leg lines
+  // Light comes in through the openings: an open door (rolled-up leaf) lets in the most, a PVC
+  // window less; inward faces and the floor are lighter near them and fall off towards the far
+  // corners (no black voids, no pitch-black inside behind a window)
+  const openings = [...doors.filter((dd) => dd.open).map((dd) => [dd.mid.x + dd.along.x * (dd.half ? dd.w / 4 : 0), dd.mid.z + dd.along.z * (dd.half ? dd.w / 4 : 0), 1]), ...lightIn].slice(0, 6);
   const enclosure = hanging >= 3 ? {
     box: [(xs[0] + xs[nbx]) / 2, (zs[0] + zs[nbz]) / 2, (xs[nbx] - xs[0]) / 2 + 0.07, (zs[nbz] - zs[0]) / 2 + 0.07],
     floorBox: [(xs[0] + xs[nbx]) / 2, (zs[0] + zs[nbz]) / 2, (xs[nbx] - xs[0]) / 2 + wallPlane, (zs[nbz] - zs[0]) / 2 + wallPlane],
-    top: peak + 0.05, k: 0.1, floor: hanging >= 4 ? 0.1 : 0.2, feather: 0.14,
+    top: peak + 0.05, feather: 0.14,
+    k: 0.45, kNear: 1.0, amb: 0.75, ambNear: 1.8, floor: hanging >= 4 ? 0.04 : 0.1, floorNear: 0.35, fall: 1.4, openings,
   } : null;
   // detail close-up: the door (zip, storm flap, straps) when there is one, else the corner
   // bracket of the leg nearest to the hero camera
@@ -1235,6 +1273,29 @@ export function easyUpTent(p = {}) {
     const near = legPts.slice().sort((a2, b2) => (b2[0] * cd.x + b2[1] * cd.z) - (a2[0] * cd.x + a2[1] * cd.z))[0];
     probes.legOuter = [1.3, 1.45, 1.6].map((y) => [near[0], y, near[1]]);
     probes.legInner = [0.35, 0.55, 0.75].map((y) => [near[0], y, near[1]]);
+    // side walls: closed cloth low on the wall the hero sees on its left (lit) / right (turned
+    // away): below every window type, clear of doors and of the corner straps
+    const wallPts = (nm) => {
+      const def = sideDefs[nm], types = sideTypes(nm), out = [];
+      if (!def || !types.length) return out;
+      for (let k = 0; k < def.pts.length - 1; k++) {
+        const t = types[k % types.length];
+        if (!t || ['rolled', 'none', 'open'].includes(t)) continue;
+        const a2 = V3(def.pts[k][0], 0, def.pts[k][1]), b2 = V3(def.pts[k + 1][0], 0, def.pts[k + 1][1]);
+        for (const f of [0.14, 0.24, 0.76, 0.86]) for (const y of [0.42, 0.62]) {
+          const q = a2.clone().lerp(b2, f).addScaledVector(def.n, wallOff + 0.02);
+          out.push([q.x, y, q.z]);
+        }
+      }
+      return out;
+    };
+    probes.wallLit = wallPts(lit); probes.wallShade = wallPts(shade);
+    // door on a side the hero sees: the doorway (rolled-up leaf: what shows through the
+    // opening, i.e. the inside; closed: the right leaf of the door)
+    probes.doorway = doors.filter((dd) => dd.side === lit || dd.side === shade).flatMap((dd) => [0.6, 0.95, 1.3, 1.55].map((y) => {
+      const q = dd.mid.clone().addScaledVector(dd.along, dd.open && !dd.half ? 0 : dd.w / 4).addScaledVector(dd.n, dd.open ? 0 : 0.02);
+      return [q.x, y, q.z];
+    }));
   }
   return {
     object: group,
@@ -1264,7 +1325,7 @@ export function easyUpTent(p = {}) {
 // inverse-square falloff), so every roof face gets its own value with a soft gradient.
 function tentRig(colorHex, walled = false, enclosure = null) {
   const L = lumOf(colorHex);
-  const white = L > 0.7;
+  const white = L > 0.7, dark = L < 0.1;
   // softbox front-left (-38 deg world on the hero) at ~1.8x the product's half-diagonal: it
   // rakes across the front roof face, so the dish between rafter and hip reads as a
   // light-to-dark gradient. The beam is feathered (soft 40 deg cone on the front face): the
@@ -1272,18 +1333,34 @@ function tentRig(colorHex, walled = false, enclosure = null) {
   // white roof separates from the backdrop by its falloff instead of melting into it, and the
   // far face is modelled by the fill alone.
   const key0 = { azimuth: -72, elevation: 32, intensity: 4.86, cone: 10, distanceRel: 1.78, aimRel: [0.0, 0.4, 0.69], angle: 40, penumbra: 1.0 };
-  // with side walls the beam is wider and aimed a little lower, so the wall on the key side gets
-  // the key too (it reads lighter than the wall turned away: the box corner keeps its form)
-  const key = walled ? { ...key0, angle: 54, aimRel: [0.0, 0.26, 0.69] } : key0;
+  // with side walls the beam is wider and aimed at the walls' half height, so the wall on the key
+  // side gets the key down to its hem (it reads lighter than the wall turned away: the box corner
+  // keeps its form)
+  const key = walled ? { ...key0, angle: 60, aimRel: [0.0, 0.0, 0.69] } : key0;
+  // Hanging walls are vertical: seen from 17 deg above they mirror the studio ~15 deg BELOW the
+  // horizon, at twice their angle to the camera (camera-left wall: az ~-68, camera-right wall:
+  // az ~+112). A large, very soft card there gives each wall one broad sheen gradient; black
+  // cloth reads almost only through that sheen (its diffuse is 1.6 %), so with walls the card on
+  // the key side is much stronger: lit wall ~40-45, wall turned away ~20 (the corner reads), and
+  // drape folds, seams, hem and velcro slots show as changes in that sheen
+  // The cards stand a little towards the camera from the walls' mirror direction, so each wall
+  // mirrors the falling shoulder of its card: the sheen runs lighter towards the near end and
+  // every drape fold (a few degrees of tilt) shifts it along that gradient into a soft light /
+  // dark band
+  const wallCards = walled ? [
+    { az: -52, el: -15, w: 40, h: 40, I: dark ? 14 : white ? 3.4 : 7, soft: 0.5, hot: 0.3 },
+    { az: 100, el: -15, w: 36, h: 36, I: dark ? 2.6 : 1.3, soft: 0.5, hot: 0.3 },
+  ] : [
+    { az: -62, el: -10, w: 64, h: 30, I: 3.4, soft: 0.95, hot: 0.6 },
+    { az: 112, el: -10, w: 54, h: 28, I: 1.3, soft: 0.95, hot: 0.6 },
+  ];
   return {
     env: 'studio', envIntensity: 1.0,
     // studio reflections (camera-relative): the default softboxes plus two large, very soft
     // cards low in front-left and front-right. Hanging walls and PVC windows mirror exactly
     // that band, so black cloth shows one broad sheen gradient per wall and every window a soft
     // reflection streak, on whichever sides the hero shows
-    envStudio: { boxes: [...STUDIO_ENV_DEFAULT.boxes,
-      { az: -62, el: -10, w: 64, h: 30, I: 3.4, soft: 0.95, hot: 0.6 },
-      { az: 112, el: -10, w: 54, h: 28, I: 1.3, soft: 0.95, hot: 0.6 },
+    envStudio: { boxes: [...STUDIO_ENV_DEFAULT.boxes, ...wallCards,
       // two tall strip boxes left and right at product height: each facet of a hex leg mirrors
       // a different one (light / medium / dark facets plus thin edge glints)
       { az: -100, el: 2, w: 14, h: 64, I: 3.4, soft: 0.35, hot: 0.25 },
@@ -1300,15 +1377,17 @@ function tentRig(colorHex, walled = false, enclosure = null) {
     bounce: { intensity: 0.5 },
     // soft overhead dome, tipped towards the key so it models with it
     dome: { count: 2, intensity: 2.4, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-    exposure: white ? 0.58 : 'auto',
+    exposure: white ? 0.53 : 'auto',
     interior: enclosure,
-    // white cloth: a higher key aimed a little right of centre with a 34 deg beam, so the lit face
-    // peaks at ~247 by the rafter and falls off to ~225-235 towards the left hip and the eave (the
-    // top-left outline reads against the backdrop by its falloff, also at collection-grid size);
+    // white cloth: a higher key aimed right of centre and up the face with a 32.5 deg beam, and an
+    // exposure of 0.53 (at 0.58 the whole lit face sat in the tone curve's shoulder at ~248: a flat
+    // moulded slab), so the lit face peaks at ~247 by the rafter and falls off to ~230 at the eave
+    // and ~215-225 at the left hip: each dished half-panel reads (the top-left outline reads
+    // against the backdrop by its falloff, also at collection-grid size);
     // the vertical valance gets less of that key than the upward roof faces (clearly darker,
     // ~205-225), lifted a little by a low reflector card in front; the far face ~190-215
     ...(white ? {
-      key: { ...key, azimuth: -70, elevation: 40, distanceRel: 2.3, aimRel: [0.3, 0.55, 0.45], angle: walled ? 50 : 34, intensity: 4.8 },
+      key: { ...key, azimuth: -70, elevation: 40, distanceRel: 2.3, aimRel: [0.34, 0.6, 0.43], angle: walled ? 50 : 32.5, intensity: 4.8 },
       fill: { azimuth: 100, elevation: 12, intensity: 2.2 },
       bounce: { azimuth: -20, elevation: -25, intensity: 1.5 },
       dome: { count: 2, intensity: 2.0, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
@@ -1343,10 +1422,14 @@ function tentDetailRig(colorHex, wallDetail) {
   // a near softbox has no visible falloff over a 1 m close-up: directional key; a lighter
   // back fill than the hero, so the far roof face keeps the key's dish gradient up close
   const r = { edgeFade: 0, key: { distanceRel: 0, distance: 0 }, fill: { intensity: 3.5 } };
+  // white: the close-up keeps its own exposure (the hero's lower 0.53 is for the raked softbox)
+  if (L > 0.7) r.exposure = 0.58;
   if (wallDetail) {
     r.key = { distanceRel: 0, distance: 0, azimuth: -88, elevation: 14, cone: 6 };
     r.fill = { azimuth: 60, elevation: 6, intensity: black ? 1.2 : 1.0 };
-    if (black) r.exposure = 0.9;
+    // black: a touch more exposure than the hero (0.72); the wall mirrors the centre of the hero's
+    // wall card here, so 0.75 keeps it at ~55 (more read as grey cloth, not black)
+    if (black) r.exposure = 0.75;
   }
   return r;
 }
@@ -1532,12 +1615,14 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed, prin
     // broad vertical drape folds, irregular in spacing and depth (value noise, not sines),
     // freer and slightly fanning out towards the hem
     const sd = s + 0.06 * (1 - v) * nz.noise(s * 0.9 + 4, 2.2);
-    const folds = 0.017 * pinS * (0.35 + 0.65 * Math.pow(1 - v, 1.1)) * (0.6 + 0.4 * nz.noise(sd * 0.7 + 9, 6.6))
-      * (nz.noise(sd * 1.9 + seed, 0.3 + v * 0.35) * 0.74 + nz.noise(sd * 3.6 - seed, 1.7 + v * 0.6) * 0.22);
+    // (deep enough that the hero's wall sheen breaks into soft light/dark drape bands at 2000 px:
+    // ~5-8 deg slopes; still broad, 15-50 cm apart, no fine vertical streaks)
+    const folds = 0.026 * pinS * (0.4 + 0.6 * Math.pow(1 - v, 1.1)) * (0.6 + 0.4 * nz.noise(sd * 0.7 + 9, 6.6))
+      * (nz.noise(sd * 1.9 + seed, 0.3 + v * 0.35) * 0.6 + nz.noise(sd * 3.6 - seed, 1.7 + v * 0.6) * 0.3 + nz.noise(sd * 6.1 + 2 * seed, 2.9 + v * 0.8) * 0.1);
     // each top tab pulls a narrow vertical fold that runs ~0.8 m down; the cloth between
     // the tabs sags into a shallow scallop
     const ph = s / tabSp - Math.round(s / tabSp);
-    const tabFold = 0.005 * pinS * Math.exp(-(((ph * tabSp) / 0.045) ** 2)) * Math.exp(-(top - y) / 0.45);
+    const tabFold = 0.007 * pinS * Math.exp(-(((ph * tabSp) / 0.045) ** 2)) * Math.exp(-(top - y) / 0.6);
     const vfold = -0.002 * pinS * Math.cos(TAU * ph) * Math.exp(-(top - y) / 0.25);
     const scallop = 0.006 * Math.abs(Math.sin(Math.PI * s / tabSp)) * sstep(0.88, 1.0, v) + tabFold + vfold;
     let diag = 0;
@@ -1682,7 +1767,7 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed, prin
   if (openings.length) {
     const pvc = cloneWithMask(windowFoil(), mask, key, true);
     const yW = openings.reduce((acc, o) => acc + (o.y0 + o.y1) / 2, 0) / openings.length;
-    pvc.userData.sheet = { L, H: Hh, c: [mid, yW], strength: 0.14 / 0.25 };
+    pvc.userData.sheet = { L, H: Hh, c: [mid, yW], strength: 0.16 };
     const g2 = G.surface((u, v, o) => o.copy(point(u * L, yAt(u, v), -0.0025)), nu, nv, { flipNormals: flip });
     metricUV(g2, (i) => (i % (nu + 1)) / nu * L);
     const pm = new THREE.Mesh(g2, pvc); pm.castShadow = false; pm.receiveShadow = true;
@@ -2001,13 +2086,15 @@ let windowFoilMat = null;
 function windowFoil() {
   if (windowFoilMat) return windowFoilMat;
   const m = M.pvcWindow().clone();
-  m.color.set('#15191B'); m.roughness = 0.1; m.clearcoat = 0.8; m.clearcoatRoughness = 0.06; m.specularIntensity = 0.9;
+  // dark smoky foil: no clearcoat (a second, mirror-sharp lobe made every window a glossy glass
+  // icon); its reflections are damped (envSpec) so the studio cards show as a soft sheen
+  m.color.set('#121618'); m.roughness = 0.14; m.clearcoat = 0; m.specularIntensity = 0.8;
   // a taut foil: only a long, gentle waviness (a strong wrinkle map mirrors the studio as marble)
-  m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(0.55, 0.55); m.normalMap.needsUpdate = true; m.normalScale = new THREE.Vector2(0.018, 0.018);
-  // clear foil: ~75 % see-through (the inside of the opposite wall, its windows and the frame
-  // show through), plus the reflection of a strip softbox as one soft diagonal sheet highlight
+  m.normalMap = m.normalMap.clone(); m.normalMap.repeat.set(0.55, 0.55); m.normalMap.needsUpdate = true; m.normalScale = new THREE.Vector2(0.011, 0.011);
+  // smoky clear foil: ~70 % see-through (the dim inside, the opposite wall and the frame show
+  // through), plus the reflection of a strip softbox as one soft, slightly wavy band
   // (engine `sheet`, set per panel in buildWall: metric size of the panel)
-  m.userData = { stochasticAlpha: 0.25, interior: true };
+  m.userData = { stochasticAlpha: 0.3, interior: true, envSpec: 0.35 };
   m.name = 'pvc window foil';
   windowFoilMat = m;
   return m;

@@ -40,6 +40,16 @@ export const globalUniforms = {
   uIntBox: { value: new THREE.Vector4(0, 0, 0, 0) },
   uIntY: { value: new THREE.Vector2(0, 0) },
   uIntK: { value: 1 },
+  // openings of the enclosure (rig.interior.openings): light comes in through an open door or a
+  // window, so inward faces near an opening keep more of the open-studio light (up to uIntNear.x)
+  // than the far corners (uIntK), falling off over uIntNear.y metres. xy = position (x/z),
+  // w = weight (0 = unused slot)
+  uIntOpen: { value: [0, 1, 2, 3, 4, 5].map(() => new THREE.Vector4(0, 0, 0, 0)) },
+  uIntNear: { value: new THREE.Vector2(1, 1.5) },
+  // soft interior ambient (radiance) mirrored by the inward faces: x near an opening, y in the far
+  // corners. The inside of a tent is lit by the bright floor and the openings; dark cloth reads
+  // only through that sheen (its diffuse is ~1-2 %), so without it the inside is a black void
+  uIntAmb: { value: new THREE.Vector2(0, 0) },
 };
 
 // three's lights_fragment_begin with an extra factor on the *unshadowed* directional lights
@@ -67,17 +77,22 @@ function hookMaterial(mat) {
   // that does arrive has mostly bounced off the same dyed cloth); 0 = off
   const dye = mat.userData.dye || 0;
   // sheet: {L, H, c, strength} on alpha-mapped glazing (PVC windows): the reflection of a strip
-  // softbox in a flat glossy sheet, one soft diagonal band per ~1.6 m of panel (L x H metres,
-  // c = [s, y] of the windows' centre)
+  // softbox in a taut, slightly wavy foil: one broad soft band through the windows' centre
+  // (L x H metres, c = [s, y] of the windows' centre)
   const sheet = mat.userData.sheet && mat.alphaMap ? mat.userData.sheet : null;
-  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet) return;
+  // envFlag: {k, a0, a1}: black flags for bare metal (the photographer's trick for metal): the
+  // environment reflection is scaled by k where the reflected ray points to a camera-relative
+  // azimuth between a0 and a1 degrees (either side). A hex tube then shows light and dark facets
+  // in turn (adjacent facets mirror directions 120 deg apart), whatever its orientation
+  const envFlag = mat.userData.envFlag || null;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
     Object.assign(shader.uniforms, globalUniforms);
     let fs = shader.fragmentShader;
     const head = `uniform float uFrameSeed; uniform vec3 uKeyDirW; uniform float uKeyE; uniform float uDomeE;
-uniform vec4 uIntBox; uniform vec2 uIntY; uniform float uIntK;
+uniform vec4 uIntBox; uniform vec2 uIntY; uniform float uIntK; uniform vec4 uIntOpen[ 6 ]; uniform vec2 uIntNear; uniform vec2 uIntAmb;
 float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot( p3, p3.yzx + 33.33 ); return fract( ( p3.x + p3.y ) * p3.z ); }
 `;
     fs = head + (interior ? 'varying vec3 vIntW;\n' : '') + (weave ? 'uniform vec4 uWeave;\n' : '') + fs;
@@ -129,7 +144,7 @@ void main() {
     }
     if (interior) {
       // fragment inside the enclosure box AND facing inwards (wall inside, roof underside)?
-      fs = fs.replace('#include <lights_fragment_begin>', `float intK = 1.0;
+      fs = fs.replace('#include <lights_fragment_begin>', `float intK = 1.0; float intAmb = 0.0;
   if ( uIntK < 0.999 ) {
     vec3 nWi = inverseTransformDirection( nonPerturbedNormal, viewMatrix );
     vec2 dq = vIntW.xz - uIntBox.xy;
@@ -138,16 +153,32 @@ void main() {
     vec2 nh = nWi.xz; float nhl = length( nh );
     float towards = nhl > 1e-4 ? dot( nh / nhl, -dq / max( length( dq ), 1e-4 ) ) : 0.0;
     float inward = max( smoothstep( 0.0, 0.35, towards ) * ( 1.0 - smoothstep( 0.35, 0.75, nWi.y ) ), smoothstep( 0.15, 0.55, -nWi.y ) );
-    intK = mix( 1.0, uIntK, inBox * inward );
+    // light that comes in through the openings: brighter near an open door or a window
+    float opn = 0.0;
+    for ( int oi = 0; oi < 6; oi ++ ) {
+      vec4 o = uIntOpen[ oi ];
+      if ( o.w > 0.0 ) opn = max( opn, o.w * exp( - length( vIntW.xz - o.xy ) / uIntNear.y ) );
+    }
+    intK = mix( 1.0, mix( uIntK, uIntNear.x, opn ), inBox * inward );
+    intAmb = mix( uIntAmb.y, uIntAmb.x, opn ) * inBox * inward;
   }
 ${lightsBeginInterior()}`);
+    }
+    if (envFlag) {
+      fs = fs.replace('#include <lights_fragment_maps>', `#include <lights_fragment_maps>
+  {
+    vec3 rFl = reflect( - geometryViewDir, geometryNormal );
+    float azFl = abs( degrees( atan( rFl.x, rFl.z ) ) );
+    float flag = smoothstep( ${Number(envFlag.a0 - 6).toFixed(2)}, ${Number(envFlag.a0 + 6).toFixed(2)}, azFl ) * ( 1.0 - smoothstep( ${Number(envFlag.a1 - 6).toFixed(2)}, ${Number(envFlag.a1 + 6).toFixed(2)}, azFl ) );
+    radiance *= mix( 1.0, ${Number(envFlag.k).toFixed(4)}, flag );
+  }`);
     }
     if (envSpec != null || interior) {
       // per-material strength of the environment *reflection* (scene.environmentIntensity
       // overrides material.envMapIntensity in three): cloth mirrors the softboxes only softly
       fs = fs.replace('#include <lights_fragment_maps>', `#include <lights_fragment_maps>
   ${envSpec != null ? `radiance *= ${Number(envSpec).toFixed(4)};` : ''}
-  ${interior ? '#if defined( RE_IndirectDiffuse )\n  iblIrradiance *= intK;\n  #endif\n  #if defined( RE_IndirectSpecular )\n  radiance *= intK;\n  #endif' : ''}`);
+  ${interior ? `#if defined( RE_IndirectDiffuse )\n  iblIrradiance *= intK;\n  #endif\n  #if defined( RE_IndirectSpecular )\n  radiance = radiance * intK + vec3( intAmb * ${Number(envSpec ?? 1).toFixed(4)} );\n  #endif` : ''}`);
     }
     if (dye) {
       // received light E (luminance of the diffuse result / albedo luminance) against the light a
@@ -169,10 +200,12 @@ ${lightsBeginInterior()}`);
       fs = fs.replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
   {
     vec2 sp = vec2( vAlphaMapUv.x * ${Number(sheet.L).toFixed(4)}, vAlphaMapUv.y * ${Number(sheet.H).toFixed(4)} ) - vec2( ${Number((sheet.c || [0, 0])[0]).toFixed(4)}, ${Number((sheet.c || [0, 0])[1]).toFixed(4)} );
-    // main band just below-left of the panel's window centre, a thin second streak above-right
-    float dq = dot( sp, vec2( 0.6, 0.8 ) ) / 1.6 + 0.22;
-    float ph = fract( dq );
-    float bandS = smoothstep( 0.0, 0.07, ph ) * ( 1.0 - smoothstep( 0.1, 0.2, ph ) ) + 0.4 * smoothstep( 0.26, 0.285, ph ) * ( 1.0 - smoothstep( 0.3, 0.33, ph ) );
+    // one broad, soft reflection of a strip softbox in a slightly wavy foil: a Gaussian band
+    // (~35 cm wide) across the window centre at a shallow diagonal; the foil's long waves bend
+    // it a little, so it reads as a reflection in taut plastic, not as a painted glare stripe
+    float wav = 0.045 * sin( sp.y * 4.3 + sp.x * 1.7 + 0.6 ) + 0.025 * sin( sp.x * 6.1 - sp.y * 2.9 + 1.9 );
+    float dq = dot( sp, vec2( 0.42, 0.91 ) ) + wav + 0.04;
+    float bandS = exp( - dq * dq / ( 2.0 * 0.15 * 0.15 ) ) * ( 0.75 + 0.25 * sin( sp.x * 2.3 + sp.y * 1.1 ) );
     totalEmissiveRadiance += vec3( ${Number(sheet.strength).toFixed(4)} ) * bandS;
   }`);
     }
@@ -189,7 +222,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -289,6 +322,9 @@ uniform float uShadowFloor;  // lowest received-light ratio of the soft shadow (
 uniform float uSplit;        // 1: the knee softens only the key shadow; sky occlusion multiplies after it
 uniform vec4 uIntBox;        // enclosure footprint (centre x/z, half extents x/z), see rig.interior
 uniform vec2 uIntFloor;      // x: floor light factor inside the enclosure (1 = off), y: feather (m)
+uniform vec4 uIntOpen[ 6 ];  // openings (see globalUniforms.uIntOpen)
+uniform vec2 uIntNear;       // x: wall factor near an opening (unused here), y: fall-off (m)
+uniform float uIntFloorNear; // floor light factor right inside an opening
 varying vec3 vWorldPos;
 void main() {
   vec2 aoUv = ( vWorldPos.xz - uAOBox.xy ) * uAOBox.zw;
@@ -312,7 +348,13 @@ void main() {
   float intF = 1.0;
   if ( uIntFloor.x < 0.999 ) {
     vec2 qf = abs( vWorldPos.xz - uIntBox.xy ) - uIntBox.zw;
-    intF = mix( 1.0, uIntFloor.x, 1.0 - smoothstep( -0.25 * uIntFloor.y, 0.75 * uIntFloor.y, max( qf.x, qf.y ) ) );
+    float opn = 0.0;
+    for ( int oi = 0; oi < 6; oi ++ ) {
+      vec4 o = uIntOpen[ oi ];
+      if ( o.w > 0.0 ) opn = max( opn, o.w * exp( - length( vWorldPos.xz - o.xy ) / uIntNear.y ) );
+    }
+    float fIn = mix( uIntFloor.x, max( uIntFloor.x, uIntFloorNear ), opn );
+    intF = mix( 1.0, fIn, 1.0 - smoothstep( -0.25 * uIntFloor.y, 0.75 * uIntFloor.y, max( qf.x, qf.y ) ) );
   }
   gl_FragColor = vec4( ratio, intF, 0.0, 0.25 ); // alpha 0.25 marks 'floor'
 }`;
@@ -424,7 +466,11 @@ export const DEFAULT_RIG = {
   interior: null,               // {box:[cx, cz, hx, hz], top, k, floor, floorBox, feather}: enclosure (walled tent).
                                 // Inward-facing surfaces inside the box keep only shadowed light (k scales fill/rim/
                                 // bounce + IBL); the floor inside floorBox (default box: the wall planes) is
-                                // multiplied by `floor`, fading out over `feather` m across the wall line
+                                // multiplied by `floor`, fading out over `feather` m across the wall line.
+                                // openings [[x, z, weight], ...] (max 6: open doors, windows): near an opening
+                                // inward faces keep up to `kNear` and the floor up to `floorNear` of the open-
+                                // studio light, falling off over `fall` m (light that comes in through it); `amb` (far)
+                                // to `ambNear`: a soft interior radiance the inward faces mirror (x their envSpec)
 };
 
 function dirFromAzEl(azDeg, elDeg) {
@@ -477,7 +523,7 @@ export class Studio {
 
     // ground shadow catcher
     const gm = new THREE.ShaderMaterial({
-      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 }, uIntBox: { value: new THREE.Vector4() }, uIntFloor: { value: new THREE.Vector2(1, 0.1) } },
+      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 }, uIntBox: { value: new THREE.Vector4() }, uIntFloor: { value: new THREE.Vector2(1, 0.1) }, uIntOpen: globalUniforms.uIntOpen, uIntNear: globalUniforms.uIntNear, uIntFloorNear: { value: 0 } },
       vertexShader: groundVS,
       fragmentShader: groundFS,
     });
@@ -816,8 +862,16 @@ export class Studio {
       globalUniforms.uIntK.value = IN.k ?? 0.12;
       this.groundMat.uniforms.uIntBox.value.set(...(IN.floorBox || IN.box));
       this.groundMat.uniforms.uIntFloor.value.set(IN.floor ?? 0.3, IN.feather ?? 0.12);
+      // openings: [[x, z, weight], ...] (world), kNear on inward faces / floorNear on the floor
+      // right inside an opening, falling off over `fall` m
+      const ops = IN.openings || [];
+      globalUniforms.uIntOpen.value.forEach((v, i) => { const o = ops[i]; if (o) v.set(o[0], o[1], 0, o[2] ?? 1); else v.set(0, 0, 0, 0); });
+      globalUniforms.uIntNear.value.set(IN.kNear ?? (IN.k ?? 0.12), IN.fall ?? 1.5);
+      globalUniforms.uIntAmb.value.set(IN.ambNear ?? 0, IN.amb ?? 0);
+      this.groundMat.uniforms.uIntFloorNear.value = IN.floorNear ?? (IN.floor ?? 0.3);
     } else {
       globalUniforms.uIntK.value = 1;
+      globalUniforms.uIntAmb.value.set(0, 0);
       this.groundMat.uniforms.uIntFloor.value.set(1, 0.1);
     }
     const bgC = new THREE.Color(bg);

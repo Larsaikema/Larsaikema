@@ -1,88 +1,206 @@
+{%- comment -%}
+  Bedrukken landing page (feature content.print-landing): hero with the page content, process steps, the printable
+  products (option blocks with a product: real image, 'vanaf' price, minimum order from custom.drukopties), a
+  large-format / large-volume quote band, artwork rules with a question form. The FAQ is its own section.
+{%- endcomment -%}
 {{ 'section-pages.css' | asset_url | stylesheet_tag }}
-{%- assign form_id = 'PrintForm-' | append: section.id -%}
-<div class="color-scheme-3">
+{{ 'section-page-bedrukken.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign form_id = 'PrintForm-' | append: section.id
+  assign heading = section.settings.heading | default: page.title | escape
+  if section.settings.accent_word != blank
+    assign accent_word = section.settings.accent_word | escape
+    assign accent_html = '<span class="accent-line">' | append: accent_word | append: '</span>'
+    assign heading = heading | replace_first: accent_word, accent_html
+  endif
+  assign step_count = 0
+  assign option_count = 0
+  for block in section.blocks
+    case block.type
+      when 'step'
+        assign step_count = step_count | plus: 1
+      when 'option'
+        assign option_count = option_count | plus: 1
+    endcase
+  endfor
+-%}
+<div class="print-hero color-scheme-3">
   <div class="page-width">
-    <header class="page-head b2b-hero">
-      {%- render 'breadcrumbs' -%}
-      <div class="b2b-hero__grid">
-        <div>
-          <p class="eyebrow">{%- render 'icon', icon: 'upload', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
-          <h1>{{ section.settings.heading | default: page.title }}</h1>
-          <div class="rte text-lg">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
-          {%- capture c1_ok -%}{%- render 'link-exists', url: section.settings.cta_1_link -%}{%- endcapture -%}
-          {%- capture c2_ok -%}{%- render 'link-exists', url: section.settings.cta_2_link -%}{%- endcapture -%}
-          <div class="btn-row" style="margin-top:24px">
-            {%- if section.settings.cta_1_label != blank and c1_ok == 'true' -%}<a class="btn" href="{{ section.settings.cta_1_link }}">{{ section.settings.cta_1_label }}</a>{%- endif -%}
-            {%- if section.settings.cta_2_label != blank and c2_ok == 'true' -%}<a class="btn btn--outline" href="{{ section.settings.cta_2_link }}">{{ section.settings.cta_2_label }}</a>{%- endif -%}
-          </div>
+    {%- render 'breadcrumbs' -%}
+    <div class="print-hero__grid">
+      <div class="print-hero__text">
+        <p class="eyebrow print-hero__eyebrow">{%- render 'icon', icon: 'upload', class: 'icon--xs' -%} {{ section.settings.eyebrow }}</p>
+        <h1 class="print-hero__title">{{ heading }}</h1>
+        <div class="rte text-lg print-hero__intro">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
+        {%- capture c1_ok -%}{%- render 'link-exists', url: section.settings.cta_1_link -%}{%- endcapture -%}
+        {%- capture c2_ok -%}{%- render 'link-exists', url: section.settings.cta_2_link -%}{%- endcapture -%}
+        <div class="btn-row print-hero__ctas">
+          {%- if section.settings.cta_1_label != blank and section.settings.cta_1_link != blank and c1_ok == 'true' -%}<a class="btn" href="{{ section.settings.cta_1_link }}">{{ section.settings.cta_1_label }}</a>{%- endif -%}
+          {%- if section.settings.cta_2_label != blank and section.settings.cta_2_link != blank and c2_ok == 'true' -%}<a class="btn btn--outline" href="{{ section.settings.cta_2_link }}">{{ section.settings.cta_2_label }}</a>{%- endif -%}
         </div>
-        <div class="media" style="aspect-ratio:1/1">
-          {%- if section.settings.image != blank -%}
-            {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 45vw, 100vw', widths: '480, 640, 800, 1000, 1200', priority: true -%}
-          {%- else -%}{%- render 'fallback-image', key: section.settings.fallback_image, alt: '', priority: true -%}{%- endif -%}
-          {%- if section.settings.image_badge != blank -%}<span class="badge badge--logo" style="position:absolute;top:14px;left:14px">{%- render 'icon', icon: 'upload' -%}{{ section.settings.image_badge }}</span>{%- endif -%}
-        </div>
+        {%- assign proofs = section.blocks | where: 'type', 'proof' -%}
+        {%- if proofs.size > 0 -%}
+          <ul class="print-proof" role="list">
+            {%- for block in proofs -%}
+              <li {{ block.shopify_attributes }}>{%- render 'icon', icon: block.settings.icon, class: 'icon--sm' -%}<span>{{ block.settings.text }}</span></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
-    </header>
+      <div class="print-hero__media">
+        {%- if section.settings.image != blank -%}
+          {%- render 'image', image: section.settings.image, sizes: '(min-width: 1360px) 640px, (min-width: 990px) 48vw, 100vw', widths: '480, 640, 800, 1000, 1280, 1600', priority: true, alt: section.settings.image_alt -%}
+        {%- else -%}
+          {%- render 'fallback-image', key: section.settings.fallback_image, alt: section.settings.image_alt, priority: true -%}
+        {%- endif -%}
+        {%- if section.settings.image_badge != blank -%}<span class="badge badge--logo print-hero__badge">{%- render 'icon', icon: 'upload' -%}{{ section.settings.image_badge }}</span>{%- endif -%}
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="section color-scheme-1">
+{%- if step_count > 0 -%}
+<div class="section print-how color-scheme-1">
   <div class="page-width">
-    <div class="section-head"><h2 class="section-head__title">{{ section.settings.steps_heading }}</h2></div>
-    {%- assign step_count = 0 -%}{%- for block in section.blocks -%}{%- if block.type == 'step' -%}{%- assign step_count = step_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
-    <ol class="steps-row" style="--steps: {{ step_count | at_least: 1 }}">
+    <div class="section-head">
+      <div>
+        <h2 class="section-head__title">{{ section.settings.steps_heading }}</h2>
+        {%- if section.settings.steps_text != blank -%}<p class="section-head__text muted">{{ section.settings.steps_text }}</p>{%- endif -%}
+      </div>
+    </div>
+    <ol class="print-steps" role="list" style="--steps: {{ step_count }}">
       {%- assign n = 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'step' -%}
           {%- assign n = n | plus: 1 -%}
-          <li class="step" {{ block.shopify_attributes }}>
-            <span class="step__num" aria-hidden="true">{{ n }}</span>
-            <h3>{{ block.settings.title }}</h3>
-            <p>{{ block.settings.text }}</p>
+          <li class="print-step" {{ block.shopify_attributes }}>
+            <span class="print-step__num" aria-hidden="true">{%- if block.settings.icon != 'none' -%}{%- render 'icon', icon: block.settings.icon, class: 'icon--sm' -%}{%- else -%}{{ n }}{%- endif -%}</span>
+            <div class="print-step__body">
+              <p class="print-step__label">{{ 'print.step' | t: index: n }}</p>
+              <h3>{{ block.settings.title }}</h3>
+              {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
+            </div>
           </li>
         {%- endif -%}
       {%- endfor -%}
     </ol>
   </div>
 </div>
+{%- endif -%}
 
-<div class="section section--flush-top color-scheme-1">
+{%- if option_count > 0 -%}
+<div class="section section--flush-top print-options color-scheme-1">
   <div class="page-width">
-    <div class="section-head"><h2 class="section-head__title">{{ section.settings.options_heading }}</h2></div>
-    <ul class="options-grid" role="list" style="--cols: 3">
+    <div class="section-head">
+      <div>
+        <h2 class="section-head__title">{{ section.settings.options_heading }}</h2>
+        {%- if section.settings.options_text != blank -%}<p class="section-head__text muted">{{ section.settings.options_text }}</p>{%- endif -%}
+      </div>
+    </div>
+    <ul class="print-grid" role="list">
       {%- for block in section.blocks -%}
         {%- if block.type == 'option' -%}
+          {%- liquid
+            assign p = block.settings.product
+            assign o_link = block.settings.link
+            if o_link == blank and p != blank
+              assign o_link = p.url
+            endif
+            assign o_ok = 'false'
+            if o_link != blank
+              capture o_ok
+                render 'link-exists', url: o_link
+              endcapture
+            endif
+            assign o_title = block.settings.title | default: p.title
+            assign o_img = block.settings.image | default: p.featured_image
+            assign o_min = p.metafields.custom.drukopties.value.min_aantal | default: 0
+            assign o_pos = p.metafields.custom.drukopties.value.posities
+          -%}
           <li {{ block.shopify_attributes }}>
-            <article class="option-card">
-              <div class="option-card__media">
-                {%- if block.settings.image != blank -%}{%- render 'image', image: block.settings.image, sizes: '(min-width: 750px) 33vw, 100vw', widths: '360, 480, 640, 800' -%}{%- else -%}{%- render 'fallback-image', key: block.settings.fallback_image, alt: '' -%}{%- endif -%}
+            <article class="print-card{% if o_ok == 'true' %} print-card--link{% endif %}">
+              <div class="print-card__media">
+                {%- if o_img != blank -%}
+                  {%- render 'image', image: o_img, sizes: '(min-width: 1360px) 320px, (min-width: 990px) 24vw, (min-width: 750px) 33vw, 50vw', widths: '240, 360, 480, 640, 800', alt: '' -%}
+                {%- else -%}
+                  {%- render 'fallback-image', key: block.settings.fallback_image, alt: '' -%}
+                {%- endif -%}
               </div>
-              <div class="option-card__body">
-                <h3>{{ block.settings.title }}</h3>
-                <p>{{ block.settings.text }}</p>
-                {%- capture o_ok -%}{%- render 'link-exists', url: block.settings.link -%}{%- endcapture -%}
-                {%- if block.settings.link != blank and o_ok == 'true' -%}<a class="link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>{%- endif -%}
+              <div class="print-card__body">
+                <h3 class="print-card__title">
+                  {%- if o_ok == 'true' -%}<a href="{{ o_link }}">{{ o_title }}</a>{%- else -%}{{ o_title }}{%- endif -%}
+                </h3>
+                {%- if block.settings.text != blank -%}<p class="print-card__text">{{ block.settings.text }}</p>{%- endif -%}
+                {%- if o_pos.size > 0 or o_min > 0 -%}
+                  <ul class="print-card__facts" role="list">
+                    {%- if o_pos.size > 0 -%}<li class="print-card__fact--pos">{%- render 'icon', icon: 'pin', class: 'icon--xs' -%}<span>{{ o_pos | join: ' · ' }}</span></li>{%- endif -%}
+                    {%- if o_min > 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.min_qty' | t: count: o_min }}</span></li>{%- elsif o_min == 1 -%}<li>{%- render 'icon', icon: 'box', class: 'icon--xs' -%}<span>{{ 'print.from_one' | t }}</span></li>{%- endif -%}
+                  </ul>
+                {%- endif -%}
+                <div class="print-card__foot">
+                  {%- if p != blank and block.settings.show_price -%}
+                    <p class="print-card__price">
+                      {%- if p.price_varies -%}<span class="print-card__from">{{ 'price.from' | t }}</span> {% endif -%}
+                      {%- render 'vat-money', cents: p.price_min, tag: 'strong' -%}
+                      <span class="print-card__vat" data-vat-show="incl">{{ 'price.incl' | t }}</span><span class="print-card__vat" data-vat-show="excl">{{ 'price.excl' | t }}</span>
+                    </p>
+                  {%- endif -%}
+                  {%- if o_ok == 'true' and block.settings.link_label != blank -%}<span class="print-card__cta" aria-hidden="true">{{ block.settings.link_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</span>{%- endif -%}
+                </div>
               </div>
             </article>
           </li>
         {%- endif -%}
       {%- endfor -%}
     </ul>
+
+    {%- capture q_ok -%}{%- render 'link-exists', url: section.settings.quote_link -%}{%- endcapture -%}
+    {%- if section.settings.quote_heading != blank -%}
+      <div class="print-quote">
+        <span class="print-quote__icon" aria-hidden="true">{%- render 'icon', icon: 'tent' -%}</span>
+        <div class="print-quote__text">
+          <h3>{{ section.settings.quote_heading }}</h3>
+          {%- if section.settings.quote_text != blank -%}<p>{{ section.settings.quote_text }}</p>{%- endif -%}
+        </div>
+        {%- if section.settings.quote_label != blank and section.settings.quote_link != blank and q_ok == 'true' -%}<a class="btn" href="{{ section.settings.quote_link }}">{{ section.settings.quote_label }}</a>{%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>
+{%- endif -%}
 
-<div class="section color-scheme-4" id="PrintContact">
+<div class="section print-artwork color-scheme-4" id="PrintContact">
   <div class="page-width split">
-    <div>
+    <div class="print-artwork__rules">
       <h2>{{ section.settings.specs_heading }}</h2>
-      <ul class="checklist" role="list">
+      <ul class="print-rules" role="list">
         {%- assign spec_items = section.settings.specs | newline_to_br | split: '<br />' -%}
-        {%- for it in spec_items -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}
+        {%- for it in spec_items -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li><span class="print-rules__icon" aria-hidden="true">{%- render 'icon', icon: 'check', class: 'icon--sm' -%}</span><span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}
       </ul>
-      <p class="notice notice--warn" style="margin-top:20px">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>
+      <p class="notice notice--warn print-artwork__notice">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>
+      {%- liquid
+        assign show_guide = false
+        assign show_template = false
+        if section.settings.guide_link != blank and section.settings.guide_label != blank
+          capture g_ok
+            render 'link-exists', url: section.settings.guide_link
+          endcapture
+          if g_ok == 'true'
+            assign show_guide = true
+          endif
+        endif
+        if section.settings.template_link != blank and section.settings.template_label != blank
+          assign show_template = true
+        endif
+      -%}
+      {%- if show_guide or show_template -%}
+        <ul class="print-artwork__links" role="list">
+          {%- if show_guide -%}<li><a class="link" href="{{ section.settings.guide_link }}">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}<span>{{ section.settings.guide_label }}</span></a></li>{%- endif -%}
+          {%- if show_template -%}<li><a class="link" href="{{ section.settings.template_link }}" download>{%- render 'icon', icon: 'download', class: 'icon--sm' -%}<span>{{ section.settings.template_label }}</span></a></li>{%- endif -%}
+        </ul>
+      {%- endif -%}
     </div>
-    <div class="panel">
+    <div class="panel print-artwork__form">
       <h2 class="panel__title">{{ section.settings.form_heading }}</h2>
       <p class="muted">{{ section.settings.form_text }}</p>
       {%- form 'contact', id: form_id -%}
@@ -94,14 +212,15 @@
           <div class="form-grid form-grid--2">
             <div class="field"><label class="field__label" for="P-name">{{ 'forms.name' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-name" name="contact[name]" autocomplete="name" required></div>
             <div class="field"><label class="field__label" for="P-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="P-email" type="email" name="contact[email]" autocomplete="email" required></div>
-            <div class="field"><label class="field__label" for="P-company">{{ 'forms.company' | t }}</label><input class="input" id="P-company" name="contact[Bedrijfsnaam]" autocomplete="organization"></div>
-            <div class="field"><label class="field__label" for="P-phone">{{ 'forms.phone' | t }}</label><input class="input" id="P-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
+            <div class="field"><label class="field__label" for="P-company">{{ 'forms.company' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="P-company" name="contact[Bedrijfsnaam]" autocomplete="organization"></div>
+            <div class="field"><label class="field__label" for="P-phone">{{ 'forms.phone' | t }} <span class="field__opt">({{ 'general.optional' | t }})</span></label><input class="input" id="P-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
             <div class="field"><label class="field__label" for="P-product">{{ 'quote.line_product' | t }}</label><input class="input" id="P-product" name="contact[Product]"></div>
-            <div class="field"><label class="field__label" for="P-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="P-qty" type="number" min="1" name="contact[Aantal]"></div>
+            <div class="field"><label class="field__label" for="P-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="P-qty" type="number" min="1" inputmode="numeric" name="contact[Aantal]"></div>
             <div class="field field--full"><label class="field__label" for="P-logo">{{ 'quote.logo_link' | t }}</label><input class="input" id="P-logo" type="url" name="contact[Link naar logo]" placeholder="https://" aria-describedby="P-logo-help"><p class="field__help" id="P-logo-help">{{ 'quote.logo_link_help' | t }}</p></div>
             <div class="field field--full"><label class="field__label" for="P-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="P-body" name="contact[body]" rows="4"></textarea></div>
           </div>
           <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button></div>
+          {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
         {%- endif -%}
       {%- endform -%}
     </div>
@@ -113,10 +232,13 @@
   "name": "Bedrukken",
   "class": "section-page-bedrukken",
   "settings": [
+    { "type": "header", "content": "Bovenaan" },
     { "type": "text", "id": "eyebrow", "label": "Bovenregel", "default": "Met jouw logo" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Jouw logo op je tent of statafelrok" },
+    { "type": "text", "id": "accent_word", "label": "Woord met luifelstreep", "info": "Eén woord uit de kop dat de oranje streep eronder krijgt (merkboek 4.2). Leeg = geen streep.", "default": "logo" },
     { "type": "richtext", "id": "intro", "label": "Intro (als de pagina leeg is)", "default": "<p>Je uploadt je logo, wij maken een drukproef. Pas na jouw akkoord gaan we drukken.</p>" },
     { "type": "image_picker", "id": "image", "label": "Beeld" },
+    { "type": "text", "id": "image_alt", "label": "Alt-tekst beeld", "default": "Easy-up partytent in rood met voorbeeldopdruk Klapklaar op de luifel, schuin vooraanzicht" },
     { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
         { "value": "none", "label": "Geen (lege plek)" },
         { "value": "scene-hero", "label": "Tent met statafels" },
@@ -130,18 +252,45 @@
     { "type": "url", "id": "cta_1_link", "label": "Link 1" },
     { "type": "text", "id": "cta_2_label", "label": "Knop 2", "default": "Ontwerp je statafelrok" },
     { "type": "url", "id": "cta_2_link", "label": "Link 2" },
+    { "type": "header", "content": "Stappen en producten" },
     { "type": "text", "id": "steps_heading", "label": "Kop stappen", "default": "Zo werkt het" },
+    { "type": "text", "id": "steps_text", "label": "Tekst stappen" },
     { "type": "text", "id": "options_heading", "label": "Kop drukopties", "default": "Wat kunnen we bedrukken?" },
+    { "type": "text", "id": "options_text", "label": "Tekst drukopties" },
+    { "type": "text", "id": "quote_heading", "label": "Kop offerteband", "info": "Leeg = geen band onder de producten." },
+    { "type": "text", "id": "quote_text", "label": "Tekst offerteband" },
+    { "type": "text", "id": "quote_label", "label": "Knop offerteband", "default": "Offerte aanvragen" },
+    { "type": "url", "id": "quote_link", "label": "Link offerteband" },
+    { "type": "header", "content": "Aanleveren en formulier" },
     { "type": "text", "id": "specs_heading", "label": "Kop aanleveren", "default": "Zo lever je je logo aan" },
     { "type": "textarea", "id": "specs", "label": "Aanleverregels", "default": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nGeef je Pantone- of HEX-kleuren door als je die hebt\nLevertijd 10–15 werkdagen na akkoord drukproef" },
+    { "type": "url", "id": "guide_link", "label": "Link naar aanleverguide", "info": "Bijvoorbeeld het artikel over logo aanleveren. Leeg of niet gevonden = geen link." },
+    { "type": "text", "id": "guide_label", "label": "Tekst link aanleverguide", "default": "Lees alles over logo aanleveren" },
+    { "type": "url", "id": "template_link", "label": "Link naar drukssjabloon", "info": "Een bestand uit Content › Bestanden (PDF of AI). Leeg = geen downloadlink." },
+    { "type": "text", "id": "template_label", "label": "Tekst downloadlink", "default": "Download het drukssjabloon" },
     { "type": "text", "id": "form_heading", "label": "Kop formulier", "default": "Vraag over bedrukken?" },
     { "type": "text", "id": "form_text", "label": "Tekst formulier", "default": "Laat weten wat je wilt laten bedrukken. Je krijgt een voorstel met drukproef." }
   ],
   "blocks": [
-    { "type": "step", "name": "Stap", "settings": [ { "type": "text", "id": "title", "label": "Titel", "default": "Upload je logo" }, { "type": "text", "id": "text", "label": "Tekst" } ] },
+    { "type": "proof", "name": "Zekerheid (bovenaan)", "settings": [
+      { "type": "select", "id": "icon", "label": "Icoon", "options": [
+        { "value": "proof", "label": "Drukproef" }, { "value": "box", "label": "Doos" }, { "value": "euro", "label": "Euro" },
+        { "value": "clock", "label": "Klok" }, { "value": "check", "label": "Vinkje" }, { "value": "truck", "label": "Levering" }, { "value": "upload", "label": "Upload" }
+      ], "default": "check" },
+      { "type": "text", "id": "text", "label": "Tekst", "default": "Eerst een drukproef" }
+    ] },
+    { "type": "step", "name": "Stap", "settings": [
+      { "type": "select", "id": "icon", "label": "Icoon", "options": [
+        { "value": "none", "label": "Nummer" }, { "value": "tent", "label": "Tent" }, { "value": "upload", "label": "Upload" },
+        { "value": "proof", "label": "Drukproef" }, { "value": "truck", "label": "Levering" }, { "value": "check", "label": "Vinkje" }
+      ], "default": "none" },
+      { "type": "text", "id": "title", "label": "Titel", "default": "Upload je logo" },
+      { "type": "text", "id": "text", "label": "Tekst" }
+    ] },
     { "type": "option", "name": "Drukoptie", "settings": [
-      { "type": "image_picker", "id": "image", "label": "Beeld" },
-      { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
+      { "type": "product", "id": "product", "label": "Product", "info": "Toont beeld, 'vanaf'-prijs en minimale afname (custom.drukopties) van dit product en linkt ernaar." },
+      { "type": "image_picker", "id": "image", "label": "Eigen beeld", "info": "Leeg = het beeld van het product." },
+      { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zonder product en zonder beeld.", "options": [
         { "value": "none", "label": "Geen (lege plek)" },
         { "value": "scene-hero", "label": "Tent met statafels" },
         { "value": "scene-zakelijk", "label": "Zakelijke opstelling" },
@@ -149,9 +298,10 @@
         { "value": "tent-front", "label": "Partytent met logo, vooraanzicht" },
         { "value": "rok-logo", "label": "Statafelrok met logo" }
       ], "default": "none" },
-      { "type": "text", "id": "title", "label": "Titel", "default": "Luifel" },
+      { "type": "text", "id": "title", "label": "Titel", "info": "Leeg = de producttitel." },
       { "type": "text", "id": "text", "label": "Tekst" },
-      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "checkbox", "id": "show_price", "label": "'Vanaf'-prijs tonen", "default": true },
+      { "type": "url", "id": "link", "label": "Link", "info": "Leeg = naar het product." },
       { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Bekijk" }
     ] }
   ],

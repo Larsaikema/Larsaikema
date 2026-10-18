@@ -87,7 +87,6 @@ def('usp-rotator', class extends HTMLElement {
 		const h = Math.floor(left / 60);
 		const m = left % 60;
 		const n = Math.round((r.ship - r.today) / 864e5);
-		// weekend: 'zondag besteld, maandag verzonden'
 		const wk = !(d.days || 'ma,di,wo,do,vr').includes(DAYS[r.today.getUTCDay()]);
 		const shipDay = !wk && !(d.holidays || '').includes(r.today.toISOString().slice(0, 10));
 		const v = {
@@ -96,7 +95,7 @@ def('usp-rotator', class extends HTMLElement {
 			DAY: dayFmt[0].format(r.today),
 			DATE: r.shipsToday ? d.today : n === 1 && shipDay ? d.tomorrow : dayFmt[n < 7 ? 0 : 1].format(r.ship).replace('.', ''),
 		};
-		return [...(r.shipsToday ? [left <= 360 ? d.cdL : d.todayL, d.cdM] : shipDay ? [d.after] : [wk && d.day ? d.day : d.later]), d.ships].map((s) =>
+		return [...(r.shipsToday ? (left <= 360 ? [d.cdL, d.cdM, d.cdS, d.todayS] : [d.todayL, d.todayS, d.cdM, d.cdS]) : shipDay ? [d.after] : [wk && d.day ? d.day : d.later]), d.ships].filter(Boolean).map((s) =>
 			s.replace(/__([A-Z]+)__/g, (all, x, i) => (x in v ? (i ? v[x] : v[x][0].toUpperCase() + v[x].slice(1)) : all))
 		);
 	}
@@ -190,8 +189,14 @@ const init = (w) => {
 	});
 	order(w);
 	wide.addEventListener('change', () => order(w));
+	const c = w.querySelector('[data-cart-toggle]');
+	if (c && KK.cartType != 'page' && document.getElementById('CartDrawer') && !document.querySelector('.cart-page')) {
+		c.setAttribute('role', 'button');
+		c.setAttribute('aria-haspopup', 'dialog');
+		c.addEventListener('keydown', (e) => e.key == ' ' && (e.preventDefault(), c.click()));
+	}
 };
-const run = () => $$('.header-wrap').forEach(init);
+const run = () => ($$('.header-wrap').forEach(init), $$('[data-loc-css]').forEach((d) => once(d, () => load(d.dataset.locCss, 1).catch(() => {}))));
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', run) : run();
 document.addEventListener('shopify:section:load', run);
 })();

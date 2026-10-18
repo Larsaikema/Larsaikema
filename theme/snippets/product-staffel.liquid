@@ -4,15 +4,18 @@
   - staffel_mode 'automatic' (a real Shopify automatic discount exists): a tier is a button that sets the quantity, and
     the hint shows the price per piece plus the step to the next tier ('Nog 2 erbij voor 5% korting').
   - 'quote' (default until those discounts exist): the cart charges the normal price, so the block never promises a cart
-    discount. The title says it first ('Staffelprijs met offerte'), then the tiers as offerte prices, 'In je winkelwagen
-    betaal je de stukprijs …' and the link that opens the inline offerte form with the quantity filled in (product-form.js); for a
-    quantity in a tier the hint compares the cart total with the offerte total. main-product then leaves out its separate
-    Zakelijk nudge.
+    discount. The title says it first ('Staffelprijs met offerte'), then the tiers as offerte prices, 'Deze prijzen krijg je
+    met een offerte, ook als particulier of vereniging.' plus the reply time (settings.response_time) and the link that opens
+    the inline offerte form with the quantity filled in (product-form.js); for a quantity in a tier the hint compares the
+    cart total with the offerte total. main-product then leaves out its separate Zakelijk nudge.
   - 'hide': the tiers only, no hint and no promise.
   Params: product, block, section_id, current_variant, staffel (parsed metafield), quote_url, nudge_url ('#ProductQuote'
   when the section has the inline offerte form), is_config + unit (a configurator product counts in its unit, e.g. m²).
 {%- endcomment -%}
-{%- if staffel != blank and staffel.size > 0 -%}
+{%- if staffel != blank and staffel.size > 0 and current_variant.available == false -%}
+  {%- comment -%} sold-out variant: no tiers under a disabled button; the empty slot lets the next variant swap them back {%- endcomment -%}
+  <div data-dynamic="staffel" hidden></div>
+{%- elsif staffel != blank and staffel.size > 0 -%}
   {%- liquid
     assign staffel_mode = settings.staffel_mode | default: 'quote'
     assign staffel_auto = false
@@ -39,8 +42,8 @@
   {%- if staffel_mode == 'quote' -%}
     {%- comment -%}
       Quote mode: one calm 'Staffelprijs met offerte' box under the buy area. The title says up front that these prices
-      come with an offerte (never read as a cart price), the foot says the cart charges the unit price and that anyone
-      can ask (particulier, vereniging, bedrijf), and the link opens the inline offerte form with the quantity filled in.
+      come with an offerte (never read as a cart price), the foot says so again and that anyone can ask (particulier,
+      vereniging, bedrijf), and the link opens the inline offerte form with the quantity filled in.
       The hint compares the cart total with the offerte total once the quantity reaches a tier.
     {%- endcomment -%}
     <div class="staffel staffel--quote" data-dynamic="staffel" data-staffel="{{ staffel | json | escape }}" data-mode="quote" data-unit-price="{{ current_variant.price }}" role="group" aria-labelledby="StaffelTitle-{{ section_id }}" {{ block.shopify_attributes }}>
@@ -60,7 +63,7 @@
         {%- endfor -%}
       </ul>
       <p class="staffel__hint" data-staffel-hint aria-live="polite" data-tpl="{{ 'product.staffel_quote_hint_html' | t: qty: '__QTY__', unit: s_word, quote: '__QUOTE__', cart: '__CART__' | escape }}"></p>
-      <p class="staffel__foot">{{ 'product.staffel_note_quote' | t }} <a class="link" href="{{ s_quote_url }}" data-quote-link{% if s_quote_url == '#ProductQuote' %} data-open-details{% endif %}>{{ 'product.quote_cta' | t }}</a></p>
+      <p class="staffel__foot">{{ 'product.staffel_foot_quote' | t }}{% if settings.response_time != blank %} {{ settings.response_time }}{% endif %} <a class="link" href="{{ s_quote_url }}" data-quote-link{% if s_quote_url == '#ProductQuote' %} data-open-details{% endif %}>{{ 'product.quote_cta' | t }}</a></p>
     </div>
   {%- else -%}
   <div class="staffel staffel--{{ staffel_mode }}" data-dynamic="staffel" data-staffel="{{ staffel | json | escape }}" data-mode="{{ staffel_mode }}" data-unit-price="{{ current_variant.price }}" role="group" aria-labelledby="StaffelTitle-{{ section_id }}" {{ block.shopify_attributes }}>

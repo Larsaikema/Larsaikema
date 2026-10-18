@@ -1,4 +1,4 @@
-/* Klapklaar cart UI (drawer + cart page). Notes: snippets/cart-line.liquid */
+/* cart UI (drawer + page). Notes: snippets/cart-line */
 (() => {
 const KK = window.KK, cart = KK?.cart;
 if (!cart || KK.cartUi) return;
@@ -16,7 +16,7 @@ Object.assign(cart, {
 		cart.render(x.sections);
 		KK.updateCartCount(x);
 		KK.emit('cart:changed', x);
-		/* the subtotal as shown (btw mode, before a cart discount) */
+		// the subtotal as shown
 		const r = $('#CartDrawer[open] .cart-summary__row dd,.cart-page .cart-summary__row dd'), ex = d.documentElement.dataset.vat == 'excl' ? ` ${KK.strings.excl}` : '';
 		cart.say((x.item_count ? msg.msgUpdated?.replace('__TOTAL__', r ? r.innerText.trim() + ex : KK.formatMoney(KK.vatShown(x.total_price))) : msg.msgEmpty) || '');
 		return x;

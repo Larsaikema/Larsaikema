@@ -18,8 +18,9 @@
     previous variant never lands in the cart. Ticks carry over into the fresh add-on list.
   - Staffel: tier buttons set the quantity; the hint compares quote and cart price in quote mode (never a cart discount).
   - 'Nog x tonen' for add-ons beyond the block's visible count; a ticked add-on is never hidden.
-  - Sticky bar: phones whenever the main button is off screen, from 990 px a floating card while scrolling back up, never
-    next to the main button (brand 4.2); a keyboard-focused element (:focus-visible, not a tap that focuses <main>) is
+  - Sticky bar: once the main button has scrolled out above the header (phones: a bar; from 990 px a floating card while
+    scrolling back up), never before the options were seen and never next to the main button (brand 4.2); the total
+    carries 'excl. btw' in Zakelijk mode; a keyboard-focused element (:focus-visible, not a tap that focuses <main>) is
     scrolled clear of it (WCAG 2.4.11).
   - Inline offerte form: Dutch validation messages per field (data-msg-required), focus on the confirmation.
 {%- endcomment -%}

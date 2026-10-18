@@ -3,7 +3,8 @@
     "main": {
       "type": "main-article",
       "settings": {
-        "products_heading": "Producten uit dit artikel"
+        "products_heading": "Producten uit dit artikel",
+        "help_link": "shopify://pages/contact"
       }
     },
     "more": {

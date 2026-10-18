@@ -6,7 +6,6 @@
 .predictive__group-title{display:block;margin:8px 8px 6px;color:var(--c-kiezel)}
 .predictive__item{display:flex;align-items:center;gap:12px;padding:8px;border-radius:var(--radius-input);text-decoration:none}
 .predictive__item:hover{background:var(--c-zand)}
-/* the option chosen with the arrow keys: Inkt ring (brand focus ring, inset to stay inside the list) */
 .predictive [aria-selected="true"]{background:var(--c-zand);outline:3px solid var(--c-inkt);outline-offset:-3px}
 .predictive__thumb{flex:none;width:56px;height:56px;border-radius:8px;background:var(--c-media);overflow:hidden}
 .predictive__thumb img{width:100%;height:100%;object-fit:contain}
@@ -26,10 +25,13 @@
 .predictive__queries .predictive__group-title{flex-basis:100%;margin:8px 0 0}
 .predictive__queries a{padding:6px 12px;border:1.5px solid var(--c-kiezel);border-radius:999px;font-size:14px;text-decoration:none}
 .predictive__queries a:hover{border-color:var(--c-inkt);background:var(--c-tint-wit)}
-.predictive__queries a[aria-selected="true"]{border-color:var(--c-inkt);background:var(--c-tint-wit);outline-offset:2px}
 @media (max-width:989px){.predictive{position:fixed;top:var(--predictive-top,120px);left:8px;right:8px;max-height:calc(100dvh - var(--predictive-top,120px) - 12px)}}
 @media (min-width:990px){.predictive{min-width:min(760px,90vw)}.predictive__inner{padding:16px}.predictive__listbox{grid-template-columns:1.4fr 1fr;gap:8px 24px}.predictive__footer{margin:4px -16px -16px;padding:6px 16px 12px}
-/* only products (or only the other groups): one column over the full width, products two by two, no empty half */
 .predictive__listbox:has(>.predictive__col:empty){grid-template-columns:1fr}
 .predictive__listbox:has(>.predictive__col:last-child:empty) .predictive__group{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
 .predictive__listbox:has(>.predictive__col:last-child:empty) .predictive__group-title{grid-column:1/-1}}
+.predictive__cats{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
+.predictive__cats .predictive__group-title{grid-column:1/-1}
+.predictive__cats .predictive__thumb{width:48px;height:48px}
+.predictive__cats img{object-fit:cover;scale:1.25}
+@media (min-width:990px){.predictive--start{min-width:0}.predictive--start .predictive__listbox{grid-template-columns:1fr}.predictive__cats{grid-template-columns:repeat(3,1fr)}}

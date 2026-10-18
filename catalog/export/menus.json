@@ -351,6 +351,42 @@
          "admin_type": "HTTP"
         },
         {
+         "title": "60 × 60 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=60+x+60+cm",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "70 × 70 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=70+x+70+cm",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "80 × 80 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=80+x+80+cm",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "120 × 60 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=120+x+60+cm",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "120 × 70 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=120+x+70+cm",
+         "admin_type": "HTTP"
+        },
+        {
+         "title": "160 × 60 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=160+x+60+cm",
+         "admin_type": "HTTP"
+        },
+        {
          "title": "Hoeveel statafels heb ik nodig?",
          "type": "article",
          "url": "/blogs/advies/hoeveel-statafels-per-gast",
@@ -403,6 +439,13 @@
        "handle": "actiepakketten",
        "admin_type": "COLLECTION",
        "items": [
+        {
+         "title": "Statafel HDPE met stretchrok",
+         "type": "product",
+         "url": "/products/pakket-statafel-hdpe-met-stretchrok",
+         "handle": "pakket-statafel-hdpe-met-stretchrok",
+         "admin_type": "PRODUCT"
+        },
         {
          "title": "Statafel met stretchrok",
          "type": "product",
@@ -803,6 +846,13 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Voetgewicht per staander",
+         "type": "product",
+         "url": "/products/voetgewicht-easy-up-15-kg",
+         "handle": "voetgewicht-easy-up-15-kg",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Stormbandenset",
          "type": "product",
          "url": "/products/stormbandenset-partytent",
@@ -821,6 +871,78 @@
          "type": "product",
          "url": "/products/regengoot-partytent",
          "handle": "regengoot-partytent",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
+       "title": "Voor stretch-, ster- en opblaasbare tenten",
+       "type": "collection",
+       "url": "/collections/onderdelen-stretch-ster-en-opblaasbare-tenten",
+       "handle": "onderdelen-stretch-ster-en-opblaasbare-tenten",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Zijwanden stretchtent",
+         "type": "product",
+         "url": "/products/zijwand-stretchtent",
+         "handle": "zijwand-stretchtent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Palen stretchtent",
+         "type": "product",
+         "url": "/products/palen-stretchtent",
+         "handle": "palen-stretchtent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Spanmateriaal en koppelgoten",
+         "type": "product",
+         "url": "/products/onderdelen-stretchtent",
+         "handle": "onderdelen-stretchtent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Zijwanden stertent",
+         "type": "product",
+         "url": "/products/zijwanden-stertent",
+         "handle": "zijwanden-stertent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Pomp opblaasbare tent",
+         "type": "product",
+         "url": "/products/pomp-opblaasbare-tent",
+         "handle": "pomp-opblaasbare-tent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Zijwand opblaasbare tent",
+         "type": "product",
+         "url": "/products/zijwand-opblaasbare-promotietent",
+         "handle": "zijwand-opblaasbare-promotietent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Luifel opblaasbare tent",
+         "type": "product",
+         "url": "/products/luifel-opblaasbare-promotietent",
+         "handle": "luifel-opblaasbare-promotietent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Verbindingstunnel",
+         "type": "product",
+         "url": "/products/verbindingstunnel-opblaasbare-tent",
+         "handle": "verbindingstunnel-opblaasbare-tent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Opbergtas met wielen",
+         "type": "product",
+         "url": "/products/opbergtas-opblaasbare-tent",
+         "handle": "opbergtas-opblaasbare-tent",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1223,7 +1345,7 @@
      ]
     },
     {
-     "title": "Actie",
+     "title": "Pakketten",
      "type": "collection",
      "url": "/collections/actiepakketten",
      "handle": "actiepakketten",
@@ -1236,6 +1358,13 @@
        "handle": "actiepakketten",
        "admin_type": "COLLECTION",
        "items": [
+        {
+         "title": "Statafel HDPE met stretchrok",
+         "type": "product",
+         "url": "/products/pakket-statafel-hdpe-met-stretchrok",
+         "handle": "pakket-statafel-hdpe-met-stretchrok",
+         "admin_type": "PRODUCT"
+        },
         {
          "title": "Statafel met stretchrok",
          "type": "product",
@@ -1437,7 +1566,7 @@
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Actiepakketten",
+     "title": "Pakketten",
      "type": "collection",
      "url": "/collections/actiepakketten",
      "handle": "actiepakketten",

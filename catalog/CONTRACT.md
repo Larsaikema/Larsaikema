@@ -116,9 +116,10 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 `partytenten` (parent) · `easy-up-partytenten` · `easy-up-premium` · `easy-up-professional` · `stretchtenten` ·
 `opblaasbare-tenten` · `stertenten` · `ster-en-opblaasbare-tenten` (both lines, one menu landing page) · `bedrukte-partytenten` · `partytent-onderdelen` · `zijwanden` ·
 `gewichten-en-verankering` · `tassen-en-wielsets` · `statafels` · `statafelrokken` · `statafelhoezen-met-strik` ·
-`statafelkleden` · `bedrukte-statafelhoezen` · `actiepakketten` · `meubilair` · `verlichting` · `accessoires` ·
+`statafelkleden` · `bedrukte-statafelhoezen` · `actiepakketten` (title and menu label ‘Pakketten’: without a compare-at price or `badge:actie` nothing may read as a temporary sale) · `meubilair` · `verlichting` · `accessoires` ·
 `zakelijk` (smart: tag = zakelijk) · `all` ·
 `easy-up-onderdelen` and `buizenframe-onderdelen` (manual: parts, walls, weights, lighting and heating whose `custom.systeem` holds `Easy-up` resp. `Buizenframe`; both under Accessoires in the main menu) ·
+`onderdelen-stretch-ster-en-opblaasbare-tenten` (manual, same rule for `Stretchtent`, `Stertent` and `Opblaasbare tent`, including their own part types `Stretchtent onderdeel`, `Stretchtent zijwand`, `Stertent zijwand` and `Opblaasbare tent accessoire`, which `partytent-onderdelen` and `accessoires` include too; child of `partytent-onderdelen`, Accessoires column in the main menu) ·
 `verwarming` (smart: product type = Verwarming, own menu entry under Accessoires) · `evenement` (afzetpalen, marktkraam, loper; the marktkraam is no longer in `accessoires`).
 Landing pages instead of filter URLs in the main menu (merchandising review 2026-10-18), each with its own intro, seo_tekst and
 kenmerken: `barkrukken`, `stoelen-en-banken`, `tafels` (Klaptafel, Terrastafel, Biertafelset, Bierbank), `transportkarren` (children of

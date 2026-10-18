@@ -1,6 +1,7 @@
 {%- comment -%}
   Collapsible tab of the main product (description, grouped specs, levering & retour, downloads, FAQ, safety, own text).
-  Renders nothing when the chosen source is empty. Params: product, block, current_variant, strip_included (description: leave out 'Wat je krijgt'), mode:
+  Renders nothing when the chosen source is empty. Params: product, block, current_variant, strip_included (description: leave out 'Wat je krijgt'),
+  strip_heading (description: leave out the section the compare card shows), skip_question (FAQ: leave out that question), mode:
   - blank / 'accordion': a closed (or 'Standaard open') accordion
   - 'panel': always open, a section with an h2 (the description in the details band)
   - 'card': an accordion on phones that is an open card with an h2 from 990 px: there the summary is hidden (no button
@@ -13,15 +14,27 @@
       {%- liquid
         # strip_included: the 'Wat zit erin' card is shown next to the description, so its 'Wat je krijgt' section
         # (up to the next h3) is left out here
+        # strip_heading: the compare card shows that section ('Premium of Professional?', snippets/product-compare)
         assign desc = product.description
-        if strip_included and desc contains '<h3>Wat je krijgt</h3>' and product.metafields.custom.included != blank
-          assign d_parts = desc | split: '<h3>Wat je krijgt</h3>'
-          assign d_rest = d_parts[1] | split: '<h3>'
-          assign desc = d_parts[0]
-          for chunk in d_rest offset: 1
-            assign desc = desc | append: '<h3>' | append: chunk
-          endfor
+        assign d_strip = ''
+        if strip_included and product.metafields.custom.included != blank
+          assign d_strip = 'Wat je krijgt|'
         endif
+        if strip_heading != blank
+          assign d_strip = d_strip | append: strip_heading
+        endif
+        assign d_strip = d_strip | split: '|'
+        for sh in d_strip
+          assign sh_tag = '<h3>' | append: sh | append: '</h3>'
+          if desc contains sh_tag
+            assign d_parts = desc | split: sh_tag
+            assign d_rest = d_parts[1] | split: '<h3>'
+            assign desc = d_parts[0]
+            for chunk in d_rest offset: 1
+              assign desc = desc | append: '<h3>' | append: chunk
+            endfor
+          endif
+        endfor
       -%}
       {%- if desc != blank -%}<div class="rte">{{ desc }}</div>{%- endif -%}
     {%- when 'specs' -%}
@@ -50,22 +63,54 @@
         -%}
         <div class="specs">
           {%- if current_variant.sku != blank -%}<p class="specs__sku">{{ 'product.sku' | t }} <span data-dynamic="sku">{{ current_variant.sku }}</span></p>{%- endif -%}
+          {%- comment -%}
+            Long tables (more than 14 rows) fold after the groups that reach 8 rows: from 990 px the card then ends in
+            'Alle specificaties (10 meer)', so it does not tower over the description next to it. Rendered open (no
+            JavaScript: everything shows); variant-picker.js closes it from 990 px and keeps it open on phones, where
+            the whole card is already an accordion (the summary is hidden there).
+          {%- endcomment -%}
+          {%- assign sp_total = 0 -%}
+          {%- for row in specs -%}{%- if row.waarde != blank -%}{%- assign sp_total = sp_total | plus: 1 -%}{%- endif -%}{%- endfor -%}
+          {%- assign sp_shown = 0 -%}
+          {%- assign sp_fold_at = 999 -%}
+          {%- if sp_total > 14 -%}{%- assign sp_fold_at = 8 -%}{%- endif -%}
+          {%- assign sp_head = '' -%}
+          {%- assign sp_tail = '' -%}
+          {%- assign sp_rest = 0 -%}
           {%- for g in groups -%}
+            {%- assign g_n = 0 -%}
             {%- capture g_rows -%}
               {%- for row in specs -%}
                 {%- if row.groep == g and row.waarde != blank -%}
                   {%- if skip_incl -%}{%- assign rl = row.label | downcase -%}{%- if rl == 'inbegrepen' or rl == 'niet inbegrepen' -%}{%- continue -%}{%- endif -%}{%- endif -%}
+                  {%- assign g_n = g_n | plus: 1 -%}
                   <tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde | replace: ' x ', ' × ' }}</td></tr>
                 {%- endif -%}
               {%- endfor -%}
             {%- endcapture -%}
             {%- if g_rows != blank -%}
-              <table class="specs__table">
-                {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
-                <tbody>{{ g_rows }}</tbody>
-              </table>
+              {%- capture g_table -%}
+                <table class="specs__table">
+                  {%- if g != blank -%}<caption>{{ g }}</caption>{%- endif -%}
+                  <tbody>{{ g_rows }}</tbody>
+                </table>
+              {%- endcapture -%}
+              {%- if sp_shown < sp_fold_at -%}
+                {%- assign sp_head = sp_head | append: g_table -%}
+                {%- assign sp_shown = sp_shown | plus: g_n -%}
+              {%- else -%}
+                {%- assign sp_tail = sp_tail | append: g_table -%}
+                {%- assign sp_rest = sp_rest | plus: g_n -%}
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
+          {{ sp_head }}
+          {%- if sp_tail != blank -%}
+            <details class="specs__fold" data-fold-desktop open>
+              <summary class="specs__fold-toggle"><span class="specs__fold-more">{{ 'product.specs_more' | t: count: sp_rest }}</span><span class="specs__fold-less">{{ 'product.read_less' | t }}</span>{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</summary>
+              <div class="specs">{{ sp_tail }}</div>
+            </details>
+          {%- endif -%}
           {%- assign show_weight = false -%}
           {%- if product.metafields.custom.gewicht_kg != blank and has_weight == false -%}{%- assign show_weight = true -%}{%- endif -%}
           {%- assign show_packed = false -%}
@@ -112,9 +157,38 @@
     {%- when 'faq' -%}
       {%- assign faq = product.metafields.custom.faq.value -%}
       {%- if faq != blank and faq.size > 0 -%}
-        <dl class="pdp-faq">
-          {%- for item in faq -%}<dt>{{ item.vraag }}</dt><dd>{{ item.antwoord }}</dd>{%- endfor -%}
-        </dl>
+        {%- comment -%}
+          One answer per page: a question is left out when the page already answers it, i.e. the compare card's question
+          (skip_question, 'Premium of Professional?'), a question heading of the description ('Polyester of heavy duty PVC?'
+          finds 'Polyester of heavy duty PVC: wat kies ik?'), or an answer with a sentence that stands word for word in the
+          description ('Meet je laadruimte voor de zekerheid even na.').
+        {%- endcomment -%}
+        {%- liquid
+          assign d_text = product.description | strip_html | downcase
+          assign skip_qs = skip_question | remove: '?' | strip | downcase | append: '|'
+          assign d_heads = product.description | split: '<h3>'
+          for dh in d_heads offset: 1
+            assign dh_t = dh | split: '</h3>' | first
+            if dh_t contains '?'
+              assign skip_qs = skip_qs | append: dh_t | remove: '?' | strip | downcase | append: '|'
+            endif
+          endfor
+          assign skip_qs = skip_qs | split: '|'
+        -%}
+        {%- capture faq_rows -%}
+          {%- for item in faq -%}
+            {%- assign q_lc = item.vraag | downcase -%}
+            {%- assign q_dup = false -%}
+            {%- for sq in skip_qs -%}{%- if sq != blank and q_lc contains sq -%}{%- assign q_dup = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+            {%- unless q_dup -%}
+              {%- assign a_sents = item.antwoord | downcase | split: '. ' -%}
+              {%- for sn in a_sents -%}{%- assign sn2 = sn | strip -%}{%- if sn2.size > 40 and d_text contains sn2 -%}{%- assign q_dup = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+            {%- endunless -%}
+            {%- if q_dup -%}{%- continue -%}{%- endif -%}
+            <dt>{{ item.vraag }}</dt><dd>{{ item.antwoord }}</dd>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if faq_rows != blank -%}<dl class="pdp-faq">{{ faq_rows }}</dl>{%- endif -%}
       {%- endif -%}
     {%- when 'safety' -%}
       {%- assign ptype = product.type | downcase -%}

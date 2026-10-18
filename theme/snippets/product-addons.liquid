@@ -30,7 +30,8 @@
   endif
 -%}
 <div class="addons-slot" data-dynamic="addons" {{ block.shopify_attributes }}>
-{%- if addon_n > 0 -%}
+{%- comment -%} a sold-out variant offers no extras to tick under a disabled button {%- endcomment -%}
+{%- if addon_n > 0 and current_variant.available -%}
   {%- assign addon_visible = block.settings.visible | default: 3 -%}
   <fieldset class="addons" data-addon-follow="{{ addon_follow }}" data-addons data-visible="{{ addon_visible }}">
     <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
@@ -45,7 +46,8 @@
         {%- assign x0 = xs | slice: 0 | downcase -%}{{ x0 }}{{ xs | slice: 1, 200 }}{% unless forloop.last %}, {% endunless %}
       {%- endfor -%}
     {%- endcapture -%}
-    <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}. {% endif -%}{{ 'product.addons_help' | t }}</p>
+    {%- comment -%} right above the buy button the button's live total says what a tick does; the how-to line only shows without a 'Niet inbegrepen' line {%- endcomment -%}
+    <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}.{%- else -%}{{ 'product.addons_help' | t }}{%- endif -%}</p>
     {%- if block.settings.deal != blank -%}<p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
     {%- liquid
       # Order: first the add-ons that supply what is not in the box (custom.excluded: 'Haringen en spanbanden' finds

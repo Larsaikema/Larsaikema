@@ -1,26 +1,26 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 540,
+  "jobs": 557,
   "by_priority": {
-   "1": 152,
+   "1": 153,
    "2": 155,
-   "3": 233
+   "3": 249
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 494,
+   "existing": 507,
    "generated": 1,
    "needs-model": 5,
-   "needs-param": 37
+   "needs-param": 41
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 528
+   "product": 545
   },
-  "already_present": 403
+  "already_present": 481
  },
  "jobs": [
   {
@@ -2029,8 +2029,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-frame-easy-up-premium-hero.webp",
@@ -2606,7 +2606,7 @@
     {
      "handle": "overkappingzeil-op-maat",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -3855,6 +3855,11 @@
      "handle": "pakket-statafel-met-stretchrok",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "hero",
+     "variant": true
     }
    ],
    "exists": true,
@@ -3971,8 +3976,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchdoek-op-maat-hero.webp",
@@ -4072,6 +4077,39 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stretchhoes-statafel-vierkant-en-rechthoekig-zwart-hero.webp",
+   "out": "catalog/images/stretchhoes-statafel-vierkant-en-rechthoekig-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "klaptafel",
+     "length": 0.7,
+     "width": 0.7,
+     "height": 1.07,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stretchhoes zwart om een vierkante statafel van 70 × 70 cm, tot de grond (tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stretchhoes-statafel-vierkant-en-rechthoekig",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -4337,7 +4375,7 @@
     {
      "handle": "transportkar-statafels",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
@@ -4504,7 +4542,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Voetgewicht easy-up 15 kg, set van 4: vier stapels van twee gietijzeren platen van 7,5 kg",
+   "alt": "Voetgewicht partytent 15 kg, set van 4: vier stapels van twee gietijzeren platen van 7,5 kg",
    "alt_hint": "set van 4 (2 platen van 7,5 kg per poot)",
    "used_by": [
     {
@@ -5151,8 +5189,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "scene-hero.webp",
@@ -7632,8 +7670,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-blauw-hero.webp",
@@ -7675,8 +7713,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-groen-hero.webp",
@@ -7718,8 +7756,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-rood-front.webp",
@@ -7804,8 +7842,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-zwart-hero.webp",
@@ -7847,8 +7885,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-frame-easy-up-professional-detail.webp",
@@ -7968,7 +8006,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8374,8 +8412,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-champagne-hero.webp",
@@ -8436,8 +8474,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-goud-hero.webp",
@@ -8467,8 +8505,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-marineblauw-hero.webp",
@@ -8529,8 +8567,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-wit-detail.webp",
@@ -8591,8 +8629,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-met-strik-zwart-hero.webp",
@@ -8655,6 +8693,11 @@
     },
     {
      "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
      "role": "variant",
      "variant": true
     },
@@ -8785,6 +8828,11 @@
      "variant": true
     },
     {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "pakket-4-statafels-met-stretchrokken",
      "role": "variant",
      "variant": true
@@ -8907,6 +8955,11 @@
     },
     {
      "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
      "role": "variant",
      "variant": true
     },
@@ -9197,6 +9250,11 @@
      "variant": true
     },
     {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "pakket-4-statafels-met-stretchrokken",
      "role": "variant",
      "variant": true
@@ -9352,6 +9410,11 @@
     },
     {
      "handle": "pakket-statafel-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
      "role": "variant",
      "variant": true
     },
@@ -9514,6 +9577,11 @@
      "variant": true
     },
     {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "pakket-4-statafels-met-stretchrokken",
      "role": "variant",
      "variant": true
@@ -9576,6 +9644,11 @@
      "variant": true
     },
     {
+     "handle": "pakket-statafel-hdpe-met-stretchrok",
+     "role": "variant",
+     "variant": true
+    },
+    {
      "handle": "pakket-4-statafels-met-stretchrokken",
      "role": "variant",
      "variant": true
@@ -9633,8 +9706,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stertent-enkele-mast-full-colour.webp",
@@ -9995,8 +10068,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-deur-wit-in-gebruik.webp",
@@ -10030,8 +10103,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-wit-in-gebruik.webp",
@@ -10103,8 +10176,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-blauw-hero.webp",
@@ -10179,8 +10252,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-heavy-duty-pvc-zwart-hero.webp",
@@ -10217,8 +10290,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-rood-hero.webp",
@@ -10255,8 +10328,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-zandkleur-hero.webp",
@@ -10331,8 +10404,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "advies-easy-up-premium-professional.webp",
@@ -11918,8 +11991,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-blauw-hero.webp",
@@ -11961,8 +12034,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-groen-hero.webp",
@@ -12004,8 +12077,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-wit-hero.webp",
@@ -12047,8 +12120,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-zandkleur-hero.webp",
@@ -12090,8 +12163,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-zwart-hero.webp",
@@ -12133,8 +12206,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-2x2-rood-front.webp",
@@ -12871,7 +12944,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12906,7 +12979,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12976,7 +13049,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13011,8 +13084,206 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-bank-antraciet.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-bank-antraciet.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "bierbank",
+     "length": 2.2,
+     "width": 0.25,
+     "height": 0.47,
+     "color": "antraciet"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, één bankhoes in antraciet op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "alt_hint": "één bankhoes in antraciet op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-bank-wit.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-bank-wit.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "bierbank",
+     "length": 2.2,
+     "width": 0.25,
+     "height": 0.47,
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, één bankhoes in wit op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "alt_hint": "één bankhoes in wit op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-bank-zwart.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-bank-zwart.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "bierbank",
+     "length": 2.2,
+     "width": 0.25,
+     "height": 0.47,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, één bankhoes in zwart op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "alt_hint": "één bankhoes in zwart op een bierbank van 220 × 25 cm (bank niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-tafel-antraciet.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-tafel-antraciet.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "biertafelset",
+     "single": true,
+     "length": 2.2,
+     "width": 0.5,
+     "color": "antraciet"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, alleen de tafelhoes in antraciet, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "alt_hint": "alleen de tafelhoes in antraciet, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-tafel-wit.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-tafel-wit.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "biertafelset",
+     "single": true,
+     "length": 2.2,
+     "width": 0.5,
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, alleen de tafelhoes in wit, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "alt_hint": "alleen de tafelhoes in wit, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "hoes-biertafelset-alleen-tafel-zwart.webp",
+   "out": "catalog/images/hoes-biertafelset-alleen-tafel-zwart.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "biertafelset",
+     "single": true,
+     "length": 2.2,
+     "width": 0.5,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Hoes biertafelset, alleen de tafelhoes in zwart, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "alt_hint": "alleen de tafelhoes in zwart, op een biertafel van 220 cm (tafel niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "hoes-biertafelset",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "hoes-biertafelset-antraciet-hero.webp",
@@ -13681,8 +13952,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-champagne-hero.webp",
@@ -13713,8 +13984,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-creme-hero.webp",
@@ -13745,8 +14016,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-groen-hero.webp",
@@ -13777,8 +14048,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-marineblauw-hero.webp",
@@ -13809,8 +14080,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-rood-hero.webp",
@@ -13841,8 +14112,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-roze-hero.webp",
@@ -13873,8 +14144,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-wit-hero.webp",
@@ -13937,8 +14208,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-zwart-hero.webp",
@@ -13969,8 +14240,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "loungeheater-gas-tafelmodel.webp",
@@ -14000,6 +14271,38 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "luifel-opblaasbare-promotietent-antraciet-hero.webp",
+   "out": "catalog/images/luifel-opblaasbare-promotietent-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "antraciet",
+     "canopyColor": "antraciet",
+     "awning": "front"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Luifel voor opblaasbare tent in antraciet, aan de voorkant van een opblaasbare tent (tent niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "luifel-opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -14439,7 +14742,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14470,7 +14773,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14594,7 +14897,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14625,7 +14928,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14936,6 +15239,102 @@
      "handle": "opslagtent-pvc",
      "role": "front",
      "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "overkappingzeil-op-maat-antraciet-hero.webp",
+   "out": "catalog/images/overkappingzeil-op-maat-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "tarp",
+   "model_status": "existing",
+   "spec": {
+    "model": "tarp",
+    "params": {
+     "w": 4,
+     "h": 2.5,
+     "color": "antraciet",
+     "eyelets": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Overkappingzeil op maat, antraciet PVC met ogen rondom, voorbeeldmaat 4 × 2,5 m",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "overkappingzeil-op-maat",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "overkappingzeil-op-maat-wit-hero.webp",
+   "out": "catalog/images/overkappingzeil-op-maat-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "tarp",
+   "model_status": "existing",
+   "spec": {
+    "model": "tarp",
+    "params": {
+     "w": 4,
+     "h": 2.5,
+     "color": "wit",
+     "eyelets": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Overkappingzeil op maat, wit PVC met ogen rondom, voorbeeldmaat 4 × 2,5 m",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "overkappingzeil-op-maat",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "overkappingzeil-op-maat-zwart-hero.webp",
+   "out": "catalog/images/overkappingzeil-op-maat-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "tarp",
+   "model_status": "existing",
+   "spec": {
+    "model": "tarp",
+    "params": {
+     "w": 4,
+     "h": 2.5,
+     "color": "zwart",
+     "eyelets": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Overkappingzeil op maat, zwart PVC met ogen rondom, voorbeeldmaat 4 × 2,5 m",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "overkappingzeil-op-maat",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -16019,8 +16418,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-stretch-met-logo-blauw-hero.webp",
@@ -16058,8 +16457,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-stretch-met-logo-marineblauw-hero.webp",
@@ -16097,8 +16496,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-stretch-met-logo-rood-hero.webp",
@@ -16136,8 +16535,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelhoes-stretch-met-logo-wit-hero.webp",
@@ -16175,8 +16574,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-antraciet-hero.webp",
@@ -16243,7 +16642,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16311,7 +16710,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16345,8 +16744,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-creme-vierkant-hero.webp",
@@ -16379,7 +16778,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16413,8 +16812,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-marineblauw-vierkant-hero.webp",
@@ -16447,7 +16846,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16509,8 +16908,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-rond-tot-de-grond-zwart-hero.webp",
@@ -16574,7 +16973,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16608,8 +17007,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafelkleed-zwart-vierkant-hero.webp",
@@ -16642,7 +17041,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16819,8 +17218,107 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stretchhoes-statafel-vierkant-en-rechthoekig-antraciet-hero.webp",
+   "out": "catalog/images/stretchhoes-statafel-vierkant-en-rechthoekig-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "klaptafel",
+     "length": 0.7,
+     "width": 0.7,
+     "height": 1.07,
+     "color": "antraciet"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stretchhoes antraciet om een vierkante statafel van 70 × 70 cm, tot de grond (tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stretchhoes-statafel-vierkant-en-rechthoekig",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
+  },
+  {
+   "file": "stretchhoes-statafel-vierkant-en-rechthoekig-wit-hero.webp",
+   "out": "catalog/images/stretchhoes-statafel-vierkant-en-rechthoekig-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "klaptafel",
+     "length": 0.7,
+     "width": 0.7,
+     "height": 1.07,
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stretchhoes wit om een vierkante statafel van 70 × 70 cm, tot de grond (tafel niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stretchhoes-statafel-vierkant-en-rechthoekig",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stretchhoes-statafel-vierkant-en-rechthoekig-zwart-160x60.webp",
+   "out": "catalog/images/stretchhoes-statafel-vierkant-en-rechthoekig-zwart-160x60.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "buffetCover",
+   "model_status": "existing",
+   "spec": {
+    "model": "buffetCover",
+    "params": {
+     "kind": "klaptafel",
+     "length": 1.6,
+     "width": 0.6,
+     "height": 1.1,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stretchhoes zwart om een rechthoekige statafel van 160 × 60 cm (tafel niet inbegrepen)",
+   "alt_hint": "zwart om een rechthoekige statafel van 160 × 60 cm (tafel niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "stretchhoes-statafel-vierkant-en-rechthoekig",
+     "role": "variant",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "stretchtent-compleet-zandkleur-low.webp",
@@ -17301,8 +17799,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-lichtblauw-hero.webp",
@@ -17333,8 +17831,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-lichtgroen-hero.webp",
@@ -17365,8 +17863,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-marineblauw-hero.webp",
@@ -17397,8 +17895,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-oranje-hero.webp",
@@ -17429,8 +17927,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-paars-hero.webp",
@@ -17461,8 +17959,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-rood-hero.webp",
@@ -17493,8 +17991,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-roze-hero.webp",
@@ -17525,8 +18023,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-taupe-hero.webp",
@@ -17557,8 +18055,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-turquoise-hero.webp",
@@ -17589,8 +18087,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "topcover-stretch-statafel-wit-hero.webp",
@@ -17653,8 +18151,40 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-statafels-plateau.webp",
+   "out": "catalog/images/transportkar-statafels-plateau.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "plateau",
+     "size": 0.9,
+     "loaded": 5,
+     "tableShape": "square"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar voor statafels, plateau met 5 gestapelde vierkante statafels (statafels niet inbegrepen)",
+   "alt_hint": "plateaukar met 5 gestapelde vierkante statafels (statafels niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "transportkar-statafels",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
-   "draft": true
+   "draft": false
   },
   {
    "file": "verbindingsstrook-easy-up-zwart-hero.webp",
@@ -18186,8 +18716,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-met-raam-antraciet-hero.webp",
@@ -18400,6 +18930,74 @@
    "draft": false
   },
   {
+   "file": "zijwand-opblaasbare-zeshoektent-blauw-hero.webp",
+   "out": "catalog/images/zijwand-opblaasbare-zeshoektent-blauw-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Blauw",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 8,
+     "shape": "hexagon",
+     "color": "blauw",
+     "walls": {
+      "back": "closed"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Zijwand opblaasbare zeshoektent in blauw, dicht, aan een zeshoektent (tent niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-zeshoektent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-zeshoektent-rood-hero.webp",
+   "out": "catalog/images/zijwand-opblaasbare-zeshoektent-rood-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Rood",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 8,
+     "shape": "hexagon",
+     "color": "rood",
+     "walls": {
+      "back": "closed"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Zijwand opblaasbare zeshoektent in rood, dicht, aan een zeshoektent (tent niet inbegrepen)",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-zeshoektent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "zijwand-opblaasbare-zeshoektent-zwart-hero.webp",
    "out": "catalog/images/zijwand-opblaasbare-zeshoektent-zwart-hero.webp",
    "kind": "product",
@@ -18465,8 +19063,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwandenset-easy-up-wit-3x6-hero.webp",
@@ -18503,8 +19101,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zitkussen-stoel-en-barkruk-zandkleur-hero.webp",

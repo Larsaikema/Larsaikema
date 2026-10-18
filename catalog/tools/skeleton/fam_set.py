@@ -64,6 +64,19 @@ def build():
            'Instappakket: één statafel aangekleed; noem los- en pakketprijs; kies de bladkleur (wit, zwart, antraciet, berken) en de kleur van rok en topcover (8 kleuren; alle 24 los).',
            ['statafel met rok', 'statafel inclusief statafelrok'],
            ['statafelrokken-hoezen.actiepakketten'], ['gebruik:tuinfeest', 'gebruik:evenement'], {'statafelshop': 'Savannah Ø80 + stretchrok €120,94 · Colorado/Sacramento-pakketten met bladkleur'}, sku='STFROK')
+    # entry pack (merchandising review 2026-10-18: our packs started at € 99,95, Statafelshop's at about € 70): the HDPE statafel Ø80 +
+    # stretchrok Ø80-85 met topcover, los € 74,90, pakket € 69,95. Blad wit or lichtgrijs, rok in the 8 pack colours.
+    HDPE_B = ['Wit blad', 'Lichtgrijs blad']
+    bundle('pakket-statafel-hdpe-met-stretchrok', 'Statafel HDPE met stretchrok (pakket)', [opt('Maat', ['Ø80 cm']), opt('Uitvoering', HDPE_B), opt('Kleur', ROK8)],
+           [('Ø80 cm', u, k) for u in HDPE_B for k in ROK8],
+           lambda los, d, u, k: 69.95,
+           lambda d, u, k: [('statafel-inklapbaar-hdpe-80', {'Kleur': blad_of(u)}, 1), ('statafelrok-stretch', {'Maat': 'Ø80-85 cm', 'Uitvoering': 'Met topcover', 'Kleur': k}, 1)],
+           rok_imgs('pakket-statafel-hdpe-met-stretchrok', ROK8), {k: rok_vmap[k] for k in ROK8}, 'Kleur',
+           'Statafel HDPE Ø80 cm + stretchrok met topcover · rok in 8 kleuren',
+           'Instappakket onder de € 70: de lichte HDPE-statafel Ø80 met een stretchrok en topcover; los € 74,90, in het pakket € 69,95; eerlijk vergelijken met het pakket met de Professional.',
+           ['statafel met rok goedkoop', 'statafel met statafelrok pakket', 'statafel hdpe met rok'],
+           ['statafelrokken-hoezen.actiepakketten'], ['gebruik:tuinfeest', 'gebruik:evenement'],
+           {'statafelshop': 'goedkoopste statafelpakketten ca. € 70 (merchandising review)'}, sku='HDPEROK')
     bundle('pakket-4-statafels-met-stretchrokken', '4 statafels met stretchrokken (pakket)', [opt('Maat', D), opt('Uitvoering', BLADU), opt('Kleur', ROK8)],
            [(d, u, k) for d in D for u in BLADU for k in ROK8],
            lambda los, d, u, k: {'Ø70 cm': 389.0, 'Ø80 cm': 409.0, 'Ø85 cm': 429.0}[d] + (55 if u.startswith('Berken') else 0),

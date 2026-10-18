@@ -43,8 +43,9 @@ def r_zitkussen(p, v):
 def r_easy_up(p, v):
     """Merchandising review: at most four add-ons that belong to ONE tent: the zijwandenset in the same Maat and Kleur, the
     voetgewicht set for its number of poten, spanbanden en haringen (Premium only: Professional ships with them) and a tas
-    (Premium: wieltas, Professional: beschermhoes; the wieltas is in the Professional box). Regengoot and koppelset only help
-    with 2+ tents, LED-vloedlicht, heater and zandzakken are extras: they are cart recommendations (complementary)."""
+    (Premium: wieltas). The Professional ships with a wieltas, so a beschermhoes there only duplicated what is in the box
+    (merchandising review 2026-10-18): it gets the LED-vloedlicht instead, an upsell that is useful with one tent. Regengoot and
+    koppelset only help with 2+ tents, heater and zandzakken are extras: they are cart recommendations (complementary)."""
     o = vopts(p, v)
     m, k = o['Maat'], o['Kleur']
     pro = 'professional' in p['handle']
@@ -57,7 +58,7 @@ def r_easy_up(p, v):
     r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
         r.append(('spanbanden-en-haringen-easy-up', {}, math.ceil(n / 4)))   # Premium ships without banden/haringen
-    r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('beschermhoes-easy-up', {'Maat': m}, 1))
+    r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('led-vloedlicht-easy-up', {}, 1))
     return r
 
 
@@ -65,12 +66,12 @@ def r_easy_up(p, v):
 EU_COMPLEMENTARY_PREMIUM = ['starterspakket-easy-up-premium', 'zandzakken-partytent-set-van-4', 'regengoot-partytent', 'koppelset-easy-up',
                             'verbindingsstrook-easy-up', 'beschermhoes-easy-up']
 EU_COMPLEMENTARY_PRO = ['compleet-pakket-easy-up-professional', 'zandzakken-partytent-set-van-4', 'regengoot-partytent', 'koppelset-easy-up',
-                        'led-vloedlicht-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
+                        'verbindingsstrook-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
 EU_COMPLEMENTARY_2X2 = ['zijwand-easy-up-dicht', 'zijwand-easy-up-met-raam', 'zijwand-easy-up-met-deur', 'zandzakken-partytent-set-van-4',
-                        'led-vloedlicht-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
+                        'koppelset-easy-up', 'elektrische-heater-partytent', 'wieltas-easy-up']
 
 
-BEDRUKTE_WAND = ['3 m', '4 m', '4,5 m', '6 m']   # bedrukte-zijwand-easy-up lengths
+BEDRUKTE_WAND = ['2 m', '3 m', '4 m', '4,5 m', '5 m', '6 m', '8 m']   # bedrukte-zijwand-easy-up lengths: every easy-up side
 
 
 def r_easy_up_logo(p, v):
@@ -82,27 +83,37 @@ def r_easy_up_logo(p, v):
     if o.get('Kleur'):
         r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': o['Kleur']}, 1))
     if o.get('Uitvoering') == 'Dak en luifel':
-        # full colour roof without walls: offer one printed back wall, on the long side when that length exists (4 x 8 m: the 4 m side)
+        # full colour roof without walls: offer one printed back wall on the long side (4 x 8 m: the 8 m side, 2 x 2 m: 2 m)
         w, d = DIMS[m]
         side = lenstr(max(w, d)) if lenstr(max(w, d)) in BEDRUKTE_WAND else lenstr(min(w, d))
         r.append(('bedrukte-zijwand-easy-up', {'Maat': side, 'Uitvoering': 'Buitenzijde'}, 1))
     r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
         r.append(('spanbanden-en-haringen-easy-up', {}, math.ceil(n / 4)))
-    r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('beschermhoes-easy-up', {'Maat': m}, 1))
+    r.append(('wieltas-easy-up', {'Maat': m}, 1) if not pro else ('led-vloedlicht-easy-up', {}, 1))   # Professional: wieltas is in the box
     return r
 
 
+def staanders(maat):
+    """Buizenframe / opslagtent: spanten every 2 m, 2 staanders per spant: 4 (3 m long), 6 (4 m), 8 (6 m), 10 (8 m), 12 (10 m), 14 (12 m)."""
+    w, d = wd(maat)
+    return 4 if d <= 3 else 2 * (math.ceil(d / 2) + 1)
+
+
 def r_buizenframe(p, v):
+    """Stormbanden per 2 m length, opbergtassen, a lange haring per staander and one voetgewicht of 15 kg per staander for hard
+    ground (merchandising review 2026-10-18: the fixed 1 x betonblok 140 kg on every size from 3 x 3 to 8 x 12 m meant nothing).
+    Betonblokken are no checkbox any more: how much ballast a big tent needs on an open site is a calculation, so the copy sends the
+    shopper to ballastadvies via the offerte page (the betonblok page says the same)."""
     o = vopts(p, v)
     w, d = wd(o['Maat'])
-    staanders = 4 if d <= 3 else 2 * (math.ceil(d / 2) + 1)      # spanten om de 2 m, 2 staanders per spant
+    n = staanders(o['Maat'])
     r = []
     if p['handle'] != 'partytent-pvc-550-compleet':                 # compleet: stormbanden en tassen zitten erin
         r.append(('stormbandenset-partytent', {'Maat': f'{w:g} m breed'}, math.ceil(d / 2)))
         r.append(('opbergtassenset-partytent', {'Maat': f'{w:g} m breed'}, 1))
-    r.append(('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 75 cm'}, staanders))
-    r.append(('betonblok-ballast-tent', {'Uitvoering': '140 kg'}, 1))   # quantity is the shopper's call (copy: ask us)
+    r.append(('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 75 cm'}, n))
+    r.append(('voetgewicht-easy-up-15-kg', {'Uitvoering': '1 stuk'}, n))
     return r
 
 
@@ -133,15 +144,27 @@ def r_statafel_rond(p, v):
 KRUK_KLEUREN = ['Zwart', 'Wit', 'Antraciet']   # barkruk-stapelbaar-metaal / stapelstoel-metaal
 
 
-def r_statafel_hoekig(n_by_maat):
-    """Square / rectangular statafel: a beschermplaat cut to the same Maat and barkrukken around it (kruk in the frame colour
-    when it exists, else zwart)."""
+HOES_HOEKIG = 'stretchhoes-statafel-vierkant-en-rechthoekig'
+
+
+def r_statafel_hoekig(n_by_maat, kar=None):
+    """Square / rectangular statafel: the stretchhoes in the same Maat (blad colour when the hoes has it, else zwart), a beschermplaat
+    cut to the same Maat, barkrukken around it (kruk in the frame colour when it exists, else zwart) and, for the stackable one, the
+    plateaukar (a stacked table does not go in the kar for folding statafels; once per order line, custom.addon_eenmalig)."""
     def rule(p, v):
         o = vopts(p, v)
         k = o.get('Kleur') if o.get('Kleur') in KRUK_KLEUREN else 'Zwart'
-        return [('beschermplaat-statafel', {'Maat': o['Maat']}, 1),
-                ('barkruk-stapelbaar-metaal', {'Kleur': k}, n_by_maat.get(o['Maat'], 4))]
+        hk = o.get('Kleur') if find_one(HOES_HOEKIG, {'Maat': o['Maat'], 'Kleur': o.get('Kleur')}) else 'Zwart'
+        r = [(HOES_HOEKIG, {'Maat': o['Maat'], 'Kleur': hk}, 1),
+             ('beschermplaat-statafel', {'Maat': o['Maat']}, 1),
+             ('barkruk-stapelbaar-metaal', {'Kleur': k}, n_by_maat.get(o['Maat'], 4))]
+        if kar:
+            r.append(('transportkar-statafels', {'Uitvoering': kar}, 1))
+        return r
     return rule
+
+
+KAR_STAPEL = 'Plateau, voor 5 gestapelde statafels'   # transportkar-statafels variant for statafel-vierkant-stapelbaar
 
 
 def r_terrastafel(p, v):
@@ -179,42 +202,51 @@ def r_pakket_plaat(n):
 
 
 def r_stertent(p, v):
-    """Anchoring: longer pegs for soft ground (one per point) and ballast for hard ground (one block per point + one per mast)."""
+    """Zijwanden rondom and a long peg per spanpunt for soft ground. No betonblok checkbox (it was 7-12 x 140 kg whatever the wind,
+    the ground or the walls): ballast on hard ground is ballastadvies via offerte (merchandising review 2026-10-18)."""
     m = vopts(p, v)['Maat']
     if p['handle'] == 'stertent-enkele-mast':
         points, masts = (6 if m in ('Ø8 m', 'Ø10 m') else 8), 1
     else:
         points, masts = (8 if m in ('8 x 13 m', '10 x 16 m') else 10), 2
     return [('zijwanden-stertent', {'Maat': m, 'Uitvoering': 'Set rondom'}, 1),
-            ('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 100 cm'}, points),
-            ('betonblok-ballast-tent', {'Uitvoering': '140 kg'}, points + masts)]
+            ('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 100 cm'}, points)]
 
 
 def r_stretch(p, v):
+    """No betonblok checkbox: 1 x 500 kg on every size from 4,5 x 6 to 10,5 x 19,5 m was no ballast advice. Ballast for a stretchtent
+    on hard ground is calculated per anchor point: the copy sends the shopper to ballastadvies via offerte."""
     o = vopts(p, v)
     w, d = wd(o['Maat'])
     return [('zijwand-stretchtent', {'Maat': '3 m', 'Uitvoering': 'Startwand met 2 palen'}, 1),
-            ('onderdelen-stretchtent', {'Uitvoering': 'Koppelgoot 6 m'}, math.ceil(d / 6)),
-            ('betonblok-ballast-tent', {'Uitvoering': '500 kg'}, 1)]
+            ('onderdelen-stretchtent', {'Uitvoering': 'Koppelgoot 6 m'}, math.ceil(d / 6))]
 
 
 def r_air_square(p, v):
     o = vopts(p, v)
     n = o['Maat'].split(' x ')[0] + ' m'
     k = o.get('Kleur')
-    lk = k if find_one('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': k}) else 'Zwart'
+    # the luifel only in the tent's own colour (an Antraciet tent was offered a Zwart luifel); the luifel now comes in Antraciet too
     return [('pomp-opblaasbare-tent', {'Uitvoering': 'Elektrische pomp'}, 1),
             ('zijwand-opblaasbare-promotietent', {'Maat': n, 'Uitvoering': 'Dicht'}, 1),
-            ('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': lk}, 1),
+            ('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': k}, 1),
             ('watergewichtzakken-4x20-kg', {}, 1),
             ('led-verlichting-opblaasbare-tent', {}, 1),
             ('opbergtas-opblaasbare-tent', {'Maat': o['Maat']}, 1)]
 
 
+# zeshoektent ballast: the copy advises at least 50 / 75 / 100 kg per poot (8 x 8 / 10 x 10 / 12 x 12 m) on its 6 luchtpoten; in
+# watergewichtzakken of 20 kg that is 3 / 4 / 5 zakken per poot = 18 / 24 / 30 zakken = 5 / 6 / 8 sets of 4 (the 6 ballastzakken in
+# the box come on top). Basis stated on the PDP.
+HEX_WATER_SETS = {'8 x 8 m': 5, '10 x 10 m': 6, '12 x 12 m': 8}
+
+
 def r_air_hex(p, v):
+    """Pomp, a dichte wand in the tent's own colour (the wall now comes in all 4 tent colours) and watergewicht per its ballast advice."""
     o = vopts(p, v)
     return [('pomp-opblaasbare-tent', {'Uitvoering': 'Elektrische pomp'}, 1),
-            ('zijwand-opblaasbare-zeshoektent', {'Maat': o['Maat'], 'Uitvoering': 'Dicht', 'Kleur': 'Zwart' if o['Kleur'] == 'Zwart' else 'Wit'}, 1)]
+            ('zijwand-opblaasbare-zeshoektent', {'Maat': o['Maat'], 'Uitvoering': 'Dicht', 'Kleur': o['Kleur']}, 1),
+            ('watergewichtzakken-4x20-kg', {}, HEX_WATER_SETS[o['Maat']])]
 
 
 
@@ -226,7 +258,14 @@ RULES = {
     'statafelrok-stretch': r_rok,
     'statafelhoes-met-strik': lambda p, v: [('losse-strik-statafelhoes', {'Kleur': STRIK_CONTRAST.get(vopts(p, v)['Kleur'], 'Goud')}, 1)],
     'klaptafel-hdpe-rechthoekig': lambda p, v: [('stretchhoes-klaptafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Zwart'}, 1)],
-    'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit'}, 1)],
+    # the hoes that covers what you buy: set → tafel + 2 banken, 'Alleen tafel' → tafelhoes, a loose bank → bankhoes
+    'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit',
+                                                          'Uitvoering': 'Alleen tafel' if vopts(p, v)['Uitvoering'] == 'Alleen tafel' else 'Set: tafel en 2 banken'}, 1)],
+    'bierbank-220': lambda p, v: [('hoes-biertafelset', {'Maat': '220 x 25 cm', 'Uitvoering': 'Alleen bank', 'Kleur': 'Wit'}, 1)],
+    # wijnvat: 4 barkrukken in its style (as in the wijnvat-set) and a beschermplaat 2 cm under the Ø80 blad
+    'statafel-wijnvat-houtlook': lambda p, v: [('barkruk-houten-zitting', {'Kleur': 'Zwart'}, 4), ('beschermplaat-statafel', {'Maat': 'Ø78 cm'}, 1)],
+    # marktkraam: its copy says zandzakken go round the 4 poten; 'Gewichten of zandzakken' was excluded without an add-on
+    'marktkraam-2-m': lambda p, v: [('zandzakken-partytent-set-van-4', {}, 1)],
     'stapelstoel-cross-back': r_zitkussen,
     'stapelstoel-metaal': r_zitkussen,
     'barkruk-stapelbaar-metaal': r_barkruk,
@@ -235,13 +274,12 @@ RULES = {
     'barkruk-pe-rotan': r_barkruk,
     'barkruk-draad-stapelbaar': r_barkruk,
     'barkruk-chroom-stapelbaar': r_barkruk,
-    'statafel-vierkant-stapelbaar': r_statafel_hoekig({'60 x 60 cm': 4, '70 x 70 cm': 4, '80 x 80 cm': 4}),
+    'statafel-vierkant-stapelbaar': r_statafel_hoekig({'60 x 60 cm': 4, '70 x 70 cm': 4, '80 x 80 cm': 4}, kar=KAR_STAPEL),
     'statafel-rechthoekig-inklapbaar': r_statafel_hoekig({'120 x 60 cm': 6, '120 x 70 cm': 6, '160 x 60 cm': 8}),
     'terrastafel-inklapbaar': r_terrastafel,
     'prikkabel-e27': lambda p, v: [('led-lamp-e27', {'Uitvoering': 'Warm wit melkglas 1 W'}, int(vopts(p, v)['Maat'].split()[0]))],  # fitting per meter
     'led-lichtslang': lambda p, v: [('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Aansluitsnoer lichtslang met stekker'}, 1)],
     'opslagtent-pvc': r_buizenframe,
-    'carport-opslagtent-vast-frame': lambda p, v: [('betonblok-ballast-tent', {'Uitvoering': '140 kg'}, 1)],
     'stretchtent-compleet': r_stretch,
     'stertent-enkele-mast': r_stertent,
     'stertent-dubbele-mast': r_stertent,
@@ -252,6 +290,7 @@ RULES = {
                                                    {'Uitvoering': 'Voor 2100 W heater' if '2100' in vopts(p, v)['Uitvoering'] else 'Voor 1500 W heater'}, 1)],
     'klaptafel-hdpe-rond': lambda p, v: [('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] == 'Ø150 cm' else 'Ø330 cm', 'Kleur': 'Wit'}, 1)],
     'pakket-statafel-met-stretchrok': r_pakket_plaat(1),
+    'pakket-statafel-hdpe-met-stretchrok': r_pakket_plaat(1),
     'pakket-4-statafels-met-stretchrokken': r_pakket_plaat(4),
     'terraspakket-statafel-barkrukken': r_pakket_plaat(1),
     'pakket-5-statafels-stretchrokken-transportkar': r_pakket_plaat(5),
@@ -262,7 +301,8 @@ RULES = {
     'opblaasbare-partytent-3x3-waterpoten': r_air_square,
     'opblaasbare-zeshoektent': r_air_hex,
     'starterspakket-easy-up-premium': lambda p, v: [('voetgewicht-easy-up-15-kg', {'Uitvoering': f'Set van {legs(vopts(p, v)["Maat"])}'}, 1)],
-    'compleet-pakket-easy-up-professional': lambda p, v: [('beschermhoes-easy-up', {'Maat': vopts(p, v)['Maat']}, 1)],
+    # the Professional in the pakket ships with a wieltas: LED-vloedlicht instead of a beschermhoes (merchandising review)
+    'compleet-pakket-easy-up-professional': lambda p, v: [('led-vloedlicht-easy-up', {}, 1)],
 }
 
 
@@ -352,7 +392,7 @@ def _holds(p, tiers, n_max=200):
 # scheme from 2 pieces. The guarantee stays: at any volume 1..200 the bundle is never dearer than its parts with their own
 # staffels (checked here and again in validate.py); a scheme that breaks it raises.
 BUNDLE_FAMILY = {
-    'pakket-statafel-met-stretchrok': ST_MEUBEL, 'terraspakket-statafel-barkrukken': ST_MEUBEL,
+    'pakket-statafel-met-stretchrok': ST_MEUBEL, 'pakket-statafel-hdpe-met-stretchrok': ST_MEUBEL, 'terraspakket-statafel-barkrukken': ST_MEUBEL,
     'starterspakket-easy-up-premium': ST_TENT, 'compleet-pakket-easy-up-professional': ST_TENT,
     'prikkabelset-led': ST_PRIK,
     'pakket-4-statafels-met-stretchrokken': ST_GROOT, 'pakket-statafels-met-transportkar': ST_GROOT,

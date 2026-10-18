@@ -2,7 +2,8 @@
   Header only: country (market NL / BE) and language chooser. Every choice is a submit button of Shopify's localization
   form, so it works without JavaScript and nothing changes until the shopper picks (WCAG 3.2.2).
   - context 'bar': a disclosure in the USP bar (desktop), summary 'NL · EUR' (plus the language when it differs from the
-    country: 'BE · EUR · NL'); section-header.js closes it on Esc and on a click outside.
+    country: 'BE · EUR · NL'); section-header.js loads its panel CSS when it is first reached and closes it on Esc and
+    on a click outside.
   - context 'drawer': two rows of chips in the mobile menu.
   Renders nothing with one country and one language. Optional uid (the section id) keeps the ids unique when the
   snippet is on the page more than once.
@@ -46,7 +47,8 @@
   {%- assign hl_class = 'hloc hloc--' | append: context -%}
   {%- form 'localization', id: hl_form_id, class: hl_class -%}
     {%- if context == 'bar' -%}
-      <details class="hloc__details">
+      <noscript>{{ 'section-header-loc.css' | asset_url | stylesheet_tag }}</noscript>
+      <details class="hloc__details" data-loc-css="{{ 'section-header-loc.css' | asset_url }}">
         <summary class="hloc__summary">
           <span class="visually-hidden">{{ 'footer.country' | t }}, {{ 'footer.language' | t }}: </span>
           {{- localization.country.iso_code }} · {{ localization.country.currency.iso_code -}}

@@ -2,18 +2,20 @@
   assign phone = settings.phone | default: shop.phone
   assign phone_href = phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
   # [reactietijd]: the 'binnen …' part of Thema-instellingen › Contact › Reactietijd ('We reageren binnen één werkdag.'),
-  # so a USP like 'Zakelijk? Offerte [reactietijd]' changes with that setting; without 'binnen' it reads 'op maat'.
-  assign reply = 'op maat'
+  # so a USP like 'Offerte op maat [reactietijd]' changes with that setting; without 'binnen' the placeholder is left out.
+  assign reply = ''
   if settings.response_time contains 'binnen'
-    assign reply = settings.response_time | split: 'binnen' | last | strip | remove_last: '.' | prepend: 'binnen '
+    assign reply = settings.response_time | split: 'binnen' | last | strip | remove_last: '.' | prepend: ' binnen '
   endif
+  assign reply_s = reply | strip
 -%}
 {%- comment -%}
   USP bar. usp-rotator (section-header.js) shows as many messages as fit on one line and rotates the rest, on every
   width; the others stay readable for screen readers and come into view when reached with Tab. The delivery line takes
   the longest wording that fits, and every wording (also the shortest, on a phone) starts with its condition 'Uit
   voorraad' and follows the same rule as 'Vóór 14:00 besteld, vandaag verzonden', so it never reads as a second promise:
-  before the cutoff 'Uit voorraad: bestel binnen 3 u 13 min, vandaag verzonden', after it 'Uit voorraad: na 14:00
+  before the cutoff 'Uit voorraad: bestel binnen 3 u 13 min, vandaag verzonden' (on a phone 'Uit voorraad: nog 3 u 13 min,
+  vandaag weg' or 'Uit voorraad: vóór 14:00 besteld, vandaag weg': the deadline always stays), after it 'Uit voorraad: na 14:00
   besteld, morgen verzonden', in the weekend 'Uit voorraad: zondag besteld, maandag verzonden', on a holiday 'Uit
   voorraad: nu besteld, dinsdag verzonden'; shortest 'Uit voorraad: maandag verzonden'. A temporary notice with dates is
   checked in the browser (Amsterdam date), because Shopify serves cached pages: a Liquid date check could show it too
@@ -43,7 +45,7 @@
           {%- when 'countdown' -%}
             {%- assign cut = settings.cutoff_time | escape -%}
             <div class="utility-bar__usp{% if is_first %} is-active{% endif %}" {{ block.shopify_attributes }} data-bar-delivery data-cutoff="{{ cut }}" data-days="{{ settings.shipping_days | escape }}" data-holidays="{{ settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-transit="{{ settings.transit_days_pakket }}"
-              data-cd-l="{{ 'header.usp_countdown_html' | t: time: '__LEFT__' | escape }}" data-cd-m="{{ 'header.usp_countdown_mid_html' | t: time: '__LEFT__' | escape }}" data-today-l="{{ 'header.usp_today_html' | t: time: '__TIME__' | escape }}"
+              data-cd-l="{{ 'header.usp_countdown_html' | t: time: '__LEFT__' | escape }}" data-cd-m="{{ 'header.usp_countdown_mid_html' | t: time: '__LEFT__' | escape }}" data-cd-s="{{ 'header.usp_countdown_short_html' | t: time: '__LEFT__' | escape }}" data-today-s="{{ 'header.usp_today_short_html' | t: time: '__TIME__' | escape }}" data-today-l="{{ 'header.usp_today_html' | t: time: '__TIME__' | escape }}"
               data-after="{{ 'header.usp_after_html' | t: time: '__TIME__', date: '__DATE__' | escape }}" data-later="{{ 'header.usp_later_html' | t: date: '__DATE__' | escape }}" data-day="{{ 'header.usp_day_html' | t: day: '__DAY__', date: '__DATE__' | escape }}" data-ships="{{ 'header.usp_ships_html' | t: date: '__DATE__' | escape }}"
               data-h="{{ 'delivery.hours' | t: h: '__H__', m: '__M__' | escape }}" data-hw="{{ 'header.usp_hours_whole' | t: h: '__H__' | escape }}" data-m="{{ 'delivery.minutes' | t: m: '__M__' | escape }}" data-today="{{ 'delivery.today' | t | escape }}" data-tomorrow="{{ 'delivery.tomorrow' | t | escape }}">
               {%- capture cd_text -%}{%- render 'icon', icon: 'truck', class: 'icon--xs' -%}<span data-delivery-text>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days }}</span>{%- endcapture -%}
@@ -57,7 +59,7 @@
                 {%- elsif block.settings.icon != 'none' -%}
                   {%- render 'icon', icon: block.settings.icon, class: 'icon--xs' -%}
                 {%- endif -%}
-                <span>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days | replace: '[reactietijd]', reply }}</span>
+                <span>{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time | replace: '[bedenktijd]', settings.return_days | replace: ' [reactietijd]', reply | replace: '[reactietijd]', reply_s }}</span>
               {%- endcapture -%}
               {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ usp_text }}</a>{%- else -%}{{ usp_text }}{%- endif -%}
             </div>
@@ -113,7 +115,7 @@
 {% schema %}
 {
   "name": "USP-balk",
-  "tag": "aside",
+  "tag": "div",
   "class": "section-utility-bar",
   "max_blocks": 8,
   "enabled_on": { "groups": ["header"] },

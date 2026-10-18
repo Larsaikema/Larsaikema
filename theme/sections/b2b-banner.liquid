@@ -1,25 +1,44 @@
 {%- comment -%} Klapklaar Zakelijk call-to-action (Linnen / Polder, no festive flags, brand.md §6). {%- endcomment -%}
 {{ 'section-b2b-banner.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign b2b_has_media = false
+  if section.settings.image != blank or section.settings.fallback_image != 'none'
+    assign b2b_has_media = true
+  endif
+-%}
 <section class="section b2b color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width">
-    <div class="b2b__panel">
+    <div class="b2b__panel{% if b2b_has_media %} b2b__panel--media{% endif %}">
+      {%- capture b2b_list -%}
+        <ul class="b2b__list" role="list">
+          {%- for block in section.blocks -%}
+            <li class="b2b__item" {{ block.shopify_attributes }}>
+              <span class="b2b__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
+              <span><strong>{{ block.settings.title }}</strong>{%- if block.settings.text != blank -%}<span class="b2b__item-text">{{ block.settings.text }}</span>{%- endif -%}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endcapture -%}
+      {%- if b2b_has_media -%}
+        <div class="b2b__media">
+          {%- if section.settings.image != blank -%}
+            {%- render 'image', image: section.settings.image, sizes: '(min-width: 990px) 50vw, 100vw', widths: '480, 640, 800, 1000, 1200, 1500', alt: section.settings.image_alt -%}
+          {%- else -%}
+            {%- render 'fallback-image', key: section.settings.fallback_image, alt: section.settings.image_alt -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
       <div class="b2b__content">
         <p class="eyebrow b2b__eyebrow">{%- render 'icon', icon: 'case', class: 'icon--xs' -%}{{ section.settings.eyebrow }}</p>
         <h2 class="b2b__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2>
         {%- if section.settings.text != blank -%}<div class="b2b__text text-lg">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if b2b_has_media and section.blocks.size > 0 -%}{{ b2b_list }}{%- endif -%}
         <div class="btn-row">
           {%- if section.settings.button_1_label != blank -%}<a class="btn" href="{{ section.settings.button_1_link | default: settings.quote_page }}">{{ section.settings.button_1_label }}</a>{%- endif -%}
           {%- if section.settings.button_2_label != blank -%}<a class="btn btn--outline" href="{{ section.settings.button_2_link | default: settings.b2b_page }}">{{ section.settings.button_2_label }}</a>{%- endif -%}
         </div>
       </div>
-      <ul class="b2b__list" role="list">
-        {%- for block in section.blocks -%}
-          <li class="b2b__item" {{ block.shopify_attributes }}>
-            <span class="b2b__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
-            <span><strong>{{ block.settings.title }}</strong>{%- if block.settings.text != blank -%}<span class="b2b__item-text">{{ block.settings.text }}</span>{%- endif -%}</span>
-          </li>
-        {%- endfor -%}
-      </ul>
+      {%- unless b2b_has_media -%}{{ b2b_list }}{%- endunless -%}
     </div>
   </div>
 </section>
@@ -37,7 +56,15 @@
     { "type": "text", "id": "button_1_label", "label": "Knop 1", "default": "Offerte aanvragen" },
     { "type": "url", "id": "button_1_link", "label": "Link knop 1" },
     { "type": "text", "id": "button_2_label", "label": "Knop 2", "default": "Meer over zakelijk" },
-    { "type": "url", "id": "button_2_link", "label": "Link knop 2" }
+    { "type": "url", "id": "button_2_link", "label": "Link knop 2" },
+    { "type": "header", "content": "Beeld (optioneel)" },
+    { "type": "image_picker", "id": "image", "label": "Beeld", "info": "Bv. een zakelijke opstelling. Met beeld staan de voordelen als lijst onder de tekst." },
+    { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
+        { "value": "none", "label": "Geen beeld" },
+        { "value": "scene-zakelijk", "label": "Zakelijke opstelling" },
+        { "value": "scene-hero", "label": "Tent met statafels" }
+      ], "default": "none" },
+    { "type": "text", "id": "image_alt", "label": "Beschrijving van het beeld (alt-tekst)" }
   ],
   "blocks": [
     { "type": "benefit", "name": "Voordeel", "settings": [

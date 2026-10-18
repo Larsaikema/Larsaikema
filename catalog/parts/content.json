@@ -134,16 +134,17 @@
    "title": "Offerte aanvragen",
    "template_suffix": "offerte",
    "published": true,
-   "body_html": "<p>Tien of meer stuks, een vaste leverdatum of je logo erop? Vraag een offerte op maat aan. Je krijgt binnen één werkdag een voorstel met prijzen incl. en excl. btw, levering en levertijd.<!-- claim: Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt --></p><p>Hoe meer je invult, hoe preciezer de offerte: per product het aantal, de maat en de kleur, het afleveradres en de datum waarop alles er moet zijn. Heb je al een logo? Plak een link naar het bestand, of mail het na je aanvraag.</p>",
+   "body_html": "<p>Tien of meer stuks, een vaste leverdatum of je logo erop? Vraag een offerte op maat aan. Je krijgt binnen één werkdag een voorstel met prijzen incl. en excl. btw, levering en levertijd.<!-- claim: Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt --></p><p>Hoe meer je invult, hoe preciezer de offerte: per product het aantal, de maat en de kleur, het afleveradres en de datum waarop alles er moet zijn. Heb je al een logo? Plak een link naar het bestand, of mail het na je aanvraag.</p><h3>Ballastadvies</h3><p>Zet je een stretchtent, stertent of grote buizenframe-tent op tegels of asfalt, of op een evenement met publiek? In de winkel rekenen we geen ballast uit. Zet in je aanvraag welke tent en maat je hebt, met of zonder wanden, de ondergrond en de plek (beschut of open terrein). Je krijgt advies per staander of ankerpunt, of we zeggen eerlijk dat er een berekening van de tentleverancier of een constructeur nodig is, bijvoorbeeld als de gemeente erom vraagt.<!-- claim: Ballastadvies via offerte: wie rekent het uit en binnen welke termijn (eigenaar); geen ballastberekening in de winkel --></p>",
    "seo": {
     "title": "Offerte aanvragen | Klapklaar",
     "description": "Vraag een offerte op maat aan voor partytenten, statafels, rokken en meer. Met staffelprijzen, je logo erop en een vaste leverdatum."
    },
    "claims": [
-    "Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt"
+    "Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt",
+    "Ballastadvies via offerte: wie rekent het uit en binnen welke termijn (eigenaar); geen ballastberekening in de winkel"
    ],
    "words": {
-    "body_html": 77,
+    "body_html": 156,
     "long_html": null
    }
   },
@@ -184,7 +185,7 @@
     "title": "Veelgestelde vragen | Klapklaar",
     "description": "Antwoorden over bestellen, betalen, levering, retour, garantie, maatkeuze, opzetten, bedrukken en zakelijk bestellen bij Klapklaar."
    },
-   "long_html": "<p>Hier staan de vragen die we het vaakst krijgen, per onderwerp. Staat je vraag er niet bij? <a href=\"/pages/contact\">Stel hem ons</a>.</p><h2>Bestellen en betalen</h2><h3>Moet ik een account aanmaken om te bestellen?</h3><p>Nee, je kunt ook als gast afrekenen. Met een account zie je je bestellingen terug en bestel je makkelijker opnieuw. Voor prijzen excl. btw en betalen op factuur heb je een <a href=\"/pages/zakelijk\">zakelijk account</a> nodig.</p><h3>Hoe kan ik betalen?</h3><p>Bij het afrekenen zie je welke betaalmethoden er voor jouw land zijn, zoals iDEAL, Bancontact, creditcard en PayPal. We rekenen geen toeslag.<!-- claim: Betaalmethoden: alleen tonen wat in Shopify > Betalingen aanstaat (voorstel iDEAL, Bancontact, Visa, Mastercard, PayPal, Apple Pay, Google Pay) --><!-- claim: Geen toeslag op betaalmethoden --> Alles op een rij: <a href=\"/pages/betaalmethoden\">betaalmethoden</a>.</p><h3>Zijn de prijzen inclusief btw?</h3><p>Ja, standaard zie je prijzen incl. 21% btw. Met de schakelaar bovenin de winkel zie je ze excl. btw. Op je factuur staat de btw apart.</p><h3>Krijg ik korting als ik er meer bestel?</h3><p>Bij veel producten wel. Je ziet dan een staffeltabel bij de prijs, meestal vanaf 10 stuks. Of de korting meteen in je winkelwagen staat of via een offerte loopt, staat onder die tabel.<!-- claim: Staffelprijzen vanaf 10 stuks; bedragen per product in custom.staffelkorting, echte korting als automatische korting of B2B-prijslijst (theme: staffel_mode) --></p><h3>Kan ik mijn bestelling nog wijzigen of annuleren?</h3><p>Mail of app ons zo snel mogelijk met je bestelnummer. Zolang je bestelling nog niet verzonden of in productie is, passen we hem aan of annuleren we hem. Is hij al onderweg, dan gebruik je je bedenktijd. Een bedrukt product of maatwerk kun je niet meer annuleren als je de drukproef of tekening hebt goedgekeurd.<!-- claim: Wijzigen en annuleren kosteloos tot verzending of productie; werkwijze eigenaar --></p><h3>Hebben jullie een cadeaubon?</h3><p>Ja, een digitale <a href=\"/products/cadeaubon\">cadeaubon</a> van € 25, € 50, € 100 of € 250. Je krijgt hem direct per mail en hij is twee jaar geldig.<!-- claim: Cadeaubon geldig 2 jaar; gelijkzetten met Shopify > Cadeaubonnen en juridisch laten toetsen --></p><h2>Levering</h2><h3>Wanneer heb ik mijn bestelling?</h3><p>Op elke productpagina zie je de verwachte leverdatum. Bestel je een pakket dat op voorraad is op een werkdag vóór 14:00, dan gaat het dezelfde dag de deur uit.<!-- claim: Besteltijd 14:00 en verzenddagen ma–vr (theme: cutoff_time, shipping_days, holidays); alleen voor pakketten die op voorraad zijn --> In Nederland is het meestal de volgende werkdag bij je, in België een werkdag later.<!-- claim: Bezorging NL meestal de volgende werkdag, BE een werkdag later (theme: transit_days_pakket = 1, transit_days_be_extra = 1) --> Bedrukte producten, maatwerk en tenten die we op bestelling maken, hebben een eigen levertijd; die staat bij het product.</p><h3>Wat kost verzenden?</h3><p>Een pakket kost in Nederland € 6,95 en is gratis vanaf € 150. Een palletlevering kost € 59,00 per bestelling.<!-- claim: Verzendkosten NL: pakket € 6,95, gratis vanaf € 150 (incl. btw); pallet € 59,00 per bestelling (theme: shipping_cost_pakket, shipping_cost_pallet, free_shipping_threshold; gelijkzetten met Shopify > Verzending) --> De bedragen voor België en alle details staan op <a href=\"/pages/verzenden-en-bezorgen\">verzenden en bezorgen</a>.</p><h3>Wat is een palletlevering?</h3><p>Grote tenten, betonblokken en grote aantallen tafels zijn te zwaar of te lang voor een pakketdienst. Die brengt een vervoerder op een pallet. Vooraf spreek je een afleverdag af, en de zending wordt tot aan de stoeprand of op de begane grond afgeleverd.<!-- claim: Palletlevering: verzonden binnen 1–2 werkdagen, afleverdag in overleg met de vervoerder, meestal binnen 2–4 werkdagen (theme: delivery_text_pallet, transit_days_pallet = 3) --><!-- claim: Palletlevering tot aan de stoeprand of begane grond, zonder binnenbezorging; afspraak met vervoerder bevestigen --></p><h3>Leveren jullie ook in België?</h3><p>Ja. We leveren in Nederland en België. Woon je elders, of op een van de Waddeneilanden, vraag het ons dan even.<!-- claim: Leveringsgebied Nederland en België; Waddeneilanden en andere landen op aanvraag --></p><h3>Kan ik mijn bestelling afhalen?</h3><p>Op dit moment niet: we bezorgen alles.<!-- claim: Afhalen nog niet mogelijk; aanpassen zodra een afhaallocatie is bevestigd (page showroom-en-afhalen) --></p><h3>Ik heb meerdere producten besteld. Komt alles tegelijk?</h3><p>Wat op voorraad is, sturen we samen. Zit er een product met een langere levertijd tussen, dan hoor je van ons of we in delen leveren of alles in één keer. Heb je een voorkeur, zet die dan in de opmerking bij je bestelling.<!-- claim: Deelleveringen in overleg; werkwijze eigenaar --></p><h2>Retour, schade en garantie</h2><h3>Kan ik iets retourneren?</h3><p>Ja. Je hebt 14 dagen bedenktijd vanaf de dag dat je het product ontvangt.<!-- claim: Bedenktijd 14 dagen = wettelijk minimum (theme: return_days); elke langere termijn is een eigen belofte --> Meld je retour bij ons aan; daarna heb je nog 14 dagen om het terug te sturen. De kosten voor het terugsturen zijn voor jou.<!-- claim: Retourkosten voor rekening van de klant; eigenaar kan kiezen voor gratis retour --> Hoe het precies werkt: <a href=\"/pages/retourneren\">retourneren</a>.</p><h3>Welke producten kan ik niet retourneren?</h3><p>Bedrukte producten en maatwerk, zoals een stretchdoek, overkappingzeil of prikkabel op maat. Die maken we speciaal voor jou. Daarom krijg je eerst een drukproef of tekening ter akkoord.<!-- claim: Geen herroepingsrecht op bedrukte producten en maatwerk (art. 6:230p BW); uitzondering ook in de algemene voorwaarden zetten en juridisch laten controleren --></p><h3>Er is iets beschadigd of er ontbreekt iets. Wat nu?</h3><p>Meld het zo snel mogelijk via <a href=\"/pages/contact\">contact</a>, met je bestelnummer en een paar foto’s. Dan lossen we het op: met een onderdeel, een nieuw exemplaar of je geld terug. Zie je bij een palletlevering al schade aan de verpakking, schrijf dat dan op de vrachtbrief voordat je tekent.</p><h3>Hoe zit het met garantie?</h3><p>Op alles heb je de wettelijke garantie: een product moet doen wat je er bij normaal gebruik van mag verwachten. Op een deel van het assortiment geven we extra garantie, zoals 2 jaar op het frame van de easy-up Professional.<!-- claim: Extra garantie per lijn uit custom.garantie: Premium 1 jaar frame, Professional 2 jaar frame, statafels 2 jaar, buizenframe- en opslagtenten 1 jaar frame en doek, stretchtent 1 jaar doek, stertent enkele mast 1 jaar mast en doek, tuinpaviljoen 2 jaar frame, heaters en marktkraam 1 jaar; met leverancier bevestigen --> Wat waaronder valt: <a href=\"/pages/garantie\">garantie</a>.</p><h2>Maat en keuze</h2><h3>Welke maat partytent heb ik nodig?</h3><p>Reken op ongeveer 1 persoon per m² aan tafel en 1,5 per m² staand. Een 3 × 6 m (18 m²) is dus goed voor ca. 18 mensen aan tafel of 27 staand. Komt er een buffet, bar of dansvloer in, neem dan een maat groter. Meer in het <a href=\"/pages/maatadvies-partytenten\">maatadvies partytenten</a>.</p><h3>Easy-up Premium of Professional: wat is het verschil?</h3><p>De Premium heeft een frame van 40 mm staal met nylon hoekstukken en is gemaakt voor een paar keer per jaar. De Professional heeft 50 mm aluminium met aluminium hoekstukken, een dak in polyester of heavy duty PVC, en een wieltas, spanbanden en haringen in de doos. Voor wekelijks gebruik of verhuur kies je de Professional. Alles naast elkaar: <a href=\"/blogs/advies/easy-up-premium-of-professional\">Premium of Professional?</a></p><h3>Wat zit er bij een easy-up, en wat niet?</h3><p>Bij de Premium: het frame, het dak met luifel en een beschermhoes. Bij de Professional: het frame, het dak, een wieltas, 4 spanbanden en 4 haringen. Zijwanden en voetgewichten zitten er bij geen van beide bij; die bestel je in dezelfde maat en kleur. Bij de Premium heb je ook <a href=\"/products/spanbanden-en-haringen-easy-up\">spanbanden en haringen</a> nodig.</p><h3>Welke statafelrok past op mijn statafel?</h3><p>Meet het blad van rand tot rand, door het midden. Bij Ø 60–70 cm kies je maat Ø60-70 cm, bij Ø 80–85 cm maat Ø80-85 cm. Onze rokken zijn voor statafels van 105 tot 115 cm hoog. Twijfel je, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>.<!-- claim: Maattabel statafelrokken: pasvorm Ø 60–70 / Ø 80–85 cm bij 105–115 cm hoogte; met proefhoes op eigen statafels controleren --></p><h3>Hoeveel statafels heb ik nodig?</h3><p>Voor een borrel reken je op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Aan een statafel van Ø 80 cm staan 6 personen. Rekenvoorbeelden voor 50 en 100 gasten staan in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Past een zijwand of onderdeel op een tent van een ander merk?</h3><p>Op onze eigen tenten past alles wat bij ‘Past op’ staat. Bij een ander merk kunnen we het niet beloven: meet de zijde van poot tot poot voor een wand, en de dikte van de poot voor gewichten. Stuur ons je maten als je twijfelt.</p><h2>Opzetten en gebruik</h2><h3>Hoe zet ik een partytent goed vast?</h3><p>Elke poot moet vast. Op gras met een haring door elke voetplaat en een spanband van elke dakhoek naar de grond. Op tegels of asfalt met een voetgewicht van minimaal 15 kg per poot, en 30 kg als er zijwanden aan hangen. Bij harde wind, vanaf windkracht 6, haal je eerst de wanden los en daarna het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Met hoeveel mensen zet ik een tent op?</h3><p>Een easy-up tot 3 × 6 m zet je met twee personen neer, de grotere maten met vier. Voor een buizenframe-tent heb je 2 tot 6 personen nodig, afhankelijk van de maat, voor een stretchtent 3 tot 4 en voor een stertent met één mast 2. Bij elke tent staat het precies.</p><h3>Hoe berg ik mijn tent op?</h3><p>Alleen droog. Moest hij nat ingepakt worden, zet hem dan binnen een dag weer op om te drogen; anders krijg je schimmel. Tips voor schoonmaken en opbergen: <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p><h3>Is het tentdoek brandvertragend?</h3><p>Bij de PVC-tenten met buizenframe, de easy-up-daken en het stretchdoek wel; bij de Basis PE niet. Vraagt je gemeente of locatie om een certificaat, vraag het ons dan vóór je bestelt.<!-- claim: Brandvertragend doek: certificaat per lijn bij de leverancier opvragen vóór je het belooft (stretch M2, PVC-lijnen en easy-up-daken) --></p><h2>Bedrukken</h2><h3>Hoe werkt bedrukken?</h3><p>Je kiest je product en uploadt je logo bij de bestelling. Je krijgt per mail een digitale drukproef, en pas na jouw akkoord gaan we drukken. De levertijd is 10–15 werkdagen vanaf je akkoord.<!-- claim: Digitale drukproef per mail vóór productie, aanpassen kan; werkwijze eigenaar/drukker --><!-- claim: Levertijd bedrukte producten 10–15 werkdagen na akkoord drukproef (custom.drukopties.levertijd) --> Alles op een rij: <a href=\"/pages/bedrukken\">bedrukken</a>.</p><h3>Welke bestanden kan ik aanleveren?</h3><p>Het liefst een vectorbestand: PDF, AI, EPS of SVG. Geen vector? Een PNG van minimaal 2000 px breed kan ook; die maken wij drukklaar. Maximaal 20 MB per bestand.<!-- claim: Aanlevering: PDF, AI, EPS of SVG; PNG vanaf 2000 px breed maken wij drukklaar; max. 20 MB per bestand (product-form.js; Shopify-limiet controleren) --> Uitleg: <a href=\"/blogs/advies/logo-aanleveren-voor-bedrukking\">zo lever je je logo aan</a>.</p><h3>Kan ik eerst één stuk laten bedrukken?</h3><p>Ja. Tenten, wanden, daken, statafelhoezen, beschermplaten en klaptafelhoezen bestel je vanaf 1 stuk. Afzetpalen met logo vanaf 10 stuks. Vanaf 10 stuks geldt een staffelprijs.<!-- claim: Bedrukken vanaf 1 stuk, afzetpaal met logo vanaf 10 stuks; staffel vanaf 10 stuks --></p><h2>Zakelijk</h2><h3>Kan ik op factuur betalen?</h3><p>Ja, met een goedgekeurd zakelijk account. Je betaalt dan binnen de termijn op de factuur.<!-- claim: Betalen op factuur alleen met een goedgekeurd zakelijk account (Shopify B2B-betaaltermijn of factuur-app); betaaltermijn 30 dagen is een voorstel --> Een account vraag je aan op <a href=\"/pages/zakelijk\">zakelijk bestellen</a>.</p><h3>Hoe snel krijg ik een offerte?</h3><p>Binnen één werkdag, met prijzen incl. en excl. btw, levering en levertijd.<!-- claim: Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt --> <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</p><h3>Kunnen jullie op een vaste dag leveren?</h3><p>Grote bestellingen komen per pallet, op een dag die we vooraf met je afspreken. Heb je een harde deadline, zoals de dag vóór je evenement, zet die dan in je offerteaanvraag of in de opmerking bij je bestelling.<!-- claim: Levering op een afgesproken dag voor grote zakelijke bestellingen; tijdvak alleen als de vervoerder dat biedt --></p>",
+   "long_html": "<p>Hier staan de vragen die we het vaakst krijgen, per onderwerp. Staat je vraag er niet bij? <a href=\"/pages/contact\">Stel hem ons</a>.</p><h2>Bestellen en betalen</h2><h3>Moet ik een account aanmaken om te bestellen?</h3><p>Nee, je kunt ook als gast afrekenen. Met een account zie je je bestellingen terug en bestel je makkelijker opnieuw. Voor prijzen excl. btw en betalen op factuur heb je een <a href=\"/pages/zakelijk\">zakelijk account</a> nodig.</p><h3>Hoe kan ik betalen?</h3><p>Bij het afrekenen zie je welke betaalmethoden er voor jouw land zijn, zoals iDEAL, Bancontact, creditcard en PayPal. We rekenen geen toeslag.<!-- claim: Betaalmethoden: alleen tonen wat in Shopify > Betalingen aanstaat (voorstel iDEAL, Bancontact, Visa, Mastercard, PayPal, Apple Pay, Google Pay) --><!-- claim: Geen toeslag op betaalmethoden --> Alles op een rij: <a href=\"/pages/betaalmethoden\">betaalmethoden</a>.</p><h3>Zijn de prijzen inclusief btw?</h3><p>Ja, standaard zie je prijzen incl. 21% btw. Met de schakelaar bovenin de winkel zie je ze excl. btw. Op je factuur staat de btw apart.</p><h3>Krijg ik korting als ik er meer bestel?</h3><p>Bij veel producten wel. Je ziet dan een staffeltabel bij de prijs, meestal vanaf 10 stuks. Of de korting meteen in je winkelwagen staat of via een offerte loopt, staat onder die tabel.<!-- claim: Staffelprijzen vanaf 10 stuks; bedragen per product in custom.staffelkorting, echte korting als automatische korting of B2B-prijslijst (theme: staffel_mode) --></p><h3>Kan ik mijn bestelling nog wijzigen of annuleren?</h3><p>Mail of app ons zo snel mogelijk met je bestelnummer. Zolang je bestelling nog niet verzonden of in productie is, passen we hem aan of annuleren we hem. Is hij al onderweg, dan gebruik je je bedenktijd. Een bedrukt product of maatwerk kun je niet meer annuleren als je de drukproef of tekening hebt goedgekeurd.<!-- claim: Wijzigen en annuleren kosteloos tot verzending of productie; werkwijze eigenaar --></p><h3>Hebben jullie een cadeaubon?</h3><p>Ja, een digitale <a href=\"/products/cadeaubon\">cadeaubon</a> van € 25, € 50, € 100 of € 250. Je krijgt hem direct per mail en hij is twee jaar geldig.<!-- claim: Cadeaubon geldig 2 jaar; gelijkzetten met Shopify > Cadeaubonnen en juridisch laten toetsen --></p><h2>Levering</h2><h3>Wanneer heb ik mijn bestelling?</h3><p>Op elke productpagina zie je de verwachte leverdatum. Bestel je een pakket dat op voorraad is op een werkdag vóór 14:00, dan gaat het dezelfde dag de deur uit.<!-- claim: Besteltijd 14:00 en verzenddagen ma–vr (theme: cutoff_time, shipping_days, holidays); alleen voor pakketten die op voorraad zijn --> In Nederland is het meestal de volgende werkdag bij je, in België een werkdag later.<!-- claim: Bezorging NL meestal de volgende werkdag, BE een werkdag later (theme: transit_days_pakket = 1, transit_days_be_extra = 1) --> Bedrukte producten, maatwerk en tenten die we op bestelling maken, hebben een eigen levertijd; die staat bij het product.</p><h3>Wat kost verzenden?</h3><p>Een pakket kost in Nederland € 6,95 en is gratis vanaf € 150. Een palletlevering kost € 59,00 per bestelling.<!-- claim: Verzendkosten NL: pakket € 6,95, gratis vanaf € 150 (incl. btw); pallet € 59,00 per bestelling (theme: shipping_cost_pakket, shipping_cost_pallet, free_shipping_threshold; gelijkzetten met Shopify > Verzending) --> De bedragen voor België en alle details staan op <a href=\"/pages/verzenden-en-bezorgen\">verzenden en bezorgen</a>.</p><h3>Wat is een palletlevering?</h3><p>Grote tenten, betonblokken en grote aantallen tafels zijn te zwaar of te lang voor een pakketdienst. Die brengt een vervoerder op een pallet. Vooraf spreek je een afleverdag af, en de zending wordt tot aan de stoeprand of op de begane grond afgeleverd.<!-- claim: Palletlevering: verzonden binnen 1–2 werkdagen, afleverdag in overleg met de vervoerder, meestal binnen 2–4 werkdagen (theme: delivery_text_pallet, transit_days_pallet = 3) --><!-- claim: Palletlevering tot aan de stoeprand of begane grond, zonder binnenbezorging; afspraak met vervoerder bevestigen --></p><h3>Leveren jullie ook in België?</h3><p>Ja. We leveren in Nederland en België. Woon je elders, of op een van de Waddeneilanden, vraag het ons dan even.<!-- claim: Leveringsgebied Nederland en België; Waddeneilanden en andere landen op aanvraag --></p><h3>Kan ik mijn bestelling afhalen?</h3><p>Op dit moment niet: we bezorgen alles.<!-- claim: Afhalen nog niet mogelijk; aanpassen zodra een afhaallocatie is bevestigd (page showroom-en-afhalen) --></p><h3>Ik heb meerdere producten besteld. Komt alles tegelijk?</h3><p>Wat op voorraad is, sturen we samen. Zit er een product met een langere levertijd tussen, dan hoor je van ons of we in delen leveren of alles in één keer. Heb je een voorkeur, zet die dan in de opmerking bij je bestelling.<!-- claim: Deelleveringen in overleg; werkwijze eigenaar --></p><h2>Retour, schade en garantie</h2><h3>Kan ik iets retourneren?</h3><p>Ja. Je hebt 14 dagen bedenktijd vanaf de dag dat je het product ontvangt.<!-- claim: Bedenktijd 14 dagen = wettelijk minimum (theme: return_days); elke langere termijn is een eigen belofte --> Meld je retour bij ons aan; daarna heb je nog 14 dagen om het terug te sturen. De kosten voor het terugsturen zijn voor jou.<!-- claim: Retourkosten voor rekening van de klant; eigenaar kan kiezen voor gratis retour --> Hoe het precies werkt: <a href=\"/pages/retourneren\">retourneren</a>.</p><h3>Welke producten kan ik niet retourneren?</h3><p>Bedrukte producten en maatwerk, zoals een stretchdoek, overkappingzeil of prikkabel op maat. Die maken we speciaal voor jou. Daarom krijg je eerst een drukproef of tekening ter akkoord.<!-- claim: Geen herroepingsrecht op bedrukte producten en maatwerk (art. 6:230p BW); uitzondering ook in de algemene voorwaarden zetten en juridisch laten controleren --></p><h3>Er is iets beschadigd of er ontbreekt iets. Wat nu?</h3><p>Meld het zo snel mogelijk via <a href=\"/pages/contact\">contact</a>, met je bestelnummer en een paar foto’s. Dan lossen we het op: met een onderdeel, een nieuw exemplaar of je geld terug. Zie je bij een palletlevering al schade aan de verpakking, schrijf dat dan op de vrachtbrief voordat je tekent.</p><h3>Hoe zit het met garantie?</h3><p>Op alles heb je de wettelijke garantie: een product moet doen wat je er bij normaal gebruik van mag verwachten. Op een deel van het assortiment geven we extra garantie, zoals 2 jaar op het frame van de easy-up Professional.<!-- claim: Extra garantie per lijn uit custom.garantie: Premium 1 jaar frame, Professional 2 jaar frame, statafels 2 jaar, buizenframe- en opslagtenten 1 jaar frame en doek, stretchtent 1 jaar doek, stertent enkele mast 1 jaar mast en doek, tuinpaviljoen 2 jaar frame, heaters en marktkraam 1 jaar; met leverancier bevestigen --> Wat waaronder valt: <a href=\"/pages/garantie\">garantie</a>.</p><h2>Maat en keuze</h2><h3>Welke maat partytent heb ik nodig?</h3><p>Reken op ongeveer 1 persoon per m² aan tafel en 1,5 per m² staand. Een 3 × 6 m (18 m²) is dus goed voor ca. 18 mensen aan tafel of 27 staand. Komt er een buffet, bar of dansvloer in, neem dan een maat groter. Meer in het <a href=\"/pages/maatadvies-partytenten\">maatadvies partytenten</a>.</p><h3>Easy-up Premium of Professional: wat is het verschil?</h3><p>De Premium heeft een frame van 40 mm staal met nylon hoekstukken en is gemaakt voor een paar keer per jaar. De Professional heeft 50 mm aluminium met aluminium hoekstukken, een dak in polyester of heavy duty PVC, en een wieltas, spanbanden en haringen in de doos. Voor wekelijks gebruik of verhuur kies je de Professional. Alles naast elkaar: <a href=\"/blogs/advies/easy-up-premium-of-professional\">Premium of Professional?</a></p><h3>Wat zit er bij een easy-up, en wat niet?</h3><p>Bij de Premium: het frame, het dak met luifel en een beschermhoes. Bij de Professional: het frame, het dak, een wieltas, 4 spanbanden en 4 haringen. Zijwanden en voetgewichten zitten er bij geen van beide bij; die bestel je in dezelfde maat en kleur. Bij de Premium heb je ook <a href=\"/products/spanbanden-en-haringen-easy-up\">spanbanden en haringen</a> nodig.</p><h3>Welke statafelrok past op mijn statafel?</h3><p>Meet het blad van rand tot rand, door het midden. Bij Ø 60–70 cm kies je maat Ø60-70 cm, bij Ø 80–85 cm maat Ø80-85 cm. Onze rokken zijn voor statafels van 105 tot 115 cm hoog. Twijfel je, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>.<!-- claim: Maattabel statafelrokken: pasvorm Ø 60–70 / Ø 80–85 cm bij 105–115 cm hoogte; met proefhoes op eigen statafels controleren --></p><h3>Hoeveel statafels heb ik nodig?</h3><p>Voor een borrel reken je op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Aan een statafel van Ø 80 cm staan 6 personen. Rekenvoorbeelden voor 50 en 100 gasten staan in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Past een zijwand of onderdeel op een tent van een ander merk?</h3><p>Op onze eigen tenten past alles wat bij ‘Past op’ staat. Bij een ander merk kunnen we het niet beloven: meet de zijde van poot tot poot voor een wand, en de dikte van de poot voor gewichten. Stuur ons je maten als je twijfelt.</p><h2>Opzetten en gebruik</h2><h3>Hoe zet ik een partytent goed vast?</h3><p>Elke poot moet vast. Op gras met een haring door elke voetplaat en een spanband van elke dakhoek naar de grond. Op tegels of asfalt met een voetgewicht van minimaal 15 kg per poot, en 30 kg als er zijwanden aan hangen. Bij harde wind, vanaf windkracht 6, haal je eerst de wanden los en daarna het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Met hoeveel mensen zet ik een tent op?</h3><p>Een easy-up tot 3 × 6 m zet je met twee personen neer, de grotere maten met vier. Voor een buizenframe-tent heb je 2 tot 6 personen nodig, afhankelijk van de maat, voor een stretchtent 3 tot 4 en voor een stertent met één mast 2. Bij elke tent staat het precies.</p><h3>Hoe berg ik mijn tent op?</h3><p>Alleen droog. Moest hij nat ingepakt worden, zet hem dan binnen een dag weer op om te drogen; anders krijg je schimmel. Tips voor schoonmaken en opbergen: <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p><h3>Is het tentdoek brandvertragend?</h3><p>Dat zetten we pas bij een product als de leverancier de norm en de brandklasse met een certificaat heeft bevestigd. De Basis PE is niet brandvertragend. Vraagt je gemeente of locatie om een certificaat, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is.<!-- claim: Brandvertragend/brandklasse: nergens in de winkel tot het certificaat per doek binnen is (docs/claims-to-confirm.md) --></p><h2>Bedrukken</h2><h3>Hoe werkt bedrukken?</h3><p>Je kiest je product en uploadt je logo bij de bestelling. Je krijgt per mail een digitale drukproef, en pas na jouw akkoord gaan we drukken. De levertijd is 10–15 werkdagen vanaf je akkoord.<!-- claim: Digitale drukproef per mail vóór productie, aanpassen kan; werkwijze eigenaar/drukker --><!-- claim: Levertijd bedrukte producten 10–15 werkdagen na akkoord drukproef (custom.drukopties.levertijd) --> Alles op een rij: <a href=\"/pages/bedrukken\">bedrukken</a>.</p><h3>Welke bestanden kan ik aanleveren?</h3><p>Het liefst een vectorbestand: PDF, AI, EPS of SVG. Geen vector? Een PNG van minimaal 2000 px breed kan ook; die maken wij drukklaar. Maximaal 20 MB per bestand.<!-- claim: Aanlevering: PDF, AI, EPS of SVG; PNG vanaf 2000 px breed maken wij drukklaar; max. 20 MB per bestand (product-form.js; Shopify-limiet controleren) --> Uitleg: <a href=\"/blogs/advies/logo-aanleveren-voor-bedrukking\">zo lever je je logo aan</a>.</p><h3>Kan ik eerst één stuk laten bedrukken?</h3><p>Ja. Tenten, wanden, daken, statafelhoezen, beschermplaten en klaptafelhoezen bestel je vanaf 1 stuk. Afzetpalen met logo vanaf 10 stuks. Vanaf 10 stuks geldt een staffelprijs.<!-- claim: Bedrukken vanaf 1 stuk, afzetpaal met logo vanaf 10 stuks; staffel vanaf 10 stuks --></p><h2>Zakelijk</h2><h3>Kan ik op factuur betalen?</h3><p>Ja, met een goedgekeurd zakelijk account. Je betaalt dan binnen de termijn op de factuur.<!-- claim: Betalen op factuur alleen met een goedgekeurd zakelijk account (Shopify B2B-betaaltermijn of factuur-app); betaaltermijn 30 dagen is een voorstel --> Een account vraag je aan op <a href=\"/pages/zakelijk\">zakelijk bestellen</a>.</p><h3>Hoe snel krijg ik een offerte?</h3><p>Binnen één werkdag, met prijzen incl. en excl. btw, levering en levertijd.<!-- claim: Offerte binnen één werkdag (locale quote.success); alleen laten staan als het zo werkt --> <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</p><h3>Kunnen jullie op een vaste dag leveren?</h3><p>Grote bestellingen komen per pallet, op een dag die we vooraf met je afspreken. Heb je een harde deadline, zoals de dag vóór je evenement, zet die dan in je offerteaanvraag of in de opmerking bij je bestelling.<!-- claim: Levering op een afgesproken dag voor grote zakelijke bestellingen; tijdvak alleen als de vervoerder dat biedt --></p>",
    "template": {
     "note": "templates/page.faq.json: replace the demo blocks with these groups (block type group) and questions (block type question; answer = antwoord_html). The faq section emits FAQPage JSON-LD from the blocks.",
     "heading": "Alle vragen op een rij",
@@ -314,7 +315,7 @@
        },
        {
         "vraag": "Is het tentdoek brandvertragend?",
-        "antwoord_html": "<p>Bij de PVC-tenten met buizenframe, de easy-up-daken en het stretchdoek wel; bij de Basis PE niet. Vraagt je gemeente of locatie om een certificaat, vraag het ons dan vóór je bestelt.<!-- claim: Brandvertragend doek: certificaat per lijn bij de leverancier opvragen vóór je het belooft (stretch M2, PVC-lijnen en easy-up-daken) --></p>"
+        "antwoord_html": "<p>Dat zetten we pas bij een product als de leverancier de norm en de brandklasse met een certificaat heeft bevestigd. De Basis PE is niet brandvertragend. Vraagt je gemeente of locatie om een certificaat, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is.<!-- claim: Brandvertragend/brandklasse: nergens in de winkel tot het certificaat per doek binnen is (docs/claims-to-confirm.md) --></p>"
        }
       ]
      },
@@ -374,7 +375,7 @@
     "Geen herroepingsrecht op bedrukte producten en maatwerk (art. 6:230p BW); uitzondering ook in de algemene voorwaarden zetten en juridisch laten controleren",
     "Extra garantie per lijn uit custom.garantie: Premium 1 jaar frame, Professional 2 jaar frame, statafels 2 jaar, buizenframe- en opslagtenten 1 jaar frame en doek, stretchtent 1 jaar doek, stertent enkele mast 1 jaar mast en doek, tuinpaviljoen 2 jaar frame, heaters en marktkraam 1 jaar; met leverancier bevestigen",
     "Maattabel statafelrokken: pasvorm Ø 60–70 / Ø 80–85 cm bij 105–115 cm hoogte; met proefhoes op eigen statafels controleren",
-    "Brandvertragend doek: certificaat per lijn bij de leverancier opvragen vóór je het belooft (stretch M2, PVC-lijnen en easy-up-daken)",
+    "Brandvertragend/brandklasse: nergens in de winkel tot het certificaat per doek binnen is (docs/claims-to-confirm.md)",
     "Digitale drukproef per mail vóór productie, aanpassen kan; werkwijze eigenaar/drukker",
     "Levertijd bedrukte producten 10–15 werkdagen na akkoord drukproef (custom.drukopties.levertijd)",
     "Aanlevering: PDF, AI, EPS of SVG; PNG vanaf 2000 px breed maken wij drukklaar; max. 20 MB per bestand (product-form.js; Shopify-limiet controleren)",
@@ -857,7 +858,7 @@
     ],
     "excerpt": "Elke poot vast: op gras met haringen en spanbanden, op verharding met minimaal 15 kg per poot. En vanaf windkracht 6 gaat het dak eraf. Zo zet je je tent goed vast.",
     "summary_html": "<p>Elke poot vast: op gras met haringen en spanbanden, op verharding met minimaal 15 kg per poot. En vanaf windkracht 6 gaat het dak eraf. Zo zet je je tent goed vast.</p>",
-    "body_html": "<p>Elke poot moet vast. Op gras met een haring door elke voetplaat en een spanband van elke dakhoek naar de grond. Op tegels of asfalt met een voetgewicht van minimaal 15 kg per poot, en 30 kg als er zijwanden aan hangen. En gaat het harder waaien, vanaf windkracht 6, dan haal je eerst de wanden los en daarna het dak eraf. Dat zijn de regels; hieronder lees je waarom en hoe.</p><h2>Waarom een tent kan wegwaaien</h2><p>Een partytent is een groot dak op dunne poten. Waait de wind eronder, dan werkt het dak als een vleugel: het wil omhoog. Waait de wind tegen een zijwand, dan werkt die wand als een zeil: de tent wil schuiven of kantelen. Een easy-up van 3 × 3 m weegt 27 tot 37 kg. Dat is veel om te dragen, maar weinig tegenover een windstoot op 9 m² doek. Gewicht en verankering houden de tent op zijn plek; het dak eraf halen haalt de kracht weg.</p><h2>Op gras: haringen en spanbanden</h2><p>Op gras heb je twee dingen nodig: een haring door elke voetplaat, zodat de poten niet schuiven, en een spanband van elke dakhoek naar een haring in de grond, zodat het dak niet kan optillen.</p><ol><li>Zet de tent op volle hoogte op zijn plek.</li><li>Sla door elke voetplaat een haring.</li><li>Haak een spanband om elk hoekstuk.</li><li>Sla de haring voor de spanband ongeveer 1 tot 1,5 meter van de poot in de grond, in het verlengde van de diagonaal van de tent. Sla hem schuin in, met de kop van de tent af; dan trekt de band hem niet uit de grond.</li><li>Trek de band strak met de gesp. Kijk na een uur en na een regenbui opnieuw: nat doek en natte grond geven mee.</li></ol><p>Bij onze easy-up Professional zitten 4 spanbanden en 4 haringen in de doos. Bij de Premium bestel je de <a href=\"/products/spanbanden-en-haringen-easy-up\">set spanbanden en haringen</a> erbij. Heeft je tent zes of acht poten, neem dan twee sets, zodat ook de middenpoten vastzitten.</p><h3>Welke haring in welke grond</h3><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Ondergrond</th><th scope=\"col\">Easy-up</th><th scope=\"col\">Buizenframe-tent</th></tr></thead><tbody><tr><th scope=\"row\">Gras en stevige tuingrond</th><td>Haring 30 cm</td><td>Lange haring 50 cm</td></tr><tr><th scope=\"row\">Zachte, natte of omgewoelde grond</th><td>Lange haring 50 cm</td><td>Lange haring 75 cm; voor stormbanden 100 cm</td></tr><tr><th scope=\"row\">Los zand, strand</th><td>Draaiharing 30 cm, plus gewicht</td><td>Draaiharingen plus verzwaring</td></tr><tr><th scope=\"row\">Tegels, asfalt, beton</th><td>Geen haring: 15 kg per poot</td><td>Geen haring: ballast of betonblokken</td></tr></tbody></table></div><p>Alle lengtes vind je bij <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">haringen en bevestigingsmateriaal</a>. Sla geen lange haring in waar je niet weet wat eronder ligt, zoals kabels of drainage.</p><h2>Op verharding: gewicht op elke poot</h2><p>Op tegels, asfalt of beton kun je geen haring kwijt. Daar houdt gewicht de tent op zijn plek. Onze regel: minimaal 15 kg per poot voor een easy-up zonder wanden, ook voor de middenpoten. Hangen er wanden aan, dan vangt de tent veel meer wind; zet dan 30 kg per poot, of span de dakhoeken extra af naar een vast punt zoals een hek of paal.</p><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Poten</th><th scope=\"col\">Zonder wanden</th><th scope=\"col\">Met wanden</th></tr></thead><tbody><tr><th scope=\"row\">2 × 2, 3 × 3 en 4 × 4 m</th><td>4</td><td>4 × 15 kg = 60 kg</td><td>4 × 30 kg = 120 kg</td></tr><tr><th scope=\"row\">3 × 4,5, 3 × 6, 4 × 6 en 4 × 8 m</th><td>6</td><td>6 × 15 kg = 90 kg</td><td>6 × 30 kg = 180 kg</td></tr><tr><th scope=\"row\">5 × 5 m</th><td>8</td><td>8 × 15 kg = 120 kg</td><td>8 × 30 kg = 240 kg</td></tr></tbody></table></div><p>Een <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewicht van 15 kg</a> bestaat uit twee platen van 7,5 kg die met een sleuf om de poot schuiven en op de voetplaat rusten. Leg de tweede plaat een halve slag gedraaid, zodat de sleuven niet boven elkaar liggen. <a href=\"/products/zandzakken-partytent-set-van-4\">Zandzakken</a> van ongeveer 10 kg zijn prima voor een rustige dag in de tuin, maar voor een markt of evenement houden we 15 kg per poot aan.</p><h2>Op zand en op het strand</h2><p>Een gewone haring trekt in los zand zo uit de grond. Gebruik daar draaiharingen: zet de punt op het zand, steek een stok door het oog en draai hem rechtsom in tot het oog net boven het zand staat. Combineer ze met zandzakken of voetgewichten op de poten. En houd er rekening mee dat het aan zee vaak harder waait dan in de tuin.</p><h2>Grote tenten: stormbanden en ballast</h2><p>Bij een buizenframe- of opslagtent gaat er een <a href=\"/products/stormbandenset-partytent\">stormband</a> over het dak, van een haring aan de ene kant naar een haring aan de andere kant. Reken op één set per 2 meter tentlengte: twee voor een tent van 4 meter lang, vier voor 8 meter. Stormbanden komen bovenop de gewone verankering van de staanders, niet in plaats daarvan. Op een easy-up gebruik je geen stormband: die drukt het doek tussen de schaararmen in.</p><p>Staat een grote tent op verharding, dan heb je ballast nodig: minimaal 50 kg per staander bij een buizenframe-tent, of <a href=\"/products/betonblok-ballast-tent\">betonblokken</a> van 140 tot 1000 kg bij stretch- en stertenten. Bij een evenement met publiek kan de gemeente een ballastberekening of tentcertificaat vragen. Regel dat ruim voor de opbouw.</p><h2>Wanneer haal je het dak eraf?</h2><p>Een easy-up is een feest- en markttent, geen stormtent. Geen enkele partytent is gemaakt om storm te doorstaan. Gebruik de windschaal van Beaufort, die je in elk weerbericht ziet, en kijk ook naar de windstoten.</p><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Windkracht</th><th scope=\"col\">Zo herken je het</th><th scope=\"col\">Wat je doet</th></tr></thead><tbody><tr><th scope=\"row\">4</th><td>Stof en papier waaien op, kleine takken bewegen</td><td>Alles vast? Dan kan het feest gewoon door.</td></tr><tr><th scope=\"row\">5</th><td>Kleine bomen bewegen, op het water komen schuimkoppen</td><td>Controleer alle banden en gewichten. Opblaasbare tenten laat je leeglopen.</td></tr><tr><th scope=\"row\">6</th><td>Grote takken bewegen, een paraplu houd je lastig vast</td><td>Eerst de zijwanden los, dan het dak eraf of de tent afbreken.</td></tr><tr><th scope=\"row\">7 en hoger</th><td>Hele bomen bewegen, tegen de wind in lopen gaat moeilijk</td><td>Tent plat. Niemand meer in of onder de tent.</td></tr></tbody></table></div><p>Wacht niet tot het stormt: het dak eraf halen bij windkracht 7 is gevaarlijk werk. Wordt er wind voorspeld, beslis dan vooraf wanneer je ingrijpt, en laat een tent bij wind nooit onbeheerd staan, ook niet ’s nachts. Een buizenframe-tent houd je zo lang mogelijk dicht, zodat de wind niet onder het dak komt; wordt er storm verwacht, dan breek je hem af. Bij een stertent laat je de mast zakken.</p><h2>Wanden en wind</h2><ul><li>Hang de dichte wand aan de kant waar de wind vandaan komt.</li><li>Zet de deur aan de luwe kant. Gaat de deur tegen de wind in open, dan blaast de wind onder het dak.</li><li>Hang je maar één of twee wanden op, zet de tent dan net zo stevig vast als met vier: één dichte wand werkt als een zeil.</li><li>Bij harde wind gaan eerst de wanden los en daarna pas het dak. Zonder wanden vangt de tent een stuk minder.</li></ul><h2>Checklist voor je feest</h2><ul><li>Kijk een dag van tevoren en op de dag zelf naar de verwachte windkracht én de windstoten.</li><li>Zorg voor verankering die bij je ondergrond past: haringen en spanbanden, gewichten of ballast.</li><li>Zet elke poot vast zodra de tent staat, niet pas als het gaat waaien.</li><li>Spreek af wie er ingrijpt als het harder gaat waaien, en hoe.</li><li>Markeer spanbanden en haringen, zodat niemand erover struikelt. Een lichtslang langs de rand helpt in het donker.</li></ul><p>Alle verankering bij elkaar vind je bij <a href=\"/collections/gewichten-en-verankering\">gewichten en verankering</a>.</p>",
+    "body_html": "<p>Elke poot moet vast. Op gras met een haring door elke voetplaat en een spanband van elke dakhoek naar de grond. Op tegels of asfalt met een voetgewicht van minimaal 15 kg per poot, en 30 kg als er zijwanden aan hangen. En gaat het harder waaien, vanaf windkracht 6, dan haal je eerst de wanden los en daarna het dak eraf. Dat zijn de regels; hieronder lees je waarom en hoe.</p><h2>Waarom een tent kan wegwaaien</h2><p>Een partytent is een groot dak op dunne poten. Waait de wind eronder, dan werkt het dak als een vleugel: het wil omhoog. Waait de wind tegen een zijwand, dan werkt die wand als een zeil: de tent wil schuiven of kantelen. Een easy-up van 3 × 3 m weegt 27 tot 37 kg. Dat is veel om te dragen, maar weinig tegenover een windstoot op 9 m² doek. Gewicht en verankering houden de tent op zijn plek; het dak eraf halen haalt de kracht weg.</p><h2>Op gras: haringen en spanbanden</h2><p>Op gras heb je twee dingen nodig: een haring door elke voetplaat, zodat de poten niet schuiven, en een spanband van elke dakhoek naar een haring in de grond, zodat het dak niet kan optillen.</p><ol><li>Zet de tent op volle hoogte op zijn plek.</li><li>Sla door elke voetplaat een haring.</li><li>Haak een spanband om elk hoekstuk.</li><li>Sla de haring voor de spanband ongeveer 1 tot 1,5 meter van de poot in de grond, in het verlengde van de diagonaal van de tent. Sla hem schuin in, met de kop van de tent af; dan trekt de band hem niet uit de grond.</li><li>Trek de band strak met de gesp. Kijk na een uur en na een regenbui opnieuw: nat doek en natte grond geven mee.</li></ol><p>Bij onze easy-up Professional zitten 4 spanbanden en 4 haringen in de doos. Bij de Premium bestel je de <a href=\"/products/spanbanden-en-haringen-easy-up\">set spanbanden en haringen</a> erbij. Heeft je tent zes of acht poten, neem dan twee sets, zodat ook de middenpoten vastzitten.</p><h3>Welke haring in welke grond</h3><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Ondergrond</th><th scope=\"col\">Easy-up</th><th scope=\"col\">Buizenframe-tent</th></tr></thead><tbody><tr><th scope=\"row\">Gras en stevige tuingrond</th><td>Haring 30 cm</td><td>Lange haring 50 cm</td></tr><tr><th scope=\"row\">Zachte, natte of omgewoelde grond</th><td>Lange haring 50 cm</td><td>Lange haring 75 cm; voor stormbanden 100 cm</td></tr><tr><th scope=\"row\">Los zand, strand</th><td>Draaiharing 30 cm, plus gewicht</td><td>Draaiharingen plus verzwaring</td></tr><tr><th scope=\"row\">Tegels, asfalt, beton</th><td>Geen haring: 15 kg per poot</td><td>Geen haring: ballast of betonblokken</td></tr></tbody></table></div><p>Alle lengtes vind je bij <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">haringen en bevestigingsmateriaal</a>. Sla geen lange haring in waar je niet weet wat eronder ligt, zoals kabels of drainage.</p><h2>Op verharding: gewicht op elke poot</h2><p>Op tegels, asfalt of beton kun je geen haring kwijt. Daar houdt gewicht de tent op zijn plek. Onze regel: minimaal 15 kg per poot voor een easy-up zonder wanden, ook voor de middenpoten. Hangen er wanden aan, dan vangt de tent veel meer wind; zet dan 30 kg per poot, of span de dakhoeken extra af naar een vast punt zoals een hek of paal.</p><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Poten</th><th scope=\"col\">Zonder wanden</th><th scope=\"col\">Met wanden</th></tr></thead><tbody><tr><th scope=\"row\">2 × 2, 3 × 3 en 4 × 4 m</th><td>4</td><td>4 × 15 kg = 60 kg</td><td>4 × 30 kg = 120 kg</td></tr><tr><th scope=\"row\">3 × 4,5, 3 × 6, 4 × 6 en 4 × 8 m</th><td>6</td><td>6 × 15 kg = 90 kg</td><td>6 × 30 kg = 180 kg</td></tr><tr><th scope=\"row\">5 × 5 m</th><td>8</td><td>8 × 15 kg = 120 kg</td><td>8 × 30 kg = 240 kg</td></tr></tbody></table></div><p>Een <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewicht van 15 kg</a> bestaat uit twee platen van 7,5 kg die met een sleuf om de poot schuiven en op de voetplaat rusten. Leg de tweede plaat een halve slag gedraaid, zodat de sleuven niet boven elkaar liggen. <a href=\"/products/zandzakken-partytent-set-van-4\">Zandzakken</a> van ongeveer 10 kg zijn prima voor een rustige dag in de tuin, maar voor een markt of evenement houden we 15 kg per poot aan.</p><h2>Op zand en op het strand</h2><p>Een gewone haring trekt in los zand zo uit de grond. Gebruik daar draaiharingen: zet de punt op het zand, steek een stok door het oog en draai hem rechtsom in tot het oog net boven het zand staat. Combineer ze met zandzakken of voetgewichten op de poten. En houd er rekening mee dat het aan zee vaak harder waait dan in de tuin.</p><h2>Grote tenten: stormbanden en ballast</h2><p>Bij een buizenframe- of opslagtent gaat er een <a href=\"/products/stormbandenset-partytent\">stormband</a> over het dak, van een haring aan de ene kant naar een haring aan de andere kant. Reken op één set per 2 meter tentlengte: twee voor een tent van 4 meter lang, vier voor 8 meter. Stormbanden komen bovenop de gewone verankering van de staanders, niet in plaats daarvan. Op een easy-up gebruik je geen stormband: die drukt het doek tussen de schaararmen in.</p><p>Staat een buizenframe-tent op verharding, zet dan op elke staander een <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewicht van 15 kg</a>, en twee (30 kg) als de wanden eraan hangen en de tent open in de wind staat. Voor stretch- en stertenten, en voor grote tenten op een open terrein, is ballast rekenwerk per ankerpunt: <a href=\"/pages/offerte\">vraag ballastadvies aan</a>, dan zeggen we of er <a href=\"/products/betonblok-ballast-tent\">betonblokken</a> nodig zijn en hoe zwaar. Bij een evenement met publiek kan de gemeente een ballastberekening of tentcertificaat vragen. Regel dat ruim voor de opbouw.</p><h2>Wanneer haal je het dak eraf?</h2><p>Een easy-up is een feest- en markttent, geen stormtent. Geen enkele partytent is gemaakt om storm te doorstaan. Gebruik de windschaal van Beaufort, die je in elk weerbericht ziet, en kijk ook naar de windstoten.</p><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Windkracht</th><th scope=\"col\">Zo herken je het</th><th scope=\"col\">Wat je doet</th></tr></thead><tbody><tr><th scope=\"row\">4</th><td>Stof en papier waaien op, kleine takken bewegen</td><td>Alles vast? Dan kan het feest gewoon door.</td></tr><tr><th scope=\"row\">5</th><td>Kleine bomen bewegen, op het water komen schuimkoppen</td><td>Controleer alle banden en gewichten. Opblaasbare tenten laat je leeglopen.</td></tr><tr><th scope=\"row\">6</th><td>Grote takken bewegen, een paraplu houd je lastig vast</td><td>Eerst de zijwanden los, dan het dak eraf of de tent afbreken.</td></tr><tr><th scope=\"row\">7 en hoger</th><td>Hele bomen bewegen, tegen de wind in lopen gaat moeilijk</td><td>Tent plat. Niemand meer in of onder de tent.</td></tr></tbody></table></div><p>Wacht niet tot het stormt: het dak eraf halen bij windkracht 7 is gevaarlijk werk. Wordt er wind voorspeld, beslis dan vooraf wanneer je ingrijpt, en laat een tent bij wind nooit onbeheerd staan, ook niet ’s nachts. Een buizenframe-tent houd je zo lang mogelijk dicht, zodat de wind niet onder het dak komt; wordt er storm verwacht, dan breek je hem af. Bij een stertent laat je de mast zakken.</p><h2>Wanden en wind</h2><ul><li>Hang de dichte wand aan de kant waar de wind vandaan komt.</li><li>Zet de deur aan de luwe kant. Gaat de deur tegen de wind in open, dan blaast de wind onder het dak.</li><li>Hang je maar één of twee wanden op, zet de tent dan net zo stevig vast als met vier: één dichte wand werkt als een zeil.</li><li>Bij harde wind gaan eerst de wanden los en daarna pas het dak. Zonder wanden vangt de tent een stuk minder.</li></ul><h2>Checklist voor je feest</h2><ul><li>Kijk een dag van tevoren en op de dag zelf naar de verwachte windkracht én de windstoten.</li><li>Zorg voor verankering die bij je ondergrond past: haringen en spanbanden, gewichten of ballast.</li><li>Zet elke poot vast zodra de tent staat, niet pas als het gaat waaien.</li><li>Spreek af wie er ingrijpt als het harder gaat waaien, en hoe.</li><li>Markeer spanbanden en haringen, zodat niemand erover struikelt. Een lichtslang langs de rand helpt in het donker.</li></ul><p>Alle verankering bij elkaar vind je bij <a href=\"/collections/gewichten-en-verankering\">gewichten en verankering</a>.</p>",
     "seo": {
      "title": "Partytent verankeren bij wind | Klapklaar",
      "description": "Op gras haringen en spanbanden, op verharding 15 kg per poot, met wanden 30 kg. Vanaf windkracht 6 eerst de wanden los en dan het dak eraf."
@@ -895,7 +896,9 @@
       ]
      }
     },
-    "claims": [],
+    "claims": [
+     "Ballast buizenframe op verharding: 1 voetgewicht 15 kg per staander, 2 met wanden in de wind (vervangt \"minimaal 50 kg per staander\", 2026-10-18); stretch, ster en groot: ballastadvies via offerte. Laten bevestigen door leverancier."
+    ],
     "words": 1209
    },
    {
@@ -1079,12 +1082,12 @@
      "vergelijken",
      "collectie:partytenten-buizenframe"
     ],
-    "excerpt": "PE is licht en voordelig voor een paar keer per jaar. PVC is zwaarder, waterdicht door gelaste naden en brandvertragend, voor vaak gebruik en tenten die blijven staan.",
-    "summary_html": "<p>PE is licht en voordelig voor een paar keer per jaar. PVC is zwaarder, waterdicht door gelaste naden en brandvertragend, voor vaak gebruik en tenten die blijven staan.</p>",
-    "body_html": "<p>Kies PE als je een voordelige tent zoekt voor een paar keer per jaar, een dag of een weekend. Kies PVC als je de tent vaak opzet, hem weken laat staan of als de locatie brandvertragend doek vraagt. PVC is zwaarder en duurder, maar waterdicht door de gelaste naden en het gaat langer mee in zon en wind. Hieronder het verschil, en welke dikte bij welk gebruik past.</p><h2>Wat is PE, wat is PVC?</h2><p><strong>PE</strong> staat voor polyetheen. Het is een geweven kunststof doek met een laagje erover, het materiaal dat je ook kent van stevige afdekzeilen. Het is licht, buigzaam en goedkoop. Ons PE-doek weegt ongeveer 180 tot 200 g/m².</p><p><strong>PVC</strong> staat voor polyvinylchloride. Bij tentdoek is dat een weefsel van polyester met aan beide kanten een dikke laag PVC. Het is zwaarder, steviger en dicht: water komt er niet doorheen, ook niet bij een lange bui. Onze buizenframe-tenten hebben PVC van 500, 550 of 620 g/m².</p><h2>Naast elkaar</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Kenmerk</th><th scope=\"col\">PE</th><th scope=\"col\">PVC</th></tr></thead><tbody><tr><th scope=\"row\">Gewicht doek</th><td>ca. 180–200 g/m²</td><td>500, 550 of 620 g/m²</td></tr><tr><th scope=\"row\">Water</th><td>Waterafstotend; bij lange regen kan het op de naden lekken</td><td>Waterdicht</td></tr><tr><th scope=\"row\">Brandvertragend</th><td>Nee</td><td>Ja, certificaat op aanvraag</td></tr><tr><th scope=\"row\">Laten staan</th><td>Een dag of weekend, hooguit een paar dagen</td><td>Van een week (500) tot weken en maanden (550, 620)</td></tr><tr><th scope=\"row\">Gewicht tent 4 × 8 m</th><td>ca. 93 kg</td><td>ca. 122 kg (500) tot 148 kg (620)</td></tr><tr><th scope=\"row\">Opvouwen</th><td>Makkelijk, klein pakket</td><td>Stugger, groter pakket</td></tr><tr><th scope=\"row\">Schoonmaken</th><td>Voorzichtig, coating is dun</td><td>Glad, vuil veeg je eraf</td></tr><tr><th scope=\"row\">Prijs</th><td>Lager</td><td>Hoger</td></tr></tbody></table></div><!-- claim: Brandvertragend doek: certificaat per lijn bij de leverancier opvragen vóór je het belooft (stretch M2, PVC-lijnen en easy-up-daken) --><h2>Wat zegt g/m²?</h2><p>Het getal in g/m² is het gewicht van een vierkante meter doek. Hoe zwaarder, hoe dikker de coating en hoe steviger het weefsel. Dat merk je in drie dingen: het doek scheurt minder snel, het kan beter tegen zon en wind, en het blijft langer strak. Bij PVC zie je het ook terug in de treksterkte: ons PVC van 550 g/m² haalt 860 N, het PVC van 620 g/m² 930 N.</p><p>Een zwaarder doek is niet altijd beter. Het maakt de tent zwaarder om op te zetten en te vervoeren, en het kost meer. Zet je de tent twee keer per jaar een dag op, dan betaal je bij 620 g/m² voor sterkte die je niet gebruikt.</p><h2>Waterdicht of waterafstotend</h2><p>PE-doek is waterafstotend: bij een gewone bui blijft het onder de tent droog. Regent het lang en hard, dan kan er water doorkomen, vooral bij naden en ogen. Voor een tuinfeest is dat meestal geen probleem; voor een tent die een week in de regen staat wel. PVC-doek heeft gelaste naden: de banen zijn met hitte aan elkaar gesmolten. Daar komt geen water door.</p><h2>Brandvertragend: wanneer moet het?</h2><p>Zet je een tent neer voor een evenement met publiek, zoals een braderie, een sportdag of een feest in een openbare ruimte, dan vraagt de gemeente of de locatie vaak om brandvertragend doek, met een certificaat. PE is niet brandvertragend. Onze PVC-tenten wel. Weet je dat je een certificaat nodig hebt, vraag het ons dan vóór je bestelt, zodat we het kunnen meesturen. Voor een tent in je eigen tuin is het niet verplicht, maar wel prettig als er een heater of kaarsen in de buurt staan.</p><h2>De vijf lijnen</h2><ul><li><a href=\"/products/partytent-pe-basis-buizenframe\">Basis PE</a>: PE 180–200 g/m², voor een paar keer per jaar. 3 × 4 tot 5 × 10 m.</li><li><a href=\"/products/partytent-pvc-500-comfort\">PVC 500 Comfort</a>: voor regelmatig gebruik en evenementen van een paar dagen. 3 × 6 tot 6 × 12 m.</li><li><a href=\"/products/partytent-pvc-550-premium\">PVC 550 Premium</a>: met grondframe en nokversteviging, ook om weken te laten staan. 3 × 3 tot 8 × 12 m.</li><li><a href=\"/products/partytent-pvc-550-compleet\">PVC 550 compleet</a>: de Premium met stormbanden en opbergtassen erbij.</li><li><a href=\"/products/partytent-pvc-620-professional\">PVC 620 Professional</a>: het zwaarste doek, met 220 cm zijhoogte, voor verhuur en langdurig gebruik. 4 × 6 tot 6 × 12 m.</li></ul><p>Het frame is bij alle lijnen hetzelfde: verzinkte stalen buizen van 38 mm. De Premium en Professional hebben er een grondframe en nokversteviging bij, waardoor de tent stijver staat en de nok recht blijft als hij lang staat.</p><h2>En bij een easy-up?</h2><p>Bij een easy-up heet het doek anders, en dat geeft soms verwarring. Het standaard dak van onze easy-ups is polyester met een PVC-coating, 320 g/m². Dat is geen PE: het is waterdicht, met afgeplakte naden, en brandvertragend. Bij de Professional kun je ook kiezen voor heavy duty PVC van 580 g/m², dik doek met gelaste naden, voor wie de tent elke week gebruikt. Het verschil lees je in <a href=\"/blogs/advies/easy-up-premium-of-professional\">Easy-up Premium of Professional</a>.</p><h2>Onderhoud</h2><p>Beide soorten doek berg je alleen droog op. PE is dun en kan bij het vouwen sneller kreukels en breuklijnen krijgen; vouw het niet steeds op dezelfde plek. PVC is stugger, zeker in de kou: rol het liever dan dat je het scherp vouwt. Schoonmaken doe je met lauw water, een zachte borstel en wat milde zeep, nooit met een hogedrukreiniger. Een klein gaatje plak je met een <a href=\"/products/reparatieset-tentdoek\">reparatieset</a>. Meer in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p><h2>Welke kies je?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Jouw situatie</th><th scope=\"col\">Onze keuze</th></tr></thead><tbody><tr><th scope=\"row\">Tuinfeest of familiefeest, een paar keer per jaar</th><td>Basis PE</td></tr><tr><th scope=\"row\">Club of school met een paar evenementen per jaar</th><td>PVC 500 Comfort</td></tr><tr><th scope=\"row\">Vereniging, camping of bedrijf; de tent staat soms weken</th><td>PVC 550 Premium of PVC 550 compleet</td></tr><tr><th scope=\"row\">Verhuur of horeca, heel vaak of maanden achter elkaar</th><td>PVC 620 Professional</td></tr><tr><th scope=\"row\">Evenement met publiek, brandvertragend verplicht</th><td>Een van de PVC-lijnen, met certificaat</td></tr></tbody></table></div><p>Twijfel je tussen twee lijnen, neem dan de zwaardere. Een tent die je vaker gebruikt dan gepland, is met dikker doek beter af. Alle buizenframe-tenten staan bij <a href=\"/collections/partytenten-buizenframe\">partytenten met buizenframe</a>.</p>",
+    "excerpt": "PE is licht en voordelig voor een paar keer per jaar. PVC is zwaarder en waterdicht door gelaste naden, voor vaak gebruik en tenten die blijven staan.",
+    "summary_html": "<p>PE is licht en voordelig voor een paar keer per jaar. PVC is zwaarder en waterdicht door gelaste naden, voor vaak gebruik en tenten die blijven staan.</p>",
+    "body_html": "<p>Kies PE als je een voordelige tent zoekt voor een paar keer per jaar, een dag of een weekend. Kies PVC als je de tent vaak opzet, hem weken laat staan of als je tent bij weer en wind langer mee moet. PVC is zwaarder en duurder, maar waterdicht door de gelaste naden en het gaat langer mee in zon en wind. Hieronder het verschil, en welke dikte bij welk gebruik past.</p><h2>Wat is PE, wat is PVC?</h2><p><strong>PE</strong> staat voor polyetheen. Het is een geweven kunststof doek met een laagje erover, het materiaal dat je ook kent van stevige afdekzeilen. Het is licht, buigzaam en goedkoop. Ons PE-doek weegt ongeveer 180 tot 200 g/m².</p><p><strong>PVC</strong> staat voor polyvinylchloride. Bij tentdoek is dat een weefsel van polyester met aan beide kanten een dikke laag PVC. Het is zwaarder, steviger en dicht: water komt er niet doorheen, ook niet bij een lange bui. Onze buizenframe-tenten hebben PVC van 500, 550 of 620 g/m².</p><h2>Naast elkaar</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Kenmerk</th><th scope=\"col\">PE</th><th scope=\"col\">PVC</th></tr></thead><tbody><tr><th scope=\"row\">Gewicht doek</th><td>ca. 180–200 g/m²</td><td>500, 550 of 620 g/m²</td></tr><tr><th scope=\"row\">Water</th><td>Waterafstotend; bij lange regen kan het op de naden lekken</td><td>Waterdicht</td></tr><tr><th scope=\"row\">Laten staan</th><td>Een dag of weekend, hooguit een paar dagen</td><td>Van een week (500) tot weken en maanden (550, 620)</td></tr><tr><th scope=\"row\">Gewicht tent 4 × 8 m</th><td>ca. 93 kg</td><td>ca. 122 kg (500) tot 148 kg (620)</td></tr><tr><th scope=\"row\">Opvouwen</th><td>Makkelijk, klein pakket</td><td>Stugger, groter pakket</td></tr><tr><th scope=\"row\">Schoonmaken</th><td>Voorzichtig, coating is dun</td><td>Glad, vuil veeg je eraf</td></tr><tr><th scope=\"row\">Prijs</th><td>Lager</td><td>Hoger</td></tr></tbody></table></div><!-- claim: Brandvertragend/brandklasse: nergens in de winkel tot het certificaat per doek binnen is (docs/claims-to-confirm.md) --><h2>Wat zegt g/m²?</h2><p>Het getal in g/m² is het gewicht van een vierkante meter doek. Hoe zwaarder, hoe dikker de coating en hoe steviger het weefsel. Dat merk je in drie dingen: het doek scheurt minder snel, het kan beter tegen zon en wind, en het blijft langer strak. Bij PVC zie je het ook terug in de treksterkte: ons PVC van 550 g/m² haalt 860 N, het PVC van 620 g/m² 930 N.</p><p>Een zwaarder doek is niet altijd beter. Het maakt de tent zwaarder om op te zetten en te vervoeren, en het kost meer. Zet je de tent twee keer per jaar een dag op, dan betaal je bij 620 g/m² voor sterkte die je niet gebruikt.</p><h2>Waterdicht of waterafstotend</h2><p>PE-doek is waterafstotend: bij een gewone bui blijft het onder de tent droog. Regent het lang en hard, dan kan er water doorkomen, vooral bij naden en ogen. Voor een tuinfeest is dat meestal geen probleem; voor een tent die een week in de regen staat wel. PVC-doek heeft gelaste naden: de banen zijn met hitte aan elkaar gesmolten. Daar komt geen water door.</p><h2>Brandvertragend: wanneer moet het?</h2><p>Zet je een tent neer voor een evenement met publiek, zoals een braderie, een sportdag of een feest in een openbare ruimte, dan vraagt de gemeente of de locatie vaak om brandvertragend doek, met een certificaat. PE is niet brandvertragend. Of een PVC-doek het is, en met welke brandklasse, zetten we pas bij een tent als de leverancier het met een certificaat heeft bevestigd. Weet je dat je een certificaat nodig hebt, vraag het ons dan vóór je bestelt: we zoeken uit wat het doek haalt en of het certificaat op tijd is. Voor een tent in je eigen tuin is het niet verplicht, maar wel prettig als er een heater of kaarsen in de buurt staan.</p><h2>De vijf lijnen</h2><ul><li><a href=\"/products/partytent-pe-basis-buizenframe\">Basis PE</a>: PE 180–200 g/m², voor een paar keer per jaar. 3 × 4 tot 5 × 10 m.</li><li><a href=\"/products/partytent-pvc-500-comfort\">PVC 500 Comfort</a>: voor regelmatig gebruik en evenementen van een paar dagen. 3 × 6 tot 6 × 12 m.</li><li><a href=\"/products/partytent-pvc-550-premium\">PVC 550 Premium</a>: met grondframe en nokversteviging, ook om weken te laten staan. 3 × 3 tot 8 × 12 m.</li><li><a href=\"/products/partytent-pvc-550-compleet\">PVC 550 compleet</a>: de Premium met stormbanden en opbergtassen erbij.</li><li><a href=\"/products/partytent-pvc-620-professional\">PVC 620 Professional</a>: het zwaarste doek, met 220 cm zijhoogte, voor verhuur en langdurig gebruik. 4 × 6 tot 6 × 12 m.</li></ul><p>Het frame is bij alle lijnen hetzelfde: verzinkte stalen buizen van 38 mm. De Premium en Professional hebben er een grondframe en nokversteviging bij, waardoor de tent stijver staat en de nok recht blijft als hij lang staat.</p><h2>En bij een easy-up?</h2><p>Bij een easy-up heet het doek anders, en dat geeft soms verwarring. Het standaard dak van onze easy-ups is polyester met een PVC-coating, 320 g/m². Dat is geen PE: het is waterdicht, met afgeplakte naden. Bij de Professional kun je ook kiezen voor heavy duty PVC van 580 g/m², dik doek met gelaste naden, voor wie de tent elke week gebruikt. Het verschil lees je in <a href=\"/blogs/advies/easy-up-premium-of-professional\">Easy-up Premium of Professional</a>.</p><h2>Onderhoud</h2><p>Beide soorten doek berg je alleen droog op. PE is dun en kan bij het vouwen sneller kreukels en breuklijnen krijgen; vouw het niet steeds op dezelfde plek. PVC is stugger, zeker in de kou: rol het liever dan dat je het scherp vouwt. Schoonmaken doe je met lauw water, een zachte borstel en wat milde zeep, nooit met een hogedrukreiniger. Een klein gaatje plak je met een <a href=\"/products/reparatieset-tentdoek\">reparatieset</a>. Meer in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p><h2>Welke kies je?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Jouw situatie</th><th scope=\"col\">Onze keuze</th></tr></thead><tbody><tr><th scope=\"row\">Tuinfeest of familiefeest, een paar keer per jaar</th><td>Basis PE</td></tr><tr><th scope=\"row\">Club of school met een paar evenementen per jaar</th><td>PVC 500 Comfort</td></tr><tr><th scope=\"row\">Vereniging, camping of bedrijf; de tent staat soms weken</th><td>PVC 550 Premium of PVC 550 compleet</td></tr><tr><th scope=\"row\">Verhuur of horeca, heel vaak of maanden achter elkaar</th><td>PVC 620 Professional</td></tr><tr><th scope=\"row\">Evenement met publiek, brandcertificaat gevraagd</th><td>Een van de PVC-lijnen; vraag ons vóór je bestelt naar het certificaat</td></tr></tbody></table></div><p>Twijfel je tussen twee lijnen, neem dan de zwaardere. Een tent die je vaker gebruikt dan gepland, is met dikker doek beter af. Alle buizenframe-tenten staan bij <a href=\"/collections/partytenten-buizenframe\">partytenten met buizenframe</a>.</p>",
     "seo": {
      "title": "PE of PVC partytent: welk tentdoek kies je? | Klapklaar",
-     "description": "PE is licht en voordelig voor af en toe. PVC is waterdicht door gelaste naden, brandvertragend en gaat langer mee. Het verschil per g/m² en per gebruik."
+     "description": "PE is licht en voordelig voor af en toe. PVC is waterdicht door gelaste naden en gaat langer mee. Het verschil per g/m² en per gebruik."
     },
     "image": {
      "src": "advies-pe-of-pvc.webp",
@@ -1265,7 +1268,7 @@
     ],
     "excerpt": "Kies per zijde de lengte van die zijde, van poot tot poot. Dicht aan de windkant, ramen aan de lange zijden, de deur aan de luwe kant. Polyester of PVC, set of los.",
     "summary_html": "<p>Kies per zijde de lengte van die zijde, van poot tot poot. Dicht aan de windkant, ramen aan de lange zijden, de deur aan de luwe kant. Polyester of PVC, set of los.</p>",
-    "body_html": "<p>Een zijwand bedekt één zijde van je tent. Kies daarom per zijde de lengte van die zijde, gemeten van poot tot poot. Hang de dichte wand aan de kant waar de wind vandaan komt, ramen aan de lange zijden en de deur aan de luwe kant. Voor een paar feesten per jaar is polyester genoeg; voor verhuur en horeca kies je heavy duty PVC. En wil je alle vier de zijden dicht, dan is een set voordeliger dan los.</p><h2>Welke lengte?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Korte zijden</th><th scope=\"col\">Lange zijden</th></tr></thead><tbody><tr><th scope=\"row\">2 × 2 m</th><td>2 wanden van 2 m</td><td>2 wanden van 2 m</td></tr><tr><th scope=\"row\">3 × 3 m</th><td>2 wanden van 3 m</td><td>2 wanden van 3 m</td></tr><tr><th scope=\"row\">3 × 4,5 m</th><td>2 wanden van 3 m</td><td>2 wanden van 4,5 m</td></tr><tr><th scope=\"row\">3 × 6 m</th><td>2 wanden van 3 m</td><td>2 wanden van 6 m</td></tr><tr><th scope=\"row\">4 × 4 m</th><td>2 wanden van 4 m</td><td>2 wanden van 4 m</td></tr><tr><th scope=\"row\">4 × 6 m</th><td>2 wanden van 4 m</td><td>2 wanden van 6 m</td></tr><tr><th scope=\"row\">4 × 8 m</th><td>2 wanden van 4 m</td><td>2 wanden van 8 m</td></tr><tr><th scope=\"row\">5 × 5 m</th><td>2 wanden van 5 m</td><td>2 wanden van 5 m</td></tr></tbody></table></div><p>Een tent van 3 × 6 m heeft dus twee wanden van 3 m nodig voor de korte zijden en twee van 6 m voor de lange. Heb je een tent van een ander merk, meet dan na: alleen een wand die even lang is als de zijde, sluit goed aan.</p><h2>Dicht, raam, deur of half?</h2><h3>Dichte wand</h3><p>Houdt wind, regen en inkijk tegen. Hang hem aan de windkant, langs de buren of achter de bar. Een <a href=\"/products/zijwand-easy-up-dicht\">dichte wand</a> is ook de achterwand van een marktkraam.</p><h3>Wand met ramen</h3><p>Houdt de wind buiten en het daglicht binnen. Je gasten kijken uit over de tuin of het veld, en de tent voelt niet als een doos. De <a href=\"/products/zijwand-easy-up-met-raam\">raamwand</a> heeft heldere PVC-ramen: één in de wand van 2 m, twee in 3 en 4 m, drie in 4,5, 5 en 6 m en vier in 8 m.</p><h3>Wand met deur</h3><p>Een <a href=\"/products/zijwand-easy-up-met-deur\">deurwand</a> heeft een ritsdeur met twee oprolbanden. Zet hem aan de kant waar de wind niet vandaan komt: gaat de deur tegen de wind in open, dan blaast die onder het dak. Een tent is geen afsluitbare ruimte; de rits gaat van binnen en buiten open.</p><h3>Halve wand</h3><p>Een <a href=\"/products/halve-zijwand-easy-up\">halve wand</a> van 100 cm hoog sluit de onderste meter af en laat de rest open. Op de markt maak je er een toonbank van, bij de bar een borstwering, en in de tuin een windscherm voor wie zit. Hij is er in 3, 4, 4,5 en 6 m.</p><h2>Een goede indeling</h2><ul><li><strong>Tuinfeest:</strong> dichte wand aan de windkant, ramen aan de lange zijden, deur aan de luwe kant. Dat is ook de indeling van de <a href=\"/products/zijwandenset-easy-up\">zijwandenset</a>.</li><li><strong>Marktkraam:</strong> dichte wand achter, halve wand voor als toonbank, zijkanten open of dicht.</li><li><strong>Bar of tap:</strong> dichte achterwand, halve wand aan de voorkant, zijkanten met ramen.</li><li><strong>Zomerdag:</strong> alleen een dichte wand aan de zonkant, voor schaduw.</li></ul><h2>Polyester of heavy duty PVC?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Kenmerk</th><th scope=\"col\">Polyester</th><th scope=\"col\">Heavy duty PVC</th></tr></thead><tbody><tr><th scope=\"row\">Doek</th><td>500D polyester, PVC-gecoat, 320 g/m²</td><td>PVC 580 g/m², brandvertragend</td></tr><tr><th scope=\"row\">Naden</th><td>Gestikt</td><td>Thermisch gelast</td></tr><tr><th scope=\"row\">Kleuren</th><td>7, gelijk aan de dakkleuren</td><td>Wit en zwart</td></tr><tr><th scope=\"row\">Gewicht wand van 3 m</th><td>ca. 1,3 kg</td><td>ca. 2,6 kg</td></tr><tr><th scope=\"row\">Past op</th><td>Premium en Professional, alle maten</td><td>Professional 3 × 3 tot 4 × 8 m</td></tr><tr><th scope=\"row\">Kies je voor</th><td>Een paar feesten per jaar</td><td>Verhuur, horeca, wekelijks gebruik</td></tr></tbody></table></div><!-- claim: Brandvertragend PVC-wand: certificaat bij de leverancier opvragen --><p>Heb je een Professional met heavy duty PVC-dak, kies dan ook <a href=\"/products/zijwand-easy-up-heavy-duty-pvc\">PVC-wanden</a>: zelfde doek en zelfde kleur. Op een Premium hang je polyester wanden.</p><h2>Set of los?</h2><p>Wil je alle vier de zijden dicht, dan is de zijwandenset voordeliger dan dezelfde vier wanden los. Je krijgt per tentmaat precies de juiste lengtes: een dichte wand en een deurwand voor de korte zijden, twee raamwanden voor de lange. Bij een vierkante tent komen deur en dicht tegenover elkaar. Wil je een andere indeling, zoals twee deuren of alleen ramen, of kleuren mixen, stel dan losse wanden samen. Voor de 2 × 2 m is er geen set; daar kies je vier losse wanden. Voor de Professional met PVC-dak is er een <a href=\"/products/zijwandenset-easy-up-heavy-duty-pvc\">PVC-set</a>.</p><h2>Hoogte en de grond</h2><p>Onze easy-up-wanden zijn ongeveer 200 cm hoog. Op de middelste hoogtestanden van de tent sluiten ze op de grond aan. Op de hoogste stand blijft er onderaan een kier, op de laagste ligt de onderrand op de grond. Op gras zet je de onderrand vast met haringen van 18 cm door de ogen; op verharding laat je hem hangen.</p><h2>Wind en wanden</h2><p>Een wand werkt als een zeil. Zet de tent daarom altijd extra vast als er wanden aan hangen: op gras met een haring en een spanband per poot, op verharding met 30 kg per poot in plaats van 15. Bij harde wind gaan eerst de wanden los en dan het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h2>Andere tenten</h2><p>Voor een buizenframe-tent zijn er <a href=\"/products/zijwand-partytent-2-m-pvc\">PVC-panelen van 2 m</a> en <a href=\"/products/eindwand-en-tussenwand-partytent\">eind- en tussenwanden</a>. Voor een stertent met één mast zijn er <a href=\"/products/zijwanden-stertent\">zijwanden per vak of rondom</a>, voor een opblaasbare promotietent <a href=\"/products/zijwand-opblaasbare-promotietent\">wanden met rits</a>, en voor een overkapping <a href=\"/products/zijwand-overkapping-pvc\">PVC-wanden met raam en ritsen</a>.</p><h2>Onderhoud</h2><p>Rol wanden op in plaats van ze te vouwen, en nooit met een vouw door een raam: helder PVC wordt stug in de kou en kan breken. Maak ramen alleen schoon met water en een zachte doek. Pak wanden droog in; ging er toch een nat de tas in, hang hem dan binnen een dag uit. Alle wanden bij elkaar staan bij <a href=\"/collections/zijwanden\">zijwanden</a>.</p>",
+    "body_html": "<p>Een zijwand bedekt één zijde van je tent. Kies daarom per zijde de lengte van die zijde, gemeten van poot tot poot. Hang de dichte wand aan de kant waar de wind vandaan komt, ramen aan de lange zijden en de deur aan de luwe kant. Voor een paar feesten per jaar is polyester genoeg; voor verhuur en horeca kies je heavy duty PVC. En wil je alle vier de zijden dicht, dan is een set voordeliger dan los.</p><h2>Welke lengte?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Korte zijden</th><th scope=\"col\">Lange zijden</th></tr></thead><tbody><tr><th scope=\"row\">2 × 2 m</th><td>2 wanden van 2 m</td><td>2 wanden van 2 m</td></tr><tr><th scope=\"row\">3 × 3 m</th><td>2 wanden van 3 m</td><td>2 wanden van 3 m</td></tr><tr><th scope=\"row\">3 × 4,5 m</th><td>2 wanden van 3 m</td><td>2 wanden van 4,5 m</td></tr><tr><th scope=\"row\">3 × 6 m</th><td>2 wanden van 3 m</td><td>2 wanden van 6 m</td></tr><tr><th scope=\"row\">4 × 4 m</th><td>2 wanden van 4 m</td><td>2 wanden van 4 m</td></tr><tr><th scope=\"row\">4 × 6 m</th><td>2 wanden van 4 m</td><td>2 wanden van 6 m</td></tr><tr><th scope=\"row\">4 × 8 m</th><td>2 wanden van 4 m</td><td>2 wanden van 8 m</td></tr><tr><th scope=\"row\">5 × 5 m</th><td>2 wanden van 5 m</td><td>2 wanden van 5 m</td></tr></tbody></table></div><p>Een tent van 3 × 6 m heeft dus twee wanden van 3 m nodig voor de korte zijden en twee van 6 m voor de lange. Heb je een tent van een ander merk, meet dan na: alleen een wand die even lang is als de zijde, sluit goed aan.</p><h2>Dicht, raam, deur of half?</h2><h3>Dichte wand</h3><p>Houdt wind, regen en inkijk tegen. Hang hem aan de windkant, langs de buren of achter de bar. Een <a href=\"/products/zijwand-easy-up-dicht\">dichte wand</a> is ook de achterwand van een marktkraam.</p><h3>Wand met ramen</h3><p>Houdt de wind buiten en het daglicht binnen. Je gasten kijken uit over de tuin of het veld, en de tent voelt niet als een doos. De <a href=\"/products/zijwand-easy-up-met-raam\">raamwand</a> heeft heldere PVC-ramen: één in de wand van 2 m, twee in 3 en 4 m, drie in 4,5, 5 en 6 m en vier in 8 m.</p><h3>Wand met deur</h3><p>Een <a href=\"/products/zijwand-easy-up-met-deur\">deurwand</a> heeft een ritsdeur met twee oprolbanden. Zet hem aan de kant waar de wind niet vandaan komt: gaat de deur tegen de wind in open, dan blaast die onder het dak. Een tent is geen afsluitbare ruimte; de rits gaat van binnen en buiten open.</p><h3>Halve wand</h3><p>Een <a href=\"/products/halve-zijwand-easy-up\">halve wand</a> van 100 cm hoog sluit de onderste meter af en laat de rest open. Op de markt maak je er een toonbank van, bij de bar een borstwering, en in de tuin een windscherm voor wie zit. Hij is er in 3, 4, 4,5 en 6 m.</p><h2>Een goede indeling</h2><ul><li><strong>Tuinfeest:</strong> dichte wand aan de windkant, ramen aan de lange zijden, deur aan de luwe kant. Dat is ook de indeling van de <a href=\"/products/zijwandenset-easy-up\">zijwandenset</a>.</li><li><strong>Marktkraam:</strong> dichte wand achter, halve wand voor als toonbank, zijkanten open of dicht.</li><li><strong>Bar of tap:</strong> dichte achterwand, halve wand aan de voorkant, zijkanten met ramen.</li><li><strong>Zomerdag:</strong> alleen een dichte wand aan de zonkant, voor schaduw.</li></ul><h2>Polyester of heavy duty PVC?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Kenmerk</th><th scope=\"col\">Polyester</th><th scope=\"col\">Heavy duty PVC</th></tr></thead><tbody><tr><th scope=\"row\">Doek</th><td>500D polyester, PVC-gecoat, 320 g/m²</td><td>PVC 580 g/m²</td></tr><tr><th scope=\"row\">Naden</th><td>Gestikt</td><td>Thermisch gelast</td></tr><tr><th scope=\"row\">Kleuren</th><td>7, gelijk aan de dakkleuren</td><td>Wit en zwart</td></tr><tr><th scope=\"row\">Gewicht wand van 3 m</th><td>ca. 1,3 kg</td><td>ca. 2,6 kg</td></tr><tr><th scope=\"row\">Past op</th><td>Premium en Professional, alle maten</td><td>Professional 3 × 3 tot 4 × 8 m</td></tr><tr><th scope=\"row\">Kies je voor</th><td>Een paar feesten per jaar</td><td>Verhuur, horeca, wekelijks gebruik</td></tr></tbody></table></div><!-- claim: Brandvertragend/brandklasse PVC-wand: pas noemen als het certificaat binnen is (docs/claims-to-confirm.md) --><p>Heb je een Professional met heavy duty PVC-dak, kies dan ook <a href=\"/products/zijwand-easy-up-heavy-duty-pvc\">PVC-wanden</a>: zelfde doek en zelfde kleur. Op een Premium hang je polyester wanden.</p><h2>Set of los?</h2><p>Wil je alle vier de zijden dicht, dan is de zijwandenset voordeliger dan dezelfde vier wanden los. Je krijgt per tentmaat precies de juiste lengtes: een dichte wand en een deurwand voor de korte zijden, twee raamwanden voor de lange. Bij een vierkante tent komen deur en dicht tegenover elkaar. Wil je een andere indeling, zoals twee deuren of alleen ramen, of kleuren mixen, stel dan losse wanden samen. Voor de 2 × 2 m is er geen set; daar kies je vier losse wanden. Voor de Professional met PVC-dak is er een <a href=\"/products/zijwandenset-easy-up-heavy-duty-pvc\">PVC-set</a>.</p><h2>Hoogte en de grond</h2><p>Onze easy-up-wanden zijn ongeveer 200 cm hoog. Op de middelste hoogtestanden van de tent sluiten ze op de grond aan. Op de hoogste stand blijft er onderaan een kier, op de laagste ligt de onderrand op de grond. Op gras zet je de onderrand vast met haringen van 18 cm door de ogen; op verharding laat je hem hangen.</p><h2>Wind en wanden</h2><p>Een wand werkt als een zeil. Zet de tent daarom altijd extra vast als er wanden aan hangen: op gras met een haring en een spanband per poot, op verharding met 30 kg per poot in plaats van 15. Bij harde wind gaan eerst de wanden los en dan het dak eraf. Meer in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h2>Andere tenten</h2><p>Voor een buizenframe-tent zijn er <a href=\"/products/zijwand-partytent-2-m-pvc\">PVC-panelen van 2 m</a> en <a href=\"/products/eindwand-en-tussenwand-partytent\">eind- en tussenwanden</a>. Voor een stertent met één mast zijn er <a href=\"/products/zijwanden-stertent\">zijwanden per vak of rondom</a>, voor een opblaasbare promotietent <a href=\"/products/zijwand-opblaasbare-promotietent\">wanden met rits</a>, en voor een overkapping <a href=\"/products/zijwand-overkapping-pvc\">PVC-wanden met raam en ritsen</a>.</p><h2>Onderhoud</h2><p>Rol wanden op in plaats van ze te vouwen, en nooit met een vouw door een raam: helder PVC wordt stug in de kou en kan breken. Maak ramen alleen schoon met water en een zachte doek. Pak wanden droog in; ging er toch een nat de tas in, hang hem dan binnen een dag uit. Alle wanden bij elkaar staan bij <a href=\"/collections/zijwanden\">zijwanden</a>.</p>",
     "seo": {
      "title": "Zijwanden kiezen voor je partytent | Klapklaar",
      "description": "Welke lengte per zijde, dicht, raam, deur of half, polyester of PVC, set of los. Zo kies je zijwanden voor je easy-up en waar je ze ophangt."
@@ -2017,13 +2020,13 @@
    "words": 407
   },
   "tassen-en-wielsets": {
-   "intro": "Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, en opbergtassen voor tenten met een buizenframe.",
+   "intro": "Opbergen, dragen of rijden: beschermhoezen en wieltassen per tentmaat, een wielset om een opgezette tent te verschuiven, opbergtassen voor tenten met een buizenframe en een tas met wielen voor de opblaasbare tent.",
    "kenmerken": [
     "Per tentmaat, 2 × 2 tot 5 × 5 m",
     "Past op Premium en Professional",
     "Wieltas bij de Professional al inbegrepen"
    ],
-   "seo_tekst_html": "<h2>Opbergen en verplaatsen</h2><p>Een tent gaat langer mee als hij droog en beschermd in de schuur ligt, en je rug ook als je hem niet hoeft te tillen. Hier vind je per tentmaat de hoes of tas die past.</p><h3>Beschermhoes of wieltas?</h3><ul><li><strong>Beschermhoes</strong>: schuift over de ingeklapte tent, met twee handvatten en een gesp. Licht en voordelig, voor opslag en kort dragen. Zit bij elke Premium.</li><li><strong>Wieltas</strong>: 600D polyester met twee wielen en een rits over de volle lengte. Voor wie de tent vaak verplaatst. Zit bij elke Professional.</li></ul><p>Beide kies je in de maat van je tent; ze passen op Premium en Professional van dezelfde maat. Een wieltas is gemaakt op de iets dikkere Professional, dus een Premium past er met wat ruimte over in.</p><h3>Hoe groot is een ingeklapte tent?</h3><ul><li>Premium 3 × 3 m: 155 × 28 × 28 cm, 27 kg</li><li>Premium 3 × 6 m: 155 × 45 × 30 cm, 41 kg</li><li>Professional 3 × 3 m: 170 × 35 × 35 cm, 37 kg</li><li>Professional 4 × 4 m: 175 × 40 × 40 cm, 50 kg</li><li>Professional 4 × 8 m: 210 × 60 × 45 cm, 84 kg</li></ul><p>Meet je laadruimte voordat je een maat kiest. Vanaf ongeveer 40 kg is een wieltas geen luxe meer.</p><h3>Wielset</h3><p>Wil je een opgezette tent verschuiven over een beursvloer of terras, dan zet je er een <a href=\"/products/wielset-easy-up\">wielset</a> onder: vier zwenkwielen met rem voor poten van 40 en 50 mm. Altijd remmen vast en elke poot verzwaren.</p><h3>Buizenframe-tenten</h3><p>Voor partytenten met een buizenframe is er een <a href=\"/products/opbergtassenset-partytent\">opbergtassenset</a>: aparte tassen voor buizen, koppelstukken en doek, zodat je bij het opbouwen niets kwijt bent.</p><h3>Wat gaat er in de tas?</h3><p>Spanbanden en haringen in hun zakje passen meestal nog bij de tent in de wieltas. Zijwanden vervoer je apart, en voetgewichten nooit in de tas: die zijn te zwaar voor tas en wielen.</p><h3>Droog opbergen</h3><p>Stop een tent alleen droog in hoes of tas. Moest hij nat ingepakt worden, zet hem dan zo snel mogelijk weer op om te drogen. Meer tips in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p>",
+   "seo_tekst_html": "<h2>Opbergen en verplaatsen</h2><p>Een tent gaat langer mee als hij droog en beschermd in de schuur ligt, en je rug ook als je hem niet hoeft te tillen. Hier vind je per tentmaat de hoes of tas die past.</p><h3>Beschermhoes of wieltas?</h3><ul><li><strong>Beschermhoes</strong>: schuift over de ingeklapte tent, met twee handvatten en een gesp. Licht en voordelig, voor opslag en kort dragen. Zit bij elke Premium.</li><li><strong>Wieltas</strong>: 600D polyester met twee wielen en een rits over de volle lengte. Voor wie de tent vaak verplaatst. Zit bij elke Professional.</li></ul><p>Beide kies je in de maat van je tent; ze passen op Premium en Professional van dezelfde maat. Een wieltas is gemaakt op de iets dikkere Professional, dus een Premium past er met wat ruimte over in.</p><h3>Hoe groot is een ingeklapte tent?</h3><ul><li>Premium 3 × 3 m: 155 × 28 × 28 cm, 27 kg</li><li>Premium 3 × 6 m: 155 × 45 × 30 cm, 41 kg</li><li>Professional 3 × 3 m: 170 × 35 × 35 cm, 37 kg</li><li>Professional 4 × 4 m: 175 × 40 × 40 cm, 50 kg</li><li>Professional 4 × 8 m: 210 × 60 × 45 cm, 84 kg</li></ul><p>Meet je laadruimte voordat je een maat kiest. Vanaf ongeveer 40 kg is een wieltas geen luxe meer.</p><h3>Wielset</h3><p>Wil je een opgezette tent verschuiven over een beursvloer of terras, dan zet je er een <a href=\"/products/wielset-easy-up\">wielset</a> onder: vier zwenkwielen met rem voor poten van 40 en 50 mm. Altijd remmen vast en elke poot verzwaren.</p><h3>Buizenframe-tenten</h3><p>Voor partytenten met een buizenframe is er een <a href=\"/products/opbergtassenset-partytent\">opbergtassenset</a>: aparte tassen voor buizen, koppelstukken en doek, zodat je bij het opbouwen niets kwijt bent.</p><h3>Opblaasbare tenten</h3><p>Een opblaasbare tent rol je leeg op en stop je met pomp en zandzakken in de <a href=\"/products/opbergtas-opblaasbare-tent\">opbergtas met wielen</a>, in de maat van je tent.</p><h3>Wat gaat er in de tas?</h3><p>Spanbanden en haringen in hun zakje passen meestal nog bij de tent in de wieltas. Zijwanden vervoer je apart, en voetgewichten nooit in de tas: die zijn te zwaar voor tas en wielen.</p><h3>Droog opbergen</h3><p>Stop een tent alleen droog in hoes of tas. Moest hij nat ingepakt worden, zet hem dan zo snel mogelijk weer op om te drogen. Meer tips in <a href=\"/blogs/advies/partytent-onderhouden-en-opbergen\">partytent onderhouden en opbergen</a>.</p>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -2241,6 +2244,39 @@
       "children": [
        {
         "type": "text",
+        "value": "Opblaasbare tenten"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Een opblaasbare tent rol je leeg op en stop je met pomp en zandzakken in de "
+       },
+       {
+        "type": "link",
+        "url": "/products/opbergtas-opblaasbare-tent",
+        "children": [
+         {
+          "type": "text",
+          "value": "opbergtas met wielen"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ", in de maat van je tent."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
         "value": "Wat gaat er in de tas?"
        }
       ]
@@ -2294,13 +2330,13 @@
    "words": 354
   },
   "partytent-onderdelen": {
-   "intro": "Onderdelen en accessoires voor je easy-up of buizenframe-tent: wanden, daken, verankering, tassen, regengoten en losse frame-onderdelen. Bij elk onderdeel staat op welke tent het past.",
+   "intro": "Onderdelen en accessoires voor je easy-up, buizenframe-, stretch-, ster- of opblaasbare tent: wanden, daken, verankering, tassen, regengoten, palen, pompen en losse frame-onderdelen. Bij elk onderdeel staat op welke tent het past.",
    "kenmerken": [
     "Pasvorm per tent vermeld",
     "Los na te bestellen",
-    "Easy-up en buizenframe"
+    "Filter op tentsysteem"
    ],
-   "seo_tekst_html": "<h2>Onderdelen voor je partytent</h2><p>Een tent gaat langer mee als je kapotte of versleten onderdelen los kunt vervangen. Hier vind je alles wat je na de aankoop nog nodig hebt: van een extra <a href=\"/collections/zijwanden\">zijwand</a> tot een nieuw dak, een koppelstuk of een set <a href=\"/collections/gewichten-en-verankering\">gewichten</a>.</p><h3>Easy-up of buizenframe: weet wat je hebt</h3><p>Een easy-up heeft een schaarframe met zeskantpoten: 40 mm zwart gepoedercoat staal met nylon hoekstukken bij onze Premium, 50 mm blank aluminium met aluminium hoekstukken bij onze Professional. Een buizenframe-tent bouw je op uit losse buizen van 38 mm met koppelstukken. Wanden, daken en verankering verschillen per soort, dus kies altijd in de juiste groep: <a href=\"/collections/easy-up-onderdelen\">onderdelen voor easy-up</a> of <a href=\"/collections/buizenframe-onderdelen\">onderdelen voor buizenframe-tenten</a>. In deze lijst filter je met ‘Past op’.</p><h3>Wat het vaakst nodig is</h3><ul><li><strong>Hoekstukken en schaararmen</strong> voor een easy-up die veel gebruikt wordt: bij <a href=\"/products/frame-onderdelen-easy-up\">frame-onderdelen easy-up</a>, per lijn.</li><li><strong>Een nieuw dak</strong>, omdat het oude op is of omdat je een andere kleur wilt: <a href=\"/products/dakzeil-easy-up\">dakzeil easy-up</a> of <a href=\"/products/dakzeil-partytent-buizenframe\">dakzeil buizenframe</a>.</li><li><strong>Koppelstukken en buizen</strong> die zoek of verbogen zijn: <a href=\"/products/koppelstukken-en-buizen-38-mm\">koppelstukken en buizen 38 mm</a>.</li><li><strong>Haringen, spanbanden en tentelastieken</strong>, die altijd net op zijn als je ze nodig hebt.</li></ul><h3>Past het op mijn tent?</h3><p>Bij elk onderdeel staat op welke tenten van ons het past, per lijn en maat. Heb je een tent van een ander merk, meet dan na: de lengte van de zijde voor wanden, de diameter van de poot voor gewichten, de buisdiameter en hoek voor koppelstukken. Twijfel je, stuur ons dan de maten voordat je bestelt.</p><h3>Zelf vervangen</h3><p>Een hoekstuk of schaararm vervang je met een steeksleutel: tent half open, bout los, onderdeel wisselen, bout weer vast. Met een tweede persoon die het frame vasthoudt gaat het het makkelijkst. Een dak wissel je ook bij een half open frame.</p><h3>Repareren of vervangen</h3><p>Een gaatje of scheurtje tot ca. 10 cm plak je met de <a href=\"/products/reparatieset-tentdoek\">reparatieset tentdoek</a>. Een gescheurde naad, een geknikte buis of doek dat broos is geworden vervang je liever: dat is veiliger.</p><h3>Voor verhuur en evenementen</h3><p>Bouw je vaak op en af, houd dan een paar reserve-onderdelen bij de hand: koppelstukken, haringen, tentelastieken en een reparatieset. Op wanden en voetgewichten geldt staffelkorting bij grotere aantallen.</p>",
+   "seo_tekst_html": "<h2>Onderdelen voor je partytent</h2><p>Een tent gaat langer mee als je kapotte of versleten onderdelen los kunt vervangen. Hier vind je alles wat je na de aankoop nog nodig hebt: van een extra <a href=\"/collections/zijwanden\">zijwand</a> tot een nieuw dak, een koppelstuk of een set <a href=\"/collections/gewichten-en-verankering\">gewichten</a>.</p><h3>Easy-up of buizenframe: weet wat je hebt</h3><p>Een easy-up heeft een schaarframe met zeskantpoten: 40 mm zwart gepoedercoat staal met nylon hoekstukken bij onze Premium, 50 mm blank aluminium met aluminium hoekstukken bij onze Professional. Een buizenframe-tent bouw je op uit losse buizen van 38 mm met koppelstukken. Wanden, daken en verankering verschillen per soort, dus kies altijd in de juiste groep: <a href=\"/collections/easy-up-onderdelen\">onderdelen voor easy-up</a> of <a href=\"/collections/buizenframe-onderdelen\">onderdelen voor buizenframe-tenten</a>. Heb je een stretch-, ster- of opblaasbare tent? Dan vind je wanden, palen, spanmateriaal, pompen, luifels en tassen bij <a href=\"/collections/onderdelen-stretch-ster-en-opblaasbare-tenten\">onderdelen voor stretch-, ster- en opblaasbare tenten</a>. In deze lijst filter je met ‘Past op’.</p><h3>Wat het vaakst nodig is</h3><ul><li><strong>Hoekstukken en schaararmen</strong> voor een easy-up die veel gebruikt wordt: bij <a href=\"/products/frame-onderdelen-easy-up\">frame-onderdelen easy-up</a>, per lijn.</li><li><strong>Een nieuw dak</strong>, omdat het oude op is of omdat je een andere kleur wilt: <a href=\"/products/dakzeil-easy-up\">dakzeil easy-up</a> of <a href=\"/products/dakzeil-partytent-buizenframe\">dakzeil buizenframe</a>.</li><li><strong>Koppelstukken en buizen</strong> die zoek of verbogen zijn: <a href=\"/products/koppelstukken-en-buizen-38-mm\">koppelstukken en buizen 38 mm</a>.</li><li><strong>Haringen, spanbanden en tentelastieken</strong>, die altijd net op zijn als je ze nodig hebt.</li></ul><h3>Past het op mijn tent?</h3><p>Bij elk onderdeel staat op welke tenten van ons het past, per lijn en maat. Heb je een tent van een ander merk, meet dan na: de lengte van de zijde voor wanden, de diameter van de poot voor gewichten, de buisdiameter en hoek voor koppelstukken. Twijfel je, stuur ons dan de maten voordat je bestelt.</p><h3>Zelf vervangen</h3><p>Een hoekstuk of schaararm vervang je met een steeksleutel: tent half open, bout los, onderdeel wisselen, bout weer vast. Met een tweede persoon die het frame vasthoudt gaat het het makkelijkst. Een dak wissel je ook bij een half open frame.</p><h3>Repareren of vervangen</h3><p>Een gaatje of scheurtje tot ca. 10 cm plak je met de <a href=\"/products/reparatieset-tentdoek\">reparatieset tentdoek</a>. Een gescheurde naad, een geknikte buis of doek dat broos is geworden vervang je liever: dat is veiliger.</p><h3>Voor verhuur en evenementen</h3><p>Bouw je vaak op en af, houd dan een paar reserve-onderdelen bij de hand: koppelstukken, haringen, tentelastieken en een reparatieset. Op wanden en voetgewichten geldt staffelkorting bij grotere aantallen.</p>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -2393,6 +2429,21 @@
          {
           "type": "text",
           "value": "onderdelen voor buizenframe-tenten"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Heb je een stretch-, ster- of opblaasbare tent? Dan vind je wanden, palen, spanmateriaal, pompen, luifels en tassen bij "
+       },
+       {
+        "type": "link",
+        "url": "/collections/onderdelen-stretch-ster-en-opblaasbare-tenten",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "onderdelen voor stretch-, ster- en opblaasbare tenten"
          }
         ]
        },
@@ -2914,7 +2965,7 @@
     "3 × 4 tot 6 × 12 m",
     "Carport met vast frame"
    ],
-   "seo_tekst_html": "<h2>Opslagtent kopen: zo kies je</h2><p>Een opslagtent is een buizenframe-tent die gemaakt is om te blijven staan: met een grondframe en nokversteviging, dichte wanden zonder ramen en een roldeur met ritsen aan één kopse kant. Voor je inboedel tijdens een verbouwing, de oogst, voorraad van je zaak of het materiaal van je vereniging.</p><h3>Welk doek bij hoe lang?</h3><ul><li><strong>PVC 500</strong>: een paar weken tot een seizoen.</li><li><strong>PVC 550</strong>: maanden, bijvoorbeeld tijdens een verbouwing.</li><li><strong>PVC 620 Professional</strong>: langdurig, ook in het najaar en de winter, met 220 cm zijhoogte.</li></ul><p>Twijfel je, neem dan het zwaardere doek. Je kiest het doek bij de <a href=\"/products/opslagtent-pvc\">opslagtent PVC</a>, in 3 × 4 tot 6 × 12 m. Het verschil tussen de doeken lees je in <a href=\"/blogs/advies/pe-of-pvc-partytent\">PE of PVC</a>.</p><h3>Welke maat?</h3><p>Reken met de vloer die je spullen innemen, plus een looppad van ongeveer een meter in het midden of langs één zijde. Zet je alles op pallets, reken dan met de maat van een pallet (120 × 80 cm) en de breedte van je roldeur. Een tent die net te klein is, zet je vol tot tegen het doek, en daar worden je spullen nat.</p><h3>Auto of aanhanger stallen</h3><p>Daarvoor is de <a href=\"/products/carport-opslagtent-vast-frame\">carport en opslagtent 3,3 × 4,8 m</a>: een vast stalen frame met PVC rondom, waarvan je het voor- en achterpaneel afhaalt om erin te rijden.</p><h3>Opzetten en levering</h3><p>Je bouwt een opslagtent op als een feesttent: eerst het dakframe op de grond, dan het doek erover en daarna de staanders eronder. Reken op twee tot drie personen voor de kleine maten en vier tot zes voor 6 × 12 m. De tent komt als vracht op een pallet, in meerdere dozen.</p><h3>Goed om te weten</h3><ul><li><strong>Vergunning.</strong> Laat je een opslagtent of carport langer staan, dan kan je gemeente een omgevingsvergunning of melding vragen. Check het vóór je hem neerzet.</li><li><strong>Geen vloer.</strong> Zet je spullen op pallets en niet tegen het doek, en lucht op droge dagen.</li><li><strong>Geen slot.</strong> De roldeur sluit met ritsen. Bewaar er geen waardevolle spullen in.</li><li><strong>Sneeuw en wind.</strong> Niet berekend op sneeuwlast: veeg sneeuw er meteen af. Zet de tent vast met haringen en <a href=\"/products/stormbandenset-partytent\">stormbanden</a>, op verharding met ballast.</li></ul>",
+   "seo_tekst_html": "<h2>Opslagtent kopen: zo kies je</h2><p>Een opslagtent is een buizenframe-tent die gemaakt is om te blijven staan: met een grondframe en nokversteviging, dichte wanden zonder ramen en een roldeur met ritsen aan één kopse kant. Voor je inboedel tijdens een verbouwing, de oogst, voorraad van je zaak of het materiaal van je vereniging.</p><h3>Welk doek bij hoe lang?</h3><ul><li><strong>PVC 500 Comfort</strong>: een paar weken tot een seizoen.</li><li><strong>PVC 550 Premium</strong>: maanden, bijvoorbeeld tijdens een verbouwing.</li><li><strong>PVC 620 Professional</strong>: langdurig, ook in het najaar en de winter, met 220 cm zijhoogte.</li></ul><p>Twijfel je, neem dan het zwaardere doek. Je kiest het doek bij de <a href=\"/products/opslagtent-pvc\">opslagtent PVC</a>, in 3 × 4 tot 6 × 12 m. Het verschil tussen de doeken lees je in <a href=\"/blogs/advies/pe-of-pvc-partytent\">PE of PVC</a>.</p><h3>Welke maat?</h3><p>Reken met de vloer die je spullen innemen, plus een looppad van ongeveer een meter in het midden of langs één zijde. Zet je alles op pallets, reken dan met de maat van een pallet (120 × 80 cm) en de breedte van je roldeur. Een tent die net te klein is, zet je vol tot tegen het doek, en daar worden je spullen nat.</p><h3>Auto of aanhanger stallen</h3><p>Daarvoor is de <a href=\"/products/carport-opslagtent-vast-frame\">carport en opslagtent 3,3 × 4,8 m</a>: een vast stalen frame met PVC rondom, waarvan je het voor- en achterpaneel afhaalt om erin te rijden.</p><h3>Opzetten en levering</h3><p>Je bouwt een opslagtent op als een feesttent: eerst het dakframe op de grond, dan het doek erover en daarna de staanders eronder. Reken op twee tot drie personen voor de kleine maten en vier tot zes voor 6 × 12 m. De tent komt als vracht op een pallet, in meerdere dozen.</p><h3>Goed om te weten</h3><ul><li><strong>Vergunning.</strong> Laat je een opslagtent of carport langer staan, dan kan je gemeente een omgevingsvergunning of melding vragen. Check het vóór je hem neerzet.</li><li><strong>Geen vloer.</strong> Zet je spullen op pallets en niet tegen het doek, en lucht op droge dagen.</li><li><strong>Geen slot.</strong> De roldeur sluit met ritsen. Bewaar er geen waardevolle spullen in.</li><li><strong>Sneeuw en wind.</strong> Niet berekend op sneeuwlast: veeg sneeuw er meteen af. Zet de tent vast met haringen en <a href=\"/products/stormbandenset-partytent\">stormbanden</a>, op verharding met een voetgewicht op elke staander; staat hij maanden, vraag dan ballastadvies aan.</li></ul>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -2956,7 +3007,7 @@
         "children": [
          {
           "type": "text",
-          "value": "PVC 500",
+          "value": "PVC 500 Comfort",
           "bold": true
          },
          {
@@ -2970,7 +3021,7 @@
         "children": [
          {
           "type": "text",
-          "value": "PVC 550",
+          "value": "PVC 550 Premium",
           "bold": true
          },
          {
@@ -3183,7 +3234,7 @@
          },
          {
           "type": "text",
-          "value": ", op verharding met ballast."
+          "value": ", op verharding met een voetgewicht op elke staander; staat hij maanden, vraag dan ballastadvies aan."
          }
         ]
        }
@@ -3203,7 +3254,7 @@
     "Effen of full colour bedrukt",
     "Zijwanden voor elke maat"
    ],
-   "seo_tekst_html": "<h2>Stertent kopen: zo kies je</h2><p>Een stertent staat op een mast in het midden en wordt naar buiten gespannen op punten. Je herkent hem van ver, en je zet hem met weinig mensen op: met een meetkoord zet je de punten uit, daarna komen de zijpalen en als laatste de mast.</p><h3>Eén of twee masten</h3><ul><li><strong><a href=\"/products/stertent-enkele-mast\">Stertent enkele mast</a></strong>: rond, Ø 8 tot Ø 16 m. Met 2 personen in ca. 30 tot 45 minuten (Ø 8 en Ø 10 m). In Wit, Zwart en Zandkleur.</li><li><strong><a href=\"/products/stertent-dubbele-mast\">Stertent dubbele mast</a></strong>: langgerekt, 8 × 13 tot 13 × 21 m, tot ca. 140 mensen staand. In Wit en Zandkleur.</li></ul><h3>Mast en doek</h3><p>De masten zijn van geanodiseerd aluminium, Ø 75 mm, en schuiven telescopisch uit. Daardoor hoef je ze niet op volle lengte op te tillen. Het doek is polyester met een PVC-coating van 320 g/m²: waterdicht en UV-bestendig.<!-- claim: Brandvertragend stertentdoek: alleen noemen met certificaat van de leverancier (staat niet in de specificaties tot norm en klasse bevestigd zijn) --></p><h3>Capaciteit en ruimte</h3><p>De rand van een stertent is laag, dus reken op ca. 0,6 persoon staand of 0,4 zittend per m² grondvlak. Een Ø 10 m (ca. 79 m²) is goed voor ca. 45 staand of 30 zittend. Reken voor de ruimte op de diameter plus 2 m rondom: een Ø 10 m heeft een plek van ca. 14 × 14 m nodig.</p><h3>Wanden</h3><p>Voor elke stertent zijn er <a href=\"/products/zijwanden-stertent\">zijwanden</a>, van Ø 8 tot Ø 16 m en voor alle maten met dubbele mast: los voor de windkant of als set rondom met oproldeuren.</p><h3>Vastzetten</h3><p>Op gras gaan de haringen schuin de grond in, op verharding komt er ballast op elke punt en op de mastvoet, bijvoorbeeld <a href=\"/products/betonblok-ballast-tent\">betonblokken</a>. Span na een regenbui opnieuw aan. Is er storm voorspeld, laat dan de mast zakken en haal het doek eraf.</p><h3>Levering</h3><p>Stertenten komen als vracht op een pallet. De dubbele mast maken we op bestelling; de levertijd staat bij het product.<!-- claim: Levertijd stertent dubbele mast 2–3 weken (custom.levertijd) --> Wil je je eigen ontwerp op het doek, kies dan de uitvoering Full colour bedrukt: je uploadt je ontwerp, krijgt eerst een drukproef en na je akkoord maken we de tent. Bedrukt is maatwerk en kan niet retour.</p><p>Twijfel je tussen een ster- en een stretchtent? Lees <a href=\"/blogs/advies/stretchtent-of-stertent\">Stretchtent of stertent?</a></p>",
+   "seo_tekst_html": "<h2>Stertent kopen: zo kies je</h2><p>Een stertent staat op een mast in het midden en wordt naar buiten gespannen op punten. Je herkent hem van ver, en je zet hem met weinig mensen op: met een meetkoord zet je de punten uit, daarna komen de zijpalen en als laatste de mast.</p><h3>Eén of twee masten</h3><ul><li><strong><a href=\"/products/stertent-enkele-mast\">Stertent enkele mast</a></strong>: rond, Ø 8 tot Ø 16 m. Met 2 personen in ca. 30 tot 45 minuten (Ø 8 en Ø 10 m). In Wit, Zwart en Zandkleur.</li><li><strong><a href=\"/products/stertent-dubbele-mast\">Stertent dubbele mast</a></strong>: langgerekt, 8 × 13 tot 13 × 21 m, tot ca. 140 mensen staand. In Wit en Zandkleur.</li></ul><h3>Mast en doek</h3><p>De masten zijn van geanodiseerd aluminium, Ø 75 mm, en schuiven telescopisch uit. Daardoor hoef je ze niet op volle lengte op te tillen. Het doek is polyester met een PVC-coating van 320 g/m²: waterdicht en UV-bestendig.<!-- claim: Brandvertragend stertentdoek: alleen noemen met certificaat van de leverancier (staat niet in de specificaties tot norm en klasse bevestigd zijn) --></p><h3>Capaciteit en ruimte</h3><p>De rand van een stertent is laag, dus reken op ca. 0,6 persoon staand of 0,4 zittend per m² grondvlak. Een Ø 10 m (ca. 79 m²) is goed voor ca. 45 staand of 30 zittend. Reken voor de ruimte op de diameter plus 2 m rondom: een Ø 10 m heeft een plek van ca. 14 × 14 m nodig.</p><h3>Wanden</h3><p>Voor elke stertent zijn er <a href=\"/products/zijwanden-stertent\">zijwanden</a>, van Ø 8 tot Ø 16 m en voor alle maten met dubbele mast: los voor de windkant of als set rondom met oproldeuren.</p><h3>Vastzetten</h3><p>Op gras gaan de haringen schuin de grond in, op verharding komt er ballast op elke punt en op de mastvoet, bijvoorbeeld <a href=\"/products/betonblok-ballast-tent\">betonblokken</a>. Hoeveel per punt, rekenen we voor je uit: <a href=\"/pages/offerte\">vraag ballastadvies aan</a>. Span na een regenbui opnieuw aan. Is er storm voorspeld, laat dan de mast zakken en haal het doek eraf.</p><h3>Levering</h3><p>Stertenten komen als vracht op een pallet. De dubbele mast maken we op bestelling; de levertijd staat bij het product.<!-- claim: Levertijd stertent dubbele mast 2–3 weken (custom.levertijd) --> Wil je je eigen ontwerp op het doek, kies dan de uitvoering Full colour bedrukt: je uploadt je ontwerp, krijgt eerst een drukproef en na je akkoord maken we de tent. Bedrukt is maatwerk en kan niet retour.</p><p>Twijfel je tussen een ster- en een stretchtent? Lees <a href=\"/blogs/advies/stretchtent-of-stertent\">Stretchtent of stertent?</a></p>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -3381,6 +3432,21 @@
          {
           "type": "text",
           "value": "betonblokken"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Hoeveel per punt, rekenen we voor je uit: "
+       },
+       {
+        "type": "link",
+        "url": "/pages/offerte",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "vraag ballastadvies aan"
          }
         ]
        },
@@ -3891,13 +3957,13 @@
    "words": 333
   },
   "actiepakketten": {
-   "intro": "Combinaties die je anders los bij elkaar zoekt, voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt.",
+   "intro": "Vaste combinaties voor één pakketprijs: statafels met rokken, statafels met transportkar, tentpakketten, terras- en buffetsets. Bij elk pakket zie je wat het los kost en wat je in het pakket betaalt. Geen tijdelijke actie: de pakketprijs geldt gewoon.",
    "kenmerken": [
     "Los en pakketprijs naast elkaar",
-    "Onderdelen passen bij elkaar",
+    "Statafel met rok vanaf € 69,95",
     "Voor feest, horeca en verhuur"
    ],
-   "seo_tekst_html": "<h2>Actiepakketten: zo werken ze</h2><p>Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.<!-- claim: Pakketprijzen 10–12% onder de som van de losse prijzen (pricing_policy); voorbeeldbedrag in de tekst controleren bij prijswijziging --></p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: één statafel met rok en topcover, om te beginnen.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket met 5, 10 of 15 statafels, rokken in 8 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/pakket-24-barkrukken-met-transportkar\">24 barkrukken met transportkar</a>: stapelbare metalen barkrukken in één kleur, op hun eigen kar.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Levering</h3><p>Kleine pakketten, zoals een statafel met rok of de prikkabelset, komen als pakket. Pakketten met een transportkar, biertafelsets of een grote tent komen op een pallet, op een dag die je vooraf afspreekt. Bij elk pakket staat hoe het komt.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>. Hoeveel statafels je nodig hebt, lees je in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels per gast</a>.</p>",
+   "seo_tekst_html": "<h2>Pakketten: zo werken ze</h2><p>Een pakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan.</p><h3>Zo lees je de prijs</h3><p>Bij elk pakket staat wat de onderdelen los kosten en wat je in het pakket betaalt, bijvoorbeeld: Los € 109,90 · in het pakket € 99,95. Los is altijd de som van de huidige losse prijzen. Een doorgestreepte van-prijs zie je alleen als een product echt eerder duurder was; bij deze pakketten is dat niet zo.<!-- claim: Pakketprijzen 10–12% onder de som van de losse prijzen (pricing_policy); voorbeeldbedrag in de tekst controleren bij prijswijziging --></p><h3>Statafelpakketten</h3><ul><li><a href=\"/products/pakket-statafel-hdpe-met-stretchrok\">Statafel HDPE met stretchrok</a>: de lichte HDPE-statafel Ø 80 cm met rok en topcover, voor € 69,95.</li><li><a href=\"/products/pakket-statafel-met-stretchrok\">Statafel met stretchrok</a>: de statafel inklapbaar Professional met rok en topcover, in drie maten en vier bladkleuren.</li><li><a href=\"/products/pakket-4-statafels-met-stretchrokken\">4 statafels met stretchrokken</a>: voor een borrel met 30 tot 40 gasten.</li><li><a href=\"/products/pakket-statafels-met-transportkar\">Statafels met transportkar</a>: 5, 10 of 15 statafels op een kar, voor verhuur en horeca.</li><li><a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">Statafels met stretchrokken en transportkar</a>: het complete pakket met 5, 10 of 15 statafels, rokken in 8 kleuren.</li><li><a href=\"/products/terraspakket-statafel-barkrukken\">Terraspakket</a>: statafel, rok en 4 barkrukken.</li><li><a href=\"/products/wijnvat-set-statafel-barkrukken\">Wijnvat-set</a>: wijnvat-statafel met 4 barkrukken met houten zitting.</li></ul><h3>Andere pakketten</h3><ul><li><a href=\"/products/starterspakket-easy-up-premium\">Starterspakket easy-up Premium</a>: tent, zijwanden en verankering in 3 × 3, 3 × 4,5 of 3 × 6 m.</li><li><a href=\"/products/compleet-pakket-easy-up-professional\">Compleet pakket easy-up Professional</a>: tent, zijwanden en voetgewichten.</li><li><a href=\"/products/pakket-24-barkrukken-met-transportkar\">24 barkrukken met transportkar</a>: stapelbare metalen barkrukken in één kleur, op hun eigen kar.</li><li><a href=\"/products/buffetpakket-klaptafels-stretchhoezen\">Buffetpakket</a>: 10 klaptafels met stretchhoezen en een transportkar.</li><li><a href=\"/products/biertafelsets-10-stuks\">Biertafelsets per 10</a>: voor vereniging en buurtfeest.</li><li><a href=\"/products/prikkabelset-led\">Prikkabelset met LED-lampen</a>: prikkabel met een lamp in elke fitting.</li></ul><h3>Wat betekent de kleur in een pakket?</h3><p>Bij statafelpakketten met rokken is de kleur die je kiest de kleur van rokken en topcovers, en kies je het blad apart; bij de statafels met transportkar is het de kleur van het blad. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los.</p><h3>Levering</h3><p>Kleine pakketten, zoals een statafel met rok of de prikkabelset, komen als pakket. Pakketten met een transportkar, biertafelsets of een grote tent komen op een pallet, op een dag die je vooraf afspreekt. Bij elk pakket staat hoe het komt.</p><h3>Liever zelf samenstellen?</h3><p>Losse statafels, barkrukken en rokken hebben vanaf 10 stuks een staffelprijs. Bestel je meer pakketten tegelijk, dan geldt ook op het pakket zelf een staffelprijs; zo is een pakket bij elk aantal voordeliger dan dezelfde onderdelen los. Voor andere aantallen, eigen kleuren of een logo op de rokken kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>. Hoeveel statafels je nodig hebt, lees je in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels per gast</a>.</p>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -3907,7 +3973,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Actiepakketten: zo werken ze"
+        "value": "Pakketten: zo werken ze"
        }
       ]
      },
@@ -3916,7 +3982,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Een actiepakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan."
+        "value": "Een pakket is een vaste combinatie van producten die bij elkaar horen, voor één pakketprijs. Je hoeft niet uit te zoeken welke rok bij welke tafel past of welke wanden bij welke tent: dat hebben we al gedaan."
        }
       ]
      },
@@ -3958,6 +4024,26 @@
         "children": [
          {
           "type": "link",
+          "url": "/products/pakket-statafel-hdpe-met-stretchrok",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Statafel HDPE met stretchrok"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": de lichte HDPE-statafel Ø 80 cm met rok en topcover, voor € 69,95."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
           "url": "/products/pakket-statafel-met-stretchrok",
           "title": null,
           "children": [
@@ -3969,7 +4055,7 @@
          },
          {
           "type": "text",
-          "value": ": één statafel met rok en topcover, om te beginnen."
+          "value": ": de statafel inklapbaar Professional met rok en topcover, in drie maten en vier bladkleuren."
          }
         ]
        },
@@ -4226,7 +4312,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Bij statafelpakketten is de kleur die je kiest de kleur van de rokken en topcovers; de tafelbladen zijn wit. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los."
+        "value": "Bij statafelpakketten met rokken is de kleur die je kiest de kleur van rokken en topcovers, en kies je het blad apart; bij de statafels met transportkar is het de kleur van het blad. Bij tentpakketten hebben dak en wanden dezelfde kleur. Wil je combineren, bestel de onderdelen dan los."
        }
       ]
      },
@@ -5441,14 +5527,14 @@
    "words": 322
   },
   "accessoires": {
-   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, afzetpalen en lopers.",
+   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen voor elke tent (ook stretch, ster en opblaasbaar), verwarming, afzetpalen en lopers.",
    "kenmerken": [
     "Zijwanden en verankering",
     "Onderdelen los na te bestellen",
     "Heaters voor tent en terras",
     "Afzetpalen en lopers"
    ],
-   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen. Per tent: <a href=\"/collections/easy-up-onderdelen\">voor easy-up</a> of <a href=\"/collections/buizenframe-onderdelen\">voor buizenframe-tenten</a>.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Tenten aan elkaar</h3><p>Zet je twee easy-ups naast elkaar, dan houd je ze samen met een <a href=\"/products/koppelset-easy-up\">koppelset</a> en blijft de naad droog met een <a href=\"/products/regengoot-partytent\">regengoot</a> of <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a>.</p><h3>Warm blijven</h3><p>Alle heaters staan bij <a href=\"/collections/verwarming\">verwarming</a>. In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Zet een heater op een eigen groep en houd de afstand tot het doek aan die in de handleiding staat. Op een open terras kan ook gas: de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater</a> van 13 kW, een <a href=\"/products/loungeheater-gas\">loungeheater</a> op zithoogte of als tafelmodel, of een <a href=\"/products/flameheater-gas-9-kw\">flameheater</a> met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.</p><h3>Licht in de tent</h3><p>Het <a href=\"/products/led-vloedlicht-easy-up\">LED-vloedlicht van 30 W</a> klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een <a href=\"/products/prikkabel-e27\">prikkabel</a>.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><p>Een marktkraam vind je bij <a href=\"/collections/evenement\">evenement en markt</a>. Licht erbij? Prikkabels, lampen en lichtslangen staan bij <a href=\"/collections/verlichting\">verlichting</a>.</p><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
+   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen. Per tent: <a href=\"/collections/easy-up-onderdelen\">voor easy-up</a>, <a href=\"/collections/buizenframe-onderdelen\">voor buizenframe-tenten</a> of <a href=\"/collections/onderdelen-stretch-ster-en-opblaasbare-tenten\">voor stretch-, ster- en opblaasbare tenten</a>.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Tenten aan elkaar</h3><p>Zet je twee easy-ups naast elkaar, dan houd je ze samen met een <a href=\"/products/koppelset-easy-up\">koppelset</a> en blijft de naad droog met een <a href=\"/products/regengoot-partytent\">regengoot</a> of <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a>.</p><h3>Warm blijven</h3><p>Alle heaters staan bij <a href=\"/collections/verwarming\">verwarming</a>. In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Zet een heater op een eigen groep en houd de afstand tot het doek aan die in de handleiding staat. Op een open terras kan ook gas: de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater</a> van 13 kW, een <a href=\"/products/loungeheater-gas\">loungeheater</a> op zithoogte of als tafelmodel, of een <a href=\"/products/flameheater-gas-9-kw\">flameheater</a> met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.</p><h3>Licht in de tent</h3><p>Het <a href=\"/products/led-vloedlicht-easy-up\">LED-vloedlicht van 30 W</a> klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een <a href=\"/products/prikkabel-e27\">prikkabel</a>.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><p>Een marktkraam vind je bij <a href=\"/collections/evenement\">evenement en markt</a>. Licht erbij? Prikkabels, lampen en lichtslangen staan bij <a href=\"/collections/verlichting\">verlichting</a>.</p><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
    "seo_tekst": {
     "type": "root",
     "children": [
@@ -5576,7 +5662,7 @@
          },
          {
           "type": "text",
-          "value": " of "
+          "value": ", "
          },
          {
           "type": "link",
@@ -5586,6 +5672,21 @@
            {
             "type": "text",
             "value": "voor buizenframe-tenten"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " of "
+         },
+         {
+          "type": "link",
+          "url": "/collections/onderdelen-stretch-ster-en-opblaasbare-tenten",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "voor stretch-, ster- en opblaasbare tenten"
            }
           ]
          },
@@ -9634,6 +9735,421 @@
     "Pasvorm onderstel, schuifring en scharnier op de HDPE-statafel: leverancier bevestigen."
    ],
    "words": 123
+  },
+  "onderdelen-stretch-ster-en-opblaasbare-tenten": {
+   "intro": "Wanden, palen, spanmateriaal en koppelgoten voor je stretchtent, zijwanden voor je stertent, en pompen, wanden, luifels, tunnels, tassen, licht en watergewicht voor je opblaasbare tent. Bij elk onderdeel staat op welke tent het past.",
+   "kenmerken": [
+    "Pasvorm per tent vermeld",
+    "Stretch, ster en opblaasbaar",
+    "Ballastadvies op aanvraag"
+   ],
+   "seo_tekst_html": "<h2>Onderdelen voor stretch-, ster- en opblaasbare tenten</h2><p>Een stretchtent, stertent of opblaasbare tent heeft eigen onderdelen: geen buizen en koppelstukken, maar palen, spanbanden, luchtkamers en ritsen. Hier vind je per tentsoort wat je erbij nodig hebt of later vervangt. Bij elk product staat op welke tent het past.</p><h3>Stretchtenten</h3><ul><li><a href=\"/products/zijwand-stretchtent\">Zijwanden</a>: een startwand met eigen palen en uitbreidingswanden, 2 of 3 m breed.</li><li><a href=\"/products/palen-stretchtent\">Palen</a> van kastanjehout of aluminium, 2,5 tot 4 m.</li><li><a href=\"/products/onderdelen-stretchtent\">Spanmateriaal en koppelgoten</a>: spanbanden met ratel, touwensets, paalverbinders en goten om twee tenten droog te koppelen.</li></ul><h3>Stertenten</h3><p><a href=\"/products/zijwanden-stertent\">Zijwanden</a> per vak (dicht, met raam of met oproldeur) of als set rondom, voor de enkele mast van Ø 8 tot 16 m en voor de dubbele mast.</p><h3>Opblaasbare tenten</h3><ul><li>Een <a href=\"/products/pomp-opblaasbare-tent\">pomp</a>: elektrisch om snel op te bouwen, met de hand als reserve.</li><li><a href=\"/products/zijwand-opblaasbare-promotietent\">Zijwanden</a> en <a href=\"/products/luifel-opblaasbare-promotietent\">luifels</a> voor de promotietent, en <a href=\"/products/zijwand-opblaasbare-zeshoektent\">wanden voor de zeshoektent</a> in de vier kleuren van de tent.</li><li>Een <a href=\"/products/verbindingstunnel-opblaasbare-tent\">verbindingstunnel</a> tussen twee tenten, <a href=\"/products/led-verlichting-opblaasbare-tent\">LED-verlichting</a> en een <a href=\"/products/opbergtas-opblaasbare-tent\">opbergtas met wielen</a>.</li><li><a href=\"/products/watergewichtzakken-4x20-kg\">Watergewichtzakken</a> van 20 kg om de luchtpoten.</li></ul><h3>Vastzetten en ballast</h3><p>Op gras zet je deze tenten vast met <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">lange haringen</a>. Op tegels of asfalt komt er ballast op elk ankerpunt. Hoeveel, hangt af van de tent, de maat, de wanden en de plek, en dat rekenen we niet op gevoel uit. <a href=\"/pages/offerte\">Vraag ballastadvies aan</a>, dan zeggen we of je met watergewicht toe kunt of dat er <a href=\"/products/betonblok-ballast-tent\">betonblokken</a> nodig zijn.</p><p>In deze lijst filter je met ‘Past op’ op je tentsoort. Een easy-up of buizenframe-tent? Kijk dan bij de <a href=\"/collections/easy-up-onderdelen\">onderdelen voor easy-up</a> of de <a href=\"/collections/buizenframe-onderdelen\">onderdelen voor buizenframe-tenten</a>.</p>",
+   "seo_tekst": {
+    "type": "root",
+    "children": [
+     {
+      "type": "heading",
+      "level": 2,
+      "children": [
+       {
+        "type": "text",
+        "value": "Onderdelen voor stretch-, ster- en opblaasbare tenten"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Een stretchtent, stertent of opblaasbare tent heeft eigen onderdelen: geen buizen en koppelstukken, maar palen, spanbanden, luchtkamers en ritsen. Hier vind je per tentsoort wat je erbij nodig hebt of later vervangt. Bij elk product staat op welke tent het past."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Stretchtenten"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/zijwand-stretchtent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Zijwanden"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": een startwand met eigen palen en uitbreidingswanden, 2 of 3 m breed."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/palen-stretchtent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Palen"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " van kastanjehout of aluminium, 2,5 tot 4 m."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/onderdelen-stretchtent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Spanmateriaal en koppelgoten"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": spanbanden met ratel, touwensets, paalverbinders en goten om twee tenten droog te koppelen."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Stertenten"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "link",
+        "url": "/products/zijwanden-stertent",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "Zijwanden"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " per vak (dicht, met raam of met oproldeur) of als set rondom, voor de enkele mast van Ø 8 tot 16 m en voor de dubbele mast."
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Opblaasbare tenten"
+       }
+      ]
+     },
+     {
+      "type": "list",
+      "listType": "unordered",
+      "children": [
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Een "
+         },
+         {
+          "type": "link",
+          "url": "/products/pomp-opblaasbare-tent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "pomp"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ": elektrisch om snel op te bouwen, met de hand als reserve."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/zijwand-opblaasbare-promotietent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Zijwanden"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " en "
+         },
+         {
+          "type": "link",
+          "url": "/products/luifel-opblaasbare-promotietent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "luifels"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " voor de promotietent, en "
+         },
+         {
+          "type": "link",
+          "url": "/products/zijwand-opblaasbare-zeshoektent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "wanden voor de zeshoektent"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " in de vier kleuren van de tent."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Een "
+         },
+         {
+          "type": "link",
+          "url": "/products/verbindingstunnel-opblaasbare-tent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "verbindingstunnel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " tussen twee tenten, "
+         },
+         {
+          "type": "link",
+          "url": "/products/led-verlichting-opblaasbare-tent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "LED-verlichting"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " en een "
+         },
+         {
+          "type": "link",
+          "url": "/products/opbergtas-opblaasbare-tent",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "opbergtas met wielen"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": "."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "link",
+          "url": "/products/watergewichtzakken-4x20-kg",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "Watergewichtzakken"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " van 20 kg om de luchtpoten."
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "heading",
+      "level": 3,
+      "children": [
+       {
+        "type": "text",
+        "value": "Vastzetten en ballast"
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "Op gras zet je deze tenten vast met "
+       },
+       {
+        "type": "link",
+        "url": "/products/haringen-en-bevestigingsmateriaal-partytent",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "lange haringen"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Op tegels of asfalt komt er ballast op elk ankerpunt. Hoeveel, hangt af van de tent, de maat, de wanden en de plek, en dat rekenen we niet op gevoel uit. "
+       },
+       {
+        "type": "link",
+        "url": "/pages/offerte",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "Vraag ballastadvies aan"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ", dan zeggen we of je met watergewicht toe kunt of dat er "
+       },
+       {
+        "type": "link",
+        "url": "/products/betonblok-ballast-tent",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "betonblokken"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " nodig zijn."
+       }
+      ]
+     },
+     {
+      "type": "paragraph",
+      "children": [
+       {
+        "type": "text",
+        "value": "In deze lijst filter je met ‘Past op’ op je tentsoort. Een easy-up of buizenframe-tent? Kijk dan bij de "
+       },
+       {
+        "type": "link",
+        "url": "/collections/easy-up-onderdelen",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "onderdelen voor easy-up"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " of de "
+       },
+       {
+        "type": "link",
+        "url": "/collections/buizenframe-onderdelen",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "onderdelen voor buizenframe-tenten"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": "."
+       }
+      ]
+     }
+    ]
+   },
+   "seo": {
+    "title": "Onderdelen voor stretch-, ster- en opblaasbare tenten | Klapklaar",
+    "description": "Zijwanden, palen, spanmateriaal en koppelgoten voor stretchtenten, zijwanden voor stertenten en pompen, luifels, wanden en tassen voor opblaasbare tenten."
+   },
+   "basis": "merchandising-review 2026-10-18 (Accessoires-kolom Voor stretch-, ster- en opblaasbare tenten)",
+   "claims": [
+    "Ballastadvies op aanvraag via offerte: werkwijze eigenaar (wie rekent, binnen welke termijn); de winkel rekent geen ballast uit."
+   ],
+   "words": 263
   }
  },
  "claims_index": [
@@ -10155,6 +10671,22 @@
     "product:statafel-inklapbaar-professional",
     "product:statafel-met-kruisvoet",
     "product:statafel-vierkant-stapelbaar"
+   ]
+  },
+  {
+   "claim": "Ballastadvies op aanvraag via offerte: werkwijze eigenaar; de winkel rekent geen ballast uit",
+   "where": [
+    "page:offerte",
+    "collection:onderdelen-stretch-ster-en-opblaasbare-tenten",
+    "article:partytent-verankeren-bij-wind"
+   ]
+  },
+  {
+   "claim": "Brandvertragend/brandklasse: nergens in de winkel tot het certificaat per doek binnen is",
+   "where": [
+    "page:veelgestelde-vragen",
+    "article:pe-of-pvc-partytent",
+    "article:zijwanden-kiezen"
    ]
   }
  ]

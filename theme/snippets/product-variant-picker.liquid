@@ -6,7 +6,9 @@
   Size switch across products (feature product.size-switch): a line that is split into one product per size links
   its sizes with custom.andere_maten (list.product_reference, catalog/CONTRACT.md). Those sizes are shown as pills in
   the size option, sorted by size (snippets/size-siblings-order): the current size is the chosen pill, the others are
-  links to the sibling product with the same other options (colour, uitvoering) preselected via ?variant=.
+  links to the sibling product with the same other options (colour, uitvoering) preselected via ?variant=; a size without
+  that combination links to its closest variant (most shared values, available first: Heavy duty PVC / Zwart opens the
+  5 × 5 m as Polyester / Zwart) and says 'niet in Heavy duty PVC' instead of a price, never 'niet leverbaar'.
   variant-picker.js keeps those links in step when the colour changes.
 
   assets/variant-picker.js (comments stripped there for the JS budget): <variant-picker> finds the variant (or the nearest
@@ -103,9 +105,14 @@
         assign m_av = sp.available
         assign m_price = sp.price
         assign m_from = sp.price_varies
+        # best other match when this size lacks the exact colour / uitvoering: the variant that shares the most option
+        # values (Heavy duty PVC / Zwart -> Polyester / Zwart), available first; variant-picker.js scores the same way
+        assign b_id = ''
+        assign b_score = -1
         capture vmap
           echo '{'
           for v in sp.variants
+            assign v_score = 0
             capture vk
               for option in sp.options_with_values
                 assign on = option.name | downcase | strip
@@ -114,6 +121,24 @@
                 endunless
               endfor
             endcapture
+            for option in sp.options_with_values
+              assign on = option.name | downcase | strip
+              unless size_names_lc contains on
+                assign pair = option.name | append: '=' | append: v.options[forloop.index0] | append: '|'
+                if cur_key contains pair
+                  assign v_score = v_score | plus: 2
+                endif
+              endunless
+            endfor
+            if v.available
+              assign v_score = v_score | plus: 1
+            endif
+            if v_score > b_score
+              assign b_score = v_score
+              assign b_id = v.id
+              assign b_av = v.available
+              assign b_price = v.price
+            endif
             if vk == cur_key and m_id == ''
               assign m_id = v.id
               assign m_av = v.available
@@ -132,6 +157,12 @@
         assign sp_miss = ''
         if m_id == ''
           assign m_av = false
+          if b_id != ''
+            assign m_id = b_id
+            assign m_av = b_av
+            assign m_price = b_price
+            assign m_from = false
+          endif
           for option in product.options_with_values
             assign on = option.name | downcase | strip
             if size_names_lc contains on or sp_miss != ''
@@ -169,7 +200,11 @@
           endcapture
           assign sp_label = sp_label_html
         endif
-        render 'size-sibling-link', sp: sp, label: sp_label, variant_id: m_id, available: m_av, vmap: vmap
+        assign sp_note = ''
+        if sp_miss != ''
+          assign sp_note = 'product.sibling_missing' | t: value: sp_miss
+        endif
+        render 'size-sibling-link', sp: sp, label: sp_label, variant_id: m_id, available: m_av, vmap: vmap, note: sp_note, prices: show_size_prices
       endfor
     endcapture
     assign sib_parts = sib_pills | split: '__SELF__'

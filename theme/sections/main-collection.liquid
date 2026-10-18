@@ -115,16 +115,74 @@
           assign lead_text = ''
         endif
         assign lead_key = lead_text | handleize
+        # the shared wait as the date it lands on ('Leverbaar over 2–3 weken' -> 'Vandaag besteld, uiterlijk ma 9 nov in huis'):
+        # the upper bound in days (weken x 7, werkdagen plus their weekends), a weekend date moves to the Monday.
+        # facets.js recounts it from today in Amsterdam (a cached page can be a day old). No number in the text: the text.
+        assign lead_days = 0
+        if lead_text != ''
+          assign lt_words = lead_text | downcase | replace: '–', '-' | split: ' '
+          assign prev_w = ''
+          for w in lt_words
+            assign lt_unit = 0
+            if w contains 'werkdag'
+              assign lt_unit = 5
+            elsif w contains 'week' or w contains 'weken'
+              assign lt_unit = 7
+            elsif w contains 'dag'
+              assign lt_unit = 1
+            endif
+            if lt_unit > 0
+              assign lt_n = prev_w | split: '-' | last | plus: 0
+              if lt_n > 0 and lt_unit == 5
+                assign lt_wk = lt_n | plus: 4 | divided_by: 5 | times: 2
+                assign lead_days = lt_n | plus: lt_wk
+              elsif lt_n > 0
+                assign lead_days = lt_n | times: lt_unit
+              endif
+              break
+            endif
+            assign prev_w = w
+          endfor
+        endif
+        assign lead_line = lead_text
+        if lead_days > 0
+          assign lead_secs = lead_days | times: 86400
+          assign lead_ts = 'now' | date: '%s' | plus: lead_secs
+          assign lead_wd = lead_ts | date: '%w' | plus: 0
+          if lead_wd == 6
+            assign lead_ts = lead_ts | plus: 172800
+          elsif lead_wd == 0
+            assign lead_ts = lead_ts | plus: 86400
+          endif
+          assign lead_wd = lead_ts | date: '%w' | plus: 0
+          assign lead_mon = lead_ts | date: '%m' | plus: -1
+          assign lead_wdays = 'zo,ma,di,wo,do,vr,za' | split: ','
+          assign lead_months = 'jan,feb,mrt,apr,mei,jun,jul,aug,sep,okt,nov,dec' | split: ','
+          assign lead_date = lead_ts | date: '%d' | plus: 0 | prepend: ' ' | prepend: lead_wdays[lead_wd] | append: ' ' | append: lead_months[lead_mon]
+          capture lead_time
+            echo '<time data-lead-days="' | append: lead_days | append: '">' | append: lead_date | append: '</time>'
+          endcapture
+          assign lead_line = 'collection.lead_date' | t: date: '__D__' | replace: '__D__', lead_time
+        endif
+        # cards with another line on this page (stock, a print lead time): 'tenzij anders vermeld'
+        if lead_best < collection.products.size
+          assign lead_line = 'collection.lead_default' | t: text: '__L__' | replace: '__L__', lead_line
+        endif
       -%}
       {%- capture lead_note -%}
         {%- if lead_text != '' -%}
-          <p class="collection-lead"><span class="stock stock--later collection-lead__line">{{ 'collection.lead_default' | t: text: lead_text }}</span>
+          <p class="collection-lead"><span class="collection-lead__line">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span>{{ lead_line }}</span></span>
             {%- if pages.contact.url != blank -%}<a class="link collection-lead__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
           </p>
         {%- endif -%}
       {%- endcapture -%}
       {%- if lead_text != '' -%}<style>#ProductGridContainer-{{ section.id }} [data-lead="{{ lead_key }}"]{display:none}</style>{%- endif -%}
       <div class="collection-bar" data-collection-bar>
+        <p class="collection-bar__count" id="ProductCount-{{ section.id }}" tabindex="-1" data-results-count>{{ 'collection.products_count' | t: count: collection.products_count }}</p>
+        {%- if lead_note != blank -%}<div class="collection-bar__lead">{{ lead_note }}</div>{%- endif -%}
+        {%- comment -%} phone: Filteren + Sorteren; once the bar has scrolled away they float at the bottom of the screen
+          (facets.js), so the top of the screen stays for the products {%- endcomment -%}
+        <div class="collection-bar__tools" data-bar-tools>
         {%- if has_filters -%}
           <button type="button" class="collection-bar__btn collection-bar__filter js-only" data-facets-open aria-controls="FilterDrawer-{{ section.id }}" aria-expanded="false">
             {%- render 'icon', icon: 'filter', class: 'icon--sm' -%}<span>{{ 'collection.filter' | t }}</span>
@@ -136,8 +194,6 @@
             {%- if active_filters > 0 -%}<span class="facet__badge" data-active-count><span class="visually-hidden">, {{ 'collection.filter_count' | t: count: active_filters }}</span><span aria-hidden="true">{{ active_filters }}</span></span>{%- endif -%}
           </a>
         {%- endif -%}
-        <p class="collection-bar__count" id="ProductCount-{{ section.id }}" tabindex="-1" data-results-count>{{ 'collection.products_count' | t: count: collection.products_count }}</p>
-        {%- if lead_note != blank -%}<div class="collection-bar__lead">{{ lead_note }}</div>{%- endif -%}
         {%- if section.settings.enable_sorting -%}
           <div class="collection-bar__btn collection-bar__sort{% if sort_by != sort_default %} is-active{% endif %}">
             <span class="collection-bar__sort-face" aria-hidden="true">
@@ -164,6 +220,7 @@
           <noscript><button type="submit" form="{{ sort_form }}" class="btn btn--sm btn--outline collection-bar__apply">{{ 'collection.apply' | t }}</button></noscript>
           {%- unless has_filters -%}<form id="{{ sort_form }}" action="{{ collection.url }}" method="get" hidden></form>{%- endunless -%}
         {%- endif -%}
+        </div>
       </div>
 
       <div class="collection-meta">
@@ -198,7 +255,7 @@
                     assign pmin = pmin_c | money_without_trailing_zeros
                     assign pmax = pmax_c | money_without_trailing_zeros
                   -%}
-                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ pmin }} – {{ pmax }}{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ pmin }} – {{ pmax }}<span data-vat-show="excl">&nbsp;{{ 'price.incl' | t }}</span>{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
@@ -294,8 +351,8 @@
         {%- else -%}
           <div class="empty-state">
             {%- if active_filters > 0 -%}
-              <h2 class="h3">{{ 'collection.no_results_title' | t }}</h2>
-              <p class="muted">{{ 'collection.no_results_text' | t }}</p>
+              <h2 class="h3">{{ 'collection.no_results_in' | t: title: collection.title }}</h2>
+              <p class="muted">{{ 'collection.no_results_text_in' | t: title: collection.title }}</p>
               {%- comment -%} one way back to everything, keeping the chosen order (the chips above still remove one filter at a time) {%- endcomment -%}
               <div class="btn-row"><a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.view_all_products' | t }}</a></div>
             {%- else -%}
@@ -303,6 +360,27 @@
             {%- endif -%}
           </div>
         {%- endif -%}
+        {%- liquid
+          assign ld_desc = collection.metafields.custom.intro.value | default: collection.description | strip_html | strip_newlines | truncate: 300
+        -%}
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": {{ collection.title | json }},
+            "url": {{ request.origin | append: collection.url | json }},
+            {%- if ld_desc != blank %}"description": {{ ld_desc | json }},{% endif %}
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": {{ collection.products_count }},
+              "itemListElement": [
+                {%- for product in collection.products -%}
+                  {"@type": "ListItem", "position": {{ paginate.current_offset | plus: forloop.index }}, "url": {{ request.origin | append: product.url | json }}, "name": {{ product.title | json }}}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              ]
+            }
+          }
+        </script>
       {%- endpaginate -%}
     </div>
   </div>

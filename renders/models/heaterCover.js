@@ -16,6 +16,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
 import * as L from '../js/lightKit.js';
+import * as SG from '../js/softGoods.js';
 import { heater } from './heater.js';
 
 const { V3 } = G;
@@ -25,9 +26,12 @@ const DEG = Math.PI / 180;
 export function heaterCover(p = {}) {
   const color = p.color || 'antraciet';
   const hex = { antraciet: '#3A3D41', zwart: '#1B1C1E', grijs: '#5E6266', groen: '#2C4032', beige: '#B9AC92' }[String(color).toLowerCase()] || color;
-  const fab = K.oxford(hex, { sheen: 0.55, rough: 0.58 });
+  // 600D oxford with the basket weave, yarn streaks and coating gloss of js/softGoods.js
+  const fab = SG.fabric600(hex, { sheen: 0.62, rough: 0.6 });
   const nz = L.noise;
   const zipAz = 20 * DEG;                       // the zip faces the heater's door side
+  // four skirt panels: seams at 90 degree steps, clear of the zip
+  const SEAMS = [45, 135, 225, 315].map((d) => zipAz + d * DEG);
 
   // profile (r, y) from the top centre over the reflector and down to the hem
   const yHem = 0.09, Rrim = 0.448, yRim = 2.13, Rhem = 0.252;
@@ -62,21 +66,34 @@ export function heaterCover(p = {}) {
     let d = 0.042 * grow * (0.55 * Math.sin(8 * a + 1.3 + drift) + 0.45 * nz.noise(Math.cos(a) * 2.6 + 7.1, Math.sin(a) * 2.6 + y * 0.55));
     d += 0.011 * grow * Math.sin(13 * a + 0.4 + 2 * drift) * (0.6 + 0.4 * nz.noise(a * 2, y * 2));
     // gathered pleats at the drawstring
-    const g = Math.exp(-(y - yHem) / 0.07);
-    d += g * (0.0065 * Math.sin(34 * a + 0.8 * nz.noise(a * 3, 1)) - 0.004);
+    // soft round gathers where the drawstring pulls the hem in (22 around, irregular)
+    const g = Math.exp(-(y - yHem) / 0.085);
+    const ph = 22 * a + 1.1 * nz.noise(Math.cos(a) * 1.7, Math.sin(a) * 1.7);
+    d += g * (0.0052 * (0.7 * Math.sin(ph) + 0.3 * Math.sin(2 * ph + 0.9)) - 0.0035);
     // the zip stiffens the fabric along the front
     const dz = Math.abs(Math.atan2(Math.sin(a - zipAz), Math.cos(a - zipAz)));
     d *= G.smoothstep(0.03, 0.16, dz);
+    // sewn panel seams: a narrow raised ridge (seam allowance under the cloth)
+    for (const sa of SEAMS) {
+      const da = Math.abs(Math.atan2(Math.sin(a - sa), Math.cos(a - sa))) * Math.max(0.2, Math.hypot(0, at(s)[0]));
+      d += 0.0022 * Math.exp(-(da * da) / (0.0035 * 0.0035)) * (1 - G.smoothstep(0.88, 1, t));
+    }
     return d;
   };
+  // shoulder seam: the round top panel is sewn to the skirt just under the reflector rim
+  const sShoulder = sRim + 0.035;
   const point = (u, s, o) => {
     const a = u * TAU;
     const [r, y] = at(s);
-    const rr = r + (r > 0.05 ? fold(a, s, y) : 0);
+    let rr = r + (r > 0.05 ? fold(a, s, y) : 0);
+    rr += 0.0024 * Math.exp(-((s - sShoulder) ** 2) / (0.004 * 0.004));
     return o.set(Math.sin(a) * rr, y, Math.cos(a) * rr);
   };
-  const nu = 240, nv = 150;
-  const skin = G.surface((u, v, o) => point(u, v * Ltot, o), nu, nv, { closedU: true, uvScale: [TAU * Rrim, Ltot], flipNormals: true });
+  // rows denser towards the hem (the gathers) and fine enough round the seams
+  const nu = 384, nv = 300;
+  const sOfV = (v) => Ltot * (1 - Math.pow(1 - v, 1.22));
+  const skin = G.surface((u, v, o) => point(u, sOfV(v), o), nu, nv, { closedU: true, uvScale: [TAU * Rrim, Ltot], flipNormals: true });
+  { const uvA = skin.attributes.uv; for (let j = 0; j <= nv; j++) for (let i = 0; i <= nu; i++) uvA.setY(j * (nu + 1) + i, sOfV(j / nv)); }
   const bins = new G.PartBin();
   bins.add(fab, skin);
   // inner face of the hem (the turned-up channel seen from below)
@@ -141,12 +158,60 @@ export function heaterCover(p = {}) {
     const btn = G.lathe([[0.0001, 0.012], [0.005, 0.012], [0.005, 0.017], [0.0001, 0.0175]], 16); btn.translate(lockC.x, lockC.y, lockC.z); bins.add(L.moulded('#111111', 0.45), btn);
   }
 
-  // webbing loop on the top
+  // webbing handle on the top: both ends sewn flat onto the cover (box stitch), the loop arches
+  // ~4.5 cm between them; every point follows the cover's own top profile, so nothing floats
   {
-    const web = K.cached('coverWeb', () => new THREE.MeshPhysicalMaterial({ color: '#1C1D1F', roughness: 0.65, sheen: 0.6, sheenColor: new THREE.Color('#505256'), name: 'webbing' }));
-    const pts = []; for (let i = 0; i <= 30; i++) { const t = i / 30; pts.push(V3(-0.055 + 0.11 * t, 2.303 + 0.045 * Math.sin(Math.PI * t) ** 0.8, 0.0)); }
-    bins.add(web, K.strapAlong(pts, 0.025, 0.0022, { normals: pts.map((_, i) => { const t = i / 30; return V3(-Math.cos(Math.PI * t) * 0.6, 1, 0).normalize(); }) }));
-    for (const sx of [-1, 1]) { const tack = G.roundedBox(0.03, 0.002, 0.028, 0.002, 1); tack.translate(sx * 0.07, 2.304, 0); bins.add(web, tack); }
+    const web = K.cached('coverWeb2', () => new THREE.MeshPhysicalMaterial({ color: '#1C1D1F', roughness: 0.62, sheen: 0.7, sheenRoughness: 0.4, sheenColor: new THREE.Color('#55575c'), name: 'webbing' }));
+    const thr = SG.thread('#4A4C51');
+    const topAt = (r) => { // cover top surface height at radius r (top panel), and its slope dy/dr
+      let j = 1; while (j < prof.length - 1 && prof[j][0] < r) j++;
+      const t = (r - prof[j - 1][0]) / Math.max(1e-9, prof[j][0] - prof[j - 1][0]);
+      return [G.lerp(prof[j - 1][1], prof[j][1], t), (prof[j][1] - prof[j - 1][1]) / Math.max(1e-9, prof[j][0] - prof[j - 1][0])];
+    };
+    const surfPt = (x, lift) => { const [y, dy] = topAt(Math.abs(x)); const nn = V3(-Math.sign(x || 1) * dy, 1, 0).normalize(); return { p: V3(x, y, 0).addScaledVector(nn, lift), n: nn }; };
+    const th = 0.0022, wW = 0.025, xIn = 0.042, xOut = 0.088, hLoop = 0.046;
+    // the arch (between the inner ends of the tabs)
+    const arch = [], archN = [];
+    for (let i = 0; i <= 40; i++) {
+      const t = i / 40, x = -xIn + 2 * xIn * t;
+      const base = surfPt(x, th / 2).p;
+      const lift = hLoop * Math.pow(Math.sin(Math.PI * t), 0.8);
+      arch.push(base.clone().add(V3(0, lift, 0)));
+    }
+    for (let i = 0; i <= 40; i++) { const a = arch[Math.max(0, i - 1)], b = arch[Math.min(40, i + 1)]; const T = b.clone().sub(a).normalize(); archN.push(V3(-T.y, T.x, 0).normalize().multiplyScalar(T.x >= 0 ? 1 : -1)); }
+    bins.add(web, K.strapAlong(arch, wW, th, { normals: archN }));
+    // the sewn-down ends: flat on the cover, folded edge towards the loop
+    for (const sx of [-1, 1]) {
+      const tab = [], tabN = [];
+      for (let i = 0; i <= 12; i++) { const x = sx * (xIn - 0.004 + (xOut - xIn) * (i / 12)); const q = surfPt(x, th / 2 + 0.0004); tab.push(q.p); tabN.push(q.n); }
+      if (sx < 0) { tab.reverse(); tabN.reverse(); }
+      bins.add(web, K.strapAlong(tab, wW, th, { normals: tabN }));
+      // box stitch with a cross: four sides + two diagonals, in the tab's own frame
+      const box = [], c0 = sx * (xIn + 0.006), c1 = sx * (xOut - 0.006), hz = wW / 2 - 0.004;
+      const P = (x, z) => { const q = surfPt(x, th + 0.0006); return { p: q.p.clone().setZ(z), n: q.n }; };
+      for (const [a, b] of [[[c0, -hz], [c1, -hz]], [[c1, -hz], [c1, hz]], [[c1, hz], [c0, hz]], [[c0, hz], [c0, -hz]], [[c0, -hz], [c1, hz]], [[c0, hz], [c1, -hz]]]) {
+        const pts = [], nrm = [];
+        for (let i = 0; i <= 10; i++) { const t = i / 10; const q = P(G.lerp(a[0], b[0], t), G.lerp(a[1], b[1], t)); pts.push(q.p); nrm.push(q.n); }
+        const g = SG.stitches(pts, nrm, { len: 0.003, gap: 0.0014, w: 0.0011, h: 0.0005 });
+        if (g) box.push(g);
+      }
+      for (const g of box) bins.add(thr, g);
+    }
+  }
+
+  // stitching: double rows along the panel seams, one row round the shoulder, the hem channel
+  {
+    const thr = SG.thread(new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), 0.12).getStyle());
+    const radial = (q) => V3(q.x, 0, q.z).normalize();
+    const line = (fn, n) => { const pts = [], nrm = []; for (let i = 0; i <= n; i++) { const q = fn(i / n); pts.push(q); nrm.push(radial(q)); } return { pts, nrm }; };
+    for (const sa of SEAMS) for (const off of [-0.0065, 0.0065]) {
+      const { pts, nrm } = line((t) => { const sS = sShoulder + 0.012 + (Ltot - 0.04 - sShoulder - 0.012) * t; const r = at(sS)[0]; const q = point((sa + off / r) / TAU, sS, V3()); return q.addScaledVector(radial(q), 0.0004); }, 220);
+      const g = SG.stitches(pts, nrm, { len: 0.0042, gap: 0.0018 }); if (g) bins.add(thr, g);
+    }
+    for (const [sS, n] of [[sShoulder + 0.008, 360], [Ltot - 0.03, 300]]) {
+      const { pts, nrm } = line((t) => { const q = point(t, sS, V3()); return q.addScaledVector(radial(q), 0.0006); }, n);
+      const g = SG.stitches(pts, nrm, { len: 0.0042, gap: 0.0018 }); if (g) bins.add(thr, g);
+    }
   }
 
   const group = new THREE.Group(); group.name = 'heaterCover';

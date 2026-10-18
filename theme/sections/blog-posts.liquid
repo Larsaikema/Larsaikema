@@ -1,4 +1,4 @@
-{{ 'section-blog.css' | asset_url | stylesheet_tag }}
+{%- if template.name == 'index' -%}{{ 'section-blog-posts.css' | asset_url | stylesheet_tag }}{%- else -%}{{ 'section-blog.css' | asset_url | stylesheet_tag }}{%- endif -%}
 {%- assign b = section.settings.blog -%}
 <section class="section blog-posts color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width">

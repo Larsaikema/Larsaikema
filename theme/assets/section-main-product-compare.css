@@ -7,3 +7,5 @@
 .compare__price{white-space:nowrap}
 .compare__spec{grid-column:1/-1;font-size:14px;color:var(--pk)}
 .compare__more{margin:10px 0 0}
+.compare__intro{margin:0 0 12px;font-size:15px;line-height:1.5;& p{margin:0 0 .6em}& p:last-child{margin:0}}
+.compare__from{font-weight:var(--p4);font-size:13px;color:var(--pk)}

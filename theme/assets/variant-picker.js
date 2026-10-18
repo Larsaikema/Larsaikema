@@ -34,15 +34,20 @@ class VariantPicker extends HTMLElement {
 		const pairs = JSON.parse(this.dataset.keyNames || '[]').map((n, i) => n !== null && `${n}=${v.options[i]}|`).filter(Boolean);
 		links.forEach((a) => {
 			const map = JSON.parse(a.dataset.siblingVariants || '{}');
-			const hit = map[pairs.join('')];
+			const keys = Object.keys(map);
+			const exact = map[pairs.join('')];
+			const score = (k) => pairs.filter((p) => k.includes(p)).length * 2 + (map[k][1] ? 1 : 0);
+			const hit = exact || map[keys.sort((x, y) => score(y) - score(x))[0]];
 			a.href = hit ? `${a.dataset.url}?variant=${hit[0]}` : a.dataset.url;
 			const off = !hit || !hit[1];
 			a.classList.toggle('is-unavailable', off);
 			a.querySelector('[data-unavailable-text]')?.toggleAttribute('hidden', !off);
 			const price = a.querySelector('[data-sibling-price]');
-			const miss = !hit && pairs.find((p) => !Object.keys(map).some((k) => k.includes(p)));
-			if (price && hit && hit[2] != null) price.innerHTML = money(hit[2]);
-			else if (price && miss) price.textContent = this.dataset.missTpl.replace('__VALUE__', miss.slice(miss.indexOf('=') + 1, -1));
+			const miss = !exact && pairs.find((p) => !keys.some((k) => k.includes(p)));
+			const note = miss ? this.dataset.missTpl.replace('__VALUE__', miss.slice(miss.indexOf('=') + 1, -1)) : '';
+			if (price) note ? (price.textContent = note) : hit && hit[2] != null && (price.innerHTML = money(hit[2]));
+			const sr = a.querySelector('[data-sibling-note]');
+			if (sr) sr.textContent = note && `, ${note}`;
 		});
 	}
 }
@@ -55,7 +60,10 @@ class ProductInfo extends HTMLElement {
 		const h = location.hash && byId(decodeURIComponent(location.hash.slice(1)));
 		if (h?.tagName === 'DETAILS') h.open = true;
 		const wide = (this.wide = matchMedia('(min-width: 990px)'));
-		const syncCards = () => this.querySelectorAll('details[data-open-desktop]').forEach((d) => (d.open = wide.matches || d.dataset.userOpen === 'true'));
+		const syncCards = () => {
+			this.querySelectorAll('details[data-open-desktop]').forEach((d) => (d.open = wide.matches || d.dataset.userOpen === 'true'));
+			this.querySelectorAll('details[data-fold-desktop]').forEach((d) => (d.open = !wide.matches));
+		};
 		syncCards();
 		wide.addEventListener?.('change', syncCards);
 		const cb = this.querySelector('[data-clamp-toggle]');
@@ -68,6 +76,12 @@ class ProductInfo extends HTMLElement {
 			cb.querySelector('[data-more-label]').hidden = open;
 			cb.querySelector('[data-less-label]').hidden = !open;
 			if (!open) body.closest('section')?.scrollIntoView({ block: 'start' });
+		});
+		body?.addEventListener('focusin', (e) => {
+			if (cb.hidden || cb.getAttribute('aria-expanded') === 'true') return;
+			cb.click();
+			body.scrollTop = 0;
+			e.target.scrollIntoView({ block: 'center', behavior: 'instant' });
 		});
 		this.addEventListener('click', (e) => {
 			const sum = e.target.closest('details[data-open-desktop] > summary');
@@ -114,7 +128,7 @@ class ProductInfo extends HTMLElement {
 		if (v.media_id) this.querySelector('media-gallery')?.goToMedia(v.media_id);
 		const label = v.options.join(' / ');
 		this.querySelectorAll('[data-quote-variant]').forEach((i) => (i.value = label));
-		this.querySelectorAll('[data-quote-variant-text]').forEach((t) => (t.textContent = label.replace(/ x /g, ' × ')));
+		this.querySelectorAll('[data-quote-variant-text]').forEach((t) => (t.textContent = v.options.filter((o, i) => !`,${t.dataset.skip},`.includes(`,${i},`)).join(' / ').replace(/ x /g, ' × ')));
 		const print = this.querySelector('[data-print]');
 		if (print) print.hidden = print.disabled = !v.print;
 		KK.emit('variant:change', { variant: v, root: this });
@@ -124,7 +138,7 @@ class ProductInfo extends HTMLElement {
 			this.cache.set(url, html);
 			if (this.variant !== v) return;
 			const doc = KK.parse(html);
-			['price', 'badge-sale', 'staffel', 'delivery', 'bundle', 'sticky-price', 'sticky-variant', 'sticky-stock', 'sticky-media', 'sku', 'notify'].forEach((key) => {
+			['price', 'badge-sale', 'staffel', 'delivery', 'bundle', 'sticky-price', 'sticky-variant', 'sticky-stock', 'sticky-media', 'sku', 'notify', 'service', 'compare-price'].forEach((key) => {
 				const fresh = doc.querySelector(`[data-dynamic="${key}"]`);
 				if (fresh) this.querySelectorAll(`[data-dynamic="${key}"]`).forEach((el) => el.replaceWith(fresh.cloneNode(true)));
 			});

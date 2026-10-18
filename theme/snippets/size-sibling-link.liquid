@@ -1,7 +1,12 @@
 {%- comment -%}
   One sibling size (custom.andere_maten) as an option pill that links to that product. Params: sp (product), label,
-  variant_id (the sibling variant with the same colour/uitvoering, or ''), available (bool), vmap (JSON: key -> [id, available]).
+  variant_id (the sibling variant with the same colour/uitvoering, else the closest one: most shared option values,
+  available first), available (bool: that variant can be ordered), vmap (JSON: key -> [id, available, price]), note
+  ('niet in Heavy duty PVC' when the size lacks the current choice), prices (bool: the label holds a price line, which
+  then carries the note; without it the note is screen-reader text). variant-picker.js keeps all of it in step.
 {%- endcomment -%}
 <a class="vp__pill vp__pill--link{% unless available %} is-unavailable{% endunless %}" href="{{ sp.url }}{% if variant_id != '' %}?variant={{ variant_id }}{% endif %}" data-sibling data-url="{{ sp.url }}" data-sibling-variants="{{ vmap | strip | escape }}">
-  {{- label -}}<span class="visually-hidden" data-unavailable-text{% if available %} hidden{% endif %}>, {{ 'product.option_unavailable' | t }}</span>
+  {{- label -}}
+  {%- unless prices -%}<span class="visually-hidden" data-sibling-note>{% if note != blank %}, {{ note }}{% endif %}</span>{%- endunless -%}
+  <span class="visually-hidden" data-unavailable-text{% if available %} hidden{% endif %}>, {{ 'product.option_unavailable' | t }}</span>
 </a>

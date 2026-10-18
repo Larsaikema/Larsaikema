@@ -1,55 +1,201 @@
-{{ 'section-blog.css' | asset_url | stylesheet_tag }}
-{%- assign words = article.content | strip_html | split: ' ' | size -%}
-{%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
+{%- comment -%}
+  Article (feature content.blog): topic, title, lead and meta; wide image; the text with a table of contents built from
+  its <h2> headings (sticky beside the text from 1100px, a fold-out above it on smaller screens); the products of the
+  article (custom.producten, else a tag 'collectie:<handle>', else the fallback collection) compact in the sidebar and as
+  cards below; share, topics, a question card, comments; BlogPosting JSON-LD. Tags with ':' are internal and never shown.
+{%- endcomment -%}
+{{ 'section-article.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'content-pages.js' | asset_url }}" defer></script>
+{%- liquid
+  assign words = article.content | strip_html | split: ' ' | size
+  assign minutes = words | divided_by: 200 | at_least: 1
+  assign topic = ''
+  for tag in article.tags
+    unless tag contains ':'
+      assign topic = tag
+      break
+    endunless
+  endfor
+
+  # ids on every <h2> of the text + the table of contents
+  assign toc_count = 0
+  assign toc_items = ''
+  assign parts = article.content | split: '<h2'
+  capture body_html
+    for part in parts
+      if forloop.first
+        echo part
+        continue
+      endif
+      assign head = part | split: '</h2>' | first
+      assign attrs = head | split: '>' | first
+      assign h_text = head | remove_first: attrs | remove_first: '>' | strip_html | strip
+      if attrs contains 'id="'
+        assign hid = attrs | split: 'id="' | last | split: '"' | first
+        echo '<h2' | append: part
+      else
+        assign hid = h_text | handleize
+        if hid == blank
+          echo '<h2' | append: part
+        else
+          echo '<h2 id="' | append: hid | append: '"' | append: part
+        endif
+      endif
+      if hid != blank and h_text != blank
+        assign toc_count = toc_count | plus: 1
+        assign toc_li = '<li><a href="#' | append: hid | append: '">' | append: h_text | append: '</a></li>'
+        assign toc_items = toc_items | append: toc_li
+      endif
+    endfor
+  endcapture
+  assign show_toc = false
+  if section.settings.show_toc and toc_count >= 3
+    assign show_toc = true
+  endif
+
+  # products of this article
+  assign rel_products = article.metafields.custom.producten.value
+  assign rel_collection = nil
+  if rel_products == blank
+    for tag in article.tags
+      if tag contains 'collectie:'
+        assign rel_handle = tag | remove: 'collectie:' | strip
+        assign rel_collection = collections[rel_handle]
+        break
+      endif
+    endfor
+    if rel_collection == blank
+      assign rel_collection = section.settings.products_collection
+    endif
+    if rel_collection != blank and rel_collection.products_count > 0
+      assign rel_products = rel_collection.products
+    endif
+  endif
+  assign has_products = false
+  if rel_products != blank and rel_products.size > 0
+    assign has_products = true
+  endif
+  assign products_heading = section.settings.products_heading
+  if products_heading == blank
+    assign products_heading = 'blog.related_products' | t
+  endif
+  assign share_url = request.origin | append: article.url
+  assign phone = settings.phone | default: shop.phone
+  assign mail = settings.email | default: shop.email
+-%}
+{%- capture share_html -%}
+  <div class="article-share">
+    <p class="article-share__title">{{ 'blog.share' | t }}</p>
+    <div class="article-share__links">
+      <a class="icon-btn article-share__btn" href="https://wa.me/?text={{ article.title | append: ' ' | append: share_url | url_encode }}" target="_blank" rel="noopener" aria-label="{{ 'blog.share_whatsapp' | t }} ({{ 'general.new_window' | t }})">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}</a>
+      <a class="icon-btn article-share__btn" href="mailto:?subject={{ article.title | url_encode }}&amp;body={{ share_url | url_encode }}" aria-label="{{ 'blog.share_mail' | t }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}</a>
+      <button type="button" class="btn btn--outline btn--sm article-share__copy" data-share-copy="{{ share_url }}" data-copied="{{ 'blog.link_copied' | t }}">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}<span data-label>{{ 'blog.copy_link' | t }}</span></button>
+    </div>
+  </div>
+{%- endcapture -%}
+
 <article class="article">
-  <div class="page-width page-width--text">
-    <header class="article__header">
-      {%- render 'breadcrumbs' -%}
-      {%- if article.tags.size > 0 -%}<p class="eyebrow article__eyebrow">{{ article.tags.first }}</p>{%- endif -%}
+  <header class="page-width article__wrap article__head">
+    {%- render 'breadcrumbs' -%}
+    <div class="article__head-inner">
+      {%- if topic != blank -%}<a class="eyebrow article__eyebrow" href="{{ blog.url }}/tagged/{{ topic | handleize }}">{{ topic }}</a>{%- endif -%}
       {%- comment -%} words with a hyphen (easy-up) never break at the hyphen in the balanced title {%- endcomment -%}
       {%- assign title_words = article.title | split: ' ' -%}
-      <h1>{%- for w in title_words -%}{%- unless forloop.first -%}{{ ' ' }}{%- endunless -%}{%- if w contains '-' -%}<span class="nowrap">{{ w }}</span>{%- else -%}{{ w }}{%- endif -%}{%- endfor -%}</h1>
-      <p class="article__meta">{{ article.published_at | date: format: 'date' }} · {{ 'blog.by' | t: author: article.author }} · {{ 'blog.reading_time' | t: count: minutes }}</p>
-    </header>
-  </div>
+      <h1 class="article__title">{%- for w in title_words -%}{%- unless forloop.first -%}{{ ' ' }}{%- endunless -%}{%- if w contains '-' -%}<span class="nowrap">{{ w }}</span>{%- else -%}{{ w }}{%- endif -%}{%- endfor -%}</h1>
+      {%- if section.settings.show_lead and article.excerpt != blank -%}<div class="article__lead">{{ article.excerpt | strip_html | strip }}</div>{%- endif -%}
+      <p class="article__meta">
+        <span class="article__author">{{ 'blog.by' | t: author: article.author }}</span>
+        <span aria-hidden="true">·</span>
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'date' }}</time>
+        <span aria-hidden="true">·</span>
+        <span>{%- render 'icon', icon: 'clock', class: 'icon--xs' -%} {{ 'blog.reading_time' | t: count: minutes }}</span>
+      </p>
+    </div>
+  </header>
+
   {%- if article.image -%}
-    <div class="page-width page-width--narrow">
-      <div class="article__image">{%- render 'image', image: article.image, sizes: '(min-width: 990px) 820px, 100vw', widths: '480, 640, 820, 1100, 1400', priority: true, alt: article.image.alt -%}</div>
+    {%- comment -%} landscape renders fill the frame; square product renders stay whole on their Linnen ground {%- endcomment -%}
+    {%- assign img_fit = 'contain' -%}{%- if article.image.aspect_ratio >= 1.4 -%}{%- assign img_fit = 'cover' -%}{%- endif -%}
+    <div class="page-width article__wrap">
+      <figure class="article__image article__image--{{ img_fit }}">{%- render 'image', image: article.image, sizes: '(min-width: 1200px) 1140px, (min-width: 750px) 94vw, 100vw', widths: '480, 640, 800, 1140, 1400, 1800', priority: true, alt: article.image.alt -%}</figure>
     </div>
   {%- endif -%}
-  <div class="page-width page-width--text">
-    <div class="rte article__content">{{ article.content }}</div>
-    <footer class="article__footer">
-      <a class="link" href="{{ blog.url }}">{%- render 'icon', icon: 'arrow-left', class: 'icon--xs' -%} {{ 'blog.back' | t: title: blog.title }}</a>
-      <div class="chips">{%- for tag in article.tags -%}<a class="chip" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>{%- endfor -%}</div>
-    </footer>
+
+  <div class="page-width article__wrap article__layout{% unless show_toc or has_products %} article__layout--single{% endunless %}">
+    <div class="article__main">
+      {%- if show_toc -%}
+        <article-toc class="article-toc article-toc--inline">
+          <details class="article-toc__fold">
+            <summary><span>{%- render 'icon', icon: 'menu', class: 'icon--sm' -%}{{ 'blog.toc' | t }} <span class="article-toc__count">({{ toc_count }})</span></span>{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</summary>
+            <ol class="article-toc__list" role="list">{{ toc_items }}</ol>
+          </details>
+        </article-toc>
+      {%- endif -%}
+      <div class="rte article__content">{{ body_html }}</div>
+
+      <footer class="article__footer">
+        {{ share_html }}
+        {%- assign shown_tags = 0 -%}
+        {%- capture tag_chips -%}
+          {%- for tag in article.tags -%}
+            {%- unless tag contains ':' -%}{%- assign shown_tags = shown_tags | plus: 1 -%}<a class="chip chip--sm" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>{%- endunless -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if shown_tags > 0 -%}<nav class="article__tags" aria-label="{{ 'blog.tags' | t }}"><div class="chips">{{ tag_chips }}</div></nav>{%- endif -%}
+      </footer>
+
+      {%- if section.settings.help_heading != blank -%}
+        <aside class="article-help" aria-label="{{ section.settings.help_heading | escape }}">
+          <span class="article-help__icon" aria-hidden="true">{%- render 'icon', icon: 'chat' -%}</span>
+          <div class="article-help__text">
+            <h2 class="article-help__title">{{ section.settings.help_heading }}</h2>
+            {%- if section.settings.help_text != blank or settings.response_time != blank -%}<p>{{ section.settings.help_text }}{% if section.settings.help_text != blank and settings.response_time != blank %}{{ ' ' }}{% endif %}{{ settings.response_time }}</p>{%- endif -%}
+          </div>
+          <div class="article-help__actions">
+            {%- capture hl_ok -%}{%- render 'link-exists', url: section.settings.help_link -%}{%- endcapture -%}
+            {%- if section.settings.help_link != blank and hl_ok == 'true' -%}<a class="btn btn--sm" href="{{ section.settings.help_link }}">{{ section.settings.help_label }}</a>{%- endif -%}
+            {%- if phone != blank -%}<a class="btn btn--outline btn--sm" href="tel:{{ phone | remove: ' ' | remove: '-' }}">{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{{ phone }}</a>{%- endif -%}
+            {%- if settings.whatsapp != blank -%}<a class="btn btn--outline btn--sm" href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}{{ 'general.whatsapp' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t }})</span></a>{%- elsif phone == blank and mail != blank -%}<a class="link article-help__mail" href="mailto:{{ mail }}">{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{{ mail }}</a>{%- endif -%}
+          </div>
+        </aside>
+      {%- endif -%}
+    </div>
+
+    {%- if show_toc or has_products -%}
+      <aside class="article__aside" aria-label="{{ 'blog.aside' | t }}">
+        {%- if show_toc -%}
+          <article-toc class="article-toc article-toc--side">
+            <nav aria-labelledby="TocTitle-{{ section.id }}">
+              <p class="article-toc__title" id="TocTitle-{{ section.id }}">{{ 'blog.toc' | t }}</p>
+              <ol class="article-toc__list" role="list">{{ toc_items }}</ol>
+            </nav>
+          </article-toc>
+        {%- endif -%}
+        {%- if has_products -%}
+          <div class="article-mini">
+            <p class="article-mini__title">{{ products_heading }}</p>
+            <ul class="article-mini__list" role="list">
+              {%- for p in rel_products limit: 3 -%}
+                <li class="article-mini__item">
+                  <span class="article-mini__media">{%- if p.featured_image -%}{%- render 'image', image: p.featured_image, sizes: '64px', widths: '64, 128', alt: '' -%}{%- endif -%}</span>
+                  <span class="article-mini__body">
+                    <a class="article-mini__name" href="{{ p.url }}">{{ p.title | replace: ' x ', ' × ' }}</a>
+                    <span class="article-mini__price">{%- if p.price_varies -%}{{ 'price.from' | t }} {% endif -%}{%- render 'vat-money', cents: p.price_min -%}</span>
+                  </span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        {{ share_html }}
+      </aside>
+    {%- endif -%}
   </div>
-  {%- liquid
-    # Products per article (feature content.blog): article metafield custom.producten (list.product_reference),
-    # else a tag 'collectie:<handle>', else the optional fallback collection of this section. Never one fixed
-    # collection for every article.
-    assign rel_products = article.metafields.custom.producten.value
-    assign rel_collection = nil
-    if rel_products == blank
-      for tag in article.tags
-        if tag contains 'collectie:'
-          assign rel_handle = tag | remove: 'collectie:' | strip
-          assign rel_collection = collections[rel_handle]
-          break
-        endif
-      endfor
-      if rel_collection == blank
-        assign rel_collection = section.settings.products_collection
-      endif
-      if rel_collection != blank and rel_collection.products_count > 0
-        assign rel_products = rel_collection.products
-      endif
-    endif
-  -%}
-  {%- if rel_products != blank and rel_products.size > 0 -%}
-    <div class="page-width article__products">
+
+  {%- if has_products -%}
+    <div class="page-width article__products" id="ArticleProducts">
       <div class="section-head">
-        <h2 class="section-head__title">{% if section.settings.products_heading != blank %}{{ section.settings.products_heading }}{% else %}{{ 'blog.related_products' | t }}{% endif %}</h2>
+        <h2 class="section-head__title">{{ products_heading }}</h2>
         {%- if rel_collection != blank -%}<a class="link" href="{{ rel_collection.url }}">{{ 'general.view_all' | t }}</a>{%- endif -%}
       </div>
       <ul class="slider slider--desktop-grid" role="list" style="--cols: 4; --slide-w: 68%">
@@ -90,12 +236,17 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
+  "@type": "BlogPosting",
   "headline": {{ article.title | json }},
+  "description": {{ article.excerpt_or_content | strip_html | strip | truncatewords: 40 | json }},
+  "mainEntityOfPage": {{ share_url | json }},
   "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
-  "author": { "@type": "Person", "name": {{ article.author | json }} },
+  "dateModified": {{ article.updated_at | default: article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "wordCount": {{ words }},
+  {%- if topic != blank -%}"articleSection": {{ topic | json }},{%- endif -%}
   {%- if article.image -%}"image": {{ article.image | image_url: width: 1200 | prepend: 'https:' | json }},{%- endif -%}
-  "publisher": { "@type": "Organization", "name": {{ shop.name | json }} }
+  "author": { "@type": "Organization", "name": {{ article.author | default: shop.name | json }} },
+  "publisher": { "@type": "Organization", "name": {{ shop.name | json }}, "url": {{ request.origin | append: routes.root_url | json }} }
 }
 </script>
 
@@ -104,8 +255,15 @@
   "name": "Artikel",
   "class": "section-main-article",
   "settings": [
+    { "type": "checkbox", "id": "show_lead", "label": "Samenvatting onder de titel", "default": true, "info": "De samenvatting (excerpt) van het artikel." },
+    { "type": "checkbox", "id": "show_toc", "label": "Inhoudsopgave", "default": true, "info": "Uit de H2-koppen van het artikel, vanaf 3 koppen." },
     { "type": "text", "id": "products_heading", "label": "Kop producten", "default": "Producten uit dit artikel" },
-    { "type": "collection", "id": "products_collection", "label": "Reservecollectie", "info": "Alleen voor artikelen zonder custom.producten en zonder tag 'collectie:<handle>'. Leeg = dan geen producten." }
+    { "type": "collection", "id": "products_collection", "label": "Reservecollectie", "info": "Alleen voor artikelen zonder custom.producten en zonder tag 'collectie:<handle>'. Leeg = dan geen producten." },
+    { "type": "header", "content": "Vraagblok onder het artikel" },
+    { "type": "text", "id": "help_heading", "label": "Kop", "default": "Vraag over je opstelling?", "info": "Leeg = geen vraagblok." },
+    { "type": "text", "id": "help_text", "label": "Tekst", "default": "Stel je vraag over maat, verankering of aantallen.", "info": "De reactietijd uit Thema-instellingen › Contact komt erachter." },
+    { "type": "text", "id": "help_label", "label": "Knop", "default": "Stel je vraag" },
+    { "type": "url", "id": "help_link", "label": "Link" }
   ]
 }
 {% endschema %}

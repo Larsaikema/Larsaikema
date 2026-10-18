@@ -5,6 +5,8 @@
 //   tableWidth  0.5 (default) or 0.7 m (breed blad); benches 0.25 m
 //   frame       'galv' (verzinkt, default) | colour name (powder coat)
 //   only        'tafel' | 'bank' -> a single piece
+//   folded      true: the leg frames folded flat under the top (towards the centre), no brace; for a
+//               single piece lying flat on a transport cart (trolley.js kind 'biertafel')
 //
 // Construction (as built by the German/Dutch makers): tops of glued solid spruce
 // (vurenhout) lamellas, 25 mm (table) / 28 mm (bench), clear lacquered, slightly rounded
@@ -42,7 +44,7 @@ function lamellaTop(bins, L, W, T, y, z0, wood, { n = null, seed = 1 } = {}) {
 }
 
 // Folding trapezoid leg with hinge axle, cross tube and brace. x: leg plane, inward: +1/-1 (towards centre)
-function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo }) {
+function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo, folded = false }) {
   const r = 0.0125;
   const yf = 0.018 + r;
   const pts = [V3(x, yTop, 0), V3(x, yTop, zTop), V3(x, yf, zFoot), V3(x, yf, -zFoot), V3(x, yTop, -zTop), V3(x, yTop, 0.0001)];
@@ -52,6 +54,7 @@ function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo })
   // cross tube
   const zc = zFoot + (zTop - zFoot) * (yCross - yf) / (yTop - yf);
   bins.add(mats.steel, G.tube(V3(x, yCross, -zc), V3(x, yCross, zc), 0.009, 12));
+  if (folded) return;
   // folding brace: flat bar from the cross tube up to the brace bracket, with a hinge knuckle
   const a = V3(x, yCross, 0), b = V3(braceTo, yTop + 0.012, 0);
   const mid = a.clone().lerp(b, 0.45);
@@ -63,7 +66,15 @@ function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo })
   bins.add(mats.steel, G.roundedBox(0.06, 0.02, 0.05, 0.002).translate(braceTo, yTop + 0.018, 0));
 }
 
-function table(bins, mats, L, W, H, z0) {
+// rotate a leg frame (built at x = 0) about its hinge axle at height yTop so it lies flat towards the centre
+function foldInto(bins, g, x, z0, yTop, s) {
+  const m = new THREE.Matrix4().makeTranslation(0, yTop, 0)
+    .multiply(new THREE.Matrix4().makeRotationZ(-s * Math.PI / 2))
+    .multiply(new THREE.Matrix4().makeTranslation(0, -yTop, 0));
+  for (const [mat, list] of g.bins) for (const geo of list) bins.add(mat, geo.applyMatrix4(m).translate(x, 0, z0));
+}
+
+function table(bins, mats, L, W, H, z0, folded = false) {
   const T = 0.025;
   lamellaTop(bins, L, W, T, H, z0, mats.wood, { seed: 7 });
   const yU = H - T;
@@ -81,12 +92,13 @@ function table(bins, mats, L, W, H, z0) {
     for (const sx of [-1, 1]) bins.add(mats.steel, G.prism(G.roundedRectProfile(0.004, 0.034, 0.0015, 2), V3(x + sx * 0.023, yU - 0.019, z0 - W / 2 + 0.03), V3(x + sx * 0.023, yU - 0.019, z0 + W / 2 - 0.03), { side: V3(1, 0, 0) }));
     const legW = W / 2 - 0.07;
     const g = new G.PartBin();
-    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.03, zTop: legW, zFoot: legW + 0.04, yCross: 0.36, braceTo: -s * 0.5 });
+    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.03, zTop: legW, zFoot: legW + 0.04, yCross: 0.36, braceTo: -s * 0.5, folded });
+    if (folded) { foldInto(bins, g, x, z0, yU - 0.045, s); continue; }
     for (const [mat, list] of g.bins) for (const geo of list) bins.add(mat, geo.translate(x, 0, z0));
   }
 }
 
-function bench(bins, mats, L, W, H, z0) {
+function bench(bins, mats, L, W, H, z0, folded = false) {
   const T = 0.028;
   lamellaTop(bins, L, W, T, H, z0, mats.wood, { n: 2, seed: 13 + Math.round(z0 * 10) });
   const yU = H - T;
@@ -99,7 +111,8 @@ function bench(bins, mats, L, W, H, z0) {
     const x = s * xl;
     bins.add(mats.steel, G.prism(G.roundedRectProfile(0.05, 0.004, 0.0015, 2), V3(x, yU - 0.002, z0 - W / 2 + 0.02), V3(x, yU - 0.002, z0 + W / 2 - 0.02), { side: V3(1, 0, 0) }));
     const g = new G.PartBin();
-    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.024, zTop: W / 2 - 0.045, zFoot: 0.17, yCross: 0.2, braceTo: -s * 0.36 });
+    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.024, zTop: W / 2 - 0.045, zFoot: 0.17, yCross: 0.2, braceTo: -s * 0.36, folded });
+    if (folded) { foldInto(bins, g, x, z0, yU - 0.037, s); continue; }
     for (const [mat, list] of g.bins) for (const geo of list) bins.add(mat, geo.translate(x, 0, z0));
   }
 }
@@ -118,8 +131,9 @@ export function biertafelset(p = {}) {
   const bins = new G.PartBin();
   const HT = Number(p.height ?? 0.76), HB = 0.47;
   const gap = TW / 2 + 0.29;
-  if (only === 'bank' || only === 'bench') bench(bins, mats, L, 0.25, HB, 0);
-  else if (only === 'tafel' || only === 'table') table(bins, mats, L, TW, HT, 0);
+  const folded = !!p.folded && !!only;
+  if (only === 'bank' || only === 'bench') bench(bins, mats, L, 0.25, HB, 0, folded);
+  else if (only === 'tafel' || only === 'table') table(bins, mats, L, TW, HT, 0, folded);
   else {
     table(bins, mats, L, TW, HT, 0);
     bench(bins, mats, L, 0.25, HB, gap);

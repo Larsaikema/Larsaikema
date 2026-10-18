@@ -28,9 +28,10 @@ thema alleen als een review-app ze levert.
 
 - USP-balk (sectie USP-balk in de header): de besteltijd-teller ("Uit voorraad: bestel binnen 3 u 13 min, vandaag
   verzonden", na de besteltijd "Uit voorraad: na 14:00 besteld, morgen verzonden", in het weekend "Uit voorraad: zondag besteld,
-  maandag verzonden", op een feestdag "Uit voorraad: nu besteld, dinsdag verzonden", op een smal scherm korter maar altijd met "Uit voorraad"; volgt `cutoff_time`,
-  `shipping_days` en `holidays`), "Zakelijk? Offerte [reactietijd]" (`[reactietijd]` wordt het deel "binnen …" van
-  `response_time`, dus "binnen één werkdag"; zonder "binnen" in die tekst staat er "op maat") en "[bedenktijd] dagen
+  maandag verzonden", op een feestdag "Uit voorraad: nu besteld, dinsdag verzonden", op een smal scherm korter maar altijd met "Uit voorraad"
+  en vóór de besteltijd altijd met de tijd erbij: "Uit voorraad: nog 3 u 13 min, vandaag weg"; volgt `cutoff_time`,
+  `shipping_days` en `holidays`), "Offerte op maat [reactietijd]" (`[reactietijd]` wordt het deel "binnen …" van
+  `response_time`, dus "binnen één werkdag"; zonder "binnen" in die tekst valt het weg) en "[bedenktijd] dagen
   bedenktijd (niet bij maatwerk)" (`[bedenktijd]` wordt `return_days`). Uitgeschakeld blok: "Snel in huis in NL & BE".
   "Zakelijk bestellen op factuur" staat **niet** meer standaard in de balk: zet dat pas terug als je factuurbetaling hebt
   (factuur-app of Shopify B2B), of als je het alleen via een offerte aanbiedt en dat er zo bij zet.
@@ -56,8 +57,9 @@ thema alleen als een review-app ze levert.
   binnen (onderwerp "Mail me als dit weer op voorraad is", met product, variant en artikelnummer) en **jij mailt de klant zelf**
   zodra er weer voorraad is. Wil je dat niet met de hand doen: installeer een back-in-stock-app, zet in de productpagina (blok
   Koopknop) "'Mail me als dit weer op voorraad is' bij uitverkocht" uit en voeg het app-blok toe.
-- Productpagina, staffel (`staffel_mode` = offerte): "Staffelprijs met offerte" en "In je winkelwagen betaal je de stukprijs.
-  De staffelprijs krijg je met een offerte, ook als particulier of vereniging." Maak je de staffels als automatische korting
+- Productpagina, staffel (`staffel_mode` = offerte): "Staffelprijs met offerte" en "Deze prijzen krijg je met een offerte,
+  ook als particulier of vereniging." plus je reactietijd (`response_time`); vanaf het eerste staffelaantal vergelijkt de regel
+  eronder de offerteprijs met de stukprijs in de winkelwagen. Maak je de staffels als automatische korting
   aan, zet `staffel_mode` dan op Automatisch: de productpagina zegt dan dat de korting in de winkelwagen staat.
 - Productpagina, add-ons (blok Handig erbij): "Korting bij de tent" is standaard leeg. Vul het pas in als de korting als
   automatische korting in Shopify staat (bv. 10% op zijwanden bij aankoop van een tent), anders belooft de pagina iets wat
@@ -68,7 +70,7 @@ thema alleen als een review-app ze levert.
   voorwaarden), maattolerantie en minimale afname uit `custom.configurator`, levertijd uit `custom.levertijd`.
 - Garantie en klachten (page.garantie): wettelijke garantie, "extra garantie op het frame" (verwijst naar `custom.garantie`
   per product), wat er niet onder valt, reactietijd uit `response_time`.
-- Actiepakketten: "Je bespaart € x" rekent het thema uit de losse prijzen van de onderdelen; controleer dat de
+- Pakketten (collectie `actiepakketten`, in menu en titel ‘Pakketten’): "Je bespaart € x" rekent het thema uit de losse prijzen van de onderdelen; controleer dat de
   onderdelen (`custom.componenten`) en aantallen kloppen.
 - Logo-upload: maximaal 20 MB (product-form.js; Shopify's eigen limiet voor bestanden in winkelwagen-eigenschappen
   controleren).
@@ -99,7 +101,7 @@ gekozen, maar nog niet bij de leverancier of de eigenaar getoetst. Pas aan vóó
 
 | Onderwerp | Wat er nu staat | Te bevestigen |
 |---|---|---|
-| Brandvertragend | Nergens meer in de winkel: niet in titels, SEO, kenmerk of USP's, en sinds de merchandising review ook niet meer in de specificatietabellen (de waarde 'certificaat volgt' las als een interne notitie). De FAQ zegt: we zetten het pas op de pagina als de leverancier norm en brandklasse met een certificaat bevestigt. PE-basistent: "Brandvertragend: Nee". | Certificaat (bv. EN 13501-1, DIN 4102 B1 of M2) per doek opvragen; daarna norm en klasse in de specificaties zetten (`catalog/parts`), pas daarna eventueel in kenmerk of titel. |
+| Brandvertragend | Nergens meer in de winkel: niet in titels, SEO, kenmerk of USP's, en sinds de merchandising review ook niet meer in de specificatietabellen (de waarde 'certificaat volgt' las als een interne notitie). Op 18 oktober ook weggehaald: 'brandklasse M2 (certificaat bij levering)' bij stretchtent compleet, stretchdoek los en op maat en de collectie stretchtenten (USP, SEO, tekst, spectabel), en 'PVC-tenten / easy-up-daken / heavy duty PVC zijn brandvertragend' in de FAQ-pagina en de blogs 'PE of PVC' en 'Zijwanden kiezen'. De FAQ zegt: we zetten het pas op de pagina als de leverancier norm en brandklasse met een certificaat bevestigt. PE-basistent: "Brandvertragend: Nee". | Certificaat (bv. EN 13501-1, DIN 4102 B1 of M2) per doek opvragen; daarna norm en klasse in de specificaties zetten (`catalog/parts`), pas daarna eventueel in kenmerk of titel. |
 | Zijwandenset heavy duty PVC | 3 x 3 m € 299 (was € 359), 3 x 4,5 m € 339, 3 x 6 m € 379, 4 x 4 m € 349, 4 x 6 m € 409, 4 x 8 m € 469: ca. 28 % onder de losse wanden (2 dicht + raam + deur 3 m = € 403,85), zodat de set goedkoper is dan los kopen. | Inkoopprijs set vs. losse wanden; marge bij € 299. |
 | Partytent PVC 550 Premium | 5 x 8 m € 849, 6 x 6 m € 819, 6 x 8 m € 899 (6 x 8 nu boven 5 x 8, 6 x 6 boven 4 x 8: prijs volgt de oppervlakte). | Inkoop per maat. |
 | Full colour stertent | Toeslagladder enkele mast: Ø8 € 1.849 · Ø10 € 2.049 · Ø12 € 2.249 · Ø14 € 2.449 · Ø16 € 2.649; dubbele mast € 3.899 · € 4.549 · € 5.149 · € 5.649. | Drukprijs per maat bij de drukker. |
@@ -152,7 +154,7 @@ lampen bij een prikkabel. Voorstel, als automatische korting in Shopify (Korting
 
 | Onderwerp | Wat er nu staat | Te bevestigen |
 |---|---|---|
-| Easy-up tenten | Hooguit vier vinkjes: zijwandenset in dezelfde maat en kleur (heavy duty PVC bij een PVC-dak), voetgewichten (set per aantal poten), spanbanden en haringen (alleen Premium; Professional heeft ze in de doos) en een tas (Premium: wieltas; Professional: beschermhoes, de wieltas zit erbij). Regengoot, koppelset, zandzakken, LED-vloedlicht en heater staan in de winkelwagen-aanbevelingen. De 2 x 2 m heeft geen zijwandenset: de losse 2 m wanden staan in de aanbevelingen. | Of de tas en de voetgewichten de juiste standaard zijn. |
+| Easy-up tenten | Hooguit vier vinkjes: zijwandenset in dezelfde maat en kleur (heavy duty PVC bij een PVC-dak), voetgewichten (set per aantal poten), spanbanden en haringen (alleen Premium; Professional heeft ze in de doos) en een vierde vinkje (Premium: wieltas; Professional, ook met logo en full colour: LED-vloedlicht 30 W, want de wieltas zit al in de doos en een beschermhoes deed dubbel). Regengoot, koppelset, verbindingsstrook, zandzakken en heater staan in de winkelwagen-aanbevelingen. De 2 x 2 m heeft geen zijwandenset: de losse 2 m wanden staan in de aanbevelingen. | Of de tas en de voetgewichten de juiste standaard zijn. |
 | Statafel inklapbaar Professional, HDPE, kruisvoet | Rok en strikhoes krijgen dezelfde standaardkleur: de bladkleur als die als textielkleur bestaat (wit, zwart, antraciet), anders zwart (graniet, berken, lichtgrijs). Uitvoering met parasolgat: de rok **zonder** topcover, geen strikhoes en geen beschermplaat (die dekken het gat af). | Of zwart de gewenste standaard is. |
 | Statafel vierkant en rechthoekig, terrastafel | Beschermplaat in dezelfde maat (nieuw: 60 x 60, 70 x 70, 80 x 80, 120 x 60, 120 x 70, 160 x 60 cm, € 16,95–€ 25,95) en barkrukken (4 bij vierkant, 6 of 8 bij rechthoekig) of stapelstoelen (2, 4 of 6 bij de terrastafel), in de framekleur als die bestaat, anders zwart. | Platen op maat bij de leverancier; aantallen krukken/stoelen per tafel. |
 | Barkrukken (alle zes) | Transportkar 'Voor 24 barkrukken' als add-on, één per bestelregel (`custom.addon_eenmalig`); zitkussen bij de barkruk met houten zitting en de draadkruk (en de stapelstoelen metaal en cross back). | Of de kar ook de PE-rotan-, velours- en chroomkrukken stapelt; zo niet, die uit `past_op` en de add-ons halen. |
@@ -171,7 +173,7 @@ lampen bij een prikkabel. Voorstel, als automatische korting in Shopify (Korting
 | Opslagtent PVC | Nieuw: 3 x 6 m (PVC 500 € 449, 550 € 549, 620 € 619) en PVC 620 Professional in 4 x 8 m (€ 869). | Leverbaarheid en prijzen. |
 | Zijwanden stertent | Per vak nu ook dicht (€ 10 onder de raamwand) en met oproldeur (€ 20 erboven), naast met raam en de set rondom. | Leverancier en prijzen. |
 | Opblaasbare partytent met waterpoten | Ook 3 x 4,5 m (6 poten, € 1.749) en 3 x 6 m (8 poten, € 2.149); titel zonder maat, handle blijft `opblaasbare-partytent-3x3-waterpoten`. | Of de leverancier de verlengde maten levert; gewicht en capaciteit. |
-| Opblaasbare promotietent, Pro en luifel | Framekleuren Geel en Grijs erbij (8 kleuren). | Kleurstaal en levertijd. |
+| Opblaasbare promotietent, Pro en luifel | Framekleuren Geel en Grijs erbij (8 kleuren); de luifel ook in Antraciet (9 kleuren), voor de partytent met waterpoten. | Kleurstaal en levertijd. |
 | Badge 'Nieuw' | Weg bij wieltas, statafel HDPE, oranje themarok, losse strik, kleed tot de grond en het 4-statafelpakket: bij de lancering is alles nieuw, dus het label zei niets. | Pas gebruiken voor producten die na de lancering bijkomen. |
 
 ### Google Shopping-categorie (Product Category)
@@ -203,3 +205,26 @@ Retractable Belts; transportkarren: Platform Dollies; loper: Rugs; cadeaubon: Gi
   topcover op een stretchrok, losse strik om een hoes, kleed over een rok, buizenframe-wanden aan de PVC 550 Premium, stretchdoek
   op palen. Het vierkante statafelkleed (140 x 140 cm) toont voorlopig het ronde kleed.
 - De cadeaubon is een vlakke kaart met het logo (`catalog/tools/giftcard.py`), zonder bedrag.
+
+## Catalogus: accessoirelogica en scope (merchandising review 2, 18 oktober 2026)
+
+Na de tweede review zijn de add-ons buiten de easy-ups per tent op maat gezet en zijn de gaten in maten, kleuren, scope en
+staffels gedicht. Alles staat als data in `catalog/tools/skeleton/*.py` en `catalog/parts/*.json`.
+
+| Onderwerp | Wat er nu staat | Te bevestigen |
+|---|---|---|
+| Ballast buizenframe- en opslagtenten | Add-on: 1 × voetgewicht 15 kg ('1 stuk') per staander, net als de lange haring: 4 (3 m lang), 6 (4 m), 8 (6 m), 10 (8 m), 12 (10 m), 14 (12 m). De tekst bij tent, collectie, voetgewicht en blog 'verankeren bij wind' zegt: 1 per staander beschut, 2 (30 kg) met wanden in de wind; evenement, open terrein of weken laten staan: ballastadvies via offerte. **Dit vervangt het eerdere advies 'minimaal 50 kg per staander'** (dat paste bij geen enkele add-on). Het voetgewicht heet nu 'Voetgewicht partytent 15 kg' (handle ongewijzigd) en staat in `past_op` van alle buizenframe-tenten en de opslagtent (systeem Buizenframe). | Het ballastadvies per staander bij de leverancier laten bevestigen (pasvorm om de ronde staander van 38 mm, op de voetplaat). Wil je strenger blijven (50 kg), dan moet de add-on 4 × 1 stuk per staander worden of naar betonblokken. |
+| Betonblokken | Nergens meer een vinkje (was 1 × 140 kg bij elke buizenframe-tent, 1 × 500 kg bij elke stretchtent, 7–12 × 140 kg bij stertenten, 1 × 140 kg bij de carport). Tent-, betonblok- en collectieteksten verwijzen naar ballastadvies via de offertepagina; de offertepagina heeft een alinea 'Ballastadvies'. De winkel rekent geen ballast uit. | Wie het ballastadvies geeft (eigenaar, leverancier of constructeur) en binnen welke termijn. |
+| Zeshoektent | Add-on watergewichtzakken: 5 / 6 / 8 sets van 4 × 20 kg (8 x 8 / 10 x 10 / 12 x 12 m) = 3 / 4 / 5 zakken per poot, afgeleid van het eigen advies 50 / 75 / 100 kg per poot. Zijwand in de kleur van de tent (Rood en Blauw toegevoegd, € 349–€ 519). | Ballastadvies en de kleuren Rood/Blauw bij de leverancier. |
+| Dakzeil buizenframe | Elke maat en elk doek van onze buizenframe-tenten en opslagtenten: 38 varianten, 3 x 3 tot 8 x 12 m. PE en PVC 550 standaard (levertijd 1–2 weken); PVC 500 en PVC 620 op aanvraag (3–4 weken; dat staat in de Uitvoering, omdat het contract geen levertijd per variant kent). Prijzen PVC 550 € 149 (3 x 3) tot € 649 (8 x 12), PVC 500 ca. 8 % lager (€ 149–€ 499), PVC 620 ca. 12 % hoger (€ 189–€ 609), PE € 89–€ 199. Staffel 10/25/50. | Welke daken je echt op voorraad houdt; prijzen; of het dak van de opslagtent gelijk is aan het partytentdak van dezelfde maat; daken van 6 x 12 en 8 x 12 m wegen 45–60 kg (pakketdienst of vracht). |
+| Opslagtent | Uitvoering heet nu PVC 500 Comfort / PVC 550 Premium / PVC 620 Professional (namen van de tentlijnen; SKU's ongewijzigd). | – |
+| Printed easy-ups | Professional met logo (€ 649 / € 1.349), full colour (2 x 2 € 799 / € 1.099, 5 x 5 € 1.649 / € 2.229) en bedrukt dakzeil (€ 319 / € 599) ook in 2 x 2 en 5 x 5 m. Bedrukte zijwand ook 2 m (€ 119 / € 179), 5 m (€ 209 / € 309) en 8 m (€ 299 / € 439): de 4 x 8 m 'Dak en luifel' krijgt nu een wand van 8 m als add-on. | Drukprijzen en drukformaat per maat. |
+| Stretchtent, stertent, carport | Add-ons zonder betonblok: stretch = startwand 3 m + koppelgoten; ster = zijwanden rondom + lange haring per punt; carport = geen add-on (keilbouten of ballastadvies). | – |
+| Biertafelset en bierbank | Hoes biertafelset heeft nu een Uitvoering: Set (tafel en 2 banken, € 39,95 / € 44,95), Alleen tafel (€ 24,95 / € 27,95) en Alleen bank (220 x 25 cm, € 9,95). De biertafel 'Alleen tafel' krijgt de tafelhoes, de losse bierbank de bankhoes. Titel 'Hoes biertafelset, biertafel of bierbank'. | Leverancier en prijzen van losse tafel- en bankhoezen. |
+| Statafel vierkant en rechthoekig | Nieuw product: stretchhoes voor vierkante en rechthoekige statafels (60 x 60 € 29,95, 70 x 70 € 32,95, 80 x 80 € 34,95, 120 x 60 € 44,95, 120 x 70 € 46,95, 160 x 60 € 52,95; wit, zwart, antraciet), als add-on bij beide. Statafelkleed 140 x 140 past ook op de vierkante. De transportkar voor statafels heeft een variant 'Plateau, voor 5 gestapelde statafels' (€ 149, ca. 90 x 90 cm) als add-on (1 per bestelregel) bij de stapelbare vierkante. Menu Statafels › Per maat noemt ook 60 x 60 tot 160 x 60 cm. | Leverancier, pasvorm met voetzakken, prijzen; draagvermogen en maat van de plateaukar. Renders ontbreken nog (image-jobs). |
+| Wijnvat en marktkraam | Wijnvat: add-ons 4 × barkruk met houten zitting en beschermplaat Ø 78 cm. Marktkraam: add-on zandzakken (set van 4); de marktkraam staat in `past_op` van de zandzakken. | – |
+| Opblaasbare partytent met waterpoten | Luifel alleen in de kleur van de tent (Antraciet krijgt nu een antraciet luifel in plaats van zwart). Kenmerk promotietent: 'dak in framekleur of full colour' (standaard is Dak in framekleur). | – |
+| Zakelijk | Tag `zakelijk` (dus in /collections/zakelijk) ook op zijwandenset easy-up, losse zijwanden dicht/raam/deur, halve zijwand, dakzeil easy-up, statafel HDPE, prikkabel E27, LED-lamp E27, pomp, hoes biertafelset, bierbank, dakzeil buizenframe en de nieuwe stretchhoes. De pomp kreeg daardoor de staffel 10/25/50 = 5/10/15 %. | – |
+| Staffels op reserveonderdelen | 10/25/50 = 5/10/15 % op dakzeil easy-up, dakzeil buizenframe, zijwand buizenframe 2 m, eind- en tussenwand, stormbandenset, haringen en bevestigingsmateriaal, beschermhoes, opbergtassenset en regengoot. | Marges; automatische korting in Shopify gelijk zetten. |
+| Menu en collecties | Hoofdmenu 'Actie' heet nu 'Pakketten' (er is geen compare-at-prijs of `badge:actie`), de collectie `actiepakketten` heet 'Pakketten'. Nieuwe collectie `onderdelen-stretch-ster-en-opblaasbare-tenten` (kolom 'Voor stretch-, ster- en opblaasbare tenten' onder Accessoires); `partytent-onderdelen` en `accessoires` nemen nu ook de typen Stretchtent onderdeel, Stretchtent zijwand, Stertent zijwand en Opblaasbare tent accessoire mee; de opbergtas voor opblaasbare tenten staat in Tassen en wielsets. | Thema: de header-instelling 'Menu-item met actielabel' (`deal_items`) staat nog op 'Actie' en past nu op geen menu-item; leeg laten of bewust 'Pakketten' kiezen. |
+| Statafelpakket HDPE (nieuw) | Statafel HDPE Ø80 + stretchrok met topcover in 8 kleuren: € 69,95 (los € 74,90, 6,6 % minder; onder de 10–12 % van het prijsbeleid om onder de instap van ca. € 70 te blijven). | Pakketprijs en marge. |

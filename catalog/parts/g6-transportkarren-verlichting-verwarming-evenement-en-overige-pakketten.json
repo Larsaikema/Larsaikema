@@ -36,12 +36,12 @@
   ]
  },
  "transportkar-statafels": {
-  "body_html": "<p>Voor verhuur, horeca, verenigingen en zalen met een flinke stapel statafels: zet ze ingeklapt in de kar en rij ze in één keer van de opslag naar de zaal. De kleine kar neemt 5 statafels, de grote 15.</p><h3>Wat je krijgt</h3><ul><li><strong>Klein</strong>: kar van ca. 95 × 65 × 114 cm (l × b × h) voor 5 ingeklapte statafels, 38 kg</li><li><strong>Groot</strong>: kar van ca. 126 × 97 × 113 cm (l × b × h) voor 15 ingeklapte statafels, 55 kg</li><li>Stalen frame met een grijze hamerslag-poedercoating</li><li>4 heavy duty zwenkwielen, waarvan 2 met rem</li></ul><p>De kar komt leeg. Statafels met de kar erbij koop je voordeliger als <a href=\"/products/pakket-statafels-met-transportkar\">pakket statafels met transportkar</a>, of met rokken erbij als <a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">pakket met stretchrokken en transportkar</a> (5, 10 of 15 statafels).</p><h3>Zo werkt het</h3><ol><li>Zet de kar op de rem.</li><li>Trek rok of hoes van de statafel en klap hem in: blad rechtop, knop los, ring omhoog.</li><li>Zet de tafel staand in de kar en schuif de volgende ernaast, blad tegen blad.</li><li>Rem eraf en rijden. In de zaal haal je ze er net zo makkelijk weer uit.</li></ol><h3>Goed om te weten</h3><ul><li>De aantallen gelden voor onze <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> in Ø 70, 80 of 85 cm. Van de <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel</a>, met een blad van 45 mm, passen er minder in.</li><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). De kleine kar (65 cm) past er wel door.</li><li>De kar is ook je opslag: 15 statafels staan in de grote kar op ca. 1,2 m² vloer.</li><li>Meer karren tegelijk? Vanaf 2 stuks zie je de staffelprijs bij de prijs.</li><li>Komt als palletzending.</li></ul>",
+  "body_html": "<p>Voor verhuur, horeca, verenigingen en zalen met een flinke stapel statafels: zet ze ingeklapt in de kar en rij ze in één keer van de opslag naar de zaal. De kleine kar neemt 5 statafels, de grote 15. Voor de stapelbare vierkante statafel is er een plateaukar: daar stapel je er 5 op.</p><h3>Wat je krijgt</h3><ul><li><strong>Klein</strong>: kar van ca. 95 × 65 × 114 cm (l × b × h) voor 5 ingeklapte statafels, 38 kg</li><li><strong>Groot</strong>: kar van ca. 126 × 97 × 113 cm (l × b × h) voor 15 ingeklapte statafels, 55 kg</li><li><strong>Plateau</strong>: plateau van ca. 90 × 90 cm voor 5 gestapelde <a href=\"/products/statafel-vierkant-stapelbaar\">vierkante statafels</a>, 18 kg</li><li>Klein en groot: stalen frame met een grijze hamerslag-poedercoating</li><li>4 heavy duty zwenkwielen, waarvan 2 met rem</li></ul><p>De kar komt leeg. Statafels met de kar erbij koop je voordeliger als <a href=\"/products/pakket-statafels-met-transportkar\">pakket statafels met transportkar</a>, of met rokken erbij als <a href=\"/products/pakket-10-statafels-stretchrokken-transportkar\">pakket met stretchrokken en transportkar</a> (5, 10 of 15 statafels).</p><h3>Zo werkt het</h3><ol><li>Zet de kar op de rem.</li><li>Trek rok of hoes van de statafel en klap hem in: blad rechtop, knop los, ring omhoog.</li><li>Zet de tafel staand in de kar en schuif de volgende ernaast, blad tegen blad.</li><li>Rem eraf en rijden. In de zaal haal je ze er net zo makkelijk weer uit.</li></ol><h3>Goed om te weten</h3><ul><li>De aantallen gelden voor onze <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> in Ø 70, 80 of 85 cm. Van de <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel</a>, met een blad van 45 mm, passen er minder in.</li><li>Meet je deuren. De grote kar is ca. 97 cm breed, breder dan een gewone binnendeur (ca. 83 cm). De kleine kar (65 cm) past er wel door.</li><li>De kar is ook je opslag: 15 statafels staan in de grote kar op ca. 1,2 m² vloer.</li><li>Meer karren tegelijk? Vanaf 2 stuks zie je de staffelprijs bij de prijs.</li><li>Komt als palletzending.</li></ul>",
   "kenmerk_kort": "Heavy duty wielen · grijs hamerslag · 5 of 15 ingeklapte statafels",
   "usps": [
-   "Klein voor 5, groot voor 15 statafels",
+   "Klein voor 5, groot voor 15 inklapbare statafels",
+   "Plateau voor 5 gestapelde vierkante statafels",
    "4 zwenkwielen, 2 met rem",
-   "Kleine kar past door een binnendeur",
    "Meteen je opslagplek"
   ],
   "included": [
@@ -62,6 +62,16 @@
     "waarde": "Voor 15 ingeklapte statafels"
    },
    {
+    "groep": "Gewicht",
+    "label": "Plateau",
+    "waarde": "18 kg"
+   },
+   {
+    "groep": "Kar",
+    "label": "Plateau",
+    "waarde": "Voor 5 gestapelde vierkante statafels (60 x 60 tot 80 x 80 cm)"
+   },
+   {
     "groep": "Afmetingen",
     "label": "Klein (l x b x h)",
     "waarde": "ca. 95 x 65 x 114 cm"
@@ -70,6 +80,11 @@
     "groep": "Afmetingen",
     "label": "Groot (l x b x h)",
     "waarde": "ca. 126 x 97 x 113 cm"
+   },
+   {
+    "groep": "Afmetingen",
+    "label": "Plateau (l x b)",
+    "waarde": "ca. 90 x 90 cm, max. 150 kg"
    },
    {
     "groep": "Constructie",
@@ -94,7 +109,7 @@
    {
     "groep": "Past bij",
     "label": "Statafel",
-    "waarde": "Statafel inklapbaar Professional, Ø70, Ø80 of Ø85 cm"
+    "waarde": "Klein en groot: statafel inklapbaar Professional en HDPE, Ø70, Ø80 of Ø85 cm; plateau: statafel vierkant stapelbaar"
    },
    {
     "groep": "Levering",
@@ -106,6 +121,10 @@
    {
     "vraag": "Hoeveel statafels passen erin?",
     "antwoord": "In de kleine kar 5 en in de grote kar 15 ingeklapte statafels inklapbaar Professional, in Ø 70, 80 of 85 cm. Van statafels met een dikker blad, zoals de HDPE-statafel met een blad van 45 mm, passen er minder in."
+   },
+   {
+    "vraag": "Past de stapelbare vierkante statafel in de kar?",
+    "antwoord": "Niet in de kleine of grote kar: die zijn voor statafels die inklappen. Kies de plateaukar: daar stapel je 5 vierkante statafels op, net zo hoog als je ze in de opslag stapelt. Zet hem op de rem bij het stapelen."
    },
    {
     "vraag": "Past de kar door een deur?",
@@ -126,13 +145,15 @@
   },
   "image_alts": {
    "transportkar-statafels-hero.webp": "Transportkar voor statafels, groot, leeg, schuin vooraanzicht",
-   "transportkar-statafels-gevuld.webp": "Grote transportkar gevuld met 15 ingeklapte statafels (statafels niet inbegrepen)"
+   "transportkar-statafels-gevuld.webp": "Grote transportkar gevuld met 15 ingeklapte statafels (statafels niet inbegrepen)",
+   "transportkar-statafels-plateau.webp": "Transportkar voor statafels, plateau met 5 gestapelde vierkante statafels (statafels niet inbegrepen)"
   },
   "claims": [
    "Maten en aantallen per kar volgen de skeleton (Statafelshop-referentie, groot 125,5 x 97 x 113 cm); \"tot 15\" ook voor Ø85 cm: bevestigen (zie ook G4-pakketten).",
    "\"4 zwenkwielen, 2 met rem\": productdefinitie, bevestigen.",
    "Aantal HDPE-statafels (45 mm blad) per kar onbekend; copy zegt \"minder\". Bevestigen of past_op aanpassen.",
-   "Staffel vanaf 2 / 5 karren (3 / 6%): eigenaar beoordeelt."
+   "Staffel vanaf 2 / 5 karren (3 / 6%): eigenaar beoordeelt.",
+   "Plateaukar voor 5 gestapelde vierkante statafels (€ 149, ca. 90 x 90 cm, max. 150 kg, 18 kg) toegevoegd (2026-10-18): leverancier, maten en draagvermogen bevestigen."
   ]
  },
  "transportkar-klaptafels-en-stoelen": {
@@ -1476,7 +1497,7 @@
   ]
  },
  "marktkraam-2-m": {
-  "body_html": "<p>Voor scholen, verenigingen, markten en braderieën: een marktkraam van 2 m breed met een gegalvaniseerd stalen frame, een werkblad en een kap in wit, rood, blauw of groen, of een bedrukte kap in je eigen ontwerp. Met twee mensen staat hij in een kwartier, zonder gereedschap.</p><h3>Wat je krijgt</h3><ul><li>Frame van gegalvaniseerde stalen buizen met insteekverbindingen</li><li>Werkblad van 200 × 100 cm, watervast multiplex van 18 mm, op ca. 85 cm hoogte</li><li>Waterdichte PVC-kap van 500 g/m² in de gekozen kleur, of bedrukt in full colour op wit, met elastieken rondom</li><li>Kraam 200 cm breed en 120 cm diep; hoogte ca. 235 cm voor en ca. 200 cm achter. Totaal 45 kg.</li></ul><h3>Opzetten</h3><ol><li>Leg palen, liggers, werkblad en kap klaar.</li><li>Steek de liggers in de palen tot het frame staat. Het dak loopt van voor naar achter af, zodat regen achter de kraam van het dak loopt.</li><li>Leg het werkblad op de liggers.</li><li>Trek de kap over het dak en zet hem rondom vast met de elastieken.</li></ol><h3>Goed om te weten</h3><ul><li>Buiten zet je de poten vast met gewicht, zeker als het waait. <a href=\"/products/zandzakken-partytent-set-van-4\">Zandzakken</a> met klittenband passen om de poten.</li><li><strong>Bedrukte kap</strong>: kies de uitvoering Bedrukte kap, upload je logo of ontwerp bij het bestellen en je krijgt eerst een drukproef. Na je akkoord maken we de kap; de levertijd staat bij de knop. Een bedrukte kap is maatwerk en kan niet retour.</li><li>Voor een school of vereniging met meerdere kramen: vanaf 3 kramen zie je de staffelprijs bij de prijs.</li><li>Rol de kap na een natte markt pas op als hij droog is.</li><li>Komt als palletzending.</li></ul>",
+  "body_html": "<p>Voor scholen, verenigingen, markten en braderieën: een marktkraam van 2 m breed met een gegalvaniseerd stalen frame, een werkblad en een kap in wit, rood, blauw of groen, of een bedrukte kap in je eigen ontwerp. Met twee mensen staat hij in een kwartier, zonder gereedschap.</p><h3>Wat je krijgt</h3><ul><li>Frame van gegalvaniseerde stalen buizen met insteekverbindingen</li><li>Werkblad van 200 × 100 cm, watervast multiplex van 18 mm, op ca. 85 cm hoogte</li><li>Waterdichte PVC-kap van 500 g/m² in de gekozen kleur, of bedrukt in full colour op wit, met elastieken rondom</li><li>Kraam 200 cm breed en 120 cm diep; hoogte ca. 235 cm voor en ca. 200 cm achter. Totaal 45 kg.</li></ul><h3>Opzetten</h3><ol><li>Leg palen, liggers, werkblad en kap klaar.</li><li>Steek de liggers in de palen tot het frame staat. Het dak loopt van voor naar achter af, zodat regen achter de kraam van het dak loopt.</li><li>Leg het werkblad op de liggers.</li><li>Trek de kap over het dak en zet hem rondom vast met de elastieken.</li></ol><h3>Goed om te weten</h3><ul><li>Buiten zet je de poten vast met gewicht, zeker als het waait. Een set van 4 <a href=\"/products/zandzakken-partytent-set-van-4\">zandzakken</a> met klittenband past om de 4 poten; je bestelt hem zo bij de kraam.</li><li><strong>Bedrukte kap</strong>: kies de uitvoering Bedrukte kap, upload je logo of ontwerp bij het bestellen en je krijgt eerst een drukproef. Na je akkoord maken we de kap; de levertijd staat bij de knop. Een bedrukte kap is maatwerk en kan niet retour.</li><li>Voor een school of vereniging met meerdere kramen: vanaf 3 kramen zie je de staffelprijs bij de prijs.</li><li>Rol de kap na een natte markt pas op als hij droog is.</li><li>Komt als palletzending.</li></ul>",
   "kenmerk_kort": "Gegalvaniseerd frame · 2 m werkblad · kap effen of bedrukt",
   "usps": [
    "Werkblad van 200 × 100 cm",
@@ -1490,7 +1511,7 @@
    "PVC-kap in de gekozen kleur met elastieken"
   ],
   "excluded": [
-   "Gewichten of zandzakken",
+   "Zandzakken (los te bestellen)",
    "Zijwanden"
   ],
   "specificaties": [
@@ -1786,7 +1807,7 @@
   ]
  },
  "terraspakket-statafel-barkrukken": {
-  "body_html": "<p>Voor een terras, bar of tuinhoek waar je wilt zitten én staan: één statafel van Ø 80 cm met stretchrok en topcover in jouw kleur, en 4 zwarte metalen barkrukken. In één bestelling, en voordeliger dan los.</p><h3>Wat je krijgt</h3><ul><li>1 <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: Ø 80 cm, 110 cm hoog, blad in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>1 <a href=\"/products/statafelrok-stretch\">statafelrok stretch met topcover</a> Ø 80–85 cm, in de kleur die je kiest (8 kleuren)</li><li>4 <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkrukken</a> in zwart, zithoogte 76 cm</li></ul><p><strong>Kleur</strong> is de kleur van rok en topcover: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux of rood, dezelfde 8 kleuren als bij de andere statafelpakketten. <strong>Uitvoering</strong> is de kleur van het blad. De barkrukken zijn altijd zwart. Een andere rokkleur? De <a href=\"/products/statafelrok-stretch\">stretchrok</a> is er los in 24 kleuren.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">Wit, zwart of antraciet blad</th><td>Los € 254,70 · in het pakket € 229,00</td><td>€ 25,70</td></tr><tr><th scope=\"row\">Berken blad</th><td>Los € 269,70 · in het pakket € 244,00</td><td>€ 25,70</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van tafel, rok met topcover en 4 barkrukken.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden, en daarna de topcover over het blad.</li><li>Zet de 4 barkrukken eromheen. Klaar is Kees.</li></ol><h3>Goed om te weten</h3><ul><li>De hoogte klopt: tussen zitting (76 cm) en blad (110 cm) blijft 34 cm over voor je benen.</li><li>Aan een statafel van Ø 80 cm zitten 4 mensen op een barkruk, of staan er 6.</li><li>De barkrukken en het onderstel kunnen tegen een bui; het blad voor binnen hoort niet dagen in de regen. Haal de rok bij regen eraf; je wast hem op 30 °C, niet in de droger.</li><li>Opbergen: de barkrukken stapel je tot 10 hoog, de tafel klapt in tot ca. 15 cm dik.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs. Meer tafels nodig? Kijk bij de <a href=\"/collections/actiepakketten\">actiepakketten</a>.</li><li>Liever een wijnvat met houten krukken? Kijk bij de <a href=\"/products/wijnvat-set-statafel-barkrukken\">wijnvat-set</a>.</li></ul>",
+  "body_html": "<p>Voor een terras, bar of tuinhoek waar je wilt zitten én staan: één statafel van Ø 80 cm met stretchrok en topcover in jouw kleur, en 4 zwarte metalen barkrukken. In één bestelling, en voordeliger dan los.</p><h3>Wat je krijgt</h3><ul><li>1 <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a>: Ø 80 cm, 110 cm hoog, blad in wit, zwart of antraciet (HPL met kantenband) of berken</li><li>1 <a href=\"/products/statafelrok-stretch\">statafelrok stretch met topcover</a> Ø 80–85 cm, in de kleur die je kiest (8 kleuren)</li><li>4 <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkrukken</a> in zwart, zithoogte 76 cm</li></ul><p><strong>Kleur</strong> is de kleur van rok en topcover: zwart, wit, antraciet, crème, zilver, marineblauw, bordeaux of rood, dezelfde 8 kleuren als bij de andere statafelpakketten. <strong>Uitvoering</strong> is de kleur van het blad. De barkrukken zijn altijd zwart. Een andere rokkleur? De <a href=\"/products/statafelrok-stretch\">stretchrok</a> is er los in 24 kleuren.</p><h3>Los of in het pakket</h3><table data-kk=\"set-vs-los\"><thead><tr><th scope=\"col\">Pakket</th><th scope=\"col\">Prijs</th><th scope=\"col\">Je betaalt minder</th></tr></thead><tbody><tr><th scope=\"row\">Wit, zwart of antraciet blad</th><td>Los € 254,70 · in het pakket € 229,00</td><td>€ 25,70</td></tr><tr><th scope=\"row\">Berken blad</th><td>Los € 269,70 · in het pakket € 244,00</td><td>€ 25,70</td></tr></tbody></table><p>Prijzen incl. btw. Los is de som van de huidige losse prijzen van tafel, rok met topcover en 4 barkrukken.</p><h3>Opzetten</h3><ol><li>Zet de statafel op: poten uit, ring vast, blad horizontaal tot het vastklikt.</li><li>Trek de rok van bovenaf over het blad naar beneden, en daarna de topcover over het blad.</li><li>Zet de 4 barkrukken eromheen. Klaar is Kees.</li></ol><h3>Goed om te weten</h3><ul><li>De hoogte klopt: tussen zitting (76 cm) en blad (110 cm) blijft 34 cm over voor je benen.</li><li>Aan een statafel van Ø 80 cm zitten 4 mensen op een barkruk, of staan er 6.</li><li>De barkrukken en het onderstel kunnen tegen een bui; het blad voor binnen hoort niet dagen in de regen. Haal de rok bij regen eraf; je wast hem op 30 °C, niet in de droger.</li><li>Opbergen: de barkrukken stapel je tot 10 hoog, de tafel klapt in tot ca. 15 cm dik.</li><li>Bestel je meer pakketten tegelijk, dan geldt ook op het pakket een staffelprijs; je ziet hem bij de prijs. Meer tafels nodig? Kijk bij de <a href=\"/collections/actiepakketten\">pakketten</a>.</li><li>Liever een wijnvat met houten krukken? Kijk bij de <a href=\"/products/wijnvat-set-statafel-barkrukken\">wijnvat-set</a>.</li></ul>",
   "kenmerk_kort": "Statafel Ø 80 cm, stretchrok en 4 barkrukken · blad naar keuze",
   "usps": [
    "Statafel, rok met topcover en 4 barkrukken",
@@ -3095,7 +3116,7 @@
    }
   },
   "accessoires": {
-   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen en lopers.",
+   "intro": "Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen voor elke tent (ook stretch, ster en opblaasbaar), verwarming, tentverlichting, afzetpalen en lopers.",
    "kenmerken": [
     "Zijwanden en verankering",
     "Onderdelen los na te bestellen",
@@ -3214,7 +3235,22 @@
          },
          {
           "type": "text",
-          "value": ": daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen."
+          "value": ": daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen; en wanden, palen, pompen en luifels "
+         },
+         {
+          "type": "link",
+          "url": "/collections/onderdelen-stretch-ster-en-opblaasbare-tenten",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "voor stretch-, ster- en opblaasbare tenten"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": "."
          }
         ]
        }
@@ -3507,7 +3543,7 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Warm blijven</h3><p>In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook gas: de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater</a> van 13 kW, een <a href=\"/products/loungeheater-gas\">loungeheater</a> op zithoogte of als tafelmodel, of een <a href=\"/products/flameheater-gas-9-kw\">flameheater</a> met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.</p><h3>Licht in de tent</h3><p>Het <a href=\"/products/led-vloedlicht-easy-up\">LED-vloedlicht van 30 W</a> klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een <a href=\"/products/prikkabel-e27\">prikkabel</a>.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/marktkraam-2-m\">marktkraam van 2 m</a> voor school, vereniging of braderie.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
+   "seo_tekst_html": "<h2>Accessoires voor je partytent en je evenement</h2><p>Een tent is pas af met wanden, gewicht op de poten en een tas om hem in op te bergen. En een evenement met een warme plek, een nette wachtrij en een entree. Hier vind je het allemaal; op elke productpagina staat op welke tent het past.</p><h3>Voor je partytent</h3><ul><li><a href=\"/collections/zijwanden\">Zijwanden</a>: dicht, met raam of met deur, los of als set, voor easy-up, buizenframe en overkapping.</li><li><a href=\"/collections/gewichten-en-verankering\">Gewichten en verankering</a>: voetgewichten, zandzakken, haringen, spanbanden, stormbanden en betonblokken.</li><li><a href=\"/collections/tassen-en-wielsets\">Tassen en wielsets</a>: beschermhoezen en wieltassen per maat, en een wielset om een opgezette tent te verschuiven.</li><li><a href=\"/collections/partytent-onderdelen\">Onderdelen</a>: daken, hoekstukken, koppelstukken, buizen en reparatiesets, ook los na te bestellen; en wanden, palen, pompen en luifels <a href=\"/collections/onderdelen-stretch-ster-en-opblaasbare-tenten\">voor stretch-, ster- en opblaasbare tenten</a>.</li></ul><p>Zet elke poot vast met haringen of een voetgewicht van 15 kg. Bij harde wind: dak eraf. Meer daarover in <a href=\"/blogs/advies/partytent-verankeren-bij-wind\">partytent verankeren bij wind</a>.</p><h3>Warm blijven</h3><p>In de tent verwarm je op stroom: de <a href=\"/products/elektrische-heater-partytent\">elektrische heater</a> van 1500 W klemt aan een easy-up-poot, de 2100 W hangt aan een beugel. Op een open terras kan ook gas: de <a href=\"/products/terrasheater-gas-13-kw\">terrasheater</a> van 13 kW, een <a href=\"/products/loungeheater-gas\">loungeheater</a> op zithoogte of als tafelmodel, of een <a href=\"/products/flameheater-gas-9-kw\">flameheater</a> met zichtbare vlam. Gas hoort nooit in een tent, ook niet met open wanden.</p><h3>Licht in de tent</h3><p>Het <a href=\"/products/led-vloedlicht-easy-up\">LED-vloedlicht van 30 W</a> klemt aan de poot van je easy-up: werklicht voor de opbouw en een goed verlichte kraam. Voor sfeer kies je een <a href=\"/products/prikkabel-e27\">prikkabel</a>.</p><h3>Je evenement inrichten</h3><ul><li><a href=\"/products/afzetpaal-met-trekband\">Afzetpalen</a> met een band van 2 m voor wachtrijen en entrees, ook <a href=\"/products/afzetpaal-met-logo\">met jouw logo op de band</a>.</li><li>Een <a href=\"/products/marktkraam-2-m\">marktkraam van 2 m</a> voor school, vereniging of braderie.</li><li>Een <a href=\"/products/loper-per-meter\">loper per meter</a> in rood, zwart of antraciet, tot 60 m uit één stuk.</li></ul><h3>Past het op mijn tent?</h3><p>Bij de meeste accessoires staat onder ‘Past op’ voor welke tenten ze gemaakt zijn. Twijfel je over een maat of een onderdeel, <a href=\"/pages/contact\">stel je vraag</a>: noem het type tent en de maat, dan zoeken we het voor je uit.</p>",
    "body_html": "<p>Alles om je tent compleet te maken en je evenement in te richten: zijwanden, verankering, tassen en wielsets, onderdelen, verwarming, tentverlichting, afzetpalen en lopers.</p>",
    "seo": {
     "title": "Accessoires voor partytent en evenement | Klapklaar",

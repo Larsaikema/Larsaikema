@@ -2,34 +2,8 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "blocks": {
-        "chip-1": {
-          "type": "chip",
-          "settings": {
-            "icon": "truck",
-            "text": "Snel in huis in NL & BE"
-          }
-        },
-        "chip-2": {
-          "type": "chip",
-          "settings": {
-            "icon": "invoice",
-            "text": "Zakelijk op factuur"
-          }
-        },
-        "chip-3": {
-          "type": "chip",
-          "settings": {
-            "icon": "proof",
-            "text": "Drukproef vooraf"
-          }
-        }
-      },
-      "block_order": [
-        "chip-1",
-        "chip-2",
-        "chip-3"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "color_scheme": "scheme-3",
         "layout": "image-right",
@@ -80,20 +54,65 @@
             "title": "Met jouw logo",
             "benefit": "Eerst een drukproef, dan drukken we"
           }
+        },
+        "p1": {
+          "type": "link",
+          "settings": {
+            "collection": "stretchtenten"
+          }
+        },
+        "p2": {
+          "type": "link",
+          "settings": {
+            "collection": "overkappingen-en-schaduwdoeken",
+            "title": "Overkappingen"
+          }
+        },
+        "p3": {
+          "type": "link",
+          "settings": {
+            "collection": "accessoires"
+          }
+        },
+        "p4": {
+          "type": "link",
+          "settings": {
+            "collection": "meubilair"
+          }
+        },
+        "p5": {
+          "type": "link",
+          "settings": {
+            "collection": "verlichting"
+          }
+        },
+        "p6": {
+          "type": "link",
+          "settings": {
+            "collection": "actiepakketten"
+          }
         }
       },
       "block_order": [
         "c1",
         "c2",
         "c3",
-        "c4"
+        "c4",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
       ],
       "settings": {
         "heading": "Waar ben je naar op zoek?",
         "text": "",
         "link_label": "Alle categorieën",
         "columns": 4,
-        "style": "card"
+        "style": "panel",
+        "show_meta": true,
+        "more_label": "Meer in de winkel"
       }
     },
     "featured-tents": {
@@ -105,7 +124,8 @@
         "collection": "easy-up-partytenten",
         "limit": 4,
         "columns": 4,
-        "link_label": "Alle partytenten"
+        "link_label": "Alle partytenten",
+        "mobile_grid": true
       }
     },
     "usps": {
@@ -156,7 +176,9 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "label": "Waarom Klapklaar"
+        "label": "Waarom Klapklaar",
+        "mobile_list": true,
+        "show_flags": true
       }
     },
     "logo": {
@@ -210,7 +232,8 @@
         "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
         "badge": "Voorbeeldopdruk",
         "layout": "image-left",
-        "fallback_image": "tent-logo"
+        "fallback_image": "tent-logo",
+        "image_fit": "contain"
       }
     },
     "featured-rokken": {
@@ -222,7 +245,8 @@
         "collection": "statafelrokken",
         "limit": 4,
         "columns": 4,
-        "link_label": "Alle rokken en hoezen"
+        "link_label": "Alle rokken en hoezen",
+        "mobile_grid": true
       }
     },
     "zakelijk": {
@@ -259,7 +283,10 @@
         "b3"
       ],
       "settings": {
-        "color_scheme": "scheme-4"
+        "color_scheme": "scheme-4",
+        "image": "shopify://shop_images/scene-zakelijk.webp",
+        "fallback_image": "scene-zakelijk",
+        "image_alt": "Twee zwarte easy-up partytenten 3 × 3 m met voorbeeldopdruk Klapklaar op de luifel, daaronder vier statafels met zwarte stretchrok en logo"
       }
     },
     "faq": {
@@ -313,6 +340,48 @@
         "limit": 3,
         "link_label": "Alle artikelen"
       }
+    },
+    "promos": {
+      "type": "promo-tiles",
+      "blocks": {
+        "pakketten": {
+          "type": "promo",
+          "settings": {
+            "eyebrow": "Pakketten",
+            "heading": "Alles voor je feest in één pakket",
+            "text": "Statafels met rokken, een tent met zijwanden of een terrasset met barkrukken: in één keer besteld.",
+            "collection": "actiepakketten",
+            "button_label": "Bekijk de pakketten"
+          }
+        },
+        "maatwerk": {
+          "type": "promo",
+          "settings": {
+            "eyebrow": "Op maat",
+            "heading": "Een zeil dat precies past",
+            "text": "Voor je veranda, carport of terras. Vul breedte en hoogte in, tot 10 m breed: de configurator rekent de prijs uit.",
+            "product": "overkappingzeil-op-maat",
+            "unit": "m²",
+            "image": "shopify://shop_images/overkappingzeil-op-maat-antraciet-hero.webp",
+            "button_label": "Stel je zeil samen"
+          }
+        }
+      },
+      "block_order": [
+        "pakketten",
+        "maatwerk"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": ""
+      }
+    },
+    "visit": {
+      "type": "visit",
+      "settings": {
+        "page": "showroom-en-afhalen",
+        "color_scheme": "scheme-3"
+      }
     }
   },
   "order": [
@@ -320,9 +389,11 @@
     "usps",
     "categories",
     "featured-tents",
+    "promos",
     "logo",
     "featured-rokken",
     "zakelijk",
+    "visit",
     "faq",
     "blog"
   ]

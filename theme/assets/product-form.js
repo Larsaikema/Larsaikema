@@ -28,8 +28,9 @@ class ProductForm extends HTMLElement {
 		this.root.addEventListener('click', (e) => {
 			const tier = e.target.closest('[data-staffel-qty]');
 			if (tier && this.qty) return (this.qty.value = tier.dataset.staffelQty), this.qty.dispatchEvent(new Event('change', { bubbles: true }));
-			const f = e.target.closest('[data-quote-link]') && $('[name="contact[Aantal]"]');
-			if (f) f.value = Math.max(this.quantity, this.tiers()[0]?.vanaf || 1);
+			const ql = e.target.closest('[data-quote-link]');
+			const f = ql && $('[name="contact[Aantal]"]');
+			if (f) f.value = ql.dataset.quoteLink ? this.quantity : Math.max(this.quantity, this.tiers()[0]?.vanaf || 1);
 			const more = e.target.closest('[data-addons-more]');
 			if (more) this.initAddons(more.getAttribute('aria-expanded') !== 'true', true);
 		});
@@ -176,7 +177,7 @@ class ProductForm extends HTMLElement {
 		const sp = this.$('[data-dynamic="sticky-price"]');
 		if (sp) {
 			sp.orig ??= sp.innerHTML;
-			sp.innerHTML = total === unit ? sp.orig : `<span class="price__value">${fm(total)}</span>`;
+			sp.innerHTML = total === unit ? sp.orig : `<span class="price__value">${fm(total)}</span>${excl ? ` <span class="price__label">${KK.strings.excl || 'excl. btw'}</span>` : ''}`;
 		}
 		const vm = (c) => ['incl', 'excl'].map((m) => `<span data-vat-show="${m}">${fm(c, m === 'excl')}</span>`).join('');
 		this.root.querySelectorAll('[data-addon]').forEach((a) => {
@@ -306,7 +307,7 @@ class ProductForm extends HTMLElement {
 			const r = this.button.getBoundingClientRect();
 			const foot = wide && document.querySelector('.shopify-section-group-footer-group, footer');
 			const footIn = !!foot && foot.getBoundingClientRect().top < innerHeight - 40;
-			let show = (r.bottom < 0 || (!wide && r.top > innerHeight)) && !footIn && !this.button.closest('[hidden]');
+			let show = r.bottom < (parseFloat(document.documentElement.style.getPropertyValue('--header-h')) || 0) && !footIn && !this.button.closest('[hidden]');
 			if (wide && show && upBy <= 200) show = !down && bar.classList.contains('is-visible');
 			if (show === bar.classList.contains('is-visible')) return;
 			bar.classList.toggle('is-visible', show);

@@ -11,9 +11,20 @@
   assign variant_label = ''
   assign msg_required = 'forms.error_required' | t
   assign msg_email = 'forms.error_email' | t
+  # the visible line leaves out options with one value: the size of '… Premium 3 × 3 m' is in the title already
+  assign q_skip = ''
+  assign q_parts = ''
   unless product.has_only_default_variant
     assign variant_label = current_variant.title
+    for option in product.options_with_values
+      if option.values.size == 1
+        assign q_skip = q_skip | append: forloop.index0 | append: ','
+      else
+        assign q_parts = q_parts | append: current_variant.options[forloop.index0] | append: '|'
+      endif
+    endfor
   endunless
+  assign q_text = q_parts | split: '|' | join: ' / '
 -%}
 {%- form 'contact', id: quote_id, class: 'pdp-quote', data-quote-form: '', data-msg-required: msg_required, data-msg-email: msg_email -%}
   {%- comment -%} contact[id]: only this form's own post opens it (the stock-alert form posts to /contact too) {%- endcomment -%}
@@ -38,7 +49,7 @@
         <input type="hidden" name="contact[Product]" value="{{ product.title | escape }}">
         <input type="hidden" name="contact[Uitvoering]" value="{{ variant_label | escape }}" data-quote-variant>
         <input type="hidden" name="contact[Productlink]" value="{{ shop.url }}{{ product.url }}">
-        <p class="pdp-quote__product"><strong>{{ product.title | replace: ' x ', ' × ' }}</strong> <span data-quote-variant-text>{{ variant_label | replace: ' x ', ' × ' }}</span></p>
+        <p class="pdp-quote__product"><strong>{{ product.title | replace: ' x ', ' × ' }}</strong> <span data-quote-variant-text data-skip="{{ q_skip }}">{{ q_text | replace: ' x ', ' × ' }}</span></p>
         <div class="form-grid form-grid--2">
           <div class="field"><label class="field__label" for="PQ-qty-{{ section_id }}">{{ 'quote.line_qty' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="PQ-qty-{{ section_id }}" type="number" min="1" inputmode="numeric" name="contact[Aantal]" value="{{ settings.b2b_nudge_qty | default: 10 }}" required data-msg-required="{{ 'forms.error_required_qty' | t | escape }}"></div>
           <div class="field"><label class="field__label" for="PQ-date-{{ section_id }}">{{ 'quote.delivery_date' | t }}</label><input class="input" id="PQ-date-{{ section_id }}" type="date" name="contact[Gewenste leverdatum]"></div>

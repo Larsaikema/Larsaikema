@@ -2,6 +2,10 @@
 from urllib.parse import quote_plus
 
 ONDERDELEN_TYPES = ['Zijwand', 'Zijwandenset', 'Dakzeil', 'Verzwaring', 'Verankering', 'Tas & wielset', 'Regengoot & koppeling', 'Frame-onderdeel']
+# parts and accessories of the stretch-, ster- and opblaasbare tenten: in Accessoires and Alle onderdelen too (merchandising review
+# 2026-10-18: partytent-onderdelen held only easy-up and buizenframe parts, so the 'Past op' values Stretchtent, Stertent and
+# Opblaasbare tent were nearly empty there)
+SYSTEEM_ONDERDELEN_TYPES = ['Stretchtent onderdeel', 'Stretchtent zijwand', 'Stertent zijwand', 'Opblaasbare tent accessoire']
 TEXTIEL_TYPES = ['Statafelrok', 'Topcover', 'Statafelhoes met strik', 'Strik', 'Statafelkleed', 'Tafelhoes', 'Beschermplaat']
 TENT_TYPES = ['Easy-up partytent', 'Partytent', 'Opslagtent', 'Stretchtent', 'Stertent', 'Opblaasbare tent']
 MEUBEL_TYPES = ['Barkruk', 'Kruk', 'Stoel', 'Bank', 'Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank', 'Transportkar', 'Meubelonderdeel']
@@ -33,6 +37,8 @@ COLL_IMG = {
     'partytent-onderdelen': ['zijwandenset-easy-up-wit-hero.webp', 'voetgewicht-easy-up-15-kg-hero.webp'],
     'easy-up-onderdelen': ['zijwandenset-easy-up-wit-hero.webp', 'voetgewicht-easy-up-15-kg-hero.webp'],
     'buizenframe-onderdelen': ['zijwand-partytent-2-m-pvc-hero.webp', 'eindwand-en-tussenwand-partytent-hero.webp', 'koppelstukken-en-buizen-38-mm-hero.webp'],
+    'onderdelen-stretch-ster-en-opblaasbare-tenten': ['zijwand-stretchtent-hero.webp', 'zijwanden-stertent-hero.webp', 'onderdelen-stretchtent-hero.webp',
+                                                      'pomp-opblaasbare-tent-hero.webp'],
     'zijwanden': ['zijwandenset-easy-up-wit-hero.webp', 'zijwand-easy-up-met-raam-wit-hero.webp'],
     'gewichten-en-verankering': ['voetgewicht-easy-up-15-kg-hero.webp', 'haringen-en-bevestigingsmateriaal-partytent-hero.webp'],
     'tassen-en-wielsets': ['wieltas-easy-up-hero.webp', 'beschermhoes-easy-up-hero.webp'],
@@ -81,7 +87,7 @@ def col(handle, title, parent, rules=None, disjunctive=False, products=None, sor
     C.append(d)
     return d
 
-def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen):
+def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen, systeem_onderdelen):
     col('partytenten', 'Partytenten', None, types(TENT_TYPES), True, sort='best-selling',
         brief='Overzicht van alle tenten: easy-up, buizenframe, stretch, ster en opblaasbaar; help kiezen op gebruik en maat.',
         kenmerken=['Easy-up 2 × 2 tot 5 × 5 m', 'Staal of aluminium', 'Zijwanden in dezelfde kleur', 'Met jouw logo'])
@@ -111,16 +117,19 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
         brief='Met jouw logo of in full colour: luifel, dak, zijwand, opblaasbaar; drukproef vooraf en levertijd na akkoord.',
         kenmerken=['Logo uploaden bij bestellen', 'Eerst een drukproef', 'Vanaf 1 stuk', 'Staffel vanaf 10'])
     # the marktkraam (€479–€729) is no accessory: it lives in 'evenement' with the afzetpalen and lopers
-    col('accessoires', 'Accessoires', None, types(ONDERDELEN_TYPES + ['Verwarming', 'Tentverlichting', 'Afzetpaal', 'Loper']), True,
+    col('accessoires', 'Accessoires', None, types(ONDERDELEN_TYPES + SYSTEEM_ONDERDELEN_TYPES + ['Verwarming', 'Tentverlichting', 'Afzetpaal', 'Loper']), True,
         brief='Alles om je tent compleet te maken en je evenement in te richten: wanden, verankering, tassen, verwarming, afzetpalen.')
-    col('partytent-onderdelen', 'Partytent-onderdelen', 'accessoires', types(ONDERDELEN_TYPES), True,
-        brief='Wanden, daken, verankering, tassen, goten en frame-onderdelen voor easy-up en buizenframe; pasvorm per lijn, filter op systeem.')
+    col('partytent-onderdelen', 'Partytent-onderdelen', 'accessoires', types(ONDERDELEN_TYPES + SYSTEEM_ONDERDELEN_TYPES), True,
+        brief='Wanden, daken, verankering, tassen, goten en frame-onderdelen voor easy-up, buizenframe, stretch-, ster- en opblaasbare tenten; pasvorm per lijn, filter op systeem.')
     col('easy-up-onderdelen', 'Onderdelen en accessoires voor easy-up', 'partytent-onderdelen', products=easy_up_onderdelen, ext=True,
         brief='Alles wat op een easy-up past: wanden, daken, gewichten, tassen, goten, frame-onderdelen, licht en warmte; per maat en lijn (Premium 40 mm, Professional 50 mm).',
         kenmerken=['Past op Premium en Professional', 'Zelfde kleuren als de tenten', 'Per maat te kiezen'])
     col('buizenframe-onderdelen', 'Onderdelen voor buizenframe-tenten', 'partytent-onderdelen', products=buizenframe_onderdelen, ext=True,
         brief='Wanden van 2 m (PVC of PE, 200 of 220 cm), eind- en tussenwanden, dakzeilen, koppelstukken en buizen van 38 mm, stormbanden, opbergtassen en regengoten.',
         kenmerken=['Buizen en koppelstukken 38 mm', 'Wanden 200 of 220 cm hoog', 'PVC of PE'])
+    col('onderdelen-stretch-ster-en-opblaasbare-tenten', 'Onderdelen voor stretch-, ster- en opblaasbare tenten', 'partytent-onderdelen', products=systeem_onderdelen, ext=True,
+        brief='Zijwanden, palen, spanmateriaal en koppelgoten voor stretchtenten, zijwanden voor stertenten, en pompen, wanden, luifels, tunnels, tassen, licht en watergewicht voor opblaasbare tenten.',
+        kenmerken=['Pasvorm per tent vermeld', 'Stretch, ster en opblaasbaar', 'Ballastadvies op aanvraag'])
     col('verwarming', 'Verwarming', 'accessoires', types(['Verwarming']), ext=True,
         brief='Elektrische heaters voor in de tent en gasheaters voor buiten (terras, lounge, vlam), met hoes en reservebrander; afstand tot doek en waar het mag.',
         kenmerken=['Elektrisch in de tent', 'Gas alleen buiten', 'Vermogen per m²'])
@@ -133,7 +142,8 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
     col('gewichten-en-verankering', 'Gewichten en verankering', 'partytent-onderdelen', types(['Verzwaring', 'Verankering']), True,
         brief='Voetgewichten, zandzakken, haringen, spanbanden, stormbanden en ballast; altijd verankeren.',
         kenmerken=['15 kg per poot op verharding', 'Haringen op gras', 'Bij harde wind: dak eraf'])
-    col('tassen-en-wielsets', 'Tassen en wielsets', 'partytent-onderdelen', types(['Tas & wielset']), brief='Beschermhoezen, wieltassen, wielsets en opbergtassen.')
+    col('tassen-en-wielsets', 'Tassen en wielsets', 'partytent-onderdelen', types(['Tas & wielset']) + [r('title', 'starts_with', 'Opbergtas')], True,
+        brief='Beschermhoezen, wieltassen, wielsets en opbergtassen, ook de tas met wielen voor de opblaasbare tent.')
     col('statafels', 'Statafels', None, types(['Statafel']),
         brief='Inklapbaar, vast of stapelbaar; Ø70, Ø80 of Ø85 cm, 110 cm hoog; hoeveel personen per maat.',
         kenmerken=['110 cm hoog', 'Ø70, Ø80, Ø85 cm', 'Hittebestendig blad', 'Staffel vanaf 10'])
@@ -158,8 +168,9 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
     col('tafelhoezen', 'Tafelhoezen', 'statafelrokken', types(['Tafelhoes']), ext=True,
         brief='Stretchhoezen voor klaptafels en biertafelsets, effen of met logo.',
         kenmerken=['Strak tot de grond', 'Klaptafel 122, 183 of 244 cm', 'Ook met jouw logo'])
-    col('actiepakketten', 'Actiepakketten', None, [r('tag', 'equals', 'set')],
-        brief='Voordelige combinaties (statafels met rokken en kar, tentpakketten); pakketprijs t.o.v. losse prijs.')
+    # title 'Pakketten' (handle stays): no compare-at price and no badge:actie anywhere, so 'Actie' promised a sale that is not there
+    col('actiepakketten', 'Pakketten', None, [r('tag', 'equals', 'set')],
+        brief='Vaste combinaties voor één pakketprijs (statafels met rokken en kar, tentpakketten); pakketprijs t.o.v. losse prijs, geen tijdelijke actie.')
     col('meubilair', 'Meubilair', None, types(MEUBEL_TYPES), True,
         brief='Barkrukken, stoelen, klaptafels, biertafelsets, terrastafels en transportkarren.')
     col('barkrukken', 'Barkrukken', 'meubilair', types(['Barkruk']), ext=True,
@@ -233,11 +244,13 @@ def build_menus():
                 P('Inklapbaar Professional', 'statafel-inklapbaar-professional'), P('Inklapbaar HDPE', 'statafel-inklapbaar-hdpe-80'), P('Met kruisvoet', 'statafel-met-kruisvoet'),
                 P('Vierkant stapelbaar', 'statafel-vierkant-stapelbaar'), P('Rechthoekig', 'statafel-rechthoekig-inklapbaar'), P('Wijnvat', 'statafel-wijnvat-houtlook')]),
             L('Per maat', 'collection', 'statafels', items=[L(m, 'http', url=f('statafels', 'maat', m)) for m in ['Ø70 cm', 'Ø80 cm', 'Ø85 cm']] +
+              [L(m.replace(' x ', ' × '), 'http', url=f('statafels', 'maat', m)) for m in ['60 x 60 cm', '70 x 70 cm', '80 x 80 cm', '120 x 60 cm', '120 x 70 cm', '160 x 60 cm']] +
               [L('Hoeveel statafels heb ik nodig?', 'article', 'advies/hoeveel-statafels-per-gast')]),
             L('Transport en onderdelen', 'collection', 'statafel-onderdelen', items=[
                 P('Transportkar statafels', 'transportkar-statafels'), P('Onderstel, ring en scharnier', 'onderdelen-statafel'), P('Los statafelblad', 'los-statafelblad'),
                 P('Voetdoppen', 'voetdoppen-set-van-4')]),
             L('Statafelpakketten', 'collection', 'actiepakketten', items=[
+                P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
                 P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('4 statafels met rokken', 'pakket-4-statafels-met-stretchrokken'),
                 P('Statafels met transportkar', 'pakket-statafels-met-transportkar'), P('10 statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
         ]),
@@ -269,7 +282,13 @@ def build_menus():
             L('Voor buizenframe-tenten', 'collection', 'buizenframe-onderdelen', items=[
                 P('Zijwand 2 m (200 of 220 cm)', 'zijwand-partytent-2-m-pvc'), P('Eind- en tussenwand', 'eindwand-en-tussenwand-partytent'),
                 P('Dakzeil', 'dakzeil-partytent-buizenframe'), P('Koppelstukken en buizen', 'koppelstukken-en-buizen-38-mm'),
-                P('Stormbandenset', 'stormbandenset-partytent'), P('Opbergtassenset', 'opbergtassenset-partytent'), P('Regengoot', 'regengoot-partytent')]),
+                P('Voetgewicht per staander', 'voetgewicht-easy-up-15-kg'), P('Stormbandenset', 'stormbandenset-partytent'),
+                P('Opbergtassenset', 'opbergtassenset-partytent'), P('Regengoot', 'regengoot-partytent')]),
+            L('Voor stretch-, ster- en opblaasbare tenten', 'collection', 'onderdelen-stretch-ster-en-opblaasbare-tenten', items=[
+                P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal en koppelgoten', 'onderdelen-stretchtent'),
+                P('Zijwanden stertent', 'zijwanden-stertent'), P('Pomp opblaasbare tent', 'pomp-opblaasbare-tent'),
+                P('Zijwand opblaasbare tent', 'zijwand-opblaasbare-promotietent'), P('Luifel opblaasbare tent', 'luifel-opblaasbare-promotietent'),
+                P('Verbindingstunnel', 'verbindingstunnel-opblaasbare-tent'), P('Opbergtas met wielen', 'opbergtas-opblaasbare-tent')]),
             L('Alle onderdelen', 'collection', 'partytent-onderdelen', items=[
                 L('Zijwanden', 'collection', 'zijwanden'), L('Gewichten en verankering', 'collection', 'gewichten-en-verankering'), L('Tassen en wielsets', 'collection', 'tassen-en-wielsets')]),
             L('Verwarming', 'collection', 'verwarming', items=[P('Elektrische heater', 'elektrische-heater-partytent'), P('Terrasheater op gas', 'terrasheater-gas-13-kw'),
@@ -296,8 +315,10 @@ def build_menus():
                 P('LED voor opblaasbare tent', 'led-verlichting-opblaasbare-tent')]),
             L('Onderdelen', 'product', 'onderdelen-prikkabel-en-lichtslang', items=[P('Fittingen, dimmers, timers en kabel per meter', 'onderdelen-prikkabel-en-lichtslang')]),
         ]),
-        L('Actie', 'collection', 'actiepakketten', items=[
-            L('Statafelpakketten', 'collection', 'actiepakketten', items=[P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('Terraspakket', 'terraspakket-statafel-barkrukken'),
+        # 'Pakketten', not 'Actie': there is no compare-at price or badge:actie anywhere, so the label must not suggest a temporary sale
+        L('Pakketten', 'collection', 'actiepakketten', items=[
+            L('Statafelpakketten', 'collection', 'actiepakketten', items=[P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
+                                                                         P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('Terraspakket', 'terraspakket-statafel-barkrukken'),
                                                                          P('Statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
             L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium', 'starterspakket-easy-up-premium'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
             L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'),
@@ -314,7 +335,7 @@ def build_menus():
             L('Partytenten', 'collection', 'partytenten'), L('Easy-up partytenten', 'collection', 'easy-up-partytenten'), L('Statafels', 'collection', 'statafels'),
             L('Statafelrokken en -hoezen', 'collection', 'statafelrokken'), L('Met jouw logo', 'collection', 'bedrukte-partytenten'), L('Meubilair', 'collection', 'meubilair'),
             L('Verlichting', 'collection', 'verlichting'), L('Accessoires', 'collection', 'accessoires'), L('Evenement en markt', 'collection', 'evenement'),
-            L('Actiepakketten', 'collection', 'actiepakketten'),
+            L('Pakketten', 'collection', 'actiepakketten'),
             L('Alle producten', 'collection', 'all')]},
         {'handle': 'footer-klantenservice', 'title': 'Hulp', 'items': [
             L('Contact', 'page', 'contact'), L('Veelgestelde vragen', 'page', 'veelgestelde-vragen'), L('Verzenden en bezorgen', 'page', 'verzenden-en-bezorgen'),
@@ -453,6 +474,7 @@ PRODUCT_CATEGORY_BY_HANDLE = {
     'led-verlichting-opblaasbare-tent': ('Home & Garden > Lighting > Flood & Spot Lights', 'hg-13-3'),
     'onderdelen-prikkabel-en-lichtslang': ('Home & Garden > Lighting Accessories', 'hg-14'),
     'pakket-statafel-met-stretchrok': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),
+    'pakket-statafel-hdpe-met-stretchrok': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),
     'pakket-4-statafels-met-stretchrokken': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),
     'pakket-statafels-met-transportkar': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),
     'pakket-5-statafels-stretchrokken-transportkar': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),

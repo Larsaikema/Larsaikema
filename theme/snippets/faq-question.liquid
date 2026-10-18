@@ -1,0 +1,9 @@
+{%- comment -%}
+  One FAQ question of the faq section, layout 'help' (deep-linkable by its handle). Params: q (question block),
+  return_days, cutoff (strings for [bedenktijd] and [besteltijd] in the answer).
+{%- endcomment -%}
+{%- assign fq_answer = q.settings.answer | replace: '[bedenktijd]', return_days | replace: '[besteltijd]', cutoff -%}
+<details class="accordion faq-q" id="{{ q.settings.question | handleize | truncate: 72, '' }}" data-faq-item {{ q.shopify_attributes }}>
+  <summary><span>{{ q.settings.question }}</span>{%- render 'icon', icon: 'plus' -%}</summary>
+  <div class="accordion__body rte">{{ fq_answer }}</div>
+</details>

@@ -1,6 +1,6 @@
 # Meubilair, verlichting, verwarming, inrichting & evenement, cadeaubon.
 from kk_base import *
-from fam_acc import simple, eu_all
+from fam_acc import simple, eu_all, EU_PRINT
 
 def build():
     global EU_TENTS
@@ -180,22 +180,29 @@ def build():
             'specificaties': [sp('Blad', 'Materiaal', 'Vurenhout, gelakt'), sp('Onderstel', 'Materiaal', 'Staal, verzinkt, inklapbaar'), sp('Set', 'Bank', '220 x 25 cm')]},
            ['tafels-stoelen.biertafels'], 'meubilair', 'Klassieke feestset: 50 cm standaard, 70 cm breed voor meer bordruimte; ook alleen de tafel.',
            ['biertafelset', 'biertafel kopen', 'feestset'], {'statafelshop': 'biertafel 220x50 €114,89 · set €225', 'ours': {f'{m} {u}': p for m, u, p, kg in BTS}})
-    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['gebruik:tuinfeest', 'gebruik:evenement'], [],
+    simple('bierbank-220', 'Bierbank los 220 cm', 'Bierbank', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [],
            [variant('KK-MEU-BB-220', [], 39.95, 7000, 40)],
            [img('bierbank-220-hero.webp', 'hero', 1, 'biertafelset', {'length': 2.2, 'only': 'bank'}, 'hero', None, 'needs-param')],
            {'kenmerk_kort': 'Vurenhout 220 x 25 cm · inklapbaar', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pakket', 'past_op': ['biertafelset']},
            ['tafels-stoelen.banken', 'tafels-stoelen.biertafels'], 'meubilair', 'Extra bank bij je biertafel, of los als zitbank op het feest.', ['bierbank', 'bierbank los'],
            {'outmate': 'bierbank onderstel €29,25 bij 4–10 st', 'ours': 39.95})
-    TK2 = [('Klein, voor 5 statafels', 269.0, 'K', 38), ('Groot, voor 15 statafels', 369.0, 'G', 55)]
+    # 'Plateau' added after the merchandising review: the stapelbare vierkante statafel does not go in the kar for folding statafels
+    # (5 stacked on a plateau of ca. 90 x 90 cm with 4 zwenkwielen). Variant images per Uitvoering, so the plateau never shows the kar.
+    TK2 = [('Klein, voor 5 statafels', 269.0, 'K', 38), ('Groot, voor 15 statafels', 369.0, 'G', 55), ('Plateau, voor 5 gestapelde statafels', 149.0, 'P', 18)]
     simple('transportkar-statafels', 'Transportkar voor statafels', 'Transportkar', ['zakelijk', 'pallet'], [opt('Uitvoering', [t[0] for t in TK2])],
            [variant(f'KK-MEU-TKS-{c}', [n], p, kg * 1000, inv(4, c + 'tks')) for n, p, c, kg in TK2],
            [img('transportkar-statafels-hero.webp', 'hero', 1, 'trolley', {'kind': 'statafel', 'size': 'groot', 'loaded': 0}, 'hero', None, 'needs-model'),
-            img('transportkar-statafels-gevuld.webp', 'in-gebruik', 2, 'trolley', {'kind': 'statafel', 'size': 'groot', 'loaded': 15}, 'hero', None, 'needs-model', alt='gevuld met 15 statafels (niet inbegrepen)')],
-           {'kenmerk_kort': 'Heavy duty wielen · grijs hamerslag · 5 of 15 ingeklapte statafels', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
-            'past_op': ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80'],
-            'specificaties': [sp('Kar', 'Groot', 'ca. 126 x 97 x 113 cm, tot 15 statafels Ø80'), sp('Kar', 'Klein', 'ca. 65 x 95 x 114 cm, tot 5 statafels')]},
+            img('transportkar-statafels-gevuld.webp', 'in-gebruik', 2, 'trolley', {'kind': 'statafel', 'size': 'groot', 'loaded': 15}, 'hero', None, 'needs-model', alt='gevuld met 15 statafels (niet inbegrepen)'),
+            img('transportkar-statafels-plateau.webp', 'variant', 3, 'trolley', {'kind': 'plateau', 'size': 0.9, 'loaded': 5, 'tableShape': 'square'}, 'hero', None, 'needs-param',
+                alt='plateaukar met 5 gestapelde vierkante statafels (statafels niet inbegrepen)')],
+           {'kenmerk_kort': 'Heavy duty wielen · 5 of 15 ingeklapte statafels, of 5 gestapelde vierkante', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            'past_op': ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80', 'statafel-vierkant-stapelbaar'],
+            'specificaties': [sp('Kar', 'Groot', 'ca. 126 x 97 x 113 cm, tot 15 statafels Ø80'), sp('Kar', 'Klein', 'ca. 65 x 95 x 114 cm, tot 5 statafels'),
+                              sp('Kar', 'Plateau', 'ca. 90 x 90 cm, 4 zwenkwielen (2 met rem), tot 5 gestapelde vierkante statafels')]},
            ['tafels-stoelen.trolleys'], 'meubilair', 'Statafels verplaatsen en opslaan zonder sjouwen; capaciteit per model.', ['transportkar statafels', 'trolley statafel'],
-           {'statafelshop': 'klein €311,58 · groot €434,39', 'outmate': '10 st €589', 'ours': {t[0]: t[1] for t in TK2}})
+           {'statafelshop': 'klein €311,58 · groot €434,39', 'outmate': '10 st €589', 'ours': {t[0]: t[1] for t in TK2}},
+           vmap={'Klein, voor 5 statafels': 'transportkar-statafels-hero.webp', 'Groot, voor 15 statafels': 'transportkar-statafels-hero.webp',
+                 'Plateau, voor 5 gestapelde statafels': 'transportkar-statafels-plateau.webp'}, vby='Uitvoering')
     TK3 = [('Voor 10 klaptafels 183 cm', 249.0, 'KLT', 35), ('Voor 24 barkrukken', 229.0, 'BKR', 30), ('Voor 30 klapstoelen', 199.0, 'KLS', 26)]
     simple('transportkar-klaptafels-en-stoelen', 'Transportkar voor klaptafels en stoelen', 'Transportkar', ['zakelijk', 'pallet'], [opt('Uitvoering', [t[0] for t in TK3])],
            [variant(f'KK-MEU-TKK-{c}', [n], p, kg * 1000, inv(3, c + 'tkk')) for n, p, c, kg in TK3],
@@ -212,7 +219,7 @@ def build():
     vs = [variant(f'KK-LCHT-PK-{code(m)}-{COLOR_CODE[k]}', [m, k], p, kg * 1000, inv(15, m + k + 'pk', k)) for m, (p, kg) in PK.items() for k in PKK]
     imgs, vmap = kleur_images('prikkabel-e27', PKK, 'prikkabel', lambda k: {'bulbs': 10, 'spacing': 1.0, 'sag': 0.25, 'on': True, 'cable': render_color(k)}, 'Zwart',
                               [img('prikkabel-e27-zwart-uit.webp', 'detail', 3, 'prikkabel', {'bulbs': 10, 'spacing': 1.0, 'sag': 0.25, 'on': False}, 'hero', 'Zwart', 'existing', alt='lampen uit')], status='existing', p2=3)
-    simple('prikkabel-e27', 'Prikkabel E27', 'Prikkabel', ['gebruik:tuinfeest', 'gebruik:horeca', 'gebruik:evenement'], [opt('Maat', list(PK)), opt('Kleur', PKK)], vs, imgs,
+    simple('prikkabel-e27', 'Prikkabel E27', 'Prikkabel', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:horeca', 'gebruik:evenement'], [opt('Maat', list(PK)), opt('Kleur', PKK)], vs, imgs,
            {'kenmerk_kort': 'Fitting elke meter · IP44 · max. 25 W per fitting', 'verzending': 'pakket', 'addons': ['led-lamp-e27'], 'staffelkorting': ST_PRIK,
             'specificaties': [sp('Kabel', 'Spanning', '230 V, 16 A'), sp('Kabel', 'Fittingen', 'E27, elke 1 m'), sp('Kabel', 'Beschermingsklasse', 'IP44'), sp('Lamp', 'Max. vermogen', '25 W per fitting')]},
            ['verlichting.prikkabels'], 'verlichting', 'Sfeerverlichting voor tuin en terras: lengte = aantal fittingen, lampen apart (of als set); doorkoppelen binnen het maximum.',
@@ -229,7 +236,7 @@ def build():
            ['prikkabel op maat'], {'outmate': 'op maat vanaf €9', 'ours': '€4,49 per meter, min. 5 m'},
            vmap={'Zwart': 'prikkabel-op-maat-hero.webp', 'Wit': 'prikkabel-e27-wit-hero.webp'})
     LL = [('Warm wit melkglas 1 W', 1.29, 'MW'), ('Warm wit helder 1 W', 1.29, 'HW'), ('Filament dimbaar 2 W', 1.79, 'FD'), ('Set van 5 gekleurde lampen', 4.95, 'S5')]
-    simple('led-lamp-e27', 'LED-lamp E27 onbreekbaar', 'LED-lamp', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [l[0] for l in LL])],
+    simple('led-lamp-e27', 'LED-lamp E27 onbreekbaar', 'LED-lamp', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [l[0] for l in LL])],
            [variant(f'KK-LCHT-LED-{c}', [n], p, 40 if c != 'S5' else 200, inv(400, c + 'led')) for n, p, c in LL],
            [img('led-lamp-e27-hero.webp', 'hero', 1, 'ledBulb', {'type': 'melkglas', 'on': True}, 'hero', None, 'needs-model'),
             img('led-lamp-e27-gekleurd.webp', 'variant', 3, 'ledBulb', {'type': 'gekleurd', 'count': 5, 'on': True}, 'hero', None, 'needs-model')],
@@ -268,7 +275,7 @@ def build():
             img('led-vloedlicht-easy-up-in-tent.webp', 'in-gebruik', 3, 'items', {'items': [{'model': 'easyUpTent', 'w': 3, 'd': 3, 'legs': 'professional', 'color': 'wit'},
                                                                                          {'model': 'floodLight', 'watt': 30, 'mountedOn': 'leg'}]}, 'low', None, 'needs-model',
                 alt='aan de poot van een easy-up (tent niet inbegrepen)')],
-           {'kenmerk_kort': '30 W · 2.400 lumen · klem voor poten tot 50 mm · IP65', 'verzending': 'pakket', 'past_op': list(EU_TENTS),
+           {'kenmerk_kort': '30 W · 2.400 lumen · klem voor poten tot 50 mm · IP65', 'verzending': 'pakket', 'past_op': list(EU_TENTS) + EU_PRINT,
             'specificaties': [sp('Lamp', 'Vermogen', '30 W LED'), sp('Lamp', 'Lichtstroom', 'ca. 2.400 lumen, 4000 K'), sp('Lamp', 'Beschermingsklasse', 'IP65'),
                               sp('Bevestiging', 'Klem', 'Voor zeskantpoten van 40 en 50 mm, kantelbaar'), sp('Aansluiting', 'Kabel', '3 m met stekker, 230 V')],
             'garantie': '1 jaar'},

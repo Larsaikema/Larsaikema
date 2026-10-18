@@ -43,7 +43,8 @@ for p in PRODUCTS:
             errors.append(f'{p["handle"]}: addon_eenmalig {x} is not one of its add-ons')
 # accessories that also fit the inflatables. NB: never `+=` on a past_op list: the easy-up accessories share ONE list object
 # (fam_acc EU), and an in-place add once put the inflatables on wieltas, beschermhoes, voetgewicht, regengoot and zandzakken.
-for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten']),
+for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', 'opblaasbare-promotietent-pro', 'opblaasbare-partytent-3x3-waterpoten',
+                                                  'opblaasbare-zeshoektent']),
                    ('zitkussen-stoel-en-barkruk', ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal'])]:
     HANDLES[_h]['metafields']['past_op'] = list(HANDLES[_h]['metafields']['past_op']) + _extra
 # every list metafield gets its own list object from here on (no shared-list side effects in later fix-ups)
@@ -151,7 +152,11 @@ bedrukte_hoezen = [p['handle'] for p in PRODUCTS if p['family'] == 'bedrukt-text
 ONDERDEEL_TYPES = site.ONDERDELEN_TYPES + ['Tentverlichting', 'Verwarming']
 easy_up_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES and 'Easy-up' in (p['metafields'].get('systeem') or [])]
 buizenframe_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES and 'Buizenframe' in (p['metafields'].get('systeem') or [])]
-cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen)
+# parts that fit a stretch-, ster- or opblaasbare tent (their own part types, plus haringen, betonblok, watergewicht, tent light)
+SYS_REST = {'Stretchtent', 'Stertent', 'Opblaasbare tent'}
+systeem_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES + site.SYSTEEM_ONDERDELEN_TYPES
+                      and SYS_REST & set(p['metafields'].get('systeem') or [])]
+cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen, systeem_onderdelen)
 
 def match(p, rule):
     c, rel, cond = rule['column'], rule['relation'], rule['condition']
@@ -197,7 +202,7 @@ errors += [f'uncovered {m}' for m in missing] + [f'bad cover key {b}' for b in b
 
 # ---------------------------------------------------------------- copy groups
 EU_SETS = ['starterspakket-easy-up-premium', 'compleet-pakket-easy-up-professional']
-STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar',
+STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-statafel-hdpe-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar',
            'pakket-5-statafels-stretchrokken-transportkar', 'pakket-10-statafels-stretchrokken-transportkar', 'pakket-15-statafels-stretchrokken-transportkar']
 G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank-220', 'los-statafelblad', 'voetdoppen-set-van-4',
              'onderdelen-statafel']
@@ -288,6 +293,7 @@ doc['meta'] = {
 doc['contract_extensions'] = [
     {'what': 'product metafield custom.andere_maten (list.product_reference)', 'why': 'Easy-up tents are one product per size (SEO + example title "Easy-up partytent Professional 3 x 6 m"); the PDP needs a size switcher to sibling products. Filled on all 11 easy-up tents.', 'theme': 'render size pills linking to these products (current one selected).'},
     {'what': 'collections partytenten-buizenframe, opslagtenten, overkappingen-en-schaduwdoeken, stretch-statafelrokken', 'why': 'Assortment categories without a contract handle; needed for menus and coverage. Generic collection template, no theme work.'},
+    {'what': 'collections onderdelen-stretch-ster-en-opblaasbare-tenten', 'why': 'Merchandising review 2026-10-18: Accessoires had columns for easy-up and buizenframe only, so the parts of stretch-, ster- and opblaasbare tenten had no landing page and the Past op values Stretchtent, Stertent and Opblaasbare tent were nearly empty. Manual (types incl. Stretchtent onderdeel / zijwand, Stertent zijwand, Opblaasbare tent accessoire, from custom.systeem), child of partytent-onderdelen. Also in CONTRACT.md.'},
     {'what': 'collections easy-up-onderdelen, buizenframe-onderdelen, verwarming, evenement', 'why': 'Merchandising review: partytent-onderdelen and zijwanden mixed easy-up and buizenframe parts; verwarming was a filter URL on accessoires; the marktkraam (€479–€729) sat between € 5 parts. Manual (onderdelen, from custom.systeem) or smart (type). Also in CONTRACT.md.'},
     {'what': 'product metafield custom.systeem (list.single_line_text_field)', 'why': 'Tent system a product is or fits: Easy-up, Buizenframe, Stretchtent, Stertent, Opblaasbare tent (from past_op). Storefront filter (Search & Discovery) on partytent-onderdelen / zijwanden. Also in CONTRACT.md.'},
     {'what': 'collections barkrukken, stoelen-en-banken, tafels, transportkarren, prikkabels, lampen-en-lichtslangen, topcovers-en-beschermplaten, tafelhoezen, statafel-onderdelen',
@@ -365,10 +371,10 @@ doc['claims_to_confirm'] = {
     'per_product': claims,
     'general': ['Every price and staffel (owner review).', 'What is in the box: Premium = frame, dak, beschermhoes; Professional = frame, dak, wieltas, 4 spanbanden + 4 haringen.',
                 'Kleur Rood on tents, walls, roofs, inflatables and marktkraam = the supplier\'s stock red (brand.md §4.5: no own Klaproos dye lot); check the swatch against the real cloth.',
-                'Add-on defaults: betonblok (1 × 140 kg, stretch 1 × 500 kg) is a starting point, not a ballast calculation; haringen = 1 per staander (spanten om de 2 m).',
+                'Add-on defaults: buizenframe and opslagtent = 1 voetgewicht 15 kg + 1 lange haring per staander (spanten om de 2 m: 4 to 14); zeshoektent = watergewicht for 3/4/5 zakken of 20 kg per poot (its 50/75/100 kg advice); betonblokken are no add-on anywhere: ballast for stretch-, ster- and big tents on hard ground is ballastadvies via offerte (no ballast calculation in the shop).',
                 'Bundle staffels are derived from the component staffels (value-weighted, rounded up), so a bundle never loses to its parts at the same volume.',
                 'Specs (materials, g/m², weights, packed sizes, heights, capacity) are definitions to confirm with the supplier.',
-                'Brandvertragend / brandklasse statements need a supplier certificate.', 'Maatwerk and printed goods excluded from herroepingsrecht (check terms).',
+                'Brandvertragend / brandklasse statements need a supplier certificate on file; until then no fire class anywhere in the shop (stretch M2 removed 2026-10-18).', 'Maatwerk and printed goods excluded from herroepingsrecht (check terms).',
                 'Pallet vs pakket split (31,5 kg rule) and shipping rates.'],
 }
 doc['products'] = []

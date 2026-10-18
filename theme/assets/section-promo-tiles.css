@@ -1,0 +1,32 @@
+.promo-tiles__list{list-style:none;display:grid;gap:12px}
+@media (min-width:990px){.promo-tiles__list{grid-template-columns:repeat(var(--count),minmax(0,1fr));gap:24px}}
+.promo{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);border-radius:var(--radius-panel);background:var(--c-media);color:var(--c-inkt);overflow:hidden;transition:box-shadow var(--dur-fast)}
+.promo:hover{box-shadow:0 14px 30px -18px rgba(29,36,32,.35)}
+.promo__content{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:22px 0 22px 20px;min-width:0}
+.promo__eyebrow{margin:0}
+.promo__title{margin:0;font-size:20px;line-height:1.15}
+.promo__link{color:inherit;text-decoration:none}
+.promo__link::after{content:"";position:absolute;inset:0;z-index:1}
+.promo__link:focus-visible{outline:none}
+.promo:has(.promo__link:focus-visible){outline:3px solid var(--focus,var(--c-inkt));outline-offset:2px}
+.promo__text{margin:0;font-size:14px;line-height:1.45;color:var(--c-kiezel)}
+.promo__price{margin:2px 0 4px;font-size:14px;line-height:1.3;font-variant-numeric:tabular-nums}
+.promo__price strong{font-size:18px;font-weight:var(--font-body-weight-bold)}
+.promo__vat{color:var(--c-kiezel);font-size:13px;white-space:nowrap}
+.promo__price-main,.promo__price-alt{display:block}
+.promo__price-alt{font-size:13px;color:var(--c-kiezel);margin-top:1px}
+.promo__btn{margin-top:auto;background:transparent}
+.promo:hover .promo__btn{background:var(--c-tint-linnen)}
+.promo:hover .promo__btn .icon{transform:translateX(3px)}
+.promo__btn .icon{transition:transform var(--dur-fast)}
+.promo__media{position:relative;min-height:220px;overflow:hidden}
+.promo__media img,.promo__media svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:transform var(--dur)}
+.promo:hover .promo__media img{transform:scale(1.04)}
+@media (max-width:749px){.promo{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}.promo__btn{display:none}.promo__price{margin-bottom:0}.promo__text{font-size:13.5px}.promo__media img{transform:scale(1.1)}.promo:hover .promo__media img{transform:scale(1.14)}}
+@media (min-width:750px){
+  .promo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:320px}
+  .promo__content{gap:10px;padding:32px 0 32px 32px}
+  .promo__title{font-size:calc(var(--heading-scale) * 24px)}
+  .promo__text{font-size:15px}
+  .promo__price strong{font-size:20px}
+}

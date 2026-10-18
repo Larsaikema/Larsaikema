@@ -68,6 +68,40 @@
         assign cd_rest = cd_lead | slice: 1, 500
         assign cd_lead = cd_lead | slice: 0 | downcase | append: cd_rest
       endif
+      # the lead time in work days for cart.js ('2–3 weken' = 10–15, '5–8 werkdagen' = 5–8; none after a proof: 'na akkoord')
+      assign cd_a = 0
+      assign cd_b = 0
+      assign cd_lw = cd_wait | downcase | append: ' '
+      unless cd_lw contains ' na '
+        assign cd_words = cd_lw | replace: '–', ' ' | replace: '-', ' ' | split: ' '
+        for w in cd_words
+          assign cd_n = w | plus: 0
+          if cd_n > 0
+            if cd_a == 0
+              assign cd_a = cd_n
+            else
+              assign cd_b = cd_n
+            endif
+          elsif cd_a > 0
+            if cd_b == 0
+              assign cd_b = cd_a
+            endif
+            assign cd_u = w | slice: 0, 3
+            case cd_u
+              when 'wek', 'wee'
+                assign cd_a = cd_a | times: 5
+                assign cd_b = cd_b | times: 5
+              when 'dag', 'day'
+                assign cd_a = cd_a | times: 5.0 | divided_by: 7 | round
+                assign cd_b = cd_b | times: 5.0 | divided_by: 7 | round
+              when 'wer', 'wor'
+              else
+                assign cd_a = 0
+            endcase
+            break
+          endif
+        endfor
+      endunless
       assign cd_eta = 'cart.delivery_eta_html' | t: from: '__FROM__', to: '__TO__'
       unless cd_reason == 'backorder'
         assign cd_eta = cd_lead | escape | append: ' · ' | append: cd_eta
@@ -84,7 +118,7 @@
         assign cd_status = 'cart.delivery_wait' | t: title: cd_wait_title, lead_time: '__LEAD__'
       endif
     -%}
-    {%- capture cd_span -%}<span data-wait-lead data-lead="{{ cd_wait | escape }}" data-tpl="{{ cd_eta | escape }}">{{ cd_lead | escape }}</span>{%- endcapture -%}
+    {%- capture cd_span -%}<span{% if cd_a > 0 %} data-wait-lead data-from="{{ cd_a }}" data-to="{{ cd_b }}" data-tpl="{{ cd_eta | escape }}"{% endif %}>{{ cd_lead | escape }}</span>{%- endcapture -%}
     <div class="cart-delivery cart-delivery--wait" data-wait-days="{{ cd_wait_days }}" data-state="wait" {{ cd_calc }}>
       <p class="stock stock--later"><span>{{ cd_status | replace: '__LEAD__', cd_span }}</span></p>
       {%- if date_link -%}

@@ -1,0 +1,7 @@
+@media (max-width:989px){
+  .slider.product-row--mobile-grid{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:visible;margin-inline:0;padding-inline:0}
+  .featured-collection__more{display:flex;width:100%;margin-top:20px}
+}
+@media (max-width:749px){.featured-collection__head-link{display:none}}
+@media (min-width:750px) and (max-width:989px){.slider.product-row--mobile-grid{gap:16px}}
+@media (min-width:990px){.featured-collection__more{display:none}}

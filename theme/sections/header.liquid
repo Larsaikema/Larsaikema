@@ -110,13 +110,14 @@
           <input class="search__input" type="search" id="HeaderSearch-{{ section.id }}" name="q" value="{{ search.terms | escape }}"
             placeholder="{{ 'header.search_placeholder' | t }}" autocomplete="off" spellcheck="false" enterkeyhint="search"
             {% if settings.predictive_search_enabled %}role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-autocomplete="list"{% endif %}>
-          {%- comment -%} the visible placeholder: the longest of three wordings that fits the field (CSS container query); the input keeps the full text for assistive tech {%- endcomment -%}
-          <span class="search__ph" aria-hidden="true"><span>{{ 'header.search_placeholder' | t }}</span><span>{{ 'header.search_placeholder_short' | t }}</span><span>{{ 'header.search_label' | t }}</span></span>
+          {%- comment -%} the visible placeholder: the long wording when it fits the field (CSS container query), else the short one; the input keeps the full text for assistive tech {%- endcomment -%}
+          <span class="search__ph" aria-hidden="true"><span>{{ 'header.search_placeholder' | t }}</span><span>{{ 'header.search_placeholder_short' | t }}</span></span>
           <input type="hidden" name="options[prefix]" value="last">
           <button type="button" class="search__clear" data-search-clear{% if search.terms == blank %} hidden{% endif %} aria-label="{{ 'header.search_clear' | t }}">{%- render 'icon', icon: 'close', class: 'icon--sm' -%}</button>
           <button type="submit" class="search__submit" aria-label="{{ 'header.search_submit' | t }}">{%- render 'icon', icon: 'search' -%}<span class="search__submit-label">{{ 'header.search_submit' | t }}</span></button>
           {%- if settings.predictive_search_enabled -%}
             <div class="predictive" id="PredictiveResults-{{ section.id }}" data-predictive-results hidden></div>
+            {%- render 'header-search-empty', terms: section.settings.search_popular, menu: section.settings.search_menu, fallback: menu, uid: section.id -%}
             <span class="visually-hidden" role="status" aria-live="polite" data-predictive-status></span>
           {%- endif -%}
         </form>
@@ -171,68 +172,55 @@
             <li class="nav__item{% if link.links != blank %} nav__item--has-mega{% endif %}{% if compact %} nav__item--compact{% endif %}">
               {%- if link.links != blank -%}
                 {%- comment -%}
-                  Disclosure pattern (WCAG 2.1.1 / 1.4.13): the top item is a button that opens its panel on click,
-                  Enter/Space or (fine pointer) hover. Focus never opens a panel, so Tab moves from top item to top
-                  item; Esc closes the panel and returns focus without re-opening it. The category page itself is
-                  the first link inside the panel ('Alles in …') or the collection card beside the columns.
+                  Disclosure navigation with top-level links (WAI-APG): the item itself is a link to its category (a click
+                  goes there, as on any shop); fine-pointer hover opens the panel after 120 ms; the chevron beside it is
+                  the disclosure button for keyboard and touch (Enter/Space, aria-expanded). Focus never opens a panel;
+                  Esc closes it and returns focus to the chevron. Every panel starts with 'Alles in …' (first tab stop).
                 {%- endcomment -%}
                 <mega-menu class="mega-trigger">
-                  <button type="button" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}" data-mega-trigger data-url="{{ link.url }}" aria-expanded="false" aria-controls="{{ mega_id }}">
+                  <a href="{{ link.url }}" class="nav__link{% if forloop.index == nav_active %} is-active{% endif %}"{% if cur_key == ti %} aria-current="page"{% endif %}>
                     {%- if is_deal -%}<span class="nav__deal">{{ link.title }}</span>{%- else -%}<span class="nav__label">{{ link.title }}</span>{%- endif -%}
-                  </button>
+                  </a>
+                  <button type="button" class="nav__toggle" data-mega-trigger data-url="{{ link.url }}" aria-expanded="false" aria-controls="{{ mega_id }}" aria-label="{{ 'header.submenu' | t: title: link.title }}">{%- render 'icon', icon: 'chevron-down', class: 'icon--xs' -%}</button>
                   <div class="mega{% if compact %} mega--compact{% endif %}" id="{{ mega_id }}" data-mega-panel>
-                    {%- capture mega_promo -%}{%- render 'header-promo', link: link, blocks: section.blocks, context: 'mega', current: cur_key, key: ti -%}{%- endcapture -%}
+                    {%- capture mega_promo -%}{%- render 'header-promo', link: link, blocks: section.blocks, context: 'mega' -%}{%- endcapture -%}
                     <div class="{% unless compact %}page-width {% endunless %}mega__inner">
                       <div class="mega__main">
-                        {%- comment -%}
-                          one 'Alles in …' per panel: the collection card beside the columns carries it when there is one;
-                          a compact panel whose only column links to the item's own page lets that heading carry it
-                        {%- endcomment -%}
                         {%- liquid
-                          assign show_all = true
-                          if mega_promo contains 'hpromo--collection'
-                            assign show_all = false
-                          elsif compact and link.links.first.url == link.url
-                            assign show_all = false
+                          assign all_n = 0
+                          if link.type == 'collection_link'
+                            assign all_n = link.object.all_products_count
                           endif
                         -%}
-                        {%- if show_all -%}
-                          {%- liquid
-                            assign all_n = 0
-                            if link.type == 'collection_link'
-                              assign all_n = link.object.all_products_count
-                            endif
-                          -%}
-                          {%- capture all_label -%}{%- render 'header-all-label', link: link -%}{%- endcapture -%}
-                          <a class="mega__all" href="{{ link.url }}"{% if cur_key == ti %} aria-current="page"{% endif %}{% if all_n > 0 %} aria-label="{{ all_label | strip }}, {{ 'header.products_count' | t: count: all_n }}"{% endif %}>
-                            <span>{{ all_label }}</span>
-                            {%- if all_n > 0 -%}<span class="mega__count" aria-hidden="true">{{ all_n }}</span>{%- endif -%}
-                            {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
-                          </a>
-                        {%- endif -%}
+                        {%- capture all_label -%}{%- render 'header-all-label', link: link -%}{%- endcapture -%}
+                        <a class="mega__all" href="{{ link.url }}"{% if all_n > 0 %} aria-label="{{ all_label | strip }}, {{ 'header.products_count' | t: count: all_n }}"{% endif %}>
+                          <span>{{ all_label }}</span>
+                          {%- if all_n > 0 -%}<span class="mega__count" aria-hidden="true">{{ all_n }}</span>{%- endif -%}
+                          {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+                        </a>
                         {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
                         <div class="mega__cols mega__cols--{{ link.links.size | at_most: 6 }}">
                           {%- for child in link.links -%}
                             {%- liquid
                               assign tj = ti | append: '-' | append: forloop.index
-                              assign head_cur = false
-                              if cur_key == tj
-                                assign head_cur = true
-                              elsif cur_key == ti and compact and show_all == false and child.url == link.url
-                                unless mega_promo contains 'hpromo--collection'
-                                  assign head_cur = true
-                                endunless
-                              endif
                               assign skip_urls = child.url | append: '|' | append: promo_url
+                              # a column whose heading points at the item's own page has a plain heading (no second link to the
+                              # same page under another name); the only column of a panel then has none ('Alles in …' is above)
+                              assign head_link = true
+                              if child.url == link.url
+                                assign head_link = false
+                              endif
                             -%}
                             <div class="mega__col">
-                              {%- if thumbs_ok == 'yes' -%}
-                                <a class="mega__heading mega__heading--thumb" href="{{ child.url }}"{% if head_cur %} aria-current="page"{% endif %}>
+                              {%- if head_link and thumbs_ok == 'yes' -%}
+                                <a class="mega__heading mega__heading--thumb" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>
                                   <span class="mega__thumb">{{ child.object.image | image_url: width: 168 | image_tag: widths: '56, 112, 168', sizes: '56px', loading: 'lazy', alt: '' }}</span>
                                   <span>{{ child.title }}</span>
                                 </a>
-                              {%- else -%}
-                                <a class="mega__heading" href="{{ child.url }}"{% if head_cur %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                              {%- elsif head_link -%}
+                                <a class="mega__heading" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                              {%- elsif link.links.size > 1 -%}
+                                <p class="mega__heading">{{ child.title }}</p>
                               {%- endif -%}
                               {%- if child.links != blank -%}
                                 {%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}
@@ -253,6 +241,8 @@
         </ul>
         {%- if section.settings.show_contact -%}
           {%- if settings.whatsapp != blank or phone != blank -%}
+            {%- comment -%} phone and WhatsApp beside the menu from 1200 px (below that the USP bar and the menu drawer carry them; the number not twice); CSS only when shown {%- endcomment -%}
+            <style>.header__contact{display:none;flex:none;gap:4px;font-size:14.5px;font-weight:var(--hsb)}.header__contact a{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;border-radius:999px;text-decoration:none}.header__contact a:hover{background:rgba(var(--fg-rgb),.07)}@media (min-width:1200px){.header__contact{display:flex}.section-utility-bar:has(.utility-bar__phone)~.section-header .header__contact-phone{display:none}}@media (min-width:1200px) and (max-width:1439px){.header__contact a span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}@media (min-width:1440px){.header__contact a{padding:0 10px}}</style>
             <div class="header__contact">
               {%- if settings.whatsapp != blank -%}
                 <a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp', class: 'icon--sm' -%}<span>{{ 'general.whatsapp' | t }}</span></a>
@@ -374,9 +364,9 @@
         {%- if drawer_loc != blank -%}<div class="mdrawer__loc">{{ drawer_loc }}</div>{%- endif -%}
 
         {%- if settings.openingstijden != blank -%}
-          <div class="mdrawer__hours">
+          <div class="mdrawer__hours" style="margin-top:20px;font-size:14.5px;line-height:1.5;color:var(--c-kiezel)">
             <p class="eyebrow mdrawer__label">{{ 'general.opening_hours' | t }}</p>
-            <p>{{ settings.openingstijden | newline_to_br }}</p>
+            <p style="margin:0">{{ settings.openingstijden | newline_to_br }}</p>
           </div>
         {%- endif -%}
       </div>
@@ -411,12 +401,17 @@
                 {%- endcapture -%}
                 {%- assign tj = ti | append: '-' | append: forloop.index -%}
                 {%- assign skip_urls = child.url | append: '|' | append: promo_url -%}
+                {%- comment -%} a panel with one group (Zakelijk) lists that group's links as its rows, without an accordion {%- endcomment -%}
+                {%- if link.links.size == 1 and child.links != blank and child.url == link.url -%}
+                  <li class="mdrawer__flat">{%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}</li>
+                  {%- continue -%}
+                {%- endif -%}
                 <li>
                   {%- if child.links != blank -%}
                     <details class="mdrawer__group">
                       <summary class="mdrawer__group-title">
                         {{ group_thumb }}<span class="mdrawer__group-name">{{ child.title }}</span>
-                        <span class="mdrawer__pm" aria-hidden="true"></span>
+                        {%- render 'icon', icon: 'chevron-down', class: 'icon--sm mdrawer__pm' -%}
                       </summary>
                       <div class="mdrawer__group-body">
                         {%- unless child.url == link.url -%}
@@ -460,6 +455,9 @@
     },
     { "type": "checkbox", "id": "show_quote", "label": "Knop 'Offerte' tonen", "default": true },
     { "type": "checkbox", "id": "show_contact", "label": "Telefoon en WhatsApp in de menubalk", "default": true },
+    { "type": "header", "content": "Zoeken" },
+    { "type": "text", "id": "search_popular", "label": "Populaire zoekopdrachten", "default": "partytent 3x3, statafel, statafelrok, zijwanden, voetgewichten, prikkabel", "info": "Verschijnen als knoppen zodra iemand in het lege zoekveld klikt. Scheiden met een komma. Leeg = niet tonen." },
+    { "type": "link_list", "id": "search_menu", "label": "Categorieën bij het lege zoekveld", "info": "Leeg = de eerste zes categorieën met een afbeelding uit het hoofdmenu." },
     { "type": "text", "id": "deal_items", "label": "Menu-item met actielabel", "default": "Actie", "info": "Titel van het hoofdmenu-item dat het Zon-label krijgt (merkboek §7.2). Meerdere titels scheiden met een komma." }
   ],
   "blocks": [

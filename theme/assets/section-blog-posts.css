@@ -1,0 +1,15 @@
+/* Article cards in the blog-posts section on the home page (the blog and article pages load section-blog.css). */
+.article-card{display:flex;flex-direction:column;height:100%;background:var(--c-wit);border:1px solid var(--c-lijn);border-radius:var(--radius-card);overflow:hidden;position:relative;transition:box-shadow var(--dur-fast),border-color var(--dur-fast)}
+.article-card:hover{border-color:var(--c-kiezel);box-shadow:0 1px 2px rgba(29,36,32,.06),0 10px 24px -14px rgba(29,36,32,.22)}
+.article-card__media{display:block;aspect-ratio:16/10;background:var(--c-media);overflow:hidden}
+.article-card__media img,.article-card__media svg{width:100%;height:100%;object-fit:contain;transition:transform var(--dur)}
+.article-card:hover .article-card__media img{transform:scale(1.03)}
+.article-card__body{display:flex;flex-direction:column;gap:6px;padding:16px 18px 20px;flex:1}
+.article-card__tag{margin:0;color:var(--c-kiezel)}
+.article-card__title{font-size:19px;margin:0}
+.article-card__title a{text-decoration:none}
+.article-card__title a::after{content:"";position:absolute;inset:0}
+.article-card__title a:focus-visible{outline:none}
+.article-card__title a:focus-visible::after{outline:3px solid var(--c-inkt);outline-offset:2px;border-radius:var(--radius-card)}
+.article-card__excerpt{margin:0;font-size:15px}
+.article-card__meta{margin-top:auto;padding-top:6px}

@@ -36,7 +36,7 @@ const init = (dlg) => {
 		panel.querySelector('.mdrawer__body').scrollTop = 0;
 		btn.setAttribute('aria-expanded', 'true');
 		root.inert = true;
-		void panel.offsetWidth; // slide in from off-canvas
+		void panel.offsetWidth;
 		panel.classList.add('is-open');
 		root.classList.add('is-behind');
 		panel.querySelector('[data-mdrawer-back]').focus({ preventScroll: true });

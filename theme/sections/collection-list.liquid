@@ -1,4 +1,9 @@
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign tile_blocks = section.blocks | where: 'type', 'collection'
+  assign pill_blocks = section.blocks | where: 'type', 'link'
+  assign vat_factor = settings.vat_rate | plus: 100
+-%}
 <section class="section collection-list color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
@@ -10,29 +15,83 @@
         {%- if section.settings.link_label != blank -%}<a class="link section-head__link" href="{{ section.settings.link | default: routes.collections_url }}">{{ section.settings.link_label }}</a>{%- endif -%}
       </div>
     {%- endif -%}
+    {%- if tile_blocks.size > 0 -%}
     <ul class="tiles tiles--{{ section.settings.style }}" role="list" style="--cols: {{ section.settings.columns }}">
-      {%- for block in section.blocks -%}
-        {%- assign c = block.settings.collection -%}
-        {%- assign tile_img = block.settings.image | default: c.featured_image | default: c.image -%}
-        {%- assign tile_title = block.settings.title | default: c.title -%}
-        {%- assign tile_url = block.settings.link | default: c.url -%}
+      {%- for block in tile_blocks -%}
+        {%- liquid
+          assign c = block.settings.collection
+          assign tile_img = block.settings.image | default: c.featured_image | default: c.image
+          assign tile_title = block.settings.title | default: c.title
+          assign tile_url = block.settings.link | default: c.url
+          # 'vanaf' = the lowest price in the collection (shop navigation: always with cents, brand book 5)
+          assign tile_min = nil
+          if section.settings.show_meta and c != blank
+            for p in c.products limit: 50
+              if tile_min == nil or p.price_min < tile_min
+                assign tile_min = p.price_min
+              endif
+            endfor
+          endif
+        -%}
         <li class="tile" {{ block.shopify_attributes }}>
           <a class="tile__link" href="{{ tile_url | default: '#' }}">
             <span class="tile__media">
               {%- if tile_img != blank -%}
-                {%- render 'image', image: tile_img, sizes: '(min-width: 990px) 25vw, 50vw', widths: '240, 360, 480, 640, 800', alt: tile_title -%}
+                {%- render 'image', image: tile_img, sizes: '(min-width: 990px) 25vw, 50vw', widths: '240, 360, 480, 640, 800', alt: '' -%}
               {%- else -%}
                 {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
               {%- endif -%}
             </span>
             <span class="tile__body">
-              <span class="tile__title">{{ tile_title }}{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</span>
+              <span class="tile__title"><span>{{ tile_title }}</span><span class="tile__go" aria-hidden="true">{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</span></span>
               {%- if block.settings.benefit != blank -%}<span class="tile__benefit">{{ block.settings.benefit }}</span>{%- endif -%}
+              {%- if section.settings.show_meta and c != blank and c.products_count > 0 -%}
+                <span class="tile__meta">
+                  {%- if tile_min != nil -%}
+                    {%- liquid
+                      if shop.taxes_included
+                        assign tile_min_incl = tile_min
+                        assign tile_min_excl = tile_min | times: 100.0 | divided_by: vat_factor | round
+                      else
+                        assign tile_min_excl = tile_min
+                        assign tile_min_incl = tile_min | times: vat_factor | divided_by: 100.0 | round
+                      endif
+                    -%}
+                    <span class="tile__from" data-vat-show="incl">{{ 'price.from' | t }} {{ tile_min_incl | money }}</span>
+                    <span class="tile__from" data-vat-show="excl">{{ 'price.from' | t }} {{ tile_min_excl | money }} {{ 'price.excl' | t }}</span>
+                  {%- endif -%}
+                  <span class="tile__count">{{ 'collection.products_count' | t: count: c.products_count }}</span>
+                </span>
+              {%- endif -%}
             </span>
           </a>
         </li>
       {%- endfor -%}
     </ul>
+    {%- endif -%}
+    {%- if pill_blocks.size > 0 -%}
+      <div class="tile-pills">
+        {%- if section.settings.more_label != blank -%}<p class="tile-pills__label" id="More-{{ section.id }}">{{ section.settings.more_label }}</p>{%- endif -%}
+        <ul class="tile-pills__list" role="list"{% if section.settings.more_label != blank %} aria-labelledby="More-{{ section.id }}"{% endif %}>
+          {%- for block in pill_blocks -%}
+            {%- liquid
+              assign c = block.settings.collection
+              assign pill_title = block.settings.title | default: c.title
+              assign pill_url = block.settings.link | default: c.url
+              assign pill_img = block.settings.image | default: c.featured_image | default: c.image
+            -%}
+            {%- if pill_title != blank and pill_url != blank -%}
+              <li {{ block.shopify_attributes }}>
+                <a class="tile-pill" href="{{ pill_url }}">
+                  {%- if pill_img != blank -%}<span class="tile-pill__img">{{ pill_img | image_url: width: 96, height: 96, crop: 'center' | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}</span>{%- endif -%}
+                  <span>{{ pill_title }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -40,7 +99,7 @@
 {
   "name": "Categorietegels",
   "class": "section-collection-list",
-  "max_blocks": 12,
+  "max_blocks": 20,
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Waar ben je naar op zoek?" },
@@ -48,7 +107,9 @@
     { "type": "text", "id": "link_label", "label": "Linktekst", "default": "Alle categorieën" },
     { "type": "url", "id": "link", "label": "Link" },
     { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Kolommen desktop", "default": 4 },
-    { "type": "select", "id": "style", "label": "Stijl", "options": [ { "value": "card", "label": "Kaart met tekst eronder" }, { "value": "overlay", "label": "Tekst op het beeld" } ], "default": "card" }
+    { "type": "select", "id": "style", "label": "Stijl", "options": [ { "value": "card", "label": "Kaart met tekst eronder" }, { "value": "overlay", "label": "Tekst op het beeld" }, { "value": "panel", "label": "Beeldvlak met tekst erin" } ], "default": "card" },
+    { "type": "checkbox", "id": "show_meta", "label": "Aantal producten en vanaf-prijs tonen", "default": false, "info": "De vanaf-prijs is de laagste prijs in de collectie." },
+    { "type": "text", "id": "more_label", "label": "Kop boven de extra categorieën", "default": "Meer in de winkel" }
   ],
   "blocks": [
     {
@@ -57,6 +118,15 @@
         { "type": "collection", "id": "collection", "label": "Collectie" },
         { "type": "text", "id": "title", "label": "Titel (optioneel)" },
         { "type": "text", "id": "benefit", "label": "Voordeel in één regel", "default": "Staat in een paar minuten" },
+        { "type": "image_picker", "id": "image", "label": "Eigen beeld (optioneel)" },
+        { "type": "url", "id": "link", "label": "Eigen link (optioneel)" }
+      ]
+    },
+    {
+      "type": "link", "name": "Extra categorie (klein)",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collectie" },
+        { "type": "text", "id": "title", "label": "Titel (optioneel)" },
         { "type": "image_picker", "id": "image", "label": "Eigen beeld (optioneel)" },
         { "type": "url", "id": "link", "label": "Eigen link (optioneel)" }
       ]

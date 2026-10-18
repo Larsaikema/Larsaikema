@@ -1,0 +1,23 @@
+{"model": "heaterCover", "params": {}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/beschermhoes-terrasheater-hero.webp"}
+{"model": "heater", "params": {"kind": "elektrisch", "watt": 1500, "clamp": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/elektrische-heater-partytent-hero.webp"}
+{"model": "heater", "params": {"kind": "gas", "style": "flame"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/flameheater-gas-9-kw-hero.webp"}
+{"model": "stringLights", "params": {"kind": "kerst", "count": 100, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/kerstverlichting-10-m-hero.webp"}
+{"model": "ledBulb", "params": {"type": "melkglas", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-hero.webp"}
+{"model": "ropeLight", "params": {"color": "#F4E3BC", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-set-warm-wit-hero.webp"}
+{"model": "ropeLight", "params": {"color": "#F4E3BC", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-warm-wit-hero.webp"}
+{"model": "floodLight", "params": {"watt": 30, "clamp": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-vloedlicht-easy-up-hero.webp"}
+{"model": "heater", "params": {"kind": "gas", "style": "lounge"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/loungeheater-gas-hero.webp"}
+{"model": "prikkabel", "params": {"bulbs": 10, "spacing": 1.0, "sag": 0.25, "on": true, "cable": "zwart"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/prikkabel-e27-zwart-hero.webp"}
+{"model": "prikkabel", "params": {"bulbs": 14, "spacing": 0.5, "sag": 0.2, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/prikkabel-op-maat-hero.webp"}
+{"model": "heater", "params": {"kind": "gas", "style": "paddenstoel"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/terrasheater-gas-13-kw-hero.webp"}
+{"model": "prikkabel", "bulbs": 12, "spacing": 1.0, "sag": 0.25, "on": true, "angle": "front", "imageWidth": 1200, "imageHeight": 733, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/advies-prikkabel-op-maat.webp"}
+{"model": "prikkabel", "params": {"bulbs": 10, "spacing": 0.5, "sag": 0.25, "on": true, "cable": "zwart"}, "angle": "detail", "detail": {"size": 1.2, "aperture": 0}, "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/collectie-verlichting.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "count": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd.webp"}
+{"model": "ropeLight", "params": {"color": "blauw", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-blauw-hero.webp"}
+{"model": "ropeLight", "params": {"color": "geel", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-geel-hero.webp"}
+{"model": "ropeLight", "params": {"color": "groen", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-groen-hero.webp"}
+{"model": "ropeLight", "params": {"color": "oranje", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-oranje-hero.webp"}
+{"model": "ropeLight", "params": {"color": "rood", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-rood-hero.webp"}
+{"model": "heater", "params": {"kind": "gas", "style": "tafel"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/loungeheater-gas-tafelmodel.webp"}
+{"model": "prikkabel", "params": {"bulbs": 10, "spacing": 1.0, "sag": 0.25, "on": true, "cable": "wit"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/prikkabel-e27-wit-hero.webp"}
+{"model": "prikkabel", "params": {"bulbs": 10, "spacing": 1.0, "sag": 0.25, "on": false}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/prikkabel-e27-zwart-uit.webp"}

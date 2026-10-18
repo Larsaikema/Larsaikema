@@ -49,9 +49,9 @@
     endfor
   endif
   assign handles = ''
-  assign filled = 0
   assign count = 0
   assign keys = ''
+  assign pk_all = ''
   for p in src.products limit: 50
     if p.metafields.custom.specificaties == blank
       continue
@@ -64,19 +64,92 @@
     endif
     assign count = count | plus: 1
     assign handles = handles | append: ',' | append: p.handle | append: ','
-    assign filled = filled | plus: p.metafields.custom.specificaties.value.size
+    assign pk = '§'
     for row in p.metafields.custom.specificaties.value
-      assign keys = keys | append: row.groep | append: '|' | append: row.label | append: '§'
+      assign rk = row.groep | append: '|' | append: row.label
+      assign keys = keys | append: rk | append: '§'
+      assign pk = pk | append: rk | append: '§'
     endfor
+    assign pk_all = pk_all | append: pk | append: '¶'
   endfor
   assign keys = keys | split: '§' | uniq
+  assign pk_list = pk_all | split: '¶'
+
+  # rows line up across products whose spec labels differ (snippets/comparison-merge); a row that still holds one value
+  # is no comparison and is left out (the full table is on each product page)
+  assign pres_s = ''
+  for k in keys
+    assign kn = '§' | append: k | append: '§'
+    assign pr = ','
+    for pkx in pk_list
+      if pkx contains kn
+        assign pr = pr | append: forloop.index | append: ','
+      endif
+    endfor
+    assign pres_s = pres_s | append: pr | append: '¶'
+  endfor
+  assign pres = pres_s | split: '¶'
+  assign group_s = ''
+  for k in keys
+    assign kg = k | split: '|' | first
+    assign group_s = group_s | append: kg | append: '§'
+  endfor
+  assign groups = group_s | split: '§' | uniq
+  capture cmap
+    render 'comparison-merge', keys: keys, pres: pres, groups: groups, count: count
+  endcapture
+  # rows shown: every target once, in the order of the first label that lands there; one with fewer than two values goes
+  assign row_s = ''
+  for k in keys
+    assign kn = '§' | append: k | append: '¦'
+    assign t = k
+    if cmap contains kn
+      assign t = cmap | split: kn | last | split: '¦' | first
+    endif
+    assign row_s = row_s | append: t | append: '§'
+  endfor
+  assign all_rows = row_s | split: '§' | uniq
+  assign rows_s = ''
+  assign blanks = 0
+  for t in all_rows
+    assign src_s = '§'
+    for k in keys
+      assign kn = '§' | append: k | append: '¦'
+      assign kt = k
+      if cmap contains kn
+        assign kt = cmap | split: kn | last | split: '¦' | first
+      endif
+      if kt == t
+        assign src_s = src_s | append: k | append: '§'
+      endif
+    endfor
+    assign srcs = src_s | split: '§'
+    assign row_n = 0
+    for pkx in pk_list
+      for sk in srcs
+        if sk == ''
+          continue
+        endif
+        assign skn = '§' | append: sk | append: '§'
+        if pkx contains skn
+          assign row_n = row_n | plus: 1
+          break
+        endif
+      endfor
+    endfor
+    if row_n > 1
+      assign rows_s = rows_s | append: t | append: '§'
+      assign blanks = blanks | plus: count | minus: row_n
+    endif
+  endfor
+  assign rows = rows_s | split: '§'
   assign show_table = true
-  # Collection page: products whose specs mostly do not line up (more than a third of the cells '–', e.g. a stretch rok
+  # Collection page: products whose specs mostly do not line up (more than a third of the cells empty, e.g. a stretch rok
   # next to a hoes met strik) are not a comparison; no table rather than a misleading one.
   if template.name == 'collection'
-    assign cells_x2 = keys.size | times: count | times: 2
-    assign filled_x3 = filled | times: 3
-    if filled_x3 < cells_x2
+    assign blanks_x3 = blanks | times: 3
+    assign cells = rows.size | times: count
+    if blanks_x3 > cells or rows.size < 3
       assign show_table = false
     endif
   endif
@@ -124,24 +197,33 @@
             </tr>
           </thead>
           <tbody>
-            {%- assign groups = '' -%}
-            {%- for k in keys -%}{%- assign gk = k | split: '|' | first -%}{%- assign groups = groups | append: gk | append: '§' -%}{%- endfor -%}
-            {%- assign groups = groups | split: '§' | uniq -%}
-            {%- for g in groups -%}
+            {%- assign group_s = '' -%}
+            {%- for t in rows -%}{%- assign tg = t | split: '|' | first -%}{%- assign group_s = group_s | append: tg | append: '§' -%}{%- endfor -%}
+            {%- assign row_groups = group_s | split: '§' | uniq -%}
+            {%- for g in row_groups -%}
               <tr class="comparison__group"><th scope="rowgroup" colspan="{{ count | plus: 1 }}">{{ g }}</th></tr>
-              {%- for k in keys -%}
-                {%- assign kparts = k | split: '|' -%}
-                {%- if kparts.first != g -%}{%- continue -%}{%- endif -%}
-                {%- assign lbl = kparts.last -%}
+              {%- for t in rows -%}
+                {%- assign tparts = t | split: '|' -%}
+                {%- if tparts.first != g -%}{%- continue -%}{%- endif -%}
                 <tr>
-                  <th scope="row">{{ lbl }}</th>
+                  <th scope="row">{{ tparts.last }}</th>
                   {%- for p in src.products limit: 50 -%}
                     {%- assign hk = ',' | append: p.handle | append: ',' -%}{%- unless handles contains hk -%}{%- continue -%}{%- endunless -%}
-                    {%- assign val = '–' -%}
-                    {%- for row in p.metafields.custom.specificaties.value -%}
-                      {%- if row.groep == g and row.label == lbl -%}{%- assign val = row.waarde -%}{%- endif -%}
-                    {%- endfor -%}
-                    <td>{{ val }}</td>
+                    {%- capture cell -%}
+                      {%- for row in p.metafields.custom.specificaties.value -%}
+                        {%- assign rk = row.groep | append: '|' | append: row.label -%}
+                        {%- assign rkn = '§' | append: rk | append: '¦' -%}
+                        {%- assign rt = rk -%}{%- assign rq = '' -%}
+                        {%- if cmap contains rkn -%}
+                          {%- assign rentry = cmap | split: rkn | last | split: '§' | first | split: '¦' -%}
+                          {%- assign rt = rentry.first -%}{%- assign rq = rentry[1] -%}
+                        {%- endif -%}
+                        {%- if rt == t -%}
+                          {%- if rq != blank -%}<span class="comparison__l"><span class="comparison__q">{{ rq }}</span>{{ row.waarde }}</span>{%- else -%}{{ row.waarde }}{%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endcapture -%}
+                    <td>{%- if cell == blank -%}<span aria-hidden="true">–</span><span class="visually-hidden">{{ 'product.spec_none' | t }}</span>{%- else -%}{{ cell }}{%- endif -%}</td>
                   {%- endfor -%}
                 </tr>
               {%- endfor -%}
@@ -161,6 +243,9 @@
     .comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}
     .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-media);border-radius:10px}
     .comparison__product.is-current a span::after{content:" ✓";color:var(--c-inkt)}
+    .comparison__l{display:block}
+    .comparison__l+.comparison__l{margin-top:8px}
+    .comparison__q{display:block;font-size:12.5px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}
     .comparison__group th{background:var(--c-band);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-inkt)}
     .comparison__wrap:focus-visible{outline:3px solid var(--c-inkt);outline-offset:2px}
     /* phones: the label column stays put while the products scroll sideways; the next product peeks in as the cue */
