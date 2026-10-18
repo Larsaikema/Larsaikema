@@ -1,12 +1,13 @@
 {%- comment -%}
   Storefront filters (collection.filters / search.filters), feature collection.filters-attributes:
   - list filters as checkboxes with a count (every kind shows its count: list, swatch, pill and switch); colour options (settings.swatch_option_names or presentation 'swatch') as a
-    two-column swatch grid; size options (Maat, Tafelmaat, Diameter, Afmeting, Formaat) as pills
+    two-column swatch grid; Search & Discovery 'image' presentation with the value's image; size options (Maat, Tafelmaat,
+    Diameter, Afmeting, Formaat) as pills, round sizes, rectangles and lengths each in size order (snippets/facet-value-order)
+  - price_range: two amount fields that take Dutch notation ('1.000', '279,50'; facets.js sends 1000 / 279.5)
   - a boolean filter with one 'true' value (custom.bedrukbaar: 'Met jouw logo') as a switch
   - tag filter: prefixed tags read as words ('gebruik:horeca' -> 'Horeca'); internal tags in hidden_values are left out
-  - price_range: two amount fields
   - a filter that cannot narrow the list is left out: the switch when every product already matches ('Op voorraad 14'
-    of 14), a group with at most one value and nothing narrower ('Soort: Easy-up partytent 14'), a product-level group
+    of 14) or none does ('Op voorraad 0' after Maat and Kleur), a group with at most one value and nothing narrower ('Soort: Easy-up partytent 14'), a product-level group
     whose values all match every product. Option groups with several values stay (a colour also picks the card image).
   - a list group where most values hold a single product (part names in 'Uitvoering' on 'Alle producten') is left out:
     it reads as a product list, not as a choice
@@ -68,6 +69,8 @@
         assign f_kind = 'switch'
       elsif tf_only
         assign f_kind = 'switch'
+      elsif filter.presentation == 'image'
+        assign f_kind = 'image'
       elsif filter.presentation == 'swatch' or swatch_names contains f_label
         assign f_kind = 'swatch'
       else
@@ -101,34 +104,11 @@
           endunless
         endif
       endif
-      # display order: sizes by surface / diameter (3 × 3 m before 3 × 4,5 m), everything else as Shopify gives it
-      assign value_order = ''
-      for value in fvals
-        assign vk = forloop.index0 | plus: 10000000
-        if f_kind == 'pills'
-          assign norm = value.label | append: '' | downcase | replace: '×', 'x' | replace: ',', '.' | remove: 'ø'
-          assign parts = norm | split: 'x'
-          assign area = 1.0
-          assign got = false
-          for part in parts
-            assign num = part | remove: 'cm' | remove: 'm' | strip
-            assign n = num | plus: 0
-            if n > 0
-              assign area = area | times: n
-              assign got = true
-            endif
-          endfor
-          if got and parts.size > 1
-            assign vk = area | times: 100 | round | plus: 10000000
-          elsif got
-            assign vk = area | times: 100 | round | plus: 50000000
-          else
-            assign vk = forloop.index0 | plus: 90000000
-          endif
-        endif
-        assign value_order = value_order | append: vk | append: ':' | append: forloop.index0 | append: ','
-      endfor
-      assign value_order = value_order | split: ',' | sort
+      # display order: sizes by group and real size (snippets/facet-value-order), everything else as Shopify gives it
+      capture value_order
+        render 'facet-value-order', values: fvals, sizes: f_kind
+      endcapture
+      assign value_order = value_order | strip | split: ','
       # values shown (tag filter without internal tags); how many of them would narrow the list now
       assign shown_count = 0
       assign live_count = 0
@@ -157,6 +137,11 @@
             assign f_useless = true
           endif
         endif
+      endif
+      # a switch that matches none of the products shown now cannot narrow the list either ('Op voorraad 0' once Maat and
+      # Kleur are chosen): it is left out instead of greyed out (an active one stays, so it can be switched off)
+      if f_kind == 'switch' and switch_value.count == 0 and switch_value.active != true
+        assign f_useless = true
       endif
       # a list of mostly one-product values (more than 10 values, at least two thirds hold one product) is a product list
       if f_useless == false and f_kind == 'list' and active_count == 0 and shown_count > 10
@@ -192,12 +177,10 @@
     {%- if f_useless -%}{%- continue -%}{%- endif -%}
     {%- if f_kind == 'switch' -%}
       {%- assign input_id = 'Filter-' | append: section_id | append: '-' | append: filter.param_name | handleize -%}
-      {%- assign sw_disabled = false -%}
-      {%- if switch_value.count == 0 and switch_value.active == false -%}{%- assign sw_disabled = true -%}{%- endif -%}
       <div class="facet facet--switch" data-param="{{ filter.param_name | escape }}">
-        <label class="facet__switch{% if sw_disabled %} is-disabled{% endif %}" for="{{ input_id }}">
+        <label class="facet__switch" for="{{ input_id }}">
           <span class="facet__switch-label">{{ switch_label }} <span class="facet__count" aria-hidden="true">{{ switch_value.count }}</span><span class="visually-hidden">({{ 'collection.products_count' | t: count: switch_value.count }})</span></span>
-          <input class="facet__switch-input" type="checkbox" role="switch" id="{{ input_id }}" name="{{ switch_value.param_name }}" value="{{ switch_value.value | escape }}"{% if switch_value.active %} checked{% endif %}{% if sw_disabled %} disabled{% endif %}>
+          <input class="facet__switch-input" type="checkbox" role="switch" id="{{ input_id }}" name="{{ switch_value.param_name }}" value="{{ switch_value.value | escape }}"{% if switch_value.active %} checked{% endif %}>
         </label>
       </div>
     {%- elsif shown_count > 0 or f_kind == 'price' -%}
@@ -210,7 +193,6 @@
         <div class="facet__body">
           {%- if f_kind == 'price' -%}
             {%- liquid
-              assign max_price = filter.range_max | divided_by: 100.0 | ceil
               assign max_price_fmt = filter.range_max | money_without_currency | split: ',' | first | strip
               assign min_val = filter.min_value.value
               assign max_val = filter.max_value.value
@@ -218,23 +200,36 @@
                 assign min_val = filter.max_value.value
                 assign max_val = filter.min_value.value
               endif
+              # the active bound as typed in Dutch: whole euros '280', with cents '279,50' (never rounded: the results use 279,50)
+              assign min_txt = ''
+              assign max_txt = ''
               if min_val != nil
-                assign min_val = min_val | divided_by: 100.0 | round
+                assign pv_cents = min_val | plus: 0
+                assign pv_rest = pv_cents | modulo: 100
+                assign min_txt = pv_cents | divided_by: 100 | append: ''
+                if pv_rest > 0
+                  assign min_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: min_txt
+                endif
               endif
               if max_val != nil
-                assign max_val = max_val | divided_by: 100.0 | round
+                assign pv_cents = max_val | plus: 0
+                assign pv_rest = pv_cents | modulo: 100
+                assign max_txt = pv_cents | divided_by: 100 | append: ''
+                if pv_rest > 0
+                  assign max_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: max_txt
+                endif
               endif
             -%}
             <fieldset class="facet__price" aria-describedby="PriceNote-{{ section_id }}">
               <legend class="visually-hidden">{{ filter.label }}</legend>
               <div class="facet__price-field">
                 <label class="facet__price-label" for="PriceMin-{{ section_id }}">{{ 'collection.price_from' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="number" inputmode="numeric" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="0"{% if min_val != nil %} value="{{ min_val }}"{% endif %} data-price-min></div>
+                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" placeholder="0"{% if min_txt != '' %} value="{{ min_txt }}"{% endif %} data-price-min></div>
               </div>
               <span class="facet__price-sep" aria-hidden="true">–</span>
               <div class="facet__price-field">
                 <label class="facet__price-label" for="PriceMax-{{ section_id }}">{{ 'collection.price_to' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="number" inputmode="numeric" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" min="0" max="{{ max_price }}" step="1" placeholder="{{ max_price_fmt }}"{% if max_val != nil %} value="{{ max_val }}"{% endif %} data-price-max></div>
+                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" placeholder="{{ max_price_fmt }}"{% if max_txt != '' %} value="{{ max_txt }}"{% endif %} data-price-max></div>
               </div>
             </fieldset>
             {%- comment -%} storefront price filters work on the stored prices, incl. btw (also with 'Prijzen voor: Zakelijk') {%- endcomment -%}
@@ -242,13 +237,13 @@
             <p class="facet__price-hint" role="status" data-price-hint hidden>{{ 'collection.price_swap' | t }}</p>
           {%- else -%}
             {%- assign limit_n = 8 -%}
-            {%- if f_kind == 'pills' -%}{%- assign limit_n = 12 -%}{%- elsif f_kind == 'swatch' -%}{%- assign limit_n = 10 -%}{%- endif -%}
+            {%- if f_kind == 'pills' or f_kind == 'image' -%}{%- assign limit_n = 12 -%}{%- elsif f_kind == 'swatch' -%}{%- assign limit_n = 10 -%}{%- endif -%}
             <fieldset class="facet__fieldset">
               <legend class="visually-hidden">{{ filter.label }}</legend>
               <ul class="facet__list facet__list--{{ f_kind }}" role="list">
                 {%- assign vi = 0 -%}
                 {%- for vo in value_order -%}
-                  {%- assign v_i = vo | split: ':' | last | plus: 0 -%}
+                  {%- assign v_i = vo | split: ':' | last | plus: 0 | minus: 1000 -%}
                   {%- assign value = fvals[v_i] -%}
                   {%- assign vkey = value.value | append: '' | downcase | strip | prepend: '|' | append: '|' -%}
                   {%- if filter.param_name == 'filter.p.tag' and hidden_list contains vkey -%}{%- continue -%}{%- endif -%}
@@ -264,7 +259,12 @@
                     {%- else -%}
                       <label class="check facet__value{% if disabled %} is-disabled{% endif %}" for="{{ input_id }}">
                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if disabled %} disabled{% endif %}>
-                        {%- if f_kind == 'swatch' -%}{%- render 'swatch', value: value, class: 'facet__swatch' -%}{%- endif -%}
+                        {%- if f_kind == 'swatch' -%}
+                          {%- render 'swatch', value: value, class: 'facet__swatch' -%}
+                        {%- elsif f_kind == 'image' -%}
+                          {%- comment -%} Search & Discovery 'image' presentation: the value's own image {%- endcomment -%}
+                          <span class="facet__img">{%- if value.image -%}{{ value.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}{%- endif -%}</span>
+                        {%- endif -%}
                         <span class="facet__label">{{ v_label }}</span>
                         <span class="facet__count" aria-hidden="true">{{ value.count }}</span><span class="visually-hidden">({{ 'collection.products_count' | t: count: value.count }})</span>
                       </label>

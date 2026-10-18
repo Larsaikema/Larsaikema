@@ -77,4 +77,16 @@ const D = '[data-cart-attribute="Gewenste leverdatum"]', minDate = (i) => {
 };
 d.querySelectorAll(D).forEach(minDate);
 on('focusin', (e) => e.target.matches?.(D) && minDate(e.target));
+
+/* 'Geef je leverdatum door' (under a lead time; the drawer links here with #CartDate-page): open the row, go to the field */
+const toDate = (e) => {
+	const i = d.getElementById('CartDate-page');
+	if (!i) return;
+	e?.preventDefault();
+	i.closest('details').open = true;
+	i.focus({ preventScroll: true });
+	i.scrollIntoView({ block: 'center' });
+};
+on('click', (e) => e.target.closest?.('.cart-page [data-date-link]') && toDate(e));
+if (location.hash == '#CartDate-page') toDate();
 })();

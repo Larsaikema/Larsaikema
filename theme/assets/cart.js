@@ -26,6 +26,16 @@ let replay, q = Promise.resolve(), live;
 	}, true)
 );
 on('keydown', (e) => e.key == ' ' && e.target.matches?.('[data-cart-remove]') && (e.preventDefault(), e.target.click()));
+/* a line that waits (cart-delivery): lead time -> expected window, the product page's sum */
+const eta = (r = d) =>
+	KK.delivery &&
+	r.querySelectorAll('[data-wait-lead]').forEach((s) => {
+		const m = !/\bna\b/i.test(s.dataset.lead) && s.dataset.lead.match(/(\d+)(?:\s*[–-]\s*(\d+))?\s*(werkd|working|d|w)/i), c = m && KK.delivery.compute(s.closest('[data-wait-days]') || s);
+		if (!c) return;
+		const f = m[3].length > 1 ? 1 : /d/i.test(m[3]) ? 5 / 7 : 5, x = (n) => c.etaAt(Math.round(n * f) + c.transit).toLocaleDateString(d.documentElement.lang || 'nl', { day: 'numeric', month: 'short', timeZone: 'UTC' }).replace('.', ''), a = x(m[1]), b = x(m[2] || m[1]);
+		s.innerHTML = s.dataset.tpl.replace('__FROM__', a.split(' ')[1] == b.split(' ')[1] ? a.split(' ')[0] : a).replace('__TO__', b);
+	});
+on('DOMContentLoaded', () => eta());
 const mark = (root, item, block = 'nearest') => {
 	const row = item?.key && root?.querySelector(`.cart-line[data-key="${CSS.escape(item.key)}"]`);
 	row?.classList.add('is-new');
@@ -57,13 +67,15 @@ const cart = (KK.cart = {
 			open.forEach((x) => d.getElementById(x)?.setAttribute('open', ''));
 			if (top) $('.drawer__body', root).scrollTop = top;
 			f?.(root);
+			eta(root);
 		}
 	},
 	req: (u, body, quiet, err = KK.strings.cartError) =>
 		cart.run(async () => {
 			const ids = quiet ? [] : cart.ids(), x = ids.length ? { sections: ids.join(), sections_url: location.pathname } : {}, fd = body instanceof FormData;
 			if (fd) for (const k in x) body.append(k, x[k]);
-			const r = await fetch(u, { method: 'POST', headers: fd ? { Accept: J.Accept, 'X-Requested-With': 'XMLHttpRequest' } : J, body: fd ? body : JSON.stringify({ ...body, ...x }) });
+			/* offline: our own words, not the browser's 'Failed to fetch' */
+			const r = await fetch(u, { method: 'POST', headers: fd ? { Accept: J.Accept, 'X-Requested-With': 'XMLHttpRequest' } : J, body: fd ? body : JSON.stringify({ ...body, ...x }) }).catch(() => Promise.reject(Error(err)));
 			const data = await r.json().catch(() => ({}));
 			if (!r.ok || data.status) throw Object.assign(Error((r.status == 422 && data.description) || err), { data });
 			return data;
@@ -77,7 +89,8 @@ const cart = (KK.cart = {
 		if (quiet) return data;
 		cart.render(data.sections);
 		const n = !page() && drawer()?.dataset.itemCount;
-		KK.updateCartCount(n ? +n : await (await fetch(`${KK.routes.cart}.js`, { headers: J })).json());
+		const c = n ? +n : await fetch(`${KK.routes.cart}.js`, { headers: J }).then((r) => r.json()).catch(() => 0);
+		if (c) KK.updateCartCount(c);
 		KK.emit('cart:added', { data });
 		return data;
 	},

@@ -1,0 +1,130 @@
+{%- comment -%}
+  Display order of one storefront filter's values (snippets/facets.liquid), as '<key>:<index + 1000>' joined by commas and
+  sorted. Params: values (filter.values, read once by the caller), sizes ('pills' for a size option: Maat, Tafelmaat,
+  Diameter, Afmeting, Formaat; anything else keeps Shopify's order).
+  Sizes fall in three groups: round (Ø80 cm, Ø60-70 cm), rectangular (3 × 4,5 m, 120 × 60 cm) and lengths (10 m). Inside a
+  group they go by real size, cm and m alike (width, then length; diameter; length), so 3 × 3, 3 × 4,5 and 3 × 6 m stand
+  together before 4 × 4 m. The group whose most-used size covers the most products comes first: on the statafelrokken
+  Ø60-70 cm (5) and Ø80-85 cm (5) are in view before the one-off tablecloth sizes (60 × 60 cm, 1). Values that are not
+  sizes ('Set van 6') follow in Shopify's order.
+{%- endcomment -%}
+{%- liquid
+  assign value_order = ''
+  assign sz_keys = ''
+  assign g1_max = 0
+  assign g1_sum = 0
+  assign g2_max = 0
+  assign g2_sum = 0
+  assign g3_max = 0
+  assign g3_sum = 0
+  if sizes == 'pills'
+    for value in values
+      assign sz_raw = value.label | default: value.value | append: '' | downcase | strip
+      assign sz = sz_raw | replace: '×', 'x' | replace: ',', '.' | replace: '–', '-' | remove: 'ø' | remove: 'diameter' | remove: ' '
+      assign sz_unit = 1.0
+      if sz contains 'mm'
+        assign sz_unit = 0.1
+      elsif sz contains 'cm'
+        assign sz_unit = 1.0
+      elsif sz contains 'm'
+        assign sz_unit = 100.0
+      endif
+      assign sz_parts = sz | remove: 'mm' | remove: 'cm' | remove: 'm' | split: 'x'
+      assign sz_n = 0
+      assign sz_a = 0
+      assign sz_b = 0
+      for part in sz_parts
+        assign sz_num = part | split: '-' | first | strip | plus: 0 | times: sz_unit | round
+        if sz_num > 0
+          assign sz_n = sz_n | plus: 1
+          if sz_n == 1
+            assign sz_a = sz_num
+          elsif sz_n == 2
+            assign sz_b = sz_num
+          endif
+        endif
+      endfor
+      assign sz_g = 9
+      assign sz_key = forloop.index0
+      if sz_n > 0
+        if sz_raw contains 'ø'
+          assign sz_g = 2
+          assign sz_key = sz_a
+        elsif sz_n > 1
+          assign sz_g = 1
+          assign sz_key = sz_a | times: 10000 | plus: sz_b
+        else
+          assign sz_g = 3
+          assign sz_key = sz_a
+        endif
+        if sz_key > 99999999
+          assign sz_key = 99999999
+        endif
+      endif
+      case sz_g
+        when 1
+          assign g1_sum = g1_sum | plus: value.count
+          if value.count > g1_max
+            assign g1_max = value.count
+          endif
+        when 2
+          assign g2_sum = g2_sum | plus: value.count
+          if value.count > g2_max
+            assign g2_max = value.count
+          endif
+        when 3
+          assign g3_sum = g3_sum | plus: value.count
+          if value.count > g3_max
+            assign g3_max = value.count
+          endif
+      endcase
+      assign sz_keys = sz_keys | append: sz_g | append: '-' | append: sz_key | append: ','
+    endfor
+    # rank of each group (1 = first): most-used size, then all its counts; a full tie keeps rectangular, round, length
+    assign g1_score = g1_max | times: 100000 | plus: g1_sum
+    assign g2_score = g2_max | times: 100000 | plus: g2_sum
+    assign g3_score = g3_max | times: 100000 | plus: g3_sum
+    assign g1_rank = 1
+    assign g2_rank = 1
+    assign g3_rank = 1
+    if g2_score > g1_score
+      assign g1_rank = g1_rank | plus: 1
+    else
+      assign g2_rank = g2_rank | plus: 1
+    endif
+    if g3_score > g1_score
+      assign g1_rank = g1_rank | plus: 1
+    else
+      assign g3_rank = g3_rank | plus: 1
+    endif
+    if g3_score > g2_score
+      assign g2_rank = g2_rank | plus: 1
+    else
+      assign g3_rank = g3_rank | plus: 1
+    endif
+    assign sz_list = sz_keys | split: ','
+    for sk in sz_list
+      assign sk_g = sk | split: '-' | first | plus: 0
+      assign sk_key = sk | split: '-' | last | plus: 0
+      case sk_g
+        when 1
+          assign vk = g1_rank | times: 100000000 | plus: sk_key
+        when 2
+          assign vk = g2_rank | times: 100000000 | plus: sk_key
+        when 3
+          assign vk = g3_rank | times: 100000000 | plus: sk_key
+        else
+          assign vk = 900000000 | plus: sk_key
+      endcase
+      assign vi_pad = forloop.index0 | plus: 1000
+      assign value_order = value_order | append: vk | append: ':' | append: vi_pad | append: ','
+    endfor
+  else
+    for value in values
+      assign vi_pad = forloop.index0 | plus: 1000
+      assign value_order = value_order | append: '100000000:' | append: vi_pad | append: ','
+    endfor
+  endif
+  assign value_order = value_order | split: ',' | sort | join: ','
+  echo value_order
+-%}

@@ -6,13 +6,17 @@
   btw; custom.verzending = pallet or tag pallet). Parcels are free from free_shipping_threshold (only when the owner set
   one). Only for the Netherlands and only when the owner shows shipping costs; anything it cannot read makes the cart
   say checkout shows the cost. It is an estimate: the cart labels it 'indicatie' and checkout has the final amount.
-  Outputs 'cost|class|override' (cost in cents incl. btw, -1 = unknown; class pakket | pallet; override true | false).
+  Outputs 'cost|class|override|mixed' (cost in cents incl. btw, -1 = unknown; class pakket | pallet; override true | false;
+  mixed true when the lines ship on more than one rate (pakket + pallet, or a product with its own custom.verzendkosten
+  next to others): Shopify adds up the rates of different shipping profiles, so the cart then calls it an indicatie).
   Use: {%- capture s -%}{% render 'cart-shipping' %}{%- endcapture -%}{%- assign s = s | strip | split: '|' -%}
 {%- endcomment -%}
 {%- liquid
   assign sh_class = 'pakket'
   assign sh_override = false
   assign sh_cost = -1
+  assign sh_src = ''
+  assign sh_mixed = false
   assign sh_country = localization.country.iso_code | default: 'NL'
   if settings.show_shipping_cost and cart.requires_shipping and sh_country == 'NL'
     assign sh_free_from = settings.free_shipping_threshold | default: 0 | times: 100
@@ -33,6 +37,12 @@
         assign sh_class = 'pallet'
       endif
       assign sh_raw = item.product.metafields.custom.verzendkosten.value | strip
+      assign sh_key = sh_raw | default: sh_cls
+      if sh_src == ''
+        assign sh_src = sh_key
+      elsif sh_src != sh_key
+        assign sh_mixed = true
+      endif
       if sh_raw != blank
         assign sh_override = true
         assign sh_low = sh_raw | downcase
@@ -72,5 +82,5 @@
       endif
     endfor
   endif
-  echo sh_cost | append: '|' | append: sh_class | append: '|' | append: sh_override
+  echo sh_cost | append: '|' | append: sh_class | append: '|' | append: sh_override | append: '|' | append: sh_mixed
 -%}

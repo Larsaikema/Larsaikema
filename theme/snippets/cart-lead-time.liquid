@@ -4,7 +4,8 @@
   sold beyond its stock (theme setting delivery_text_backorder). Lines compare on the upper number of the lead time in
   calendar days: '4–6 weken' = 42, '10–15 werkdagen na akkoord drukproef' = 21, '5–8 werkdagen (vracht)' = 12; text
   without a number counts as 1 day, so any number beats it.
-  Outputs 'days|lead time|product title|lines that wait' (days 0 = everything ships from stock).
+  Outputs 'days|lead time|product title|lines that wait|reason' (days 0 = everything ships from stock; reason of the
+  slowest line: print | leadtime | backorder, so the cart can say a backorder is not in stock instead of only a time).
   Use: {%- capture lt -%}{% render 'cart-lead-time' %}{%- endcapture -%}{%- assign lt = lt | strip | split: '|' -%}
 {%- endcomment -%}
 {%- liquid
@@ -12,18 +13,24 @@
   assign lt_text = ''
   assign lt_title = ''
   assign lt_n = 0
+  assign lt_reason = ''
   for item in cart.items
     if item.requires_shipping == false
       continue
     endif
     assign lt_t = ''
+    assign lt_r = 'leadtime'
     assign lt_druk = item.product.metafields.custom.drukopties.value
     if lt_druk.levertijd != blank and item.properties['Logo'] != blank
       assign lt_t = 'delivery.lead_time' | t: lead_time: lt_druk.levertijd
+      assign lt_r = 'print'
     elsif item.product.metafields.custom.levertijd.value != blank
       assign lt_t = item.product.metafields.custom.levertijd.value
     elsif item.variant.inventory_management != blank and item.variant.inventory_quantity < item.quantity
       assign lt_t = settings.delivery_text_backorder
+      if item.variant.inventory_quantity <= 0
+        assign lt_r = 'backorder'
+      endif
     endif
     if lt_t == blank
       continue
@@ -58,7 +65,8 @@
       assign lt_days = lt_d
       assign lt_text = lt_t | replace: '|', '/'
       assign lt_title = item.product.title | replace: '|', '/'
+      assign lt_reason = lt_r
     endif
   endfor
-  echo lt_days | append: '|' | append: lt_text | append: '|' | append: lt_title | append: '|' | append: lt_n
+  echo lt_days | append: '|' | append: lt_text | append: '|' | append: lt_title | append: '|' | append: lt_n | append: '|' | append: lt_reason
 -%}

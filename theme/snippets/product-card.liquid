@@ -8,7 +8,9 @@
   - 'link'   made to measure or with your logo: to the product page, where the configurator / upload lives
   Params: product (required), sizes (string), priority (true: LCP candidate, eager + fetchpriority high; 'eager': in the first
   row but not the LCP, eager only), heading_tag (default h3), show_quick_add (bool, default setting),
-  color (string, optional): an active colour filter value; the card then shows and links that colour's variant
+  color (string, optional): an active colour filter value; the card then shows and links that colour's variant, marks that
+  swatch (moved to the front when it would sit behind '+N') and, when that colour has no photo of its own, says which
+  colour the photo shows ('Foto in rood')
   show_sizes (bool, default true): false leaves out the sizes of the line (collection grid: the other sizes stand next to it)
 {%- endcomment -%}
 {%- liquid
@@ -112,15 +114,51 @@
   assign card_image = product.featured_media.preview_image
   assign card_url = product.url
   assign card_color_hit = false
+  assign card_photo_color = ''
   if color != blank
+    assign color_variant = nil
     for v in product.variants
-      if v.options contains color and v.featured_image
-        assign card_image = v.featured_image
-        assign card_url = v.url
-        assign card_color_hit = true
-        break
+      if v.options contains color
+        if color_variant == nil
+          assign color_variant = v
+        endif
+        if v.featured_image
+          assign card_image = v.featured_image
+          assign card_url = v.url
+          assign card_color_hit = true
+          break
+        endif
       endif
     endfor
+    # that colour has no photo of its own: link its variant anyway and name the colour the photo does show
+    if card_color_hit == false and color_variant
+      assign card_url = color_variant.url
+      assign photo_src = card_image.src | append: ''
+      for option in product.options_with_values
+        assign opt_lc = option.name | downcase | strip
+        assign opt_is_color = false
+        for n in swatch_names
+          assign nn = n | strip
+          if nn == opt_lc
+            assign opt_is_color = true
+          endif
+        endfor
+        if opt_is_color
+          assign photo_idx = option.position | minus: 1
+          for v in product.variants
+            assign v_src = v.featured_image.src | append: ''
+            if v_src != '' and v_src == photo_src
+              assign card_photo_color = v.options[photo_idx]
+              break
+            endif
+          endfor
+          break
+        endif
+      endfor
+      if card_photo_color == color
+        assign card_photo_color = ''
+      endif
+    endif
   endif
 -%}
 <article class="card product-card{% unless product.available %} card--soldout{% endunless %}" data-card>
@@ -139,6 +177,7 @@
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {%- endif -%}
+    {%- if card_photo_color != '' -%}{%- assign photo_color_lc = card_photo_color | downcase -%}<span class="card__photo-note">{{ 'card.shown_in' | t: color: photo_color_lc }}</span>{%- endif -%}
   </a>
   {%- comment -%} 'Voordeelset' only when the set really is cheaper than its parts (catalog/CONTRACT.md: bundles) {%- endcomment -%}
   {%- capture card_bundle -%}{%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}{%- endcapture -%}
@@ -161,29 +200,6 @@
     {%- if low_stock > 0 -%}<span class="badge badge--staffel">{{ 'product.stock_low' | t: count: low_stock }}</span>{%- endif -%}
   {%- endcapture -%}
   {%- if card_badges != blank -%}<div class="card__badges">{{ card_badges }}</div>{%- endif -%}
-  {%- if cta != 'none' -%}
-    {%- capture cta_icon -%}
-      {%- if cta == 'link' -%}
-        {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
-      {%- else -%}
-        <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 3.5h2.8l2.3 11.5h11.4l1.2-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M17.5 2.5v6M14.5 5.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="19.5" r="1.8" fill="currentColor"/><circle cx="17" cy="19.5" r="1.8" fill="currentColor"/></svg>
-      {%- endif -%}
-    {%- endcapture -%}
-    {%- assign cta_aria = 'card.cta_label' | t: action: cta_label, title: card_title -%}
-    <div class="card__actions">
-      {%- if cta == 'add' -%}
-        {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
-          <input type="hidden" name="id" value="{{ first_variant.id }}">
-          <input type="hidden" name="quantity" value="1">
-          <button type="submit" name="add" class="card__cta" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></button>
-        {%- endform -%}
-      {%- elsif cta == 'quick' -%}
-        <a class="card__cta" href="{{ card_url }}" data-quick-add="{{ card_url }}" aria-haspopup="dialog" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
-      {%- else -%}
-        <a class="card__cta" href="{{ product.url }}" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
   </div>
   <div class="card__body">
     {%- if settings.card_vendor -%}<p class="card__vendor">{{ product.vendor }}</p>{%- endif -%}
@@ -199,10 +215,35 @@
           {%- assign is_swatch = false -%}
           {%- for n in swatch_names -%}{%- assign nn = n | strip -%}{%- if nn == opt_name -%}{%- assign is_swatch = true -%}{%- endif -%}{%- endfor -%}
           {%- if is_swatch and option.values.size > 1 -%}
-            {%- assign opt_idx = option.position | minus: 1 -%}
+            {%- liquid
+              assign opt_idx = option.position | minus: 1
+              # the filtered colour is marked; one that would sit behind '+N' (or behind the 4 of a narrow card) goes first
+              assign sw_chosen = -1
+              if color != blank
+                for value in option.values
+                  if value.name == color
+                    assign sw_chosen = forloop.index0
+                    break
+                  endif
+                endfor
+              endif
+              assign sw_order = ''
+              if sw_chosen >= 4
+                assign sw_order = sw_chosen | append: ','
+              endif
+              for value in option.values
+                if sw_chosen >= 4 and forloop.index0 == sw_chosen
+                  continue
+                endif
+                assign sw_order = sw_order | append: forloop.index0 | append: ','
+              endfor
+              assign sw_order = sw_order | split: ','
+            -%}
             <div class="card__swatches swatches">
               <span class="visually-hidden">{{ 'card.colors_label' | t: count: option.values.size }}</span>
-              {%- for value in option.values limit: settings.card_swatch_limit -%}
+              {%- for sw_i in sw_order limit: settings.card_swatch_limit -%}
+                {%- assign sw_ix = sw_i | plus: 0 -%}
+                {%- assign value = option.values[sw_ix] -%}
                 {%- assign sw_variant = nil -%}
                 {%- for v in product.variants -%}
                   {%- if v.options[opt_idx] == value.name and v.available -%}{%- assign sw_variant = v -%}{%- break -%}{%- endif -%}
@@ -211,7 +252,7 @@
                   {%- for v in product.variants -%}{%- if v.options[opt_idx] == value.name -%}{%- assign sw_variant = v -%}{%- break -%}{%- endif -%}{%- endfor -%}
                 {%- endunless -%}
                 {%- assign sw_img = sw_variant.featured_image -%}
-                <a class="card__swatch{% if sw_variant.available == false %} is-unavailable{% endif %}" href="{{ product.url }}{% if sw_variant %}?variant={{ sw_variant.id }}{% endif %}" tabindex="-1" aria-hidden="true" title="{{ value.name | escape }}"
+                <a class="card__swatch{% if sw_variant.available == false %} is-unavailable{% endif %}{% if sw_ix == sw_chosen %} is-chosen{% endif %}" href="{{ product.url }}{% if sw_variant %}?variant={{ sw_variant.id }}{% endif %}" tabindex="-1" aria-hidden="true" title="{{ value.name | escape }}"
                   {%- if sw_img %} data-srcset="{{ sw_img | image_url: width: 360 }} 360w, {{ sw_img | image_url: width: 540 }} 540w, {{ sw_img | image_url: width: 720 }} 720w, {{ sw_img | image_url: width: 960 }} 960w" data-alt="{{ sw_img.alt | default: product.title | escape }}"{% endif %}>
                   {%- render 'swatch', value: value, class: 'swatch--card' -%}
                 </a>
@@ -238,7 +279,40 @@
         {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit -%}{%- else -%}{%- render 'price', product: product -%}{%- endif -%}
         {{- card_bundle -}}
       </div>
-      {%- if settings.card_stock -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endif -%}
+      {%- if settings.card_stock -%}
+        {%- capture card_dp -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endcapture -%}
+        {%- comment -%} a wait line carries its text as a key: the collection grid states the line most of its cards share
+          once above the grid ('Leverbaar over 2–3 weken, tenzij anders vermeld') and hides it on those cards {%- endcomment -%}
+        {%- if card_dp contains 'stock--later' -%}
+          <div class="card__stock" data-lead="{{ card_dp | strip_html | strip | handleize }}">{{ card_dp }}</div>
+        {%- else -%}
+          {{ card_dp }}
+        {%- endif -%}
+      {%- endif -%}
     </div>
   </div>
+  {%- if cta != 'none' -%}
+    {%- capture cta_icon -%}
+      {%- if cta == 'link' -%}
+        {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+      {%- else -%}
+        <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 3.5h2.8l2.3 11.5h11.4l1.2-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M17.5 2.5v6M14.5 5.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="19.5" r="1.8" fill="currentColor"/><circle cx="17" cy="19.5" r="1.8" fill="currentColor"/></svg>
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- assign cta_aria = 'card.cta_label' | t: action: cta_label, title: card_title -%}
+    {%- comment -%} after the body, so Tab reaches the product link before its action; CSS places it on the photo {%- endcomment -%}
+    <div class="card__actions">
+      {%- if cta == 'add' -%}
+        {%- form 'product', product, class: 'card__form', data-product-form: '', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ first_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" name="add" class="card__cta" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></button>
+        {%- endform -%}
+      {%- elsif cta == 'quick' -%}
+        <a class="card__cta" href="{{ card_url }}" data-quick-add="{{ card_url }}" aria-haspopup="dialog" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
+      {%- else -%}
+        <a class="card__cta" href="{{ product.url }}" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </article>

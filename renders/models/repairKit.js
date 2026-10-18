@@ -121,7 +121,21 @@ export function repairKit(p = {}) {
   const kind = String(p.kind || 'pvc');
   const bins = new G.PartBin();
   const extras = [];
-  const white = K.cached('rk-pvc', () => { const m = SG.pvcTarp('#F0F0EB', { gloss: 0.14, weave: 1.6 }).clone(); m.clearcoat = 0.7; m.clearcoatRoughness = 0.12; m.userData = { ...m.userData, envSpec: 0.7 }; delete m.userData.__hooked; return m; });
+  const white = K.cached('rk-pvc2', () => {
+    const m = SG.pvcTarp('#F0F0EB', { gloss: 0.14, weave: 1.6 }).clone();
+    m.clearcoat = 0.7; m.clearcoatRoughness = 0.12; m.userData = { ...m.userData, envSpec: 0.7 }; delete m.userData.__hooked;
+    // the polyester scrim shows through the white coating as a faint grid (2 x 2 cm tile, 1.25 mm pitch)
+    const tex = K.drawnTex('rk-scrim', 512, 512, (g, w, h) => {
+      g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h);
+      const n = 16, d = w / n;
+      for (let i = 0; i < n; i++) {
+        g.fillStyle = 'rgba(120,118,110,0.10)'; g.fillRect(i * d, 0, d * 0.42, h); g.fillRect(0, i * d, w, d * 0.42);
+      }
+    });
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(1 / 0.02, 1 / 0.02); tex.colorSpace = THREE.SRGBColorSpace;
+    m.map = tex; m.needsUpdate = true;
+    return m;
+  });
   // patches (or round patches for polyester)
   const patchPos = [[-0.07, -0.06, 14], [0.0, -0.035, -6], [0.07, -0.01, 24]];
   patchPos.forEach(([x, z, rot], i) => {
@@ -158,7 +172,7 @@ export function repairKit(p = {}) {
   return {
     object: g,
     detail: { target: [-0.03, 0.01, 0.05], size: 0.16, azimuth: 30, elevation: 40 },
-    view: { hero: { elevation: 42 } },
+    view: { hero: { elevation: 36 } },
     rig: { default: { contact: { strength: 0.8, h0: 0.004, res: 1024, blur: 1.2 }, groundAO: { strength: 0.7, maxZenith: 80 }, exposure: 0.78, toneMapping: 'neutral', shoulder: 0.88 } },
     meta: { kind },
   };

@@ -7,8 +7,11 @@
   - Otherwise the slowest line with a lead time (snippets/cart-lead-time: custom.levertijd, a print line with
     drukopties.levertijd, or a tracked variant sold beyond its stock) is named with its lead time instead (Oker half dot:
     wachten), so the cart never promises a date it cannot keep; with one line in the cart just the lead time, with more
-    the product it is about. data-wait-days sets the earliest 'Gewenste leverdatum'.
-  Param: context ('drawer' = one short line | 'page')
+    the product it is about. A line that is sold beyond its stock says so ('Nog niet op voorraad: …'), so the
+    header's 'Uit voorraad: … verzonden' never reads as a promise for it; with JS the lead time becomes the expected
+    window ('verwacht in huis 6 – 13 nov', cart.js, same sum as the product page). data-wait-days sets the earliest
+    'Gewenste leverdatum'; date_link adds 'Feest op een vaste datum? Geef je leverdatum door' (the cart page's field).
+  Params: context ('drawer' = one short line | 'page'), date_link (bool)
 {%- endcomment -%}
 {%- liquid
   assign cd_ship = 'pakket'
@@ -42,25 +45,54 @@
   endif
 -%}
 {%- if cart.requires_shipping -%}
+  {%- capture cd_calc -%}data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ cd_holidays | escape }}" data-transit="{{ cd_transit }}" data-country="{{ cd_country }}"{%- endcapture -%}
   {%- if cd_wait_days > 0 -%}
-    <p class="cart-delivery cart-delivery--wait" data-wait-days="{{ cd_wait_days }}"><span class="stock stock--later">
-      {%- if cart.items.size == 1 -%}{{ cd_wait }}
-      {%- else -%}
-        {%- liquid
-          # after the product name the lead time goes on in lower case: '…, leverbaar over 2–3 weken'
-          if cd_lt[3] != '1'
-            assign cd_lead = cd_wait | remove_first: 'Levertijd '
-          else
-            assign cd_lead = cd_wait
-          endif
-          assign cd_rest = cd_lead | slice: 1, 500
-          assign cd_lead = cd_lead | slice: 0 | downcase | append: cd_rest
-        -%}
-        {%- if cd_lt[3] != '1' -%}{{ 'cart.delivery_wait_slowest' | t: title: cd_wait_title, lead_time: cd_lead }}{%- else -%}{{ 'cart.delivery_wait' | t: title: cd_wait_title, lead_time: cd_lead }}{%- endif -%}
+    {%- liquid
+      assign cd_reason = cd_lt[4]
+      # every shipped line waits: no product name, 'Nog niet op voorraad' is true for the whole cart
+      assign cd_lines = cart.items | where: 'requires_shipping' | size
+      assign cd_waiting = cd_lt[3] | plus: 0
+      assign cd_all = false
+      if cd_waiting >= cd_lines
+        if cd_lines == 1 or cd_reason == 'backorder'
+          assign cd_all = true
+        endif
+      endif
+      # after a label or the product name the lead time goes on in lower case: '…: leverbaar over 2–3 weken'
+      if cd_lt[3] != '1' and cd_all == false
+        assign cd_lead = cd_wait | remove_first: 'Levertijd '
+      else
+        assign cd_lead = cd_wait
+      endif
+      if cd_reason == 'backorder' or cd_all == false
+        assign cd_rest = cd_lead | slice: 1, 500
+        assign cd_lead = cd_lead | slice: 0 | downcase | append: cd_rest
+      endif
+      assign cd_eta = 'cart.delivery_eta_html' | t: from: '__FROM__', to: '__TO__'
+      unless cd_reason == 'backorder'
+        assign cd_eta = cd_lead | escape | append: ' · ' | append: cd_eta
+      endunless
+      if cd_reason == 'backorder' and cd_all
+        assign cd_status = 'cart.delivery_backorder' | t: lead_time: '__LEAD__'
+      elsif cd_reason == 'backorder'
+        assign cd_status = 'cart.delivery_backorder_item' | t: title: cd_wait_title, lead_time: '__LEAD__'
+      elsif cd_all
+        assign cd_status = '__LEAD__'
+      elsif cd_lt[3] != '1'
+        assign cd_status = 'cart.delivery_wait_slowest' | t: title: cd_wait_title, lead_time: '__LEAD__'
+      else
+        assign cd_status = 'cart.delivery_wait' | t: title: cd_wait_title, lead_time: '__LEAD__'
+      endif
+    -%}
+    {%- capture cd_span -%}<span data-wait-lead data-lead="{{ cd_wait | escape }}" data-tpl="{{ cd_eta | escape }}">{{ cd_lead | escape }}</span>{%- endcapture -%}
+    <div class="cart-delivery cart-delivery--wait" data-wait-days="{{ cd_wait_days }}" data-state="wait" {{ cd_calc }}>
+      <p class="stock stock--later"><span>{{ cd_status | replace: '__LEAD__', cd_span }}</span></p>
+      {%- if date_link -%}
+        <p class="cart-delivery__plan">{%- render 'icon', icon: 'calendar', class: 'icon--sm' -%}<a class="link" href="{% if context == 'drawer' %}{{ routes.cart_url }}{% endif %}#CartDate-page" data-date-link>{{ 'cart.date_link' | t }}</a></p>
       {%- endif -%}
-    </span></p>
+    </div>
   {%- else -%}
-    {%- capture cd_attrs -%}data-delivery data-state="stock" data-ship="{{ cd_ship }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ cd_holidays | escape }}" data-transit="{{ cd_transit }}" data-country="{{ cd_country }}"{%- endcapture -%}
+    {%- capture cd_attrs -%}data-delivery data-state="stock" data-ship="{{ cd_ship }}" {{ cd_calc }}{%- endcapture -%}
     {%- if context == 'drawer' -%}
       <p class="cart-delivery cart-delivery--short" {{ cd_attrs }}>{%- render 'icon', icon: 'truck', class: 'icon--sm' -%}<span data-delivery-eta>{{ cd_text }}</span></p>
     {%- else -%}

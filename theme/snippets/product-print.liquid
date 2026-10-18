@@ -6,6 +6,10 @@
   drag and drop) and sends them as properties[Logo], properties[Logo 2] … in the multipart /cart/add.js request.
   Without JavaScript the input posts its files with the product form (Shopify keeps the last one).
   Max size per file and max number of files are block settings (Shopify's own upload limit is 20 MB per file).
+  assets/product-print.js (comments stripped there for the JS budget) defines KK.printUpload(form), called by
+  product-form.js: files via the input or drag and drop, type (PDF, AI, EPS, SVG, PNG, JPG) and size checks per file, a
+  list with remove buttons, the error box ([data-print-error]); 'Ik lever mijn logo later aan' disables the upload field
+  and clears the list. Styles: assets/section-main-product-print.css (only on bedrukbaar products).
 {%- endcomment -%}
 {%- liquid
   assign max_files = block.settings.max_files | default: 5

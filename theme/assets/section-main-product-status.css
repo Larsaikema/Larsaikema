@@ -1,5 +1,5 @@
-/* Main product: permanently discontinued (alternatives) and the status under the title (binnenkort, uitverkocht);
-   loaded only on those products. */
+/* Main product: permanently discontinued (alternatives), the status under the title (binnenkort, uitverkocht) and the
+   'Mail me als dit weer op voorraad is' form; loaded only on products with such a state or a sold-out variant. */
 .discontinued{display:grid;gap:14px}
 .discontinued .notice strong{color:var(--pi)}
 .discontinued__title{margin:4px 0 0;font-weight:var(--p7)}
@@ -20,3 +20,6 @@
 .status-label--out::before{box-shadow:inset 0 0 0 1.5px currentColor}
 .status-label--later{color:var(--c-oker)}
 .status-label--later::before{background:linear-gradient(90deg,currentColor 50%,transparent 50%);box-shadow:inset 0 0 0 1.5px currentColor}
+.notify{margin-top:14px}
+.notify__row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.notify__row .input{flex:1 1 200px;min-width:0}

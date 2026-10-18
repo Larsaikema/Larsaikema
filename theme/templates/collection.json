@@ -17,8 +17,9 @@
           "type": "usp",
           "settings": {
             "icon": "truck",
-            "title": "Vóór [besteltijd] besteld, vandaag verzonden",
-            "text": "Op werkdagen, uit voorraad"
+            "title": "Bezorgd in NL en BE",
+            "text": "Als pakket of op een pallet, levertijd bij elk product",
+            "link": "shopify://pages/verzenden-en-bezorgen"
           }
         },
         "u2": {

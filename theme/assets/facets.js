@@ -7,6 +7,17 @@ const KK = window.KK;
 const mq = matchMedia('(max-width: 989px)');
 const SRC = document.currentScript?.src || '';
 const opts = { preventScroll: true };
+const PRICE = '[data-price-min], [data-price-max]';
+/* A typed amount as Shopify reads it: Dutch notation ('1.000', '1.250,50', '279,50') or plain ('279.50'). '' = no bound,
+   null = not an amount. */
+const amount = (raw) => {
+  let v = String(raw || '').replace(/[\s€\u00a0]/g, '');
+  if (!v) return '';
+  if (/^\d{1,3}(\.\d{3})+(,\d*)?$/.test(v)) v = v.replace(/\./g, '');
+  v = v.replace(',', '.');
+  if (!/^\d*\.?\d*$/.test(v) || v === '.') return null;
+  return String(Math.round(Number(v) * 100) / 100);
+};
 
 class FacetFilters extends HTMLElement {
   connectedCallback() {
@@ -25,13 +36,13 @@ class FacetFilters extends HTMLElement {
     this.addEventListener('change', (e) => {
       if (e.target.matches('[data-sort]')) return this.sortChanged(e.target);
       if (!e.target.closest('[data-facets-form]')) return;
-      if (e.target.type !== 'number') return this.submit();
+      if (!e.target.matches(PRICE)) return this.submit();
       // leaving a price field (or Enter): Van above Tot is read as the range between them
       this.priceOk(true);
       this.onChange();
     });
     // price fields: the count follows while typing, not only on blur / Enter (not while Van is above Tot)
-    this.addEventListener('input', (e) => e.target.type === 'number' && e.target.closest('[data-facets-form]') && this.onChange());
+    this.addEventListener('input', (e) => e.target.matches(PRICE) && e.target.closest('[data-facets-form]') && this.onChange());
     /* Sort: a closed select changes its value on every arrow key (Chrome, Windows). Such a keyboard change waits for Enter
        or for leaving the field (WCAG 3.2.2); a choice made in the opened list, by mouse or by touch applies at once. */
     this.addEventListener('keydown', (e) => {
@@ -79,6 +90,8 @@ class FacetFilters extends HTMLElement {
       }
     });
     addEventListener('popstate', () => this.render(location.search.slice(1), false).then(() => this.restore()));
+    // the amounts are checked here (Dutch notation is accepted), not by the browser's pattern check for pages without JavaScript
+    if (this.form) this.form.noValidate = true;
     this.watchBar();
     this.keepPlace();
     this.restore();
@@ -109,12 +122,15 @@ class FacetFilters extends HTMLElement {
     const a = this.querySelector('[data-price-min]');
     const b = this.querySelector('[data-price-max]');
     if (!a || !b) return true;
-    let bad = a.value !== '' && b.value !== '' && Number(a.value) > Number(b.value);
+    const [x, y] = [amount(a.value), amount(b.value)];
+    let bad = x !== '' && y !== '' && x !== null && y !== null && Number(x) > Number(y);
     if (bad && fix) {
       [a.value, b.value] = [b.value, a.value];
       bad = false;
     }
-    [a, b].forEach((i) => i.toggleAttribute('aria-invalid', bad));
+    // a field that holds no amount ('abc') is marked; it is left out of the filter until it is corrected
+    a.toggleAttribute('aria-invalid', bad || x === null);
+    b.toggleAttribute('aria-invalid', bad || y === null);
     const hint = this.querySelector('[data-price-hint]');
     if (hint) hint.hidden = !bad;
     return !bad;
@@ -124,7 +140,11 @@ class FacetFilters extends HTMLElement {
     let p;
     if (this.form) {
       p = new URLSearchParams();
-      for (const [k, v] of new FormData(this.form)) if (v !== '') p.append(k, v);
+      const prices = new Set([...this.form.querySelectorAll(PRICE)].map((i) => i.name));
+      for (let [k, v] of new FormData(this.form)) {
+        if (prices.has(k)) v = amount(v) ?? '';
+        if (v !== '') p.append(k, v);
+      }
     } else {
       // filtering switched off (or no filters here): sorting keeps what the address already carries (q on search)
       p = new URLSearchParams(location.search);
@@ -206,7 +226,7 @@ class FacetFilters extends HTMLElement {
       const hadFocus = !!active && this.contains(active);
       const chipIndex = hadFocus && active.matches('.active-filters__pill') ? [...this.querySelectorAll('.active-filters__pill')].indexOf(active) : -1;
       // a price field being typed in stays the same node (value, caret and focus intact); the form around it is renewed
-      const keep = hadFocus && active.matches('input[type="number"]') ? active.closest('[data-facets-form] > .facet') : null;
+      const keep = hadFocus && active.matches(PRICE) ? active.closest('[data-facets-form] > .facet') : null;
       const scrollBody = this.querySelector('[data-facets-body]')?.scrollTop || 0;
       // read before the swap moves the nodes out of the fresh document
       const countText = fresh.querySelector('[data-results-count], .collection__count')?.textContent.trim();
@@ -224,6 +244,7 @@ class FacetFilters extends HTMLElement {
         keep.before(...nodes.slice(0, i));
         keep.after(...nodes.slice(i + 1));
       } else swap('[data-facets-body]');
+      if (this.form) this.form.noValidate = true;
       swap('[data-facets-clear-top]');
       swap('[data-show-results]');
       swap('.collection__toolbar .collection__count'); // search page: its count sits in the toolbar, outside the results

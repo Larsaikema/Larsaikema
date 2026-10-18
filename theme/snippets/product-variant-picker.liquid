@@ -8,6 +8,16 @@
   the size option, sorted by size (snippets/size-siblings-order): the current size is the chosen pill, the others are
   links to the sibling product with the same other options (colour, uitvoering) preselected via ?variant=.
   variant-picker.js keeps those links in step when the colour changes.
+
+  assets/variant-picker.js (comments stripped there for the JS budget): <variant-picker> finds the variant (or the nearest
+  available one with the changed value), sets the radios and size-sibling links (price, or 'niet in Heavy duty PVC');
+  <product-info> sets ?variant=, the form id and offerte fields, shows/hides the print block, emits 'variant:change',
+  fetches the section (Section Rendering API, cached) and swaps the [data-dynamic] parts and option availability, then
+  emits 'variant:rendered' ({ failed: true } when the fetch fails) and announces option, price and stock (WCAG 4.1.3).
+  Details band: specs/downloads are accordions on phones and open cards with an h2 from 990 px; the description is
+  clamped on phones ('Lees verder'); in-page links to an accordion (#ProductQuote) open and focus it. Backorder / lead
+  time: 'Verwacht in huis: 3 – 10 nov' from the lead-time text ('Leverbaar over 2–3 weken', '5 werkdagen'; not when it
+  counts from something else, '… na akkoord drukproef'), the shipping days and transit (KK.delivery.compute).
 {%- endcomment -%}
 {%- liquid
   # sizes read '3 × 3 m' (non-breaking, like the product cards); option values themselves stay '3 x 3 m'
@@ -214,14 +224,15 @@
       {%- assign opt_price_list = opt_prices | split: ',' -%}
       {%- if with_siblings -%}{%- assign show_opt_prices = true -%}{%- endif -%}
     {%- endif -%}
-    <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}">
+    {%- comment -%} the group is named by its name and value only ('Maat: 3 × 3 m'), not by the Maatgids link in the legend {%- endcomment -%}
+    {%- capture opt_label_id -%}OptLabel-{{ section_id }}-{{ option_index }}{%- endcapture -%}
+    <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}" data-option-index="{{ option_index }}" aria-labelledby="{{ opt_label_id }}">
       <legend class="vp__legend">
-        <span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value | replace: ' x ', times_nb }}</span>
+        <span id="{{ opt_label_id }}"><span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value | replace: ' x ', times_nb }}</span></span>
+        {%- if option_index == size_index and guide_page != blank -%}
+          <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
+        {%- endif -%}
       </legend>
-      {%- comment -%} after the legend, not in it: the group is named 'Maat: 3 × 3 m', without 'Maatgids' {%- endcomment -%}
-      {%- if option_index == size_index and guide_page != blank -%}
-        <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
-      {%- endif -%}
       <div class="vp__values">
         {%- if with_siblings -%}{{ sib_before }}{%- endif -%}
         {%- for value in option.values -%}

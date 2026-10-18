@@ -49,14 +49,22 @@ function ringBag(bins, mats, { Rc = 0.16, w = 0.093, H = 0.12, hs = 0.05, gap = 
   // rows: v around the section, columns along phi: transpose for gridGeometry (u along phi)
   bins.add(mats.pvc, K.gridGeometry(rows, { closedU: false, flip: false }));
   // welded flanges: outer and inner rings + end strips across the slit ends
-  const flange = (rr0, rr1, y, a0, a1) => {
-    const g = K.gridGeometry([0, 1].map((t) => Array.from({ length: 97 }, (_, i) => { const phi = a0 + (a1 - a0) * (i / 96); const r = rr0 + (rr1 - rr0) * t; return V3(Math.cos(phi) * r, y + 0.0015 * Math.sin(phi * 7 + t), -Math.sin(phi) * r); })), { closedU: false });
-    return g;
+  // welded flanges round the outer and inner seam; they follow the tube where it narrows and
+  // flattens towards the slit ends (no flange sticking out past a pinched end)
+  const kAt = (phi) => K.sstep(0, endTaper, Math.max(0, Math.min(phi - phi0, phi1 - phi))) * 0.92 + 0.08;
+  const flange = (side, a0, a1) => {
+    const rows = [0, 1].map((t) => Array.from({ length: 121 }, (_, i) => {
+      const phi = a0 + (a1 - a0) * (i / 120);
+      const k = kAt(phi), ww = w * (0.6 + 0.4 * k);
+      const r = side > 0 ? Rc + ww - 0.002 + (fl * k + 0.002) * t : Rc - ww + 0.002 - (fl * k + 0.002) * t;
+      const y = hs * (0.5 + 0.5 * k);
+      return V3(Math.cos(phi) * r, y + 0.0015 * Math.sin(phi * 7 + t) * k, -Math.sin(phi) * r);
+    }));
+    return K.gridGeometry(rows, { closedU: false });
   };
-  for (const [r0, r1] of [[Rc + w * 1.0 - 0.002, Rc + w + fl], [Rc - w + 0.002, Rc - w - fl]]) {
-    const f = flange(r0, r1, hs, phi0 + 2 * DEG, phi1 - 2 * DEG);
+  for (const side of [1, -1]) {
+    const f = flange(side, phi0 + 0.5 * DEG, phi1 - 0.5 * DEG);
     bins.add(mats.pvc, f);
-    // second layer (welded), thickness
     const f2 = f.clone(); f2.translate(0, -0.0016, 0); bins.add(mats.pvc, f2);
   }
   // surface height of the top at (phi, r) (same section as the body, without the wobble)

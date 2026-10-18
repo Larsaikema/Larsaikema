@@ -1,8 +1,12 @@
 {%- comment -%}
   Stylesheets of the main product. The rarely needed parts only load on the products that use them (CSS budget):
   logo upload (-print), bundle (-bundle), configurator (-config), 'Premium of Professional?' (-compare), discontinued /
-  binnenkort (-status), video and 3D (-media). Params: product, is_print, is_config, is_discontinued, avail_status,
-  media_types (comma list of the product's media types).
+  binnenkort / back-in-stock form (-status), video and 3D (-media). Params: product, is_print, is_config, is_discontinued,
+  avail_status, media_types (comma list of the product's media types).
+  section-main-product.css: aliases --pk Kiezel, --pi Inkt, --pl Lijn, --pw Wit, --p4/6/7 font weights, --pr/--pri radii,
+  --pd duration, --pck check mark; written with native CSS nesting (as Shopify Horizon) to stay inside the CSS budget.
+  The narrow buy button (phones, two-column tablets) puts the live total on a second line; in the delivery block the
+  'Meer over verzenden' link is set off with a dot so it reads as its own item.
 {%- endcomment -%}
 {%- liquid
   assign is_bundle = false
@@ -29,7 +33,15 @@
   if product.metafields.custom.vergelijk_groep != blank
     echo 'section-main-product-compare.css' | asset_url | stylesheet_tag
   endif
-  if is_discontinued or avail_status == 'binnenkort'
+  # -status also carries the back-in-stock form, so it loads when any variant is sold out (a variant change can show it)
+  assign any_out = false
+  for v in product.variants
+    unless v.available
+      assign any_out = true
+      break
+    endunless
+  endfor
+  if is_discontinued or avail_status == 'binnenkort' or any_out
     echo 'section-main-product-status.css' | asset_url | stylesheet_tag
   endif
   if media_types contains 'video' or media_types contains 'model'

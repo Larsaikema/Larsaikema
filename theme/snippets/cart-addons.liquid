@@ -3,8 +3,9 @@
   (variant metafields custom.addon_varianten + custom.addon_aantallen), so a 3 x 3 m tent in Rood offers the 3 x 3 m
   zijwandenset in Rood, and 4 statafels offer 4 rokken in the matching size, each with one click. Quantity = aantal per
   stuk × the line quantity, except per-regel / configurator products and custom.addon_eenmalig (once per line); capped at
-  the stock of a tracked variant that cannot be oversold. Products already in the cart and sold-out variants are skipped,
-  and of the table covers (rok, hoes met strik, kleed: alternatives for the same table) only the first, none once the
+  the stock of a tracked variant that cannot be oversold. What the cart already holds counts against the need, per variant
+  and per product: two 3 x 3 m tents in Wit with one Wit zijwandenset in the cart still offer one more set; a set in another
+  colour counts as chosen. Sold-out variants are skipped, and of the table covers (rok, hoes met strik, kleed: alternatives for the same table) only the first, none once the
   cart has a cover.
   Add-ons with a photo come first (pass 1); ones without a photo only fill up when fewer than two have one (pass 2), and
   then show a drawn category mark instead of an empty frame: nobody adds what they cannot see.
@@ -14,7 +15,6 @@
 {%- endcomment -%}
 {%- liquid
   assign ca_max = limit | default: 3
-  assign ca_in_cart = cart.items | map: 'product_id'
   assign ca_seen = ','
   assign ca_shown = 0
   # table covers are alternatives (a rok, a hoes met strik or a kleed goes on the same table): offer one, and none when
@@ -29,6 +29,37 @@
       endif
     endfor
   endfor
+  # what every line needs: '|variant:product:qty' per add-on, the same sum as the offer below
+  assign ca_need = '|'
+  for item in cart.items
+    assign ca_vs = item.variant.metafields.custom.addon_varianten.value
+    if ca_vs == blank
+      continue
+    endif
+    assign ca_qs = item.variant.metafields.custom.addon_aantallen.value
+    assign ca_follow = true
+    if item.product.metafields.custom.addon_modus.value == 'per-regel' or item.properties._eenheid != blank
+      assign ca_follow = false
+    endif
+    assign ca_once = ','
+    for x in item.product.metafields.custom.addon_eenmalig.value
+      assign ca_once = ca_once | append: x.id | append: ','
+    endfor
+    for av in ca_vs
+      if av.product == blank
+        continue
+      endif
+      assign ca_key = ',' | append: av.product.id | append: ','
+      assign ca_q = ca_qs[forloop.index0] | default: 1
+      if ca_follow
+        unless ca_once contains ca_key
+          assign ca_q = ca_q | times: item.quantity
+        endunless
+      endif
+      assign ca_need = ca_need | append: av.id | append: ':' | append: av.product.id | append: ':' | append: ca_q | append: '|'
+    endfor
+  endfor
+  assign ca_need_list = ca_need | split: '|'
 -%}
 {%- for ca_pass in (1..2) -%}
   {%- if ca_pass == 2 and ca_shown >= 2 -%}{%- break -%}{%- endif -%}
@@ -39,15 +70,6 @@
       if ca_vs == blank
         continue
       endif
-      assign ca_qs = item.variant.metafields.custom.addon_aantallen.value
-      assign ca_follow = true
-      if item.product.metafields.custom.addon_modus.value == 'per-regel' or item.properties._eenheid != blank
-        assign ca_follow = false
-      endif
-      assign ca_once = ','
-      for x in item.product.metafields.custom.addon_eenmalig.value
-        assign ca_once = ca_once | append: x.id | append: ','
-      endfor
     -%}
     {%- for av in ca_vs -%}
       {%- liquid
@@ -55,11 +77,40 @@
           break
         endif
         assign ap = av.product
-        if ap == blank or av.available == false or ca_in_cart contains ap.id
+        if ap == blank or av.available == false
           continue
         endif
-        assign ca_key = ',' | append: ap.id | append: ','
+        assign ca_key = ',' | append: av.id | append: ','
         if ca_seen contains ca_key
+          continue
+        endif
+        # still needed = what the lines need minus what the cart holds, for this variant and for the product as a whole
+        assign ca_vn = 0
+        assign ca_pn = 0
+        for ca_e in ca_need_list
+          assign ca_p = ca_e | split: ':'
+          if ca_p.size < 3
+            continue
+          endif
+          assign ca_pid = ap.id | append: ''
+          if ca_p[1] == ca_pid
+            assign ca_pn = ca_pn | plus: ca_p[2]
+            assign ca_vid = av.id | append: ''
+            if ca_p[0] == ca_vid
+              assign ca_vn = ca_vn | plus: ca_p[2]
+            endif
+          endif
+        endfor
+        for it in cart.items
+          if it.product_id == ap.id
+            assign ca_pn = ca_pn | minus: it.quantity
+            if it.variant_id == av.id
+              assign ca_vn = ca_vn | minus: it.quantity
+            endif
+          endif
+        endfor
+        assign ca_q = ca_vn | at_most: ca_pn
+        if ca_q <= 0
           continue
         endif
         assign ca_cover = false
@@ -76,16 +127,10 @@
         if ca_pass == 1 and ca_img == blank
           continue
         endif
-        assign ca_seen = ca_seen | append: ap.id | append: ','
+        assign ca_seen = ca_seen | append: av.id | append: ','
         assign ca_shown = ca_shown | plus: 1
         if ca_cover
           assign ca_covered = true
-        endif
-        assign ca_q = ca_qs[forloop.index0] | default: 1
-        if ca_follow
-          unless ca_once contains ca_key
-            assign ca_q = ca_q | times: item.quantity
-          endunless
         endif
         if av.inventory_management == 'shopify' and av.inventory_policy == 'deny' and ca_q > av.inventory_quantity
           assign ca_q = av.inventory_quantity | at_least: 1

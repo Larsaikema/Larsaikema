@@ -106,8 +106,7 @@
           cartLabelOneRaw: {{ 'header.cart_count.one' | t: count: 1 | replace: '1', '__COUNT__' | json }},
           cartLabelOther: {{ 'header.cart_count.other' | t: count: '__COUNT__' | json }},
           cartWord: {{ 'header.cart' | t | json }},
-          linkCopied: {{ 'product.link_copied' | t | json }},
-          showResults: {{ 'collection.show_results_js' | t: count: '__COUNT__' | json }}
+          linkCopied: {{ 'product.link_copied' | t | json }}
         }
       });
     </script>

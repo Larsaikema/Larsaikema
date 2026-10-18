@@ -77,6 +77,53 @@
     {%- endif -%}
 
     <div class="collection__results" id="ProductGridContainer-{{ section.id }}" data-results>
+      {%- paginate collection.products by per_page -%}
+      {%- liquid
+        # Delivery line most cards on this page share. When more than half of them wait for the same thing ('Leverbaar over
+        # 2–3 weken'), it is said once above the grid with 'tenzij anders vermeld' and left off those cards, so the cards that
+        # differ (a print lead time, stock) stand out and the grid is not the same warning 14 times. Cards from 'Meer laden'
+        # follow the same rule (the style below matches their data-lead key). Only wait lines (stock--later) are
+        # gathered; 'Op voorraad' always stays on its card.
+        assign lead_keys = ''
+        for product in collection.products
+          capture lead_probe
+            render 'delivery-promise', product: product, style: 'short'
+          endcapture
+          if lead_probe contains 'stock--later'
+            assign lead_txt = lead_probe | strip_html | strip
+            assign lead_keys = lead_keys | append: lead_txt | append: '§'
+          endif
+        endfor
+        assign lead_list = lead_keys | split: '§'
+        assign lead_text = ''
+        assign lead_best = 1
+        assign lead_uniq = lead_list | uniq
+        for lt in lead_uniq
+          assign lt_n = 0
+          for l in lead_list
+            if l == lt
+              assign lt_n = lt_n | plus: 1
+            endif
+          endfor
+          if lt_n > lead_best
+            assign lead_best = lt_n
+            assign lead_text = lt
+          endif
+        endfor
+        assign lead_twice = lead_best | times: 2
+        if lead_twice <= collection.products.size
+          assign lead_text = ''
+        endif
+        assign lead_key = lead_text | handleize
+      -%}
+      {%- capture lead_note -%}
+        {%- if lead_text != '' -%}
+          <p class="collection-lead"><span class="stock stock--later collection-lead__line">{{ 'collection.lead_default' | t: text: lead_text }}</span>
+            {%- if pages.contact.url != blank -%}<a class="link collection-lead__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
+          </p>
+        {%- endif -%}
+      {%- endcapture -%}
+      {%- if lead_text != '' -%}<style>#ProductGridContainer-{{ section.id }} [data-lead="{{ lead_key }}"]{display:none}</style>{%- endif -%}
       <div class="collection-bar" data-collection-bar>
         {%- if has_filters -%}
           <button type="button" class="collection-bar__btn collection-bar__filter js-only" data-facets-open aria-controls="FilterDrawer-{{ section.id }}" aria-expanded="false">
@@ -90,6 +137,7 @@
           </a>
         {%- endif -%}
         <p class="collection-bar__count" id="ProductCount-{{ section.id }}" tabindex="-1" data-results-count>{{ 'collection.products_count' | t: count: collection.products_count }}</p>
+        {%- if lead_note != blank -%}<div class="collection-bar__lead">{{ lead_note }}</div>{%- endif -%}
         {%- if section.settings.enable_sorting -%}
           <div class="collection-bar__btn collection-bar__sort{% if sort_by != sort_default %} is-active{% endif %}">
             <span class="collection-bar__sort-face" aria-hidden="true">
@@ -120,6 +168,7 @@
 
       <div class="collection-meta">
         <p class="collection-meta__count" tabindex="-1">{{ 'collection.products_count' | t: count: collection.products_count }}</p>
+        {%- if lead_note != blank -%}<div class="collection-meta__lead">{{ lead_note }}</div>{%- endif -%}
         {%- if active_filters > 0 -%}
           <div class="active-filters" role="group" aria-label="{{ 'collection.filter_count' | t: count: active_filters }}">
             {%- for f in coll_filters -%}
@@ -153,12 +202,11 @@
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
-            <a class="link active-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.clear_all' | t }}</a>
+            {%- if collection.products_count > 0 -%}<a class="link active-filters__clear" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.clear_all' | t }}</a>{%- endif -%}
           </div>
         {%- endif -%}
       </div>
 
-      {%- paginate collection.products by per_page -%}
         {%- if collection.products.size > 0 -%}
           {%- liquid
             assign card_sizes = '(min-width: 1360px) 340px, (min-width: 990px) calc((100vw - 400px) / 3), (min-width: 750px) 33vw, calc(50vw - 22px)'
@@ -248,7 +296,8 @@
             {%- if active_filters > 0 -%}
               <h2 class="h3">{{ 'collection.no_results_title' | t }}</h2>
               <p class="muted">{{ 'collection.no_results_text' | t }}</p>
-              <div class="btn-row"><a class="btn btn--outline" href="{{ collection.url }}" data-facet-link>{{ 'collection.clear_all' | t }}</a></div>
+              {%- comment -%} one way back to everything, keeping the chosen order (the chips above still remove one filter at a time) {%- endcomment -%}
+              <div class="btn-row"><a class="btn btn--outline" href="{{ collection.url }}?sort_by={{ sort_by }}" data-facet-link>{{ 'collection.view_all_products' | t }}</a></div>
             {%- else -%}
               <p class="muted">{{ 'collection.empty' | t }}</p>
             {%- endif -%}

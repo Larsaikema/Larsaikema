@@ -148,10 +148,10 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
 - `weights`: aantal stapelbare voetgewichten per poot — `2` of `{"count":2}`. Rubber-gecoate schijven
   (Ø 25 cm, 3,4 cm) gestapeld **óp de voetplaat** (6 mm hoger), met een zichtbare naad tussen de schijven,
   een gegoten opstaande rand, een ingegoten `10 KG`-plaatje bovenop, een **verhoogd `10 KG`-plaatje op de
-  rand** (letters ~2 cm, iets lichter: leesbaar op hero-formaat), halfglanzende coating (de afgeschuinde
+  rand** (letters ~2 cm, lichtgrijs ingevuld: leesbaar op hero-formaat), halfglanzende coating (de afgeschuinde
   randen vangen licht, dus de naad tussen de schijven leest als donkere groef tussen twee lichte randen) en
   een eigen contactschaduw. Bij de **poot die het dichtst bij de camera staat wijzen sleuf en greepgaten naar
-  de camera** (24° gedraaid): de koper ziet hoe de schijf om de poot schuift; bij de andere poten wijzen ze weg.
+  de camera** (~34° naar links gedraaid, het randplaatje ~20° rechts ervan): de koper ziet hoe de schijf om de poot schuift; bij de andere poten wijzen ze weg.
 - `valancePrint`: `"MIJN LOGO"` of `{text, color, font, weight, sides:["front","back"]}`; de print volgt
   het golvende valancedoek.
 - `valanceDrop` (m): standaard 0,21 (premium) / 0,22 (professional).

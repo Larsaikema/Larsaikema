@@ -3,12 +3,14 @@
   form), context ('drawer' | 'page'), show_guest (page: 'Afrekenen kan als gast of met je account', only true when
   customer accounts are optional in Shopify), express (bool: Shopify's express checkout buttons under Afrekenen, from
   the section setting; they render only when the store has them), payment (bool: the store's payment icons right under
-  Afrekenen). The cart page puts its 'Liever een offerte' link with the reassurance list (sections/main-cart).
+  Afrekenen), date_link (bool: 'Geef je leverdatum door' under a lead time, to the cart page's date field). The cart page
+  puts its 'Liever een offerte' link with the reassurance list (sections/main-cart).
   Rows follow the header btw switch (html[data-vat]): Particulier = subtotal, discounts, shipping, Totaal (incl. btw,
   one line 'waarvan btw · excl. btw' under it); Zakelijk = the same rows excl. btw, Btw, Totaal incl. btw. The total is
   what the shopper pays: products + shipping (cart-shipping: the highest shipping cost in the cart, from the same theme
   settings as the product page, which must match the Shopify rates; NL only); outside NL or without a rate it says
-  'Totaal zonder verzending'. Btw is per line like Shopify (cart-vat-totals; none on a gift card or untaxed variant);
+  'Totaal zonder verzending'. The shipping figure is an estimate, so one quiet line under the total says checkout has the
+  final amount; when the lines ship on different rates (cart-shipping 'mixed') the row itself says 'indicatie'. Btw is per line like Shopify (cart-vat-totals; none on a gift card or untaxed variant);
   shipping carries btw too. A cart without btw shows no btw lines. Right above the checkout button: when it arrives
   (cart-delivery); right under it the payment icons (page: payment true).
 {%- endcomment -%}
@@ -28,6 +30,7 @@
   assign cs_s = cs_s | strip | split: '|'
   assign ship = cs_s[0] | plus: 0
   assign ship_class = cs_s[1]
+  assign ship_mixed = cs_s[3]
 
   assign cs_factor = settings.vat_rate | default: 0 | plus: 100
   assign grand_incl = net_incl
@@ -64,7 +67,7 @@
     {%- endfor -%}
     {%- if cart.requires_shipping -%}
       <div class="cart-summary__row cart-summary__row--ship">
-        <dt>{% if ship < 0 %}{{ 'cart.shipping_label' | t }}{% elsif ship_class == 'pallet' %}{{ 'cart.shipping_label_pallet' | t }}{% else %}{{ 'cart.shipping_label_pakket' | t }}{% endif %}</dt>
+        <dt>{% if ship < 0 %}{{ 'cart.shipping_label' | t }}{% elsif ship_mixed == 'true' %}{% if ship_class == 'pallet' %}{{ 'cart.shipping_estimate_pallet' | t }}{% else %}{{ 'cart.shipping_estimate_pakket' | t }}{% endif %}{% elsif ship_class == 'pallet' %}{{ 'cart.shipping_label_pallet' | t }}{% else %}{{ 'cart.shipping_label_pakket' | t }}{% endif %}</dt>
         <dd>
           {%- if ship < 0 -%}<span class="cart-summary__later">{{ 'cart.shipping_at_checkout_value' | t }}</span>
           {%- elsif ship == 0 -%}<span class="cart-summary__free">{{ 'cart.shipping_free_value' | t }}</span>
@@ -94,7 +97,10 @@
     {%- capture cs_excl_shown -%}{{ grand_excl | money }}{%- endcapture -%}
     <p class="cart-summary__vatline" data-vat-show="incl">{{ 'cart.vat_split' | t: rate: settings.vat_rate, vat: vat_shown, excl: cs_excl_shown }}</p>
   {%- endif -%}
-  {%- render 'cart-delivery', context: context -%}
+  {%- if cart.requires_shipping and ship >= 0 -%}
+    <p class="cart-summary__shipnote">{% if ship_mixed == 'true' %}{{ 'cart.shipping_note_estimate' | t }}{% else %}{{ 'cart.shipping_note_nl' | t }}{% endif %}</p>
+  {%- endif -%}
+  {%- render 'cart-delivery', context: context, date_link: date_link -%}
   <button type="submit" name="checkout" form="{{ form_id }}" class="btn btn--buy btn--block cart-summary__checkout" data-checkout>{%- render 'icon', icon: 'lock', class: 'icon--sm' -%}{{ 'cart.checkout' | t }}</button>
   {%- if payment and shop.enabled_payment_types.size > 0 -%}
     <ul class="payment-icons cart-summary__pay" role="list" aria-label="{{ 'footer.payment' | t }}">

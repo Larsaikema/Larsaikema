@@ -54,7 +54,7 @@
         {%- if cd_extras -%}{%- render 'cart-extras', form_id: 'CartDrawerForm', context: 'drawer', show_extras: section.settings.show_extras, show_date: section.settings.show_date, show_discount: section.settings.show_discount -%}{%- endif -%}
       </div>
       <div class="drawer__foot cart-drawer__foot">
-        {%- render 'cart-summary', form_id: 'CartDrawerForm', context: 'drawer', express: section.settings.show_express -%}
+        {%- render 'cart-summary', form_id: 'CartDrawerForm', context: 'drawer', express: section.settings.show_express, date_link: true -%}
       </div>
     {%- else -%}
       {%- liquid

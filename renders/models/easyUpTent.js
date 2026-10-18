@@ -1121,11 +1121,11 @@ export function easyUpTent(p = {}) {
     const nearLeg = legPts.slice().sort((a2, b2) => (b2[0] * camD.x + b2[1] * camD.z) - (a2[0] * camD.x + a2[1] * camD.z))[0];
     for (const [x, z] of legPts) {
       const front = x === nearLeg[0] && z === nearLeg[1];
-      // front leg: slot towards the camera, turned 24 deg to the camera's right
-      const rot = front ? rotAway + Math.PI - 0.42 : rotAway;
-      // rim plaque: centred 38 deg to the camera's left on the front leg (beside the slot),
+      // front leg: slot towards the camera, turned ~34 deg to the camera's left
+      const rot = front ? rotAway + Math.PI - 0.6 : rotAway;
+      // rim plaque: centred 20 deg to the camera's right on the front leg (clear of the slot),
       // straight at the camera elsewhere
-      const labelAng = front ? -0.66 : 0;
+      const labelAng = front ? 0.35 : 0;
       for (let k = 0; k < wcount; k++) {
         const y0 = plateTop + k * (plateH + gapW);
         const g = weightPlate({ R: Rw, h: plateH, slotHalf: (S.inner + 0.008) * 0.58 + 0.004, bore: 0.054, bevel: bev });
@@ -1153,7 +1153,7 @@ export function easyUpTent(p = {}) {
           const PW = 0.06, PD = 0.026;
           const pad = G.roundedBox(PW, PD, 0.0012, 0.004, 3);
           pad.rotateX(-Math.PI / 2); pad.rotateY(az);
-          const pc = V3(x, y0 + plateH + 0.0006, z).addScaledVector(front ? camD.clone().multiplyScalar(Math.cos(-0.9)).addScaledVector(camR, Math.sin(-0.9)) : camD, 0.085);
+          const pc = V3(x, y0 + plateH + 0.0006, z).addScaledVector(front ? camD.clone().multiplyScalar(Math.cos(1.15)).addScaledVector(camR, Math.sin(1.15)) : camD, 0.085);
           pad.translate(pc.x, pc.y, pc.z);
           // planar uv over the pad face (0..1)
           const P = pad.attributes.position, U = pad.attributes.uv;
@@ -1432,23 +1432,24 @@ function mouldedBlock(bins, mat, markMat, { x, z, w, y0, y1, out, ribs = true, m
 }
 
 // Raised '10 KG' plaque moulded into the rim of a weight plate: a thin curved patch in the plate's
-// rubber whose normal map carries the raised letters and border, the letter faces a little
-// lighter (worn high spots), so the weight reads at catalogue size. uv 0..1 over the patch.
+// rubber whose normal map carries the raised letters, the letter faces filled with light grey
+// paint, so the weight reads at catalogue size. uv 0..1 over the patch.
 let rimLabelCache = null;
 function weightRimLabelMat(rubber) {
   if (rimLabelCache) return rimLabelCache;
   const w = 1024, h = 260;
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   const g = c.getContext('2d');
-  g.fillStyle = '#808080'; g.fillRect(0, 0, w, h);
-  g.fillStyle = '#D2D2D2'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  // base texel #303030 (0.0296 linear) x colour = the rubber; the letters carry a light grey
+  // paint fill (albedo ~0.45) so '10 KG' reads at catalogue size
+  g.fillStyle = '#303030'; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#E1E1E1'; g.textAlign = 'center'; g.textBaseline = 'middle';
   g.font = `800 ${Math.round(h * 0.72)}px "Arial Black", "Helvetica Neue", Arial, sans-serif`;
   if ('letterSpacing' in g) g.letterSpacing = `${Math.round(h * 0.04)}px`;
   g.fillText('10 KG', w / 2, h * 0.53);
   const map = new THREE.CanvasTexture(c); map.colorSpace = THREE.SRGBColorSpace; map.anisotropy = 8;
   const m = rubber.clone();
-  // #808080 is 0.216 linear: scale the colour so the plaque's flat part matches the rubber
-  m.color = rubber.color.clone().multiplyScalar(1 / 0.2159);
+  m.color = rubber.color.clone().multiplyScalar(1 / 0.0296);
   m.map = map;
   m.normalMap = TX.embossNormal({ text: '10 KG', sub: '', w, h, strength: 3.2, fontScale: 0.72, border: false }); m.normalScale = new THREE.Vector2(1, 1);
   m.userData = {}; m.name = 'weight rim label';

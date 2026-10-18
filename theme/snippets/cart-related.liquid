@@ -2,7 +2,10 @@
   'Vergeet niet' items that fit what is in the cart (drawer upsell + cart page row). Outputs <li> items only; the caller
   captures the output and hides its wrapper when it is blank.
   Order: 1. the add-ons (custom.addons) of the cart products, 2. products from `collection` whose custom.past_op names a
-  cart product (weights for the tent in the cart, a rok for the statafel). Products already in the cart and sold-out
+  cart product (weights for the tent in the cart, a rok for the statafel), 3. products from `collection` that fit the
+  same products as an accessory in the cart (zandzakken in the cart: haringen and a regengoot for the same tents), of
+  another product type and one per type, so a part never gets its own substitutes; first what shares a narrow
+  collection with it (haringen next to zandzakken, not a dakzeil). Products already in the cart and sold-out
   products are skipped. With an empty cart, or with `fallback: true` when nothing fits, the collection fills the list.
   Params: collection, limit (default 3), style ('row' compact drawer row | 'card' product card), sizes (card image sizes)
 {%- endcomment -%}
@@ -46,6 +49,66 @@
       endif
     endfor
   endif
+  if shown < max and collection != blank
+    assign targets = ','
+    assign types = '|'
+    assign smalls = ','
+    for item in cart.items
+      assign tkey = item.product.type | downcase | slice: 0, 6
+      assign types = types | append: tkey | append: '|'
+      for f in item.product.metafields.custom.past_op.value
+        assign targets = targets | append: f.id | append: ','
+      endfor
+      # the narrow collections the product sits in (gewichten-en-verankering, not accessoires or all)
+      for c in item.product.collections
+        if c.products_count <= 12
+          assign smalls = smalls | append: c.id | append: ','
+        endif
+      endfor
+    endfor
+    assign lead = ''
+    if targets != ','
+      # pass 1: shares a narrow collection with the cart product (haringen next to zandzakken); pass 2: fits the same products
+      for pass in (1..2)
+        for p in collection.products limit: 50
+          assign key = ',' | append: p.id | append: ','
+          assign tkey = p.type | downcase | slice: 0, 6 | prepend: '|' | append: '|'
+          if shown >= max
+            break
+          endif
+          if in_cart contains p.id or p.available == false or picked contains key or types contains tkey
+            continue
+          endif
+          assign near = false
+          if pass == 1
+            for c in p.collections
+              assign ckey = ',' | append: c.id | append: ','
+              if smalls contains ckey
+                assign near = true
+                break
+              endif
+            endfor
+            if near == false
+              continue
+            endif
+          endif
+          for f in p.metafields.custom.past_op.value
+            assign fkey = ',' | append: f.id | append: ','
+            if targets contains fkey
+              assign picked = picked | append: key
+              assign shown = shown | plus: 1
+              if pass == 1
+                assign lead = lead | append: key
+              endif
+              # one per kind of product (type, first six letters: Zijwand and Zijwandenset are one kind)
+              assign types = types | append: tkey
+              break
+            endif
+          endfor
+        endfor
+      endfor
+    endif
+  endif
   if shown == 0 and fallback and collection != blank
     for p in collection.products limit: 50
       if shown >= max
@@ -69,6 +132,15 @@
     {%- endif -%}
   {%- endfor -%}
 {%- endfor -%}
+{%- if collection != blank and lead != blank -%}
+  {%- for p in collection.products limit: 50 -%}
+    {%- assign key = ',' | append: p.id | append: ',' -%}
+    {%- if lead contains key and picked contains key -%}
+      {%- render 'cart-related-item', p: p, style: style, sizes: sizes -%}
+      {%- assign picked = picked | remove: key -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 {%- if collection != blank and picked contains ',' -%}
   {%- for p in collection.products limit: 50 -%}
     {%- assign key = ',' | append: p.id | append: ',' -%}

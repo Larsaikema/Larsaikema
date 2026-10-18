@@ -91,6 +91,16 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
 @media (max-width:989px){.collection-bar__sort.is-active .collection-bar__sort-icon{display:none}}
 .collection-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:12px}
 .collection-meta__count{margin:0;font-size:14px;color:var(--c-kiezel);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* the wait line most cards share, said once above the grid (phone: under the count, desktop: next to it) */
+.collection-lead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin:0;font-size:13.5px;line-height:1.35}
+.collection-lead__line{font-size:inherit}
+.collection-lead__ask{font-weight:var(--font-body-weight-semibold);white-space:nowrap}
+.collection-bar__lead{display:none;min-width:0}
+/* phone: 'Vaste datum? Vraag het ons' on the count's line, the wait line under it */
+.collection-meta__lead,.collection-meta .collection-lead{display:contents}
+.collection-meta .collection-lead__ask{order:1;margin-left:auto;font-size:13.5px}
+.collection-meta .collection-lead__line{order:2;flex-basis:100%;margin-top:-4px;font-size:13.5px}
+.collection-meta .active-filters{order:3}
 @media (max-width:989px){
   .collection-bar{position:sticky;top:var(--header-h,0px);z-index:30;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0 calc(-1 * var(--gutter-mobile)) 4px;padding:4px var(--gutter-mobile);background:var(--c-zand);border-bottom:1px solid transparent;transition:top .25s cubic-bezier(.16,1,.3,1),border-color var(--dur-fast),box-shadow var(--dur-fast)}
   .collection-bar:not(:has(.collection-bar__filter)){grid-template-columns:minmax(0,1fr)}
@@ -106,7 +116,8 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
   .collection-bar__sort{margin-left:auto;border-width:1px;border-color:var(--c-lijn);padding:0 14px 0 18px}
   .collection-bar__sort-icon,.collection-bar__sort-short{display:none}
   .collection-bar__sort-long{display:inline}
-  .collection-meta__count{display:none}
+  .collection-meta__count,.collection-meta__lead{display:none}
+  .collection-bar__lead{display:block;margin-left:6px;padding-left:14px;border-left:1px solid var(--c-lijn)}
   .collection-meta:not(:has(.active-filters)){display:none}
   .collection-meta{margin:-4px 0 16px}
 }
@@ -127,6 +138,11 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
 .active-filters__clear{font-size:14.5px;margin-left:4px;font-weight:var(--font-body-weight-semibold)}
 
 .product-grid{--grid-gap:10px}
+/* filtered on a colour: that swatch is ringed; a photo in another colour says so */
+.card__swatch.is-chosen .swatch{box-shadow:inset 0 0 0 1px rgba(29,36,32,.42),0 0 0 2px var(--c-wit),0 0 0 3.5px var(--c-inkt)}
+.card__photo-note{position:absolute;left:10px;bottom:10px;z-index:1;max-width:calc(100% - 76px);padding:3px 9px;border-radius:999px;background:var(--c-wit);box-shadow:inset 0 0 0 1px var(--c-lijn);color:var(--c-kiezel);font-size:12.5px;font-weight:var(--font-body-weight-semibold);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.facet__img{flex:none;width:32px;height:32px;border-radius:6px;overflow:hidden;background:var(--c-media)}
+.facet__img img{width:100%;height:100%;object-fit:contain}
 @media (min-width:750px){.product-grid{--grid-gap:16px}}
 @media (min-width:990px){.product-grid{--grid-gap:24px}}
 .product-grid__item{min-width:0}
@@ -211,7 +227,6 @@ facet-filters.is-loading .collection__results>:not(.collection-bar){opacity:.45;
 .facet__switch-input:checked{background:var(--c-inkt);border-color:var(--c-inkt)}
 .facet__switch-input:checked::before{transform:translateX(17px);background:var(--c-wit)}
 .facet__switch-input:focus-visible{outline:3px solid var(--c-inkt);outline-offset:2px}
-.facet__switch.is-disabled{color:var(--c-kiezel);cursor:not-allowed}
 .facet__price{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;gap:8px;border:0;padding:0;margin:0;min-width:0}
 .facet__price-label{display:block;margin-bottom:4px;font-size:13px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}
 .facet__price-input{position:relative}

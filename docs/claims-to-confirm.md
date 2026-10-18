@@ -40,7 +40,8 @@ thema alleen als een review-app ze levert.
   en "Voor je bedrijf, club of verhuur: grote aantallen, bedrukking en prijzen excl. btw in één voorstel."
 - Hoofdmenu (navigatie › main-menu, uit de catalogus): de link "Offerte vanaf 10 stuks" onder Met jouw logo › Zo werkt
   bedrukken. Pas de tekst aan als je ook kleinere aantallen bedrukt.
-- Home en collecties: USP-strook ("Vóór [besteltijd] besteld, vandaag verzonden": `[besteltijd]` wordt `cutoff_time`), "Zakelijk op factuur", Zakelijk-banner
+- Home en collecties: USP-strook (home: "Vóór [besteltijd] besteld, vandaag verzonden": `[besteltijd]` wordt `cutoff_time`;
+  collecties: "Bezorgd in NL en BE", omdat daar ook producten staan die nabesteld worden), "Zakelijk op factuur", Zakelijk-banner
   ("Staffelkorting vanaf 10 stuks", "Op factuur als je dat wilt"), FAQ-antwoorden.
 - Winkelwagenpagina: "Veilig betalen met iDEAL of Bancontact" en "[bedenktijd] dagen bedenktijd (niet bij bedrukt maatwerk)"
   (`[bedenktijd]` wordt `return_days`) (Zekerheid 1–3 in de sectie Winkelwagen; leeg = weg). "Zakelijk bestellen op factuur"

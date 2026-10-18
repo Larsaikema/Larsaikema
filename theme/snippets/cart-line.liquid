@@ -92,15 +92,36 @@
     <a class="cart-line__title" href="{{ item.url }}" data-refocus-target>{{ item.product.title }}</a>
     {%- if line_variant != '' -%}<p class="cart-line__meta">{{ line_variant }}</p>{%- endif -%}
     {%- if item.selling_plan_allocation -%}<p class="cart-line__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>{%- endif -%}
-    {%- assign visible_props = 0 -%}
-    {%- for p in item.properties -%}
-      {%- assign first_char = p.first | slice: 0 -%}
-      {%- if p.last != blank and first_char != '_' -%}{%- assign visible_props = visible_props | plus: 1 -%}{%- endif -%}
-    {%- endfor -%}
+    {%- comment -%} a value that repeats an earlier one is left out (a length-only configurator line sends 'Afmeting: 10 m'
+      and 'Oppervlakte: 10 m'): the line shows what to make once {%- endcomment -%}
+    {%- liquid
+      assign visible_props = 0
+      assign prop_vals = '|'
+      assign prop_skip = ','
+      for p in item.properties
+        assign first_char = p.first | slice: 0
+        if p.last == blank or first_char == '_'
+          continue
+        endif
+        assign prop_v = '|' | append: p.last | append: '|'
+        assign prop_file = false
+        if p.last contains '/'
+          assign prop_file = true
+        endif
+        if prop_vals contains prop_v and prop_file == false
+          assign prop_skip = prop_skip | append: forloop.index | append: ','
+        else
+          assign prop_vals = prop_vals | append: p.last | append: '|'
+          assign visible_props = visible_props | plus: 1
+        endif
+      endfor
+    -%}
     {%- if visible_props > 0 -%}
       <dl class="cart-line__props">
         {%- for p in item.properties -%}
           {%- assign first_char = p.first | slice: 0 -%}
+          {%- assign prop_k = ',' | append: forloop.index | append: ',' -%}
+          {%- if p.last != blank and first_char != '_' and prop_skip contains prop_k -%}{%- continue -%}{%- endif -%}
           {%- if p.last != blank and first_char != '_' -%}
             <div>
               <dt>{{ p.first }}:</dt>

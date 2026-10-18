@@ -93,15 +93,6 @@
             "heading": "Veelgestelde vragen"
           }
         },
-        "tab_safety": {
-          "type": "collapsible_tab",
-          "settings": {
-            "source": "safety",
-            "heading": "Opzetten & veiligheid",
-            "link": "shopify://blogs/advies/partytent-verankeren-bij-wind",
-            "link_label": "Partytent verankeren bij wind"
-          }
-        },
         "configurator": {
           "type": "configurator",
           "settings": {
@@ -153,7 +144,6 @@
         "tab_description",
         "tab_specs",
         "tab_downloads",
-        "tab_safety",
         "tab_delivery",
         "tab_faq",
         "quote_form"

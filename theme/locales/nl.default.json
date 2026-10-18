@@ -261,7 +261,7 @@
     "shipping_cost_pallet": "Palletlevering {{ amount }} per bestelling",
     "shipping_free_from": "gratis vanaf {{ amount }}",
     "shipping_more": "Meer over verzenden",
-    "sooner": "Eerder nodig? Vraag het ons"
+    "sooner": "Eerder nodig?"
   },
   "card": {
     "quick_add": "In winkelwagen",
@@ -285,7 +285,8 @@
     "staffel_from": "Staffelprijs vanaf {{ qty }} st.",
     "design": "Ontwerp met je logo",
     "cta_label": "{{ action }}: {{ title }}",
-    "sizes_count": "{{ count }} maten"
+    "sizes_count": "{{ count }} maten",
+    "shown_in": "Foto in {{ color }}"
   },
   "collection": {
     "products_count": {
@@ -330,7 +331,6 @@
       "created_ascending": "Oudste",
       "relevance": "Relevantie"
     },
-    "show_results_js": "Toon {{ count }} producten",
     "load_more": "Meer laden",
     "progress": "{{ shown }} van {{ total }} producten",
     "progress_range": "{{ from }}–{{ to }} van {{ total }} producten",
@@ -342,7 +342,11 @@
     "products_heading": "Producten in {{ title }}",
     "show_less": "Minder tonen",
     "price_note": "Bedragen incl. btw",
-    "price_swap": "Van is hoger dan Tot. We draaien ze om zodra je verder gaat."
+    "price_swap": "Van is hoger dan Tot. We draaien ze om zodra je verder gaat.",
+    "price_format": "Alleen cijfers, bijvoorbeeld 1000 of 279,50",
+    "lead_default": "{{ text }}, tenzij anders vermeld",
+    "lead_ask": "Vaste datum? Vraag het ons",
+    "view_all_products": "Bekijk alle producten"
   },
   "cart": {
     "title": "Je winkelwagen",
@@ -447,7 +451,12 @@
     "vat_split": "Waarvan {{ vat }} btw ({{ rate }}%) · {{ excl }} excl. btw",
     "delivery_wait_slowest": "Langste levertijd: {{ title }}, {{ lead_time }}",
     "quantity_decrease_label": "Eén minder: {{ title }}",
-    "quantity_increase_label": "Eén meer: {{ title }}"
+    "quantity_increase_label": "Eén meer: {{ title }}",
+    "delivery_backorder": "Nog niet op voorraad: {{ lead_time }}",
+    "delivery_backorder_item": "{{ title }} is nog niet op voorraad: {{ lead_time }}",
+    "delivery_eta_html": "verwacht in huis <strong>{{ from }} – {{ to }}</strong>",
+    "date_link": "Vaste feestdatum? Geef je leverdatum door",
+    "shipping_note_nl": "Verzendkosten zijn definitief bij het afrekenen."
   },
   "search": {
     "title": "Zoeken",

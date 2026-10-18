@@ -5,6 +5,23 @@
   discontinued product the alternatives.
   Params: product, block, section_id, form_id, current_variant, is_config, cfg, avail_status, is_discontinued,
   print_active, druk, is_maatwerk.
+
+  assets/product-form.js (comments stripped there for the JS budget):
+  - AJAX add via /cart/add.js with items[] (main product first, then the ticked add-ons, data-qty x the quantity unless
+    data-addon-follow="false"); with a logo upload: multipart FormData, add-ons first and taken out again when the main
+    product fails (all or nothing). A 422 'Je kunt maar 2 …' sets the quantity and says 'Er zijn er nog 2 op voorraad …'.
+  - Live total on the button ('In mijn winkelwagen · €798,00') and in the sticky bar; the sticky label follows the button
+    (pre-order / uitverkocht). Add-on rows show '3 × €199,00 + €597,00' when they follow the quantity.
+  - Variant change: the add-on rows take the new variant's add-on variants at once (variants JSON 'ad', same product or
+    same type: polyester side walls become the PVC set), the error notice is cleared, and a buy click before the section
+    HTML arrives waits for it (label 'Toevoegen…'; after 8 s it adds with the swapped add-ons), so an add-on of the
+    previous variant never lands in the cart. Ticks carry over into the fresh add-on list.
+  - Staffel: tier buttons set the quantity; the hint compares quote and cart price in quote mode (never a cart discount).
+  - 'Nog x tonen' for add-ons beyond the block's visible count; a ticked add-on is never hidden.
+  - Sticky bar: phones whenever the main button is off screen, from 990 px a floating card while scrolling back up, never
+    next to the main button (brand 4.2); a keyboard-focused element (:focus-visible, not a tap that focuses <main>) is
+    scrolled clear of it (WCAG 2.4.11).
+  - Inline offerte form: Dutch validation messages per field (data-msg-required), focus on the confirmation.
 {%- endcomment -%}
 {%- if is_discontinued -%}
   {%- liquid

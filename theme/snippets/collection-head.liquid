@@ -15,6 +15,8 @@
   assign kids = nil
   assign sibs = nil
   assign in_menu = false
+  # Level by level: a collection linked both as a top-level item ('Actie') and deeper ('Statafels > Statafelpakketten')
+  # takes its top-level place, the one the header marks as current.
   for l1 in menu.links
     if l1.url == collection.url
       assign in_menu = true
@@ -22,22 +24,16 @@
       assign kids = l1.links
       break
     endif
-    for l2 in l1.links
-      if l2.url == collection.url
-        assign in_menu = true
-        assign trail_1 = l1
-        assign self_link = l2
-        assign kids = l2.links
-        assign sibs = l1.links
-        break
-      endif
-      for l3 in l2.links
-        if l3.url == collection.url
+  endfor
+  unless in_menu
+    for l1 in menu.links
+      for l2 in l1.links
+        if l2.url == collection.url
           assign in_menu = true
           assign trail_1 = l1
-          assign trail_2 = l2
-          assign self_link = l3
-          assign sibs = l2.links
+          assign self_link = l2
+          assign kids = l2.links
+          assign sibs = l1.links
           break
         endif
       endfor
@@ -45,10 +41,29 @@
         break
       endif
     endfor
-    if in_menu
-      break
-    endif
-  endfor
+  endunless
+  unless in_menu
+    for l1 in menu.links
+      for l2 in l1.links
+        for l3 in l2.links
+          if l3.url == collection.url
+            assign in_menu = true
+            assign trail_1 = l1
+            assign trail_2 = l2
+            assign self_link = l3
+            assign sibs = l2.links
+            break
+          endif
+        endfor
+        if in_menu
+          break
+        endif
+      endfor
+      if in_menu
+        break
+      endif
+    endfor
+  endunless
 
   # Breadcrumbs without repeats: a level that links to the same place as the one above it ('Zakelijk' >
   # 'Klapklaar Zakelijk', both the zakelijk page) or to this collection is left out. When the collection title repeats a
