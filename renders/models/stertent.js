@@ -190,22 +190,31 @@ export function stertent(p = {}) {
       const inward = V3(-along.z, 0, along.x);
       if (inward.dot(pa.clone().add(pb)) > 0) inward.negate(); // points to the centre
       const yTop = Hp - 0.12;
+      const lace = Math.max(4, Math.round(len / 0.45));
+      const ph = k * 1.9;
       const P = (s, y) => {
-        // rope sags a little; cloth bellies inward by up to 4 cm and rests on the ground
+        // the rope sags; the top hem is laced to it (scallops between the lacing points); the cloth
+        // bellies in, hangs in soft irregular vertical folds that grow towards the hem, and the hem
+        // rests on the floor with a little kick
         const ropeSag = 0.05 * 4 * s * (1 - s);
         const top = yTop - ropeSag;
         const yy = Math.min(y, top);
-        const belly = 0.04 * Math.sin(Math.PI * s) * Math.sin(Math.PI * Math.min(1, yy / top));
-        const fold = 0.012 * Math.sin(s * len * 6.1 + 1.3) * (1 - yy / top);
-        return pa.clone().lerp(pb, s).addScaledVector(inward, belly + fold).setY(yy);
+        const f = yy / top, lo = 1 - f;
+        const sc = 0.012 * Math.abs(Math.sin(Math.PI * s * lace)) * Math.exp(-lo * 12);
+        const x = s * len;
+        const belly = 0.05 * Math.sin(Math.PI * s) * Math.sin(Math.PI * Math.min(1, f * 0.9 + 0.1));
+        const fold = (0.016 * Math.sin(x * 3.1 + ph) + 0.01 * Math.sin(x * 7.3 + 1.3 + ph) + 0.005 * Math.sin(x * 14.9 + ph * 2)) * (0.25 + lo) * Math.sin(Math.PI * Math.min(1, s * 1.08 + 0.01));
+        const kick = yy < 0.05 ? (0.05 - yy) * 0.6 : 0;
+        return pa.clone().lerp(pb, s).addScaledVector(inward, belly + fold - kick).setY(Math.max(0.003, yy - sc));
       };
-      const ny = 18, nx = Math.max(8, Math.round(len * 6));
+      const ny = 30, nx = Math.max(16, Math.round(len * 14));
       const part = (s0, s1, y0, y1, mat) => {
         const rowsW = [];
         for (let j = 0; j <= ny; j++) { const r = []; for (let i = 0; i <= nx; i++) { const s = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); r.push(P(s, y)); } rowsW.push(r); }
         bins.add(mat, K.gridGeometry(rowsW));
       };
       const topAt = yTop - 0.05;
+      const tapeM = K.pvcPatch(hex);
       if (win) {
         const m = 0.32 / len, w0 = 0.95, w1 = 1.85;
         part(0, 1, 0, w0, wallFab);
@@ -213,13 +222,21 @@ export function stertent(p = {}) {
         part(0, m, w0, w1, wallFab);
         part(1 - m, 1, w0, w1, wallFab);
         part(m, 1 - m, w0, w1, clear);
-        // stitched border round the window
+        // welded border tape round the window
         const brd = [];
-        for (const [s, y] of [[m, w0], [1 - m, w0], [1 - m, w1], [m, w1], [m, w0]]) brd.push(P(s, y).addScaledVector(inward, -0.004));
-        const dense = []; for (let q = 0; q < brd.length - 1; q++) for (let t = 0; t < 12; t++) dense.push(brd[q].clone().lerp(brd[q + 1], t / 12));
-        dense.push(brd[brd.length - 1]);
-        bins.add(thread, K.sweep(dense, 0.004, 4));
+        for (const [s1, y1] of [[m, w0], [1 - m, w0], [1 - m, w1], [m, w1], [m, w0]]) brd.push([s1, y1]);
+        const dense = [];
+        for (let q = 0; q < brd.length - 1; q++) for (let t = 0; t < 24; t++) { const [sa, ya] = brd[q], [sb, yb] = brd[q + 1]; dense.push(P(sa + (sb - sa) * t / 24, ya + (yb - ya) * t / 24).addScaledVector(inward, -0.003)); }
+        dense.push(dense[0].clone());
+        bins.add(tapeM, T2.bandAlong(dense, dense.map(() => inward.clone().negate()), 0.035, 0.0015));
       } else part(0, 1, 0, topAt + 0.06, wallFab);
+      // lacing loops at the top hem, a folded hem at the bottom, zips down both ends
+      for (let q = 0; q <= lace; q++) {
+        const s0 = q / lace, pt = P(s0, topAt + 0.05);
+        const ring = new THREE.TorusGeometry(0.012, 0.003, 6, 14); ring.lookAt(inward); ring.translate(pt.x, pt.y, pt.z); bins.add(steel, ring);
+      }
+      bins.add(wallFab, K.sweep(Array.from({ length: 41 }, (_, i) => P(i / 40, 0.008).addScaledVector(inward, -0.002)), 0.006, 5));
+      for (const s0 of [0.004, 0.996]) bins.add(M.zipTooth('#1B1B1C'), K.sweep(Array.from({ length: 13 }, (_, i) => P(s0, 0.03 + (topAt - 0.05) * i / 12).addScaledVector(inward, -0.004)), 0.005, 5));
       // perimeter rope between pole tops
       bins.add(ropeM, K.rope(a.top.clone().add(V3(0, -0.1, 0)), b.top.clone().add(V3(0, -0.1, 0)), 0.005, 0.012));
     }
