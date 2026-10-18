@@ -200,7 +200,9 @@ export function statafelCover(p = {}) {
   const rig = SL.statafelRig({ albedoL, white: albedoL > 0.5, black: albedoL < 0.05 });
   // soft goods: the parts that face down (the stretch funnel under the blad, the strik drape) sit in
   // the blad's shadow; a large white floor card front-left, below the product, opens them up
-  rig.default.bounce = { azimuth: -16, elevation: -22, intensity: albedoL > 0.5 ? 2.3 : albedoL < 0.05 ? 2.2 : 1.7 };
+  rig.default.bounce = { azimuth: -28, elevation: -22, intensity: albedoL > 0.5 ? 3.3 : albedoL < 0.05 ? 3.1 : 1.9 };
+  if (albedoL > 0.5) rig.default.fill = { ...rig.default.fill, intensity: 1.25 };
+  if (albedoL < 0.05) rig.default.exposure *= 1.06;
   return { object: group, detail, details, meta: { type, color, D: S.D, probes }, rig };
 }
 
@@ -335,7 +337,7 @@ function buildStretch(group, S, p, color) {
   }
 
   // ---- tension detail (displacement along the normal, metres) ----------------------
-  const strain = Array.from({ length: 52 }, () => ({ th: Rg() * TAU, q0: 0.04 + 0.62 * Rg(), a: (0.22 + 0.7 * Rg()) * 1e-3 * (Rg() < 0.85 ? 1 : -0.6), w: 0.007 + 0.018 * Rg() }));
+  const strain = Array.from({ length: 40 }, () => ({ th: Rg() * TAU, q0: 0.02 + 0.5 * Rg(), a: (0.45 + 1.1 * Rg()) * 1e-3 * (Rg() < 0.85 ? 1 : -0.6), w: 0.009 + 0.022 * Rg() }));
   const strainD = (th, q) => {
     if (q <= 0) return 0;
     let d = 0;
@@ -346,7 +348,7 @@ function buildStretch(group, S, p, color) {
     }
     return d * (1 - 0.6 * smoothstep(0.94, 1.0, q));
   };
-  const rumples = Array.from({ length: 90 }, () => ({ th: Rg() * TAU, y: yW + (Rg() - 0.48) * 0.11, a: (Rg() < 0.68 ? 1 : -0.75) * (0.5 + 1.9 * Rg()) * 1e-3, wt: 0.05 + 0.17 * Rg(), wy: 0.007 + 0.022 * Rg(), sh: (Rg() - 0.5) * 5 }));
+  const rumples = Array.from({ length: 56 }, (_, i) => { const big = i < 9; return { th: Rg() * TAU, y: yW + (Rg() - 0.55) * (big ? 0.07 : 0.1), a: (Rg() < 0.66 ? 1 : -0.8) * (big ? 1.8 + 1.6 * Rg() : 0.4 + 1.5 * Rg()) * 1e-3, wt: big ? 0.18 + 0.25 * Rg() : 0.05 + 0.2 * Rg(), wy: big ? 0.035 + 0.03 * Rg() : 0.006 + 0.02 * Rg(), sh: (Rg() - 0.5) * (big ? 14 : 7) }; });
   const rumpleD = (th, y) => {
     const dyW = y - yW; if (Math.abs(dyW) > 0.13) return 0;
     let d = 0;
@@ -444,9 +446,9 @@ function buildStretch(group, S, p, color) {
   const footDens = (th) => 1 + 2.2 * Math.exp(-((footDelta(th) / 0.09) ** 2));
   const thetas = warpedThetas(Number(p.segments ?? 860), footDens, 214 * DEG);
   const rows = [];
-  for (let s = 0; s < Lup - 1e-6;) { rows.push(s / Lup); s += s < sDep + 0.012 ? 0.0014 : (Math.abs(profAt(up, s)[1] - yW) < 0.1 ? 0.003 : 0.0045); }
+  for (let s = 0; s < Lup - 1e-6;) { rows.push(s / Lup); s += s < sDep + 0.012 ? 0.0014 : (Math.abs(profAt(up, s)[1] - yW) < 0.09 ? 0.003 : 0.0055); }
   rows.push(1);
-  for (let t = 0.005; t < 1 - 1e-6;) { rows.push(1 + t); t += t > tB - 0.04 ? 0.0032 : 0.0062; }
+  for (let t = 0.005; t < 1 - 1e-6;) { rows.push(1 + t); t += t > tB - 0.04 ? 0.0032 : t < 0.15 ? 0.005 : 0.0082; }
   rows.push(2);
   const uScale = 0.25;
   const bodyGeo = gridMesh(thetas, rows, finalPoint, (th, rho) => {
@@ -725,7 +727,7 @@ function buildStrik(group, S, p, color) {
     const phU = phase(thc, wU), phL = phase(thc, wL, t);
     const kG = 1 - smoothstep(0.04, 0.32, t);
     let mn = 0; for (const q of minor) mn += q.a * Math.sin(q.k * thc + q.p + q.d * t);
-    const v = kG * shape(2 * phU, 1.5) * foldAmp(2 * phU + 1.3, 2 * N1) + (1 - kG) * (shape(phL, 1.9 + 0.4 * t) * foldAmp(phL + 2.1, N1) + 0.22 * mn * smoothstep(0.2, 0.8, t));
+    const v = kG * shape(2 * phU, 1.5) * foldAmp(2 * phU + 1.3, 2 * N1) + (1 - kG) * (shape(phL, 1.35 + 0.25 * t) * foldAmp(phL + 2.1, N1) + 0.22 * mn * smoothstep(0.2, 0.8, t));
     const A = 0.004 + 0.03 * smoothstep(0.0, 0.45, t) - 0.006 * smoothstep(0.86, 1, t);
     return A * ampJ(thc + 1.7, t) * v;
   };
@@ -852,7 +854,8 @@ function buildStrik(group, S, p, color) {
         const th = thC + xw * (w / 2) / rs;
         const local = yy > yBandBot ? rBand + 0.004 : skirtR(th, Math.max(0.006, yy));
         const cupT = 0.0012 * (1 - xw * xw);
-        const r = Math.max(env(xw), local) + 0.0016 + cupT + (th2 / 2) * (yt + 1);
+        const wave = 0.0025 * Math.max(0, Math.sin(u * 9.5 + side * 1.3)) * smoothstep(0.15, 0.4, u) * (0.6 + 0.4 * xw * side);
+        const r = Math.max(env(xw), local) + 0.0016 + cupT + wave + (th2 / 2) * (yt + 1);
         ring.push(V3(Math.sin(th) * r, yy, Math.cos(th) * r));
       }
       rows.push(ring);

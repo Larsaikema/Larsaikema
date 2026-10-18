@@ -20,7 +20,7 @@
    "collection": 2,
    "product": 945
   },
-  "already_present": 557
+  "already_present": 569
  },
  "jobs": [
   {
@@ -10806,9 +10806,14 @@
      "handle": "klapstoel-wedding",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-26-weddingstoelen-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10838,7 +10843,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10868,7 +10873,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10898,7 +10903,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11942,7 +11947,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11973,7 +11978,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12004,7 +12009,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12035,7 +12040,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12066,7 +12071,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12097,7 +12102,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16605,7 +16610,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16847,7 +16852,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {

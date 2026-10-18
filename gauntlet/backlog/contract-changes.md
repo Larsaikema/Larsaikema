@@ -57,3 +57,54 @@ carries all of it.
   backorder (0, policy continue), so every stock state can be judged in the preview. `export/products.csv` keeps Inventory Qty 0 and policy
   continue until the owner sets the real stock (`catalog/stock.csv`, docs/claims-to-confirm.md). The theme must not treat the demo stock as
   real.
+
+---
+
+# Catalog round 3 (2026-10-18, graded findings): what the theme still has to read
+
+The catalog side builds and validates clean (`python3 catalog/build.py`, `python3 catalog/validate.py`: 0 errors). The grader's high finding
+was that **the theme reads none of the round-2026-10-18 fields**. One part is fixed in this round, the rest is listed here in priority
+order with the exact data the PDP has to render. The PDP files (`sections/main-product.liquid`, `snippets/product-addons.liquid`,
+`snippets/delivery-promise.liquid`) were being edited by the PDP piece during this round, so the catalog engineer did not touch them.
+
+## Done in this round
+
+- `snippets/cart-shipping.liquid` reads `custom.verzendkosten_staffel` per line: the variant's `per_optie` value (else `staffel`), the last
+  tier with `vanaf` ≤ the line quantity, `per stuk` × quantity, and the highest line counts. Checked in the preview cart: 4 × betonblok
+  1000 kg € 459, stretchtent 10,5 × 19,5 m € 129, buizenframe 8 × 12 m € 79, 25 statafels € 79 (were € 45 / € 49 / € 49 / € 19,95).
+
+## To do on the PDP (priority order)
+
+1. **Shipping line per variant and quantity** (`custom.verzendkosten_staffel`): show the amount for the selected variant at the chosen
+   quantity next to the delivery promise ("Verzending bij 3 stuks: € 49,00"), and update it when the quantity or variant changes
+   (product-form.js already knows both). The same lookup as cart-shipping: `per_optie.waarden[<value of per_optie.optie>]` else `staffel`;
+   last row with `vanaf` ≤ quantity; `eenheid: "per stuk"` multiplies by the quantity. Since round 3 every pallet and table product
+   carries quantity tiers (weight classes of the whole shipment), so a flat amount is wrong from 2 pieces on.
+2. **Bouwtekening** (variant metafield `custom.stuklijst`, on 611 variants: buizenframe tents, opslagtent, stretchtent compleet): a parts
+   table per `groep` (Frame, Doek, Palen, Afspanning), columns Onderdeel and Aantal, each row a link to `/products/<handle>?variant=<id>`
+   where the id is the variant of that product with `sku` = the row's `sku` (`all_products[row.handle]`; a stuklijst uses at most 8
+   distinct handles, under the 20-lookup limit). Swap it on variant change (data-dynamic like the price block). Collapsible tab
+   "Bouwtekening" under the description is enough.
+3. **Parts list** (`custom.onderdelen`, product references, on 84+ products: the reverse of `past_op`): "Onderdelen en accessoires voor
+   deze tent" as a small product-card row or link list on the PDP (tents, statafels, marktkraam). Bundles are already left out.
+4. **Add-on discount label** (`custom.addon_korting` = `{"procent": 10, "op": [handles]}`, 25 tents): in the add-on block, next to each
+   add-on whose handle is in `op`, the text "−10% met je tent" (no price change: the discount is a Shopify automatic discount the owner
+   still has to create; the theme setting or block toggle should hide the label until it exists).
+5. **Expected date** (`custom.verwacht_op`, date): "Verwacht op 12 november" next to the stock line for `binnenkort`, `pre-order` or a
+   sold-out variant. Empty in the catalog until the owner fills it in.
+6. **Add-on colour choice (UX, low)**: a statafel offers the rok/strik in one colour (Wit at Wit, else Zwart). A colour select inside the
+   add-on row (the add-on product's own `Kleur` values, the variant `addon_varianten` entry as the default) would let the shopper pick one
+   of the 24 colours without leaving the PDP. No data change needed: `addon_varianten` gives the default, the add-on product its variants.
+
+## New data in round 3 the theme should handle
+
+- **Option values**: decors `Betonlook`, `Wit marmer`, `Zwart marmer`, `Grijs eiken`, `Teak` (added to the `swatch_colors` default in
+  `theme/config/settings_schema.json`); `Houtlook` is no longer used by any Kleur option. Uitvoering values got longer: `Buiten (compact
+  HPL), zandkleur onderstel`, `Hoogglans, geborsteld goud onderstel`, `Gegalvaniseerd frame, kap met kartelrand`, `Dak in framekleur,
+  extra hoog (220 cm)`, `Set rondom, full colour bedrukt`, `Fitting om de 50 cm`. Pills must wrap.
+- **Maat** `50 x 1 m` (loper op rol), `180 x 70 cm` / `140 x 70 cm` (statafels), `Ø100 cm` (wijnvat).
+- **Print**: `zijwanden-stertent` is `bedrukbaar` now (`drukopties.optie: Uitvoering`, `zonder` = the plain walls).
+- **Downloads**: 60 products carry `custom.downloads` (productblad and/or opbouwhandleiding PDFs); the Downloads block and the page
+  Handleidingen pick them up as before.
+- **Wall sets**: the `<table data-kk="set-vs-los">` in `zijwandenset-easy-up(-heavy-duty-pvc)` is rebuilt by build.py from the loose wall
+  prices (same markup as the bundles): style it, do not compute it.

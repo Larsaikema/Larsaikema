@@ -28,7 +28,10 @@ export function stertent(p = {}) {
   const print = p.canopyPrint || p.print || null;
   const baseFab = K.pvc(hex);
   const fab = print ? K.printed(baseFab, K.artwork('star'), 'star') : baseFab;
-  const wallFab = K.pvc(hex);
+  const wallFab = K.pvc(K.col(p.wallColor || p.color || 'wit', M.COLORS.wit));
+  // `wallPrint: {artwork}`: full-colour printed walls (sample design: the band artwork over the
+  // solid band under the panorama windows, and plain base colour above)
+  const wallPrintMat = p.wallPrint ? K.printed(wallFab, K.artwork('band'), 'star-wall') : null;
   const alu = M.aluminium({ roughness: 0.3 });
   const steel = M.galvanised();
   const ropeM = K.ropeMat(K.lumOf(hex) > 0.5 ? '#E8E6E0' : '#2A2B2D');
@@ -208,16 +211,21 @@ export function stertent(p = {}) {
         return pa.clone().lerp(pb, s).addScaledVector(inward, belly + fold - kick).setY(Math.max(0.003, yy - sc));
       };
       const ny = 30, nx = Math.max(16, Math.round(len * 14));
-      const part = (s0, s1, y0, y1, mat) => {
+      const part = (s0, s1, y0, y1, mat, printV = null) => {
         const rowsW = [];
         for (let j = 0; j <= ny; j++) { const r = []; for (let i = 0; i <= nx; i++) { const s = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); r.push(P(s, y)); } rowsW.push(r); }
-        bins.add(mat, K.gridGeometry(rowsW));
+        if (wallPrintMat && printV) {
+          // uv1: u along the panel, v up the printed band (the hem at 0); the panel is seen from outside
+          const uv = new Float32Array((nx + 1) * (ny + 1) * 2); let m = 0;
+          for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const sx = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); uv[m++] = 1 - sx; uv[m++] = Math.min(1, Math.max(0, (y - printV[0]) / (printV[1] - printV[0]))); }
+          K.addMesh(group, K.gridGeometry(rowsW, { uv1: uv }), wallPrintMat);
+        } else bins.add(mat, K.gridGeometry(rowsW));
       };
       const topAt = yTop - 0.05;
       const tapeM = K.pvcPatch(hex);
       if (win) {
         const m = 0.32 / len, w0 = 0.95, w1 = 1.85;
-        part(0, 1, 0, w0, wallFab);
+        part(0, 1, 0, w0, wallFab, [0.02, w0 - 0.02]);
         part(0, 1, w1, topAt + 0.06, wallFab);
         part(0, m, w0, w1, wallFab);
         part(1 - m, 1, w0, w1, wallFab);
@@ -229,7 +237,7 @@ export function stertent(p = {}) {
         for (let q = 0; q < brd.length - 1; q++) for (let t = 0; t < 24; t++) { const [sa, ya] = brd[q], [sb, yb] = brd[q + 1]; dense.push(P(sa + (sb - sa) * t / 24, ya + (yb - ya) * t / 24).addScaledVector(inward, -0.003)); }
         dense.push(dense[0].clone());
         bins.add(tapeM, T2.bandAlong(dense, dense.map(() => inward.clone().negate()), 0.035, 0.0015));
-      } else part(0, 1, 0, topAt + 0.06, wallFab);
+      } else part(0, 1, 0, topAt + 0.06, wallFab, [0.05, topAt]);
       // lacing loops at the top hem, a folded hem at the bottom, zips down both ends
       for (let q = 0; q <= lace; q++) {
         const s0 = q / lace, pt = P(s0, topAt + 0.05);

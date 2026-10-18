@@ -350,19 +350,26 @@ keer moet bevestigen of instellen.
 | De previewfixture (`catalog/preview-data.staging.json`, `meta.demo_stock: true`) heeft demovoorraad, zodat alle voorraadstanden te beoordelen zijn: de meeste varianten op voorraad, een paar laag (1–3), een paar in nabestelling (0). | Niets: dit is alleen voor de preview. |
 | `export/products.csv` houdt **Inventory Qty 0** en beleid **continue** (doorverkopen). | **Jij zet de echte voorraad** in `catalog/stock.csv` (of in Shopify). Pas daarna toont de winkel 'Op voorraad'. |
 
-### Verzendkosten per product (H11)
+### Verzendkosten per product (H11, met aantallen sinds catalogusronde 3)
 
-| Klasse | Bedrag (incl. btw) | Waar |
-|---|---|---|
-| Pallet, verzendgewicht per stuk tot 150 kg | € 49,00 | tenten, karren, koeling, tafels op pallet |
-| Pallet tot 400 kg | € 79,00 | grote tenten, pakketten |
-| Pallet tot 700 kg | € 129,00 | stretchtenten, grote pakketten |
-| Pallet boven 700 kg | € 175,00 | zwaarste pakketten |
-| Groot pakket | € 19,95 | statafels, terrastafels en klaptafels die als pakket gaan |
-| Betonblok, per stuk | € 45 (120/140 kg) · € 59 (240 kg) · € 75 (500 kg) · € 99 (750 kg) · € 135 (1000 kg), vanaf 4 stuks −15 % | `betonblok-ballast-tent` |
+De bedragen hangen af van het **gewicht van de zending** (aantal × gewicht per stuk), zoals gewichtsafhankelijke tarieven in Shopify werken.
 
-Ze staan in `custom.verzendkosten` (tekst) en `custom.verzendkosten_staffel` (per variant of aantal). **Het verzendprofiel in Shopify moet
-dezelfde bedragen hebben**, anders klopt de PDP niet met de checkout.
+| Klasse | Gewicht van de zending | Bedrag (incl. btw) | Waar |
+|---|---|---|---|
+| Pakket | tot 31,5 kg | € 6,95 (theme-instelling `shipping_cost_pakket`) | kleine producten, textiel, onderdelen |
+| Groot pakket | tot 25 kg · tot 40 kg | € 19,95 · € 39,90 | statafels, terrastafels en klaptafels die als pakket gaan; daarboven pallet |
+| Pallet | tot 150 / 400 / 700 / 1.000 kg | € 49 / € 79 / € 129 / € 175 | tenten, karren, koeling, tafels op pallet, pakketten |
+| Meer pallets | tot 2.000 / 3.000 kg | € 350 / € 525 | grote aantallen; daarboven vracht op offerte |
+| Betonblok, per stuk | — | € 45 (120/140 kg) · € 59 (240 kg) · € 75 (500 kg) · € 99 (750 kg) · € 135 (1000 kg), vanaf 4 stuks −15 % | `betonblok-ballast-tent` |
+
+Voorbeelden: 1 statafel € 19,95, 2 statafels € 39,90, 3 tot 11 statafels € 49, 25 statafels € 79; 4 betonblokken van 1000 kg € 459; een
+stretchtent 10,5 × 19,5 m € 129; een buizenframe-tent 8 × 12 m € 79. **Een pakket kost nooit minder verzending dan zijn zwaarste onderdeel
+los**, in minstens dezelfde klasse (het starterspakket Premium gaat dus op een pallet zoals de tent van 3 × 4,5 en 3 × 6 m; 4 statafels met
+rokken ook). Boven 31,5 kg gaat niets als pakket.
+
+Ze staan in `custom.verzendkosten` (tekst, "vanaf") en `custom.verzendkosten_staffel` (per variant en aantal); het winkelwagen-overzicht
+rekent per regel met het aantal. **Zet in Shopify per verzendprofiel dezelfde gewichtsafhankelijke tarieven** (Pakket, Groot pakket,
+Pallet), anders klopt de productpagina niet met de checkout. Boven 3.000 kg per bestelling: een vrachtofferte.
 
 ### Korting op add-ons bij een tent (M1)
 
@@ -387,8 +394,8 @@ het blok uit in de theme-editor, of maak de korting eerst.
 
 - Buizenframe-tenten, opslagtent en nu ook de **stretchtent compleet** hebben per variant een stuklijst (`custom.stuklijst`). Bij de
   stretchtent: los doek, palenset, een spanband met ratel en een haring van 75 cm **per lus** (elke 75 cm), en bij de zware afspanning
-  een touwenset en een ronde haring van 100 cm per paal. Het losse stretchdoek is daarom anders geprijsd (4,5 × 6 m € 1.595 tot
-  10,5 × 19,5 m € 10.095; 6 × 6 m € 2.145 om binnen 14 % van de referentie te blijven). Aluminium kost wat de aluminium palen meer kosten.
+  een touwenset en een ronde haring van 100 cm per paal. Het losse stretchdoek staat sinds catalogusronde 3 ca. 10 % onder de
+  referentie (4,5 × 6 m € 1.895 tot 10,5 × 19,5 m € 12.445) en doek + palen + afspanning blijft boven de tent. Aluminium kost wat de aluminium palen meer kosten.
   **Bevestig de palensets, het aantal lussen en de afspanning met de leverancier.**
 - Statafel: onderstel compleet € 56,95, zodat onderstel + los blad altijd ≥ de statafel is.
 - Easy-up Professional: los frame 2 × 2 m € 469 en 3 × 6 m € 859, zodat frame + dak ≥ de tent is.
@@ -425,3 +432,64 @@ labels Ja / Nee** in de app; anders toont Shopify 'true' / 'false'.
 
 `custom.verpakt` geeft bij producten zonder bekende doosmaat de vorm en het gewicht ("Pakket · 1 doos · ca. 4,2 kg", "Vracht op pallet
 (120 x 80 cm) · ca. 150 kg"). Het aantal colli is niet geschat. Vul doosmaten en colli aan zodra de leverancier ze geeft.
+
+## Catalogus: catalogusronde 3 (18 oktober 2026, beoordeelde bevindingen)
+
+Alles staat als data in `catalog/tools/skeleton/*.py` en `catalog/parts/*.json`; elk product heeft zijn eigen punten in `claims`.
+`python3 catalog/validate.py` controleert de regels hieronder bij elke build.
+
+### Prijzen terug in de band (5–15 % onder de referentie)
+
+| Wat | Was | Nu |
+|---|---|---|
+| Zijwand easy-up polyester (dicht / raam / deur) | 2 m € 39,95 … 8 m € 109,95 (20–42 % onder) | 2 m € 59,95 / € 61,95 · 3 m € 61,95 / € 76,95 · 4 m € 79,95 / € 92,95 · 4,5 m € 83,95 / € 96,95 · 5 m € 89,95 / € 104,95 · 6 m € 96,95 / € 119 · 8 m € 129 / € 159 (deur = dicht, zoals bij de referentie) |
+| Halve zijwand | 3 m € 34,95 … | 3 m € 43,95 · 4 m € 52,95 · 4,5 m € 53,95 · 5 m € 56,95 · 6 m € 62,95 · 8 m € 79,95 |
+| Zijwand heavy duty PVC (dicht/deur · raam) | 4 m € 114,95, 8 m € 189 | 3 m € 99 / € 109 · 4 m € 139 / € 149 · 4,5 m € 149 / € 159 · 6 m € 179 / € 209 · 8 m € 259 / € 269 |
+| Zijwandenset polyester | 4×4 € 229, 4×8 € 329 | 3×3 € 219 · 3×4,5 € 249 · 3×6 € 309 · 4×4 € 269 · 4×6 € 329 · 4×8 € 379 · 5×5 € 269 (de referentie zet 5×5 onder 4×4; wij houden de ladder) |
+| Zijwandenset heavy duty PVC | 3×6 € 379 … 4×8 € 469 | 3×3 € 359 · 3×4,5 € 419 · 3×6 € 519 · 4×4 € 469 · 4×6 € 559 · 4×8 € 699 |
+| Dakzeil easy-up | 2×2 € 79, HD 4×4 € 279 (+19 %), HD 4×6 € 379 | polyester 2×2 € 119 … 5×5 € 269; HD 3×3 € 199, 4×4 € 219, 4×6 € 469, 4×8 € 549 |
+| Los frame Professional | 3×4,5 € 599, 5×5 € 999 | 3×3 € 529, 3×4,5 € 669, 4×4 € 629, 5×5 € 1.079 (frame + dak blijft boven de tent) |
+| Easy-up Premium 3×6 / Professional HD 4×4 | € 449 / € 889 | € 435 / € 839 (zodat los frame + dak niet goedkoper is dan de tent) |
+| Stretchtent compleet 10,5 × 10,5 / 12 / 15 / 19,5 | € 8.595 / 9.195 / 9.895 / 12.895 | € 8.295 / 8.995 / 10.595 / 13.795 |
+| Stretchdoek los | 4,5×6 € 1.595 … 10,5×15 € 7.695 | 4,5×6 € 1.895 · 4,5×7,5 € 1.995 · 6×6 € 2.245 · 6×10,5 € 3.895 · 7,5×10,5 € 4.695 · 9×10,5 € 5.795 · 10,5×10,5 € 6.795 · 10,5×12 € 7.695 · 10,5×15 € 9.645 · 10,5×19,5 € 12.445 |
+| Stretchdoek op maat | € 59,95 per m² | € 69,95 per m² (nooit goedkoper per m² dan een doek uit voorraad) |
+| Conferentietafel | T € 149–209 onder U € 169–229 | U zwart € 149–199 · T zwart € 179–219 · T chroom (nieuw) € 229–279 |
+| Betonblok | 120 kg € 99, 240 kg € 149, truss € 239 | 120 kg met vorkuitsparing € 119 · 140 kg € 109 · 240 kg € 169 · truss € 269 |
+| PVC 550 Premium / compleet | compleet 2–5 % boven de referentie | Premium 4×4 € 495, 4×6 € 615, 4×8 € 745, 5×4 € 609, 5×10 € 959 · compleet € 509 / 624 / 765 / 965 |
+| Klapstoel · kar 40 stapelstoelen | € 17,95 · € 449 | € 19,95 · € 499 |
+| Prikkabel op maat | € 4,49 per meter voor elke afstand | per fittingafstand: 50 cm € 7,49 · 75 cm € 6,49 · 100 cm € 5,49 · 150 cm € 4,99 · 200 cm € 4,79 |
+| Pendels prikkabel | 50 cm € 3,95 | 20 cm € 2,69 · 30 cm € 3,15 · 40 cm € 3,95 · 50 cm € 5,35 |
+| Terrastafel inklapbaar | 60×60 € 89,95, 70×70 € 99,95, 120×70 € 199 | € 109 / € 119 / € 269, compact HPL + € 45 / € 80 |
+
+### Nieuwe producten (16) en nieuwe uitvoeringen
+
+| Groep | Wat |
+|---|---|
+| Bevestigingsmateriaal | spanband met ratel 9/13/15/20 m; oogbouten en schroefogen (ook met elastiek); klittenband zelfklevend 50 mm; zeilringen 12 mm met slaggereedschap; dakhaken; spanschroeven M6/M8; schroevenset; tentelastieken nu kort en lang, wit en zwart |
+| Statafels | statafel breed stapelbaar 140 en 180 × 70 cm; design statafel marmerlook Ø70 (hoogglans of compact HPL, goud of zwart onderstel); design statafel HPL met zuilvoet (rond of vierkant, 6 decors, 3 onderstelkleuren); vierkante en terrastafel nu binnen (7 decors) of compact HPL buiten (12 decors); rechthoekige statafel 6 decors en 180 × 70 cm; wijnvat Ø100 cm |
+| Barrels | barkruk wijnvat (€ 89); wijnvat-set nu met 4 wijnvat-krukken, Ø80 of Ø100 |
+| Marktkraam | zwart frame, kap met kartelrand, kap in zwart; los dakzeil, rok, werkblad en transportkar voor 6 kramen |
+| Overig | loper op rol 50 m; carport in wit, grijs of groen met haringen en spanbanden als add-on; hypar in 6 kleuren (zwart en rood + € 95–225); bedrukte stertentwanden (los of rondom); opblaasbare 3 × 3 m extra hoog (220 cm, + € 95; wanden en luifel passen alleen op de standaardhoogte) |
+
+**Bevestig met de leverancier**: decors en toeslagen van compact HPL, het witte en zandkleurige onderstel, het verchroomde T-onderstel,
+de vorkuitsparing op het blok van 120 kg, het kartelrand-dak en het zwarte marktkraamframe, alle maten en gewichten van de nieuwe producten.
+
+### Kleurnamen
+
+- 'Houtlook' bestaat niet meer: het eikendecor heet overal 'Eiken' (ook de cross back-stoel: beukenhout met eikenkleurige lak).
+- Nieuwe decors: Betonlook, Wit marmer, Zwart marmer, Grijs eiken, Teak (staan in `swatch_colors`).
+- Geen merkkleurnaam (Lampion, Klaproos, Inkt, Zand, Linnen, …) als productkleur, SKU, bestandsnaam of alt-tekst: `validate.py` controleert het.
+
+### Downloads (M16)
+
+60 van 222 producten hebben nu een download (was 31): productbladen voor zijwanden, wandensets, buizenframe-wanden, stertentwanden en alle
+statafels, en een **opbouw- en veiligheidshandleiding** voor dezelfde wanden en statafels (`node catalog/tools/productblad.mjs
+--handleidingen`). De handleidingen geven algemene aanwijzingen; laat ze nalezen voordat ze bij een evenement met publiek gebruikt worden.
+
+### Te beslissen door jou
+
+- **Loper op rol 50 m (€ 359)** staat 18 % onder de referentie (€ 439) omdat hij gelijk is aan 50 m per meter met staffel. Jij kiest: zo laten, of de 50 m-staffel van de loper per meter verlagen en de rol duurder maken.
+- **Tuinpaviljoen 'Staal'** staat bij ons onder Aluminium (€ 519–719), terwijl de stalen lijn van de referentie hun premiumlijn is (3×3 € 925). Vraag de leverancier of ons staal de lichte of de zware uitvoering is en prijs het daarna.
+- **Carport 3,3 × 9,6 m (€ 989)** staat boven de actieprijs van de referentie (€ 750, normaal € 1.099).
+- **Statafelrok bij een statafel**: de add-on volgt de bladkleur (wit bij wit, anders zwart). Een andere van de 24 kleuren kies je op de rokpagina; een kleurkeuze in de add-on staat op de theme-backlog.
+

@@ -1,8 +1,8 @@
 {%- comment -%}
   Shipping estimate for the cart (feature cart.shipping-excluded-note, with cart.highest-shipping-only): one shipment,
   and the highest shipping cost in the cart is what it costs. Per line that is the product's own cost
-  (custom.verzendkosten, the same override the product page shows, e.g. "€ 12,50" or "Verzendkosten op dit product:
-  € 12,50"; "gratis" = 0) or else its class rate (theme settings shipping_cost_pakket / shipping_cost_pallet, incl.
+  (custom.verzendkosten_staffel at the line quantity and variant, catalog round 3; else custom.verzendkosten, the same override
+  the product page shows, e.g. "€ 12,50" or "Verzendkosten op dit product: € 12,50"; "gratis" = 0) or else its class rate (theme settings shipping_cost_pakket / shipping_cost_pallet, incl.
   btw; custom.verzending = pallet or tag pallet). Parcels are free from free_shipping_threshold (only when the owner set
   one). Only for the Netherlands and only when the owner shows shipping costs; anything it cannot read makes the cart
   say checkout shows the cost. It is an estimate: the cart labels it 'indicatie' and checkout has the final amount.
@@ -43,7 +43,42 @@
       elsif sh_src != sh_key
         assign sh_mixed = true
       endif
-      if sh_raw != blank
+      comment
+        Catalog round 3: custom.verzendkosten_staffel is the line's own amount at its quantity (CONTRACT): the tiers of the variant's
+        per_optie value (else staffel), last tier with vanaf <= quantity; 'per zending' = the amount for the whole line, 'per stuk' =
+        amount x quantity (4 x betonblok 1000 kg: 4 x 114,75). Only when it cannot be read does the text of custom.verzendkosten count.
+      endcomment
+      assign sh_st = item.product.metafields.custom.verzendkosten_staffel.value
+      assign sh_tiers = nil
+      if sh_st != blank
+        assign sh_tiers = sh_st.staffel
+        if sh_st.per_optie != blank
+          assign sh_opt_val = ''
+          for sh_opt in item.product.options
+            if sh_opt == sh_st.per_optie.optie
+              assign sh_opt_val = item.variant.options[forloop.index0]
+            endif
+          endfor
+          if sh_opt_val != '' and sh_st.per_optie.waarden[sh_opt_val] != blank
+            assign sh_tiers = sh_st.per_optie.waarden[sh_opt_val]
+          endif
+        endif
+      endif
+      assign sh_amount = nil
+      if sh_tiers != blank
+        for sh_t in sh_tiers
+          if sh_t.vanaf <= item.quantity
+            assign sh_amount = sh_t.bedrag
+          endif
+        endfor
+      endif
+      if sh_amount != nil
+        assign sh_override = true
+        assign sh_line = sh_amount | times: 100 | round
+        if sh_st.eenheid == 'per stuk'
+          assign sh_line = sh_line | times: item.quantity
+        endif
+      elsif sh_raw != blank
         assign sh_override = true
         assign sh_low = sh_raw | downcase
         if sh_low contains 'gratis'

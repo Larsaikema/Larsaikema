@@ -269,26 +269,70 @@ geopende deur ernaast (rits, stormflap, opgerold en vastgegespt blad, doorkijk n
 van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 
 ### `statafel`
-`{ diameter, height, top, frame, base, legs, folded, footAngle }`
+`{ diameter, height, top, frame, base, legs, folded, lean, leanYaw, leanTilt, footAngle, noTop, shape }`
 
 - `diameter`: 0.6 / 0.7 / 0.8 / 0.85 (m, of in cm), `height` 1.10.
-- `top`: `berken` (multiplex 18 mm, zichtbare lagen), `hdpe` / `hdpe-grijs` (45 mm blow-moulded), `wit` / `zwart` (gelamineerd).
-- `frame`: `zwart`, `wit`, `antraciet`, `chroom`, `alu`.
-- `base`: `klap` (inklapbaar: kolom, onderhub, 4 poten + schoren naar schuifkraag, scharnierend blad),
+- `top`: `berken` (multiplex 18 mm: één fysiek geschaald, laag-contrast schilfineer, `birchTopFace()` =
+  `upholstery2.birchPly` met drie speldenknoesten binnen het blad, ook op de onderkant en op vierkante bladen;
+  lagen op de rand), `hdpe` / `hdpe-grijs` (45 mm blow-moulded), `wit` / `zwart` / `antraciet` / `houtlook` /
+  `graniet` (gelamineerd).
+- `frame`: `zwart`, `wit`, `antraciet` (satijn poedercoat zonder stippelruis, `statafelLook.satinPowder`:
+  lange zachte glansbanen van de studioboxen op de buizen), `chroom`, `alu`.
+- `base: "klap"` (inklapbaar), zoals echte klapstatafels gebouwd: Ø50 kolom; onderaan een hub met vier
+  **gaffels** (twee wangen per poot) waarin de **ovale poten 30 × 16** op **klinknagels** scharnieren;
+  **platte stalen schoren 18 × 4** die met pennen in een gaffel óp de poot en in een gaffel op de **schuifkraag**
+  zitten (geen zwevende uiteinden meer); de kraag zit vast met een **sterknop** (vooraan, tussen twee poten);
+  **voetdoppen** als glijschoen over het buiseinde met een vlakke zool. Onder het blad: twee gekruiste platte
+  steunen met schroeven, een montageplaat, twee **scharnierwangen** rond de kolomkop met een **scharnierbout**
+  (zeskantkop + moer) 48 mm onder het blad, en een **veerpen met trekknop** als kantelvergrendeling.
   `kruis` (horeca, vaste 4-stervoet), `rond` (horeca, ronde voetplaat). `legs`: 3 of 4.
-- `folded: true`: blad verticaal, poten langs de kolom opgeklapt.
+- `folded: true`: blad verticaal (om de scharnierbout), poten langs de kolom opgeklapt (de kraag schuift via
+  de schoren mee omhoog, kinematisch berekend). Los in beeld **leunt** de ingeklapte tafel tegen de (onzichtbare)
+  studiosweep: kolomvoet op de vloer, bladrand tegen de sweep, de mechaniekzijde (kolom, opgeklapte poten,
+  scharnier, knop) naar de camera; `leanYaw` (°, standaard 8) draait hem t.o.v. de sweep (de hero kijkt van 50° opzij, zodat je de leunhoek, de bladrand, het scharnier en de opgeklapte poten ziet), `leanTilt` (°,
+  standaard 11) is de leunhoek. Beide raakpunten krijgen contactschaduw (vloer: contactpass; sweep:
+  `userData.catcher`, zie Licht). `lean: false` = de kale ingeklapte tafel rechtop (voor de transportkar).
+- Detailbeelden (`--angle detail` of `detail-<naam>`): `detail` = het klapmechaniek (schuifkraag met sterknop,
+  schoren met gaffels, hub, voetdoppen), `detail-scharnier` = kantelbeugel en scharnier onder het blad van
+  schuin onder, `detail-kraag` = kraag + knop, `detail-voet` = een voetdop.
 
 ### `statafelCover`
-`{ type, color, diameter, topcover, waistY, waistR, hemLift, sashColor, bowAngle, tableTop }`
+`{ type, color, diameter, topcover, topcoverPrint, print, waistY, waistR, hemLift, sashColor, bowAngle, tableTop, seed }`
 
-- `type: "stretch"`: lycra die het blad omspant, taps naar een strakke taille en uitwaaiert over de 4 voeten
-  (zandloper), vrije zoom die tussen de voeten omhoog boogt, fijne spanningsplooien bij de taille.
-  `topcover: "wit"` (of `true`) voegt een losse topcover in een andere kleur toe.
-- `type: "strik"`: los polyester, bij de taille samengebonden met een sjerp + strik (2 lussen, 2 staarten
-  met zwaluwstaart), rok tot de grond met onregelmatige plooien. `sashColor` voor een contrasterende sjerp.
+- `type: "stretch"` (statafelrok): polyester-elastaan single jersey (`statafelLook.jerseyKnit`: 0,9 mm
+  tricotlussen als normal map, uv in meters, in close-ups versterkt via de engine-`weave`-hook; sheen 0,6 in de
+  eigen verfkleur, sheenRoughness 0,5, roughness 0,65; zwart tricot reflecteert ~3 %, dus een belichte zwarte
+  rok leest als donkergrijs doek). Constructie: rond bovenpand, op de bovenste bladrand aan het lijf genaaid
+  (naadrups + stiksel op de rand); het lijf omspant de 18 mm rand, loopt vanaf de onderste bladrand in een
+  trechter naar een strakke taille en waaiert uit naar de vier voeten. Spanning: fijne **radiale rekstrepen**
+  van de rand naar de taille, onregelmatige **stuiklobben** in de taille, **diagonale treklijnen** van de taille
+  naar elke voet (geen regelmatige groeven meer). Elke voet zit in een **elastische voetzak** (wand om de
+  voetdop, zaknaad met stiksel, zool van de dop net zichtbaar); tussen de voeten tilt de **omgeslagen zoom**
+  (2 cm, coverstitch in twee rijen, dunne vouwrand) in een boog (`hemLift`, standaard 11,5 cm).
+  `topcover: "wit"` (of `true`) = losse topcover over blad en rand, elastische rand net onder de bladrand;
+  `topcoverPrint: "stripes-rwb" | "voetbal"`.
+- `type: "strik"`: geweven polyester (`statafelLook.wovenCloth`). Het doek ligt vlak op het blad, valt over de
+  rand en wordt bij de taille samengebonden: **radiale plooien** vanaf de bladrand die naar de sjerp toe
+  vertakken in twee keer zoveel strakke plooien en bij de knoop **naar het knooppunt convergeren**; rok met
+  plooien van ongelijke diepte tot op de grond. Strik: twee **lussen als dik lint** (afgeronde randen, gebold,
+  bij de knoop samengeknepen, fijn onderverdeeld), een **knoop van gewikkeld doek met plooirimpels**, en twee
+  **staarten die op de rokplooien rusten** (volgen de plooitoppen, zakken iets in de dalen, geen spleet) met een
+  **zwaluwstaartknip**. `sashColor` voor een contrasterende sjerp.
 - `type: "kleed"`: rond tafelkleed dat over het blad tot op de grond valt, met godetplooien en lichte poel.
 - `print: {svg, color, width, y, azimuth}` (stretch): logo op het vlakke deel van een paneel tussen twee voeten
   (`azimuth` in graden, standaard het paneelmidden het dichtst bij de hero-camera), volgt de rok.
+- Detailbeelden: `detail` (stretch: bladrand met naad en tricot + bovenkant trechter met rekstrepen; strik: de
+  strik), `detail-voet` (stretch: voetzak), `detail-taille` (stretch: de taille).
+
+**Licht voor de hele statafelfamilie** (`js/statafelLook.js` → `statafelRig()`, voorgesteld door beide bouwers):
+grote overhead-softbox voor de vloerschaduw (`floorKey` el. 78°, kegel 24°: de schaduw ligt ónder en net achter
+het product, blijft in beeld), modelleerlicht linksvoor op 38° (horizontale vlakken krijgen minder dan de rok),
+grote frontale vulkaart rechts op ooghoogte, een witte **vloerkaatskaart** linksvoor onder het product (licht de
+naar beneden gekeerde delen: trechter onder het blad, strikdrapering; intensiteit 1,7–2,3 voor hoezen), studio-
+reflectieomgeving met vaste boxen (donker achter het product, dus een rood blad wordt niet zalmroze en een
+zwart blad geen grijze schijf), Neutral tonemapping, contact-AO onder voeten/zoom/hub (smal + brede halo),
+gladde vloer-AO (96 + 96 richtingen, σ 2,5 cm, vervaagt naar 1 aan de bake-rand) en belichting per albedo
+(wit 0,86).
 
 ### Catalogusreview (oktober 2026)
 - `easyUpTent`: wandtype `half` (borstwering, `halfWallHeight` standaard 1,0 m, klittenband laag aan de poten);
@@ -571,7 +615,7 @@ het beeld. Daardoor staan alle producten in de catalogus even groot en op dezelf
 | `back` | 214° | 17° | achterkant |
 | `top` | 0° | 62° | bovenaanzicht schuin |
 | `low` | 28° | 3° | laag standpunt (binnenkant dak) |
-| `detail` | per product | | close-up van het kenmerkende detail (tent: de hoek rechtsvoor van ~17° boven de dakrand, met scherptediepte; tent met deur: hoekpoot + banden + voetplaat + half open deur; statafel: bladrand; strik: de strik) |
+| `detail` | per product | | close-up van het kenmerkende detail (tent: de hoek rechtsvoor van ~17° boven de dakrand, met scherptediepte; tent met deur: hoekpoot + banden + voetplaat + half open deur; statafel: klapmechaniek; stretchrok: bladrand + tricot; strik: de strik). `detail-<naam>` kiest een benoemde close-up uit `details` van de bouwer (bv. `detail-scharnier`, `detail-voet`) |
 
 Een bouwer kan per preset een betere kadrering voorstellen via `view: { hero: {azimuth, elevation} }`
 (bv. de ingeklapte statafel). `spec.camera` gaat altijd voor.

@@ -254,7 +254,7 @@ export function statafel(p = {}) {
     const hubY = S.hubY;
     const hubR = S.colR + 0.008;
     bins.add(frame, G.tube(V3(0, hubY - 0.04, 0), V3(0, hubY + 0.035, 0), hubR, 40));
-    const legAng = folded ? 82 * DEG : S.legAng0;
+    const legAng = folded ? 86 * DEG : S.legAng0;
     const aS = S.legLen * 0.45, eS = 0.021;         // strut pin on the leg: along / above the leg axis
     const collarR = S.colR + 0.005, rcp = collarR + 0.015;
     // strut length from the open geometry (collar pin at S.collarY)
@@ -337,7 +337,7 @@ export function statafel(p = {}) {
   const det = S.base === 'klap' ? klapDetails(S) : {};
   const view = {};
   let rig = L.statafelRig({ albedoL: top === 'berken' || top === 'hout' ? 0.55 : top.startsWith('hdpe') || top === 'wit' ? 0.75 : 0.12 });
-  if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.92; }
+  if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.96; }
   let meta = { D: S.D, H, top, base: S.base, folded, probes };
   let object = group;
   if (folded) {
@@ -392,7 +392,7 @@ function klapDetails(S) {
 // front of the blad, whose rim rests against the sweep; the column end stands on the floor.
 // Adds an invisible wall catcher (userData.catcher) that the engine renders as backdrop + shadows.
 function leanAgainstSweep(group, S, p) {
-  const yaw = Number(p.leanYaw ?? 26) * DEG, tilt = Number(p.leanTilt ?? 11) * DEG;
+  const yaw = Number(p.leanYaw ?? 8) * DEG, tilt = Number(p.leanTilt ?? 11) * DEG;
   const holder = new THREE.Group();
   holder.name = group.name + ' leaning';
   const inner = new THREE.Group();
@@ -426,7 +426,7 @@ function leanAgainstSweep(group, S, p) {
   return {
     object: holder,
     contacts: { floor: floorPt.toArray(), wall: wallPt.toArray() },
-    view: { hero: { azimuth: 4, elevation: 9, fill: 0.84 }, front: { azimuth: 0, elevation: 6 } },
+    view: { hero: { azimuth: 50, elevation: 10, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
   };
 }
 

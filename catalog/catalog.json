@@ -30,12 +30,12 @@
   "counts": {
    "products": 222,
    "variants": 5593,
-   "images": 1162,
+   "images": 1163,
    "unique_images": 945,
    "collections": 44,
    "menus": 5,
    "pages": 15,
-   "articles": 12
+   "articles": 18
   }
  },
  "shop": {
@@ -142009,7 +142009,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D8-L-WIT",
@@ -142060,7 +142060,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D8-LOD-WIT",
@@ -142111,7 +142111,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D8-SET-WIT",
@@ -142162,7 +142162,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D10-LD-WIT",
@@ -142213,7 +142213,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D10-L-WIT",
@@ -142264,7 +142264,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D10-LOD-WIT",
@@ -142315,7 +142315,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D10-SET-WIT",
@@ -142366,7 +142366,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D12-LD-WIT",
@@ -142417,7 +142417,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D12-L-WIT",
@@ -142468,7 +142468,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D12-LOD-WIT",
@@ -142519,7 +142519,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D12-SET-WIT",
@@ -142570,7 +142570,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D14-LD-WIT",
@@ -142621,7 +142621,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D14-L-WIT",
@@ -142672,7 +142672,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D14-LOD-WIT",
@@ -142723,7 +142723,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D14-SET-WIT",
@@ -142774,7 +142774,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D16-LD-WIT",
@@ -142825,7 +142825,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D16-L-WIT",
@@ -142876,7 +142876,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D16-LOD-WIT",
@@ -142927,7 +142927,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D16-SET-WIT",
@@ -142978,7 +142978,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-8X13-LD-WIT",
@@ -143012,7 +143012,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-8X13-L-WIT",
@@ -143046,7 +143046,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-8X13-LOD-WIT",
@@ -143080,7 +143080,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-8X13-SET-WIT",
@@ -143114,7 +143114,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-10X16-LD-WIT",
@@ -143148,7 +143148,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-10X16-L-WIT",
@@ -143182,7 +143182,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-10X16-LOD-WIT",
@@ -143216,7 +143216,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-10X16-SET-WIT",
@@ -143250,7 +143250,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-12X19-LD-WIT",
@@ -143284,7 +143284,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-12X19-L-WIT",
@@ -143318,7 +143318,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-12X19-LOD-WIT",
@@ -143352,7 +143352,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-12X19-SET-WIT",
@@ -143386,7 +143386,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-13X21-LD-WIT",
@@ -143420,7 +143420,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-13X21-L-WIT",
@@ -143454,7 +143454,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-13X21-LOD-WIT",
@@ -143488,7 +143488,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-13X21-SET-WIT",
@@ -143522,7 +143522,7 @@
      "taxable": true,
      "image": "zijwanden-stertent-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwanden-stertent-zandkleur-hero.webp"
     },
     {
      "sku": "KK-ZW-SR-D8-LDFC-WIT",
@@ -143893,7 +143893,7 @@
      "model_status": "needs-param",
      "alt": "Stertent Ø 10 m, zandkleur, met zandkleurige zijwanden met panoramavenster rondom, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "zijwanden-stertent-full-colour.webp",
@@ -158366,7 +158366,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     },
     {
      "sku": "KK-OVK-TP-3X3-ANT-ST",
@@ -158414,7 +158414,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     },
     {
      "sku": "KK-OVK-TP-3X4-ANT",
@@ -158462,7 +158462,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     },
     {
      "sku": "KK-OVK-TP-3X4-ANT-ST",
@@ -158510,7 +158510,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     },
     {
      "sku": "KK-OVK-TP-4X4-ANT",
@@ -158558,7 +158558,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     },
     {
      "sku": "KK-OVK-TP-4X4-ANT-ST",
@@ -158606,7 +158606,7 @@
       ]
      },
      "image": "tuinpaviljoen-aluminium-wit-hero.webp",
-     "export_image": null
+     "export_image": "tuinpaviljoen-aluminium-wit-hero.webp"
     }
    ],
    "images": [
@@ -158648,7 +158648,7 @@
      "model_status": "existing",
      "alt": "Tuinpaviljoen met wit frame en polycarbonaat dak op een terras, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -323979,7 +323979,7 @@
      "taxable": true,
      "image": "klaptafel-hout-kwartrond.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-kwartrond.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-152X76",
@@ -323996,7 +323996,7 @@
      "taxable": true,
      "image": "klaptafel-hout-kwartrond.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-kwartrond.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-183X91",
@@ -324013,7 +324013,7 @@
      "taxable": true,
      "image": "klaptafel-hout-kwartrond.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-kwartrond.webp"
     },
     {
      "sku": "KK-MEU-KLV-OVA-243X122",
@@ -324030,7 +324030,7 @@
      "taxable": true,
      "image": "klaptafel-hout-ovaal.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-ovaal.webp"
     },
     {
      "sku": "KK-MEU-KLV-VIE-140X140",
@@ -324047,7 +324047,7 @@
      "taxable": true,
      "image": "klaptafel-hout-vierkant.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-vierkant.webp"
     }
    ],
    "images": [
@@ -324086,7 +324086,7 @@
      "model_status": "needs-param",
      "alt": "Kwartronde klaptafel met houten blad, opgezet, van boven gezien",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "klaptafel-hout-ovaal.webp",
@@ -324104,7 +324104,7 @@
      "model_status": "needs-param",
      "alt": "Ovale klaptafel met houten blad 243 x 122 cm, opgezet",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "klaptafel-hout-vierkant.webp",
@@ -324122,7 +324122,7 @@
      "model_status": "needs-param",
      "alt": "Vierkante klaptafel met houten blad 140 x 140 cm, opgezet",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -328585,7 +328585,7 @@
       ]
      },
      "image": "klapstoel-wedding-zwart-hero.webp",
-     "export_image": null
+     "export_image": "klapstoel-wedding-zwart-hero.webp"
     }
    ],
    "images": [
@@ -328623,7 +328623,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte weddingstoel klapbaar met zwart kussen, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -330226,7 +330226,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp"
     },
     {
      "sku": "KK-INR-AZO-WHM",
@@ -330243,7 +330243,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp"
     },
     {
      "sku": "KK-INR-AZO-WHZ",
@@ -330260,7 +330260,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-wandhaak-voor-koord.webp"
     },
     {
      "sku": "KK-INR-AZO-WU2",
@@ -330277,7 +330277,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-wandunit-met-trekband-2-m.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-wandunit-met-trekband-2-m.webp"
     },
     {
      "sku": "KK-INR-AZO-WU3",
@@ -330294,7 +330294,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-wandunit-met-trekband-3-m.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-wandunit-met-trekband-3-m.webp"
     },
     {
      "sku": "KK-INR-AZO-BA4L",
@@ -330311,7 +330311,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-bordhouder-a4-liggend.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-bordhouder-a4-liggend.webp"
     },
     {
      "sku": "KK-INR-AZO-BA4S",
@@ -330328,7 +330328,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-bordhouder-a4-staand.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-bordhouder-a4-staand.webp"
     },
     {
      "sku": "KK-INR-AZO-BA4R",
@@ -330345,7 +330345,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-bordhouder-a4-liggend.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-bordhouder-a4-liggend.webp"
     },
     {
      "sku": "KK-INR-AZO-BA3L",
@@ -330362,7 +330362,7 @@
      "taxable": true,
      "image": "onderdelen-afzetsysteem-bordhouder-a3-liggend.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-afzetsysteem-bordhouder-a3-liggend.webp"
     }
    ],
    "images": [
@@ -330405,7 +330405,7 @@
      "model_status": "needs-param",
      "alt": "Verchroomde wandhaak voor een afzetkoord",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-afzetsysteem-wandunit-met-trekband-2-m.webp",
@@ -330424,7 +330424,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte wandunit met oprolbare trekband van 2 m",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-afzetsysteem-wandunit-met-trekband-3-m.webp",
@@ -330443,7 +330443,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte wandunit met oprolbare trekband van 3 m",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-afzetsysteem-bordhouder-a4-liggend.webp",
@@ -330462,7 +330462,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte bordhouder A4 liggend op de kop van een afzetpaal",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-afzetsysteem-bordhouder-a4-staand.webp",
@@ -330481,7 +330481,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte bordhouder A4 staand op de kop van een afzetpaal",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-afzetsysteem-bordhouder-a3-liggend.webp",
@@ -330500,7 +330500,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte bordhouder A3 liggend op de kop van een afzetpaal",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -334747,7 +334747,7 @@
       ]
      },
      "bundle_los_totaal": 111770,
-     "export_image": null
+     "export_image": "klapstoel-wedding-zwart-hero.webp"
     }
    ],
    "images": [
@@ -334800,6 +334800,25 @@
      "alt": "Transportkar met ingeklapte zwarte weddingstoelen en één uitgeklapte weddingstoel ernaast",
      "draft": false,
      "exported": false
+    },
+    {
+     "file": "klapstoel-wedding-zwart-hero.webp",
+     "role": "component",
+     "priority": 3,
+     "kleur": "Zwart",
+     "render": {
+      "model": "chair",
+      "params": {
+       "style": "wedding",
+       "color": "zwart"
+      },
+      "angle": "hero"
+     },
+     "model_status": "needs-param",
+     "alt": "Zwarte weddingstoel klapbaar met zwart kussen, schuin vooraanzicht (onderdeel van dit pakket)",
+     "draft": false,
+     "exported": true,
+     "component_of": "klapstoel-wedding"
     }
    ],
    "variant_image_by": "Kleur",
@@ -355544,6 +355563,228 @@
      "Brandvertragend PVC-wand: certificaat bij de leverancier opvragen",
      "Brandvertragend/brandklasse PVC-wand: pas noemen als het certificaat binnen is (docs/claims-to-confirm.md)"
     ]
+   },
+   {
+    "handle": "grondframe-en-nokversteviging",
+    "title": "Grondframe en nokversteviging: wat doen ze en wanneer heb je ze nodig?",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T09:00:00+02:00",
+    "tags": [
+     "partytent",
+     "buizenframe",
+     "opslagtent",
+     "collectie:partytenten-buizenframe"
+    ],
+    "excerpt": "Een grondframe houdt de staanders onderaan op hun plek, een nokversteviging houdt de nok recht. Voor een tent die een weekend staat is het een plus; voor een tent die weken staat of opslag is, hoort het erbij.",
+    "summary_html": "<p>Een grondframe houdt de staanders onderaan op hun plek, een nokversteviging houdt de nok recht. Voor een tent die een weekend staat is het een plus; voor een tent die weken staat of opslag is, hoort het erbij.</p>",
+    "body_html": "<p>Bij een buizenframe-tent lees je vaak twee woorden die op het eerste gezicht technisch klinken: grondframe en nokversteviging. Ze maken het verschil tussen een tent die na een week nog net zo strak staat als op dag één, en een tent die langzaam uit het lood zakt. In dit artikel lees je wat ze doen, bij welke tent je ze krijgt en wanneer je ze echt nodig hebt.</p><h2>Wat is een grondframe?</h2><p>Een grondframe is een rij buizen onderaan, rondom de tent, van staander naar staander. Zonder grondframe staat elke staander los op de grond en houdt alleen het dak ze bij elkaar. Met grondframe vormen de staanders onderaan een rechthoek die niet kan scheeftrekken.</p><ul><li>De staanders blijven op dezelfde afstand van elkaar, ook als de grond zacht wordt na regen.</li><li>Je zet de onderrand van de zijwanden met elastieken om het grondframe in plaats van met haringen. Handig op een plek waar je geen haringen mag slaan.</li><li>Het frame wordt stijver, dus het doek blijft strakker.</li></ul><p>Een grondframe is geen verankering. Ook met grondframe zet je elke staander vast met een <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">lange haring</a> of een <a href=\"/products/voetgewicht-partytent-15-kg\">voetgewicht</a>, en span je de <a href=\"/products/stormbandenset-partytent\">stormbanden</a> over het dak.</p><h2>Wat is een nokversteviging?</h2><p>De nok is de hoogste lijn van het dak, waar de twee dakhellingen samenkomen. Bij een lange tent loopt de nok over vele meters zonder steun van onderen. Een nokversteviging is een extra buis met klemmen langs de nok, die voorkomt dat die lijn gaat doorhangen. Dat telt vooral bij regen: een rechte nok laat het water naar de zijkanten lopen, een doorhangende nok vormt een kuil waar water blijft staan.</p><h2>Bij welke tent zit het erbij?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Tent</th><th scope=\"col\">Grondframe</th><th scope=\"col\">Nokversteviging</th><th scope=\"col\">Waarvoor</th></tr></thead><tbody><tr><th scope=\"row\"><a href=\"/products/partytent-pe-basis-buizenframe\">PE Basis</a></th><td>Nee</td><td>Nee</td><td>Een feest van een dag of een weekend</td></tr><tr><th scope=\"row\"><a href=\"/products/partytent-pvc-500-comfort\">PVC 500 Comfort</a></th><td>Nee</td><td>Nee</td><td>Regelmatig opzetten, korte evenementen</td></tr><tr><th scope=\"row\"><a href=\"/products/partytent-pvc-550-premium\">PVC 550 Premium</a></th><td>Ja</td><td>Ja</td><td>Weken laten staan, vaak gebruiken</td></tr><tr><th scope=\"row\"><a href=\"/products/partytent-pvc-620-professional\">PVC 620 Professional</a></th><td>Ja</td><td>Ja</td><td>Verhuur en langdurig gebruik</td></tr><tr><th scope=\"row\"><a href=\"/products/opslagtent-pvc\">Opslagtent PVC</a></th><td>Ja</td><td>Ja</td><td>Opslag, staat lang</td></tr></tbody></table></div><h2>Wanneer heb je het nodig?</h2><h3>Het is een plus als</h3><ul><li>je de tent een weekend laat staan en er regen voorspeld is;</li><li>je de zijwanden aan de onderkant wilt vastzetten zonder haringen;</li><li>de tent op een plek staat waar mensen langs de staanders lopen.</li></ul><h3>Het hoort erbij als</h3><ul><li>de tent langer dan een week blijft staan, zoals een opslagtent of een tent bij een verbouwing;</li><li>de tent langer is dan 6 m, want daar heeft de nok de meeste last van doorhangen;</li><li>je de tent verhuurt en hij dus vaak op- en afgebouwd wordt: een stijver frame slijt minder aan de koppelstukken.</li></ul><h2>Opbouwen met grondframe</h2><ol><li>Leg eerst het grondframe op de grond: buizen en hoekstukken in elkaar, en meet de diagonalen. Zijn ze even lang, dan staat de tent haaks.</li><li>Zet de staanders in de koppelstukken van het grondframe.</li><li>Bouw het dakframe op de grond, met de nokversteviging langs de nok, en til het daarna op de staanders.</li><li>Zet de staanders vast, span het dak en daarna de stormbanden.</li></ol><p>Een buis verbogen of een koppelstuk kwijt? Losse <a href=\"/products/buizen-buizenframe-38-mm\">buizen</a> en <a href=\"/products/koppelstukken-en-buizen-38-mm\">koppelstukken</a> van 38 mm bestel je per stuk.</p>",
+    "seo": {
+     "title": "Grondframe en nokversteviging uitgelegd | Klapklaar",
+     "description": "Wat doen een grondframe en een nokversteviging bij een buizenframe-tent, bij welke tent zitten ze erbij en wanneer heb je ze echt nodig?"
+    },
+    "image": {
+     "src": "partytent-pvc-550-premium-hero.webp",
+     "source": "catalog",
+     "alt": "Witte buizenframe-tent PVC 550 Premium met zijwanden met ramen, schuin vooraanzicht",
+     "use": "partytent-pvc-550-premium-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "partytent-pvc-550-premium",
+      "partytent-pvc-620-professional",
+      "opslagtent-pvc",
+      "buizen-buizenframe-38-mm",
+      "koppelstukken-en-buizen-38-mm",
+      "stormbandenset-partytent"
+     ]
+    },
+    "claims": [
+     "Welke lijnen een grondframe en nokversteviging hebben volgt uit de productteksten (PVC 550 Premium, PVC 620, opslagtent): bij de leverancier bevestigen."
+    ]
+   },
+   {
+    "handle": "opslagtent-kiezen",
+    "title": "Opslagtent kiezen: welk doek, welke maat en hoe zet je hem neer?",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T09:30:00+02:00",
+    "tags": [
+     "opslagtent",
+     "buizenframe",
+     "collectie:opslagtenten"
+    ],
+    "excerpt": "Kies het doek naar hoe lang de tent staat, de maat naar wat erin moet plus een looppad, en zet hem op een vlakke plek met verankering per staander. Een vaste carport is iets anders dan een opslagtent.",
+    "summary_html": "<p>Kies het doek naar hoe lang de tent staat, de maat naar wat erin moet plus een looppad, en zet hem op een vlakke plek met verankering per staander. Een vaste carport is iets anders dan een opslagtent.</p>",
+    "body_html": "<p>Een opslagtent is een buizenframe-tent met dichte wanden en een roldeur, gemaakt om spullen droog te houden: voorraad in het seizoen, meubels tijdens een verbouwing, materiaal bij een evenement of een oogst die nog weg moet. Drie keuzes bepalen of je er blij mee bent: het doek, de maat en de plek.</p><h2>1. Het doek: hoe lang blijft hij staan?</h2><ul><li><strong>PVC 500 Comfort</strong>: voor een paar weken tot een seizoen. Licht genoeg om met twee mensen op te bouwen.</li><li><strong>PVC 550 Premium</strong>: voor meerdere seizoenen, bijvoorbeeld tijdens een verbouwing van een half jaar.</li><li><strong>PVC 620 Professional</strong>: ons zwaarste doek, met 220 cm zijhoogte. Voor langdurig gebruik en voor wie hem vaak verplaatst.</li></ul><p>Alle uitvoeringen hebben een grondframe en een nokversteviging, omdat een opslagtent lang staat. Meer daarover lees je in <a href=\"/blogs/advies/grondframe-en-nokversteviging\">Grondframe en nokversteviging</a>.</p><h2>2. De maat: wat moet erin?</h2><p>Meet niet alleen wat je wilt opslaan, maar ook hoe je erbij komt. Een vuistregel: neem de vloer die je spullen innemen en tel daar een looppad van 1 m bij over de lengte. Wil je er met een pallet of steekwagen in, dan heb je aan de roldeurkant 1,5 m vrije ruimte nodig.</p><ul><li><strong>3 × 4 m tot 3 × 6 m</strong>: tuinmeubels, een scooter, voorraad van een kleine winkel</li><li><strong>4 × 6 m tot 4 × 8 m</strong>: de inboedel van een paar kamers tijdens een verbouwing, of pallets voorraad</li><li><strong>5 m en 6 m breed</strong>: machines, een boot op een trailer, grote evenementmaterialen</li></ul><p>Kijk ook naar de hoogte: met 200 cm zijhoogte stapel je tot ongeveer 1,8 m langs de wand; in het midden is er onder de nok meer ruimte.</p><h2>3. De plek: vlak, vrij en vast</h2><ol><li>Kies een vlakke plek, liefst iets hoger dan de omgeving, zodat regenwater er niet naartoe loopt.</li><li>Houd rondom ruimte vrij om de tent te kunnen afspannen en om bij de wanden te kunnen.</li><li>Zet elke staander vast: een <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">lange haring</a> op gras of zand, een <a href=\"/products/voetgewicht-partytent-15-kg\">voetgewicht</a> op tegels. Span de <a href=\"/products/stormbandenset-partytent\">stormbanden</a> over het dak.</li><li>Leg op gras een grondzeil of pallets onder je spullen: vocht trekt van onderen in karton en hout.</li></ol><h2>Opslagtent of carport?</h2><p>Een opslagtent bouw je op en weer af. Wil je iets dat jaren blijft staan, met een vast frame waar je met de auto in kunt, kijk dan naar de <a href=\"/products/carport-opslagtent-vast-frame\">carport met vast frame</a>. Die staat steviger, maar je verplaatst hem niet zomaar.</p><h2>Goed om te weten</h2><ul><li>Veeg sneeuw direct van het dak: een opslagtent is niet berekend op sneeuwlast.</li><li>Controleer na een storm de spanning van de stormbanden en de verankering.</li><li>Voor een tent die lang blijft staan kan je gemeente een vergunning vragen. Check het voordat je hem neerzet.</li><li>Wil je losse <a href=\"/collections/buizenframe-onderdelen\">onderdelen</a> of een extra wand? Die passen op alle maten.</li></ul>",
+    "seo": {
+     "title": "Opslagtent kiezen: doek, maat en plek | Klapklaar",
+     "description": "Welke opslagtent past bij jou? Kies het PVC-doek naar hoe lang hij staat, de maat naar wat erin moet plus een looppad, en zet hem vlak en vast neer."
+    },
+    "image": {
+     "src": "opslagtent-pvc-hero.webp",
+     "source": "catalog",
+     "alt": "Witte opslagtent PVC met dichte wanden en roldeur, schuin vooraanzicht",
+     "use": "opslagtent-pvc-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "opslagtent-pvc",
+      "carport-opslagtent-vast-frame",
+      "voetgewicht-partytent-15-kg",
+      "stormbandenset-partytent",
+      "haringen-en-bevestigingsmateriaal-partytent"
+     ]
+    },
+    "claims": [
+     "Vuistregels voor looppad (1 m) en vrije ruimte bij de roldeur (1,5 m) zijn advies, geen productclaim."
+    ]
+   },
+   {
+    "handle": "schaduwdoek-vragen",
+    "title": "Schaduwdoek ophangen: de vragen die iedereen stelt",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T10:00:00+02:00",
+    "tags": [
+     "schaduwdoek",
+     "tuin",
+     "terras",
+     "collectie:overkappingen-en-schaduwdoeken"
+    ],
+    "excerpt": "Waterdoorlatend voor zon, waterdicht alleen als het doek schuin hangt. Span hem met een hoogteverschil van 30 tot 50 cm, op stevige punten, en haal hem eraf bij storm.",
+    "summary_html": "<p>Waterdoorlatend voor zon, waterdicht alleen als het doek schuin hangt. Span hem met een hoogteverschil van 30 tot 50 cm, op stevige punten, en haal hem eraf bij storm.</p>",
+    "body_html": "<p>Een schaduwdoek is de snelste manier om schaduw te maken op een terras, boven een zandbak of bij een tuinset. Het lijkt simpel: vier hoeken, vier haken. Toch krijgen we steeds dezelfde vragen. Hier zijn de antwoorden.</p><h2>Waterdoorlatend of waterdicht?</h2><p>Een <strong>waterdoorlatend</strong> doek van HDPE-weefsel houdt de zon tegen en laat regen en warme lucht door. Onder het doek blijft het koeler, en na een bui staat er geen water op. Een <strong>waterdicht</strong> doek houdt ook een bui tegen, maar dan moet het water ergens heen: het doek moet schuin hangen, anders vormt zich een plas die het doek uitrekt.</p><p>Gaat het je om de zon, kies dan waterdoorlatend. Wil je bij een bui droog zitten, kies dan waterdicht en hang hem schuin.</p><h2>Hoe schuin moet het doek hangen?</h2><p>Zorg voor ongeveer 30 tot 50 cm hoogteverschil tussen het hoogste en het laagste punt, en voor een waterdicht doek liever meer. Twee hoeken hoog en twee laag geeft een gedraaide vorm die strak staat en het water naar één kant laat lopen. Zet daar geen stoelen.</p><h2>Waaraan hang ik hem op?</h2><ul><li>Een gevel of balk: met een schroefoog of oogbout in hout of in een plug in steen. Gebruik voor steen een stevige plug en geen kozijn of dakgoot.</li><li>Een paal: in de grond gestort of in een parasolvoet die zwaar genoeg is.</li><li>Een boom: met een band om de stam, niet met een schroef in de boom.</li></ul><p>Tussen het doek en het ophangpunt zit een spanner of een stuk koord, zodat je het doek kunt naspannen. <a href=\"/products/oogbouten-en-schroefogen\">Oogbouten en schroefogen</a> en <a href=\"/products/spanschroeven-set-van-5\">spanschroeven</a> vind je bij de bevestigingsmaterialen.</p><h2>Welke maat en vorm?</h2><ul><li><strong>Driehoek</strong>: speels, en makkelijk tussen drie punten. Twee driehoeken die elkaar overlappen geven veel schaduw.</li><li><strong>Vierkant</strong>: de meeste schaduw per m², voor een tafel of zitgroep.</li><li><strong>Rechthoek</strong>: langs een gevel of boven een smal terras.</li></ul><p>Kies het doek iets kleiner dan de ruimte tussen je ophangpunten: je hebt aan elke hoek 30 tot 50 cm nodig om te spannen.</p><h2>Wat doe ik bij wind?</h2><p>Een schaduwdoek vangt wind als een zeil. Span hem na een paar dagen na, en haal hem eraf als er harde wind of storm voorspeld is. Een doek dat losslaat beschadigt zichzelf en wat eromheen staat. Liever iets dat het hele seizoen kan blijven? Kijk dan naar het <a href=\"/products/hypar-schaduwzeil-stretch\">hypar schaduwzeil</a> van stretchdoek op eigen palen.</p><h2>Kan hij de winter door buiten blijven?</h2><p>Liever niet. Haal hem eraf, laat hem drogen en berg hem opgevouwen op. Zo gaat het doek meer seizoenen mee en hoef je in het voorjaar alleen de haken weer te gebruiken.</p>",
+    "seo": {
+     "title": "Schaduwdoek ophangen: veelgestelde vragen | Klapklaar",
+     "description": "Waterdoorlatend of waterdicht, hoe schuin, waaraan ophangen, welke maat en wat bij wind: de vragen over schaduwdoeken op een rij."
+    },
+    "image": {
+     "src": "schaduwdoek-zandkleur-hero.webp",
+     "source": "catalog",
+     "alt": "Zandkleurig schaduwdoek gespannen tussen vier punten boven een terras",
+     "use": "schaduwdoek-zandkleur-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "schaduwdoek",
+      "hypar-schaduwzeil-stretch",
+      "oogbouten-en-schroefogen",
+      "spanschroeven-set-van-5"
+     ]
+    },
+    "claims": [
+     "Hoogteverschil 30–50 cm en spanruimte 30–50 cm per hoek zijn algemeen advies; geen garantie op waterdichtheid zonder afschot."
+    ]
+   },
+   {
+    "handle": "bruiloft-in-een-stretchtent",
+    "title": "Trouwen in een stretchtent: zo pak je het aan",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T10:30:00+02:00",
+    "tags": [
+     "stretchtent",
+     "bruiloft",
+     "evenement",
+     "collectie:stretchtenten"
+    ],
+    "excerpt": "Reken voor een diner aan ronde tafels op ca. 1,5 m² per gast, voor een staande receptie op ca. 0,7 m². Een stretchtent kun je open of dicht spannen, en hij oogt het mooist met warm licht en houten palen.",
+    "summary_html": "<p>Reken voor een diner aan ronde tafels op ca. 1,5 m² per gast, voor een staande receptie op ca. 0,7 m². Een stretchtent kun je open of dicht spannen, en hij oogt het mooist met warm licht en houten palen.</p>",
+    "body_html": "<p>Een stretchtent geeft een bruiloft in de tuin, op een boerenerf of in een weiland meteen sfeer: een golvend dak, palen van kastanjehout en zijkanten die je zo hoog of laag spant als je wilt. In dit artikel lees je hoe groot de tent moet zijn, hoe je hem inricht en waar je op let bij weer en wind.</p><h2>Hoe groot moet de tent zijn?</h2><p>Reken voor een diner aan ronde tafels op ongeveer 1,5 m² per gast, inclusief looppaden. Voor een staande receptie is 0,7 tot 1 m² per gast genoeg. Een dansvloer en een buffet tel je erbij op.</p><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Gasten</th><th scope=\"col\">Diner aan tafel</th><th scope=\"col\">Receptie staand</th></tr></thead><tbody><tr><th scope=\"row\">40</th><td>ca. 60 m², bijvoorbeeld 7,5 × 10,5 m</td><td>ca. 35 m², bijvoorbeeld 6 × 6 m</td></tr><tr><th scope=\"row\">80</th><td>ca. 120 m², bijvoorbeeld 10,5 × 12 m</td><td>ca. 70 m², bijvoorbeeld 7,5 × 10,5 m</td></tr><tr><th scope=\"row\">120</th><td>ca. 180 m², bijvoorbeeld 10,5 × 19,5 m</td><td>ca. 100 m², bijvoorbeeld 10,5 × 10,5 m</td></tr></tbody></table></div><p>Houd rondom de tent ruimte vrij voor de afspanning: minstens 2 m aan elke kant, bij een grote tent meer. Meet de plek dus ruim op.</p><h2>Open of dicht?</h2><p>Het mooie van een stretchtent is dat je de randen zelf kiest. Spant je ze hoog op palen, dan loopt het feest naar buiten door en zie je de tuin. Spant je ze laag tot op de grond, dan zit iedereen beschut. Voor een avond in het voorjaar of najaar zet je aan de windkant <a href=\"/products/zijwand-stretchtent\">zijwanden</a> en laat je de andere kanten open.</p><h2>Inrichting die werkt</h2><ul><li><strong>Tafels</strong>: <a href=\"/products/bankettafel-hout-rond\">ronde bankettafels</a> met een kleed tot de grond, en een paar <a href=\"/products/statafel-inklapbaar-professional\">statafels</a> met een stretchrok bij de receptie.</li><li><strong>Stoelen</strong>: een <a href=\"/products/klapstoel-wedding\">weddingstoel</a> of de <a href=\"/products/stapelstoel-cross-back\">cross back</a> staat mooi onder een stretchdak.</li><li><strong>Licht</strong>: een <a href=\"/products/prikkabel-e27\">prikkabel</a> met warm witte lampen langs de palen en het dak. Hang hem op met haken aan de palen, nooit aan het doek zelf.</li><li><strong>Loper</strong>: een <a href=\"/products/loper-per-meter\">loper</a> van de ingang naar de ceremonie.</li><li><strong>Warmte</strong>: een terrasheater buiten de tent, nooit onder het stretchdak.</li></ul><h2>Weer en wind</h2><p>Een stretchtent staat op spanning en vangt wind. Laat hem opbouwen door mensen die weten hoe het moet, span hem na regen na, en zorg voor genoeg verankering: haringen op gras, ballast op verharding. Hoeveel ballast er nodig is, hangt af van de plek en de maat; dat rekenen we niet op gevoel uit. <a href=\"/pages/offerte\">Vraag ballastadvies aan</a> als de tent op een plein of erf komt.</p><h2>Planning</h2><ul><li>Bestel ruim op tijd: een stretchtent maken we na je bestelling, de levertijd staat op de productpagina.</li><li>Laat de tent een dag van tevoren opbouwen, zodat je de inrichting rustig kunt doen.</li><li>Vraag bij de gemeente na of je voor een tent met gasten een melding of vergunning nodig hebt.</li></ul>",
+    "seo": {
+     "title": "Trouwen in een stretchtent: maat en inrichting | Klapklaar",
+     "description": "Hoe groot moet een stretchtent voor je bruiloft zijn, open of dicht spannen, welke tafels, stoelen en verlichting, en waar let je op bij wind?"
+    },
+    "image": {
+     "src": "stretchtent-compleet-zandkleur-hero.webp",
+     "source": "catalog",
+     "alt": "Zandkleurige stretchtent met houten palen, aan één kant hoog opgespannen",
+     "use": "stretchtent-compleet-zandkleur-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "stretchtent-compleet",
+      "zijwand-stretchtent",
+      "bankettafel-hout-rond",
+      "klapstoel-wedding",
+      "prikkabel-e27",
+      "loper-per-meter"
+     ]
+    },
+    "claims": [
+     "Ruimte per gast (1,5 m² diner, 0,7–1 m² staand) en de maatvoorbeelden zijn vuistregels; advies, geen garantie."
+    ]
+   },
+   {
+    "handle": "biertafelset-samenstellen",
+    "title": "Je eigen biertafelset samenstellen: set, losse delen of zelf bouwen",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T11:00:00+02:00",
+    "tags": [
+     "biertafelset",
+     "meubilair",
+     "vereniging",
+     "collectie:tafels"
+    ],
+    "excerpt": "Neem de set als je tafel en twee banken nodig hebt, losse tafels en banken als je een andere verhouding wilt, en een losse onderstelset als je een eigen blad hebt. Kies 180 of 220 cm en de breedte naar wat er op tafel komt.",
+    "summary_html": "<p>Neem de set als je tafel en twee banken nodig hebt, losse tafels en banken als je een andere verhouding wilt, en een losse onderstelset als je een eigen blad hebt. Kies 180 of 220 cm en de breedte naar wat er op tafel komt.</p>",
+    "body_html": "<p>Een biertafelset is een tafel met twee banken die plat inklappen. Voor een buurtfeest, vereniging of verjaardag is dat de snelste manier om veel mensen te laten zitten. Maar je hoeft niet altijd een complete set te nemen. Zo stel je samen wat je echt nodig hebt.</p><h2>Stap 1: lengte en breedte</h2><ul><li><strong>180 cm</strong>: 6 personen, 3 per bank. Past in de meeste auto's en bussen.</li><li><strong>220 cm</strong>: 8 personen, 4 per bank. Minder tafels voor hetzelfde aantal gasten.</li></ul><p>De breedte kies je naar wat er op tafel komt. Met 50 cm is er plek voor glazen en een bord; 60 tot 70 cm geeft ruimte voor schalen in het midden; 80 cm is een echte eettafel voor een diner.</p><h2>Stap 2: standaard of brouwerijkwaliteit</h2><p>Standaard is prima voor een paar feesten per jaar. Brouwerijkwaliteit heeft een dikker, twee keer gelakt blad en een zwaarder onderstel met extra dwarsverbinding: voor een vereniging die de sets elk weekend uitleent, of voor verhuur. Op een terras of in een zaal staat de uitvoering met zwart onderstel rustiger.</p><h2>Stap 3: set, los of zelf bouwen</h2><h3>De set</h3><p>Een <a href=\"/products/biertafelset\">biertafelset</a> met tafel en twee banken is het voordeligst als je tafel en banken in de gewone verhouding nodig hebt.</p><h3>Losse tafels en banken</h3><p>Soms wil je een andere verhouding: extra banken langs de wand, of tafels zonder banken als statafel-bar of buffet. Kies dan bij de biertafelset 'Alleen tafel' en bestel losse <a href=\"/products/bierbank-220\">bierbanken</a> erbij.</p><h3>Zelf bouwen met een eigen blad</h3><p>Heb je zelf een blad, bijvoorbeeld van steigerhout of een oude deur? Met een losse <a href=\"/products/onderdelen-biertafel-en-klaptafel\">onderstelset</a> maak je er een inklapbare tafel van. Schroef het onderstel onder een blad van 25 tot 35 mm dik en zorg dat het blad niet breder is dan waar het onderstel voor gemaakt is. Twijfel je of het past, stuur ons een foto en de maten.</p><h2>Stap 4: aankleden en opbergen</h2><ul><li>Een <a href=\"/products/hoes-biertafelset\">hoes voor tafel en banken</a> maakt van een biertafelset meteen een nette feesttafel.</li><li>Met een <a href=\"/products/transportkar-biertafelsets\">transportkar</a> rij je de sets ingeklapt naar de opslag.</li><li>Berg de sets droog op. Een nat opgeborgen blad gaat kromtrekken.</li></ul><h2>Hoeveel heb ik nodig?</h2><p>Deel het aantal gasten door 6 (180 cm) of 8 (220 cm) en rond naar boven af. Voor 50 gasten zijn dat 9 sets van 180 cm of 7 sets van 220 cm. Voor een vereniging of evenement met meer sets is er een pakket van <a href=\"/products/biertafelsets-10-stuks\">10 sets</a>.</p>",
+    "seo": {
+     "title": "Biertafelset samenstellen: set, los of zelf bouwen | Klapklaar",
+     "description": "Kies de lengte, breedte en kwaliteit van je biertafelset, en of je een set, losse tafels en banken of een onderstel voor je eigen blad neemt."
+    },
+    "image": {
+     "src": "biertafelset-hero.webp",
+     "source": "catalog",
+     "alt": "Biertafelset met tafel en twee banken van gelakt hout, uitgeklapt, schuin vooraanzicht",
+     "use": "biertafelset-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "biertafelset",
+      "bierbank-220",
+      "onderdelen-biertafel-en-klaptafel",
+      "hoes-biertafelset",
+      "transportkar-biertafelsets",
+      "biertafelsets-10-stuks"
+     ]
+    },
+    "claims": [
+     "Bladdikte 25–35 mm voor de losse onderstelset volgt de productspecificatie; bevestigen."
+    ]
+   },
+   {
+    "handle": "statafel-kopen-koopgids",
+    "title": "Statafel kopen: de koopgids",
+    "author": "Team Klapklaar",
+    "published_at": "2026-10-18T11:30:00+02:00",
+    "tags": [
+     "statafel",
+     "koopgids",
+     "horeca",
+     "collectie:statafels"
+    ],
+    "excerpt": "Kies eerst hoe je hem gebruikt: inklappen en opbergen, stapelen, of vast laten staan. Dan het blad: binnen-HPL, compact HPL voor buiten, HDPE of een design blad. Ø80 cm is de gangbare maat voor 6 personen.",
+    "summary_html": "<p>Kies eerst hoe je hem gebruikt: inklappen en opbergen, stapelen, of vast laten staan. Dan het blad: binnen-HPL, compact HPL voor buiten, HDPE of een design blad. Ø80 cm is de gangbare maat voor 6 personen.</p>",
+    "body_html": "<p>Een statafel lijkt een simpel ding: een blad op 110 cm hoogte. Toch maakt het veel uit welke je kiest, voor horeca, verhuur of je eigen feesten. In deze koopgids zetten we de keuzes op een rij.</p><h2>1. Inklappen, stapelen of vast?</h2><ul><li><strong>Inklapbaar</strong>: de poten klappen onder het blad. Ideaal als de tafels vaak op en af gaan en in een bus of berging moeten. Onze <a href=\"/products/statafel-inklapbaar-professional\">Professional</a>, de lichte <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel</a>, de <a href=\"/products/statafel-rechthoekig-inklapbaar\">rechthoekige</a> en de <a href=\"/products/statafel-design-marmerlook\">design statafel met marmerlook</a>.</li><li><strong>Stapelbaar</strong>: geen scharnieren, dus weinig dat slijt; je zet ze na sluitingstijd op elkaar. De <a href=\"/products/statafel-vierkant-stapelbaar\">vierkante</a> en de <a href=\"/products/statafel-breed-stapelbaar\">brede statafel</a>.</li><li><strong>Vast</strong>: blijft staan en is het stevigst. De <a href=\"/products/statafel-met-kruisvoet\">statafel met kruisvoet</a>, de <a href=\"/products/statafel-design-zuilvoet\">design statafel met zuilvoet</a> en de <a href=\"/products/statafel-wijnvat-houtlook\">wijnvat</a>.</li></ul><h2>2. Welk blad?</h2><div class=\"table-wrap\"><table class=\"table\"><thead><tr><th scope=\"col\">Blad</th><th scope=\"col\">Sterk in</th><th scope=\"col\">Let op</th></tr></thead><tbody><tr><th scope=\"row\">HPL op plaat (binnen)</th><td>Krasvast, hittebestendig, veel decors</td><td>Voor binnen en onder een tent</td></tr><tr><th scope=\"row\">Compact HPL (buiten)</th><td>Door en door massief, kan het hele jaar buiten</td><td>Iets zwaarder en duurder</td></tr><tr><th scope=\"row\">HDPE</th><td>Licht, onderhoudsarm, voordelig</td><td>Ziet er eenvoudiger uit; meestal met rok</td></tr><tr><th scope=\"row\">Hoogglans of marmerlook</th><td>Chic zonder rok</td><td>Hoogglans alleen binnen</td></tr></tbody></table></div><h2>3. Welke maat?</h2><ul><li><strong>Ø70 cm</strong>: 4 tot 5 personen, voor een kleine ruimte of een lounge.</li><li><strong>Ø80 cm</strong>: 6 personen, de gangbare maat. Alle rokken en hoezen zijn er in deze maat.</li><li><strong>Ø85 cm</strong>: iets meer ruimte voor schalen.</li><li><strong>Vierkant 60 tot 80 cm</strong>: strak tegen een muur of in een rij.</li><li><strong>Rechthoekig 120 tot 180 cm</strong>: als bar of buffet op stahoogte.</li></ul><p>Hoeveel statafels je nodig hebt, lees je in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">Hoeveel statafels heb je nodig per gast?</a></p><h2>4. Onderstel en hoogte</h2><p>110 cm is de klassieke hoogte; 107 cm zit iets prettiger als er ook mensen op een barkruk aan zitten. Een zwart onderstel is het rustigst, wit staat licht bij een witte rok, chroom of geborsteld goud is voor een chique receptie. Wil je een parasol door het blad, kies dan een uitvoering met parasolgat.</p><h2>5. Aankleden</h2><p>Een <a href=\"/products/statafelrok-stretch\">stretchrok</a> maakt van elke ronde inklapbare statafel een feesttafel; welke maat past, lees je in <a href=\"/blogs/advies/welke-statafelrok-past\">Welke statafelrok past?</a>. Voor vierkante en rechthoekige tafels is er een eigen <a href=\"/products/stretchhoes-statafel-vierkant-en-rechthoekig\">stretchhoes</a>. Design statafels laat je juist bloot, eventueel met een transparante <a href=\"/products/beschermplaat-statafel\">beschermplaat</a>.</p><h2>6. Vervoer en opslag</h2><p>Reken bij meer dan een paar tafels meteen een <a href=\"/products/transportkar-statafels\">transportkar</a> mee: inklapbare statafels rijden rechtop op de kar, stapelbare op een plateaukar. Bestel je ze samen, dan zit de kar in een <a href=\"/collections/actiepakketten\">pakket</a> vaak voordeliger.</p>",
+    "seo": {
+     "title": "Statafel kopen: de koopgids | Klapklaar",
+     "description": "Inklapbaar, stapelbaar of vast; HPL, compact HPL, HDPE of marmerlook; welke maat en hoogte: zo kies je de statafel die bij jouw gebruik past."
+    },
+    "image": {
+     "src": "statafel-inklapbaar-professional-wit-hero.webp",
+     "source": "catalog",
+     "alt": "Statafel inklapbaar Professional met wit blad op een zwart onderstel, schuin vooraanzicht",
+     "use": "statafel-inklapbaar-professional-wit-hero.webp"
+    },
+    "metafields": {
+     "producten": [
+      "statafel-inklapbaar-professional",
+      "statafel-vierkant-stapelbaar",
+      "statafel-breed-stapelbaar",
+      "statafel-design-marmerlook",
+      "statafel-design-zuilvoet",
+      "statafelrok-stretch"
+     ]
+    },
+    "claims": []
    }
   ]
  },
@@ -357476,6 +357717,21 @@
    "zijwanden-kiezen": [
     "Brandvertragend PVC-wand: certificaat bij de leverancier opvragen",
     "Brandvertragend/brandklasse PVC-wand: pas noemen als het certificaat binnen is (docs/claims-to-confirm.md)"
+   ],
+   "grondframe-en-nokversteviging": [
+    "Welke lijnen een grondframe en nokversteviging hebben volgt uit de productteksten (PVC 550 Premium, PVC 620, opslagtent): bij de leverancier bevestigen."
+   ],
+   "opslagtent-kiezen": [
+    "Vuistregels voor looppad (1 m) en vrije ruimte bij de roldeur (1,5 m) zijn advies, geen productclaim."
+   ],
+   "schaduwdoek-vragen": [
+    "Hoogteverschil 30–50 cm en spanruimte 30–50 cm per hoek zijn algemeen advies; geen garantie op waterdichtheid zonder afschot."
+   ],
+   "bruiloft-in-een-stretchtent": [
+    "Ruimte per gast (1,5 m² diner, 0,7–1 m² staand) en de maatvoorbeelden zijn vuistregels; advies, geen garantie."
+   ],
+   "biertafelset-samenstellen": [
+    "Bladdikte 25–35 mm voor de losse onderstelset volgt de productspecificatie; bevestigen."
    ]
   },
   "index": [
@@ -359214,9 +359470,9 @@
    }
   ],
   "images": {
-   "real": 729,
+   "real": 741,
    "draft": 59,
-   "missing": 357,
+   "missing": 345,
    "products_without_image": [
     "zijwand-partytent-buizenframe-lang",
     "regengoot-partytent-buizenframe",
@@ -359252,11 +359508,11 @@
     "led-lamp-e27-gekleurd",
     "led-lamp-e27-dimbaar-ip65"
    ],
-   "variants_own": 3219,
+   "variants_own": 3276,
    "variants_same_kleur": 134,
-   "variants_component": 17,
+   "variants_component": 18,
    "variants_hero": 231,
-   "variants_no_image": 1992,
+   "variants_no_image": 1934,
    "variants_no_image_by_product": {
     "easy-up-partytent-professional-full-colour-bedrukt": 8,
     "haringen-en-bevestigingsmateriaal-partytent": 2,
@@ -359285,11 +359541,10 @@
     "schroevenset-tent": 2,
     "onderdelen-stretchtent": 7,
     "hypar-schaduwzeil-stretch": 9,
-    "zijwanden-stertent": 56,
+    "zijwanden-stertent": 20,
     "zijwand-opblaasbare-promotietent": 64,
     "zijwand-opblaasbare-promotietent-pro": 42,
     "bevestigingsset-schaduwdoek": 2,
-    "tuinpaviljoen-aluminium": 6,
     "statafel-inklapbaar-professional": 57,
     "statafel-inklapbaar-hdpe-80": 3,
     "statafel-vierkant-stapelbaar": 78,
@@ -359315,7 +359570,6 @@
     "loper-per-meter": 16,
     "loper-rol-50-m": 14,
     "terrastafel-rond-inklapbaar": 87,
-    "klaptafel-hout-vormen": 5,
     "conferentietafel-inklapbaar": 24,
     "barkoelkast-glazen-deur": 3,
     "koelkast-staand-horeca": 2,
@@ -359324,10 +359578,8 @@
     "flessenkoeler-verrijdbaar-1000-liter": 1,
     "easy-up-partytent-premium-full-colour-bedrukt": 3,
     "dwarsbuis-halve-zijwand-easy-up": 6,
-    "klapstoel-wedding": 1,
     "stoelhoes-stretch": 14,
     "afzetkoord-velours": 14,
-    "onderdelen-afzetsysteem": 9,
     "tentvloer-kunststof": 2,
     "tapijttegel-50x50": 5,
     "kapstok-verrijdbaar": 1,
@@ -359336,7 +359588,6 @@
     "led-lamp-e27-gekleurd": 8,
     "led-lamp-e27-dimbaar-ip65": 2,
     "wijnvat-set-statafel-barkrukken": 2,
-    "pakket-26-weddingstoelen-met-transportkar": 1,
     "pakket-klapstoelen-met-stoelhoezen": 7
    }
   }

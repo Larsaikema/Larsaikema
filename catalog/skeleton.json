@@ -3728,6 +3728,42 @@
     "title": "Zijwanden kiezen voor je partytent",
     "brief": "Dicht, raam, deur, half; polyester vs PVC; welke lengte op welke zijde.",
     "required_by_contract": false
+   },
+   {
+    "handle": "grondframe-en-nokversteviging",
+    "title": "Grondframe en nokversteviging: wat doen ze en wanneer heb je ze nodig?",
+    "brief": "Wat ze doen, bij welke lijn ze erbij zitten, wanneer nodig (lang staan, > 6 m, verhuur), opbouw met grondframe.",
+    "required_by_contract": false
+   },
+   {
+    "handle": "opslagtent-kiezen",
+    "title": "Opslagtent kiezen: welk doek, welke maat en hoe zet je hem neer?",
+    "brief": "Doek naar duur, maat naar inhoud + looppad, plek vlak en vast, opslagtent vs carport.",
+    "required_by_contract": false
+   },
+   {
+    "handle": "schaduwdoek-vragen",
+    "title": "Schaduwdoek ophangen: de vragen die iedereen stelt",
+    "brief": "Waterdoorlatend vs waterdicht, afschot, ophangpunten, vorm en maat, wind, winter.",
+    "required_by_contract": false
+   },
+   {
+    "handle": "bruiloft-in-een-stretchtent",
+    "title": "Trouwen in een stretchtent: zo pak je het aan",
+    "brief": "m² per gast, open of dicht, inrichting, licht, weer en wind, planning.",
+    "required_by_contract": false
+   },
+   {
+    "handle": "biertafelset-samenstellen",
+    "title": "Je eigen biertafelset samenstellen: set, losse delen of zelf bouwen",
+    "brief": "Lengte en breedte, kwaliteit, set vs los vs onderstel onder eigen blad, aankleden, aantallen.",
+    "required_by_contract": false
+   },
+   {
+    "handle": "statafel-kopen-koopgids",
+    "title": "Statafel kopen: de koopgids",
+    "brief": "Inklappen, stapelen of vast; bladsoorten; maat; onderstel en hoogte; aankleden; vervoer.",
+    "required_by_contract": false
    }
   ]
  },

@@ -52,22 +52,32 @@ function bierLeg(mats, { W = 0.5, bench = false } = {}) {
   for (const s of [-1, 1]) t.add(mats.hole, G.tube(V3(0, y + 0.0262, s * (half - 0.02)), V3(0, y + 0.0268, s * (half - 0.02)), 0.0045, 12));
   return { bin: t, opts };
 }
-// folding brace with knee hinge and lock lever (klikslot); built lying flat along x, knee slightly bent
+// folding brace with knee hinge and lock lever (klikslot); built lying flat, the two bars meet at the knee
+// at `bend` degrees off straight (0 = stretched, as fitted; 60+ = folded into a V)
 function klikslot(mats, { len = 0.5, bend = 10 } = {}) {
   const t = new G.PartBin();
-  const a = V3(-len / 2, 0, 0), k = V3(0, 0, Math.sin(bend * DEG) * len * 0.25), b = V3(len / 2, 0, 0);
+  const h = (bend * DEG) / 2;
+  const k = V3(0, 0, 0);
+  const dA = V3(-Math.cos(h), 0, Math.sin(h)), dB = V3(Math.cos(h), 0, Math.sin(h));
+  const a = k.clone().addScaledVector(dA, len / 2), b = k.clone().addScaledVector(dB, len / 2);
   const up = V3(0, 1, 0);
-  t.add(mats.steel, G.flatBar(a, k, 0.028, 0.004, V3(0, 0, 1)).translate(0, 0.002, 0));
-  t.add(mats.steel, G.flatBar(k, b, 0.028, 0.004, V3(0, 0, 1)).translate(0, 0.006, 0));
-  t.add(mats.steel, F.latheAt([[0.0001, 0], [0.008, 0], [0.008, 0.012], [0.0001, 0.012]], k.clone().setY(0), up, 16));
-  // lock lever (grey nylon) over the knee and the sliding lock sleeve
-  t.add(mats.lever, G.roundedBox(0.07, 0.012, 0.03, 0.004).translate(k.x + 0.04, 0.012, k.z));
-  t.add(mats.steel, G.roundedBox(0.04, 0.012, 0.036, 0.003).translate(k.x - 0.05, 0.006, k.z * 0.6));
-  // end brackets: an eye on the leg end, a small angle plate with two holes on the top end
-  t.add(mats.steel, F.latheAt([[0.006, 0], [0.012, 0], [0.012, 0.004], [0.006, 0.004]], a.clone().add(V3(-0.006, 0, 0)), up, 18));
-  t.add(mats.steel, G.roundedBox(0.06, 0.004, 0.05, 0.002).translate(b.x + 0.02, 0.002, b.z));
-  t.add(mats.steel, G.roundedBox(0.004, 0.02, 0.05, 0.0015).translate(b.x + 0.048, 0.01, b.z));
-  for (const s of [-1, 1]) t.add(mats.hole, G.tube(V3(b.x + 0.025, 0.0038, s * 0.013), V3(b.x + 0.025, 0.0046, s * 0.013), 0.0035, 12));
+  const sideOf = (d) => V3(-d.z, 0, d.x);
+  t.add(mats.steel, G.flatBar(a, k, 0.028, 0.004, sideOf(dA)).translate(0, 0.002, 0));
+  t.add(mats.steel, G.flatBar(k, b, 0.028, 0.004, sideOf(dB)).translate(0, 0.006, 0));
+  t.add(mats.steel, F.latheAt([[0.0001, 0], [0.008, 0], [0.008, 0.012], [0.0001, 0.012]], k.clone(), up, 16));
+  // lock lever (grey nylon) on the upper bar next to the knee, the sliding lock sleeve on the lower bar
+  const onB = (s0, y) => k.clone().addScaledVector(dB, s0).setY(y);
+  const onA = (s0, y) => k.clone().addScaledVector(dA, s0).setY(y);
+  t.add(mats.lever, G.roundedBox(0.07, 0.012, 0.03, 0.004).applyMatrix4(F.basis(onB(0.045, 0.013), dB, up)));
+  t.add(mats.steel, G.roundedBox(0.04, 0.012, 0.036, 0.003).applyMatrix4(F.basis(onA(0.05, 0.006), dA, up)));
+  // end fittings: an eye on the leg end, a small angle plate with two holes on the top end
+  t.add(mats.steel, F.latheAt([[0.006, 0], [0.012, 0], [0.012, 0.004], [0.006, 0.004]], onA(len / 2 + 0.006, 0), up, 18));
+  t.add(mats.steel, G.roundedBox(0.06, 0.004, 0.05, 0.002).applyMatrix4(F.basis(onB(len / 2 + 0.02, 0.002), dB, up)));
+  t.add(mats.steel, G.roundedBox(0.004, 0.02, 0.05, 0.0015).applyMatrix4(F.basis(onB(len / 2 + 0.048, 0.01), dB, up)));
+  for (const s of [-1, 1]) {
+    const c = onB(len / 2 + 0.025, 0).addScaledVector(sideOf(dB), s * 0.013);
+    t.add(mats.hole, G.tube(c.clone().setY(0.0038), c.clone().setY(0.0046), 0.0035, 12));
+  }
   return t;
 }
 // galvanised carriage bolt M8 x 60 lying on its side, nut run onto the end, washer beside it
@@ -179,8 +189,9 @@ export function biertafelParts(p = {}) {
     place(bins, klikslot(mats, { len: 0.36 }), { x: 0.02, z: 0.42, yaw: 0.04 });
     place(bins, klikslot(mats, { len: 0.36 }), { x: -0.02, z: 0.5, yaw: -0.03 });
   } else if (part === 'ks') {
-    place(bins, klikslot(mats, { len: 0.42, bend: 34 }), { x: 0, z: 0, yaw: 0.25 });
-    view = { hero: { azimuth: 30, elevation: 48, fill: 0.7 } };
+    // shown half folded (the knee bent into a wide V): the knee, lever and both end fittings read
+    place(bins, klikslot(mats, { len: 0.46, bend: 62 }), { x: 0, z: 0, yaw: 0.2 });
+    view = { hero: { azimuth: 30, elevation: 44, fill: 0.74 } };
   } else if (part === 'bm5') {
     const t = new G.PartBin();
     for (let i = 0; i < 5; i++) boltSet(t, mats, -0.03 + i * 0.002, -0.08 + i * 0.04, -0.3 + i * 0.12);
