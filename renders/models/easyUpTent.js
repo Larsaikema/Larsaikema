@@ -193,6 +193,7 @@ export function easyUpTent(p = {}) {
   const fabric = M.pvcCloth(color);
   const thread = M.pvcThread(color);
   stitchAO = thread.userData.threadAO ?? 1;
+  stitchSeed = 1; // deterministic stitch jitter, whatever the page rendered before
   // Frame tubes: Premium = black powder-coated steel (catalogue: 'zwart gepoedercoat staal 40 mm', the visible
   // difference to Professional), Professional = bare aluminium. p.frameFinish ('powder' | 'alu') overrides.
   const powder = (p.frameFinish || (kind === 'premium' ? 'powder' : 'alu')) === 'powder';

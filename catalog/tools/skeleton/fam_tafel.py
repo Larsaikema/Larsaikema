@@ -218,7 +218,7 @@ def build():
     def pr(k):
         return {'type': 'stretch', 'color': render_color(k), 'diameter': 0.8, 'topcover': render_color(k),
                 'print': {'svg': 'brand/tools/print-mark.json', 'color': '#FBF6EC' if k != 'Wit' else '#C83812', 'width': 0.15, 'y': 0.27, 'azimuth': 'panel-mid'}}
-    imgs, vmap = kleur_images('statafelhoes-stretch-met-logo', LK, 'statafelCover', pr, 'Zwart', status='needs-patch', p2=3)
+    imgs, vmap = kleur_images('statafelhoes-stretch-met-logo', LK, 'statafelCover', pr, 'Zwart', status='existing', p2=3)
     imgs[0]['alt_hint'] = 'met voorbeeldopdruk Klapklaar op het vlakke deel van de rok'
     simple('statafelhoes-stretch-met-logo', 'Statafelhoes stretch met jouw logo', 'Statafelrok', ['bedrukbaar', 'zakelijk', 'gebruik:evenement', 'gebruik:horeca'],
            [opt('Maat', RM), opt('Uitvoering', LU), opt('Kleur', LK)], vs, imgs,
@@ -244,7 +244,7 @@ def build():
            [opt('Maat', ['183 x 76 cm', '244 x 76 cm']), opt('Uitvoering', ['Logo op de voorkant', 'Full colour rondom'])],
            [variant(f'KK-BDR-THOES-{code(m)}-{"L" if "Logo" in u else "FC"}', [m, u], p, 1100, None, tracked=False) for m, u, p in BB],
            [img('stretchhoes-klaptafel-met-logo-hero.webp', 'hero', 1, 'buffetCover', {'length': 1.83, 'width': 0.76, 'color': 'zwart', 'print': {'svg': 'brand/tools/print-wordmark.json', 'color': '#FBF6EC', 'side': 'front'}},
-                'hero', None, 'needs-model', alt='met voorbeeldopdruk op de voorkant')],
+                'hero', None, 'existing', alt='met voorbeeldopdruk op de voorkant')],
            {'kenmerk_kort': 'Beursbalie in een handomdraai · logo of full colour', 'bedrukbaar': True,
             'drukopties': {'posities': ['Voorkant', 'Rondom'], 'aanlevering': AANLEVERING, 'levertijd': LT_DRUK, 'min_aantal': 1},
             'staffelkorting': ST_BEDRUKT, 'levertijd': 'Levertijd ' + LT_DRUK, 'past_op': ['klaptafel-hdpe-rechthoekig'], 'verzending': 'pakket'},
