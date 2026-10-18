@@ -414,6 +414,13 @@ ARTICLES = [
     ('stretchtent-of-stertent', 'Stretchtent of stertent?', 'Vorm, opzetten, ruimte rondom, capaciteit en budget naast elkaar.'),
     ('prikkabel-op-maat-berekenen', 'Prikkabel op maat: zo bereken je lengte en fittingen', 'Ophangpunten meten, doorhang, fittingafstand, totaal vermogen per groep.'),
     ('zijwanden-kiezen', 'Zijwanden kiezen voor je partytent', 'Dicht, raam, deur, half; polyester vs PVC; welke lengte op welke zijde.'),
+    # catalog round 3 (L8): info content the reference has and we did not
+    ('grondframe-en-nokversteviging', 'Grondframe en nokversteviging: wat doen ze en wanneer heb je ze nodig?', 'Wat ze doen, bij welke lijn ze erbij zitten, wanneer nodig (lang staan, > 6 m, verhuur), opbouw met grondframe.'),
+    ('opslagtent-kiezen', 'Opslagtent kiezen: welk doek, welke maat en hoe zet je hem neer?', 'Doek naar duur, maat naar inhoud + looppad, plek vlak en vast, opslagtent vs carport.'),
+    ('schaduwdoek-vragen', 'Schaduwdoek ophangen: de vragen die iedereen stelt', 'Waterdoorlatend vs waterdicht, afschot, ophangpunten, vorm en maat, wind, winter.'),
+    ('bruiloft-in-een-stretchtent', 'Trouwen in een stretchtent: zo pak je het aan', 'm² per gast, open of dicht, inrichting, licht, weer en wind, planning.'),
+    ('biertafelset-samenstellen', 'Je eigen biertafelset samenstellen: set, losse delen of zelf bouwen', 'Lengte en breedte, kwaliteit, set vs los vs onderstel onder eigen blad, aankleden, aantallen.'),
+    ('statafel-kopen-koopgids', 'Statafel kopen: de koopgids', 'Inklappen, stapelen of vast; bladsoorten; maat; onderstel en hoogte; aankleden; vervoer.'),
 ]
 
 # Search & Discovery filter set (fixture + docs). Standing item b (catalog round 2026-10-18): no tag filter (it showed raw values like
