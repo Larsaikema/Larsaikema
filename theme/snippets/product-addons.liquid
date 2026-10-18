@@ -104,9 +104,12 @@
           assign a_t = addon.title | downcase
           assign a_idx = '000' | append: forloop.index | slice: -3, 3
           assign a_sort = '1' | append: a_idx
+          # the add-on itself must be the missing part: 'Beschermplaat transparant voor statafel' supplies no statafel,
+          # so only the words before ' voor ' count ('Spanbanden en haringen easy-up' still finds 'haring')
+          assign a_head = a_t | split: ' voor ' | first
           for ek in ess_keys
             assign k = ek | split: '~' | first
-            if k != blank and a_t contains k
+            if k != blank and a_head contains k
               assign a_rank = ek | split: '~' | last
               assign a_rank = '00' | append: a_rank | slice: -2, 2
               assign a_sort = '0' | append: a_rank | append: a_idx
@@ -115,7 +118,7 @@
           endfor
         -%}
         {{ a_sort }}§<li class="addons__item">
-          <label class="addon" for="Addon-{{ section_id }}-{{ forloop.index }}">
+          <label class="addon check" for="Addon-{{ section_id }}-{{ forloop.index }}">
             <input class="addon__check" type="checkbox" id="Addon-{{ section_id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-type="{{ addon.type | escape }}" data-title="{{ addon.title | escape }}"{% if a_once %} data-addon-follow="false"{% endif %}>
             <span class="addon__media">
               {%- if a_img -%}
@@ -147,7 +150,7 @@
     {%- assign a_first = addon_sorted.first | strip | slice: 0 -%}
     {%- if a_first != '0' -%}{%- assign a_exc_text = '' -%}{%- endif -%}
     <p class="addons__help">{%- if a_exc_text != blank -%}<strong>{{ 'product.excluded_label' | t }}:</strong> {{ a_exc_text }}.{%- else -%}{{ 'product.addons_help' | t }}{%- endif -%}</p>
-    {%- if block.settings.deal != blank -%}<p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
+    {%- if block.settings.deal != blank -%}<style>.addons__deal{display:flex;gap:8px;align-items:flex-start;margin:0 0 8px;font-size:14px;font-weight:var(--p6)}</style><p class="addons__deal">{%- render 'icon', icon: 'gift', class: 'icon--sm' -%}<span>{{ block.settings.deal }}</span></p>{%- endif -%}
     <ul class="addons__list" role="list">
       {%- for row in addon_sorted -%}
         {%- assign row_html = row | split: '§' | last -%}

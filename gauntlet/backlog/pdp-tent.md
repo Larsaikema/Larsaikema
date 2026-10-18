@@ -1,104 +1,126 @@
-# Backlog: pdp-tent (functional critic, 2026-10-18)
+# Backlog: pdp-tent (functional critic, round 3, 2026-10-18)
 
-Scope: `/products/easy-up-partytent-premium-3x3` (main subject), plus `-professional-3x3`, `-premium-3x6`,
-`-professional-4x8` and the logo versions, on :4100 at 1440×900 and 390×844 (Playwright: variants, keyboard, add-ons,
-add to cart, sticky bar, zoom, quote form, stock states from a private fixture copy with stock 12 / 0 deny / 2 deny).
-No blockers or highs found. Everything below is medium or low.
+Scope: `/products/easy-up-partytent-premium-3x3` on :4100 at 1440×900 and 390×844, with spot checks on
+`-premium-3x4-5`, `-professional-3x3`, `-premium-met-logo-op-de-luifel` and `-professional-full-colour-bedrukt`.
+
+Tested with Playwright:
+- Variants: click, arrow keys, and a variant switch followed by an immediate buy click.
+- Size pills to sibling products, add-ons, the quantity field (0, -5, 2.5, 1000, empty, Enter), staffel, add to cart
+  with the drawer, and the sticky bar on desktop and mobile.
+- Gallery: thumbnails, arrows, zoom and Esc.
+- The VAT toggle, the need-date check, the quote form (empty, valid, België) and the logo upload (no file, .exe, PNG,
+  "later").
+- Stock states from a private fixture copy on a temporary port: Rood 12 deny, Wit 0 deny, Zwart 2 deny.
+- Widths from 320 to 1920 and laptop heights from 720 to 864, plus the no-JS path, contrast, the heading outline,
+  theme-check and the CSS/JS byte totals before and after add to cart.
+
+Fixed since round 2:
+- Stock and ETA now sit under the price.
+- The need-date check says "naar verwachting".
+- The 422 parser and the middot link are fixed.
+- The thumbnail labels now name the colour, and the guarantee line now names the legal rights.
+- The productblad PDFs were regenerated.
+
+No blocker or high items. All medium and low items follow.
 
 ## Medium
 
-- **Every gallery thumbnail is labelled "1".** `sections/main-product.liquid:170` uses
-  `'product.gallery_thumb' | t: index: pos | plus: 1`. The `plus: 1` runs on the translated string
-  ("Toon afbeelding 0"), so Liquid returns 1, and Shopify does the same. Repro: open the PDP at 1440 and inspect
-  `.gallery__thumb`: all 7 have `aria-label="1"`. A screen reader says "1, knop" seven times (WCAG 2.4.6). Fix: put
-  `pos | plus: 1` in an `assign` before the `t` filter.
-- **The excl. btw price is missing on phones and in the add-on rows.** This is the must feature
-  `global.price-incl-excl-btw`, which names accessory blocks explicitly. Repro: at 390 px in the default incl. mode,
-  the main price shows only "€279,00 incl. btw": `section-main-product.css:43` hides `.price__alt` below 750 px
-  whenever the mini toggle is present. At any width, the "Handig erbij" rows (`+ €199,00`) and the size pills show only
-  the price for the current mode. The toggle is the only way to see the excl. amount.
-- **The plain easy-up PDP has no route to the logo or full-colour versions.** Outmate offers "Full
-  Colour-bedrukking" right in the colour picker (feature `product.print-option-reveal`). Ours has separate products
-  (`easy-up-partytent-premium-met-logo-op-de-luifel`, `-professional-met-logo-op-de-luifel`, `-full-colour-bedrukt`),
-  but nothing inside `<product-info>` on the plain 3×3 links to them. The only links are in the mega menu, and the
-  quote text "met je logo?" does not link either. Repro: on the premium 3×3, search product-info for links containing
-  "logo" or "bedruk": there are none.
-- **The JS budget is over on the printable easy-up PDPs.** Repro:
-  `node tools/shoot.mjs --url http://127.0.0.1:4100/products/easy-up-partytent-premium-met-logo-op-de-luifel --out x --device desktop`
-  reports js=72,431 B. The budget is 70 KB (71,680 B). The plain tent is at 68,684 B, and `product-print.js`
-  (3,747 B) pushes it over. Trim `product-form.js` (15.6 KB) or `variant-picker.js` (10.4 KB), or lazy-load
-  `delivery-countdown.js` (5.9 KB).
-- **The buy button is below the fold on common laptop screens.** Repro: at 1366×768 the button sits at y=835–891,
-  and at 1024×768 at y=928. The delivery block (stock, expected date, shipping cost) is lower still. "Handig erbij"
-  (two rows plus intro, about 200 px) sits between the colour swatches and the button. Outmate shows price, delivery
-  line and button in the first screen. Consider collapsing the add-ons to one line ("+ zijwanden, haringen …
-  toevoegen") above 990 px, or moving the stock and delivery line above the add-ons.
-- **The downloads hold only the productblad.** Feature `product.downloads` (must) lists opzetinstructie,
-  specificatieblad, template, treksterkte and brandveiligheid. Repro: the Downloads card on the premium 3×3 has one
-  PDF, "Productblad …". There is no `opbouwhandleiding-easy-up-partytent-*.pdf` in `catalog/images/`. The setup steps
-  exist only inline and in a blog article. Add an opzetinstructie PDF per size, or at least one per line.
-- **Shift+Tab can leave the focused element hidden under the header.** The header reappears when you scroll up.
-  Repro at 1440: scroll to the recommendations and Shift+Tab upwards. The focused element ends up at top 38–72 px,
-  under the 128 px header ("Kies je kleur: …" card links, "Easy-up partytent opzetten", "Meer over verzenden"). Cause:
-  `section-header.js` sets `--header-h` to 0 while the header is hidden, so `html{scroll-padding-top:var(--header-h)}`
-  is 0 at the moment the browser scrolls focus into view. Then the scroll up brings the header back over it. This
-  touches shared and header code; one fix is to keep `scroll-padding-top` at the full header height. Also seen once at
-  1440: the main buy button focused at y=818 under the floating sticky card (top 806).
+- **The downloads are still only the productblad, with no opzetinstructie and no print template.** These are must
+  features `product.downloads` and `product.print-template-download`.
+  - The live reference 3 × 3 Premium page offers an opzetinstructie, a print template, a filled-in example template
+    and more.
+  - Ours offers one PDF on every easy-up, including the three print PDPs.
+  - The full-colour PDP says "Vraag vooraf het sjabloon voor jouw maat op via de bedrukpagina". The template exists
+    only on request, which is the workaround.
+  - Repro: Downloads card on `/products/easy-up-partytent-premium-3x3` and on `-premium-met-logo-op-de-luifel`. Then
+    run `ls catalog/images | grep -iE 'template|sjabloon|opzet'`, which finds nothing.
+  - Fix: generate an opzetinstructie PDF per line and a print template per size from catalog data (as
+    `catalog/tools/productblad.mjs` does). Add both to `custom.downloads`.
+- **The buy button is below the first screen on common laptop viewports.** No buy button shows at all there, because
+  the sticky bar appears only after the main button has scrolled out above the header.
+  - Repro: read `document.querySelector('[data-add-button]').getBoundingClientRect()`.
+  - At 1366×768 and at 1440×789 (a MacBook Chrome viewport) the button is at y=794–850. At 1280×720 it is at 804–860.
+  - About 170 px of "Handig erbij" (legend, "Niet inbegrepen" line, two rows) sits between the colour swatches and the
+    button.
+  - Fix: collapse the add-ons into one summary row from 990 px, or let the sticky card show on load when the main
+    button starts below the fold.
+- **The shipping line reads "Verzendkosten €6,95" for a 27 kg, 155 cm parcel, with no quantity rule.**
+  - The live reference shows €12,50 for 1 and €25 for 2 or more for the same 3 × 3 Premium, labelled
+    "Vrachttransport".
+  - The drawer charges €6,95 for 2 tents plus 2 zijwandensets, about 56 kg in 4 parcels.
+  - Repro: Premium 3 × 3, quantity 2, tick the zijwandenset, add, and read the drawer line "Verzending binnen NL
+    (indicatie) €6,95".
+  - Fix: set `custom.verzendkosten` on the easy-up tents (the contract has this field), or give the heavy class a
+    realistic default. Keep it listed in `docs/claims-to-confirm.md`.
+- **The CSS budget is exceeded after the first add to cart.**
+  - On load: 82,901 B in `/assets/*.css` plus 7,454 B inline.
+  - After the first add, `component-cart.css` (9,061 B) loads. That gives 91,962 B in assets, or 99,416 B with the
+    inline CSS, against 90 KB.
+  - Repro: Playwright, sum the `/assets/*.css` response bodies, click the buy button, sum again. The mobile figures
+    are 92,495 B and 99,949 B.
 
 ## Low
 
-- **Ticked add-ons are lost after a sold-out variant.** Repro (stock fixture with Wit = 0/deny): tick Zijwandenset on
-  Rood, click Wit (sold out, so the add-on block is removed), then click Rood again. The add-on is unticked.
-  `swapAddons` only carries ticks between two rendered lists.
-- **"Nog iets erbij?" recommends the Starterspakket easy-up Premium, which contains this same tent.** A shopper who
-  adds both gets two tents. Repro: the premium 3×3 PDP, first card of "Nog iets erbij?". Leave bundles that contain
-  the current product out of the complementary row, or give them a heading like "Liever als set?".
-- **The two stock wordings for a sold-out colour differ.** The screen-reader text is "Wit, niet leverbaar" while the
-  visible status is "Tijdelijk uitverkocht". Repro: stock fixture, Wit swatch label on the premium 3×3.
-- **The Wit swatch boundary is too faint.** Its ring is `rgba(29,36,32,.42)` over `#f3f3f0`, which comes to about
-  2.6:1 against Zand `#FBF6EC` (non-text contrast wants 3:1). Repro: the Kleur row, Wit swatch at 1440.
-- **The buy button label wraps to three lines at 320 px and from 750 to about 820 px.** It reads "In mijn /
-  winkelwagen / €279,00" (button 162–224 px wide next to a 138 px quantity stepper). Repro: viewport 768×1024 or
-  320×640, scroll to the button.
-- **The breadcrumb always reads Home / Partytenten / product.** It skips "Easy-up partytenten" and "Easy-up
-  Premium", even on `/collections/easy-up-premium/products/easy-up-partytent-premium-3x3`. Outmate shows the full path.
-- **An FAQ answer names a collection without linking it.** The answer to "Kan ik onderdelen nabestellen?" names
-  "Frame-onderdelen easy-up" as plain text. Link it (`/collections/easy-up-onderdelen`).
-- **The logo-tent key facts are awkward.** On `easy-up-partytent-premium-met-logo-op-de-luifel` they read "Opzetten:
-  3 x 3 m: 2; 3 x 4,5 en 3 x 6 m: 2, liefst 4 personen": "x" instead of "×", the facts do not follow the chosen size,
-  and Oppervlak and Capaciteit are missing. Repro: open that PDP at 1440 and look under the photo.
-- **The hover preview fights keyboard selection.** With the mouse resting on one swatch while the keyboard selects
-  another (focus the Kleur radio, ArrowRight), the re-rendered swatch labels fire `pointerover`. "Kleur:" and the
-  gallery then show the hovered colour, not the selected one, until the mouse moves. Repro: click Wit, leave the mouse
-  there, press ArrowRight: the label stays "Wit" while `?variant=` is Zwart.
-- **Add-on rows have no product link and a fixed quantity.** The shopper cannot open the add-on's page, and cannot
-  order, say, two sets of spanbanden for one tent: the quantity is always `addon_aantallen` × aantal. Outmate lets you
-  set a quantity per accessory.
-- **The notify form promises an automatic mail.** "Mail me als dit weer op voorraad is" and "Top, we mailen je zodra
-  dit weer op voorraad is." show without a back-in-stock app, as a contact-form fallback the owner must follow up by
-  hand. brand.md §7.2 says this form appears "alleen met een app". Repro: a sold-out variant. Either soften the
-  success copy ("We laten het je weten") or show it only when an app block is present.
-- **The Product JSON-LD has no shipping or return data.** `shippingDetails` and `hasMerchantReturnPolicy` are
-  missing, although both values exist as theme settings (Google merchant listings recommend them).
-- **`product-recommendations.js` is included twice.** Two `<script>` tags come from the two recommendation sections.
-  It is harmless thanks to the define guard and the cache, but it is noise.
-
-## Builder round (2026-10-18, after the 4–2 split with live Outmate)
-
-Fixed:
-- Gallery thumbnails read "Toon afbeelding 1 … 7" (`thumb_n` assigned before the `t` filter).
-- Excl. btw price now also shows on phones under the main price, next to the mini toggle.
-- Plain PDPs link to the printed version in the colour legend: "Met jouw logo vanaf €399,00 ›" (variant_picker setting
-  `print_collections`, snippet `product-print-alt`; also statafelrok, klaptafelhoes, zijwand, dakzeil).
-- JS budget: print PDP 69,400 B, plain PDP 66,029 B (spaces squeezed out of product-form.js, variant-picker.js,
-  product-print.js, AST-identical; download sizes moved into variant-picker.js, download-size.js no longer on the PDP).
-- Ticked add-ons survive a sold-out variant; swatch hover preview follows pointermove (no longer overrides the keyboard).
-- Buy label stays on two lines at 320 px and 750–839 px; Wit swatch ring raised to about 4:1 on the PDP.
-- Notify success copy no longer promises an automatic mail.
-- New: backorder note under "Leverbaar over 2–3 weken" ("Niet uit voorraad: deze uitvoering bestellen we voor je bij.",
-  plus "Wel uit voorraad: …" variants) and "Nodig op een vaste datum? Check of het lukt" (date vs expected window,
-  fills the offerte form's Gewenste leverdatum).
-
-Still open (not in this piece's files): breadcrumb depth (snippets/breadcrumbs), FAQ link (catalog), JSON-LD shipping and
-return data (snippets/structured-data), Starterspakket in "Nog iets erbij?" (sections/product-recommendations), extra
-download PDFs (catalog), scroll-padding under the hiding header (section-header.js), buy button below the fold at 1366×768.
+- **The JS budget is exceeded on the print PDP after the mega menu loads.** `-premium-met-logo-op-de-luifel` loads
+  69,723 B of JS. Hovering the desktop menu adds `section-header-mega.js` (3,048 B), for 72,771 B, plus 4,866 B of
+  inline script. Repro: the same byte sum on that PDP after one hover on "Partytenten".
+- **"Nog iets erbij?" still recommends the Starterspakket easy-up Premium.** That pack contains this same tent, so a
+  shopper who adds both gets two tents. Repro: Premium 3 × 3, first card of the complementary row (the fixture
+  `complementary` list). Leave out bundles whose `componenten` include the current product.
+- **The breadcrumb ignores the collection and the Easy-up level.**
+  - `/collections/easy-up-premium/products/easy-up-partytent-premium-3x3` reads "Home / Partytenten / Easy-up
+    partytent Premium 3 × 3 m". The BreadcrumbList JSON-LD has the same gap.
+  - The live reference shows "Alle easy-up partytenten > Easy up partytenten - Premium".
+- **A sold-out swatch has two different labels.** A screen reader hears "Wit, niet leverbaar", while the visible
+  status reads "Tijdelijk uitverkocht". Repro: stock fixture with Wit at 0/deny, then the label of the Wit swatch. Use
+  "Wit, tijdelijk uitverkocht".
+- **"Mail me als dit weer op voorraad is" shows without a back-in-stock app.** It is the contact-form fallback, and the
+  `notify_form` block setting defaults to true. brand.md §7.2 says this form appears only with an app. Repro: any
+  sold-out variant. Default the setting to off.
+- **The Product JSON-LD has no `shippingDetails` or `hasMerchantReturnPolicy`.** Both values exist as theme settings
+  (`shipping_cost_pakket`, `return_days`). Repro: the `application/ld+json` Product block on the PDP.
+- **`product-recommendations.js` loads twice.** Each recommendations section prints its own `<script>`. Repro:
+  `curl -s :4100/products/easy-up-partytent-premium-3x3 | grep -c product-recommendations.js` gives 2.
+- **An FAQ answer names a collection as plain text.** The answer to "Kan ik onderdelen nabestellen?" names
+  "Frame-onderdelen easy-up" without a link to `/collections/easy-up-onderdelen` (catalog `faq`).
+- **The logo-tent key facts read awkwardly and miss values.**
+  - `-premium-met-logo-op-de-luifel` shows "Opzetten 3 × 3 m: 2; 3 × 4,5 en 3 × 6 m: 2, liefst 4 personen".
+  - Oppervlak and Capaciteit are missing, and the facts do not follow the chosen Maat.
+  - Repro: the strip under the photo at 1440.
+- **The add-on rows cannot be opened or sized.**
+  - There is no link to the add-on's page, and the quantity is fixed at `addon_aantallen` × aantal.
+  - The live reference "Handige accessoires" block has a quantity field per row, for example two sets of weights for
+    one tent.
+  - Repro: the "Handig erbij" rows on the Premium 3 × 3.
+- **Focus stays on the buy button after a missing logo.** On the logo PDP, "In mijn winkelwagen" without a file shows
+  "Upload je logo, of kies 'Ik lever mijn logo later aan'." Focus stays on the button, far below the upload field. Move
+  focus to the upload field or the "later" checkbox. Repro: `-premium-met-logo-op-de-luifel`, click the buy button.
+- **Choosing a different Uitvoering silently changes the colour.**
+  - Repro: `-professional-3x3` with Rood selected, then click "Heavy duty PVC". Kleur jumps to Wit, and the
+    other colours turn unavailable.
+  - The pill gave no hint beforehand, such as "alleen in Wit en Zwart".
+  - A ticked zijwandenset becomes the €299 PVC set, so the total rises without a visible note.
+- **The focus order of "Nog 2 tonen" does not match the layout.** The button sits visually in the "Handig erbij"
+  header, but in the DOM it comes after the rows, so Tab jumps from the second row (y≈739) up to y≈607. Repro: Tab
+  from the colour swatches at 1440.
+- **The add-on order does not follow the block's own rule.**
+  - The schema info says "Wat niet in de doos zit staat altijd bovenaan, goedkoopste eerst".
+  - The order is zijwandenset €199 and then spanbanden €17,95.
+  - Voetgewichten, which are excluded and needed on hard ground, are hidden behind "Nog 2 tonen" because `visible`
+    is 2.
+  - Repro: the Premium 3 × 3 add-on list.
+- **The need-date check accepts a past date and copies it into the offerte form.** Repro: open "Nodig op een vaste
+  datum?" and fill 2026-10-10 (today is 2026-10-18). It answers "Dat halen we waarschijnlijk niet" and sets the quote
+  field "Gewenste leverdatum" to 2026-10-10. Clamp to `min`, or ask for a future date.
+- **The mobile add-on spec line is cut off.** At 390 px the zijwandenset row reads "3 × 3 m / Rood · 4 wanden: 1
+  dicht, 2 met ra…", which hides "1 met deur · 320 g/m²". Let it wrap to 2 lines.
+- **The sticky bar loses the low-stock count.** With Zwart at 2/deny, the main line reads "Nog 2 op voorraad · di 20
+  okt in huis", while the sticky bar reads "Op voorraad · di 20 okt in huis". Repro: stock fixture, then scroll past
+  the button.
+- **The spec table and key facts miss a setup time and a waterkolom value.** The live reference lists "Benodigde
+  installatie tijd 1-2" minutes, and the feature asks for opzettijd and waterkolom. Ours says "waterdicht" with no
+  waterkolom figure, and only "in een paar minuten" in the description. Add an "Opzettijd" row, and a "Waterkolom" row
+  only if the supplier confirms the value.
+- **The productblad PDF has two formatting slips.** The Uitvoeringen table and the Maat row read "3x3m" instead of
+  "3 × 3 m", and the "Afmetingen" heading is orphaned at the bottom of page 1 with its rows on page 2. Repro:
+  `pdftotext -layout catalog/images/productblad-easy-up-partytent-premium-3x3.pdf -`.

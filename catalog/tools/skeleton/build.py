@@ -3,10 +3,10 @@
 import json, sys, os, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kk_base import *
-import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, kk_addons, kk_site as site
+import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, fam_new, kk_addons, kk_ship, kk_site as site
 
 OUT, ASSORT = sys.argv[1], sys.argv[2]
-fam_easyup.build(); fam_acc.build(); fam_big.build(); fam_tafel.build(); fam_rest.build(); fam_set.build()
+fam_easyup.build(); fam_acc.build(); fam_big.build(); fam_tafel.build(); fam_rest.build(); fam_set.build(); fam_new.build()
 
 # ---------------------------------------------------------------- fixups
 for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
@@ -20,6 +20,10 @@ for p in PRODUCTS:
         p['metafields']['addon_eenmalig'] = [kk_addons.KAR_EENMALIG[p['handle']]]
 # add-ons per variant (custom.addon_varianten / addon_aantallen) + product-level union, then staffels on every bundle
 kk_addons.apply(errors)
+# custom.stuklijst per variant of the buizenframe tents and the opslagtent (kk_bom: our own bouwtekening, H12 + M2)
+import kk_bom
+kk_bom.apply(errors)
+kk_bom.stretch(errors)
 # every zakelijk line says something on the B2B route: a staffel of its family (price band) when it has none yet
 for p in PRODUCTS:
     mf = p['metafields']
@@ -48,6 +52,28 @@ for _h, _extra in [('watergewichtzakken-4x20-kg', ['opblaasbare-promotietent', '
                                                   'opblaasbare-zeshoektent']),
                    ('zitkussen-stoel-en-barkruk', ['barkruk-draad-stapelbaar', 'barkruk-pe-rotan', 'stapelstoel-metaal'])]:
     HANDLES[_h]['metafields']['past_op'] = list(HANDLES[_h]['metafields']['past_op']) + _extra
+# cart recommendations the add-on block does not carry (catalog round 2026-10-18): stertent walls for the full colour tents and the
+# stertent haringen/trekker; koppelgoot and onderdelen on the stretchtent (M4); the PE and PVC 500 tents get their own dakzeil
+for _h in ['stertent-enkele-mast', 'stertent-dubbele-mast']:
+    HANDLES[_h]['complementary'] = ['zijwanden-stertent', 'haringen-en-bevestigingsmateriaal-partytent', 'betonblok-ballast-tent']
+HANDLES['stretchtent-compleet']['complementary'] = ['koppelgoot-stretchtent', 'onderdelen-stretchtent', 'palen-stretchtent', 'stretchdoek-los']
+HANDLES['hypar-schaduwzeil-stretch']['complementary'] = ['onderdelen-stretchtent', 'palen-stretchtent', 'betonblok-ballast-tent']
+HANDLES['tentvloer-kunststof']['complementary'] = ['tapijttegel-50x50', 'tape-voor-loper-en-vloer']
+# catalog round 3: the loper op rol takes the same tape; the loper per meter points at the rol for 50 m
+HANDLES['tape-voor-loper-en-vloer']['metafields']['past_op'] = list(HANDLES['tape-voor-loper-en-vloer']['metafields'].get('past_op') or []) + ['loper-rol-50-m']
+HANDLES['loper-rol-50-m']['complementary'] = ['tape-voor-loper-en-vloer', 'afzetpaal-met-koord', 'loper-per-meter']
+HANDLES['loper-per-meter']['complementary'] = list(HANDLES['loper-per-meter'].get('complementary') or []) + ['loper-rol-50-m']
+HANDLES['statafel-wijnvat-houtlook']['complementary'] = ['wijnvat-set-statafel-barkrukken', 'barkruk-wijnvat']
+for _h in ['statafel-design-marmerlook', 'statafel-design-zuilvoet', 'statafel-breed-stapelbaar']:
+    HANDLES[_h]['complementary'] = ['barkruk-velours-stapelbaar', 'barkruk-chroom-stapelbaar', 'stretchhoes-statafel-vierkant-en-rechthoekig' if _h == 'statafel-breed-stapelbaar' else 'beschermplaat-statafel']
+HANDLES['marktkraam-2-m']['complementary'] = ['dakzeil-marktkraam', 'werkblad-marktkraam', 'tentelastieken-met-bal', 'zandzakken-partytent-set-van-4']
+HANDLES['tapijttegel-50x50']['complementary'] = ['tentvloer-kunststof', 'tape-voor-loper-en-vloer']
+for _h in ['terrastafel-rond-inklapbaar', 'terrastafel-inklapbaar']:
+    HANDLES[_h]['complementary'] = ['stapelstoel-metaal', 'kruk-laag-stapelbaar', 'transportkar-terrastafels']
+# shipping per product (H11), packing data (M15) and the accessory discount with a tent (M1): kk_ship.py
+kk_ship.apply(PRODUCTS)
+kk_ship.verpakt(PRODUCTS)
+kk_ship.addon_korting(PRODUCTS)
 # every list metafield gets its own list object from here on (no shared-list side effects in later fix-ups)
 for _p in PRODUCTS:
     for _k, _v in list(_p['metafields'].items()):
@@ -74,6 +100,10 @@ SYSTEEM_EXTRA = {  # accessories without a past_op list that fit several systems
     'betonblok-ballast-tent': ['Buizenframe', 'Stretchtent', 'Stertent'],
     'reparatieset-tentdoek': ['Easy-up', 'Buizenframe'],
     'tentelastieken-met-bal': ['Easy-up', 'Buizenframe'],
+    # catalog round 3: generic fixing materials (no past_op list of their own)
+    'klittenband-zelfklevend': ['Easy-up', 'Buizenframe'],
+    'zeilringen-12-mm': ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent'],
+    'schroevenset-tent': ['Buizenframe', 'Stretchtent', 'Stertent'],
 }
 for p in PRODUCTS:
     sy = set()

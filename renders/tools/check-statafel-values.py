@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""Value / colour check for the statafel family (stretch rok zwart + rood, strik wit, kaal birch).
+
+Renders each hero and reads the rendered sRGB at the probe points the builders export
+(meta.probes, projected to pixels by js/main.js). Each value is the median of 7x7 windows round
+the probe points (eyedropper-like). Reported: Rec.709 luma (0-255), mean RGB, and for red the hue
+(degrees) and saturation, so a top that drifts to salmon shows up.
+
+Targets (art direction 18 Oct 2026):
+  stretch zwart  lit faces 40-60 (no crush: nothing the buyer must read below ~18), top not a
+                 separate mid-grey disc (top luma <= lit skirt + 25)
+  stretch rood   hue of top / funnel / skirt within 6 degrees of each other, top saturation >= 0.7
+                 (not salmon), lit skirt R >= 160
+  strik wit      upper drape and skirt >= 210 on the lit side, >= 190 turned away
+  kaal berken    top R 205-232 (lit birch, not blown out)
+  floor          under a foot at least 25 levels darker than open floor
+
+  python3 renders/tools/check-statafel-values.py [--size 1000] [--samples 16] [--keep DIR] [--only zwart,rood]
+"""
+import argparse, colorsys, json, os, subprocess, sys, tempfile
+from statistics import median
+from PIL import Image
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+RENDER = os.path.join(os.path.dirname(HERE), 'render.mjs')
+
+JOBS = [
+    ('zwart', {'model': 'statafelCover', 'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'angle': 'hero'}),
+    ('rood', {'model': 'statafelCover', 'type': 'stretch', 'color': 'rood', 'diameter': 0.8, 'angle': 'hero'}),
+    ('strik', {'model': 'statafelCover', 'type': 'strik', 'color': 'wit', 'diameter': 0.8, 'angle': 'hero'}),
+    ('kaal', {'model': 'statafel', 'diameter': 0.8, 'top': 'berken', 'frame': 'zwart', 'angle': 'hero'}),
+]
+
+
+def luma(c):
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+
+def sample(img, pts, half):
+    vals = []
+    for (x, y) in pts:
+        xs = []
+        for dy in range(-half, half + 1):
+            for dx in range(-half, half + 1):
+                px = img.getpixel((min(img.width - 1, max(0, int(x) + dx)), min(img.height - 1, max(0, int(y) + dy))))
+                xs.append(px[:3])
+        vals.append(tuple(median(p[i] for p in xs) for i in range(3)))
+    return tuple(sum(v[i] for v in vals) / len(vals) for i in range(3))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--size', type=int, default=1000)
+    ap.add_argument('--samples', type=int, default=16)
+    ap.add_argument('--keep', default=None)
+    ap.add_argument('--only', default=None)
+    a = ap.parse_args()
+    only = set(a.only.split(',')) if a.only else None
+    tmp = a.keep or tempfile.mkdtemp(prefix='sfcheck-')
+    os.makedirs(tmp, exist_ok=True)
+    jobs = [(k, j) for k, j in JOBS if not only or k in only]
+    batch = os.path.join(tmp, 'jobs.jsonl')
+    with open(batch, 'w') as f:
+        for k, j in jobs:
+            f.write(json.dumps({**j, 'out': f'{k}.png', 'size': a.size}) + '\n')
+    out = subprocess.run(['node', RENDER, '--batch', batch, '--samples', str(a.samples), '--json'], capture_output=True, text=True)
+    infos = [json.loads(l) for l in out.stdout.splitlines() if l.startswith('{"ms"')]
+    if len(infos) != len(jobs):
+        print(out.stdout[-3000:], out.stderr[-3000:])
+        sys.exit(2)
+    half = max(2, round(3 * a.size / 1000))
+    ok = True
+    res = {}
+    for (k, _), info in zip(jobs, infos):
+        img = Image.open(os.path.join(tmp, f'{k}.png')).convert('RGB')
+        vals = {}
+        for name, pts in info['probes'].items():
+            vals[name] = sample(img, pts, half)
+        res[k] = vals
+        print(f'== {k} (exposure {info.get("exposure"):.3f})')
+        for name, c in vals.items():
+            h, l, s = colorsys.rgb_to_hls(*(v / 255 for v in c))
+            hsv = colorsys.rgb_to_hsv(*(v / 255 for v in c))
+            print(f'   {name:12s} luma {luma(c):6.1f}   rgb ({c[0]:5.1f},{c[1]:5.1f},{c[2]:5.1f})   hue {h * 360:5.1f}  sat {hsv[1]:.2f}')
+    def check(cond, msg):
+        nonlocal ok
+        print(('  ok   ' if cond else '  FAIL ') + msg)
+        ok = ok and cond
+    print('== checks')
+    if 'zwart' in res:
+        v = res['zwart']
+        check(40 <= luma(v['skirtLit']) <= 62, f"zwart lit skirt luma {luma(v['skirtLit']):.0f} in 40-62")
+        check(40 <= luma(v['funnelLit']) <= 66, f"zwart lit funnel luma {luma(v['funnelLit']):.0f} in 40-66")
+        check(luma(v['skirtShade']) >= 18, f"zwart skirt turned away {luma(v['skirtShade']):.0f} >= 18")
+        check(luma(v['top']) <= luma(v['skirtLit']) + 25, f"zwart top {luma(v['top']):.0f} <= lit skirt + 25")
+    if 'rood' in res:
+        v = res['rood']
+        hues = {n: colorsys.rgb_to_hsv(*(x / 255 for x in v[n]))[0] * 360 for n in ('top', 'funnelLit', 'skirtLit', 'skirtFront')}
+        hues = {n: (h if h < 180 else h - 360) for n, h in hues.items()}
+        spread = max(hues.values()) - min(hues.values())
+        check(spread <= 6, f"rood hue spread {spread:.1f} deg <= 6 ({', '.join(f'{n} {h:.1f}' for n, h in hues.items())})")
+        sat = colorsys.rgb_to_hsv(*(x / 255 for x in v['top']))[1]
+        check(sat >= 0.7, f"rood top saturation {sat:.2f} >= 0.70")
+        check(v['skirtLit'][0] >= 160, f"rood lit skirt R {v['skirtLit'][0]:.0f} >= 160")
+    if 'strik' in res:
+        v = res['strik']
+        for n in ('upperLit', 'upperFront', 'skirtLit'):
+            check(luma(v[n]) >= 210, f"strik {n} {luma(v[n]):.0f} >= 210")
+        for n in ('upperShade', 'skirtShade'):
+            check(luma(v[n]) >= 190, f"strik {n} {luma(v[n]):.0f} >= 190")
+    if 'kaal' in res:
+        v = res['kaal']
+        check(205 <= v['top'][0] <= 232, f"kaal birch top R {v['top'][0]:.0f} in 205-232")
+    for k, v in res.items():
+        if 'floorFoot' in v and 'floorOpen' in v:
+            check(luma(v['floorOpen']) - luma(v['floorFoot']) >= 25, f"{k} floor under foot {luma(v['floorFoot']):.0f} vs open {luma(v['floorOpen']):.0f} (>= 25 darker)")
+    print('images in', tmp)
+    sys.exit(0 if ok else 1)
+
+
+if __name__ == '__main__':
+    main()

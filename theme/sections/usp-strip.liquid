@@ -2,19 +2,58 @@
 <section class="usp-strip color-{{ section.settings.color_scheme }}{% if section.settings.boxed %} usp-strip--boxed{% endif %}{% if section.settings.mobile_list %} usp-strip--list-mobile{% endif %}{% if section.settings.show_flags %} usp-strip--flags{% endif %}" aria-label="{{ section.settings.label | escape }}">
   {%- if section.settings.show_flags -%}<div class="divider-flags usp-strip__flags" aria-hidden="true"></div>{%- endif -%}
   <div class="page-width">
-    <ul class="usp-strip__list" role="list" style="--count: {{ section.blocks.size }}">
+    {%- comment -%}
+      A delivery promise that only holds for stock ('vandaag verzonden') can be tied to real stock: with 'Alleen bij
+      voorraad' on, the block shows its own title/text only while at least one product (of the chosen collection, else the
+      whole shop, first 50 products) is on hand in the same sense as the 'Op voorraad' line on cards and product pages
+      (available, no own lead time, untracked or a count above 0). Otherwise it shows the 'zonder voorraad' text, or
+      nothing when that is empty, so the strip never promises what no card on the page can keep.
+    {%- endcomment -%}
+    {%- capture usp_items -%}
+      {%- assign usp_count = 0 -%}
       {%- for block in section.blocks -%}
+        {%- liquid
+          assign usp_title = block.settings.title
+          assign usp_text = block.settings.text
+          if block.settings.stock_only
+            assign usp_in_stock = false
+            assign usp_c = block.settings.stock_collection | default: collections.all
+            for usp_p in usp_c.products limit: 50
+              if usp_p.metafields.custom.levertijd != blank
+                continue
+              endif
+              for usp_v in usp_p.variants
+                if usp_v.available
+                  if usp_v.inventory_management == blank or usp_v.inventory_quantity > 0
+                    assign usp_in_stock = true
+                    break
+                  endif
+                endif
+              endfor
+              if usp_in_stock
+                break
+              endif
+            endfor
+            unless usp_in_stock
+              assign usp_title = block.settings.fallback_title
+              assign usp_text = block.settings.fallback_text
+            endunless
+          endif
+        -%}
+        {%- if usp_title == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign usp_count = usp_count | plus: 1 -%}
         <li class="usp-strip__item" {{ block.shopify_attributes }}>
           <span class="usp-strip__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
           <span class="usp-strip__text">
             <span class="usp-strip__title">
-              {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.title | replace: '[besteltijd]', settings.cutoff_time }}</a>{%- else -%}{{ block.settings.title | replace: '[besteltijd]', settings.cutoff_time }}{%- endif -%}
+              {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ usp_title | replace: '[besteltijd]', settings.cutoff_time }}</a>{%- else -%}{{ usp_title | replace: '[besteltijd]', settings.cutoff_time }}{%- endif -%}
             </span>
-            {%- if block.settings.text != blank -%}<span class="usp-strip__sub">{{ block.settings.text | replace: '[besteltijd]', settings.cutoff_time }}</span>{%- endif -%}
+            {%- if usp_text != blank -%}<span class="usp-strip__sub">{{ usp_text | replace: '[besteltijd]', settings.cutoff_time }}</span>{%- endif -%}
           </span>
         </li>
       {%- endfor -%}
-    </ul>
+    {%- endcapture -%}
+    <ul class="usp-strip__list" role="list" style="--count: {{ usp_count }}">{{ usp_items }}</ul>
   </div>
 </section>
 
@@ -41,7 +80,11 @@
           { "value": "case", "label": "Zakelijk" }, { "value": "clock", "label": "Klok" }, { "value": "check", "label": "Vinkje" } ], "default": "truck" },
         { "type": "text", "id": "title", "label": "Titel", "default": "Snel in huis", "info": "[besteltijd] wordt de besteltijd uit Thema-instellingen › Levering." },
         { "type": "text", "id": "text", "label": "Toelichting", "default": "In NL & BE" },
-        { "type": "url", "id": "link", "label": "Link" }
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "checkbox", "id": "stock_only", "label": "Alleen bij voorraad", "default": false, "info": "Voor een belofte die alleen voor voorraad geldt ('vandaag verzonden'): de titel en toelichting hierboven staan er alleen als er echt iets op voorraad is. Anders de tekst hieronder." },
+        { "type": "collection", "id": "stock_collection", "label": "Voorraad kijken in", "info": "Leeg = alle producten (de eerste 50)." },
+        { "type": "text", "id": "fallback_title", "label": "Titel zonder voorraad", "info": "Leeg = de USP valt weg zolang er niets op voorraad is." },
+        { "type": "text", "id": "fallback_text", "label": "Toelichting zonder voorraad" }
       ]
     }
   ],

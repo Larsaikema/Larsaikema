@@ -89,6 +89,9 @@
         assign i_addons = forloop.index
       when 'delivery'
         assign i_delivery = forloop.index
+        assign delivery_block = b
+      when 'bedrukken'
+        assign print_block = b
     endcase
   endfor
   assign vp_sizes = vp_sizes | split: ','
@@ -103,6 +106,12 @@
   if vp_rows > 2 and i_addons > 0 and i_addons < i_delivery and is_discontinued == false
     assign addons_late = true
   endif
+  # stock + expected delivery under the price (snippets/product-eta) when the section has a delivery block after it
+  assign eta_done = false
+  assign sooner_url = ''
+  if nudge_url == '#ProductQuote'
+    assign sooner_url = nudge_url
+  endif
   assign details_below = section.settings.details_below
   assign details_types = 'collapsible_tab,included,quote_form,compare' | split: ','
   # The chosen variant's image is the first slide (a 24-colour rok opens on the colour in the URL, not on the product's
@@ -111,7 +120,7 @@
   assign featured_index = 0
   assign lead_media_id = current_variant.featured_media.id | default: product.featured_media.id
 -%}
-{%- render 'product-styles', product: product, is_print: is_print, is_config: is_config, is_discontinued: is_discontinued, avail_status: avail_status, media_types: media_types %}
+{%- render 'product-styles', product: product, is_print: is_print, is_config: is_config, is_discontinued: is_discontinued, avail_status: avail_status, media_types: media_types, blocks: section.blocks, kf_labels: kf_labels %}
 <product-info class="product section" id="ProductInfo-{{ section.id }}" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-form-id="{{ product_form_id }}">
   <p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-variant-live></p>
   <div class="page-width">
@@ -168,7 +177,7 @@
                   {%- if pass == 1 -%}{%- unless media.id == lead_media_id -%}{%- continue -%}{%- endunless -%}{%- elsif media.id == lead_media_id -%}{%- continue -%}{%- endif -%}
                   {%- assign thumb_n = pos | plus: 1 -%}
                   <li>
-                    <button type="button" class="gallery__thumb" data-gallery-thumb="{{ pos }}" data-media-type="{{ media.media_type }}" aria-label="{{ 'product.gallery_thumb' | t: index: thumb_n }}"{% if pos == featured_index %} aria-current="true"{% endif %}>
+                    <button type="button" class="gallery__thumb" data-gallery-thumb="{{ pos }}" data-media-type="{{ media.media_type }}" aria-label="{{ 'product.gallery_thumb' | t: index: thumb_n }}{% if media.alt != blank %}: {{ media.alt | escape }}{% endif %}"{% if pos == featured_index %} aria-current="true"{% endif %}>
                       {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: '', widths: '90, 180', sizes: '90px' }}
                     </button>
                   </li>
@@ -238,6 +247,10 @@
                     </vat-toggle>
                   {%- endif -%}
                 </div>
+                {%- if delivery_block and is_discontinued == false and forloop.index < i_delivery -%}
+                  {%- render 'product-eta', product: product, variant: current_variant, block: delivery_block, print_active: print_active, sooner_url: sooner_url -%}
+                  {%- assign eta_done = true -%}
+                {%- endif -%}
 
               {%- when 'variant_picker' -%}
                 {%- if product.has_only_default_variant == false or product.metafields.custom.andere_maten != blank -%}
@@ -274,13 +287,15 @@
 
               {%- when 'buy_buttons' -%}
                 {%- render 'product-buy', product: product, block: block, section_id: section.id, form_id: product_form_id, current_variant: current_variant, is_config: is_config, cfg: cfg, avail_status: avail_status, is_discontinued: is_discontinued, print_active: print_active, druk: druk, is_maatwerk: is_maatwerk -%}
+                {%- comment -%} print products: the proof flow (upload, drukproef, akkoord, levering) right under the button {%- endcomment -%}
+                {%- if is_print and print_block and is_discontinued == false -%}{%- render 'product-print', product: product, block: print_block, section_id: section.id, druk: druk, print_active: print_active, part: 'steps' -%}{%- endif -%}
 
               {%- when 'delivery' -%}
                 {%- unless is_discontinued -%}
-                  <div class="product__delivery" data-dynamic="delivery" {{ block.shopify_attributes }}>
-                    {%- assign sooner_url = '' -%}{%- if nudge_url == '#ProductQuote' -%}{%- assign sooner_url = nudge_url -%}{%- endif -%}
+                  <div class="product__delivery{% if eta_done %} product__delivery--split{% endif %}" data-dynamic="delivery" {{ block.shopify_attributes }}>
                     {%- render 'delivery-promise', product: product, variant: current_variant, style: 'full', print_active: print_active, sooner_url: sooner_url -%}
-                    {%- render 'product-delivery-need', product: product, variant: current_variant, block: block, section_id: section.id, sooner_url: sooner_url, print_active: print_active -%}
+                    {%- if eta_done -%}{%- assign nd_part = 'need' -%}{%- else -%}{%- assign nd_part = '' -%}{%- endif -%}
+                    {%- render 'product-delivery-need', product: product, variant: current_variant, block: block, section_id: section.id, sooner_url: sooner_url, print_active: print_active, part: nd_part -%}
                     {%- render 'product-delivery-pack', product: product, variant: current_variant -%}
                   </div>
                   {%- if kf_labels != blank -%}{%- render 'product-keyfacts', product: product, labels: kf_labels, class: 'keyfacts--info' -%}{%- endif -%}
@@ -295,6 +310,7 @@
 
               {%- when 'b2b' -%}
                 {%- if is_discontinued or staffel_quote -%}{%- continue -%}{%- endif -%}
+                <style>.product__b2b{display:flex;gap:12px;align-items:flex-start;font-size:15px;& p{margin:0}}</style>
                 <div class="product__b2b" {{ block.shopify_attributes }}>
                   {%- render 'icon', icon: 'case' -%}
                   <p>
@@ -323,6 +339,7 @@
       </div>
     </div>
 
+    {%- render 'product-colours', product: product, section_id: section.id, min: section.settings.colour_grid_min -%}
     {%- if details_below -%}
       {%- comment -%}
         Details band: description (open) + the other tabs as accordions on the left, under the gallery; 'Wat zit erin',
@@ -395,7 +412,7 @@
         </span>
         <div class="sticky-buy__info">
           <span class="sticky-buy__title">{{ product.title | replace: ' x ', ' × ' | replace: ' × ', ' × ' }}</span>
-          <span class="sticky-buy__variant" data-dynamic="sticky-variant" data-qty="{{ 'product.sticky_qty' | t: n: '__N__' | escape }}" data-one="{{ 'product.sticky_extra_one' | t | escape }}" data-more="{{ 'product.sticky_extra_other' | t: n: '__N__' | escape }}">{% unless product.has_only_default_variant %}{{ current_variant.title | replace: ' x ', ' × ' }}{% endunless %}</span>
+          <span class="sticky-buy__variant" data-dynamic="sticky-variant" data-qty="{{ 'product.sticky_qty' | t: n: '__N__' | escape }}" data-one="{{ 'product.sticky_extra_one' | t | escape }}" data-more="{{ 'product.sticky_extra_other' | t: n: '__N__' | escape }}">{% unless product.has_only_default_variant %}{%- for o in current_variant.options -%}{%- assign ol = o | replace: ' x ', ' × ' -%}{%- if ol contains 'Ø' -%}{%- assign ol = ol | replace: 'Ø ', 'Ø' | replace: 'Ø', 'Ø ' | replace: '-', '–' | replace: ' cm', ' cm' -%}{%- endif -%}{{ ol }}{% unless forloop.last %} / {% endunless %}{%- endfor -%}{% endunless %}</span>
           {%- comment -%}
             'Op voorraad' from the delivery block when the variant ships from stock. A lead time or sold-out state is not
             repeated here: the bar only shows after the shopper scrolled past the buy button and the delivery card under
@@ -418,6 +435,7 @@
   "settings": [
     { "type": "checkbox", "id": "show_breadcrumbs", "label": "Kruimelpad tonen", "default": true },
     { "type": "checkbox", "id": "sticky_bar", "label": "Vaste koopbalk", "default": true, "info": "Verschijnt zodra de koopknop uit beeld is: op mobiel onderaan, op desktop als zwevende balk." },
+    { "type": "range", "id": "colour_grid_min", "label": "Kleurenoverzicht vanaf dit aantal kleuren", "min": 0, "max": 30, "step": 1, "default": 12, "info": "Onder het product: elke kleur als eigen foto met naam, klikken kiest de kleur. Alleen als elke kleur een eigen foto heeft. 0 = uit." },
     { "type": "checkbox", "id": "details_below", "label": "Beschrijving en specificaties onder het product", "default": true, "info": "Uitklapblokken, 'Wat zit erin' en het offerteformulier staan dan in een brede band onder foto en koopknop (desktop: twee kolommen). Uit: alles in de kolom naast de foto." }
   ],
   "blocks": [
@@ -454,12 +472,12 @@
     { "type": "staffel", "name": "Staffelkorting", "limit": 1, "settings": [ { "type": "paragraph", "content": "Leest product.metafields.custom.staffelkorting. De echte korting stel je in als automatische korting." } ] },
     { "type": "bedrukken", "name": "Bedrukken (logo-upload)", "limit": 1, "settings": [
       { "type": "paragraph", "content": "Alleen bij custom.bedrukbaar = waar of tag 'bedrukbaar', en alleen voor varianten met bedrukking. Een variant met 'Zonder logo' (of een waarde uit custom.drukopties.zonder) krijgt geen uploadveld." },
-      { "type": "checkbox", "id": "show_steps", "label": "Stappen 'Zo werkt bedrukken' tonen", "default": true },
+      { "type": "checkbox", "id": "show_steps", "label": "Stappen 'Zo werkt bedrukken' tonen", "default": true, "info": "Een tijdlijn van vier stappen onder de koopknop. Bij statafelrokken toont het blok ook een tekening waarop je klant ziet waar zijn logo komt, in de gekozen kleur en uitvoering." },
       { "type": "text", "id": "steps_title", "label": "Kop stappen", "default": "Zo werkt bedrukken" },
-      { "type": "text", "id": "step_1", "label": "Stap 1", "default": "Je uploadt je logo bij je bestelling" },
-      { "type": "text", "id": "step_2", "label": "Stap 2", "default": "Je krijgt een digitale drukproef per mail" },
-      { "type": "text", "id": "step_3", "label": "Stap 3", "default": "Pas na jouw akkoord gaan we drukken" },
-      { "type": "text", "id": "step_4", "label": "Stap 4 (als custom.drukopties.levertijd leeg is)", "default": "De levertijd telt vanaf je akkoord" },
+      { "type": "text", "id": "step_1", "label": "Stap 1, onder 'Upload'", "default": "Je logo, nu of later per mail" },
+      { "type": "text", "id": "step_2", "label": "Stap 2, onder 'Drukproef'", "default": "Digitaal, per mail" },
+      { "type": "text", "id": "step_3", "label": "Stap 3, onder 'Akkoord'", "default": "Pas daarna drukken we" },
+      { "type": "text", "id": "step_4", "label": "Stap 4, onder 'Levering' (als custom.drukopties.levertijd leeg is)", "default": "De levertijd telt vanaf je akkoord" },
       { "type": "page", "id": "page", "label": "Pagina met meer uitleg" },
       { "type": "range", "id": "max_files", "label": "Maximaal aantal bestanden", "min": 1, "max": 10, "step": 1, "default": 5 },
       { "type": "range", "id": "max_mb", "label": "Maximale grootte per bestand", "min": 1, "max": 20, "step": 1, "unit": "MB", "default": 20, "info": "Shopify accepteert bestanden tot 20 MB. Grotere bestanden mailt je klant na de bestelling ('Ik lever mijn logo later aan')." }
@@ -472,6 +490,7 @@
     ] },
     { "type": "buy_buttons", "name": "Koopknop", "limit": 1, "settings": [
       { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false },
+      { "type": "range", "id": "mix_min", "label": "'Meerdere kleuren' vanaf dit aantal kleuren", "min": 0, "max": 30, "step": 1, "default": 10, "info": "Onder de koopknop: per kleur een aantal kiezen (6 × zwart en 4 × wit) en alles in één klik in de winkelwagen. Voor producten met minstens zoveel kleuren, niet bij bedrukken, maatwerk of pakketten. 0 = uit." },
       { "type": "checkbox", "id": "notify_form", "label": "'Mail me als dit weer op voorraad is' bij uitverkocht", "default": true, "info": "Zonder app is dit het contactformulier: elke aanvraag komt als mail bij je binnen en jij mailt de klant zodra er weer voorraad is. Met een back-in-stock-app: zet dit uit en voeg het app-blok toe." }
     ] },
     { "type": "delivery", "name": "Voorraad en levering", "limit": 1, "settings": [

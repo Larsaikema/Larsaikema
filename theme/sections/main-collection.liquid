@@ -17,7 +17,8 @@
       endif
     endif
   endfor
-  # an active colour filter (Kleur) makes each card show that colour
+  # an active colour filter (Kleur) marks that colour on each card; every variant filter (Kleur, Maat, Uitvoering, price)
+  # makes the card show the matched variant (snippets/card-variant.liquid)
   assign active_color = ''
   assign swatch_names_mc = settings.swatch_option_names | downcase | split: ','
   for f in coll_filters
@@ -48,7 +49,7 @@
 -%}
 {%- render 'collection-head', menu: section.settings.menu, section_id: section.id, color_scheme: section.settings.color_scheme, show_description: section.settings.show_description -%}
 
-<facet-filters class="page-width collection section section--flush-top" data-section-id="{{ section.id }}" data-qa-src="{{ 'quick-add.js' | asset_url }}" id="Collection-{{ section.id }}">
+<facet-filters class="page-width collection section section--flush-top" data-section-id="{{ section.id }}" data-qa-src="{{ 'quick-add.js' | asset_url }}" data-qa-close="{{ 'general.close' | t | escape }}" id="Collection-{{ section.id }}">
   <p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-facets-status></p>
   <div class="collection__layout{% unless has_filters %} collection__layout--full{% endunless %}">
     {%- if has_filters -%}
@@ -84,15 +85,33 @@
         # cards, so the cards that differ stand out and the grid is not the same warning 14 times. Cards from 'Meer laden'
         # follow the same rule (the style below matches their data-lead key). Only plain waits (stock--later) are gathered:
         # 'Op voorraad' stays on its card, and so does a lead time that counts from something else ('10–15 werkdagen na
-        # akkoord drukproef'), whole. The line keeps the owner's own text; with JavaScript, facets.js adds the window the
-        # product page shows for the same wait ('verwacht in huis 3 – 10 nov'), counted by delivery-countdown.js from the
-        # same settings (cutoff, shipping days, carrier days, holidays, transit per class and market). A grid that mixes
-        # pakket and pallet gets the window that covers both.
+        # akkoord drukproef'), whole. Without JavaScript the line is the owner's own text; with it, facets.js swaps in the
+        # window the product page shows for the same wait ('Op bestelling, in huis 3 – 10 nov'), counted by
+        # delivery-countdown.js from the same settings (cutoff, shipping days, carrier days, holidays, transit per class and
+        # market). The date leads and 'Op bestelling' says why it differs from the header's 'Uit voorraad' promise. A grid
+        # that mixes pakket and pallet gets the window that covers both.
         assign lead_texts = ''
         assign lead_transits = ''
         for product in collection.products
+          # the variant the card shows when filters narrow the product (snippets/card-variant.liquid)
+          assign probe_v = nil
+          if active_filters > 0
+            capture probe_cv
+              render 'card-variant', product: product
+            endcapture
+            assign probe_id = probe_cv | strip | split: '|' | first
+            if probe_id != blank
+              for v in product.variants
+                assign v_id = v.id | append: ''
+                if v_id == probe_id
+                  assign probe_v = v
+                  break
+                endif
+              endfor
+            endif
+          endif
           capture lead_probe
-            render 'delivery-promise', product: product, style: 'short'
+            render 'delivery-promise', product: product, variant: probe_v, style: 'short'
           endcapture
           if lead_probe contains 'stock--later'
             assign lead_txt = lead_probe | strip_html | strip
@@ -142,15 +161,17 @@
             endif
           endfor
           # cards with another line on this page (stock, a print lead time): 'tenzij anders vermeld'
+          assign lead_tpl = 'collection.lead_eta_html' | t: from: '__FROM__', to: '__TO__'
           if lead_best < collection.products.size
             assign lead_line = 'collection.lead_default' | t: text: lead_text
+            assign lead_tpl = 'collection.lead_eta_default_html' | t: from: '__FROM__', to: '__TO__'
           endif
         endif
         assign lead_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
       -%}
       {%- capture lead_note -%}
         {%- if lead_text != '' -%}
-          <p class="collection-lead"><span class="collection-lead__line">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span data-lead-eta data-lead="{{ lead_text | escape }}" data-transit="{{ lead_tmin }}" data-transit-max="{{ lead_tmax }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ lead_holidays | escape }}" data-tpl="{{ 'collection.lead_eta_html' | t: from: '__FROM__', to: '__TO__' | escape }}">{{ lead_line }}<span class="collection-lead__eta" data-lead-eta-out hidden></span></span></span>
+          <p class="collection-lead"><span class="collection-lead__line">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span data-lead-eta data-lead="{{ lead_text | escape }}" data-transit="{{ lead_tmin }}" data-transit-max="{{ lead_tmax }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ lead_holidays | escape }}" data-tpl="{{ lead_tpl | escape }}"><span data-lead-text>{{ lead_line }}</span><span data-lead-eta-out hidden></span></span></span>
             {%- if pages.contact.url != blank -%}<a class="link collection-lead__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
           </p>
         {%- endif -%}
@@ -206,6 +227,9 @@
         <p class="collection-meta__count" tabindex="-1">{{ 'collection.products_count' | t: count: collection.products_count }}</p>
         {%- if lead_note != blank -%}<div class="collection-meta__lead">{{ lead_note }}</div>{%- endif -%}
         {%- if active_filters > 0 -%}
+          {%- comment -%} styles of parts that only some states show sit with them (inside [data-results], which facets.js
+            swaps), so an unfiltered first page does not load them {%- endcomment -%}
+          <style>.collection-meta .active-filters{flex-basis:100%;margin-top:4px}.active-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.active-filters__pill{min-height:36px;font-size:14px;gap:6px;padding:0 10px 0 12px}.active-filters__group{font-weight:var(--font-body-weight);color:var(--c-kiezel)}.active-filters__clear{font-size:14.5px;margin-left:4px;font-weight:var(--mc-sb)}</style>
           <div class="active-filters" role="group" aria-label="{{ 'collection.filter_count' | t: count: active_filters }}">
             {%- for f in coll_filters -%}
               {%- for v in f.active_values -%}
@@ -232,17 +256,40 @@
                       assign pmin_c = pmax_c
                       assign pmax_c = p_swap
                     endif
-                    assign pmin = pmin_c | money_without_trailing_zeros
-                    assign pmax = pmax_c | money_without_trailing_zeros
-                    if pmax_c == nil
-                      assign p_range = 'price.from' | t | append: ' ' | append: pmin
-                    elsif pmin_c == nil
-                      assign p_range = 'collection.price_to' | t | downcase | append: ' ' | append: pmax
-                    else
-                      assign p_range = pmin | append: ' – ' | append: pmax
-                    endif
+                    # the bounds are stored prices (incl. btw); the excl. mode (Zakelijk) reads them excl. btw, as typed there
+                    assign vat_f = settings.vat_rate | plus: 100
+                    assign p_ranges = ''
+                    for p_mode in (1..2)
+                      if pmin_c != nil
+                        assign pmin_m = pmin_c
+                        if p_mode == 2 and shop.taxes_included
+                          assign pmin_m = pmin_c | times: 100.0 | divided_by: vat_f | round
+                        elsif p_mode == 1 and shop.taxes_included == false
+                          assign pmin_m = pmin_c | times: vat_f | divided_by: 100.0 | round
+                        endif
+                        assign pmin = pmin_m | money_without_trailing_zeros
+                      endif
+                      if pmax_c != nil
+                        assign pmax_m = pmax_c
+                        if p_mode == 2 and shop.taxes_included
+                          assign pmax_m = pmax_c | times: 100.0 | divided_by: vat_f | round
+                        elsif p_mode == 1 and shop.taxes_included == false
+                          assign pmax_m = pmax_c | times: vat_f | divided_by: 100.0 | round
+                        endif
+                        assign pmax = pmax_m | money_without_trailing_zeros
+                      endif
+                      if pmax_c == nil
+                        assign p_range = 'price.from' | t | append: ' ' | append: pmin
+                      elsif pmin_c == nil
+                        assign p_range = 'collection.price_to' | t | downcase | append: ' ' | append: pmax
+                      else
+                        assign p_range = pmin | append: ' – ' | append: pmax
+                      endif
+                      assign p_ranges = p_ranges | append: p_range | append: '§'
+                    endfor
+                    assign p_ranges = p_ranges | split: '§'
                   -%}
-                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> {{ p_range }}<span data-vat-show="excl">&nbsp;{{ 'price.incl' | t }}</span>{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
+                  <a class="chip chip--active active-filters__pill" href="{{ f.url_to_remove }}" data-facet-link aria-label="{{ 'collection.remove_filter' | t: label: f.label | escape }}"><span class="active-filters__group">{{ f.label }}:</span> <span data-vat-show="incl">{{ p_ranges[0] }}</span><span data-vat-show="excl">{{ p_ranges[1] }}&nbsp;{{ 'price.excl' | t }}</span>{%- render 'icon', icon: 'close', class: 'icon--xs' -%}</a>
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
@@ -275,10 +322,12 @@
             endif
           -%}
           {%- if paginate.previous -%}
+            <style>.load-prev{display:flex;justify-content:center;margin:0 0 20px}.load-prev__btn{gap:8px}</style>
             <div class="load-prev" data-load-prev>
               <a class="btn btn--outline load-prev__btn" href="{{ paginate.previous.url }}" data-load-prev-btn>{%- render 'icon', icon: 'chevron-up', class: 'icon--xs' -%}{{ 'collection.load_previous' | t }}</a>
             </div>
           {%- endif -%}
+          {%- if active_color != '' -%}<style>.card__swatch.is-chosen .swatch{box-shadow:inset 0 0 0 1px rgba(29,36,32,.42),0 0 0 2px var(--c-wit),0 0 0 3.5px var(--c-inkt)}.card__photo-note{max-width:100%;padding:3px 9px;border-radius:999px;background:var(--c-wit);box-shadow:inset 0 0 0 1px var(--c-lijn);color:var(--c-kiezel);font-size:12.5px;font-weight:var(--mc-sb);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}</style>{%- endif -%}
           <h2 class="visually-hidden" id="ProductsTitle-{{ section.id }}">{{ 'collection.products_heading' | t: title: collection.title }}</h2>
           <ul class="grid product-grid" role="list" style="--cols: {{ section.settings.columns }}; --cols-tablet: 3" data-product-grid data-first-page="{{ paginate.current_page }}" aria-labelledby="ProductsTitle-{{ section.id }}">
             {%- for product in collection.products -%}
@@ -324,6 +373,7 @@
               assign bar_from = paginate.current_offset | times: 100.0 | divided_by: paginate.items | round: 1
               assign bar_width = collection.products.size | times: 100.0 | divided_by: paginate.items | round: 1
             -%}
+            <style>.load-more{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:40px;text-align:center}.load-more__progress{margin:0;font-size:14.5px;color:var(--c-kiezel);font-variant-numeric:tabular-nums}.load-more__bar{width:220px;max-width:100%;height:3px;border-radius:3px;background:var(--c-lijn);overflow:hidden}.load-more__bar span{display:block;height:100%;background:var(--c-inkt);transition:width var(--dur),margin var(--dur)}.load-more__btn{min-width:220px;margin-top:4px}.load-more__pages .pagination{margin-top:8px}.js .load-more__pages{display:none}</style>
             <div class="load-more" data-load-more data-from="{{ shown_from }}" data-to="{{ shown }}" data-total="{{ paginate.items }}" data-tpl-all="{{ 'collection.progress' | t: shown: '[to]', total: '[total]' | escape }}" data-tpl-range="{{ 'collection.progress_range' | t: from: '[from]', to: '[to]', total: '[total]' | escape }}">
               <p class="load-more__progress" data-progress>
                 {%- if shown_from > 1 -%}{{ 'collection.progress_range' | t: from: shown_from, to: shown, total: paginate.items }}{%- else -%}{{ 'collection.progress' | t: shown: shown, total: paginate.items }}{%- endif -%}
@@ -337,7 +387,9 @@
           {%- endif -%}
         {%- else -%}
           <div class="empty-state">
-            {%- if active_filters > 0 -%}
+            {%- comment -%} filtered to nothing, also by a stale link whose value no longer exists (?filter.v.option.kleur=Paars:
+              Shopify drops it from active_values, but the collection itself is not empty) {%- endcomment -%}
+            {%- if active_filters > 0 or collection.all_products_count > 0 -%}
               <h2 class="h3">{{ 'collection.no_results_in' | t: title: collection.title }}</h2>
               <p class="muted">{{ 'collection.no_results_text_in' | t: title: collection.title }}</p>
               {%- comment -%} one way back to everything, keeping the chosen order (the chips above still remove one filter at a time) {%- endcomment -%}

@@ -219,7 +219,7 @@
                           {%- assign rt = rentry.first -%}{%- assign rq = rentry[1] -%}
                         {%- endif -%}
                         {%- if rt == t -%}
-                          {%- if rq != blank -%}<span class="comparison__l"><span class="comparison__q">{{ rq }}</span>{{ row.waarde }}</span>{%- else -%}{{ row.waarde }}{%- endif -%}
+                          {%- if rq != blank -%}<span class="comparison__l"><span class="comparison__q">{{ rq }}</span>{{ row.waarde | replace: ' x ', ' × ' }}</span>{%- else -%}{{ row.waarde | replace: ' x ', ' × ' }}{%- endif -%}
                         {%- endif -%}
                       {%- endfor -%}
                     {%- endcapture -%}
@@ -233,30 +233,11 @@
       </div>
     </div>
   </section>
+  {%- comment -%} phones: the label column stays put and two products fit side by side (360–390 px); a third scrolls in
+    from the right. position:relative keeps the visually-hidden 'niet opgegeven' cells inside the scroll box. {%- endcomment -%}
   <style>
-    .comparison__wrap{background:var(--c-wit);border:1px solid var(--c-lijn)}
-    .comparison__guide{display:inline-flex;align-items:center;gap:6px;font-weight:var(--font-body-weight-semibold)}
-    .comparison__table{min-width:560px}
-    .comparison__table thead th{background:var(--c-wit)}
-    .comparison__table th[scope="row"]{color:var(--c-kiezel);font-weight:var(--font-body-weight);width:28%}
-    .comparison__product{vertical-align:bottom;background:var(--c-wit)!important}
-    .comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}
-    .comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-media);border-radius:10px}
-    .comparison__product.is-current a span::after{content:" ✓";color:var(--c-inkt)}
-    .comparison__l{display:block}
-    .comparison__l+.comparison__l{margin-top:8px}
-    .comparison__q{display:block;font-size:12.5px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}
-    .comparison__group th{background:var(--c-band);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-inkt)}
-    .comparison__wrap:focus-visible{outline:3px solid var(--c-inkt);outline-offset:2px}
-    /* phones: the label column stays put while the products scroll sideways; the next product peeks in as the cue */
-    @media (max-width:749px){
-      .comparison__table{min-width:0;width:max-content}
-      .comparison__table th[scope="row"],.comparison__table thead th:first-child{position:sticky;left:0;z-index:1;width:112px;min-width:112px;max-width:112px;padding-inline:10px;font-size:13.5px;background:var(--c-wit);box-shadow:inset -1px 0 0 var(--c-lijn),inset 0 -1px 0 var(--c-lijn)}
-      .comparison__table td,.comparison__product{width:150px;min-width:150px;max-width:150px}
-      .comparison__group th{position:sticky;left:0}
-      .comparison__product img{width:72px;height:72px}
-      .comparison__product a{font-size:15px}
-    }
+    .comparison__wrap{position:relative;background:var(--c-wit);border:1px solid var(--c-lijn)}.comparison__guide{display:inline-flex;align-items:center;gap:6px;font-weight:var(--font-body-weight-semibold)}.comparison__table{min-width:560px}.comparison__table thead th,.comparison__product{background:var(--c-wit)!important}.comparison__table th[scope="row"]{color:var(--c-kiezel);font-weight:var(--font-body-weight);width:28%}.comparison__product{vertical-align:bottom}.comparison__product a{display:flex;flex-direction:column;gap:8px;text-decoration:none;font-family:var(--font-heading);font-size:16px;margin-bottom:6px}.comparison__product img{width:96px;height:96px;object-fit:contain;background:var(--c-media);border-radius:10px}.comparison__product.is-current a span::after{content:" ✓"}.comparison__l{display:block}.comparison__l+.comparison__l{margin-top:8px}.comparison__q{display:block;font-size:12.5px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}.comparison__group th{background:var(--c-band);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-inkt)}.comparison__wrap:focus-visible{outline:3px solid var(--c-inkt);outline-offset:2px}
+    @media (max-width:749px){.comparison__table{min-width:0;width:max-content;font-size:14px}.comparison__table :is(th,td){padding-inline:10px}.comparison__table th[scope="row"],.comparison__table thead th:first-child{position:sticky;left:0;z-index:1;width:92px;min-width:92px;max-width:92px;font-size:13px;overflow-wrap:anywhere;hyphens:auto;background:var(--c-wit);box-shadow:inset -1px 0 0 var(--c-lijn),inset 0 -1px 0 var(--c-lijn)}.comparison__table td,.comparison__product{--w:max(112px,calc((100vw - 2 * var(--gutter-mobile) - 96px) / 2));width:var(--w);min-width:var(--w);max-width:var(--w)}.comparison__group th{position:sticky;left:0}.comparison__product img{width:64px;height:64px}.comparison__product a{font-size:14.5px}.comparison__product .price{font-size:14px}}
   </style>
 {%- endif -%}
 

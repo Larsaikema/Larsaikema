@@ -6050,6 +6050,60 @@
           "gaps": [
             "Lopers is the only subcategory recorded under 'Vloeren, tapijten en lopers' (https://www.outmate.nl/product-categorie/vloeren/); tent floors or grondzeilen beyond lopers not checked"
           ]
+        },
+        {
+          "id": "koelkasten-en-vriezers",
+          "name_nl": "Koelkasten en vriezers",
+          "reference_url": "https://www.outmate.nl/product-categorie/inrichting/koelkasten-en-vriezers/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Koelkast",
+              "variant_dimensions": {},
+              "reference_prices": [],
+              "printable": false,
+              "key_specs": [],
+              "gaps": [
+                "added 2026-10-18 from the live Outmate menu (catalog round): prices per SKU in the private live data"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "garderoberekken",
+          "name_nl": "Garderoberekken",
+          "reference_url": "https://www.outmate.nl/product-categorie/inrichting/kapstok-met-wielen/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Kapstok",
+              "variant_dimensions": {},
+              "reference_prices": [],
+              "printable": false,
+              "key_specs": [],
+              "gaps": [
+                "added 2026-10-18 from the live Outmate menu (catalog round): prices per SKU in the private live data"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vloeren",
+          "name_nl": "Vloeren en tapijttegels",
+          "reference_url": "https://www.outmate.nl/product-categorie/vloeren/kunststof-vloeren/",
+          "confidence": "confirmed",
+          "product_types": [
+            {
+              "name": "Tentvloer",
+              "variant_dimensions": {},
+              "reference_prices": [],
+              "printable": false,
+              "key_specs": [],
+              "gaps": [
+                "added 2026-10-18 from the live Outmate menu (catalog round): prices per SKU in the private live data"
+              ]
+            }
+          ]
         }
       ]
     }

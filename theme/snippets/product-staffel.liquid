@@ -66,6 +66,8 @@
       <p class="staffel__foot">{{ 'product.staffel_foot_quote' | t }}{% if settings.response_time != blank %} {{ settings.response_time }}{% endif %} <a class="link" href="{{ s_quote_url }}" data-quote-link{% if s_quote_url == '#ProductQuote' %} data-open-details{% endif %}>{{ 'product.quote_cta' | t }}</a></p>
     </div>
   {%- else -%}
+  {%- comment -%} tier buttons and the note only exist in automatic mode: their CSS comes with them (CSS budget) {%- endcomment -%}
+  {%- if staffel_auto -%}<style>.staffel__note{margin:0 0 0 auto;font-size:13px;color:var(--pk)}.staffel__btn{width:calc(100% + 20px);margin:-7px -10px;text-align:left;&:hover{background:var(--pw)}}</style>{%- endif -%}
   <div class="staffel staffel--{{ staffel_mode }}" data-dynamic="staffel" data-staffel="{{ staffel | json | escape }}" data-mode="{{ staffel_mode }}" data-unit-price="{{ current_variant.price }}" role="group" aria-labelledby="StaffelTitle-{{ section_id }}" {{ block.shopify_attributes }}>
     <div class="staffel__head">
       <p class="staffel__title" id="StaffelTitle-{{ section_id }}">{{ 'product.staffel_title' | t }}</p>

@@ -24,6 +24,7 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { rng } from '../js/rng.js';
+import { weddingChair, stretchCover } from './chairs2.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -248,7 +249,16 @@ export function chair(p = {}) {
   const color = p.color || 'zwart';
   const bins = new G.PartBin();
   let info;
-  if (style === 'klapstoel' || style === 'folding') info = klapstoel(bins, color);
+  if (style === 'wedding' || style === 'weddingstoel') info = weddingChair(bins, color);
+  else if (style === 'klapstoel' || style === 'folding') {
+    if (p.cover) {
+      // the cover goes on a white chair under pale lycra, a black one under dark lycra (the bare
+      // low stretchers then match the cover)
+      const L = new THREE.Color(M.resolveColor(p.coverColor || 'wit', '#F3F3F0')); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
+      info = klapstoel(bins, p.color || (lum > 0.3 ? 'wit' : 'zwart'));
+      stretchCover(bins, p.coverColor || 'wit');
+    } else info = klapstoel(bins, color);
+  }
   else if (style === 'crossback' || style === 'cross-back') info = crossback(bins, color);
   else if (style === 'metaal' || style === 'metal') info = chairMetal(bins, color);
   else info = banquet(bins, color, p.frame || 'zwart');
@@ -257,14 +267,21 @@ export function chair(p = {}) {
   return {
     object: group,
     detail: { target: [0.12, info.seatY - 0.02, 0.17], size: 0.36, azimuth: 34, elevation: 18 },
-    meta: { style, color },
+    meta: { style, color, cover: p.cover || null },
     rig: (() => {
       const r = S.seatRig(group);
       // dyed fabric (bordeaux, navy): expose for the colour, not for black, or it turns bright
       const c = String(color).toLowerCase();
       if (style === 'banquet' && c !== 'zwart' && c !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 0.9);
       // white powder coat / white HDPE: exposed as white (auto exposure would print it ~205 grey)
-      if (c === 'wit' && (style === 'metaal' || style === 'metal' || style === 'klapstoel' || style === 'folding')) r.default.exposure = Math.max(r.default.exposure, 0.84);
+      if (c === 'wit' && (style === 'metaal' || style === 'metal' || style === 'klapstoel' || style === 'folding' || style === 'wedding')) r.default.exposure = Math.max(r.default.exposure, 0.84);
+      // stretch covers: pale lycra exposed as the pale colour it is, dyed colours for the colour
+      if (p.cover) {
+        const cc = String(p.coverColor || 'wit').toLowerCase();
+        const L = new THREE.Color(M.resolveColor(cc, '#F3F3F0')); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
+        if (lum > 0.45) r.default.exposure = Math.max(r.default.exposure, 0.84);
+        else if (cc !== 'zwart' && cc !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 0.95);
+      }
       return r;
     })(),
   };

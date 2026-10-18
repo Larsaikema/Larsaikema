@@ -22,15 +22,15 @@ def x9(x):
 PREM = {  # maat: (price, kg, verpakt, outmate_ref)
     '3 x 3 m': (279, 27, '155 x 28 x 28 cm', 299),
     '3 x 4,5 m': (359, 34, '155 x 35 x 30 cm', 379),
-    '3 x 6 m': (449, 41, '155 x 45 x 30 cm', 459),
+    '3 x 6 m': (435, 41, '155 x 45 x 30 cm', 459),   # catalog round 3: 5% under the reference so los frame + dak stays above the tent
 }
 PRO = {  # maat: (poly, hd, kg_poly, hd_extra_kg, verpakt, om_poly, om_hd)
-    '2 x 2 m': (499, None, 22, 0, '130 x 25 x 25 cm', 599, None),
+    '2 x 2 m': (539, None, 22, 0, '130 x 25 x 25 cm', 599, None),   # L3: was 17% under the reference
     '3 x 3 m': (599, 719, 37, 4, '170 x 35 x 35 cm', 679, 789),
     '3 x 4,5 m': (719, 869, 45, 6, '170 x 45 x 35 cm', 789, 1025),
-    '3 x 6 m': (949, 1149, 58, 8, '170 x 55 x 40 cm', 1149, 1359),
-    '4 x 4 m': (749, 889, 50, 7, '175 x 40 x 40 cm', 839, 979),
-    '4 x 6 m': (999, 1199, 68, 11, '175 x 55 x 45 cm', 1125, 1389),
+    '3 x 6 m': (1029, 1199, 58, 8, '170 x 55 x 40 cm', 1149, 1359),   # L3: was 17% under the reference
+    '4 x 4 m': (749, 839, 50, 7, '175 x 40 x 40 cm', 839, 979),   # HD 839: frame + HD-dak (ref €235) stays above the tent
+    '4 x 6 m': (1049, 1239, 68, 11, '175 x 55 x 45 cm', 1125, 1389),   # above the 3 x 6 m (the reference dips there)
     '4 x 8 m': (1249, 1499, 84, 14, '210 x 60 x 45 cm', 1449, 1769),
     '5 x 5 m': (1199, None, 66, 0, '210 x 45 x 45 cm', 1399, None),
 }
@@ -248,9 +248,13 @@ def build():
          'seo_keywords': ['partytent met logo goedkoop', 'vereniging partytent logo'], 'price_ref': {'ours': '3x3 €399 incl.'}})
 
     # ------------------------------------------------------------ walls (polyester)
-    WALL = {'2 m': (39.95, 49.95, 49.95, 0.9), '3 m': (49.95, 59.95, 59.95, 1.3), '4 m': (59.95, 69.95, 69.95, 1.7),
-            '4,5 m': (64.95, 74.95, 74.95, 1.9), '5 m': (69.95, 79.95, 79.95, 2.1), '6 m': (84.95, 99.95, 99.95, 2.5),
-            '8 m': (109.95, 124.95, 124.95, 3.3)}
+    # (dicht, met raam, met deur, kg). Catalog round 3 (2026-10-18): re-based to ca. 10% under the reference (pricing rule 1); the
+    # walls were 20-42% under it. Reference (polyester): 2 m deur/raam €69; 3 m dicht/deur €69, raam €85; 4 m dicht/deur €92,50, raam €105;
+    # 4,5 m dicht €89, raam €107,50; 6 m dicht €107,50-109, raam €135; 8 m dicht €149, raam €179. A deur wall costs what a dicht wall costs
+    # there too. 4,5 m stays above 4 m (the reference dips there); 5 m has no reference and sits between 4,5 and 6 m.
+    WALL = {'2 m': (59.95, 61.95, 61.95, 0.9), '3 m': (61.95, 76.95, 61.95, 1.3), '4 m': (79.95, 92.95, 79.95, 1.7),
+            '4,5 m': (83.95, 96.95, 83.95, 1.9), '5 m': (89.95, 104.95, 89.95, 2.1), '6 m': (96.95, 119.0, 96.95, 2.5),
+            '8 m': (129.0, 159.0, 129.0, 3.3)}
     all_eu = prem_handles + pro_handles
     for idx, (suffix, title, wtype, ucode) in enumerate([('dicht', 'Zijwand easy-up dicht', 'closed', 'DI'),
                                                         ('met-raam', 'Zijwand easy-up met raam', 'window', 'RA'),
@@ -281,9 +285,11 @@ def build():
              'covers': ['easy-up-accessoires.easy-up-zijwanden'], 'family': 'zijwand', 'weight': 1,
              'copy_brief': f'Losse zijwand ({wtype}) per zijde: welke lengte bij welke tent (3 m = korte zijde 3 × 6 m enz.), zelfde kleuren als de tenten, ophangen met klittenband.',
              'seo_keywords': [f'zijwand easy up {suffix.replace("-", " ")}', 'zijwand partytent 3 meter'],
-             'price_ref': {'outmate': '3 m dicht/deur €69, raam €85; 6 m raam €135', 'band': '€50–€69 per 3 m wand', 'ours': {k: v[idx] for k, v in WALL.items()}}})
+             'price_ref': {'outmate': '2 m €69; 3 m dicht/deur €69, raam €85; 4 m dicht/deur €92,50, raam €105; 4,5 m dicht €89, raam €107,50; 6 m dicht €107,50, raam €135; 8 m dicht €149, raam €179',
+                           'rule': 'ca. 10% under the reference (5-15% band)', 'ours': {k: v[idx] for k, v in WALL.items()}}})
 
-    HALF = {'3 m': 34.95, '4 m': 42.95, '4,5 m': 45.95, '5 m': 48.95, '6 m': 54.95, '8 m': 69.95}
+    # reference: halve 3 m €49, 4 m and 4,5 m €59 (catalog round 3: was 22-29% under it)
+    HALF = {'3 m': 43.95, '4 m': 52.95, '4,5 m': 53.95, '5 m': 56.95, '6 m': 62.95, '8 m': 79.95}
     HK = TENT_KLEUREN
     h = 'halve-zijwand-easy-up'
     variants = [variant(f'KK-ZW-EU-HA-{code(m)}-{COLOR_CODE[k]}', [m, k], pr, 600 + 200 * i, inv(6, f'h{m}{k}', k))
@@ -295,10 +301,12 @@ def build():
                         'specificaties': [sp('Wand', 'Hoogte', '100 cm'), sp('Wand', 'Materiaal', '500D polyester, PVC-gecoat, 320 g/m²')]},
          'covers': ['easy-up-accessoires.easy-up-zijwanden'], 'family': 'zijwand', 'weight': 1,
          'copy_brief': 'Halve wand als toonbank- of windscherm voor markt en bar: tent blijft open, bovenkant vrij.',
-         'seo_keywords': ['halve zijwand partytent', 'windscherm easy up'], 'price_ref': {'outmate': 'halve 3 m €49', 'ours': HALF, 'note': '5 m (5 x 5) en 8 m (lange zijde 4 x 8) toegevoegd na merchandising-review'}})
+         'seo_keywords': ['halve zijwand partytent', 'windscherm easy up'], 'price_ref': {'outmate': 'halve 3 m €49, 4 m €59, 4,5 m €59', 'ours': HALF, 'note': '5 m (5 x 5) en 8 m (lange zijde 4 x 8) toegevoegd na merchandising-review'}})
 
-    HDW = {'3 m': (94.95, 109.0, 104.95, 2.6), '4 m': (114.95, 129.0, 124.95, 3.4), '4,5 m': (124.95, 139.0, 134.95, 3.8),
-           '6 m': (149.0, 165.0, 159.0, 5.0), '8 m': (189.0, 209.0, 199.0, 6.6)}
+    # (dicht, met raam, met deur, kg); reference HD PVC: 3 m dicht/deur €112, raam €125; 4 m dicht/deur €155, raam €159; 4,5 m dicht €169,
+    # raam €175; 6 m dicht €199-209, raam €229-239; 8 m dicht €289, raam €299 (catalog round 3: was 15-35% under it, now ca. 10%)
+    HDW = {'3 m': (99.0, 109.0, 99.0, 2.6), '4 m': (139.0, 149.0, 139.0, 3.4), '4,5 m': (149.0, 159.0, 149.0, 3.8),
+           '6 m': (179.0, 209.0, 179.0, 5.0), '8 m': (259.0, 269.0, 259.0, 6.6)}
     HDU = ['Dicht', 'Met raam', 'Met deur']
     h = 'zijwand-easy-up-heavy-duty-pvc'
     variants = [variant(f'KK-ZW-EU-HD-{["DI", "RA", "DE"][i]}-{code(m)}-{COLOR_CODE[k]}', [m, u, k], row[i], row[3] * 1000, inv(4, f'hd{m}{u}{k}', k))
@@ -312,15 +320,23 @@ def build():
                         'past_op': pro_handles, 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket'},
          'covers': ['easy-up-accessoires.easy-up-zijwanden'], 'family': 'zijwand', 'weight': 1,
          'copy_brief': 'Zware PVC-wand voor verhuur en horeca: dicht, raam of deur; hoort bij de heavy duty PVC-daken; afneembaar en afneembaar schoon te maken.',
-         'seo_keywords': ['zijwand pvc easy up', 'heavy duty zijwand'], 'price_ref': {'outmate': '3 m dicht/deur €112, raam €125', 'ours': {k: v[:3] for k, v in HDW.items()}}})
+         'seo_keywords': ['zijwand pvc easy up', 'heavy duty zijwand'], 'price_ref': {'outmate': '3 m dicht/deur €112, raam €125; 4 m €155/€159; 4,5 m €169/€175; 6 m €199-209/€229-239; 8 m €289/€299',
+                                                                       'rule': 'ca. 10% under the reference', 'ours': {k: v[:3] for k, v in HDW.items()}}})
 
     # ------------------------------------------------------------ wall sets
     SETS = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
     def lenstr(x): return (f'{x:g}'.replace('.', ',')) + ' m'
-    def set_price(m, table, idx_closed=0, idx_win=1, idx_door=2, factor=0.88):
+    # Set prices: ca. 10% under the reference set (pricing rule 1, catalog round 3), and always under the 4 loose walls (checked here and in
+    # validate.py). Reference polyester: 3x3 €249, 3x4,5 €279, 3x6 €345, 4x4 €315, 4x6 €369, 4x8 €425, 5x5 €289 (below its own 4x4: we keep the
+    # size ladder and price the 5 x 5 m like the 4 x 4 m); heavy duty PVC: 3x3 €399, 3x4,5 €469, 3x6 €579, 4x4 €529, 4x6 €629, 4x8 €779.
+    SET_PRICE = {'zijwandenset-easy-up': {'3 x 3 m': 219, '3 x 4,5 m': 249, '3 x 6 m': 309, '4 x 4 m': 269, '4 x 6 m': 329, '4 x 8 m': 379, '5 x 5 m': 269},
+                 'zijwandenset-easy-up-heavy-duty-pvc': {'3 x 3 m': 359, '3 x 4,5 m': 419, '3 x 6 m': 519, '4 x 4 m': 469, '4 x 6 m': 559, '4 x 8 m': 699}}
+    def set_price(m, table, handle='zijwandenset-easy-up', idx_closed=0, idx_win=1, idx_door=2):
         w, d = DIMS[m]
         s = table[lenstr(w)][idx_closed] + table[lenstr(w)][idx_door] + 2 * table[lenstr(d)][idx_win]
-        return x9(factor * s), round(s, 2)
+        pr = SET_PRICE[handle][m]
+        assert pr < 0.92 * s, (handle, m, pr, s)   # a set is always clearly cheaper than its 4 loose walls
+        return float(pr), round(s, 2)
     h = 'zijwandenset-easy-up'
     variants, refs = [], {}
     for m in SETS:
@@ -345,12 +361,12 @@ def build():
          'covers': ['easy-up-accessoires.easy-up-zijwandensets'], 'family': 'zijwand', 'weight': 1.5,
          'copy_brief': 'Complete set per tentmaat, goedkoper dan los (noem de losse prijs); welke wand waar komt; zelfde kleuren als de tenten.',
          'seo_keywords': ['zijwanden set easy up 3x3', 'zijwandenset partytent'],
-         'price_ref': {'outmate': '3x3 polyester vanaf €249', 'band': '€175–€279 per set 3x3', 'ours': refs}})
+         'price_ref': {'outmate': '3x3 €249, 3x4,5 €279, 3x6 €345, 4x4 €315, 4x6 €369, 4x8 €425, 5x5 €289', 'rule': 'ca. 10% under the reference set, under the loose walls', 'ours': refs}})
 
     h = 'zijwandenset-easy-up-heavy-duty-pvc'
     variants, refs = [], {}
     for m in SETS[:6]:
-        pr, s = set_price(m, HDW, factor=0.72)
+        pr, s = set_price(m, HDW, 'zijwandenset-easy-up-heavy-duty-pvc')
         refs[m] = {'set': pr, 'los': s}
         w, d = DIMS[m]
         g = (HDW[lenstr(w)][3] * 2 + HDW[lenstr(d)][3] * 2) * 1000
@@ -365,13 +381,16 @@ def build():
                         'past_op': pro_handles, 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket'},
          'covers': ['easy-up-accessoires.easy-up-zijwandensets'], 'family': 'zijwand', 'weight': 1.5,
          'copy_brief': 'PVC-set voor de Professional-tenten: samenstelling, gewicht, waarom PVC voor verhuur en horeca.',
-         'seo_keywords': ['zijwanden pvc easy up set'], 'price_ref': {'outmate': '3x3 HD €199–€299 (snapshots)', 'band': 'polyester sets €175–€279 (3x3)', 'ours': refs,
-                                                                         'note': 'set 28 % onder de losse HD-wanden; 3 x 3 m € 299 = bovenkant Outmate-snapshot (docs/claims-to-confirm.md)'}})
+         'seo_keywords': ['zijwanden pvc easy up set'], 'price_ref': {'outmate': '3x3 €399, 3x4,5 €469, 3x6 €579, 4x4 €529, 4x6 €629, 4x8 €779', 'ours': refs,
+                                                                         'note': 'catalog round 3: ca. 10% under the reference set and under the loose HD walls (docs/claims-to-confirm.md)'}})
 
     # ------------------------------------------------------------ roofs
     # frame + dak is never cheaper than the complete tent (validate.py checks it); polyester 5-15% under Outmate (3x3 €129, 4x8 €319)
-    DAK = {'2 x 2 m': (79, None), '3 x 3 m': (119, 219), '3 x 4,5 m': (149, 279), '3 x 6 m': (199, 359), '4 x 4 m': (159, 279),
-           '4 x 6 m': (229, 379), '4 x 8 m': (279, 529), '5 x 5 m': (249, None)}
+    # catalog round 3: every roof 5-15% under the reference (2 x 2 m was 43% under it, HD 4 x 4 m 19% above and HD 4 x 6 m 28% under);
+    # reference polyester 2x2 €139, 3x3 €129, 3x4,5 €159, 3x6 €199, 4x4 €189, 4x6 €265, 4x8 €319, 5x5 €299; HD 3x3 €219, 3x4,5 €315,
+    # 3x6 €390, 4x4 €235, 4x6 €525, 4x8 €615. 2 x 2 m costs what 3 x 3 m costs (the reference prices it above).
+    DAK = {'2 x 2 m': (119, None), '3 x 3 m': (119, 199), '3 x 4,5 m': (149, 279), '3 x 6 m': (189, 349), '4 x 4 m': (169, 219),
+           '4 x 6 m': (229, 469), '4 x 8 m': (279, 549), '5 x 5 m': (269, None)}
     h = 'dakzeil-easy-up'
     variants = []
     for m, (pp, ph) in DAK.items():
@@ -393,7 +412,7 @@ def build():
                                           sp('Pasvorm', 'Past op', 'Klapklaar easy-up Premium en Professional van dezelfde maat')]},
          'covers': ['easy-up-accessoires.easy-up-dakzeilen'], 'family': 'dakzeil', 'weight': 1,
          'copy_brief': 'Nieuw dak voor je bestaande Klapklaar-frame of een andere kleur; eerlijk dat het alleen op onze frames gegarandeerd past; heavy duty PVC alleen wit/zwart.',
-         'seo_keywords': ['dakzeil easy up 3x3', 'vervangend dak partytent'], 'price_ref': {'outmate': '3x3 poly €129, 4x8 €319; HD 3x3 €219, 4x8 €615', 'ours': DAK}})
+         'seo_keywords': ['dakzeil easy up 3x3', 'vervangend dak partytent'], 'price_ref': {'outmate': 'poly 2x2 €139, 3x3 €129, 3x4,5 €159, 3x6 €199, 4x4 €189, 4x6 €265, 4x8 €319, 5x5 €299; HD 3x3 €219, 3x4,5 €315, 3x6 €390, 4x4 €235, 4x6 €525, 4x8 €615', 'rule': '5-15% under the reference', 'ours': DAK}})
 
     h = 'bedrukte-zijwand-easy-up'
     # 2, 5 and 8 m added after the merchandising review: ~€ 30 (one side) / € 43 (both sides) per extra meter, like 3 → 4 → 6 m
@@ -411,7 +430,7 @@ def build():
                         'drukopties': {'posities': ['Buitenzijde', 'Binnen- en buitenzijde'], 'aanlevering': AANLEVERING, 'levertijd': LT_DRUK, 'min_aantal': 1},
                         'staffelkorting': ST_BEDRUKT, 'levertijd': 'Levertijd ' + LT_DRUK, 'verzending': 'pakket',
                         'past_op': all_eu + ['easy-up-partytent-premium-met-logo-op-de-luifel', 'easy-up-partytent-professional-met-logo-op-de-luifel',
-                                             'easy-up-partytent-professional-full-colour-bedrukt']},
+                                             'easy-up-partytent-professional-full-colour-bedrukt', 'easy-up-partytent-premium-full-colour-bedrukt']},
          'covers': ['easy-up-accessoires.easy-up-zijwanden'], 'family': 'bedrukt-tent', 'weight': 1.5,
          'copy_brief': 'Achterwand als reclamebord: enkel- of dubbelzijdig, sjabloon per lengte, drukproef; ook los te gebruiken met een effen tent.',
          'seo_keywords': ['bedrukte zijwand partytent', 'zijwand met logo'], 'price_ref': {'ours': BZ}})
@@ -447,7 +466,8 @@ def build():
          'copy_brief': 'Vervangend frame zonder dak; dak apart (link Dakzeil easy-up).', 'seo_keywords': ['frame easy up 3x3', 'los frame partytent'],
          'price_ref': {'outmate': '179/225/269', 'ours': FP}})
 
-    FPR = {'2 x 2 m': 429, '3 x 3 m': 509, '3 x 4,5 m': 599, '3 x 6 m': 799, '4 x 4 m': 619, '4 x 6 m': 829, '4 x 8 m': 1019, '5 x 5 m': 999}
+    # reference 2x2 €499, 3x3 €599, 3x4,5 €742, 3x6 €999, 4x4 €689, 4x6 €915, 4x8 €1.199, 5x5 €1.199 (catalog round 3: 3x4,5 and 5x5 were 17-19% under it)
+    FPR = {'2 x 2 m': 469, '3 x 3 m': 529, '3 x 4,5 m': 669, '3 x 6 m': 859, '4 x 4 m': 629, '4 x 6 m': 869, '4 x 8 m': 1019, '5 x 5 m': 1079}
     h = 'los-frame-easy-up-professional'
     variants = [variant(f'KK-FRM-EU-PRO-{code(m)}', [m], pr, (PRO[m][2] - m2(m) * 0.45) * 1000, inv(2, m + 'fpr')) for m, pr in FPR.items()]
     add({'handle': h, 'title': 'Los frame easy-up Professional', 'product_type': 'Frame-onderdeel', 'tags': ['zakelijk', 'pallet'],

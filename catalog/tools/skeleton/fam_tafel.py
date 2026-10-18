@@ -5,7 +5,61 @@ from fam_acc import simple
 ROUND = ['statafel-inklapbaar-professional', 'statafel-inklapbaar-hdpe-80', 'statafel-met-kruisvoet']
 
 def top_param(k):
-    return {'Wit': 'wit', 'Zwart': 'zwart', 'Berken': 'berken', 'Antraciet': 'antraciet', 'Lichtgrijs': 'hdpe-grijs', 'Houtlook': 'houtlook', 'Graniet': 'graniet'}[k]
+    return {'Wit': 'wit', 'Zwart': 'zwart', 'Berken': 'berken', 'Antraciet': 'antraciet', 'Lichtgrijs': 'hdpe-grijs', 'Houtlook': 'houtlook', 'Graniet': 'graniet',
+            'Leisteen': 'leisteen', 'Eiken': 'eiken', 'Vintage hout': 'vintage-hout', 'Wit gespikkeld': 'wit-gespikkeld',
+            # compact-HPL decors (catalog round 3): new textures for renders/js/materials.js (needs-param)
+            'Betonlook': 'beton', 'Wit marmer': 'marmer-wit', 'Zwart marmer': 'marmer-zwart', 'Grijs eiken': 'eiken-grijs', 'Teak': 'teak'}[k]
+
+
+# Catalog round 3 (H3 for the square, wide and terrace tables): one decor set for the hoekige statafels and terrastafels. Binnen: HPL on
+# 18 mm plaat in 7 decors; buiten: 12 mm compact HPL, weather- and UV-proof, in 12 decors (the reference lines run ca. 12 compact decors).
+# 'Houtlook' is gone: the same oak look is 'Eiken' everywhere now (one Kleur filter value).
+HOEK_BINNEN = ['Wit', 'Zwart', 'Antraciet', 'Graniet', 'Leisteen', 'Eiken', 'Vintage hout']
+HOEK_BUITEN = ['Wit', 'Zwart', 'Antraciet', 'Graniet', 'Leisteen', 'Betonlook', 'Wit marmer', 'Zwart marmer', 'Eiken', 'Grijs eiken', 'Teak', 'Vintage hout']
+HOEK_DECORS = HOEK_BINNEN + [k for k in HOEK_BUITEN if k not in HOEK_BINNEN]
+HOEK_DECOR_EXTRA = {'Graniet': 10, 'Leisteen': 10, 'Betonlook': 10, 'Eiken': 10, 'Grijs eiken': 10, 'Teak': 10, 'Vintage hout': 10,
+                    'Wit marmer': 15, 'Zwart marmer': 15}
+
+
+def hoek_combos(uitv):
+    for k in HOEK_DECORS:
+        for u in uitv:
+            if (u.startswith('Buiten') and k in HOEK_BUITEN) or (u.startswith('Binnen') and k in HOEK_BINNEN):
+                yield k, u
+
+
+def hoek_sku(u):
+    return ('-HPL' if u.startswith('Buiten') else '') + ('-RVS' if 'RVS' in u else '') + ('-OW' if 'wit onderstel' in u else '')
+
+
+# table-top finishes (H3, catalog round 2026-10-18): HPL decors on 18 mm plaat for binnen; compact HPL (buiten) only in the plain and stone
+# decors the supplier presses in 12 mm compact; surcharge per decor. Frame colours: zwart (standard), wit (the event look with a wit blad),
+# chroom (binnen). Our own decor names (brand.md: the name of the finish, never a brand colour).
+STF_TOPS = ['Wit', 'Zwart', 'Antraciet', 'Graniet', 'Berken', 'Leisteen', 'Eiken', 'Vintage hout', 'Wit gespikkeld']
+STF_TOP_EXTRA = {'Berken': 15, 'Graniet': 10, 'Leisteen': 10, 'Eiken': 15, 'Vintage hout': 15, 'Wit gespikkeld': 10}
+STF_BUITEN = ['Wit', 'Zwart', 'Antraciet', 'Graniet', 'Leisteen']
+STF_UITV = ['Binnen, zwart onderstel', 'Binnen, wit onderstel', 'Binnen, chroom onderstel', 'Binnen, zwart onderstel, met parasolgat',
+            'Buiten (compact HPL), zwart onderstel', 'Buiten (compact HPL), wit onderstel', 'Buiten (compact HPL), zwart onderstel, met parasolgat']
+
+
+def stf_combos(tops=STF_TOPS, uitv=STF_UITV):
+    for k in tops:
+        for u in uitv:
+            if u.startswith('Buiten') and k not in STF_BUITEN:
+                continue
+            yield k, u
+
+
+def stf_extra(k, u):
+    return STF_TOP_EXTRA.get(k, 0) + (25 if u.startswith('Buiten') else 0) + (10 if 'parasolgat' in u else 0) + (15 if 'chroom' in u else 0)
+
+
+def stf_sku_suffix(u):
+    return ('-HPL' if u.startswith('Buiten') else '') + ('-PG' if 'parasolgat' in u else '') + ('-OW' if 'wit onderstel' in u else '') + ('-OC' if 'chroom' in u else '')
+
+
+def frame_of(u):
+    return 'wit' if 'wit onderstel' in u else ('chroom' if 'chroom' in u else 'zwart')
 
 
 def _lum(k):
@@ -21,16 +75,14 @@ def contrast_textile(k):
 def build():
     # ------------------------------------------------------------ statafels
     SP = {'Ø70 cm': (89.95, 12), 'Ø80 cm': (94.95, 13), 'Ø85 cm': (99.95, 14)}
-    SPK = ['Wit', 'Zwart', 'Antraciet', 'Graniet', 'Berken']
+    SPK = STF_TOPS
     # Binnen: HPL-toplaag op 18 mm plaat · Buiten: massief compact HPL 12 mm (weer- en UV-bestendig, + € 25) · parasolgat: holle kolom
-    # + gat in het blad (+ € 10) · Graniet = steenlook-HPL (+ € 10) · Berken is multiplex, dus alleen Binnen (+ € 15)
-    SPU = ['Binnen', 'Binnen, met parasolgat', 'Buiten (compact HPL)', 'Buiten (compact HPL), met parasolgat']
-    def sp_price(p, k, u):
-        return p + {'Berken': 15, 'Graniet': 10}.get(k, 0) + (25 if u.startswith('Buiten') else 0) + (10 if 'parasolgat' in u else 0)
-    vs = [variant(f'KK-STF-PRO-{code(m)}-{COLOR_CODE[k]}' + ('-HPL' if u.startswith('Buiten') else '') + ('-PG' if 'parasolgat' in u else ''), [m, k, u], sp_price(p, k, u),
+    # + gat in het blad (+ € 10) · decor-toeslag (STF_TOP_EXTRA) · onderstel zwart, wit of chroom (+ € 15, binnen)
+    SPU = STF_UITV
+    vs = [variant(f'KK-STF-PRO-{code(m)}-{COLOR_CODE[k]}' + stf_sku_suffix(u), [m, k, u], p + stf_extra(k, u),
                   kg * 1000 + (500 if 'parasolgat' in u else 0) + (1500 if u.startswith('Buiten') else 0),
                   inv(30, m + k + u, k, (1.3 if m == 'Ø80 cm' else 0.7) * (1 if u == SPU[0] else 0.25)))
-          for m, (p, kg) in SP.items() for k in SPK for u in SPU if not (k == 'Berken' and u.startswith('Buiten'))]
+          for m, (p, kg) in SP.items() for k, u in stf_combos()]
     imgs, vmap = kleur_images('statafel-inklapbaar-professional', SPK, 'statafel', lambda k: {'diameter': 0.8, 'height': 1.1, 'top': top_param(k), 'frame': 'zwart', 'base': 'klap'}, 'Wit',
                               [img('statafel-inklapbaar-professional-wit-ingeklapt.webp', 'detail', 2, 'statafel', {'diameter': 0.8, 'top': 'wit', 'frame': 'zwart', 'base': 'klap', 'folded': True}, 'hero', 'Wit',
                                    alt='ingeklapt'),
@@ -39,16 +91,24 @@ def build():
                                img('statafel-inklapbaar-professional-met-rok.webp', 'in-gebruik', 3, 'statafelCover', {'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart'}, 'hero', None, 'existing',
                                    alt='met statafelrok stretch zwart (rok niet inbegrepen)'),
                                img('statafel-inklapbaar-professional-wit-parasolgat.webp', 'detail', 3, 'statafel', {'diameter': 0.8, 'top': 'wit', 'frame': 'zwart', 'base': 'klap', 'parasolHole': 0.04}, 'detail', 'Wit', 'needs-param',
-                                   alt='uitvoering met parasolgat en afdekdop')],
+                                   alt='uitvoering met parasolgat en afdekdop'),
+                               img('statafel-inklapbaar-professional-wit-wit-onderstel.webp', 'variant', 2, 'statafel', {'diameter': 0.8, 'height': 1.1, 'top': 'wit', 'frame': 'wit', 'base': 'klap'}, 'hero', 'Wit',
+                                   'needs-param', alt='wit blad op een wit onderstel'),
+                               img('statafel-inklapbaar-professional-wit-chroom-onderstel.webp', 'variant', 3, 'statafel', {'diameter': 0.8, 'height': 1.1, 'top': 'wit', 'frame': 'chroom', 'base': 'klap'}, 'hero', 'Wit',
+                                   'needs-param', alt='wit blad op een verchroomd onderstel')],
                               status='existing', p2=2)
+    for _i in imgs:
+        if _i['kleur'] in ('Leisteen', 'Eiken', 'Vintage hout', 'Wit gespikkeld') and _i['role'] == 'variant':
+            _i['model_status'] = 'needs-param'   # new decor textures for renders/js/materials.js
     simple('statafel-inklapbaar-professional', 'Statafel inklapbaar Professional', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement', 'gebruik:tuinfeest'],
            [opt('Maat', list(SP)), opt('Kleur', SPK), opt('Uitvoering', SPU)], vs, imgs,
-           {'kenmerk_kort': '110 cm hoog · kolom Ø 32 mm · hittebestendig blad met kantenband',
+           {'kenmerk_kort': '110 cm hoog · 9 bladdecors · onderstel zwart, wit of chroom',
             'specificaties': [sp('Blad', 'Diameter', 'Ø70, Ø80 of Ø85 cm'), sp('Blad', 'Materiaal', 'HPL-toplaag op 18 mm plaat, kantenband rondom (Berken: 18 mm berken multiplex, gelakt)'),
                               sp('Blad', 'Eigenschappen', 'Krasvast, hittebestendig tot ca. 180 °C, binnen en buiten'),
                               sp('Onderstel', 'Materiaal', 'Staal, zwart epoxy-gepoedercoat, kolom Ø 32 mm, 4 inklapbare poten'),
                               sp('Afmetingen', 'Hoogte', '110 cm'), sp('Afmetingen', 'Ingeklapt', 'ca. 140 x 80 x 15 cm (Ø80)'), sp('Gewicht', 'Totaal', '12–14 kg'),
-                              sp('Uitvoering', 'Met parasolgat', 'Gat Ø 40 mm midden in het blad met afdekdop, holle kolom Ø 45 mm, voor parasolstokken tot Ø 38 mm')],
+                              sp('Uitvoering', 'Met parasolgat', 'Gat Ø 40 mm midden in het blad met afdekdop, holle kolom Ø 45 mm, voor parasolstokken tot Ø 38 mm'),
+                              sp('Onderstel', 'Kleuren', 'Zwart of wit epoxy-gepoedercoat, of verchroomd (binnen)')],
             'staffelkorting': ST_STATAFEL, 'addons': ['statafelrok-stretch', 'beschermplaat-statafel'], 'verzending': 'pakket', 'vergelijk_groep': 'statafel',
             'gewicht_kg': 13, 'verpakt': '142 x 82 x 16 cm (Ø80)', 'garantie': '2 jaar', 'addon_eenmalig': ['transportkar-statafels']},
            ['tafels-stoelen.statafels'], 'statafel',
@@ -56,19 +116,33 @@ def build():
            ['statafel inklapbaar', 'statafel 80 cm', 'statafel kopen'],
            {'statafelshop': 'Savannah vanaf €102,79 · Oregon Ø80 €96,74 · Colorado Ø85 graniet buiten €104 · Sacramento antraciet/pizarra/punti binnen en buiten vanaf €102,79 · Columbus €108,84',
             'band': 'horeca mid €97–€109; DIY €46–€80',
-            'ours': {m: v[0] for m, v in SP.items()}, 'opties': '+ € 25 buiten (compact HPL) · + € 10 graniet · + € 15 berken · + € 10 parasolgat'}, vmap=vmap)
-    HK = ['Wit', 'Lichtgrijs']
-    vs = [variant(f'KK-STF-HDPE-D80-{COLOR_CODE[k]}', ['Ø80 cm', k], 54.95, 9000, inv(40, 'hdpe' + k, k)) for k in HK]
-    imgs, vmap = kleur_images('statafel-inklapbaar-hdpe-80', HK, 'statafel', lambda k: {'diameter': 0.8, 'height': 1.1, 'top': 'hdpe' if k == 'Wit' else 'hdpe-grijs', 'frame': 'zwart', 'base': 'klap'}, 'Wit',
+            'outmate': 'statafels met 8 bladdecors (spikkel, leisteen, vintage hout, hout, geborsteld metaal, compact HPL) en onderstel wit, chroom, hamerslag, beige of lichtgrijs',
+            'ours': {m: v[0] for m, v in SP.items()}, 'opties': '+ € 25 buiten (compact HPL) · + € 10 graniet, leisteen, wit gespikkeld · + € 15 berken, eiken, vintage hout · + € 10 parasolgat · + € 15 chroom onderstel'},
+           vmap=vmap, extra={'variant_image_sku': {**{f'KK-STF-PRO-{code(m)}-WIT{stf_sku_suffix(u)}': 'statafel-inklapbaar-professional-wit-wit-onderstel.webp'
+                                                      for m in SP for u in STF_UITV if 'wit onderstel' in u},
+                                                   **{f'KK-STF-PRO-{code(m)}-WIT-OC': 'statafel-inklapbaar-professional-wit-chroom-onderstel.webp' for m in SP}}})
+    # catalog round 2026-10-18 (H9): the entry statafel at € 42,95 (it set the 'vanaf' price above both shops' entry tables, € 45 / zwart
+    # € 49 / 2-pack € 74), a Zwart blad (+ € 4) and packs of 2 and 4 (the reference sells a 2-pack)
+    HK = ['Wit', 'Lichtgrijs', 'Zwart']
+    HDPE_PACK = {'1 stuk': (42.95, 1), 'Set van 2': (69.95, 2), 'Set van 4': (129.0, 4)}
+    vs = [variant(f'KK-STF-HDPE-D80-{COLOR_CODE[k]}' + ('' if n == 1 else f'-S{n}'), ['Ø80 cm', k, u], p + (4 * n if k == 'Zwart' else 0), 9000 * n, inv(40, 'hdpe' + k + u, k))
+          for k in HK for u, (p, n) in HDPE_PACK.items()]
+    imgs, vmap = kleur_images('statafel-inklapbaar-hdpe-80', HK, 'statafel', lambda k: {'diameter': 0.8, 'height': 1.1, 'top': {'Wit': 'hdpe', 'Lichtgrijs': 'hdpe-grijs', 'Zwart': 'hdpe-zwart'}[k],
+                                                                                        'frame': 'zwart', 'base': 'klap'}, 'Wit',
                               [img('statafel-inklapbaar-hdpe-80-wit-ingeklapt.webp', 'detail', 3, 'statafel', {'diameter': 0.8, 'top': 'hdpe', 'frame': 'zwart', 'base': 'klap', 'folded': True}, 'hero', 'Wit')])
-    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'], [opt('Maat', ['Ø80 cm']), opt('Kleur', HK)], vs, imgs,
+    for _i in imgs:
+        if _i['kleur'] == 'Zwart':
+            _i['model_status'] = 'needs-param'
+    simple('statafel-inklapbaar-hdpe-80', 'Statafel inklapbaar HDPE Ø80 cm', 'Statafel', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
+           [opt('Maat', ['Ø80 cm']), opt('Kleur', HK), opt('Uitvoering', list(HDPE_PACK))], vs, imgs,
            {'kenmerk_kort': '110 cm hoog · 45 mm HDPE-blad · 9 kg', 'staffelkorting': ST_STATAFEL, 'addons': ['statafelrok-stretch'], 'verzending': 'pakket',
             'addon_eenmalig': ['transportkar-statafels'],
             'specificaties': [sp('Blad', 'Materiaal', 'HDPE blow-mould 45 mm, wit of lichtgrijs, binnen en buiten'), sp('Onderstel', 'Materiaal', 'Staal, zwart gepoedercoat, inklapbaar'),
                               sp('Afmetingen', 'Hoogte', '110 cm'), sp('Gewicht', 'Totaal', '9 kg')],
             'vergelijk_groep': 'statafel', 'gewicht_kg': 9, 'verpakt': '112 x 82 x 12 cm', 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Lichte, onderhoudsarme statafel voor thuis en de club; eerlijk vergelijken met Professional (lichter, minder chic blad).',
-           ['statafel goedkoop', 'statafel kunststof'], {'band': 'DIY €46–€80 (Gamma HDPE €57,99)', 'statafelshop': 'New York €45 (geen specificaties)', 'ours': 54.95}, vmap=vmap)
+           ['statafel goedkoop', 'statafel kunststof', 'statafels 2 stuks'], {'band': 'DIY €46–€80 (Gamma HDPE €57,99)', 'statafelshop': 'New York €45 · zwart €49 · 2 stuks €74',
+                                                                             'ours': {u: v[0] for u, v in HDPE_PACK.items()}}, vmap=vmap)
     KV = {'Ø70 cm': 129.0, 'Ø80 cm': 139.0, 'Ø85 cm': 149.0}
     KK_ = ['Wit', 'Zwart', 'Berken']
     KVU = ['110 cm hoog', '107 cm hoog']   # 107 cm: the lower bar height Statafelshop sells next to 110 cm
@@ -82,40 +156,141 @@ def build():
            ['tafels-stoelen.statafels'], 'statafel', 'Vaste horeca-statafel die blijft staan: zwaarder, niet inklapbaar, stelvoetjes voor schuine terrassen.',
            ['statafel horeca', 'statafel kruisvoet'], {'band': 'zwaar kruisvoet €272 (VVEP)', 'ours': KV}, vmap=vmap)
     VQ = {'60 x 60 cm': 119.0, '70 x 70 cm': 129.0, '80 x 80 cm': 139.0}
-    VQK = ['Zwart', 'Wit', 'Houtlook']
-    VQU = ['Zwart onderstel', 'RVS onderstel']   # RVS: geborsteld roestvast staal, + € 30
+    VQK = HOEK_DECORS
+    # catalog round 3: binnen (HPL, zwart or geborsteld RVS onderstel, RVS + € 30) and buiten (compact HPL 12 mm, zwart or wit onderstel,
+    # + € 55): the reference compact lines are Statafelshop Indus / Kansas / Mississippi (€ 149-381)
+    VQU = ['Binnen, zwart onderstel', 'Binnen, RVS onderstel', 'Buiten (compact HPL), zwart onderstel', 'Buiten (compact HPL), wit onderstel']
     VQG = {'60 x 60 cm': 15000, '70 x 70 cm': 16000, '80 x 80 cm': 19000}
-    vs = [variant(f'KK-STF-VK-{code(m)}-{COLOR_CODE[k]}' + ('-RVS' if u == VQU[1] else ''), [m, k, u], p + (30 if u == VQU[1] else 0), VQG[m],
-                  inv(10, m + k + 'vk' + ('' if u == VQU[0] else u), k, 1 if u == VQU[0] else 0.4)) for m, p in VQ.items() for k in VQK for u in VQU]
+    vs = [variant(f'KK-STF-VK-{code(m)}-{COLOR_CODE[k]}' + hoek_sku(u), [m, k, u],
+                  p + HOEK_DECOR_EXTRA.get(k, 0) + (30 if 'RVS' in u else 0) + (55 if u.startswith('Buiten') else 0),
+                  VQG[m] + (3000 if u.startswith('Buiten') else 0), inv(10, m + k + 'vk' + u, k)) for m, p in VQ.items() for k, u in hoek_combos(VQU)]
     imgs, vmap = kleur_images('statafel-vierkant-stapelbaar', VQK, 'statafel', lambda k: {'shape': 'square', 'width': 0.7, 'height': 1.07, 'top': top_param(k), 'frame': 'zwart', 'base': 'kruis', 'stackable': True}, 'Zwart',
+                              [img('statafel-vierkant-stapelbaar-wit-wit-onderstel.webp', 'variant', 3, 'statafel',
+                                   {'shape': 'square', 'width': 0.7, 'height': 1.07, 'top': 'wit', 'frame': 'wit', 'base': 'kruis', 'stackable': True}, 'hero', 'Wit', 'needs-param',
+                                   alt='wit compact-HPL-blad op een wit onderstel')],
                               status='existing', p2=3)
+    for _i in imgs:
+        if _i['kleur'] not in ('Zwart', 'Wit') and _i['role'] == 'variant':
+            _i['model_status'] = 'needs-param'   # decor textures (renders/js/materials.js)
     simple('statafel-vierkant-stapelbaar', 'Statafel vierkant stapelbaar', 'Statafel', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(VQ)), opt('Kleur', VQK), opt('Uitvoering', VQU)], vs, imgs,
-           {'kenmerk_kort': 'Vierkant blad · stapelbaar · 107 cm · zwart of RVS', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket', 'vergelijk_groep': 'statafel', 'gewicht_kg': 16,
+           {'kenmerk_kort': 'Vierkant blad · stapelbaar · 107 cm · binnen of compact HPL buiten', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket', 'vergelijk_groep': 'statafel', 'gewicht_kg': 16,
             'addon_eenmalig': ['transportkar-statafels'],   # the plateaukar for 5 stacked tables: once per order line
-            'specificaties': [sp('Afmetingen', 'Hoogte', '107 cm'), sp('Onderstel', 'Materiaal', 'Staal zwart gepoedercoat of geborsteld RVS, stapelbaar')], 'garantie': '2 jaar'},
+            'specificaties': [sp('Afmetingen', 'Hoogte', '107 cm'), sp('Onderstel', 'Materiaal', 'Staal zwart of wit gepoedercoat, of geborsteld RVS (binnen), stapelbaar'),
+                              sp('Blad', 'Binnen', 'HPL-toplaag op 18 mm plaat, 7 decors'), sp('Blad', 'Buiten', 'Compact HPL 12 mm, door en door, 12 decors')], 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Strakke vierkante statafel die je stapelt in plaats van inklapt; populair in horeca en lounges.',
-           ['statafel vierkant', 'statafel stapelbaar', 'statafel rvs'], {'statafelshop': 'Indus €148,77 · Kansas RVS of zwart frame vanaf €163,29', 'outmate': '70x70 €159–€169', 'ours': VQ, 'rvs': '+ € 30'}, vmap=vmap)
-    RH = {'120 x 60 cm': 169.0, '120 x 70 cm': 179.0, '160 x 60 cm': 189.0}
-    RHK = ['Berken', 'Zwart']
-    RHG = {'120 x 60 cm': 21000, '120 x 70 cm': 23000, '160 x 60 cm': 25000}
-    vs = [variant(f'KK-STF-RH-{code(m)}-{COLOR_CODE[k]}', [m, k], p, RHG[m], inv(6, m + k + 'rh', k)) for m, p in RH.items() for k in RHK]
+           ['statafel vierkant', 'statafel stapelbaar', 'statafel rvs', 'statafel compact hpl'], {'statafelshop': 'Indus €148,77–314,60 (13 decors) · Kansas RVS of zwart frame €163,29–204,43 · Mississippi €217,74–381,15', 'outmate': '70x70 €159–€169', 'ours': VQ, 'opties': '+ € 30 RVS · + € 55 compact HPL buiten · + € 10 / € 15 decor'},
+           vmap=vmap, extra={'variant_image_sku': {f'KK-STF-VK-{code(m)}-WIT-HPL-OW': 'statafel-vierkant-stapelbaar-wit-wit-onderstel.webp' for m in VQ}})
+    # catalog round 3: 6 decors (was Berken and Zwart only) and a 180 x 70 cm for a bar of 10-12 people staand
+    RH = {'120 x 60 cm': 169.0, '120 x 70 cm': 179.0, '160 x 60 cm': 189.0, '180 x 70 cm': 229.0}
+    RHK = ['Berken', 'Zwart', 'Wit', 'Antraciet', 'Eiken', 'Graniet']
+    RHG = {'120 x 60 cm': 21000, '120 x 70 cm': 23000, '160 x 60 cm': 25000, '180 x 70 cm': 30000}
+    vs = [variant(f'KK-STF-RH-{code(m)}-{COLOR_CODE[k]}', [m, k], p + {'Berken': 0, 'Eiken': 10, 'Graniet': 10}.get(k, 0), RHG[m], inv(6, m + k + 'rh', k))
+          for m, p in RH.items() for k in RHK]
     imgs, vmap = kleur_images('statafel-rechthoekig-inklapbaar', RHK, 'statafel', lambda k: {'shape': 'rect', 'width': 1.6, 'depth': 0.6, 'height': 1.1, 'top': top_param(k), 'frame': 'zwart', 'base': 'klap'}, 'Berken',
                               status='existing', p2=3)
+    for _i in imgs:
+        if _i['kleur'] not in ('Berken', 'Zwart'):
+            _i['model_status'] = 'needs-param'
     simple('statafel-rechthoekig-inklapbaar', 'Statafel rechthoekig inklapbaar', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'], [opt('Maat', list(RH)), opt('Kleur', RHK)], vs, imgs,
-           {'kenmerk_kort': 'Lang blad voor 8–10 personen staand · 110 cm · inklapbaar', 'staffelkorting': ST_STATAFEL, 'verzending': 'pallet', 'vergelijk_groep': 'statafel', 'garantie': '2 jaar'},
+           {'kenmerk_kort': 'Lang blad voor 8–12 personen staand · 110 cm · inklapbaar · 6 decors', 'staffelkorting': ST_STATAFEL, 'verzending': 'pallet', 'vergelijk_groep': 'statafel', 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Lange statafel als bar of buffet op stahoogte; inklapbaar voor opslag.',
-           ['statafel rechthoekig', 'lange statafel'], {'statafelshop': 'Indus Breed €252,89 · Purus 160x60 €204,49', 'ours': RH}, vmap=vmap)
-    simple('statafel-wijnvat-houtlook', 'Statafel wijnvat houtlook', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'], [opt('Maat', ['Ø80 cm'])],
-           [variant('KK-STF-VAT-D80', ['Ø80 cm'], 349.0, 25000, 6)],
-           [img('statafel-wijnvat-houtlook-hero.webp', 'hero', 1, 'barrelTable', {'top': 0.8, 'height': 1.05, 'finish': 'houtlook'}, 'hero', 'Houtlook', 'needs-model')],
-           {'kenmerk_kort': 'Kunststof vat in houtlook · vulbaar met water of zand · binnen en buiten', 'verzending': 'pallet', 'gewicht_kg': 25, 'vergelijk_groep': 'statafel'},
+           ['statafel rechthoekig', 'lange statafel', 'statafel 180 x 70'], {'statafelshop': 'Indus Breed €252,89 · Purus 160x60 €204,49', 'outmate': 'Times Square 180x70 stapelbaar €435 (zie statafel-breed-stapelbaar)', 'ours': RH}, vmap=vmap)
+    # catalog round 3: a Ø100 cm vat next to the Ø80 (the reference barrel is Ø100 at € 399)
+    WV = {'Ø80 cm': (349.0, 25000), 'Ø100 cm': (359.0, 32000)}
+    simple('statafel-wijnvat-houtlook', 'Statafel wijnvat houtlook', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'], [opt('Maat', list(WV))],
+           [variant(f'KK-STF-VAT-{code(m)}', [m], p, g, 6) for m, (p, g) in WV.items()],
+           [img('statafel-wijnvat-houtlook-hero.webp', 'hero', 1, 'barrelTable', {'top': 0.8, 'height': 1.05, 'finish': 'houtlook'}, 'hero', None, 'needs-model'),
+            img('statafel-wijnvat-houtlook-d100.webp', 'variant', 2, 'barrelTable', {'top': 1.0, 'height': 1.05, 'finish': 'houtlook'}, 'hero', None, 'needs-param',
+                alt='Ø100 cm, met breder blad')],
+           {'kenmerk_kort': 'Kunststof vat in houtlook · Ø80 of Ø100 cm blad · vulbaar met water of zand', 'verzending': 'pallet', 'gewicht_kg': 25, 'vergelijk_groep': 'statafel'},
            ['tafels-stoelen.statafels', 'tafels-stoelen.barrels-sets'], 'statafel', 'Sfeermaker voor terras en feest; vulbaar voor stabiliteit; weerbestendig.',
-           ['wijnvat statafel', 'barrel statafel'], {'outmate': 'Barrel Ø100 €399', 'ours': 349})
+           ['wijnvat statafel', 'barrel statafel', 'wijnvat tafel 100 cm'], {'outmate': 'Barrel Ø100 €399', 'ours': {m: v[0] for m, v in WV.items()}},
+           vmap={'Ø80 cm': 'statafel-wijnvat-houtlook-hero.webp', 'Ø100 cm': 'statafel-wijnvat-houtlook-d100.webp'}, vby='Maat')
+
+    # ------------------------------------------------------------ catalog round 3: wide stackable statafel (180 x 70, H3) and design statafels (M14)
+    BS = {'140 x 70 cm': (329.0, 26000), '180 x 70 cm': (389.0, 31000)}   # reference: Outmate Times Square 180 x 70 stapelbaar € 435
+    BSU = ['Binnen, zwart onderstel', 'Buiten (compact HPL), zwart onderstel', 'Buiten (compact HPL), wit onderstel']
+    vs = [variant(f'KK-STF-BS-{code(m)}-{COLOR_CODE[k]}' + hoek_sku(u), [m, k, u],
+                  p + 2 * HOEK_DECOR_EXTRA.get(k, 0) + ((90 if m.startswith('140') else 110) if u.startswith('Buiten') else 0),
+                  g + (5000 if u.startswith('Buiten') else 0), inv(4, m + k + 'bs' + u, k)) for m, (p, g) in BS.items() for k, u in hoek_combos(BSU)]
+    imgs, vmap = kleur_images('statafel-breed-stapelbaar', HOEK_DECORS, 'statafel',
+                              lambda k: {'shape': 'rect', 'width': 1.8, 'depth': 0.7, 'height': 1.1, 'top': top_param(k), 'frame': 'zwart', 'base': 'vierpoot', 'stackable': True},
+                              'Eiken', [img('statafel-breed-stapelbaar-gestapeld.webp', 'detail', 3, 'statafel',
+                                            {'shape': 'rect', 'width': 1.8, 'depth': 0.7, 'height': 1.1, 'top': 'zwart', 'frame': 'zwart', 'base': 'vierpoot', 'stackable': True, 'stack': 3},
+                                            'hero', 'Zwart', 'needs-param', alt='drie tafels gestapeld')], status='needs-param', p2=3)
+    simple('statafel-breed-stapelbaar', 'Statafel breed stapelbaar', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+           [opt('Maat', list(BS)), opt('Kleur', HOEK_DECORS), opt('Uitvoering', BSU)], vs, imgs,
+           {'kenmerk_kort': 'Breed blad 140 of 180 x 70 cm · 4 poten · stapelbaar · binnen of compact HPL buiten', 'staffelkorting': ST_STATAFEL, 'verzending': 'pallet',
+            'vergelijk_groep': 'statafel', 'garantie': '2 jaar',
+            'specificaties': [sp('Afmetingen', 'Hoogte', '110 cm'), sp('Afmetingen', 'Blad', '140 x 70 of 180 x 70 cm'),
+                              sp('Onderstel', 'Materiaal', 'Stalen frame met 4 vierkante poten 40 x 40 mm, zwart of wit gepoedercoat, stapelbaar'),
+                              sp('Blad', 'Binnen', 'HPL-toplaag op 25 mm plaat, 7 decors'), sp('Blad', 'Buiten', 'Compact HPL 12 mm, 12 decors')]},
+           ['tafels-stoelen.statafels'], 'statafel',
+           'Brede statafel als bar, buffet of sta-werkplek voor 8 tot 12 personen; 4 poten op de hoeken (geen kruisvoet in de weg), stapelbaar voor opslag; binnen of buiten in compact HPL.',
+           ['statafel 180 x 70', 'brede statafel', 'statafel stapelbaar rechthoekig', 'bartafel 180 cm'],
+           {'outmate': 'Times Square 180 x 70 stapelbaar €435', 'statafelshop': 'Indus Breed 120 x 60/70 €252,89', 'ours': {m: v[0] for m, v in BS.items()},
+            'opties': '+ € 90 / € 110 compact HPL buiten · + € 20 / € 30 decor'}, vmap=vmap)
+
+    # design statafel with a marmerlook blad on a slim inklapbare kolom (reference band: Statafelshop Havana € 240,79-337,59, Outmate Rivièra
+    # € 239-335, Statafelshop Trentino € 272,19): hoogglans (binnen) or compact HPL (binnen en buiten), onderstel zwart or geborsteld goud
+    DM = {('Hoogglans', 'zwart'): 219.0, ('Hoogglans', 'goud'): 269.0, ('Compact HPL', 'zwart'): 249.0, ('Compact HPL', 'goud'): 299.0}
+    DMU = [f'{b}, {c} onderstel' if c == 'zwart' else f'{b}, geborsteld goud onderstel' for b, c in DM]
+    DMK = ['Wit marmer', 'Zwart marmer']
+    vs = [variant(f'KK-STF-DSM-D70-{COLOR_CODE[k]}-{"HG" if b == "Hoogglans" else "HPL"}-{"GD" if c == "goud" else "ZW"}', ['Ø70 cm', k, u], p, 15000 if b == 'Hoogglans' else 17000,
+                  inv(4, k + u + 'dsm', k)) for k in DMK for ((b, c), p), u in zip(DM.items(), DMU)]
+    imgs, vmap = kleur_images('statafel-design-marmerlook', DMK, 'statafel',
+                              lambda k: {'diameter': 0.7, 'height': 1.1, 'top': top_param(k), 'frame': 'goud', 'base': 'design-klap'}, 'Wit marmer',
+                              [img('statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp', 'variant', 3, 'statafel',
+                                   {'diameter': 0.7, 'height': 1.1, 'top': 'marmer-zwart', 'frame': 'zwart', 'base': 'design-klap'}, 'hero', 'Zwart marmer', 'needs-param',
+                                   alt='zwart marmerlook op een zwart onderstel'),
+                               img('statafel-design-marmerlook-wit-marmer-detail.webp', 'detail', 3, 'statafel',
+                                   {'diameter': 0.7, 'height': 1.1, 'top': 'marmer-wit', 'frame': 'goud', 'base': 'design-klap'}, 'detail', 'Wit marmer', 'needs-param',
+                                   alt='bladrand en geborsteld gouden kolom')], status='needs-param', p2=2)
+    simple('statafel-design-marmerlook', 'Design statafel marmerlook Ø70 cm', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
+           [opt('Maat', ['Ø70 cm']), opt('Kleur', DMK), opt('Uitvoering', DMU)], vs, imgs,
+           {'kenmerk_kort': 'Marmerlook blad · geborsteld goud of zwart onderstel · inklapbaar · 110 cm', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket',
+            'vergelijk_groep': 'statafel', 'garantie': '2 jaar', 'gewicht_kg': 15, 'addon_eenmalig': ['transportkar-statafels'],
+            'specificaties': [sp('Blad', 'Diameter', 'Ø70 cm'), sp('Blad', 'Hoogglans', 'MDF met hoogglans marmerdecor, 18 mm (binnen)'),
+                              sp('Blad', 'Compact HPL', 'Compact HPL 12 mm met mat marmerdecor (binnen en buiten)'),
+                              sp('Onderstel', 'Materiaal', 'Kolom Ø 60 mm met 4 inklapbare poten, staal zwart gepoedercoat of RVS met geborsteld goudkleurige coating'),
+                              sp('Afmetingen', 'Hoogte', '110 cm'), sp('Gewicht', 'Totaal', 'ca. 15–17 kg')]},
+           ['tafels-stoelen.statafels'], 'statafel',
+           'Statafel voor recepties, beurzen en bruiloften waar het er chic uit moet zien zonder rok: marmerlook op een slanke kolom; hoogglans voor binnen, compact HPL ook voor buiten; vouwt in.',
+           ['design statafel', 'statafel marmer', 'statafel goud onderstel', 'luxe statafel'],
+           {'statafelshop': 'Havana €240,79–337,59 · Trentino €272,19', 'outmate': 'Rivièra €239–335', 'ours': {', '.join(k): v for k, v in DM.items()}}, vmap=vmap,
+           extra={'variant_image_sku': {'KK-STF-DSM-D70-ZMR-HG-ZW': 'statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp',
+                                        'KK-STF-DSM-D70-ZMR-HPL-ZW': 'statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp'}})
+
+    # design statafel HPL on a zuil with a heavy voetplaat (reference: Outmate Infinity € 195 / Urban € 219, Statafelshop Trentino): compact HPL
+    # blad, rond or vierkant, in 6 decors, onderstel zwart, wit or zandkleur; vaste zuil, not inklapbaar
+    DZ = {'Ø70 cm': 179.0, '70 x 70 cm': 189.0}
+    DZK = ['Wit marmer', 'Zwart marmer', 'Betonlook', 'Grijs eiken', 'Teak', 'Zwart']
+    DZU = ['Buiten (compact HPL), zwart onderstel', 'Buiten (compact HPL), wit onderstel', 'Buiten (compact HPL), zandkleur onderstel']
+    vs = [variant(f'KK-STF-DSZ-{code(m)}-{COLOR_CODE[k]}-{["ZW", "WI", "ZK"][i]}', [m, k, u], p + (10 if k != 'Zwart' else 0), 18000, inv(4, m + k + u + 'dsz', k))
+          for m, p in DZ.items() for k in DZK for i, u in enumerate(DZU)]
+    imgs, vmap = kleur_images('statafel-design-zuilvoet', DZK, 'statafel',
+                              lambda k: {'diameter': 0.7, 'height': 1.1, 'top': top_param(k), 'frame': 'zwart', 'base': 'zuil-plaat'}, 'Wit marmer',
+                              [img('statafel-design-zuilvoet-vierkant-betonlook.webp', 'detail', 3, 'statafel',
+                                   {'shape': 'square', 'width': 0.7, 'height': 1.1, 'top': 'beton', 'frame': 'zandkleur', 'base': 'zuil-plaat'}, 'hero', 'Betonlook', 'needs-param',
+                                   alt='vierkant blad 70 x 70 cm in betonlook op een zandkleurig onderstel')], status='needs-param', p2=2)
+    simple('statafel-design-zuilvoet', 'Design statafel HPL met zuilvoet', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:tuinfeest'],
+           [opt('Maat', list(DZ)), opt('Kleur', DZK), opt('Uitvoering', DZU)], vs, imgs,
+           {'kenmerk_kort': 'Compact HPL · rond of vierkant 70 cm · zware zuilvoet · binnen en buiten', 'staffelkorting': ST_STATAFEL, 'verzending': 'pakket',
+            'vergelijk_groep': 'statafel', 'garantie': '2 jaar', 'gewicht_kg': 18,
+            'specificaties': [sp('Blad', 'Materiaal', 'Compact HPL 12 mm, door en door, weer- en UV-bestendig'), sp('Blad', 'Maten', 'Ø70 cm of 70 x 70 cm'),
+                              sp('Onderstel', 'Materiaal', 'Stalen zuil Ø 76 mm op een voetplaat van 45 x 45 cm, gepoedercoat zwart, wit of zandkleur'),
+                              sp('Afmetingen', 'Hoogte', '109 cm'), sp('Gewicht', 'Totaal', 'ca. 18 kg'), sp('Onderstel', 'Stelvoeten', '4 verstelbare doppen onder de voetplaat')]},
+           ['tafels-stoelen.statafels'], 'statafel',
+           'Vaste statafel voor terras en lounge zonder kruis of poten in de weg: compact HPL in 6 decors op een zware voetplaat; blijft buiten staan; geen rok nodig.',
+           ['statafel hpl', 'statafel zuilvoet', 'design statafel buiten', 'statafel marmerlook'],
+           {'outmate': 'Infinity €195 · Urban €219 (HPL, rond of vierkant, onderstel wit/zandkleur/zwart)', 'ours': DZ}, vmap=vmap)
 
     # ------------------------------------------------------------ rokken & hoezen
     RM = ['Ø80-85 cm', 'Ø60-70 cm']
     RU = ['Met topcover', 'Zonder topcover']
-    vs = [variant(f'KK-ROK-ST-{code(m)}-{"TC" if u == RU[0] else "ZT"}-{COLOR_CODE[k]}', [m, u, k], 19.95 if u == RU[0] else 15.95, 650 if u == RU[0] else 520,
+    # M22 (catalog round 2026-10-18): Goud and Zilver are a metallic stretch, a premium tier (+ € 6; Statafelshop prices them + 74%)
+    METAAL = {'Goud': 6, 'Zilver': 6}
+    vs = [variant(f'KK-ROK-ST-{code(m)}-{"TC" if u == RU[0] else "ZT"}-{COLOR_CODE[k]}', [m, u, k], (19.95 if u == RU[0] else 15.95) + METAAL.get(k, 0), 650 if u == RU[0] else 520,
                   inv(60 if m == RM[0] else 25, m + u + k, k, 1.0 if u == RU[0] else 0.5)) for m in RM for u in RU for k in ROK_KLEUREN]
     imgs, vmap = kleur_images('statafelrok-stretch', ROK_KLEUREN, 'statafelCover', lambda k: {'type': 'stretch', 'color': render_color(k), 'diameter': 0.8, 'topcover': render_color(k)}, 'Zwart',
                               [img('statafelrok-stretch-zwart-detail.webp', 'detail', 2, 'statafelCover', {'type': 'stretch', 'color': 'zwart', 'diameter': 0.8, 'topcover': 'zwart'}, 'detail', 'Zwart',
@@ -153,15 +328,17 @@ def build():
            ['oranje statafelrok', 'statafelrok koningsdag', 'statafelrok ek wk'],
            {'statafelshop': 'EK/WK stretchrok €48,34 (actie, was €54,45)', 'ours': 42.95}, vmap={'Topcover rood-wit-blauw': th_imgs[0]['file'], 'Topcover voetbal': th_imgs[1]['file']},
            vby='Uitvoering')
-    vs = [variant(f'KK-TOP-ST-{code(m)}-{COLOR_CODE[k]}', [m, k], 7.95, 120, inv(40, m + k + 'tc', k)) for m in RM for k in ROK_KLEUREN]
+    # L3: € 7,95 was 40% under the reference (vanaf € 12,04): € 10,95, metallic + € 3
+    vs = [variant(f'KK-TOP-ST-{code(m)}-{COLOR_CODE[k]}', [m, k], 10.95 + (3 if k in METAAL else 0), 120, inv(40, m + k + 'tc', k)) for m in RM for k in ROK_KLEUREN]
     # packshot: the topcover on a stretchrok in a contrasting colour (the alt says the rok is not included)
     imgs, vmap = kleur_images('topcover-stretch-statafel', ROK_KLEUREN, 'statafelCover',
                               lambda k: {'type': 'stretch', 'color': contrast_textile(k), 'diameter': 0.8, 'topcover': render_color(k)}, 'Zwart', status='existing', p2=3)
     simple('topcover-stretch-statafel', 'Topcover stretch voor statafel', 'Topcover', ['zakelijk', 'gebruik:horeca'], [opt('Maat', RM), opt('Kleur', ROK_KLEUREN)], vs, imgs,
            {'kenmerk_kort': 'Los blad-hoesje · contrastkleur of vervanging · 24 kleuren', 'staffelkorting': ST_TEXTIEL, 'past_op': ROUND + ['statafelrok-stretch'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.topcovers'], 'textiel', 'Losse topcover voor een tweede kleur of als reserve; zelfde 24 kleuren als de rok.',
-           ['topcover statafel', 'topcover stretch'], {'statafelshop': 'vanaf €12,04', 'band': 'biertafelplaza €7,50 per stuk', 'ours': 7.95}, vmap=vmap)
-    vs = [variant(f'KK-HOES-STR-{code(m)}-{COLOR_CODE[k]}', [m, k], 26.95, 900, inv(20 if m == RM[0] else 8, m + k + 'strik', k)) for m in RM for k in STRIK_KLEUREN]
+           ['topcover statafel', 'topcover stretch'], {'statafelshop': 'vanaf €12,04', 'band': 'biertafelplaza €7,50 per stuk', 'ours': 10.95}, vmap=vmap)
+    # L3: € 26,95 was 23% under the reference
+    vs = [variant(f'KK-HOES-STR-{code(m)}-{COLOR_CODE[k]}', [m, k], 31.95, 900, inv(20 if m == RM[0] else 8, m + k + 'strik', k)) for m in RM for k in STRIK_KLEUREN]
     imgs, vmap = kleur_images('statafelhoes-met-strik', STRIK_KLEUREN, 'statafelCover', lambda k: {'type': 'strik', 'color': render_color(k), 'diameter': 0.8}, 'Wit',
                               [img('statafelhoes-met-strik-wit-detail.webp', 'detail', 2, 'statafelCover', {'type': 'strik', 'color': 'wit', 'diameter': 0.8}, 'detail', 'Wit', alt='de strik')], p2=2)
     simple('statafelhoes-met-strik', 'Statafelhoes met strik', 'Statafelhoes met strik', ['zakelijk', 'gebruik:evenement', 'gebruik:horeca'], [opt('Maat', RM), opt('Kleur', STRIK_KLEUREN)], vs, imgs,
@@ -219,11 +396,17 @@ def build():
            ['statafelrokken-hoezen.buffettafel-hoezen'], 'textiel', 'Buffet- en klaptafels netjes aankleden, poten uit het zicht; maat = blad.',
            ['stretchhoes buffettafel', 'hoes klaptafel 183'], {'statafelshop': '183x76 €42,29', 'ours': BH}, vmap=vmap)
     # Uitvoering after the merchandising review: the set (tafel + 2 banken), a tafelhoes alone (for the biertafel 'Alleen tafel') or one
-    # bankhoes (for the loose bierbank); Maat = what it covers. Set stays cheaper than tafel + 2 banken los (39,95 < 24,95 + 2 x 9,95).
+    # bankhoes (for the loose bierbank); Maat = what it covers. Catalog round 2026-10-18 (M10): every bladmaat of the biertafelset (180 and
+    # 220 cm, 50 to 80 cm; the 67 cm blad takes the 70 cm hoes) and both bank lengths, 10 colours, ca. 8% under the reference (€ 24,99 per set).
+    # Set stays cheaper than tafel + 2 banken los.
     BTU = ['Set: tafel en 2 banken', 'Alleen tafel', 'Alleen bank']
-    BT = [('220 x 50 cm', BTU[0], 39.95, 1400, 'S'), ('220 x 70 cm', BTU[0], 44.95, 1500, 'S'), ('220 x 50 cm', BTU[1], 24.95, 700, 'T'),
-          ('220 x 70 cm', BTU[1], 27.95, 800, 'T'), ('220 x 25 cm', BTU[2], 9.95, 350, 'B')]
-    BTM = ['220 x 50 cm', '220 x 70 cm', '220 x 25 cm']
+    BK_HOES = ['Wit', 'Zwart', 'Antraciet', 'Crème', 'Zilver', 'Rood', 'Bordeaux', 'Blauw', 'Marineblauw', 'Groen']
+    HOES_T = ['180 x 50 cm', '180 x 60 cm', '180 x 70 cm', '180 x 80 cm', '220 x 50 cm', '220 x 60 cm', '220 x 70 cm', '220 x 80 cm']
+    BT = [(m, BTU[0], 22.95 if int(m.split(' x ')[1][:2]) <= 60 else 24.95, 1300 + 40 * int(m.split(' x ')[1][:2]) // 10, 'S') for m in HOES_T] + \
+         [(m, BTU[1], 13.95 if int(m.split(' x ')[1][:2]) <= 60 else 14.95, 600 + 30 * int(m.split(' x ')[1][:2]) // 10, 'T') for m in HOES_T] + \
+         [('180 x 25 cm', BTU[2], 6.95, 300, 'B'), ('220 x 25 cm', BTU[2], 6.95, 350, 'B')]
+    BTM = HOES_T + ['180 x 25 cm', '220 x 25 cm']
+    BK = BK_HOES
     # SKU of the set keeps its old form (KK-THOES-BT-220X50-WIT); tafel alone -T, bank alone 220X25
     vs = [variant(f'KK-THOES-BT-{code(m)}' + ('-T' if c == 'T' else '') + f'-{COLOR_CODE[k]}', [m, u, k], p, g, inv(8, m + u + k + 'bt', k)) for m, u, p, g, c in BT for k in BK]
     imgs, vmap = kleur_images('hoes-biertafelset', BK, 'buffetCover', lambda k: {'kind': 'biertafelset', 'length': 2.2, 'width': 0.5, 'color': render_color(k)}, 'Wit', status='existing', p2=3)
@@ -237,15 +420,17 @@ def build():
                      'hero', k, 'existing', alt=f'één bankhoes in {k.lower()} op een bierbank van 220 × 25 cm (bank niet inbegrepen)')]
     simple('hoes-biertafelset', 'Hoes biertafelset, biertafel of bierbank', 'Tafelhoes', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
            [opt('Maat', BTM), opt('Uitvoering', BTU), opt('Kleur', BK)], vs, imgs,
-           {'kenmerk_kort': 'Stretch voor tafel + 2 banken, of los per tafel of bank · 220 cm', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
+           {'kenmerk_kort': 'Stretch voor tafel + 2 banken, of los · 180 of 220 cm · 10 kleuren', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.biertafelset-hoezen'], 'textiel', 'Biertafelset feestklaar in één keer: 3 hoezen, ook buiten; of één hoes voor een losse tafel of bank.',
-           ['hoes biertafelset', 'biertafel hoes', 'hoes bierbank'], {'note': 'geen referentieprijs voor effen biertafelsethoezen', 'ours': {f'{m} {u}': p for m, u, p, g, c in BT}}, vmap=vmap,
-           extra={'variant_image_sku': {**{f'KK-THOES-BT-{code(m)}-T-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-tafel-{slug(k)}.webp' for m in BTM[:2] for k in BK},
-                                        **{f'KK-THOES-BT-220X25-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-bank-{slug(k)}.webp' for k in BK}}})
+           ['hoes biertafelset', 'biertafel hoes', 'hoes bierbank', 'hoezen biertafelset 180'], {'outmate': 'set van 3 hoezen €24,99 in 180 x 50/60/70/80 en 220 x 50/60/70/80', 'ours': {f'{m} {u}': p for m, u, p, g, c in BT}}, vmap=vmap,
+           extra={'variant_image_sku': {**{f'KK-THOES-BT-{code(m)}-T-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-tafel-{slug(k)}.webp' for m in HOES_T for k in BK},
+                                        **{f'KK-THOES-BT-{code(m)}-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-bank-{slug(k)}.webp' for m in ('180 x 25 cm', '220 x 25 cm') for k in BK}}})
     # stretchhoes for the vierkante and rechthoekige statafel (merchandising review 2026-10-18: those two had no textile at all). Strak tot
     # de grond with a voetzak per poot, like the klaptafelhoes (buffetCover model, cover only, no table). Prices: owner review.
     SQ = {'60 x 60 cm': (29.95, 0.6, 0.6, 1.07), '70 x 70 cm': (32.95, 0.7, 0.7, 1.07), '80 x 80 cm': (34.95, 0.8, 0.8, 1.07),
-          '120 x 60 cm': (44.95, 1.2, 0.6, 1.1), '120 x 70 cm': (46.95, 1.2, 0.7, 1.1), '160 x 60 cm': (52.95, 1.6, 0.6, 1.1)}
+          '120 x 60 cm': (44.95, 1.2, 0.6, 1.1), '120 x 70 cm': (46.95, 1.2, 0.7, 1.1), '160 x 60 cm': (52.95, 1.6, 0.6, 1.1),
+          # catalog round 3: the 140 and 180 x 70 cm of the brede statafel and the rechthoekige 180 x 70
+          '140 x 70 cm': (49.95, 1.4, 0.7, 1.1), '180 x 70 cm': (56.95, 1.8, 0.7, 1.1)}
     vs = [variant(f'KK-HOES-STV-{code(m)}-{COLOR_CODE[k]}', [m, k], v[0], 450 + int(400 * v[1] * v[2]), inv(10, m + k + 'stv', k)) for m, v in SQ.items() for k in BK]
     imgs, vmap = kleur_images('stretchhoes-statafel-vierkant-en-rechthoekig', BK, 'buffetCover',
                               lambda k: {'kind': 'klaptafel', 'length': 0.7, 'width': 0.7, 'height': 1.07, 'color': render_color(k)}, 'Zwart',
@@ -255,25 +440,26 @@ def build():
     simple('stretchhoes-statafel-vierkant-en-rechthoekig', 'Stretchhoes vierkante en rechthoekige statafel', 'Statafelrok', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'],
            [opt('Maat', list(SQ)), opt('Kleur', BK)], vs, imgs,
            {'kenmerk_kort': 'Strak tot de grond · 60 × 60 tot 160 × 60 cm · voetzak per poot', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
-            'past_op': ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar'],
+            'past_op': ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-breed-stapelbaar'],
             'specificaties': [sp('Stof', 'Materiaal', '90% polyester, 10% elastaan, 220 g/m²'), sp('Pasvorm', 'Vierkant', '60 x 60, 70 x 70 of 80 x 80 cm, 107 cm hoog'),
-                              sp('Pasvorm', 'Rechthoekig', '120 x 60, 120 x 70 of 160 x 60 cm, 110 cm hoog'), sp('Pasvorm', 'Model', 'Strak over blad en poten, voetzak per poot')]},
+                              sp('Pasvorm', 'Rechthoekig', '120 x 60, 120 x 70, 140 x 70, 160 x 60 of 180 x 70 cm, 110 cm hoog'), sp('Pasvorm', 'Model', 'Strak over blad en poten, voetzak per poot')]},
            ['statafelrokken-hoezen.statafelrok-stretch'], 'textiel',
            'Stretchhoes voor de vierkante (stapelbare) en de rechthoekige statafel: maat = blad, strak tot de grond met voetzakken; wit, zwart of antraciet; staffel vanaf 10.',
            ['hoes vierkante statafel', 'stretchhoes statafel vierkant', 'hoes rechthoekige statafel'], {'note': 'geen referentieprijs gevonden; € 29,95 – € 52,95 naar oppervlak', 'ours': {m: v[0] for m, v in SQ.items()}},
            vmap=vmap,
            # the rechthoekige zwarte hoezen show the rechthoekige render, not the square hero (merchandising review 3)
            extra={'variant_image_sku': {f'KK-HOES-STV-{code(m)}-ZWA': 'stretchhoes-statafel-vierkant-en-rechthoekig-zwart-160x60.webp'
-                                        for m in ['120 x 60 cm', '120 x 70 cm', '160 x 60 cm']}})
+                                        for m in ['120 x 60 cm', '120 x 70 cm', '140 x 70 cm', '160 x 60 cm', '180 x 70 cm']}})
     # round plates 2 cm under the blad; square and rectangular plates in the size of the vierkante / rechthoekige statafel and the terrastafel
     BP = {'Ø68 cm': 15.95, 'Ø78 cm': 16.95, 'Ø83 cm': 17.95, '60 x 60 cm': 16.95, '70 x 70 cm': 18.95, '80 x 80 cm': 19.95,
-          '120 x 60 cm': 22.95, '120 x 70 cm': 23.95, '160 x 60 cm': 25.95, '182 x 75 cm': 26.95}
+          '120 x 60 cm': 22.95, '120 x 70 cm': 23.95, '140 x 70 cm': 24.95, '160 x 60 cm': 25.95, '180 x 70 cm': 26.95, '182 x 75 cm': 26.95}
     simple('beschermplaat-statafel', 'Beschermplaat transparant voor statafel', 'Beschermplaat', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(BP))],
            [variant(f'KK-BPL-{code(m)}', [m], p, 900 + 300 * i, inv(20, m + 'bp')) for i, (m, p) in enumerate(BP.items())],
            [img('beschermplaat-statafel-hero.webp', 'hero', 1, 'protectionDisc', {'diameter': 0.78, 'onCover': {'type': 'stretch', 'color': 'zwart'}}, 'hero', 'Transparant', 'needs-model',
                 alt='op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen)')],
            {'kenmerk_kort': 'Transparant PVC over hoes en topcover · tegen vlekken', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
-            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-wijnvat-houtlook', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig']},
+            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-wijnvat-houtlook', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig',
+                                'statafel-breed-stapelbaar', 'statafel-design-marmerlook', 'statafel-design-zuilvoet']},
            ['statafelrokken-hoezen.beschermplaten'], 'textiel', 'Glasheldere plaat die de rok schoon houdt (bier, wijn); maat iets kleiner dan het blad.',
            ['beschermplaat statafel', 'transparante plaat statafel'], {'statafelshop': 'Ø68/78/83 vanaf €18,09 · 182x75 €30,19', 'ours': BP})
 

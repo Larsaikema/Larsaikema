@@ -20,10 +20,12 @@
 //  - `series`: 'basis' (PE 200 g/m2), '500', '550-premium' (ground frame + ridge reinforcement),
 //    '550-compleet' (premium + storm straps over the roof to stakes with ratchets), '620'
 //    (premium frame, 2.2 m side height);
+//  - `stripes: 'wit'`: two-tone cloth (Grijs-wit, Rood-wit, ...): 50 cm lanes of `color` and
+//    `stripes` over roof, valance, gables and walls, lined up from wall to roof;
 //  - `frame: false` (the loose roof cover): shown on the bare frame without walls, so it reads as
 //    the cloth it is (frame not included).
 //
-//   { w (span), d (length), line: 'pe'|'pvc', series, color, walls: 'windows'|'closed'|'none',
+//   { w (span), d (length), line: 'pe'|'pvc', series, color, stripes, walls: 'windows'|'closed'|'none',
 //     door: 'closed'|'open'|'rolled', variant: 'party'|'opslag', frame: bool, openGable: bool }
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
@@ -61,10 +63,36 @@ export function buildFrameTent(o) {
     span: W, length: L, eave: He, ridge: Hr, line = 'pvc', color = 'wit', walls = 'none', door = 'closed',
     gableFront = false, frame = true, bay: bayWanted = 2, frontGableDoor = false, ties = false, valance = 0.17,
     groundFrame = false, collar = false, straps = false, openGable = null, openFront = false,
+    stripes = null, stripeW = 0.5,
   } = o;
   const hex = K.col(color, M.COLORS.wit);
   const pe = line === 'pe';
   const fab = pe ? K.peFabric(hex) : K.pvc(hex);
+  // two-tone cloth ('Grijs-wit' = grey and white lanes): every cloth surface (roof, valance,
+  // gable triangles, walls) alternates `color` / `stripes` in lanes of stripeW running from the
+  // hem up over the ridge, so the lanes line up from wall to roof; the welded seams of the
+  // cover sit on lane joins
+  const stripeHex = stripes ? K.col(stripes, M.COLORS.wit) : null;
+  const fab2 = stripeHex ? (pe ? K.peFabric(stripeHex) : K.pvc(stripeHex)) : null;
+  const addCloth = (geo, axis) => {
+    if (!fab2) { bins.add(fab, geo); return; }
+    const P = geo.attributes.position, idx = geo.index.array, A = [], B = [];
+    const span = axis === 'x' ? L : W, off = span / 2;
+    for (let t = 0; t < idx.length; t += 3) {
+      const a = idx[t], b = idx[t + 1], cc = idx[t + 2];
+      const v = axis === 'x' ? (P.getX(a) + P.getX(b) + P.getX(cc)) / 3 : (P.getZ(a) + P.getZ(b) + P.getZ(cc)) / 3;
+      const k = Math.floor(Math.min(span - 1e-4, Math.max(0, v + off)) / stripeW);
+      ((k & 1) ? B : A).push(a, b, cc);
+    }
+    if (A.length) { const g = geo.clone(); g.setIndex(A); bins.add(fab, g); }
+    if (B.length) { const g = geo.clone(); g.setIndex(B); bins.add(fab2, g); }
+  };
+  // lane joins (+ extra samples) inserted into a uniform sampling of [a, b] along x or z
+  const withJoins = (a, b, n, span) => {
+    const out = []; for (let i = 0; i <= n; i++) out.push(a + ((b - a) * i) / n);
+    if (fab2) for (let s = 0; s <= span + 1e-6; s += stripeW) { const v = s - span / 2; if (v > a + 1e-4 && v < b - 1e-4) out.push(v - 0.0015, v + 0.0015); }
+    return out.sort((p, q) => p - q).filter((v, i, arr) => i === 0 || v - arr[i - 1] > 1e-4);
+  };
   const seamM = pe ? K.peFabric(hex) : K.pvcPatch(hex);
   const thread = M.tentThread(hex);
   const steel = M.galvanised();
@@ -166,14 +194,15 @@ export function buildFrameTent(o) {
     const wr = pe ? 0.006 * Math.sin((x - z * 0.7) * 5.1) * inBay * fu * (1 - fu) * 4 : 0;
     return sagA * Math.pow(inBay, 0.8) * Math.sin(Math.PI * Math.min(1, Math.max(0, fu))) + wr;
   };
-  const NX = Math.max(60, nb * 36), NZ = 30, NB = 8, NV = 5;
+  const NZ = 30, NB = 8, NV = 5;
+  const xCols = withJoins(-xe, xe, Math.max(60, nb * 36), L), NX = xCols.length - 1;
   const slopes = [];
   for (const sz of [-1, 1]) {
     const rows = [];
     for (let j = 0; j <= NV + NB + NZ; j++) {
       const row = [];
       for (let i = 0; i <= NX; i++) {
-        const x = -xe + (2 * xe * i) / NX;
+        const x = xCols[i];
         let q;
         if (j <= NV) {
           const f = j / NV, y = He - valance + valance * f;
@@ -193,10 +222,10 @@ export function buildFrameTent(o) {
       rows.push(row);
     }
     if (sz < 0) for (const row of rows) row.reverse();
-    bins.add(fab, K.gridGeometry(rows));
+    addCloth(K.gridGeometry(rows), 'x');
     slopes.push(rows);
     // valance hem + stitch, ball bungees every 50 cm round the eave tube
-    bins.add(fab, K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5));
+    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5), 'x');
     bins.add(thread, K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.022, sz * 0.0025))), 0.0011, 4));
     if (frame) {
       for (let x = -L / 2 + 0.25; x < L / 2; x += 0.5) {
@@ -219,23 +248,23 @@ export function buildFrameTent(o) {
   // gable triangles (part of the cover), with the bottom flap continuing the valance line
   for (const sx of [-1, 1]) {
     const rows = [];
-    const NG = 48, NH = 34;
+    const zCols = withJoins(-hw - r - c, hw + r + c, 48, W), NG = zCols.length - 1, NH = 34;
     for (let j = 0; j <= NH; j++) {
       const f = j / NH, row = [];
       for (let i = 0; i <= NG; i++) {
-        const z = -hw - r - c + ((2 * (hw + r + c)) * i) / NG;
+        const z = zCols[i];
         const zc = Math.max(-hw, Math.min(hw, z));
         const yTop = Math.max(roofY(zc), He + r + c);
         const y0 = He - valance;
         const y = y0 + (yTop - y0) * f;
-        const bulge = 0.012 * Math.sin(Math.PI * i / NG) * Math.sin(Math.PI * f);
+        const bulge = 0.012 * Math.sin(Math.PI * (z + hw + r + c) / (2 * (hw + r + c))) * Math.sin(Math.PI * f);
         row.push(V3(sx * (xe + bulge), y, z));
       }
       rows.push(row);
     }
     if (sx > 0) for (const row of rows) row.reverse();
-    bins.add(fab, K.gridGeometry(rows));
-    bins.add(fab, K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5));
+    addCloth(K.gridGeometry(rows), 'z');
+    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5), 'z');
   }
 
   // ---- storm straps (550 compleet) ----------------------------------------------------------------
@@ -338,10 +367,11 @@ export function buildFrameTent(o) {
         (inside(sC, yC) ? iwin : iw).push(k, k + 1, k + nx + 1, k + 1, k + nx + 2, k + nx + 1);
       }
       const mk = (idx) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals(); return g; };
-      bins.add(fab, mk(iw));
+      const axis = Math.abs(out.z) > 0.5 ? 'x' : 'z';
+      addCloth(mk(iw), axis);
       if (iwin.length) bins.add(clear, mk(iwin));
       // folded hem, side hems with the velcro join at the legs, hooks at the top
-      bins.add(fab, K.sweep([0, 0.25, 0.5, 0.75, 1].flatMap((f) => [f]).map((f) => P(len * f, 0.006).addScaledVector(out, 0.002)), 0.005, 5));
+      addCloth(K.sweep([0, 0.25, 0.5, 0.75, 1].flatMap((f) => [f]).map((f) => P(len * f, 0.006).addScaledVector(out, 0.002)), 0.005, 5), axis);
       for (const s of [0.012, len - 0.012]) {
         const vp = []; for (let t = 0; t <= 16; t++) vp.push(P(s, 0.02 + ((H - 0.06) * t) / 16).addScaledVector(out, 0.0025));
         bins.add(tapeMat, T2.bandAlong(vp, vp.map(() => out.clone()), 0.028, 0.0016));
@@ -384,7 +414,7 @@ export function buildFrameTent(o) {
       // rolled up under the eave and tied with straps; a short top strip stays under the valance
       const rollR = 0.07, y = wallTop - rollR - 0.03;
       const rp = []; for (let t = 0; t <= 40; t++) rp.push(P((len * t) / 40, y).addScaledVector(out, rollR * 0.6));
-      bins.add(fab, K.sweep(rp, rollR, 18, { rFn: (ii, ang) => rollR * (1 + 0.07 * Math.sin(ang * 3 + ii * 0.6) + 0.04 * Math.sin(ii * 1.3)), capStart: true, capEnd: true }));
+      addCloth(K.sweep(rp, rollR, 18, { rFn: (ii, ang) => rollR * (1 + 0.07 * Math.sin(ang * 3 + ii * 0.6) + 0.04 * Math.sin(ii * 1.3)), capStart: true, capEnd: true }), Math.abs(out.z) > 0.5 ? 'x' : 'z');
       for (const f of (len > 2.5 ? [0.2, 0.5, 0.8] : [0.25, 0.75])) {
         const s = len * f, base = P(s, y);
         const loopPts = []; for (let t = 0; t <= 24; t++) { const an = (t / 24) * Math.PI * 2; loopPts.push(base.clone().addScaledVector(out, rollR * 0.6 + Math.cos(an) * (rollR + 0.004)).add(V3(0, Math.sin(an) * (rollR + 0.004), 0))); }
@@ -393,7 +423,7 @@ export function buildFrameTent(o) {
       }
       const strip = [];
       for (let j = 0; j <= 2; j++) { const row = []; for (let i = 0; i <= 24; i++) row.push(P((len * i) / 24, y + rollR * 0.6 + ((wallTop - y - rollR * 0.6) * j) / 2)); strip.push(row); }
-      bins.add(fab, K.gridGeometry(strip));
+      addCloth(K.gridGeometry(strip), Math.abs(out.z) > 0.5 ? 'x' : 'z');
     }
   }
 
@@ -427,14 +457,19 @@ export function frameTent(p = {}) {
   // hero (no door state given): the door bay and the bay next to it rolled up, so the frame
   // inside reads (legs, knee braces, rafters, connectors, ground frame); `door: 'open'` rolls up
   // only the door (front view). Storage tents: the front gable is the roll-up door.
-  const openFront = walled && !opslag && p.door == null && p.openFront !== false;
+  const pro620 = !!ser && String(p.series) === '620' && walled && !opslag;
+  const openFront = walled && !opslag && p.door == null && p.openFront !== false && !pro620;
   const door = p.door || (openFront ? 'open' : 'closed');
-  const openGable = p.openGable || null;
+  // 620 Professional: its selling point is the 2,2 m side height, which a side-by-side 3/4 view
+  // of the same 4 x 8 m tent hardly shows (round 3: 550 Premium and 620 heroes were the same
+  // picture). Its hero looks along the closed tent from low at the right gable, which is rolled
+  // up: the tall opening, the frame inside and the long wall running away read as height
+  const openGable = p.openGable || (pro620 && p.__angle !== 'front' ? 'right' : null);
   const { group, hex, panels, hanging } = buildFrameTent({
     span, length, eave: He, ridge: Hr, line, color: p.color || 'wit', walls, door, frame: true,
     gableFront: opslag, frontGableDoor: opslag, ties: opslag, openFront,
     groundFrame: ser ? ser.groundFrame : !!p.groundFrame, collar: ser ? ser.collar : !!p.collar, straps: ser ? !!ser.straps : !!p.straps,
-    openGable,
+    openGable, stripes: p.stripes || null,
   });
   group.name = `frameTent ${span}x${length} ${line}${opslag ? ' opslag' : ''}${ser ? ' ' + p.series : ''}`;
   // enclosure for the interior light (walls on three or four sides); openings: the rolled gable,
@@ -458,7 +493,7 @@ export function frameTent(p = {}) {
   return {
     object: group,
     detail: { target: [length / 2, He - 0.2, span / 2], size: 1.2, azimuth: 30, elevation: 8 },
-    view: { hero: frame ? { elevation: walled ? 15 : 17 } : { azimuth: 34, elevation: 18 }, front: { elevation: 6 } },
+    view: { hero: pro620 ? { azimuth: 58, elevation: 9 } : frame ? { elevation: walled ? 15 : 17 } : { azimuth: 34, elevation: 18 }, front: { elevation: 6 } },
     rig: {
       default: rigD,
       // straight-on view of a walled tent: the walls face the camera, so the softbox comes

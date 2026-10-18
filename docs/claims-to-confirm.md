@@ -41,9 +41,16 @@ thema alleen als een review-app ze levert.
   en "Voor je bedrijf, club of verhuur: grote aantallen, bedrukking en prijzen excl. btw in één voorstel."
 - Hoofdmenu (navigatie › main-menu, uit de catalogus): de link "Offerte vanaf 10 stuks" onder Met jouw logo › Zo werkt
   bedrukken. Pas de tekst aan als je ook kleinere aantallen bedrukt.
-- Home en collecties: USP-strook (home: "Vóór [besteltijd] besteld, vandaag verzonden": `[besteltijd]` wordt `cutoff_time`;
-  collecties: "Bezorgd in NL en BE", omdat daar ook producten staan die nabesteld worden), "Zakelijk op factuur", Zakelijk-banner
-  ("Staffelkorting vanaf 10 stuks", "Op factuur als je dat wilt"), FAQ-antwoorden.
+- Home en collecties: USP-strook (home: "Vóór [besteltijd] besteld, vandaag verzonden": `[besteltijd]` wordt `cutoff_time`; dat
+  blok staat op "Alleen bij voorraad", dus zolang geen enkel product echt op voorraad is (alle varianten 0 + `continue`, de
+  standaard uit de CSV) staat er "Bezorgd in NL en BE · De verwachte leverdatum staat bij elk product";
+  collecties: "Bezorgd in NL en BE", omdat daar ook producten staan die nabesteld worden). Op de home staat geen "op factuur"
+  meer (USP "Prijzen ook excl. btw · Zakelijk: staffel en offerte op maat"; op collecties staat standaard "Zakelijk bestellen:
+  prijzen ook excl. btw, of vraag een offerte"), zonder belofte over factuurbetaling; zet "op factuur" pas terug met een
+  factuur-app of Shopify B2B. Zakelijk-banner ("Staffelprijzen bij grotere aantallen", "Offerte op maat … levering op locatie"),
+  FAQ-antwoorden (maat per gast volgt de pagina Maatadvies partytenten). Vanaf-prijzen op de categorietegels en de
+  Pakketten-tegel komen van het product dat per tegel is gekozen (Vanaf-prijs van dit product); controleer ze als je prijzen of
+  het assortiment wijzigt.
 - Winkelwagenpagina: "Veilig betalen met iDEAL of Bancontact" en "[bedenktijd] dagen bedenktijd (niet bij bedrukt maatwerk)"
   (`[bedenktijd]` wordt `return_days`) (Zekerheid 1–3 in de sectie Winkelwagen; leeg = weg). "Zakelijk bestellen op factuur"
   staat er niet meer standaard: zet het in Zekerheid 3 zodra je factuurbetaling hebt (factuur-app of Shopify B2B).
@@ -86,9 +93,10 @@ thema alleen als een review-app ze levert.
 - Productpagina, pallet: "Verwacht in huis: wo 21 – vr 23 okt" (een bereik van `transit_days_pallet` min en plus één werkdag,
   passend bij de standaardtekst "meestal binnen 2–4 werkdagen"; levering op afspraak).
 - Collectiepagina, regel boven het raster: wacht meer dan de helft van de producten op dezelfde levertekst (nu overal
-  "Leverbaar over 2–3 weken" uit `delivery_text_backorder`, of dezelfde `custom.levertijd`), dan staat die tekst één keer
-  boven het raster (met ", tenzij anders vermeld" als andere kaarten iets anders zeggen) plus het leverbereik dat de
-  productpagina ook toont: "verwacht in huis 3 – 12 nov" (de weken of werkdagen uit de tekst plus `transit_days_pakket` /
+  "Leverbaar over 2–3 weken" uit `delivery_text_backorder`, of dezelfde `custom.levertijd`), dan staat er één regel
+  boven het raster met het leverbereik dat de productpagina ook toont: "Op bestelling, in huis 3 – 12 nov" (met ", tenzij
+  anders vermeld" als andere kaarten iets anders zeggen; zonder JavaScript of zonder getal in de tekst staat de levertekst
+  zelf er: "Leverbaar over 2–3 weken") (de weken of werkdagen uit de tekst plus `transit_days_pakket` /
   `_pallet`, gerekend met `cutoff_time`, `shipping_days`, `delivery_days`, `holidays` en `transit_days_be_extra`; staan
   pakket en pallet in hetzelfde raster, dan het bereik dat beide dekt). Een bedrukkingslevertijd ("… na akkoord drukproef")
   krijgt nooit een datum en blijft heel op zijn eigen kaart. "Eerder nodig? Vraag het ons" linkt naar de contactpagina.
@@ -327,3 +335,93 @@ seed-script (`scripts/seed/`, nog te bouwen) moet dezelfde omleidingen maken (CO
   losgehaalde onderdelen en de beelden per uitvoering. De luifel van de promotietent in antraciet bestond al.
 - Een product waarvan de render (nog) ontbreekt, staat zonder beeld in de export en nooit met een beeld in een andere kleur
   (`catalog/build.py` houdt ontbrekende bestanden tegen; `validate.py` meldt het).
+
+## Catalogus: catalogusronde 4 (18 oktober 2026)
+
+Deze ronde voegde 40 producten toe, gaf de buizenframe-tenten kleuren en maten zoals de referentie, zette verzendkosten per product en
+liet losse onderdelen nooit goedkoper zijn dan het complete product. Alles staat als data in `catalog/tools/skeleton/*.py` en
+`catalog/parts/*.json`. Elk product heeft zijn eigen punten in het veld `claims` (in `catalog/catalog.json` en `catalog/parts/*.json`). Hieronder staat wat je in één
+keer moet bevestigen of instellen.
+
+### Voorraad in de preview is demo, de CSV blijft 0
+
+| Wat er nu staat | Wat je doet |
+|---|---|
+| De previewfixture (`catalog/preview-data.staging.json`, `meta.demo_stock: true`) heeft demovoorraad, zodat alle voorraadstanden te beoordelen zijn: de meeste varianten op voorraad, een paar laag (1–3), een paar in nabestelling (0). | Niets: dit is alleen voor de preview. |
+| `export/products.csv` houdt **Inventory Qty 0** en beleid **continue** (doorverkopen). | **Jij zet de echte voorraad** in `catalog/stock.csv` (of in Shopify). Pas daarna toont de winkel 'Op voorraad'. |
+
+### Verzendkosten per product (H11)
+
+| Klasse | Bedrag (incl. btw) | Waar |
+|---|---|---|
+| Pallet, verzendgewicht per stuk tot 150 kg | € 49,00 | tenten, karren, koeling, tafels op pallet |
+| Pallet tot 400 kg | € 79,00 | grote tenten, pakketten |
+| Pallet tot 700 kg | € 129,00 | stretchtenten, grote pakketten |
+| Pallet boven 700 kg | € 175,00 | zwaarste pakketten |
+| Groot pakket | € 19,95 | statafels, terrastafels en klaptafels die als pakket gaan |
+| Betonblok, per stuk | € 45 (120/140 kg) · € 59 (240 kg) · € 75 (500 kg) · € 99 (750 kg) · € 135 (1000 kg), vanaf 4 stuks −15 % | `betonblok-ballast-tent` |
+
+Ze staan in `custom.verzendkosten` (tekst) en `custom.verzendkosten_staffel` (per variant of aantal). **Het verzendprofiel in Shopify moet
+dezelfde bedragen hebben**, anders klopt de PDP niet met de checkout.
+
+### Korting op add-ons bij een tent (M1)
+
+`custom.addon_korting` zet bij de tenten "−10 % met je tent" naast wanden, tassen en storm- en spanbanden. **Die korting bestaat pas als
+je hem in Shopify maakt** (Kortingen › Koop X, krijg Y; zie de tabel 'Automatische kortingen bij add-ons' hierboven). Tot die tijd: zet
+het blok uit in de theme-editor, of maak de korting eerst.
+
+### Kleuren en maten
+
+| Onderwerp | Wat er nu staat | Te bevestigen |
+|---|---|---|
+| Buizenframe-tenten (H1, H2) | PE Basis wit/groen-wit/blauw-wit; PVC 500 in 17 maten, wit + 6 tweekleurig; PVC 550 Premium 18 maten, 8 kleuren; compleet 6 maten, wit/grijs-wit/antraciet-wit; PVC 620 6 maten, wit/grijs-wit. 'Grijs-wit' = banen in grijs en wit, dak en wanden gelijk. | Leverbaarheid per kleur en maat; dat de banen op dak en wanden gelijk vallen. |
+| Opslagtent | 16 maten (PVC 620: 6), wit, grijs, groen of zwart (PVC 620 wit/grijs); prijs 5–8 % onder de partytent in hetzelfde doek. | Kleuren en prijzen. |
+| Wanden en daken in de tentkleur | Zijwand 1,5/2 m, wand uit één stuk, eindwand (ook PE), dakzeil in twee producten (PVC 550/620 en PE/PVC 500), in de kleuren van de tenten. | Leverbaarheid. |
+| Stertent-wanden (B1) | In wit, zwart en zandkleur, zoals de tent. | Leverbaarheid. |
+| Wanden opblaasbare tent (B2) | Standaard wand in de framekleur van de tent (8 kleuren + antraciet); de Pro heeft een eigen, hogere wand (250–270 cm), ook in de framekleur. | Hoogtes, kleuren en prijzen 209–289. |
+| Statafel Professional (H3) | 9 bladdecors (+ € 10 steenlook, + € 15 houtlook en berken), onderstel zwart, wit of chroom (+ € 15, binnen). | Decors en toeslagen. |
+| Biertafels (H7) | 180/220 cm × 50–80 cm, standaard, brouwerij en brouwerij met zwart onderstel; set 10–12 % onder tafel + 2 banken. | Prijzen en gewichten. |
+| Prijsladder | Een grotere maat is nergens goedkoper dan een kleinere (validate.py waarschuwt). Daarvoor aangepast: PVC 500 3 × 6 / 4 × 6 / 4 × 8 / 5 × 6 m, PVC 550 5 × 6 / 5 × 10 / 6 × 10 m, easy-up Professional 4 × 6 m (€ 1.049 / € 1.239) en los frame 4 × 6 m (€ 869). | Of je de referentiedips liever volgt. |
+
+### Losse onderdelen nooit goedkoper dan het geheel (standing item d)
+
+- Buizenframe-tenten, opslagtent en nu ook de **stretchtent compleet** hebben per variant een stuklijst (`custom.stuklijst`). Bij de
+  stretchtent: los doek, palenset, een spanband met ratel en een haring van 75 cm **per lus** (elke 75 cm), en bij de zware afspanning
+  een touwenset en een ronde haring van 100 cm per paal. Het losse stretchdoek is daarom anders geprijsd (4,5 × 6 m € 1.595 tot
+  10,5 × 19,5 m € 10.095; 6 × 6 m € 2.145 om binnen 14 % van de referentie te blijven). Aluminium kost wat de aluminium palen meer kosten.
+  **Bevestig de palensets, het aantal lussen en de afspanning met de leverancier.**
+- Statafel: onderstel compleet € 56,95, zodat onderstel + los blad altijd ≥ de statafel is.
+- Easy-up Professional: los frame 2 × 2 m € 469 en 3 × 6 m € 859, zodat frame + dak ≥ de tent is.
+- `validate.py` controleert ook dat elke add-on past (`past_op` noemt het product, of beide passen op dezelfde basis) en dat een add-on
+  zonder kleuroptie nooit op een tent van een andere kleur wordt aangeboden.
+
+### Pakketten
+
+- Nieuw: klaptafels per 10/20/30 met kar, 30 klapstoelen met kar, 15 of 30 barkrukken met kar, 26 weddingstoelen met kar, 10
+  klapstoelen met stoelhoezen (€ 214,95: een prijs op ,95 omdat afronden op 9 hem 12,5 % onder los zou zetten). Buffetpakket ook met 25 tafels.
+- De tabel 'Los of in het pakket' bouwt build.py bij elke build uit de bundeldata. De FAQ's noemen geen bedragen meer.
+
+### Nieuwe producten (40)
+
+Elke prijs, specificatie en capaciteit is een productdefinitie voor jou en de leverancier.
+
+| Groep | Producten |
+|---|---|
+| Buizenframe | dakzeil PE en PVC 500, zijwand uit één stuk (3–10 m), buizen 38 mm (19 lengtes), regengoot met klemmen |
+| Opblaasbaar, schaduw, tuin | zijwand voor de Pro, bevestigingsset RVS voor schaduwdoek, funderingsset tuinpaviljoen |
+| Tafels en stoelen | ronde terrastafel, bankettafel rechthoekig en rond, klaptafels in vormen, conferentietafel, examentafel, weddingstoel, onderdelen biertafel en klaptafel |
+| Textiel en print | easy-up Premium full colour (€ 649–€ 1.249, drukproef vooraf), stretch stoelhoes |
+| Koeling (H10) | barkoelkast met glazen deur, koelkast staand, RVS-koelkast, koel- en vrieskist, flessenkoeler 1000 l, transportkar voor koeling. **We noemen geen energielabel of verbruik zonder datasheet.** Flesjes per inhoud zijn een richtlijn. |
+| Evenement | afzetpaal voor koord, velours koord, wandhaken/wandunits/bordhouders, transportkar afzetpalen, tentvloer per meter, tapijttegel, verrijdbare kapstok + kar, tape voor loper en vloer, dwarsbuis halve zijwand |
+| Licht | LED-lamp gekleurd of 2000 K per stuk, dimbare LED-lamp IP65 |
+
+### Filters in Search & Discovery
+
+De tagfilter is weg. Zet in **Search & Discovery** de filters op: beschikbaarheid, prijs, Maat, Kleur, Uitvoering, productsoort,
+`custom.gebruik` ('Gebruik'), `custom.systeem` ('Past op') en `custom.bedrukbaar` ('Met jouw logo'). **Geef de booleaanse filter de
+labels Ja / Nee** in de app; anders toont Shopify 'true' / 'false'.
+
+### Verpakking (M15)
+
+`custom.verpakt` geeft bij producten zonder bekende doosmaat de vorm en het gewicht ("Pakket · 1 doos · ca. 4,2 kg", "Vracht op pallet
+(120 x 80 cm) · ca. 150 kg"). Het aantal colli is niet geschat. Vul doosmaten en colli aan zodra de leverancier ze geeft.

@@ -48,7 +48,9 @@ export function patioTable(p = {}) {
     S.swapUV(band); // decor grain runs along the edge, not across it
     bins.add(face, faces.translate(0, H, 0)); bins.add(edge, band.translate(0, H, 0));
   }
-  // flip-top mechanism: cross plate + hinge head + lever
+  // flip-top mechanism (tilt-top): cross plates under the top, a cast hinge head on the column (two
+  // cheeks with the pivot bolt and chrome caps, the top's bracket between them) and the release lever
+  // that points out towards the front-right (the hero camera), so the hinge reads in the hero.
   const yU = H - T;
   for (const a of [45, 135]) {
     const v = V3(Math.sin(a * DEG), 0, Math.cos(a * DEG));
@@ -56,12 +58,23 @@ export function patioTable(p = {}) {
     bins.add(frame, G.flatBar(v.clone().multiplyScalar(-len / 2).setY(yU - 0.003), v.clone().multiplyScalar(len / 2).setY(yU - 0.003), 0.035, 0.005, V3(0, 1, 0).cross(v).normalize()));
   }
   bins.add(frame, G.roundedBox(0.13, 0.006, 0.13, 0.003).translate(0, yU - 0.008, 0));
-  for (const s of [-1, 1]) bins.add(frame, G.roundedBox(0.006, 0.05, 0.075, 0.002).translate(s * 0.034, yU - 0.036, 0));
-  bins.add(M.chrome(), G.tube(V3(-0.045, yU - 0.045, 0), V3(0.045, yU - 0.045, 0), 0.006, 12));
-  bins.add(lever, G.roundedBox(0.012, 0.016, 0.09, 0.005).rotateX(-12 * DEG).translate(0.0, yU - 0.06, 0.07));
+  // top bracket (U channel hanging from the plate) between the cheeks
+  bins.add(frame, G.roundedBox(0.05, 0.05, 0.11, 0.004).translate(0, yU - 0.036, 0));
+  const yP = yU - 0.06; // pivot axis (along x)
+  for (const s of [-1, 1]) {
+    // cast cheek: rounded plate, wider at the bottom where it grips the column
+    bins.add(frame, F.cushion(0.009, 0.1, 0.12, { r: 0.004, puff: 0, seg: [3, 10, 12] }).translate(s * 0.032, yP - 0.012, -0.004));
+    bins.add(M.chrome(), F.latheAt([[0.0001, 0], [0.011, 0], [0.011, 0.002], [0.008, 0.006], [0.0001, 0.007]], V3(s * 0.037, yP, -0.01), V3(s, 0, 0), 20));
+  }
+  bins.add(M.chrome(), G.tube(V3(-0.04, yP, -0.01), V3(0.04, yP, -0.01), 0.006, 12));
+  // release lever: steel arm from the head with a black moulded paddle, pointing to the front-right
+  const ld = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
+  const l0 = V3(0, yP - 0.03, 0).addScaledVector(ld, 0.03), l1 = V3(0, yP - 0.045, 0).addScaledVector(ld, 0.12);
+  bins.add(frame, G.flatBar(l0, l1, 0.018, 0.005, V3(0, 1, 0)));
+  bins.add(lever, F.cushion(0.03, 0.014, 0.07, { r: 0.006, puff: 0, seg: [4, 4, 8] }).applyMatrix4(new THREE.Matrix4().makeRotationY(34 * DEG)).translate(...V3(0, yP - 0.05, 0).addScaledVector(ld, 0.15).toArray()));
   // column
-  const colR = 0.03, yHead = yU - 0.06;
-  bins.add(frame, G.roundedBox(0.06, 0.05, 0.06, 0.006).translate(0, yHead - 0.01, 0));
+  const colR = 0.03, yHead = yP - 0.07;
+  bins.add(frame, G.lathe([[0.0001, yHead - 0.03], [colR + 0.004, yHead - 0.03], [colR + 0.008, yHead - 0.02], [colR + 0.008, yHead + 0.02], [0.034, yHead + 0.04], [0.0001, yHead + 0.04]], 32));
   bins.add(frame, G.tube(V3(0, 0.06, 0), V3(0, yHead - 0.03, 0), colR, 32));
   // base
   const base = String(p.base || 'kruis').toLowerCase();
@@ -93,7 +106,9 @@ export function patioTable(p = {}) {
     detail: { target: [cR * 0.7, H - 0.02, cR * 0.7], size: 0.35, azimuth: 40, elevation: 18 },
     meta: { Wt, Dt, H, round },
     // a wide, low product: 74 % instead of 80 % of the frame, so it does not crowd the tile
-    view: { hero: { fill: 0.74 } },
+    // and seen from a little lower (12 deg) than the other furniture, so the tilt-top hinge head and its
+    // release lever under the top are in the hero (the selling point: the top tilts up)
+    view: { hero: { fill: 0.74, elevation: 12 } },
     rig: S.seatRig(group),
   };
 }

@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -33,7 +34,7 @@ export function concreteBlock(p = {}) {
   const forks = p.forks ?? wt > 200;
   const lifting = String(p.lifting || 'lepelgat');
   const conc = SG.concreteSG({ tone: '#AAA8A2' });
-  const steel = SG.galvSG({ cell: 0.006, dull: 0.42 });
+  const steel = L3.galvFine({ cell: 0.004 });
   const bins = new G.PartBin();
   const bev = 0.012, cV = 0.014; // edge chamfers: horizontal (bevel) and vertical (shape)
   const a = S / 2 - bev, b = Dz / 2 - bev;

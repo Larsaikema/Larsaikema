@@ -43,7 +43,9 @@ export function tableTop(p = {}) {
   } else if (top === 'berken' || top === 'hout') {
     T = Number(p.thickness ?? 0.018);
     // rotary-cut birch face (planar uv in metres, grain slightly off the camera axes), plies on the edge
-    const face = U.birchPly(), edge = M.birchEdge();
+    // clean face: the hero looks straight at the board centre (a knot and the oval veneer patch
+    // there read as damage)
+    const face = U.birchPly({ clean: true }), edge = M.birchEdge();
     bins.add(face, U.planarUV(G.prism(G.circleProfile(R - 0.0025, 192), V3(0, 0.0005, 0), V3(0, T, 0)), { rot: 0.22 }));
     // edge ring only (radiused arrises, plies across the thickness); the faces are the birch prism
     const re = 0.0025, prof = [[R - 0.004, T]];

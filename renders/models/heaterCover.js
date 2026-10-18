@@ -3,15 +3,20 @@
 // heaterCover { color, zip, heater }
 //   color   cover colour (default 'antraciet' charcoal 600D oxford; 'zwart', 'grijs', 'groen', '#hex')
 //   zip     full-length zip on the front (true)
-//   heater  false: leave the heater's foot out (it peeks out under the hem by default)
+//   heater  false: leave the heater out (its foot sits under the hem by default)
 //
-// Construction: 600D polyester oxford with a PU coating (js/partsKit oxford), cut as a tapered
-// tube with a round top: Ø 89 cm over the reflector, Ø 50 cm at the hem, 2.2 m long. The top
-// lies over the reflector cone and its cap (taut, a soft hollow between cap and rim), turns
-// over the rolled rim and then hangs: long irregular vertical folds that start just under the
-// rim, grow to mid-height and calm down where the drawstring gathers the hem into small pleats.
-// Front: a full-length zip (tape, moulded coil, slider with a pull tab), drawstring in a hem
-// channel with a barrel cord lock and knotted ends; a webbing loop on the top.
+// Construction: 600D polyester oxford with a PU coating (js/softGoods fabric600), cut as a tapered
+// tube with a round top: Ø 89 cm over the reflector, Ø 52 cm at the hem, down to the floor (the
+// heater's base is covered). The top lies over the reflector cone and its cap (taut, a soft
+// hollow between cap and rim), turns over the rolled rim and then hangs: long irregular vertical
+// folds that start just under the rim, grow to mid-height and calm down where the drawstring
+// gathers the hem. What makes it read as cloth at catalogue size (round 4): four panel seams as
+// raised ridges with a pucker groove and double rows of light-grey contrast stitching, the
+// shoulder seam stitched round the top, the soft packing creases of a new cover (irregular
+// horizontal folds and two vertical ones), a #8 coil zip down the front (black tape, glossy grey
+// coil, two stitch rows, a large zinc slider with a cord pull), a round rolled hem with the cord
+// inside, and the drawstring: light-grey cord out of an eyelet, a barrel cord lock lying on the
+// floor in front of the hem, moulded end tips. A webbing loop on the top.
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
@@ -34,7 +39,7 @@ export function heaterCover(p = {}) {
   const SEAMS = [45, 135, 225, 315].map((d) => zipAz + d * DEG);
 
   // profile (r, y) from the top centre over the reflector and down to the hem
-  const yHem = 0.09, Rrim = 0.448, yRim = 2.13, Rhem = 0.252;
+  const yHem = 0.026, Rrim = 0.448, yRim = 2.13, Rhem = 0.262;
   const prof = [];
   prof.push([0.0, 2.305], [0.035, 2.302], [0.058, 2.288], [0.07, 2.27]);
   // over the reflector cone (cap edge -> rim), with a slight hollow
@@ -57,6 +62,8 @@ export function heaterCover(p = {}) {
     const t = (s - S[j - 1]) / Math.max(1e-9, S[j] - S[j - 1]);
     return [G.lerp(prof[j - 1][0], prof[j][0], t), G.lerp(prof[j - 1][1], prof[j][1], t)];
   };
+  // packing creases (height, strength, tilt, phase): irregular, as a cover comes out of its bag
+  const CREASES = [[0.27, 0.8, 0.012, 0.3], [0.55, 1.0, -0.018, 2.1], [0.9, 0.7, 0.01, 4.0], [1.18, 1.0, 0.022, 1.2], [1.52, 0.6, -0.01, 5.1], [1.81, 0.85, 0.015, 3.3]];
   // fold displacement (radial) at angle a and height y on the skirt
   const fold = (a, s, y) => {
     if (s < sRim) return 0;
@@ -70,13 +77,30 @@ export function heaterCover(p = {}) {
     const g = Math.exp(-(y - yHem) / 0.085);
     const ph = 22 * a + 1.1 * nz.noise(Math.cos(a) * 1.7, Math.sin(a) * 1.7);
     d += g * (0.0052 * (0.7 * Math.sin(ph) + 0.3 * Math.sin(2 * ph + 0.9)) - 0.0035);
+    // packing creases: a new cover still shows where it was folded in its bag (horizontal
+    // folds every ~31 cm, a little wavy, and two vertical ones), a soft ridge with a valley
+    // beside it, so the cloth catches the light in thin lines
+    {
+      for (const [yc, amp, tilt, ph0] of CREASES) {
+        const yy = y - yc - tilt * Math.sin(a - zipAz + ph0) - 0.008 * nz.noise(a * 2.2 + ph0, 5.3 + yc);
+        // a crease runs out round the cover: strong on one side, gone on the other
+        const reach = G.smoothstep(-0.2, 0.5, Math.cos(a - zipAz - ph0 * 2.1));
+        const crease = Math.exp(-(yy * yy) / (2 * 0.0065 * 0.0065)) - 0.55 * Math.exp(-((yy + 0.014) ** 2) / (2 * 0.009 * 0.009));
+        d += 0.0028 * amp * reach * crease * (0.7 + 0.3 * nz.noise(a * 4.1, yc * 3.7));
+      }
+      for (const ca of [zipAz + 1.35, zipAz - 1.75]) {
+        const dc = Math.atan2(Math.sin(a - ca), Math.cos(a - ca)) * Math.max(0.2, at(s)[0]);
+        d += 0.0022 * (Math.exp(-(dc * dc) / (2 * 0.006 * 0.006)) - 0.5 * Math.exp(-((dc - 0.012) ** 2) / (2 * 0.008 * 0.008))) * G.smoothstep(0.05, 0.2, t);
+      }
+    }
     // the zip stiffens the fabric along the front
     const dz = Math.abs(Math.atan2(Math.sin(a - zipAz), Math.cos(a - zipAz)));
     d *= G.smoothstep(0.03, 0.16, dz);
     // sewn panel seams: a narrow raised ridge (seam allowance under the cloth)
     for (const sa of SEAMS) {
       const da = Math.abs(Math.atan2(Math.sin(a - sa), Math.cos(a - sa))) * Math.max(0.2, Math.hypot(0, at(s)[0]));
-      d += 0.0022 * Math.exp(-(da * da) / (0.0035 * 0.0035)) * (1 - G.smoothstep(0.88, 1, t));
+      // a raised seam with a slight pucker groove either side
+      d += (0.0034 * Math.exp(-(da * da) / (0.004 * 0.004)) - 0.0012 * Math.exp(-((Math.abs(da) - 0.009) ** 2) / (0.003 * 0.003))) * (1 - G.smoothstep(0.92, 1, t));
     }
     return d;
   };
@@ -90,25 +114,27 @@ export function heaterCover(p = {}) {
     return o.set(Math.sin(a) * rr, y, Math.cos(a) * rr);
   };
   // rows denser towards the hem (the gathers) and fine enough round the seams
-  const nu = 384, nv = 300;
+  const nu = 512, nv = 380;
   const sOfV = (v) => Ltot * (1 - Math.pow(1 - v, 1.22));
   const skin = G.surface((u, v, o) => point(u, sOfV(v), o), nu, nv, { closedU: true, uvScale: [TAU * Rrim, Ltot], flipNormals: true });
   { const uvA = skin.attributes.uv; for (let j = 0; j <= nv; j++) for (let i = 0; i <= nu; i++) uvA.setY(j * (nu + 1) + i, sOfV(j / nv)); }
   const bins = new G.PartBin();
   bins.add(fab, skin);
-  // inner face of the hem (the turned-up channel seen from below)
-  bins.add(fab, G.surface((u, v, o) => { point(u, Ltot - 0.0001, o); const k = 1 - 0.035 * v; o.x *= k; o.z *= k; o.y += 0.03 * v; return o; }, nu, 2, { closedU: true, uvScale: [TAU * Rhem, 0.03] }));
 
-  // hem channel: a slightly proud band with a stitch line
-  const darker = K.oxford(new THREE.Color(hex).multiplyScalar(0.82).getStyle(), { sheen: 0.4, rough: 0.6 });
-  const band = G.surface((u, v, o) => { const s = Ltot - 0.028 + v * 0.028; point(u, s, o); const k = 1 + 0.004 / Math.hypot(o.x, o.z); o.x *= k; o.z *= k; return o; }, nu, 3, { closedU: true, uvScale: [TAU * Rhem, 0.03], flipNormals: true });
-  bins.add(darker, band);
+  // hem: the drawcord channel is a rolled, padded edge (round, ~14 mm) that finishes the cover
+  // cleanly at the bottom; the cord runs inside it
+  {
+    const hemPts = [];
+    for (let i = 0; i <= 720; i++) { const q = point(i / 720, Ltot - 0.006, V3()); const k = 1 + 0.002 / Math.hypot(q.x, q.z); q.x *= k; q.z *= k; hemPts.push(q); }
+    hemPts[hemPts.length - 1].copy(hemPts[0]);
+    bins.add(fab, L.sweepProfile(hemPts, L.circleProfile(0.007, 14), { caps: false }).geo);
+  }
 
   // zip: tape + moulded coil + slider/pull (near the bottom, zip closed)
   const zipPts = (off, lift) => {
     const pts = [];
     for (let i = 0; i <= 260; i++) {
-      const s = sRim + 0.11 + (Ltot - 0.035 - sRim - 0.11) * (i / 260);
+      const s = sRim + 0.11 + (Ltot - 0.022 - sRim - 0.11) * (i / 260);
       const q = point(zipAz / TAU + off / (TAU * at(s)[0]), s, V3());
       const k = 1 + lift / Math.hypot(q.x, q.z); q.x *= k; q.z *= k;
       pts.push(q);
@@ -116,46 +142,79 @@ export function heaterCover(p = {}) {
     return pts;
   };
   const tapeMat = K.cached('coverZipTape', () => new THREE.MeshPhysicalMaterial({ color: '#1A1B1D', roughness: 0.7, sheen: 0.5, sheenColor: new THREE.Color('#4a4b4f'), name: 'zip tape' }));
-  const coilMat = K.cached('coverZipCoil', () => new THREE.MeshPhysicalMaterial({ color: '#111213', roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.2, name: 'zip coil' }));
+  // #8 coil zip: a black tape either side of a glossy moulded coil (a shade lighter, so the zip
+  // reads as a zip on the charcoal cloth), stitched down with two rows
+  const coilMat = K.cached('coverZipCoil2', () => new THREE.MeshPhysicalMaterial({ color: '#4B4E52', roughness: 0.28, clearcoat: 0.8, clearcoatRoughness: 0.12, name: 'zip coil' }));
   const tape = zipPts(0, 0.0012);
   const tapeFr = L.sweepProfile(tape, [[0, 0], [1e-4, 0], [0, 1e-4]], { caps: false }).frames;
   // tape: a flat strip lying on the cover (normal = outward radial)
   const nrm = tape.map((q) => V3(q.x, 0, q.z).normalize());
-  const strip = K.strapAlong(tape, 0.026, 0.0012, { normals: nrm });
+  const strip = K.strapAlong(tape, 0.034, 0.0014, { normals: nrm });
   bins.add(tapeMat, strip);
-  bins.add(coilMat, K.strapAlong(zipPts(0, 0.0026), 0.0062, 0.0022, { normals: nrm }));
+  bins.add(coilMat, K.strapAlong(zipPts(0, 0.0032), 0.0085, 0.0028, { normals: nrm }));
+  {
+    const thrZ = SG.thread('#6E7176');
+    for (const off of [-0.0135, 0.0135]) {
+      const pts = zipPts(off, 0.0022);
+      const g = SG.stitches(pts, nrm, { len: 0.0045, gap: 0.0018, w: 0.0013, h: 0.0006 }); if (g) bins.add(thrZ, g);
+    }
+  }
   void tapeFr;
   {
-    const sS = Ltot - 0.2;
+    const sS = Ltot - 0.26;
     const q = point(zipAz / TAU, sS, V3()); const n = V3(q.x, 0, q.z).normalize();
     const up = V3(0, 1, 0), side = V3().crossVectors(up, n);
     const zinc = K.zinc();
-    const M4 = new THREE.Matrix4().makeBasis(side, up, n).setPosition(q.x + n.x * 0.004, q.y, q.z + n.z * 0.004);
-    const body = G.roundedBox(0.014, 0.03, 0.006, 0.0025, 2); body.applyMatrix4(M4); bins.add(zinc, body);
-    const bridge = G.roundedBox(0.006, 0.012, 0.004, 0.0015, 2); bridge.translate(0, -0.006, 0.0045); bridge.applyMatrix4(M4); bins.add(zinc, bridge);
-    const tab = G.roundedBox(0.011, 0.034, 0.0022, 0.003, 2); tab.applyMatrix4(new THREE.Matrix4().makeRotationX(-0.12)); tab.translate(0, -0.026, 0.007); tab.applyMatrix4(M4); bins.add(zinc, tab);
+    const M4 = new THREE.Matrix4().makeBasis(side, up, n).setPosition(q.x + n.x * 0.005, q.y, q.z + n.z * 0.005);
+    const body = G.roundedBox(0.02, 0.042, 0.008, 0.0035, 2); body.applyMatrix4(M4); bins.add(zinc, body);
+    const bridge = G.roundedBox(0.008, 0.016, 0.005, 0.002, 2); bridge.translate(0, -0.008, 0.006); bridge.applyMatrix4(M4); bins.add(zinc, bridge);
+    const tab = G.roundedBox(0.015, 0.046, 0.0026, 0.004, 2); tab.applyMatrix4(new THREE.Matrix4().makeRotationX(-0.1)); tab.translate(0, -0.036, 0.009); tab.applyMatrix4(M4); bins.add(zinc, tab);
     // pull cord loop through the tab
-    const loopPts = []; for (let i = 0; i <= 24; i++) { const a = (i / 24) * TAU; loopPts.push(V3(Math.sin(a) * 0.006, -0.05 - 0.018 * (1 - Math.cos(a)) * 0.9, 0.009 + 0.002 * Math.cos(a)).applyMatrix4(M4)); }
-    bins.add(L.cableRubber('#2A2B2E', 0.7), L.sweepProfile(loopPts, L.circleProfile(0.0015, 6), { caps: false }).geo);
+    const loopPts = []; for (let i = 0; i <= 24; i++) { const a = (i / 24) * TAU; loopPts.push(V3(Math.sin(a) * 0.008, -0.066 - 0.024 * (1 - Math.cos(a)) * 0.9, 0.011 + 0.002 * Math.cos(a)).applyMatrix4(M4)); }
+    bins.add(L.cableRubber('#8C8F93', 0.7), L.sweepProfile(loopPts, L.circleProfile(0.0019, 8), { caps: false }).geo);
   }
 
-  // drawstring: exits the channel at the front, barrel cord lock, knotted ends
+  // drawstring: both ends leave the hem channel through an eyelet at the front, run through a
+  // barrel cord lock pushed up against the hem, and lie on the floor in a loose loop with
+  // moulded end tips. Light grey cord, black lock: it reads against the cloth and the floor.
   {
-    const a0 = zipAz + 0.17;
-    const q = point(a0 / TAU, Ltot - 0.014, V3()); const n = V3(q.x, 0, q.z).normalize();
-    const cordMat = L.cableRubber('#1E1F21', 0.75);
+    const a0 = zipAz + 0.2;
+    const q = point(a0 / TAU, Ltot - 0.006, V3()); const n = V3(q.x, 0, q.z).normalize();
+    const cordMat = L.cableRubber('#9A9DA1', 0.7);
     const tng = V3(Math.cos(a0), 0, -Math.sin(a0));
-    for (const s of [-1, 1]) {
-      const c = [q.clone().addScaledVector(n, 0.006).addScaledVector(tng, s * 0.004), q.clone().addScaledVector(n, 0.016).add(V3(0, -0.025, 0)).addScaledVector(tng, s * 0.003), q.clone().addScaledVector(n, 0.022).add(V3(0, -0.05, 0)).addScaledVector(tng, s * 0.0018)];
-      bins.add(cordMat, L.sweepProfile(new THREE.CatmullRomCurve3(c).getSpacedPoints(16), L.circleProfile(0.0019, 8)).geo);
-      const e = c[2].clone().add(V3(0, -0.026, 0.0));
-      bins.add(cordMat, L.sweepProfile([c[2], e], L.circleProfile(0.0019, 8)).geo);
-      const knot = new THREE.SphereGeometry(0.0042, 12, 8); knot.translate(e.x, e.y - 0.002, e.z); bins.add(cordMat, knot);
+    const rc = 0.0024;
+    // eyelet ring on the hem
+    const eye = new THREE.TorusGeometry(0.0062, 0.0018, 8, 24); eye.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 0, 1), n));
+    eye.translate(q.x + n.x * 0.0075, q.y + 0.004, q.z + n.z * 0.0075); bins.add(K.zinc(), eye);
+    // the lock lies on the floor in front of the hem, pointing away from the cover
+    const lockC = q.clone().addScaledVector(n, 0.07).addScaledVector(tng, 0.012).setY(0.0122);
+    const lockDir = n.clone().addScaledVector(tng, 0.25).normalize();
+    for (const s2 of [-1, 1]) {
+      const c = [
+        q.clone().addScaledVector(n, 0.004).addScaledVector(tng, s2 * 0.0025).setY(q.y + 0.004),
+        q.clone().addScaledVector(n, 0.02).addScaledVector(tng, s2 * 0.003 + 0.004).setY(0.008),
+        lockC.clone().addScaledVector(lockDir, -0.03).addScaledVector(tng, s2 * 0.0026).setY(0.009),
+        lockC.clone().addScaledVector(lockDir, -0.012).addScaledVector(tng, s2 * 0.0022),
+        lockC.clone().addScaledVector(lockDir, 0.012).addScaledVector(tng, s2 * 0.0022),
+        lockC.clone().addScaledVector(lockDir, 0.03).addScaledVector(tng, s2 * 0.004).setY(rc),
+        lockC.clone().addScaledVector(lockDir, 0.055).addScaledVector(tng, s2 * 0.016 + 0.006).setY(rc),
+        lockC.clone().addScaledVector(lockDir, 0.07).addScaledVector(tng, s2 * 0.03 + 0.016).setY(rc),
+      ];
+      const path = new THREE.CatmullRomCurve3(c, false, 'centripetal').getSpacedPoints(48);
+      path.forEach((pp) => { pp.y = Math.max(rc, pp.y); });
+      bins.add(cordMat, L.sweepProfile(path, L.circleProfile(rc, 10)).geo);
+      // moulded end tip
+      const e = path[path.length - 1], d = e.clone().sub(path[path.length - 3]).normalize();
+      const tip = G.lathe([[0.0001, 0], [0.0033, 0], [0.0036, 0.004], [0.0031, 0.016], [0.0001, 0.017]], 16);
+      tip.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), d)); tip.translate(e.x, Math.max(0.0036, e.y), e.z);
+      bins.add(L.moulded('#151515', 0.4), tip);
     }
-    const lockC = q.clone().addScaledVector(n, 0.021).add(V3(0, -0.05, 0));
-    const lock = G.lathe([[0.0001, -0.012], [0.0075, -0.012], [0.0082, -0.006], [0.0082, 0.006], [0.0075, 0.012], [0.0001, 0.012]], 24);
-    lock.translate(lockC.x, lockC.y, lockC.z); bins.add(L.moulded('#111111', 0.45), lock);
-    const btn = G.lathe([[0.0001, 0.012], [0.005, 0.012], [0.005, 0.017], [0.0001, 0.0175]], 16); btn.translate(lockC.x, lockC.y, lockC.z); bins.add(L.moulded('#111111', 0.45), btn);
+    // barrel cord lock (spring toggle): black body, grey push button on top
+    const lock = G.lathe([[0.0001, -0.021], [0.0102, -0.021], [0.0118, -0.013], [0.0118, 0.013], [0.0102, 0.021], [0.0001, 0.021]], 28);
+    lock.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), lockDir)); lock.translate(lockC.x, lockC.y, lockC.z); bins.add(L.moulded('#121212', 0.42), lock);
+    const btn = G.lathe([[0.0001, 0], [0.0062, 0], [0.0062, 0.005], [0.0054, 0.0068], [0.0001, 0.007]], 20);
+    btn.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), lockDir.clone().negate())); const bp = lockC.clone().addScaledVector(lockDir, -0.0208); btn.translate(bp.x, bp.y, bp.z);
+    bins.add(L.moulded('#6A6D71', 0.4), btn);
   }
 
   // webbing handle on the top: both ends sewn flat onto the cover (box stitch), the loop arches
@@ -201,16 +260,16 @@ export function heaterCover(p = {}) {
 
   // stitching: double rows along the panel seams, one row round the shoulder, the hem channel
   {
-    const thr = SG.thread(new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), 0.12).getStyle());
+    const thr = SG.thread(new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), 0.42).getStyle());
     const radial = (q) => V3(q.x, 0, q.z).normalize();
     const line = (fn, n) => { const pts = [], nrm = []; for (let i = 0; i <= n; i++) { const q = fn(i / n); pts.push(q); nrm.push(radial(q)); } return { pts, nrm }; };
     for (const sa of SEAMS) for (const off of [-0.0065, 0.0065]) {
       const { pts, nrm } = line((t) => { const sS = sShoulder + 0.012 + (Ltot - 0.04 - sShoulder - 0.012) * t; const r = at(sS)[0]; const q = point((sa + off / r) / TAU, sS, V3()); return q.addScaledVector(radial(q), 0.0004); }, 220);
-      const g = SG.stitches(pts, nrm, { len: 0.0042, gap: 0.0018 }); if (g) bins.add(thr, g);
+      const g = SG.stitches(pts, nrm, { len: 0.0048, gap: 0.0018, w: 0.0016, h: 0.0008 }); if (g) bins.add(thr, g);
     }
-    for (const [sS, n] of [[sShoulder + 0.008, 360], [Ltot - 0.03, 300]]) {
+    for (const [sS, n] of [[sShoulder + 0.008, 360], [Ltot - 0.022, 300]]) {
       const { pts, nrm } = line((t) => { const q = point(t, sS, V3()); return q.addScaledVector(radial(q), 0.0006); }, n);
-      const g = SG.stitches(pts, nrm, { len: 0.0042, gap: 0.0018 }); if (g) bins.add(thr, g);
+      const g = SG.stitches(pts, nrm, { len: 0.0048, gap: 0.0018, w: 0.0016, h: 0.0008 }); if (g) bins.add(thr, g);
     }
   }
 

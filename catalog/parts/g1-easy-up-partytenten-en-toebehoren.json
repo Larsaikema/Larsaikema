@@ -2188,7 +2188,8 @@
       "Pasvorm alleen op Klapklaar-frames (bewust geen belofte voor andere merken).",
       "Doekgewichten per m² afgeleid uit variantgewichten; bevestigen met leverancier.",
       "Prijzen polyester 3x3 € 119, 3x4,5 € 149, 4x4 € 159, 3x6 € 199, 4x6 € 229, 5x5 € 249, 4x8 € 279; heavy duty PVC 3x3 € 219, 3x4,5 € 279, 3x6 € 359: zo is los frame + dak nooit goedkoper dan de complete tent (validate.py controleert dat). Outmate: polyester 3x3 € 129, 4x8 € 319; HD 3x3 € 219.",
-      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP."
+      "Brandvertragend: staat niet in de specificaties tot de leverancier norm en klasse noemt (bv. EN 13501-1, DIN 4102 B1 of M2) en het certificaat levert; dan pas in de spectabel, nooit in titel, SEO, kenmerk of USP.",
+      "Catalogusronde 3: dakladder 5–15% onder de referentie (polyester 2x2 € 119 … 5x5 € 269; heavy duty PVC 3x3 € 199, 4x4 € 219, 4x6 € 469, 4x8 € 549); los frame + dak blijft boven de complete tent. Eigenaar beoordeelt."
     ]
   },
   "los-frame-easy-up-premium": {
@@ -2420,7 +2421,8 @@
     },
     "claims": [
       "Framegewichten per maat = tent min dak (skeleton-variantgewichten afgerond).",
-      "Garantie 2 jaar op het frame (metafield): eigenaar bevestigen."
+      "Garantie 2 jaar op het frame (metafield): eigenaar bevestigen.",
+      "Catalogusronde 3: 3 x 3 € 529, 3 x 4,5 € 669, 4 x 4 € 629, 5 x 5 € 1.079 (3 x 4,5 en 5 x 5 waren 17–19% onder de referentie). Eigenaar beoordeelt."
     ]
   },
   "frame-onderdelen-easy-up": {
@@ -2766,7 +2768,7 @@
     ]
   },
   "regengoot-partytent": {
-    "body_html": "<p>Zet je twee tenten naast elkaar, dan loopt de regen precies in de naad. Deze goot vangt het water tussen de twee daken op en voert het af naar de uiteinden. Voor easy-ups en voor tenten met een buizenframe.</p><h3>Wat je krijgt</h3><ul><li>Goot van waterdicht PVC-doek</li><li>Klittenband langs beide randen, over de volle lengte</li><li>Lengte 2, 3, 4, 4,5, 5, 6, 8 of 10 m, in wit of zwart</li></ul><h3>Zo werkt het</h3><ol><li>Zet de twee tenten op dezelfde hoogte tegen elkaar en koppel de poten, bijvoorbeeld met de <a href=\"/products/koppelset-easy-up\">koppelset</a>.</li><li>Leg de goot tussen de twee dakranden, met de open kant naar boven.</li><li>Maak het klittenband aan beide kanten vast aan de dakrand van elke tent.</li><li>Laat één uiteinde iets lager hangen; daar loopt het water uit.</li></ol><h3>Goed om te weten</h3><ul><li>De lengte is de zijde waarop je de tenten tegen elkaar zet. Twee 3 × 6 m-tenten met de lange kant tegen elkaar: 6 m. Met de korte kant: 3 m. Voor de 2 × 2 en 5 × 5 m easy-up zijn er goten van 2 en 5 m, voor buizenframe-tenten van 10 m lang een goot van 10 m.</li><li>Bij lichte regen is een <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a> genoeg; die dekt de kier af. Regent het flink, dan wil je een goot die het water wegvoert.</li><li>Zet een emmer of een stuk grind onder het lage uiteinde, dan spat het niet op je vloer of gras.</li><li>Laat de goot na een bui leeglopen voor je de tenten afbreekt, en berg hem droog op.</li></ul>",
+    "body_html": "<p>Zet je twee tenten naast elkaar, dan loopt de regen precies in de naad. Deze goot vangt het water tussen de twee daken op en voert het af naar de uiteinden. Voor easy-ups: het klittenband zit om de dakrand van het schaarframe. Voor tenten met een buizenframe is er de <a href=\"/products/regengoot-partytent-buizenframe\">regengoot partytent buizenframe</a>, die om de 38 mm dakrandbuis klemt.</p><h3>Wat je krijgt</h3><ul><li>Goot van waterdicht PVC-doek</li><li>Klittenband langs beide randen, over de volle lengte</li><li>Lengte 2, 3, 4, 4,5, 5, 6, 8 of 10 m, in wit of zwart</li></ul><h3>Zo werkt het</h3><ol><li>Zet de twee tenten op dezelfde hoogte tegen elkaar en koppel de poten, bijvoorbeeld met de <a href=\"/products/koppelset-easy-up\">koppelset</a>.</li><li>Leg de goot tussen de twee dakranden, met de open kant naar boven.</li><li>Maak het klittenband aan beide kanten vast aan de dakrand van elke tent.</li><li>Laat één uiteinde iets lager hangen; daar loopt het water uit.</li></ol><h3>Goed om te weten</h3><ul><li>De lengte is de zijde waarop je de tenten tegen elkaar zet. Twee 3 × 6 m-tenten met de lange kant tegen elkaar: 6 m. Met de korte kant: 3 m. Voor de 2 × 2 en 5 × 5 m easy-up zijn er goten van 2 en 5 m; zet je meerdere tenten op een rij, dan is er een goot tot 10 m.</li><li>Bij lichte regen is een <a href=\"/products/verbindingsstrook-easy-up\">verbindingsstrook</a> genoeg; die dekt de kier af. Regent het flink, dan wil je een goot die het water wegvoert.</li><li>Zet een emmer of een stuk grind onder het lage uiteinde, dan spat het niet op je vloer of gras.</li><li>Laat de goot na een bui leeglopen voor je de tenten afbreekt, en berg hem droog op.</li></ul>",
     "kenmerk_kort": "PVC-goot tussen twee tenten · klittenband",
     "included": [
       "1 regengoot in de gekozen lengte"
@@ -2778,7 +2780,7 @@
       "Vangt het water tussen twee tenten op",
       "Klittenband over de volle lengte",
       "2 tot 10 m, wit of zwart",
-      "Ook voor buizenframe-tenten"
+      "Voor elke easy-up-maat, tot 10 m"
     ],
     "specificaties": [
       {
@@ -2809,7 +2811,7 @@
       {
         "groep": "Pasvorm",
         "label": "Past op",
-        "waarde": "Klapklaar easy-ups en partytenten met buizenframe"
+        "waarde": "Klapklaar easy-ups (Premium en Professional); voor buizenframe-tenten: regengoot partytent buizenframe"
       }
     ],
     "faq": [
@@ -2823,12 +2825,12 @@
       },
       {
         "vraag": "Past de goot ook op een tent met buizenframe?",
-        "antwoord": "Ja. Je zet het klittenband dan om de dakbuis of de dakrand van beide tenten. Neem de lengte van de zijde die je koppelt."
+        "antwoord": "Daar is een eigen goot voor: de regengoot partytent buizenframe, met klemmen om de 38 mm dakrandbuis. Die zit vaster dan klittenband om een ronde buis."
       }
     ],
     "seo": {
-      "title": "Regengoot partytent, 2 tot 10 m | Klapklaar",
-      "description": "Regengoot voor tussen twee partytenten: PVC-doek met klittenband, van 2 tot 10 m lang, wit of zwart. Voor easy-ups en tenten met buizenframe."
+      "title": "Regengoot easy-up partytent, 2 tot 10 m | Klapklaar",
+      "description": "Regengoot voor tussen twee easy-up partytenten: PVC-doek met klittenband, van 2 tot 10 m lang, wit of zwart. Voor buizenframe-tenten is er een eigen goot."
     },
     "image_alts": {
       "regengoot-partytent-wit-hero.webp": "Regengoot partytent, wit, 3 m",
@@ -2837,7 +2839,8 @@
     },
     "claims": [
       "Lengtes 2, 5 en 10 m toegevoegd zodat elke tentzijde een goot heeft (2 × 2 en 5 × 5 m easy-up, 10 m buizenframe): prijzen € 19,95 / € 36,95 / € 74,95, eigenaar beoordeelt.",
-      "Pasvorm op buizenframe-tenten (tekst): klittenband om de dakbuis; bevestigen met de leverancier."
+      "Pasvorm op buizenframe-tenten (tekst): klittenband om de dakbuis; bevestigen met de leverancier.",
+      "Catalogusronde 2026-10-18 (M21): deze goot is voor easy-ups; buizenframe-tenten krijgen de regengoot partytent buizenframe met klemmen."
     ]
   },
   "koppelset-easy-up": {
@@ -3082,7 +3085,7 @@
     "faq": [
       {
         "vraag": "Wat bespaar ik met het pakket?",
-        "antwoord": "Afhankelijk van maat en dak betaal je bij de huidige prijzen € 88,80 tot € 224,00 minder dan los. De tabel op deze pagina geeft het per maat; los is de som van de losse prijzen van dezelfde onderdelen."
+        "antwoord": "Dat zie je in de tabel ‘Los of in het pakket’ op deze pagina: per uitvoering de som van de losse prijzen naast de pakketprijs, en het verschil. De tabel volgt altijd de huidige prijzen."
       },
       {
         "vraag": "Zit er bij 2 × 2 m ook een zijwandenset in?",
@@ -3202,7 +3205,7 @@
     "faq": [
       {
         "vraag": "Wat bespaar ik met het pakket?",
-        "antwoord": "Bij de huidige prijzen: 3 × 3 m los € 495,95, in het pakket € 449 (€ 46,95 minder); 3 × 4,5 m los € 613,90, in het pakket € 549 (€ 64,90 minder); 3 × 6 m los € 753,90, in het pakket € 669 (€ 84,90 minder)."
+        "antwoord": "Dat zie je in de tabel ‘Los of in het pakket’ op deze pagina: per uitvoering de som van de losse prijzen naast de pakketprijs, en het verschil. De tabel volgt altijd de huidige prijzen."
       },
       {
         "vraag": "Waarom zitten er bij 3 × 4,5 en 3 × 6 m twee sets spanbanden in?",

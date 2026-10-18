@@ -23,7 +23,9 @@
 .footer__contact-list{list-style:none;display:grid;gap:10px}
 .footer__contact-list a{display:inline-flex;align-items:center;gap:10px;color:var(--fg);font-weight:var(--font-body-weight-semibold)}
 .footer__contact-list .icon{color:currentColor}
-.footer__hours{margin-top:14px;color:var(--muted);font-size:14.5px}
+.footer__hours,.footer__response{margin-top:14px;color:var(--muted);font-size:14.5px}
+.footer__response{display:flex;gap:10px}
+.footer__toggle{width:100%;min-height:56px;padding:0;border:0;background:none;font:inherit;color:inherit;display:none;justify-content:space-between;align-items:center;cursor:pointer}
 .footer__label{display:block;color:var(--fg);font-weight:var(--font-body-weight-semibold)}
 .footer__newsletter .footer__text{margin-bottom:12px}
 .newsletter-form__row{display:flex;gap:8px;flex-wrap:wrap}
@@ -31,13 +33,14 @@
 .footer .input{border-color:transparent}
 @media (max-width:749px){
   .footer__col{border-top:1px solid rgba(251,246,236,.18)}
-  .footer__details>summary{min-height:56px;margin:0}
+  .footer__menu .footer__heading{margin:0}
+  .footer__toggle{display:flex}
+  .footer__heading-text,.footer__menu:not(.is-open) .footer__links{display:none}
   .footer__heading .icon{display:block;transition:transform var(--dur)}
-  .footer__details[open] .icon{transform:rotate(180deg)}
-  .footer__details .footer__links{padding-bottom:20px}
+  .footer__menu.is-open .icon{transform:rotate(180deg)}
+  .footer__menu .footer__links{padding-bottom:20px}
   .footer__contact,.footer__newsletter{padding-block:20px}
 }
-@media (min-width:750px){.footer__details>summary{pointer-events:none}}
 .footer__bottom{border-top:1px solid rgba(251,246,236,.18);font-size:14px}
 .footer__bottom-inner{display:flex;flex-direction:column;gap:20px;padding-block:24px 32px}
 @media (min-width:990px){.footer__bottom-inner{flex-direction:row;justify-content:space-between;align-items:center}}
@@ -66,3 +69,5 @@
 }
 .footer__pay{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .footer__pay-label{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:13.5px;font-weight:var(--font-body-weight-semibold);color:var(--muted)}
+.newsletter-form__note{margin:10px 0 0;font-size:13px;color:var(--muted)}
+.footer .newsletter-form__note a{color:inherit;text-decoration:underline}

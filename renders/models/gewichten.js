@@ -16,6 +16,7 @@ import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
 import * as TX from '../js/textures.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -72,13 +73,16 @@ export function weightPlateGeo({ R = 0.125, h = 0.022, slotHalf = 0.027, bore = 
 export function gewichten(p = {}) {
   const n = Number(p.count ?? 2), stacks = Number(p.stacks ?? 4);
   const kg = Number(p.kg ?? 7.5);
-  const iron = coatedIron(p.color === 'rood' ? '#7E1A1C' : p.color && p.color.startsWith('#') ? p.color : '#1C1D1F');
+  const coat = p.color === 'rood' ? '#7E1A1C' : p.color && p.color.startsWith('#') ? p.color : '#1E1F21';
+  const iron = L3.castIron(coat);
   const R = 0.125, h = 0.022;
   const bins = new G.PartBin();
   const extras = [];
   const label = String(kg).replace('.', ',') + ' KG';
-  const markMat = (() => { const m = iron.clone(); m.normalMap = K.embossTextNormal(label, { w: 512, h: 150, strength: 5 }); m.normalScale = new THREE.Vector2(1.6, 1.6); m.name = 'plate label'; return m; })();
-  const brandMat = (() => { const m = iron.clone(); m.normalMap = K.embossTextNormal('KLAPKLAAR', { w: 640, h: 110, strength: 4 }); m.normalScale = new THREE.Vector2(1.4, 1.4); m.name = 'plate brand'; return m; })();
+  // cast lettering: raised letters whose faces are scuffed to bare grey iron (reads at
+  // catalogue size), the brand smaller underneath
+  const markMat = L3.plateLabelMat(label, { coat });
+  const brandMat = L3.plateLabelMat('KLAPKLAAR', { coat });
   // layout: stacks in a grid (2 x 2 for four), slot towards the viewer's left-front
   const cols = stacks <= 2 ? stacks : Math.ceil(Math.sqrt(stacks));
   const rowsN = Math.ceil(stacks / cols);
@@ -106,8 +110,8 @@ export function gewichten(p = {}) {
           pg.applyMatrix4(new THREE.Matrix4().makeBasis(tang.clone(), V3(0, 1, 0), dir.clone().negate()).setPosition(c));
           const m = new THREE.Mesh(pg, mat); m.castShadow = false; m.receiveShadow = true; extras.push(m);
         };
-        put(markMat, 0.07, 0.0205, 0.069);
-        put(brandMat, 0.06, 0.0105, 0.0475);
+        put(markMat, 0.1, 0.029, 0.072);
+        put(brandMat, 0.066, 0.0125, 0.0485);
       }
     }
   }
@@ -115,7 +119,7 @@ export function gewichten(p = {}) {
   return {
     object: g,
     detail: { target: [pitch / 2, n * h, pitch / 2], size: 0.32, azimuth: 30, elevation: 32 },
-    view: { hero: { elevation: 24 } },
+    view: { hero: { elevation: 30 } },
     rig: { default: { contact: { strength: 0.85, h0: 0.008, res: 1024, blur: 1.4 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
     meta: { stacks, perStack: n, kg },
   };

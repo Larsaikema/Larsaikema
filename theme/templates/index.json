@@ -92,9 +92,10 @@
         "subline": "<p>Voor bedrijf, club of verhuur? <a href=\"/pages/offerte\">Vraag een offerte op maat aan.</a></p>",
         "product": "easy-up-partytent-premium-3x3",
         "product_collection": "easy-up-premium",
-        "product_label": "Easy-up partytent Premium",
-        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met zwarte stretch rok en een met witte hoes met strik",
-        "sizes_heading": "Snel naar je maat"
+        "product_label": "Easy-up partytent Premium 3 × 3 m",
+        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met zwarte stretchrok en een met witte hoes met strik",
+        "sizes_heading": "Snel naar je maat",
+        "badge": "Voorbeeldopdruk"
       }
     },
     "categories": {
@@ -104,14 +105,16 @@
           "type": "collection",
           "settings": {
             "collection": "easy-up-partytenten",
-            "benefit": "Staat in een paar minuten, met twee man"
+            "benefit": "Staat in een paar minuten, met twee man",
+            "price_product": "easy-up-partytent-premium-3x3"
           }
         },
         "c2": {
           "type": "collection",
           "settings": {
             "collection": "statafels",
-            "benefit": "Klapt plat, past in elke auto"
+            "benefit": "Rond Ø 70–85 cm, ook vierkant en rechthoekig",
+            "price_product": "statafel-inklapbaar-hdpe-80"
           }
         },
         "c3": {
@@ -119,7 +122,8 @@
           "settings": {
             "collection": "statafelrokken",
             "title": "Rokken & hoezen",
-            "benefit": "Strak zonder strijken, in elke kleur"
+            "benefit": "Stretch in 24 kleuren, of een hoes met strik",
+            "price_product": "statafelrok-stretch"
           }
         },
         "c4": {
@@ -127,7 +131,8 @@
           "settings": {
             "collection": "bedrukte-partytenten",
             "title": "Met jouw logo",
-            "benefit": "Eerst een drukproef, dan drukken we"
+            "benefit": "Eerst een drukproef, dan drukken we",
+            "price_product": "easy-up-partytent-premium-met-logo-op-de-luifel"
           }
         },
         "p1": {
@@ -200,15 +205,18 @@
             "icon": "truck",
             "title": "Vóór [besteltijd] besteld, vandaag verzonden",
             "text": "Op werkdagen, uit voorraad",
-            "link": "shopify://pages/verzenden-en-bezorgen"
+            "link": "shopify://pages/verzenden-en-bezorgen",
+            "stock_only": true,
+            "fallback_title": "Bezorgd in NL en BE",
+            "fallback_text": "De verwachte leverdatum staat bij elk product"
           }
         },
         "u2": {
           "type": "usp",
           "settings": {
             "icon": "invoice",
-            "title": "Zakelijk op factuur",
-            "text": "Prijzen ook excl. btw",
+            "title": "Prijzen ook excl. btw",
+            "text": "Zakelijk: staffel en offerte op maat",
             "link": "shopify://pages/zakelijk"
           }
         },
@@ -226,7 +234,7 @@
           "settings": {
             "icon": "chat",
             "title": "Hulp bij je keuze",
-            "text": "Advies van mensen die het opzetten",
+            "text": "Maatgidsen, of stel ons je vraag",
             "link": "shopify://pages/contact"
           }
         }
@@ -314,8 +322,8 @@
           "type": "benefit",
           "settings": {
             "icon": "invoice",
-            "title": "Staffelkorting vanaf 10 stuks",
-            "text": "Zie de staffel op elke productpagina"
+            "title": "Staffelprijzen bij grotere aantallen",
+            "text": "Bij de meeste producten, zie de productpagina"
           }
         },
         "b3": {
@@ -336,7 +344,9 @@
         "color_scheme": "scheme-4",
         "image": "shopify://shop_images/scene-zakelijk.webp",
         "fallback_image": "scene-zakelijk",
-        "image_alt": "Twee zwarte easy-up partytenten 3 × 3 m met voorbeeldopdruk Klapklaar op de luifel, daaronder vier statafels met zwarte stretchrok en logo"
+        "image_alt": "Zwarte easy-up partytent 3 × 6 m met voorbeeldopdruk Klapklaar op de luifel, daaronder vier statafels met zwarte stretchrok en logo",
+        "heading": "Voor horeca, evenementen, verhuur en verenigingen",
+        "text": "<p>Prijzen excl. btw, staffelprijzen bij grotere aantallen en een offerte op maat.</p>"
       }
     },
     "blog": {
@@ -358,7 +368,8 @@
             "heading": "Alles voor je feest in één pakket",
             "text": "Statafels met rokken, een tent met zijwanden of een terrasset met barkrukken: in één keer besteld.",
             "collection": "actiepakketten",
-            "button_label": "Bekijk de pakketten"
+            "button_label": "Bekijk de pakketten",
+            "price_product": "pakket-statafel-hdpe-met-stretchrok"
           }
         },
         "maatwerk": {
@@ -398,7 +409,13 @@
           "settings": {
             "collection": "easy-up-partytenten",
             "label": "Easy-up",
-            "link_label": "Alle easy-up partytenten"
+            "link_label": "Alle easy-up partytenten",
+            "products": [
+              "easy-up-partytent-premium-3x3",
+              "easy-up-partytent-premium-3x4-5",
+              "easy-up-partytent-premium-3x6",
+              "easy-up-partytent-professional-3x3"
+            ]
           }
         },
         "t2": {
@@ -424,19 +441,34 @@
             "label": "Ster & opblaasbaar",
             "link_label": "Alle ster- en opblaasbare tenten"
           }
+        },
+        "t5": {
+          "type": "tab",
+          "settings": {
+            "collection": "partytent-onderdelen",
+            "label": "Zijwanden & onderdelen",
+            "link_label": "Alle zijwanden en onderdelen",
+            "products": [
+              "zijwandenset-easy-up",
+              "zijwand-easy-up-met-raam",
+              "voetgewicht-partytent-15-kg",
+              "spanbanden-en-haringen-easy-up"
+            ]
+          }
         }
       },
       "block_order": [
         "t1",
         "t2",
         "t3",
-        "t4"
+        "t4",
+        "t5"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Partytenten",
         "heading": "Kies je partytent",
-        "text": "Easy-up in 8 maten, met een frame van staal of aluminium. Voor grotere feesten: buizenframe, stretch en ster.",
+        "text": "Easy-up in 8 maten, met een frame van staal of aluminium. Voor grotere feesten: buizenframe, stretch en ster. Zijwanden en gewichten erbij.",
         "limit": 4,
         "columns": 4,
         "link_prefix": "Alle"
@@ -488,7 +520,7 @@
         "color_scheme": "scheme-1",
         "eyebrow": "Statafels",
         "heading": "Statafels, rokken en barkrukken",
-        "text": "Statafel Ø 70, 80 of 85 cm met een stretch rok of een hoes met strik. Vanaf 10 stuks staffelprijs.",
+        "text": "Statafel Ø 70, 80 of 85 cm met een stretchrok of een hoes met strik. Vanaf 10 stuks staffelprijs.",
         "limit": 4,
         "columns": 4,
         "link_prefix": "Alle"
@@ -544,14 +576,14 @@
           "type": "question",
           "settings": {
             "question": "Welke maat partytent heb ik nodig?",
-            "answer": "<p>Een 3 × 3 m tent biedt plek aan ongeveer 8 staande gasten. Met 3 × 6 m heb je ruimte voor een buffet en een paar statafels.</p>"
+            "answer": "<p>Reken op ongeveer 1 gast per m² aan tafel en 1,5 staand. Een 3 × 3 m tent is genoeg voor ca. 9 gasten aan tafel of 13 staand, een 3 × 6 m voor ca. 18 aan tafel of 27 staand. Komt er een buffet of bar in, neem dan een maat groter. Alle maten staan in het <a href=\"/pages/maatadvies-partytenten\">maatadvies partytenten</a>.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
-            "question": "Kan ik zakelijk bestellen op factuur?",
-            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Vraag een offerte aan of neem contact op, dan regelen we het.</p>"
+            "question": "Kan ik zakelijk bestellen?",
+            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Zet bovenin Zakelijk aan, dan zie je alle prijzen excl. btw. Voor grotere aantallen, bedrukking of levering op locatie maken we een offerte op maat.</p>"
           }
         },
         "q4": {

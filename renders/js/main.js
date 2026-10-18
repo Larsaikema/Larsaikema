@@ -33,8 +33,11 @@ export function buildScene(spec) {
     if (it.position) obj.position.set(...it.position);
     if (it.rotationY) obj.rotation.y = (it.rotationY * Math.PI) / 180;
     root.add(obj);
-    if (!detail && res.detail) {
-      detail = { ...res.detail };
+    // angle 'detail-<name>': a named close-up from the builder's `details` map (falls back to `detail`)
+    const sub = /^detail-(.+)$/.exec(spec.angle || '');
+    const det = (sub && res.details && res.details[sub[1]]) || res.detail;
+    if (!detail && det) {
+      detail = { ...det };
       if (it.position) detail.target = detail.target.map((v, i) => v + it.position[i]);
     }
     meta.push(res.meta || {});
@@ -60,12 +63,14 @@ window.renderSpec = async function renderSpec(spec) {
   const width = spec.imageWidth || size, height = spec.imageHeight || size;
   const { root, detail, meta, viewHints, rigHints } = buildScene(spec);
   const angle = spec.angle || 'hero';
+  // 'detail-<name>' frames and lights like 'detail'
+  const preset = /^detail-/.test(angle) ? 'detail' : angle;
   // product builders may suggest a better framing per angle; spec.camera always wins
-  const overrides = { ...((viewHints && viewHints[angle]) || {}), ...(spec.camera || {}) };
-  const view = frameCamera(root, angle, { aspect: width / height, detail, overrides });
+  const overrides = { ...((viewHints && (viewHints[angle] || viewHints[preset])) || {}), ...(spec.camera || {}) };
+  const view = frameCamera(root, preset, { aspect: width / height, detail, overrides });
   const tBuild = performance.now() - t0;
   // product builders may suggest a light rig (per angle); spec.rig always wins
-  const rig = mergeRig(mergeRig(rigHints && rigHints.default, rigHints && rigHints[angle]), spec.rig);
+  const rig = mergeRig(mergeRig(rigHints && rigHints.default, rigHints && (rigHints[angle] || rigHints[preset])), spec.rig);
   const samples = spec.samples || (overrides.samples) || 40;
   const res = await s.render(root, view, {
     width, height, samples, bg: spec.bg || '#EFEDE8', rig,

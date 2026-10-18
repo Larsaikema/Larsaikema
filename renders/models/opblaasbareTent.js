@@ -44,8 +44,12 @@ export function dims(p) {
   }
   const pro = w >= 3.9;
   const r = pro ? 0.18 : 0.15;
+  // `height` is the crown height; a value below the elbow (the zijwand Pro spec passes its wall
+  // height, 2.5 m) is not a crown height and keeps the standard tent (same as the Pro hero)
+  const hWanted = Number(p.height);
+  const Hc = Number.isFinite(hWanted) && hWanted >= (pro ? 3.0 : 2.9) ? hWanted : (pro ? 3.8 : 3.35);
   return {
-    N: 4, hex: false, w, r, Rc: (w / 2 - r) * Math.SQRT2, Hc: Number(p.height ?? (pro ? 3.8 : 3.35)),
+    N: 4, hex: false, w, r, Rc: (w / 2 - r) * Math.SQRT2, Hc,
     yb: pro ? 2.15 : 2.05, Rb: pro ? 0.85 : 0.7, Ra: pro ? 1.4 : 1.0, vD: pro ? 0.24 : 0.2,
     bulge: pro ? 0.2 : 0.16, inset: pro ? 0.1 : 0.08, stop: pro ? 0.36 : 0.32, depth: pro ? 1.7 : 1.4, bandF: 0.3,
   };
@@ -365,20 +369,25 @@ export function opblaasbareTent(p = {}) {
   }
 
   // ---- side walls in the arched openings ------------------------------------------------------------
+  // type 'closed': a plain wall; 'tunnel': a wall with an arched doorway where the
+  // verbindingstunnel zips on (opblaasbareTunnel uses the same doorway profile, tunnelDoor())
   const walls = parseWalls(p.walls);
-  const wallSides = [];
+  const wallSides = [], wallType = {};
   for (const [name, type] of Object.entries(walls)) {
     if (!type || type === 'none' || type === 'open') continue;
     const target = { front: 0, right: Math.PI / 2, back: Math.PI, left: -Math.PI / 2 }[name];
     if (target == null) continue;
     let best = 0, bd = 9;
     nSide.forEach((n, k) => { const a = Math.atan2(n.x, n.z); const d = Math.abs(Math.atan2(Math.sin(a - target), Math.cos(a - target))); if (d < bd) { bd = d; best = k; } });
-    if (!wallSides.includes(best)) wallSides.push(best);
+    if (!wallSides.includes(best)) { wallSides.push(best); wallType[best] = String(type); }
   }
-  const wallMat = K.pvc(canopyHex);
+  const wallMat = K.pvc(K.col(p.wallColor || p.canopyColor || p.color || 'wit', M.COLORS.wit));
+  const wallPatch = K.pvcPatch(K.col(p.wallColor || p.canopyColor || p.color || 'wit', M.COLORS.wit));
   const zipM = M.zipTooth('#151516');
+  const door = tunnelDoor(D, F);
   for (const k of wallSides) {
     const n = nSide[k], k1 = (k + 1) % N;
+    const isTunnel = wallType[k] === 'tunnel';
     const nx = Math.round(D.w * 24), ny = 44;
     const top = (u) => F.band(k, u, 1, -0.012).add(V3(0, 0.03, 0)); // tucked behind the band hem
     const yEnd = top(0).y;
@@ -386,29 +395,64 @@ export function opblaasbareTent(p = {}) {
       if (y <= yb) { const c = C[kk]; const d = dk[kk].clone().multiplyScalar(Math.cos(phiA * 0.95)).addScaledVector(Lk[kk], sg * Math.sin(phiA * 0.95)); return c.clone().addScaledVector(d, r + 0.006).setY(y); }
       return skin(kk, sOfY(y), phiA * 0.95, sg, r + 0.006);
     };
+    // a doorway wall is held flat by the tunnel: less belly, no hem folds
+    const bellyA = isTunnel ? 0.008 : 0.025, foldA = isTunnel ? 0.3 : 1;
+    const wallPt = (u, y) => {
+      const T = top(u);
+      const fy = y / Math.max(0.01, T.y);
+      const yy = Math.min(y, yEnd);
+      const lin = flank(k, 1, yy).lerp(flank(k1, -1, yy), u).setY(y);
+      const bump = Math.sin(Math.PI * u);
+      const toTop = T.clone().setY(y).sub(lin).multiplyScalar(sst(0.5, 1, fy) * Math.min(1, bump * 3));
+      const belly = bellyA * bump * Math.sin(Math.PI * Math.min(1, fy * 0.85 + 0.15));
+      const folds = foldA * (0.008 * Math.sin(u * D.w * 4.1 + 0.7) + 0.005 * Math.sin(u * D.w * 9.7 + 2.1)) * (1 - fy) * bump;
+      const kick = y < 0.05 ? (0.05 - y) * 0.45 : 0;
+      return lin.add(toTop).addScaledVector(n, belly + folds + kick);
+    };
+    const Wopen = flank(k, 1, 1).distanceTo(flank(k1, -1, 1));
     const rows = [];
     for (let j = 0; j <= ny; j++) {
       const v = j / ny, row = [];
-      for (let i = 0; i <= nx; i++) {
-        const u = i / nx, T = top(u), y = Math.max(0.004, v * T.y);
-        const fy = y / Math.max(0.01, T.y);
-        const yy = Math.min(y, yEnd);
-        const lin = flank(k, 1, yy).lerp(flank(k1, -1, yy), u).setY(y);
-        const bump = Math.sin(Math.PI * u);
-        const toTop = T.clone().setY(y).sub(lin).multiplyScalar(sst(0.5, 1, fy) * Math.min(1, bump * 3));
-        const belly = 0.025 * bump * Math.sin(Math.PI * Math.min(1, fy * 0.85 + 0.15));
-        const folds = (0.008 * Math.sin(u * D.w * 4.1 + 0.7) + 0.005 * Math.sin(u * D.w * 9.7 + 2.1)) * (1 - fy) * bump;
-        const kick = y < 0.05 ? (0.05 - y) * 0.45 : 0;
-        row.push(lin.add(toTop).addScaledVector(n, belly + folds + kick));
-      }
+      for (let i = 0; i <= nx; i++) { const u = i / nx; row.push(wallPt(u, Math.max(0.004, v * top(u).y))); }
       rows.push(row);
     }
-    bins.add(wallMat, K.gridGeometry(rows));
-    bins.add(wallMat, K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.004, 5));
+    const g = K.gridGeometry(rows);
+    if (isTunnel) {
+      // cut the doorway: drop every cell whose centre lies inside the profile (the trim below
+      // covers the stepped cut edge)
+      const keep = [];
+      for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+        const u = (i + 0.5) / nx, y = ((j + 0.5) / ny) * top(u).y;
+        const yd = door.yAt((u - 0.5) * Wopen);
+        if (yd > 0 && y < yd) continue;
+        const a = j * (nx + 1) + i, b = a + 1, c = a + nx + 1, d = c + 1;
+        keep.push(a, b, c, b, d, c);
+      }
+      g.setIndex(keep); g.computeVertexNormals();
+    }
+    bins.add(wallMat, g);
+    // folded hem on the floor (interrupted by a doorway)
+    const hemRuns = [[]];
+    for (let i = 0; i <= nx; i++) {
+      const inDoor = isTunnel && Math.abs((i / nx - 0.5) * Wopen) < door.hw;
+      if (inDoor) { if (hemRuns[hemRuns.length - 1].length) hemRuns.push([]); continue; }
+      hemRuns[hemRuns.length - 1].push(rows[0][i].clone().add(V3(0, 0.004, 0)));
+    }
+    for (const run of hemRuns) if (run.length > 1) bins.add(wallMat, K.sweep(run, 0.004, 5));
     // zips down both legs
     for (const [kk, sg] of [[k, 1], [k1, -1]]) {
       const zp = []; for (let i = 0; i <= 30; i++) { const y = 0.03 + ((yEnd - 0.06) * i) / 30; zp.push(flank(kk, sg, y).addScaledVector(n, 0.004)); }
       bins.add(zipM, K.sweep(zp, 0.0045, 5));
+    }
+    if (isTunnel) {
+      // doorway: a 7 cm welded facing round the opening with the zip that takes the tunnel
+      const outline = [];
+      for (let i = 0; i <= 120; i++) { const [d, y] = door.sect(i / 120); outline.push(wallPt(0.5 + d / Wopen, Math.max(0.006, y))); }
+      const off = (q, f) => q.clone().addScaledVector(n, f);
+      // facing band, centred on the cut edge
+      const fp = outline.map((q) => off(q, 0.003)), fn = outline.map(() => n.clone());
+      bins.add(wallPatch, T2.bandAlong(fp, fn, 0.075, 0.003));
+      bins.add(zipM, K.sweep(outline.map((q) => off(q, 0.0075)), 0.0048, 5));
     }
   }
 
@@ -473,14 +517,15 @@ export function opblaasbareTent(p = {}) {
   const light = p.light ? (typeof p.light === 'object' ? p.light : { watt: 12, on: true }) : null;
   if (light) {
     const on = light.on !== false;
-    const Rl = 0.09, Tl = 0.034;
+    const Rl = 0.11, Tl = 0.038;
     lampPos = V3(0, Yc - r * 1.05 - 0.32, 0);
-    const housing = new THREE.MeshPhysicalMaterial({ color: '#EEEDE9', roughness: 0.4, clearcoat: 0.3, name: 'lamp housing' });
+    // anthracite die-cast housing: the fixture reads against the white canopy
+    const housing = new THREE.MeshPhysicalMaterial({ color: '#2E3033', roughness: 0.45, metalness: 0.2, clearcoat: 0.3, name: 'lamp housing' });
     const lampG = G.lathe([[0.0001, Tl], [Rl - 0.01, Tl], [Rl, Tl - 0.008], [Rl, 0.008], [Rl - 0.008, 0.0], [0.0001, 0.0]].reverse(), 64);
     lampG.translate(lampPos.x, lampPos.y, lampPos.z);
     bins.add(housing, lampG);
     const diff = on
-      ? new THREE.MeshStandardMaterial({ color: '#FFFFFF', emissive: new THREE.Color('#FFE9C8'), emissiveIntensity: 3.2, roughness: 0.5, name: 'diffuser on' })
+      ? new THREE.MeshStandardMaterial({ color: '#FFFFFF', emissive: new THREE.Color('#FFF4E8'), emissiveIntensity: 3.2, roughness: 0.5, name: 'diffuser on' })
       : new THREE.MeshPhysicalMaterial({ color: '#E9E8E4', roughness: 0.35, name: 'diffuser off' });
     const dg = G.lathe([[0.0001, -0.002], [Rl - 0.014, -0.0015], [Rl - 0.01, 0.002], [0.0001, 0.002]], 64);
     dg.translate(lampPos.x, lampPos.y, lampPos.z);
@@ -493,8 +538,9 @@ export function opblaasbareTent(p = {}) {
     bins.add(M.rubber('#E8E8E6'), K.sweep(cab, 0.003, 6));
     if (on) {
       const watt = Number(light.watt ?? 12);
-      group.add(T2.pointLight(lampPos.clone().add(V3(0, -0.05, 0)), { color: '#FFDDB0', intensity: 0.8 * watt, decay: 2 }));
-      const halo = LK.haloSpheres([{ c: lampPos.clone().add(V3(0, -0.01, 0)), R: 0.42, color: LK.lin('#FFE6C0', 2.0), a: 0.55, core: 0.2, coreW: 0.7 }]);
+      // 4000 K neutral white (the product spec), not a warm 3000 K cream
+      group.add(T2.pointLight(lampPos.clone().add(V3(0, -0.05, 0)), { color: '#FFF0DE', intensity: 0.55 * watt, decay: 2 }));
+      const halo = LK.haloSpheres([{ c: lampPos.clone().add(V3(0, -0.01, 0)), R: 0.36, color: LK.lin('#FFF3E6', 1.6), a: 0.45, core: 0.2, coreW: 0.7 }]);
       if (halo) group.add(halo);
       const fg = LK.floorGlow([{ p: lampPos, I: 0.9, color: LK.lin('#FFD9A8', 1.0) }], { box: 2.2, res: 90, k: 0.6, max: 0.22 });
       if (fg) group.add(fg);
@@ -508,7 +554,7 @@ export function opblaasbareTent(p = {}) {
   // size is framed the same; the lamp view frames the lamp and the hub only
   if (light) {
     group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
-    group.add(T2.frameProxy([-0.3, lampPos.y - 0.3, -0.3], [0.3, lampPos.y + 0.3, 0.3]));
+    group.add(T2.frameProxy([-0.24, lampPos.y - 0.12, -0.24], [0.24, lampPos.y + 0.3, 0.24]));
   } else {
     const pts = [];
     for (let k = 0; k < N; k++) for (let i = -2; i <= 2; i++) pts.push(C[k].clone().add(dirOf(ang[k] + i * 0.35).multiplyScalar(r + 0.3)));
@@ -518,12 +564,16 @@ export function opblaasbareTent(p = {}) {
     group.add(pointsProxy(pts));
   }
 
-  let heroAz = 34;
-  if (wallSides.length && p.heroAzimuth == null) {
+  // the hexagon is seen almost square onto a flat side and from a little higher: from the
+  // standard 34 / 17 its back arches stacked behind the front ones and it read as a 4-leg tent
+  const az0 = D.hex ? 12 : 34;
+  let heroAz = az0;
+  const closedSides = wallSides.filter((k) => wallType[k] !== 'tunnel');
+  if (closedSides.length && p.heroAzimuth == null) {
     let best = -1;
-    for (const az of [34, -34, 146, -146]) {
+    for (const az of [az0, -az0, 180 - az0, az0 - 180]) {
       const cd = dirOf(az * Math.PI / 180);
-      const sc = wallSides.reduce((acc, k) => acc + (nSide[k].dot(cd) > 0.25 ? 1 : 0), 0);
+      const sc = closedSides.reduce((acc, k) => acc + (nSide[k].dot(cd) > 0.25 ? 1 : 0), 0);
       if (sc > best) { best = sc; heroAz = az; }
     }
   } else if (p.heroAzimuth != null) heroAz = Number(p.heroAzimuth);
@@ -536,7 +586,7 @@ export function opblaasbareTent(p = {}) {
   if (K.lumOf(frameHex) > 0.7) rig.default = { ...rigBase, bounce: { azimuth: -10, elevation: -18, intensity: 3.5 } };
   if (light) {
     rig.low = {
-      key: { intensity: 2.4 }, dome: { intensity: 1.5 }, fill: { intensity: 1.4 }, exposure: 0.62,
+      key: { intensity: 1.3 }, dome: { intensity: 0.9 }, fill: { intensity: 0.9 }, exposure: 0.3,
       groundAO: { strength: 0.2 }, edgeFade: 0.0,
     };
   }
@@ -545,9 +595,11 @@ export function opblaasbareTent(p = {}) {
     object: group,
     detail: { target: [C[0].x * 0.9, yb + 0.2, C[0].z * 0.9], size: 1.6, azimuth: heroAz, elevation: 12 },
     view: {
-      hero: { azimuth: heroAz, elevation: 17 },
+      hero: { azimuth: heroAz, elevation: D.hex ? 24 : 17 },
       back: { azimuth: heroAz + 180 },
-      ...(light ? { low: { azimuth: 24, elevation: -38, fov: 62, fill: 0.42 } } : {}),
+      // straight up under the hub, square onto the X of the four arches, the lamp in the middle
+      // (round 3's 24 / -38 / fov 62 showed a burnt-out roof and a tiny disc)
+      ...(light ? { low: { azimuth: 0, elevation: -40, fov: 46, fill: 0.5 } } : {}),
     },
     rig,
     meta: {
@@ -571,75 +623,111 @@ function parseWalls(walls) {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Verbindingstunnel: an inflatable corridor between the side openings of two tents of width
-// tentW standing in line along X with `length` metres between their facing legs (tent centres
-// at x = -/+ (tentW / 2 + length / 2)). Two inflated U-arches stand in the tents' openings right
-// next to the legs, under the border band; the walls run straight, the roof is a barrel vault
-// that sags a little between the arches; zip tapes join the tunnel to the tent legs.
+// Doorway of the verbindingstunnel, shared by the tent wall (walls: {right: 'tunnel'}) and the
+// tunnel itself: straight jambs up to wallH, then a half ellipse to Htop under the band hem.
+// d: horizontal offset from the middle of the opening; sect(u) walks the outline from the
+// floor on the left over the top to the floor on the right.
+export function tunnelDoor(D, F) {
+  const bandLow = F.band(0, 0.5, 1).y;
+  const Htop = Math.min(2.2, bandLow - 0.16);
+  const hw = Math.min(0.82, (D.w / 2 - D.r) * 0.62);
+  const wallH = Math.max(0.8, Htop - hw * 1.15);
+  const ry = Htop - wallH;
+  const yAt = (d) => { const a = Math.abs(d) / hw; return a >= 1 ? -1 : wallH + ry * Math.sqrt(1 - a * a); };
+  const La = (Math.PI * Math.sqrt((hw * hw + ry * ry) / 2)) / 2;
+  const tot = 2 * wallH + 2 * La;
+  const sect = (u) => {
+    const s = u * tot;
+    if (s <= wallH) return [-hw, s];
+    if (s >= tot - wallH) return [hw, tot - s];
+    const a = Math.PI * (1 - (s - wallH) / (2 * La));
+    return [Math.cos(a) * hw, wallH + Math.sin(a) * ry];
+  };
+  return { hw, wallH, Htop, ry, yAt, sect, tot };
+}
+
+// Verbindingstunnel (round 4: the art director read the round-3 box as "a flat box between two
+// open-sided tents"). The tunnel is a vaulted corridor (jambs + half-ellipse vault, Quonset
+// profile) between two tents of width tentW standing in line along X, `length` metres between
+// their facing legs (tent centres at x = -/+ (tentW / 2 + length / 2)). Both tents carry a wall
+// with an arched doorway on the facing side (walls: {right|left: 'tunnel'}); the tunnel zips
+// into those doorways. Two fat inflated arches (the "2 luchtbogen", one with the valve) stand
+// just inside its ends as ribs on the outside of the cloth; the cloth sags between them.
 //   { length (m between the facing legs' skins), color, tentW (3) }
 export function opblaasbareTunnel(p = {}) {
   const tentW = Number(p.tentW ?? 3);
   const Dt = dims({ w: tentW });
   const Ft = frameGeom(Dt);
+  const door = tunnelDoor(Dt, Ft);
   const hex = K.col(p.color || 'wit', M.COLORS.wit);
   const fab = K.pvc(hex);
   const tubeMat = K.pvc(hex, { translucent: false });
   const patchM = K.pvcPatch(hex);
   const threadM = M.tentThread(hex);
-  const zipM = M.zipTooth('#151516');
+  const dark = M.mouldedNylon('#141414');
   const bins = new G.PartBin();
   const group = new THREE.Group(); group.name = 'opblaasbareTunnel';
   const gap = Number(p.length ?? 1.4);
-  const side = tentW / 2 - Dt.r; // leg centre line from the tent centre
-  const xLeg = gap / 2 + Dt.r; // facing legs' centre lines at x = +-xLeg
-  const rt = 0.1;
-  const hw = side - Dt.r - rt - 0.01; // arches stand right next to the legs
-  const bandLow = Ft.band(0, 0.5, 1).y; // band hem in the middle of the opening
-  const Htop = bandLow - 0.03, wallH = Htop - hw * 0.5;
-  const La = Math.PI * Math.sqrt((hw * hw + (Htop - wallH) ** 2) / 2) / 2;
-  const tot = 2 * wallH + 2 * La;
-  const sect = (u) => {
-    const s = u * tot;
-    if (s < wallH) return [-hw, s];
-    if (s > tot - wallH) return [hw, tot - s];
-    const a = Math.PI * (1 - (s - wallH) / (2 * La));
-    return [Math.cos(a) * hw, wallH + Math.sin(a) * (Htop - wallH)];
+  const c0 = gap / 2 + tentW / 2; // tent centres at x = +-c0
+  // plane of the doorway wall (side k = 0 of a tent faces +x)
+  const fl = (kk, sg) => Ft.C[kk].clone().addScaledVector(Ft.dk[kk].clone().multiplyScalar(Math.cos(Ft.phiA * 0.95)).addScaledVector(Ft.Lk[kk], sg * Math.sin(Ft.phiA * 0.95)), Dt.r + 0.006);
+  const dW = fl(0, 1).add(fl(1, -1)).multiplyScalar(0.5).x;
+  const xE = c0 - dW - 0.004;                // cloth ends just inside the doorway facing
+  const rt = 0.095, xa = xE - 0.17;          // arches just inside the ends
+  const { wallH, ry } = door;
+  // outward normal of the profile at u
+  const nrmAt = (u) => {
+    const [a0, b0] = door.sect(Math.max(0, u - 0.004)), [a1, b1] = door.sect(Math.min(1, u + 0.004));
+    const tz = a1 - a0, ty = b1 - b0, l = Math.hypot(tz, ty) || 1;
+    return [-ty / l, tz / l]; // (z, y), pointing out of the tunnel
   };
-  const xA = xLeg; // arch planes in the plane of the tent legs
-  const nU = 80, nX = 32;
+  const nU = 112, nX = 44;
   const rows = [];
   for (let j = 0; j <= nX; j++) {
-    const x = -xA + ((2 * xA) * j) / nX;
-    const mid = Math.sin(Math.PI * j / nX);
+    const x = -xE + (2 * xE * j) / nX;
+    // sag: deep between the arches, a little between an arch and the doorway
+    let sg;
+    if (Math.abs(x) <= xa) sg = 0.04 * Math.sin((Math.PI * (x + xa)) / (2 * xa));
+    else sg = 0.012 * Math.sin((Math.PI * (Math.abs(x) - xa)) / (xE - xa));
     const row = [];
     for (let i = 0; i <= nU; i++) {
-      const [z, y] = sect(i / nU);
-      const top = Math.max(0, (y - wallH) / (Htop - wallH));
-      const sagY = 0.045 * mid * (0.3 + 0.7 * top);
-      const inZ = 0.025 * mid * (1 - top) * Math.sin(Math.PI * Math.min(1, y / wallH));
-      const wr = 0.004 * Math.sin(i * 0.7 + j * 0.5) * mid;
-      row.push(V3(x, Math.max(0.004, y - sagY * top + wr * top), z * (1 - (inZ + rt * 0.0) / hw) + Math.sign(z) * wr * (1 - top)));
+      const u = i / nU, [d, y] = door.sect(u), [nz, ny] = nrmAt(u);
+      const topW = Math.max(0, (y - wallH) / ry);                      // 0 on the jambs, 1 at the crown
+      const low = Math.min(1, y / 0.25);                                // hem rests on the floor
+      const wr = 0.004 * Math.sin(i * 0.37 + j * 0.9) * Math.sin(Math.PI * j / nX);
+      const inw = sg * (0.55 + 0.45 * topW) * low + wr;
+      row.push(V3(x, Math.max(0.004, y - ny * inw), d - nz * inw));
     }
     rows.push(row);
   }
   bins.add(fab, K.gridGeometry(rows));
+  // hems on the floor along both sides
   for (const i of [0, nU]) bins.add(fab, K.sweep(rows.map((row) => row[i].clone().setY(0.006)), 0.005, 5));
-  // inflated U-arches at both ends (gore seams on the round-over)
+  // two inflated arches: ribs on the outside of the cloth, gore welts on the round-over
   for (const sx of [-1, 1]) {
-    const pts = []; for (let i = 0; i <= 96; i++) { const [z, y] = sect(i / 96); const k = 1 - (rt + 0.006) / Math.max(hw, 0.1); pts.push(V3(sx * (xA - rt * 0.4), Math.max(rt * 0.8, y - rt - 0.006), z * k)); }
-    bins.add(tubeMat, K.sweep(pts, rt, 32, { capStart: true, capEnd: true }));
-    for (const z of [-hw * 0.55, 0, hw * 0.55]) {
-      let best = 0, bd = 9; pts.forEach((q, i) => { const d = Math.abs(q.z - z) + (q.y < wallH ? 9 : 0); if (d < bd) { bd = d; best = i; } });
-      const c = pts[best], t = pts[Math.min(pts.length - 1, best + 1)].clone().sub(pts[Math.max(0, best - 1)]).normalize();
-      const u = V3(1, 0, 0), v = V3().crossVectors(t, u).normalize();
-      const ring = []; for (let i = 0; i <= 48; i++) { const a = (i / 48) * TAU; ring.push(c.clone().addScaledVector(u, (rt + 0.0016) * Math.cos(a)).addScaledVector(v, (rt + 0.0016) * Math.sin(a))); }
+    const pts = [];
+    for (let i = 0; i <= 140; i++) {
+      const u = i / 140, [d, y] = door.sect(u), [nz, ny] = nrmAt(u);
+      pts.push(V3(sx * xa, y + ny * (rt + 0.002), d + nz * (rt + 0.002)));
+    }
+    const arc = pts.filter((q) => q.y >= rt * 0.55);
+    bins.add(tubeMat, K.sweep(arc, rt, 36, { capStart: true, capEnd: true }));
+    for (const q of [arc[0], arc[arc.length - 1]]) bins.add(tubeMat, K.domeCap(q, V3(0, -1, 0), rt, 0.6, 24));
+    for (const f of [0.3, 0.42, 0.5, 0.58, 0.7]) {
+      const i = Math.round(f * (arc.length - 1)), c = arc[i];
+      const t = arc[Math.min(arc.length - 1, i + 1)].clone().sub(arc[Math.max(0, i - 1)]).normalize();
+      const a = V3(1, 0, 0), b = V3().crossVectors(t, a).normalize();
+      const ring = []; for (let k = 0; k <= 48; k++) { const an = (k / 48) * TAU; ring.push(c.clone().addScaledVector(a, (rt + 0.0016) * Math.cos(an)).addScaledVector(b, (rt + 0.0016) * Math.sin(an))); }
       bins.add(patchM, K.sweep(ring, 0.0026, 5, { closed: true }));
     }
-    // zip tapes where the tunnel walls meet the tent legs
-    for (const sz of [-1, 1]) {
-      const zp = []; for (let t = 0; t <= 24; t++) { const y = 0.03 + ((wallH - 0.05) * t) / 24; zp.push(V3(sx * (xA - 0.02), y, sz * (hw + 0.012))); }
-      bins.add(zipM, K.sweep(zp, 0.005, 5));
-      bins.add(patchM, T2.bandAlong(zp.map((q) => q.clone().add(V3(sx * -0.03, 0, sz * 0.002))), zp.map(() => V3(0, 0, sz)), 0.045, 0.002));
+    // Boston valve on the near jamb of the right arch
+    if (sx > 0) {
+      const i = Math.round(0.9 * (arc.length - 1)), c = arc[i];
+      const n = V3(0, 0, 1);
+      const q = new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), n);
+      const valve = G.lathe([[0.0001, 0.03], [0.02, 0.03], [0.026, 0.024], [0.026, 0.012], [0.034, 0.008], [0.04, 0.0], [0.04, -0.004]].reverse(), 32);
+      valve.applyQuaternion(q); valve.translate(c.x, 0.7, c.z + rt - 0.004);
+      bins.add(dark, valve);
     }
   }
   // sewn seam along the vault crest
@@ -647,6 +735,11 @@ export function opblaasbareTunnel(p = {}) {
   bins.add(patchM, K.sweep(crest, 0.0035, 6));
   bins.add(threadM, K.sweep(crest.map((q) => q.clone().add(V3(0, 0.0, 0.012))), 0.0009, 4));
   bins.add(threadM, K.sweep(crest.map((q) => q.clone().add(V3(0, 0.0, -0.012))), 0.0009, 4));
+  // welt where the jambs turn into the vault (one each side)
+  for (const u of [door.wallH / door.tot, 1 - door.wallH / door.tot]) {
+    const i = Math.round(u * nU);
+    bins.add(patchM, K.sweep(rows.map((row) => row[i].clone()), 0.003, 5));
+  }
   bins.build(group);
-  return { object: group, rig: { default: T2.tentRig2(hex) }, meta: { gap } };
+  return { object: group, rig: { default: T2.tentRig2(hex) }, meta: { gap, xE, door: { hw: door.hw, wallH: door.wallH, Htop: door.Htop } } };
 }

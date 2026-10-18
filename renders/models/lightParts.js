@@ -65,13 +65,20 @@ export function lightParts(p = {}) {
     }
   }
   if (parts.includes('eindkap')) {
-    const T = new THREE.Matrix4().makeRotationY(28 * DEG).setPosition(0.07, 0.0125, 0.12);
-    const cap = K.lathe([[0.0001, -0.002], [0.0098, -0.002], [0.0118, 0.002], [0.0125, 0.008], [0.0125, 0.032], [0.0118, 0.038], [0.0095, 0.043], [0.006, 0.0455], [0.0001, 0.046]], 48);
+    const solo1 = parts.length === 1;
+    // alone: open end (with the cable slot) turned towards the camera's left, in the centre
+    const T = new THREE.Matrix4().makeRotationY((solo1 ? 64 : 28) * DEG).setPosition(solo1 ? -0.02 : 0.07, 0.0125, solo1 ? 0 : 0.12);
+    // smooth profile: open rim, straight ribbed sleeve, round dome (lathe axis Y, then -> +X)
+    const prof = [[0.0086, -0.0005], [0.0104, -0.0019], [0.0117, -0.0012], [0.0123, 0.0015], [0.0125, 0.006]];
+    for (let k = 0; k <= 14; k++) { const a = (k / 14) * Math.PI / 2; prof.push([0.0125 * Math.cos(a) + 0.0 * k, 0.03 + 0.016 * Math.sin(a)]); }
+    prof.push([0.0001, 0.046]);
+    const cap = K.lathe(prof, 72);
     cap.rotateZ(-Math.PI / 2);
     add(rub, cap, T);
-    for (let k = 0; k < 3; k++) { const t = new THREE.TorusGeometry(0.0127, 0.0009, 6, 36); t.rotateY(Math.PI / 2); t.translate(0.011 + k * 0.0075, 0, 0); add(rub, t, T); }
-    // cable slot in the open end (dark)
-    const slot = G.roundedBox(0.0008, 0.0064, 0.0118, 0.0028); slot.translate(-0.0021, 0, 0); add(dark, slot, T);
+    for (let k = 0; k < 3; k++) { const t = new THREE.TorusGeometry(0.0127, 0.001, 10, 64); t.rotateY(Math.PI / 2); t.translate(0.011 + k * 0.0075, 0, 0); add(rub, t, T); }
+    // the bore inside the open end and the slot the flat cable goes into (dark)
+    const bore = K.lathe([[0.0001, 0.006], [0.0086, 0.006], [0.0086, -0.0004]], 48); bore.rotateZ(-Math.PI / 2); add(dark, bore, T);
+    const slot = G.roundedBox(0.0008, 0.0064, 0.0118, 0.0028); slot.translate(0.0045, 0, 0); add(SG.moulded('#060606', { rough: 0.8 }), slot, T);
   }
   if (parts.includes('dimmer')) {
     // standing on its bottom face, socket face towards the camera

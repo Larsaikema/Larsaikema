@@ -137,9 +137,10 @@ export function repairKit(p = {}) {
     return m;
   });
   // patches (or round patches for polyester)
-  const patchPos = [[-0.07, -0.06, 14], [0.0, -0.035, -6], [0.07, -0.01, 24]];
+  // a tidy fanned stack: each patch shifted and turned a little so all three edges read
+  const patchPos = [[-0.085, -0.03, 16], [-0.055, -0.005, 4], [-0.025, 0.02, -8]];
   patchPos.forEach(([x, z, rot], i) => {
-    const g = kind === 'polyester' ? null : patchGeo(0.2, 0.3, { curl: i === 2 ? 0.03 : 0, seed: i, lift: i * 0.0011 });
+    const g = kind === 'polyester' ? null : patchGeo(0.2, 0.3, { curl: i === 2 ? 0.022 : 0, seed: i, lift: i * 0.0011 });
     if (!g) return;
     g.rotateY(rot * DEG); g.translate(x, 0, z);
     bins.add(white, g);
@@ -156,23 +157,23 @@ export function repairKit(p = {}) {
     const tex = labelTex(kind);
     const mats = { label: K.cached('glueLabel', () => new THREE.MeshPhysicalMaterial({ map: tex, metalness: 0.35, roughness: 0.38, clearcoat: 0.4, clearcoatRoughness: 0.3, side: THREE.DoubleSide, name: 'glue tube label' })), alu: SG.aluSG({ tone: '#C8CBCE', rough: 0.32 }), cap: SG.moulded('#141414', { rough: 0.4, spec: 0.55 }) };
     glueTube(sub, mats, {});
-    const m = new THREE.Matrix4().makeRotationY(-32 * DEG).setPosition(-0.03, 0.0046, 0.05);
+    const m = new THREE.Matrix4().makeRotationY(-28 * DEG).setPosition(-0.075, 0.0046, 0.03);
     for (const [mat, list] of sub.bins) for (const g of list) { g.applyMatrix4(m); bins.add(mat, g); }
     // abrasive pad
-    const pad = G.roundedBox(0.07, 0.012, 0.1, 0.004); pad.rotateY(12 * DEG); pad.translate(-0.2, 0.006, 0.07);
+    const pad = G.roundedBox(0.07, 0.012, 0.1, 0.004); pad.rotateY(-6 * DEG); pad.translate(0.155, 0.006, -0.1);
     bins.add(K.cached('abrasive2', () => SG.procSurface(new THREE.MeshPhysicalMaterial({ color: '#7E8083', roughness: 0.95, name: 'abrasive' }), { kind: 'concrete', scale: 0.0006, bump: 0.0002, albedo: 0.25, rough: 0.05, cell: 0.0015, mottle: 0.01, mottleAmt: 0.05, pores: 0.3 })), pad);
   }
   // A6 step card
   const card = G.roundedBox(0.105, 0.0006, 0.148, 0.0003);
   const P = card.attributes.position, U = card.attributes.uv;
   for (let i = 0; i < P.count; i++) U.setXY(i, 0.5 + P.getX(i) / 0.105, 0.5 - P.getZ(i) / 0.148);
-  card.rotateY(-8 * DEG); card.translate(0.19, 0.0003, 0.07);
+  card.rotateY(-6 * DEG); card.translate(0.15, 0.0003, 0.065);
   bins.add(K.cached('repairCardMat', () => K.paper(cardTex())), card);
   const g = K.finish(bins, `repairKit ${kind}`, extras);
   return {
     object: g,
     detail: { target: [-0.03, 0.01, 0.05], size: 0.16, azimuth: 30, elevation: 40 },
-    view: { hero: { elevation: 36 } },
+    view: { hero: { elevation: 48 } },
     rig: { default: { contact: { strength: 0.8, h0: 0.004, res: 1024, blur: 1.2 }, groundAO: { strength: 0.7, maxZenith: 80 }, exposure: 0.78, toneMapping: 'neutral', shoulder: 0.88 } },
     meta: { kind },
   };

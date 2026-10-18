@@ -35,6 +35,16 @@
             endfor
           endif
         endfor
+        # a size value quoted in the copy ('Kies maat: Ø60-70 cm') reads like the size pills: 'Ø 60–70 cm' (brand 5)
+        for o in product.options_with_values
+          for v in o.values
+            assign vn = v.name | default: v | append: ''
+            if vn contains 'Ø' and desc contains vn
+              assign vf = vn | replace: 'Ø ', 'Ø' | replace: 'Ø', 'Ø ' | replace: '-', '⁠–⁠' | replace: ' cm', ' cm'
+              assign desc = desc | replace: vn, vf
+            endif
+          endfor
+        endfor
       -%}
       {%- if desc != blank -%}<div class="rte">{{ desc }}</div>{%- endif -%}
     {%- when 'specs' -%}
@@ -84,7 +94,8 @@
                 {%- if row.groep == g and row.waarde != blank -%}
                   {%- if skip_incl -%}{%- assign rl = row.label | downcase -%}{%- if rl == 'inbegrepen' or rl == 'niet inbegrepen' -%}{%- continue -%}{%- endif -%}{%- endif -%}
                   {%- assign g_n = g_n | plus: 1 -%}
-                  <tr><th scope="row">{{ row.label }}</th><td>{{ row.waarde | replace: ' x ', ' × ' }}</td></tr>
+                  {%- assign r_l = row.label -%}{%- if r_l contains 'Ø' -%}{%- assign r_l = r_l | replace: 'Ø ', 'Ø' | replace: 'Ø', 'Ø ' | replace: '-', '–' | replace: ' cm', ' cm' -%}{%- endif -%}
+                  <tr><th scope="row">{{ r_l }}</th><td>{{ row.waarde | replace: ' x ', ' × ' }}</td></tr>
                 {%- endif -%}
               {%- endfor -%}
             {%- endcapture -%}

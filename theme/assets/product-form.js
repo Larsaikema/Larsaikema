@@ -25,6 +25,7 @@ if(q.value!==v)(q.value=v),sync(q);
 if(e.target===q||e.target.matches('[data-addon]'))this.refresh();
 });
 KK.printUpload?.(this);
+this.addEventListener('click',(e)=>{const t=e.target.closest('[data-mix-toggle]');if(t&&!this.mix)(this.mix=t).setAttribute('aria-busy','true'),document.head.append(Object.assign(document.createElement('script'),{src:t.dataset.js}));});
 this.root.addEventListener('click',(e)=>{
 const tier=e.target.closest('[data-staffel-qty]');
 if(tier&&this.qty)return(this.qty.value=tier.dataset.staffelQty),this.qty.dispatchEvent(new Event('change',{bubbles:true}));
@@ -270,7 +271,7 @@ this.done();
 KK.cart.afterAdd(this.$('.product__title')?.textContent?.trim(),added);
 }catch(err){
 const d=String(err.data?.description||err.data?.message||'');
-const n=+(d.match(/\d+/)||[])[0];
+const n=+(d.match(/\b(?:maar|only|alle|all)\s+(\d+)/i)||[])[1];
 const t=this.dataset.productTitle;
 if(n&&t&&d.includes(t)&&this.qty&&n<this.quantity){
 this.qty.value=n;

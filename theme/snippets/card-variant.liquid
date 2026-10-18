@@ -1,0 +1,103 @@
+{%- comment -%}
+  The variant a product card stands for when storefront filters narrow the product to some of its variants
+  (variant.matched: Kleur, Maat, Uitvoering, the price range, 'Alleen leverbaar'). Used by snippets/product-card.liquid
+  (photo, link, quick add, price, stock line, size tag, marked swatch) and by the lead line in
+  sections/main-collection.liquid (which counts the same stock lines), so both pick the same variant.
+  Outputs nothing when no filter narrows the product (every variant matched, or none: the card keeps its defaults),
+  else 'shown|image|cheapest|varies|size':
+  - shown: the cheapest matched variant that can be ordered, else the cheapest matched one (the link lands on the price
+    the card shows)
+  - image: the matched variant whose photo the card shows: the shown one when it has its own photo, else the first matched
+    one with a photo (empty when no matched variant has its own photo)
+  - cheapest: the matched variant with the lowest price (the card's price); varies: 1 when the matched prices differ ('vanaf')
+  - size: the one size all matched variants share, when the product comes in several sizes ('3 x 6 m'), else empty
+  - colour: the shown variant's colour (the option named in settings.swatch_option_names), else empty
+  - photo colour: without a matched photo, the colour of the product photo the card shows instead, else empty
+  Param: product (required).
+{%- endcomment -%}
+{%- liquid
+  assign cv_size_idx = -1
+  assign cv_color_idx = -1
+  assign cv_size_names = 'maat,tafelmaat,diameter,afmeting,formaat' | split: ','
+  assign cv_color_names = settings.swatch_option_names | downcase | split: ','
+  for option in product.options_with_values
+    assign cv_on = option.name | downcase | strip
+    if cv_size_idx < 0 and cv_size_names contains cv_on and option.values.size > 1
+      assign cv_size_idx = option.position | minus: 1
+    endif
+    if cv_color_idx < 0
+      for n in cv_color_names
+        assign cv_nn = n | strip
+        if cv_nn == cv_on
+          assign cv_color_idx = option.position | minus: 1
+        endif
+      endfor
+    endif
+  endfor
+  assign cv_count = 0
+  assign cv_avail = nil
+  assign cv_img = nil
+  assign cv_min = nil
+  assign cv_varies = 0
+  assign cv_size = ''
+  assign cv_size_multi = false
+  for v in product.variants
+    unless v.matched
+      continue
+    endunless
+    assign cv_count = cv_count | plus: 1
+    if v.available
+      if cv_avail == nil or v.price < cv_avail.price
+        assign cv_avail = v
+      endif
+    endif
+    if v.featured_image
+      if cv_img == nil
+        assign cv_img = v
+      elsif cv_img.available == false and v.available
+        assign cv_img = v
+      endif
+    endif
+    if cv_min == nil
+      assign cv_min = v
+    elsif v.price != cv_min.price
+      assign cv_varies = 1
+      if v.price < cv_min.price
+        assign cv_min = v
+      endif
+    endif
+    if cv_size_idx >= 0
+      assign cv_v_size = v.options[cv_size_idx]
+      if cv_size == ''
+        assign cv_size = cv_v_size
+      elsif cv_v_size != cv_size
+        assign cv_size_multi = true
+      endif
+    endif
+  endfor
+  if cv_count > 0 and cv_count < product.variants.size
+    assign cv_shown = cv_avail | default: cv_min
+    if cv_shown.featured_image
+      assign cv_img = cv_shown
+    endif
+    if cv_size_multi
+      assign cv_size = ''
+    endif
+    assign cv_color = ''
+    assign cv_photo_color = ''
+    if cv_color_idx >= 0
+      assign cv_color = cv_shown.options[cv_color_idx]
+      if cv_img == nil
+        assign cv_photo_src = product.featured_media.preview_image.src | append: ''
+        for v in product.variants
+          assign cv_v_src = v.featured_image.src | append: ''
+          if cv_v_src != '' and cv_v_src == cv_photo_src
+            assign cv_photo_color = v.options[cv_color_idx]
+            break
+          endif
+        endfor
+      endif
+    endif
+    echo cv_shown.id | append: '|' | append: cv_img.id | append: '|' | append: cv_min.id | append: '|' | append: cv_varies | append: '|' | append: cv_size | append: '|' | append: cv_color | append: '|' | append: cv_photo_color
+  endif
+-%}

@@ -88,33 +88,43 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
 - `w`, `d` (m): 3×3, 3×4.5, 3×6, 4×4, 4×6, 4×8 … De lange zijde komt automatisch naar voren (`"orient":"keep"` om dat uit te zetten).
   Zijden > 4 m krijgen een tussenpoot (3×4.5/3×6/4×6/4×8 = 6 poten) en per vak een eigen piek, maar
   het dak blijft **één doek** met een zachte, doorhangende kil boven de middenschaar.
-- `legs`: `premium` (zeskant 40 → 34 mm zwart gepoedercoat staal, zwarte nylon hoekstukken, dakrand 2,10 m, schaar 58 cm diep) of
-  `professional` (zeskant 50 → 44 mm aluminium, aluminium hoekstukken, zwaardere profielen, 2,14 m, schaar 60 cm). De schaardiepte is zo gekozen dat
-  elk kruis mét scharnierbout ~9 cm onder de valancezoom zichtbaar is: elke zijde leest als X-schaar, niet als zigzag.
+- `legs`: `premium` (zeskant 40 → 34 mm zwart gepoedercoat staal, zwarte nylon hoekstukken, dakrand 2,10 m, schaar 68 cm diep,
+  profielen 32 × 15 mm) of `professional` (zeskant 50 → 44 mm aluminium, aluminium hoekstukken, profielen 42 × 19 mm, 2,14 m,
+  schaar 70 cm). De schaardiepte is zo gekozen dat elk kruis mét scharnierbout ~14 cm onder de valancezoom ligt; van de
+  hero-camera (17° boven, door de uitwaaiering en buik van de valance) zie je het **~11–13 cm onder de zoom** (gemeten met de
+  probes `trussCross`/`hemAtCross`), dus elke zijde leest als rij ruiten (X-schaar), niet als zigzag "W". Bij 58 cm lag het
+  kruis in beeld precies op de zoomlijn.
   `frameFinish`: `powder` (zwart staal) of `alu`; standaard volgt het de lijn.
 - `color`: kleurnaam of `#hex` (dak, valance, wanden). `wallColor` voor afwijkende wanden. Wit doek wordt
   op ~85 % albedo gezet (PVC, leest als wit en niet als lichtgrijs). **Donker doek krijgt zijn echte waarde:**
   albedo = de kleurstaal (antraciet 5 %, grijs 16 %), alleen echt zwart wordt van 1,2 % naar 1,6 % getild.
-  Alle donkere en middenkleuren krijgen **hetzelfde licht en dezelfde belichting** (0,72; geen extra key of
-  belichting voor zwart), dus zwart, antraciet en grijs zijn drie verschillende producten: belicht dakvlak
-  zwart ~40–50, antraciet ~80, grijs ~135; afgewend vlak zwart ~20 (sRGB-luminantie). Zwart krijgt vorm uit
-  één brede zachte glans van de overhead-scrim op de PVC-coating, niet uit meer licht. Controle:
-  `python3 renders/tools/check-tent-values.py` (zie *Toonbewaking*).
+  **Donker doek wordt belicht zoals een fotograaf zwart product belicht** (art direction 18 okt 2026: bij 0,72
+  was de zwarte 3×6 met wanden één onleesbare donkere schuur, wanden 42–56, dakvlakken 16–46): `auto` met
+  `max` 1,02 voor donkere kleuren (zwart, antraciet, donkerblauw; middenkleuren blijven 0,72), plus een brede
+  zachte scrim hoog achter de set die elk naar de camera gekeerd dakvlak als **één zachte glansband**
+  spiegelt. Zwart: belicht dakvlak ~60–65, afgewend ~29–34; belichte wand ~66, afgewende wand ~31; de volgorde
+  zwart < antraciet < grijs blijft (elk ≥ 25 niveaus). Graatnaden, de kil tussen twee pieken en de dakrand
+  dragen een **glanzender naadmateriaal** (welt 9,5 × 3,4 mm op donker doek, ruwheid 0,24): hun ronde kroon
+  spiegelt de scrim, dus op zwart loopt langs elke graat, de kil en de dakrand één dunne lichte lijn die de
+  vlakken scheidt. Controle: `python3 renders/tools/check-tent-values.py` (zie *Toonbewaking*).
   Wit wordt belicht als gefotografeerd wit PVC: een hogere key, hoog op het vlak naar de nok gericht met een
   zachte bundel van 38°, en belichting 0,52 (bij 0,58 lag het hele belichte vlak in de schouder van de
   toonkromme op ~248: een vlakke, gegoten plaat; een smallere, lager gerichte bundel zette er een spotlicht op
   en liet de linkerhoek naar ~165 zakken: een grijze vignet) laten het belichte vlak van ~246 hoog bij de spant
   **gelijkmatig afvallen naar ~230 langs de dakrand en ~200–220 langs de linkergraat** (~190 in de uiterste
   hoek): elk hol half paneel leest, en de linkerbovencontour leest ook in een collectieraster tegen de
-  #EFEDE8-achtergrond; de verticale valance blijft duidelijk donkerder (~197–205) dan de dakvlakken, het
-  afgewende vlak ~189–198. Het detail houdt zijn eigen belichting 0,58.
+  #EFEDE8-achtergrond. **Schaduwkant** (r8): een sterkere vulling (4,4) en reflectiekaart vóór (3,6) tillen het
+  afgewende dakvlak en beide valances naar **~212–225** (bij 174–200 las wit doek als vaal grijs); het belichte
+  vlak blijft ~246, en de achtergrond wordt achter de kap zacht ~5 % donkerder (`backdropShade`, loopt naar de
+  beeldrand uit naar exact #EFEDE8), zodat de belichte linkerbovencontour blijft staan. Het detail houdt zijn
+  eigen belichting 0,58.
 - `walls`: per zijde (`front`, `back`, `left`, `right`) één type, of een lijst per vak van 3/4 m
   (`"back":["window","door"]`). Alle indelingen staan gecentreerd in hun vak:
 
   | type | wat je ziet |
   |---|---|
   | `closed` | dichte wand |
-  | `window` | één rechthoekig PVC-raam (max 1,5 m breed, 0,86–1,56 m hoog) met gestikte doekrand; donker rokerig helder folie (~70 % doorkijk: de schemerige binnenkant en het frame vaag zichtbaar) met één brede, zachte, licht golvende reflectie (geen glansstrepen) |
+  | `window` | één rechthoekig PVC-raam (max 1,5 m breed, 0,86–1,56 m hoog) met een **gestikte bies van 3,6 cm** (dubbele laag, 2,2 mm dik, iets glanzender dan de wand, twee stiksels); helder folie (~70 % doorkijk) over een donkere binnenkant waarin de overkant en het frame vaag te zien zijn, met **één schone diagonale reflectieband** (~45°, ~15 cm, nauwelijks golvend) |
   | `windows` (`church`) | twee kerkraampjes met roede en marges van ≥ 0,5 m tot de poten |
   | `door` | deur van ~1 m. **`doorState` standaard `"auto"`: dicht in hero/front/side/back** (rits, stormflap en deurrand lezen van buiten; het hoofdbeeld opent nooit met een donker gat), **half open in `detail`**. Met `"half"` is het **rechterblad losgeritst, opgerold tot de deurkop en vastgegespt**: van buiten een donkere opening met de oprol erboven (zichtbaar in hero en thumbnail), het linkerblad dicht met rits, stormflap en hangende band; door de opening zie je de binnenkant (vloer, frame, ramen aan de overkant). Met `"doorState":"closed"`: deuropening met gestikte deurrand (platte 4 cm band van 0,7 mm met scherpe randen, dubbel stiksel), verticale rits in het midden (twee geweven tapes, ~520 in elkaar grijpende gegoten tanden per kant op 3,4 mm steek, schuiver als wig met brug, trekker met gat en trekkoord), stormflap: een platte band van 5 cm links van de rits met een omgevouwen rand van 2 mm, die maar ~3 mm van de rits staat (fijne schaduwlijn op de tanden), verstevigingsdriehoek, twee oprolbanden van echte singelband (dikte, afgeronde zelfkant, randstiksel, boxstiksel bovenaan) met kliksluiting (female huis met ribbel en drukknoppen opzij, male tong met sleuf) |
   | `door-open` | deur open: opening tot 1,96 m, opgerolde deur met twee lussen erboven |
@@ -122,30 +132,33 @@ Let op: modelparameters mogen dus niet `size` heten; afmetingen heten `w`, `d`, 
   | `rolled` | hele wand opgerold onder de valance (met drie banden) |
   | `open` / `none` | geen wand op die zijde |
 
-  Wanden hangen aan de dakrand (bovenkant achter de valance; daar is de bolling zacht begrensd zodat geen
-  plooi door de rok steekt) en zijn een paar cm te lang: tussen de poten **rust de zoom op de grond en knikt
-  onregelmatig naar buiten**, bij de poten (klittenband) is hij ~2 cm opgetrokken. Verder: gevouwen
-  onderzoom, verstevigde zijbanden, spanningsrimpels vanuit de bovenhoeken, onregelmatige verticale
-  valplooien (ruis, geen sinussen; naar de zoom vrijer en licht uitwaaierend), smalle plooien die vanaf elk
-  klittenbandlipje bovenaan ~0,8 m naar beneden uitlopen, een buik van ~3 cm tussen de poten. Panelen eindigen
+  Wanden hangen aan klittenbandlipjes langs de dakrand (~1 m uit elkaar; bovenkant achter de valance, daar is de
+  bolling zacht begrensd zodat geen plooi door de rok steekt) en zijn met banden aan de poten gesnoerd. Polyester
+  onder zijn eigen gewicht: tussen twee lipjes **zakt het doek in een ondiepe kettinglijn** (twee geneste U-plooien
+  die net onder de valancezoom zichtbaar worden), onder elk lipje loopt een **brede bolle valplooi** naar de zoom
+  met een zacht dal ertussen (**2–4 onregelmatige plooien per paneel van 3 m**: afstand, diepte en helling per
+  plooi anders, naar de zoom iets dieper; hellingen ~8–10°, zodat de wandglans in een paar zachte licht/donker-banen
+  breekt), een buik van ~1,6 cm, en de panelen zijn een paar cm te lang: tussen de poten **rust de zoom op de
+  vloer en knikt in een kleine golf naar buiten**, bij de poten (banden) ~2 cm opgetrokken. Geen regelmatige fijne
+  verticale banen meer (die lazen als golfplaat). Verder: gevouwen onderzoom, verstevigde zijbanden,
+  spanningsrimpels vanuit de bovenhoeken. Panelen eindigen
   op de poothartlijn: op een hoek blijft een smalle sleuf waarin de poot en de **velcrobanden** zichtbaar
   zijn — van elke wandrand loopt op drie hoogtes een band van 5 cm in een lus om de poot. PVC-ramen:
-  gestikte doekrand, donker rokerig folie (~70 % doorkijk, geen clearcoat, gedempte omgevingsreflectie), strak
-  met een lange zachte golving, met **één brede, zachte, licht golvende reflectieband** per raam (engine `sheet`:
-  een Gauss-band van ~35 cm, door de golving van het folie licht gebogen): op zwart doek leest het raam als
-  donkere rookfolie met het frame er vaag achter, niet als glanzend glas-icoontje. Meng in één productbeeld
-  geen kerkraampjes en rechthoekige ramen. De valplooien zijn breed en zacht (15–50 cm uit elkaar, hellingen
-  ~5–8°: diep genoeg om in de wandglans van de hero als zachte licht/donker-banen te lezen; geen fijne
-  verticale streepjes, geen diagonale arcering in de bovenhoeken).
+  gestikte bies van 3,6 cm, helder folie (~70 % doorkijk, geen clearcoat, gedempte omgevingsreflectie) met
+  **één schone diagonale reflectieband** per raam (engine `sheet` met `dir` [0,74, 0,67], `sigma` 7,5 cm,
+  `wave` 0,15). Het folie werpt de schaduw van de key (in de schaduwpass ondoorzichtig binnen het raam): geen
+  zonnevlek door het raam op de vloer en de binnenkant van de overkant (die las als een lichte schuine plaat en
+  grijze rookstrepen achter het folie). Meng in één productbeeld geen kerkraampjes en rechthoekige ramen.
 
   **Binnenkant (≥ 3 hangende wanden):** de rig krijgt `interior` (zie Rig) met de **openingen** van de tent
-  (open deur gewicht 1, raam 0,4, panorama 0,6): licht komt binnen door de openingen. Naar binnen gerichte
+  (open deur gewicht 1, raam 0,16, panorama 0,3): licht komt binnen door de openingen. Naar binnen gerichte
   vlakken (binnenkant wanden, onderkant dak, binnenkant valance) houden het schaduwlicht (key, koepel) plus
-  fill/rim/bounce en omgevingslicht × 0,45 in de verre hoeken tot × 1 bij een opening, en spiegelen een zachte
-  binnen-ambient (0,75 → 1,8 bij een opening): zwart doek binnen leest zo ~15–25 in plaats van een zwart gat. De
-  vloer binnen de wanden gaat naar 4 % (3 wanden 10 %) en loopt bij een opening op tot 35 % (afval over 1,4 m):
-  vlak achter een open deur licht, achterin donker. Ramen lezen daardoor als donkere rookfolie met een
-  reflectie, nooit als matglas. Voor een productfoto "met zijwanden" zet je **de zijden die de camera niet ziet
+  fill/rim/bounce en omgevingslicht × 0,06 in de verre hoeken tot × 0,4 bij een opening, en spiegelen een zachte
+  binnen-ambient (0,35 → 1,2 bij een opening): door een raam is de binnenkant **donker**, met de overkant en het
+  frame vaag zichtbaar. De vloer binnen vier wanden gaat naar 0,7 % (3 wanden 5 %) en loopt bij een opening op
+  tot 30 % (afval over 1,4 m). Het `detail` met opgerolde deur laat meer licht binnen (`k` 0,16 → 0,7,
+  ambient 1,3 → 2,6, afval over 2,8 m): door de deuropening lezen vloer, frame en overkant (geen zwart gat).
+  Voor een productfoto "met zijwanden" zet je **de zijden die de camera niet ziet
   op `closed`** (de samples doen dat: `{"back":["window","door"],"left":"window","front":"closed","right":"closed"}`),
   anders zie je door de ramen witte kaarten: de ramen aan de overkant met de studio erachter.
 
@@ -178,12 +191,14 @@ ribben, twee zeskantbouten per vlak, `PRO 50`). Dak: piramide per vak; elk dakvl
 halve panelen die tussen spant (rug over de spantbuis, ~1,6 cm afgerond) en graat **holvallen: ~9 cm op een
 vak van 3 m** (3 % van de vakbreedte, schaalt mee), nul aan de top en aan de dakrand. De graatnaden dragen
 de spanning van hoekzak naar top en zakken maar ~4 cm door, zodat de **silhouetten licht naar binnen
-buigen**; de spanten buigen ~2 cm. Vanuit elke hoekzak lopen **vier ondiepe, rechte spanningsrimpels**
-(3,5–5 mm, zonder dalen ernaast, twee per vlak op 5–13° naast de graat); de holte tussen spant en graat blijft
-één gladde curve (geen trechter vanuit de hoek). Drie zachte ruggen per vlak vanuit de topkap. Getapete en dubbel
+buigen**; de spanten buigen ~2 cm, en elk vak heeft een flauwe lange golving (~4 mm over 30–60 cm: geen
+perfecte schaal). Vanuit elke hoekzak (waar het doek over de pootkop getrokken wordt) waaieren **vier radiale
+spanningsplooien** uit: ze beginnen aan de rand van de stijve hoeklap en lopen 30–60 cm uit, elk een zachte rug
+van 14–18 mm met ondiepe dalen ernaast, 9–23° naast de graat. Rond de topkap **vier radiale plooien per vlak**
+(9–13 mm, 25–45 cm) waar het doek om de kap verzameld is. Getapete en dubbel
 gestikte graat- en middennaden (die stoppen waar de dakrandvouw begint) met een **naadwelt** in het midden van de
-tape (graat 6,8 × 2,4 mm, spant 5,2 × 1,7 mm, glanzender dubbele laag): 2–3 px op 2000 px, dus de naden lezen
-ook in het hoofdbeeld. Versterkingslappen op de hoeken en
+tape (graat en kil 6,8 × 2,4 mm, op donker doek 9,5 × 3,4 mm in het glanzende naadmateriaal; spant 5,2 × 1,7 mm):
+2–3 px op 2000 px, dus de naden lezen ook in het hoofdbeeld. Versterkingslappen op de hoeken en
 de top (afgeronde driehoek op de hoeken, cirkel op de top, beide met een gelijkmatig dubbel stiksel op 6 en
 12 mm van de rand; onder de stijve dubbele laag lopen de spanningsruggen uit, zodat de randen recht blijven).
 Rond de topkap is het doek strak: de holval van de panelen loopt binnen ~35 cm van de kap naar nul (geen
@@ -193,9 +208,11 @@ ronde graat (de holval van de panelen rondt daar even breed af als de graat, en 
 kap blijven ≥ 0,2 rad naast de graatlijn: geen geknepen vouw achter de kap). De **topkap** zelf is een lage
 koepel (Ø 12 cm, ~6 mm boven het doek) in de doekkleur, glad (zonder weefselkaart, die las als geperforeerd grijs
 onderdeel). **Dakrand:** het dak wordt over de laatste ~6 cm strak over de
-schaar getrokken (lichte bolle schouder) en slaat dan in een **scherpe vouw van 4 mm** om naar de valance;
-één stiksel 7 mm onder de vouw, geen bies, geen worst. De dakrand is met klittenband aan de poten en aan elk
-bovenste schaarknooppunt (~1 m) bevestigd en **zakt daartussen ~4 mm door**: de valance volgt dat festoen. Tussen twee vakken
+schaar getrokken (lichte bolle schouder) en slaat dan in een vouw van 4 mm om naar de valance; in die naad zit een
+**paspel** (koord van 7 mm in doekkleur, glanzend naadmateriaal) en 7 mm eronder een stiksel: de overgang dak/valance
+leest op hero-formaat als genaaide rand (op zwart een dunne lichte lijn langs de hele dakrand). De dakrand is met
+klittenband aan de poten en aan elk bovenste schaarknooppunt (~1 m) bevestigd en **zakt daartussen ~3,5–4 mm door**:
+de valance volgt dat festoen. Tussen twee vakken
 (3×6, 4×8) wordt de zachte kil naar de dakrand toe scherper, zodat de dakrand recht blijft.
 Doek: `M.pvcCloth(color)` (PVC-gecoat polyester; ook `M.pvcPatch` voor dubbele lagen en `M.pvcThread`):
 geen clearcoat (die gaf plasvormige softbox-reflecties), **één coating voor alle kleuren** (wit apart):
@@ -216,16 +233,20 @@ naden/lappen (dubbele laag) donkerder ertegen. Alle doek-uv's zijn in meters óp
 dus het weefsel rekt nergens uit. Wit doek: albedo 85 %. Stiksels: toon-op-toon garen (op wit gelijk aan
 het doek, op zwart een fractie lichter) dat leest door reliëf: elke steek duikt aan beide uiteinden het doek
 in (naaldgaten donkerder via vertexkleur), steeklengte ±8 %, lijn slingert ~0,15 mm.
-Valance: dunne rok van vier rechte panelen met **genaaide hoeknaden**; de hoek is bovenaan strak (1,6 cm) en
-rondt naar de zoom af tot ~3 cm (geen messcherpe doos) en schopt daar licht uit; bovenaan strak aan de
-dakrandvouw genaaid, lichte uitwaaiering, buik van ~1 cm, zachte onregelmatige **verticale valplooien**
-(golflengtes ~20–70 cm, groeien naar de zoom), een **festoen van ~6 mm** tussen de bevestigingspunten (4 mm uit
-de dakrand + ~2 mm in de zoom), en een omgeslagen zoom van 2 cm: van buiten de echte ~2 mm dikke rand plus een
+Valance: een **losse textielflap per zijde**: op elke hoek zijn twee flappen alleen over de bovenste ~6 cm aan
+elkaar genaaid (naad + trens), daaronder opent een **spleet** naar de zoom (~1,8 cm breed onderaan), en de vrije
+hoeken hangen elk op hun eigen manier (één ~4 mm naar buiten): geen massieve doos-hoek. De hoek is bovenaan strak
+(1,6 cm) en rondt naar de zoom af tot ~3 cm; bovenaan strak aan de dakrandvouw genaaid, lichte uitwaaiering, buik
+van ~1 cm, zachte onregelmatige **verticale valplooien** (~6 mm, golflengtes ~20–70 cm, groeien naar de zoom), een
+**schulp van ~9 mm** tussen de bevestigingspunten (~3,5 mm uit de dakrand + ~5,8 mm in de zoom: de zoom is nooit
+een liniaalrechte lijn), en een omgeslagen zoom van 2 cm: van buiten de echte ~2 mm dikke rand plus een
 **dubbel gestikte zoomband** (stiksels op 5 en 13,5 mm die het doek in twee groefjes trekken, het doek ertussen
 bolt licht op, de rand van de binnenlaag tekent als ribbel op 19 mm): de band met twee lijnen blijft na het
 verkleinen naar 2000 px zichtbaar.
 
-**Frame-afwerking:** Premium-poten zijn satijn zwart gepoedercoat (ruwheid 0,4 onder een satijnen laklaag);
+**Frame-afwerking:** Premium-poten en -schaar zijn satijn zwart gepoedercoat (ruwheid 0,4 onder een satijnen laklaag,
+een fijne, zwakke sinaasappelhuid: stippel van 4 mm, sterkte 0,022; de bibliotheekstandaard van 2,5 cm / 0,08 spiegelde
+onder de laklaag als vlekkerig camouflagepatroon op de brede vlakken van de schaarprofielen en las als vuil);
 twee hoge striplichten in de studio-omgeving geven elk facet een eigen waarde met een fijne glanslijn op de
 ribben, zodat zeskant en de stap van buiten- naar binnenbuis ook op 2000 px lezen. Professional is **geborsteld,
 helder geanodiseerd aluminium**: metaal, ruwheid 0,2, sterke anisotropie (0,85) langs de buis (een lange
@@ -238,12 +259,14 @@ verzinkt staal (metalness 0,8, gevlekte ruwheid per zinkkristal), 6 mm met 1 mm 
 moer door de koker, en een onzichtbare contact-proxy die achter/opzij een strakke contactschaduw geeft (de
 plaat ligt óp de vloer in plaats van erop geplakt).
 
-**Standaardbeelden per tent:** `hero` + `detail`. Het detail is een close-up van de hoek die het dichtst
-bij de hero-camera staat (hoekstuk, schuif, schaar met bouten, valancezoom, doekstructuur) van net onder
-dakrandhoogte, met een kleine scherptediepte zodat de achterkant van het frame wegvalt. Heeft de tent een
-deur, dan is het detail de deur van buiten (opgerold en vastgegespt blad, rits van het dichte blad,
-stormflap, deurrand, oprolbanden, doorkijk naar binnen), met een strijklicht van opzij zodat het reliëf ook
-op zwart doek tekent.
+**Standaardbeelden per tent:** `hero` + `detail`. Het detail van een open tent is de hoek die het dichtst
+bij de hero-camera staat, **van ~17° boven de dakrand** (de dakhoek met zijn spanningsplooien en hoeklap, de
+gespleten valancehoek, hoekstuk, X-schaar naar beide kanten, schuif met trekring en de bovenkant van de poot),
+met een kleine scherptediepte; van onder de dakrand las de onderkant van het dak als een vlakke grijze plaat.
+Heeft de tent een deur, dan is het detail **de hoek van de deurwand, van voetplaat tot deurkop** (~2,3 m): de
+hoekpoot in de sleuf tussen twee wanden met de klittenbanden eromheen, de verzinkte voetplaat, en de half
+geopende deur ernaast (rits, stormflap, opgerold en vastgegespt blad, doorkijk naar binnen), met een strijklicht
+van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 
 ### `statafel`
 `{ diameter, height, top, frame, base, legs, folded, footAngle }`
@@ -302,7 +325,8 @@ rugstijlen op een vlakke zitting) en de auto-belichting met de echte albedo van 
 | `trolley` | `kind` (`statafel` ca. 126 × 97 × 113 hamerslag, `klaptafel` 190 × 75 × 90, `barkruk` 150 × 55 met 3 stapels van 8), `size` (`groot` 15 / `klein` 5), `loaded`, `tableTop` | ingeklapte statafels dwars in de kooi, binnen de eindframes; laden vanaf de camerakant |
 | `klaptafel` | `shape`, `diameter`/`length`, `color` (standaard `lichtgrijs`) | ronde tafel met open, zachte vloerschaduw |
 
-Batch: `node renders/render.mjs --batch renders/batches/furniture.jsonl` (Linnen `#ECE4D6`, paden naar `catalog/images/`).
+Batch: `node renders/render.mjs --batch renders/batches/furniture.jsonl` (alle 140 jobs van deze groep, Linnen `#ECE4D6`, paden naar
+`catalog/images/`; preview: `--size 1200 --samples 16 --concurrency 2`).
 
 Ronde 3 (`js/upholstery2.js`, eigen bestand naast `seatKit.js`): het materiaal dat het product benoemt moet als dat
 materiaal lezen, niet als CG-vinyl.
@@ -321,6 +345,27 @@ materiaal lezen, niet als CG-vinyl.
   `F.roundBoard` gaf het middelpunt van de bladvlakken de polaire rand-uv (ringen in elke bladtextuur); nu op straal.
 - `barrelTable`: zes duigtinten, duigen donkerder naar de kimmen (vertexkleur, eigen mesh), gelakte hoepels met glans.
 - Pakket 10 biertafelsets (`items`): sets 1,9 m hart-op-hart, zodat de banken van naburige sets elkaar niet raken.
+
+Ronde 4 (art direction 18 oktober: elke furniture-job heeft een beeld; eigen bestanden, door de bestaande bouwers aangeroepen):
+- `stanchionParts.js` (via `stanchion`): `head: "ovaal"` + `rope` + `pair` = palen voor koord (Ø51, urnkop met vier horizontale
+  ogen; `finish` chroom / messing / zwart / wit) met een velours koord (`upholstery2.velvetPile`, Ø32) in een parabool van ~27 cm
+  tussen twee ogen, verchroomde hulzen en karabijnhaken; `only: "rope"` = los koord in een hoefijzer op de vloer (hero 38°);
+  `parts`: `wandhaak`/`koord` (drie afwerkingen + schroeven en pluggen), `wandunit`/`m` (cassette op wandplaat, band op de vloer,
+  sluitplaat; `beltLength` 2 | 3 = label "2 m"/"3 m"), `bordhouder`/`liggend`/`staand` (kantelbaar kliklijstje op een RVS-paal,
+  bord "INGANG"; `format` A4 | A3), meerdere = groepsbeeld.
+- `biertafelParts.js` (via `biertafelset {only: "onderstel", part}`): `obt`/`obtb`/`obb` (verzinkte poten plat, met scharnierprofiel
+  en klikslot), `ks`, `bm5` (slotbouten M8 met moer en ring), `vb8` (voetschoenen), `obk` (zwarte U-frames), `ocf` (T-poten),
+  `sp4` (stelpoten met schroefdop); zonder `part` een flat-lay als hoofdbeeld.
+- `banquetTable.js` (via `klaptafel` zodra `top` gezet is): `shape` rechthoek / rond / halfrond / kwartrond (kwart ring, 4 = cirkel)
+  / ovaal / vierkant, `top` hout (berkenmultiplex 18 mm, lagen op de kant) | berken / `#D9B98C` (melamine berkendecor) | wit |
+  lichtgrijs, `frame` u (klapbare U-frames met schoren) | t (conferentietafel), `folded`. Rand = één geveegde band, blad = vlakke plaat.
+- `chairs2.js` (via `chair`): `style: "wedding"` (resin klapstoel met spijlenrug en gevoerde zitting), `cover: "stretch"` +
+  `coverColor` op de klapstoel (lycra over rug, zitting en vier poten), en ingeklapte stoelen voor de kar.
+- `trolley2.js` (via `trolley`): `kind` `klapstoel` (2 banen ingeklapte stoelen: 30 klapstoelen of `chairStyle: "wedding"` 26),
+  `afzetpaal` (bak onderin + kamrails), `kapstok`, `koelkast` (plateau met twee spanbanden). `biertafel` gevuld: tafels in de
+  middelste baan, banken in een stapel aan weerszijden, alles binnen de eindframes (~1 m hoog bij 10 sets); `statafel` met een
+  deellading staat midden in de kooi. `tableTop` berken: `birchPly({clean: true})` (geen lap of knoest in het midden).
+  `patioTable`: zichtbare kantelkop met hendel onder het blad, hero op 12°.
 
 ### Overige (eenvoudiger, al bruikbaar)
 `klaptafel {length,width,height,color,frame}`, `biertafelset {length,tableWidth,frame}`,
@@ -372,12 +417,47 @@ zonder naden of draaikolken**.
 | `stretchParts` | `parts:[spanband, touwenset, paalverbinder, oogmoeren]` | één doorlopende ratelband: rol op de kant, draait plat, door de gesloten ratel, vast eind met J-haak; touwenset met RVS-ring en karabijnen, paalkap met oogmoer |
 | `lightParts` | `parts:[fitting, eindkap, dimmer], color` | dezelfde E27-prikfitting als op de prikkabel (lightKit) op platte kabel, schroefdraad en contact zichtbaar; eindkap; stekkerdimmer met Schuko-contact, draaiknop en stekker |
 
-Batch: `node renders/render.mjs --batch renders/batches/parts.jsonl` (paden naar `catalog/images/`).
+Batch: `node renders/render.mjs --batch renders/batches/parts.jsonl` (alle 50 beelden van deze groep, achtergrond Linnen
+`#ECE4D6` per regel, paden naar `catalog/images/`; preview: `--size 1200 --samples 16`).
+
+Ronde 3 (art direction 18 oktober, `js/partsLook3.js`, eigen bestand; `softGoods.js`/`partsKit.js` ongewijzigd voor de andere
+groepen): `cloth600` (mat gecoat 600D: zachte vezelglans, bijna geen spiegeling; de ronde-2-tassen lazen als glanzend rubber),
+`pvcSatin` (zijdeglans PVC zonder vlekkerige coating-reliëf), `galvFine` (fijne, laag-contrast spangle, geen grote vlekken),
+`castIron` + `plateLabelMat` (gegoten letters met kale, grijze ijzervlakken: `7,5 KG` leesbaar op zwart), `chestnutPole` (één
+niet-herhalende hout-textuur per paal: vellen van de schaafmes, nerf, schorsresten, noesten), `ropeGeo`/`ropeMat` (3-strengs
+geslagen touw), `gutterPackshot` (regengoot: het losse eind ligt als ronde U-goot), `decalOn` (kleine opdruk op een oppervlak).
+- `waterBag`: twee gelaste PVC-ringpanelen als zware waterkussen (plat boven, lasflens buiten en binnen), knijpt bij de rechte
+  spleet dicht tot een lasnaad met spanningsplooien, klittenband + gesp over de spleet, vuldop met `MAX 20 L`.
+- `sandbag`: uitgezakt (lage las vlak boven de vloer, ezelsoren plat op de vloer, brede bult), klittenbanden over de bovenkant
+  teruggevouwen; 2 × 2 met de lange zijde naar achteren.
+- `draagtas`: mat doek; beschermhoes met een paar lange valplooien i.p.v. kreukels; wieltas: wielen met loopvlak en donkere naaf in
+  een vastzittende wielkast, `detail` = achterkant onderaan van rechtsachter (beide wielen + tilhandgreep); `shape:"duffel"`: geen
+  losse steekwagen meer, ingeschoven telescoopgreep in een behuizing op de wieleind.
+- `easyUpParts` staander: zeskant met een ribbe boven (`spin` 30), ingeschoven (`collapsed`, zoals geleverd), diagonaal door het beeld
+  (`yaw` −29), standpunt 24°; satijn-aluminium zodat de facetten elk een eigen waarde krijgen.
+- `gewichten`: gietijzer (zwart gecoat, zandgietstructuur) met grote gegoten `7,5 KG` op kale grijze lettervlakken.
+- `tubeFittings`: knolling (buis links, van de camera af; koppelstukken in een kolom ernaast); losse buis diagonaal.
+- `protectionDisc`: hele statafel in beeld (geen uitsnede), softbox-reflectie weg van de opdruk; `stretchParts` touwenset: geslagen
+  touw met oogsplitsingen; oogmoeren rechtop 2 × 2; `repairKit`: nette flat-lay van boven (48°); `haringen`: waaier.
 
 ### Verlichting en heaters (eigen bestanden, vervangen de stubs)
 Gedeelde helpers: `js/lightKit.js` (hardware: E27-voet met echte schroefdraad, prikfitting `festoonSocket`,
 platte kabel, `rubberPlug`, `euroPlug`, `legClamp`, `diecast`, `litDiffuser`), `js/lightGlow.js` (licht
-zonder ruis) en `js/bulbKit.js` (G45-lampen die echt branden).
+zonder ruis), `js/bulbKit.js` (G45-lampen die echt branden), `js/heatGlow.js` (ronde 4: hete delen die
+*aan* lezen) en `js/poleMount.js` (ronde 4: klemproducten gemonteerd op een stuk easy-up-poot).
+
+**Aan = aan (ronde 4, `js/heatGlow.js`).** Wat gloeit of brandt is het verkoopargument van deze groep, dus:
+- *Kleur in uitvoerruimte.* Een emissive van 6 x oranje wordt door de neutral-curve tot bleek perzik
+  (de "roze plastic" heaters). `EMBER_GLSL` (`ember(h)`: dof rood, roodoranje, oranje met een gele rand)
+  geeft radiantie die na de toonkromme verzadigd oranje blijft; de flamegeometrie idem.
+- *Licht op de omgeving.* `spill(material, bronnen, {env})` kloont een materiaal met een emissive term
+  `kleur x I x facing^p x R^2/(R^2 + d^2)` vanaf lijnbronnen (segment A-B in het objectframe van het
+  onderdeel, dus een gekantelde kop neemt zijn licht mee; `twoSided` voor platen waarvan de normaal beide
+  kanten op kan wijzen) en dempt in hetzelfde shaderstuk de studioreflectie (`env`), zodat de gloed
+  draagt. Bewust geen `userData.envSpec`: de engine-hook vervangt dan de program-cache-key van het materiaal.
+- *Let op bij eigen shaderpatches*: declaraties en functies vóór de shadertekst plakken brak de compilatie
+  van het straalscherm (`'#' : invalid character`; het onderdeel verdwijnt stil, zo zag je bij de oude
+  heaters alleen de bloom). Voeg ze na `#include <common>` in en render één keer met `--verbose`.
 
 **Licht zonder ruis (`js/lightGlow.js`, `GlowComp`), zonder engine-aanpassing.** De compositie kent geen
 gemengde transparantie; de eerste lichtbeelden tekenden glas en gloed daarom met *stochastische dekking*,
@@ -403,13 +483,13 @@ en groen absorbeert (`volume` met `sigma`) en een zachte amberen bloom; uit: fos
 
 | model | parameters | wat je ziet |
 |---|---|---|
-| `prikkabel` | `bulbs, spacing, on, cable (zwart/wit), lamp (filament/opal/colour), lamps, plug` | **flat-lay**: de hele kabel ligt gecentreerd op de studiovloer in een losse slang (rijen dwars door het beeld met ronde keerbochten, ~3 cm natuurlijke slingering, licht gebogen rijen); aantal rijen en rijafstand volgen uit de kabellengte zodat de opstelling ~80 % van een vierkant (hero, 30° hoog) of een banner van 1800 × 1100 (`front`, 28°: alle lampen in beeld) vult. Elke fitting ligt op zijn kant (kop, lip en bol raken de vloer, as ~4° omhoog), de platte kabel draait over ~15 cm op zijn kant de kop in; lampen wijzen naar de camera, elk met een warme lichtplas voor de bol (achter de fitting beschaduwd). Stekker op de vloer rechtsvoor, eindkap achteraan. `detail` = sfeerclose-up van de middelste rijen (collectiebeeld) |
+| `prikkabel` | `bulbs, spacing, sag, on, cable (zwart/wit), lamp (filament/opal/colour), lamps, plug, layout` | **hero (`layout: 'hanging'`, standaard voor hero/back/side)**: de run hangt zoals hij gebruikt wordt, in bogen (`sag` m diep) onder een gespannen gegalvaniseerde spandraad, met zwarte tie-wraps om de 2 fittingen (3 bij 50 cm), elke fitting loodrecht met de lamp omlaag; de draad loopt licht af van de camera. Camera langs de run vanaf ooghoogte onder de draad (az 34, elev -5, 30 graden lens): de dichtstbijzijnde lamp groot rechtsboven (fitting, E27-hals, filamenten en gloed leesbaar op thumbnailformaat), de run wijkt naar linksonder, alle lampen in beeld, aanloopkabel en draad lopen het beeld uit. De kadrering wordt in de bouwer opgelost (de auto-kadrering convergeert niet voor punten die zo diep liggen) en als vlak proxyvierkant aan de engine gegeven. **Banner (`front`) en collectiebeeld (`detail`): flat-lay**: de hele kabel ligt gecentreerd op de studiovloer in een losse slang (rijen dwars door het beeld met ronde keerbochten, ~3 cm natuurlijke slingering, licht gebogen rijen); aantal rijen en rijafstand volgen uit de kabellengte zodat de opstelling ~80 % van een vierkant (hero, 30° hoog) of een banner van 1800 × 1100 (`front`, 28°: alle lampen in beeld) vult. Elke fitting ligt op zijn kant (kop, lip en bol raken de vloer, as ~4° omhoog), de platte kabel draait over ~15 cm op zijn kant de kop in; lampen wijzen naar de camera, elk met een warme lichtplas voor de bol (achter de fitting beschaduwd). Stekker op de vloer rechtsvoor, eindkap achteraan. `detail` = sfeerclose-up van de middelste rijen (collectiebeeld) |
 | `ledBulb` | `type (melkglas/filament/gekleurd), on, count, colors` | G45 E27 rechtop op het contact; gekleurd = set van 5 in twee verspringende rijen in regenboogvolgorde, met gekleurde lichtplassen |
 | `ropeLight` | `color, length, on, diameter, cord` | lichtslang Ø 13 mm, 36 LED's/m (emissief patroon), ~3,5 losse lussen die over elkaar heen klimmen, connector + snoer + eurostekker, heldere eindkap (echt glas) |
 | `stringLights` | `kind (kerst), count, spacing, length, on, color, wire` | twee getwiste aders, lamphouder + 5 mm LED per 10 cm; elke houder ligt op zijn kant, 25-55° van de draad af, afwisselend links en rechts (de draad loopt de voet in); losse rozet van lussen, 31 V-stekkertrafo |
-| `floodLight` | `watt, on, clamp, color, mountedOn` | gegoten behuizing met koelribben, brandend front met de SMD-matrix (8 × 6) als zachte vlekken, gehard dekglas (echte reflectie), U-beugel met sterknoppen; pootklem ervoor; kabel + stekker. `mountedOn:"leg"` = aan een staande poot |
-| `heater` | `kind, style (paddenstoel/flame/lounge/tafel), watt, on, clamp, color, mountedOn` | zie kop van `models/heater.js`. RVS: geborsteld (anisotroop, korrel in de lengte) in de studio-omgeving. Paddenstoel/tafel: gloeiend straalscherm met perforatie, drie naadstrips, donkere randen en een hete band boven het midden; gasknop met chromen rand, greep en witte wijzer, piëzoknop in een chromen kraag. Flame/lounge: vlam als licht in een echte kwartsbuis + amberen gloed in de buis |
-| `heaterCover` | `color, zip, heater` | 600D-hoes (`softGoods.fabric600`: basket-weave, garenlaag, coatingglans) over de paddenstoelheater: strak over de reflector, schoudernaad en vier paneelnaden met dubbel stiksel, valplooien, zachte plooien waar het trekkoord de zoom samentrekt (zoomband met stiksel), rits met schuiver, koordstopper, een singelband-handvat waarvan beide uiteinden plat op de hoes zijn gestikt (box-X) |
+| `floodLight` | `watt, on, clamp, color, mountedOn` | gegoten behuizing met 13 diepe koelribben, verdiept aluminium LED-board met 8 × 6 SMD-LED's die wit branden met elk een zachte gloed op het board, opstaande rand met helder gehard dekglas (echte reflectie), U-beugel met sterknoppen. **Standaard (klem) gemonteerd**: pootklem om een stuk zeskant easy-up-poot (loopt het beeld uit), beugel als vork op de klemstud, lamp 18 graden omlaag en iets naar links gedraaid zodat koelribben en klem in beeld zijn (`js/poleMount.js`). `clamp:false` = staand op de beugel; `mountedOn:"leg"` = gemonteerd zonder eigen poot (de tent levert die) |
+| `heater` | `kind, style (paddenstoel/flame/lounge/tafel), watt, on, clamp, color, mountedOn` | zie kop van `models/heater.js`. RVS: geborsteld (anisotroop, korrel in de lengte) in de studio-omgeving. Paddenstoel/tafel: straalscherm in verzadigd oranje (`ember`) met fijne perforatie, geprägede ribben, drie naadstrips, donkere randen en een hetere band boven het midden; onderkant reflector oranje aangelicht, beschermstangen donker (hittegetint) met oranje flanken, bloom en een warme lichtplas op de vloer (de fles schaduwt eronder); camera op ooghoogte (elev 3-4) zodat de onderkant van de reflector in beeld is. Flame/lounge: vlam als licht in een echte kwartsbuis (de vlam dekt de achtergrond af, licht getinte buis), amberen gloed in de buis, palen/frames/bovenplaat aangelicht, bloom en vloerplas. Elektrisch: standaard gemonteerd op een stuk easy-up-poot met de klem (vork-beugel, 12 graden omlaag, iets van boven zodat de klem achter de behuizing zichtbaar is); de goudkleurige goot vol licht rond een witgouden buis |
+| `heaterCover` | `color, zip, heater` | 600D-hoes (`softGoods.fabric600`) over de paddenstoelheater, tot op de vloer: strak over de reflector, schoudernaad en vier paneelnaden als opstaande naad met plooigroefjes en dubbel lichtgrijs contraststiksel, de zachte vouwlijnen van een nieuwe hoes uit de verpakking (onregelmatig), valplooien; #8-spiraalrits (zwarte band, glanzend grijze spiraal, twee stiksels, grote zinken schuiver met koordlus), ronde opgerolde zoom met het koord erin, trekkoord lichtgrijs uit een oogje met een tonvormige koordstopper die voor de zoom op de vloer ligt en eindkapjes; singelband-handvat op de top (box-X) |
 
 Batch (1200 px preview, 14 frames, Linnen): `node renders/render.mjs --batch renders/batches/lighting.jsonl`.
 
@@ -445,8 +525,37 @@ Batch (1200 px preview, 14 frames, Linnen): `node renders/render.mjs --batch ren
   lagen die niet precies op elkaar liggen, kreukels en een vouwlijn op de bovenste laag, zoom met dubbel stiksel).
 - `stretchtent` `angle: "low"`: de camera staat **onder het doek** op ooghoogte en kijkt langs de middenpaal omhoog de piek in
   (doek doorschijnender van onderen, meer vulling).
+- Wit doek leest wit (belicht ~246–251 op 1200 px, zoals de easy-up): wit stretchdoek belichting 0,98, witte stertent 0,86,
+  carport `tentRig2` + 0,72, witte marktkraam 0,6, wit overkappingzeil 0,7. Overkappingzeil hangt met diepere festoenen
+  tussen de ogen en lange golven naar de vrije zoom (geen plaat); gordijnen tuinpaviljoen: zachte ronde plooien bij de
+  ringen die onder de band overgaan in een paar brede, onregelmatige plooien (geen zigzag).
 - Batch (alle 99 beelden van deze groep, eindkwaliteit 2000 px): `node renders/render.mjs --batch renders/batches/tents-other.jsonl`;
   de preview-run gebruikt 1200 px, 14–32 samples en `rig.groundAO {samples: 32, keySamples: 32}`.
+
+### Tents-other ronde 4 (18 oktober 2026)
+- **Batch uit de jobs**: `python3 renders/tools/batch_tents_other.py [--preview]` schrijft `renders/batches/tents-other.jsonl`
+  (eindkwaliteit, 2000 px) of `tents-other-preview.jsonl` (1200 px, 16–40 samples) met **alle** jobs van de groep uit
+  `catalog/export/image-jobs.json` (161), plus de vertalingen die de catalogusspec renderbaar maken: `series` voor de
+  buizenframe-lijnen als de job hem niet meegeeft, de verbindingstunnel als eigen item met deurwanden, de advies-banner
+  met de tenten verder uit elkaar (scheerlijnen kruisen niet meer).
+- `frameTent {stripes: 'wit'}`: tweekleurig doek (Grijs-wit, Rood-wit, …): banen van 50 cm in `color` en `stripes` over
+  dak, luifel, gevels én wanden, doorlopend van wand naar dak (naden op de baangrens). `series` onderscheidt de
+  producten zichtbaar: `550-compleet` stormbanden met ratels, `550-premium` grondframe + nokversteviging, `620` zijhoogte
+  2,2 m, `basis` PE, `500` kaal frame. De skeleton (`catalog/tools/skeleton/fam_acc.py`) geeft `series` nu mee.
+- `opblaasbareTent`: zeshoek wordt bijna recht op een zijde en hoger bekeken (azimut 12°, elevatie 24°), zodat de zes
+  bogen en poten als zeshoek lezen; `walls: {right|left: 'tunnel'}` = wand met boogvormige deuropening + aanzetrand en
+  rits; `height` onder de elleboog (de zijwand-Pro-spec geeft 2,5 m wandhoogte mee) wordt genegeerd; `wallColor`.
+  LED-lamp: antraciet armatuur Ø 22 cm, 4000 K, recht van onder in het kruis van de bogen, belichting 0,3.
+- `opblaasbareTunnel`: tunnel met rechte stijlen en een halve-ellips gewelf (`tunnelDoor()`), twee luchtbogen als ribben
+  buiten op het doek (één met ventiel), doek hangt door tussen de bogen; sluit aan op de deurwanden van beide tenten.
+- `canopyRoof {display: 'folded'}`: één dun vel in 13 lagen zigzag gevouwen (U-vouwen links/rechts, losse randen voor en
+  achter), standaard mat polyester. Bedrukt dakzeil zonder `note` en zonder `withFrame`: **los dak** zwevend boven de vloer
+  met zachte schaduw (geen frame).
+- `gardenPavilion {part: 'footings'}`: funderingsset (betonpoer met voetplaat en paalschoen, verstelbare voet, grondanker
+  met schroefblad) naast elkaar; gordijnen opnieuw: plooidiepte volgt uit de stofbreedte, onregelmatige plooien, onder de
+  embrasse een smalle kolom (geen zandloper), nooit buiten de rail.
+- `stretchtent` `low`: oog in het kwadrant rechtsvoor onder het doek, middenpaal heel in beeld tot in de piek.
+- `tarp` transparant: dichtere folie met lichte tint, bredere reflectieband, melkwitte zomen.
 
 ## Camera
 
@@ -462,7 +571,7 @@ het beeld. Daardoor staan alle producten in de catalogus even groot en op dezelf
 | `back` | 214° | 17° | achterkant |
 | `top` | 0° | 62° | bovenaanzicht schuin |
 | `low` | 28° | 3° | laag standpunt (binnenkant dak) |
-| `detail` | per product | | close-up van het kenmerkende detail (tent: de hoek rechtsvoor van net onder de dakrand, met scherptediepte; statafel: bladrand; strik: de strik) |
+| `detail` | per product | | close-up van het kenmerkende detail (tent: de hoek rechtsvoor van ~17° boven de dakrand, met scherptediepte; tent met deur: hoekpoot + banden + voetplaat + half open deur; statafel: bladrand; strik: de strik) |
 
 Een bouwer kan per preset een betere kadrering voorstellen via `view: { hero: {azimuth, elevation} }`
 (bv. de ingeklapte statafel). `spec.camera` gaat altijd voor.
@@ -576,9 +685,14 @@ gelijkgekleurde productkaart staan.
   `translucency` (doorschijnend doek), `macro` (tweede normaallaag), `weave` (`{repeats, boost, roughVar,
   matte}`: afstandsafhankelijk weefselreliëf + glansvariatie), `stochasticAlpha` (doorkijkfolie),
   `interior` / `interiorSolid` (zie boven), `dye` (0–1: geverfd doek wordt in de schaduw dieper en verzadigder),
-  `sheet` (`{L, H, c, strength}` op folie met alphaMap: één brede, zachte, licht golvende reflectieband per
-  raam), `envFlag` (`{k, a0, a1}`: zwarte vlaggen voor kaal metaal: omgevingsreflectie × `k` waar de
+  `sheet` (`{L, H, c, strength, dir?, sigma?, wave?, mod?, off?}` op folie met alphaMap: één reflectieband per
+  raam; `dir` = normaal van de band in het (s, y)-vlak van het paneel, `sigma` = halve breedte in m, `wave` =
+  golving, `mod` = helderheidsvariatie langs de band; standaard de oude brede, licht golvende band), `envFlag` (`{k, a0, a1}`: zwarte vlaggen voor kaal metaal: omgevingsreflectie × `k` waar de
   gereflecteerde straal tussen `a0` en `a1` graden naast de camera wijst; zeskantfacetten wisselen licht/donker).
+- `backdropShade` — `{ at: [x, y, z], rx, ry, k }`: een zachte, iets donkerdere zone van de achtergrond rond het
+  geprojecteerde punt `at` (Gauss met stralen `rx`/`ry` als fractie van het beeld, diepte `k`), die naar de
+  beeldrand uitloopt naar exact `--bg` (rand van 12 %). Wit doek gebruikt `k` 0,055 achter de kap, zodat het
+  belichte silhouet (~246) tegen een achtergrond van ~226–232 blijft staan; de tegelranden blijven #EFEDE8.
 - `bounce.azimuth` / `bounce.elevation` (camera-relatief, elevatie < 0 = van onderen): maakt van het
   vloerkaatslicht een lage reflectiekaart vóór het product (wit doek: valance licht ophalen).
 - Render-info (`--json`) bevat `probes`: meetpunten die een model in `meta.probes` meegeeft
@@ -595,18 +709,19 @@ gradiënt van de holte op) en geeft het verre vlak een eigen, donkerdere waarde 
 naar de sleutelkant gekanteld (25°), vloerschaduw van bijna recht boven (`floorKey`), `keyShadow` 0,46.
 Wit doek: `neutral` met `shoulder` 0,88, een hogere key (−70°, 40°, op 2,3×, gericht op `aimRel`
 [0,28, 0,8, 0,4]: hoog op het vlak naar de nok, zachte bundel 38°) zodat het belichte vlak gelijkmatig naar
-links en naar de dakrand afvalt, vulling 2,2, een lage reflectiekaart vóór (`bounce` −20°/−25°, 1,5) die de
-valance licht ophaalt, belichting 0,52 (detail 0,58). **Alle andere
-kleuren (zwart inbegrepen): hetzelfde licht en `auto` met `max` 0,72**, d.w.z. één vaste belichting voor
-donkere en middenkleuren (lichte kleuren iets minder). Vulling 3,0 (afgewende vlakken ~55 % van het belichte
-vlak: diepere schaduwtint). **Met wanden:** de key-bundel is 60° en op halve wandhoogte gericht (de wand aan de
+links en naar de dakrand afvalt, vulling 4,4, een lage reflectiekaart vóór (`bounce` −20°/−25°, 3,6) die de
+valance en het afgewende vlak naar ~212–225 tilt, `backdropShade` achter de kap, belichting 0,52 (detail 0,58).
+**Andere kleuren: hetzelfde licht en `auto`** met `max` 0,72 voor middenkleuren en **1,02 voor donkere kleuren**
+(zwart, antraciet, donkerblauw), plus voor donker doek een brede zachte scrim hoog achter de set (180°, 72°,
+90 × 26°, 2,2) die de naar de camera gekeerde dakvlakken als één glansband spiegelen. Vulling 3,0 (afgewende
+vlakken ~50 % van het belichte vlak: diepere schaduwtint). **Met wanden:** de key-bundel is 60° en op halve wandhoogte gericht (de wand aan de
 key-kant krijgt licht tot aan de zoom), en de studio krijgt per wand een grote zachte kaart op de plek die de wand
 spiegelt: een verticaal vlak, van 17° boven gezien, spiegelt de studio ~15° ónder de horizon op twee keer zijn
 hoek met de camera (linkerwand ~−68°, rechterwand ~+112°). Zwart doek leest bijna alleen via die glans (diffuus
-1,6 %), dus de kaart aan de key-kant is sterk (zwart 14, middenkleuren 7, wit 3,4; afgewende kant 2,6 / 1,3) en
+1,6 %), dus de kaart aan de key-kant is sterk (zwart 16, middenkleuren 7, wit 3,4; afgewende kant 1,7 / 1,3) en
 staat iets naar de camera toe (−52° / +100°, 40° / 36° breed, zachte rand): elke wand spiegelt de aflopende
 schouder van zijn kaart, dus één brede glansgradiënt per wand, en elke valplooi (een paar graden kanteling)
-verschuift die gradiënt tot een zachte licht/donker-baan. Belichte wand zwart ~43, afgewende ~22: de twee
+verschuift die gradiënt tot een zachte licht/donker-baan. Belichte wand zwart ~66, afgewende ~31: de twee
 vlakken van de hoek scheiden, en plooien, paneelnaden, de zoom op de vloer en de velcrosleuven lezen. Studio-omgeving: twee hoge striplichten links (−100°) en rechts (136°)
 voor de zeskantpoten. Vloer: `groundSplit` met `shadowFloor` 0,6, een strakke contactschaduw (`h0` 3 cm) en een brede
 contacthalo (`wide`: `h0` 5 cm, σ 2,8 cm, sterkte 0,42); met wanden is de hemelocclusie sterker (0,5).
@@ -618,11 +733,17 @@ Gemeten (sRGB-luminantie; achtergrond #EFEDE8 = 237):
 
 | beeld | meting |
 |---|---|
+| **r8 (18 okt 2026, 2000 px)** | |
+| `tent-3x3-wit-hero` | belicht dakvlak 246 (240–249), afgewend 222 (213–224), valance belicht 234 / afgewend 211; achtergrond naast de kap 232–236 (`backdropShade`), beeldrand exact 238; schaarkruis ~12 cm onder de zoom |
+| `tent-3x6-zwart-zijwanden-hero` | belicht dakvlak 67 (49–75), afgewend 33; belichte wand 66 (54–71), afgewende 32; valance 77 / 45; dichte deur 69; ramen 40 (donkere binnenkant 9–20, reflectieband tot ~110) |
+| `tent-3x6-zwart-zijwanden-detail` | wand 65 / zijwand om de hoek 39; binnenkant door de deur 15–24; voetplaat, banden en hoekpoot in beeld |
+| `tent-3x3-rood-professional-gewichten-hero` | belicht dakvlak 75, afgewend 48; valance 56 / 50 |
+| *eerdere rondes* | |
 | `tent-3x3-wit-hero` | belicht vlak tot 246 (holte 221 → 246 van graat naar spant), rechterhelft voorvlak 227–236, afgewend vlak 204–221; silhouet links ≥ 15 niveaus onder de achtergrond (mediaan 218), rechts ≥ 23 (mediaan 208) |
 | dak-close-up 34°/35° | elk half paneel een gradiënt: voorvlak 219 → 245, afgewend vlak 188 → 205 en 193 → 218 |
 | `tent-3x3-wit-front` | linkerhelft 243–249, rechterhelft 207 → 228 (holte); silhouet links +6…12, rechts −9…−14 |
-| `tent-3x6-zwart-zijwanden-hero` | belicht dakvlak ~43, afgewend ~19; **belichte lange wand ~43** (één brede zachte glans, 37 → 46 over de lengte), **afgewende korte wand ~23**, dichte deur ~45 (rits, stormflap, deurbanden lezen van buiten), PVC-ramen ~32 (rookfolie over de schemerige binnenkant, geen witte kaart) |
-| `tent-3x6-zwart-zijwanden-detail` | opgerolde deur: binnenkant door de opening ~19 (geen zwart gat); wanden ~45–55 |
+| `tent-3x6-zwart-zijwanden-hero` (r7, oud) | belicht dakvlak ~43, afgewend ~18; **belichte lange wand ~43** (één brede zachte glans, 37 → 46 over de lengte), **afgewende korte wand ~23**, dichte deur ~46 (rits, stormflap, deurbanden lezen van buiten), PVC-ramen ~32 (rookfolie over de schemerige binnenkant, geen witte kaart) |
+| `tent-3x6-zwart-zijwanden-detail` | opgerolde deur: binnenkant door de opening ~22 (geen zwart gat); de schaartruss erachter donker satijnstaal (alleen de diagonaal die licht door de deur vangt licht op); wanden ~45–55 |
 | toonbewaking 3×3 Premium hero | belicht dak zwart 48 / antraciet 82 / grijs 136; afgewend zwart 19; valance zwart 28 ≤ frame 46–54 (gemiddeld over de buis); zie `tools/check-tent-values.py` |
 | `tent-3x3-wit-hero` (r7) | belicht vlak ~246 hoog bij de spant; dakrand ~230 (191 in de uiterste linkerhoek → 232); linkergraat 246 → 200 (181 in de hoek); valance ~197–205; afgewend vlak ~189–198 (2000 px, 40 samples) |
 | voetplaat / gewichten (close-up) | plaatrand 170 → 229 over 3,4 cm; onder de gewichtenstapel 108 → 226 over 3,3 cm |
@@ -648,13 +769,20 @@ poot die het dichtst bij de camera staat (gemiddeld óver de buis: lichte, midde
 de as alleen valt soms precies op het donkerste facet), dicht wanddoek laag tussen de poten op de
 belichte/afgewende wand (`wallLit`/`wallShade`), de deur (`doorway`: dicht = het deurblad, opgerold = wat je
 door de opening ziet) en de PVC-ramen op de zichtbare zijden (`windowPane`);
-`js/main.js` projecteert ze naar pixels en geeft ze terug in de render-info, `--json`). Faalt als zwart niet
-zwart is (belicht dak 30–55, afgewend 10–30), als het belichte dak tussen zwart, antraciet en grijs < 25
-niveaus verschilt, als zwart doek lichter is dan het zwarte frame ernaast, als de belichte wand onder 30 komt
-(doel 35–50: daaronder smelten wand, valance en zoomschaduw samen tot één zwarte doos), het dichte deurblad
-onder 30, de afgewende wand buiten 15–30 (doel 18–25) of < 10 niveaus onder de belichte wand ligt, de ramen
-buiten 10–70 vallen (rookfolie: geen zwart gat, geen witte studiokaart door een raam aan de overkant), of als de
-binnenkant door de opgerolde deur buiten 12–60 valt (doel 15–35: geen zwart gat). `--only zwart-wanden,zwart-deur`
+`js/main.js` projecteert ze naar pixels en geeft ze terug in de render-info, `--json`). Zwart wordt belicht
+als gefotografeerd zwart product (art direction 18 okt 2026). Faalt als het belichte zwarte dak buiten 45–80
+valt (doel 55–75) of het afgewende buiten 18–40 (doel 25–35), als het belichte dak tussen zwart, antraciet en
+grijs < 25 niveaus verschilt, als zwart doek lichter is dan het zwarte frame ernaast, als de belichte wand buiten
+55–90 valt (doel 60–85: bij ~40 smolten wanden, valance en zoomschaduw samen tot één donkere schuur), het
+dichte deurblad onder 50, de afgewende wand buiten 22–40 (doel 25–35) of < 20 niveaus onder de belichte wand
+ligt, het belichte dak van de tent met wanden buiten 50–85, de ramen buiten 10–70 vallen (helder folie over de
+donkere binnenkant: geen zwart gat, geen witte studiokaart door een raam aan de overkant), of als de
+binnenkant door de opgerolde deur buiten 12–60 valt (doel 15–35: geen zwart gat). Laatste run (800 px, 8
+samples): zwart 70 / antraciet 97 / grijs 136, afgewend zwart 35, valance zwart 43 ≤ frame 58; met wanden: dak
+64 / 34, wand 66 / 31, dichte deur 68, ramen 38; detail: binnenkant door de deur 15 — **PASS**.
+De render-info bevat ook `trussCross` / `trussCross10` / `hemAtCross` (kruispunten van de schaar op de
+belichte zijde, 10 cm erboven, en de valancezoom ervoor): daaruit volgt hoeveel cm het kruis in beeld onder de
+zoom ligt (hero: ~12 cm). `--only zwart-wanden,zwart-deur`
 draait alleen de wandcontrole. `--colours` drukt ook wit/rood/blauw/groen/oranje/geel af
 (belicht vs. afgewend: waarde en verzadiging).
 

@@ -103,15 +103,15 @@
     },
     "product.print-side": {
       "status": "theme",
-      "where": "bedrukken block Drukpositie select (custom.drukopties.posities); price impact via variants"
+      "where": "bedrukken block: placement preview for statafelrokken (snippets/product-print.liquid + assets/section-main-product-mock.css: the hoes in the chosen Kleur with the logo zone for 'Logo op 1 kant' / '2 kanten' (front and back) / 'Full colour rondom', logo width per Maat and height from custom.specificaties, the uploaded PNG/JPG/SVG drawn in at once, assets/product-print.js); Drukpositie select (custom.drukopties.posities) for other print products; price impact via variants"
     },
     "product.print-template-download": {
       "status": "theme",
-      "where": "custom.downloads -> snippets/download-link.liquid (PDP tab + page.handleidingen)"
+      "where": "custom.downloads -> snippets/download-link.liquid (PDP tab + page.handleidingen); a download named *sjabloon* / *template* is also linked in the bedrukken block, otherwise the full colour caption links to the template request on /pages/bedrukken#sjabloon (the template file itself is owner/supplier input)"
     },
     "product.print-proof-flow": {
       "status": "theme",
-      "where": "bedrukken block 'Zo werkt bedrukken' steps + sections/page-bedrukken.liquid; order confirmation note -> piece 6 docs (notification template)"
+      "where": "proof timeline (Upload, Drukproef, Akkoord, Levering with custom.drukopties.levertijd) right under the buy button (snippets/product-print.liquid part 'steps', rendered from the buy_buttons block) + sections/page-bedrukken.liquid; order confirmation note -> piece 6 docs (notification template)"
     },
     "product.spec-table": {
       "status": "theme",
@@ -307,7 +307,7 @@
     },
     "product.printed-statafelhoes": {
       "status": "theme",
-      "where": "bedrukken block on statafelrok-met-logo; catalog -> piece 4"
+      "where": "bedrukken block on statafelhoes-stretch-met-logo with the placement preview (see product.print-side); catalog -> piece 4"
     }
   },
   "theme_deferrals": {

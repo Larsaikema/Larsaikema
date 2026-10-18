@@ -1,0 +1,66 @@
+{%- comment -%}
+  Colour overview under the product grid (main-product setting colour_grid_min): a product with many colours (the
+  24-colour statafelrok) shows every colour as its own photo with its name. Each tile is a <label> for that colour's
+  radio in the variant picker, so a click picks the colour; variant-picker.js then scrolls back to the photo, and the
+  list is swapped with the section HTML (data-dynamic="colours"), which marks the chosen tile. Only when every colour
+  has its own photo (no two colours on one image). Params: product, section_id, min (0 = off).
+{%- endcomment -%}
+{%- liquid
+  assign cg_opt = nil
+  assign cg_min = min | default: 0
+  if cg_min > 1 and product.has_only_default_variant == false
+    assign cg_names = settings.swatch_option_names | downcase | split: ','
+    for option in product.options_with_values
+      assign co = option.name | downcase | strip
+      for n in cg_names
+        assign nn = n | strip
+        if nn == co and option.values.size >= cg_min
+          assign cg_opt = option
+          assign cg_idx = forloop.parentloop.index0
+        endif
+      endfor
+    endfor
+  endif
+  assign cg_html = ''
+  assign cg_seen = ''
+  if cg_opt
+    capture cg_html
+      for value in cg_opt.values
+        assign cg_img = nil
+        assign cg_v = value.name | default: value | append: ''
+        for v in product.variants
+          if v.options[cg_idx] == cg_v and v.featured_media
+            assign cg_img = v.featured_media.preview_image
+            break
+          endif
+        endfor
+        assign cg_key = '|' | append: cg_img.id | append: '|'
+        if cg_img == nil or cg_seen contains cg_key
+          echo '__MISSING__'
+          break
+        endif
+        assign cg_seen = cg_seen | append: cg_key
+        assign cg_id = 'Opt-' | append: section_id | append: '-' | append: cg_idx | append: '-' | append: forloop.index0
+        echo '<li><label class="colours__tile' 
+        if value.selected
+          echo ' is-current'
+        endif
+        echo '" for="' | append: cg_id | append: '" data-colour-tile>'
+        echo cg_img | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', widths: '120, 180, 240', sizes: '(min-width: 990px) 110px, 96px'
+        assign cg_ve = cg_v | escape
+        echo '<span>' | append: cg_ve | append: '</span></label></li>'
+      endfor
+    endcapture
+    if cg_html contains '__MISSING__'
+      assign cg_html = ''
+    endif
+  endif
+-%}
+{%- if cg_html != blank -%}
+  <style>.product__grid{scroll-margin-top:calc(var(--header-h,0px) + 12px)}.colours{margin-top:40px;padding-top:32px;border-top:1px solid var(--pl);& h2{margin:0;font-size:28px}& p{margin:4px 0 0;color:var(--pk)}& ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 10px;margin:18px 0 0;padding:0;list-style:none;@media (max-width:749px){grid-template-columns:repeat(var(--cg),92px);overflow-x:auto;margin-inline:calc(-1 * var(--gutter-mobile));padding-inline:var(--gutter-mobile)}}& label{display:grid;gap:6px;font-size:13.5px;font-weight:var(--p6);text-align:center;cursor:pointer}& img{width:100%;height:auto;border-radius:var(--pri);border:1px solid var(--pl)}& :is(label:hover,.is-current) img{border-color:var(--pi)}& .is-current img{box-shadow:0 0 0 1px var(--pi)}}</style>
+  <section class="colours js-only" aria-labelledby="Colours-{{ section_id }}">
+    <h2 id="Colours-{{ section_id }}">{{ 'product.colours_title' | t: count: cg_opt.values.size }}</h2>
+    <p>{{ 'product.colours_text' | t }}</p>
+    <ul class="colours__grid" role="list" data-dynamic="colours" style="--cg:{{ cg_opt.values.size | plus: 1 | divided_by: 2 }}">{{ cg_html }}</ul>
+  </section>
+{%- endif -%}

@@ -38,6 +38,7 @@ import { klaptafel } from './klaptafel.js';
 import { barStool } from './barStool.js';
 import { chair } from './chair.js';
 import { biertafelset } from './biertafelset.js';
+import { chairCart, postCart, rackCart, fridgeCart } from './trolley2.js';
 
 const { V3 } = G;
 
@@ -50,23 +51,23 @@ function hammertone() {
   hammerMat = new THREE.MeshPhysicalMaterial({ color: '#8E9294', metalness: 0.55, roughness: 0.42, clearcoat: 0.3, clearcoatRoughness: 0.3, normalMap: nrm, normalScale: new THREE.Vector2(0.55, 0.55), name: 'hammertone grey' });
   return hammerMat;
 }
-function frameMat(f, dflt = 'grijs') {
+export function frameMat(f, dflt = 'grijs') {
   const s = String(f || dflt).toLowerCase();
   if (s === 'hamerslag' || s === 'hammer') return hammertone();
   if (s === 'galv' || s === 'verzinkt') return M.galvanised();
   if (s === 'grijs') return M.steelPowder('#8C9093', { roughness: 0.45, clearcoat: 0.2 });
   return F.powder(s);
 }
-const sq = (w = 0.04, h = w) => G.roundedRectProfile(w, h, Math.min(w, h) * 0.18, 3);
+export const sq = (w = 0.04, h = w) => G.roundedRectProfile(w, h, Math.min(w, h) * 0.18, 3);
 
-function castors4(bins, xs, zs, yMount, { R = 0.0625 } = {}) {
+export function castors4(bins, xs, zs, yMount, { R = 0.0625 } = {}) {
   const mats = { steel: M.galvanised(), tyre: M.rubber('#2A2B2D'), hub: F.plastic('#8E9194', 0.45) };
   for (const x of xs) for (const z of zs) {
     F.castor(bins, { at: V3(x, yMount, z), R, swivel: true, brake: x > 0, heading: (x > 0 ? 1 : -1) * Math.PI / 2 + (z > 0 ? 0.12 : -0.08), mats });
   }
 }
 // U frame across z at x: two uprights from y0 to y1 joined by a bent top bar
-function endFrame(bins, mat, x, z, y0, y1, r = 0.0125, grip = false) {
+export function endFrame(bins, mat, x, z, y0, y1, r = 0.0125, grip = false) {
   const pts = [V3(x, y0, -z), V3(x, y1, -z), V3(x, y1, z), V3(x, y0, z)];
   bins.add(mat, F.sweep(F.filletPath(pts, 0.06), G.circleProfile(r, 16)));
   if (grip) bins.add(F.plastic('#1A1A1A', 0.7), G.tube(V3(x, y1, -z * 0.55), V3(x, y1, z * 0.55), r + 0.004, 18));
@@ -151,8 +152,9 @@ function statafelCart(bins, group, p) {
     const holder = new THREE.Group();
     holder.add(t);
     holder.rotation.y = -Math.PI / 2; // local +z (top face) -> world -x
-    // slots run from the +x end (0) to the -x end (cap - 1); load from the -x (camera) end
-    const slot = cap - 1 - i;
+    // slots run from the +x end (0) to the -x end (cap - 1); a part load stands centred in the cage
+    // (the tables lean on each other, the end frames keep the outer ones upright)
+    const slot = cap - 1 - i - Math.floor((cap - n) / 2);
     const x = L / 2 - 0.02 - 0.0125 - endGap + T.bMin - slot * T.pitch;
     holder.position.set(x - 0.006, yd + 0.009, 0);
     group.add(holder);
@@ -238,7 +240,7 @@ function stoolDolly(bins, group, p) {
 // ------------------------------------------------------------------- shared deck dolly
 // plywood deck (L along x, W along z) on a square-tube under-frame with cross members, a rubber bumper
 // round the deck edge and 4 castors (the two at +x with brake). Returns the deck top height.
-function deckDolly(bins, mat, { L, W, R = 0.05 }) {
+export function deckDolly(bins, mat, { L, W, R = 0.05 }) {
   const ply = S.woodMat('beuken', { stain: '#A48A68', finish: 'mat', seed: 61 });
   const bumper = M.rubber('#1C1D1E');
   const yM = F.castorHeight(R);
@@ -372,44 +374,55 @@ function roundCart(bins, group, p) {
 }
 
 // ------------------------------------------------------------------- biertafelsets, flat
+// Three lanes on one deck: the folded tables stacked flat in the middle, the folded benches in a stack
+// on either side (their splayed feet make a folded bench ~37 cm wide), so 10 sets stand ~1 m high, all
+// inside the end frames (which are sized for a full load of 10, loaded or not).
 function bierCart(bins, group, p) {
   const n = Math.max(0, Math.min(10, Math.round(Number(p.loaded ?? 0))));
   const mat = frameMat(p.frame, 'galv');
-  const L = 2.3, W = 0.82, R = 0.0625, yM = F.castorHeight(R);
+  let TW = Number(p.tableWidth ?? 0.5); if (TW > 5) TW /= 100;
+  const tProto = biertafelset({ only: 'tafel', tableWidth: TW, folded: true }).object;
+  const bProto = biertafelset({ only: 'bank', folded: true }).object;
+  tProto.updateMatrixWorld(true); bProto.updateMatrixWorld(true);
+  const tb = new THREE.Box3().setFromObject(tProto), bb = new THREE.Box3().setFromObject(bProto);
+  const tH = tb.max.y - tb.min.y + 0.002, bH = bb.max.y - bb.min.y + 0.002;
+  const tW = tb.max.z - tb.min.z, bW = bb.max.z - bb.min.z;
+  const zB = tW / 2 + 0.03 + bW / 2;               // bench lane centres
+  const L = 2.32, W = 2 * zB + bW + 0.08, R = 0.0625, yM = F.castorHeight(R);
   const yd = yM + 0.045;
-  castors4(bins, [-L / 2 + 0.12, L / 2 - 0.12], [-W / 2 + 0.07, W / 2 - 0.07], yM, { R });
-  // base: two long rails, cross members, a slatted deck of square tube
+  castors4(bins, [-L / 2 + 0.12, L / 2 - 0.12], [-W / 2 + 0.08, W / 2 - 0.08], yM, { R });
+  // base: two long rails, cross members, deck slats under each lane
   for (const s of [-1, 1]) bins.add(mat, G.prism(sq(), V3(-L / 2, yd - 0.02, s * (W / 2 - 0.02)), V3(L / 2, yd - 0.02, s * (W / 2 - 0.02)), { side: V3(0, 1, 0) }));
   const nx = 6;
   for (let i = 0; i <= nx; i++) {
     const x = -L / 2 + 0.02 + ((L - 0.04) * i) / nx;
     bins.add(mat, G.prism(sq(0.04), V3(x, yd - 0.02, -W / 2 + 0.04), V3(x, yd - 0.02, W / 2 - 0.04), { side: V3(0, 1, 0) }));
   }
-  for (const z of [-0.26, 0, 0.26]) bins.add(mat, G.prism(sq(0.03), V3(-L / 2 + 0.04, yd + 0.015, z), V3(L / 2 - 0.04, yd + 0.015, z), { side: V3(0, 1, 0) }));
-  // U end frames (grip at +x) and a strap bar at mid height
-  const yTop = 1.05;
+  const slats = [-zB - bW * 0.3, -zB + bW * 0.3, -tW * 0.3, tW * 0.3, zB - bW * 0.3, zB + bW * 0.3];
+  for (const z of slats) bins.add(mat, G.prism(sq(0.03), V3(-L / 2 + 0.04, yd + 0.015, z), V3(L / 2 - 0.04, yd + 0.015, z), { side: V3(0, 1, 0) }));
+  // lane dividers: low posts between the lanes at both ends
+  const y0 = yd + 0.03;
+  const full = Math.max(10 * tH, 10 * bH);
+  const yTop = Math.max(1.05, y0 + full + 0.08);
   for (const s of [-1, 1]) {
-    endFrame(bins, mat, s * (L / 2 - 0.02), W / 2 - 0.03, yd, yTop, 0.0125, s > 0);
-    bins.add(mat, G.tube(V3(s * (L / 2 - 0.02), yd + 0.5, -(W / 2 - 0.03)), V3(s * (L / 2 - 0.02), yd + 0.5, W / 2 - 0.03), 0.0105, 14));
+    const x = s * (L / 2 - 0.02);
+    endFrame(bins, mat, x, W / 2 - 0.03, yd, yTop, 0.0125, s > 0);
+    for (const y of [yd + 0.45, yTop - 0.3]) bins.add(mat, G.tube(V3(x, y, -(W / 2 - 0.03)), V3(x, y, W / 2 - 0.03), 0.0105, 14));
+    for (const zs of [-1, 1]) bins.add(mat, G.prism(sq(0.03), V3(x, yd, zs * (tW / 2 + 0.015)), V3(x, yTop - 0.3, zs * (tW / 2 + 0.015)), { side: V3(1, 0, 0) }));
   }
   if (n) {
-    let TW = Number(p.tableWidth ?? 0.5); if (TW > 5) TW /= 100;
-    const tProto = biertafelset({ only: 'tafel', tableWidth: TW, folded: true }).object;
-    const bProto = biertafelset({ only: 'bank', folded: true }).object;
-    tProto.updateMatrixWorld(true); bProto.updateMatrixWorld(true);
-    const tb = new THREE.Box3().setFromObject(tProto), bb = new THREE.Box3().setFromObject(bProto);
-    const tH = tb.max.y - tb.min.y + 0.003, bH = bb.max.y - bb.min.y + 0.003;
-    let y = yd + 0.03;
+    const tc = tb.getCenter(V3()), bc = bb.getCenter(V3());
+    let y = y0;
     for (let i = 0; i < n; i++) {
       const t = i === 0 ? tProto : tProto.clone();
-      t.position.set(0, y - tb.min.y, 0); group.add(t); y += tH;
+      t.position.set(-tc.x, y - tb.min.y, -tc.z); group.add(t); y += tH;
     }
     let first = true;
-    for (const z of [-0.13, 0.13]) {
-      let yb2 = y;
+    for (const z of [-zB, zB]) {
+      let yb2 = y0;
       for (let i = 0; i < n; i++) {
         const b = first ? bProto : bProto.clone(); first = false;
-        b.position.set(0, yb2 - bb.min.y, z); group.add(b); yb2 += bH;
+        b.position.set(-bc.x, yb2 - bb.min.y, z - bc.z); group.add(b); yb2 += bH;
       }
     }
   }
@@ -443,6 +456,10 @@ export function trolley(p = {}) {
   else if (kind === 'rond' || kind === 'ronde-klaptafel') info = roundCart(bins, group, p);
   else if (kind === 'biertafel' || kind === 'biertafelset') info = bierCart(bins, group, p);
   else if (kind === 'terras' || kind === 'terrastafel') info = terrasCart(bins, group, p);
+  else if (kind === 'klapstoel' || kind === 'klapstoelen' || kind === 'wedding') info = chairCart(bins, group, p);
+  else if (kind === 'afzetpaal' || kind === 'afzetpalen') info = postCart(bins, group, p);
+  else if (kind === 'kapstok' || kind === 'kapstokken') info = rackCart(bins, group, p);
+  else if (kind === 'koelkast' || kind === 'koelkasten') info = fridgeCart(bins, group, p);
   else info = statafelCart(bins, group, p);
   bins.build(group);
   return {

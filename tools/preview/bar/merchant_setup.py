@@ -355,7 +355,16 @@ class Ours:
     def fill(self, text_value):
         if not isinstance(text_value, str):
             return text_value
-        return text_value.replace('[besteltijd]', str(self.settings.get('cutoff_time') or '14:00'))
+        # Same placeholders our announcement-bar.liquid resolves from theme settings; a merchant typing static
+        # Horizon text would write the resolved wording, never the raw token.
+        out = text_value.replace('[besteltijd]', str(self.settings.get('cutoff_time') or '14:00'))
+        out = out.replace('[bedenktijd]', str(self.settings.get('return_days') or 14))
+        resp = str(self.settings.get('response_time') or '')
+        reply = ''
+        if 'binnen' in resp:
+            reply = 'binnen ' + resp.split('binnen')[-1].strip().rstrip('.')
+        out = out.replace(' [reactietijd]', (' ' + reply) if reply else '').replace('[reactietijd]', reply)
+        return out
 
     def section_settings(self, sec):
         schema = schema_of(os.path.join(OURS, 'sections', f"{sec.get('type')}.liquid"))

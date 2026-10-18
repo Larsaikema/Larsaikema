@@ -24,6 +24,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -64,15 +65,19 @@ function wheel(R, w) {
   for (let i = 0; i < 6; i++) {
     // lathe axis is Y: spokes lie in the XZ plane, radial along +X then turned about Y
     const a = (i / 6) * TAU + 0.26;
-    const sp = G.roundedBox(R - 0.03, w - 0.014, 0.0085, 0.003);
+    const sp = G.roundedBox(R - 0.03, w - 0.016, 0.006, 0.0022);
     sp.translate(0.015 + (R - 0.03) / 2, 0, 0); sp.rotateY(a);
     parts.push(sp);
   }
+  // tread: three shallow grooves round the running surface (dark rings just proud of the tyre)
+  const tread = [];
+  for (const z of [-w * 0.22, 0, w * 0.22]) tread.push(K.lathe([[R + 0.0004, z - 0.0016], [R - 0.0012, z - 0.001], [R - 0.0012, z + 0.001], [R + 0.0004, z + 0.0016]], 72));
   const hubG = G.merge(parts);
   // lathe axis Y -> X
-  for (const g of [tyre, hubG]) g.rotateZ(-Math.PI / 2);
+  const treadG = G.merge(tread);
+  for (const g of [tyre, hubG, treadG]) g.rotateZ(-Math.PI / 2);
   const cap = K.lathe([[0.0001, 0.006], [0.0085, 0.006], [0.0095, 0.003], [0.0095, 0], [0.0001, 0]], 28); cap.rotateZ(-Math.PI / 2);
-  return { tyre, hub: hubG, cap, w };
+  return { tyre: G.merge([tyre, treadG]), hub: hubG, cap, w };
 }
 
 export function draagtas(p = {}) {
@@ -91,8 +96,8 @@ function kit(fabHex, { coverCloth = false } = {}) {
   const dark = new THREE.Color(fabHex).getHSL({}).l < 0.2;
   return {
     dark,
-    fab: SG.fabric600(fabHex, coverCloth ? { sheen: 0.8, rough: 0.52 } : {}),
-    pipe: SG.fabric600(fabHex, { sheen: 0.9, rough: 0.5 }),
+    fab: dark ? L3.cloth600(fabHex === '#19191B' ? '#212224' : fabHex, { rough: 0.74, sheen: 0.75, env: 0.2, spec: 0.3 }) : L3.cloth600(fabHex),
+    pipe: dark ? L3.cloth600(fabHex === '#19191B' ? '#212224' : fabHex, { rough: 0.62, sheen: 0.85, env: 0.26, spec: 0.36 }) : L3.cloth600(fabHex, { rough: 0.66 }),
     web: M.webbing('#161719'),
     tape: M.webbing('#1B1C1E'),
     coil: SG.moulded('#121314', { rough: 0.32, spec: 0.7, scale: 0.0006 }),
@@ -101,7 +106,7 @@ function kit(fabHex, { coverCloth = false } = {}) {
     thr: SG.thread(dark ? '#3A3B40' : new THREE.Color(fabHex).multiplyScalar(0.85).getStyle()),
     tray: SG.moulded('#141516', { rough: 0.5, spec: 0.55, scale: 0.0011, bump: 0.00002 }),
     tyre: SG.rubberSG('#141414', { rough: 0.66 }),
-    hubM: SG.moulded('#6E7277', { rough: 0.4, spec: 0.55 }),
+    hubM: SG.moulded('#3A3C40', { rough: 0.42, spec: 0.55 }),
     zinc: SG.zincSG(),
   };
 }
@@ -220,10 +225,21 @@ function wheelBag(p, fabHex) {
     const cap = wh.cap.clone(); if (sx < 0) cap.rotateY(Math.PI); cap.translate(cx + sx * (ww / 2 - 0.0005), R, cz); bins.add(k.zinc, cap);
     // axle stub from the inner well wall
     bins.add(k.zinc, G.tube(V3(cx - sx * (nw / 2 + 0.002), R, cz), V3(cx - sx * (ww / 2 - 0.002), R, cz), 0.0065, 18));
-    // fender over the wheel (lathe axis Y -> X), from the front of the well over the top to the back
-    const hw = nw / 2;
-    const fender = K.lathe([[R + 0.005, -hw], [R + 0.012, -hw], [R + 0.012, hw], [R + 0.005, hw]], 40, -Math.PI - 0.25, Math.PI * 0.95);
-    fender.rotateZ(-Math.PI / 2); fender.translate(cx, R, cz); bins.add(k.tray, fender);
+    // moulded wheel housing: a thick shell over the wheel from inside the tray, over the top and
+    // down the back to below the axle, as wide as the well, joined to the well's inner wall
+    {
+      const arc = [], nrm = [];
+      for (let i = 0; i <= 40; i++) {
+        const th = (-50 + (100 * i) / 40) * DEG;
+        const rad = V3(0, Math.cos(th), -Math.sin(th));
+        arc.push(V3(cx, R, cz).addScaledVector(rad, R + 0.011)); nrm.push(rad);
+      }
+      bins.add(k.tray, K.strapAlong(arc, nw + 0.002, 0.009, { normals: nrm }));
+      // its inner side wall (closes the well towards the tray body)
+      const wall = new THREE.CircleGeometry(R + 0.015, 40, 40 * DEG, 100 * DEG);
+      wall.rotateY(Math.PI / 2); wall.translate(cx - sx * (nw / 2 + 0.0005), R, cz);
+      bins.add(k.tray, wall);
+    }
   }
   // ---- fabric body
   const y0 = yTop, re = 0.03, r = 0.06;
@@ -328,8 +344,9 @@ function wheelBag(p, fabHex) {
   const wx = A - nw / 2, wz = -Bz + R;
   return {
     object: root,
-    // detail: the right wheel in its well, the fender, tray rib and the binding band, from the right-back
-    detail: { target: [wx * c + wz * s - 0.03, 0.12, -wx * s + wz * c + 0.04], size: 0.36, azimuth: 108, elevation: 14 },
+    // detail: the back of the base from the back-right: both wheels in their housings, the
+    // moulded tray, the binding band and the lift handle above the wheels
+    detail: { target: [Bz * Math.sin(14 * DEG) + 0.06, 0.17, -Bz * Math.cos(14 * DEG) + 0.02], size: 0.5, azimuth: 132, elevation: 14 },
     view: { hero: { elevation: 12, azimuth: 40 } },
     rig: darkRig(k.dark),
     meta: { shape: 'upright', height: H, wheels: true },
@@ -345,7 +362,7 @@ function cover(p, fabHex) {
   const bins = new G.PartBin();
   // folded frame: four corner legs (black hex inner tubes) on galvanised foot plates
   const legMat = SG.powderSG('#1C1D1F');
-  const plate = SG.galvSG({ cell: 0.005 });
+  const plate = L3.galvFine({ cell: 0.004 });
   const legIn = 0.04;
   for (const [sx, sz] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
     const x = sx * (W / 2 - legIn), z = sz * (D / 2 - legIn);
@@ -360,17 +377,15 @@ function cover(p, fabHex) {
   const fr0 = K.rrFractions(W / 2, D / 2, r);
   const yStrap = y0 + 0.055;
   const cr = SG.creases(17, [
-    // deep drape folds hanging between the legs, growing towards the hem
-    { n: 16, u: [0, P0], v: [y0 + 0.25, y0 + L - 0.2], ang: Math.PI / 2, angJ: 0.06, len: [0.7, 1.3], wid: [0.05, 0.1], amp: [0.008, 0.016], sharp: 0.35, sign: 1 },
-    { n: 20, u: [0, P0], v: [y0 + 0.2, y0 + L - 0.25], ang: Math.PI / 2, angJ: 0.08, len: [0.3, 0.9], wid: [0.025, 0.055], amp: [0.004, 0.009], sharp: 0.5 },
-    // diagonal drape from the top corners
-    { n: 22, u: [0, P0], v: [y0 + L - 0.45, y0 + L - 0.02], ang: Math.PI / 2, angJ: 0.5, len: [0.15, 0.4], wid: [0.02, 0.045], amp: [0.003, 0.007], sharp: 0.4 },
-    // small wrinkles all over (thin cloth)
-    { n: 60, u: [0, P0], v: [y0 + 0.1, y0 + L - 0.05], ang: 0, angJ: 0.8, len: [0.04, 0.12], wid: [0.008, 0.018], amp: [0.0008, 0.002], sharp: 0.6 },
-    // gathered folds above and below the strap
-    { n: 46, u: [0, P0], v: [yStrap - 0.03, yStrap + 0.16], ang: Math.PI / 2, angJ: 0.18, len: [0.06, 0.2], wid: [0.012, 0.026], amp: [0.003, 0.007], sharp: 0.6 },
+    // a few long soft drape folds hanging between the legs, growing towards the hem
+    { n: 9, u: [0, P0], v: [y0 + 0.25, y0 + L - 0.2], ang: Math.PI / 2, angJ: 0.05, len: [0.8, 1.3], wid: [0.06, 0.11], amp: [0.006, 0.012], sharp: 0.2, sign: 1 },
+    { n: 8, u: [0, P0], v: [y0 + 0.2, y0 + L - 0.25], ang: Math.PI / 2, angJ: 0.06, len: [0.4, 0.9], wid: [0.035, 0.06], amp: [0.003, 0.006], sharp: 0.3 },
+    // soft diagonal drape from the top corners
+    { n: 8, u: [0, P0], v: [y0 + L - 0.4, y0 + L - 0.03], ang: Math.PI / 2, angJ: 0.45, len: [0.18, 0.35], wid: [0.03, 0.05], amp: [0.002, 0.004], sharp: 0.25 },
+    // gathered folds above the strap
+    { n: 16, u: [0, P0], v: [yStrap - 0.02, yStrap + 0.12], ang: Math.PI / 2, angJ: 0.15, len: [0.06, 0.16], wid: [0.016, 0.03], amp: [0.002, 0.0045], sharp: 0.4 },
   ], { periodU: P0 });
-  const crTop = SG.creases(23, [{ n: 22, u: [-W / 2, W / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.08, 0.22], wid: [0.015, 0.035], amp: [0.002, 0.006], sharp: 0.4 }]);
+  const crTop = SG.creases(23, [{ n: 7, u: [-W / 2, W / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.1, 0.22], wid: [0.025, 0.045], amp: [0.002, 0.004], sharp: 0.25 }]);
   const box = SG.softBox({
     W, D, L, r, re, y0, nu: 220, nWall: 240, nEdge: 12, nEnd: 10,
     disp: (q) => {
@@ -471,10 +486,10 @@ function duffel(p, fabHex) {
   const L = Lb - 2 * re - endL;
   const P0 = K.rrFractions(Wv / 2, Dd / 2, r).P;
   const cr = SG.creases(41, [
-    { n: 34, u: [0, P0], v: [0.02, L - 0.02], ang: 0, angJ: 0.5, len: [0.08, 0.3], wid: [0.015, 0.04], amp: [0.002, 0.006], sharp: 0.45 },
-    { n: 16, u: [0, P0], v: [0.0, L], ang: Math.PI / 2, angJ: 0.35, len: [0.15, 0.45], wid: [0.03, 0.06], amp: [0.002, 0.005], sharp: 0.25 },
+    { n: 12, u: [0, P0], v: [0.04, L - 0.04], ang: 0, angJ: 0.45, len: [0.12, 0.3], wid: [0.025, 0.045], amp: [0.002, 0.0045], sharp: 0.3 },
+    { n: 7, u: [0, P0], v: [0.0, L], ang: Math.PI / 2, angJ: 0.3, len: [0.2, 0.45], wid: [0.04, 0.07], amp: [0.002, 0.004], sharp: 0.2 },
   ], { periodU: P0 });
-  const crEnd = SG.creases(43, [{ n: 22, u: [-Wv / 2, Wv / 2], v: [-Dd / 2, Dd / 2], ang: 0, angJ: 1.6, len: [0.05, 0.14], wid: [0.012, 0.03], amp: [0.002, 0.005], sharp: 0.45 }]);
+  const crEnd = SG.creases(43, [{ n: 8, u: [-Wv / 2, Wv / 2], v: [-Dd / 2, Dd / 2], ang: 0, angJ: 1.6, len: [0.08, 0.16], wid: [0.02, 0.04], amp: [0.0015, 0.0035], sharp: 0.3 }]);
   const straps = [0.25, 0.75];
   const y0 = 0;
   const box = SG.softBox({
@@ -564,19 +579,15 @@ function duffel(p, fabHex) {
   }
   // two rubber feet under the far end
   for (const sz of [-1, 1]) { const sk = G.roundedBox(0.06, 0.018, 0.04, 0.007); sk.translate(-L / 2 + 0.02, 0.009, sz * (Dd / 2 - 0.12)); bins.add(k.tyre, sk); }
-  // trolley frame
-  const xt = xE + 0.026, yT = Wv - 0.01, ext = 0.36, tz = 0.095;
-  const alu = SG.aluSG({ tone: '#BFC3C7', rough: 0.36 });
-  for (const sz of [-1, 1]) {
-    bins.add(alu, G.tube(V3(xt, 0.2, sz * tz), V3(xt, yT + 0.02, sz * tz), 0.0115, 24));
-    bins.add(alu, G.tube(V3(xt, yT, sz * tz), V3(xt, yT + ext * 0.55, sz * tz), 0.0098, 24));
-    bins.add(k.tray, G.tube(V3(xt, yT + ext * 0.55 - 0.006, sz * tz), V3(xt, yT + ext * 0.55 + 0.012, sz * tz), 0.0122, 24));
-    bins.add(alu, G.tube(V3(xt, yT + ext * 0.55, sz * tz), V3(xt, yT + ext, sz * tz), 0.0084, 24));
-  }
+  // telescopic handle, retracted: its tubes run inside the back panel; only the moulded
+  // handle housing on the top of the wheel end shows, with the grip bar resting in it
   {
-    const br = G.roundedBox(0.04, 0.05, 2 * tz + 0.06, 0.012); br.translate(xt - 0.006, yT + 0.005, 0); bins.add(k.tray, br);
-    const gb = K.tubeAlong(K.smoothPath([V3(xt, yT + ext - 0.01, -tz), V3(xt, yT + ext + 0.02, -tz + 0.01), V3(xt, yT + ext + 0.025, 0), V3(xt, yT + ext + 0.02, tz - 0.01), V3(xt, yT + ext - 0.01, tz)], 40), 0.016, 24);
-    bins.add(SG.rubberSG('#161616', { rough: 0.6 }), gb);
+    const yH = Wv - 0.025, xH = xE - 0.004;
+    const hous = G.roundedBox(0.05, 0.03, 0.25, 0.01); hous.translate(xH, yH, 0); bins.add(k.tray, hous);
+    for (const sz of [-1, 1]) { const post = G.roundedBox(0.03, 0.03, 0.026, 0.008); post.translate(xH + 0.004, yH + 0.026, sz * 0.105); bins.add(k.tray, post); }
+    const grip = K.tubeAlong([V3(xH + 0.006, yH + 0.04, -0.118), V3(xH + 0.006, yH + 0.043, 0), V3(xH + 0.006, yH + 0.04, 0.118)], 0.013, 24);
+    bins.add(SG.rubberSG('#161616', { rough: 0.6 }), grip);
+    for (let i = -6; i <= 6; i++) bins.add(SG.rubberSG('#161616', { rough: 0.6 }), G.tube(V3(xH + 0.006, yH + 0.042, i * 0.014 - 0.002), V3(xH + 0.006, yH + 0.042, i * 0.014 + 0.002), 0.0138, 20));
   }
   const g = K.finish(bins, `opbergtas duffel ${Lb}`);
   return {

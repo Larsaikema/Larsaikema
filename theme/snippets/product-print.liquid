@@ -1,37 +1,227 @@
 {%- comment -%}
-  'Met jouw logo' block of the main product form (features product.print-upload, print-option-reveal, print-proof-flow).
+  'Met jouw logo' block of the main product form (features product.print-upload, print-option-reveal, print-side,
+  print-proof-flow, print-template-download).
   Params: product, block (the section block), section_id, form_id, print_active (bool: current variant has print), druk
-  (custom.drukopties value).
-  Files: one <input type="file" multiple>. product-form.js keeps the chosen files in a list (add more, remove one,
-  drag and drop) and sends them as properties[Logo], properties[Logo 2] … in the multipart /cart/add.js request.
-  Without JavaScript the input posts its files with the product form (Shopify keeps the last one).
-  Max size per file and max number of files are block settings (Shopify's own upload limit is 20 MB per file).
+  (custom.drukopties value), part ('steps' renders only the proof-flow timeline that main-product puts right under the
+  buy button; anything else renders the upload block that sits above it).
+
+  Upload block:
+  - Placement preview (statafelrokken, product type 'Statafelrok'): a drawing of the hoes in the chosen Kleur that shows
+    where the logo goes for the chosen Uitvoering: one logo on the front ('Logo op 1 kant'), front and back ('2 kanten' /
+    'beide'), or the whole rok in the shopper's design ('rondom' / 'full colour', the rok is white). The caption takes the
+    logo width per Maat from the spec 'Logobreedte' ('ca. 15 cm (Ø80-85 cm), ca. 12 cm (Ø60-70 cm)') and the height from
+    'Logopositie' ('… hart ca. 27 cm boven de vloer'). An uploaded PNG, JPG or SVG shows in the drawing at once; a PDF,
+    AI or EPS shows its type. It is a preview, not the proof: the caption says the drukproef shows the real placement.
+  - One <input type="file" multiple>. product-form.js keeps the chosen files in a list (add more, remove one, drag and
+    drop) and sends them as properties[Logo], properties[Logo 2] … in the multipart /cart/add.js request. Without
+    JavaScript the input posts its files with the product form (Shopify keeps the last one). Max size per file and max
+    number of files are block settings (Shopify's own upload limit is 20 MB per file).
+  - 'Ik lever mijn logo later aan' disables the upload field and clears the list.
+  - A print template (a custom.downloads file whose name holds 'sjabloon' or 'template') is linked right in the block.
+  - The remark field (Pantone / HEX colours, text, background) sits behind 'Opmerking toevoegen' (a closed <details>; the
+    textarea still posts with the form).
+
   assets/product-print.js (comments stripped there for the JS budget) defines KK.printUpload(form), called by
   product-form.js: files via the input or drag and drop, type (PDF, AI, EPS, SVG, PNG, JPG) and size checks per file, a
-  list with remove buttons, the error box ([data-print-error]); 'Ik lever mijn logo later aan' disables the upload field
-  and clears the list. Styles: assets/section-main-product-print.css (only on bedrukbaar products).
+  list with remove buttons (image files get a thumbnail), the error box ([data-print-error]), the preview (colour, mode
+  and logo follow the variant and the files) and the timeline's visibility (variants without print hide it).
+  Styles: assets/section-main-product-print.css (only on bedrukbaar products).
 {%- endcomment -%}
+{%- if part == 'steps' -%}
+  {%- if block.settings.show_steps -%}
+    <div class="proof" data-print-steps{% unless print_active %} hidden{% endunless %}>
+      <div class="proof__head">
+        <p class="proof__title" id="ProofTitle-{{ section_id }}">{%- render 'icon', icon: 'proof', class: 'icon--sm' -%}{{ block.settings.steps_title }}</p>
+        {%- if block.settings.page != blank -%}<a class="link proof__more" href="{{ block.settings.page.url }}">{{ 'product.print_more' | t }}</a>{%- endif -%}
+      </div>
+      <ol class="proof__list" role="list" aria-labelledby="ProofTitle-{{ section_id }}">
+        {%- for i in (1..4) -%}
+          {%- liquid
+            assign s_key = 'step_' | append: i
+            assign s_text = block.settings[s_key]
+            if i == 4 and druk.levertijd != blank
+              assign s_text = druk.levertijd
+            endif
+            case i
+              when 1
+                assign s_title = 'product.proof_1' | t
+              when 2
+                assign s_title = 'product.proof_2' | t
+              when 3
+                assign s_title = 'product.proof_3' | t
+              else
+                assign s_title = 'product.proof_4' | t
+            endcase
+          -%}
+          <li class="proof__step"><span class="proof__n" aria-hidden="true">{{ i }}</span><span class="proof__t">{{ s_title }}</span>{%- if s_text != blank -%}<span class="proof__d">{{ s_text }}</span>{%- endif -%}</li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  {%- endif -%}
+{%- else -%}
 {%- liquid
   assign max_files = block.settings.max_files | default: 5
   assign max_mb = block.settings.max_mb | default: 20
+
+  # placement preview: statafelrokken only (the drawing is a stretch rok)
+  assign mock = false
+  assign ptype = product.type | downcase
+  if ptype contains 'statafelrok' or ptype contains 'statafelhoes'
+    assign mock = true
+  endif
+  if mock
+    assign current_variant = product.selected_or_first_available_variant
+    assign cur_opts = current_variant.options | join: '|' | prepend: '|' | append: '|'
+    # mode from the chosen options: 'een' (1 kant), 'twee' (2 kanten / beide), 'rondom' (full colour rondom)
+    assign opt_text = current_variant.options | join: ' ' | downcase
+    assign mode = 'een'
+    if opt_text contains 'rondom' or opt_text contains 'full colour'
+      assign mode = 'rondom'
+    elsif opt_text contains '2 kanten' or opt_text contains 'twee kanten' or opt_text contains 'beide'
+      assign mode = 'twee'
+    endif
+    # colour per Kleur value (swatch setting / option swatch; a gradient or image swatch keeps the default)
+    assign swatch_names = settings.swatch_option_names | downcase | split: ','
+    assign hoes = '#F3F3F0'
+    assign hoes_dark = false
+    assign colours_json = ''
+    assign dark_list = '|'
+    for option in product.options_with_values
+      assign on = option.name | downcase | strip
+      assign is_colour = false
+      for n in swatch_names
+        assign nn = n | strip
+        if nn == on
+          assign is_colour = true
+        endif
+      endfor
+      unless is_colour
+        continue
+      endunless
+      for value in option.values
+        capture sw
+          render 'swatch', value: value, mode: 'css'
+        endcapture
+        assign sw = sw | remove: '--swatch:' | strip
+        if sw == blank or sw contains '(' or sw contains 'var'
+          continue
+        endif
+        assign br = sw | color_brightness
+        assign v_str = value | append: ''
+        assign v_key = v_str | prepend: '|' | append: '|'
+        assign v_esc = v_str | json
+        if colours_json != ''
+          assign colours_json = colours_json | append: ','
+        endif
+        assign colours_json = colours_json | append: v_esc | append: ':' | append: '"' | append: sw | append: '"'
+        if br < 140
+          assign dark_list = dark_list | append: v_str | append: '|'
+        endif
+        if cur_opts contains v_key
+          assign hoes = sw
+          if br < 140
+            assign hoes_dark = true
+          endif
+        endif
+      endfor
+    endfor
+    # logo width per Maat and height from the specs
+    assign widths_json = ''
+    assign logo_w = ''
+    assign logo_h = ''
+    for s in product.metafields.custom.specificaties.value
+      assign sl = s.label | downcase | strip
+      if sl == 'logobreedte'
+        assign parts = s.waarde | split: '), '
+        for part_w in parts
+          assign pw = part_w | split: ' (' | first | strip
+          if part_w contains '('
+            assign pk = part_w | split: '(' | last | remove: ')' | strip
+            if widths_json != ''
+              assign widths_json = widths_json | append: ','
+            endif
+            assign widths_json = widths_json | append: '"' | append: pk | append: '":"' | append: pw | append: '"'
+            assign pk_key = pk | prepend: '|' | append: '|'
+            if cur_opts contains pk_key
+              assign logo_w = pw
+            endif
+          elsif logo_w == ''
+            assign logo_w = pw
+          endif
+        endfor
+      elsif sl == 'logopositie' and s.waarde contains 'hart '
+        assign logo_h = s.waarde | split: 'hart ' | last | split: ' boven' | first | strip
+      endif
+    endfor
+    assign mock_id = 'Mock-' | append: section_id
+  endif
+
+  # a print template among the downloads
+  assign tpl_file = nil
+  for f in product.metafields.custom.downloads.value
+    assign f_url = f.url | default: f | downcase
+    if f_url contains 'sjabloon' or f_url contains 'template'
+      assign tpl_file = f
+      break
+    endif
+  endfor
 -%}
-<fieldset class="print" data-print aria-describedby="PrintIntro-{{ section_id }}"{% unless print_active %} hidden disabled{% endunless %} {{ block.shopify_attributes }}>
+{%- if mock -%}{{ 'section-main-product-mock.css' | asset_url | stylesheet_tag }}{%- endif -%}
+<fieldset class="print{% if mock %} print--mock{% endif %}" data-print aria-describedby="PrintIntro-{{ section_id }}"{% unless print_active %} hidden disabled{% endunless %} {{ block.shopify_attributes }}>
   <legend class="print__legend">{%- render 'icon', icon: 'upload' -%}{{ 'product.print_title' | t }}</legend>
-  <p class="print__intro" id="PrintIntro-{{ section_id }}">{{ 'product.print_intro' | t }}</p>
-  {%- if block.settings.show_steps -%}
-    <div class="print__steps">
-      <p class="print__steps-title">{{ block.settings.steps_title }}</p>
-      <ol class="print__steps-list" role="list">
-        {%- if block.settings.step_1 != blank -%}<li><span class="print__step-num" aria-hidden="true">1</span><span>{{ block.settings.step_1 }}</span></li>{%- endif -%}
-        {%- if block.settings.step_2 != blank -%}<li><span class="print__step-num" aria-hidden="true">2</span><span>{{ block.settings.step_2 }}</span></li>{%- endif -%}
-        {%- if block.settings.step_3 != blank -%}<li><span class="print__step-num" aria-hidden="true">3</span><span>{{ block.settings.step_3 }}</span></li>{%- endif -%}
-        <li><span class="print__step-num" aria-hidden="true">4</span><span>{% if druk.levertijd != blank %}{{ 'product.print_step_delivery' | t: lead_time: druk.levertijd }}{% else %}{{ block.settings.step_4 }}{% endif %}</span></li>
-      </ol>
-      {%- if block.settings.page != blank -%}<a class="link text-sm" href="{{ block.settings.page.url }}">{{ 'product.print_more' | t }}</a>{%- endif -%}
-    </div>
+  {%- if mock -%}
+    {%- capture w_tpl -%}{{ 'product.print_mock_width' | t: width: '__W__' }}{%- endcapture -%}
+    <figure class="mock{% if hoes_dark %} is-dark{% endif %}" data-mock data-mode="{{ mode }}" data-colours='{ {{- colours_json -}} }' data-dark="{{ dark_list | escape }}" data-widths='{ {{- widths_json -}} }' data-w-tpl="{{ w_tpl | escape }}" style="--hoes:{{ hoes }}">
+      <div class="mock__views">
+        <svg class="mock__view mock__view--front" viewBox="0 0 160 206" aria-hidden="true" focusable="false">
+          <defs>
+            <path id="{{ mock_id }}-rok" d="M21 27C21 56 62 70 64 100C65 122 44 150 7 188Q6 193 13 192Q40 178 62 186Q76 192 80 197Q84 192 98 186Q120 178 147 192Q154 193 153 188C116 150 95 122 96 100C98 70 139 56 139 27Z"/>
+            <clipPath id="{{ mock_id }}-clip"><use href="#{{ mock_id }}-rok"/></clipPath>
+            <linearGradient id="{{ mock_id }}-shade" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".26"/><stop offset=".28" stop-color="#000" stop-opacity="0"/><stop offset=".5" stop-color="#000" stop-opacity=".08"/><stop offset=".7" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+            <linearGradient id="{{ mock_id }}-full" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2BA6C9"/><stop offset=".5" stop-color="#C2206E"/><stop offset="1" stop-color="#F2C230"/></linearGradient>
+            <g id="{{ mock_id }}-fig">
+              <ellipse cx="80" cy="197" rx="74" ry="6" fill="#1D2420" opacity=".1"/>
+              <use href="#{{ mock_id }}-rok" class="mock__cloth"/>
+              <rect class="mock__full" x="0" y="20" width="160" height="180" fill="url(#{{ mock_id }}-full)" clip-path="url(#{{ mock_id }}-clip)"/>
+              <image class="mock__full mock__art" x="0" y="26" width="160" height="172" preserveAspectRatio="xMidYMid slice" clip-path="url(#{{ mock_id }}-clip)" data-mock-img/>
+              <use href="#{{ mock_id }}-rok" fill="url(#{{ mock_id }}-shade)"/>
+              <path d="M66 104C72 132 78 162 80 195" fill="none" stroke="#000" stroke-opacity=".13" stroke-width="5" clip-path="url(#{{ mock_id }}-clip)"/>
+              <use href="#{{ mock_id }}-rok" fill="none" stroke="#1D2420" stroke-opacity=".32"/>
+              <path class="mock__cloth" d="M20 22v5c0 6 27 10 60 10s60-4 60-10v-5" stroke="#1D2420" stroke-opacity=".32"/>
+              <path d="M20 22v5c0 6 27 10 60 10s60-4 60-10v-5" fill="#000" opacity=".12"/>
+              <ellipse class="mock__cloth" cx="80" cy="22" rx="60" ry="10" stroke="#1D2420" stroke-opacity=".32"/>
+              <ellipse cx="80" cy="22" rx="60" ry="10" fill="#fff" opacity=".1"/>
+            </g>
+            <g id="{{ mock_id }}-zone">
+              <rect class="mock__zone" x="-21" y="-16" width="42" height="32" rx="1.5"/>
+              <path class="mock__hint" d="M0 6V-6M-5-1l5-5 5 5"/>
+              <text class="mock__ext" y="3.4" text-anchor="middle" data-mock-ext></text>
+              <image class="mock__logo" x="-20" y="-15" width="40" height="30" preserveAspectRatio="xMidYMid meet" data-mock-img/>
+            </g>
+          </defs>
+          <use href="#{{ mock_id }}-fig"/>
+          <use class="mock__spot" href="#{{ mock_id }}-zone" x="58" y="148"/>
+        </svg>
+        <svg class="mock__view mock__view--back" viewBox="0 0 160 206" aria-hidden="true" focusable="false">
+          <use href="#{{ mock_id }}-fig" transform="matrix(-1 0 0 1 160 0)"/>
+          <use class="mock__spot" href="#{{ mock_id }}-zone" x="102" y="148"/>
+        </svg>
+      </div>
+      <figcaption class="mock__cap">
+        <span class="mock__where">
+          <span data-mock-where="een">{{ 'product.print_mock_een' | t }}</span>
+          <span data-mock-where="twee">{{ 'product.print_mock_twee' | t }}</span>
+          <span data-mock-where="rondom">{{ 'product.print_mock_rondom' | t }}</span>
+        </span>
+        <span class="mock__size">{%- if logo_w != blank -%}<span data-mock-size>{{ w_tpl | replace: '__W__', logo_w }}</span>{%- endif -%}{%- if logo_h != blank -%}<span>{{ 'product.print_mock_height' | t: height: logo_h }}</span>{%- endif -%}</span>
+        {%- comment -%} full colour rondom: the template (a download, or the request on the print page) {%- endcomment -%}
+        {%- if tpl_file -%}<a class="link" data-mock-where="rondom" href="{{ tpl_file.url | default: tpl_file }}" target="_blank" rel="noopener">{{ 'product.print_template' | t }}</a>
+        {%- elsif block.settings.page != blank -%}<a class="link" data-mock-where="rondom" href="{{ block.settings.page.url }}#sjabloon">{{ 'product.print_template_ask' | t }}</a>{%- endif -%}
+      </figcaption>
+    </figure>
   {%- endif -%}
+  <p class="print__intro" id="PrintIntro-{{ section_id }}">{{ 'product.print_intro' | t }}</p>
   <div class="field print__upload" data-print-upload data-max-files="{{ max_files }}" data-max-mb="{{ max_mb }}">
-    <label class="field__label" for="PrintFile-{{ section_id }}">{{ 'product.print_upload' | t }}</label>
     <label class="print__drop" for="PrintFile-{{ section_id }}" data-print-drop>
       {%- render 'icon', icon: 'upload' -%}
       <span class="print__drop-text">
@@ -41,7 +231,7 @@
     </label>
     <input class="print__file" type="file" id="PrintFile-{{ section_id }}" name="properties[Logo]" form="{{ form_id }}" accept=".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg" multiple aria-describedby="PrintHelp-{{ section_id }}">
     <ul class="print__files" role="list" aria-label="{{ 'product.print_files_label' | t }}" aria-live="polite" data-print-files></ul>
-    <p class="field__help" id="PrintHelp-{{ section_id }}">{{ 'product.print_upload_help' | t }}</p>
+    <p class="field__help print__help" id="PrintHelp-{{ section_id }}">{{ 'product.print_upload_help' | t }}{%- if tpl_file and mock == false -%} <a class="link" href="{{ tpl_file.url | default: tpl_file }}" target="_blank" rel="noopener">{{ 'product.print_template' | t }}</a>{%- endif -%}</p>
     <p class="field__error" role="alert" data-print-error hidden></p>
   </div>
   <label class="check print__later">
@@ -49,21 +239,20 @@
     <span>{{ 'product.print_later' | t }}</span>
   </label>
   {%- if druk.posities and druk.posities.size > 0 -%}
-    <div class="field">
+    <div class="field print__pos">
       <label class="field__label" for="PrintPos-{{ section_id }}">{{ 'product.print_position' | t }}</label>
       <select class="select" id="PrintPos-{{ section_id }}" name="properties[Drukpositie]" form="{{ form_id }}">
         {%- for pos in druk.posities -%}<option value="{{ pos | escape }}">{{ pos }}</option>{%- endfor -%}
       </select>
     </div>
   {%- endif -%}
-  <div class="field">
-    <label class="field__label" for="PrintNote-{{ section_id }}">{{ 'product.print_remark' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
-    <textarea class="textarea" id="PrintNote-{{ section_id }}" name="properties[Opmerking bedrukking]" form="{{ form_id }}" rows="2"></textarea>
-  </div>
-  <dl class="print__specs">
-    {%- if druk.aanlevering -%}<div><dt>{{ 'product.print_specs' | t }}</dt><dd>{{ druk.aanlevering }}</dd></div>{%- endif -%}
-    {%- if druk.levertijd and block.settings.show_steps == false -%}<div><dt>{{ 'product.print_lead_time' | t }}</dt><dd>{{ druk.levertijd }}</dd></div>{%- endif -%}
-    {%- if druk.min_aantal > 1 -%}<div><dt>{{ 'product.staffel_qty' | t }}</dt><dd>{{ 'product.print_min' | t: count: druk.min_aantal }}</dd></div>{%- endif -%}
-  </dl>
+  <details class="print__note">
+    <summary class="link">{%- render 'icon', icon: 'plus', class: 'icon--xs' -%}{{ 'product.print_remark_toggle' | t }}</summary>
+    <label class="field__label visually-hidden" for="PrintNote-{{ section_id }}">{{ 'product.print_remark' | t }}</label>
+    <textarea class="textarea" id="PrintNote-{{ section_id }}" name="properties[Opmerking bedrukking]" form="{{ form_id }}" rows="2" placeholder="{{ 'product.print_remark_placeholder' | t | escape }}"></textarea>
+  </details>
+  {%- if druk.min_aantal > 1 -%}<p class="field__help print__help">{{ 'product.staffel_qty' | t }}: {{ 'product.print_min' | t: count: druk.min_aantal | downcase }}</p>{%- endif -%}
+  {%- if druk.levertijd and block.settings.show_steps == false -%}<p class="field__help print__help">{{ 'product.print_lead_time' | t }}: {{ druk.levertijd }}</p>{%- endif -%}
   {%- unless block.settings.show_steps -%}<p class="notice notice--warn">{%- render 'icon', icon: 'proof' -%}<span>{{ 'product.print_note' | t }}</span></p>{%- endunless -%}
 </fieldset>
+{%- endif -%}

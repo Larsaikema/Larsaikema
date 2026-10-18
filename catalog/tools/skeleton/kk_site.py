@@ -8,7 +8,9 @@ ONDERDELEN_TYPES = ['Zijwand', 'Zijwandenset', 'Dakzeil', 'Verzwaring', 'Veranke
 SYSTEEM_ONDERDELEN_TYPES = ['Stretchtent onderdeel', 'Stretchtent zijwand', 'Stertent zijwand', 'Opblaasbare tent accessoire']
 TEXTIEL_TYPES = ['Statafelrok', 'Topcover', 'Statafelhoes met strik', 'Strik', 'Statafelkleed', 'Tafelhoes', 'Beschermplaat']
 TENT_TYPES = ['Easy-up partytent', 'Partytent', 'Opslagtent', 'Stretchtent', 'Stertent', 'Opblaasbare tent']
-MEUBEL_TYPES = ['Barkruk', 'Kruk', 'Stoel', 'Bank', 'Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank', 'Transportkar', 'Meubelonderdeel']
+MEUBEL_TYPES = ['Barkruk', 'Kruk', 'Stoel', 'Bank', 'Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank', 'Transportkar', 'Meubelonderdeel', 'Stoelhoes']
+# catalog round 2026-10-18: inrichting next to the afzetpalen, marktkraam and lopers (Outmate menu Inrichting: koelkasten en vriezers, garderobe, vloeren)
+INRICHTING_TYPES = ['Afzetpaal', 'Marktkraam', 'Loper', 'Koeling', 'Tentvloer', 'Kapstok']
 LICHT_TYPES = ['Prikkabel', 'LED-lamp', 'Lichtslang', 'Kerstverlichting', 'Tentverlichting', 'Verlichting onderdeel']
 
 def r(col, rel, cond):
@@ -55,9 +57,11 @@ COLL_IMG = {
     'evenement': ['marktkraam-2-m-rood-hero.webp', 'afzetpaal-met-trekband-hero.webp'],
     'zakelijk': ['compleet-pakket-easy-up-professional-rood-hero.webp', 'pakket-4-statafels-met-stretchrokken-zwart-hero.webp'],
     'barkrukken': ['barkruk-stapelbaar-metaal-zwart-hero.webp', 'barkruk-velours-stapelbaar-grijs-hero.webp'],
-    'stoelen-en-banken': ['stapelstoel-cross-back-houtlook-hero.webp', 'banquetstoel-gestoffeerd-zwart-hero.webp', 'stapelstoel-metaal-zwart-hero.webp'],
+    'stoelen-en-banken': ['stapelstoel-cross-back-eiken-hero.webp', 'banquetstoel-gestoffeerd-zwart-hero.webp', 'stapelstoel-metaal-zwart-hero.webp'],
     'tafels': ['klaptafel-hdpe-rechthoekig-hero.webp', 'biertafelset-hero.webp', 'terrastafel-inklapbaar-zwart-hero.webp'],
     'transportkarren': ['transportkar-statafels-gevuld.webp', 'transportkar-statafels-hero.webp'],
+    'terrastafels': ['terrastafel-inklapbaar-zwart-hero.webp', 'terrastafel-rond-inklapbaar-wit-hero.webp'],
+    'koelkasten-en-vriezers': ['barkoelkast-glazen-deur-hero.webp', 'koelkast-rvs-horeca-hero.webp'],
     'prikkabels': ['prikkabel-e27-zwart-hero.webp', 'prikkabel-op-maat-hero.webp'],
     'lampen-en-lichtslangen': ['led-lichtslang-warm-wit-hero.webp', 'led-lichtslang-set-warm-wit-hero.webp', 'led-lamp-e27-hero.webp'],
     'topcovers-en-beschermplaten': ['beschermplaat-statafel-hero.webp', 'topcover-stretch-statafel-zwart-hero.webp'],
@@ -133,9 +137,12 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
     col('verwarming', 'Verwarming', 'accessoires', types(['Verwarming']), ext=True,
         brief='Elektrische heaters voor in de tent en gasheaters voor buiten (terras, lounge, vlam), met hoes en reservebrander; afstand tot doek en waar het mag.',
         kenmerken=['Elektrisch in de tent', 'Gas alleen buiten', 'Vermogen per m²'])
-    col('evenement', 'Evenement en markt', None, types(['Afzetpaal', 'Marktkraam', 'Loper']), True, ext=True,
-        brief='Inrichting voor events en markten: afzetpalen met trekband (ook met logo), marktkramen en lopers per meter.',
-        kenmerken=['Afzetpalen koppelbaar', 'Marktkraam 2 m', 'Loper tot 60 m uit één stuk'])
+    col('evenement', 'Evenement en inrichting', None, types(INRICHTING_TYPES), True, ext=True,
+        brief='Inrichting voor events, zaal en markt: afzetpalen met band of koord, marktkramen, lopers, tentvloer en tapijttegels, kapstokken en koelkasten.',
+        kenmerken=['Afzetpalen met band of koord', 'Koelkasten en flessenkoelers', 'Vloer en garderobe'])
+    col('koelkasten-en-vriezers', 'Koelkasten en vriezers', 'evenement', [r('type', 'equals', 'Koeling'), r('title', 'contains', 'koelkasten')], True, ext=True,
+        brief='Barkoelkasten met glazen deur, staande en RVS-horecakoelkasten, een koel-vrieskist, de verrijdbare flessenkoeler en de karren om ze te rijden.',
+        kenmerken=['128 tot 1.000 liter', 'Glazen of dichte deur', 'Kar voor koelkast en kist'])
     col('zijwanden', 'Zijwanden', 'partytent-onderdelen', types(['Zijwand', 'Zijwandenset']) + [r('title', 'contains', 'zijwand')], True,
         brief='Losse wanden en sets: dicht, raam, deur; polyester of PVC; welke lengte bij welke tent.',
         kenmerken=['Dicht, raam of deur', 'Klittenband', 'Set goedkoper dan los'])
@@ -179,9 +186,12 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
     col('stoelen-en-banken', 'Stoelen, krukken en banken', 'meubilair', types(['Stoel', 'Kruk', 'Bank', 'Bierbank']), True, ext=True,
         brief='Klapstoelen, stapelstoelen, banquetstoelen, lage krukken en banken op zithoogte ca. 45 cm.',
         kenmerken=['Stapelbaar of plat opvouwbaar', 'Zithoogte ca. 45 cm', 'Staffel vanaf 10'])
-    col('tafels', 'Klaptafels, terrastafels en biertafelsets', 'meubilair', types(['Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank']), True, ext=True,
-        brief='Tafels om aan te zitten: HDPE-klaptafels rechthoekig en rond, terrastafels met klapblad, biertafelsets en bierbanken.',
-        kenmerken=['Inklapbaar', 'Rechthoekig of rond', 'Binnen en buiten'])
+    col('tafels', 'Klaptafels, bankettafels, terrastafels en biertafelsets', 'meubilair', types(['Klaptafel', 'Terrastafel', 'Biertafelset', 'Bierbank']), True, ext=True,
+        brief='Tafels om aan te zitten: HDPE-klaptafels, bankettafels met houten blad (recht, rond, halfrond, kwartrond, ovaal, vierkant), conferentie- en examentafels, terrastafels, biertafelsets en bierbanken.',
+        kenmerken=['Inklapbaar', 'Recht, rond en aansluitvormen', 'Binnen en buiten'])
+    col('terrastafels', 'Terrastafels', 'meubilair', types(['Terrastafel']), ext=True,
+        brief='Terrastafels op 75 cm: rond op het onderstel van de statafel (zelfde bladen en onderstelkleuren) en vierkant of rechthoekig met klapblad; kar voor na sluitingstijd.',
+        kenmerken=['Zelfde bladen als de statafel', 'Rond of vierkant', 'Binnen en buiten (compact HPL)'])
     col('transportkarren', 'Transportkarren', 'meubilair', types(['Transportkar']), ext=True,
         brief='Karren voor statafels (5 of 15), klaptafels, barkrukken en klapstoelen.',
         kenmerken=['5 of 15 statafels', 'Klaptafels, barkrukken, klapstoelen', 'Levering op pallet'])
@@ -242,13 +252,16 @@ def build_menus():
         L('Statafels', 'collection', 'statafels', items=[
             L('Statafels', 'collection', 'statafels', items=[
                 P('Inklapbaar Professional', 'statafel-inklapbaar-professional'), P('Inklapbaar HDPE', 'statafel-inklapbaar-hdpe-80'), P('Met kruisvoet', 'statafel-met-kruisvoet'),
-                P('Vierkant stapelbaar', 'statafel-vierkant-stapelbaar'), P('Rechthoekig', 'statafel-rechthoekig-inklapbaar'), P('Wijnvat', 'statafel-wijnvat-houtlook')]),
+                P('Vierkant stapelbaar', 'statafel-vierkant-stapelbaar'), P('Rechthoekig', 'statafel-rechthoekig-inklapbaar'), P('Breed stapelbaar 180 × 70', 'statafel-breed-stapelbaar'),
+                P('Design marmerlook', 'statafel-design-marmerlook'), P('Design met zuilvoet', 'statafel-design-zuilvoet'), P('Wijnvat', 'statafel-wijnvat-houtlook')]),
             L('Per maat', 'collection', 'statafels', items=[L(m, 'http', url=f('statafels', 'maat', m)) for m in ['Ø70 cm', 'Ø80 cm', 'Ø85 cm']] +
-              [L(m.replace(' x ', ' × '), 'http', url=f('statafels', 'maat', m)) for m in ['60 x 60 cm', '70 x 70 cm', '80 x 80 cm', '120 x 60 cm', '120 x 70 cm', '160 x 60 cm']] +
+              [L(m.replace(' x ', ' × '), 'http', url=f('statafels', 'maat', m)) for m in ['60 x 60 cm', '70 x 70 cm', '80 x 80 cm', '120 x 60 cm', '120 x 70 cm', '160 x 60 cm', '180 x 70 cm']] +
               [L('Hoeveel statafels heb ik nodig?', 'article', 'advies/hoeveel-statafels-per-gast')]),
             L('Transport en onderdelen', 'collection', 'statafel-onderdelen', items=[
                 P('Transportkar statafels', 'transportkar-statafels'), P('Onderstel, ring en scharnier', 'onderdelen-statafel'), P('Los statafelblad', 'los-statafelblad'),
                 P('Voetdoppen', 'voetdoppen-set-van-4')]),
+            L('Terrastafels', 'collection', 'terrastafels', items=[
+                P('Terrastafel rond', 'terrastafel-rond-inklapbaar'), P('Terrastafel met klapblad', 'terrastafel-inklapbaar'), P('Transportkar terrastafels', 'transportkar-terrastafels')]),
             L('Statafelpakketten', 'collection', 'actiepakketten', items=[
                 P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
                 P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('4 statafels met rokken', 'pakket-4-statafels-met-stretchrokken'),
@@ -266,8 +279,9 @@ def build_menus():
         ]),
         L('Met jouw logo', 'page', 'bedrukken', items=[
             L('Bedrukte partytenten', 'collection', 'bedrukte-partytenten', items=[
-                P('Professional met logo', 'easy-up-partytent-professional-met-logo-op-de-luifel'), P('Full colour bedrukt', 'easy-up-partytent-professional-full-colour-bedrukt'),
-                P('Premium met logo', 'easy-up-partytent-premium-met-logo-op-de-luifel'), P('Bedrukte zijwand', 'bedrukte-zijwand-easy-up'), P('Opblaasbare promotietent', 'opblaasbare-promotietent')]),
+                P('Professional met logo', 'easy-up-partytent-professional-met-logo-op-de-luifel'), P('Professional full colour', 'easy-up-partytent-professional-full-colour-bedrukt'),
+                P('Premium met logo', 'easy-up-partytent-premium-met-logo-op-de-luifel'), P('Premium full colour', 'easy-up-partytent-premium-full-colour-bedrukt'),
+                P('Bedrukte zijwand', 'bedrukte-zijwand-easy-up'), P('Opblaasbare promotietent', 'opblaasbare-promotietent')]),
             L('Bedrukte statafelhoezen', 'collection', 'bedrukte-statafelhoezen', items=[
                 P('Statafelhoes met logo', 'statafelhoes-stretch-met-logo'), P('Beschermplaat met opdruk', 'beschermplaat-met-opdruk'), P('Tafelhoes met logo', 'stretchhoes-klaptafel-met-logo')]),
             L('Zo werkt bedrukken', 'page', 'bedrukken', items=[L('Bedrukken: stap voor stap', 'page', 'bedrukken'), L('Zo lever je je logo aan', 'article', 'advies/logo-aanleveren-voor-bedrukking'),
@@ -292,29 +306,42 @@ def build_menus():
                 P('Verbindingstunnel', 'verbindingstunnel-opblaasbare-tent'), P('Opbergtas met wielen', 'opbergtas-opblaasbare-tent')]),
             L('Alle onderdelen', 'collection', 'partytent-onderdelen', items=[
                 L('Zijwanden', 'collection', 'zijwanden'), L('Gewichten en verankering', 'collection', 'gewichten-en-verankering'), L('Tassen en wielsets', 'collection', 'tassen-en-wielsets')]),
+            # catalog round 3: the fixing materials (spanbanden, elastieken, ogen, klittenband, ringen, haken, spanschroeven, schroeven)
+            L('Bevestigingsmateriaal', 'collection', 'gewichten-en-verankering', items=[
+                P('Spanband met ratel', 'spanband-met-ratel'), P('Tentelastieken', 'tentelastieken-met-bal'), P('Oogbouten en schroefogen', 'oogbouten-en-schroefogen'),
+                P('Klittenband', 'klittenband-zelfklevend'), P('Zeilringen met gereedschap', 'zeilringen-12-mm'), P('Dakhaken', 'dakhaken-partytent'),
+                P('Spanschroeven', 'spanschroeven-set-van-5'), P('Schroeven', 'schroevenset-tent'), P('Haringen', 'haringen-en-bevestigingsmateriaal-partytent')]),
             L('Verwarming', 'collection', 'verwarming', items=[P('Elektrische heater', 'elektrische-heater-partytent'), P('Terrasheater op gas', 'terrasheater-gas-13-kw'),
                                                                P('Loungeheater op gas', 'loungeheater-gas'), P('Flameheater op gas', 'flameheater-gas-9-kw'),
                                                                P('Reservebrander', 'infraroodbrander-elektrische-heater')]),
         ]),
         L('Meubilair', 'collection', 'meubilair', items=[
             L('Tafels', 'collection', 'tafels', items=[P('Klaptafel rechthoekig', 'klaptafel-hdpe-rechthoekig'), P('Klaptafel rond', 'klaptafel-hdpe-rond'),
-                                                                        P('Terrastafel', 'terrastafel-inklapbaar'), P('Biertafelset', 'biertafelset')]),
+                                                                        P('Bankettafel recht', 'bankettafel-hout-rechthoekig'), P('Bankettafel rond', 'bankettafel-hout-rond'),
+                                                                        P('Halfrond, kwartrond, ovaal', 'klaptafel-hout-vormen'), P('Conferentietafel', 'conferentietafel-inklapbaar'),
+                                                                        P('Examentafel', 'examentafel-inklapbaar'), L('Terrastafels', 'collection', 'terrastafels'), P('Biertafelset', 'biertafelset')]),
             L('Barkrukken', 'collection', 'barkrukken', items=[P('Barkruk metaal', 'barkruk-stapelbaar-metaal'), P('Barkruk hout', 'barkruk-houten-zitting'),
                                                                          P('Barkruk velours', 'barkruk-velours-stapelbaar'), P('Barkruk PE-rotan', 'barkruk-pe-rotan'),
-                                                                         P('Barkruk draad', 'barkruk-draad-stapelbaar'), P('Barkruk chroom', 'barkruk-chroom-stapelbaar')]),
+                                                                         P('Barkruk draad', 'barkruk-draad-stapelbaar'), P('Barkruk chroom', 'barkruk-chroom-stapelbaar'),
+                                                                         P('Barkruk wijnvat', 'barkruk-wijnvat')]),
             L('Stoelen, krukken en banken', 'collection', 'stoelen-en-banken', items=[
-                P('Klapstoel', 'klapstoel'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
+                P('Klapstoel', 'klapstoel'), P('Weddingstoel', 'klapstoel-wedding'), P('Stoelhoes stretch', 'stoelhoes-stretch'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
                 P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank-220')]),
             L('Transportkarren', 'collection', 'transportkarren', items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels, barkrukken en klapstoelen', 'transportkar-klaptafels-en-stoelen'),
                                                                          P('Voor stapelstoelen', 'transportkar-stapelstoelen'), P('Voor ronde klaptafels', 'transportkar-ronde-klaptafels'),
-                                                                         P('Voor biertafelsets', 'transportkar-biertafelsets'), P('Voor terrastafels', 'transportkar-terrastafels')]),
-            L('Evenement en markt', 'collection', 'evenement', items=[P('Afzetpalen', 'afzetpaal-met-trekband'), P('Afzetpaal met logo', 'afzetpaal-met-logo'),
-                                                                   P('Marktkraam', 'marktkraam-2-m'), P('Loper', 'loper-per-meter')]),
+                                                                         P('Voor biertafelsets', 'transportkar-biertafelsets'), P('Voor terrastafels', 'transportkar-terrastafels'),
+                                                                         P('Voor koelkasten', 'transportkar-koelkasten'), P('Voor afzetpalen', 'transportkar-afzetpalen'),
+                                                                         P('Voor kapstokken', 'transportkar-kapstokken'), P('Voor marktkramen', 'transportkar-marktkramen')]),
+            L('Evenement en inrichting', 'collection', 'evenement', items=[P('Afzetpaal met band', 'afzetpaal-met-trekband'), P('Afzetpaal met koord', 'afzetpaal-met-koord'),
+                                                                        P('Afzetpaal met logo', 'afzetpaal-met-logo'), P('Marktkraam', 'marktkraam-2-m'), P('Dakzeil, rok en blad voor marktkraam', 'dakzeil-marktkraam'),
+                                                                        P('Loper per meter', 'loper-per-meter'), P('Loper op rol, 50 m', 'loper-rol-50-m'),
+                                                                        P('Tentvloer', 'tentvloer-kunststof'), P('Kapstok verrijdbaar', 'kapstok-verrijdbaar'),
+                                                                        L('Koelkasten en vriezers', 'collection', 'koelkasten-en-vriezers')]),
         ]),
         L('Verlichting', 'collection', 'verlichting', items=[
             L('Prikkabels', 'collection', 'prikkabels', items=[P('Prikkabel E27', 'prikkabel-e27'), P('Prikkabel op maat', 'prikkabel-op-maat'), P('Set met lampen', 'prikkabelset-led')]),
             L('Lampen en slangen', 'collection', 'lampen-en-lichtslangen', items=[
-                P('LED-lampen', 'led-lamp-e27'), P('LED-lichtslang per meter', 'led-lichtslang'), P('Lichtslang 15 of 20 m', 'led-lichtslang-set-warm-wit'), P('Kerstverlichting', 'kerstverlichting-10-m'), P('LED-vloedlicht voor easy-up', 'led-vloedlicht-easy-up'),
+                P('LED-lampen', 'led-lamp-e27'), P('Gekleurde en 2000 K lampen', 'led-lamp-e27-gekleurd'), P('Dimbaar IP65', 'led-lamp-e27-dimbaar-ip65'), P('LED-lichtslang per meter', 'led-lichtslang'), P('Lichtslang 15 of 20 m', 'led-lichtslang-set-warm-wit'), P('Kerstverlichting', 'kerstverlichting-10-m'), P('LED-vloedlicht voor easy-up', 'led-vloedlicht-easy-up'),
                 P('LED voor opblaasbare tent', 'led-verlichting-opblaasbare-tent')]),
             L('Onderdelen', 'product', 'onderdelen-prikkabel-en-lichtslang', items=[P('Fittingen, eindkap en kabel per meter', 'onderdelen-prikkabel-en-lichtslang'),
                                                                                      P('Dimmer', 'dimmer-voor-prikkabel'), P('Tijdschakelaar', 'tijdschakelaar-voor-prikkabel')]),
@@ -325,9 +352,15 @@ def build_menus():
                                                                          P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('Terraspakket', 'terraspakket-statafel-barkrukken'),
                                                                          P('Statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
             L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium', 'starterspakket-easy-up-premium'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
+            # catalog round 3: every pakket is in the menu (the 6 packs of the 2026-10-18 round were missing)
+            L('Tafels en stoelen met kar', 'collection', 'actiepakketten', items=[
+                P('Klaptafels met kar', 'pakket-klaptafels-met-transportkar'), P('10 ronde klaptafels met kar', 'pakket-10-ronde-klaptafels-met-transportkar'),
+                P('30 klapstoelen met kar', 'pakket-30-klapstoelen-met-transportkar'), P('26 weddingstoelen met kar', 'pakket-26-weddingstoelen-met-transportkar'),
+                P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'), P('15 of 30 barkrukken met kar', 'pakket-15-of-30-barkrukken-met-transportkar'),
+                P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar')]),
             L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'),
-                                                                      P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar'), P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'),
-                                                                      P('10 ronde klaptafels met kar', 'pakket-10-ronde-klaptafels-met-transportkar'), P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
+                                                                      P('Klapstoelen met stoelhoezen', 'pakket-klapstoelen-met-stoelhoezen'), P('Prikkabelset met lampen', 'prikkabelset-led'),
+                                                                      P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
         ]),
         L('Zakelijk', 'page', 'zakelijk', items=[
             L('Klapklaar Zakelijk', 'page', 'zakelijk', items=[L('Zo bestel je zakelijk', 'page', 'zakelijk'), L('Offerte aanvragen', 'page', 'offerte'),
@@ -339,7 +372,7 @@ def build_menus():
         {'handle': 'footer-assortiment', 'title': 'Winkel', 'items': [
             L('Partytenten', 'collection', 'partytenten'), L('Easy-up partytenten', 'collection', 'easy-up-partytenten'), L('Statafels', 'collection', 'statafels'),
             L('Statafelrokken en -hoezen', 'collection', 'statafelrokken'), L('Met jouw logo', 'collection', 'bedrukte-partytenten'), L('Meubilair', 'collection', 'meubilair'),
-            L('Verlichting', 'collection', 'verlichting'), L('Accessoires', 'collection', 'accessoires'), L('Evenement en markt', 'collection', 'evenement'),
+            L('Verlichting', 'collection', 'verlichting'), L('Accessoires', 'collection', 'accessoires'), L('Evenement en inrichting', 'collection', 'evenement'),
             L('Pakketten', 'collection', 'actiepakketten'),
             L('Alle producten', 'collection', 'all')]},
         {'handle': 'footer-klantenservice', 'title': 'Hulp', 'items': [
@@ -383,12 +416,17 @@ ARTICLES = [
     ('zijwanden-kiezen', 'Zijwanden kiezen voor je partytent', 'Dicht, raam, deur, half; polyester vs PVC; welke lengte op welke zijde.'),
 ]
 
+# Search & Discovery filter set (fixture + docs). Standing item b (catalog round 2026-10-18): no tag filter (it showed raw values like
+# 'zakelijk', 'pallet' and 'gebruik:horeca'); 'Gebruik' reads custom.gebruik, the readable labels catalog/build.py derives from the
+# gebruik:* tags; a boolean metafield reads Ja / Nee (value_labels, the way Search & Discovery labels a true/false filter).
 FILTERS = [
     {'source': 'availability', 'label': 'Beschikbaarheid'}, {'source': 'price', 'label': 'Prijs'},
     {'source': 'option', 'name': 'Maat', 'label': 'Maat'}, {'source': 'option', 'name': 'Kleur', 'label': 'Kleur'},
     {'source': 'option', 'name': 'Uitvoering', 'label': 'Uitvoering'}, {'source': 'product_type', 'label': 'Soort'},
-    {'source': 'tag', 'label': 'Gebruik'}, {'source': 'metafield', 'owner': 'product', 'namespace': 'custom', 'key': 'systeem', 'label': 'Past op'},
-    {'source': 'metafield', 'owner': 'product', 'namespace': 'custom', 'key': 'bedrukbaar', 'label': 'Met jouw logo'},
+    {'source': 'metafield', 'owner': 'product', 'namespace': 'custom', 'key': 'gebruik', 'label': 'Gebruik'},
+    {'source': 'metafield', 'owner': 'product', 'namespace': 'custom', 'key': 'systeem', 'label': 'Past op'},
+    {'source': 'metafield', 'owner': 'product', 'namespace': 'custom', 'key': 'bedrukbaar', 'label': 'Met jouw logo',
+     'value_labels': {'true': 'Ja', 'false': 'Nee'}},
 ]
 
 
@@ -453,10 +491,21 @@ PRODUCT_CATEGORY_BY_TYPE = {
     'Verlichting onderdeel': ('Home & Garden > Lighting Accessories', 'hg-14'),
     'Verwarming': ('Home & Garden > Household Appliances > Climate Control Appliances > Patio Heaters', 'hg-9-1-11'),
     'Afzetpaal': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers > Retractable Belts', 'ha-3-8-4'),
+    'Koeling': ('Home & Garden > Kitchen & Dining > Kitchen Appliances > Refrigerators > Commercial Refrigerators', 'hg-11-7-41-1'),
+    'Stoelhoes': ('Home & Garden > Decor > Slipcovers', 'hg-3-60'),
+    'Tentvloer': ('Hardware > Building Materials > Flooring & Carpet', 'ha-2-5'),
+    'Kapstok': ('Furniture > Benches > Storage & Entryway Benches > Coat Racks', 'fr-3-2-2'),
     'Loper': ('Home & Garden > Decor > Rugs', 'hg-3-57'),
     'Cadeaubon': ('Gift Cards', 'gc'),
 }
 PRODUCT_CATEGORY_BY_HANDLE = {
+    'koel-vrieskist-liggend': ('Home & Garden > Kitchen & Dining > Kitchen Appliances > Freezers > Chest Freezers', 'hg-11-7-20-1'),
+    'afzetpaal-met-koord': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers', 'ha-3-8'),
+    'afzetkoord-velours': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers', 'ha-3-8'),
+    'onderdelen-afzetsysteem': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers', 'ha-3-8'),
+    'transportkar-koelkasten': ('Hardware > Tools > Dollies & Hand Trucks > Appliance Dollies', 'ha-15-13-1'),
+    'bevestigingsset-schaduwdoek': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Umbrellas & Sunshades', 'hg-12-2-8'),
+    'funderingsset-tuinpaviljoen': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories', 'hg-12-2-6-2'),
     'tuinpaviljoen-aluminium': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Gazebos', 'hg-12-2-6-1-2'),
     'carport-opslagtent-vast-frame': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Sheds, Garages & Carports > Carports', 'hg-12-2-6-5-1'),
     'overkappingzeil-op-maat': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Tops', 'hg-12-2-6-2-3'),
@@ -501,6 +550,11 @@ PRODUCT_CATEGORY_BY_HANDLE = {
     'pakket-24-barkrukken-met-transportkar': ('Furniture > Chairs > Table & Bar Stools > Bar Stools', 'fr-7-12-2'),
     'pakket-40-stapelstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
     'pakket-10-ronde-klaptafels-met-transportkar': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
+    'pakket-klaptafels-met-transportkar': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
+    'pakket-30-klapstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    'pakket-15-of-30-barkrukken-met-transportkar': ('Furniture > Chairs > Table & Bar Stools > Bar Stools', 'fr-7-12-2'),
+    'pakket-26-weddingstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    'pakket-klapstoelen-met-stoelhoezen': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
     'tentelastieken-met-bal': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy Anchor Kits', 'hg-12-2-6-2-8'),
     'prikkabelset-led': ('Home & Garden > Lighting > Light Ropes & Strings', 'hg-13-8'),
 }

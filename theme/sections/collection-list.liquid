@@ -23,14 +23,20 @@
           assign tile_img = block.settings.image | default: c.featured_image | default: c.image
           assign tile_title = block.settings.title | default: c.title
           assign tile_url = block.settings.link | default: c.url
-          # 'vanaf' = the lowest price in the collection (shop navigation: always with cents, brand book 5)
+          # 'vanaf' (shop navigation: always with cents, brand book 5). The block's 'vanaf-product' sets it: the cheapest
+          # product that IS what the tile shows (a stretchrok, not the loose bow in the same collection), so the entry
+          # price is honest (brief 6, brand 2 'Eerlijk'). Without one: the lowest price in the collection.
           assign tile_min = nil
           if section.settings.show_meta and c != blank
-            for p in c.products limit: 50
-              if tile_min == nil or p.price_min < tile_min
-                assign tile_min = p.price_min
-              endif
-            endfor
+            if block.settings.price_product != blank
+              assign tile_min = block.settings.price_product.price_min
+            else
+              for p in c.products limit: 50
+                if tile_min == nil or p.price_min < tile_min
+                  assign tile_min = p.price_min
+                endif
+              endfor
+            endif
           endif
         -%}
         <li class="tile" {{ block.shopify_attributes }}>
@@ -139,7 +145,7 @@
     { "type": "url", "id": "link", "label": "Link" },
     { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Kolommen desktop", "default": 4 },
     { "type": "select", "id": "style", "label": "Stijl", "options": [ { "value": "card", "label": "Kaart met tekst eronder" }, { "value": "overlay", "label": "Tekst op het beeld" }, { "value": "panel", "label": "Beeldvlak met tekst erin" } ], "default": "card" },
-    { "type": "checkbox", "id": "show_meta", "label": "Aantal producten en vanaf-prijs tonen", "default": false, "info": "De vanaf-prijs is de laagste prijs in de collectie." },
+    { "type": "checkbox", "id": "show_meta", "label": "Aantal producten en vanaf-prijs tonen", "default": false, "info": "De vanaf-prijs komt van het product dat je per tegel kiest, anders van het goedkoopste product in de collectie." },
     { "type": "text", "id": "more_label", "label": "Kop boven de extra categorieën", "default": "Meer in de winkel" },
     { "type": "select", "id": "more_style", "label": "Extra categorieën tonen als", "options": [ { "value": "pills", "label": "Knoppen met rond beeldje" }, { "value": "tiles", "label": "Kleine tegels met beeld" } ], "default": "pills" }
   ],
@@ -150,6 +156,7 @@
         { "type": "collection", "id": "collection", "label": "Collectie" },
         { "type": "text", "id": "title", "label": "Titel (optioneel)" },
         { "type": "text", "id": "benefit", "label": "Voordeel in één regel", "default": "Staat in een paar minuten" },
+        { "type": "product", "id": "price_product", "label": "Vanaf-prijs van dit product", "info": "Kies het goedkoopste product dat écht is wat de tegel toont (bv. een statafelrok, niet een losse strik). Leeg = de laagste prijs in de collectie, ook van accessoires." },
         { "type": "image_picker", "id": "image", "label": "Eigen beeld (optioneel)" },
         { "type": "url", "id": "link", "label": "Eigen link (optioneel)" }
       ]

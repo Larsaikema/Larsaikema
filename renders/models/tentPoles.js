@@ -14,6 +14,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import { makeNoise2 } from '../js/rng.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -21,19 +22,20 @@ const TAU = Math.PI * 2;
 
 function woodPole(bins, mats, { L, seed }) {
   const nz = makeNoise2(seed);
-  const nl = 120, nr = 40;
+  const nl = 260, nr = 56;
   const rows = [];
   // pole along +X from 0 (foot) to L (top); centre-line bends gently (two low-frequency waves)
-  const bendY = (s) => 0.012 * Math.sin(Math.PI * s / L) + 0.004 * nz.noise(s * 0.8, 3.1);
-  const bendZ = (s) => 0.018 * Math.sin(Math.PI * s / L * 1.3 + 0.4) * (0.6 + 0.4 * nz.noise(s * 0.6, 7.3));
+  // a grown pole: never quite straight (two gentle bends and a slight dog-leg)
+  const bendY = (s) => 0.014 * Math.sin(Math.PI * s / L) + 0.006 * nz.noise(s * 0.9, 3.1);
+  const bendZ = (s) => 0.024 * Math.sin(Math.PI * s / L * 1.3 + 0.4) * (0.6 + 0.4 * nz.noise(s * 0.6, 7.3)) + 0.008 * nz.noise(s * 1.7, 9.1);
   const radius = (s, a) => {
     const base = 0.0475 - 0.008 * (s / L);
-    const oor = 1 + 0.035 * Math.cos(2 * a + nz.noise(s * 0.5, 1.7) * 2) + 0.015 * nz.noise(Math.cos(a) * 2 + s * 3, Math.sin(a) * 2);
+    const oor = 1 + 0.045 * Math.cos(2 * a + nz.noise(s * 0.5, 1.7) * 2) + 0.02 * nz.noise(Math.cos(a) * 2 + s * 3, Math.sin(a) * 2) + 0.012 * nz.noise(s * 4.5, a * 1.3);
     // draw-knife facets: flats along the pole
-    const facet = 1 - 0.006 * Math.abs(Math.sin(a * 7 + nz.noise(s, 4) * 2));
-    // knots: small bumps
+    const facet = 1 - 0.012 * Math.abs(Math.sin(a * 6 + nz.noise(s * 0.7, 4) * 2.5));
+    // knots: low bumps where side branches were cut off
     let knot = 0;
-    for (const [ks, ka] of [[0.62, 1.1], [1.48, 4.0], [2.2, 2.3], [0.25, 5.2]]) { const d = Math.hypot((s - ks) * 6, Math.atan2(Math.sin(a - ka), Math.cos(a - ka)) * 1.5); knot += 0.012 * Math.max(0, 1 - d); }
+    for (const [ks, ka] of [[0.62, 1.1], [1.48, 4.0], [2.2, 2.3], [0.25, 5.2], [1.05, 0.2], [2.62, 3.5]]) { const d = Math.hypot((s - ks) * 9, Math.atan2(Math.sin(a - ka), Math.cos(a - ka)) * 2.2); knot += 0.028 * Math.max(0, 1 - d) ** 1.5; }
     // ends slightly chamfered
     const endK = Math.min(1, s / 0.012, (L - s) / 0.012);
     return base * oor * facet * (1 + knot) * (0.93 + 0.07 * Math.min(1, endK));
@@ -54,8 +56,8 @@ function woodPole(bins, mats, { L, seed }) {
   const g = K.gridGeometry(ring.map((col) => col), { closedU: false, flip: true });
   // uv: u = along (m) is in rows; remap to u = around (m), v = along (m) for the wood texture
   const uv = g.attributes.uv;
-  for (let j = 0; j <= nr; j++) for (let i = 0; i <= nl; i++) { const k = j * (nl + 1) + i; uv.setXY(k, (j / nr) * TAU * 0.045, (i / nl) * L); }
-  bins.add(mats.wood, g);
+  for (let j = 0; j <= nr; j++) for (let i = 0; i <= nl; i++) { const k = j * (nl + 1) + i; uv.setXY(k, (j / nr) * TAU * 0.045, 0.05 + (i / nl) * L); }
+  bins.add(mats.woodOf(seed), g);
   // end grain discs (sawn ends)
   for (const s of [0, L]) {
     const c = V3(s, bendY(s), bendZ(s));
@@ -87,7 +89,7 @@ export function tentPoles(p = {}) {
   const n = Number(p.count ?? 2);
   const L = Number(p.length ?? 3);
   const material = String(p.material || 'hout');
-  const mats = { wood: K.chestnut(), endGrain: new THREE.MeshPhysicalMaterial({ color: '#B88E62', roughness: 0.85, name: 'end grain' }), galv: SG.galvSG({ cell: 0.0045 }), rubber: SG.rubberSG('#161616', { rough: 0.72 }) };
+  const mats = { woodOf: (sd) => L3.chestnutPole(sd, { len: Math.max(3.2, L + 0.2), circ: TAU * 0.045 }), wood: K.chestnut(), endGrain: new THREE.MeshPhysicalMaterial({ color: '#B98A5A', roughness: 0.85, name: 'end grain' }), galv: L3.galvFine({ cell: 0.0035 }), rubber: SG.rubberSG('#161616', { rough: 0.72 }) };
   const bins = new G.PartBin();
   for (let i = 0; i < n; i++) {
     const sub = new G.PartBin();
@@ -100,7 +102,8 @@ export function tentPoles(p = {}) {
     } else woodPole(sub, mats, { L, seed: 31 + i * 17 });
     // rest on the floor: lowest point -> y = 0
     let yMin = Infinity; for (const [, list] of sub.bins) for (const g of list) { g.computeBoundingBox(); yMin = Math.min(yMin, g.boundingBox.min.y); }
-    const m = new THREE.Matrix4().makeRotationY((i ? 2.5 : 0) * DEG).setPosition(-L / 2 + i * 0.14, -yMin, (i - (n - 1) / 2) * 0.16);
+    // side by side, parallel, the second one a little further along (ends do not line up)
+    const m = new THREE.Matrix4().makeRotationY(0).setPosition(-L / 2 + i * 0.12, -yMin, (i - (n - 1) / 2) * 0.17);
     for (const [mat, list] of sub.bins) for (const g of list) { g.applyMatrix4(m); bins.add(mat, g); }
   }
   const g = K.finish(bins, `tentPoles ${material} ${L}`);

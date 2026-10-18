@@ -21,6 +21,7 @@ import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import { rng } from '../js/rng.js';
+import { biertafelParts } from './biertafelParts.js';
 
 const { V3 } = G;
 
@@ -44,7 +45,7 @@ function lamellaTop(bins, L, W, T, y, z0, wood, { n = null, seed = 1 } = {}) {
 }
 
 // Folding trapezoid leg with hinge axle, cross tube and brace. x: leg plane, inward: +1/-1 (towards centre)
-function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo, folded = false }) {
+export function legFrame(bins, mats, { x, inward, yTop, zTop, zFoot, yCross, braceTo, folded = false }) {
   const r = 0.0125;
   const yf = 0.018 + r;
   const pts = [V3(x, yTop, 0), V3(x, yTop, zTop), V3(x, yf, zFoot), V3(x, yf, -zFoot), V3(x, yTop, -zTop), V3(x, yTop, 0.0001)];
@@ -118,6 +119,8 @@ function bench(bins, mats, L, W, H, z0, folded = false) {
 }
 
 export function biertafelset(p = {}) {
+  // loose parts (onderstelsets, klikslot, bouten, vloerbeschermers, stelpoten): biertafelParts.js
+  if (String(p.only || '').toLowerCase() === 'onderstel') return biertafelParts(p);
   let L = Number(p.length ?? 2.2); if (L > 10) L /= 100;
   let TW = Number(p.tableWidth ?? p.width ?? 0.5); if (TW > 5) TW /= 100;
   const only = p.only ? String(p.only).toLowerCase() : null;

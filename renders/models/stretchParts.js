@@ -14,6 +14,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -125,7 +126,7 @@ function ratchetStrap(bins, mats) {
 export function stretchParts(p = {}) {
   let parts = p.parts || ['spanband', 'touwenset', 'paalverbinder'];
   if (typeof parts === 'string') parts = [parts];
-  const mats = { web: M.webbing('#1E2023'), steel: SG.zincSG(), grip: SG.moulded('#B8261D', { rough: 0.42, spec: 0.55 }), ss: SG.aluSG({ tone: '#D3D6D9', rough: 0.2 }), galv: SG.galvSG({ cell: 0.0045 }), rope: ropeMat('#3A3D41') };
+  const mats = { web: M.webbing('#1E2023'), steel: SG.zincSG(), grip: SG.moulded('#B8261D', { rough: 0.42, spec: 0.55 }), ss: SG.aluSG({ tone: '#D3D6D9', rough: 0.2 }), galv: L3.galvFine({ cell: 0.0035 }), rope: ropeMat('#3A3D41') };
   const bins = new G.PartBin();
   const place = (sub, m) => { for (const [mat, list] of sub.bins) for (const g of list) { g.applyMatrix4(m); bins.add(mat, g); } };
   if (parts.includes('spanband')) {
@@ -135,25 +136,44 @@ export function stretchParts(p = {}) {
   }
   if (parts.includes('touwenset')) {
     const sub = new G.PartBin();
-    // ring at the centre, three ropes fanning out to the back/right, snap hooks at the ends
-    const ringC = V3(0, 0.004, 0);
-    const ring = new THREE.TorusGeometry(0.032, 0.0042, 14, 48); ring.rotateX(Math.PI / 2); ring.translate(ringC.x, ringC.y, ringC.z); sub.add(mats.ss, ring);
-    [-34, 0, 34].forEach((ang, i) => {
+    // three 10 mm 3-strand twisted ropes, each with an eye splice round the stainless ring and
+    // an eye splice through the eye of a stainless snap hook; laid out as a fan
+    const rope = L3.ropeMat('#2A2C2F');
+    const rr = 0.005;
+    const ringC = V3(0, 0.0046, 0), RR = 0.032;
+    const ring = new THREE.TorusGeometry(RR, 0.0046, 16, 56); ring.rotateX(Math.PI / 2); ring.translate(ringC.x, ringC.y, ringC.z); sub.add(mats.ss, ring);
+    // eye splice: the rope comes in along `dir` to the eye point, wraps round a bar (centre c,
+    // radius rb, in the floor plane) and runs back alongside itself for `tail` m, tapering
+    const eyeSplice = (eye, dir, rb, tail, seed) => {
+      const side = V3(-dir.z, 0, dir.x);
+      const pts = [];
+      const c = eye.clone().addScaledVector(dir, rb + rr);
+      for (let k = 0; k <= 16; k++) { const a = Math.PI + (k / 16) * Math.PI; pts.push(c.clone().addScaledVector(dir, Math.cos(a) * (rb + rr) * -1).addScaledVector(side, Math.sin(a) * (rb + rr)).setY(rr)); }
+      const back = pts[pts.length - 1];
+      for (let k = 1; k <= 12; k++) pts.push(back.clone().addScaledVector(dir, -tail * (k / 12)).addScaledVector(side, -rr * 1.6 * Math.min(1, k / 3)).setY(rr + 0.003 * Math.min(1, k / 4)));
+      return pts;
+    };
+    [-36, 0, 36].forEach((ang, i) => {
       const a = (ang - 90) * DEG; // fan towards -z (back)
       const d = V3(Math.cos(a), 0, Math.sin(a));
-      const L = 0.42 + (i === 1 ? 0.04 : 0);
-      const start = ringC.clone().addScaledVector(d, 0.032).setY(0.005);
-      const end = ringC.clone().addScaledVector(d, L).setY(0.005);
       const side = V3(-d.z, 0, d.x);
-      const ctrl = [start, start.clone().addScaledVector(d, 0.06).addScaledVector(side, 0.004), ringC.clone().addScaledVector(d, L * 0.5).addScaledVector(side, (i - 1) * 0.02 + 0.01), end];
-      const path = K.smoothPath(ctrl, 80);
-      sub.add(mats.rope, K.tubeAlong(path, 0.005, 12));
-      // splices (thicker) at both ends
-      sub.add(mats.rope, K.tubeAlong(path.slice(0, 12), 0.0062, 12));
-      sub.add(mats.rope, K.tubeAlong(path.slice(path.length - 10), 0.0062, 12));
-      // snap hook at the end
+      const L = 0.4 + (i === 1 ? 0.05 : 0);
+      const start = ringC.clone().addScaledVector(d, RR).setY(rr);
+      const end = ringC.clone().addScaledVector(d, L).setY(rr);
+      // main rope with a gentle lie (not ruler-straight)
+      const ctrl = [start.clone().addScaledVector(d, 0.03), ringC.clone().addScaledVector(d, L * 0.35).addScaledVector(side, (i - 1) * 0.012 + 0.008).setY(rr), ringC.clone().addScaledVector(d, L * 0.7).addScaledVector(side, -0.01).setY(rr), end.clone().addScaledVector(d, -0.06)];
+      const main = K.smoothPath(ctrl, 80);
+      sub.add(rope, L3.ropeGeo(main, rr, { phase: i * 1.3, up: V3(0, 1, 0) }));
+      // splice round the ring and round the snap hook's eye
+      const sp1 = eyeSplice(start.clone().addScaledVector(d, 0.0), d.clone().negate(), 0.0046, 0.07, i);
+      sub.add(rope, L3.ropeGeo(K.smoothPath([main[0], ...sp1.slice().reverse().map((q) => q)].reverse(), 60), rr * 0.97, { phase: i * 0.7 + 0.4, up: V3(0, 1, 0) }));
+      const sp2 = eyeSplice(end.clone().addScaledVector(d, -0.004), d, 0.0045, 0.075, i + 7);
+      sub.add(rope, L3.ropeGeo(K.smoothPath([main[main.length - 1], ...sp2], 60), rr * 0.97, { phase: i * 0.9 + 1.1, up: V3(0, 1, 0) }));
+      // whipping where the tails end
+      for (const sp of [sp1, sp2]) { const q = sp[sp.length - 1], qq = sp[sp.length - 3]; const T = q.clone().sub(qq).normalize(); sub.add(L3.ropeMat('#141516'), G.tube(q.clone().addScaledVector(T, -0.012), q.clone().addScaledVector(T, 0.004), rr * 1.55, 16)); }
+      // snap hook: its eye where the splice turns
       const hk = snapHookGeo();
-      hk.applyMatrix4(new THREE.Matrix4().makeBasis(d, V3(0, 1, 0), V3().crossVectors(d, V3(0, 1, 0))).setPosition(end.clone().setY(0)));
+      hk.applyMatrix4(new THREE.Matrix4().makeBasis(d, V3(0, 1, 0), V3().crossVectors(d, V3(0, 1, 0))).setPosition(end.clone().addScaledVector(d, 0.006).setY(0)));
       sub.add(mats.ss, hk);
     });
     place(sub, new THREE.Matrix4().makeRotationY(28 * DEG).setPosition(0.12, 0, 0.12));
@@ -166,13 +186,21 @@ export function stretchParts(p = {}) {
     // welded stud with thread
     const stud = G.tube(V3(0, 0.066, 0), V3(0, 0.13, 0), 0.006, 16); sub.add(mats.steel, stud);
     for (let k = 0; k < 18; k++) { const t = new THREE.TorusGeometry(0.006, 0.0006, 4, 16); t.rotateX(Math.PI / 2); t.translate(0, 0.072 + k * 0.00175 * 1.8, 0); sub.add(mats.steel, t); }
-    const en = eyeNutGeo(1.15); en.translate(0, 0.098, 0); sub.add(mats.steel, en);
+    const en = eyeNutGeo(1.15); en.translate(0, 0.098, 0); sub.add(mats.galv, en);
     // four bolt holes round the cup wall (screws into the pole)
     for (let k = 0; k < 4; k++) { const a = (k / 4) * TAU + 0.4; const h = G.tube(V3(Math.cos(a) * 0.0515, 0.03, Math.sin(a) * 0.0515), V3(Math.cos(a) * 0.0535, 0.03, Math.sin(a) * 0.0535), 0.0035, 10); sub.add(SG.rubberSG('#0E0E0E'), h); }
     place(sub, new THREE.Matrix4().makeRotationY(0).setPosition(0.3, 0, 0.26));
   }
   if (parts.includes('oogmoeren')) {
-    for (let i = 0; i < 4; i++) { const en = eyeNutGeo(1.15); en.rotateZ(Math.PI / 2); en.translate(-0.05 + i * 0.05, 0.016, 0.3); bins.add(mats.steel, en); }
+    // four eye nuts standing on their collars in a tidy 2 x 2, rings turned a little apart
+    const solo = parts.length === 1;
+    for (let i = 0; i < 4; i++) {
+      const en = eyeNutGeo(1.15); en.rotateY((34 + 90 + [0, 14, -10, 22][i]) * DEG);
+      const cx = (i % 2 ? 0.024 : -0.024) + (solo ? 0 : 0.0), cz = (i < 2 ? -0.024 : 0.024) + (solo ? 0 : 0.3);
+      en.translate(cx, 0, cz); bins.add(mats.galv, en);
+      // threaded bore visible in the collar from above (dark)
+      bins.add(SG.rubberSG('#0C0C0C'), G.tube(V3(cx, 0.0005, cz), V3(cx, 0.0016, cz), 0.0058, 18));
+    }
   }
   const g = K.finish(bins, 'stretchParts');
   return {

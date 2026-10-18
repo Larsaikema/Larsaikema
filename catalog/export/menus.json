@@ -317,6 +317,27 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Breed stapelbaar 180 × 70",
+         "type": "product",
+         "url": "/products/statafel-breed-stapelbaar",
+         "handle": "statafel-breed-stapelbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Design marmerlook",
+         "type": "product",
+         "url": "/products/statafel-design-marmerlook",
+         "handle": "statafel-design-marmerlook",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Design met zuilvoet",
+         "type": "product",
+         "url": "/products/statafel-design-zuilvoet",
+         "handle": "statafel-design-zuilvoet",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Wijnvat",
          "type": "product",
          "url": "/products/statafel-wijnvat-houtlook",
@@ -387,6 +408,12 @@
          "admin_type": "HTTP"
         },
         {
+         "title": "180 × 70 cm",
+         "type": "http",
+         "url": "/collections/statafels?filter.v.option.maat=180+x+70+cm",
+         "admin_type": "HTTP"
+        },
+        {
          "title": "Hoeveel statafels heb ik nodig?",
          "type": "article",
          "url": "/blogs/advies/hoeveel-statafels-per-gast",
@@ -428,6 +455,36 @@
          "type": "product",
          "url": "/products/voetdoppen-set-van-4",
          "handle": "voetdoppen-set-van-4",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
+       "title": "Terrastafels",
+       "type": "collection",
+       "url": "/collections/terrastafels",
+       "handle": "terrastafels",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Terrastafel rond",
+         "type": "product",
+         "url": "/products/terrastafel-rond-inklapbaar",
+         "handle": "terrastafel-rond-inklapbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Terrastafel met klapblad",
+         "type": "product",
+         "url": "/products/terrastafel-inklapbaar",
+         "handle": "terrastafel-inklapbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Transportkar terrastafels",
+         "type": "product",
+         "url": "/products/transportkar-terrastafels",
+         "handle": "transportkar-terrastafels",
          "admin_type": "PRODUCT"
         }
        ]
@@ -661,7 +718,7 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Full colour bedrukt",
+         "title": "Professional full colour",
          "type": "product",
          "url": "/products/easy-up-partytent-professional-full-colour-bedrukt",
          "handle": "easy-up-partytent-professional-full-colour-bedrukt",
@@ -672,6 +729,13 @@
          "type": "product",
          "url": "/products/easy-up-partytent-premium-met-logo-op-de-luifel",
          "handle": "easy-up-partytent-premium-met-logo-op-de-luifel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Premium full colour",
+         "type": "product",
+         "url": "/products/easy-up-partytent-premium-full-colour-bedrukt",
+         "handle": "easy-up-partytent-premium-full-colour-bedrukt",
          "admin_type": "PRODUCT"
         },
         {
@@ -985,6 +1049,78 @@
        ]
       },
       {
+       "title": "Bevestigingsmateriaal",
+       "type": "collection",
+       "url": "/collections/gewichten-en-verankering",
+       "handle": "gewichten-en-verankering",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Spanband met ratel",
+         "type": "product",
+         "url": "/products/spanband-met-ratel",
+         "handle": "spanband-met-ratel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Tentelastieken",
+         "type": "product",
+         "url": "/products/tentelastieken-met-bal",
+         "handle": "tentelastieken-met-bal",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Oogbouten en schroefogen",
+         "type": "product",
+         "url": "/products/oogbouten-en-schroefogen",
+         "handle": "oogbouten-en-schroefogen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Klittenband",
+         "type": "product",
+         "url": "/products/klittenband-zelfklevend",
+         "handle": "klittenband-zelfklevend",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Zeilringen met gereedschap",
+         "type": "product",
+         "url": "/products/zeilringen-12-mm",
+         "handle": "zeilringen-12-mm",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Dakhaken",
+         "type": "product",
+         "url": "/products/dakhaken-partytent",
+         "handle": "dakhaken-partytent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Spanschroeven",
+         "type": "product",
+         "url": "/products/spanschroeven-set-van-5",
+         "handle": "spanschroeven-set-van-5",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Schroeven",
+         "type": "product",
+         "url": "/products/schroevenset-tent",
+         "handle": "schroevenset-tent",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Haringen",
+         "type": "product",
+         "url": "/products/haringen-en-bevestigingsmateriaal-partytent",
+         "handle": "haringen-en-bevestigingsmateriaal-partytent",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
        "title": "Verwarming",
        "type": "collection",
        "url": "/collections/verwarming",
@@ -1059,11 +1195,46 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Terrastafel",
+         "title": "Bankettafel recht",
          "type": "product",
-         "url": "/products/terrastafel-inklapbaar",
-         "handle": "terrastafel-inklapbaar",
+         "url": "/products/bankettafel-hout-rechthoekig",
+         "handle": "bankettafel-hout-rechthoekig",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Bankettafel rond",
+         "type": "product",
+         "url": "/products/bankettafel-hout-rond",
+         "handle": "bankettafel-hout-rond",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Halfrond, kwartrond, ovaal",
+         "type": "product",
+         "url": "/products/klaptafel-hout-vormen",
+         "handle": "klaptafel-hout-vormen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Conferentietafel",
+         "type": "product",
+         "url": "/products/conferentietafel-inklapbaar",
+         "handle": "conferentietafel-inklapbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Examentafel",
+         "type": "product",
+         "url": "/products/examentafel-inklapbaar",
+         "handle": "examentafel-inklapbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Terrastafels",
+         "type": "collection",
+         "url": "/collections/terrastafels",
+         "handle": "terrastafels",
+         "admin_type": "COLLECTION"
         },
         {
          "title": "Biertafelset",
@@ -1122,6 +1293,13 @@
          "url": "/products/barkruk-chroom-stapelbaar",
          "handle": "barkruk-chroom-stapelbaar",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Barkruk wijnvat",
+         "type": "product",
+         "url": "/products/barkruk-wijnvat",
+         "handle": "barkruk-wijnvat",
+         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -1137,6 +1315,20 @@
          "type": "product",
          "url": "/products/klapstoel",
          "handle": "klapstoel",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Weddingstoel",
+         "type": "product",
+         "url": "/products/klapstoel-wedding",
+         "handle": "klapstoel-wedding",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Stoelhoes stretch",
+         "type": "product",
+         "url": "/products/stoelhoes-stretch",
+         "handle": "stoelhoes-stretch",
          "admin_type": "PRODUCT"
         },
         {
@@ -1231,21 +1423,56 @@
          "url": "/products/transportkar-terrastafels",
          "handle": "transportkar-terrastafels",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor koelkasten",
+         "type": "product",
+         "url": "/products/transportkar-koelkasten",
+         "handle": "transportkar-koelkasten",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor afzetpalen",
+         "type": "product",
+         "url": "/products/transportkar-afzetpalen",
+         "handle": "transportkar-afzetpalen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor kapstokken",
+         "type": "product",
+         "url": "/products/transportkar-kapstokken",
+         "handle": "transportkar-kapstokken",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor marktkramen",
+         "type": "product",
+         "url": "/products/transportkar-marktkramen",
+         "handle": "transportkar-marktkramen",
+         "admin_type": "PRODUCT"
         }
        ]
       },
       {
-       "title": "Evenement en markt",
+       "title": "Evenement en inrichting",
        "type": "collection",
        "url": "/collections/evenement",
        "handle": "evenement",
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Afzetpalen",
+         "title": "Afzetpaal met band",
          "type": "product",
          "url": "/products/afzetpaal-met-trekband",
          "handle": "afzetpaal-met-trekband",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Afzetpaal met koord",
+         "type": "product",
+         "url": "/products/afzetpaal-met-koord",
+         "handle": "afzetpaal-met-koord",
          "admin_type": "PRODUCT"
         },
         {
@@ -1263,11 +1490,46 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Loper",
+         "title": "Dakzeil, rok en blad voor marktkraam",
+         "type": "product",
+         "url": "/products/dakzeil-marktkraam",
+         "handle": "dakzeil-marktkraam",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Loper per meter",
          "type": "product",
          "url": "/products/loper-per-meter",
          "handle": "loper-per-meter",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Loper op rol, 50 m",
+         "type": "product",
+         "url": "/products/loper-rol-50-m",
+         "handle": "loper-rol-50-m",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Tentvloer",
+         "type": "product",
+         "url": "/products/tentvloer-kunststof",
+         "handle": "tentvloer-kunststof",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Kapstok verrijdbaar",
+         "type": "product",
+         "url": "/products/kapstok-verrijdbaar",
+         "handle": "kapstok-verrijdbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Koelkasten en vriezers",
+         "type": "collection",
+         "url": "/collections/koelkasten-en-vriezers",
+         "handle": "koelkasten-en-vriezers",
+         "admin_type": "COLLECTION"
         }
        ]
       }
@@ -1322,6 +1584,20 @@
          "type": "product",
          "url": "/products/led-lamp-e27",
          "handle": "led-lamp-e27",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Gekleurde en 2000 K lampen",
+         "type": "product",
+         "url": "/products/led-lamp-e27-gekleurd",
+         "handle": "led-lamp-e27-gekleurd",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Dimbaar IP65",
+         "type": "product",
+         "url": "/products/led-lamp-e27-dimbaar-ip65",
+         "handle": "led-lamp-e27-dimbaar-ip65",
          "admin_type": "PRODUCT"
         },
         {
@@ -1461,6 +1737,64 @@
        ]
       },
       {
+       "title": "Tafels en stoelen met kar",
+       "type": "collection",
+       "url": "/collections/actiepakketten",
+       "handle": "actiepakketten",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Klaptafels met kar",
+         "type": "product",
+         "url": "/products/pakket-klaptafels-met-transportkar",
+         "handle": "pakket-klaptafels-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "10 ronde klaptafels met kar",
+         "type": "product",
+         "url": "/products/pakket-10-ronde-klaptafels-met-transportkar",
+         "handle": "pakket-10-ronde-klaptafels-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "30 klapstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-30-klapstoelen-met-transportkar",
+         "handle": "pakket-30-klapstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "26 weddingstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-26-weddingstoelen-met-transportkar",
+         "handle": "pakket-26-weddingstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "40 stapelstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-40-stapelstoelen-met-transportkar",
+         "handle": "pakket-40-stapelstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "15 of 30 barkrukken met kar",
+         "type": "product",
+         "url": "/products/pakket-15-of-30-barkrukken-met-transportkar",
+         "handle": "pakket-15-of-30-barkrukken-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "24 barkrukken met kar",
+         "type": "product",
+         "url": "/products/pakket-24-barkrukken-met-transportkar",
+         "handle": "pakket-24-barkrukken-met-transportkar",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
        "title": "Meer pakketten",
        "type": "collection",
        "url": "/collections/actiepakketten",
@@ -1482,24 +1816,17 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "24 barkrukken met kar",
+         "title": "Klapstoelen met stoelhoezen",
          "type": "product",
-         "url": "/products/pakket-24-barkrukken-met-transportkar",
-         "handle": "pakket-24-barkrukken-met-transportkar",
+         "url": "/products/pakket-klapstoelen-met-stoelhoezen",
+         "handle": "pakket-klapstoelen-met-stoelhoezen",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "40 stapelstoelen met kar",
+         "title": "Prikkabelset met lampen",
          "type": "product",
-         "url": "/products/pakket-40-stapelstoelen-met-transportkar",
-         "handle": "pakket-40-stapelstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "10 ronde klaptafels met kar",
-         "type": "product",
-         "url": "/products/pakket-10-ronde-klaptafels-met-transportkar",
-         "handle": "pakket-10-ronde-klaptafels-met-transportkar",
+         "url": "/products/prikkabelset-led",
+         "handle": "prikkabelset-led",
          "admin_type": "PRODUCT"
         },
         {
@@ -1622,7 +1949,7 @@
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Evenement en markt",
+     "title": "Evenement en inrichting",
      "type": "collection",
      "url": "/collections/evenement",
      "handle": "evenement",

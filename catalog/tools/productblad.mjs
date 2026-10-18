@@ -8,6 +8,7 @@
 // Een render wordt alleen opgenomen als hij al in catalog/images staat.
 //
 //   python3 catalog/build.py && node catalog/tools/productblad.mjs [--types "Easy-up partytent,Partytent"] [handle ...]
+//   node catalog/tools/productblad.mjs --handleidingen [handle ...]   # opbouw- en veiligheidshandleidingen (products[].handleiding)
 //   python3 catalog/build.py            # opnieuw, zodat de nieuwe pdf's aan custom.downloads hangen
 //
 // Standaard: alle tenten (product_type in TENT_TYPES). Benodigd: Node 22 met (globale) playwright + Chromium.
@@ -151,9 +152,62 @@ function sheet(p, byHandle, shop, today) {
   </body></html>`;
 }
 
+// Opbouw- en veiligheidshandleiding (catalog round 3, M16): catalog.json products[].handleiding (parts copy, one text per product family:
+// zijwanden easy-up, wanden buizenframe, zijwanden stertent, statafels) -> catalog/images/opbouwhandleiding-<handle>.pdf
+function manual(p, shop, today) {
+  const h = p.handleiding;
+  const m = p.metafields || {};
+  const hero = (p.images || []).map((i) => i.file).find((f) => f && fs.existsSync(path.join(IMAGES, f)));
+  const heroImg = hero ? `<figure class="hero"><img src="${pathToFileURL(path.join(IMAGES, hero)).href}" alt=""></figure>` : '';
+  const ol = (title, items) => (items?.length ? `<h2>${esc(title)}</h2><ol class="steps">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : '');
+  const ul = (title, items, cls = '') => (items?.length ? `<section class="${cls}"><h2>${esc(title)}</h2><ul>${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>` : '');
+  const parts = (m.included || []).length ? ul('Wat zit erin', m.included) : '';
+  const url = `${shop.domain}/products/${p.handle}`;
+  const logo = fs.readFileSync(LOGO, 'utf8').replace(/<title>[\s\S]*?<\/title>/, '');
+  return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Opbouwhandleiding ${esc(p.title)}</title><style>
+  @font-face { font-family: Figtree; src: url('${pathToFileURL(FONT).href}') format('truetype'); font-weight: 300 900; }
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  :root { --inkt:#1D2420; --linnen:#ECE4D6; --lijn:#DDD2BF; --kiezel:#5D625C; --lampion:#E66414; --bordeaux:#8A1538; }
+  * { box-sizing: border-box; }
+  body { margin:0; font: 400 10pt/1.5 Figtree, system-ui, sans-serif; color: var(--inkt); }
+  header.top { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:3mm; border-bottom:1.2mm solid var(--lampion); margin-bottom:6mm; }
+  header.top svg { height:7mm; width:auto; }
+  header.top .meta { font-size:8.5pt; color:var(--kiezel); text-align:right; }
+  .eyebrow { font-size:8.5pt; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--kiezel); margin:0 0 1.5mm; }
+  h1 { font-size:20pt; line-height:1.12; font-weight:800; margin:0 0 2mm; }
+  .sub { font-size:11pt; font-weight:600; margin:0 0 4mm; }
+  .lead { display:grid; grid-template-columns: ${hero ? '1fr 62mm' : '1fr'}; gap:6mm; align-items:start; }
+  .hero { margin:0; background:var(--linnen); border-radius:2mm; overflow:hidden; }
+  .hero img { display:block; width:100%; height:auto; }
+  h2 { font-size:12pt; font-weight:800; margin:6mm 0 2mm; break-after:avoid; }
+  ol.steps { counter-reset: s; list-style:none; padding:0; margin:0; }
+  ol.steps li { counter-increment: s; position:relative; padding:1.6mm 0 1.6mm 10mm; border-top:.25mm solid var(--lijn); break-inside:avoid; }
+  ol.steps li::before { content: counter(s); position:absolute; left:0; top:1.4mm; width:6.5mm; height:6.5mm; border-radius:50%; background:var(--inkt); color:#fff; font-weight:800; font-size:9pt; display:flex; align-items:center; justify-content:center; }
+  ul { margin:0; padding-left:4.5mm; } li { margin:0 0 1.2mm; }
+  section.safety { border-left:1.2mm solid var(--bordeaux); background:#fff; padding:1mm 0 1mm 5mm; margin-top:6mm; break-inside:avoid; }
+  section.safety h2 { color:var(--bordeaux); margin-top:1mm; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:0 8mm; }
+  footer.end { margin-top:8mm; padding-top:3mm; border-top:.25mm solid var(--lijn); font-size:8.5pt; color:var(--kiezel); break-inside:avoid; }
+  footer.end strong { color:var(--inkt); }
+  </style></head><body>
+  <header class="top">${logo}<div class="meta">Opbouw- en veiligheidshandleiding · ${esc(today)}<br>${esc(shop.domain)} · ${esc(shop.email)}</div></header>
+  <p class="eyebrow">${esc(p.product_type)} · ${esc(p.title)}</p>
+  <h1>${esc(h.titel)}</h1>
+  <div class="lead"><div><p class="sub">${esc(h.intro)}</p>${ul('Voorbereiding', h.voorbereiding)}</div>${heroImg}</div>
+  ${ol('Stap voor stap', h.stappen)}
+  ${ul('Veiligheid', h.veiligheid, 'safety')}
+  <div class="cols">${ul('Afbreken', h.afbreken)}${ul('Onderhoud en opbergen', h.onderhoud)}</div>
+  ${parts}
+  <footer class="end"><strong>Vragen of een onderdeel nodig?</strong> Mail ${esc(shop.email)} met de naam van het product, of kijk op ${esc(url)}.
+  Deze handleiding geeft algemene aanwijzingen. Bij een evenement met publiek gelden de regels van de gemeente en de locatie.</footer>
+  </body></html>`;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   let types = TENT_TYPES;
+  const manuals = args.includes('--handleidingen');
+  if (manuals) args.splice(args.indexOf('--handleidingen'), 1);
   const ti = args.indexOf('--types');
   if (ti >= 0) {
     types = args[ti + 1].split(',').map((s) => s.trim());
@@ -161,7 +215,8 @@ async function main() {
   }
   const cat = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
   const byHandle = Object.fromEntries(cat.products.map((p) => [p.handle, p]));
-  const products = args.length ? args.map((h) => byHandle[h]).filter(Boolean) : cat.products.filter((p) => types.includes(p.product_type) && p.status !== 'draft');
+  let products = args.length ? args.map((h) => byHandle[h]).filter(Boolean) : cat.products.filter((p) => types.includes(p.product_type) && p.status !== 'draft');
+  if (manuals) products = (args.length ? products : cat.products).filter((p) => p.handleiding && p.status !== 'draft');
   const today = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'productblad-'));
   const { chromium } = loadPlaywright();
@@ -170,10 +225,10 @@ async function main() {
   let n = 0;
   for (const p of products) {
     const html = path.join(tmp, `${p.handle}.html`);
-    fs.writeFileSync(html, sheet(p, byHandle, cat.shop, today));
+    fs.writeFileSync(html, manuals ? manual(p, cat.shop, today) : sheet(p, byHandle, cat.shop, today));
     await page.goto(pathToFileURL(html).href, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
-    const out = path.join(IMAGES, `productblad-${p.handle}.pdf`);
+    const out = path.join(IMAGES, `${manuals ? 'opbouwhandleiding' : 'productblad'}-${p.handle}.pdf`);
     await page.pdf({
       path: out,
       format: 'A4',
@@ -189,7 +244,7 @@ async function main() {
   }
   await browser.close();
   fs.rmSync(tmp, { recursive: true, force: true });
-  console.log(`${n} productbladen`);
+  console.log(`${n} ${manuals ? 'handleidingen' : 'productbladen'}`);
 }
 
 main().catch((e) => {

@@ -388,6 +388,73 @@
    "pin": true
   },
   {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "verzendkosten_staffel",
+   "name": "Verzendkosten-staffel",
+   "type": "json",
+   "description": "Verzendkosten per maat/uitvoering en per aantal: {eenheid, staffel, per_optie}",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "addon_korting",
+   "name": "Korting op add-ons",
+   "type": "json",
+   "description": "{\"procent\":10,\"op\":[handles]}: korting op deze add-ons bij aankoop met dit product (automatische korting)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "onderdelen",
+   "name": "Onderdelen",
+   "type": "list.product_reference",
+   "description": "Onderdelen en accessoires die op dit product passen (omgekeerde past_op, door build.py)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "verwacht_op",
+   "name": "Verwacht op",
+   "type": "date",
+   "description": "Verwachte leverdatum bij binnenkort / pre-order / uitverkocht (eigenaar vult in)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCT",
+   "namespace": "custom",
+   "key": "gebruik",
+   "name": "Gebruik",
+   "type": "list.single_line_text_field",
+   "description": "Leesbare gebruikslabels uit de gebruik:-tags (storefront-filter Gebruik)",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true,
+   "validations": [
+    {
+     "name": "choices",
+     "value": "[\"Tuinfeest\", \"Horeca\", \"Evenement\", \"Markt\"]"
+    }
+   ],
+   "use_as_filter": true
+  },
+  {
    "owner_type": "PRODUCTVARIANT",
    "namespace": "custom",
    "key": "componenten",
@@ -430,6 +497,18 @@
    "name": "Add-on-aantallen",
    "type": "list.number_integer",
    "description": "Aantal per add-on voor 1 stuk van het hoofdproduct, zelfde volgorde",
+   "access": {
+    "storefront": "PUBLIC_READ"
+   },
+   "pin": true
+  },
+  {
+   "owner_type": "PRODUCTVARIANT",
+   "namespace": "custom",
+   "key": "stuklijst",
+   "name": "Stuklijst",
+   "type": "json",
+   "description": "Bouwtekening van deze variant: [{groep, onderdeel, handle, sku, aantal}] (buizenframe- en opslagtenten)",
    "access": {
     "storefront": "PUBLIC_READ"
    },

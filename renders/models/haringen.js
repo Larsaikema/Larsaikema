@@ -14,6 +14,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -75,7 +76,7 @@ export function haringen(p = {}) {
   const bins = new G.PartBin();
   const extras = [];
   if (type === 'hoekijzer') {
-    const galv = SG.galvSG({ cell: 0.006, dull: 0.4 });
+    const galv = L3.galvFine({ cell: 0.004 });
     const w = 0.03, t = 0.003;
     for (let i = 0; i < n; i++) {
       const sub = new G.PartBin();
@@ -103,19 +104,20 @@ export function haringen(p = {}) {
       bead(sub, galv, wl, wn1, 11 + i);
       bead(sub, galv, wl2, wn2, 23 + i);
       // place: parallel, slightly staggered and fanned
-      const yaw = (i - (n - 1) / 2) * 3 * DEG;
-      const x = (i - (n - 1) / 2) * 0.062, z = ((i % 2) * 0.03) - len / 2;
+      // a tidy fan: heads close together, tips spread (fills the frame, every hook reads)
+      const yaw = (i - (n - 1) / 2) * (n > 1 ? 9 : 0) * DEG;
+      const x = (i - (n - 1) / 2) * 0.075, z = ((i % 2) * 0.025) - len / 2;
       const m = new THREE.Matrix4().makeRotationY(yaw).setPosition(x, 0, z);
       for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(m); bins.add(mat, geo); }
     }
     const g = K.finish(bins, `haringen hoekijzer ${n}x${len}`, extras);
     // heads (with the hooks and the L-shaped saw cuts) towards the camera, running diagonally
-    g.rotation.y = 172 * DEG;
+    g.rotation.y = 186 * DEG;
     const root = new THREE.Group(); root.add(g);
     return {
       object: root,
       detail: { target: [0, 0.03, len / 2], size: 0.22, azimuth: 20, elevation: 24 },
-      view: { hero: { elevation: 30, azimuth: 34 } },
+      view: { hero: { elevation: 32, azimuth: 34 } },
       rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
       meta: { type, n, len },
     };

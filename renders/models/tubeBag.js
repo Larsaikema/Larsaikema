@@ -70,10 +70,10 @@ export function tubeBag(p = {}) {
     const L = 2.2, H = 0.22, D = 0.27, r = 0.085, re = 0.05;
     const P0 = K.rrFractions(H / 2, D / 2, r).P;
     const cr = SG.creases(21, [
-      { n: 46, u: [0, P0], v: [0.02, L - 0.02], ang: Math.PI / 2, angJ: 0.5, len: [0.06, 0.2], wid: [0.012, 0.03], amp: [0.0015, 0.004], sharp: 0.45 },
-      { n: 14, u: [0, P0], v: [0.05, L - 0.05], ang: 0, angJ: 0.08, len: [0.3, 1.0], wid: [0.02, 0.035], amp: [0.002, 0.004], sharp: 0.2, sign: 1 },
+      { n: 14, u: [0, P0], v: [0.05, L - 0.05], ang: Math.PI / 2, angJ: 0.4, len: [0.1, 0.22], wid: [0.02, 0.04], amp: [0.0015, 0.003], sharp: 0.3 },
+      { n: 8, u: [0, P0], v: [0.05, L - 0.05], ang: 0, angJ: 0.06, len: [0.4, 1.0], wid: [0.025, 0.04], amp: [0.0015, 0.003], sharp: 0.15, sign: 1 },
     ], { periodU: P0 });
-    const crE = SG.creases(22, [{ n: 10, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.04, 0.1], wid: [0.01, 0.02], amp: [0.0015, 0.0035], sharp: 0.4 }]);
+    const crE = SG.creases(22, [{ n: 5, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.05, 0.1], wid: [0.015, 0.025], amp: [0.001, 0.0025], sharp: 0.3 }]);
     const B = lying(bins, k, {
       L, H, D, r, re, seed: 21, x: -0.08, z: -0.32, yaw: -22,
       disp: (q) => (q.part === 'wall' ? 0.006 * q.face * Math.pow(Math.sin(Math.PI * q.t), 0.3) + cr(q.s, q.y) * (0.4 + 0.6 * q.face) : crE(q.x, q.z) + (q.part === 'top' || q.part === 'bot' ? 0.012 : 0)),
@@ -98,10 +98,10 @@ export function tubeBag(p = {}) {
     const L = 0.66, H = 0.36, D = 0.42, r = 0.14, re = 0.07;
     const P0 = K.rrFractions(H / 2, D / 2, r).P;
     const cr = SG.creases(23, [
-      { n: 40, u: [0, P0], v: [0.0, L], ang: 0, angJ: 0.7, len: [0.06, 0.22], wid: [0.014, 0.035], amp: [0.002, 0.0065], sharp: 0.45 },
-      { n: 12, u: [0, P0], v: [0.0, L], ang: Math.PI / 2, angJ: 0.4, len: [0.12, 0.3], wid: [0.03, 0.06], amp: [0.003, 0.007], sharp: 0.25 },
+      { n: 14, u: [0, P0], v: [0.0, L], ang: 0, angJ: 0.6, len: [0.1, 0.24], wid: [0.025, 0.045], amp: [0.002, 0.0045], sharp: 0.3 },
+      { n: 6, u: [0, P0], v: [0.0, L], ang: Math.PI / 2, angJ: 0.4, len: [0.15, 0.3], wid: [0.04, 0.07], amp: [0.002, 0.005], sharp: 0.2 },
     ], { periodU: P0 });
-    const crE = SG.creases(24, [{ n: 24, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.05, 0.14], wid: [0.012, 0.03], amp: [0.002, 0.006], sharp: 0.45 }]);
+    const crE = SG.creases(24, [{ n: 8, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.07, 0.15], wid: [0.02, 0.04], amp: [0.0015, 0.004], sharp: 0.3 }]);
     const B = lying(bins, k, {
       L, H, D, r, re, seed: 23, x: -0.36, z: 0.26, yaw: 16,
       disp: (q) => (q.part === 'wall' ? 0.022 * q.face * Math.pow(Math.sin(Math.PI * q.t), 0.6) + cr(q.s, q.y) * (0.5 + 0.5 * q.face) : crE(q.x, q.z) + (q.part === 'top' || q.part === 'bot' ? 0.012 : 0)),
@@ -116,9 +116,9 @@ export function tubeBag(p = {}) {
     const L = 0.46, H = 0.27, D = 0.3, r = 0.05, re = 0.04;
     const P0 = K.rrFractions(H / 2, D / 2, r).P;
     const cr = SG.creases(25, [
-      { n: 30, u: [0, P0], v: [0.0, L], ang: 0, angJ: 0.6, len: [0.05, 0.16], wid: [0.012, 0.028], amp: [0.0015, 0.0045], sharp: 0.5 },
+      { n: 10, u: [0, P0], v: [0.0, L], ang: 0, angJ: 0.6, len: [0.08, 0.18], wid: [0.02, 0.035], amp: [0.0015, 0.003], sharp: 0.3 },
     ], { periodU: P0 });
-    const crE = SG.creases(26, [{ n: 14, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.04, 0.1], wid: [0.01, 0.022], amp: [0.0015, 0.004], sharp: 0.45 }]);
+    const crE = SG.creases(26, [{ n: 5, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.06, 0.12], wid: [0.015, 0.03], amp: [0.001, 0.0025], sharp: 0.3 }]);
     const B = lying(bins, k, {
       L, H, D, r, re, seed: 25, x: 0.3, z: 0.3, yaw: -16,
       disp: (q) => {

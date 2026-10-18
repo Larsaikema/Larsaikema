@@ -19,7 +19,7 @@
 .tiles--overlay .tile__link{position:relative}
 .tiles--overlay .tile__media{aspect-ratio:4/5}
 .tiles--overlay .tile__body{position:absolute;left:10px;right:10px;bottom:10px;border-radius:10px;background:rgba(255,255,255,.95)}
-/* panel: one Linnen beeldvlak holding the render and the text, so the product stands in its own tile (brand book 4.2: Linnen = beeldvlak) */
+/* panel: Linnen beeldvlak (brand 4.2) */
 .tiles--panel .tile__link{background:var(--c-media);border:0;border-radius:var(--radius-panel)}
 .tiles--panel .tile__link:hover{box-shadow:0 14px 30px -18px rgba(29,36,32,.35)}
 .tiles--panel .tile__link:hover img{transform:scale(1.04)}
@@ -32,7 +32,7 @@
 .tiles--panel .tile__meta{margin-top:auto;padding-top:10px}
 @media (min-width:750px){.tiles--panel .tile__body{padding:0 20px 22px;margin-top:-10px}.tiles--panel .tile__go{width:36px;height:36px}.tiles--panel .tile__benefit{font-size:14.5px}}
 @media (max-width:749px){.tiles--panel .tile__title{align-items:flex-start;font-size:16px}.tiles--panel .tile__go{display:none}.tiles--panel .tile__benefit{font-size:13px}.tiles--panel .tile__meta{font-size:12.5px}.tiles--panel .tile__from{font-size:13.5px}}
-/* smaller categories as compact image tiles (setting more_style = tiles) */
+/* more_style = tiles */
 .mini-tiles{margin-top:24px}
 @media (min-width:990px){.mini-tiles{margin-top:32px}}
 .mini-tiles__label{margin:0 0 12px;font-size:14px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}

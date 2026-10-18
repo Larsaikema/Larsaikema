@@ -10,6 +10,6 @@
 .article-card__title a{text-decoration:none}
 .article-card__title a::after{content:"";position:absolute;inset:0}
 .article-card__title a:focus-visible{outline:none}
-.article-card__title a:focus-visible::after{outline:3px solid var(--c-inkt);outline-offset:2px;border-radius:var(--radius-card)}
+.article-card__title a:focus-visible::after{outline:3px solid var(--c-inkt);outline-offset:-3px;border-radius:var(--radius-card)}
 .article-card__excerpt{margin:0;font-size:15px}
 .article-card__meta{margin-top:auto;padding-top:6px}

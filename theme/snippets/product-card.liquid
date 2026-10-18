@@ -111,6 +111,10 @@
     elsif product.variants.size == 1
       assign cta = 'add'
       assign cta_label = 'card.quick_add' | t
+      # custom.availability_status 'pre-order' (catalog/CONTRACT.md): the same words as the product page's button
+      if card_status == 'pre-order'
+        assign cta_label = 'product.pre_order' | t
+      endif
     else
       assign cta = 'quick'
       if choose_opt != ''
@@ -129,54 +133,51 @@
     endif
   endif
 
-  # filtered on a colour: show (and link) the first variant in that colour that has its own image
+  # narrowed by filters (Kleur, Maat, Uitvoering, price, availability): the card stands for the matched variants
+  # (snippets/card-variant.liquid): their photo, link, cheapest price ('vanaf' when they differ), stock line and size
   assign card_image = product.featured_media.preview_image
   assign card_url = product.url
-  assign card_color_hit = false
+  assign card_variant = nil
+  assign card_price_v = nil
+  assign card_from = false
+  assign card_img_v = nil
   assign card_photo_color = ''
-  if color != blank
-    assign color_variant = nil
+  capture cv_raw
+    render 'card-variant', product: product
+  endcapture
+  assign cv = cv_raw | strip | split: '|'
+  if cv.size > 0
     for v in product.variants
-      if v.options contains color
-        if color_variant == nil
-          assign color_variant = v
-        endif
-        if v.featured_image
-          assign card_image = v.featured_image
-          assign card_url = v.url
-          assign card_color_hit = true
-          break
-        endif
+      assign v_id = v.id | append: ''
+      if v_id == cv[0]
+        assign card_variant = v
+      endif
+      if v_id == cv[1]
+        assign card_img_v = v
+      endif
+      if v_id == cv[2]
+        assign card_price_v = v
       endif
     endfor
-    # that colour has no photo of its own: link its variant anyway and name the colour the photo does show
-    if card_color_hit == false and color_variant
-      assign card_url = color_variant.url
-      assign photo_src = card_image.src | append: ''
-      for option in product.options_with_values
-        assign opt_lc = option.name | downcase | strip
-        assign opt_is_color = false
-        for n in swatch_names
-          assign nn = n | strip
-          if nn == opt_lc
-            assign opt_is_color = true
-          endif
-        endfor
-        if opt_is_color
-          assign photo_idx = option.position | minus: 1
-          for v in product.variants
-            assign v_src = v.featured_image.src | append: ''
-            if v_src != '' and v_src == photo_src
-              assign card_photo_color = v.options[photo_idx]
-              break
-            endif
-          endfor
-          break
-        endif
-      endfor
-      if card_photo_color == color
-        assign card_photo_color = ''
-      endif
+    if cv[3] == '1'
+      assign card_from = true
+    endif
+    if cv[4] != blank
+      assign card_size_tag = cv[4] | replace: ' x ', times_nb
+    endif
+  endif
+  if card_variant
+    assign card_url = card_variant.url
+    if card_img_v
+      assign card_image = card_img_v.featured_image
+    endif
+  endif
+  # filtered on a colour: the shown variant's colour is marked among the swatches; when no matched variant has a photo of
+  # its own the card says which colour the photo shows ('Foto in rood')
+  if color != blank and cv[5] != blank
+    assign color = cv[5]
+    if cv[6] != blank and cv[6] != color
+      assign card_photo_color = cv[6]
     endif
   endif
 -%}
@@ -190,7 +191,7 @@
       {%- else -%}
         {%- render 'image', image: card_image, sizes: img_sizes, widths: '240, 360, 480, 640, 800, 960', priority: priority, alt: card_alt, class: 'card__img' -%}
       {%- endif -%}
-      {%- if settings.card_second_image and product.media[1] and card_color_hit == false -%}
+      {%- if settings.card_second_image and product.media[1] and card_img_v == nil -%}
         {%- render 'image', image: product.media[1].preview_image, sizes: img_sizes, widths: '240, 360, 480, 640, 800, 960', alt: '', class: 'card__img2' -%}
       {%- endif -%}
     {%- else -%}
@@ -216,8 +217,24 @@
   {%- comment -%} 'Voordeelset' only when the set really is cheaper than its parts (catalog/CONTRACT.md: bundles) {%- endcomment -%}
   {%- capture card_bundle -%}{%- if product.tags contains 'set' -%}{%- render 'bundle-components', product: product, mode: 'card' -%}{%- endif -%}{%- endcapture -%}
   {%- capture card_badges -%}
-    {%- if product.compare_at_price > product.price -%}
-      {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+    {%- liquid
+      # the percentage pairs one variant's price with its own compare-at: the cheapest variant that is on sale (the
+      # lowest price and the lowest compare-at of the product can belong to different sizes)
+      assign sale_p = 0
+      assign sale_cp = 0
+      if product.compare_at_price_max > product.price
+        for v in product.variants
+          if v.compare_at_price > v.price
+            if sale_p == 0 or v.price < sale_p
+              assign sale_p = v.price
+              assign sale_cp = v.compare_at_price
+            endif
+          endif
+        endfor
+      endif
+    -%}
+    {%- if sale_cp > sale_p -%}
+      {%- assign save_pct = sale_cp | minus: sale_p | times: 100.0 | divided_by: sale_cp | round -%}
       <span class="badge badge--actie">{{ 'price.save' | t: percent: save_pct }}</span>
     {%- endif -%}
     {%- if card_status == 'permanent-uitverkocht' -%}
@@ -310,11 +327,11 @@
     {%- if card_meta != blank -%}<div class="card__meta">{{ card_meta }}</div>{%- endif -%}
     <div class="card__footer">
       <div class="card__price">
-        {%- if card_unit != '' -%}{%- render 'price', product: product, unit: card_unit, secondary: card_secondary -%}{%- else -%}{%- render 'price', product: product, secondary: card_secondary -%}{%- endif -%}
+        {%- if card_unit != '' -%}{%- render 'price', product: product, variant: card_price_v, from: card_from, unit: card_unit, secondary: card_secondary -%}{%- else -%}{%- render 'price', product: product, variant: card_price_v, from: card_from, secondary: card_secondary -%}{%- endif -%}
         {{- card_bundle -}}
       </div>
       {%- if settings.card_stock -%}
-        {%- capture card_dp -%}{%- render 'delivery-promise', product: product, style: 'short' -%}{%- endcapture -%}
+        {%- capture card_dp -%}{%- render 'delivery-promise', product: product, variant: card_variant, style: 'short' -%}{%- endcapture -%}
         {%- comment -%} a wait line carries its text as a key: the collection grid states the line most of its cards share
           once above the grid ('Leverbaar over 2–3 weken, tenzij anders vermeld') and hides it on those cards {%- endcomment -%}
         {%- if card_dp contains 'stock--later' -%}
@@ -345,7 +362,7 @@
       {%- elsif cta == 'quick' -%}
         <a class="card__cta" href="{{ card_url }}" data-quick-add="{{ card_url }}" aria-haspopup="dialog" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
       {%- else -%}
-        <a class="card__cta" href="{{ product.url }}" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
+        <a class="card__cta" href="{{ card_url }}" aria-label="{{ cta_aria | escape }}">{{ cta_icon }}<span class="card__cta-text">{{ cta_label }}</span></a>
       {%- endif -%}
     </div>
   {%- endif -%}

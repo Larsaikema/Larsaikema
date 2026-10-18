@@ -18,7 +18,8 @@ class Search extends HTMLElement {
 		i.addEventListener('click', () => this.cur || first());
 		i.addEventListener('keydown', (e) => this.onKey(e));
 		c?.addEventListener('click', () => ((i.value = ''), showClear(), this.close(), i.focus()));
-		document.addEventListener('click', (e) => this.contains(e.target) || this.close());
+		// a click outside, or on the dimmed page (the element's own ::before), closes the panel
+		document.addEventListener('click', (e) => (e.target === this || !this.contains(e.target)) && this.close());
 		this.addEventListener('focusout', (e) => this.contains(e.relatedTarget) || setTimeout(() => this.contains(document.activeElement) || this.close()));
 		showClear();
 		if (document.activeElement === i) this.term ? this.onInput() : first();
@@ -49,8 +50,11 @@ class Search extends HTMLElement {
 		[this.results, this.start].forEach((p) => p && (p.hidden = !o || p !== el));
 		this.cur = o ? el : null;
 		const list = o && el.querySelector('[role="listbox"]');
+		this.classList.toggle('is-open', o);
 		if (o) {
-			this.style.setProperty('--predictive-top', `${this.getBoundingClientRect().bottom + 8}px`);
+			const r = this.getBoundingClientRect();
+			this.style.setProperty('--predictive-top', `${r.bottom + 8}px`);
+			this.style.setProperty('--ps-room', `${innerWidth - r.left - 24}px`);
 			document.querySelectorAll('mega-menu.is-open').forEach((m) => m.close(0));
 		}
 		list ? i.setAttribute('aria-controls', list.id) : i.removeAttribute('aria-controls');

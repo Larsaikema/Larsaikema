@@ -14,6 +14,7 @@ import { barrelTable } from './barrelTable.js';
 import { tableTop } from './tableTop.js';
 import { trolley } from './trolley.js';
 import { stanchion } from './stanchion.js';
+import { banquetTable } from './banquetTable.js'; // furniture round 4: board-top folding tables (also via klaptafel {top})
 // tents-other group (stretchtent / stertent / opblaasbareTent replace the stubs: listed after ...stubs)
 import { opblaasbareTent, opblaasbareTunnel } from './opblaasbareTent.js';
 import { frameTent } from './frameTent.js';
@@ -72,6 +73,7 @@ export const MODELS = {
   statafelCover,
   ...stubs,
   barStool, chair, biertafelset, klaptafel, patioTable, bench, barrelTable, tableTop, trolley, stanchion,
+  banquetTable,
   opblaasbareTent, opblaasbareTunnel, frameTent, stretchtent, stertent, canopyRoof, marketStall, gardenPavilion, carportTent, shadeSail, tarp,
   buffetCover, heater, heaterElement, floodLight, tentLight, easyUpFrame,
   draagtas, easyUpParts, connectionStrip, rainGutter, tentCoupler, tubeFittings, tentPoles, footCaps, haringen, gewichten,

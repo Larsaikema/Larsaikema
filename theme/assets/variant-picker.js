@@ -1,6 +1,7 @@
 /* Variant picker + product-info; documented in snippets/product-variant-picker.liquid. */
 (()=>{
 const KK=window.KK;
+const lab=(s)=>s.replace(/ x /g,'\u00a0×\u00a0').replace(/Ø ?(\d)/g,'Ø\u00a0$1').replace(/(\d)-(\d)/g,'$1–$2').replace(/(\d) cm/g,'$1\u00a0cm');
 const money=(c)=>['incl','excl'].map((m)=>`<span data-vat-show="${m}">${KK.formatMoney(KK.vatShown(c,m==='excl'))}</span>`).join('');
 class VariantPicker extends HTMLElement{
 connectedCallback(){
@@ -21,7 +22,7 @@ const fs=(l||this.hl).closest('fieldset');
 this.hl=l;
 const c=l?document.getElementById(l.htmlFor):fs.querySelector('input:checked');
 const out=fs.querySelector('[data-selected-value]');
-if(out&&c)out.textContent=c.value;
+if(out&&c)out.textContent=lab(c.value);
 if(!g||!c)return;
 if(!l)return g.go(this.gi,false);
 const i=+fs.dataset.optionIndex;
@@ -47,7 +48,7 @@ this.hl=null;
 sets.forEach((fs)=>{
 const out=fs.querySelector('[data-selected-value]');
 const c=fs.querySelector('input:checked');
-if(out&&c)out.textContent=c.value.replace(/ x /g,' × ');
+if(out&&c)out.textContent=lab(c.value);
 fs.querySelectorAll('[data-hint]').forEach((h)=>(h.hidden=h.dataset.hint!==c?.value));
 });
 this.syncSiblings(v);
@@ -124,6 +125,7 @@ body.scrollTop=0;
 e.target.scrollIntoView({block:'center',behavior:'instant'});
 });
 this.addEventListener('click',(e)=>{
+if(e.target.closest('[data-colour-tile]'))requestAnimationFrame(()=>this.querySelector('.product__grid').scrollIntoView());
 const sum=e.target.closest('details[data-open-desktop] > summary');
 if(sum)return(sum.parentElement.dataset.userOpen=String(!sum.parentElement.open));
 const a=e.target.closest('a[data-open-details]');
@@ -145,8 +147,11 @@ const f=u[0]==='d'?5/7:u.startsWith('werk')?1:5;
 const r=KK.delivery.compute(el.closest('[data-delivery]'));
 const w=(this.win=[m[1],m[2]||m[1]].map((n)=>r.etaAt(Math.round(n*f)+r.transit)));
 const[a,b]=w.map((d)=>d.toLocaleDateString('nl-NL',{day:'numeric',month:'short',timeZone:'UTC'}).replace('.','').split(' '));
-el.innerHTML=el.dataset.tpl.replace('__FROM__',a[1]===b[1]?a[0]:a.join(' ')).replace('__TO__',b.join(' '));
+const fr=a[1]===b[1]?a[0]:a.join(' ');
+el.innerHTML=el.dataset.tpl.replace('__FROM__',fr).replace('__TO__',b.join(' '));
 el.closest('[data-delivery-later-row]').hidden=false;
+const s=this.querySelector('[data-dynamic="eta"] .stock--later');
+if(s)(s.querySelector('.stock__extra')||s.appendChild(document.createElement('span'))).outerHTML=`<span class="stock__extra"> · ${KK.t('etaShort',{date:fr+(a[1]===b[1]?'–':' – ')+b.join(' ')})}</span>`;
 const nd=this.querySelector('[data-need]');
 if(!nd)return;
 nd.hidden=false;
@@ -196,7 +201,7 @@ const html=this.cache.get(url)||(await(await fetch(url)).text());
 this.cache.set(url,html);
 if(this.variant!==v)return;
 const doc=KK.parse(html);
-['price','badge-sale','staffel','delivery','bundle','sticky-price','sticky-variant','sticky-stock','sticky-media','sku','notify','service','compare-price'].forEach((key)=>{
+['price','badge-sale','staffel','delivery','eta','bundle','sticky-price','sticky-variant','sticky-stock','sticky-media','sku','notify','service','compare-price','colours'].forEach((key)=>{
 const fresh=doc.querySelector(`[data-dynamic="${key}"]`);
 if(fresh)this.querySelectorAll(`[data-dynamic="${key}"]`).forEach((el)=>el.replaceWith(fresh.cloneNode(true)));
 });

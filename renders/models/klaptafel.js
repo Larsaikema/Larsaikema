@@ -15,11 +15,14 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
+import { banquetTable } from './banquetTable.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
 
 export function klaptafel(p = {}) {
+  // board tops (bankettafel hout, vormen, conferentie-, examentafel): banquetTable.js
+  if (p.top) return banquetTable(p);
   const round = String(p.shape || '').toLowerCase().startsWith('rond');
   let L = Number(p.length ?? 1.83), W = Number(p.width ?? 0.76), H = Number(p.height ?? 0.74);
   let D = Number(p.diameter ?? 1.8);

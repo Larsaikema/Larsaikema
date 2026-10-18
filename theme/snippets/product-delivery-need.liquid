@@ -11,6 +11,8 @@
     form, its 'Gewenste leverdatum' filled in). Without JavaScript, or for a lead time that counts from an approved proof,
     it stays hidden.
   The section CSS lifts the note right under the stock line (.product__delivery .delivery is display: contents there).
+  part: 'why' renders only the note and the in-stock variants, inline (no <p>), for the stock line under the price
+  (snippets/product-eta); 'need' only the date check, for the delivery card when that line is there; blank renders both.
 {%- endcomment -%}
 {%- liquid
   assign nd_state = ''
@@ -25,7 +27,7 @@
   endif
 -%}
 {%- if nd_state != '' -%}
-  {%- if nd_state == 'backorder' -%}
+  {%- if nd_state == 'backorder' and part != 'need' -%}
     {%- capture nd_alts -%}
       {%- assign nd_n = 0 -%}
       {%- for v in product.variants -%}
@@ -39,14 +41,18 @@
         {%- if nd_n >= 3 -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
     {%- endcapture -%}
-    {%- if block.settings.backorder_note != blank or nd_alts != blank -%}
+    {%- if part == 'why' -%}
+      {{- block.settings.backorder_note -}}
+      {%- if nd_alts != blank %} <span class="delivery__alts">{{ 'product.stock_alternatives' | t }} {{ nd_alts }}</span>{% endif -%}
+    {%- elsif block.settings.backorder_note != blank or nd_alts != blank -%}
+      <style>.delivery__why{order:-1;margin:-4px 0 0 17px;font-size:13.5px;line-height:1.45;color:var(--pk)}</style>
       <p class="delivery__why">
         {{- block.settings.backorder_note -}}
         {%- if nd_alts != blank %} <span class="delivery__alts">{{ 'product.stock_alternatives' | t }} {{ nd_alts }}</span>{% endif -%}
       </p>
     {%- endif -%}
   {%- endif -%}
-  {%- if block.settings.show_need_date -%}
+  {%- if block.settings.show_need_date and part != 'why' -%}
     {%- assign nd_ask = sooner_url | default: pages['contact'].url -%}
     <details class="delivery__need" data-need hidden>
       <summary>{%- render 'icon', icon: 'calendar', class: 'icon--sm' -%}<span>{{ 'product.need_q' | t }} <span class="link">{{ 'product.need_cta' | t }}</span></span></summary>

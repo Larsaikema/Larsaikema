@@ -2,7 +2,8 @@
   Carrier and parcel line under the delivery promise on the product page (feature product.shipping-method-label):
   'Pakketdienst · verpakt 155 × 28 × 28 cm · 27 kg' or 'Palletvervoer …', from custom.verzending (or tag 'pallet'),
   custom.verpakt and the weight of the chosen variant (variant.weight, grams; Heavy duty PVC is heavier than polyester), else
-  custom.gewicht_kg. Renders nothing without packed size and weight. Params: product, variant.
+  custom.gewicht_kg. Renders nothing without packed size and weight. A custom.verpakt that names the form and weight
+  ('Pakket · 1 doos · ca. 0,7 kg') reads 'Pakketdienst · 1 doos · ca. 0,7 kg'. Params: product, variant.
 {%- endcomment -%}
 {%- liquid
   assign ship_class = product.metafields.custom.verzending.value | default: 'pakket' | downcase
@@ -14,12 +15,33 @@
   if variant.weight > 0
     assign kg = variant.weight | divided_by: 1000.0
   endif
+  # custom.verpakt is a box size ('155 x 28 x 28 cm': 'verpakt …' + weight) or the shipping form with its weight
+  # ('Pakket · 1 doos · ca. 0,7 kg', 'Vracht op pallet (120 x 80 cm) · ca. 150 kg'): then the form word the carrier label
+  # already says is left out, and so is the second weight
+  assign packed_dim = false
+  if packed != blank
+    assign p0 = packed | slice: 0
+    if '0123456789' contains p0
+      assign packed_dim = true
+    endif
+    assign pl = packed | downcase
+    if packed_dim == false and pl contains ' · '
+      assign pf = pl | split: ' · ' | first
+      if pf == 'pakket' or pf == 'pallet' or pf == 'vracht'
+        assign p_form = packed | split: ' · ' | first
+        assign packed = packed | remove_first: p_form | remove_first: ' · '
+      endif
+    endif
+    if pl contains ' kg'
+      assign kg = blank
+    endif
+  endif
 -%}
 {%- if packed != blank or kg != blank -%}
   <p class="delivery__pack">
     {%- render 'icon', icon: 'box', class: 'icon--sm' -%}
     <span><strong>{% if ship_class == 'pallet' %}{{ 'product.ship_pallet' | t }}{% else %}{{ 'product.ship_parcel' | t }}{% endif %}</strong>
-      {%- if packed != blank %} · {{ 'product.packed' | t | downcase }} {{ packed | replace: ' x ', ' × ' }}{% endif -%}
+      {%- if packed != blank %} · {% if packed_dim %}{{ 'product.packed' | t | downcase }} {% endif %}{{ packed | replace: ' x ', ' × ' }}{% endif -%}
       {%- if kg != blank %} · {{ kg | round: 1 | replace: '.', ',' | remove: ',0' }} kg{% endif -%}
     </span>
   </p>

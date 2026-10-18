@@ -49,11 +49,12 @@ export function protectionDisc(p = {}) {
       gr.addColorStop(0.5 + wd, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
       g.fillStyle = gr; g.fillRect(0, 0, w, h);
     };
-    band(0.1 * w, 0.0, 0.62 * w, 1.0 * h, 0.62, 0.2);
-    band(0.42 * w, 0.0, 0.98 * w, 1.0 * h, 0.22, 0.07);
+    // the key softbox mirrors as one broad soft band across the far-left part of the plate,
+    // clear of a centred print (a print under the band went pale)
+    // stripe along x + y = 0.42 (uv): near the rim, ~0.2 m from the centre
+    band(-0.11 * w, -0.11 * h, 0.53 * w, 0.53 * h, 0.5, 0.13);
     // faint overall sheen growing towards the far side (grazing reflection)
-    const gr = g.createLinearGradient(0, h, 0, 0); gr.addColorStop(0, 'rgba(255,255,255,0.04)'); gr.addColorStop(1, 'rgba(255,255,255,0.2)');
-    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    // (no overall sheen: added light washes a print under the plate out to salmon)
   });
   const discTop = new THREE.CircleGeometry(R - T / 2, 128);
   discTop.rotateX(-Math.PI / 2);
@@ -64,7 +65,7 @@ export function protectionDisc(p = {}) {
   const tm = new THREE.Mesh(discTop, topMat); tm.castShadow = false; tm.receiveShadow = false; tm.renderOrder = 3; group.add(tm);
   // a faint tint over the whole plate (hashed coverage ~12 %)
   const tint = new THREE.CircleGeometry(R - T / 2, 128); tint.rotateX(-Math.PI / 2); tint.translate(0, yTop + T + 0.0002, 0);
-  const tintMat = SG.stochasticCover(new THREE.MeshPhysicalMaterial({ color: '#9FB3AE', roughness: 0.08, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0.05, name: 'clear pvc tint' }), { constant: 0.1, salt: 9.7 });
+  const tintMat = SG.stochasticCover(new THREE.MeshPhysicalMaterial({ color: '#9FB3AE', roughness: 0.08, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0.05, name: 'clear pvc tint' }), { constant: 0.025, salt: 9.7 });
   const tim = new THREE.Mesh(tint, tintMat); tim.castShadow = false; tim.receiveShadow = true;
   // polished edge: rounded rim + its vertical face (opaque, light grey-green glass look)
   const prof = [[R - T * 0.9, 0]];
@@ -84,19 +85,18 @@ export function protectionDisc(p = {}) {
     pg.rotateX(-Math.PI / 2);
     // text up = away from the viewer (-z) so it reads from the front
     pg.translate(0, yTop + 0.0004 + 0.0003, 0);
-    const mat = new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.45, roughness: 0.5, side: THREE.DoubleSide, name: 'disc print' });
+    // matte ink seen through the plate: no sheen of its own (the plate's reflection is drawn on top),
+    // slightly deepened so the lit print lands on the brand swatch instead of a pale orange
+    const mat = new THREE.MeshPhysicalMaterial({ map: tex, color: '#e2e2e2', alphaTest: 0.45, roughness: 0.9, specularIntensity: 0.08, side: THREE.DoubleSide, name: 'disc print' });
+    mat.userData.envSpec = 0.05;
     const m = new THREE.Mesh(pg, mat); m.castShadow = false; m.receiveShadow = true; group.add(m);
   }
-  // frame the table top (the product), not the whole table: the cover/table do not take part
-  // in the framing, a proxy box spans the plate and the upper part of the cover
-  if (p.onCover !== false) {
-    group.children.forEach((c) => { if (c !== tm && c !== tim && c !== em) SG.noFrame(c); });
-    group.add(SG.frameProxy([-tableD / 2 - 0.01, yTop - 0.3, -tableD / 2 - 0.01], [tableD / 2 + 0.01, yTop + 0.005, tableD / 2 + 0.01]));
-  }
+  // frame the whole table: the plate in use on a dressed statafel, no crop (round 3: the
+  // top-only framing cut the skirt at the bottom edge and left the top of the frame empty)
   return {
     object: group,
     detail: { target: [Math.sin(34 * DEG) * R * 0.85, yTop, Math.cos(34 * DEG) * R * 0.85], size: 0.3, azimuth: 34, elevation: 22 },
-    view: { hero: { elevation: 32, fill: 0.92 } },
+    view: { hero: { elevation: 30 } },
     meta: { D, yTop },
   };
 }

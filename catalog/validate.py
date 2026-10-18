@@ -106,7 +106,7 @@ MAAT_RE = re.compile(
     rf'^(?:{NUM} x {NUM}(?: x {NUM})? (?:m|cm)'      # 3 x 3 m · 3 x 3 x 3 m · 183 x 76 cm
     rf'|Ø{NUM}(?:-{NUM})? (?:cm|m)'                   # Ø80 cm · Ø80-85 cm · Ø8 m
     rf'|{NUM} m(?: breed)?)$')                        # 3 m · 2,5 m · 3 m breed
-KLEUR_RE = re.compile(r'^[A-ZÉ][a-zà-ÿ]+(?: [a-zà-ÿ]+)?$')
+KLEUR_RE = re.compile(r'^[A-ZÉ][a-zà-ÿ]+(?:-[a-zà-ÿ]+)?(?: [a-zà-ÿ]+)?$')   # 'Grijs-wit': a two-tone cloth (banen in grijs en wit)
 
 FORBIDDEN = [
     (r'beste van nederland', 'superlative'), (r'\bnr\.?\s?1\b', 'nr. 1'), (r'\bnummer\s?(?:1|één|een)\b', 'nummer 1'),
@@ -186,6 +186,8 @@ def check_metafield_value(rep, area, key, mtype, v, ctx):
     elif mtype == 'list.single_line_text_field':
         if not is_list_of_str(v) or any('\n' in x for x in v):
             rep.e('metafields', f'{area}: {key} must be a list of one-line strings')
+        elif key in ctx['choices'] and not set(v) <= set(ctx['choices'][key]):
+            rep.e('metafields', f'{area}: {key} values {sorted(set(v) - set(ctx["choices"][key]))} not in {ctx["choices"][key]}')
     elif mtype == 'boolean':
         if not isinstance(v, bool):
             rep.e('metafields', f'{area}: {key} must be boolean')
@@ -219,6 +221,9 @@ def check_metafield_value(rep, area, key, mtype, v, ctx):
         check_json_mf(rep, area, key, v, ctx)
     elif mtype == 'list.variant_reference':
         pass  # per-variant, checked with bundles
+    elif mtype == 'date':
+        if not isinstance(v, str) or not re.match(r'^\d{4}-\d{2}-\d{2}$', v):
+            rep.e('metafields', f'{area}: {key} must be a date YYYY-MM-DD')
     else:
         rep.e('metafields', f'{area}: {key} has unsupported type {mtype}')
 
@@ -292,6 +297,35 @@ def check_json_mf(rep, area, key, v, ctx):
                 rep.e('metafields', f'{area}: configurator keuze without label/opties')
         if v.get('type') == 'oppervlakte' and len(velden) < 2:
             rep.e('metafields', f'{area}: configurator oppervlakte needs two velden')
+    elif key == 'verzendkosten_staffel':
+        def tiers_ok(t):
+            return (isinstance(t, list) and t and all(isinstance(r, dict) and isinstance(r.get('vanaf'), int) and r['vanaf'] >= 1
+                                                       and isinstance(r.get('bedrag'), (int, float)) and r['bedrag'] >= 0 for r in t)
+                    and t[0]['vanaf'] == 1 and [r['vanaf'] for r in t] == sorted({r['vanaf'] for r in t}))
+        if not isinstance(v, dict) or v.get('eenheid') not in ('per zending', 'per stuk') or not tiers_ok(v.get('staffel')):
+            rep.e('metafields', f'{area}: verzendkosten_staffel must be {{eenheid: per zending|per stuk, staffel: [{{vanaf:1, bedrag}} ...]}}')
+            return
+        po = v.get('per_optie')
+        if po:
+            names = [o['name'] for o in p.get('options', [])]
+            if po.get('optie') not in names:
+                rep.e('metafields', f'{area}: verzendkosten_staffel.per_optie.optie {po.get("optie")!r} is not an option')
+            else:
+                vals = set(next(o['values'] for o in p['options'] if o['name'] == po['optie']))
+                w = po.get('waarden') or {}
+                if set(w) != vals or not all(tiers_ok(t) for t in w.values()):
+                    rep.e('metafields', f'{area}: verzendkosten_staffel.per_optie must give tiers for every {po["optie"]} value')
+        lead = re.search(r'€\s?([\d.]+,\d{2})', (p.get('metafields') or {}).get('verzendkosten') or '')
+        # 'vanaf € x': the lowest amount for one piece / one shipment (a quantity tier further down is not the lead amount)
+        low = min([r['bedrag'] for r in v['staffel'] if r['vanaf'] <= 1] + [t[0]['bedrag'] for t in (po or {}).get('waarden', {}).values()])
+        if not lead or abs(float(lead.group(1).replace('.', '').replace(',', '.')) - low) > 0.005:
+            rep.e('metafields', f'{area}: custom.verzendkosten does not state the lowest amount of verzendkosten_staffel ({low:.2f})')
+    elif key == 'addon_korting':
+        addons = set((p.get('metafields') or {}).get('addons') or [])
+        if not isinstance(v, dict) or not isinstance(v.get('procent'), int) or not 0 < v['procent'] < 50 or not is_list_of_str(v.get('op')):
+            rep.e('metafields', f'{area}: addon_korting must be {{procent: 1-49, op: [handles]}}')
+        elif not set(v['op']) <= addons:
+            rep.e('metafields', f'{area}: addon_korting.op lists {sorted(set(v["op"]) - addons)} that are no add-ons of the product')
     else:
         if v is None:
             rep.e('metafields', f'{area}: {key} json is null')
@@ -327,7 +361,7 @@ def run(verbose=False):
         if m:
             ext_collections.update(h.strip() for h in m.group(1).split(','))
     choices = {'verzending': ['pakket', 'pallet'], 'availability_status': C['availability'] or
-               ['binnenkort', 'pre-order', 'permanent-uitverkocht']}
+               ['binnenkort', 'pre-order', 'permanent-uitverkocht'], 'gebruik': list(build.GEBRUIK_LABELS.values())}
     ctx = {'products': P, 'pages': pages, 'choices': choices}
     swatches = theme_swatches()
 
@@ -592,7 +626,12 @@ def run(verbose=False):
             if any(v.get('requires_shipping') for v in vs):
                 rep.e('variants', f'{a}: gift card variants must not require shipping')
     check_frame_plus_roof(rep, P)
+    check_parts_vs_complete(rep, P)
+    check_size_ladder(rep, products)
+    check_addon_fit(rep, products, P)
+    check_round_fields(rep, products, P, cat)
     check_bundle_staffels(rep, products, P)
+    check_round3(rep, products, P)
     for p in products:
         for f in p['metafields'].get('downloads') or []:
             if not (IMAGES / f).exists():
@@ -967,8 +1006,10 @@ def run(verbose=False):
                 if hd not in colls and hd != 'all':
                     rep.w('theme', f'theme/templates/{f.name} links to unknown collection {hd}')
 
-    if LIVE_FIXTURE.exists():
-        rep.w('fixture', 'catalog/preview-data.json exists: tools/dev.sh switches every preview server to it')
+    if LIVE_FIXTURE.is_symlink() and LIVE_FIXTURE.resolve() == FIXTURE.resolve():
+        rep.i('fixture', 'catalog/preview-data.json is a symlink to preview-data.staging.json (the preview servers read the build output)')
+    elif LIVE_FIXTURE.exists():
+        rep.w('fixture', 'catalog/preview-data.json exists and is not the staging fixture: tools/dev.sh switches every preview server to it')
 
     rep.allowed_negations = allowed_neg
     return rep, cat
@@ -1080,6 +1121,241 @@ def check_frame_plus_roof(rep, P):
                     rep.e('prices', f'{h} {m} {o.get("Uitvoering") or ""}: frame {frame_price[m] / 100:.2f} + dak {min(roof) / 100:.2f} '
                                     f'< tent {v["price"] / 100:.2f} (parts cheaper than the tent)')
                 break  # one colour per size is enough (same price)
+
+
+def check_parts_vs_complete(rep, P):
+    """Standing item d: the loose parts of a complete product never undercut it. (1) custom.stuklijst (buizenframe and opslagtent, the
+    bouwtekening): every row resolves to a variant of the named product, and frame parts + dakzeil + wanden cost at least the tent;
+    (2) a loose onderstel compleet + los blad of the same size and colour cost at least the statafel Professional; (3) every stretchtent
+    compleet variant has a stuklijst (stretchdoek los + palenset + spanbanden en haringen, + touwensets bij zware afspanning), so (1)
+    holds for it too."""
+    skus = sku_index(list(P.values()))
+    for h, p in P.items():
+        for v in p['variants']:
+            rows = (v.get('metafields') or {}).get('stuklijst')
+            if not rows:
+                continue
+            total = 0
+            for r in rows:
+                hit = skus.get(r.get('sku'))
+                if not hit or hit[0] != r.get('handle') or not isinstance(r.get('aantal'), int) or r['aantal'] < 1:
+                    rep.e('parts', f'product {h} / {v["sku"]}: stuklijst row {r.get("onderdeel")} → {r.get("handle")} {r.get("sku")} does not resolve')
+                    continue
+                total += hit[1]['price'] * r['aantal']
+            if total < v['price']:
+                rep.e('parts', f'product {h} / {v["sku"]}: stuklijst parts € {total / 100:.2f} < tent € {v["price"] / 100:.2f} (parts cheaper than the tent)')
+    stf, ond, blad = P.get('statafel-inklapbaar-professional'), P.get('onderdelen-statafel'), P.get('los-statafelblad')
+    if stf and ond and blad:
+        onderstel = next((v['price'] for v in ond['variants'] if v['option1'] == 'Onderstel compleet'), None)
+        bladen = {(v['option1'], v['option2']): v['price'] for v in blad['variants']}
+        for v in stf['variants']:
+            if v['option3'] != 'Binnen, zwart onderstel' or (v['option1'], v['option2']) not in bladen or onderstel is None:
+                continue
+            if onderstel + bladen[(v['option1'], v['option2'])] < v['price']:
+                rep.e('parts', f'statafel {v["sku"]}: onderstel + los blad € {(onderstel + bladen[(v["option1"], v["option2"])]) / 100:.2f} < statafel € {v["price"] / 100:.2f}')
+    # (3) the stretchtent compleet carries its own stuklijst (doek + palenset + afspanning, kk_bom.stretch), checked by (1) above
+    tent = P.get('stretchtent-compleet')
+    if tent:
+        missing = [v['sku'] for v in tent['variants'] if not (v.get('metafields') or {}).get('stuklijst')]
+        if missing:
+            rep.e('parts', f'stretchtent-compleet: {len(missing)} variant(s) without custom.stuklijst (doek + palen + afspanning)')
+
+
+def check_size_ladder(rep, products):
+    """Catalog round 2026-10-18: within one product, with the other options equal, a size that contains another size (both sides at
+    least as long) never costs less than it (a 5 x 6 m tent under the 4 x 6 m reads as an error)."""
+    def wd(m):
+        try:
+            return sorted(float(x.replace(',', '.')) for x in m.replace(' m', '').replace(' cm', '').split(' x '))[:2]
+        except ValueError:
+            return None
+    for p in products:
+        names = [o['name'] for o in p['options']]
+        if 'Maat' not in names:
+            continue
+        i = names.index('Maat')
+        groups = defaultdict(dict)
+        for v in p['variants']:
+            key = tuple(v.get(f'option{j + 1}') for j in range(len(names)) if j != i)
+            m = v.get(f'option{i + 1}')
+            groups[key][m] = min(groups[key].get(m, 10 ** 9), v['price'])
+        for key, pr in groups.items():
+            sizes = {m: wd(m) for m in pr if m.count(' x ') == 1}   # a driehoek (3 x 3 x 3 m) is another shape, not a bigger size
+            sizes = {m: x for m, x in sizes.items() if x and len(x) == 2}
+            for m, (a, b) in sizes.items():
+                for m2, (a2, b2) in sizes.items():
+                    if m2 != m and a2 <= a and b2 <= b and pr[m2] > pr[m]:
+                        rep.w('prices', f'product {p["handle"]} {" · ".join(str(k) for k in key if k)}: {m} € {pr[m] / 100:.2f} is cheaper than the smaller {m2} € {pr[m2] / 100:.2f}')
+
+
+# products whose add-on fit is not given by past_op (consumables, karren that carry a whole family, lighting, seating around a table)
+ADDON_PAST_OP_EXEMPT = set()
+
+
+def check_addon_fit(rep, products, P):
+    """Standing item d: every add-on reference resolves to a variant that fits the main variant. Beyond Maat/Kleur equality (check_addons):
+    (1) an add-on product without a Kleur option whose specificaties fix one colour ('Kleur: Wit') is never offered on a variant of
+    another colour (the white stertent walls on a Zwart tent); (2) an add-on that has a custom.past_op must list the main product
+    (the standard inflatable wall on the higher Pro), or share a base product with it (a beschermplaat offered with a statafelrok)."""
+    skus = sku_index(products)
+    for p in products:
+        names = [o['name'] for o in p['options']]
+        for v in p['variants']:
+            mo = {n: v.get(f'option{i + 1}') for i, n in enumerate(names)}
+            for s_ in (v.get('metafields') or {}).get('addon_varianten') or []:
+                if s_ not in skus:
+                    continue
+                ah, av = skus[s_]
+                ap = P[ah]
+                anames = [o['name'] for o in ap['options']]
+                if 'Kleur' in mo and 'Kleur' not in anames:
+                    fixed = next((r['waarde'] for r in ap['metafields'].get('specificaties') or [] if r.get('label') == 'Kleur'), None)
+                    if fixed and re.fullmatch(r'[A-ZÉ][a-zà-ÿ]+(?:-[a-zà-ÿ]+)?', fixed) and fixed != mo['Kleur']:
+                        rep.e('addons', f'product {p["handle"]} / {v["sku"]}: add-on {ah} is {fixed} only, the variant is {mo["Kleur"]}')
+                po = ap['metafields'].get('past_op')
+                # an accessory offered with another accessory of the same base (beschermplaat with a statafelrok: both go on the statafel)
+                same_base = set(po or []) & set(p['metafields'].get('past_op') or [])
+                if po and p['handle'] not in po and not same_base and ah not in ADDON_PAST_OP_EXEMPT and 'set' not in p['tags']:
+                    rep.e('addons', f'product {p["handle"]}: add-on {ah} does not list it in custom.past_op (does it fit?)')
+                    break
+
+
+def check_round_fields(rep, products, P, cat):
+    """Catalog round 2026-10-18 fields: onderdelen is the reverse of past_op; gebruik follows the tags; the filter set shows no raw tag;
+    the preview fixture carries demo stock while products.csv keeps 0 (owner sets real stock)."""
+    rev = defaultdict(set)
+    for p in products:
+        if 'set' in p['tags'] or p.get('gift_card'):
+            continue
+        for h in p['metafields'].get('past_op') or []:
+            rev[h].add(p['handle'])
+    for p in products:
+        got = set(p['metafields'].get('onderdelen') or [])
+        if got != rev.get(p['handle'], set()) - {p['handle']}:
+            rep.e('metafields', f'product {p["handle"]}: custom.onderdelen is not the reverse of past_op')
+        want = sorted(build.GEBRUIK_LABELS[t] for t in p['tags'] if t in build.GEBRUIK_LABELS)
+        if sorted(p['metafields'].get('gebruik') or []) != want:
+            rep.e('metafields', f'product {p["handle"]}: custom.gebruik does not follow the gebruik:* tags')
+    for f in cat.get('filters') or []:
+        if f.get('source') == 'tag':
+            rep.e('filters', 'a tag filter shows raw tag values to shoppers (use custom.gebruik)')
+        if f.get('source') == 'metafield' and build.PRODUCT_MF_TYPES.get(f.get('key')) == 'boolean' and not (f.get('value_labels') or {}).get('true'):
+            rep.e('filters', f'boolean filter {f.get("key")} needs value_labels (Ja / Nee)')
+    try:
+        fx = json.loads(FIXTURE.read_text(encoding='utf-8'))
+        if not (fx.get('meta') or {}).get('demo_stock'):
+            rep.e('fixture', 'fixture meta.demo_stock is not set (the preview stock must be marked as demo stock)')
+        tracked = [v for p in fx['products'] for v in p['variants'] if v.get('inventory_management') == 'shopify']
+        states = Counter('backorder' if v['inventory_quantity'] == 0 else 'low' if v['inventory_quantity'] <= 3 else 'in' for v in tracked)
+        if tracked and (states['in'] < 0.6 * len(tracked) or not states['low'] or not states['backorder']):
+            rep.e('fixture', f'demo stock should be mostly in stock with some low and some backorder ({dict(states)})')
+    except (OSError, ValueError):
+        pass
+
+
+# brand.md v7 §4.1/§4.2: names of the brand palette that are no product colour words (Wit and Bordeaux are ordinary colour words and stay
+# allowed as cloth colours); 'Klaproos' is the v6 brand red
+BRAND_ONLY_COLOURS = {'Lampion', 'Klaproos', 'Inkt', 'Zand', 'Linnen', 'Lijn', 'Kiezel', 'Zon', 'Polder', 'Oker'}
+
+
+def _tiers_at(st, p, v, qty):
+    """Shipping of qty pieces of variant v as custom.verzendkosten_staffel gives it (per zending: the line amount; per stuk: x qty)."""
+    names = [o['name'] for o in p['options']]
+    t = st.get('staffel') or []
+    po = st.get('per_optie')
+    if po and po.get('optie') in names:
+        t = po['waarden'].get(v.get(f'option{names.index(po["optie"]) + 1}'), t)
+    hit = [r for r in t if r['vanaf'] <= qty]
+    if not hit:
+        return None
+    b = hit[-1]['bedrag']
+    return round(b * qty, 2) if st.get('eenheid') == 'per stuk' else b
+
+
+def check_round3(rep, products, P):
+    """Catalog round 3 (2026-10-18 graded findings):
+      1. a pakket never ships for less than its heaviest component would on its own, and in at least that component's class (the starters-
+         pakket with a 3 x 6 m tent was € 6,95 next to € 49 for the tent alone);
+      2. 'per zending' shipping tiers never get cheaper for a larger quantity;
+      3. an easy-up wall set costs less than the same four loose walls (short sides dicht + deur, long sides 2 x raam);
+      4. no brand palette name as a product colour (brand.md §4.2, standing item c), not in Kleur values, SKUs, image files or alt text;
+      5. made to measure is never cheaper per unit than the stock product it replaces (prikkabel op maat per meter vs prikkabel E27;
+         stretchdoek op maat per m² vs stretchdoek los)."""
+    skus = sku_index(products)
+    pakket_rate = 6.95
+    for p in products:
+        if 'set' not in p['tags']:
+            continue
+        for v in p['variants']:
+            cs, qs = v['metafields'].get('componenten') or [], v['metafields'].get('component_aantallen') or []
+            st = p['metafields'].get('verzendkosten_staffel')
+            own = _tiers_at(st, p, v, 1) if st else (pakket_rate if p['metafields'].get('verzending') != 'pallet' else None)
+            for s_, q in zip(cs, qs):
+                if s_ not in skus:
+                    continue
+                ch, cv = skus[s_]
+                cp = P[ch]
+                cst = cp['metafields'].get('verzendkosten_staffel')
+                comp = _tiers_at(cst, cp, cv, q) if cst else (pakket_rate if cp['metafields'].get('verzending') != 'pallet' else None)
+                if comp is not None and (own is None or own + 0.005 < comp):
+                    rep.e('shipping', f'product {p["handle"]} / {v["sku"]}: pakket ships for {own} but {q} x {ch} alone cost {comp:.2f} (a pakket ships for at least its heaviest component)')
+                    break
+                if cp['metafields'].get('verzending') == 'pallet' and p['metafields'].get('verzending') != 'pallet':
+                    rep.e('shipping', f'product {p["handle"]}: component {ch} goes on a pallet, the pakket does not')
+                    break
+    for p in products:
+        st = p['metafields'].get('verzendkosten_staffel')
+        if not st or st.get('eenheid') != 'per zending':
+            continue
+        for t in [st.get('staffel') or []] + list(((st.get('per_optie') or {}).get('waarden') or {}).values()):
+            amounts = [r['bedrag'] for r in t]
+            if amounts != sorted(amounts):
+                rep.e('shipping', f'product {p["handle"]}: per zending shipping tiers get cheaper for more pieces ({amounts})')
+                break
+    for h in build.WALL_SETS:
+        p = P.get(h)
+        if not p:
+            continue
+        rows = build.wall_set_rows(p, P)
+        if not rows:
+            rep.e('prices', f'product {h}: no wall-set comparison could be made (wall products or sizes missing)')
+        for m, w, los, st_ in rows:
+            if st_ >= los:
+                rep.e('prices', f'product {h} {m}: set € {st_ / 100:.2f} is not under the 4 loose walls € {los / 100:.2f}')
+    for p in products:
+        for o in p['options']:
+            if o['name'] == 'Kleur':
+                bad = [x for x in o['values'] if x in BRAND_ONLY_COLOURS]
+                if bad:
+                    rep.e('brand', f'product {p["handle"]}: brand palette name as product colour {bad} (brand.md §4.2: name the cloth colour)')
+        names = [i['file'] for i in p['images']] + [v['sku'] for v in p['variants']] + [i.get('alt') or '' for i in p['images']]
+        hit = [n for n in names if re.search(r'klaproos|lampion', n, re.I)]
+        if hit:
+            rep.e('brand', f'product {p["handle"]}: brand colour name in SKU, image file or alt text: {hit[:3]}')
+    pm, pk = P.get('prikkabel-op-maat'), P.get('prikkabel-e27')
+    if pm and pk:
+        stock = {}
+        for v in pk['variants']:
+            per_m = 2 if v.get('option3', '').startswith('2') else 1
+            n = float(v['option1'].split()[0])
+            stock[per_m] = max(stock.get(per_m, 0), v['price'] / n)
+        for v in pm['variants']:
+            u = v.get('option2') or ''
+            mm = re.search(r'om de (\d+) cm', u)
+            if not mm:
+                continue
+            per_m = 100 / int(mm.group(1))
+            ref = stock.get(2) if per_m >= 2 else stock.get(1) if per_m >= 1 else None
+            if ref and v['price'] + 0.5 < ref:
+                rep.e('prices', f'product prikkabel-op-maat / {v["sku"]}: € {v["price"] / 100:.2f} per meter is under the stock prikkabel E27 (€ {ref / 100:.2f} per meter)')
+    so, sl = P.get('stretchdoek-op-maat'), P.get('stretchdoek-los')
+    if so and sl:
+        per_m2 = []
+        for v in sl['variants']:
+            a, b = [float(x.replace(',', '.')) for x in v['option1'].replace(' m', '').split(' x ')]
+            per_m2.append(v['price'] / (a * b))
+        if min(v['price'] for v in so['variants']) + 0.5 < min(per_m2):
+            rep.e('prices', f'product stretchdoek-op-maat: per m² under the cheapest stock stretchdoek per m² (€ {min(per_m2) / 100:.2f})')
 
 
 def _korting(st, n):

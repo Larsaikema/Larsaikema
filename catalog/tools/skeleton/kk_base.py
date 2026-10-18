@@ -14,6 +14,14 @@ COLOR_CODE = {
     'Lichtgroen': 'LGN', 'Oranje': 'ORA', 'Geel': 'GEL', 'Goud': 'GOU', 'Beige': 'BEI', 'Zandkleur': 'ZND',
     'Taupe': 'TAU', 'Bruin': 'BRU', 'Camel': 'CAM', 'Crème': 'CRM', 'Champagne': 'CHA', 'Berken': 'BRK',
     'Houtlook': 'HLK', 'Transparant': 'TRP', 'Warm wit': 'WWT', 'Graniet': 'GRT',
+    # buizenframe two-tone cloths (catalog round 2026-10-18: banen in de kleur en wit, roof and walls alike)
+    'Grijs-wit': 'GRW', 'Antraciet-wit': 'ANW', 'Blauw-wit': 'BLW', 'Groen-wit': 'GNW', 'Rood-wit': 'RDW', 'Zandkleur-wit': 'ZNW',
+    # statafel table-top finishes (H3) and frame colours
+    'Leisteen': 'LST', 'Eiken': 'EIK', 'Vintage hout': 'VHT', 'Wit gespikkeld': 'WGS', 'Chroom': 'CHR',
+    # compact-HPL decors of the square, wide and design statafels and the terrastafels (catalog round 3; our own finish names)
+    'Betonlook': 'BET', 'Wit marmer': 'WMR', 'Zwart marmer': 'ZMR', 'Grijs eiken': 'GEK', 'Teak': 'TEK',
+    # seating, runners, ropes (M9, M11, M12)
+    'Olijf': 'OLV', 'Donkergroen': 'DGN', 'Terracotta': 'TER', 'Mosterd': 'MOS',
 }
 
 # Hex values: the theme's swatch_colors default (settings_schema.json). Tents, walls, roofs and inflatables are sold in the
@@ -26,13 +34,37 @@ SWATCH_HEX = {
     'Goud': '#C49A45', 'Beige': '#D8CBB2', 'Zandkleur': '#CDBB98', 'Taupe': '#8B7D6E', 'Bruin': '#6A4A33',
     'Camel': '#B98A57', 'Crème': '#ECE3CF', 'Champagne': '#E4D6BC', 'Berken': '#D9B98C', 'Houtlook': '#8A6A48',
     'Transparant': '#E9EEF0', 'Warm wit': '#F4E3BC', 'Graniet': '#77736D',
+    # two-tone buizenframe cloths: the coloured banen (the theme setting draws them as a split swatch with Wit)
+    'Grijs-wit': '#6E7276', 'Antraciet-wit': '#3F4247', 'Blauw-wit': '#1E4E9E', 'Groen-wit': '#1F6C3C', 'Rood-wit': '#B5161E',
+    'Zandkleur-wit': '#CDBB98',
+    'Leisteen': '#4B4F52', 'Eiken': '#B8915F', 'Vintage hout': '#7A5C43', 'Wit gespikkeld': '#E6E3DC', 'Chroom': '#C9CCCF',
+    'Betonlook': '#9A9893', 'Wit marmer': '#ECEAE6', 'Zwart marmer': '#26272A', 'Grijs eiken': '#8E8778', 'Teak': '#6B4A2E',
+    'Olijf': '#6A6B3A', 'Donkergroen': '#1E3B2B', 'Terracotta': '#B5583A', 'Mosterd': '#C9952B',
 }
+# two-tone swatch for the theme setting swatch_colors (CSS background value, no colon inside)
+TWO_TONE = {k: v for k, v in SWATCH_HEX.items() if k.endswith('-wit')}
+
+def swatch_css(k):
+    if k in TWO_TONE:
+        return f'linear-gradient(135deg,{TWO_TONE[k]} 50%,#F3F3F0 50%)'
+    return SWATCH_HEX[k]
 
 def render_color(k):
     """Kleur value -> renderer colour param (renders/js/materials.js COLORS keys or hex)."""
     m = {'Crème': 'creme', 'Zandkleur': 'zand', 'Warm wit': '#F4E3BC',
-         'Houtlook': '#8A6A48', 'Berken': '#D9B98C', 'Transparant': '#E9EEF0', 'Graniet': '#77736D'}
-    return m.get(k, k.lower())
+         'Houtlook': '#8A6A48', 'Berken': '#D9B98C', 'Transparant': '#E9EEF0', 'Graniet': '#77736D',
+         'Leisteen': '#4B4F52', 'Eiken': '#B8915F', 'Vintage hout': '#7A5C43', 'Wit gespikkeld': '#E6E3DC', 'Chroom': '#C9CCCF',
+         'Terracotta': '#B5583A', 'Mosterd': '#C9952B', 'Betonlook': '#9A9893', 'Wit marmer': '#ECEAE6', 'Zwart marmer': '#26272A',
+         'Grijs eiken': '#8E8778', 'Teak': '#6B4A2E'}
+    if k in m:
+        return m[k]
+    if k.endswith('-wit'):   # two-tone cloth: the coloured banen; the render spec adds stripes: 'wit' (render_stripes)
+        return render_color(k[:-4])
+    return k.lower()
+
+def render_stripes(k):
+    """Extra render params for a two-tone buizenframe cloth ('Grijs-wit' = grijze en witte banen)."""
+    return {'stripes': 'wit'} if k.endswith('-wit') else {}
 
 def render_finish(k):
     return {}
@@ -156,3 +188,21 @@ ROK_KLEUREN = ['Wit', 'Crème', 'Beige', 'Taupe', 'Zilver', 'Grijs', 'Antraciet'
                'Rood', 'Bordeaux', 'Roze', 'Fuchsia', 'Paars', 'Lichtblauw', 'Turquoise', 'Blauw', 'Marineblauw',
                'Lichtgroen', 'Groen', 'Camel', 'Bruin']
 STRIK_KLEUREN = ['Wit', 'Crème', 'Champagne', 'Zilver', 'Antraciet', 'Zwart', 'Bordeaux', 'Marineblauw', 'Rood', 'Goud']
+
+
+def under(ref, frac=0.10):
+    """Suggested price ca. `frac` under a reference price (pricing policy: 5–15% below the lower reference): whole euros ending
+    in 9 from € 100, else ending in ,95 (€ 64,60 -> € 63,95)."""
+    x = ref * (1 - frac)
+    if x >= 100:
+        n = int(x)
+        p = n - n % 10 + 9
+        return float(p if p <= x else p - 10)
+    return round(int(x) - 0.05 if x - int(x) < 0.95 else int(x) + 0.95, 2)
+
+
+# Shipping cost per product (CONTRACT custom.verzendkosten / custom.verzendkosten_staffel, catalog round 2026-10-18). The theme
+# shows the product's own line instead of the class rate; the tiered field gives the cost per piece by quantity. Every amount is an
+# owner claim (docs/claims-to-confirm.md) and must match the Shopify shipping profile.
+def verzend_tekst(eur):
+    return 'Verzendkosten op dit product: € ' + (f'{eur:.2f}'.replace('.', ',') if eur % 1 else f'{eur:.0f},00')

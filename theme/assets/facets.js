@@ -15,7 +15,29 @@ const amount = (raw) => {
   if (!/^\d*\.?\d*$/.test(v) || v === '.') return null;
   return String(Math.round(Number(v) * 100) / 100);
 };
-// the lead line above the grid: the window the product page shows for the same wait ('verwacht in huis 3 – 10 nov'),
+// the price filter works on the stored prices (incl. btw in a Dutch shop); in the other btw mode (Zakelijk: excl.) the
+// fields show and take amounts in that mode: k = shown amount x k = stored amount (data-k: the mode a field's text is in)
+const vatK = () => {
+  const f = (100 + Number(KK.vatRate ?? 21)) / 100;
+  const stored = KK.taxesIncluded === false ? 'excl' : 'incl';
+  const shown = document.documentElement.dataset.vat === 'excl' ? 'excl' : 'incl';
+  return shown === stored ? 1 : shown === 'excl' ? f : 1 / f;
+};
+const priceView = (root) => {
+  const k = vatK();
+  root.querySelectorAll(PRICE).forEach((i) => {
+    const was = Number(i.dataset.k || 1);
+    if (Math.abs(k - was) < 1e-9) return;
+    const v = amount(i.value);
+    if (v) {
+      const r = Math.round((Number(v) * was * 100) / k) / 100;
+      i.value = Number.isInteger(r) ? String(r) : r.toFixed(2).replace('.', ',');
+    }
+    if (i.dataset.max) i.placeholder = Math.floor(i.dataset.max / 100 / k).toLocaleString('nl-NL');
+    i.dataset.k = k;
+  });
+};
+// the lead line above the grid: the window the product page shows for the same wait ('Op bestelling, in huis 3 – 10 nov'),
 // counted by delivery-countdown.js (cutoff, shipping and carrier days, holidays, transit); data-transit-max widens it for
 // a pallet in the grid. A wait that counts from something else ('na akkoord drukproef') or has no number keeps its text.
 const leadDates = (root) =>
@@ -32,6 +54,7 @@ const leadDates = (root) =>
     const b = fmt(Math.round((m[2] || m[1]) * f) + Math.max(r.transit, +el.dataset.transitMax || 0));
     out.innerHTML = el.dataset.tpl.replace('__FROM__', a[1] === b[1] ? a[0] : a.join(' ')).replace('__TO__', b.join(' '));
     out.hidden = false;
+    el.querySelector('[data-lead-text]')?.setAttribute('hidden', '');
   });
 
 class FacetFilters extends HTMLElement {
@@ -100,6 +123,8 @@ class FacetFilters extends HTMLElement {
     addEventListener('popstate', () => this.render(location.search.slice(1), false).then(() => this.restore()));
     if (this.form) this.form.noValidate = true;
     leadDates(this);
+    priceView(this);
+    KK.on('vat:change', () => priceView(this));
     this.watchBar();
     this.fitPanel();
     this.keepPlace();
@@ -111,7 +136,8 @@ class FacetFilters extends HTMLElement {
   get drawerOpen() {
     return this.classList.contains('is-drawer-open');
   }
-  // phone: once the bar is under the header, Filteren/Sorteren float at the bottom until the end of the results shows
+  // phone: once the bar is under the header, Filteren/Sorteren dock right below it (or at the top while the header hides)
+  // until the end of the results passes, so they never sit on top of a card's price or swatches
   watchBar() {
     let raf = 0;
     const check = () => {
@@ -121,7 +147,7 @@ class FacetFilters extends HTMLElement {
       if (!tools || !res) return;
       const h = document.querySelector('sticky-header');
       const top = h && h.dataset.sticky !== 'none' ? Math.max(0, h.getBoundingClientRect().bottom) : 0;
-      tools.classList.toggle('is-floating', mq.matches && tools.parentNode.getBoundingClientRect().bottom < top && res.getBoundingClientRect().bottom > innerHeight);
+      tools.classList.toggle('is-floating', mq.matches && tools.parentNode.getBoundingClientRect().bottom < top && res.getBoundingClientRect().bottom > top + 120);
     };
     this.checkBar = check;
     addEventListener('scroll', () => raf || (raf = requestAnimationFrame(check)), { passive: true });
@@ -169,9 +195,12 @@ class FacetFilters extends HTMLElement {
     let p;
     if (this.form) {
       p = new URLSearchParams();
-      const prices = new Set([...this.form.querySelectorAll(PRICE)].map((i) => i.name));
+      const prices = new Map([...this.form.querySelectorAll(PRICE)].map((i) => [i.name, Number(i.dataset.k || 1)]));
       for (let [k, v] of new FormData(this.form)) {
-        if (prices.has(k)) v = amount(v) ?? '';
+        if (prices.has(k)) {
+          v = amount(v) ?? '';
+          if (v !== '') v = String(Math.round(Number(v) * prices.get(k) * 100) / 100);
+        }
         if (v !== '') p.append(k, v);
       }
     } else {
@@ -268,6 +297,7 @@ class FacetFilters extends HTMLElement {
         keep.after(...nodes.slice(i + 1));
       } else swap('[data-facets-body]');
       if (this.form) this.form.noValidate = true;
+      priceView(this);
       swap('[data-facets-clear-top]');
       swap('[data-facets-clear]');
       swap('[data-show-results]');

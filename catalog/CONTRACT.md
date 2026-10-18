@@ -8,14 +8,15 @@ seed script all follow this contract. Change it only deliberately, and update al
 | Option | Values (format) | Used on |
 |---|---|---|
 | `Maat` | `3 x 3 m`, `3 x 4,5 m`, `3 x 6 m`, `4 x 4 m`, `4 x 6 m`, `4 x 8 m` · tables `Ø80 cm` · covers `Ø80-85 cm` | tents, tables, covers, walls |
-| `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch, the name of the cloth colour; never a brand colour name such as `Lampion` or the old `Klaproos`, brand.md v7 §4.2) | everything with colour |
-| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur`, `Binnen` / `Buiten (compact HPL)` (statafel), `Polyester` / `Heavy duty PVC` (compleet pakket), `Standaard` / `Brouwerijkwaliteit` (biertafelset, bierbank, biertafelsets 10 stuks) | where relevant |
+| `Kleur` | `Wit`, `Zwart`, `Antraciet`, `Blauw`, `Rood`, `Groen`, … (capitalised Dutch, the name of the cloth colour; never a brand colour name such as `Lampion` or the old `Klaproos`, brand.md v7 §4.2). A two-tone buizenframe cloth is `Grijs-wit`, `Antraciet-wit`, `Blauw-wit`, `Groen-wit`, `Rood-wit`, `Zandkleur-wit` (banen in de kleur en wit, dak and wanden alike; parts carry the same value). Table tops: the finish name (`Graniet`, `Berken`, `Leisteen`, `Eiken`, `Vintage hout`, `Wit gespikkeld`) | everything with colour |
+| `Uitvoering` | `Premium` / `Professional`, `Met topcover` / `Zonder topcover`, `Met raam` / `Dicht` / `Met deur`, statafel and ronde terrastafel: use + onderstel (+ parasolgat) in one value (`Binnen, zwart onderstel`, `Binnen, wit onderstel`, `Binnen, chroom onderstel`, `Buiten (compact HPL), zwart onderstel, met parasolgat`, …), `Polyester` / `Heavy duty PVC` (compleet pakket), `Standaard` / `Brouwerijkwaliteit` / `Brouwerijkwaliteit, zwart onderstel` (biertafelset, bierbank, biertafelsets 10 stuks), pack sizes `1 stuk` / `Set van 2` / `Set van 4` | where relevant |
 | `Samenstelling` | what a line or pakket is made of when `Uitvoering` already carries the quality: `Set: tafel en 2 banken` / `Alleen tafel` (biertafelset), `Zonder transportkar` / `Met transportkar` (biertafelsets 10 stuks) | biertafels (merchandising review 3); a plain option to the theme (pills), no swatch, no size guide |
 
 Colour swatches: the theme uses `value.swatch.color` when present (seed script links `Kleur` to the
 `shopify.color-pattern` category metafield); otherwise it falls back to the theme setting `swatch_colors`
 (textarea, one `Naam: #hex` per line). Every colour used in the catalog must be listed in that setting's default
-(also the table-top finish `Graniet`, a stone-look laminate: `Graniet: #77736D`).
+(also the table-top finish `Graniet`, a stone-look laminate: `Graniet: #77736D`). A two-tone value may be a CSS background instead of a hex
+(`Grijs-wit: linear-gradient(135deg,#6E7276 50%,#F3F3F0 50%)`); the preview fixture then leaves `value.swatch` out so the theme setting draws it.
 
 ## Product category (Shopify Standard Product Taxonomy)
 
@@ -45,7 +46,7 @@ where one fits, so `Kleur` can be linked to `shopify.color-pattern`. Mapping: `c
 | `faq` | json | `[{"vraag":"…","antwoord":"…"}]` → PDP FAQ accordion + FAQPage JSON-LD |
 | `vergelijk_groep` | single_line_text_field | e.g. `easy-up` → comparison table Premium vs Professional |
 | `gewicht_kg` | number_decimal | spec + shipping |
-| `verpakt` | single_line_text_field | packed dimensions |
+| `verpakt` | single_line_text_field | packed dimensions, or the shipping form and weight where no box size is known: "Pakket · 1 doos · ca. 4,2 kg", "Vracht op pallet (120 x 80 cm) · ca. 150 kg" (a bundle adds "elk onderdeel in eigen verpakking"); no colli count is guessed |
 | `garantie` | single_line_text_field | e.g. "2 jaar op frame" (owner-confirmed claim) |
 | `included` | list.single_line_text_field | "Wat zit erin" checklist on the PDP (what is in the box) |
 | `excluded` | list.single_line_text_field | same block, struck as "niet inbegrepen" ("Zijwanden (los te bestellen)") |
@@ -57,6 +58,11 @@ where one fits, so `Kleur` can be linked to `shopify.color-pattern`. Mapping: `c
 | `maatwerk` | boolean | shows the "Maatwerk: niet retour" notice (also implied by `configurator.maatwerk`) |
 | `componenten` | list.variant_reference (or list.product_reference) | bundle / actiepakket components; set on each bundle **variant** (fallback: on the product) |
 | `component_aantallen` | list.number_integer | quantity per component, same order as `componenten` ([4, 4]) |
+| `verzendkosten_staffel` | json | shipping cost of this product per shipping weight and quantity (catalog round 2026-10-18): `{"eenheid": "per zending" \| "per stuk", "staffel": [{"vanaf": 1, "bedrag": 75.0}, {"vanaf": 4, "bedrag": 63.75}], "per_optie": {"optie": "Maat", "waarden": {"3 x 3 m": [{"vanaf": 1, "bedrag": 49.0}], …}}}`. `per_optie` (when present) gives the tiers of the selected variant's option value; `staffel` is the fallback. `verzendkosten` then reads "Verzendkosten op dit product: vanaf € <lowest>"; the PDP shows the selected variant's amount (and the tier at the chosen quantity for `per stuk`), the cart estimate takes it per line. Amounts must match the Shopify shipping profile (docs/claims-to-confirm.md). |
+| `addon_korting` | json | `{"procent": 10, "op": ["zijwandenset-easy-up", …]}`: these add-ons (a subset of `addons`) get this discount when bought with this product. The PDP shows "−10% met je tent" next to them; the discount itself is a Shopify automatic discount (Buy X get Y) the owner sets up (docs). Set on the tents for walls, tassen and storm-/spanbanden. |
+| `onderdelen` | list.product_reference | parts and accessories that fit this product: the reverse of `past_op`, generated by `build.py` (bundles left out). The PDP renders it as the parts list ("Onderdelen en accessoires voor deze tent"); on a buizenframe tent next to the variant `stuklijst`. |
+| `verwacht_op` | date | expected (re)stock or delivery date (`2026-11-12`) for `availability_status` `binnenkort` / `pre-order` or a sold-out variant; the PDP shows "Verwacht op 12 november". Owner input, empty in the catalog. |
+| `gebruik` | list.single_line_text_field | readable shop-by-use labels derived by `build.py` from the `gebruik:*` tags (choices `Tuinfeest`, `Horeca`, `Evenement`, `Markt`). The storefront filter **Gebruik** reads this metafield, never the raw tags. |
 
 `drukopties` also takes `"optie": "Bedrukking"` and `"zonder": ["Zonder logo"]`: a variant whose value for that option is in
 `zonder` gets no upload/print fields and no print lead time (default `zonder` list: Zonder logo, Zonder opdruk, Zonder
@@ -93,10 +99,13 @@ never sets them (no fabricated reviews).
 | `component_aantallen` | list.number_integer | quantity per component, same order |
 | `addon_varianten` | list.variant_reference | the add-on variants that belong to this variant: zijwandenset in the same `Maat` and `Kleur`, voetgewicht `Set van 6` for a tent with 6 poten, statafelrok `Ø60-70 cm` for a `Ø70 cm` statafel, hoes in the same `Maat` as the tafel. The catalog gives SKUs (like `componenten`); the seed script resolves them to GIDs. The PDP addons block renders the selected variant's list and swaps it (keeping ticked add-ons ticked) when the variant changes; product `addons` is only the fallback. |
 | `addon_aantallen` | list.number_integer | quantity per add-on for 1 unit of the main product, same order as `addon_varianten` (prikkabel 20 m → 20 LED-lampen, 3 × 6 m Premium → 2 sets spanbanden); cart quantity = aantal × main quantity unless `addon_modus` = `per-regel` |
+| `stuklijst` | json | the bouwtekening of this variant (buizenframe tents, opslagtent and stretchtent compleet): `[{"groep": "Frame" \| "Doek" \| "Palen" \| "Afspanning", "onderdeel": "Staander 192 cm (zijhoogte 200 cm)", "handle": "buizen-buizenframe-38-mm", "sku": "KK-FRM-BF-S192", "aantal": 10}, …]`; frame parts, dakzeil and wanden in the variant's maat, doek and kleur; for the stretchtent: the stretchdoek los, the palenset in the chosen paalmateriaal, a spanband and haring per lus, and with the zware afspanning a touwenset and ronde haring per paal. The PDP renders it as a parts table with a link per row (`/products/<handle>?variant=<id of sku>`; the seed script can add the variant ids). `validate.py` checks the rows resolve and that the parts never cost less than the tent. |
 
 Every variant of a product with add-ons gets its own list, so the fallback (first variant of each add-on) is never what lands
 in the cart. An add-on that has no matching size or colour for a variant is left out for that variant instead of offering a
-wrong one (no 2 × 2 m zijwandenset, so the 2 × 2 m tent gets none).
+wrong one (no 2 × 2 m zijwandenset, so the 2 × 2 m tent gets none). An add-on with a `past_op` must list the main product (the
+standard inflatable wall is not offered on the higher Pro), and an add-on without a `Kleur` option whose specs fix one colour is never
+offered on a variant of another colour (`validate.py`, catalog round 2026-10-18).
 
 ## Collection metafields (namespace `custom`)
 
@@ -121,7 +130,8 @@ contexts), `pallet` (large shipments), `set` (bundles/actiepakketten), `gebruik:
 `zakelijk` (smart: tag = zakelijk) · `all` ·
 `easy-up-onderdelen` and `buizenframe-onderdelen` (manual: parts, walls, weights, lighting and heating whose `custom.systeem` holds `Easy-up` resp. `Buizenframe`; both under Accessoires in the main menu) ·
 `onderdelen-stretch-ster-en-opblaasbare-tenten` (manual, same rule for `Stretchtent`, `Stertent` and `Opblaasbare tent`, including their own part types `Stretchtent onderdeel`, `Stretchtent zijwand`, `Stertent zijwand` and `Opblaasbare tent accessoire`, which `partytent-onderdelen` and `accessoires` include too; child of `partytent-onderdelen`, Accessoires column in the main menu) ·
-`verwarming` (smart: product type = Verwarming, own menu entry under Accessoires) · `evenement` (afzetpalen, marktkraam, loper; the marktkraam is no longer in `accessoires`).
+`verwarming` (smart: product type = Verwarming, own menu entry under Accessoires) · `evenement` (title ‘Evenement en inrichting’: afzetpalen, marktkraam, loper, tentvloer, kapstok, koeling; the marktkraam is no longer in `accessoires`) ·
+`koelkasten-en-vriezers` (smart: type Koeling or title contains ‘koelkasten’, child of `evenement`) · `terrastafels` (smart: type Terrastafel, child of `meubilair`, own column in the Statafels menu: the terrace line mirrors the statafels).
 Landing pages instead of filter URLs in the main menu (merchandising review 2026-10-18), each with its own intro, seo_tekst and
 kenmerken: `barkrukken`, `stoelen-en-banken`, `tafels` (Klaptafel, Terrastafel, Biertafelset, Bierbank), `transportkarren` (children of
 `meubilair`), `prikkabels`, `lampen-en-lichtslangen` (children of `verlichting`), `topcovers-en-beschermplaten`, `tafelhoezen` (children of
@@ -130,6 +140,12 @@ kenmerken: `barkrukken`, `stoelen-en-banken`, `tafels` (Klaptafel, Terrastafel, 
 Collection image: `build.py` sets the image field in `collections.json` and the preview fixture to the first real render among the
 collection's `image_candidates` (kk_site.py) or, failing that, the hero of its first member with a real render; draft
 cards are never used. The seed script uploads it as the collection image (`collection.image`).
+
+## Storefront filters (Search & Discovery)
+
+Availability, price, the options `Maat` / `Kleur` / `Uitvoering`, product type (‘Soort’), and the product metafields `custom.gebruik` (‘Gebruik’),
+`custom.systeem` (‘Past op’) and `custom.bedrukbaar` (‘Met jouw logo’, values labelled Ja / Nee). No tag filter: tags are internal
+(`zakelijk`, `pallet`, `set`). The fixture carries the same set (`filters[]`, with `value_labels` for the boolean).
 
 ## Menus (handles)
 
@@ -143,6 +159,9 @@ working: `build.py` writes it from `skeleton.redirects` and refuses a redirect f
 must create the same redirects (`urlRedirectCreate`). `catalog/stock.csv` (`SKU,Product,Variant,Voorraad`) is owner input: a filled
 `Voorraad` becomes the variant's `inventory_quantity` (CSV `Variant Inventory Qty`, fixture), an empty one leaves 0 + policy `continue`
 (`Leverbaar over 2–3 weken`); the catalog never invents stock. `python3 catalog/build.py --stock-template` adds the fast movers' rows.
+The PREVIEW fixture (`preview-data.staging.json`, and `preview-data.json` which is a symlink to it) carries plausible demo stock for the
+renderer only (`meta.demo_stock: true`: mostly in stock, some low, some backorder) so every stock state can be judged; products.csv and the
+seed script never take it: the owner sets the real stock.
 
 ## Pages (handle → template suffix)
 

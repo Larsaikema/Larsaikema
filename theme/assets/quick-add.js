@@ -9,7 +9,9 @@ KK.quickAdd ||= {
     const d = document.createElement('dialog');
     d.className = 'drawer quick-add';
     d.setAttribute('aria-labelledby', 'QuickAddTitle');
-    const closeLabel = document.querySelector('[data-drawer-close][aria-label], [data-facets-close][aria-label]')?.getAttribute('aria-label') || '×';
+    // 'Sluiten' (general.close) from the page that loaded this file; the header's menu close says 'Menu sluiten'
+    const q = (s) => document.querySelector(s)?.getAttribute(s.match(/\[([\w-]+)\]$/)[1]);
+    const closeLabel = q('[data-qa-close]') || q('[data-facets-close][aria-label]') || q('[data-drawer-close][aria-label]') || '×';
     d.innerHTML = `<div class="drawer__head"><p class="drawer__title quick-add__label" data-qa-label></p><button type="button" class="icon-btn" data-drawer-close aria-label="${KK.escape(closeLabel)}"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" fill="none"/></svg></button></div><div class="drawer__body quick-add__body" data-qa-body></div>`;
     document.body.append(d);
     d.addEventListener('change', (e) => e.target.matches('.qa__input') && this.pick(e.target));

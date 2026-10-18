@@ -33,12 +33,16 @@ export function tarp(p = {}) {
   let sheet;
   if (clear) {
     // clear foil with one broad softbox reflection band through its centre (uv in metres)
-    sheet = K.clearPVC({ coverage: 0.16, tint: '#26302F' }).clone();
+    // round 4 (round 3 was "almost invisible, an empty pergola"): a denser foil with a faint
+    // blue-green body tint (0.5 mm PVC seen face-on is not glass-clear) and a broad, brighter
+    // softbox band, so the sheet reads as a sheet; the milky double-layer hems frame it
+    sheet = K.clearPVC({ coverage: 0.3, tint: '#33433F' }).clone();
     sheet.alphaMap = white();
-    sheet.userData = { ...sheet.userData, stochasticAlpha: 0.16, sheet: { L: 1, H: 1, c: [W / 2 - hem, (H - 2 * hem) * 0.55], strength: 0.28 } };
+    sheet.normalScale = new THREE.Vector2(0.09, 0.09);
+    sheet.userData = { ...sheet.userData, stochasticAlpha: 0.3, sheet: { L: 1.6, H: 1.4, c: [W / 2 - hem, (H - 2 * hem) * 0.55], strength: 0.55 } };
     sheet.name = 'clear pvc tarp';
   } else sheet = K.pvc(hex);
-  const hemMat = clear ? K.clearPVC({ coverage: 0.55, tint: '#3A4644' }) : K.pvcPatch(hex);
+  const hemMat = clear ? K.clearPVC({ coverage: 0.85, tint: '#8C9896' }) : K.pvcPatch(hex);
   const eyeM = M.aluminium({ tone: '#C9CCD0', roughness: 0.28 });
   const wood = K.woodPole();
   const bungee = M.mouldedNylon('#1D1E20');
@@ -63,9 +67,13 @@ export function tarp(p = {}) {
   const P = (x, y) => {
     const v = (y - yBot) / (yTop - yBot), f = 1 - v;
     const ex = ((x + W / 2 - 0.05) / ((W - 0.1) / nE)) % 1;
-    const scal = 0.012 * Math.sin(Math.PI * Math.min(1, Math.max(0, ex))) * Math.exp(-(1 - v) * 9);
-    const wv = (0.024 * Math.sin(x * 1.9 + 0.6) + 0.014 * Math.sin(x * 4.3 - 1.1) + 0.006 * Math.sin(x * 9.1 + 2.3)) * Math.pow(f, 0.9);
-    return V3(x, y - scal, zS + wv + 0.012 * Math.sin(Math.PI * v) * 0.5);
+    // round 3: it is a sheet of cloth / foil, not a board: deeper scallops between the eyelets,
+    // a soft swag below every scallop, and long waves that grow towards the free bottom hem
+    const sc = Math.sin(Math.PI * Math.min(1, Math.max(0, ex)));
+    const scal = 0.022 * sc * Math.exp(-(1 - v) * 9);
+    const swag = 0.012 * sc * Math.exp(-(1 - v) * 4.5);
+    const wv = (0.05 * Math.sin(x * 1.55 + 0.6) + 0.026 * Math.sin(x * 3.7 - 1.1) + 0.01 * Math.sin(x * 8.3 + 2.3)) * Math.pow(f, 0.8);
+    return V3(x, y - scal, zS + wv + swag + 0.012 * Math.sin(Math.PI * v) * 0.5);
   };
   const band = (xa, xb, ya, yb, mat, cast = true) => {
     const nu = Math.max(2, Math.round(Math.abs(xb - xa) / 0.03)), nv = Math.max(2, Math.round(Math.abs(yb - ya) / 0.04));
@@ -117,7 +125,7 @@ export function tarp(p = {}) {
   return {
     object: group,
     view: { hero: { azimuth: 30, elevation: 10 } },
-    rig: { default: clear ? { ...rigBase, exposure: 0.78 } : rigBase },
+    rig: { default: clear ? { ...rigBase, exposure: 0.78 } : K.lumOf(hex) > 0.7 ? { ...rigBase, exposure: 0.7 } : rigBase },
     meta: { W, H, clear },
   };
 }

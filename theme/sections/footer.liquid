@@ -74,21 +74,29 @@
                 {%- if quote_ok == 'true' -%}<li><a href="{{ settings.quote_page }}">{%- render 'icon', icon: 'invoice', class: 'icon--sm' -%}{{ 'product.quote_cta' | t }}</a></li>{%- endif -%}
               {%- endif -%}
             </ul>
+            {%- if settings.response_time != blank -%}<p class="footer__response">{%- render 'icon', icon: 'clock', class: 'icon--sm' -%}<span>{{ settings.response_time }}</span></p>{%- endif -%}
             {%- if settings.openingstijden != blank -%}
               <p class="footer__hours"><span class="footer__label">{{ 'general.opening_hours' | t }}</span>{{ settings.openingstijden | newline_to_br }}</p>
             {%- endif -%}
           </div>
         {%- when 'menu' -%}
           {%- if block.settings.menu != blank -%}
-            <nav class="footer__col" aria-labelledby="FooterHeading-{{ block.id }}" {{ block.shopify_attributes }}>
-              <details class="footer__details" open>
-                <summary class="footer__heading" id="FooterHeading-{{ block.id }}">{{ block.settings.heading | default: block.settings.menu.title }}{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</summary>
-                <ul class="footer__links" role="list">
-                  {%- for link in block.settings.menu.links -%}
-                    <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              </details>
+            {%- comment -%}
+              A real h2 per column (heading navigation finds Winkel, Hulp …). Below 750px the h2 holds a disclosure button
+              (APG accordion) and the column starts closed; from 750px the button is gone (display:none) and the links always
+              show, whatever state the phone layout left behind (rotation, resized window). Without JS everything is open.
+            {%- endcomment -%}
+            {%- assign menu_heading = block.settings.heading | default: block.settings.menu.title -%}
+            <nav class="footer__col footer__menu is-open" aria-labelledby="FooterHeading-{{ block.id }}" data-footer-menu {{ block.shopify_attributes }}>
+              <h2 class="footer__heading" id="FooterHeading-{{ block.id }}">
+                <button type="button" class="footer__toggle" aria-expanded="true" aria-controls="FooterLinks-{{ block.id }}" data-footer-toggle>{{ menu_heading }}{%- render 'icon', icon: 'chevron-down', class: 'icon--sm' -%}</button>
+                <span class="footer__heading-text">{{ menu_heading }}</span>
+              </h2>
+              <ul class="footer__links" id="FooterLinks-{{ block.id }}" role="list">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
             </nav>
           {%- endif -%}
         {%- when 'newsletter' -%}
@@ -158,7 +166,15 @@
   </div>
 </footer>
 <script>
-  if (matchMedia('(max-width: 749px)').matches) document.querySelectorAll('.footer__details').forEach((d) => d.removeAttribute('open'));
+  (() => {
+    const set = (m, open) => {
+      m.classList.toggle('is-open', open);
+      m.querySelector('[data-footer-toggle]')?.setAttribute('aria-expanded', String(open));
+    };
+    const menus = document.querySelectorAll('[data-footer-menu]');
+    if (matchMedia('(max-width: 749px)').matches) menus.forEach((m) => set(m, false));
+    menus.forEach((m) => m.querySelector('[data-footer-toggle]')?.addEventListener('click', () => set(m, !m.classList.contains('is-open'))));
+  })();
 </script>
 
 {% schema %}

@@ -17,11 +17,12 @@ import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import { resolvePrint } from '../js/brandPrints.js';
+import { stanchionParts } from './stanchionParts.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
 
-function post(bins, mats, x, H, { mouth = true, slotTowards = 1 } = {}) {
+export function post(bins, mats, x, H, { mouth = true, slotTowards = 1 } = {}) {
   const rT = 0.0315, Rb = 0.16;
   // rubber ring + dome base cover
   bins.add(mats.rubber, G.lathe([[0.0001, 0.0], [Rb - 0.004, 0.0], [Rb - 0.002, 0.003], [Rb - 0.004, 0.008], [0.0001, 0.008]].reverse(), 72).translate(x, 0, 0));
@@ -51,6 +52,8 @@ function post(bins, mats, x, H, { mouth = true, slotTowards = 1 } = {}) {
 }
 
 export function stanchion(p = {}) {
+  // rope posts (ovaal head), the loose velours rope and the wall/sign parts: stanchionParts.js
+  if (p.rope || p.head || p.parts || p.only) return stanchionParts(p);
   let H = Number(p.height ?? 0.99); if (H > 5) H /= 100;
   const finish = String(p.finish || 'rvs').toLowerCase();
   const pair = p.pair === true || p.pair === 'true' || p.span != null;

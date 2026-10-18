@@ -22,6 +22,7 @@ import * as M from '../js/materials.js';
 import * as TX from '../js/textures.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -40,9 +41,11 @@ function mats(kind) {
     m.normalMap = TX.embossNormal({ text: 'KLAPKLAAR', sub: pro ? 'PRO 50' : 'PREMIUM 40' }); m.normalScale = new THREE.Vector2(1, 1);
     m.userData = {}; m.name = `${body.name} mark`; return m;
   })();
-  return { body, mark, chrome: M.chrome(), zinc: K.zinc(), galv: SG.galvSG({ cell: 0.005 }), dark: M.rubber('#0B0B0B'), nylon: M.mouldedNylon('#161616'),
-    tube: pro ? M.aluminium({ tone: '#C4C8CC', roughness: 0.34 }) : SG.powderSG('#1C1D1F', { rough: 0.4 }),
-    tubeInner: pro ? M.aluminium({ tone: '#C9CCD0', roughness: 0.34 }) : SG.powderSG('#202124', { rough: 0.46 }) };
+  return { body, mark, chrome: M.chrome(), zinc: K.zinc(), galv: L3.galvFine({ cell: 0.004 }), dark: M.rubber('#0B0B0B'), nylon: M.mouldedNylon('#161616'),
+    // satin extruded aluminium: diffuse enough that the six facets of the hex tube each get
+    // their own value under the studio lights (the brushed, mirror-like tube read as square)
+    tube: pro ? SG.aluSG({ tone: '#C3C7CB', rough: 0.42 }) : SG.powderSG('#1C1D1F', { rough: 0.4 }),
+    tubeInner: pro ? SG.aluSG({ tone: '#CACDD1', rough: 0.38 }) : SG.powderSG('#202124', { rough: 0.46 }) };
 }
 
 const hexP = (af, r = 0.07) => G.roundedPolygonProfile(6, af, af * r, 3, Math.PI / 6);
@@ -188,13 +191,15 @@ function voetplaat(bins, kind, { y0 = 0 } = {}) {
 }
 
 // complete leg standing upright at the origin (lay it down afterwards)
-function staander(bins, extras, kind) {
+function staander(bins, extras, kind, { collapsed = false } = {}) {
   const S = SPEC[kind], m = mats(kind);
   const He = S.eave, joinY = 1.02;
+  // collapsed (as it ships): the inner tube slid up into the outer tube, 12 cm still showing
+  const lift = collapsed ? joinY - 0.17 : 0;
   const L = (y) => V3(0, y, 0);
   const side = V3(1, 0, 0);
   bins.add(m.tube, G.prism(hexP(S.leg), L(joinY), L(He - 0.03), { side }));
-  bins.add(m.tubeInner, G.prism(hexP(S.inner), L(0.05), L(joinY + 0.02), { side }));
+  bins.add(m.tubeInner, G.prism(hexP(S.inner), L(0.05 + lift), L(joinY + 0.02 + lift), { side }));
   bins.add(m.nylon, G.prism(hexP(S.leg + 0.012, 0.12), L(joinY - 0.004), L(joinY + 0.05), { side }));
   const btnY = joinY + 0.1, out = V3(0, 0, 1), face = S.leg / 2;
   const bp = L(btnY).addScaledVector(out, face);
@@ -202,12 +207,12 @@ function staander(bins, extras, kind) {
   const dome = new THREE.SphereGeometry(0.0052, 18, 10, 0, TAU, 0, Math.PI / 2); dome.scale(1, 0.75, 1); dome.rotateX(Math.PI / 2); dome.translate(bp.x, bp.y, bp.z + 0.0005); bins.add(m.chrome, dome);
   for (let k = 1; k <= 3; k++) { const hp = L(btnY + k * 0.085).addScaledVector(out, face); bins.add(m.dark, G.tube(hp.clone().addScaledVector(out, -0.001), hp.clone().addScaledVector(out, 0.0005), 0.0047, 16)); }
   // adjustment holes in the inner tube below the collar
-  for (let k = 0; k < 4; k++) { const hp = L(joinY - 0.06 - k * 0.085).addScaledVector(out, S.inner / 2); bins.add(m.dark, G.tube(hp.clone().addScaledVector(out, -0.001), hp.clone().addScaledVector(out, 0.0005), 0.0047, 16)); }
-  voetplaat(bins, kind, { y0: 0 });
+  for (let k = 0; k < 4; k++) { const yh = joinY - 0.06 - k * 0.085 + lift; if (yh > joinY - 0.03) continue; const hp = L(yh).addScaledVector(out, S.inner / 2); bins.add(m.dark, G.tube(hp.clone().addScaledVector(out, -0.001), hp.clone().addScaledVector(out, 0.0005), 0.0047, 16)); }
+  voetplaat(bins, kind, { y0: lift });
   const bh = SPEC[kind].bh;
   hoekstuk(bins, extras, kind, { y0: He + 0.006 - bh });
   schuifstuk(bins, extras, kind, { y0: He - S.trussDrop - 0.048, ringDir: V3(0, 0, 1) });
-  return { length: He + 0.04 };
+  return { length: He + 0.04 - lift, lift };
 }
 
 export function easyUpParts(p = {}) {
@@ -221,7 +226,8 @@ export function easyUpParts(p = {}) {
   if (parts.length === 1 && /^staander/.test(parts[0])) {
     const kind = kindOf(parts[0]);
     const sub = new G.PartBin(); const subEx = [];
-    const { length } = staander(sub, subEx, kind);
+    const collapsed = p.collapsed !== false;
+    const { length, lift } = staander(sub, subEx, kind, { collapsed });
     const S = SPEC[kind];
     // lay down: leg axis along +X (foot at -X), spun 30 deg about its axis so a flat of the hex
     // tube faces up (three faces read: lit top flat, two flanks), resting on the foot plate edge
@@ -229,8 +235,8 @@ export function easyUpParts(p = {}) {
     const lay = new THREE.Group();
     const inner = new THREE.Group();
     sub.build(inner); subEx.forEach((e) => inner.add(e));
-    inner.rotation.set((p.spin ?? 0) * DEG, 0, -Math.PI / 2);
-    inner.position.x = -length / 2;
+    inner.rotation.set((p.spin ?? 30) * DEG, 0, -Math.PI / 2);
+    inner.position.x = -length / 2 - lift;
     lay.add(inner); lay.updateMatrixWorld(true);
     let foot = { y: Infinity, x: 0 }, head = { y: Infinity, x: 0 };
     const v = new THREE.Vector3();
@@ -246,13 +252,15 @@ export function easyUpParts(p = {}) {
     const phi = Math.atan((head.y - foot.y) / (foot.x - head.x));
     lay.rotation.z = phi;
     lay.position.y = -(foot.x * Math.sin(phi) + foot.y * Math.cos(phi)) + 0.0005;
-    lay.rotation.y = -28 * DEG;
+    // runs corner to corner in the hero frame (bracket end nearest the camera, bottom right)
+    lay.rotation.y = (p.yaw ?? -29) * DEG;
     group.add(lay);
     return {
       object: group,
       detail: { target: [0.75, 0.06, 0.35], size: 0.4, azimuth: 30, elevation: 25 },
-      // high flat-lay view: the top flat and both flanks of the hex tubes read (three faces)
-      view: { hero: { elevation: 58 } },
+      // a corner of the hex tube up: two lit flanks meet in a ridge and the hex reads; low
+      // enough that the bracket, slider and foot socket show their sides
+      view: { hero: { elevation: 24 } },
       rig: { default: { env: 'studio', envIntensity: 1.0, contact: { strength: 0.85, h0: 0.008, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
       meta: { parts, kind },
     };

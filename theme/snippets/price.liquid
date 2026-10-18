@@ -2,6 +2,8 @@
   Price incl. + excl. btw (feature global.price-incl-excl-btw). Both are always rendered; html[data-vat]
   (set by layout + btw toggle) decides which is the main line. Params:
   - product (required) and optional variant (when given, the variant price is shown, no 'vanaf')
+  - from (bool, optional, with variant): still 'vanaf' (a product card narrowed by filters to variants whose prices differ:
+    the cheapest matched variant is passed)
   - size: 'lg' | blank
   - id (string): id on the wrapper (main product uses price-<section id>)
   - quantity (number): multiply (cart totals)
@@ -17,10 +19,28 @@
     assign p = variant.price
     assign cp = variant.compare_at_price
     assign show_from = false
+    if from == true
+      assign show_from = true
+    endif
   else
     assign p = product.price
     assign cp = product.compare_at_price
     assign show_from = product.price_varies
+    # product.compare_at_price is the lowest compare-at of ANY variant, so it can belong to a dearer size than the
+    # 'vanaf' price ('vanaf € 100 ~~€ 400~~' while the € 100 size is not on sale): take it from a variant at the shown
+    # price instead (the smallest such compare-at), or show no struck price at all
+    if product.price_varies or product.compare_at_price_varies
+      assign cp = 0
+      if product.compare_at_price_max > p
+        for v in product.variants
+          if v.price == p and v.compare_at_price > p
+            if cp == 0 or v.compare_at_price < cp
+              assign cp = v.compare_at_price
+            endif
+          endif
+        endfor
+      endif
+    endif
   endif
   # Prices are stored incl. btw when shop.taxes_included (the Dutch default), else excl.: derive the other one.
   assign vat_factor = settings.vat_rate | plus: 100

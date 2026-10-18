@@ -103,12 +103,19 @@ PRODUCT_MF = [
     ('andere_maten', 'list.product_reference', 'Andere maten', 'Zustermaten (één product per maat), maatwisselaar'),
     ('systeem', 'list.single_line_text_field', 'Systeem', 'Tentsysteem dat het product is of waarop het past (filter "Past op")'),
     ('addon_eenmalig', 'list.product_reference', 'Add-ons eenmalig', 'Add-ons die één keer per orderregel meegaan, niet × het aantal (transportkar)'),
+    # catalog round 2026-10-18 (CONTRACT.md, gauntlet/backlog/contract-changes.md)
+    ('verzendkosten_staffel', 'json', 'Verzendkosten-staffel', 'Verzendkosten per maat/uitvoering en per aantal: {eenheid, staffel, per_optie}'),
+    ('addon_korting', 'json', 'Korting op add-ons', '{"procent":10,"op":[handles]}: korting op deze add-ons bij aankoop met dit product (automatische korting)'),
+    ('onderdelen', 'list.product_reference', 'Onderdelen', 'Onderdelen en accessoires die op dit product passen (omgekeerde past_op, door build.py)'),
+    ('verwacht_op', 'date', 'Verwacht op', 'Verwachte leverdatum bij binnenkort / pre-order / uitverkocht (eigenaar vult in)'),
+    ('gebruik', 'list.single_line_text_field', 'Gebruik', 'Leesbare gebruikslabels uit de gebruik:-tags (storefront-filter Gebruik)'),
 ]
 VARIANT_MF = [
     ('componenten', 'list.variant_reference', 'Componenten', 'Pakketinhoud: de exacte componentvarianten'),
     ('component_aantallen', 'list.number_integer', 'Component-aantallen', 'Aantal per component, zelfde volgorde'),
     ('addon_varianten', 'list.variant_reference', 'Add-on-varianten', 'De add-ons die bij deze variant horen (zelfde maat/kleur, juiste aantal)'),
     ('addon_aantallen', 'list.number_integer', 'Add-on-aantallen', 'Aantal per add-on voor 1 stuk van het hoofdproduct, zelfde volgorde'),
+    ('stuklijst', 'json', 'Stuklijst', 'Bouwtekening van deze variant: [{groep, onderdeel, handle, sku, aantal}] (buizenframe- en opslagtenten)'),
 ]
 VARIANT_REF_KEYS = [('componenten', 'component_aantallen'), ('addon_varianten', 'addon_aantallen')]
 COLLECTION_MF = [
@@ -126,8 +133,11 @@ CHOICES = {
     'addon_modus': ['per-stuk', 'per-regel'],
     'availability_status': ['binnenkort', 'pre-order', 'permanent-uitverkocht'],
     'systeem': ['Easy-up', 'Buizenframe', 'Stretchtent', 'Stertent', 'Opblaasbare tent'],
+    'gebruik': ['Tuinfeest', 'Horeca', 'Evenement', 'Markt'],
 }
-FILTERABLE = {'bedrukbaar', 'systeem'}
+FILTERABLE = {'bedrukbaar', 'systeem', 'gebruik'}
+# readable labels for the gebruik:* tags (standing item b: no raw tag values in the storefront filter)
+GEBRUIK_LABELS = {'gebruik:tuinfeest': 'Tuinfeest', 'gebruik:horeca': 'Horeca', 'gebruik:evenement': 'Evenement', 'gebruik:markt': 'Markt'}
 
 # CSV metafield columns: every non-reference product definition
 # (componenten / component_aantallen are set per bundle variant, so they are not product columns either)
@@ -353,6 +363,96 @@ def swatch_table() -> dict:
     return table
 
 
+SET_VS_LOS = re.compile(r'<table data-kk="set-vs-los">.*?</table>', re.S)
+
+
+def euro(cents: int) -> str:
+    s = f'{cents / 100:,.2f}'
+    return '€ ' + s.replace(',', 'X').replace('.', ',').replace('X', '.')
+
+
+# Catalog round 3: the easy-up wall sets compare themselves with the same four loose walls (short sides: 1 dicht + 1 deur, long sides:
+# 2 met raam). The table in the copy is rebuilt from the prices here, so a price change never leaves a stale amount (validate.py checks
+# that a set stays under its loose walls).
+WALL_SETS = {
+    'zijwandenset-easy-up': {'dicht': ('zijwand-easy-up-dicht', {}), 'raam': ('zijwand-easy-up-met-raam', {}), 'deur': ('zijwand-easy-up-met-deur', {})},
+    'zijwandenset-easy-up-heavy-duty-pvc': {'dicht': ('zijwand-easy-up-heavy-duty-pvc', {'Uitvoering': 'Dicht'}),
+                                            'raam': ('zijwand-easy-up-heavy-duty-pvc', {'Uitvoering': 'Met raam'}),
+                                            'deur': ('zijwand-easy-up-heavy-duty-pvc', {'Uitvoering': 'Met deur'})},
+}
+
+
+def _num(x: str) -> float:
+    return float(x.replace(',', '.'))
+
+
+def wall_set_rows(p, by_handle):
+    """[(maat, wanden, los_cents, set_cents)] for an easy-up wall set: per Maat, the first Kleur that both the set and the walls have."""
+    spec = WALL_SETS[p['handle']]
+    names = [o['name'] for o in p['options']]
+    rows, seen = [], set()
+
+    def wall_price(kind, lengte, kleur):
+        h, sel = spec[kind]
+        wp = by_handle[h]
+        wn = [o['name'] for o in wp['options']]
+        want = dict(sel, Maat=lengte, Kleur=kleur)
+        for v in wp['variants']:
+            if all(n in wn and v.get(f'option{wn.index(n) + 1}') == val for n, val in want.items()):
+                return v['price']
+        return None
+    for v in p['variants']:
+        o = {n: v.get(f'option{i + 1}') for i, n in enumerate(names)}
+        m = o['Maat']
+        if m in seen:
+            continue
+        w, d = sorted(_num(x) for x in m.replace(' m', '').split(' x '))
+        lw, ld = f'{w:g}'.replace('.', ',') + ' m', f'{d:g}'.replace('.', ',') + ' m'
+        parts = [wall_price('dicht', lw, o['Kleur']), wall_price('deur', lw, o['Kleur']), wall_price('raam', ld, o['Kleur'])]
+        if None in parts:
+            continue
+        seen.add(m)
+        wanden = f'4 van {lw}' if lw == ld else f'2 van {lw} + 2 van {ld}'
+        rows.append((m, wanden, parts[0] + parts[1] + 2 * parts[2], v['price']))
+    return rows
+
+
+def wall_set_table(p, by_handle) -> str:
+    rows = ''.join(f'<tr><th scope="row">{m.replace(" x ", " × ")}</th><td>{w}</td><td>{euro(los)}</td><td>{euro(st)}</td><td>{euro(los - st)}</td></tr>'
+                   for m, w, los, st in wall_set_rows(p, by_handle))
+    return ('<table data-kk="set-vs-los"><thead><tr><th scope="col">Tent</th><th scope="col">Wanden</th><th scope="col">Los gekocht</th>'
+            '<th scope="col">Setprijs</th><th scope="col">Je betaalt minder</th></tr></thead><tbody>' + rows + '</tbody></table>')
+
+
+def set_vs_los_table(p) -> str:
+    """'Los of in het pakket' for a bundle: one row per price-relevant combination (options whose values change the bundle price or
+    the price of its parts; a rok colour that changes nothing is folded away)."""
+    names = [o['name'] for o in p['options']]
+    vs = [v for v in p['variants'] if v.get('bundle_los_totaal')]
+    if not vs:
+        return '<table data-kk="set-vs-los"></table>'
+    keep = []
+    for i, n in enumerate(names):
+        by_rest = {}
+        for v in vs:
+            rest = tuple(v.get(f'option{j + 1}') for j in range(len(names)) if j != i)
+            by_rest.setdefault(rest, set()).add((v['price'], v['bundle_los_totaal']))
+        if any(len(x) > 1 for x in by_rest.values()):
+            keep.append(i)
+    seen, rows = set(), []
+    for v in vs:
+        key = tuple(v.get(f'option{i + 1}') for i in keep)
+        if key in seen:
+            continue
+        seen.add(key)
+        label = ' · '.join(str(k) for k in key) if key else p['title'].replace(' (pakket)', '')
+        rows.append(f'<tr><th scope="row">{label}</th><td>{euro(v["bundle_los_totaal"])}</td><td>{euro(v["price"])}</td>'
+                    f'<td>{euro(v["bundle_los_totaal"] - v["price"])}</td></tr>')
+    head = ' · '.join(names[i] for i in keep) if keep else 'Pakket'
+    return ('<table data-kk="set-vs-los"><thead><tr><th scope="col">' + head + '</th><th scope="col">Los</th><th scope="col">In het pakket</th>'
+            '<th scope="col">Je betaalt minder</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table>')
+
+
 # --------------------------------------------------------------------------------------------------
 # Merge
 # --------------------------------------------------------------------------------------------------
@@ -407,8 +507,46 @@ class Build:
         self.by_handle = {p['handle']: p for p in out}
         self.apply_fixes(out)
         self.resolve_bundles(out)
+        self.derive(out)
         self.export_images(out)
         return out
+
+    def derive(self, products):
+        """Catalog round 2026-10-18: fields derived from the merged products (CONTRACT.md).
+          * custom.gebruik: readable labels from the gebruik:* tags (the storefront filter shows these, never a raw tag);
+          * custom.onderdelen (M2): every product whose custom.past_op lists this product (parts and accessories that fit it), bundles
+            and gift cards left out, in catalog order;
+          * the 'Los of in het pakket' table (data-kk="set-vs-los") of every bundle, rebuilt from the bundle data so a price change in
+            the skeleton never leaves a stale amount in the copy."""
+        P = self.by_handle
+        for p in products:
+            g = [GEBRUIK_LABELS[t] for t in p['tags'] if t in GEBRUIK_LABELS]
+            p['metafields']['gebruik'] = g or None
+        rev = {}
+        for p in products:
+            if 'set' in p['tags'] or p.get('gift_card'):
+                continue
+            for h in p['metafields'].get('past_op') or []:
+                rev.setdefault(h, []).append(p['handle'])
+        n = 0
+        for p in products:
+            parts = [h for h in rev.get(p['handle'], []) if h != p['handle']]
+            p['metafields']['onderdelen'] = parts or None
+            n += bool(parts)
+        self.fix('*', f'custom.onderdelen on {n} products from the reverse of custom.past_op', 'M2: parts list on the main PDP (CONTRACT)')
+        rows = 0
+        for p in products:
+            if not p.get('bundle') or 'data-kk="set-vs-los"' not in p['body_html']:
+                continue
+            p['body_html'] = SET_VS_LOS.sub(lambda m: set_vs_los_table(p), p['body_html'], count=1)
+            rows += 1
+        if rows:
+            self.fix('*', f'set-vs-los table rebuilt from bundle data on {rows} bundles', 'prices in copy follow the skeleton (catalog round 2026-10-18)')
+        for h in WALL_SETS:
+            p = P.get(h)
+            if p and 'data-kk="set-vs-los"' in p['body_html']:
+                p['body_html'] = SET_VS_LOS.sub(lambda m: wall_set_table(p, P), p['body_html'], count=1)
+                self.fix(h, 'set-vs-los table rebuilt from the loose wall prices', 'catalog round 3: wall prices re-based; the copy never keeps a stale amount')
 
     def export_images(self, products):
         """Which images go to Shopify, and which one each variant shows. Only real renders are exported (never a draft card or
@@ -499,6 +637,10 @@ class Build:
                 self.warnings.append(f"{p['handle']}: no alt text for {img['file']} in the copy part, used fallback")
             img['alt'] = alt
         # what the copy says the owner/supplier must confirm (not for the storefront)
+        # catalog round 3 (M16): the opbouw- en veiligheidshandleiding of the product family (not a metafield: catalog/tools/productblad.mjs
+        # --handleidingen renders it as opbouwhandleiding-<handle>.pdf, which fix 6b then attaches to custom.downloads)
+        if part.get('handleiding'):
+            p['handleiding'] = part['handleiding']
         claims = list(part.get('claims') or [])
         claims += [c for c in html_claims(p['body_html']) if c not in claims]
         p['claims'] = claims
@@ -1088,9 +1230,25 @@ def image_jobs(products, article_jobs, existing_models=(), collections=()):
     return lst
 
 
+def demo_stock(p, v) -> int:
+    """PREVIEW ONLY (standing item a): plausible demo stock so the renderer shows every stock state. Deterministic per SKU: ~7% on
+    backorder (0, policy continue: 'Leverbaar over 2–3 weken'), ~8% low (1-3: 'Nog x op voorraad'), the rest in stock with a quantity that
+    fits the price. products.csv keeps 0 + continue: the owner enters the real counts (catalog/stock.csv or Shopify)."""
+    h = zlib.crc32(v['sku'].encode())
+    bucket = h % 100
+    if bucket < 7:
+        return 0
+    if bucket < 15:
+        return 1 + h % 3
+    price = v['price'] / 100
+    lo, hi = (40, 240) if price < 15 else (12, 90) if price < 60 else (4, 30) if price < 250 else (2, 9) if price < 1000 else (1, 4)
+    return lo + (h // 100) % (hi - lo + 1)
+
+
 def fixture(cat, swatches):
     shop = cat['shop']
     created0 = datetime(2026, 10, 17, 9, 0, tzinfo=TZ)
+    demo = {'variants': 0, 'in_stock': 0, 'low': 0, 'backorder': 0}
     prods = []
     for idx, p in enumerate(cat['products']):
         opts = []
@@ -1098,8 +1256,8 @@ def fixture(cat, swatches):
             vals = []
             for val in o['values']:
                 e = {'name': val}
-                if o['name'] == 'Kleur' and val in swatches:
-                    e['swatch'] = {'color': swatches[val]}
+                if o['name'] == 'Kleur' and val in swatches and re.match(r'^#[0-9A-Fa-f]{6}$', swatches[val]):
+                    e['swatch'] = {'color': swatches[val]}   # a two-tone value (CSS gradient in swatch_colors) falls back to the theme setting
                 vals.append(e)
             opts.append({'name': o['name'], 'values': vals})
         variants = []
@@ -1113,11 +1271,18 @@ def fixture(cat, swatches):
                                                      for s in v['metafields'][ref_key]])})
                     vmf.append({'namespace': NS, 'key': qty_key, 'type': 'list.number_integer',
                                 'value': json.dumps(v['metafields'][qty_key])})
+            if v['metafields'].get('stuklijst'):
+                vmf.append({'namespace': NS, 'key': 'stuklijst', 'type': 'json', 'value': json.dumps(v['metafields']['stuklijst'], ensure_ascii=False)})
+            qty = int(v.get('inventory_quantity') or 0)
+            if v.get('inventory_management') == 'shopify' and qty == 0 and not v.get('stock_counted'):
+                qty = demo_stock(p, v)
+                demo['variants'] += 1
+                demo['backorder' if qty == 0 else ('low' if qty <= 3 else 'in_stock')] += 1
             fv = {
                 'id': sku_to_id[v['sku']], 'sku': v['sku'], 'barcode': v.get('barcode'),
                 'option1': v.get('option1'), 'option2': v.get('option2'), 'option3': v.get('option3'),
                 'price': v['price'], 'compare_at_price': v.get('compare_at_price'),
-                'inventory_quantity': int(v.get('inventory_quantity') or 0),
+                'inventory_quantity': qty,
                 'inventory_management': v.get('inventory_management'),
                 'inventory_policy': v.get('inventory_policy') or 'deny',
                 'grams': int(v.get('grams') or 0), 'weight_unit': 'kg',
@@ -1189,6 +1354,10 @@ def fixture(cat, swatches):
     }
     return {
         'schema_version': 1,
+        # standing item a: the stock in this fixture is DEMO stock for the preview renderer only (demo_stock); products.csv keeps
+        # Variant Inventory Qty 0 + policy continue until the owner sets the real stock (docs/claims-to-confirm.md)
+        'meta': {'demo_stock': True, 'demo_stock_note': 'Voorbeeldvoorraad voor de preview, geen echte telling: products.csv blijft 0 + doorverkopen tot de eigenaar de echte voorraad invoert.',
+                 'demo_stock_counts': demo},
         'shop': shop,
         'products': prods,
         'collections': colls,
@@ -1275,6 +1444,7 @@ def apply_stock(b, products):
             b.warnings.append(f'stock.csv: {sku} is not tracked (made to order / bundle), Voorraad ignored')
             continue
         v['inventory_quantity'] = qty
+        v['stock_counted'] = True   # a counted 0 stays 0 in the preview fixture (no demo stock on top of real stock)
         applied += 1
     if applied:
         b.fix('stock.csv', f'inventory_quantity from the owner stock file on {applied} variant(s)', 'catalog/stock.csv (owner input)')
@@ -1466,6 +1636,8 @@ def main(argv=None):
                     vmf += [{'namespace': NS, 'key': ref_key, 'type': 'list.variant_reference', 'value_skus': v['metafields'][ref_key]},
                             {'namespace': NS, 'key': qty_key, 'type': 'list.number_integer',
                              'value': mf_value_string('list.number_integer', v['metafields'][qty_key])}]
+            if v['metafields'].get('stuklijst'):
+                vmf.append({'namespace': NS, 'key': 'stuklijst', 'type': 'json', 'value': mf_value_string('json', v['metafields']['stuklijst'])})
             if vmf:
                 vm.append({'sku': v['sku'], 'metafields': vmf})
         if pm or vm:

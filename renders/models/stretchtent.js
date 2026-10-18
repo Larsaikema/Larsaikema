@@ -185,12 +185,18 @@ export function stretchtent(p = {}) {
   let lowView = null;
   if (low) {
     const sailY = (x, z) => { let best = null, bd = 1e9; for (const row of rows) for (const q of row) { const d = (q.x - x) ** 2 + (q.z - z) ** 2; if (d < bd) { bd = d; best = q; } } return best.y; };
-    const ex = W * 0.2, ez = D * 0.17;
-    const eye = V3(ex, Math.min(1.45, sailY(ex, ez) - 0.5), ez);
-    const aim = V3(-W * 0.1, Math.min(2.4, sailY(-W * 0.1, -D * 0.3) + 0.15), -D * 0.3);
+    // round 4: the eye stands in the front-right quadrant under the cloth and looks at the
+    // centre pole from 2.5-3 m away, so the pole stands whole from its foot to the peak (a
+    // little left of centre) with the underside of the sail sweeping up to it on all sides and
+    // the far perimeter pole and edges beyond (round 3 stood next to the pole: "a pole through
+    // the frame and a slab of fabric")
+    const c0 = poles[0].top;
+    const ex = c0.x + W * 0.3, ez = c0.z + D * 0.31;
+    const eye = V3(ex, Math.min(1.3, sailY(ex, ez) - 0.5), ez);
+    const aim = V3(c0.x - 0.35, Math.min(c0.y * 0.58, sailY(c0.x - 0.35, c0.z - 0.3) - 0.2), c0.z - 0.3);
     const d = eye.clone().sub(aim), dist = d.length(); d.normalize();
     const az = Math.atan2(d.x, d.z) * 180 / Math.PI, el = Math.asin(d.y) * 180 / Math.PI;
-    const fov = 72, fill = 0.5;
+    const fov = 70, fill = 0.5;
     const right = V3(d.z, 0, -d.x).normalize();
     const e = fill * dist * Math.tan((fov * Math.PI) / 360);
     group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
@@ -208,7 +214,7 @@ export function stretchtent(p = {}) {
     // the catalogue tent light (current easy-up rig): white stretch cloth reads white (lit sail
     // ~240-248), not light grey; stretch fabric is matte, so the white key is not tempered
     rig: {
-      default: { ...T2.tentRig2(hex), ...(lum > 0.7 ? { exposure: 0.8 } : {}) },
+      default: { ...T2.tentRig2(hex), ...(lum > 0.7 ? { exposure: 0.98 } : {}) },
       // under the sail: the cloth is lit from above, so its underside glows with the light that
       // comes through (more fill and sky, no floor halo at the frame edges)
       ...(low ? { low: { fill: { azimuth: 100, elevation: -30, intensity: 3.2 }, bounce: { azimuth: 0, elevation: -60, intensity: 2.2 }, dome: { count: 2, intensity: 2.6, maxZenith: 62 }, edgeFade: 0.0, exposure: lum > 0.7 ? 0.7 : 'auto' } } : {}),

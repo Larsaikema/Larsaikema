@@ -1,14 +1,41 @@
 {%- comment -%}
   Stylesheets of the main product. The rarely needed parts only load on the products that use them (CSS budget):
-  logo upload (-print), bundle (-bundle), configurator (-config), 'Premium of Professional?' (-compare), discontinued /
+  logo upload (-print), 'Handig erbij' add-ons (-addons), bundle (-bundle), configurator (-config), 'Premium of Professional?' (-compare, only when
+  the card has a second product), key facts strip (-keyfacts, only when it has facts), discontinued /
   binnenkort / back-in-stock form (-status), video and 3D (-media). Params: product, is_print, is_config, is_discontinued,
-  avail_status, media_types (comma list of the product's media types).
+  avail_status, media_types (comma list of the product's media types), blocks (section.blocks), kf_labels.
   section-main-product.css: aliases --pk Kiezel, --pi Inkt, --pl Lijn, --pw Wit, --p4/6/7 font weights, --pr/--pri radii,
   --pd duration, --pck check mark; written with native CSS nesting (as Shopify Horizon) to stay inside the CSS budget.
   The narrow buy button (phones, two-column tablets) puts the live total on a second line; in the delivery block the
   'Meer over verzenden' link is set off with a dot so it reads as its own item.
 {%- endcomment -%}
 {%- liquid
+  # the compare card's stylesheet only when the card has a second product to show (a statafelrok in group
+  # 'statafeltextiel' next to a compare block set to the easy-up collection renders no card); key facts only when the
+  # strip has facts (tents; a statafelrok has none of the labels). Params blocks (section.blocks) and kf_labels.
+  assign compare_css = false
+  assign cmp_g = product.metafields.custom.vergelijk_groep.value
+  if cmp_g != blank
+    for b in blocks
+      if b.type == 'compare' and b.settings.collection != blank
+        for p in b.settings.collection.products limit: 50
+          if p.id != product.id and p.metafields.custom.vergelijk_groep.value == cmp_g
+            assign compare_css = true
+            break
+          endif
+        endfor
+      endif
+    endfor
+  endif
+  assign keyfacts_css = false
+  if kf_labels != blank
+    capture kf_probe
+      render 'product-keyfacts', product: product, labels: kf_labels, class: ''
+    endcapture
+    if kf_probe != blank
+      assign keyfacts_css = true
+    endif
+  endif
   assign is_bundle = false
   if product.metafields.custom.componenten != blank
     assign is_bundle = true
@@ -27,10 +54,28 @@
   if is_bundle
     echo 'section-main-product-bundle.css' | asset_url | stylesheet_tag
   endif
+  # 'Handig erbij' (snippets/product-addons): only on products with add-ons (product list or any variant's own list)
+  assign has_addons = false
+  if product.metafields.custom.addons != blank
+    assign has_addons = true
+  else
+    for v in product.variants
+      if v.metafields.custom.addon_varianten != blank
+        assign has_addons = true
+        break
+      endif
+    endfor
+  endif
+  if has_addons
+    echo 'section-main-product-addons.css' | asset_url | stylesheet_tag
+  endif
   if is_config
     echo 'section-main-product-config.css' | asset_url | stylesheet_tag
   endif
-  if product.metafields.custom.vergelijk_groep != blank
+  if keyfacts_css
+    echo 'section-main-product-keyfacts.css' | asset_url | stylesheet_tag
+  endif
+  if compare_css
     echo 'section-main-product-compare.css' | asset_url | stylesheet_tag
   endif
   # -status also carries the back-in-stock form, so it loads when any variant is sold out (a variant change can show it)
@@ -48,3 +93,5 @@
     echo 'section-main-product-media.css' | asset_url | stylesheet_tag
   endif
 -%}
+{%- comment -%} 'Met jouw logo vanaf …' next to Kleur (snippets/product-print-alt) only exists on a product without print {%- endcomment -%}
+{%- unless is_print or product.has_only_default_variant -%}<style>.vp__print{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:14px;line-height:1.2;font-weight:var(--p6);color:var(--pi);text-decoration:none;>span:first-of-type{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}&:hover>span:first-of-type{text-decoration-thickness:3px}.icon{flex:none}}.vp__print-price{color:var(--pk);font-weight:var(--font-body-weight)}</style>{%- endunless -%}

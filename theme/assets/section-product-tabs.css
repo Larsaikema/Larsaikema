@@ -11,3 +11,13 @@
 .ptabs__foot{display:flex;justify-content:center;margin-top:20px}
 @media (min-width:990px){.ptabs__foot{margin-top:28px}}
 @media (max-width:749px){.ptabs__all{width:100%}}
+.js .ptabs__panel--rest,.ptabs__panel--lead .card__stock,.no-js .ptabs__bar{display:none}
+.no-js .ptabs__panel+.ptabs__panel{margin-top:48px}
+@media (max-width:989px){.slider.product-row--mobile-grid{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:visible;margin-inline:0;padding-inline:0}}
+@media (min-width:750px) and (max-width:989px){.slider.product-row--mobile-grid{gap:16px}}
+.ptabs__lead{margin:0 0 16px;font-size:13.5px;font-weight:var(--font-body-weight-semibold)}
+.ptabs__lead>.icon{margin-right:6px;vertical-align:-2px;color:var(--c-kiezel)}
+.ptabs__eta{font-weight:var(--font-body-weight)}
+.ptabs__eta::before{content:" · "}
+.ptabs__eta strong{white-space:nowrap}
+.ptabs__ask{margin-left:10px;white-space:nowrap;display:inline-block}

@@ -27,6 +27,19 @@
     scrolled clear of it (WCAG 2.4.11).
   - Inline offerte and stock-alert forms: Dutch validation messages (form/field data-msg-required, data-msg-email), and
     after the post the confirmation ([data-form-success]) is scrolled into view and focused, so it is read out.
+
+  'Meerdere kleuren tegelijk bestellen' (block setting mix_min, default 10 colours; not for print, configurator or 'set'):
+  a link under the buy button. The first click loads assets/product-mix.js (product-form.js only appends the script, so
+  pages without the panel pay nothing), which loads product-mix.css, fills the panel from its <template> (above the
+  button: one stepper per colour for the chosen Maat / Uitvoering) and opens it. While it is open:
+  - the main quantity stepper hides; the button total, the staffel hint ('quantity' = all colours together), the sticky
+    bar and the offerte 'Aantal' count every colour; '12 stuks in 3 kleuren' under the grid (role=status);
+  - one /cart/add.js call adds a line per colour plus the ticked add-ons per colour (each colour's own add-on variant
+    from the variants JSON 'ad': a topcover in the same colour; add-ons that go once per order stay once);
+  - a colour that is not available in the chosen Maat / Uitvoering is disabled and struck through; deny-policy stock caps
+    its stepper; changing Maat or Uitvoering re-maps every colour;
+  - the drawer says 'Statafelrok stretch, Ø 80–85 cm · Met topcover · 3 kleuren · 12 ×'.
+  'Terug naar één kleur' closes it and restores the normal form.
 {%- endcomment -%}
 {%- if is_discontinued -%}
   {%- liquid
@@ -78,6 +91,60 @@
         </select>
       </div>
     {%- endif -%}
+    {%- liquid
+      # 'Meerdere kleuren' (block setting mix_min): a product whose colour option has at least that many values (a
+      # 24-colour statafelrok) can be ordered as a mix, '6 × Zwart + 4 × Wit', in one click on the same buy button.
+      # Not for print (one logo upload per line), configurator or bundle products ('set': a mix inside one pakket is not
+      # what the panel does). The panel (template) and assets/product-mix.js + product-mix.css load on the first click.
+      assign mix_opt = nil
+      assign mix_min = block.settings.mix_min | default: 0
+      assign mix_print = false
+      if product.metafields.custom.bedrukbaar.value == true or product.tags contains 'bedrukbaar'
+        assign mix_print = true
+      endif
+      if mix_min > 1 and is_config == false and mix_print == false and product.has_only_default_variant == false
+        unless product.tags contains 'set'
+          assign mix_names = settings.swatch_option_names | downcase | split: ','
+          for option in product.options_with_values
+            assign mo = option.name | downcase | strip
+            for n in mix_names
+              assign nn = n | strip
+              if nn == mo and option.values.size >= mix_min
+                assign mix_opt = option
+                assign mix_idx = forloop.parentloop.index0
+              endif
+            endfor
+          endfor
+        endunless
+      endif
+    -%}
+    {%- if mix_opt -%}
+      {%- assign mix_n = mix_opt.values.size -%}
+      <div class="mix js-only" data-mix data-mix-index="{{ mix_idx }}" data-css="{{ 'product-mix.css' | asset_url }}" data-empty="{{ 'product.mix_empty' | t | escape }}" data-count-one="{{ 'product.mix_count.one' | t: count: 1 | replace: '1', '__COUNT__' | escape }}" data-count-other="{{ 'product.mix_count.other' | t: count: '__COUNT__' | escape }}" data-col-one="{{ 'product.mix_colours.one' | t: count: 1 | replace: '1', '__COUNT__' | escape }}" data-col-other="{{ 'product.mix_colours.other' | t: count: '__COUNT__' | escape }}" data-sum="{{ 'product.mix_sum' | t: count: '__COUNT__', colours: '__COLOURS__' | escape }}">
+        <div class="mix__body" id="Mix-{{ section_id }}" role="group" aria-labelledby="MixTitle-{{ section_id }}" data-mix-body hidden></div>
+        <template>
+          <div class="mix__head">
+            <p class="mix__title" id="MixTitle-{{ section_id }}">{{ 'product.mix_heading' | t }} <span class="mix__ctx" data-mix-ctx></span></p>
+            <button type="button" class="link mix__clear" data-mix-clear hidden>{{ 'product.mix_clear' | t }}</button>
+          </div>
+          {%- if product.metafields.custom.staffelkorting.value.size > 0 -%}<p class="mix__note">{{ 'product.mix_note' | t }}</p>{%- endif -%}
+          <ul class="mix__grid" role="list">
+            {%- for value in mix_opt.values -%}
+              {%- capture mix_sw -%}{%- render 'swatch', value: value, mode: 'css' -%}{%- endcapture -%}
+              <li class="mix__cell" data-mix-value="{{ value | escape }}">
+                <label class="mix__name" for="Mix-{{ section_id }}-{{ forloop.index }}"><span class="swatch" style="{{ mix_sw }}"></span><span>{{ value }}</span></label>
+                <quantity-input class="qty qty--sm mix__qty">
+                  <button type="button" class="qty__btn" name="minus" aria-label="{{ 'product.mix_less' | t: value: value | escape }}">{%- render 'icon', icon: 'minus', class: 'icon--sm' -%}</button>
+                  <input class="qty__input" type="number" inputmode="numeric" id="Mix-{{ section_id }}-{{ forloop.index }}" value="0" min="0" step="1">
+                  <button type="button" class="qty__btn" name="plus" aria-label="{{ 'product.mix_more' | t: value: value | escape }}">{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</button>
+                </quantity-input>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <p class="mix__sum" data-mix-sum role="status"></p>
+        </template>
+      </div>
+    {%- endif -%}
     <div class="buy__row" data-dynamic="buy">
       {%- if is_config -%}
         <input type="hidden" name="quantity" value="{{ cfg.min_afname | default: 1 }}" data-config-qty>
@@ -126,6 +193,21 @@
         </span>
       </button>
     </div>
+    {%- if mix_opt -%}
+      {%- comment -%} under the button, so the first screen keeps its button; the panel opens above the button {%- endcomment -%}
+      {%- assign mx_a = mix_n | times: 3 | divided_by: 10 -%}{%- assign mx_b = mix_n | divided_by: 2 -%}{%- assign mx_c = mix_n | times: 4 | divided_by: 5 -%}
+      <style>.mix__toggle{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:var(--p6);text-align:left;>[data-mix-label]{text-decoration:underline 1.5px;text-underline-offset:3px}}.mix__dots{display:flex;padding-left:7px;.swatch{--size:20px;margin-left:-7px;box-shadow:0 0 0 2px var(--c-zand)}}</style>
+      <button type="button" class="mix__toggle js-only" aria-expanded="false" aria-controls="Mix-{{ section_id }}" data-mix-toggle data-js="{{ 'product-mix.js' | asset_url }}">
+        <span class="mix__dots" aria-hidden="true">
+          {%- for i in (0..2) -%}
+            {%- case i -%}{%- when 0 -%}{%- assign mx_i = mx_a -%}{%- when 1 -%}{%- assign mx_i = mx_b -%}{%- else -%}{%- assign mx_i = mx_c -%}{%- endcase -%}
+            {%- capture mx_sw -%}{%- render 'swatch', value: mix_opt.values[mx_i], mode: 'css' -%}{%- endcapture -%}
+            <span class="swatch" style="{{ mx_sw }}"></span>
+          {%- endfor -%}
+        </span>
+        <span data-mix-label>{{ 'product.mix_toggle' | t }}</span><span data-mix-label hidden>{{ 'product.mix_back' | t }}</span>
+      </button>
+    {%- endif -%}
     {%- if block.settings.show_dynamic_checkout and is_config == false -%}{{ form | payment_button }}{%- endif -%}
     <p class="notice notice--warn buy__note" role="status" data-qty-note data-tpl="{{ 'cart.quantity_adjusted' | t: count: '__COUNT__' | escape }}" hidden></p>
     <p class="notice notice--error buy__error" role="alert" data-form-error data-stock-tpl="{{ 'cart.quantity_adjusted' | t: count: '__COUNT__' | escape }}" hidden></p>

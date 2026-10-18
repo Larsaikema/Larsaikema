@@ -252,8 +252,10 @@ export function powder(color = 'zwart', opts = {}) {
 // ============================================================================ birch plywood
 // Rotary-cut birch face, lacquered. uv in metres, one tile = BIRCH_TILE (a whole statafel top).
 export const BIRCH_TILE = 0.9;
-function birchTexture(seed = 5) {
-  return cached(`birchPly2:${seed}`, () => {
+// clean: a clear face (no veneer patch, only two faint pin knots near the edge of the tile) for
+// boards whose centre is the hero (loose statafel tops, banquet tables)
+function birchTexture(seed = 5, clean = false, knotsAt = null) {
+  return cached(`birchPly2:${seed}:${clean ? 'clean' : 'std'}:${knotsAt ? JSON.stringify(knotsAt) : ''}`, () => {
     const N = 1536, L = BIRCH_TILE;
     const { noise, fbm } = makeNoise2(seed);
     const n2 = makeNoise2(seed + 31);
@@ -263,6 +265,16 @@ function birchTexture(seed = 5) {
     // pin knots and one oval veneer patch
     const knots = []; for (let i = 0; i < 4; i++) knots.push({ a: R() * L, c: R() * L, r: 0.0012 + 0.0016 * R() });
     const patch = { a: 0.25 + 0.4 * R(), c: 0.3 + 0.3 * R(), ra: 0.038, rc: 0.016, k: 0.97 + 0.04 * R() };
+    if (clean) {
+      // keep the pin knots in the outer band of the tile (the board centre is the tile centre)
+      knots.length = 2;
+      knots[0] = { a: 0.07 * L, c: 0.2 * L, r: 0.0009 };
+      knots[1] = { a: 0.86 * L, c: 0.9 * L, r: 0.0008 };
+      patch.ra = 0; patch.rc = 0;
+      // knotsAt [[a, c, r], ...] (tile metres): pin knots where the caller wants them (e.g. inside a
+      // round top that covers the tile centre)
+      if (knotsAt) { knots.length = 0; for (const [a, c, r] of knotsAt) knots.push({ a, c, r }); }
+    }
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
       const a = (x / N) * L, c = (y / N) * L; // a: along the grain
       // meander of the growth layers, cut by the peeler: slow in a, larger across
@@ -283,7 +295,7 @@ function birchTexture(seed = 5) {
       let kn = 0;
       for (const q of knots) { const d = Math.hypot((a - q.a) / 1.8, c - q.c); kn = Math.max(kn, 1 - sstep(q.r * 0.6, q.r * 1.4, d)); k -= 0.06 * Math.exp(-((d / (q.r * 3)) ** 2)); }
       // oval patch: its own grain offset and tone, a fine glue line
-      const pe = Math.hypot((a - patch.a) / patch.ra, (c - patch.c) / patch.rc);
+      const pe = patch.ra ? Math.hypot((a - patch.a) / patch.ra, (c - patch.c) / patch.rc) : 99;
       if (pe < 1) { k *= patch.k; col = col.map((v, ch) => v + (late[ch] - base[ch]) * 0.15 * fbm(a * 3 + 9, c * 40, 2)); }
       k -= 0.045 * Math.exp(-(((pe - 1) / 0.035) ** 2));
       const i = (y * N + x) * 4;
@@ -297,9 +309,9 @@ function birchTexture(seed = 5) {
     return { map, bump };
   });
 }
-export function birchPly({ seed = 5 } = {}) {
-  return cached(`birchPlyMat:${seed}`, () => {
-    const { map, bump } = birchTexture(seed);
+export function birchPly({ seed = 5, clean = false, knots = null } = {}) {
+  return cached(`birchPlyMat:${seed}:${clean ? 'clean' : 'std'}:${knots ? JSON.stringify(knots) : ''}`, () => {
+    const { map, bump } = birchTexture(seed, clean, knots);
     const m = new THREE.MeshPhysicalMaterial({
       map, normalMap: bump, normalScale: new THREE.Vector2(0.25, 0.25), roughness: 0.5, specularIntensity: 0.5,
       clearcoat: 0.32, clearcoatRoughness: 0.34, name: 'birch plywood face (rotary cut, lacquered)',

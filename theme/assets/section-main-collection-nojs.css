@@ -1,0 +1,5 @@
+/* without JavaScript only (snippets/facets.liquid loads it in <noscript>): every filter value shown, the phone filter drawer opened by :target, the sort apply button */
+.no-js .facet__item--more{display:block}
+.no-js .facet__list--pills .facet__item--more{display:flex}
+.collection-bar__apply{min-height:44px}
+@media (max-width:989px){.no-js .facets-panel--target:target{transform:none;visibility:visible;transition-delay:0s}.no-js .facets-backdrop{display:none}}

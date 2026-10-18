@@ -12,6 +12,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -88,7 +89,7 @@ export function wielset(p = {}) {
   const n = Number(p.count ?? 4);
   const mats = {
     tyre: SG.rubberSG('#55585C', { rough: 0.7 }), centre: SG.moulded('#1A1B1C', { rough: 0.45 }), zinc: SG.zincSG(), fork: SG.zincSG({ rough: 0.34 }),
-    galv: SG.zincSG({ rough: 0.34 }), brake: SG.moulded('#B3231C', { rough: 0.5 }),
+    galv: L3.galvFine({ cell: 0.004 }), brake: SG.moulded('#B3231C', { rough: 0.5 }),
   };
   const bins = new G.PartBin();
   const pitch = 0.17;

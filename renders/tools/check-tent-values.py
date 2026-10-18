@@ -20,14 +20,17 @@ Plus the walled 3x6 zwart sample (back: window + door, left: window, the two sid
 cannot see closed): its hero (door closed) and its detail (door rolled up, looking inside).
 
 Each value is the median Rec.709 luma (0-255, on the sRGB values, like an eyedropper) of 5x5
-windows round the probe points. Fails (exit 1) unless:
-  - zwart lit roof 30-55 and zwart roof turned away 10-30 (target 35-50 / 15-25),
+windows round the probe points. Black is lit like photographed black product (art direction,
+18 Oct 2026): lit faces ~60-85 with their PVC sheen, faces turned away ~25-35, so roof planes and
+walls separate instead of merging into one dark mass. Fails (exit 1) unless:
+  - zwart lit roof 45-80 and zwart roof turned away 18-40 (target 55-75 / 25-35),
   - lit roof differs by >= 25 levels between zwart, antraciet and grijs (in that order),
   - zwart cloth (valance) is never lighter than the zwart frame next to it (open tents),
-  - walled hero: lit wall 30-55 (target 35-50; below 30 the walls, valance and hem shadow merge
-    into one black box), closed door leaf >= 30, wall turned away 15-30 (target 18-25) and at
-    least 10 levels below the lit wall (the two planes separate), window panes 10-70 (smoky foil
-    over the dim inside: no black hole, no white studio card through a far-side window),
+  - walled hero: lit wall 55-90 (target 60-85; at ~40 the walls, valance and hem shadow merged
+    into one black shed), closed door leaf >= 50, wall turned away 22-40 (target 25-35) and at
+    least 20 levels below the lit wall (the two planes separate), lit roof 50-85, window panes
+    10-70 (clear foil over the dark inside: no black hole, no white studio card through a far-side
+    window),
   - walled detail: the inside seen through the rolled-up door 12-60 (target 15-35: no black void).
 
   python3 renders/tools/check-tent-values.py [--size 1000] [--samples 16] [--keep DIR]
@@ -155,8 +158,8 @@ def main():
     nan = float('nan')
     if all(n in table for n in ('zwart', 'antraciet', 'grijs')):
         z, an, gr = table['zwart'], table['antraciet'], table['grijs']
-        if not 30 <= z['roofLit'] <= 55: fails.append(f"zwart lit roof {z['roofLit']} outside 30-55 (target 35-50)")
-        if not 10 <= z['roofShade'] <= 30: fails.append(f"zwart roof turned away {z['roofShade']} outside 10-30 (target 15-25)")
+        if not 45 <= z['roofLit'] <= 80: fails.append(f"zwart lit roof {z['roofLit']} outside 45-80 (target 55-75)")
+        if not 18 <= z['roofShade'] <= 40: fails.append(f"zwart roof turned away {z['roofShade']} outside 18-40 (target 25-35)")
         if an['roofLit'] - z['roofLit'] < 25: fails.append(f"antraciet lit roof only {an['roofLit'] - z['roofLit']:.1f} levels above zwart (need >= 25)")
         if gr['roofLit'] - an['roofLit'] < 25: fails.append(f"grijs lit roof only {gr['roofLit'] - an['roofLit']:.1f} levels above antraciet (need >= 25)")
     for nm in ('zwart', 'zwart-3x6'):
@@ -167,11 +170,11 @@ def main():
     if 'zwart-wanden' in table:
         t = table['zwart-wanden']
         wl, ws, dw = t.get('wallLit', nan), t.get('wallShade', nan), t.get('doorway', nan)
-        if not 30 <= wl <= 55: fails.append(f"walled hero: lit wall {wl} outside 30-55 (target 35-50)")
-        if not dw >= 30: fails.append(f"walled hero: closed door leaf {dw} below 30")
-        if not 15 <= ws <= 30: fails.append(f"walled hero: wall turned away {ws} outside 15-30 (target 18-25)")
-        if not wl - ws >= 10: fails.append(f"walled hero: lit wall only {wl - ws:.1f} levels above the wall turned away (need >= 10)")
-        if not 30 <= t['roofLit'] <= 55: fails.append(f"walled hero: lit roof {t['roofLit']} outside 30-55")
+        if not 55 <= wl <= 90: fails.append(f"walled hero: lit wall {wl} outside 55-90 (target 60-85)")
+        if not dw >= 50: fails.append(f"walled hero: closed door leaf {dw} below 50")
+        if not 22 <= ws <= 40: fails.append(f"walled hero: wall turned away {ws} outside 22-40 (target 25-35)")
+        if not wl - ws >= 20: fails.append(f"walled hero: lit wall only {wl - ws:.1f} levels above the wall turned away (need >= 20)")
+        if not 50 <= t['roofLit'] <= 85: fails.append(f"walled hero: lit roof {t['roofLit']} outside 50-85")
         wp = t.get('windowPane', nan)
         if not 10 <= wp <= 70: fails.append(f"walled hero: PVC window pane {wp} outside 10-70 (dark smoky foil: no black void, no white card seen through it)")
     if 'zwart-deur' in table:

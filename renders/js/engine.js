@@ -222,9 +222,12 @@ ${lightsBeginInterior()}`);
     // one broad, soft reflection of a strip softbox in a slightly wavy foil: a Gaussian band
     // (~35 cm wide) across the window centre at a shallow diagonal; the foil's long waves bend
     // it a little, so it reads as a reflection in taut plastic, not as a painted glare stripe
-    float wav = 0.045 * sin( sp.y * 4.3 + sp.x * 1.7 + 0.6 ) + 0.025 * sin( sp.x * 6.1 - sp.y * 2.9 + 1.9 );
-    float dq = dot( sp, vec2( 0.42, 0.91 ) ) + wav + 0.04;
-    float bandS = exp( - dq * dq / ( 2.0 * 0.15 * 0.15 ) ) * ( 0.75 + 0.25 * sin( sp.x * 2.3 + sp.y * 1.1 ) );
+    // (optional per material: dir = band normal in the panel's (s, y) plane, sigma = band width,
+    // wave = waviness scale, mod = brightness modulation along the band, off = offset)
+    float wav = ${Number(sheet.wave ?? 1).toFixed(4)} * ( 0.045 * sin( sp.y * 4.3 + sp.x * 1.7 + 0.6 ) + 0.025 * sin( sp.x * 6.1 - sp.y * 2.9 + 1.9 ) );
+    float dq = dot( sp, normalize( vec2( ${Number((sheet.dir || [0.42, 0.91])[0]).toFixed(4)}, ${Number((sheet.dir || [0.42, 0.91])[1]).toFixed(4)} ) ) ) + wav + ${Number(sheet.off ?? 0.04).toFixed(4)};
+    float sgS = ${Number(sheet.sigma ?? 0.15).toFixed(4)};
+    float bandS = exp( - dq * dq / ( 2.0 * sgS * sgS ) ) * ( 1.0 - ${Number(sheet.mod ?? 0.25).toFixed(4)} + ${Number(sheet.mod ?? 0.25).toFixed(4)} * sin( sp.x * 2.3 + sp.y * 1.1 ) );
     totalEmissiveRadiance += vec3( ${Number(sheet.strength).toFixed(4)} ) * bandS;
   }`);
     }
@@ -241,7 +244,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -258,6 +261,8 @@ uniform float uWeight;
 uniform int uToneMap;        // 0 neutral, 1 agx, 2 aces, 3 linear
 uniform float uShoulder;     // neutral: start of the highlight compression (Khronos default 0.76)
 uniform float uEdgeFade;     // floor shadows fade to the exact backdrop within this fraction of the frame
+uniform vec4 uBgShade;       // soft darker backdrop zone behind a light product (uv centre, uv radii)
+uniform float uBgShadeK;     // its depth at the centre (0 = off); the frame edges stay the exact backdrop
 varying vec2 vUv;
 vec3 neutralTM( vec3 color ) {
   float StartCompression = uShoulder; const float Desaturation = 0.15;
@@ -306,6 +311,11 @@ void main() {
   }
   float intF = ( s.a > 0.1 && s.a < 0.5 ) ? clamp( s.g, 0.0, 1.0 ) : 1.0;
   vec3 gnd = uBg * mix( 1.0, ratio, uShadowStrength ) * intF;
+  if ( uBgShadeK > 0.0 ) {
+    vec2 dz = ( vUv - uBgShade.xy ) / uBgShade.zw;
+    float eS = min( min( vUv.x, 1.0 - vUv.x ), min( vUv.y, 1.0 - vUv.y ) );
+    gnd *= 1.0 - uBgShadeK * exp( - dot( dz, dz ) ) * smoothstep( 0.0, 0.12, eS );
+  }
   gl_FragColor = vec4( mix( gnd, obj, step( 0.5, s.a ) ) * uWeight, uWeight );
 }`;
 
@@ -339,6 +349,7 @@ uniform sampler2D uContactW; // wide, soft contact/AO halo (incl. contact proxie
 uniform float uContactWStrength;
 uniform float uShadowFloor;  // lowest received-light ratio of the soft shadow (soft knee), 0 = off
 uniform float uSplit;        // 1: the knee softens only the key shadow; sky occlusion multiplies after it
+uniform float uAOEdge;       // groundAO.edgeFade: AO/key maps fade to 1 over this fraction at the bake border (0 = off)
 uniform vec4 uIntBox;        // enclosure footprint (centre x/z, half extents x/z), see rig.interior
 uniform vec2 uIntFloor;      // x: floor light factor inside the enclosure (1 = off), y: feather (m)
 uniform vec4 uIntOpen[ 6 ];  // openings (see globalUniforms.uIntOpen)
@@ -349,6 +360,7 @@ void main() {
   vec2 aoUv = ( vWorldPos.xz - uAOBox.xy ) * uAOBox.zw;
   bool inside = aoUv.x > 0.0 && aoUv.x < 1.0 && aoUv.y > 0.0 && aoUv.y < 1.0;
   vec2 v = inside ? texture2D( uAO, aoUv ).rg : vec2( 1.0 );
+  if ( inside && uAOEdge > 0.0 ) { vec2 e2 = min( aoUv, 1.0 - aoUv ); v = mix( vec2( 1.0 ), v, smoothstep( 0.0, uAOEdge, min( e2.x, e2.y ) ) ); }
   float c = inside ? texture2D( uContact, aoUv ).r : 0.0;
   // pow(): open floor ~ linear falloff, enclosed floor (inside a closed tent) goes properly dark
   float keyPart = 1.0 - uKeyShare * ( 1.0 - v.g );
@@ -376,6 +388,61 @@ void main() {
     intF = mix( 1.0, fIn, 1.0 - smoothstep( -0.25 * uIntFloor.y, 0.75 * uIntFloor.y, max( qf.x, qf.y ) ) );
   }
   gl_FragColor = vec4( ratio, intF, 0.0, 0.25 ); // alpha 0.25 marks 'floor'
+}`;
+
+// Wall catcher (userData.catcher meshes, e.g. the studio sweep a folded table leans against):
+// like the floor it outputs the received-light ratio (alpha 0.25 = 'floor' in the composite), so
+// it shows as the exact backdrop colour plus the product's shadows. Here the ratio comes from the
+// per-frame shadow maps of the shadow-casting lights (key + dome), accumulated over the frames,
+// plus `uAmb` of open-studio light that is never occluded, and analytic contact occlusion at the
+// touch points (uC: xyz + radius).
+const wallVS = `
+#include <common>
+#include <shadowmap_pars_vertex>
+varying vec3 vWN; varying vec3 vWP;
+void main() {
+  vec3 objectNormal = normal;
+  vec3 transformedNormal = normalMatrix * objectNormal;
+  vec3 transformed = position;
+  vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );
+  vec4 worldPosition = modelMatrix * vec4( transformed, 1.0 );
+  #include <shadowmap_vertex>
+  vWN = normalize( transformedNormal );
+  vWP = worldPosition.xyz;
+  gl_Position = projectionMatrix * mvPosition;
+}`;
+const wallFS = `
+#include <common>
+#include <packing>
+#include <lights_pars_begin>
+#include <shadowmap_pars_fragment>
+uniform float uAmb;
+uniform vec4 uC[ 4 ];
+uniform float uCK;
+varying vec3 vWN; varying vec3 vWP;
+void main() {
+  vec3 n = normalize( vWN );
+  float lit = 0.0, tot = 0.0;
+  #if NUM_DIR_LIGHT_SHADOWS > 0
+  DirectionalLight dl;
+  DirectionalLightShadow dls;
+  #pragma unroll_loop_start
+  for ( int i = 0; i < NUM_DIR_LIGHT_SHADOWS; i ++ ) {
+    {
+      dl = directionalLights[ i ];
+      float e = max( dot( n, dl.direction ), 0.0 ) * dot( dl.color, vec3( 0.2126, 0.7152, 0.0722 ) );
+      dls = directionalLightShadows[ i ];
+      float sh = getShadow( directionalShadowMap[ i ], dls.shadowMapSize, dls.shadowIntensity, dls.shadowBias, dls.shadowRadius, vDirectionalShadowCoord[ i ] );
+      lit += e * sh; tot += e;
+    }
+  }
+  #pragma unroll_loop_end
+  #endif
+  float ratio = tot > 1e-5 ? mix( lit / tot, 1.0, uAmb ) : 1.0;
+  for ( int k = 0; k < 4; k ++ ) {
+    if ( uC[ k ].w > 0.0 ) { float d = length( vWP - uC[ k ].xyz ) / uC[ k ].w; ratio *= 1.0 - uCK * exp( - d * d ); }
+  }
+  gl_FragColor = vec4( ratio, 1.0, 0.0, 0.25 );
 }`;
 
 const groundVS = `
@@ -542,7 +609,7 @@ export class Studio {
 
     // ground shadow catcher
     const gm = new THREE.ShaderMaterial({
-      uniforms: { uAO: { value: null }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 }, uIntBox: { value: new THREE.Vector4() }, uIntFloor: { value: new THREE.Vector2(1, 0.1) }, uIntOpen: globalUniforms.uIntOpen, uIntNear: globalUniforms.uIntNear, uIntFloorNear: { value: 0 } },
+      uniforms: { uAO: { value: null }, uAOEdge: { value: 0 }, uAOBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uAOStrength: { value: 0 }, uKeyShare: { value: 0 }, uContact: { value: null }, uContactStrength: { value: 0 }, uContactW: { value: null }, uContactWStrength: { value: 0 }, uShadowFloor: { value: 0 }, uSplit: { value: 0 }, uIntBox: { value: new THREE.Vector4() }, uIntFloor: { value: new THREE.Vector2(1, 0.1) }, uIntOpen: globalUniforms.uIntOpen, uIntNear: globalUniforms.uIntNear, uIntFloorNear: { value: 0 } },
       vertexShader: groundVS,
       fragmentShader: groundFS,
     });
@@ -552,12 +619,17 @@ export class Studio {
     this.ground.receiveShadow = true;
     this.ground.castShadow = false;
     this.scene.add(this.ground);
+    // wall catcher material (see wallFS)
+    this.wallMat = new THREE.ShaderMaterial({
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.lights, { uAmb: { value: 0.4 }, uC: { value: [0, 1, 2, 3].map(() => new THREE.Vector4()) }, uCK: { value: 0.35 } }]),
+      vertexShader: wallVS, fragmentShader: wallFS, lights: true,
+    });
 
     this.camera = new THREE.PerspectiveCamera(24, 1, 0.05, 500);
     this.quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const quadGeo = new THREE.PlaneGeometry(2, 2);
     this.compositeMat = new THREE.ShaderMaterial({
-      uniforms: { tFrame: { value: null }, uBg: { value: new THREE.Vector3() }, uExposure: { value: 1 }, uShadowStrength: { value: 0.9 }, uWeight: { value: 1 }, uToneMap: { value: 0 }, uShoulder: { value: 0.76 }, uEdgeFade: { value: 0.07 } },
+      uniforms: { tFrame: { value: null }, uBg: { value: new THREE.Vector3() }, uExposure: { value: 1 }, uShadowStrength: { value: 0.9 }, uWeight: { value: 1 }, uToneMap: { value: 0 }, uShoulder: { value: 0.76 }, uEdgeFade: { value: 0.07 }, uBgShade: { value: new THREE.Vector4(0.5, 0.5, 0.3, 0.3) }, uBgShadeK: { value: 0 } },
       vertexShader: quadVS, fragmentShader: compositeFS,
       blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor,
       depthTest: false, depthWrite: false,
@@ -659,6 +731,19 @@ export class Studio {
       r.setRenderTarget(this.aoTmp); r.render(qs, this.quadCam);
       this.blurMat.uniforms.tSrc.value = this.aoTmp.texture; this.blurMat.uniforms.uDir.value.set(0, opt.blur / res);
       r.setRenderTarget(this.aoRT); r.render(qs, this.quadCam);
+      // groundAO.sigma (m): an extra wide Gaussian (doubling tap spacing, no banding) that merges the
+      // discrete shadow copies of tall products into one smooth pool
+      if (opt.sigma > 0) {
+        const texel = (x1 - x0) / res, target = opt.sigma / texel;
+        let varAcc = 0;
+        for (let k = 1; varAcc < target * target && k <= 64; k *= 2) {
+          this.blurMat.uniforms.tSrc.value = this.aoRT.texture; this.blurMat.uniforms.uDir.value.set(k / res, 0);
+          r.setRenderTarget(this.aoTmp); r.render(qs, this.quadCam);
+          this.blurMat.uniforms.tSrc.value = this.aoTmp.texture; this.blurMat.uniforms.uDir.value.set(0, k / res);
+          r.setRenderTarget(this.aoRT); r.render(qs, this.quadCam);
+          varAcc += 2.85 * k * k;
+        }
+      }
       q.geometry.dispose();
     }
     // contact shadow map
@@ -737,6 +822,7 @@ export class Studio {
     }
     if (parent) parent.add(root); else this.aoScene.remove(root);
     const gu = this.groundMat.uniforms;
+    gu.uAOEdge.value = opt.edgeFade || 0;
     gu.uAO.value = this.aoRT.texture;
     gu.uAOBox.value.set(x0, z0, 1 / (x1 - x0), 1 / (z1 - z0));
   }
@@ -824,6 +910,19 @@ export class Studio {
     if (this.root && this.root !== root) this.scene.remove(this.root);
     this.root = root; this.scene.add(root);
     root.updateMatrixWorld(true);
+    // wall catchers (userData.catcher): moved out of the product for the bounds and floor bakes, and
+    // rendered with the wall shadow-catcher material (restored to their parent after the render)
+    const catchers = [];
+    root.traverse((o) => { if (o.isMesh && o.userData.catcher) catchers.push({ o, parent: o.parent, mat: o.material }); });
+    for (const c of catchers) {
+      this.scene.attach(c.o);
+      c.o.material = this.wallMat; c.o.castShadow = false; c.o.receiveShadow = true;
+      const W = this.wallMat.uniforms;
+      W.uAmb.value = R.wallAmbient ?? 0.4; W.uCK.value = R.wallContact ?? 0.35;
+      const cs = c.o.userData.contacts || [];
+      W.uC.value.forEach((v, k) => { const q = cs[k]; if (q) { const p = new THREE.Vector3(q[0], q[1], q[2]).applyMatrix4(c.parent.matrixWorld); v.set(p.x, p.y, p.z, q[3]); } else v.set(0, 0, 0, 0); });
+    }
+    root.updateMatrixWorld(true);
     root.traverse((o) => { if (o.isMesh) { (Array.isArray(o.material) ? o.material : [o.material]).forEach(hookMaterial); } });
     const box = new THREE.Box3().setFromObject(root);
     box.min.y = Math.min(box.min.y, 0);
@@ -873,6 +972,15 @@ export class Studio {
     this.groundMat.uniforms.uShadowFloor.value = R.shadowFloor || 0;
     this.groundMat.uniforms.uSplit.value = R.groundSplit ? 1 : 0;
     this.compositeMat.uniforms.uEdgeFade.value = R.edgeFade || 0;
+    // backdropShade {at: [x, y, z] world, rx, ry (fractions of the frame), k}: a soft, slightly
+    // darker zone of the sweep behind a light product (the photographer keeps the backdrop light
+    // off the area behind a white canopy so its lit outline stays), fading to the exact backdrop
+    // colour towards the frame edges
+    if (R.backdropShade && R.backdropShade.k > 0) {
+      const BS = R.backdropShade, q = new THREE.Vector3(...(BS.at || [0, 0, 0])).project(cam);
+      this.compositeMat.uniforms.uBgShade.value.set((q.x + 1) / 2, (q.y + 1) / 2, BS.rx ?? 0.35, BS.ry ?? 0.25);
+      this.compositeMat.uniforms.uBgShadeK.value = BS.k;
+    } else this.compositeMat.uniforms.uBgShadeK.value = 0;
     this.groundMat.uniforms.uKeyShare.value = keyShare;
     const IN = R.interior;
     if (IN && IN.box) {
@@ -1031,6 +1139,7 @@ export class Studio {
     }
     cam.clearViewOffset();
     cam.position.copy(eye0); cam.updateMatrixWorld();
+    for (const c of catchers) { c.parent.attach(c.o); c.o.material = c.mat; }
 
     // output to canvas
     r.setRenderTarget(null);

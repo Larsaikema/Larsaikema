@@ -20,44 +20,42 @@
 .hero__product-title{font-weight:var(--font-body-weight-bold);font-size:15px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hero__product-spec{font-size:13px;color:var(--c-kiezel);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 @media (max-width:749px){
-  .hero__inner{gap:20px;padding-block:20px 28px}
-  .hero__title{margin-bottom:12px}
-  .hero__text{margin-bottom:20px}
-  /* two buttons side by side when they fit (390 px), each full width when they wrap */
-  .hero__buttons{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin-bottom:14px}
-  .hero__buttons .btn{flex:1 1 auto;padding:0 16px;font-size:16px}
-  .hero__buttons .btn .icon{display:none}
-  .hero__subline{margin:0}
-  /* the image keeps the render's own 18:11 frame; the chip sits under it, overlapping its edge */
-  .hero__media{aspect-ratio:auto;overflow:visible;background:transparent}
-  .hero__media>.hero__img{position:relative;inset:auto;display:block;aspect-ratio:18/11;height:auto;border-radius:var(--radius-panel);background:var(--c-media)}
-  /* text on top at full width, price underneath: nothing gets cut off at 390 px */
-  .hero__product{position:relative;left:auto;right:auto;bottom:auto;margin:-28px 10px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t go" "p go";gap:4px 12px;padding:12px 12px 12px 16px}
-  .hero__product-text{grid-area:t}
-  .hero__product-price{grid-area:p}
-  .hero__product-go{grid-area:go;align-self:center}
-  .hero__product-title,.hero__product-spec{display:block;-webkit-line-clamp:unset;overflow:visible}
-  .hero__product-title{font-size:15px}
-  .hero__product-spec{font-size:13px}
-  .hero__product-price .price{align-items:flex-start;text-align:left}
-  .hero__product-price .price__main{justify-content:flex-start}
-  .hero__product-price .price__value{font-size:16px}
+.hero__inner{gap:20px;padding-block:20px 28px}
+.hero__title{margin-bottom:12px}
+.hero__text{margin-bottom:20px}
+.hero__buttons{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin-bottom:14px}
+.hero__buttons .btn{flex:1 1 auto;padding:0 16px;font-size:16px}
+.hero__buttons .btn .icon{display:none}
+.hero__subline{margin:0}
+.hero__media{aspect-ratio:auto;overflow:visible;background:transparent}
+.hero__media>.hero__img{position:relative;inset:auto;display:block;aspect-ratio:18/11;height:auto;border-radius:var(--radius-panel);background:var(--c-media)}
+.hero__product{position:relative;left:auto;right:auto;bottom:auto;margin:-28px 10px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t go" "p go";gap:4px 12px;padding:12px 12px 12px 16px}
+.hero__product-text{grid-area:t}
+.hero__product-price{grid-area:p}
+.hero__product-go{grid-area:go;align-self:center}
+.hero__product-title,.hero__product-spec{display:block;-webkit-line-clamp:unset;overflow:visible}
+.hero__product-title{font-size:15px}
+.hero__product-spec{font-size:13px}
+.hero__product-price .price{align-items:flex-start;text-align:left}
+.hero__product-price .price__main{justify-content:flex-start}
+.hero__product-price .price__value{font-size:16px}
 }
 .hero__product-price .price{align-items:flex-end;text-align:right}
 .hero__product-price .price__value{font-size:17px}
 .hero__product-price .price__alt{display:none!important}
-.hero__product-price .price__label{display:none}
+.hero__product-price .price__label{font-size:12.5px;margin-left:4px}
+.hero__badge{position:absolute;top:14px;left:14px;z-index:1}
 .hero__product-go{width:36px;height:36px;border-radius:50%;background:var(--c-inkt);color:var(--c-zand);display:grid;place-items:center;flex:none}
 .hero__flags{margin-top:-8px}
 @media (min-width:750px){.hero__media{aspect-ratio:16/10}.hero__product{left:20px;right:auto;bottom:20px;width:min(480px,calc(100% - 40px))}}
 @media (min-width:990px){
-  .hero__inner{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;padding-block:44px 52px}
-  .hero--image-left .hero__content{order:2}
-  .hero__media{aspect-ratio:auto;min-height:520px;height:100%}
-  .hero--compact .hero__media{min-height:420px}
-  .hero__title{margin-bottom:20px}
+.hero__inner{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;padding-block:44px 52px}
+.hero--image-left .hero__content{order:2}
+.hero__media{aspect-ratio:auto;min-height:520px;height:100%}
+.hero--compact .hero__media{min-height:420px}
+.hero__title{margin-bottom:20px}
 }
-/* 'Snel naar je maat': size shortcuts (white option chips with a Kiezel border, brand 4.3) */
+/* Snel naar je maat */
 .hero__sizes{display:flex;flex-direction:column;gap:10px;min-width:0}
 .hero__sizes-title{display:flex;align-items:center;gap:6px;margin:0;font-size:12.5px;font-weight:var(--font-body-weight-bold);letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
 .hero__size-group{display:grid;grid-template-columns:74px minmax(0,1fr);align-items:center;gap:10px}
@@ -65,21 +63,21 @@
 .hero__size-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0}
 .hero__size{min-height:38px;padding:0 13px;font-size:14.5px;font-variant-numeric:tabular-nums}
 @media (max-width:749px){
-  .hero__sizes{padding-top:4px}
-  .hero__size-list{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gutter-mobile));padding-right:var(--gutter-mobile)}
-  .hero__size-list::-webkit-scrollbar{display:none}
-  .hero__size-list>li{flex:none}
-  .hero__size-group{grid-template-columns:64px minmax(0,1fr)}
-  .hero__size{min-height:40px}
+.hero__sizes{padding-top:4px}
+.hero__size-list{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--gutter-mobile));padding-right:var(--gutter-mobile)}
+.hero__size-list::-webkit-scrollbar{display:none}
+.hero__size-list>li{flex:none}
+.hero__size-group{grid-template-columns:64px minmax(0,1fr)}
+.hero__size{min-height:40px}
 }
 @media (min-width:990px){
-  .hero__inner{grid-template-areas:"content media" "sizes media";row-gap:28px}
-  .hero--image-left .hero__inner{grid-template-areas:"media content" "media sizes";grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-  .hero__content{grid-area:content;align-self:end}
-  .hero__media{grid-area:media}
-  .hero__sizes{grid-area:sizes;align-self:start;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--c-inkt) 14%,transparent)}
-  .hero__inner:not(:has(.hero__sizes)) .hero__content{grid-row:1 / span 2;align-self:center}
-  .hero__subline{margin-bottom:0}
+.hero__inner{grid-template-areas:"content media" "sizes media";row-gap:28px}
+.hero--image-left .hero__inner{grid-template-areas:"media content" "media sizes";grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.hero__content{grid-area:content;align-self:end}
+.hero__media{grid-area:media}
+.hero__sizes{grid-area:sizes;align-self:start;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--c-inkt) 14%,transparent)}
+.hero__inner:not(:has(.hero__sizes)) .hero__content{grid-row:1 / span 2;align-self:center}
+.hero__subline{margin-bottom:0}
 }
-/* narrow desktop: the content column grows taller than the render's frame, so show the whole scene instead of a crop */
+/* narrow desktop: whole scene, no crop */
 @media (min-width:990px) and (max-width:1199px){.hero__media>.hero__img{object-fit:contain}}

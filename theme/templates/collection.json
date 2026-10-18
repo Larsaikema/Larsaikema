@@ -26,8 +26,9 @@
           "type": "usp",
           "settings": {
             "icon": "invoice",
-            "title": "Zakelijk op factuur",
-            "text": "Prijzen ook excl. btw"
+            "title": "Zakelijk bestellen",
+            "text": "Prijzen ook excl. btw, of vraag een offerte",
+            "link": "shopify://pages/offerte"
           }
         },
         "u3": {

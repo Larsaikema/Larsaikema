@@ -159,7 +159,8 @@
   <div class="page-width collection-head__inner">
     {%- capture head_more -%}
       {%- if intro != blank -%}
-        <p class="collection-head__intro">{{ intro | newline_to_br }}</p>
+        {%- comment -%} sizes stay on one line ('5 × 5 m', '40 mm'): plain text, so it is escaped first {%- endcomment -%}
+        <p class="collection-head__intro">{{ intro | escape | replace: ' × ', '&nbsp;×&nbsp;' | replace: ' m ', '&nbsp;m ' | replace: ' m,', '&nbsp;m,' | replace: ' m.', '&nbsp;m.' | replace: ' mm ', '&nbsp;mm ' | replace: ' cm', '&nbsp;cm' | newline_to_br }}</p>
       {%- elsif collection.description != blank and show_description -%}
         <div class="collection-head__intro rte">{%- render 'text-excerpt', html: collection.description, words: 40 -%}</div>
       {%- endif -%}
@@ -171,7 +172,7 @@
     {%- capture head_usps -%}
       {%- if kenmerken != blank -%}
         <ul class="collection-head__usps" role="list" id="CollectionUsps-{{ section_id }}">
-          {%- for k in kenmerken -%}<li>{%- render 'icon', icon: 'check', class: 'icon--xs' -%}<span>{{ k }}</span></li>{%- endfor -%}
+          {%- for k in kenmerken -%}<li>{%- render 'icon', icon: 'check', class: 'icon--xs' -%}<span>{{ k | escape | replace: ' × ', '&nbsp;×&nbsp;' | replace: ' m ', '&nbsp;m ' | replace: ' cm', '&nbsp;cm' }}</span></li>{%- endfor -%}
         </ul>
       {%- endif -%}
     {%- endcapture -%}

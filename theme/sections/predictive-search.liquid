@@ -3,8 +3,11 @@
   ARIA combobox popup: one role=listbox (#PredictiveListbox, set as the input's aria-controls by predictive-search.js
   only while it exists) that owns only role=group elements, each labelled with aria-label and holding role=option links
   (tabindex -1: chosen with the arrow keys, not Tab). The visible group titles are aria-hidden (the group label carries
-  them), the columns are role=none. 'Alle resultaten' and the empty message sit outside the listbox: a normal link,
+  them), the side column is role=none. 'Alle resultaten' and the empty message sit outside the listbox: a normal link,
   reachable with Tab; Enter in the field without a chosen option opens the same page.
+  Reading (and arrow) order is the visual order: search suggestions on top, then the products (desktop: tiles with photo,
+  spec line, price in the shopper's btw mode and stock; phone: rows), then categories and pages/advice (desktop: a side
+  column). Styles: assets/section-header-search.css.
 {%- endcomment -%}
 {%- if predictive_search.performed -%}
   {%- liquid
@@ -12,6 +15,7 @@
     assign total = res.products.size | plus: res.collections.size | plus: res.pages.size | plus: res.articles.size
     assign terms_esc = predictive_search.terms | escape
     assign others = res.pages.size | plus: res.articles.size
+    assign side = others | plus: res.collections.size
     assign term_lc = predictive_search.terms | strip | downcase
     assign qs = 0
     for q in res.queries
@@ -20,65 +24,99 @@
         assign qs = qs | plus: 1
       endif
     endfor
+    # one price line in the mode the shopper chose when the header has the Particulier/Zakelijk switch (like the cards)
+    assign ps_secondary = true
+    if settings.price_display == 'toggle'
+      assign ps_secondary = false
+    endif
+    assign times_nb = ' × '
   -%}
   <div class="predictive__inner" data-predictive-inner data-status="{{ 'search.results_count' | t: count: total }}">
     {%- if total == 0 -%}
-      <p class="predictive__empty">{{ 'search.no_results_html' | t: terms: terms_esc }}</p>
+      <div class="predictive__empty">
+        <p class="predictive__empty-title">{{ 'search.no_results_title_html' | t: terms: terms_esc }}</p>
+        <p class="predictive__empty-hint">{{ 'search.no_results_hint' | t }}</p>
+      </div>
     {%- endif -%}
     {%- if total > 0 or qs > 0 -%}
-      <div class="predictive__listbox" id="PredictiveListbox" role="listbox" aria-label="{{ 'search.suggestions_for' | t: terms: predictive_search.terms }}">
-        <div class="predictive__col" role="none">
-          {%- if res.products.size > 0 -%}
-            <div class="predictive__group" role="group" aria-label="{{ 'search.products' | t }}">
-              <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.products' | t }}</p>
-              {%- for product in res.products -%}
-                <a class="predictive__item" href="{{ product.url }}" id="ps-product-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">
-                  <span class="predictive__thumb">
-                    {%- if product.featured_media -%}{{ product.featured_media.preview_image | image_url: width: 112 | image_tag: loading: 'lazy', alt: '', width: 56, height: 56 }}{%- endif -%}
-                  </span>
-                  <span>
-                    <span class="predictive__title">{{ product.title }}</span>
-                    {%- if product.metafields.custom.kenmerk_kort != blank -%}<span class="predictive__meta">{{ product.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
-                    {%- if settings.predictive_search_show_price -%}<span class="predictive__price">{%- render 'price', product: product -%}</span>{%- endif -%}
-                  </span>
-                </a>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-        </div>
-        <div class="predictive__col" role="none">
-          {%- if qs > 0 -%}
-            <div class="predictive__group predictive__queries" role="group" aria-label="{{ 'search.suggestions' | t }}">
-              <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.suggestions' | t }}</p>
-              {%- for q in res.queries -%}{%- assign q_lc = q.text | strip | downcase -%}{%- if q_lc == term_lc -%}{%- continue -%}{%- endif -%}<a href="{{ q.url }}" id="ps-query-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1" aria-label="{{ q.text | escape }}">{{ q.styled_text }}</a>{%- endfor -%}
-            </div>
-          {%- endif -%}
-          {%- if res.collections.size > 0 -%}
-            <div class="predictive__group" role="group" aria-label="{{ 'search.collections' | t }}">
-              <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.collections' | t }}</p>
-              {%- for c in res.collections -%}
-                <a class="predictive__item" href="{{ c.url }}" id="ps-collection-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1"><span class="predictive__title">{{ c.title }}</span></a>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-          {%- if others > 0 -%}
-            <div class="predictive__group" role="group" aria-label="{{ 'search.other_results' | t }}">
-              <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.other_results' | t }}</p>
-              {%- for p in res.pages -%}
-                <a class="predictive__item" href="{{ p.url }}" id="ps-page-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1"><span class="predictive__title">{{ p.title }}</span></a>
-              {%- endfor -%}
-              {%- for a in res.articles -%}
-                <a class="predictive__item" href="{{ a.url }}" id="ps-article-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1"><span class="predictive__title">{{ a.title }}</span></a>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-        </div>
+      <div class="predictive__listbox{% if res.products.size == 0 %} predictive__listbox--np{% endif %}{% if side == 0 %} predictive__listbox--ns{% endif %}" id="PredictiveListbox" role="listbox" aria-label="{{ 'search.suggestions_for' | t: terms: predictive_search.terms }}">
+        {%- if qs > 0 -%}
+          <div class="predictive__group predictive__queries" role="group" aria-label="{{ 'search.suggestions' | t }}">
+            <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.suggestions' | t }}</p>
+            {%- for q in res.queries -%}{%- assign q_lc = q.text | strip | downcase -%}{%- if q_lc == term_lc -%}{%- continue -%}{%- endif -%}<a href="{{ q.url }}" id="ps-query-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1" aria-label="{{ q.text | escape }}">{%- render 'icon', icon: 'search', class: 'icon--xs' -%}<span>{{ q.styled_text }}</span></a>{%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if res.products.size > 0 -%}
+          <div class="predictive__group predictive__products" role="group" aria-label="{{ 'search.products' | t }}">
+            <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.products' | t }}</p>
+            {%- for product in res.products -%}
+              {%- liquid
+                assign ps_cfg = product.metafields.custom.configurator.value
+                assign ps_unit = ''
+                if ps_cfg != blank and ps_cfg.velden != blank
+                  assign ps_unit = ps_cfg.eenheid | default: 'm²'
+                endif
+                assign ps_title = product.title | replace: ' x ', times_nb
+                assign ps_img = product.featured_media.preview_image
+              -%}
+              <a class="predictive__item predictive__product" href="{{ product.url }}" id="ps-product-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">
+                <span class="predictive__thumb">
+                  {%- if ps_img -%}{{ ps_img | image_url: width: 360 | image_tag: loading: 'lazy', alt: '', widths: '144, 240, 360', sizes: '(min-width: 990px) 200px, 72px' }}{%- endif -%}
+                </span>
+                <div class="predictive__body">
+                  <span class="predictive__title">{{ ps_title }}</span>
+                  {%- if product.metafields.custom.kenmerk_kort != blank -%}<span class="predictive__meta">{{ product.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
+                  <div class="predictive__buy">
+                    {%- if settings.predictive_search_show_price -%}
+                      <div class="predictive__price">{%- if ps_unit != '' -%}{%- render 'price', product: product, unit: ps_unit, secondary: ps_secondary -%}{%- else -%}{%- render 'price', product: product, secondary: ps_secondary -%}{%- endif -%}</div>
+                    {%- endif -%}
+                    <div class="predictive__stock">{%- render 'delivery-promise', product: product, style: 'short' -%}</div>
+                  </div>
+                </div>
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if side > 0 -%}
+          <div class="predictive__side" role="none">
+            {%- if res.collections.size > 0 -%}
+              <div class="predictive__group predictive__cols" role="group" aria-label="{{ 'search.collections' | t }}">
+                <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.collections' | t }}</p>
+                {%- for c in res.collections -%}
+                  {%- assign c_img = c.featured_image | default: c.image -%}
+                  <a class="predictive__item predictive__link" href="{{ c.url }}" id="ps-collection-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">
+                    <span class="predictive__dot">{%- if c_img != blank -%}{{ c_img | image_url: width: 96 | image_tag: loading: 'lazy', alt: '', width: 40, height: 40 }}{%- else -%}{%- render 'icon', icon: 'tent', class: 'icon--sm' -%}{%- endif -%}</span>
+                    <span class="predictive__link-text"><span class="predictive__title">{{ c.title }}</span>{%- if c.products_count > 0 -%}<span class="predictive__count">{{ 'collection.products_count' | t: count: c.products_count }}</span>{%- endif -%}</span>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            {%- if others > 0 -%}
+              <div class="predictive__group predictive__cols" role="group" aria-label="{{ 'search.other_results' | t }}">
+                <p class="eyebrow predictive__group-title" aria-hidden="true">{{ 'search.other_results' | t }}</p>
+                {%- for a in res.articles -%}
+                  <a class="predictive__item predictive__link" href="{{ a.url }}" id="ps-article-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">
+                    <span class="predictive__dot">{%- render 'icon', icon: 'info', class: 'icon--sm' -%}</span>
+                    <span class="predictive__link-text"><span class="predictive__title">{{ a.title }}</span><span class="predictive__count">{{ 'search.articles' | t }}</span></span>
+                  </a>
+                {%- endfor -%}
+                {%- for p in res.pages -%}
+                  <a class="predictive__item predictive__link" href="{{ p.url }}" id="ps-page-{{ forloop.index }}" role="option" aria-selected="false" tabindex="-1">
+                    <span class="predictive__dot">{%- render 'icon', icon: 'file', class: 'icon--sm' -%}</span>
+                    <span class="predictive__link-text"><span class="predictive__title">{{ p.title }}</span><span class="predictive__count">{{ 'search.page' | t }}</span></span>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
     <div class="predictive__footer">
       <a class="predictive__all" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last" data-predictive-all>
         <span>{{ 'search.view_all_html' | t: terms: terms_esc }}</span>{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
       </a>
+      {%- if pages.contact.url != blank -%}<p class="predictive__help">{{ 'search.help_title' | t }} <a class="link" href="{{ pages.contact.url }}">{{ 'search.help_link' | t }}</a></p>{%- endif -%}
     </div>
   </div>
 {%- endif -%}

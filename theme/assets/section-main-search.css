@@ -1,0 +1,15 @@
+/* Search page (sections/main-search.liquid): head, matching categories, pages row. Filters, bar, grid and pills: section-main-collection.css; parts only some states show have their styles inline */
+.search-head__title{font-size:clamp(28px,1.6vw + 18px,42px);line-height:1.1;overflow-wrap:anywhere}
+.search-head__cats{display:flex;align-items:center;gap:12px;margin-top:14px}
+.search-head__cats-label{flex:none;font-size:14px;font-weight:var(--mc-sb);color:var(--c-kiezel)}
+.search-head__count{font-size:13px;font-weight:var(--font-body-weight);color:var(--c-kiezel)}
+.search-also{display:flex;align-items:flex-start;gap:8px 16px;margin:0 0 18px}
+.search-also__title{flex:none;margin:0;padding-top:16px;color:var(--c-kiezel)}
+.search-also__list{list-style:none;display:flex;flex-wrap:wrap;gap:8px;min-width:0;margin:0;padding:0}
+.search-also__item{display:flex;align-items:center;gap:10px;max-width:360px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--c-wit);border:1px solid var(--c-lijn);color:inherit;text-decoration:none}
+.search-also__item:hover{border-color:var(--c-inkt)}
+.search-also__icon{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--c-media)}
+.search-also__text{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.search-also__type{font-size:12px;color:var(--c-kiezel)}
+.search-also__name{font-size:14.5px;font-weight:var(--mc-sb);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:989px){.search-head .breadcrumbs,.search-head__cats-label,.search-also__title{display:none}.search-head__title{font-size:26px}.search-head__cats{display:block;margin-top:10px}.search-also{display:block}.search-also__list{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:-5px calc(-1 * var(--gutter-mobile));padding:5px var(--gutter-mobile)}.search-also__item{max-width:290px}}

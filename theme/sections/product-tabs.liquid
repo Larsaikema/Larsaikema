@@ -1,12 +1,16 @@
 {%- comment -%}
   Product rows per family behind tabs (feature home.category-product-rows): one heading, a row of tabs (one per collection
-  block) and per tab a grid of product cards plus 'Alle … (n)'. Every panel is rendered server-side, so each tab is a real
-  link target without JS; section-product-tabs.js only switches the panels (WAI-ARIA tabs: arrow keys, Home, End).
-  Blocks whose collection is empty or missing are left out; with a single tab no tab bar is shown.
+  block) and per tab a grid of product cards plus 'Alle … (n)'. Every panel is rendered server-side and visible without
+  JS (html.no-js: no tab bar, the panels stack); section-product-tabs.js switches the panels (WAI-ARIA tabs: arrow keys,
+  Home, End) and wires the card actions (quick add, swatch preview) that facets.js gives collection pages.
+  Blocks whose collection is empty or missing are left out; with a single tab no tab bar is shown. A tab can name its own
+  products (in that order), else the collection's first products are shown.
+  Like the collection grid, a delivery wait most cards of a panel share ('Leverbaar over 2–3 weken') is said once above
+  the cards, with the expected window, and left off those cards; cards that differ keep their own line.
 {%- endcomment -%}
-{{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
 {{ 'section-product-tabs.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'section-product-tabs.js' | asset_url }}" defer></script>
+{%- assign lead_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', '' -%}
 {%- liquid
   assign limit = section.settings.limit
   assign tab_count = 0
@@ -19,7 +23,7 @@
 {%- if tab_count > 0 -%}
 <section class="section product-tabs color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width">
-    <product-tabs class="ptabs">
+    <product-tabs class="ptabs" data-qa-src="{{ 'quick-add.js' | asset_url }}">
     <div class="section-head product-tabs__head">
       <div class="product-tabs__intro">
         {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -46,9 +50,84 @@
         {%- if c == blank or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
         {%- assign shown_panel = shown_panel | plus: 1 -%}
         {%- assign tab_title = block.settings.label | default: c.title -%}
-        <div class="ptabs__panel" id="Panel-{{ section.id }}-{{ block.id }}"{% if tab_count > 1 %} role="tabpanel" aria-labelledby="Tab-{{ section.id }}-{{ block.id }}" tabindex="0"{% endif %}{% if shown_panel > 1 %} hidden{% endif %}>
+        {%- liquid
+          if block.settings.products != blank and block.settings.products.size > 0
+            assign tab_products = block.settings.products
+          else
+            assign tab_products = c.products
+          endif
+          # the delivery wait most cards in this panel share (same rule as the collection grid, main-collection.liquid)
+          assign lead_texts = ''
+          assign lead_transits = ''
+          assign lead_n = 0
+          assign later_n = 0
+          for product in tab_products limit: limit
+            assign lead_n = lead_n | plus: 1
+            capture lead_probe
+              render 'delivery-promise', product: product, style: 'short'
+            endcapture
+            if lead_probe contains 'stock--later'
+              assign later_n = later_n | plus: 1
+              assign lead_txt = lead_probe | strip_html | strip
+              assign lead_lc = lead_txt | downcase | prepend: ' ' | append: ' '
+              unless lead_lc contains ' na '
+                assign lead_tr = lead_probe | split: 'data-transit="' | last | split: '"' | first | strip
+                assign lead_texts = lead_texts | append: lead_txt | append: '§'
+                assign lead_transits = lead_transits | append: lead_tr | append: '§'
+              endunless
+            endif
+          endfor
+          assign lead_list = lead_texts | split: '§'
+          assign lead_tr_list = lead_transits | split: '§'
+          assign lead_text = ''
+          assign lead_best = 1
+          assign lead_uniq = lead_list | uniq
+          for lt in lead_uniq
+            assign lt_n = 0
+            for l in lead_list
+              if l == lt
+                assign lt_n = lt_n | plus: 1
+              endif
+            endfor
+            if lt_n > lead_best
+              assign lead_best = lt_n
+              assign lead_text = lt
+            endif
+          endfor
+          assign lead_twice = lead_best | times: 2
+          if lead_twice <= lead_n
+            assign lead_text = ''
+          endif
+          assign lead_line = lead_text
+          assign lead_tmin = 99
+          assign lead_tmax = 0
+          if lead_text != ''
+            for l in lead_list
+              if l == lead_text
+                assign lead_t = lead_tr_list[forloop.index0] | plus: 0
+                if lead_t < lead_tmin
+                  assign lead_tmin = lead_t
+                endif
+                if lead_t > lead_tmax
+                  assign lead_tmax = lead_t
+                endif
+              endif
+            endfor
+            if lead_best < lead_n
+              assign lead_line = 'collection.lead_default' | t: text: lead_text
+            endif
+          endif
+        -%}
+        {%- comment -%} every wait in the panel is the lead line: one class hides them all; else only the matching ones {%- endcomment -%}
+        <div class="ptabs__panel{% if shown_panel > 1 %} ptabs__panel--rest{% endif %}{% if lead_text != '' and lead_best == later_n %} ptabs__panel--lead{% endif %}" id="Panel-{{ section.id }}-{{ block.id }}"{% if tab_count > 1 %} role="tabpanel" aria-labelledby="Tab-{{ section.id }}-{{ block.id }}"{% endif %}>
+          {%- if lead_text != '' -%}
+            {%- if lead_best < later_n -%}<style>#Panel-{{ section.id }}-{{ block.id }} .card__stock[data-lead="{{ lead_text | handleize }}"]{display:none}</style>{%- endif -%}
+            <p class="ptabs__lead">{%- render 'icon', icon: 'calendar', class: 'icon--xs' -%}<span data-lead-eta data-lead="{{ lead_text | escape }}" data-transit="{{ lead_tmin }}" data-transit-max="{{ lead_tmax }}" data-cutoff="{{ settings.cutoff_time | escape }}" data-days="{{ settings.shipping_days | escape }}" data-delivery-days="{{ settings.delivery_days | escape }}" data-holidays="{{ lead_holidays | escape }}" data-tpl="{{ 'collection.lead_eta_html' | t: from: '__FROM__', to: '__TO__' | escape }}">{{ lead_line }}<span class="ptabs__eta" data-lead-eta-out hidden></span></span>
+              {%- if pages.contact.url != blank -%}<a class="link ptabs__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
+            </p>
+          {%- endif -%}
           <ul class="slider slider--desktop-grid product-row product-row--mobile-grid" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
-            {%- for product in c.products limit: limit -%}
+            {%- for product in tab_products limit: limit -%}
               <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 50vw' -%}</li>
             {%- endfor -%}
           </ul>
@@ -85,6 +164,7 @@
       "settings": [
         { "type": "collection", "id": "collection", "label": "Collectie" },
         { "type": "text", "id": "label", "label": "Naam van het tabblad", "info": "Leeg = de naam van de collectie." },
+        { "type": "product_list", "id": "products", "label": "Eigen keuze producten (optioneel)", "limit": 8, "info": "In deze volgorde. Leeg = de eerste producten van de collectie." },
         { "type": "text", "id": "link_label", "label": "Eigen tekst voor de knop (optioneel)" }
       ]
     }

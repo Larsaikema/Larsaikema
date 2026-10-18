@@ -37,7 +37,7 @@ module Preview
       when 'metafield'
         owner = c['owner'] == 'variant' ? 'v' : 'p'
         { kind: :metafield, owner: owner, ns: c['namespace'], key: c['key'], label: c['label'] || c['key'].to_s.capitalize,
-          param: "filter.#{owner}.m.#{c['namespace']}.#{c['key']}", type: 'list' }
+          param: "filter.#{owner}.m.#{c['namespace']}.#{c['key']}", type: 'list', value_labels: c['value_labels'] || {} }
       end
     end
 
@@ -206,8 +206,17 @@ module Preview
                   else
                     all_vals = @f.base_products.flat_map { |p| @f.product_values(p, @d) }.uniq
                     all_vals = sort_values(all_vals)
-                    all_vals.map { |val| FilterValueDrop.new(rc, self, @f, @d, val, val, @f.count_for(@d, val)) }
+                    all_vals.map { |val| FilterValueDrop.new(rc, self, @f, @d, val, value_label(val), @f.count_for(@d, val)) }
                   end
+    end
+
+    # Search & Discovery labels a boolean metafield value as Yes / No in the storefront language; filters[].value_labels can rename
+    # any value (fixture config), so a shopper never sees 'true' or a raw tag
+    def value_label(val)
+      labels = @d[:value_labels] || {}
+      return labels[val] if labels[val]
+      return (val == 'true' ? 'Ja' : 'Nee') if @d[:kind] == :metafield && %w[true false].include?(val)
+      val
     end
 
     def sort_values(vals)

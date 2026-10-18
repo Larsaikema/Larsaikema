@@ -1,8 +1,9 @@
 {%- comment -%}
   Two (or three) promo panels side by side: pakketten (feature home.bundle-promo) and maatwerk such as the
   overkappingzeil op maat (home.maatwerk-teaser). Each panel is a Linnen beeldvlak, so the render (on Linnen) stands
-  in it without a frame. The price line is the real lowest price of the chosen collection, or the price of the chosen
-  product, incl. and excl. btw (html[data-vat] picks one); nothing is shown when neither is chosen.
+  in it without a frame. The price line is the 'vanaf' of the chosen price product (the cheapest product that is what
+  the panel promises), else the price of the chosen product, else the lowest price in the collection; incl. and excl. btw
+  (html[data-vat] picks one); nothing is shown when none is chosen.
 {%- endcomment -%}
 {{ 'section-promo-tiles.css' | asset_url | stylesheet_tag }}
 {%- assign vat_factor = settings.vat_rate | plus: 100 -%}
@@ -32,7 +33,15 @@
           endif
           assign promo_price = nil
           assign promo_from = false
-          if pr != blank
+          if block.settings.price_product != blank
+            # the 'vanaf' comes from the product that IS what the panel promises (a statafel pakket, not a prikkabelset
+            # that happens to sit in the same collection)
+            assign promo_price = block.settings.price_product.price_min
+            assign promo_from = true
+            if pr != blank and pr.id == block.settings.price_product.id and pr.price_varies == false
+              assign promo_from = false
+            endif
+          elsif pr != blank
             assign promo_price = pr.price
             assign promo_from = pr.price_varies
           elsif c != blank
@@ -115,8 +124,9 @@
         { "type": "text", "id": "eyebrow", "label": "Bovenregel", "default": "Pakketten" },
         { "type": "text", "id": "heading", "label": "Kop", "default": "Alles voor je feest in één pakket" },
         { "type": "textarea", "id": "text", "label": "Tekst" },
-        { "type": "collection", "id": "collection", "label": "Collectie", "info": "Link, beeld en de laagste prijs komen hieruit, tenzij je hieronder een product kiest." },
+        { "type": "collection", "id": "collection", "label": "Collectie", "info": "Link en beeld komen hieruit, tenzij je hieronder een product kiest." },
         { "type": "product", "id": "product", "label": "Of: product", "info": "Link, beeld en prijs van dit product." },
+        { "type": "product", "id": "price_product", "label": "Vanaf-prijs van dit product (optioneel)", "info": "Kies het goedkoopste product dat écht is wat de tegel belooft. Leeg = de prijs van het product hierboven, of de laagste prijs in de collectie (ook van accessoires)." },
         { "type": "text", "id": "unit", "label": "Prijs per (optioneel)", "info": "Bijvoorbeeld 'm²' bij een zeil op maat." },
         { "type": "image_picker", "id": "image", "label": "Eigen beeld (optioneel)" },
         { "type": "url", "id": "link", "label": "Eigen link (optioneel)" },

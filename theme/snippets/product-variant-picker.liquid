@@ -282,9 +282,9 @@
     {%- if option.values.size == 1 and with_siblings == false -%}{%- assign is_single = true -%}{%- assign is_swatch = false -%}{%- assign show_opt_prices = false -%}{%- endif -%}
     <fieldset class="vp__option{% if is_swatch %} vp__option--swatch{% endif %}{% if is_single %} vp__option--single{% endif %}" data-option-index="{{ option_index }}" aria-labelledby="{{ opt_label_id }}">
       <legend class="vp__legend">
-        <span id="{{ opt_label_id }}"><span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ option.selected_value | replace: ' x ', times_nb }}</span></span>
+        {%- assign sel_l = option.selected_value | replace: ' x ', times_nb -%}{%- if sel_l contains 'Ø' -%}{%- assign sel_l = sel_l | replace: 'Ø ', 'Ø' | replace: 'Ø', 'Ø ' | replace: '-', '–' | replace: ' cm', ' cm' -%}{%- endif -%}<span id="{{ opt_label_id }}"><span class="vp__name">{{ option.name }}:</span> <span class="vp__selected" data-selected-value>{{ sel_l }}</span></span>
         {%- if option_index == size_index and guide_page != blank and is_single -%}
-          <a class="vp__guide link" href="{{ guide_page.url }}">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
+          <a class="vp__guide link" href="{{ guide_page.url }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:var(--p6)">{%- render 'icon', icon: 'ruler', class: 'icon--xs' -%}{{ 'product.size_guide' | t }}</a>
         {%- endif -%}
         {%- if is_swatch and is_print != true -%}{%- render 'product-print-alt', product: product, block: block -%}{%- endif -%}
       </legend>
@@ -314,8 +314,10 @@
             </label>
           {%- else -%}
             {%- assign pill_price = opt_price_list[forloop.index0] -%}
+            {%- comment -%} brand 5: 'Ø 80–85 cm' (space after Ø, en dash), as in the hint under the pills; the value stays 'Ø80-85 cm' {%- endcomment -%}
+            {%- assign pill_l = value | replace: ' x ', times_nb -%}{%- if pill_l contains 'Ø' -%}{%- assign pill_l = pill_l | replace: 'Ø ', 'Ø' | replace: 'Ø', 'Ø ' | replace: '-', '–' | replace: ' cm', ' cm' -%}{%- endif -%}
             <label for="{{ input_id }}" class="vp__pill{% unless value.available %} is-unavailable{% endunless %}">
-              {%- if show_opt_prices and pill_price != blank -%}<span class="vp__pill-label">{{ value | replace: ' x ', times_nb }}</span><span class="vp__pill-price">{%- render 'vat-money', cents: pill_price -%}</span>{%- else -%}{{ value | replace: ' x ', times_nb }}{%- endif -%}
+              {%- if show_opt_prices and pill_price != blank -%}<span class="vp__pill-label">{{ pill_l }}</span><span class="vp__pill-price">{%- render 'vat-money', cents: pill_price -%}</span>{%- else -%}{{ pill_l }}{%- endif -%}
               {%- unless value.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless -%}
             </label>
           {%- endif -%}

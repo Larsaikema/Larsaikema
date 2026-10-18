@@ -50,7 +50,7 @@
         "delivery": {
           "type": "delivery",
           "settings": {
-            "backorder_note": "Niet uit voorraad: deze uitvoering bestellen we voor je bij.",
+            "backorder_note": "",
             "show_need_date": true
           }
         },

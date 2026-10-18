@@ -33,7 +33,12 @@
         {%- assign fb = usp_fallback | newline_to_br | split: '<br />' -%}
         {%- for u in fb -%}{%- assign us = u | strip -%}{%- if us != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ us }}</span></li>{%- endif -%}{%- endfor -%}
       {%- endif -%}
-      {%- if product.metafields.custom.garantie != blank -%}<li>{%- render 'icon', icon: 'shield' -%}<span>{{ product.metafields.custom.garantie.value }}</span></li>{%- endif -%}
+      {%- comment -%} a commercial guarantee comes on top of the statutory one (art. 7:6a BW): said so, linked to the garantie page {%- endcomment -%}
+      {%- if product.metafields.custom.garantie != blank -%}
+        {%- assign g_line = 'product.warranty_line' | t: text: product.metafields.custom.garantie.value -%}
+        {%- assign g_head = g_line | split: ':' | first -%}
+        <li>{%- render 'icon', icon: 'shield' -%}<span>{% if pages['garantie'].url != blank and g_head != g_line %}<a class="link" href="{{ pages['garantie'].url }}">{{ g_head }}</a>{{ g_line | remove_first: g_head }}{% else %}{{ g_line }}{% endif %}</span></li>
+      {%- endif -%}
     </ul>
     {%- comment -%}
       Service under the buy area (brand 8.5): the bedenktijd (settings.return_days [claim]; not for print or maatwerk,
@@ -58,10 +63,40 @@
             <ul class="product__pay-list" role="list">{%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'payment-icon' | replace: 'id="pi-', 'id="pdp-pi-' | replace: 'aria-labelledby="pi-', 'aria-labelledby="pdp-pi-' }}</li>{%- endfor -%}</ul>
           </div>
         {%- endif -%}
+        {%- comment -%}
+          A person to ask, next to the button (brand 8.5): phone and WhatsApp from the theme settings when filled in, else
+          the shop e-mail, with the reply time (settings.response_time). Never a number that is not set.
+        {%- endcomment -%}
+        {%- assign pu_phone = settings.phone -%}
+        {%- assign pu_wa = settings.whatsapp | remove: '+' | remove: ' ' -%}
+        {%- assign pu_mail = settings.email | default: shop.email -%}
+        {%- if pu_phone != blank or pu_wa != blank or pu_mail != blank -%}
+          <p class="product__service-line product__ask">
+            {%- if pu_phone != blank or pu_wa != blank -%}{%- render 'icon', icon: 'phone', class: 'icon--sm' -%}{%- else -%}{%- render 'icon', icon: 'mail', class: 'icon--sm' -%}{%- endif -%}
+            <span>{{ 'cart.help_question' | t }}
+              {%- if pu_phone != blank %} <a class="link" href="{% render 'header-contact-href', number: pu_phone, type: 'tel' %}">{{ 'cart.help_call' | t: phone: pu_phone }}</a>{% endif -%}
+              {%- if pu_wa != blank %}{% if pu_phone != blank %} {{ 'cart.help_or' | t }}{% endif %} <a class="link" href="{% render 'header-contact-href', number: pu_wa, type: 'wa' %}" target="_blank" rel="noopener">{{ 'cart.help_app' | t }}<span class="visually-hidden"> ({{ 'general.new_window' | t | downcase }})</span></a>{% endif -%}
+              {%- if pu_phone == blank and pu_wa == blank %} <a class="link" href="mailto:{{ pu_mail }}">{{ 'cart.help_mail' | t: email: pu_mail }}</a>{% endif -%}
+              {%- if settings.response_time != blank %} <span class="product__ask-time">{{ settings.response_time }}</span>{% endif -%}
+            </span>
+          </p>
+        {%- endif -%}
       </div>
     {%- endif -%}
     </div>
-    {%- if past_op != blank -%}
+    {%- comment -%}
+      'Past op': up to four products as small cards with their photo (a statafelrok names the three statafels it fits,
+      which doubles as 'nog geen statafel?'); a part that fits many tents keeps the plain list of links.
+    {%- endcomment -%}
+    {%- if past_op != blank and past_op.size <= 4 -%}
+      <style>.fits{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 0;padding:0;list-style:none;font-size:13.5px;& a{display:flex;align-items:center;gap:8px;min-height:40px;padding:3px 10px 3px 3px;border:1px solid var(--pl);border-radius:var(--pri);background:var(--pw);font-weight:var(--p6);text-decoration:none;&:hover{border-color:var(--pi)}}& img{width:32px;height:32px;border-radius:5px}}</style>
+      <ul class="fits" role="list" aria-label="{{ 'product.compatible' | t }}">
+          <li aria-hidden="true"><strong>{{ 'product.compatible' | t }}:</strong></li>
+          {%- for p in past_op -%}
+            <li><a href="{{ p.url }}">{%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 80 | image_tag: loading: 'lazy', alt: '', widths: '40, 80', sizes: '40px' }}{%- endif -%}<span>{{ p.title | replace: ' x ', ' × ' }}</span></a></li>
+          {%- endfor -%}
+      </ul>
+    {%- elsif past_op != blank -%}
       <p class="product__fits text-sm"><strong>{{ 'product.compatible' | t }}:</strong>{% for p in past_op %} <a class="link" href="{{ p.url }}">{{ p.title }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}</p>
     {%- endif -%}
   </div>

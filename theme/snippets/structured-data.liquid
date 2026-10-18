@@ -8,13 +8,23 @@
   assign org_name = settings.company_name | default: shop.name
 -%}
 {%- if request.page_type == 'index' -%}
+{%- liquid
+  # asset_url is protocol-relative on Shopify ('//cdn…'); a root-relative one (local preview) gets the origin
+  assign org_logo = 'mark-512.png' | asset_url
+  assign org_logo_lead = org_logo | slice: 0, 2
+  if org_logo_lead == '//'
+    assign org_logo = org_logo | prepend: 'https:'
+  elsif org_logo_lead != 'ht'
+    assign org_logo = org_logo | prepend: request.origin
+  endif
+-%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": {{ org_name | json }},
   "url": {{ request.origin | append: routes.root_url | json }},
-  "logo": {{ 'mark-512.png' | asset_url | prepend: 'https:' | json }}
+  "logo": {{ org_logo | json }}
   {%- if org_email != blank or org_phone != blank -%},
   "contactPoint": [{ "@type": "ContactPoint", "contactType": "customer service", "availableLanguage": ["nl"]{% if org_phone != blank %}, "telephone": {{ org_phone | json }}{% endif %}{% if org_email != blank %}, "email": {{ org_email | json }}{% endif %} }]
   {%- endif -%}

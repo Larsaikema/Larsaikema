@@ -19,7 +19,7 @@
         {%- if rl == wl and row.waarde != blank -%}
           {%- assign kf_count = kf_count | plus: 1 -%}
           {%- if rl == 'personen' -%}
-            <li class="keyfacts__item"><span class="keyfacts__label">{{ row.groep | default: row.label }}</span><span class="keyfacts__value">{{ 'product.keyfact_people' | t: n: row.waarde }}</span></li>
+            <li class="keyfacts__item"><span class="keyfacts__label">{{ row.groep | default: row.label }}</span>{%- assign kf_n = row.waarde | replace: ' x ', ' × ' -%}<span class="keyfacts__value">{{ 'product.keyfact_people' | t: n: kf_n }}</span></li>
           {%- else -%}
             <li class="keyfacts__item"><span class="keyfacts__label">{{ row.label }}</span><span class="keyfacts__value">{{ row.waarde | replace: ' x ', ' × ' }}</span></li>
           {%- endif -%}

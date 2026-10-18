@@ -9,8 +9,9 @@
   - a filter that cannot narrow the list is left out: the switch when every product already matches ('Op voorraad 14'
     of 14) or none does ('Op voorraad 0' after Maat and Kleur), a group with at most one value and nothing narrower ('Soort: Easy-up partytent 14'), a product-level group
     whose values all match every product. Option groups with several values stay (a colour also picks the card image).
-  - a list group where most values hold a single product (part names in 'Uitvoering' on 'Alle producten') is left out:
-    it reads as a product list, not as a choice
+  - a list group where most values hold a single product (part names in 'Uitvoering' on 'Alle producten', the 8 one-product
+    values of 'Uitvoering' on Statafels) is left out: it reads as a product list, not as a choice; on a collection of 5
+    products or fewer, so is a size or list group whose values each hold one product
   - scope (optional, section setting): lines 'Filter name: handle, handle' show that filter only on those collections
     ('Past op' belongs on the onderdelen collections, catalog/CONTRACT.md)
   - counts read as '(16 producten)' for screen readers
@@ -134,6 +135,7 @@
       assign shown_count = 0
       assign live_count = 0
       assign narrow_count = 0
+      assign one_n = 0
       for value in fvals
         assign vkey = value.value | append: '' | downcase | strip | prepend: '|' | append: '|'
         if p_level and value.count >= total and f_kind == 'list'
@@ -141,6 +143,9 @@
         endif
         unless filter.param_name == 'filter.p.tag' and hidden_list contains vkey
           assign shown_count = shown_count | plus: 1
+          if value.count <= 1
+            assign one_n = one_n | plus: 1
+          endif
           if value.count > 0
             assign live_count = live_count | plus: 1
             if total != blank and value.count < total
@@ -167,29 +172,33 @@
       if f_kind == 'switch' and switch_value.count == 0 and switch_value.active != true
         assign f_useless = true
       endif
-      # a list of mostly one-product values (more than 10 values, at least two thirds hold one product) is a product list;
-      # an option list on a parent collection that mixes lines (more than 8 values, half of them on one product: 'Polyester',
-      # 'Houten palen', 'Dak in framekleur' on Partytenten) is too: its sub-collections filter on it
-      assign single_min = 10
-      if filter.param_name contains 'filter.v.option'
-        assign single_min = 8
-      endif
-      if f_useless == false and f_kind == 'list' and active_count == 0 and shown_count > single_min
-        assign single_count = 0
-        for value in fvals
-          if value.count <= 1
-            assign single_count = single_count | plus: 1
+      # mostly one-product values make a group a product list, not a choice (one_need: the share of one-product values, in
+      # twelfths, that hides it): a list of more than 10 values, two thirds (part names in 'Uitvoering' on 'Alle producten');
+      # an option list of more than 8 values, half ('Polyester', 'Houten palen', 'Dak in framekleur' on Partytenten: its
+      # sub-collections filter on it), or of 5 or more, three quarters ('Uitvoering' on Statafels: Binnen 1, 110 cm hoog 1,
+      # Zwart onderstel 1 …); on a collection of 5 products or fewer (unfiltered), a size or list group whose values all hold
+      # one product ('Maat' on Bedrukte statafelhoezen: 7 sizes for 3 products). Colours stay (they pick the card image).
+      assign one_need = 13
+      if f_kind == 'list'
+        if filter.param_name contains 'filter.v.option'
+          if shown_count > 8
+            assign one_need = 6
+          elsif shown_count >= 5
+            assign one_need = 9
           endif
-        endfor
-        assign single_x3 = single_count | times: 3
-        assign shown_x2 = shown_count | times: 2
-        if single_min == 8
-          assign single_x3 = single_count | times: 2
-          assign shown_x2 = shown_count
+        elsif shown_count > 10
+          assign one_need = 8
         endif
-        if single_x3 >= shown_x2
-          assign f_useless = true
+      endif
+      if one_need == 13 and results.all_products_count <= 5 and total == results.all_products_count
+        if f_kind == 'list' or f_kind == 'pills'
+          assign one_need = 12
         endif
+      endif
+      assign one_x12 = one_n | times: 12
+      assign need_x = shown_count | times: one_need
+      if f_useless == false and active_count == 0 and total != blank and shown_count > 1 and one_x12 >= need_x
+        assign f_useless = true
       endif
       # scoped filters: only on the collections the setting names for them (an active one always stays, so it can be undone)
       if f_useless == false and active_count == 0 and handle != blank
@@ -226,54 +235,13 @@
         </summary>
         <div class="facet__body">
           {%- if f_kind == 'price' -%}
-            {%- liquid
-              assign max_price_fmt = filter.range_max | money_without_currency | split: ',' | first | strip
-              assign min_val = filter.min_value.value
-              assign max_val = filter.max_value.value
-              if min_val != nil and max_val != nil and min_val > max_val
-                assign min_val = filter.max_value.value
-                assign max_val = filter.min_value.value
-              endif
-              # the active bound as typed in Dutch: whole euros '280', with cents '279,50' (never rounded: the results use 279,50)
-              assign min_txt = ''
-              assign max_txt = ''
-              if min_val != nil
-                assign pv_cents = min_val | plus: 0
-                assign pv_rest = pv_cents | modulo: 100
-                assign min_txt = pv_cents | divided_by: 100 | append: ''
-                if pv_rest > 0
-                  assign min_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: min_txt
-                endif
-              endif
-              if max_val != nil
-                assign pv_cents = max_val | plus: 0
-                assign pv_rest = pv_cents | modulo: 100
-                assign max_txt = pv_cents | divided_by: 100 | append: ''
-                if pv_rest > 0
-                  assign max_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: max_txt
-                endif
-              endif
-            -%}
-            <fieldset class="facet__price" aria-describedby="PriceNote-{{ section_id }}">
-              <legend class="visually-hidden">{{ filter.label }}</legend>
-              <div class="facet__price-field">
-                <label class="facet__price-label" for="PriceMin-{{ section_id }}">{{ 'collection.price_from' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" placeholder="0"{% if min_txt != '' %} value="{{ min_txt }}"{% endif %} data-price-min></div>
-              </div>
-              <span class="facet__price-sep" aria-hidden="true">–</span>
-              <div class="facet__price-field">
-                <label class="facet__price-label" for="PriceMax-{{ section_id }}">{{ 'collection.price_to' | t }}</label>
-                <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" placeholder="{{ max_price_fmt }}"{% if max_txt != '' %} value="{{ max_txt }}"{% endif %} data-price-max></div>
-              </div>
-            </fieldset>
-            {%- comment -%} storefront price filters work on the stored prices, incl. btw (also with 'Prijzen voor: Zakelijk') {%- endcomment -%}
-            <p class="facet__price-note" id="PriceNote-{{ section_id }}">{{ 'collection.price_note' | t }}</p>
-            <p class="facet__price-hint" role="status" data-price-hint data-swap="{{ 'collection.price_swap' | t | escape }}" data-format="{{ 'collection.price_format' | t | escape }}" hidden>{{ 'collection.price_swap' | t }}</p>
+            {%- render 'facet-price', filter: filter, section_id: section_id -%}
           {%- else -%}
             {%- assign limit_n = 8 -%}
             {%- if f_kind == 'pills' or f_kind == 'image' -%}{%- assign limit_n = 12 -%}{%- elsif f_kind == 'swatch' -%}{%- assign limit_n = 10 -%}{%- endif -%}
             <fieldset class="facet__fieldset">
               <legend class="visually-hidden">{{ filter.label }}</legend>
+              {%- if f_kind == 'image' -%}<style>.facet__img{flex:none;width:32px;height:32px;border-radius:6px;overflow:hidden;background:var(--c-media)}.facet__img img{width:100%;height:100%;object-fit:contain}</style>{%- endif -%}
               <ul class="facet__list facet__list--{{ f_kind }}" role="list">
                 {%- assign vi = 0 -%}
                 {%- for vo in value_order -%}
@@ -300,7 +268,7 @@
                           {%- comment -%} Search & Discovery 'image' presentation: the value's own image {%- endcomment -%}
                           <span class="facet__img">{%- if value.image -%}{{ value.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}{%- endif -%}</span>
                         {%- endif -%}
-                        <span class="facet__label">{{ v_label }}</span>
+                        <span class="facet__label"{% if f_kind == 'swatch' %} title="{{ v_label | strip_html | strip | escape }}"{% endif %}>{{ v_label }}</span>
                         <span class="facet__count" aria-hidden="true">{{ value.count }}</span><span class="visually-hidden">({{ 'collection.products_count' | t: count: value.count }})</span>
                       </label>
                     {%- endif -%}
@@ -319,3 +287,5 @@
   {%- endfor -%}
   <noscript><button type="submit" class="btn btn--sm">{{ 'collection.apply' | t }}</button></noscript>
 </form>
+{%- comment -%} rules only a page without JavaScript needs (all values shown, the phone drawer via :target) {%- endcomment -%}
+<noscript>{{ 'section-main-collection-nojs.css' | asset_url | stylesheet_tag }}</noscript>

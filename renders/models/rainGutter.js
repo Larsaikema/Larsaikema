@@ -15,6 +15,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -25,11 +26,11 @@ export function rainGutter(p = {}) {
   const color = p.color || 'wit';
   const hex = M.resolveColor(color, '#F3F3F0');
   const light = new THREE.Color(hex).getHSL({}).l > 0.5;
-  const cloth = SG.pvcTarp(hex, { gloss: light ? 0.36 : 0.3, weave: 0.4 });
+  const cloth = light ? L3.pvcSatin(hex, { rough: 0.4, coat: 0.25, weave: 0.3 }) : L3.pvcSatin(hex === '#1A1A1A' || color === 'zwart' ? '#1E1F21' : hex, { rough: 0.4, coat: 0.25, weave: 0.3 });
   const hook = SG.hookTape(light ? '#CBCCC8' : '#1B1C1D');
   const thr = SG.thread(light ? '#E9E8E3' : '#34353A', { sheen: light ? 0.3 : 0.8 });
   if (p.mounted) return mountedGutter({ L, width: Math.min(width, 0.36), cloth, velcroMat: hook, eave: Number(p.eave ?? 2.14), gap: Number(p.gap ?? 0.1) });
-  const { object } = SG.stripPackshot({ kind: 'gutter', L, W: width, cloth, hook, thr, T: Math.min(0.82, L * 0.3), tapeW: 0.03, seed: 9, rot: 50 });
+  const { object } = L3.gutterPackshot({ L, W: width, cloth, hook, thr, T: Math.min(width > 0.5 ? 1.0 : 0.82, L * 0.3), tapeW: 0.03, seed: 9, rot: 50, flange: width > 0.5 ? 0.06 : 0.05 });
   return {
     object,
     detail: { target: [0.3, 0.05, 0.6], size: 0.4, azimuth: 40, elevation: 32 },

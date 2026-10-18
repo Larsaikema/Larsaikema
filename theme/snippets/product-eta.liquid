@@ -1,0 +1,41 @@
+{%- comment -%}
+  Stock + expected delivery in one line under the price (feature global.dispatch-line), so the shopper sees whether the
+  chosen variant ships from stock and when it arrives before choosing and before the buy button, also on a laptop or phone
+  screen: 'Op voorraad · di 20 okt in huis', 'Nog 2 op voorraad · …', 'Leverbaar over 2–3 weken · 3–10 nov in huis'
+  (variant-picker.js later() adds the window from the delivery card's lead time) with 'Eerder nodig?' and the variants that
+  do ship from stock ('Wel uit voorraad: Wit'). The delivery card under the button then keeps the details (cut-off,
+  shipping cost, 'Nodig op een vaste datum?', parcel) and leaves out its own status and date rows (product__delivery--split).
+  Swapped on variant change (data-dynamic="eta"). Params: product, variant, block (the 'delivery' block), print_active,
+  sooner_url ('#ProductQuote' or blank).
+{%- endcomment -%}
+{%- liquid
+  capture pe
+    render 'delivery-promise', product: product, variant: variant, style: 'short', print_active: print_active
+  endcapture
+  assign pe = pe | strip
+  assign pe_low = settings.low_stock_threshold | default: 5
+  if variant.available and variant.inventory_management != blank and variant.inventory_quantity > 0 and variant.inventory_quantity <= pe_low and pe contains 'data-state="stock"'
+    assign pe_in = 'product.stock_in' | t
+    assign pe_lowtxt = 'product.stock_low' | t: count: variant.inventory_quantity
+    assign pe = pe | replace_first: pe_in, pe_lowtxt
+  endif
+  assign pe_later = false
+  if pe contains 'data-state="backorder"' or pe contains 'data-state="leadtime"'
+    assign pe_later = true
+  endif
+  assign pe_ask = sooner_url | default: pages['contact'].url
+-%}
+<div class="pdp-eta" data-dynamic="eta">
+  {{- pe -}}
+  {%- if pe_later -%}
+    {%- capture pe_why -%}{%- render 'product-delivery-need', product: product, variant: variant, block: block, print_active: print_active, part: 'why' -%}{%- endcapture -%}
+    {%- assign pe_why = pe_why | strip -%}
+    {%- if pe_why != blank or pe_ask != blank -%}
+      <p class="pdp-eta__more">
+        {{- pe_why -}}
+        {%- if pe_why != blank and pe_ask != blank %} · {% endif -%}
+        {%- if pe_ask != blank %}<a class="link" href="{{ pe_ask }}"{% if pe_ask == '#ProductQuote' %} data-open-details data-quote-link="1"{% endif %}>{{ 'delivery.sooner' | t }}</a>{% endif -%}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+</div>

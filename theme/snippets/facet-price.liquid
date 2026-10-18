@@ -1,0 +1,48 @@
+{%- comment -%}
+  Price filter of snippets/facets.liquid: two amount fields that take Dutch notation ('1.000', '279,50'; facets.js sends
+  1000 / 279.5), with the active bounds shown as typed. Params: filter (the price_range filter), section_id.
+{%- endcomment -%}
+{%- liquid
+  assign max_price_fmt = filter.range_max | money_without_currency | split: ',' | first | strip
+  assign min_val = filter.min_value.value
+  assign max_val = filter.max_value.value
+  if min_val != nil and max_val != nil and min_val > max_val
+    assign min_val = filter.max_value.value
+    assign max_val = filter.min_value.value
+  endif
+  # the active bound as typed in Dutch: whole euros '280', with cents '279,50' (never rounded: the results use 279,50)
+  assign min_txt = ''
+  assign max_txt = ''
+  if min_val != nil
+    assign pv_cents = min_val | plus: 0
+    assign pv_rest = pv_cents | modulo: 100
+    assign min_txt = pv_cents | divided_by: 100 | append: ''
+    if pv_rest > 0
+      assign min_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: min_txt
+    endif
+  endif
+  if max_val != nil
+    assign pv_cents = max_val | plus: 0
+    assign pv_rest = pv_cents | modulo: 100
+    assign max_txt = pv_cents | divided_by: 100 | append: ''
+    if pv_rest > 0
+      assign max_txt = pv_rest | plus: 100 | append: '' | slice: 1, 2 | prepend: ',' | prepend: max_txt
+    endif
+  endif
+-%}
+<fieldset class="facet__price" aria-describedby="PriceNote-{{ section_id }}">
+  <legend class="visually-hidden">{{ filter.label }}</legend>
+  <div class="facet__price-field">
+    <label class="facet__price-label" for="PriceMin-{{ section_id }}">{{ 'collection.price_from' | t }}</label>
+    <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMin-{{ section_id }}" name="{{ filter.min_value.param_name }}" placeholder="0"{% if min_txt != '' %} value="{{ min_txt }}"{% endif %} data-price-min></div>
+  </div>
+  <span class="facet__price-sep" aria-hidden="true">–</span>
+  <div class="facet__price-field">
+    <label class="facet__price-label" for="PriceMax-{{ section_id }}">{{ 'collection.price_to' | t }}</label>
+    <div class="facet__price-input"><span aria-hidden="true">{{ cart.currency.symbol }}</span><input class="input" type="text" inputmode="decimal" autocomplete="off" pattern="[0-9]*([,.][0-9]{1,2})?" title="{{ 'collection.price_format' | t | escape }}" id="PriceMax-{{ section_id }}" name="{{ filter.max_value.param_name }}" placeholder="{{ max_price_fmt }}"{% if max_txt != '' %} value="{{ max_txt }}"{% endif %} data-max="{{ filter.range_max }}" data-price-max></div>
+  </div>
+</fieldset>
+{%- comment -%} storefront price filters work on the stored prices (incl. btw); in the excl. mode ('Zakelijk') facets.js shows
+  and takes the amounts excl. btw and converts them, so the note follows the mode {%- endcomment -%}
+<p class="facet__price-note" id="PriceNote-{{ section_id }}"><span data-vat-show="incl">{{ 'collection.price_note' | t }}</span><span data-vat-show="excl">{{ 'collection.price_note_excl' | t }}</span></p>
+<p class="facet__price-hint" role="status" data-price-hint data-swap="{{ 'collection.price_swap' | t | escape }}" data-format="{{ 'collection.price_format' | t | escape }}" hidden>{{ 'collection.price_swap' | t }}</p>
