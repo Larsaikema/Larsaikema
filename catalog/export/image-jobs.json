@@ -9,10 +9,9 @@
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 323,
-   "needs-model": 155,
-   "needs-param": 44,
-   "needs-patch": 6
+   "existing": 330,
+   "needs-model": 154,
+   "needs-param": 44
   },
   "by_kind": {
    "article-banner": 7,
@@ -20,7 +19,7 @@
    "collection": 2,
    "product": 519
   },
-  "already_present": 130
+  "already_present": 134
  },
  "jobs": [
   {
@@ -3546,7 +3545,7 @@
    "role": "hero",
    "kleur": "Zwart",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -3895,7 +3894,7 @@
    "role": "hero",
    "kleur": null,
    "model": "buffetCover",
-   "model_status": "needs-model",
+   "model_status": "existing",
    "spec": {
     "model": "buffetCover",
     "params": {
@@ -4720,8 +4719,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-opblaasbare-promotietent-hero.webp",
@@ -9483,8 +9482,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchtent-compleet-wit-hero.webp",
@@ -9516,8 +9515,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "stretchtent-compleet-zwart-hero.webp",
@@ -9549,8 +9548,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "transportkar-statafels-gevuld.webp",
@@ -15651,7 +15650,7 @@
    "role": "variant",
    "kleur": "Antraciet",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -15690,7 +15689,7 @@
    "role": "variant",
    "kleur": "Blauw",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -15729,7 +15728,7 @@
    "role": "variant",
    "kleur": "Marineblauw",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -15768,7 +15767,7 @@
    "role": "variant",
    "kleur": "Rood",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
@@ -15807,7 +15806,7 @@
    "role": "variant",
    "kleur": "Wit",
    "model": "statafelCover",
-   "model_status": "needs-patch",
+   "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {

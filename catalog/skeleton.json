@@ -26,10 +26,9 @@
     "3": 228
    },
    "renders_by_model_status": {
-    "existing": 314,
+    "existing": 321,
     "needs-param": 44,
-    "needs-model": 155,
-    "needs-patch": 6
+    "needs-model": 154
    }
   }
  },
@@ -53617,7 +53616,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch",
+     "model_status": "existing",
      "alt_hint": "met voorbeeldopdruk Klapklaar op het vlakke deel van de rok"
     },
     {
@@ -53642,7 +53641,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch"
+     "model_status": "existing"
     },
     {
      "file": "statafelhoes-stretch-met-logo-antraciet-hero.webp",
@@ -53666,7 +53665,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch"
+     "model_status": "existing"
     },
     {
      "file": "statafelhoes-stretch-met-logo-marineblauw-hero.webp",
@@ -53690,7 +53689,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch"
+     "model_status": "existing"
     },
     {
      "file": "statafelhoes-stretch-met-logo-rood-hero.webp",
@@ -53714,7 +53713,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch"
+     "model_status": "existing"
     },
     {
      "file": "statafelhoes-stretch-met-logo-blauw-hero.webp",
@@ -53738,7 +53737,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-patch"
+     "model_status": "existing"
     }
    ],
    "variant_image_by": "Kleur",
@@ -54123,7 +54122,7 @@
       },
       "angle": "hero"
      },
-     "model_status": "needs-model",
+     "model_status": "existing",
      "alt_hint": "met voorbeeldopdruk op de voorkant"
     }
    ],
