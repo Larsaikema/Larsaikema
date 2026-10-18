@@ -47,6 +47,7 @@
    "thinnest_stroke_units": 68.6,
    "smallest_opening_units": 52.0,
    "a_counter_width_units": 99.9,
+   "tent": "slank",
    "tent_pole_units": 70,
    "scallops": 3,
    "min_width_mm": {
@@ -61,15 +62,75 @@
     "Scherm (px)": 118
    }
   },
+  "primary_een_kleur": {
+   "viewBox": [
+    501.87,
+    71.43
+   ],
+   "width_units": 5018.7,
+   "files": [
+    "svg/logo-mono.svg",
+    "svg/logo-on-lampion.svg",
+    "svg/print-wordmark.svg"
+   ],
+   "tent": "zwaar",
+   "letter_gaps": [
+    {
+     "pair": "K|LA",
+     "units": 64.0,
+     "white_units": 178.6
+    },
+    {
+     "pair": "LA|P",
+     "units": 60.0,
+     "white_units": 174.5
+    },
+    {
+     "pair": "P|K",
+     "units": 66.0,
+     "white_units": 165.1
+    },
+    {
+     "pair": "K|LA",
+     "units": 64.0,
+     "white_units": 178.6
+    },
+    {
+     "pair": "LA|tent",
+     "units": 58.0,
+     "white_units": 247.7
+    },
+    {
+     "pair": "tent|R",
+     "units": 52.0,
+     "white_units": 145.5
+    }
+   ],
+   "thinnest_stroke_units": 82.0,
+   "smallest_opening_units": 52.0,
+   "tent_pole_units": 108,
+   "scallops": 2,
+   "min_width_mm": {
+    "Borduren (satijnsteek)": 97,
+    "Flock-transfer (geplot)": 145,
+    "Flex-/snijfolie (textiel)": 97,
+    "Snijfolie bus/bord": 145,
+    "Zeefdruk textiel": 58,
+    "DTF-transfer": 49,
+    "Sublimatie (luifel, rok)": 29,
+    "Offset/digitaal papier": 15,
+    "Scherm (px)": 98
+   }
+  },
   "klein": {
    "viewBox": [
     522.27,
-    71.43
+    70.78
    ],
    "width_units": 5222.7,
-   "height_units": 714.3,
+   "height_units": 707.8,
    "aspect": 7.461,
-   "peak_above_cap_units": 14.3,
+   "peak_above_cap_units": 7.8,
    "extra_space_units": 34,
    "letter_gaps": [
     {
@@ -95,29 +156,30 @@
     {
      "pair": "LA|tent",
      "units": 92.0,
-     "white_units": 281.5
+     "white_units": 281.7
     },
     {
      "pair": "tent|R",
      "units": 86.0,
-     "white_units": 179.3
+     "white_units": 179.5
     }
    ],
-   "thinnest_stroke_units": 68.6,
-   "smallest_opening_units": 86.0,
+   "thinnest_stroke_units": 82.0,
+   "smallest_opening_units": 72,
    "a_counter_width_units": 99.9,
-   "tent_pole_units": 86,
+   "tent": "zwaar",
+   "tent_pole_units": 108,
    "scallops": 2,
    "min_width_mm": {
-    "Borduren (satijnsteek)": 92,
-    "Flock-transfer (geplot)": 115,
-    "Flex-/snijfolie (textiel)": 77,
-    "Snijfolie bus/bord": 115,
-    "Zeefdruk textiel": 39,
-    "DTF-transfer": 39,
-    "Sublimatie (luifel, rok)": 23,
-    "Offset/digitaal papier": 12,
-    "Scherm (px)": 122
+    "Borduren (satijnsteek)": 77,
+    "Flock-transfer (geplot)": 109,
+    "Flex-/snijfolie (textiel)": 73,
+    "Snijfolie bus/bord": 109,
+    "Zeefdruk textiel": 44,
+    "DTF-transfer": 37,
+    "Sublimatie (luifel, rok)": 22,
+    "Offset/digitaal papier": 11,
+    "Scherm (px)": 102
    }
   }
  },
@@ -127,6 +189,7 @@
   "R been (vanaf horizontaal)": 55.8,
   "A benen (vanaf horizontaal)": 70.6,
   "tentdak, koorde top-hoek (vanaf horizontaal)": 56.4,
+  "dak zware tent-A (vanaf horizontaal)": 50,
   "tentpalen": 0.0
  },
  "strokes_units": {
@@ -137,12 +200,15 @@
   "K been (loodrecht)": 136,
   "diagonaal N, Z, Y (loodrecht)": 146,
   "tentpaal": 70,
-  "tentpaal in logo-klein": 86,
   "luifelband (tussen de palen)": 68.6,
   "schulpdiepte": 40,
   "paal ingesprongen vanaf de luifelhoek": 18,
   "hoekradius": 18,
-  "naar binnen gebogen dakrand (midden)": 11
+  "naar binnen gebogen dakrand (midden)": 11,
+  "zware tent-A: paal": 108,
+  "zware tent-A: luifelband": 82,
+  "zware tent-A: schulpdiepte": 50,
+  "zware tent-A: open naad tussen dak en luifel": 72
  },
  "tent": {
   "valance_top": 250,
@@ -158,6 +224,27 @@
   "pole_to_stem": 0.49,
   "pole_to_stem_v6": 0.86,
   "pitch_v6": 35.0
+ },
+ "tent_zwaar": {
+  "what": "zware tent-A (v7.1): onder 160 px, alle één-kleurbestanden, borduur/flock/folie/stempel, beeldmerk en vierkant icoon",
+  "width": 604,
+  "peak_y": 716,
+  "peak_after_rounding": 707.8,
+  "roof_corners": 356.1,
+  "seam": 72,
+  "valance_top": 284.1,
+  "cusps": 202.1,
+  "scallop_tips": 152.1,
+  "pitch_deg": 50,
+  "pitch_slank_deg": 56.4,
+  "pole": 108,
+  "pole_to_stem": 0.76,
+  "band": 82,
+  "scallops": 2,
+  "scallop_depth": 50,
+  "pole_inset": 18,
+  "leg_opening_height": 152.1,
+  "leg_opening_height_slank": 141.4
  },
  "luifel": {
   "bar_height_units": 280.0,
@@ -179,31 +266,21 @@
   ]
  },
  "mark": {
-  "what": "de tent-A van het woordmerk, los; mark-klein: palen 96, twee schulpen",
-  "pole_units": 70,
-  "pole_units_klein": 96,
-  "band_units": 68.6,
+  "what": "beeldmerk = de zware tent-A los (v7.1); vierkant icoon: mark.svg (vanaf 48 px), favicon.svg (32-raster, 24-47 px), svg/favicon-16.svg (tot 23 px)",
+  "pole_units": 108,
+  "band_units": 82,
+  "seam_units": 72,
+  "icon_tent_height_share": 0.72,
   "min_width_mm": {
-   "Borduren (satijnsteek)": 11,
-   "Flock-transfer (geplot)": 16,
-   "Flex-/snijfolie (textiel)": 11,
-   "Snijfolie bus/bord": 16,
-   "Zeefdruk textiel": 7,
-   "DTF-transfer": 6,
-   "Sublimatie (luifel, rok)": 4,
-   "Offset/digitaal papier": 2,
-   "Scherm (px)": 15
-  },
-  "min_width_mm_klein": {
-   "Borduren (satijnsteek)": 11,
-   "Flock-transfer (geplot)": 14,
+   "Borduren (satijnsteek)": 9,
+   "Flock-transfer (geplot)": 13,
    "Flex-/snijfolie (textiel)": 9,
-   "Snijfolie bus/bord": 14,
-   "Zeefdruk textiel": 5,
+   "Snijfolie bus/bord": 13,
+   "Zeefdruk textiel": 6,
    "DTF-transfer": 5,
    "Sublimatie (luifel, rok)": 3,
    "Offset/digitaal papier": 2,
-   "Scherm (px)": 15
+   "Scherm (px)": 12
   }
  },
  "params": {
@@ -232,6 +309,14 @@
   "T_SCAL_D": 40,
   "T_LEG": 70,
   "T_INSET": 18,
+  "TZ_PITCH": 50,
+  "TZ_OVER": 16,
+  "TZ_TIP": 16,
+  "TZ_SEAM": 72,
+  "TZ_BAND": 82,
+  "TZ_SCAL": 2,
+  "TZ_SCAL_D": 50,
+  "TZ_LEG": 108,
   "TRACK": 0,
   "W_E": 468,
   "W_F": 452,
@@ -250,12 +335,14 @@
   "TENT|R": 52
  },
  "switch": {
-  "logo.svg": "vanaf 160 px breed",
+  "logo.svg": "vanaf 160 px breed (twee kleuren)",
   "logo-klein": "96–159 px",
   "mark": "onder 96 px, of als het woordmerk niet past",
+  "icoon": "mark.svg vanaf 48 px; favicon.svg (32-raster) 24–47 px; svg/favicon-16.svg tot 23 px",
+  "een_kleur": "altijd de zware tent-A: svg/logo-mono.svg, svg/logo-on-lampion.svg, svg/print-*.svg, logo-zakelijk",
   "technisch_minimum_px": {
    "primary": 118,
-   "klein": 122
+   "klein": 102
   }
  }
 }

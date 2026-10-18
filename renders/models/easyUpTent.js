@@ -325,7 +325,7 @@ export function easyUpTent(p = {}) {
     const kv = 0.11 * sstep(0.0, 0.45, e);
     let h = null;
     for (const b of bays) { const hb = bayHeight(b, x, z); h = h === null ? hb : smax(h, hb, kv); }
-    h += tensionRidges(x, z) * sstep(0.015, 0.09, e);
+    h += tensionRidges(x, z) * sstep(0.03, 0.13, e);
     if (e < foldR) { const k = foldR - Math.max(0, e); h -= foldR - Math.sqrt(Math.max(0, foldR * foldR - k * k)); }
     return h;
   }
@@ -455,8 +455,10 @@ export function easyUpTent(p = {}) {
     const ptAt = (phi, rr, off) => roofPt(cx0 + sx * Math.cos(phi) * rr, cz0 + sz * Math.sin(phi) * rr, off);
     const geo = G.surface((u, v, o) => {
       const phi = u * Math.PI / 2; const rr = v * R(phi);
-      const edge = sstep(R(phi) - 0.0035, R(phi), rr);
-      o.copy(ptAt(phi, rr, 0.0014 * (1 - edge) + 0.0002));
+      // the double layer feathers out on all three sides (no open step to catch a dark line)
+      const edge = sstep(R(phi) - 0.006, R(phi), rr);
+      const side = sstep(0, 0.012, Math.min(rr * Math.sin(phi), rr * Math.cos(phi)));
+      o.copy(ptAt(phi, rr, 0.0012 * (1 - edge) * side + 0.0002));
     }, 24, 14);
     roofUV(geo);
     geo.computeVertexNormals(); const n0 = V3().fromBufferAttribute(geo.attributes.normal, 40); if (n0.y < 0) flipGeo(geo);
@@ -465,7 +467,7 @@ export function easyUpTent(p = {}) {
     for (let i = 0; i <= 60; i++) {
       const phi = 0.06 + (i / 60) * (Math.PI / 2 - 0.12); const rr = R(phi) - 0.011;
       const x = cx0 + sx * Math.cos(phi) * rr, z = cz0 + sz * Math.sin(phi) * rr;
-      smp.push({ p: roofPt(x, z, 0.0014), n: roofNormal(x, z) });
+      smp.push({ p: roofPt(x, z, 0.0012), n: roofNormal(x, z) });
     }
     stitches.push(stitchGeo(smp));
   }
@@ -945,8 +947,9 @@ export function easyUpTent(p = {}) {
       // close-up: the floor is in the canopy shadow everywhere, so no edge fade
       detail: tentDetailRig(colorHex, doors.length > 0),
       // straight-on view: a raking key from the left splits the face at the rafter (left half
-      // light, right half shaded) so both dished half-panels and both hips read
-      front: { key: { azimuth: -50, elevation: 30, distanceRel: 2.0, aimRel: [-0.1, 0.35, 0.6], angle: 40, penumbra: 0.8 }, fill: { intensity: 2.0 }, ...(lumOf(colorHex) > 0.7 ? { exposure: 0.66 } : {}) },
+      // light, right half shaded) so both dished half-panels and both hips read; no fill and
+      // the sky tipped to the left keep the shaded right hip clear of the backdrop
+      front: { key: { azimuth: -50, elevation: 30, distanceRel: 2.0, aimRel: [-0.1, 0.35, 0.6], angle: 40, penumbra: 0.8 }, fill: { intensity: 0 }, dome: { intensity: 1.0, tilt: 45, tiltAzimuth: -90 }, ...(lumOf(colorHex) > 0.7 ? { exposure: 0.82 } : {}) },
     },
     meta: { w, d, kind, legs: legPts.length, eave: He, peak, valance: drop, trussDrop: S.trussDrop },
   };
@@ -978,7 +981,7 @@ function tentRig(colorHex, walled = false) {
     bounce: { intensity: 0.5 },
     // soft overhead dome, tipped towards the key so it models with it
     dome: { count: 2, intensity: 2.4, maxZenith: 62, tilt: 25, tiltAzimuth: -72 },
-    exposure: white ? 0.5 : 'auto',
+    exposure: white ? 0.52 : 'auto',
     // white cloth: a late shoulder (the default filmic shoulder squashes the light-to-dark
     // gradient of the lit faces into flat paper white); the lit face peaks at ~248
     ...(white ? { toneMapping: 'neutral', shoulder: 0.88 } : {}),
@@ -1369,10 +1372,10 @@ function buildWall({ group, bins, fabric, thread, a, b, n, top, type, seed }) {
     tab.moveTo(-0.0055, 0); tab.lineTo(0.0055, 0); tab.lineTo(0.0068, -0.03); tab.absarc(0, -0.03, 0.0068, 0, -Math.PI, true); tab.lineTo(-0.0055, 0);
     const hole = new THREE.Path(); hole.absellipse(0, -0.031, 0.0032, 0.0042, 0, TAU, false); tab.holes.push(hole);
     const tg = new THREE.ExtrudeGeometry(tab, { depth: 0.0016, bevelEnabled: true, bevelThickness: 0.0005, bevelSize: 0.0005, bevelSegments: 2, curveSegments: 18 });
-    tg.rotateX(-0.22); tg.translate(0, -0.002, 0.0105);
+    tg.rotateX(-0.08); tg.translate(0, -0.002, 0.0098);
     put(tg);
     // pull cord loop through the tab
-    const cord = []; for (let i = 0; i <= 24; i++) { const a2 = (i / 24) * TAU; cord.push(V3(Math.sin(a2) * 0.005, -0.031 - 0.022 * (1 - Math.cos(a2)) / 2, 0.0125 + 0.006 * (1 - Math.cos(a2)) / 2)); }
+    const cord = []; for (let i = 0; i <= 24; i++) { const a2 = (i / 24) * TAU; cord.push(V3(Math.sin(a2) * 0.005, -0.031 - 0.022 * (1 - Math.cos(a2)) / 2, 0.0112 + 0.0025 * (1 - Math.cos(a2)) / 2)); }
     put(sweepTube(cord, 0.0016, 8, true), strapMat);
   };
   if (type === 'door') {

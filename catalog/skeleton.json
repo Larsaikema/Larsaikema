@@ -41179,7 +41179,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 15,
-     "grams": 16000,
+     "grams": 15000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-zwart-hero.webp"
@@ -41194,7 +41194,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 13,
-     "grams": 16000,
+     "grams": 15000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-wit-hero.webp"
@@ -41209,7 +41209,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 5,
-     "grams": 16000,
+     "grams": 15000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-houtlook-hero.webp"
@@ -41269,7 +41269,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 11,
-     "grams": 16000,
+     "grams": 19000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-zwart-hero.webp"
@@ -41284,7 +41284,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 16,
-     "grams": 16000,
+     "grams": 19000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-wit-hero.webp"
@@ -41299,7 +41299,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 5,
-     "grams": 16000,
+     "grams": 19000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-vierkant-stapelbaar-houtlook-hero.webp"
@@ -41520,7 +41520,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 3,
-     "grams": 25000,
+     "grams": 23000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-rechthoekig-inklapbaar-berken-hero.webp"
@@ -41535,7 +41535,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 9,
-     "grams": 25000,
+     "grams": 23000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-rechthoekig-inklapbaar-zwart-hero.webp"
@@ -41550,7 +41550,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 3,
-     "grams": 29000,
+     "grams": 25000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-rechthoekig-inklapbaar-berken-hero.webp"
@@ -41565,7 +41565,7 @@
      "inventory_management": "shopify",
      "inventory_policy": "deny",
      "inventory_quantity": 9,
-     "grams": 29000,
+     "grams": 25000,
      "requires_shipping": true,
      "taxable": true,
      "image": "statafel-rechthoekig-inklapbaar-zwart-hero.webp"

@@ -547,15 +547,29 @@
    "template_note": null
   },
   {
+   "handle": "verschil-partytenten",
+   "title": "Het verschil tussen de partytenten",
+   "template_suffix": "vergelijking",
+   "published": true,
+   "body_html": "<p>Twee easy-ups in dezelfde maten, met een ander frame. Kies op hoe vaak je de tent opzet, hoe zwaar je hem wilt dragen en wat er in de doos moet zitten. Onder deze tekst staan de cijfers van beide lijnen naast elkaar, rechtstreeks uit de specificaties van de producten.</p><h2>Premium: staal, voor een paar keer per jaar</h2><p>De <a href=\"/collections/easy-up-premium\">Premium</a> heeft een frame van zwart gepoedercoat staal met zeskantpoten van 40 mm en hoekstukken van glasvezelversterkt nylon. Het dak is 320 g/m² polyester met een PVC-coating. In de doos zitten het frame, het dak met luifel en een beschermhoes. Spanbanden, haringen en voetgewichten bestel je erbij. Hij is lichter dan de Professional (3 × 3 m: ca. 27 kg) en past bij een tuinfeest, een verjaardag of de markt een paar keer per jaar. Maten: 3 × 3, 3 × 4,5 en 3 × 6 m.</p><h2>Professional: aluminium, voor vaak en zakelijk</h2><p>De <a href=\"/collections/easy-up-professional\">Professional</a> heeft een frame van geanodiseerd aluminium met zeskantpoten van 50 mm, een wand van 1,8 mm en aluminium hoekstukken. Je kiest een dak van 320 g/m² polyester of van heavy duty PVC 580 g/m². In de doos zitten het frame, het dak, een wieltas en 4 spanbanden met haringen. Het frame is zwaarder (3 × 3 m: ca. 37 kg), maar gemaakt om elke week op te bouwen: voor verenigingen, horeca en verhuur. Maten: van 2 × 2 tot 5 × 5 m.</p><h2>Wat ze gelijk hebben</h2><ul><li>Je zet ze allebei met twee personen in een paar minuten op.</li><li>Zijwanden, dakzeilen en tassen hebben dezelfde maten; de <a href=\"/products/zijwandenset-easy-up\">zijwandenset</a> past op beide lijnen.</li><li>Zet elke poot vast met haringen of een <a href=\"/products/voetgewicht-easy-up-15-kg\">voetgewicht van 15 kg</a>. Bij harde wind: dak eraf.</li></ul><h2>Welke past bij jou?</h2><ul><li><strong>Een paar keer per jaar, vooral in de tuin</strong>: Premium.</li><li><strong>Elke week, verhuur of horeca</strong>: Professional.</li><li><strong>Twijfel je over de maat</strong>: kijk bij het <a href=\"/pages/maatadvies-partytenten\">maatadvies partytenten</a>.</li></ul><p>Het hele verhaal lees je in <a href=\"/blogs/advies/easy-up-premium-of-professional\">Easy-up Premium of Professional: welke past bij jou?</a></p>",
+   "long_html": "",
+   "seo": {
+    "title": "Easy-up Premium of Professional: het verschil | Klapklaar",
+    "description": "Staal 40 mm of aluminium 50 mm, wat er in de doos zit en voor wie: Premium en Professional naast elkaar, met de specificaties per maat."
+   },
+   "template": null,
+   "template_note": "templates/page.vergelijking.json: main-page + product-comparison (collection easy-up-partytenten, vergelijk_groep per maat)."
+  },
+  {
    "handle": "handleidingen",
    "title": "Handleidingen",
    "template_suffix": "handleidingen",
    "published": true,
-   "body_html": "<p>Hier vind je de handleidingen en productbladen van onze producten als pdf: opzetten, onderdelen en onderhoud. Zoek op product of type. Staat jouw handleiding er niet bij, mail ons dan met de naam van het product; we sturen hem je toe.</p>",
+   "body_html": "<p>Hier vind je de productbladen van onze tenten als pdf: maten, specificaties, wat er in de levering zit en de artikelnummers per uitvoering. Handig om te bewaren, door te sturen of mee te nemen naar het veld. Zoek op product of type.</p><p>Zoek je de opbouwhandleiding van je tent, of een blad dat hier niet staat? Mail ons met de naam van het product; we sturen hem je toe.</p>",
    "long_html": "",
    "seo": {
-    "title": "Handleidingen partytenten en statafels | Klapklaar",
-    "description": "Handleidingen en productbladen als pdf: opzetten, onderdelen en onderhoud van partytenten, statafels en accessoires van Klapklaar."
+    "title": "Productbladen en handleidingen partytenten | Klapklaar",
+    "description": "Productbladen als pdf van onze partytenten, stretchtenten, stertenten en opblaasbare tenten: maten, specificaties, inhoud en artikelnummers."
    },
    "template": null,
    "template_note": null

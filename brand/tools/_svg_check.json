@@ -1,10 +1,10 @@
 {
- "checked": 32,
+ "checked": 31,
  "with_issues": 0,
  "rows": [
   {
    "file": "favicon.svg",
-   "bytes": 340,
+   "bytes": 326,
    "paths": 1,
    "issues": []
   },
@@ -22,31 +22,31 @@
   },
   {
    "file": "mark.svg",
-   "bytes": 645,
+   "bytes": 697,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/apple-touch-icon.svg",
-   "bytes": 609,
+   "bytes": 654,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/favicon-16.svg",
-   "bytes": 305,
+   "bytes": 297,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/favicon-cart-16.svg",
-   "bytes": 405,
+   "bytes": 397,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/favicon-cart.svg",
-   "bytes": 440,
+   "bytes": 426,
    "paths": 1,
    "issues": []
   },
@@ -58,31 +58,31 @@
   },
   {
    "file": "svg/logo-klein-inline.svg",
-   "bytes": 2587,
+   "bytes": 2658,
    "paths": 2,
    "issues": []
   },
   {
    "file": "svg/logo-klein-inverse.svg",
-   "bytes": 2566,
+   "bytes": 2637,
    "paths": 2,
    "issues": []
   },
   {
    "file": "svg/logo-klein-mono.svg",
-   "bytes": 2544,
+   "bytes": 2615,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/logo-klein-on-lampion.svg",
-   "bytes": 2539,
+   "bytes": 2610,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/logo-klein.svg",
-   "bytes": 2566,
+   "bytes": 2637,
    "paths": 2,
    "issues": []
   },
@@ -100,85 +100,79 @@
   },
   {
    "file": "svg/logo-mono.svg",
-   "bytes": 2577,
-   "paths": 1,
+   "bytes": 2647,
+   "paths": 2,
    "issues": []
   },
   {
    "file": "svg/logo-on-lampion.svg",
-   "bytes": 2572,
+   "bytes": 2610,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/logo-zakelijk-inverse.svg",
-   "bytes": 4871,
+   "bytes": 4909,
    "paths": 2,
    "issues": []
   },
   {
    "file": "svg/logo-zakelijk.svg",
-   "bytes": 4871,
+   "bytes": 4909,
    "paths": 2,
    "issues": []
   },
   {
-   "file": "svg/mark-klein.svg",
-   "bytes": 618,
-   "paths": 1,
-   "issues": []
-  },
-  {
    "file": "svg/mark-lampion.svg",
-   "bytes": 645,
+   "bytes": 708,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/mark-mono.svg",
-   "bytes": 601,
+   "bytes": 648,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/mark-symbool.svg",
-   "bytes": 596,
+   "bytes": 643,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/mark-zand.svg",
-   "bytes": 645,
+   "bytes": 705,
+   "paths": 1,
+   "issues": []
+  },
+  {
+   "file": "svg/print-icon.svg",
+   "bytes": 866,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/print-luifel.svg",
-   "bytes": 8306,
+   "bytes": 8344,
    "paths": 3,
    "issues": []
   },
   {
-   "file": "svg/print-mark-klein.svg",
-   "bytes": 593,
-   "paths": 1,
-   "issues": []
-  },
-  {
    "file": "svg/print-mark.svg",
-   "bytes": 619,
+   "bytes": 666,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/print-wordmark-klein.svg",
-   "bytes": 2562,
+   "bytes": 2633,
    "paths": 1,
    "issues": []
   },
   {
    "file": "svg/print-wordmark.svg",
-   "bytes": 2595,
+   "bytes": 2633,
    "paths": 1,
    "issues": []
   },

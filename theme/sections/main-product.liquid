@@ -213,30 +213,73 @@
                 {%- endif -%}
 
               {%- when 'addons' -%}
-                {%- assign addons = product.metafields.custom.addons.value -%}
-                {%- if addons != blank and addons.size > 0 -%}
-                  <fieldset class="addons" {{ block.shopify_attributes }}>
+                {%- comment -%}
+                  Add-ons per selected variant: custom.addon_varianten (list.variant_reference) + custom.addon_aantallen on the
+                  variant, so a 3 x 6 m tent offers the 3 x 6 m side walls and 'Set van 6' foot weights. Fallback: the product
+                  list custom.addons (first available variant, 1 each). The add-on quantity follows the main quantity, except
+                  for per-meter products (custom.addon_modus = 'per-regel') and configurator products. Swapped on variant change
+                  by product-form.js (data-dynamic="addons", ticked add-ons stay ticked per add-on product).
+                {%- endcomment -%}
+                {%- liquid
+                  assign addon_vs = current_variant.metafields.custom.addon_varianten.value
+                  assign addon_qs = current_variant.metafields.custom.addon_aantallen.value
+                  assign addons = product.metafields.custom.addons.value
+                  assign addon_follow = true
+                  if product.metafields.custom.addon_modus.value == 'per-regel' or is_config
+                    assign addon_follow = false
+                  endif
+                  assign addon_n = 0
+                  if addon_vs != blank
+                    assign addon_n = addon_vs.size
+                  elsif addons != blank
+                    assign addon_n = addons.size
+                  endif
+                -%}
+                <div class="addons-slot" data-dynamic="addons" {{ block.shopify_attributes }}>
+                {%- if addon_n > 0 -%}
+                  <fieldset class="addons" data-addon-follow="{{ addon_follow }}">
                     <legend class="addons__legend">{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}{{ 'product.addons_title' | t }}{% endif %}</legend>
                     <p class="addons__help text-sm muted">{{ 'product.addons_help' | t }}</p>
                     <ul class="addons__list" role="list">
-                      {%- for addon in addons -%}
-                        {%- if addon.available == false -%}{%- continue -%}{%- endif -%}
-                        {%- assign av = addon.selected_or_first_available_variant -%}
+                      {%- if addon_vs != blank -%}
+                        {%- assign addon_list = addon_vs -%}
+                      {%- else -%}
+                        {%- assign addon_list = addons -%}
+                      {%- endif -%}
+                      {%- for item in addon_list -%}
+                        {%- liquid
+                          if addon_vs != blank
+                            assign av = item
+                            assign addon = item.product
+                            assign aq = addon_qs[forloop.index0] | default: 1
+                          else
+                            assign addon = item
+                            assign av = item.selected_or_first_available_variant
+                            assign aq = 1
+                          endif
+                          if addon == blank or av == blank or av.available == false
+                            continue
+                          endif
+                          assign a_price = av.price | times: aq
+                          assign a_img = av.featured_image | default: addon.featured_media.preview_image
+                        -%}
                         <li>
                           <label class="addon" for="Addon-{{ section.id }}-{{ forloop.index }}">
-                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-title="{{ addon.title | escape }}">
-                            <span class="addon__media">{%- if addon.featured_media -%}{{ addon.featured_media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px' }}{%- endif -%}</span>
+                            <input class="addon__check" type="checkbox" id="Addon-{{ section.id }}-{{ forloop.index }}" value="{{ av.id }}" data-addon data-price="{{ av.price }}" data-qty="{{ aq }}" data-product="{{ addon.id }}" data-title="{{ addon.title | escape }}">
+                            <span class="addon__media">{%- if a_img -%}{{ a_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px' }}{%- endif -%}</span>
                             <span class="addon__text">
-                              <span class="addon__title">{{ addon.title }}</span>
+                              <span class="addon__title">{% if aq > 1 %}{{ aq }} × {% endif %}{{ addon.title }}</span>
+                              {%- unless addon.has_only_default_variant -%}<span class="addon__variant text-sm">{{ av.title }}</span>{%- endunless -%}
                               {%- if addon.metafields.custom.kenmerk_kort != blank -%}<span class="addon__spec">{{ addon.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}
                             </span>
-                            <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: av.price -%}</span>
+                            <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: a_price -%}</span>
                           </label>
                         </li>
                       {%- endfor -%}
                     </ul>
                   </fieldset>
                 {%- endif -%}
+                </div>
 
               {%- when 'buy_buttons' -%}
                 {%- render 'product-buy', product: product, block: block, section_id: section.id, form_id: product_form_id, current_variant: current_variant, is_config: is_config, cfg: cfg, avail_status: avail_status, is_discontinued: is_discontinued, print_active: print_active, druk: druk, is_maatwerk: is_maatwerk -%}

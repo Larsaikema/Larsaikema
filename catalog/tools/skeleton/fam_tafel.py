@@ -66,7 +66,8 @@ def build():
            ['statafel horeca', 'statafel kruisvoet'], {'band': 'zwaar kruisvoet €272 (VVEP)', 'ours': KV}, vmap=vmap)
     VQ = {'60 x 60 cm': 119.0, '70 x 70 cm': 129.0, '80 x 80 cm': 139.0}
     VQK = ['Zwart', 'Wit', 'Houtlook']
-    vs = [variant(f'KK-STF-VK-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 16000, inv(10, m + k + 'vk', k)) for m, p in VQ.items() for k in VQK]
+    VQG = {'60 x 60 cm': 15000, '70 x 70 cm': 16000, '80 x 80 cm': 19000}
+    vs = [variant(f'KK-STF-VK-{code(m)}-{COLOR_CODE[k]}', [m, k], p, VQG[m], inv(10, m + k + 'vk', k)) for m, p in VQ.items() for k in VQK]
     imgs, vmap = kleur_images('statafel-vierkant-stapelbaar', VQK, 'statafel', lambda k: {'shape': 'square', 'width': 0.7, 'height': 1.07, 'top': top_param(k), 'frame': 'zwart', 'base': 'kruis', 'stackable': True}, 'Zwart',
                               status='needs-param', p2=3)
     simple('statafel-vierkant-stapelbaar', 'Statafel vierkant stapelbaar', 'Statafel', ['zakelijk', 'gebruik:horeca'], [opt('Maat', list(VQ)), opt('Kleur', VQK)], vs, imgs,
@@ -76,7 +77,8 @@ def build():
            ['statafel vierkant', 'statafel stapelbaar'], {'statafelshop': 'Indus €148,77', 'outmate': '70x70 €159–€169', 'ours': VQ}, vmap=vmap)
     RH = {'120 x 60 cm': 169.0, '120 x 70 cm': 179.0, '160 x 60 cm': 189.0}
     RHK = ['Berken', 'Zwart']
-    vs = [variant(f'KK-STF-RH-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 21000 + 4000 * i, inv(6, m + k + 'rh', k)) for i, (m, p) in enumerate(RH.items()) for k in RHK]
+    RHG = {'120 x 60 cm': 21000, '120 x 70 cm': 23000, '160 x 60 cm': 25000}
+    vs = [variant(f'KK-STF-RH-{code(m)}-{COLOR_CODE[k]}', [m, k], p, RHG[m], inv(6, m + k + 'rh', k)) for m, p in RH.items() for k in RHK]
     imgs, vmap = kleur_images('statafel-rechthoekig-inklapbaar', RHK, 'statafel', lambda k: {'shape': 'rect', 'width': 1.6, 'depth': 0.6, 'height': 1.1, 'top': top_param(k), 'frame': 'zwart', 'base': 'klap'}, 'Berken',
                               status='needs-param', p2=3)
     simple('statafel-rechthoekig-inklapbaar', 'Statafel rechthoekig inklapbaar', 'Statafel', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'], [opt('Maat', list(RH)), opt('Kleur', RHK)], vs, imgs,

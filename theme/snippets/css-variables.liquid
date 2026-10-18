@@ -69,6 +69,7 @@
     --done: var(--c-polder);
     --done-fg: var(--c-wit);
     --logo-tent-zakelijk: {% if settings.logo_zakelijk_mono or settings.logo_tent_mono %}currentColor{% else %}var(--logo-tent){% endif %};
+    --logo-tent-mono-zakelijk: {% if settings.logo_zakelijk_mono or settings.logo_tent_mono %}1{% else %}var(--logo-tent-mono){% endif %};
 
     --font-heading: {{ header_font.family }}, {{ header_font.fallback_families }};
     --font-heading-style: {{ header_font.style }};
@@ -123,6 +124,9 @@
     --focus: {{ scheme.settings.focus }};
     --logo-tent: {% if settings.logo_tent_mono %}currentColor{% else %}{{ scheme.settings.logo_tent }}{% endif %};
     --logo-roof: var(--logo-tent);
+    {%- assign logo_tent_hex = scheme.settings.logo_tent | color_to_hex -%}
+    {%- assign logo_fg_hex = scheme.settings.foreground | color_to_hex %}
+    --logo-tent-mono: {% if settings.logo_tent_mono or logo_tent_hex == logo_fg_hex %}1{% else %}0{% endif %};
     {%- if scheme_brightness < 110 %}
     --surface: rgba(255,255,255,.07);
     --disabled: {{ scheme.settings.foreground }};

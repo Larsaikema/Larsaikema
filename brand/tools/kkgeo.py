@@ -10,6 +10,11 @@ v7 changes (critic round 6):
   * letter spacing is optical (equal white area per pair, tools/logo.py), not equal side bearings;
   * the lock-up lettering (ZAKELIJK, PARTYTENTEN · STATAFELS) is drawn from the same construction, so there is no
     second typeface next to the logo.
+
+v7.1 (brand polish, three blind judges): glyph_tent_zwaar, the heavy tent-A for everything below 160 px, every
+one-colour file, embroidery/flock/foil, the beeldmerk and the square icon: a straight roof at 50 deg (an easy-up, not a
+circus top), an open seam that separates roof and valance in one colour (no spade, no drop), a heavier band with two
+scallops and poles of 0.76 x the stem. Same width and pole inset as the slender tent, so it fits the same slot.
 """
 import math
 
@@ -161,6 +166,15 @@ P = dict(
     T_SCAL=3, T_SCAL_D=40,    # scallops between the poles, depth
     T_LEG=70,       # pole width (49 % of a stem)
     T_INSET=18,     # poles sit inside the valance corners: the cloth hangs past the frame
+    # heavy tent-A (v7.1 brand polish): everything below 160 px, every one-colour file (embroidery, flock, foil, print,
+    # stamp), the beeldmerk and the square icon. Same width (T_W) and pole inset (T_INSET) as the slender tent, so it
+    # drops into the same slot with the same letter gaps. Lower straight roof, open seam, heavier band, poles and scallops.
+    TZ_PITCH=50,    # roof, degrees from horizontal (slender tent: 56.4); straight edges, no inward bow
+    TZ_OVER=16, TZ_TIP=16,    # peak above the cap line, tip rounding
+    TZ_SEAM=72,     # open seam between roof and valance: in one colour it separates roof and "crossbar"; smallest opening
+    TZ_BAND=82,     # valance band between the poles (slender: 68.6)
+    TZ_SCAL=2, TZ_SCAL_D=50,  # two scallops, depth (slender: three, 40)
+    TZ_LEG=108,     # pole width, 0.76 x stem (slender: 70)
     TRACK=0,
     # lock-up letters
     W_E=468, W_F=452, W_T=548, W_N=606, W_S=520, W_J=470, W_Z=532, W_Y=600,
@@ -296,6 +310,40 @@ def glyph_tent(p=P, seam=False, leg=None, scallops=None, over=None, scal_d=None)
     paths.append(orient(body, True))
     return Glyph(paths, W, 'T', kind='tent', info=dict(d, leg=LW, inset=IN, seam=q['T_SEAM'] if seam else 0,
                                                      scallops=n, scallop_depth=q['T_SCAL_D'], band=(cu, vt), band_h=vt - cu))
+
+def tent_zwaar_dims(p=P):
+    """the heavy tent-A's key heights: straight roof at TZ_PITCH from the roof corners to the peak, open seam, band."""
+    W = p['T_W']
+    apex_y = CAP + p['TZ_OVER']
+    roof_b = apex_y - W / 2 * math.tan(math.radians(p['TZ_PITCH']))
+    val_top = roof_b - p['TZ_SEAM']
+    cusp = val_top - p['TZ_BAND']
+    tips = cusp - p['TZ_SCAL_D']
+    return dict(W=W, apex_y=apex_y, roof_b=roof_b, val_top=val_top, cusp=cusp, tips=tips, pitch=p['TZ_PITCH'])
+
+def glyph_tent_zwaar(p=P):
+    """heavy tent-A for small sizes, one colour and the square icon: a straight, lower roof (an easy-up, not a circus
+    top), an open seam, a heavy valance band (reads as the A crossbar) with two scallops, heavy poles at the corners."""
+    d = tent_zwaar_dims(p)
+    W, LW, IN, n, D = d['W'], p['TZ_LEG'], p['T_INSET'], p['TZ_SCAL'], p['TZ_SCAL_D']
+    rb, rl = 8, p['RC'] * 0.5
+    apex = (W / 2, d['apex_y'])
+    roof = rpath([('V', 0, d['roof_b'], rb), ('V', apex[0], apex[1], p['TZ_TIP']), ('V', W, d['roof_b'], rb)])
+    vt, cu = d['val_top'], d['cusp']
+    xl0, xl1 = IN, IN + LW
+    xr1, xr0 = W - IN, W - IN - LW
+    seq = [('V', 0, cu, rb), ('V', 0, vt, rb), ('V', W, vt, rb), ('V', W, cu, rb),
+           ('V', xr1, cu, 0), ('V', xr1, 0, rl), ('V', xr0, 0, rl), ('V', xr0, cu, 0)]
+    span = (xr0 - xl1) / n
+    for k in range(n):
+        x1 = xr0 - k * span; x0 = x1 - span; xm = (x0 + x1) / 2
+        C = (xm, cu - 2 * D)
+        seq.append(('C', lerp((x1, cu), C, 2 / 3), lerp((x0, cu), C, 2 / 3)))
+        if k < n - 1: seq.append(('V', x0, cu, 0))
+    seq += [('V', xl1, cu, 0), ('V', xl1, 0, rl), ('V', xl0, 0, rl), ('V', xl0, cu, 0)]
+    paths = [orient(roof, True), orient(rpath(seq), True)]
+    return Glyph(paths, W, 'T', kind='tent', info=dict(d, leg=LW, inset=IN, seam=p['TZ_SEAM'], scallops=n,
+                                                     scallop_depth=D, band=(cu, vt), band_h=vt - cu))
 
 # ------------------------------------------------------------------ lock-up letters (same construction)
 def glyph_L(p=P):
@@ -439,8 +487,11 @@ def build_word(tokens, p=P, kern=None, extra=0, tent_kw=None):
     """place glyphs; kern = {(a, b): narrowest gap}. Returns (letters, tent, width, items)."""
     kern = dict(KERN, **(kern or {}))
     gl = []
+    def tent(kw):
+        kw = dict(kw or {})
+        return glyph_tent_zwaar(p) if kw.pop('zwaar', False) else glyph_tent(p, **kw)
     for tok in tokens:
-        g = glyph_tent(p, **(tent_kw or {})) if tok == 'TENT' else GLYPHS[tok](p)
+        g = tent(tent_kw) if tok == 'TENT' else GLYPHS[tok](p)
         gl.append((tok, g, profile(g.paths)))
     x = 0; letters, tent, items = [], [], []
     for i, (tok, g, pr) in enumerate(gl):

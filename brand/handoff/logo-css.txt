@@ -1,0 +1,13 @@
+/* theme/assets/base.css (brand v7.1: one-colour tent = the heavy tent-A) */
+.kk-tent,.logo-svg__roof{fill:var(--logo-tent,var(--c-brand))!important}
+.logo-svg--full .logo-svg__roof{opacity:calc(1 - var(--logo-tent-mono,0))}   /* klein already carries the heavy tent */
+.logo-svg__roof-mono{opacity:var(--logo-tent-mono,0)}
+.is-zakelijk :is(.header-wrap,.menu-drawer,.footer){--logo-tent:var(--logo-tent-zakelijk);--logo-tent-mono:var(--logo-tent-mono-zakelijk)}
+
+{%- comment -%} theme/snippets/css-variables.liquid, :root {%- endcomment -%}
+--logo-tent-mono-zakelijk: {% if settings.logo_zakelijk_mono or settings.logo_tent_mono %}1{% else %}var(--logo-tent-mono){% endif %};
+
+{%- comment -%} theme/snippets/css-variables.liquid, per colour scheme, next to --logo-tent {%- endcomment -%}
+{%- assign logo_tent_hex = scheme.settings.logo_tent | color_to_hex -%}
+{%- assign logo_fg_hex = scheme.settings.foreground | color_to_hex -%}
+--logo-tent-mono: {% if settings.logo_tent_mono or logo_tent_hex == logo_fg_hex %}1{% else %}0{% endif %};

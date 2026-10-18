@@ -436,7 +436,7 @@ class Build:
                 if p and not p['metafields'].get('maatgids'):
                     p['metafields']['maatgids'] = page
                     self.fix(h, f'maatgids → page {page}', 'suggested in the G1/G4/G5 data notes')
-        # 6b. downloads: every PDF that exists for the product (catalog/tools/productblad.py renders the productbladen)
+        # 6b. downloads: every PDF that exists for the product (node catalog/tools/productblad.mjs renders the productbladen of the tents)
         for p in products:
             files = [f'{k}-{p["handle"]}.pdf' for k in DOWNLOAD_KINDS if (IMAGES / f'{k}-{p["handle"]}.pdf').exists()]
             if files and not p['metafields'].get('downloads'):

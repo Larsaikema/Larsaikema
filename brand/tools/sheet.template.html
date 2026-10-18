@@ -313,7 +313,7 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
 
 <header class="top"><div class="wrap">
   {{ S.logo('', 'width:200px;height:auto;display:block') }}
-  <div class="meta"><span>Merkboek</span><span>Versie 7 · oktober 2026</span><span>Regels: brand.md · techniek: technisch.md</span></div>
+  <div class="meta"><span>Merkboek</span><span>Versie 7.1 · oktober 2026</span><span>Regels: brand.md · techniek: technisch.md</span></div>
 </div></header>
 
 <!-- ============================================================== cover -->
@@ -378,6 +378,37 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
     <p class="lbl" style="grid-column:1/-1;margin-top:0">Gemeten aan de contouren (tools/logo-meta.json). Dak {{ d.nl(d.angles['tentdak, koorde top-hoek (vanaf horizontaal)']) }}° (was 35°), palen {{ d.tentm.pole_to_stem|string|replace('.', ',') }} × de stok (was {{ d.tentm.pole_to_stem_v6|string|replace('.', ',') }}), geen dakrand, luifel van {{ d.nl(d.tentm.cusps) }} tot {{ d.tentm.valance_top }} met schulpen tot {{ d.nl(d.tentm.scallop_tips) }}: precies de dwarsbalk van de A ({{ d.nl(d.tentm.a_crossbar[0]) }}–{{ d.tentm.a_crossbar[1] }}). Hoeken: K-arm {{ d.nl(d.angles['K arm (vanaf horizontaal)']) }}°, K-been {{ d.nl(d.angles['K been (vanaf horizontaal)']) }}°, R-been {{ d.nl(d.angles['R been (vanaf horizontaal)']) }}°, A-benen {{ d.nl(d.angles['A benen (vanaf horizontaal)']) }}°. Breedte/hoogte {{ d.aspect }}.</p>
   </div>
 
+  <div class="card pad" style="margin-top:20px">
+    <div style="display:grid;grid-template-columns:1fr 1.35fr;gap:30px;align-items:center">
+      <div><div class="eyebrow" style="margin-bottom:10px">v7.1 · De zware tent-A</div>
+        <p class="small">Onder 160 px, in elke één-kleurversie, op doek en in het icoon. Een lager, recht dak ({{ d.nl(d.tz.pitch_deg) }}° tegen
+          {{ d.nl(d.tz.pitch_slank_deg) }}°): een easy-up, geen circustent. Een open naad van {{ d.tz.seam }} scheidt dak en luifel, zodat de luifel
+          als dwarsbalk van een A leest en de vorm in één kleur niet tot schoppen of een druppel samensmelt. Luifel {{ d.tz.band }}, twee
+          schulpen van {{ d.tz.scallop_depth }}, palen {{ d.tz.pole }} ({{ d.nl(d.tz.pole_to_stem) }} × de stok, was {{ d.tentm.pole_to_stem|string|replace('.', ',') }}).</p>
+        <p class="small muted" style="margin-top:10px">Zelfde breedte ({{ d.tz.width }}) en paalinsprong ({{ d.tz.pole_inset }}) als de slanke tent: in de
+          één-kleurbestanden staat hij in hetzelfde vak, met dezelfde letterafstanden.</p></div>
+      {% set z = d.zwaar %}{% set zx = z.x0 %}{% set zr = z.x0 + z.w %}
+      <svg viewBox="-4 -11 {{ zr + 46 }} 96" style="max-width:500px;justify-self:center" role="img" aria-label="De slanke en de zware tent-A naast elkaar in één kleur, met de maten van de zware">
+        <g fill="none" stroke="{{ d.H.kiezel }}" stroke-width=".3">
+          <line x1="-4" y1="{{ z.y(700) }}" x2="{{ zr + 4 }}" y2="{{ z.y(700) }}"/><line x1="-4" y1="{{ z.y(0) }}" x2="{{ zr + 4 }}" y2="{{ z.y(0) }}"/>
+          <line x1="{{ zx - 3 }}" y1="{{ z.y(z.dims.roof_b) }}" x2="{{ zr + 4 }}" y2="{{ z.y(z.dims.roof_b) }}"/>
+          <line x1="{{ zx - 3 }}" y1="{{ z.y(z.dims.val_top) }}" x2="{{ zr + 4 }}" y2="{{ z.y(z.dims.val_top) }}"/>
+          <line x1="{{ zx - 3 }}" y1="{{ z.y(z.dims.cusp) }}" x2="{{ zr + 4 }}" y2="{{ z.y(z.dims.cusp) }}"/></g>
+        <path d="{{ z.slank_d }}" fill="{{ d.H.inkt }}"/>
+        <path d="{{ z.zwaar_d }}" fill="{{ d.H.inkt }}"/>
+        <g fill="none" stroke="{{ d.H.inkt }}" stroke-width=".4"><path d="M{{ zx + z.p.T_INSET * 0.1 }} {{ z.y(0) + 3 }} H{{ zx + (z.p.T_INSET + z.p.TZ_LEG) * 0.1 }} M{{ zx + z.p.T_INSET * 0.1 }} {{ z.y(0) + 1.8 }} v2.4 M{{ zx + (z.p.T_INSET + z.p.TZ_LEG) * 0.1 }} {{ z.y(0) + 1.8 }} v2.4"/></g>
+        <g font-family="Figtree, sans-serif" font-size="3.9" font-weight="700" fill="{{ d.H.inkt }}">
+          <text x="{{ z.w / 2 }}" y="-5" text-anchor="middle">v7 slank: twee kleuren, vanaf 160 px</text>
+          <text x="{{ zx + z.w / 2 }}" y="-5" text-anchor="middle">v7.1 zwaar: dak {{ d.nl(d.tz.pitch_deg) }}°</text>
+          <text x="{{ zr + 3 }}" y="{{ z.y(700) + 1.4 }}">kapitaalhoogte</text>
+          <text x="{{ zr + 3 }}" y="{{ (z.y(z.dims.roof_b) + z.y(z.dims.val_top)) / 2 + 1.4 }}">naad {{ d.tz.seam }}</text>
+          <text x="{{ zr + 3 }}" y="{{ (z.y(z.dims.val_top) + z.y(z.dims.cusp)) / 2 + 1.4 }}">luifel {{ d.tz.band }}</text>
+          <text x="{{ zr + 3 }}" y="{{ z.y(z.dims.cusp) + 5.4 }}">2 schulpen × {{ d.tz.scallop_depth }}</text>
+          <text x="{{ zr + 3 }}" y="{{ z.y(0) - 1 }}">paal {{ d.tz.pole }},</text><text x="{{ zr + 3 }}" y="{{ z.y(0) + 4 }}">{{ d.tz.pole_inset }} binnen de luifel</text></g>
+      </svg>
+    </div>
+  </div>
+
   <div class="principles">
     <div><h4>Eén woord, één ritme</h4><p>Letterafstand op het oog per paar: P–K {{ d.gaps[2].units|int }}, K–LA {{ d.gaps[0].units|int }}, A–tent {{ d.gaps[4].units|int }}, tent–R {{ d.gaps[5].units|int }}. Geen gat meer tussen KLAP en KLAAR.</p></div>
     <div><h4>Een partytent, geen gebouw</h4><p>Steil dak met punt, luifel met schulpen, dunne palen die iets binnen de luifel staan. Geen fronton, geen balk, geen zuilen.</p></div>
@@ -388,10 +419,10 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
   <div class="grid g3" style="margin-top:28px">
     <div class="tile" style="background:var(--zand)">{{ S.logo('', 'width:100%;height:auto') }}<p class="lbl"><b>logo.svg</b> · Inkt + Lampion-tent · op Zand en Wit</p></div>
     <div class="tile dark" style="background:var(--inkt);border-color:var(--inkt)">{{ S.logo_inverse('', 'width:100%;height:auto') }}<p class="lbl"><b>logo-inverse.svg</b> · Zand + Lampion-tent ({{ d.r_li }}:1) · op Inkt</p></div>
-    <div class="tile" style="background:var(--lampion);border-color:var(--lampion)">{{ S.logo_on_lampion('', 'width:100%;height:auto') }}<p class="lbl" style="color:var(--inkt)"><b>logo-on-lampion.svg</b> · één kleur Inkt · op Lampion</p></div>
-    <div class="tile" style="background:var(--linnen)"><span style="color:var(--inkt)">{{ S.logo_mono('', 'width:100%;height:auto') }}</span><p class="lbl"><b>logo-mono.svg</b> · één kleur · op Linnen, foto, folie, borduursel</p></div>
+    <div class="tile" style="background:var(--lampion);border-color:var(--lampion)">{{ S.logo_on_lampion('', 'width:100%;height:auto') }}<p class="lbl" style="color:var(--inkt)"><b>logo-on-lampion.svg</b> · één kleur Inkt, zware tent · op Lampion</p></div>
+    <div class="tile" style="background:var(--linnen)"><span style="color:var(--inkt)">{{ S.logo_mono('', 'width:100%;height:auto') }}</span><p class="lbl"><b>logo-mono.svg</b> · één kleur, zware tent · op Linnen, foto, folie, borduursel</p></div>
     <div class="tile" style="background:var(--wit)">{{ S.logo_luifel('', 'width:100%;height:auto') }}<p class="lbl"><b>Luifel-lock-up</b> · getekende descriptor · luifel, bus, marktplaats, beurs</p></div>
-    <div class="tile" style="background:var(--linnen)">{{ S.logo_zakelijk('', 'width:100%;height:auto') }}<p class="lbl"><b>Zakelijk</b> · één kleur Inkt, getekend label · offertes, facturen, B2B</p></div>
+    <div class="tile" style="background:var(--linnen)">{{ S.logo_zakelijk('', 'width:100%;height:auto') }}<p class="lbl"><b>Zakelijk</b> · één kleur Inkt, zware tent, getekend label · offertes, facturen, B2B</p></div>
   </div>
 
   <div class="grid g2" style="margin-top:20px">
@@ -400,7 +431,7 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
       <div class="sizes">
         <figure>{{ S.logo('', 'width:200px;height:auto;display:block') }}<figcaption>logo.svg · 200 px (header)</figcaption></figure>
         <figure>{{ S.logo('', 'width:160px;height:auto;display:block') }}<figcaption>logo.svg · 160 px (minimum)</figcaption></figure>
-        <figure>{{ S.logo_klein('', 'width:132px;height:auto;display:block') }}<figcaption>logo-klein · 132 px (mobiel)</figcaption></figure>
+        <figure>{{ S.logo_klein('', 'width:132px;height:auto;display:block') }}<figcaption>logo-klein · 132 px (mobiel, zware tent)</figcaption></figure>
         <figure>{{ S.logo_klein('', 'width:96px;height:auto;display:block') }}<figcaption>logo-klein · 96 px (minimum)</figcaption></figure>
       </div>
       <div class="sizes" style="margin-top:18px;background:var(--inkt);border-radius:10px;padding:16px 18px">
@@ -409,11 +440,15 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
       </div>
       <div class="eyebrow" style="margin:22px 0 14px">Eén kleur, licht onscherp (zoals op doek van een afstand)</div>
       <div class="sizes">
-        <figure style="color:var(--inkt);filter:blur(1.2px)">{{ S.logo_mono('', 'width:200px;height:auto;display:block') }}</figure>
-        <figure style="color:var(--inkt);filter:blur(1px)">{{ S.logo_klein_mono('', 'width:130px;height:auto;display:block') }}</figure>
-        <figure style="color:var(--inkt);filter:blur(.9px)">{{ S.logo_klein_mono('', 'width:99px;height:auto;display:block') }}</figure>
+        <figure><div style="filter:blur(1.2px)">{{ d.v7_mono|replace('{w}', '200') }}</div><figcaption>v7: slanke tent in één kleur, 200 px</figcaption></figure>
+        <figure><div style="filter:blur(1px)">{{ d.v7_klein_mono|replace('{w}', '132') }}</div><figcaption>v7 klein, 132 px: ♠</figcaption></figure>
       </div>
-      <p class="lbl">De tent blijft een punt met een luifel en twee palen; het woord blijft KLAPKLAAR.</p>
+      <div class="sizes" style="margin-top:14px">
+        <figure><div style="color:var(--inkt);filter:blur(1.2px)">{{ S.logo_mono('', 'width:200px;height:auto;display:block') }}</div><figcaption>v7.1 logo-mono, 200 px</figcaption></figure>
+        <figure><div style="color:var(--inkt);filter:blur(1px)">{{ S.logo_klein_mono('', 'width:132px;height:auto;display:block') }}</div><figcaption>v7.1 klein, 132 px</figcaption></figure>
+        <figure><div style="color:var(--inkt);filter:blur(.9px)">{{ S.logo_klein_mono('', 'width:99px;height:auto;display:block') }}</div><figcaption>99 px</figcaption></figure>
+      </div>
+      <p class="lbl">In één kleur altijd de zware tent-A: dak, naad, luifel en palen blijven los; geen schoppen, geen druppel, en het woord blijft KLAPKLAAR.</p>
     </div>
     <div class="card pad">
       <div class="eyebrow" style="margin-bottom:16px">Vrije ruimte: de halve letterhoogte</div>
@@ -422,27 +457,31 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
       </div>
       <p class="lbl" style="margin-top:14px">Gemeten vanaf de buitenkant van letters en tent; op scherm nooit minder dan 12 px. In de header: 200 px breed; mobiel logo-klein op 132 px.</p>
       <div class="eyebrow" style="margin:26px 0 12px">Minimale breedte (aanname, zie technisch.md §3)</div>
-      <table class="t"><tr><th>Methode</th><th style="text-align:right">logo</th><th style="text-align:right">klein</th><th style="text-align:right">beeldmerk</th></tr>
+      <table class="t"><tr><th>Methode</th><th style="text-align:right">logo (één kleur)</th><th style="text-align:right">klein</th><th style="text-align:right">beeldmerk</th></tr>
         {% for m in ['Borduren (satijnsteek)', 'Flock-transfer (geplot)', 'Zeefdruk textiel', 'Sublimatie (luifel, rok)', 'Offset/digitaal papier'] %}
-        <tr><td>{{ m }}</td><td class="r">{{ d.min_mm.logo[m] }} mm</td><td class="r">{{ d.min_mm.klein[m] }} mm</td><td class="r">{{ d.min_mm.mark[m] }} mm</td></tr>
+        <tr><td>{{ m }}</td><td class="r">{{ d.min_mm.logo1[m] }} mm</td><td class="r">{{ d.min_mm.klein[m] }} mm</td><td class="r">{{ d.min_mm.mark[m] }} mm</td></tr>
         {% endfor %}</table>
     </div>
   </div>
 
   <div class="card pad" style="margin-top:20px">
     <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:30px;align-items:start">
-      <div><div class="eyebrow" style="margin-bottom:10px">Tent, geen gebouw: silhouettoets</div>
-        <p class="small">Het v6-logo las klein als het ‘bank/museum’-icoon (fronton, balk, zuilen). Hiernaast de silhouetten op 32 px, zwart op wit,
-          naast een generiek landmark- en huispictogram (zelf getekend naar de gangbare vorm). Overlap (IoU, 1 = gelijk) gemeten met
-          <code>tools/recognition.py</code>:</p>
-        <table class="t" style="margin-top:10px"><tr><th>Vorm</th><th style="text-align:right">landmark 16 / 32 px</th><th style="text-align:right">huis 16 / 32 px</th></tr>
-          {% for r in d.rec.rows %}<tr><td>{{ r.shape }}</td><td class="r">{{ d.nl(r.landmark_16) }} / {{ d.nl(r.landmark_32) }}</td><td class="r">{{ d.nl(r.house_16) }} / {{ d.nl(r.house_32) }}</td></tr>{% endfor %}</table>
-        <p class="small muted" style="margin-top:10px">Een grove maat, geen vervanging voor mensen. De 5-secondentest met 20 mensen op 16, 32 en 132 px staat klaar in technisch.md §10 en is nog niet gedaan.</p></div>
+      <div><div class="eyebrow" style="margin-bottom:10px">Tent, geen gebouw, geen schoppen: silhouettoets</div>
+        <p class="small">v6 las klein als het ‘bank/museum’-icoon, v7 in één kleur als schoppen of een druppel. Hiernaast de silhouetten op
+          32 px, zwart op wit, naast vier generieke pictogrammen (zelf getekend naar de gangbare vorm). Overlap (IoU op 32 px, 1 = gelijk)
+          gemeten met <code>tools/recognition.py</code>:</p>
+        <table class="t" style="margin-top:10px"><tr><th>Vorm</th><th style="text-align:right">landmark</th><th style="text-align:right">huis</th><th style="text-align:right">♠</th><th style="text-align:right">druppel</th></tr>
+          {% for r in d.rec.rows %}<tr><td>{{ r.shape }}</td><td class="r">{{ d.nl(r.landmark_32) }}</td><td class="r">{{ d.nl(r.house_32) }}</td><td class="r">{{ d.nl(r.spade_32) }}</td><td class="r">{{ d.nl(r.drop_32) }}</td></tr>{% endfor %}</table>
+        <p class="small muted" style="margin-top:10px">Een grove maat, geen vervanging voor mensen. De 5-secondentest met 20 mensen op 16, 32 en 132 px, in kleur en in één kleur, staat klaar in technisch.md §10 en is nog niet gedaan.</p></div>
       <div class="recog">
-        <figure><svg viewBox="0 0 100 100" style="width:96px;height:96px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg><br>
-          <svg viewBox="0 0 100 100" style="width:32px;height:32px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg> <svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg><figcaption>v7 tent-A</figcaption></figure>
-        <figure><svg viewBox="1.5 1.5 21 21" style="width:96px;height:96px"><g fill="{{ d.H.kiezel }}"><path d="M2 9L12 3l10 6z"/><rect x="2.5" y="9.6" width="19" height="2.2"/><rect x="4.3" y="12.6" width="2.2" height="6"/><rect x="8.5" y="12.6" width="2.2" height="6"/><rect x="13.3" y="12.6" width="2.2" height="6"/><rect x="17.5" y="12.6" width="2.2" height="6"/><rect x="2" y="19.4" width="20" height="2.2"/></g></svg><figcaption>generiek landmark<br>(fronton, balk, zuilen)</figcaption></figure>
-        <figure><svg viewBox="1.5 1.5 21 21" style="width:96px;height:96px"><g fill="{{ d.H.kiezel }}"><path d="M2.5 11L12 3l9.5 8z"/><path d="M4.5 10h15v11h-15zM10 14v7h4v-7z" fill-rule="evenodd"/></g></svg><figcaption>generiek huis<br>(dak, muren, deur)</figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" style="width:72px;height:72px"><path d="{{ d.rec.v71 }}" fill="{{ d.H.inkt }}"/></svg><br>
+          <svg viewBox="0 0 100 100" style="width:32px;height:32px"><path d="{{ d.rec.v71 }}" fill="{{ d.H.inkt }}"/></svg> <svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="{{ d.rec.v71 }}" fill="{{ d.H.inkt }}"/></svg><figcaption>v7.1 zware tent-A<br>(klein, één kleur, icoon)</figcaption></figure>
+        <figure><svg viewBox="0 0 100 100" style="width:72px;height:72px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg><br>
+          <svg viewBox="0 0 100 100" style="width:32px;height:32px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg> <svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="{{ d.rec.v7 }}" fill="{{ d.H.inkt }}"/></svg><figcaption>v7 slanke tent-A<br>(alleen twee kleuren, ≥ 160 px)</figcaption></figure>
+        <figure><svg viewBox="1.5 1.5 21 21" style="width:72px;height:72px"><g fill="{{ d.H.kiezel }}"><path d="M2 9L12 3l10 6z"/><rect x="2.5" y="9.6" width="19" height="2.2"/><rect x="4.3" y="12.6" width="2.2" height="6"/><rect x="8.5" y="12.6" width="2.2" height="6"/><rect x="13.3" y="12.6" width="2.2" height="6"/><rect x="17.5" y="12.6" width="2.2" height="6"/><rect x="2" y="19.4" width="20" height="2.2"/></g></svg><figcaption>generiek landmark</figcaption></figure>
+        <figure><svg viewBox="1.5 1.5 21 21" style="width:72px;height:72px"><g fill="{{ d.H.kiezel }}"><path d="M2.5 11L12 3l9.5 8z"/><path d="M4.5 10h15v11h-15zM10 14v7h4v-7z" fill-rule="evenodd"/></g></svg><figcaption>generiek huis</figcaption></figure>
+        <figure><svg viewBox="1.5 1.5 21 21" style="width:72px;height:72px"><g fill="{{ d.H.kiezel }}">{{ d.rec.spade }}</g></svg><figcaption>schoppen ♠</figcaption></figure>
+        <figure><svg viewBox="1.5 1.5 21 21" style="width:72px;height:72px"><g fill="{{ d.H.kiezel }}">{{ d.rec.drop }}</g></svg><figcaption>druppel</figcaption></figure>
       </div>
     </div>
   </div>
@@ -461,16 +500,18 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
 
 <!-- ============================================================== 02 mark -->
 <section class="sec"><div class="wrap">
-  <div class="sec-head"><div><div class="n">02</div><h2>Beeldmerk en favicon</h2></div>
-    <p>Het beeldmerk is de tent-A los: dezelfde vorm als in het woord, dus wie het logo kent, kent het teken. Lampion op Inkt, of
-      Inkt op Lampion. Onder 40 px een zwaardere versie; het favicon is een eigen tekening op het pixelraster.</p></div>
+  <div class="sec-head"><div><div class="n">02</div><h2>Beeldmerk en vierkant icoon</h2></div>
+    <p>Het beeldmerk is de zware tent-A los, dezelfde tent als in logo-klein en in elk één-kleurbestand. Het vierkante icoon is
+      voor zijn doel getekend: de tent op {{ (d.icon_share * 100)|round|int }} % van de hoogte van een Inkt-vlak, binnen de cirkel van een avatar, met eigen
+      pixeltekeningen voor 16 en 32 px.</p></div>
   <div class="grid g6">
-    <div class="card pad" style="text-align:center">{{ S.mark('', 'width:100%;height:auto') }}<p class="lbl"><b>mark.svg</b><br>avatar, app-icoon</p></div>
+    <div class="card pad" style="text-align:center">{{ S.mark('', 'width:100%;height:auto') }}<p class="lbl"><b>mark.svg</b><br>icoon: avatar, app, 192, 512</p></div>
     <div class="card pad" style="text-align:center">{{ S.mark_lampion('', 'width:100%;height:auto') }}<p class="lbl"><b>mark-lampion</b><br>op licht, sticker</p></div>
     <div class="card pad" style="text-align:center">{{ S.mark_zand('', 'width:100%;height:auto;border-radius:22%;box-shadow:0 0 0 1px var(--lijn)') }}<p class="lbl"><b>mark-zand</b><br>op foto, op Linnen</p></div>
     <div class="card pad" style="text-align:center;display:flex;flex-direction:column;justify-content:space-between">{{ S.mark_symbool('', 'width:70%;height:auto;margin:10% auto 0') }}<p class="lbl"><b>mark-symbool</b><br>zonder vlak</p></div>
-    <div class="card pad" style="text-align:center;display:flex;flex-direction:column;justify-content:space-between"><span style="color:var(--inkt)">{{ S.mark_mono('', 'width:70%;height:auto;margin-top:10%') }}</span><p class="lbl"><b>mark-mono</b><br>stempel, borduursel</p></div>
-    <div class="card pad"><div class="markrow">{{ S.mark('', 'width:64px;height:64px') }}{{ S.mark('', 'width:40px;height:40px') }}{{ S.mark_klein('', 'width:24px;height:24px') }}</div><p class="lbl"><b>64 · 40 · 24 px</b><br>onder 40 px mark-klein (palen 96, twee schulpen)</p></div>
+    <div class="card pad" style="text-align:center">{{ S.print_icon('', 'width:100%;height:auto') }}<p class="lbl"><b>print-icon</b><br>stempel, één kleur</p></div>
+    <div class="card pad"><div style="display:flex;gap:10px;align-items:flex-end">{{ S.mark('', 'width:48px;height:48px;flex:none') }}<img src="favicon-32.png" width="32" height="32" alt=""><img src="img/favicon-16.png" width="16" height="16" alt=""></div>
+      <div style="margin-top:12px"><img src="img/mark-512.png" width="64" height="64" alt="" style="border-radius:50%;display:block"></div><p class="lbl"><b>48 · 32 · 16 px · avatar</b><br>vanaf 48 px mark.svg, daaronder de pixeltekeningen; de tent past in de cirkel</p></div>
   </div>
   <div class="grid g2" style="margin-top:20px">
     <div class="card" style="overflow:hidden">
@@ -480,8 +521,8 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
         <div class="tab"><img src="img/favicon-cart-16.png" width="16" height="16" alt="">Winkelwagen (2) | Klapklaar</div></div></div>
       <div class="urlbar">klapklaar.nl/collections/partytenten</div>
       <div class="pad" style="display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap">
-        <figure style="margin:0"><img class="pix" src="img/favicon-16.png" width="128" height="128" alt="favicon 16 px vergroot"><figcaption class="lbl">16 px · 8×: dak, luifel, palen</figcaption></figure>
-        <figure style="margin:0"><img class="pix" src="favicon-32.png" width="128" height="128" alt="favicon 32 px vergroot"><figcaption class="lbl">32 px · 4×: twee schulpen</figcaption></figure>
+        <figure style="margin:0"><img class="pix" src="img/favicon-16.png" width="128" height="128" alt="favicon 16 px vergroot"><figcaption class="lbl">16 px · 8×: dak, naad, luifel, palen</figcaption></figure>
+        <figure style="margin:0"><img class="pix" src="favicon-32.png" width="128" height="128" alt="favicon 32 px vergroot"><figcaption class="lbl">32 px · 4×: naad en twee schulpen op hele pixels</figcaption></figure>
         <figure style="margin:0"><img class="pix" src="img/favicon-cart-32.png" width="128" height="128" alt="favicon met winkelwagenstip"><figcaption class="lbl">winkelwagen gevuld · Zand-stip</figcaption></figure>
         <figure style="margin:0"><div style="display:flex;gap:10px;align-items:flex-end"><img src="favicon-32.png" width="32" height="32" alt=""><img src="img/favicon-16.png" width="16" height="16" alt=""></div><figcaption class="lbl">1×</figcaption></figure>
       </div>
@@ -490,7 +531,7 @@ table.t td.r { text-align: right; font-weight: 700; font-variant-numeric: tabula
       <figure class="shot" style="margin:0"><img src="img/statafelrok-stretch-zwart-print-hero.webp" alt="Zwarte stretch statafelrok met voorbeeldopdruk van het beeldmerk in Zand"><span class="tag">Op de statafelrok</span></figure>
       <div class="card pad small"><div class="eyebrow" style="margin-bottom:10px">Op de rok</div>
         <p>Beeldmerk in één kleur Zand, 13 cm breed bij Ø 80 cm, het midden op 28–30 cm boven de vloer, op het vlakste stuk tussen twee voeten.</p>
-        <p style="margin-top:10px">Eén dichte vorm zonder losse delen: dak en palen blijven ook op de bolling van de stretch een tent.</p>
+        <p style="margin-top:10px">De zware tent-A: dak en luifel gescheiden door een open naad (bij 13 cm breed 1,5 cm), stevige palen. Ook op de bolling van de stretch blijft het een tent.</p>
         <p style="margin-top:10px">Borduren vanaf {{ d.min_mm.mark['Borduren (satijnsteek)'] }} mm; daaronder alleen zeefdruk of sublimatie.</p></div>
     </div>
   </div>

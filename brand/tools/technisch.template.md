@@ -1,6 +1,6 @@
 # Klapklaar · technische bijlage
 
-Versie 7 · 17 oktober 2026 · bij [`brand.md`](brand.md)
+Versie 7.1 · 17 oktober 2026 · bij [`brand.md`](brand.md)
 
 Voor ontwerpers, drukkers en de theme-bouwer: de constructie en metingen van het logo, alle bestanden, minimummaten per
 productiemethode, kleur- en garenreferenties per materiaal, de renders, de overdracht aan de Shopify-theme, het werklog, de bronnen,
@@ -29,7 +29,23 @@ kapitaalhoogte {{CAP}}.
   afronding {{PEAK_OVER}} eenheden boven de kapitaalhoogte. Geen dakrand, geen naad: dak en luifel zijn één vorm.
 - **Luifel:** loodrecht van y 250 tot y 181,4 aan de buitenkant; tussen de palen drie schulpen (parabolisch, 40 diep) tot y 141,4.
 - **Palen:** 70 breed ({{POLE_RATIO}} × de stok van 142), recht, 18 binnen de luifelhoek.
-- **logo-klein:** palen 86, twee schulpen, 34 eenheden extra ruimte per letterpaar. **mark-klein:** palen 96, twee schulpen.
+- **Gebruik:** alleen in twee kleuren vanaf 160 px (`logo.svg`, `logo-inverse.svg`, `svg/logo-inline.svg`, de kleurenluifels).
+
+**De zware tent-A** (`kkgeo.glyph_tent_zwaar`, v7.1): logo-klein, elke één-kleurversie, borduur-, flock-, folie- en stempelwerk, het
+beeldmerk en het vierkante icoon. Zelfde breedte (604) en paalinsprong (18) als de slanke tent, zodat hij in hetzelfde vak past.
+
+{{T_TENT_Z}}
+
+- **Dak:** recht, van de dakhoeken naar de piek op {{PITCH_Z}}°; piek afgerond met radius 16. Geen holle randen: dat maakte de slanke tent
+  klein tot een circustent.
+- **Naad:** open, {{SEAM_Z}} hoog over de hele breedte. In één kleur scheidt hij dak en luifel, zodat de luifel als dwarsbalk van een A
+  leest en het geheel niet tot schoppen of een druppel samensmelt. In logo-klein en het beeldmerk is het ook de kleinste opening, en
+  die bepaalt daar de minimummaat (§3); op volle breedte blijft dat het gat tent–R (52).
+- **Luifel:** {{BAND_Z}} hoog tussen de palen, hoeken afgerond met radius 8; twee parabolische schulpen van {{SCAL_Z}} diep.
+- **Palen:** {{POLE_Z}} breed ({{POLE_Z_RATIO}} × de stok), recht, voeten afgerond met radius 9.
+- **logo-klein:** de zware tent en 34 eenheden extra ruimte per letterpaar. **Eén kleur op volle breedte** (`svg/logo-mono.svg`,
+  `svg/logo-on-lampion.svg`, `svg/print-wordmark.svg`): de letters van logo.svg met de zware tent in het vak van de slanke; viewBox
+  en letterposities zijn gelijk aan logo.svg.
 
 **L en A.** De voet van de L loopt over in het linkerbeen van de A: één contour, geen overlap. De A begint 100 eenheden vóór het einde
 van de voet; de voet eindigt binnen het been.
@@ -43,7 +59,8 @@ In de lock-ups staan ze op 40 % (ZAKELIJK) en 16 % (descriptor) van de logohoogt
 {{T_GAPS}}
 
 **Metingen voor productie.** logo.svg: breedte {{W_UNITS}}, dunste vorm {{STROKE_P}} (de luifelband tussen de palen), kleinste opening
-{{GAP_P}}. logo-klein: breedte {{W_UNITS_KLEIN}}, dunste vorm {{STROKE_K}}, kleinste opening {{GAP_K}}. Het bovenste binnenvlak van de
+{{GAP_P}}. Eén kleur op volle breedte (zware tent): dunste vorm {{STROKE_PZ}} (de luifelband), kleinste opening {{GAP_PZ}} (tent–R).
+logo-klein: breedte {{W_UNITS_KLEIN}}, dunste vorm {{STROKE_K}}, kleinste opening {{GAP_K}} (de naad). Het bovenste binnenvlak van de
 gewone A is {{A_COUNTER}} breed op een kwart van zijn hoogte. Alle hoeken tussen rechte randen zijn ≥ 90° of afgerond; inkepingen, zoals
 het kruis van de K en de punten tussen de schulpen, zijn scherp gelaten.
 
@@ -53,22 +70,23 @@ het kruis van de K en de punten tussen de schulpen, zijn scherp gelaten.
 |---|---|---|
 | `logo.svg` | Inkt-letters, Lampion-tent | standaard, op Zand en Wit |
 | `logo-inverse.svg` | Zand-letters, Lampion-tent | op Inkt |
-| `mark.svg` | tent-A, Lampion op Inkt (512) | avatar, app-icoon |
-| `favicon.svg` | 32-pixeltekening | bron van `favicon-32.png` |
-| `favicon-32.png`, `favicon-192.png` | favicon 32 px; beeldmerk 192 px (PWA, Android) | theme-assets |
-| `svg/logo-inline.svg`, `svg/logo-klein-inline.svg` | letters `currentColor`, tent `class="kk-tent"` | bron van `handoff/logo.liquid` |
-| `svg/logo-klein.svg`, `svg/logo-klein-inverse.svg` | palen 86, twee schulpen, meer letterruimte | 96–159 px, klein borduur- en flockwerk |
-| `svg/logo-on-lampion.svg`, `svg/logo-klein-on-lampion.svg` | één kleur Inkt | op Lampion |
-| `svg/logo-mono.svg`, `svg/logo-klein-mono.svg` | één pad, `currentColor` | eenkleurig, op Linnen en foto |
+| `mark.svg` | vierkant icoon: zware tent-A, Lampion op Inkt (512) | avatar, app-icoon, bron van `mark-512.png` en `favicon-192.png` |
+| `favicon.svg` | vierkant icoon, 32-pixeltekening | bron van `favicon-32.png` |
+| `favicon-32.png`, `favicon-192.png` | favicon 32 px; icoon 192 px (PWA, Android) | theme-assets |
+| `svg/logo-inline.svg`, `svg/logo-klein-inline.svg` | letters `currentColor`, tent `class="kk-tent"` (slank; klein: zwaar) | bron van `handoff/logo.liquid` |
+| `svg/logo-klein.svg`, `svg/logo-klein-inverse.svg` | zware tent-A, meer letterruimte | 96–159 px |
+| `svg/logo-on-lampion.svg`, `svg/logo-klein-on-lampion.svg` | één kleur Inkt, zware tent | op Lampion |
+| `svg/logo-mono.svg`, `svg/logo-klein-mono.svg` | `currentColor`, zware tent (logo-mono: letters en tent als twee paden, voor de theme) | eenkleurig, op Linnen en foto |
 | `svg/logo-luifel.svg`, `svg/logo-luifel-inverse.svg` | woordmerk + Lampion-balk met getekende descriptor | luifel, bus, marktplaatstegel, social |
-| `svg/logo-zakelijk.svg`, `svg/logo-zakelijk-inverse.svg` | één kleur + getekend label ‘ZAKELIJK’ | offertes, facturen, B2B |
-| `svg/mark-lampion.svg`, `svg/mark-zand.svg`, `svg/mark-symbool.svg`, `svg/mark-mono.svg`, `svg/mark-klein.svg` | varianten van het beeldmerk | |
-| `svg/print-wordmark.svg`, `svg/print-wordmark-klein.svg`, `svg/print-luifel.svg`, `svg/print-mark.svg`, `svg/print-mark-klein.svg` | drukbestanden: één kleur (zwart = drukkleur) | drukker, borduurder, belettering |
+| `svg/logo-zakelijk.svg`, `svg/logo-zakelijk-inverse.svg` | één kleur, zware tent + getekend label ‘ZAKELIJK’ | offertes, facturen, B2B |
+| `svg/mark-lampion.svg`, `svg/mark-zand.svg` | vierkant icoon op Lampion en op Zand | |
+| `svg/mark-symbool.svg`, `svg/mark-mono.svg` | beeldmerk zonder vlak (Lampion, `currentColor`) | |
+| `svg/print-wordmark.svg`, `svg/print-wordmark-klein.svg`, `svg/print-luifel.svg`, `svg/print-mark.svg`, `svg/print-icon.svg` | drukbestanden: één kleur (zwart = drukkleur), allemaal met de zware tent-A; `print-icon` = het icoon als stempel (tent uitgespaard) | drukker, borduurder, belettering, stempel |
 | `svg/favicon-16.svg`, `svg/favicon-cart.svg`, `svg/favicon-cart-16.svg`, `svg/apple-touch-icon.svg` | bronnen van de PNG’s | |
 | `img/favicon-16.png`, `img/favicon-cart-16.png`, `img/favicon-cart-32.png`, `img/apple-touch-icon-180.png`, `img/mark-512.png`, `img/logo-email-320.png`, `img/logo-1200.png` | PNG’s | theme-assets, e-mail, social |
 | `svg/vlaggenlijn.svg`, `svg/vlaggenlijn-inkt.svg` | vlaggenlijn voor licht en voor Inkt | sectiescheiding |
 | `img/*.webp` | productrenders, opstellingen en toepassingen (bus, doos) op Linnen | brand sheet, campagnes, voorbeeld voor de catalogus |
-| `handoff/logo.liquid`, `handoff/favicon-head.liquid`, `handoff/favicon-cart.js` | kant-en-klaar voor de theme (§6) | |
+| `handoff/logo.liquid`, `handoff/logo-css.txt`, `handoff/favicon-head.liquid`, `handoff/favicon-cart.js` | kant-en-klaar voor de theme (§6) | |
 | `fonts/Figtree-VF.ttf` | Figtree (SIL OFL 1.1) | alleen als de Shopify-handle ontbreekt |
 
 Alle SVG’s hebben een `viewBox` en een `<title>`, en geen `<text>`, `<image>`, `<use>`, `<style>` of externe verwijzingen
@@ -165,6 +183,7 @@ De theme (`theme/`) gebruikt nog brand v5/v6. Dit verandert er; de bestanden in 
 | `favicon-32.png` | `favicon-32.png` |
 | `favicon-192.png` | `favicon-192.png` |
 | `img/apple-touch-icon-180.png` | `apple-touch-icon-180.png` |
+| `img/mark-512.png` | `mark-512.png` (logo in de structured data) |
 | `img/favicon-cart-16.png` | `favicon-cart-16.png` |
 | `img/favicon-cart-32.png` | `favicon-cart-32.png` |
 | `svg/logo-zakelijk.svg` | `logo-zakelijk.svg` |
@@ -187,9 +206,16 @@ De theme (`theme/`) gebruikt nog brand v5/v6. Dit verandert er; de bestanden in 
 
 ### 6.3 Header-logo
 
-Neem `handoff/logo.liquid` over als `snippets/logo.liquid` (zelfde parameters). De letters zijn `fill="currentColor"`, de tent heeft
-`class="logo-svg__roof"` met `fill: var(--logo-roof, var(--c-lampion))`; zet `--logo-roof` per schema op `logo_tent`. Breedte: desktop
-200 px, mobiel 132 px (`settings.logo_width` 200, `logo_width_mobile` 132). Onder 160 px breed toont de snippet logo-klein.
+Neem `handoff/logo.liquid` over als `snippets/logo.liquid` (zelfde parameters, varianten `full`, `klein`, `auto`, `zakelijk`). De
+letters zijn `fill="currentColor"`, de tent heeft `class="logo-svg__roof"` met `fill: var(--logo-roof, var(--c-lampion))`; zet
+`--logo-roof` per schema op `logo_tent`. Breedte: desktop 200 px, mobiel 132 px (`settings.logo_width` 200, `logo_width_mobile` 132).
+Onder 160 px breed toont de snippet logo-klein (met de zware tent).
+
+**Eén kleur, automatisch.** De variant `full` draagt beide tenten: de slanke (`.logo-svg__roof`) en de zware
+(`.logo-svg__roof-mono`, `currentColor`, standaard `opacity="0"`). Elk kleurschema krijgt `--logo-tent-mono: 1` als zijn
+`logo_tent` gelijk is aan zijn tekstkleur (`color_to_hex`), of als ‘Tent overal in de kleur van de letters’ aan staat; de CSS uit
+`handoff/logo-css.txt` toont dan de zware tent in plaats van de slanke. Op Zakelijk-pagina’s volgt `--logo-tent-mono-zakelijk` de
+instelling ‘Zakelijk-pagina’s: logo in één kleur’. logo-klein en `zakelijk` hebben alleen de zware tent en hoeven niet te wisselen.
 
 ### 6.4 Knoppen (CSS)
 
@@ -220,7 +246,8 @@ Neem `handoff/logo.liquid` over als `snippets/logo.liquid` (zelfde parameters). 
 
 ### 6.5 Favicon
 
-`handoff/favicon-head.liquid` zet de beginstand met `cart.item_count` en geeft de PNG-paden aan `KK.favicons`;
+De favicons zijn het vierkante icoon (brand.md §3.7): 16 en 32 px zijn eigen pixeltekeningen van de zware tent-A, 180 en 192 px het
+vectoricoon. `handoff/favicon-head.liquid` zet de beginstand met `cart.item_count` en geeft de PNG-paden aan `KK.favicons`;
 `handoff/favicon-cart.js` wisselt ze in `KK.updateCartCount(count)`. Geen `type="image/svg+xml"`-link: anders gebruikt de browser één
 tekening voor elke maat en verdwijnt de 16-px-tekening.
 
@@ -231,7 +258,18 @@ tekening voor elke maat en verdwijnt de 16-px-tekening.
 - Iconen: neem de `<symbol>`’s uit `brand-sheet.html` over als snippet `icon-sprite.liquid` (tent- en statafel-icoon zijn nieuw).
 - Productbeelden: renderachtergrond Linnen (§5); het beeldvlak in de kaart is ook Linnen, zodat de render er naadloos in valt.
 
-## 7. Werklog: van v6 naar v7
+## 7. Werklog: van v6 naar v7 (en v7.1)
+
+**v7.1 (merkpolish na drie blinde juryleden).** Alleen deze drie punten; kleuren, fonts, woordmerkletters en de tweekleurige
+logo.svg bleven gelijk.
+
+| Kritiek op v7 | Wat v7.1 doet | Meting |
+|---|---|---|
+| Klein en in druk: circustent of schoppen; palen en schulpen te dun voor borduren en flock | Zware tent-A onder 160 px en in elk drukbestand | dak {{PITCH_Z}}° (was {{PITCH}}°), palen {{POLE_Z}} (was 70/86), band {{BAND_Z}}, schulpen 2 × {{SCAL_Z}}, naad {{SEAM_Z}}; borduren logo-klein {{EMB_K}} mm (was 92) |
+| Geen vierkant icoon | `mark.svg` als icoon (tent op {{ICON_SHARE}} % van het vlak), pixeltekeningen 16 en 32, apple-touch, avatar, stempel | `svg/print-icon.svg`; `mark-klein` en `print-mark-klein` vervallen |
+| Eén kleur: ♠ of druppel | Eén kleur = altijd de zware tent; de theme wisselt vanzelf | IoU 32 px: druppel {{REC_D32_7}} → {{REC_D32_Z}}, schoppen {{REC_S32_7}} → {{REC_S32_Z}}, landmark {{REC_L32_7}} → {{REC_L32_Z}} (§10) |
+
+**v7 (kritiek op v6)**
 
 | Kritiek op v6 | Wat v7 doet | Meting |
 |---|---|---|
@@ -271,19 +309,24 @@ bruikbaar resultaat.
 
 ```bash
 cd brand/tools
-python3 logo.py ..                  # alle logo-, merk-, lock-up-, favicon- en drukbestanden + logo-meta.json
+python3 logo.py ..                  # alle logo-, icoon-, lock-up-, favicon- en drukbestanden + logo-meta.json
 python3 -I repro.py <colorsrc> _repro.json   # Pantone C/U/TCX, RAL, Oracal, garen (bronnen in §4)
 python3 tokens.py ..                # tokens.json + _contrast.json (paren, knopstanden)
-python3 recognition.py              # silhouettoets (_recognition_proxy.json)
+python3 recognition.py              # silhouettoets: landmark, huis, schoppen, druppel (_recognition_proxy.json)
 python3 make_jobs.py ..             # render-jobs.jsonl (Linnen, stockkleuren, printpaden, bus en doos)
 node <kopie van renders/ met de patch en brandApps.js>/render.mjs --batch render-jobs.jsonl --samples 32
 node rasterize.mjs ..               # PNG's (Playwright)
-python3 handoff.py ..               # handoff/logo.liquid, favicon-head.liquid, favicon-cart.js
+python3 handoff.py ..               # handoff/logo.liquid, logo-css.txt, favicon-head.liquid, favicon-cart.js
 python3 build_md.py ..              # brand.md en technisch.md (tabellen uit tokens en metingen)
 python3 build_sheet.py .. && node shot.mjs file://$PWD/../brand-sheet.html ../brand-sheet.png 1440 900 1
 python3 check_svg.py ..             # viewBox, title, geen <text>, geen externe verwijzingen
 python3 compare.py '#hex'           # concurrentkleur tegen het palet (brand.md §12.2)
 ```
+
+**Renders opnieuw maken** (v7.1: zes van de zeven jobs dragen de zware tent): kopieer `renders/` naar een kladmap, pas de patch toe met
+`git apply --exclude=renders/js/materials.js tools/renders-svgprint.patch` (die hunk, de ‘mat’-afwerking, past niet meer op de
+huidige `renders/` en deze jobs gebruiken hem niet), zet `brandApps.js` in `models/` en registreer `bestelbus` en `verpakking` in
+`models/index.js`. Eén job duurt met 32 samples ongeveer twee minuten.
 
 `<colorsrc>` bevat de klonen uit §4 (aj90909/unofficial-pantone-solid-coated-2024-v5, jacobbubu/color-books, pedroduke/pantone-tcx,
 ieskudero/ral-colors, office952/workos-vscode, inkstitch/inkstitch `palettes/`, ConRes/conres.io ICC-profielen). De fonts in `fonts/`
@@ -291,9 +334,9 @@ vallen onder de SIL Open Font License 1.1.
 
 ## 10. Logotest: leest de tent-A als partytent?
 
-**Silhouettoets (gedaan, grof).** `tools/recognition.py` legt het silhouet over een generiek landmark-pictogram (fronton, balk, vier
-zuilen, voet) en een generiek huis (dak, muren, deur), beide zelf getekend naar de gangbare vorm, op 16, 32 en 64 px. Score = IoU van
-de vlakken.
+**Silhouettoets (gedaan, grof).** `tools/recognition.py` legt het silhouet over vier generieke pictogrammen, zelf getekend naar de
+gangbare vorm: landmark (fronton, balk, vier zuilen, voet), huis (dak, muren, deur), schoppen (punt, twee ronde lobben, steel) en
+druppel (punt, ronde buik), op 16, 32 en 64 px. Score = IoU van de vlakken.
 
 {{T_RECOG}}
 
@@ -301,14 +344,16 @@ de vlakken.
 
 1. **Deelnemers:** 20 mensen die het merk niet kennen, 18–70 jaar, half particulier en half zakelijk (bijvoorbeeld klanten en
    collega’s van PartyHuren). Niemand die aan het merk werkte.
-2. **Beelden:** het beeldmerk op 16, 32 en 132 px (de laatste als het woordmerk-klein in een nagebootste mobiele header), plus twee
-   afleiders op dezelfde maten: het landmark- en het huisicoon uit de silhouettoets. Volgorde per persoon willekeurig.
+2. **Beelden:** het vierkante icoon op 16 en 32 px en het woordmerk-klein op 132 px in een nagebootste mobiele header, elk in kleur
+   en in één kleur (Inkt), plus vier afleiders op dezelfde maten: het landmark-, huis-, schoppen- en druppelicoon uit de
+   silhouettoets. Volgorde per persoon willekeurig.
 3. **Afname:** 5 seconden per beeld op een telefoon met normale helderheid, daarna het scherm uit. Vraag: ‘Wat zag je?’ (open vraag,
    niet sturen). Bij het woordmerk ook: ‘Welk woord stond er?’.
-4. **Noteren:** letterlijk antwoord; codeer als tent/partytent/kraam, gebouw/bank/museum/tempel, huis/schuur, iets anders, weet niet.
+4. **Noteren:** letterlijk antwoord; codeer als tent/partytent/kraam, gebouw/bank/museum/tempel, huis/schuur, schoppen/druppel,
+   iets anders, weet niet.
 5. **Beslisregel:** het logo gaat op doek en bus als op 32 px ten minste 14 van de 20 mensen ‘tent’ (of partytent, kraam, circustent)
-   zeggen, hooguit 3 ‘gebouw/bank/museum/tempel’, en op 132 px ten minste 16 van de 20 ‘KLAPKLAAR’ lezen. Haalt 16 px het niet, dan
-   alleen het favicon aanpassen (zwaarder dak, één schulp).
+   zeggen, hooguit 3 ‘gebouw/bank/museum/tempel’ en hooguit 2 ‘schoppen/druppel’ (ook in één kleur), en op 132 px ten minste 16
+   van de 20 ‘KLAPKLAAR’ lezen. Haalt 16 px het niet, dan alleen de 16-px-tekening aanpassen.
 6. **Formulier:**
 
 | Nr. | 16 px | 32 px | 132 px: wat zag je | 132 px: welk woord | Landmark-icoon | Huis-icoon |

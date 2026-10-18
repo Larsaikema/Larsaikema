@@ -1819,13 +1819,13 @@
   }
  },
  "overkappingzeil-op-maat": {
-  "body_html": "<p>Een zeil dat precies in je veranda, carport of overkapping past. Jij geeft breedte en hoogte op in centimeters, wij maken het op maat van PVC 580 g/m². Voor een windvrije hoek op het terras, als regenscherm of om een open zijde dicht te maken.</p><h3>Wat je krijgt</h3><ul><li>1 zeil op jouw maat, met een tolerantie van 1–2 cm</li><li>PVC 580 g/m² in wit, antraciet of zwart, of helder transparant PVC</li><li>Gelaste zoom rondom met ogen, ongeveer om de 50 cm</li><li>Ramen en ritsen als je dat aangeeft in het bestelformulier</li><li>Haken, oogbouten en elastieken zitten er niet bij</li></ul><h3>Zo bestel je</h3><ol><li>Meet de opening op drie plekken in de breedte en in de hoogte. Neem steeds de kleinste maat.</li><li>Trek er ruimte voor de bevestiging af: span je het zeil met elastieken tussen haken, houd dan rondom 3 tot 5 cm vrij.</li><li>Vul Breedte (cm) en Hoogte (cm) in, kies of je ramen of ritsen wilt en zet bijzonderheden bij Toelichting.</li><li>Zet bij aantal het aantal m², naar boven afgerond. Voorbeeld: 300 × 250 cm = 7,5 m², dus aantal 8: 8 × € 32,95 = € 263,60. Minimaal 2 m².</li></ol><h3>Goed om te weten</h3><ul><li>Maatwerk maken we speciaal voor jou. Daarom kan een zeil op maat niet retour. Controleer je maten goed voordat je bestelt.</li><li>Klopt een maat niet met wat je bij Toelichting schrijft, dan nemen we contact met je op voordat we gaan snijden.</li><li>Transparant PVC wordt stug in de kou. Rol het zeil op en vouw het niet, dan blijft het helder en heel.</li><li>Een gesloten zeil vangt veel wind. Zet het aan alle ogen vast, en rol het op of haal het weg als er storm komt.</li><li>Vastmaken gaat het makkelijkst met <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">tentelastieken met bal</a> om haken of oogbouten: die geven mee bij een windstoot.</li></ul>",
+  "body_html": "<p>Een zeil dat precies in je veranda, carport of overkapping past. Jij vult breedte en hoogte in meters in, de configurator rekent de m² en de prijs uit, en wij maken het op maat van PVC 580 g/m². Voor een windvrije hoek op het terras, als regenscherm of om een open zijde dicht te maken.</p><h3>Wat je krijgt</h3><ul><li>1 zeil op jouw maat, met een tolerantie van 1–2 cm</li><li>PVC 580 g/m² in wit, antraciet of zwart, of helder transparant PVC</li><li>Gelaste zoom rondom met ogen, ongeveer om de 50 cm</li><li>Ogen rondom of alleen langs de bovenrand, naar keuze</li><li>Haken, oogbouten en elastieken zitten er niet bij</li></ul><h3>Zo bestel je</h3><ol><li>Meet de opening op drie plekken in de breedte en in de hoogte. Neem steeds de kleinste maat.</li><li>Trek er ruimte voor de bevestiging af: span je het zeil met elastieken tussen haken, houd dan rondom 3 tot 5 cm vrij.</li><li>Vul breedte en hoogte in meters in, tot op de centimeter (bijvoorbeeld 2,95 m), en kies waar de ogen komen.</li><li>De configurator rekent de oppervlakte uit en rondt af naar boven op hele m². Voorbeeld: 3 × 2,5 m = 7,5 m², dus je betaalt 8 m²: 8 × € 32,95 = € 263,60. Minimaal 2 m².</li></ol><p>Ramen of ritsen in het zeil? Die maken we op offerte: <a href=\"/pages/offerte\">vraag een offerte aan</a> met je maten.</p><h3>Goed om te weten</h3><ul><li>Maatwerk maken we speciaal voor jou. Daarom kan een zeil op maat niet retour. Controleer je maten goed voordat je bestelt.</li><li>Lijkt een maat niet te kloppen, bijvoorbeeld een hoogte van 0,5 m bij een breedte van 10 m, dan nemen we contact met je op voordat we gaan snijden.</li><li>Transparant PVC wordt stug in de kou. Rol het zeil op en vouw het niet, dan blijft het helder en heel.</li><li>Een gesloten zeil vangt veel wind. Zet het aan alle ogen vast, en rol het op of haal het weg als er storm komt.</li><li>Vastmaken gaat het makkelijkst met <a href=\"/products/haringen-en-bevestigingsmateriaal-partytent\">tentelastieken met bal</a> om haken of oogbouten: die geven mee bij een windstoot.</li></ul>",
   "kenmerk_kort": "PVC 580 g/m² op maat · prijs per m² · ogen rondom",
   "usps": [
-   "Op jouw maat, tolerantie 1–2 cm",
+   "Op jouw maat, tot op de centimeter",
    "PVC 580 g/m² of helder transparant",
-   "Ogen rondom, ramen en ritsen mogelijk",
-   "Prijs per m², vanaf 2 m²"
+   "Prijs per m², direct berekend",
+   "Vanaf 2 m²"
   ],
   "specificaties": [
    {
@@ -1836,17 +1836,17 @@
    {
     "groep": "Zeil",
     "label": "Maat",
-    "waarde": "Op maat in cm, tolerantie 1–2 cm"
+    "waarde": "Op maat: breedte 0,5–10 m, hoogte 0,5–4 m, per cm; tolerantie 1–2 cm"
    },
    {
     "groep": "Zeil",
     "label": "Afwerking",
-    "waarde": "Gelaste zoom met ogen, ca. om de 50 cm"
+    "waarde": "Gelaste zoom met ogen, ca. om de 50 cm, rondom of alleen boven"
    },
    {
     "groep": "Zeil",
     "label": "Opties",
-    "waarde": "Ramen, ritsen (aangeven bij bestellen)"
+    "waarde": "Ramen en ritsen op offerte"
    },
    {
     "groep": "Bestellen",
@@ -1856,7 +1856,7 @@
    {
     "groep": "Bestellen",
     "label": "Aantal",
-    "waarde": "Aantal m², naar boven afgerond; minimaal 2, maximaal 200 m²"
+    "waarde": "Oppervlakte uit de configurator, naar boven afgerond op hele m²; minimaal 2, maximaal 200 m²"
    },
    {
     "groep": "Bestellen",
@@ -1866,8 +1866,8 @@
   ],
   "faq": [
    {
-    "vraag": "Hoe reken ik het aantal m² uit?",
-    "antwoord": "Breedte × hoogte in meters, naar boven afgerond op hele m². Een zeil van 300 × 250 cm is 7,5 m², dus je bestelt aantal 8. Minimaal 2 m²."
+    "vraag": "Hoe wordt de prijs berekend?",
+    "antwoord": "Je vult breedte en hoogte in meters in; de configurator vermenigvuldigt ze en rondt af naar boven op hele m². Een zeil van 3 × 2,5 m is 7,5 m², dus je betaalt 8 m². Minimaal 2 m²."
    },
    {
     "vraag": "Kan ik een zeil op maat terugsturen?",
@@ -1889,11 +1889,59 @@
   "drukopties": null,
   "seo": {
    "title": "Overkappingzeil op maat, PVC per m² | Klapklaar",
-   "description": "Zeil op maat voor veranda, carport of overkapping: PVC 580 g/m² of transparant, ogen rondom, ramen en ritsen mogelijk. Prijs per m²."
+   "description": "Zeil op maat voor veranda, carport of overkapping: vul breedte en hoogte in en zie direct de prijs. PVC 580 g/m² of transparant, ogen rondom, per m²."
   },
   "image_alts": {
    "overkappingzeil-op-maat-hero.webp": "Overkappingzeil op maat, transparant PVC met ogen rondom, voorbeeldmaat 4 × 2,5 m"
-  }
+  },
+  "included": [
+   "1 zeil op jouw maat met gelaste zoom en ogen"
+  ],
+  "excluded": [
+   "Haken, oogbouten en elastieken",
+   "Ramen en ritsen (op offerte)"
+  ],
+  "configurator": {
+   "type": "oppervlakte",
+   "eenheid": "m²",
+   "velden": [
+    {
+     "id": "breedte",
+     "label": "Breedte",
+     "min": 0.5,
+     "max": 10,
+     "stap": 0.01,
+     "standaard": 3,
+     "eenheid": "m"
+    },
+    {
+     "id": "hoogte",
+     "label": "Hoogte",
+     "min": 0.5,
+     "max": 4,
+     "stap": 0.01,
+     "standaard": 2.5,
+     "eenheid": "m"
+    }
+   ],
+   "keuzes": [
+    {
+     "label": "Ogen",
+     "opties": [
+      "Rondom, ca. om de 50 cm",
+      "Alleen langs de bovenrand"
+     ]
+    }
+   ],
+   "min_afname": 2,
+   "tolerantie": "± 1–2 cm",
+   "maatwerk": true
+  },
+  "maatwerk": true,
+  "claims": [
+   "Configurator (breedte 0,5–10 m, hoogte 0,5–4 m, min. 2 m², tolerantie 1–2 cm): maatwerk niet retour, juridisch laten bevestigen.",
+   "Ramen en ritsen op offerte (geen prijs per m² in de winkel)."
+  ]
  },
  "zijwand-overkapping-pvc": {
   "body_html": "<p>Maak van je veranda of terrasoverkapping een windvrije plek zonder het uitzicht kwijt te raken. Deze wand is 250 cm hoog, heeft een breed raam van helder PVC en ritsen aan de zijkanten, zodat je hem opent waar je wilt.</p><h3>Wat je krijgt</h3><ul><li>1 wand van 3, 4, 6, 8 of 10 m breed en 250 cm hoog</li><li>PVC 550 g/m² in wit of antraciet</li><li>Panoramaraam van helder PVC over het grootste deel van de breedte</li><li>Verticale ritsen aan beide zijkanten</li><li>Ogen rondom, ongeveer om de 50 cm; haken en elastieken niet inbegrepen</li></ul><h3>Zo werkt het</h3><ol><li>Meet de breedte tussen de staanders van je overkapping en de hoogte van balk of goot tot de vloer.</li><li>Zet de bovenrand om de 50 cm vast met tentelastieken om haken of oogbouten.</li><li>Zet de zijkanten vast aan de staanders, of rits twee wanden aan elkaar.</li><li>Zet de onderrand vast met haken in de vloer, of laat hem bij een lagere overkapping op de grond liggen.</li></ol><h3>Goed om te weten</h3><ul><li>Is je overkapping lager dan 250 cm, dan ligt de onderrand op de grond. Andere maat nodig? Kies het <a href=\"/products/overkappingzeil-op-maat\">overkappingzeil op maat</a>.</li><li>Bij harde wind: zet de wand aan alle ogen vast of rol hem op. Een wand die los wappert, scheurt bij de ogen.</li><li>Rol de wand op en vouw hem niet door het raam: helder PVC wordt stug in de kou.</li><li>Schoonmaken met lauw water en een zachte doek; geen schuurmiddel op het raam.</li></ul>",

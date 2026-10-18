@@ -6,9 +6,9 @@ const require = createRequire(import.meta.url);
 const { chromium } = require(`${execSync('npm root -g').toString().trim()}/playwright`);
 const B = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const jobs = [
-  ['favicon.svg', 32, 'favicon-32.png'],                 // 32-raster drawing (k under the tent)
-  ['mark.svg', 192, 'favicon-192.png'],                  // PWA / Android: full vector mark
-  ['svg/favicon-16.svg', 16, 'img/favicon-16.png'],      // 16-raster drawing (tent only)
+  ['favicon.svg', 32, 'favicon-32.png'],                 // 32-raster drawing of the square icon (heavy tent-A)
+  ['mark.svg', 192, 'favicon-192.png'],                  // PWA / Android: the square icon (mark.svg)
+  ['svg/favicon-16.svg', 16, 'img/favicon-16.png'],      // 16-raster drawing of the square icon
   ['svg/favicon-cart.svg', 32, 'img/favicon-cart-32.png'],
   ['svg/favicon-cart-16.svg', 16, 'img/favicon-cart-16.png'],
   ['svg/apple-touch-icon.svg', 180, 'img/apple-touch-icon-180.png'],   // full-bleed square, iOS rounds it

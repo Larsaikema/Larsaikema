@@ -12,7 +12,7 @@
 .collection__sort label{color:var(--c-kiezel);white-space:nowrap}
 .select--sm{min-height:40px;padding-block:6px;width:auto;font-size:15px}
 .collection__filter-btn .facet__badge{margin-left:2px}
-.facet__badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--c-inkt);color:var(--c-zand);font-size:12px;font-weight:var(--font-body-weight-bold)}
+.facet__badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--option-selected);color:var(--c-inkt);box-shadow:inset 0 0 0 1.5px var(--c-inkt);font-size:12px;font-weight:var(--font-body-weight-bold)}
 .collection__layout{display:grid;gap:32px;align-items:start}
 @media (min-width:990px){
   .collection__layout{grid-template-columns:260px minmax(0,1fr)}

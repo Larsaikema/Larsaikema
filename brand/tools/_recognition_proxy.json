@@ -1,41 +1,65 @@
 {
- "method": "Silhouette proxy for the 'bank/landmark icon' reading: render each shape black-on-white, fit to an NxN box\n(aspect kept, centred), threshold, and compare with a generic landmark pictogram and a generic house pictogram\n(both drawn here from their usual description: pediment + slab + columns + base; roof + walls + door).\nScore = IoU of the binary masks (1 = identical silhouette). Not a substitute for the human test.",
+ "method": "Silhouette proxy for the wrong readings: render each shape black-on-white, fit to an NxN box (aspect kept,\ncentred), threshold, and compare with generic pictograms drawn here from their usual description: landmark/bank\n(pediment + slab + columns + base), house (roof + walls + door), spade (pointed top, two round lobes, stem) and drop\n(pointed top, round belly). The last two are the one-colour readings the v7 judges reported (v7.1).\nScore = IoU of the binary masks (1 = identical silhouette). Not a substitute for the human test.",
  "rows": [
   {
    "shape": "v6 tent-A (letter)",
    "landmark_16": 0.58,
    "house_16": 0.71,
+   "spade_16": 0.51,
+   "drop_16": 0.39,
    "landmark_32": 0.53,
    "house_32": 0.63,
+   "spade_32": 0.46,
+   "drop_32": 0.38,
    "landmark_64": 0.52,
-   "house_64": 0.6
+   "house_64": 0.6,
+   "spade_64": 0.44,
+   "drop_64": 0.37
   },
   {
    "shape": "v6 beeldmerk (tent + statafel)",
    "landmark_16": 0.58,
    "house_16": 0.56,
+   "spade_16": 0.57,
+   "drop_16": 0.41,
    "landmark_32": 0.57,
    "house_32": 0.51,
+   "spade_32": 0.5,
+   "drop_32": 0.37,
    "landmark_64": 0.54,
-   "house_64": 0.49
+   "house_64": 0.49,
+   "spade_64": 0.48,
+   "drop_64": 0.37
   },
   {
-   "shape": "v7 tent-A (letter = beeldmerk)",
+   "shape": "v7 tent-A slank (logo.svg, twee kleuren)",
    "landmark_16": 0.49,
    "house_16": 0.66,
+   "spade_16": 0.62,
+   "drop_16": 0.64,
    "landmark_32": 0.39,
    "house_32": 0.59,
+   "spade_32": 0.63,
+   "drop_32": 0.67,
    "landmark_64": 0.41,
-   "house_64": 0.63
+   "house_64": 0.63,
+   "spade_64": 0.63,
+   "drop_64": 0.67
   },
   {
-   "shape": "v7 mark-klein",
-   "landmark_16": 0.49,
-   "house_16": 0.66,
-   "landmark_32": 0.43,
-   "house_32": 0.63,
-   "landmark_64": 0.43,
-   "house_64": 0.65
+   "shape": "v7.1 zware tent-A (klein, één kleur, beeldmerk, icoon)",
+   "landmark_16": 0.57,
+   "house_16": 0.72,
+   "spade_16": 0.61,
+   "drop_16": 0.52,
+   "landmark_32": 0.45,
+   "house_32": 0.59,
+   "spade_32": 0.56,
+   "drop_32": 0.48,
+   "landmark_64": 0.48,
+   "house_64": 0.61,
+   "spade_64": 0.57,
+   "drop_64": 0.47
   }
  ]
 }

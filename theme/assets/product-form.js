@@ -49,9 +49,10 @@
               this.setAvailable(variant);
               this.refresh();
             }),
-            KK.on('variant:rendered', ({ root, button }) => {
+            KK.on('variant:rendered', ({ root, button, doc }) => {
               if (root !== this.root) return;
               if (button) this.button.dataset.preorder = button.dataset.preorder;
+              this.swapAddons(doc);
               this.refresh();
             }),
             KK.on('vat:change', () => this.refresh()),
@@ -69,6 +70,22 @@
         addons() {
           return [...this.root.querySelectorAll('[data-addon]:checked')];
         }
+        /** add-on quantity per main item: data-qty (e.g. 2 x Stormband), times the main quantity unless the fieldset says
+            data-addon-follow="false" (per-meter products, configurator products) */
+        addonQty(a) {
+          const follow = a.closest('[data-addon-follow]')?.dataset.addonFollow !== 'false';
+          return Math.max(1, Number(a.dataset.qty) || 1) * (follow ? this.quantity : 1);
+        }
+        /** variant change: the add-ons belong to the variant (3 x 6 m tent -> 3 x 6 m walls); keep ticks per add-on product */
+        swapAddons(doc) {
+          const cur = this.root.querySelector('[data-dynamic="addons"]');
+          const fresh = doc?.querySelector?.('[data-dynamic="addons"]');
+          if (!cur || !fresh) return;
+          const on = new Set(this.addons().map((a) => a.dataset.product));
+          const next = fresh.cloneNode(true);
+          next.querySelectorAll('[data-addon]').forEach((a) => (a.checked = on.has(a.dataset.product)));
+          cur.replaceWith(next);
+        }
         setAvailable(v) {
           const label = this.button.querySelector('[data-add-label]');
           this.button.disabled = !v.available;
@@ -85,7 +102,7 @@
           const unit = Number(this.button.dataset.price || 0);
           const q = this.quantity;
           const excl = document.documentElement.dataset.vat === 'excl';
-          const addons = this.addons().reduce((n, a) => n + Number(a.dataset.price || 0), 0);
+          const addons = this.addons().reduce((n, a) => n + Number(a.dataset.price || 0) * this.addonQty(a), 0);
           const total = unit * q + addons;
           const shown = KK.vatShown(total, excl);
           if (label && !this.button.disabled && this.button.dataset.state !== 'busy') {
@@ -190,7 +207,7 @@
           if (printOn && !files.length && !later) {
             return this.printError(printBox.dataset.required || KK.strings.printRequired);
           }
-          const addonItems = this.addons().map((a) => ({ id: Number(a.value), quantity: 1 }));
+          const addonItems = this.addons().map((a) => ({ id: Number(a.value), quantity: this.addonQty(a) }));
           this.busy(true);
           let added = null;
           try {

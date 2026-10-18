@@ -78,6 +78,7 @@ def parse_contract(md: str):
                 out[m.group(1)] = m.group(2)
         return out
     c['product_mf'] = table_types(section(md, 'Product metafields'))
+    c['variant_mf'] = table_types(section(md, 'Variant metafields'))
     c['collection_mf'] = table_types(section(md, 'Collection metafields'))
     c['tags'] = set(re.findall(r'`([a-z:\-]+)`', section(md, 'Tags')))
     c['collections'] = [h for h in re.findall(r'`([a-z0-9\-]+)`', section(md, 'Collections (handles)'))]
@@ -572,9 +573,16 @@ def run(verbose=False):
                 los += cv['price'] * q
             if los and v['price'] >= los:
                 rep.w('bundles', f'{a} / {v["sku"]}: bundle price {v["price"] / 100:.2f} not below the parts {los / 100:.2f}')
+        check_addons(rep, a, p, P, C.get('variant_mf') or {})
         if p.get('gift_card'):
             if any(v.get('requires_shipping') for v in vs):
                 rep.e('variants', f'{a}: gift card variants must not require shipping')
+    check_frame_plus_roof(rep, P)
+    check_bundle_staffels(rep, products, P)
+    for p in products:
+        for f in p['metafields'].get('downloads') or []:
+            if not (IMAGES / f).exists():
+                rep.e('metafields', f'product {p["handle"]}: download {f} missing in catalog/images')
     # theme-side: colours
     if swatches is not None:
         missing = sorted(kleur_used - swatches)
@@ -818,6 +826,11 @@ def run(verbose=False):
                                         rep.e('menus', f'{a}: filter {on}={val!r} matches no product in {ch}')
                                 elif k == 'filter.p.product_type' and val not in types:
                                     rep.e('menus', f'{a}: product_type {val!r} not in {ch}')
+                        ptypes = parse_qs(sp.query).get('filter.p.product_type')
+                        if ptypes:
+                            for child in it.get('items') or []:
+                                if child.get('type') == 'product' and child.get('handle') in P and P[child['handle']]['product_type'] not in ptypes:
+                                    rep.w('menus', f'{a}: child {child["handle"]} ({P[child["handle"]]["product_type"]}) is not on the filtered landing page')
                 else:
                     check_link(a, sp.path)
             elif t not in ('collection', 'product', 'page', 'blog', 'article', 'policy', 'http', 'frontpage',
@@ -868,9 +881,10 @@ def run(verbose=False):
     for k, t in cmf_types.items():
         if dmap.get(('COLLECTION', k)) != t:
             rep.e('exports', f'definition COLLECTION custom.{k} ({t}) missing or wrong type')
-    for k, t in (('componenten', 'list.variant_reference'), ('component_aantallen', 'list.number_integer')):
+    vmf_types = dict(C.get('variant_mf') or {}) or {'componenten': 'list.variant_reference', 'component_aantallen': 'list.number_integer'}
+    for k, t in vmf_types.items():
         if dmap.get(('PRODUCTVARIANT', k)) != t:
-            rep.e('exports', f'definition PRODUCTVARIANT custom.{k} missing')
+            rep.e('exports', f'definition PRODUCTVARIANT custom.{k} ({t}) missing or wrong type')
     if dmap.get(('ARTICLE', 'producten')) != 'list.product_reference':
         rep.e('exports', 'definition ARTICLE custom.producten missing')
     for name, key, n in (('collections.json', 'collections', len(colls)), ('pages.json', 'pages', len(pages)),
@@ -940,6 +954,147 @@ def run(verbose=False):
 
 
 _SKU_INDEX = {}
+SAME_KLEUR_EXEMPT = {'losse-strik-statafelhoes'}  # a contrast colour by design
+
+
+def _diam(v):
+    m = re.match(r'^Ø(\d+(?:,\d+)?)(?:-(\d+(?:,\d+)?))? cm$', v or '')
+    if not m:
+        return None
+    lo = float(m.group(1).replace(',', '.'))
+    hi = float((m.group(2) or m.group(1)).replace(',', '.'))
+    return lo, hi
+
+
+def check_addons(rep, a, p, P, vtypes):
+    """custom.addon_varianten / addon_aantallen per variant: known SKUs, same lengths, and the add-on variant fits the main variant
+    (same Maat/Kleur when the add-on offers it, rok range covers the blad, 'n m breed' = tent width, Set van N × aantal = poten)."""
+    skus = sku_index(list(P.values()))
+    names = [o['name'] for o in p['options']]
+    addon_products = set()
+    with_list = 0
+    poten = next((r['waarde'] for r in p['metafields'].get('specificaties') or [] if r.get('label') == 'Aantal poten'), None)
+    for v in p['variants']:
+        vmf = v.get('metafields') or {}
+        for k in vmf:
+            if vtypes and k not in vtypes:
+                rep.e('metafields', f'{a} / {v["sku"]}: variant metafield {k} not in CONTRACT')
+        avs, aqs = vmf.get('addon_varianten'), vmf.get('addon_aantallen')
+        if not avs:
+            continue
+        with_list += 1
+        if not isinstance(aqs, list) or len(aqs) != len(avs) or not all(isinstance(q, int) and q > 0 for q in aqs):
+            rep.e('addons', f'{a} / {v["sku"]}: addon_aantallen must be positive integers, same length as addon_varianten')
+            continue
+        mo = {n: v.get(f'option{i + 1}') for i, n in enumerate(names)}
+        for s, q in zip(avs, aqs):
+            if s not in skus:
+                rep.e('addons', f'{a} / {v["sku"]}: add-on SKU {s} unknown')
+                continue
+            ah, av = skus[s]
+            if ah == p['handle']:
+                rep.e('addons', f'{a} / {v["sku"]}: add-on is the product itself')
+            addon_products.add(ah)
+            ap = P[ah]
+            anames = [o['name'] for o in ap['options']]
+            ao = {n: av.get(f'option{i + 1}') for i, n in enumerate(anames)}
+            for opt in ('Maat', 'Kleur'):
+                if opt in mo and opt in ao and mo[opt] != ao[opt]:
+                    offered = next((o['values'] for o in ap['options'] if o['name'] == opt), [])
+                    if mo[opt] in offered and not (opt == 'Kleur' and ah in SAME_KLEUR_EXEMPT):
+                        rep.e('addons', f'{a} / {v["sku"]}: add-on {ah} has {opt} {ao[opt]!r} although {mo[opt]!r} exists')
+            md, ad = _diam(mo.get('Maat')), _diam(ao.get('Maat'))
+            if md and ad and ad[0] != ad[1] and not (ad[0] <= md[1] <= ad[1]):
+                rep.e('addons', f'{a} / {v["sku"]}: {ah} {ao["Maat"]} does not fit {mo["Maat"]}')
+            mb = re.match(r'^(\d+(?:,\d+)?) m breed$', ao.get('Maat') or '')
+            mw = re.match(r'^(\d+(?:,\d+)?) x', mo.get('Maat') or '')
+            if mb and mw and mb.group(1) != mw.group(1):
+                rep.e('addons', f'{a} / {v["sku"]}: {ah} {ao["Maat"]} does not match tent width {mo["Maat"]}')
+            ms = re.match(r'^Set van (\d+)$', ao.get('Uitvoering') or '')
+            if ms and poten and poten.isdigit() and int(ms.group(1)) * q != int(poten):
+                rep.e('addons', f'{a} / {v["sku"]}: {ah} {ao["Uitvoering"]} × {q} ≠ {poten} poten')
+    if with_list and with_list != len(p['variants']):
+        rep.w('addons', f'{a}: {len(p["variants"]) - with_list} of {len(p["variants"])} variants without addon_varianten (theme falls back to the first variant of each add-on)')
+    pa = set(p['metafields'].get('addons') or [])
+    if addon_products - pa:
+        rep.e('addons', f'{a}: addon_varianten use {sorted(addon_products - pa)} but custom.addons does not list them')
+    if pa and not with_list:
+        for ah in pa:
+            if ah in P and len(P[ah]['variants']) > 1:
+                rep.w('addons', f'{a}: add-on {ah} has {len(P[ah]["variants"])} variants but no addon_varianten pick one (first variant lands in the cart)')
+    if p['metafields'].get('addon_modus') not in (None, 'per-stuk', 'per-regel'):
+        rep.e('metafields', f'{a}: addon_modus {p["metafields"]["addon_modus"]!r} not per-stuk/per-regel')
+
+
+FRAME_ROOF = [  # (tent handle, tent selector, frame handle, roof Uitvoering)
+    ('easy-up-partytent-premium-', None, 'los-frame-easy-up-premium', 'Polyester'),
+    ('easy-up-partytent-professional-', 'Polyester', 'los-frame-easy-up-professional', 'Polyester'),
+    ('easy-up-partytent-professional-', 'Heavy duty PVC', 'los-frame-easy-up-professional', 'Heavy duty PVC'),
+]
+
+
+def check_frame_plus_roof(rep, P):
+    """A loose frame plus a loose roof of the same size must never be cheaper than the complete tent."""
+    roofs = P.get('dakzeil-easy-up')
+    if not roofs:
+        return
+    for prefix, uitv, frame_h, roof_u in FRAME_ROOF:
+        frame = P.get(frame_h)
+        if not frame:
+            continue
+        frame_price = {v['option1']: v['price'] for v in frame['variants']}
+        for h, tent in P.items():
+            if not (h.startswith(prefix) and h[-1].isdigit()):
+                continue
+            names = [o['name'] for o in tent['options']]
+            for v in tent['variants']:
+                o = {n: v.get(f'option{i + 1}') for i, n in enumerate(names)}
+                if uitv and o.get('Uitvoering') != uitv:
+                    continue
+                m = o.get('Maat')
+                roof = [r['price'] for r in roofs['variants'] if r['option1'] == m and r['option2'] == roof_u]
+                if m not in frame_price or not roof:
+                    continue
+                if frame_price[m] + min(roof) < v['price']:
+                    rep.e('prices', f'{h} {m} {o.get("Uitvoering") or ""}: frame {frame_price[m] / 100:.2f} + dak {min(roof) / 100:.2f} '
+                                    f'< tent {v["price"] / 100:.2f} (parts cheaper than the tent)')
+                break  # one colour per size is enough (same price)
+
+
+def _korting(st, n):
+    k = 0
+    for t in st or []:
+        if n >= t['vanaf']:
+            k = t['korting']
+    return k
+
+
+def check_bundle_staffels(rep, products, P, n_max=200):
+    """Every bundle carries a staffel, and at every volume 1..n_max it is not dearer than its parts with their own staffels."""
+    skus = sku_index(products)
+    for p in products:
+        if 'set' not in p['tags']:
+            continue
+        st = p['metafields'].get('staffelkorting')
+        if not st:
+            rep.w('bundles', f'product {p["handle"]}: bundle without staffelkorting')
+        for v in p['variants']:
+            cs = v['metafields'].get('componenten') or []
+            qs = v['metafields'].get('component_aantallen') or []
+            if not cs:
+                continue
+            for n in range(1, n_max + 1):
+                parts = 0
+                for s, q in zip(cs, qs):
+                    ch, cv = skus[s]
+                    parts += cv['price'] * q * (1 - _korting(P[ch]['metafields'].get('staffelkorting'), n * q) / 100)
+                own = v['price'] * (1 - _korting(st, n) / 100)
+                if own > parts + 0.5:
+                    rep.e('bundles', f'product {p["handle"]} / {v["sku"]}: at {n} pakketten the bundle ({own / 100:.2f}) is dearer than its parts '
+                                     f'with their staffels ({parts / 100:.2f})')
+                    break
+
+
 
 
 def sku_index(products):

@@ -41,7 +41,7 @@
         <script src="{{ 'download-size.js' | asset_url }}" defer></script>
         <ul class="downloads" role="list" data-downloads>
           {%- for f in files -%}
-            {%- render 'download-link', file: f -%}
+            {%- render 'download-link', file: f, title: product.title -%}
           {%- endfor -%}
         </ul>
       {%- endif -%}

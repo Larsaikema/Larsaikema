@@ -31,7 +31,7 @@ Colour swatches: the theme uses `value.swatch.color` when present (seed script l
 | `verzending` | single_line_text_field | `pakket` (default) or `pallet` → delivery copy + shipping profile |
 | `bedrukbaar` | boolean | shows the logo-upload / drukpositie block (line-item properties) |
 | `drukopties` | json | `{"posities":["Voorkant","Rondom"],"aanlevering":"PDF, AI, EPS, SVG of PNG ≥ 300 dpi","levertijd":"10–15 werkdagen na akkoord drukproef","min_aantal":1}` |
-| `downloads` | list.file_reference | handleiding / productblad PDFs |
+| `downloads` | list.file_reference | handleiding / productblad PDFs: `catalog/images/<opbouwhandleiding\|productblad>-<handle>.pdf`, attached by `build.py` when the file exists; tent productbladen come from `node catalog/tools/productblad.mjs` (catalog data only, no prices) |
 | `faq` | json | `[{"vraag":"…","antwoord":"…"}]` → PDP FAQ accordion + FAQPage JSON-LD |
 | `vergelijk_groep` | single_line_text_field | e.g. `easy-up` → comparison table Premium vs Professional |
 | `gewicht_kg` | number_decimal | spec + shipping |

@@ -33,7 +33,7 @@ def sized(rel, cls='', style='', label='Klapklaar'):
 files = ['logo.svg', 'logo-inverse.svg', 'mark.svg', 'favicon.svg', 'svg/logo-klein.svg', 'svg/logo-klein-inverse.svg',
          'svg/logo-mono.svg', 'svg/logo-klein-mono.svg', 'svg/logo-on-lampion.svg', 'svg/logo-klein-on-lampion.svg',
          'svg/logo-luifel.svg', 'svg/logo-luifel-inverse.svg', 'svg/logo-zakelijk.svg', 'svg/logo-zakelijk-inverse.svg',
-         'svg/mark-lampion.svg', 'svg/mark-zand.svg', 'svg/mark-symbool.svg', 'svg/mark-mono.svg', 'svg/mark-klein.svg',
+         'svg/mark-lampion.svg', 'svg/mark-zand.svg', 'svg/mark-symbool.svg', 'svg/mark-mono.svg', 'svg/print-icon.svg', 'svg/apple-touch-icon.svg',
          'svg/favicon-16.svg', 'svg/favicon-cart.svg', 'svg/favicon-cart-16.svg', 'svg/vlaggenlijn.svg', 'svg/vlaggenlijn-inkt.svg',
          'svg/print-luifel.svg', 'svg/print-mark.svg', 'svg/print-wordmark.svg', 'svg/logo-inline.svg', 'svg/logo-klein-inline.svg']
 def _mk(f):
@@ -94,7 +94,33 @@ def raster_svg(paths):
             else: d.append('C' + ' '.join(f'{pt(q)[0]:.2f} {pt(q)[1]:.2f}' for q in sg[1:]))
         d.append('Z')
     return ''.join(d)
-rec = {'v7': raster_svg(tg.paths), 'rows': REC['rows']}
+tgz = G.glyph_tent_zwaar(P)
+rec = {'v7': raster_svg(tg.paths), 'v71': raster_svg(tgz.paths), 'rows': REC['rows']}
+# generic pictograms of the wrong readings, same geometry as tools/recognition.py (24 grid, y down)
+def _tangent(apex, cx, cy, r):
+    dx, dy = cx - apex[0], cy - apex[1]; dd = math.hypot(dx, dy); a = math.atan2(dy, dx); b = math.asin(r / dd); t = math.sqrt(dd * dd - r * r)
+    return [apex, (apex[0] + t * math.cos(a - b), apex[1] + t * math.sin(a - b)), (cx, cy), (apex[0] + t * math.cos(a + b), apex[1] + t * math.sin(a + b))]
+def _poly(pts): return 'M' + 'L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + 'Z'
+rec['spade'] = (f'<circle cx="7.6" cy="13.2" r="4.6"/><circle cx="16.4" cy="13.2" r="4.6"/><path d="{_poly([(12, 2), (4.0, 10.4), (12, 15), (20.0, 10.4)])}"/>'
+                f'<path d="{_poly([(10.8, 14), (9, 22), (15, 22), (13.2, 14)])}"/>')
+rec['drop'] = f'<circle cx="12" cy="15" r="7"/><path d="{_poly(_tangent((12, 2), 12, 15, 7))}"/>'
+
+# ---------------------------------------------------------------- the heavy tent-A beside the slender one (one colour)
+tzd = G.tent_zwaar_dims(P)
+ttop = max(tt, max(q[1] for c in tgz.paths for q in c.flatten(16)))
+GAP = 120
+zwaar = {'slank_d': _d(tg.paths, topy=ttop), 'zwaar_d': _d(tgz.paths, ox=-(P['T_W'] + GAP), topy=ttop), 'w': P['T_W'] * 0.1, 'x0': (P['T_W'] + GAP) * 0.1,
+         'y': lambda v: round((ttop - v) * 0.1, 2), 'dims': tzd, 'p': P}
+# v7 one colour (slender tent merged with the letters) next to v7.1 (heavy tent), for the before/after strip
+def one_colour_svg(letters, tent, fill):
+    pts = [q for c in letters + tent for q in c.flatten(12)]
+    x0_, x1_ = min(q[0] for q in pts), max(q[0] for q in pts); y0_, y1_ = min(q[1] for q in pts), max(q[1] for q in pts)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {(x1_ - x0_) * 0.1:.2f} {(y1_ - y0_) * 0.1:.2f}" style="display:block;width:{{w}}px;height:auto" aria-label="Klapklaar">'
+            f'<path fill="{fill}" d="{_d(letters + tent, ox=x0_, topy=y1_)}"/></svg>')
+_l, _t, _w, _i = G.wordmark(P, extra=34, tent_kw={'leg': 86, 'scallops': 2})
+v7_klein_mono = one_colour_svg(_l, _t, '#1D2420')
+_l, _t, _w, _i = G.wordmark(P)
+v7_mono = one_colour_svg(_l, _t, '#1D2420')
 
 # ---------------------------------------------------------------- data for the template
 col = TOK['color']
@@ -146,7 +172,8 @@ d = {
     'n_pairs': len(rows), 'n_fail': sum(not r['pass'] for r in rows), 'n_scheme': len(CON['scheme_checks']),
     'surfaces': CON['surfaces'], 'sep': CON['separation'], 'angles': META['angles_deg'], 'strokes': META['strokes_units'], 'g': guide, 'tentm': META['tent'],
     'switch': META['switch'],
-    'min_mm': {'logo': wm['primary']['min_width_mm'], 'klein': wm['klein']['min_width_mm'], 'mark': META['mark']['min_width_mm'], 'markk': META['mark']['min_width_mm_klein']},
+    'min_mm': {'logo': wm['primary']['min_width_mm'], 'logo1': wm['primary_een_kleur']['min_width_mm'], 'klein': wm['klein']['min_width_mm'], 'mark': META['mark']['min_width_mm']},
+    'tz': META['tent_zwaar'], 'icon_share': META['mark']['icon_tent_height_share'], 'zwaar': zwaar, 'v7_mono': v7_mono, 'v7_klein_mono': v7_klein_mono,
     'aspect': nl(wm['primary']['aspect']), 'gaps': wm['primary']['letter_gaps'], 'fonts': TOK['font'], 'scale': TOK['type_scale'], 'price': TOK['price_notation'],
     'tent': tent_detail, 'rec': rec, 'nl': nl, 'r_li': fmt(ratio('lampion', 'inkt')),
     'logo_inner': inner('logo.svg')[0], 'logo_vb': inner('logo.svg')[1],

@@ -20,6 +20,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-premium-3x3.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -227,6 +235,14 @@
       "zandzakken-partytent-set-van-4",
       "regengoot-partytent",
       "koppelset-easy-up"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-premium-3x4-5.pdf"
      ]
     },
     {
@@ -442,6 +458,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-premium-3x6.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -651,6 +675,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-2x2.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -757,6 +789,14 @@
       "regengoot-partytent",
       "koppelset-easy-up",
       "zijwandenset-easy-up-heavy-duty-pvc"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-3x3.pdf"
      ]
     },
     {
@@ -1018,6 +1058,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-3x4-5.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -1271,6 +1319,14 @@
       "regengoot-partytent",
       "koppelset-easy-up",
       "zijwandenset-easy-up-heavy-duty-pvc"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-3x6.pdf"
      ]
     },
     {
@@ -1532,6 +1588,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-4x4.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -1785,6 +1849,14 @@
       "regengoot-partytent",
       "koppelset-easy-up",
       "zijwandenset-easy-up-heavy-duty-pvc"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-4x6.pdf"
      ]
     },
     {
@@ -2046,6 +2118,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-4x8.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -2302,6 +2382,14 @@
     },
     {
      "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-5x5.pdf"
+     ]
+    },
+    {
+     "namespace": "custom",
      "key": "maatgids",
      "type": "page_reference",
      "value": "maatadvies-partytenten"
@@ -2431,6 +2519,14 @@
       "zijwandenset-easy-up",
       "voetgewicht-easy-up-15-kg",
       "beschermhoes-easy-up"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-met-logo-op-de-luifel.pdf"
      ]
     }
    ],
@@ -3204,6 +3300,14 @@
       "voetgewicht-easy-up-15-kg",
       "beschermhoes-easy-up"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-professional-full-colour-bedrukt.pdf"
+     ]
     }
    ],
    "variants": [
@@ -3461,6 +3565,14 @@
       "voetgewicht-easy-up-15-kg",
       "spanbanden-en-haringen-easy-up",
       "wieltas-easy-up"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-easy-up-partytent-premium-met-logo-op-de-luifel.pdf"
      ]
     }
    ],
@@ -4534,6 +4646,14 @@
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-partytent-pe-basis-buizenframe.pdf"
+     ]
     }
    ],
    "variants": [
@@ -4683,6 +4803,14 @@
       "opbergtassenset-partytent",
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-partytent-pvc-500-comfort.pdf"
      ]
     }
    ],
@@ -4965,6 +5093,14 @@
       "opbergtassenset-partytent",
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-partytent-pvc-550-premium.pdf"
      ]
     }
    ],
@@ -5268,6 +5404,14 @@
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-partytent-pvc-550-compleet.pdf"
+     ]
     }
    ],
    "variants": [
@@ -5385,6 +5529,14 @@
       "opbergtassenset-partytent",
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-partytent-pvc-620-professional.pdf"
      ]
     }
    ],
@@ -5561,6 +5713,14 @@
       "opbergtassenset-partytent",
       "haringen-en-bevestigingsmateriaal-partytent",
       "betonblok-ballast-tent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-opslagtent-pvc.pdf"
      ]
     }
    ],
@@ -5885,6 +6045,14 @@
      "value": [
       "betonblok-ballast-tent"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-carport-opslagtent-vast-frame.pdf"
+     ]
     }
    ],
    "variants": [
@@ -5920,6 +6088,14 @@
       "zijwand-stretchtent",
       "onderdelen-stretchtent",
       "betonblok-ballast-tent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-stretchtent-compleet.pdf"
      ]
     }
    ],
@@ -7280,6 +7456,28 @@
      "value": [
       "stretchtent-compleet"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-stretchdoek-los.pdf"
+     ]
+    }
+   ],
+   "variants": []
+  },
+  {
+   "handle": "stretchdoek-op-maat",
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-stretchdoek-op-maat.pdf"
+     ]
     }
    ],
    "variants": []
@@ -7329,6 +7527,20 @@
    "variants": []
   },
   {
+   "handle": "hypar-schaduwzeil-stretch",
+   "metafields": [
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-hypar-schaduwzeil-stretch.pdf"
+     ]
+    }
+   ],
+   "variants": []
+  },
+  {
    "handle": "stertent-enkele-mast",
    "metafields": [
     {
@@ -7337,6 +7549,14 @@
      "type": "list.product_reference",
      "value": [
       "zijwanden-stertent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-stertent-enkele-mast.pdf"
      ]
     }
    ],
@@ -7733,6 +7953,14 @@
      "value": [
       "zijwanden-stertent"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-stertent-dubbele-mast.pdf"
+     ]
     }
    ],
    "variants": [
@@ -7993,6 +8221,14 @@
       "zijwand-opblaasbare-promotietent",
       "luifel-opblaasbare-promotietent",
       "watergewichtzakken-4x20-kg"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-opblaasbare-promotietent.pdf"
      ]
     }
    ],
@@ -9068,6 +9304,14 @@
       "luifel-opblaasbare-promotietent",
       "watergewichtzakken-4x20-kg"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-opblaasbare-promotietent-pro.pdf"
+     ]
     }
    ],
    "variants": [
@@ -9878,6 +10122,14 @@
       "luifel-opblaasbare-promotietent",
       "watergewichtzakken-4x20-kg"
      ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-opblaasbare-partytent-3x3-waterpoten.pdf"
+     ]
     }
    ],
    "variants": [
@@ -9959,6 +10211,14 @@
      "value": [
       "pomp-opblaasbare-tent",
       "zijwand-opblaasbare-zeshoektent"
+     ]
+    },
+    {
+     "namespace": "custom",
+     "key": "downloads",
+     "type": "list.file_reference",
+     "value": [
+      "productblad-opblaasbare-zeshoektent.pdf"
      ]
     }
    ],

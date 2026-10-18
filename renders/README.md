@@ -302,24 +302,21 @@ gelijkgekleurde productkaart staan.
   het belichte dakvlak de lichte kant van de ruimte spiegelt.
 
 **Tentbelichting** (voorgesteld door `easyUpTent`, `tentRig()` in het model): studio-omgeving (`env:
-"studio"`), sleutel als softbox-spot op 1,78× de halve productdiagonaal van links-voor (−33°, 30°), gericht
-op de voorste dakrand, zodat het naar de camera gekeerde dakvlak laag op het vlak het helderst is en naar
-de top en de verre graat afloopt; grote lage vulling van rechts (76°, 8°) voor het afgewende vlak; hemelkap
-30° gekanteld; vloerschaduw van bijna recht boven; `groundSplit` met `shadowFloor` 0,6 en een contactschaduw
-van ~3 cm rond voetplaten, gewichten en wandzomen. De lichtverhoudingen zijn niet op gevoel gekozen maar
-opgelost uit per-licht-renders (lineair teruggerekend en gemengd op doelwaarden per vlak). Per kleur:
-wit belichting 0,67; zwart een sterkere key/vulling met maar 0,13 reflectie (zwart blijft zwart en spiegelt
-alleen de scrim als glansband); overige kleuren `auto`. `front` krijgt een eigen, gevederde key van net
-links van de lens (vlak licht in het midden, aflopend naar beide graten) en `detail` een richtingslicht —
-bij een deur scherend van opzij.
+"studio"`); sleutel als softbox-spot op 1,78× de halve productdiagonaal van links-voor (−72° t.o.v. de
+camera = −38° in de wereld bij de hero, 32° hoog), **gevederd**: een zachte bundel van 40° met volle
+penumbra op het voorste dakvlak. Hij scheert over dat vlak, zodat de holte tussen spant en graat als
+licht-donkergradiënt leest, en valt af naar de linkergraat, de top en het verre vlak — zo komt het
+belichte silhouet van een wit dak los van de achtergrond door afval in plaats van erin weg te lopen.
+Vulling van rechts-áchter (100°, 12°): die raakt het voorvlak niet (een vulling van rechts-voor heft de
+gradiënt van de holte op) en geeft het verre vlak een eigen, donkerdere waarde met gradiënt. Hemelkap 2,4
+naar de sleutelkant gekanteld (25°), vloerschaduw van bijna recht boven (`floorKey`), `keyShadow` 0,46.
+Wit doek: `neutral` met `shoulder` 0,88 en belichting 0,52; zwart een sterkere key; overige kleuren
+`auto`. Vloer: `groundSplit` met `shadowFloor` 0,6, een strakke contactschaduw (`h0` 3 cm) en een brede
+contacthalo (`wide`: `h0` 5 cm, σ 2,8 cm, sterkte 0,42); met wanden is de hemelocclusie sterker (0,5).
+`front` krijgt een eigen scherende key van links (−50°, 30°) die het vlak op de spantnaad splitst;
+`detail` een richtingslicht (bij een deur scherend van opzij).
 
-Gemeten (sRGB-luminantie, achtergrond #EFEDE8 = 237): `tent-3x3-wit-hero` belicht dakvlak 225–232 met
-gradiënt naar de top, afgewend vlak 211–216, valance 229 / 196, silhouet overal ≥ 11 niveaus van de
-achtergrond, vloer onder het dak ≈ 190, open vloer ≈ 233. `tent-3x6-zwart-zijwanden-hero`: dak 62–67
-(belicht, incl. glansband) / 46 (afgewend), valance 45–49, wanden 31–41, vloer langs de wand ≈ 215.
-`tent-3x3-wit-front`: vlak 221–238 in het midden, beide graten ≤ 228. Contactschaduw: ~50 niveaus aan de
-rand van een voetplaat (1000 px), uitlopend over ~3,5 cm. Gekleurd doek (rood) krijgt maar 0,4 reflectie,
-zodat het belichte vlak de kleur van het doek houdt (≈ 188/44/49 voor #B5161E, valance 182/13/24).
+Gemeten op de 2000 px-samples (sRGB-luminantie, achtergrond #EFEDE8 = 237): zie de tabel onder.
 
 `keyShadow` (aandeel van de softbox in het vloerlicht) wordt standaard uit de lichtsterktes berekend.
 **Belichting `auto`:** zoals een fotograaf per product belicht, wordt de belichting afgeleid uit de

@@ -91,7 +91,9 @@ main>.shopify-section:first-child .section.color-scheme-1{padding-top:calc(var(-
 .icon--xs{width:16px;height:16px}
 .icon--lg{width:32px;height:32px}
 .kk-tent,.logo-svg__roof{fill:var(--logo-tent,var(--c-brand))!important}
-.is-zakelijk :is(.header-wrap,.menu-drawer,.footer){--logo-tent:var(--logo-tent-zakelijk)}
+/* brand v7.1: a one-colour tent is the heavy tent-A (snippets/logo.liquid carries both; --logo-tent-mono per scheme) */
+.logo-svg--full .logo-svg__roof{opacity:calc(1 - var(--logo-tent-mono,0))}.logo-svg__roof-mono{opacity:var(--logo-tent-mono,0)}
+.is-zakelijk :is(.header-wrap,.menu-drawer,.footer){--logo-tent:var(--logo-tent-zakelijk);--logo-tent-mono:var(--logo-tent-mono-zakelijk)}
 .divider-flags{height:30px;background:url("vlaggenlijn.svg") repeat-x center/320px 30px}
 /* luifelstreep (brand v7 4.2): one word of a large heading underlined in the brand colour, never brand-coloured text */
 .accent-line{text-decoration:underline;text-decoration-color:var(--accent-line);text-decoration-thickness:.14em;text-underline-offset:.12em;text-decoration-skip-ink:none}

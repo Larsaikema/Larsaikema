@@ -125,6 +125,7 @@
 .addon__media img{width:100%;height:100%;object-fit:contain}
 .addon__title{display:block;font-weight:var(--font-body-weight-semibold);font-size:14.5px;line-height:1.3}
 .addon__spec{display:block;font-size:13px;color:var(--c-kiezel)}
+.addon__variant{display:block;font-size:13px;line-height:1.3}
 .addon__price{font-weight:var(--font-body-weight-bold);font-size:14.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* buy */

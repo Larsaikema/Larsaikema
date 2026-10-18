@@ -57,7 +57,7 @@
               <p class="manual__type eyebrow">{{ t }}</p>
               <h2 class="manual__title h4"><a class="link link--quiet" href="{{ p.url }}">{{ p.title }}</a></h2>
               <ul class="downloads" role="list" data-downloads>
-                {%- for f in files -%}{%- render 'download-link', file: f -%}{%- endfor -%}
+                {%- for f in files -%}{%- render 'download-link', file: f, title: p.title -%}{%- endfor -%}
               </ul>
             </div>
           </li>

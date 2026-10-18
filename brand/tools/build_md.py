@@ -46,6 +46,27 @@ rows = ['| Hoogte (eenheden) | Tent-A | Gewone A |', '|---|---:|---:|',
         f"| onderkant schulpen = onderkant dwarsbalk | {nl(tm['scallop_tips'], 1)} | {nl(tm['a_crossbar'][0], 1)} |",
         f"| breedte | {tm['width']} | {p['W_A']} |"]
 V['T_TENT'] = '\n'.join(rows)
+tz = META['tent_zwaar']
+rows = ['| Maat (eenheden) | Zware tent-A | Slanke tent-A |', '|---|---:|---:|',
+        f"| dak (vanaf horizontaal) | {nl(tz['pitch_deg'], 1)}°, rechte randen | {nl(tz['pitch_slank_deg'], 1)}°, randen 11 naar binnen gebogen |",
+        f"| piek | {nl(tz['peak_y'], 0)} geometrisch, {nl(tz['peak_after_rounding'], 1)} na de afronding | {nl(tm['peak_y'], 0)} geometrisch, {nl(700 + wm['primary']['peak_above_cap_units'], 1)} na de afronding |",
+        f"| dakhoeken | {nl(tz['roof_corners'], 1)} | {tm['valance_top']} (dak loopt over in de luifel) |",
+        f"| open naad tussen dak en luifel | {nl(tz['seam'], 0)} | – |",
+        f"| bovenkant luifel | {nl(tz['valance_top'], 1)} | {tm['valance_top']} |",
+        f"| onderkant luifelband (tussen de schulpen) | {nl(tz['cusps'], 1)} | {nl(tm['cusps'], 1)} |",
+        f"| onderkant schulpen = hoogte van de opening tussen de palen | {nl(tz['scallop_tips'], 1)} | {nl(tm['scallop_tips'], 1)} |",
+        f"| luifelband | {nl(tz['band'], 0)} | {nl(tm['valance_top'] - tm['cusps'], 1)} |",
+        f"| schulpen | {tz['scallops']} × {nl(tz['scallop_depth'], 0)} diep | {p['T_SCAL']} × {p['T_SCAL_D']} diep |",
+        f"| palen | {nl(tz['pole'], 0)} ({nl(tz['pole_to_stem'], 2)} × de stok) | {p['T_LEG']} ({nl(tm['pole_to_stem'], 2)} × de stok) |",
+        f"| paal ingesprongen vanaf de luifelhoek | {nl(tz['pole_inset'], 0)} | {p['T_INSET']} |",
+        f"| breedte | {nl(tz['width'], 0)} | {tm['width']} |"]
+V['T_TENT_Z'] = '\n'.join(rows)
+V['PITCH_Z'] = nl(tz['pitch_deg'], 1); V['POLE_Z'] = nl(tz['pole'], 0); V['BAND_Z'] = nl(tz['band'], 0); V['SCAL_Z'] = nl(tz['scallop_depth'], 0)
+V['SEAM_Z'] = nl(tz['seam'], 0); V['POLE_Z_RATIO'] = nl(tz['pole_to_stem'], 2); V['VT_Z'] = nl(tz['valance_top'], 0)
+V['ICON_SHARE'] = nl(META['mark']['icon_tent_height_share'] * 100, 0)
+pz = wm['primary_een_kleur']
+V['STROKE_PZ'] = nl(pz['thinnest_stroke_units'], 0); V['GAP_PZ'] = nl(pz['smallest_opening_units'], 0)
+V['EMB_PZ'] = str(pz['min_width_mm']['Borduren (satijnsteek)'])
 V['PEAK_OVER'] = nl(wm['primary']['peak_above_cap_units'], 1)
 V['PEAK_PCT'] = nl(wm['primary']['peak_above_cap_units'] / 7, 1)
 V['PITCH'] = nl(META['angles_deg']['tentdak, koorde top-hoek (vanaf horizontaal)'], 1)
@@ -61,13 +82,13 @@ methods = [m for m in wm['primary']['min_width_mm'] if m != 'Scherm (px)']
 ASSUME = {'Borduren (satijnsteek)': '1,2 / 1,0', 'Flock-transfer (geplot)': '1,5 / 1,5', 'Flex-/snijfolie (textiel)': '1,0 / 1,0',
           'Snijfolie bus/bord': '1,5 / 1,5', 'Zeefdruk textiel': '0,5 / 0,6', 'DTF-transfer': '0,5 / 0,5', 'Sublimatie (luifel, rok)': '0,3 / 0,3',
           'Offset/digitaal papier': '0,15 / 0,15'}
-rows = ['| Methode | Kleinste lijn / opening (aanname, mm) | logo.svg | logo-klein | beeldmerk | beeldmerk klein |', '|---|---|---:|---:|---:|---:|']
+rows = ['| Methode | Kleinste lijn / opening (aanname, mm) | logo.svg (twee kleuren) | print-wordmark.svg (één kleur) | logo-klein, print-wordmark-klein | beeldmerk (print-mark.svg) |', '|---|---|---:|---:|---:|---:|']
 for m in methods:
-    rows.append(f"| {m} | {ASSUME[m]} | {wm['primary']['min_width_mm'][m]} mm | {wm['klein']['min_width_mm'][m]} mm | {META['mark']['min_width_mm'][m]} mm | {META['mark']['min_width_mm_klein'][m]} mm |")
-rows.append(f"| Scherm, technisch minimum (1x) | 1,6 px / 1 px | {wm['primary']['min_width_mm']['Scherm (px)']} px | {wm['klein']['min_width_mm']['Scherm (px)']} px | {META['mark']['min_width_mm']['Scherm (px)']} px | {META['mark']['min_width_mm_klein']['Scherm (px)']} px |")
+    rows.append(f"| {m} | {ASSUME[m]} | {wm['primary']['min_width_mm'][m]} mm | {pz['min_width_mm'][m]} mm | {wm['klein']['min_width_mm'][m]} mm | {META['mark']['min_width_mm'][m]} mm |")
+rows.append(f"| Scherm, technisch minimum (1x) | 1,6 px / 1 px | {wm['primary']['min_width_mm']['Scherm (px)']} px | {pz['min_width_mm']['Scherm (px)']} px | {wm['klein']['min_width_mm']['Scherm (px)']} px | {META['mark']['min_width_mm']['Scherm (px)']} px |")
 V['T_MINSIZE'] = '\n'.join(rows)
 V['EMB_P'] = str(wm['primary']['min_width_mm']['Borduren (satijnsteek)']); V['EMB_K'] = str(wm['klein']['min_width_mm']['Borduren (satijnsteek)'])
-V['EMB_M'] = str(META['mark']['min_width_mm']['Borduren (satijnsteek)']); V['EMB_MK'] = str(META['mark']['min_width_mm_klein']['Borduren (satijnsteek)'])
+V['EMB_M'] = str(META['mark']['min_width_mm']['Borduren (satijnsteek)'])
 V['FLOCK_K'] = str(wm['klein']['min_width_mm']['Flock-transfer (geplot)'])
 V['SUB_P'] = str(wm['primary']['min_width_mm']['Sublimatie (luifel, rok)'])
 
@@ -139,12 +160,15 @@ for k, s_ in REP['sources'].items():
 V['L_REPRO_SOURCES'] = '\n'.join(srcs)
 lg = TOK['logo']
 V['HEADER_D'] = lg['header']['desktop']; V['HEADER_M'] = lg['header']['mobile_390']
-rows = ['| Vorm | landmark 16 px | landmark 32 px | landmark 64 px | huis 16 px | huis 32 px | huis 64 px |', '|---|---:|---:|---:|---:|---:|---:|']
+rows = ['| Vorm (IoU op 16 · 32 · 64 px) | landmark | huis | schoppen ♠ | druppel |', '|---|---:|---:|---:|---:|']
+def trio(r, k): return ' · '.join(nl(r[f'{k}_{n}']) for n in (16, 32, 64))
 for r in REC['rows']:
-    rows.append(f"| {r['shape']} | {nl(r['landmark_16'])} | {nl(r['landmark_32'])} | {nl(r['landmark_64'])} | {nl(r['house_16'])} | {nl(r['house_32'])} | {nl(r['house_64'])} |")
+    rows.append(f"| {r['shape']} | {trio(r, 'landmark')} | {trio(r, 'house')} | {trio(r, 'spade')} | {trio(r, 'drop')} |")
 V['T_RECOG'] = '\n'.join(rows)
-r6 = REC['rows'][0]; r7 = REC['rows'][2]
+r6 = REC['rows'][0]; r7 = REC['rows'][2]; rz = REC['rows'][3]
 V['REC_L32_6'] = nl(r6['landmark_32']); V['REC_L32_7'] = nl(r7['landmark_32']); V['REC_H32_6'] = nl(r6['house_32']); V['REC_H32_7'] = nl(r7['house_32'])
+V['REC_L32_Z'] = nl(rz['landmark_32']); V['REC_H32_Z'] = nl(rz['house_32'])
+V['REC_S32_7'] = nl(r7['spade_32']); V['REC_S32_Z'] = nl(rz['spade_32']); V['REC_D32_7'] = nl(r7['drop_32']); V['REC_D32_Z'] = nl(rz['drop_32'])
 
 for name in ('brand', 'technisch'):
     src = open(os.path.join(T, f'{name}.template.md')).read()
