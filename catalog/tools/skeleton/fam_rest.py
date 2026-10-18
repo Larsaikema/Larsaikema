@@ -208,10 +208,64 @@ def build():
            [variant(f'KK-MEU-TKK-{c}', [n], p, kg * 1000, inv(3, c + 'tkk')) for n, p, c, kg in TK3],
            [img('transportkar-klaptafels-en-stoelen-hero.webp', 'hero', 1, 'trolley', {'kind': 'klaptafel', 'loaded': 0}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Zwenkwielen met rem · voor klaptafels, barkrukken of klapstoelen', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            # barkruk-pe-rotan is not stackable (its own copy), so it does not go on the barkrukkenkar (merchandising review 3)
             'past_op': ['klaptafel-hdpe-rechthoekig', 'klapstoel', 'barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'barkruk-velours-stapelbaar',
-                        'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'barkruk-chroom-stapelbaar']},
+                        'barkruk-draad-stapelbaar', 'barkruk-chroom-stapelbaar']},
            ['tafels-stoelen.trolleys'], 'meubilair', 'Eén kar per meubeltype; capaciteit en afmetingen.', ['transportkar klaptafels', 'trolley stoelen'],
            {'outmate': 'trolley klaptafel rond 180 vanaf €482,50', 'ours': {t[0]: t[1] for t in TK3}})
+    # A kar for every meubeltype the zakelijke koper (verhuur, catering, horeca, vereniging) buys in aantallen (merchandising
+    # review 3, 2026-10-18: Statafelshop sells ca. 9 kar models, Outmate a trolley per table or chair type; we had 2). Each one is
+    # an addon_eenmalig on its furniture and part of a pakket. Hero = the empty kar (what is in the box); 'gevuld' = loaded, with
+    # '(niet inbegrepen)' in the alt. Every price and dimension is an owner/supplier claim (docs/claims-to-confirm.md).
+    TK4 = [('Voor 20 stapelstoelen', 179.0, '20', 24), ('Voor 40 stapelstoelen', 279.0, '40', 38)]
+    simple('transportkar-stapelstoelen', 'Transportkar voor stapelstoelen', 'Transportkar', ['zakelijk', 'pallet', 'gebruik:evenement', 'gebruik:horeca'],
+           [opt('Uitvoering', [t[0] for t in TK4])],
+           [variant(f'KK-MEU-TKST-{c}', [n], pr, kg * 1000, inv(3, c + 'tkst')) for n, pr, c, kg in TK4],
+           [img('transportkar-stapelstoelen-20-hero.webp', 'hero', 1, 'trolley', {'kind': 'stapelstoel', 'chairs': 20, 'loaded': 0}, 'hero', None, 'existing'),
+            img('transportkar-stapelstoelen-40-hero.webp', 'variant', 2, 'trolley', {'kind': 'stapelstoel', 'chairs': 40, 'loaded': 0}, 'hero', None, 'existing'),
+            img('transportkar-stapelstoelen-40-gevuld.webp', 'in-gebruik', 3, 'trolley', {'kind': 'stapelstoel', 'chairs': 40, 'loaded': 40, 'chairStyle': 'metaal', 'chairColor': 'zwart'},
+                'hero', None, 'existing', alt='gevuld met 40 metalen stapelstoelen (stoelen niet inbegrepen)')],
+           {'kenmerk_kort': 'Stapels van 10 · 20 of 40 stoelen · zwenkwielen met rem', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            'past_op': ['stapelstoel-metaal', 'banquetstoel-gestoffeerd', 'stapelstoel-cross-back'],
+            'specificaties': [sp('Kar', 'Voor 20', 'ca. 105 x 58 cm, 2 stapels van 10'), sp('Kar', 'Voor 40', 'ca. 105 x 112 cm, 4 stapels van 10')]},
+           ['tafels-stoelen.trolleys'], 'meubilair',
+           'Stapelstoelen in stapels van 10 rijden en opslaan: metaal en banquet 20/40, cross back (tot 8 hoog) 16/32; welke past door een deur.',
+           ['transportkar stapelstoelen', 'trolley stapelstoelen', 'stoelenkar'],
+           {'statafelshop': 'transportkar stapelstoel Waal 20/40 st (prijs niet gevonden)', 'outmate': 'stapelstoelen trolley cross back 18 st (prijs niet gevonden)',
+            'ours': {t[0]: t[1] for t in TK4}},
+           vmap={'Voor 20 stapelstoelen': 'transportkar-stapelstoelen-20-hero.webp', 'Voor 40 stapelstoelen': 'transportkar-stapelstoelen-40-hero.webp'}, vby='Uitvoering')
+    simple('transportkar-ronde-klaptafels', 'Transportkar voor ronde klaptafels', 'Transportkar', ['zakelijk', 'pallet', 'gebruik:evenement'], [],
+           [variant('KK-MEU-TKR-10', [], 429.0, 42000, 3)],
+           [img('transportkar-ronde-klaptafels-hero.webp', 'hero', 1, 'trolley', {'kind': 'rond', 'loaded': 0}, 'hero', None, 'existing'),
+            img('transportkar-ronde-klaptafels-gevuld.webp', 'in-gebruik', 2, 'trolley', {'kind': 'rond', 'loaded': 10, 'diameter': 1.8}, 'hero', None, 'existing',
+                alt='gevuld met 10 ronde klaptafels van Ø 180 cm (tafels niet inbegrepen)')],
+           {'kenmerk_kort': '10 ronde klaptafels Ø150 of Ø180 cm · op hun rand', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            'past_op': ['klaptafel-hdpe-rond'], 'specificaties': [sp('Kar', 'Afmetingen', 'ca. 120 x 102 x 100 cm'), sp('Kar', 'Capaciteit', '10 ronde klaptafels')]},
+           ['tafels-stoelen.trolleys'], 'meubilair',
+           'Tien ronde banket-tafels (Ø 150 of Ø 180 cm) op hun rand: rijden en opslaan zonder rollen of tillen; maten, hoogte gevuld, deurbreedte.',
+           ['transportkar ronde tafels', 'trolley ronde klaptafel', 'banket tafel trolley'],
+           {'outmate': 'trolley klaptafel rond 180 vanaf €482,50 (10% korting met de tafels)', 'ours': 429.0})
+    simple('transportkar-biertafelsets', 'Transportkar voor biertafelsets', 'Transportkar', ['zakelijk', 'pallet', 'gebruik:evenement', 'gebruik:tuinfeest'], [],
+           [variant('KK-MEU-TKB-10', [], 299.0, 55000, 3)],
+           [img('transportkar-biertafelsets-hero.webp', 'hero', 1, 'trolley', {'kind': 'biertafel', 'loaded': 0}, 'hero', None, 'existing'),
+            img('transportkar-biertafelsets-gevuld.webp', 'in-gebruik', 2, 'trolley', {'kind': 'biertafel', 'loaded': 10, 'tableWidth': 0.5}, 'hero', None, 'existing',
+                alt='gevuld met 10 biertafelsets van 220 × 50 cm, tafels onder en banken erop (sets niet inbegrepen)')],
+           {'kenmerk_kort': '10 biertafelsets plat gestapeld · 50 en 70 cm breed', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            'past_op': ['biertafelset', 'bierbank-220', 'biertafelsets-10-stuks'],
+            'specificaties': [sp('Kar', 'Afmetingen', 'ca. 230 x 82 x 105 cm'), sp('Kar', 'Capaciteit', '10 sets: 10 tafels en 20 banken')]},
+           ['tafels-stoelen.trolleys'], 'meubilair',
+           'Tien biertafelsets op één kar: tafels plat onderop, banken erop; voor verenigingen en verhuur; voor 50 en 70 cm brede tafels.',
+           ['transportkar biertafels', 'biertafel trolley', 'biertafelwagen'],
+           {'statafelshop': 'geen biertafelkar gevonden', 'note': 'Duitse markt Bierzeltgarnitur-Transportwagen ca. €250–€450', 'ours': 299.0})
+    simple('transportkar-terrastafels', 'Transportkar voor terrastafels', 'Transportkar', ['zakelijk', 'pallet', 'gebruik:horeca'], [],
+           [variant('KK-MEU-TKT-10', [], 249.0, 32000, 3)],
+           [img('transportkar-terrastafels-hero.webp', 'hero', 1, 'trolley', {'kind': 'terras'}, 'hero', None, 'existing')],
+           {'kenmerk_kort': 'Terrastafels met het blad rechtop · zwenkwielen met rem', 'verzending': 'pallet', 'staffelkorting': ST_KAR,
+            'past_op': ['terrastafel-inklapbaar'], 'specificaties': [sp('Kar', 'Afmetingen', 'ca. 140 x 80 x 100 cm'), sp('Kar', 'Capaciteit', '10 tafels 60 x 60 of 70 x 70 cm, 6 van 120 x 70 cm')]},
+           ['tafels-stoelen.trolleys'], 'meubilair',
+           'Terras na sluitingstijd in één keer naar binnen: tafels met het klapblad rechtop achter elkaar op de kar; capaciteit per maat.',
+           ['transportkar terrastafels', 'trolley terrastafel'],
+           {'statafelshop': 'transportkar voor sta- en terrastafels groot €434,39 / klein €311,58', 'ours': 249.0})
 
     # ------------------------------------------------------------ verlichting
     PK = {'10 m': (39.95, 1.2), '20 m': (69.95, 2.3), '30 m': (99.0, 3.4), '50 m': (159.0, 5.6)}
