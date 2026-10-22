@@ -7,6 +7,8 @@
 //        foot plate); lengths 0.5 / 0.75 / 1.0 m
 //   type 'wand' (default below 0.4 m): 18-30 cm galvanised wire peg with a bent hook and a
 //        red moulded stopper
+//   type 'pen' (round 4): loperpennen, Ø 4 mm pins with a flat Ø 30 mm head, side by side in
+//        two staggered rows; type 'oog': stertent-haring Ø 16 mm with a forged closed eye
 // A set lies as a tidy flat-lay: angle irons on their two flange edges (corner up, hook up),
 // slightly fanned and staggered.
 import * as THREE from 'three';
@@ -15,6 +17,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as K4 from '../js/partsKit4.js';
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -121,6 +124,50 @@ export function haringen(p = {}) {
       rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
       meta: { type, n, len },
     };
+  }
+  if (type === 'pen') {
+    // loperpennen: galvanised steel pins Ø 4 mm with a flat round head Ø 30 mm, laid side by
+    // side in two staggered rows (heads interleaved), each resting on its head edge and tip
+    const galvP = L3.galvFine({ cell: 0.0025 });
+    const rp = 0.002, Rh = 0.015, th = 0.0016;
+    const perRow = Math.ceil(n / 2);
+    const tilt = Math.atan2(Rh - rp, len);
+    for (let i = 0; i < n; i++) {
+      const row = i < perRow ? 0 : 1, col = row ? i - perRow : i;
+      const nIn = row ? n - perRow : perRow;
+      const sub = new G.PartBin();
+      // along +Z from the head (z = 0) to the tip (z = len), axis at y = 0
+      const prof = [[0.0001, -th], [Rh - 0.0006, -th], [Rh, -th + 0.0006], [Rh, -0.0004], [Rh - 0.0008, 0], [rp + 0.0008, 0], [rp, 0.0012], [rp, len - 0.012], [0.0004, len], [0.0001, len]];
+      const pin = K.lathe(prof, 28); pin.rotateX(Math.PI / 2); sub.add(galvP, pin);
+      // the head's slightly domed top face
+      const m = new THREE.Matrix4().makeRotationX(tilt).setPosition(0, Rh, 0);
+      const x = (col - (nIn - 1) / 2) * 0.034 + row * 0.017;
+      const z = row ? len * 0.62 : 0;
+      const yaw = row ? Math.PI : 0;
+      const place = new THREE.Matrix4().makeRotationY(yaw).setPosition(x, 0, z).multiply(m);
+      for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(place); bins.add(mat, geo); }
+    }
+    const g = K.finish(bins, `haringen pen ${n}`);
+    return { object: g, detail: { target: [0, 0.01, 0], size: 0.12, azimuth: 20, elevation: 40 }, view: { hero: { elevation: 42 } }, rig: { default: { contact: { strength: 0.85, h0: 0.003, res: 1024, blur: 1.1 }, groundAO: { strength: 0.75, maxZenith: 80 } } }, meta: { type, n, len } };
+  }
+  if (type === 'oog') {
+    // stertent-haring met oog: Ø 16 mm galvanised round bar, cone point, the head forged into a
+    // closed eye (Ø 50 mm inside); lying flat on the floor, corner to corner
+    const galvO = L3.galvFine({ cell: 0.004 });
+    const r = 0.008, Re = 0.033;
+    // one bar from the tip back along the shank, bent round into a teardrop eye whose end is
+    // forge-welded back onto the shank
+    const shaftL = len - 2 * Re - 0.012;
+    const pts = K4.planarPath([['line', shaftL + 0.012], ['arc', Re, 300], ['line', 0.02]], { y: r, step: 0.002, start: V3(shaftL, 0, 0), heading: 180 });
+    const tipL = 0.06;
+    const nShaft = Math.ceil((shaftL + 0.012) / 0.002);
+    bins.add(galvO, K.tubeAlong(pts, r, 24, { scale: (i) => (i <= nShaft && pts[i].x > shaftL - tipL ? Math.max(0.1, (shaftL - pts[i].x) / tipL) : 1) }));
+    // forge weld where the eye closes onto the shank
+    const wg = new THREE.SphereGeometry(r * 1.2, 18, 12); wg.scale(2.4, 0.95, 1.25); wg.translate(0.012, r, 0.004); bins.add(galvO, wg);
+    const g = K.finish(bins, `haringen oog ${len}`);
+    g.rotation.y = -31 * DEG;
+    const root = new THREE.Group(); root.add(g);
+    return { object: root, detail: { target: [0, 0.02, 0], size: 0.15, azimuth: 20, elevation: 30 }, view: { hero: { elevation: 32 } }, rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } }, meta: { type, n: 1, len } };
   }
   // wire pegs with hook + red stopper, laid in a fan
   const galv = M.galvanised();

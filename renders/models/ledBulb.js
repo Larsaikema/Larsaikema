@@ -1,10 +1,17 @@
 // LED-lamp E27 (G45 globe) for prikkabels, as a studio packshot, lit or unlit.
 //
-// ledBulb { type, on, count, colors, color }
+// ledBulb { type, on, count, colors, color, sealed, drops }
 //   type   'melkglas' (opal frosted globe on a white neck) | 'filament' (clear glass, 4 LED filaments)
 //          | 'gekleurd' (coated coloured glass: a set in rood, oranje, geel, groen, blauw)
 //   on     lit (true): the globe glows, with a soft bloom and a warm (or coloured) pool on the floor
 //   count  number of lamps (1; gekleurd: 5), colors: list of colour names for the set
+//   color  one coloured lamp (gekleurd): rood, oranje, geel, groen, blauw, paars, roze, or warm wit
+//          ('warm wit', 'warmwit', '2000K' or the catalogue swatch #F4E3BC): the 2000 K lamp of the
+//          coloured (shatterproof) series is an opal globe glowing deep amber
+//   sealed IP65 outdoor lamp: ribbed silicone sealing sleeve with three lips over the glass neck
+//          (it seats in the festoon socket's rubber collar), and the globe beaded with water
+//          (js/wetGlass.js: ~40 drops plus a few running ones, drawn as glass: dark refracted rims,
+//          the glow focused in the middle, crisp studio highlights); `drops: false` = dry
 //
 // Construction (js/bulbKit.js g45): 45 mm globe, 78 mm overall; nickel-plated E27 shell with a
 // real helical thread (3.6 mm pitch), black glass insulator and solder contact; opal and coloured
@@ -15,6 +22,8 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import { GlowComp } from '../js/lightGlow.js';
 import { g45, flushExtra } from '../js/bulbKit.js';
+import * as L from '../js/lightKit.js';
+import { waterDrops, sealRing } from '../js/wetGlass.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -22,8 +31,14 @@ const DEG = Math.PI / 180;
 export function ledBulb(p = {}) {
   const type = String(p.type || 'melkglas').toLowerCase();
   const on = p.on !== false;
-  const kind = /fil|helder|clear/.test(type) ? 'filament' : /gekl|kleur|col/.test(type) ? 'colour' : 'opal';
+  let kind = /fil|helder|clear/.test(type) ? 'filament' : /gekl|kleur|col/.test(type) ? 'colour' : 'opal';
   const colours = p.colors || (p.color ? [p.color] : ['rood', 'oranje', 'geel', 'groen', 'blauw']);
+  // the warm-white lamp of the coloured series (catalogue swatch "warm wit" = #F4E3BC): opal, 2000 K
+  const isWarm = (c) => /warm|^#?f4e3bc$|2[0-2]00\s*k/i.test(String(c || '').replace(/[\s_-]/g, ''));
+  let K = null;
+  if (kind === 'colour' && colours.length === 1 && isWarm(colours[0])) { kind = 'opal'; K = 2000; }
+  const sealed = !!p.sealed || /ip6/i.test(String(p.ip || ''));
+  const wet = sealed && p.drops !== false;
   const count = Math.max(1, Math.round(Number(p.count ?? (kind === 'colour' ? colours.length : 1))));
   // a set stands in two staggered rows, parallel to the hero camera's image plane, colours in
   // rainbow order from left to right (back, front, back, front, back)
@@ -41,7 +56,19 @@ export function ledBulb(p = {}) {
   spots.forEach(([x, z], k) => {
     const col = colours[k % colours.length];
     const M4 = new THREE.Matrix4().makeRotationY((17 + k * 71) * DEG).setPosition(x, 0, z);
-    const r = g45(GC, bins, M4, { kind, on, color: col, bloomR: kind === 'colour' ? 0.06 : 0.075, bloom: kind === 'colour' ? 0.8 : 1 });
+    const single = count === 1;
+    const r = g45(GC, bins, M4, { kind, on, color: col, K, bloomR: kind === 'colour' ? (single ? 0.052 : 0.06) : 0.075, bloom: kind === 'colour' ? (single ? 0.7 : 0.8) : 1 });
+    if (sealed) {
+      // silicone sealing sleeve over the neck, in the lamp frame
+      const add = (m, g) => bins.add(m, g.applyMatrix4(M4));
+      sealRing(add, L.cableRubber('#161617', 0.48));
+    }
+    if (wet) {
+      const az = 34 * DEG, el = 14 * DEG;
+      const view = V3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el));
+      const wd = waterDrops(GC, { centre: V3(0, 0.0555, 0).applyMatrix4(M4), R: 0.0225, view, seed: 31 + k * 7 });
+      if (wd) { bins.extra = bins.extra || []; bins.extra.push(wd.marker); }
+    }
     if (on) {
       const c = new THREE.Color().setRGB(...r.light);
       const pc = kind === 'colour' ? c.clone().lerp(new THREE.Color(1, 1, 1), 0.15) : c.clone().lerp(new THREE.Color(1, 0.85, 0.65), 0.4);
@@ -62,6 +89,6 @@ export function ledBulb(p = {}) {
     detail: { target: [spots[0][0], 0.03, spots[0][1]], size: 0.075, azimuth: 30, elevation: 10 },
     view: { hero: { elevation: 14 } },
     rig: { default: { exposure: on ? 1.0 : 'auto', contact: { strength: 0.8, h0: 0.004, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
-    meta: { type, count, on },
+    meta: { type, count, on, sealed, kelvin: K },
   };
 }

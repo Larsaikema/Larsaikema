@@ -36,7 +36,7 @@ function filamentMat(on) {
     : L.cached('bk:fil:off', () => new THREE.MeshPhysicalMaterial({ color: '#E7B04C', roughness: 0.42, sheen: 0.5, sheenColor: new THREE.Color('#FFE6B0'), name: 'led filament (phosphor)' }));
 }
 
-export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, bloom = 1, volume = 1, bloomR = 0.085 } = {}) {
+export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, bloom = 1, volume = 1, bloomR = 0.085, K = null } = {}) {
   const mats = L.e27Mats();
   const xf = (g) => g.applyMatrix4(M4);
   const add = (m, g) => bins.add(m, xf(g));
@@ -81,9 +81,12 @@ export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, 
     add(neckM, G.lathe([[0.0122, 0.0262], [0.0134, 0.0275], [0.0138, 0.032], [0.0146, 0.0372], [0.0152, 0.0392], [0.0136, 0.0402], [0.0001, 0.0402]], 48));
     let glass;
     if (kind === 'opal') {
-      light = kelvin(2700);
+      // K: colour temperature of an opal lamp (default 2700 K; the 2000 K "extra warm" lamp of the
+      // coloured series glows a deeper amber)
+      light = kelvin(K || 2700);
+      const em = K && K < 2500 ? '#FFB463' : '#FFCF8F';
       glass = on
-        ? L.cached('bk:opal:on', () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.34, clearcoat: 0.5, clearcoatRoughness: 0.1, emissive: new THREE.Color('#FFCF8F'), emissiveIntensity: 6, name: 'opal glass lit' }), 0.42, 0.75))
+        ? L.cached(`bk:opal:on:${em}`, () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.34, clearcoat: 0.5, clearcoatRoughness: 0.1, emissive: new THREE.Color(em), emissiveIntensity: 6, name: 'opal glass lit' }), 0.42, 0.75))
         : L.cached('bk:opal:off', () => new THREE.MeshPhysicalMaterial({ color: '#F3F1EC', roughness: 0.36, clearcoat: 0.6, clearcoatRoughness: 0.08, sheen: 0.3, sheenColor: new THREE.Color('#ffffff'), name: 'opal glass' }));
     } else {
       const hex = L.lightHex(color, L.LIGHT.rood);

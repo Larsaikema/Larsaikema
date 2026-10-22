@@ -200,9 +200,11 @@ export function statafelCover(p = {}) {
   const rig = SL.statafelRig({ albedoL, white: albedoL > 0.5, black: albedoL < 0.05, chroma: SL.dyeChroma(color) });
   // soft goods: the parts that face down (the stretch funnel under the blad, the strik drape) sit in
   // the blad's shadow; a large white floor card front-left, below the product, opens them up
-  rig.default.bounce = { azimuth: -28, elevation: -22, intensity: albedoL > 0.5 ? 3.3 : albedoL < 0.05 ? 3.1 : 1.9 };
-  // white: a stronger frontal fill opens the side turned away from the key (strik drape >= 190)
-  if (albedoL > 0.5) rig.default.fill = { ...rig.default.fill, intensity: 1.45 };
+  rig.default.bounce = { azimuth: -28, elevation: -22, intensity: albedoL > 0.5 ? 3.8 : albedoL < 0.05 ? 3.1 : 1.9 };
+  // white: exposed so the lit cloth sits at ~236-244 (not paper white at 248+): the folds keep their
+  // gradation and the weave / sheen read; a moderate frontal fill keeps the side turned away from the key
+  // open, the floor card lifts the downward drape
+  if (albedoL > 0.5) { rig.default.fill = { ...rig.default.fill, intensity: 1.0 }; rig.default.exposure = 0.72; }
   if (albedoL < 0.05) rig.default.exposure *= 1.06;
   // a lighter topcover (or a printed one, white base) on a dark rok: expose for the lighter cloth so the
   // top keeps its shading instead of clipping to paper white; the dark rok stays readable at that exposure
@@ -245,8 +247,12 @@ function buildStretch(group, S, p, color) {
     if (k.specularIntensity != null) mat.specularIntensity = k.specularIntensity;
     if (k.envSpec != null) mat.userData.envSpec = k.envSpec;
     if (k.boost != null) mat.userData.weave = { ...mat.userData.weave, boost: k.boost };
+    if (k.anisotropy != null) mat.anisotropy = k.anisotropy;
+    if (k.streak != null) mat.userData.streak = k.streak === false ? undefined : { ...mat.userData.streak, ...k.streak };
   }
   const thr = SL.thread(color);
+  // the flat top panel and the seam welt: isotropic lobe, no streak field (planar uv)
+  const matTop = p.knitLook ? mat : SL.jerseyKnit(color, { flat: true });
   const { R, H, T } = S;
   const f = 0.0022;                                  // fabric thickness / offset from the table
   const yW = Number(p.waistY ?? 0.6 * H), rW = Number(p.waistR ?? 0.056);
@@ -265,6 +271,7 @@ function buildStretch(group, S, p, color) {
   const up = resample(concat(arcU, arcL, funnel), 0.0012);
   const sDep = resample(concat(arcU, arcL), 0.0012).L;
   const Lup = up.L;
+  mat = SL.withStreakEnd(mat, Lup - 0.03, Lup + 0.05);
 
   // ---- feet, pockets, hem ------------------------------------------------------
   const footDelta = (th) => { let d = wrapA(th - S.footAngle); d = ((d % sector) + sector) % sector; if (d > sector / 2) d -= sector; return d; };
@@ -272,7 +279,8 @@ function buildStretch(group, S, p, color) {
   // Elastic foot pocket: in a foot's frame (a radial, b lateral) its walls run round the glide in a U
   // (open to the back, where the leg comes in) from the pocket seam (ySeam) down to the elastic edge
   // just above the floor (yPB); the skirt comes down onto the seam line from above.
-  const ySeam = 0.064, yPB = 0.0085;
+  // seam just above the glide (4.6 cm): the pocket is a short elastic sock over the glide, not a box
+  const ySeam = 0.056, yPB = 0.0085;
   const uTable = (front, A, B, back) => {
     const tab = [];
     const sFront = (Math.PI / 2) * A, sSide = (front - A) - back, tot = sFront + sSide;
@@ -304,10 +312,15 @@ function buildStretch(group, S, p, color) {
   function hemAt(th, out) {
     const dl = footDelta(th), ad = Math.abs(dl);
     // free hem: chord between the pockets' back corners, lifted towards the waist in an arch
-    const m = clamp((ad - dMax) / hc);
-    const psi = sector / 2 - Math.max(ad, dMax);
+    // C1-smooth at the pocket corner (a kink in m or in max() here runs up the whole panel as a crease
+    // line from the pocket to the waist, which caught the key as a hairline 'glass edge')
+    const xm = (ad - dMax) / hc, km = 0.09;
+    const m = Math.min(1, xm <= -km ? 0 : xm < km ? ((xm + km) ** 2) / (4 * km) : xm);
+    const adS = (ad + dMax + Math.sqrt((ad - dMax) ** 2 + 0.0004)) / 2;
+    const psi = sector / 2 - adS;
     const rCh = rBack * Math.cos(hc) / Math.cos(psi);
-    const lam = lamMax * Math.pow(Math.sin((Math.PI / 2) * m), 0.8);
+    // arch lift, a little different per panel (hand-sewn, stretched by hand)
+    const lam = lamMax * (1 + 0.07 * Math.sin(2 * th + 0.6) + 0.04 * Math.sin(5 * th + 2.1)) * Math.pow(Math.sin((Math.PI / 2) * m), 0.8);
     const Fr = lerp(rCh, rW, lam), Fy = lerp(ySeam, yW, lam);
     let Er = rW + (Fr - rW) * 0.9, Ey = yW + (Fy - yW) * tB;
     let fr = Fr, fy = Fy;
@@ -326,6 +339,27 @@ function buildStretch(group, S, p, color) {
   // ---- base surface: rho in [0, 1] upper (s = rho * Lup), [1, 2] lower (t = rho - 1)
   const hm = { Er: 0, Ey: 0, Fr: 0, Fy: 0, pw: 0, m: 0, dl: 0 };
   const info = { r: 0, y: 0, zone: 0, q: 0, t: 0, pw: 0, m: 0, dh: 0, dl: 0 };
+  // lower profile (unrounded) at t in [0, 1]: waist -> bend E (tB) -> hem / pocket edge F
+  const segPt = (t, o) => {
+    const lEF = Math.hypot(hm.Fr - hm.Er, hm.Fy - hm.Ey);
+    if (t <= tB) {
+      const u = t / tB;
+      o[0] = rW + (hm.Er - rW) * gOn(u);
+      o[1] = yW + (hm.Ey - yW) * u;
+      // panels pull slightly concave between the corner ridges
+      // (eased in from the waist: no crease line where the skirt leaves the waist)
+      o[0] -= 0.008 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
+      o[2] = lEF + (1 - u) * Math.hypot(hm.Er - rW, hm.Ey - yW) * 1.02;
+    } else {
+      const u = (t - tB) / (1 - tB);
+      o[0] = lerp(hm.Er, hm.Fr, u); o[1] = lerp(hm.Ey, hm.Fy, u);
+      // the pocket wall bellies a little over the glide, the elastic pulls its edge in
+      o[0] += hm.pw * 0.0022 * Math.sin(Math.PI * u) - hm.pw * 0.0012 * smoothstep(0.85, 1, u);
+      o[2] = (1 - u) * lEF;
+    }
+    return o;
+  };
+  const sA = [0, 0, 0], sB = [0, 0, 0], sC = [0, 0, 0];
   function base(th, rho, out) {
     let r, y;
     if (rho <= 1) {
@@ -335,21 +369,17 @@ function buildStretch(group, S, p, color) {
     } else {
       const t = Math.min(1, rho - 1);
       hemAt(th, hm);
-      const lEF = Math.hypot(hm.Fr - hm.Er, hm.Fy - hm.Ey);
-      if (t <= tB) {
-        const u = t / tB;
-        r = rW + (hm.Er - rW) * gOn(u);
-        y = yW + (hm.Ey - yW) * u;
-        // panels pull slightly concave between the corner ridges
-        // (eased in from the waist: no crease line where the skirt leaves the waist)
-        r -= 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
-        info.dh = lEF + (1 - u) * Math.hypot(hm.Er - rW, hm.Ey - yW) * 1.02;
-      } else {
-        const u = (t - tB) / (1 - tB);
-        r = lerp(hm.Er, hm.Fr, u); y = lerp(hm.Ey, hm.Fy, u);
-        // the pocket wall bellies a little over the glide, the elastic pulls its edge in
-        r += hm.pw * 0.0022 * Math.sin(Math.PI * u) - hm.pw * 0.0012 * smoothstep(0.85, 1, u);
-        info.dh = (1 - u) * lEF;
+      segPt(t, sA); r = sA[0]; y = sA[1]; info.dh = sA[2];
+      // pocket: the panel rolls over into the pocket wall on a soft radius (~2.5 cm), so the pocket is a
+      // tapered sleeve over the glide, not a box with a hard rim at the seam
+      if (hm.pw > 0.02) {
+        const t1 = tB - 0.04 * hm.pw, t2 = tB + 0.05 * hm.pw;
+        if (t > t1 && t < t2) {
+          segPt(t1, sB); segPt(t2, sC);
+          const w = (t - t1) / (t2 - t1), a = (1 - w) * (1 - w), b = 2 * w * (1 - w), c = w * w;
+          r = a * sB[0] + b * hm.Er + c * sC[0];
+          y = a * sB[1] + b * hm.Ey + c * sC[1];
+        }
       }
       info.zone = 1; info.q = 1; info.t = t; info.pw = hm.pw; info.m = hm.m; info.dl = hm.dl;
     }
@@ -359,7 +389,7 @@ function buildStretch(group, S, p, color) {
   }
 
   // ---- tension detail (displacement along the normal, metres) ----------------------
-  const strain = Array.from({ length: 40 }, () => ({ th: Rg() * TAU, q0: 0.02 + 0.5 * Rg(), a: (0.45 + 1.1 * Rg()) * 1e-3 * (Rg() < 0.85 ? 1 : -0.6), w: 0.009 + 0.022 * Rg() }));
+  const strain = Array.from({ length: 56 }, () => ({ th: Rg() * TAU, q0: 0.02 + 0.5 * Rg(), a: (0.6 + 1.4 * Rg()) * 1e-3 * (Rg() < 0.85 ? 1 : -0.6), w: 0.008 + 0.02 * Rg() }));
   const strainD = (th, q) => {
     if (q <= 0) return 0;
     let d = 0;
@@ -386,6 +416,12 @@ function buildStretch(group, S, p, color) {
   for (let k = 0; k < n; k++) {
     const tf = S.footAngle + k * sector;
     for (const s of [-1, 1]) for (let i = 0; i < 7; i++) pulls.push({ th0: tf + s * (0.1 + 0.62 * Rg()), th1: tf + s * (0.012 + 0.045 * Rg()), t0: 0.03 + 0.16 * Rg(), t1: 0.74 + 0.18 * Rg(), a: (0.6 + 1.4 * Rg()) * 1e-3, w: 0.0035 + 0.0065 * Rg(), bend: 0.55 + 0.8 * Rg() });
+    // tension wrinkles fanning up from the pocket's shoulders into the panel (the elastic pocket pulls
+    // the panel down round the glide): strongest at the pocket, fading out 8-20 cm up
+    for (const s of [-1, 1]) for (let i = 0; i < 5; i++) {
+      const len = 0.09 + 0.16 * Rg();
+      pulls.push({ rad: true, th0: tf + s * (dMax + 0.03 + 0.22 * Rg() * (0.5 + i / 8)), th1: tf + s * dMax * (0.45 + 0.5 * Rg()), t0: tB - len, t1: tB - 0.006, a: (0.7 + 1.0 * Rg()) * 1e-3 * (i % 3 === 2 ? -0.7 : 1), w: 0.0028 + 0.004 * Rg(), bend: 1.3 + 0.8 * Rg() });
+    }
   }
   const pullD = (th, t, r) => {
     let d = 0;
@@ -394,8 +430,10 @@ function buildStretch(group, S, p, color) {
       const u = (t - P.t0) / (P.t1 - P.t0);
       const thL = P.th0 + (P.th1 - P.th0) * Math.pow(u, P.bend);
       const x = wrapA(th - thL) * r / P.w; if (x * x > 9) continue;
-      // soft onset at the waist and soft fade into the pocket (no line where a pull starts)
-      d += P.a * smoothstep(0, 0.3, u) * (1 - smoothstep(0.75, 1, u)) * Math.exp(-x * x);
+      // soft onset at the waist and soft fade into the pocket (no line where a pull starts); pocket
+      // wrinkles grow towards the pocket instead
+      const env = P.rad ? smoothstep(0, 0.75, u) * (1 - smoothstep(0.9, 1, u)) : smoothstep(0, 0.3, u) * (1 - smoothstep(0.75, 1, u));
+      d += P.a * env * Math.exp(-x * x);
     }
     return d;
   };
@@ -408,7 +446,9 @@ function buildStretch(group, S, p, color) {
     else {
       d += pullD(th, t, r) + waveD(th, y) * (1 - 0.7 * pw);
       // turned hem: 2 cm double layer (slightly proud) with a soft ridge at the fold line
-      d += (1 - pw) * (0.00045 * smoothstep(0.0215, 0.0185, dh) + 0.0003 * Math.exp(-(((dh - 0.0205) / 0.0013) ** 2)));
+      d += (1 - pw) * (0.00035 * smoothstep(0.0215, 0.0185, dh) + 0.00022 * Math.exp(-(((dh - 0.0205) / 0.0013) ** 2)));
+      // the stretched hem ripples a little (coverstitch on knit): soft waves ~3-4 cm, dying out upwards
+      d += (1 - pw) * 0.0011 * Math.sin(th * 52 + 1.4 * Math.sin(th * 7 + 0.5)) * Math.exp(-dh / 0.022) * smoothstep(0.1, 0.5, info.m);
       // elastic edge of the foot pocket: fine gathers
       if (pw > 0) {
         d += pw * 0.0006 * Math.sin((dl * r) / 0.0034 * TAU) * Math.exp(-dh / 0.005);
@@ -439,7 +479,7 @@ function buildStretch(group, S, p, color) {
     }
     return dmin;
   };
-  const kPush = f + 0.0006, wPush = 0.0035;
+  const kPush = f + 0.0006, wPush = 0.0055; // a soft wrap over the leg end (the ridge highlight stays a satin band, not a hairline)
   function finalPoint(th, rho, out) {
     const e = 2e-4;
     const r1 = Math.min(2, rho + e), r0 = Math.max(0, rho - e);
@@ -486,13 +526,13 @@ function buildStretch(group, S, p, color) {
   const topProf = resample(concat([[0, H + f], [cxo, H + f]], arc(cxo, yTopC, rc, Math.PI / 2, seamA, 10)), 0.004);
   const topGeo = revolve(topProf, 480);
   { const pos = topGeo.attributes.position, uv = topGeo.attributes.uv; for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getZ(i)); }
-  group.add(G.mesh(topGeo, mat));
+  group.add(G.mesh(topGeo, matTop));
   // seam welt on the arris + a row of edge stitching on the side of the blad edge
   const sP = [cxo + Math.cos(seamA) * rc, yTopC + Math.sin(seamA) * rc];
   const nS = [Math.cos(seamA), Math.sin(seamA)];
   const welt = [];
   for (let i = 0; i < 720; i++) { const th = (i / 720) * TAU, rr = sP[0] + nS[0] * 0.0003; welt.push(V3(Math.sin(th) * rr, sP[1] + nS[1] * 0.0003, Math.cos(th) * rr)); }
-  group.add(G.mesh(K.sweep(welt, K.circle(0.0012, 10), { closed: true, up: V3(0, 1, 0) }), mat));
+  group.add(G.mesh(K.sweep(welt, K.circle(0.0012, 10), { closed: true, up: V3(0, 1, 0) }), matTop));
   {
     const pts = [], nn = [], rr = cxo + rc + 0.0002, ys = H - T * 0.42;
     for (let i = 0; i <= 1600; i++) { const th = (i / 1600) * TAU; pts.push(V3(Math.sin(th) * rr, ys, Math.cos(th) * rr)); nn.push(V3(Math.sin(th), 0, Math.cos(th))); }
@@ -526,9 +566,9 @@ function buildStretch(group, S, p, color) {
   };
   {
     const { pts, nn } = lineAt(() => 2, 2400);
-    const edge = pts.map((q, i) => q.clone().addScaledVector(nn[i], -0.0009));
+    const edge = pts.map((q, i) => q.clone().addScaledVector(nn[i], -0.0005));
     edge.pop();
-    group.add(G.mesh(K.sweep(edge, K.circle(0.001, 8), { closed: true, normals: nn.slice(0, edge.length) }), mat));
+    group.add(G.mesh(K.sweep(edge, K.circle(0.00062, 8), { closed: true, normals: nn.slice(0, edge.length) }), matTop));
     for (const dh of [0.011, 0.017]) {
       const L1 = lineAt(hemRho(dh), 2400);
       const st = SG.stitches(L1.pts, L1.nn, { len: 0.0032, gap: 0.0013, w: 0.0009, h: 0.0004, lift: 0.00025 });
@@ -549,7 +589,7 @@ function buildStretch(group, S, p, color) {
       const radiusAt = (th, y) => {
         hemAt(th, hm);
         const u = clamp((yW - y) / (yW - hm.Ey));
-        return rW + (hm.Er - rW) * gOn(u) - 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
+        return rW + (hm.Er - rW) * gOn(u) - 0.008 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
       };
       const wP = Number(p.print.width ?? 0.15), hP = wP * art.vb[1] / art.vb[0];
       const yc = Number(p.print.y ?? 0.3);
@@ -577,7 +617,7 @@ function buildStretch(group, S, p, color) {
   // ---- optional topcover: separate cap over the blad and its edge, elastic edge under the rim
   if (p.topcover) {
     const tcColor = typeof p.topcover === 'string' ? p.topcover : p.topcoverColor || 'wit';
-    let tmat = SL.jerseyKnit(tcColor);
+    let tmat = SL.jerseyKnit(tcColor, { flat: true });
     const o = 0.0024; // lies on the rok
     const rc2 = rc + o;
     const prof = concat([[0, H + f + o], [cxo, H + f + o]], arc(cxo, yTopC, rc2, Math.PI / 2, 0, 12), arc(cxo, yBotC, rc2, 0, -gDep, 14));
@@ -673,13 +713,19 @@ function topcoverPrintTex(kind) {
 // =====================================================================================
 // Strik (bow) cover: woven polyester. The cloth lies flat on the blad, falls over the edge and is
 // gathered at the waist by a sash of the same cloth tied in a bow at the front.
-//   upper drape: radial gather folds; broad folds start just under the rim and branch into twice as
-//                many tight gathers towards the sash; near the knot they converge into the tie point
-//   sash:        band around the gathered bundle (compressed folds under it)
-//   bow:         two loops swept as a thick ribbon (rounded edges, cupped, pinched at the knot), a
-//                knot of wrapped cloth with gather creases, two tails resting on the skirt folds
-//                (no gap: they follow the fold crests and sag a little into the valleys), fishtail ends
-//   skirt:       gathers just under the sash opening into broad folds to the floor
+//   upper drape: radial folds from just under the rim that branch into twice as many tight gathers
+//                towards the sash; the gathered cloth puffs out above the sash and is pinched in under
+//                its edge (the sash bites into the gathers); near the knot the folds converge
+//   sash:        a band of the same cloth round the gathers: its own soft lengthwise folds, a slight
+//                twist and wander in height, bumps where gather crests press against it, narrowing
+//                and pleating into the knot
+//   bow:         two loops of ONE layer of ribbon (open at the top and bottom, front and back strand
+//                apart, edges thin, no hem bead), each pinched into the knot with fine pleats and one
+//                diagonal pinch crease; a knot = a band wrapped round the loop roots (wrap folds, its
+//                edges riding over the roots); two tails lying on the skirt (their edges touch the
+//                cloth, the centre bridges the fold valleys), each ending in a clean swallow-tail cut
+//   skirt:       gathers under the sash opening into broad soft folds (irregular widths and depths),
+//                the hem reaching the floor and pooling a few cm onto it
 function buildStrik(group, S, p, color) {
   const mat = SL.wovenCloth(color);
   const sashColor = p.sashColor || p.strikColor || color;
@@ -687,73 +733,107 @@ function buildStrik(group, S, p, color) {
   const { R, H } = S;
   const f = 0.0025;
   const yS = Number(p.sashY ?? H - 0.40);          // sash centre height
-  const sashH = 0.07;
-  const rC = 0.068;                                 // gathered cloth radius at the sash
-  const rBand = 0.074;                              // sash band surface
+  const sashW = 0.058;                             // sash band width
+  const yBT = yS + sashW / 2, yBB = yS - sashW / 2;
+  const rC = 0.064;                                 // gathered cloth radius under the band
+  const rBand = rC + 0.0045;                        // sash band surface
   const tb = Number(p.bowAngle ?? 22) * DEG;        // bow position (azimuth)
   const Rg = rng(Number(p.seed ?? 7));
 
   // ---- profiles -------------------------------------------------------------------
   const top = topProfile(S, f, 8, 0.002);
   const P0 = top.end, d0 = top.dir;
-  const yBandTop = yS + sashH / 2 - 0.004, yBandBot = yS - sashH / 2 + 0.004;
-  const drape = bezier(P0, [P0[0] + d0[0] * 0.05, P0[1] + d0[1] * 0.05], [rC + 0.05, yBandTop + 0.075], [rC, yBandTop], 80);
-  const upper = resample(concat(top.pts, drape), 0.003);
-  const topLen = resample(top.pts, 0.003).L;
-  const Q0 = [rC, yBandBot], Q3 = [R + 0.04, 0.0045];
-  const skirt = resample(bezier(Q0, [Q0[0] + 0.03, Q0[1] - 0.07], [Q3[0] - 0.045, Q3[1] + 0.24], Q3, 120), 0.004);
+  // drape: rim -> puff above the band (rC + 2.2 cm) -> tucked in under the band edge
+  const yTk = yBT + 0.017;
+  const drape = bezier(P0, [P0[0] + d0[0] * 0.06, P0[1] + d0[1] * 0.06], [rC + 0.07, yTk + 0.1], [rC + 0.022, yTk], 90);
+  const tuck = bezier([rC + 0.022, yTk], [rC + 0.0172, yTk - 0.01], [rC + 0.003, yBT + 0.002], [rC, yBT - 0.008], 18);
+  const upper = resample(concat(top.pts, drape, tuck), 0.0025);
+  const topLen = resample(top.pts, 0.0025).L;
+  const sTk = resample(concat(top.pts, drape), 0.0025).L;
+  // skirt: out from under the band, a short puff, then the fall to the floor and a few cm of pooling
+  // (one tangent-continuous chain: a kink here shows as stair-stepped pleats under the band)
+  const yTkB = yBB - 0.02;
+  const tuckB = bezier([rC, yBB + 0.008], [rC + 0.0015, yBB - 0.003], [rC + 0.007, yTkB + 0.009], [rC + 0.013, yTkB], 18);
+  const fall = bezier([rC + 0.013, yTkB], [rC + 0.0262, yTkB - 0.0198], [R - 0.035, 0.25], [R + 0.012, 0.026], 140);
+  // the hem just reaches the floor and kicks out ~1 cm onto it (no flat frill)
+  const pool = bezier([R + 0.012, 0.026], [R + 0.0135, 0.012], [R + 0.0165, 0.0035], [R + 0.024, 0.0018], 14);
+  const skirt = resample(concat(tuckB, fall, pool), 0.003);
+  const sTkB = resample(tuckB, 0.003).L;
+  const sPool = resample(concat(tuckB, fall), 0.003).L;
 
   // ---- fold fields ----------------------------------------------------------------
-  // one warped base phase shared by all fields: broad folds = phase, gathers = 2 x phase (their
-  // crests include the broad crests: folds branch), lower folds = phase with its own drift
-  const N1 = Number(p.folds ?? 10);
+  // one warped base phase shared by all fields: broad folds = phase, gathers = 2 x phase (their crests
+  // include the broad crests: folds branch), skirt folds = their own count with a slow drift
+  const N1 = Number(p.folds ?? 10), N2 = Number(p.skirtFolds ?? 13);
   const wU = []; for (let k = 1; k <= 4; k++) wU.push({ k, a: (Rg() - 0.5) * 1.1 / k, p: Rg() * TAU });
-  const wL = []; for (let k = 1; k <= 5; k++) wL.push({ k, a: (Rg() - 0.5) * 1.9 / k, p: Rg() * TAU, d: (Rg() - 0.5) * 1.6 });
-  const minor = []; for (let k = 0; k < 6; k++) minor.push({ k: 17 + Math.floor(Rg() * 14), a: 0.15 + 0.25 * Rg(), p: Rg() * TAU, d: (Rg() - 0.5) * 4 });
+  const wL = []; for (let k = 1; k <= 5; k++) wL.push({ k, a: (Rg() - 0.5) * 1.5 / k, p: Rg() * TAU, d: (Rg() - 0.5) * 1.4 });
+  const minor = []; for (let k = 0; k < 5; k++) minor.push({ k: 21 + Math.floor(Rg() * 14), a: 0.12 + 0.2 * Rg(), p: Rg() * TAU, d: (Rg() - 0.5) * 3 });
   const amJ = []; for (let k = 1; k <= 5; k++) amJ.push({ k, a: (Rg() - 0.5) * 0.3, p: Rg() * TAU, d: (Rg() - 0.5) * 2 });
-  const ph0 = Rg() * TAU;
+  const ph0 = Rg() * TAU, ph1 = Rg() * TAU;
   // convergence of the folds into the tie point near the sash
   const conv = (th, t) => { const d = wrapA(th - tb); return th - 0.42 * t * t * d * Math.exp(-((d / 0.9) ** 2)); };
-  const phase = (th, ws, t = 0) => { let ph = N1 * th + ph0; for (const q of ws) ph += q.a * Math.sin(q.k * th + q.p + (q.d || 0) * t) * N1 / 3; return ph; };
-  // fold shape: rounded crests, narrower valleys (+1 crest, -1 valley)
+  const phase = (th, ws, n, p0, t = 0) => { let ph = n * th + p0; for (const q of ws) ph += q.a * Math.sin(q.k * th + q.p + (q.d || 0) * t) * n / 3; return ph; };
+  // fold shape: rounded crests, narrower (not V) valleys (+1 crest, -1 valley)
   const shape = (ph, sharp) => { const x = (1 - Math.cos(ph)) / 2; return 1 - 2 * Math.pow(x, sharp); };
-  const ampJ = (th, t) => { let a = 1; for (const q of amJ) a += q.a * Math.sin(q.k * th + q.p + q.d * t); return Math.max(0.35, a); };
+  const ampJ = (th, t) => { let a = 1; for (const q of amJ) a += q.a * Math.sin(q.k * th + q.p + q.d * t); return Math.max(0.4, a); };
   // per-fold depth (each fold its own amplitude, blended smoothly from crest to crest)
-  const fh = Array.from({ length: 64 }, () => 0.55 + 0.9 * Rg());
+  const fh = Array.from({ length: 64 }, () => 0.55 + 0.8 * Rg());
   const foldAmp = (ph, nf) => { const x = ph / TAU, i = Math.floor(x), w = x - i, ww = w * w * (3 - 2 * w); const m = (k) => fh[((k % nf) + nf) % nf]; return lerp(m(i), m(i + 1), ww); };
+  // gathers at the sash (same field above and below: the crests run on under the band)
+  const gather = (th) => { const ph = phase(conv(th, 1), wU, N1, ph0); return shape(2 * ph, 1.2) * foldAmp(2 * ph + 1.3, 2 * N1); };
+  const GA = 0.0072; // gather depth next to the band
 
   // ---- upper drape ---------------------------------------------------------------
-  const Lu = upper.L, nT = 720;
+  const Lu = upper.L, nT = 900;
   const thetas = Array.from({ length: nT }, (_, i) => 200 * DEG + (i / nT) * TAU);
   const upperDisp = (th, s) => {
-    const t = clamp((s - topLen) / (Lu - topLen));
-    if (t <= 0) return 0;
+    if (s <= topLen) return 0;
+    if (s >= sTk) {
+      // tuck: gathers shrink as they disappear under the band edge
+      const q = clamp((s - sTk) / (Lu - sTk));
+      return (GA * (1 - smoothstep(0.15, 1, q)) + 0.0022) * gather(th);
+    }
+    const t = clamp((s - topLen) / (sTk - topLen));
     const thc = conv(th, t);
-    const ph = phase(thc, wU);
-    const A = 0.026 * smoothstep(0, 0.6, t) * (1 - 0.86 * smoothstep(0.86, 1, t));
-    const kG = smoothstep(0.45, 0.9, t);
-    const v = (1 - kG) * shape(ph, 1.7) * foldAmp(ph, N1) + kG * shape(2 * ph, 1.5) * foldAmp(2 * ph + 1.3, 2 * N1);
-    return A * ampJ(thc, t) * v;
+    const ph = phase(thc, wU, N1, ph0);
+    const kG = smoothstep(0.5, 0.97, t);
+    const broad = shape(ph, 1.6) * foldAmp(ph, N1) * ampJ(thc, t);
+    const A = lerp(0.023 * smoothstep(0, 0.45, t), GA, kG);
+    return A * lerp(broad, gather(th), kG);
   };
-  const upRows = upper.s.map((s) => s);
+  const flatEnd = upper.s.findIndex((s) => s > S.R - 0.006);
+  const upRows = upper.s.slice(Math.max(0, flatEnd - 1));
+  const uR = R + 0.01; // u in metres of cloth (gathered cloth keeps the rim's circumference)
   const upGeo = gridMesh(thetas, upRows, (th, s, o) => {
     const [r0, y] = profAt(upper, s);
     const r = r0 + upperDisp(th, s);
     o.set(Math.sin(th) * r, y, Math.cos(th) * r);
-  }, (th, s) => [th * 0.25, s]);
+  }, (th, s) => [th * uR, s]);
   group.add(G.mesh(upGeo, mat));
+  // flat top: planar uv (no pole in the weave), same surface as the drape's first rows
+  {
+    const tp = resample(concat([[0, upper.pts[0][1]]], upper.pts.slice(0, Math.max(2, flatEnd + 1))), 0.01);
+    const g = revolve(tp, 360);
+    const pos = g.attributes.position, uv = g.attributes.uv;
+    for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getZ(i));
+    group.add(G.mesh(g, mat));
+  }
 
   // ---- skirt ----------------------------------------------------------------------
   const Ls = skirt.L;
   const skirtDisp = (th, s) => {
-    const t = clamp(s / Ls);
+    if (s <= sTkB) {
+      const q = clamp(s / sTkB);
+      return (GA * smoothstep(0.0, 0.85, q) + 0.0022) * gather(th);
+    }
+    const t = clamp((s - sTkB) / (Ls - sTkB));
     const thc = conv(th, Math.max(0, 1 - t * 4));
-    const phU = phase(thc, wU), phL = phase(thc, wL, t);
-    const kG = 1 - smoothstep(0.04, 0.32, t);
+    const phL = phase(thc, wL, N2, ph1, t);
+    const kG = 1 - smoothstep(0.0, 0.3, t);
     let mn = 0; for (const q of minor) mn += q.a * Math.sin(q.k * thc + q.p + q.d * t);
-    const v = kG * shape(2 * phU, 1.5) * foldAmp(2 * phU + 1.3, 2 * N1) + (1 - kG) * (shape(phL, 1.35 + 0.25 * t) * foldAmp(phL + 2.1, N1) + 0.22 * mn * smoothstep(0.2, 0.8, t));
-    const A = 0.004 + 0.03 * smoothstep(0.0, 0.45, t) - 0.006 * smoothstep(0.86, 1, t);
-    return A * ampJ(thc + 1.7, t) * v;
+    const broad = shape(phL, 1.25 + 0.15 * t) * foldAmp(phL + 2.1, N2) + 0.2 * mn * smoothstep(0.15, 0.7, t);
+    const A = lerp(GA, 0.0175 + 0.007 * smoothstep(0.3, 1, t), smoothstep(0, 0.35, t));
+    return A * ampJ(thc + 1.7, t) * lerp(broad, gather(th), kG);
   };
   // the foot glides hold the cloth out near the floor
   const sector = TAU / S.nLegs, footOut = S.cap.c + S.cap.L / 2 + 0.009;
@@ -764,13 +844,19 @@ function buildStrik(group, S, p, color) {
     if (r < footOut) r += (footOut - r) * w;
     return r;
   };
+  // pooled hem: the fold crests that reach the floor stay round (lift a few mm), valleys lie flat
+  const poolLift = (th, s) => {
+    if (s <= sPool) return 0;
+    const k = smoothstep(sPool, sPool + 0.03, s);
+    return k * 0.003 * Math.max(0, skirtDisp(th, s) / 0.024);
+  };
   const skGeo = gridMesh(thetas, skirt.s.map((s) => s), (th, s, o) => {
     const [r0, y] = profAt(skirt, s);
     const r = skirtRadius(th, s, r0, y);
-    o.set(Math.sin(th) * r, y, Math.cos(th) * r);
-  }, (th, s) => [th * 0.25, Lu + 0.06 + s]);
+    o.set(Math.sin(th) * r, y + poolLift(th, s), Math.cos(th) * r);
+  }, (th, s) => [th * uR, Lu + 0.06 + s]);
   group.add(G.mesh(skGeo, mat));
-  // skirt surface radius at (theta, y) (base profile inverted in y, plus folds)
+  // skirt surface radius at (theta, y) on the fall (base profile inverted in y, plus folds)
   const skirtR = (th, y) => {
     const pts = skirt.pts;
     let i = 1; while (i < pts.length - 1 && pts[i][1] > y) i++;
@@ -778,139 +864,161 @@ function buildStrik(group, S, p, color) {
     const s = lerp(skirt.s[i - 1], skirt.s[i], w), r0 = lerp(pts[i - 1][0], pts[i][0], w);
     return skirtRadius(th, s, r0, y);
   };
-  // hem: thin folded edge on the floor
-  {
-    const pts = [];
-    for (let i = 0; i < 1440; i++) { const th = (i / 1440) * TAU; const r = skirtR(th, 0.0046) - 0.0006; pts.push(V3(Math.sin(th) * r, 0.0042, Math.cos(th) * r)); }
-    group.add(G.mesh(K.sweep(pts, K.circle(0.0013, 8), { closed: true, up: V3(0, 1, 0) }), mat));
-  }
 
   // ---- sash band ------------------------------------------------------------------
+  // u from the knot round (the seam hides under the knot), v across the band
+  const sashFold = Array.from({ length: 4 }, () => ({ k: 2 + Math.floor(Rg() * 4), a: 0.5 + 0.8 * Rg(), p: Rg() * TAU }));
   group.add(G.mesh(G.surface((u, v, o) => {
-    const th = u * TAU;
-    const y = yS - sashH / 2 + v * sashH;
-    const edge = Math.sin(Math.PI * v);
-    const pull = Math.exp(-((wrapA(th - tb) / 0.5) ** 2)); // pulled tighter into the knot
-    const r = rBand + 0.0022 * Math.pow(edge, 0.5) + 0.0011 * Math.sin(th * 13 + 2 * Math.sin(th * 3) + v * 2.5) * edge - 0.002 * pull;
+    const th = tb + u * TAU;
+    const dk = wrapA(th - tb), nearK = Math.exp(-((dk / 0.36) ** 2));
+    // the band narrows and rises a little into the knot; elsewhere it wanders in height and width
+    const w = sashW * (1 - 0.42 * nearK) * (1 + 0.05 * Math.sin(3 * th + 1.1));
+    const yc = yS + 0.0028 * Math.sin(th + 0.7) + 0.0014 * Math.sin(2 * th + 2.3) + 0.003 * nearK;
+    const vv = v * 2 - 1;
+    // a slow twist: the band leans in / out a little (cone), most at the back
+    const lean = 0.06 * Math.sin(th - tb + 2.2);
+    // own soft folds running along the band, wandering across it
+    let fold = 0; for (const q of sashFold) fold += q.a * Math.sin(Math.PI * vv * 1.3 + q.k * th + q.p);
+    const gc = Math.max(0, gather(th));
+    let r = rBand + 0.0007 * fold * (1 - vv * vv) * (1 - nearK)
+      + 0.0013 * gc * (1 - vv * vv) * (1 - nearK)                                  // gather crests pressing out
+      + lean * vv * w / 2
+      - 0.0018 * nearK;                                                             // pulled tight into the knot
+    // pleats converging into the knot
+    r += nearK * 0.0022 * Math.sin(vv * Math.PI * 2.2 + dk * 9) * (1 - vv * vv);
+    // the edges come down onto the gathered cloth and ride over each gather crest (no gap, no teeth)
+    r = lerp(r, rC + 0.0026 * gc + 0.0014, Math.pow(Math.abs(vv), 4));
+    const y = yc + vv * w / 2;
     o.set(Math.sin(th) * r, y, Math.cos(th) * r);
-  }, 360, 16, { closedU: true, flipNormals: true }), ribbon));
+  }, 420, 18, { closedU: true, flipNormals: true }), ribbon));
 
   // ---- bow ------------------------------------------------------------------------
   const Y = V3(0, 1, 0);
   const nrm = V3(Math.sin(tb), 0, Math.cos(tb)), tan = V3(Math.cos(tb), 0, -Math.sin(tb));
-  const knotC = nrm.clone().multiplyScalar(rBand + 0.015).setY(yS + 0.002);
-  const th2 = 0.0024; // ribbon thickness (double-folded edge reads soft)
-  // loop: one sheet of cloth (double sided) folded into a closed loop: out from the knot on the front
-  // layer, a soft rounded fold at the far end (~1 cm radius), back on the rear layer. Across the width
-  // the centre reaches furthest (rounded end in the front view) and puffs out most; near the knot the
-  // cloth is gathered (fine pleats, creases fanning out from the knot over the loop face); the edges
-  // carry a rolled hem (1 mm) and curl a little. side -1 left, +1 right; L loop length, beta lift,
-  // D front bulge, w1 width at the end, droop, out (forward tilt), seed.
-  const loop = (side, L, beta, D, w1, droop, out = 0.0, seed = 1) => {
+  const knotC = nrm.clone().multiplyScalar(rBand + 0.0125).setY(yS + 0.003);
+  // loop: one layer of ribbon folded into a loop: out from the knot on the front strand, round a soft
+  // fold at the far end, back on the rear strand. Open at the top and bottom (the strands stand apart),
+  // flat across the width with a slight cup and a twist along the strand; pinched into the knot (fine
+  // pleats) with one diagonal pinch crease running from the knot towards the upper far corner.
+  // side -1 left, +1 right; L loop length, beta lift, D strand separation, w1 width at the far end.
+  const loop = (side, L, beta, D, w1, droop, out, seed, twist) => {
     const A = tan.clone().multiplyScalar(side * Math.cos(beta)).addScaledVector(Y, Math.sin(beta)).addScaledVector(nrm, out).normalize();
     const Nn = nrm.clone().addScaledVector(A, -nrm.dot(A)).normalize();
     const Bw = V3().crossVectors(A, Nn).normalize();
+    const up = Bw.y >= 0 ? 1 : -1; // +xw = upper edge
     const Rl = rng(31 + seed);
-    const creases = Array.from({ length: 7 }, () => ({ phi: (Rl() - 0.5) * 1.1, a: (0.0016 + 0.0026 * Rl()) * (Rl() < 0.8 ? 1 : -0.7), w: 0.004 + 0.006 * Rl(), back: 0.5 + 0.5 * Rl() }));
-    const NP = 240, NW = 26, w0 = 0.026;
+    const pleatP = Rl() * TAU;
+    const cr = { x1: 0.72 + 0.1 * Rl(), w1: 0.55 + 0.25 * Rl() };
+    const NP = 220, NW = 30, w0 = 0.022;
     const rows = [];
     for (let j = 0; j <= NW; j++) {
-      const xw = (j / NW) * 2 - 1;
+      const xw = ((j / NW) * 2 - 1) * up;
       const ring = [];
       for (let i = 0; i < NP; i++) {
         const ph = (i / NP) * TAU, xs = (1 - Math.cos(ph)) / 2, sn = Math.sin(ph);
-        const front = sn >= 0, sg = sn > 1e-9 ? 1 : sn < -1e-9 ? -1 : 0;
-        const w = lerp(w0, w1, smoothstep(0.0, 0.55, xs)) * (1 - 0.08 * smoothstep(0.85, 1, xs));
-        // along the loop axis: the centre of the width runs out furthest (rounded end in the front view)
-        const a = 0.012 + L * xs * (1 - 0.085 * xw * xw);
-        // rounded fold at the far end: n ~ sqrt(1 - xs); puffier in the middle of the width
-        const g = Math.pow(Math.max(0, Math.sin(Math.PI * xs)), 0.5) * (1 - 0.12 * xs);
-        let n = sg * g * (front ? D : D * 0.55) * (1 - 0.3 * xw * xw);
-        // cupped across the width, edges rolling back
-        n += sg * (0.007 * (1 - xw * xw) * Math.sin(Math.PI * xs) * (front ? 1 : 0.5) - 0.0022 * Math.pow(Math.abs(xw), 6) * Math.sin(Math.PI * xs));
+        const front = sn >= 0, sg = sn >= 0 ? 1 : -1;
+        const w = lerp(w0, w1, smoothstep(0.0, 0.55, xs)) * (1 - 0.06 * smoothstep(0.85, 1, xs));
+        // along the loop axis: the middle of the width runs out a little further (rounded end)
+        const a = 0.009 + L * xs * (1 - 0.05 * xw * xw);
+        // strand separation: a soft round fold at the far end; the front strand stands off more
+        const g = Math.pow(Math.max(0, Math.sin(Math.PI * Math.min(1, xs * 1.02))), 0.5);
+        let n = sg * g * (front ? D : D * 0.55);
+        // twist along the strand (one edge forward) and a slight cup, edges curling outwards
+        n += sg * twist * xw * (w / 2) * Math.sin(Math.PI * xs) * (front ? 1 : 0.6);
+        n += sg * 0.0035 * (xw * xw - 0.35) * Math.sin(Math.PI * xs);
         // gathered at the knot: fine pleats across the width
-        n += 0.0026 * Math.sin(xw * 7.5 + side + seed) * Math.pow(1 - smoothstep(0, 0.3, xs), 2);
-        // creases fanning out from the knot over the loop face
-        const b = (w / 2) * xw;
-        for (const c of creases) {
-          const dl = (b * Math.cos(c.phi) - (a - 0.012) * Math.sin(c.phi)) / c.w;
-          if (dl * dl > 9) continue;
-          n += sg * c.a * (front ? 1 : c.back) * Math.exp(-dl * dl) * Math.exp(-(a - 0.012) / 0.07) * smoothstep(0.0, 0.08, xs);
+        n += 0.0014 * Math.sin(xw * 6 + pleatP) * Math.pow(1 - smoothstep(0, 0.28, xs), 2);
+        // pinch crease: a valley from the knot towards the far upper corner, a soft ridge beside it
+        if (front) {
+          const lx = xs / cr.x1, lw = (xw * up + 0.1) / cr.w1; // along / across the crease line
+          const dist = (lw - lx) / Math.sqrt(1 + 1 / (cr.x1 * cr.x1));
+          const fade = smoothstep(0.02, 0.12, xs) * (1 - smoothstep(0.55, 0.95, lx));
+          n += (-0.0034 * Math.exp(-((dist / 0.1) ** 2)) + 0.0016 * Math.exp(-(((dist - 0.17) / 0.09) ** 2))) * fade;
         }
         // the edges wave a little
-        const bw = b + 0.0025 * Math.pow(Math.abs(xw), 4) * Math.sin(xs * 7 + side + (xw > 0 ? 0 : 2.1)) * Math.sin(Math.PI * xs);
-        ring.push(knotC.clone().addScaledVector(A, a).addScaledVector(Nn, n + 0.003 + 0.004 * xs).addScaledVector(Bw, bw).addScaledVector(Y, -droop * xs * xs));
+        const b = (w / 2) * xw + 0.0022 * Math.pow(Math.abs(xw), 4) * Math.sin(xs * 6.5 + side + (xw > 0 ? 0 : 2.1)) * Math.sin(Math.PI * xs);
+        ring.push(knotC.clone().addScaledVector(A, a).addScaledVector(Nn, n + 0.002 + 0.003 * xs).addScaledVector(Bw, b).addScaledVector(Y, -droop * xs * xs));
       }
       rows.push(ring);
     }
-    const sheet = K.gridGeometry(rows, { closedU: true, flip: side > 0 });
-    // rolled hems along both edges
-    const hems = [rows[0], rows[NW]].map((r) => K.sweep(r, K.circle(0.0011, 8), { closed: true, up: Bw }));
-    return [sheet, ...hems];
+    return K.gridGeometry(rows, { closedU: true, flip: side * up > 0 });
   };
-  for (const g of loop(-1, 0.148, 26 * DEG, 0.03, 0.094, 0.016, 0.16, 1)) group.add(G.mesh(g, ribbon));
-  for (const g of loop(1, 0.158, 17 * DEG, 0.032, 0.098, 0.022, 0.13, 2)) group.add(G.mesh(g, ribbon));
-  // knot: cloth wrapped round the loop roots, gather creases running round it
-  group.add(G.mesh(G.surface((u, v, o) => {
-    const ps = u * TAU, vv = 2 * v - 1;
-    const bul = Math.sqrt(Math.max(0, 1 - 0.55 * vv * vv));
-    const crease = 1 + 0.085 * Math.sin(vv * Math.PI * 2.6 + 0.9 * Math.sin(ps * 2 + 0.4)) * (1 - vv * vv) + 0.03 * Math.sin(ps * 5 + vv * 3);
-    const back = Math.cos(ps) < 0 ? 0.55 : 1;
-    o.copy(knotC).addScaledVector(tan, vv * 0.022 * (1 + 0.08 * Math.sin(ps * 2)))
-      .addScaledVector(Y, Math.sin(ps) * 0.03 * bul * crease)
-      .addScaledVector(nrm, Math.cos(ps) * 0.017 * bul * crease * back);
-  }, 72, 30, { closedU: true }), ribbon));
+  group.add(G.mesh(loop(-1, 0.13, 24 * DEG, 0.024, 0.07, 0.014, 0.16, 1, 0.18), ribbon));
+  group.add(G.mesh(loop(1, 0.14, 15 * DEG, 0.026, 0.074, 0.02, 0.13, 2, -0.22), ribbon));
+  // knot: a band wrapped round the loop roots (u round the bundle, v across the band along tan). Its
+  // edges ride up over the roots (flare), two wrap folds run round it slightly askew, the face is
+  // pulled a little concave where the band is tightest
+  {
+    const hy = 0.025, hn = 0.016, hw = 0.0185;
+    group.add(G.mesh(G.surface((u, v, o) => {
+      const ps = u * TAU, xw = v * 2 - 1;
+      const c = Math.cos(ps), sn = Math.sin(ps);
+      const flare = 1 + 0.13 * Math.pow(Math.abs(xw), 3) - 0.05 * Math.pow(Math.abs(xw), 8);
+      let k = flare * (1 - 0.04 * (1 - xw * xw) * Math.max(0, c));
+      // wrap folds: ridges round the band, drifting with ps (askew), a valley between them
+      k += 0.075 * Math.exp(-(((xw + 0.42 + 0.2 * sn) / 0.19) ** 2)) + 0.055 * Math.exp(-(((xw - 0.33 + 0.16 * sn) / 0.15) ** 2)) + 0.03 * Math.exp(-(((xw - 0.78 - 0.1 * sn) / 0.1) ** 2));
+      k -= 0.045 * Math.exp(-(((xw - 0.0 + 0.12 * sn) / 0.12) ** 2));
+      const back = c < 0 ? 0.5 : 1; // pressed onto the sash at the back
+      o.copy(knotC)
+        .addScaledVector(tan, xw * hw * (1 + 0.06 * sn) + 0.0025 * sn)
+        .addScaledVector(Y, sn * hy * k)
+        .addScaledVector(nrm, c * hn * k * back);
+    }, 96, 34, { closedU: true }), ribbon));
+  }
 
-  // tails: hang from under the knot, resting on the skirt folds, fishtail ends
-  const tail = (side, len, drift, w1) => {
-    const NA = 120, NR = 30;
+  // tails: emerge from under the knot (a short twist), then lie on the sash and the skirt: edges down on
+  // the cloth, the middle bridging the fold valleys (a ribbon is stiffer across than the skirt is
+  // folded), each ending in a clean swallow-tail cut (columns of different length, so the cut is crisp)
+  const tail = (side, len, drift, w1, seed) => {
+    const NA = 120, NX = 24;
+    const yTop = yS - 0.006;
+    const notch = 0.034;
+    const Rt = rng(50 + seed), sway = Rt() * TAU;
     const rows = [];
-    const yTop = yS - 0.008;
-    for (let i = 0; i <= NA; i++) {
-      const u = i / NA;
-      const w = lerp(0.03, w1, smoothstep(0, 0.22, u));
-      const ring = [];
-      // envelope of the skirt across the width at this height (ribbon stiffness: parabolic dilation)
-      const yRef = yTop - u * len;
-      const thC = tb + side * (0.005 + drift * Math.pow(u, 0.85)) / Math.max(0.08, skirtR(tb, Math.max(0.01, yRef)));
-      const samp = [];
-      for (let j = 0; j <= 24; j++) {
-        const x = (j / 24) * 2 - 1;
-        const rs = Math.max(0.06, skirtR(thC, Math.max(0.01, yRef)));
-        const th = thC + x * (w / 2) / rs;
-        samp.push({ x, r: yRef > yBandBot ? rBand + 0.004 : skirtR(th, Math.max(0.006, yRef)) });
+    for (let j = 0; j <= NX; j++) {
+      const xw = (j / NX) * 2 - 1;
+      const Lx = len - notch * (1 - Math.abs(xw));
+      const row = [];
+      for (let i = 0; i <= NA; i++) {
+        const d = (i / NA) * Lx, u = d / len;
+        const yRef = yTop - d;
+        const w = lerp(0.026, w1, smoothstep(0, 0.2, u));
+        const rsC = Math.max(0.06, yRef > yBB ? rBand : skirtR(tb, Math.max(0.01, yRef)));
+        const thC = tb + side * (0.004 + drift * Math.pow(u, 0.85) + 0.004 * Math.sin(u * 5 + sway)) / rsC;
+        // envelope of the cloth under the ribbon's width (ribbon stiffness: parabolic dilation)
+        let env = -1;
+        for (let k = 0; k <= 16; k++) {
+          const x = (k / 16) * 2 - 1;
+          const th = thC + x * (w / 2) / rsC;
+          const rr = yRef > yBB - 0.004 ? rBand + 0.003 : skirtR(th, Math.max(0.006, yRef));
+          env = Math.max(env, rr - 4 * ((xw - x) * w / 2) ** 2);
+        }
+        // twist where it leaves the knot: one edge forward, flattening out over 7 cm
+        const tw = side * 0.55 * (1 - smoothstep(0.0, 0.07, d));
+        const th = thC + xw * (w / 2) * Math.cos(tw) / rsC;
+        // edges ~2 mm off the cloth (a soft contact shadow beside them), the middle a little more, one
+        // soft lengthwise fold where the ribbon was pressed in the knot
+        const lift = 0.002 + 0.0016 * (1 - xw * xw) + 0.007 * smoothstep(0.55, 1, u) ** 1.5 + 0.0012 * Math.exp(-(((xw - 0.25 * side) / 0.18) ** 2)) * smoothstep(0.02, 0.1, d) * (1 - smoothstep(0.2, 0.4, u)) + xw * (w / 2) * Math.sin(tw);
+        const r = env + lift;
+        row.push(V3(Math.sin(th) * r, yRef, Math.cos(th) * r));
       }
-      const env = (x) => { let m = -1; for (const q of samp) m = Math.max(m, q.r - 7 * ((x - q.x) * w / 2) ** 2); return m; };
-      for (let k = 0; k < NR; k++) {
-        const ps = (k / NR) * TAU, xw = Math.cos(ps), yt = Math.sin(ps);
-        // fishtail: the centre of the end is cut 4 cm shorter (V notch)
-        const notch = 0.032 * (1 - Math.abs(xw)) * smoothstep(0.92, 1, u);
-        const y = yTop - u * len + notch * 0 - (u >= 1 ? 0 : 0);
-        const yy = y + notch;
-        const rs = Math.max(0.06, skirtR(thC, Math.max(0.01, yy)));
-        const th = thC + xw * (w / 2) / rs;
-        const local = yy > yBandBot ? rBand + 0.004 : skirtR(th, Math.max(0.006, yy));
-        const cupT = 0.0012 * (1 - xw * xw);
-        const wave = 0.0025 * Math.max(0, Math.sin(u * 9.5 + side * 1.3)) * smoothstep(0.15, 0.4, u) * (0.6 + 0.4 * xw * side);
-        const r = Math.max(env(xw), local) + 0.0016 + cupT + wave + (th2 / 2) * (yt + 1);
-        ring.push(V3(Math.sin(th) * r, yy, Math.cos(th) * r));
-      }
-      rows.push(ring);
+      rows.push(row);
     }
-    return K.gridGeometry(rows, { closedU: true, flip: false });
+    return K.gridGeometry(rows, { closedU: false, flip: side > 0 });
   };
-  group.add(G.mesh(tail(-1, 0.42, 0.05, 0.082), ribbon));
-  group.add(G.mesh(tail(1, 0.48, 0.08, 0.086), ribbon));
+  group.add(G.mesh(tail(-1, 0.36, 0.075, 0.062, 1), ribbon));
+  group.add(G.mesh(tail(1, 0.43, 0.105, 0.064, 2), ribbon));
 
   // ---- probes / views -----------------------------------------------------------------
-  const pU = (thd, t) => { const s = topLen + t * (Lu - topLen); const [r0, y] = profAt(upper, s); const th = thd * DEG; const r = r0 + upperDisp(th, s); return [Math.sin(th) * r, y, Math.cos(th) * r]; };
-  const pK = (thd, t) => { const s = t * Ls; const [r0, y] = profAt(skirt, s); const th = thd * DEG; const r = skirtRadius(th, s, r0, y); return [Math.sin(th) * r, y, Math.cos(th) * r]; };
+  const pU = (thd, t) => { const s = topLen + t * (sTk - topLen); const [r0, y] = profAt(upper, s); const th = thd * DEG; const r = r0 + upperDisp(th, s); return [Math.sin(th) * r, y, Math.cos(th) * r]; };
+  const pK = (thd, t) => { const s = sTkB + t * (Ls - sTkB); const [r0, y] = profAt(skirt, s); const th = thd * DEG; const r = skirtRadius(th, s, r0, y); return [Math.sin(th) * r, y, Math.cos(th) * r]; };
   const probes = {
     top: [[Math.sin(34 * DEG) * 0.15, H + f + 0.002, Math.cos(34 * DEG) * 0.15]],
     upperLit: [pU(-20, 0.35), pU(-6, 0.45), pU(4, 0.35)],
     upperFront: [pU(40, 0.4), pU(50, 0.5)],
     upperShade: [pU(90, 0.4), pU(100, 0.5)],
     skirtLit: [pK(-15, 0.5), pK(-5, 0.6)],
+    skirtFront: [pK(40, 0.45), pK(55, 0.55)],
     skirtShade: [pK(95, 0.5), pK(105, 0.6)],
     bow: [knotC.toArray()],
     floorOpen: [[Math.sin(-30 * DEG) * 0.75, 0.001, Math.cos(-30 * DEG) * 0.75]],

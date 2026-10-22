@@ -5,8 +5,10 @@
 //                in clevis tabs on each leg and in clevises on a sliding collar higher up the
 //                column, which a star knob locks. Folding slides the collar up and the legs swing
 //                up along the column. Under the blad: a mounting plate with two crossing flat
-//                support bars, two hinge cheeks pivoting on a bolt through the column head, and a
-//                spring lock pin with a black pull knob (the blad tilts to vertical).
+//                support bars (pan-head Phillips screws), a tilt bracket of bent 4 mm steel (U-channel
+//                welded to the plate, 3 mm bend radius into two cheeks) pivoting on a bolt through the
+//                column head, and a spring lock pin with a black pull knob 31 mm from the bolt (the blad
+//                tilts to vertical).
 //       'kruis'  horeca: fixed flat 4-star base plate (cast aluminium/steel)
 //       'rond'   horeca: fixed round steel base disc
 // top:  'berken' | 'hout' (birch plywood 18 mm, lacquered rotary-cut face, plies on the edge)
@@ -15,10 +17,11 @@
 // shape: 'round' (default) | 'square' (width) | 'rect' (width x depth). Square tables stand on 4 splayed
 //        square-tube legs ('stapel', stackable), rectangular ones on two folding leg frames.
 // frame: 'zwart' | 'wit' | 'chroom' | 'alu' | 'antraciet' (satin powder coat, no stipple)
-// folded: true -> blad tilted vertical, legs folded up along the column. Shown on its own the folded
-//         table leans back against the (invisible) studio sweep: its column end stands on the floor,
-//         the blad's rim rests against the sweep; both touch points carry contact shadows (engine
-//         wall catcher). lean: false gives the bare folded table standing upright (trolley loads).
+// folded: true -> blad tilted vertical, legs folded up along the column. Folded, the table cannot stand on
+//         its own (it would balance on the column end), so on its own it leans back against a VISIBLE wall
+//         (a light studio flat a shade darker than the floor, tight cove, rig.wallTone): its column end
+//         stands on the floor, the blad's rim rests against the wall; both touch points carry contact
+//         shadows (engine wall catcher). lean: false gives the bare folded table upright (trolley loads).
 // noTop: true -> onderstel only (no blad; the cross bracket and hinge stay), for spare-part shots.
 //
 // Detail views (angle 'detail' / 'detail-<name>'): klap base 'detail' = the folding mechanism (sliding
@@ -61,13 +64,26 @@ function topMaterial(top) {
 }
 
 const { V3 } = G;
+const lerpN = (a, b, t) => a + (b - a) * t;
 const DEG = Math.PI / 180;
 const TAU = Math.PI * 2;
 
 // Birch veneer of the statafel blad: one physically scaled rotary-cut face (upholstery2.birchPly,
-// 0.9 m tile = one blad, grain lines ~4 mm apart, low contrast) with three pin knots inside the blad.
-const BIRCH_KNOTS = [[0.45 - 0.21, 0.45 + 0.13, 0.0011], [0.45 + 0.18, 0.45 - 0.23, 0.0008], [0.45 + 0.07, 0.45 + 0.29, 0.0006]];
-export function birchTopFace(seed = 5) { return U.birchPly({ seed, clean: true, knots: BIRCH_KNOTS }); }
+// 0.9 m tile = one blad, grain lines ~4 mm apart, low contrast), a clear face without pin knots (at
+// catalogue size they read as dirt specks), under a satin lacquer: clearcoat 0.72 / 0.15, so the studio's
+// soft back sheet shows as a lacquer sheen over the far half of the top.
+const BIRCH_KNOTS = [];
+const _lacq = new Map();
+export function birchTopFace(seed = 5) {
+  const m = U.birchPly({ seed, clean: true, knots: BIRCH_KNOTS });
+  if (!_lacq.has(m)) {
+    const c = m.clone();
+    c.roughness = 0.42; c.clearcoat = 0.72; c.clearcoatRoughness = 0.15; c.name = 'birch plywood face (lacquered statafel top)';
+    c.userData = { ...m.userData, envSpec: 0.7 };
+    _lacq.set(m, c);
+  }
+  return _lacq.get(m);
+}
 
 export function statafelDims(p = {}) {
   let D = Number(p.diameter ?? p.d ?? 0.8);
@@ -116,6 +132,22 @@ function rivetHead(c, n, r = 0.0042, h = 0.0018) {
   g.applyQuaternion(q); g.translate(c.x, c.y, c.z);
   return g;
 }
+// pan-head screw (Phillips) on a face: centre c on the face, face normal n (pointing out of the face):
+// a low cylindrical head with a rounded top, and a cross recess (dark, slightly sunk look)
+function panHead(bins, metal, dark, c, n, r = 0.0042, h = 0.0024) {
+  const prof = [[1e-5, 0], [r, 0], [r, h * 0.45]];
+  for (let i = 1; i <= 6; i++) { const a = (Math.PI / 2) * (i / 6); prof.push([Math.max(1e-5, r - 0.0012 + Math.cos(a) * 0.0012 * 1.0 - (1 - Math.cos(a)) * 0), h * 0.45 + Math.sin(a) * h * 0.4]); }
+  prof.push([r * 0.55, h * 0.98], [1e-5, h]);
+  const g = G.lathe(prof.reverse(), 28);
+  const q = new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), n.clone().normalize());
+  g.applyQuaternion(q); g.translate(c.x, c.y, c.z);
+  bins.add(metal, g);
+  for (const rot of [0, Math.PI / 2]) {
+    const x = G.roundedBox(r * 1.15, 0.0008, 0.0007, 0.0002, 1).rotateY(rot + 0.4).translate(0, h * 0.97, 0);
+    x.applyQuaternion(q); x.translate(c.x, c.y, c.z);
+    bins.add(dark, x);
+  }
+}
 // clevis plate (cheek): a flat plate of thickness t centred at c, spanning `len` along a and `hgt` along b,
 // rounded end at the pin side; lateral normal s
 function plate(c, a, b, s, len, hgt, t, r = 0.004) {
@@ -157,6 +189,9 @@ export function statafel(p = {}) {
   const black = L.blackPlastic('#141414', 0.45);
   const glideMat = L.blackPlastic('#151515', 0.6);
   const zinc = L.zincSteel();
+  // screw heads: passivated zinc, duller than the bright bolt (no glinting crescents under the blad)
+  const zincDull = L.zincSteel({ tone: '#AEB2B5', roughness: 0.42 });
+  const recess = L.blackPlastic('#0B0B0C', 0.6);
   const group = new THREE.Group();
   group.name = `statafel Ø${Math.round(S.D * 100)} ${top} ${p.frame || 'zwart'}${folded ? ' folded' : ''}`;
   const bins = new G.PartBin();
@@ -204,23 +239,54 @@ export function statafel(p = {}) {
     const yb = by - 0.0026 - (a === 135 ? 0.005 : 0);
     topBins.add(frame, G.flatBar(v.clone().multiplyScalar(-brW / 2).setY(yb), v.clone().multiplyScalar(brW / 2).setY(yb), 0.03, 0.005, V3(0, 1, 0).cross(v).normalize()));
     // screws through the bar ends into the blad
-    for (const s of [-1, 1]) topBins.add(zinc, rivetHead(v.clone().multiplyScalar(s * (brW / 2 - 0.018)).setY(yb - 0.0025), V3(0, -1, 0), 0.0042, 0.0016));
+    for (const s of [-1, 1]) panHead(topBins, zincDull, recess, v.clone().multiplyScalar(s * (brW / 2 - 0.018)).setY(yb - 0.0025), V3(0, -1, 0), 0.004, 0.0022);
   }
   const yPl = by - 0.0102 - 0.002;     // mounting plate under the crossing
   topBins.add(frame, G.roundedBox(0.14, 0.004, 0.14, 0.003).translate(0, yPl, 0));
-  for (const [x, z] of [[0.052, 0.052], [-0.052, 0.052], [0.052, -0.052], [-0.052, -0.052]]) topBins.add(zinc, rivetHead(V3(x, yPl - 0.002, z), V3(0, -1, 0), 0.0045, 0.0017));
-  // hinge cheeks: 5 mm plates hanging from the plate, either side of the column head
+  for (const [x, z] of [[0.052, 0.052], [-0.052, 0.052], [0.052, -0.052], [-0.052, -0.052]]) panHead(topBins, zincDull, recess, V3(x, yPl - 0.002, z), V3(0, -1, 0), 0.0045, 0.0024);
+  // tilt bracket: one 4 mm steel U-channel welded under the mounting plate; its two cheeks are bent down
+  // (inner bend radius 3 mm) either side of the column head and carry the hinge bolt and, 31 mm away
+  // (ahead of and below the bolt), the spring lock pin with its pull knob
   const hingeRel = S.hingeY - H; // pivot height relative to the top surface
-  const cheekTop = yPl - 0.002, cheekBot = hingeRel - 0.02;
-  for (const s of [-1, 1]) {
-    const ch = G.roundedBox(0.005, cheekTop - cheekBot, 0.07, 0.003); ch.translate(s * 0.0335, (cheekTop + cheekBot) / 2, 0);
-    topBins.add(frame, ch);
+  {
+    const t = 0.004, ri = 0.003, ro = ri + t, xi = 0.0315, hz = 0.036;
+    const cx = xi - ri, cy = yPl - 0.002 - t - ri;       // bend centres (x = +-cx)
+    topBins.add(frame, G.roundedBox(2 * cx + 0.0004, t, 2 * hz, 0.0006, 1).translate(0, cy + ri + t / 2, 0));
+    for (const s of [-1, 1]) {
+      // bend: outer and inner quarter cylinders + end caps (smooth normals)
+      const bend = (rad, flip) => G.surface((u, v, o) => { const a = (Math.PI / 2) * u; o.set(s * (cx + Math.cos(a) * rad), cy + Math.sin(a) * rad, -hz + 2 * hz * v); }, 12, 2, { flipNormals: flip !== (s < 0) });
+      topBins.add(frame, bend(ro, false)); topBins.add(frame, bend(ri, true));
+      for (const zz of [-hz, hz]) topBins.add(frame, G.surface((u, v, o) => { const a = (Math.PI / 2) * u, rr = lerpN(ri, ro, v); o.set(s * (cx + Math.cos(a) * rr), cy + Math.sin(a) * rr, zz); }, 12, 1, { flipNormals: (zz > 0) !== (s < 0) }));
+      // fillet weld along the bracket / plate joint (a slightly rippled bead)
+      const wp = [];
+      for (let i = 0; i <= 120; i++) { const z = -hz + 0.002 + (2 * hz - 0.004) * (i / 120); wp.push(V3(s * (cx + ro * 0.62), yPl - 0.002 - 0.0012, z)); }
+      topBins.add(frame, K.sweep(wp, K.circle(0.0019, 12), { up: V3(0, 1, 0), scale: (i) => 1 + 0.045 * Math.sin(i * 1.4) * Math.sin(i * 0.11 + 0.5) }));
+    }
+    // cheek outline in its own plane (z across, y down): a plate round the pivot and the lock pin
+    const hy = hingeRel, yL = hy - 0.024, zL = 0.02, yTop = cy + 0.0004;
+    const sh = new THREE.Shape();
+    sh.moveTo(-0.034, yTop);
+    sh.lineTo(0.034, yTop);
+    sh.lineTo(0.034, yL);
+    sh.absarc(zL, yL, 0.012, 0, -Math.PI / 2, true);
+    sh.lineTo(-0.01, yL - 0.012);
+    sh.absarc(-0.01, yL, 0.012, -Math.PI / 2, -Math.PI, true);
+    sh.lineTo(-0.034, hy);
+    sh.lineTo(-0.034, yTop);
+    const bv = 0.0006;
+    for (const s of [-1, 1]) {
+      const g = new THREE.ExtrudeGeometry(sh, { depth: t - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 2, curveSegments: 18 });
+      g.translate(0, 0, bv);
+      g.rotateY(-Math.PI / 2);                          // shape x -> world z, extrusion -> -x
+      g.translate(s > 0 ? xi + t : -xi, 0, 0);
+      topBins.add(frame, g);
+    }
+    // spring lock pin: threaded bush + jam nut on the +x cheek, pin through into the column head, pull knob
+    topBins.add(zinc, G.tube(V3(xi + t, yL, zL), V3(xi + t + 0.0075, yL, zL), 0.006, 24));
+    topBins.add(zinc, K.hexNutGeo(0.012, 0.0035, 0).rotateZ(Math.PI / 2).translate(xi + t + 0.0018, yL, zL));
+    topBins.add(zinc, G.tube(V3(xi + t + 0.0075, yL, zL), V3(xi + t + 0.012, yL, zL), 0.0028, 16));
+    topBins.add(black, G.lathe([[1e-4, 0], [0.0045, 0], [0.0045, 0.005], [0.0095, 0.008], [0.0102, 0.0115], [0.0085, 0.0152], [1e-4, 0.016]].reverse(), 32).rotateZ(-Math.PI / 2).translate(xi + t + 0.012, yL, zL));
   }
-  // spring lock pin + pull knob on the +x cheek, ahead of the pivot
-  const lockY = hingeRel - 0.002, lockZ = 0.022;
-  topBins.add(zinc, G.tube(V3(0.036, lockY, lockZ), V3(0.046, lockY, lockZ), 0.0055, 20));
-  topBins.add(zinc, K.hexNutGeo(0.014, 0.004, 0).rotateZ(Math.PI / 2).translate(0.038, lockY, lockZ));
-  topBins.add(black, G.lathe([[1e-4, 0], [0.0045, 0], [0.0045, 0.006], [0.0105, 0.009], [0.011, 0.013], [0.009, 0.0165], [1e-4, 0.0172]].reverse(), 28).rotateZ(-Math.PI / 2).translate(0.046, lockY, lockZ));
   topBins.build(topGroup);
 
   const hingeY = S.hingeY;
@@ -241,7 +307,7 @@ export function statafel(p = {}) {
   const colBot = S.base === 'klap' ? S.hubY - 0.045 : 0.012;
   bins.add(frame, G.tube(V3(0, colBot, 0), V3(0, colTop - 0.026, 0), S.colR, 40));
   // head: welded block between the hinge cheeks, pivot bolt with hex head and nut
-  bins.add(frame, G.roundedBox(0.056, 0.05, 0.036, 0.005).translate(0, colTop - 0.025, 0));
+  bins.add(frame, G.roundedBox(0.056, 0.05, 0.06, 0.005).translate(0, colTop - 0.025, 0));
   bins.add(zinc, G.tube(V3(-0.042, hingeY, 0), V3(0.042, hingeY, 0), 0.004, 14));
   bins.add(zinc, K.hexNutGeo(0.013, 0.0055, 0).rotateZ(Math.PI / 2).translate(0.0395, hingeY, 0));
   bins.add(zinc, K.hexNutGeo(0.013, 0.0065, 0.004).rotateZ(Math.PI / 2).translate(-0.0395, hingeY, 0));
@@ -338,6 +404,21 @@ export function statafel(p = {}) {
   const view = {};
   let rig = L.statafelRig({ albedoL: top === 'berken' || top === 'hout' ? 0.55 : top.startsWith('hdpe') || top === 'wit' ? 0.75 : 0.12 });
   if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.975; }
+  if (S.base === 'klap') {
+    // bare frame: the studio gets its back sheet and strip boxes (statafelLook.STATAFEL_ENV_KAAL) so the
+    // lacquered top and the black powder coat carry soft reflections, and the floor shadow of the big
+    // overhead box is kept tight enough (cone 9 deg) that every leg, strut and foot glide lays its own
+    // soft shadow; contact occlusion reaches up the 3-8 cm the legs float above the floor, with a dark
+    // line at each glide
+    rig.default.envStudio = L.STATAFEL_ENV_KAAL;
+    rig.default.floorKey = { azimuth: -20, elevation: 80, cone: 6 };
+    rig.default.keyShadow = 0.55;
+    // more sky directions and less blur than the covers: thin legs keep a defined shadow instead of being
+    // smeared into the pool (160 directions keep the discrete copies of the legs from showing)
+    rig.default.groundAO = { ...rig.default.groundAO, samples: 160, keySamples: 128, sigma: 0.004, blur: 1.0 };
+    rig.default.contact = { strength: 0.75, h0: 0.02, res: 1024, blur: 1.8, wide: { strength: 0.65, h0: 0.08, sigma: 0.006 } };
+    rig.detail = { ...rig.detail, contact: { strength: 0.75, h0: 0.02, res: 1024, blur: 1.5, wide: { strength: 0.65, h0: 0.08, sigma: 0.005 } } };
+  }
   let meta = { D: S.D, H, top, base: S.base, folded, probes };
   let object = group;
   if (folded) {
@@ -358,7 +439,11 @@ export function statafel(p = {}) {
       rig.default.wallAmbient = 0.42;
       // baked studio sweep (engine _bakeWall): uniform hemisphere samples, cove-weighted floor + wall
       rig.default.groundAO = { ...rig.default.groundAO, samples: 160, wallSamples: 160, wallRes: 512 };
-      rig.default.cove = 0.35;
+      // a VISIBLE wall (a light studio flat a shade darker than the floor, with a tight cove): the table
+      // reads as leaning against something real, its shadow lands on a surface the buyer can see
+      rig.default.cove = 0.03;
+      rig.default.wallTone = { base: 0.925, top: 0.035, height: 1.6 };
+      rig.default.envStudio = L.STATAFEL_ENV_KAAL;
       meta = { ...meta, contacts: res.contacts };
     }
   }
@@ -390,7 +475,7 @@ function klapDetails(S) {
   };
 }
 
-// Folded table leaning back against the studio sweep. The table is turned (yaw) so the camera
+// Folded table leaning back against a visible studio wall. The table is turned (yaw) so the camera
 // sees the mechanism side at three-quarters (column, folded legs, hinge cheeks, lock knob) in
 // front of the blad, whose rim rests against the sweep; the column end stands on the floor.
 // Adds an invisible wall catcher (userData.catcher) that the engine renders as backdrop + shadows.
@@ -429,7 +514,9 @@ function leanAgainstSweep(group, S, p) {
   return {
     object: holder,
     contacts: { floor: floorPt.toArray(), wall: wallPt.toArray() },
-    view: { hero: { azimuth: 34, elevation: 12, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
+    // hero from further round (the blad as an ellipse, column and folded legs in front of it: the mass
+    // reads as one leaning package, the wall recedes so its corner with the floor shows the lean)
+    view: { hero: { azimuth: 52, elevation: 12, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
   };
 }
 

@@ -3,6 +3,9 @@
 // { count, type }
 //   type 'statafel' (default): oval cap for the 30 x 16 mm oval foot tube of the folding
 //        statafel; 'klaptafel': round cap for Ø 25 mm tube; 'barkruk': round cap Ø 22 mm
+// { shape: 'rond' | 'vierkant' | 'ovaal', size (mm), count, angle: 'schuin' } (round 4): caps for
+//   chair and bar-stool tubes; 'schuin' = angled sole for rear legs (one shown upside down so the
+//   slanted sole reads); a pair is shown upright + upside down
 // Construction: injection-moulded black PE over-cap, 1.8 mm wall with a slight draft, a
 // thicker 4 mm floor with a moulded wear ring underneath, rounded rim, four crush ribs on
 // the inside that grip the tube. The set is shown as a tidy group: two caps upright (open
@@ -16,7 +19,7 @@ const { V3 } = G;
 const TAU = Math.PI * 2;
 
 // one cap, standing open side up, centred at the origin on y = 0
-function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72 }) {
+function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72, n = 2.4, tilt = 0 }) {
   // profile: [offset from the inner oval (+ = outward), y]
   const prof = [];
   const ao = wall;
@@ -33,9 +36,11 @@ function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72 }) {
     for (let i = 0; i < nu; i++) {
       const t = (i / nu) * TAU;
       const a = Math.max(1e-4, ai + d), b = Math.max(1e-4, bi + d);
-      // rounded-oval (superellipse n = 2.4 for the flattened oval tube)
-      const c = Math.cos(t), s = Math.sin(t), e = 2 / 2.4;
-      row.push(V3(Math.sign(c) * Math.pow(Math.abs(c), e) * a, y, Math.sign(s) * Math.pow(Math.abs(s), e) * b));
+      // rounded-oval (superellipse n = 2.4 for the flattened oval tube; ~6 for a square tube)
+      const c = Math.cos(t), s = Math.sin(t), e = 2 / n;
+      const px = Math.sign(c) * Math.pow(Math.abs(c), e) * a, pz = Math.sign(s) * Math.pow(Math.abs(s), e) * b;
+      // angled sole (rear legs that meet the floor at an angle): the bottom is sheared, the rim stays level
+      row.push(V3(px, y, pz));
     }
     return row;
   });
@@ -48,13 +53,29 @@ function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72 }) {
     r.translate(x, floor + (H - floor - 0.004) / 2, z);
     ribs.push(r);
   }
-  return G.merge([g, ...ribs]);
+  const out = G.merge([g, ...ribs]);
+  if (tilt) {
+    // angled sole (rear legs that meet the floor at an angle): shear the bottom, the rim stays level
+    const pa = out.attributes.position;
+    for (let i = 0; i < pa.count; i++) { const x = pa.getX(i), y = pa.getY(i); pa.setY(i, y + Math.tan(tilt) * (x + ai + wall) * Math.max(0, 1 - y / H)); }
+    pa.needsUpdate = true; out.computeVertexNormals();
+  }
+  return out;
 }
 
 export function footCaps(p = {}) {
   const n = Number(p.count ?? 4);
   const type = String(p.type || 'statafel');
-  const dims = type === 'klaptafel' ? { ai: 0.0127, bi: 0.0127, H: 0.026 } : type === 'barkruk' ? { ai: 0.0112, bi: 0.0112, H: 0.024 } : { ai: 0.0153, bi: 0.0083, H: 0.024 };
+  let dims = type === 'klaptafel' ? { ai: 0.0127, bi: 0.0127, H: 0.026 } : type === 'barkruk' ? { ai: 0.0112, bi: 0.0112, H: 0.024 } : { ai: 0.0153, bi: 0.0083, H: 0.024 };
+  // round 4: chair / bar stool caps by tube shape and size (mm): shape rond | vierkant | ovaal
+  if (p.shape) {
+    const mm = Number(p.size ?? 25) / 1000;
+    const sh = String(p.shape);
+    dims = sh === 'vierkant' ? { ai: mm / 2, bi: mm / 2, H: 0.022, n: 6 }
+      : sh === 'ovaal' ? { ai: mm / 2, bi: mm * 0.27, H: 0.02 }
+      : { ai: mm / 2, bi: mm / 2, H: mm > 0.023 ? 0.024 : 0.021, n: 2 };
+    if (p.angle === 'schuin' || p.tilt) dims.tilt = (Number(p.tilt) || 18) * Math.PI / 180;
+  }
   const pe = SG.moulded('#161616', { rough: 0.42, clearcoat: 0.1 });
   const bins = new G.PartBin();
   const W = 2 * (dims.ai + 0.0018);
@@ -64,11 +85,12 @@ export function footCaps(p = {}) {
     { pos: [-0.022, 0, -0.03], yaw: 0.9, flip: 1 },    // upside down
     { pos: [0.03, 0, -0.026], yaw: -0.6, flip: 2 },    // on its side
   ];
+  const poses2 = [{ pos: [-0.022, 0, 0.004], yaw: 0.35, flip: 0 }, { pos: [0.024, 0, -0.004], yaw: -0.5, flip: 1 }];
   for (let i = 0; i < n; i++) {
-    const ps = poses[i % poses.length];
+    const ps = n === 2 ? poses2[i] : poses[i % poses.length];
     const g = capGeo(dims);
     if (ps.flip === 1) { g.rotateX(Math.PI); g.translate(0, dims.H, 0); }
-    if (ps.flip === 2) { g.rotateX(Math.PI / 2); g.translate(0, dims.bi + 0.0018, 0); g.rotateZ(0); }
+    if (ps.flip === 2) { g.rotateX(Math.PI / 2); g.translate(0, dims.bi + 0.0018, 0); }
     g.rotateY(ps.yaw);
     const extra = i >= poses.length ? [Math.floor(i / poses.length) * (W + 0.03), 0, 0] : [0, 0, 0];
     g.translate(ps.pos[0] + extra[0], 0, ps.pos[2] + extra[2]);

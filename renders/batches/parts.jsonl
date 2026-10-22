@@ -1,34 +1,56 @@
-{"model": "draagtas", "params": {"height": 1.55, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermhoes-easy-up-hero.webp"}
-{"model": "protectionDisc", "params": {"diameter": 0.78, "print": {"svg": "brand/tools/print-mark.json", "color": "#C83812"}, "onCover": {"type": "stretch", "color": "wit"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermplaat-met-opdruk-hero.webp"}
-{"model": "protectionDisc", "params": {"diameter": 0.78, "onCover": {"type": "stretch", "color": "zwart"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermplaat-statafel-hero.webp"}
-{"model": "concreteBlock", "params": {"weight": 500, "lifting": "lepelgat"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/betonblok-ballast-tent-hero.webp"}
+{"model": "stretchParts", "params": {"parts": ["spanschroef", "karabijn", "muuroog"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/bevestigingsset-schaduwdoek-hero.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.92, "count": 5}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-hero.webp"}
 {"model": "lightParts", "params": {"parts": ["dimmer"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/dimmer-voor-prikkabel-stekkerdimmer.webp"}
+{"model": "easyUpParts", "params": {"parts": ["dwarsbuis"], "length": 3}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/dwarsbuis-halve-zijwand-easy-up-hero.webp"}
 {"model": "easyUpParts", "params": {"parts": ["hoekstuk-premium", "hoekstuk-professional", "voetplaat-professional", "schuifstuk"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/frame-onderdelen-easy-up-hoekstukken-hero.webp"}
 {"model": "haringen", "params": {"count": 3, "length": 0.75}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-hero.webp"}
-{"model": "rainGutter", "params": {"length": 6, "color": "zwart", "width": 0.6}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelgoot-stretchtent-hero.webp"}
 {"model": "tentCoupler", "params": {"line": "professional"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelset-easy-up-hero.webp"}
 {"model": "tubeFittings", "params": {"parts": ["2-weg", "3-weg", "4-weg", "buis"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-hero.webp"}
+{"model": "haringen", "params": {"count": 25, "length": 0.15, "type": "pen"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/loperpennen-set-van-25-hero.webp"}
 {"model": "lightParts", "params": {"parts": ["fitting", "eindkap"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-hero.webp"}
 {"model": "stretchParts", "params": {"parts": ["spanband", "touwenset", "paalverbinder"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-hero.webp"}
-{"model": "draagtas", "params": {"height": 1.0, "color": "zwart", "wheels": true, "shape": "duffel"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/opbergtas-opblaasbare-tent-hero.webp"}
-{"model": "tubeBag", "params": {"count": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/opbergtassenset-partytent-hero.webp"}
 {"model": "tentPoles", "params": {"material": "hout", "length": 3, "count": 2}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/palen-stretchtent-hero.webp"}
 {"model": "airPump", "params": {"kind": "elektrisch"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/pomp-opblaasbare-tent-hero.webp"}
-{"model": "rainGutter", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/regengoot-partytent-wit-hero.webp"}
 {"model": "repairKit", "params": {"kind": "pvc"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/reparatieset-tentdoek-hero.webp"}
 {"model": "lightParts", "params": {"parts": ["timer"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/tijdschakelaar-voor-prikkabel-hero.webp"}
-{"model": "connectionStrip", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-wit-hero.webp"}
 {"model": "footCaps", "params": {"count": 4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/voetdoppen-set-van-4-hero.webp"}
 {"model": "gewichten", "params": {"count": 2, "stacks": 4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/voetgewicht-easy-up-15-kg-hero.webp"}
-{"model": "waterBag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/watergewichtzakken-4x20-kg-hero.webp"}
 {"model": "wielset", "params": {}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/wielset-easy-up-hero.webp"}
-{"model": "draagtas", "params": {"height": 1.7, "color": "zwart", "wheels": true, "logo": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/wieltas-easy-up-hero.webp"}
-{"model": "sandbag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/zandzakken-partytent-set-van-4-hero.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.0}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-b100.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 0.5}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-b50.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.29}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-d129.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.55}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-d155.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 2.05}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-d205.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.42}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-g142.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.92}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-g192.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 2.42}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-g242.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.42}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-l142.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.18}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-n118.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.38}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-n138.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.78}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-n178.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 0.78}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-n78.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 0.98}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-n98.webp"}
+{"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.92}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/buizen-buizenframe-38-mm-s192.webp"}
 {"model": "lightParts", "params": {"parts": ["dimmer-ab"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/dimmer-voor-prikkabel-afstandsbediening.webp"}
 {"model": "haringen", "params": {"count": 10, "length": 0.18, "type": "wand"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-haringen-18-cm-voor-wanden.webp"}
 {"model": "haringen", "params": {"count": 1, "length": 1.0}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-100-cm.webp"}
 {"model": "haringen", "params": {"count": 1, "length": 0.5}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-50-cm.webp"}
 {"model": "haringen", "params": {"count": 1, "length": 0.75}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-lange-haring-75-cm.webp"}
+{"model": "haringen", "params": {"count": 1, "length": 0.6, "type": "oog"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp"}
+{"model": "tubeFittings", "params": {"parts": ["3-weg"], "angle": 110}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-d3-110.webp"}
+{"model": "tubeFittings", "params": {"parts": ["3-weg"], "angle": 120}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-d3-120.webp"}
+{"model": "tubeFittings", "params": {"parts": ["4-weg"], "angle": 110}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-d4-110.webp"}
+{"model": "tubeFittings", "params": {"parts": ["2-weg"], "ground": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-g2.webp"}
+{"model": "tubeFittings", "params": {"parts": ["3-weg-grond"], "corner": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-g3h.webp"}
+{"model": "tubeFittings", "params": {"parts": ["2-weg"], "length": 0.5}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-k2l.webp"}
+{"model": "tubeFittings", "params": {"parts": ["knevelbout"], "count": 10}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-kb10.webp"}
+{"model": "tubeFittings", "params": {"parts": ["klem"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-kn.webp"}
+{"model": "tubeFittings", "params": {"parts": ["3-weg"], "angle": 140, "lip": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-n3l.webp"}
+{"model": "tubeFittings", "params": {"parts": ["4-weg"], "angle": 140}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-n4.webp"}
+{"model": "tubeFittings", "params": {"parts": ["4-weg"], "angle": 140, "lip": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-n4l.webp"}
+{"model": "tubeFittings", "params": {"parts": ["3-weg"], "angle": 180}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-v3.webp"}
+{"model": "tubeFittings", "params": {"parts": ["4-weg"], "angle": 180}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-v4.webp"}
+{"model": "tubeFittings", "params": {"parts": ["voetplaat"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-buizenframe-38-mm-vp.webp"}
 {"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.59}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-b159.webp"}
 {"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 1.92}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-b192.webp"}
 {"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 2.16}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-b216.webp"}
@@ -39,12 +61,52 @@
 {"model": "tubeFittings", "params": {"parts": ["buis"], "tubeLength": 2.12}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelstukken-en-buizen-38-mm-s212.webp"}
 {"model": "lightParts", "params": {"parts": ["fitting"], "color": "wit"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-e27-fitting-wit.webp"}
 {"model": "lightParts", "params": {"parts": ["fitting"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-e27-fitting-zwart.webp"}
+{"model": "lightParts", "params": {"parts": ["eindhaak"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp"}
 {"model": "lightParts", "params": {"parts": ["eindkap"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-eindkap.webp"}
+{"model": "lightParts", "params": {"parts": ["koppelstekker"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp"}
+{"model": "lightParts", "params": {"parts": ["pendel"], "length": 0.2}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-pendel-20-cm-met-e27-fitting.webp"}
+{"model": "lightParts", "params": {"parts": ["pendel"], "length": 0.3}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp"}
+{"model": "lightParts", "params": {"parts": ["pendel"], "length": 0.4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp"}
+{"model": "lightParts", "params": {"parts": ["pendel"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp"}
+{"model": "stretchParts", "params": {"parts": ["haak"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-haken-gegalvaniseerd.webp"}
+{"model": "stretchParts", "params": {"parts": ["haringtrekker"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-haringtrekker.webp"}
 {"model": "stretchParts", "params": {"parts": ["oogmoeren"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-oogmoeren-m12.webp"}
+{"model": "stretchParts", "params": {"parts": ["paaldop"], "kind": "kunststof"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-paaldop-kunststof.webp"}
+{"model": "stretchParts", "params": {"parts": ["paaldop"], "kind": "rubber"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-paaldop-rubber-zwaar.webp"}
 {"model": "stretchParts", "params": {"parts": ["paalverbinder"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-paalverbinder-met-bout.webp"}
+{"model": "stretchParts", "params": {"parts": ["ronde-haring"], "length": 1.0}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-ronde-haring-100-cm.webp"}
+{"model": "stretchParts", "params": {"parts": ["ronde-haring"], "length": 1.2}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-ronde-haring-120-cm.webp"}
 {"model": "stretchParts", "params": {"parts": ["spanband"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-spanband-met-ratel.webp"}
 {"model": "stretchParts", "params": {"parts": ["touwenset"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-touwenset-3-punts-met-rvs-karabijnen.webp"}
+{"model": "stretchParts", "params": {"parts": ["voetplaat"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stretchtent-voetplaat-middenpaal.webp"}
 {"model": "easyUpParts", "params": {"parts": ["staander-professional"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/frame-onderdelen-easy-up-staander.webp"}
+{"model": "footCaps", "params": {"shape": "rond", "size": 25, "count": 4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp"}
+{"model": "footCaps", "params": {"shape": "vierkant", "size": 25, "count": 2, "angle": "schuin"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp"}
+{"model": "footCaps", "params": {"shape": "vierkant", "size": 25, "count": 2}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp"}
+{"model": "footCaps", "params": {"shape": "ovaal", "size": 20, "count": 4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp"}
+{"model": "footCaps", "params": {"shape": "rond", "size": 22, "count": 4}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp"}
+{"model": "concreteBlock", "params": {"weight": 500, "cover": {"color": "zwart"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/accessoires-betonblok-hoes.webp"}
+{"model": "draagtas", "params": {"height": 1.55, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermhoes-easy-up-hero.webp"}
+{"model": "protectionDisc", "params": {"diameter": 0.78, "print": {"svg": "brand/tools/print-mark.json", "color": "#C83812"}, "onCover": {"type": "stretch", "color": "wit"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermplaat-met-opdruk-hero.webp"}
+{"model": "protectionDisc", "params": {"diameter": 0.78, "onCover": {"type": "stretch", "color": "zwart"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/beschermplaat-statafel-hero.webp"}
+{"model": "concreteBlock", "params": {"weight": 500, "lifting": "lepelgat"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/betonblok-ballast-tent-hero.webp"}
+{"model": "rainGutter", "params": {"length": 6, "color": "zwart", "width": 0.6}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/koppelgoot-stretchtent-hero.webp"}
+{"model": "draagtas", "params": {"height": 1.0, "color": "zwart", "wheels": true, "shape": "duffel"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/opbergtas-opblaasbare-tent-hero.webp"}
+{"model": "tubeBag", "params": {"count": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/opbergtassenset-partytent-hero.webp"}
+{"model": "rainGutter", "params": {"length": 4, "color": "wit", "clamps": 38}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/regengoot-partytent-buizenframe-wit-hero.webp"}
+{"model": "rainGutter", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/regengoot-partytent-wit-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "wit"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-wit-hero.webp"}
+{"model": "waterBag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/watergewichtzakken-4x20-kg-hero.webp"}
+{"model": "draagtas", "params": {"height": 1.7, "color": "zwart", "wheels": true, "logo": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/wieltas-easy-up-hero.webp"}
+{"model": "sandbag", "params": {"count": 4, "color": "zwart", "filled": true}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/zandzakken-partytent-set-van-4-hero.webp"}
+{"model": "concreteBlock", "params": {"part": "truss-baseplate", "size": 0.45}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/accessoires-betonblok-truss-voetplaat.webp"}
+{"model": "concreteBlock", "params": {"weight": 500, "seat": {"wood": "hardhout"}}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/accessoires-betonblok-zitblad.webp"}
+{"model": "rainGutter", "params": {"length": 4, "color": "grijs", "clamps": 38}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/regengoot-partytent-buizenframe-grijs-hero.webp"}
 {"model": "rainGutter", "params": {"length": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/regengoot-partytent-zwart-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "antraciet"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-antraciet-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "blauw"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-blauw-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "groen"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-groen-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "rood"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-rood-hero.webp"}
+{"model": "connectionStrip", "params": {"length": 3, "color": "zand"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-zandkleur-hero.webp"}
 {"model": "connectionStrip", "params": {"length": 3, "color": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/verbindingsstrook-easy-up-zwart-hero.webp"}
 {"model": "draagtas", "params": {"height": 1.7, "color": "zwart", "wheels": true}, "angle": "detail", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/wieltas-easy-up-detail.webp"}

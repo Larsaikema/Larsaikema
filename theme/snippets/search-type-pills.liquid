@@ -1,0 +1,45 @@
+{%- comment -%}
+  Search results (sections/main-search.liquid): the product types found as quick filter pills, the Soort filter
+  (filter.p.product_type) in one tap; several combine, a chosen one shows a check and takes itself off. Order: as the
+  types first appear in the relevance-ranked results of the shown page, then by count; eight at most (the rest stay in
+  the filter column). Renders nothing when there is only one type and none is chosen. The section shows the list in the
+  toolbar on a computer and in its own scroll row on a phone; data-facet-link makes facets.js apply it in place.
+  Params: filter (the product_type filter of search.filters), results (search.results of the shown page)
+{%- endcomment -%}
+{%- liquid
+  assign seen_types = '|'
+  for item in results
+    if item.object_type != 'product' or item.type == blank
+      continue
+    endif
+    assign probe = '|' | append: item.type | append: '|'
+    unless seen_types contains probe
+      assign seen_types = seen_types | append: item.type | append: '|'
+    endunless
+  endfor
+  assign seen_list = seen_types | remove_first: '|' | split: '|'
+  assign tk = ''
+  for v in filter.values
+    if v.count > 0 or v.active
+      assign pos = 99
+      for t in seen_list
+        if t == v.value
+          assign pos = forloop.index0 | plus: 10
+          break
+        endif
+      endfor
+      assign k = 9999 | minus: v.count
+      assign tk = tk | append: pos | append: k | append: '|' | append: forloop.index0 | append: ','
+    endif
+  endfor
+  assign type_keys = tk | split: ',' | sort
+-%}
+{%- if type_keys.size > 1 or filter.active_values.size > 0 -%}
+  <ul class="search-types__list" role="list">
+    {%- for row in type_keys limit: 8 -%}
+      {%- assign vi = row | split: '|' | last | plus: 0 -%}
+      {%- assign v = filter.values[vi] -%}
+      <li><a class="search-types__pill{% if v.active %} is-active{% endif %}" href="{% if v.active %}{{ v.url_to_remove }}{% else %}{{ v.url_to_add }}{% endif %}" data-facet-link{% if v.active %} aria-label="{{ 'collection.remove_filter' | t: label: v.label | escape }}"{% endif %}>{%- if v.active -%}{%- render 'icon', icon: 'check', class: 'icon--xs' -%}{%- endif -%}{{ v.label }} <span class="search-types__n">{{ v.count }}</span></a></li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

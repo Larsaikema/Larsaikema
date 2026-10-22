@@ -11,7 +11,10 @@ Targets (art direction 18 Oct 2026):
                  separate mid-grey disc (top luma <= lit skirt + 25)
   stretch rood   hue of top / funnel / skirt within 6 degrees of each other, top saturation >= 0.7
                  (not salmon), lit skirt R >= 160
-  strik wit      upper drape and skirt >= 210 on the lit side, >= 190 turned away
+  strik wit      lit skirt 230-245 (white with gradation, not paper white at 248+), upper drape >= 205 lit,
+                 >= 185 turned away
+  stretch        fabric variation: luma std in a 41 px window on the lit funnel >= 3 (sheen / strain
+                 streaks, not flat paint)
   kaal berken    top R 205-232 (lit birch, not blown out)
   floor          under a foot at least 25 levels darker than open floor
 
@@ -71,12 +74,19 @@ def main():
     half = max(2, round(3 * a.size / 1000))
     ok = True
     res = {}
+    std = {}
     for (k, _), info in zip(jobs, infos):
         img = Image.open(os.path.join(tmp, f'{k}.png')).convert('RGB')
         vals = {}
         for name, pts in info['probes'].items():
             vals[name] = sample(img, pts, half)
         res[k] = vals
+        if 'funnelLit' in info['probes']:
+            import numpy as np
+            g = np.asarray(img.convert('L')).astype(float)
+            w = round(20 * a.size / 1000)
+            stds = [g[int(y) - w:int(y) + w + 1, int(x) - w:int(x) + w + 1].std() for x, y in info['probes']['funnelLit']]
+            std[k] = sum(stds) / len(stds)
         print(f'== {k} (exposure {info.get("exposure"):.3f})')
         for name, c in vals.items():
             h, l, s = colorsys.rgb_to_hls(*(v / 255 for v in c))
@@ -104,10 +114,15 @@ def main():
         check(v['skirtLit'][0] >= 160, f"rood lit skirt R {v['skirtLit'][0]:.0f} >= 160")
     if 'strik' in res:
         v = res['strik']
-        for n in ('upperLit', 'upperFront', 'skirtLit'):
-            check(luma(v[n]) >= 210, f"strik {n} {luma(v[n]):.0f} >= 210")
+        for n in ('skirtLit', 'skirtFront'):
+            check(230 <= luma(v[n]) <= 245, f"strik {n} {luma(v[n]):.0f} in 230-245")
+        for n in ('upperLit', 'upperFront'):
+            check(luma(v[n]) >= 205, f"strik {n} {luma(v[n]):.0f} >= 205")
         for n in ('upperShade', 'skirtShade'):
-            check(luma(v[n]) >= 190, f"strik {n} {luma(v[n]):.0f} >= 190")
+            check(luma(v[n]) >= 185, f"strik {n} {luma(v[n]):.0f} >= 185")
+    for k in ('zwart', 'rood'):
+        if k in std:
+            check(std[k] >= 3, f"{k} funnel texture: luma std {std[k]:.1f} >= 3")
     if 'kaal' in res:
         v = res['kaal']
         check(205 <= v['top'][0] <= 232, f"kaal birch top R {v['top'][0]:.0f} in 205-232")

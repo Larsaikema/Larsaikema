@@ -569,7 +569,19 @@
     "help_link": "Ask your question",
     "progress": "{{ shown }} of {{ total }} results",
     "progress_range": "{{ from }}–{{ to }} of {{ total }} results",
-    "results_heading": "Products for ‘{{ terms }}’"
+    "results_heading": "Products for ‘{{ terms }}’",
+    "suggestions_count": {
+      "zero": "No suggestions",
+      "one": "{{ count }} suggestion",
+      "other": "{{ count }} suggestions"
+    },
+    "fixed_html": "Nothing found for ‘{{ terms }}’. Showing results for ‘<strong>{{ fixed }}</strong>’.",
+    "more_results": "Show {{ count }} more",
+    "fixed_products": "Results for ‘{{ terms }}’",
+    "show_results": {
+      "one": "Show {{ count }} result",
+      "other": "Show {{ count }} results"
+    }
   },
   "forms": {
     "name": "Name",

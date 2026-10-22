@@ -33,7 +33,12 @@
   endfor
   assign hidden_list = hidden_list | append: '|'
   assign group_index = 0
-  assign f_list = filters | default: results.filters
+  # not 'filters | default: results.filters': a filter argument is evaluated anyway, and every read of results.filters can
+  # build all values and counts again
+  assign f_list = filters
+  if f_list == nil
+    assign f_list = results.filters
+  endif
   assign scope_lines = scope | default: '' | newline_to_br | split: '<br />'
 -%}
 <form id="{{ form_id }}" class="facets" action="{{ request.path }}" method="get" data-facets-form>
@@ -64,15 +69,16 @@
           endunless
         endfor
       endif
+      assign f_pres = filter.presentation
       if filter.type == 'price_range'
         assign f_kind = 'price'
       elsif filter.type == 'boolean' and fvals.size <= 2
         assign f_kind = 'switch'
       elsif tf_only
         assign f_kind = 'switch'
-      elsif filter.presentation == 'image'
+      elsif f_pres == 'image'
         assign f_kind = 'image'
-      elsif filter.presentation == 'swatch' or swatch_names contains f_label
+      elsif f_pres == 'swatch' or swatch_names contains f_label
         assign f_kind = 'swatch'
       else
         for n in swatch_names

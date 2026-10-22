@@ -549,12 +549,12 @@
     "empty_intro": "Waar ben je naar op zoek?",
     "products": "Producten",
     "collections": "Categorieën",
-    "pages": "Pagina's",
+    "pages": "Pagina’s",
     "articles": "Advies",
     "suggestions": "Zoeksuggesties",
     "view_all_html": "Alle resultaten voor ‘{{ terms }}’",
     "popular": "Populair",
-    "other_results": "Pagina's en advies",
+    "other_results": "Pagina’s en advies",
     "suggestions_for": "Suggesties voor ‘{{ terms }}’",
     "no_results_title_html": "Niks gevonden voor ‘{{ terms }}’",
     "no_results_hint": "Check de spelling, of zoek op maat (3x3) of product (statafel).",
@@ -569,7 +569,19 @@
     "help_link": "Stel je vraag",
     "progress": "{{ shown }} van {{ total }} resultaten",
     "progress_range": "{{ from }}–{{ to }} van {{ total }} resultaten",
-    "results_heading": "Producten voor ‘{{ terms }}’"
+    "results_heading": "Producten voor ‘{{ terms }}’",
+    "suggestions_count": {
+      "zero": "Geen suggesties",
+      "one": "{{ count }} suggestie",
+      "other": "{{ count }} suggesties"
+    },
+    "fixed_html": "Niks gevonden voor ‘{{ terms }}’. Dit vind je bij ‘<strong>{{ fixed }}</strong>’.",
+    "more_results": "Toon nog {{ count }}",
+    "fixed_products": "Dit vind je bij ‘{{ terms }}’",
+    "show_results": {
+      "one": "Toon {{ count }} resultaat",
+      "other": "Toon {{ count }} resultaten"
+    }
   },
   "forms": {
     "name": "Naam",

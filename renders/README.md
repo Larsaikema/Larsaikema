@@ -273,29 +273,39 @@ van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 
 - `diameter`: 0.6 / 0.7 / 0.8 / 0.85 (m, of in cm), `height` 1.10.
 - `top`: `berken` (multiplex 18 mm: één fysiek geschaald, laag-contrast schilfineer, `birchTopFace()` =
-  `upholstery2.birchPly` met drie speldenknoesten binnen het blad, ook op de onderkant en op vierkante bladen;
-  lagen op de rand), `hdpe` / `hdpe-grijs` (45 mm blow-moulded), `wit` / `zwart` / `antraciet` / `houtlook` /
+  `upholstery2.birchPly` als **schoon blad zonder speldenknoesten** (die lazen op catalogusformaat als vuilstipjes),
+  onder een **satijnlak** (clearcoat 0,72 / ruwheid 0,15: het zachte achterscherm van de kale-tafelstudio spiegelt
+  als lakglans over de achterste helft van het blad), ook op de onderkant en op vierkante bladen; lagen op de rand), `hdpe` / `hdpe-grijs` (45 mm blow-moulded), `wit` / `zwart` / `antraciet` / `houtlook` /
   `graniet` (gelamineerd).
-- `frame`: `zwart`, `wit`, `antraciet` (satijn poedercoat zonder stippelruis, `statafelLook.satinPowder`:
-  lange zachte glansbanen van de studioboxen op de buizen), `chroom`, `alu`.
+- `frame`: `zwart`, `wit`, `antraciet` (satijn poedercoat zonder stippelruis, `statafelLook.satinPowder`; zwart =
+  ~4 % albedo `#222427` onder een satijnen toplaag (clearcoat 0,8 / 0,13): de striplichten links en rechts en het
+  achterscherm (`STATAFEL_ENV_KAAL`) geven brede zachte glansbanen op kolom, ovale poten en schoren, zodat hun
+  buisvorm en ovale doorsnede leesbaar blijven in plaats van silhouetten), `chroom`, `alu`.
 - `base: "klap"` (inklapbaar), zoals echte klapstatafels gebouwd: Ø50 kolom; onderaan een hub met vier
   **gaffels** (twee wangen per poot) waarin de **ovale poten 30 × 16** op **klinknagels** scharnieren;
   **platte stalen schoren 18 × 4** die met pennen in een gaffel óp de poot en in een gaffel op de **schuifkraag**
   zitten (geen zwevende uiteinden meer); de kraag zit vast met een **sterknop** (vooraan, tussen twee poten);
   **voetdoppen** als glijschoen over het buiseinde met een vlakke zool. Onder het blad: twee gekruiste platte
-  steunen met schroeven, een montageplaat, twee **scharnierwangen** rond de kolomkop met een **scharnierbout**
-  (zeskantkop + moer) 48 mm onder het blad, en een **veerpen met trekknop** als kantelvergrendeling.
+  steunen en een montageplaat, vastgezet met **bolkopschroeven met kruiskop** (cilindrische kop met afgeronde
+  bovenkant, mat verzinkt, geen glimmende sikkels); de **kantelbeugel** is één gezette U-profiel van 4 mm staal:
+  rug onder de montageplaat met een **hoeklas** (licht geribbelde las) langs beide zijden, **zetradius 3 mm**
+  binnen naar de twee **wangen**, die rond de scharnierbout (zeskantkop + moer, 48 mm onder het blad) en de
+  vergrendeling uitgezaagd zijn. De **veerpen met trekknop** zit 31 mm van de bout (ervoor en eronder) met een
+  draadbus en contramoer op de wang en grijpt in de (60 mm diepe) kolomkop: knop en boutkop raken elkaar niet.
   `kruis` (horeca, vaste 4-stervoet), `rond` (horeca, ronde voetplaat). `legs`: 3 of 4.
 - `folded: true`: blad verticaal (om de scharnierbout), poten langs de kolom opgeklapt (de kraag schuift via
-  de schoren mee omhoog, kinematisch berekend). Los in beeld **leunt** de ingeklapte tafel tegen de (onzichtbare)
-  studiosweep: kolomvoet op de vloer, bladrand tegen de sweep, de mechaniekzijde (kolom, opgeklapte poten,
-  scharnier, knop) naar de camera; `leanYaw` (°, standaard 8) draait hem t.o.v. de sweep (de hero kijkt van
-  34° opzij, de catalogushoek: blad als brede ellips met zichtbare rand, kruisbeugel, scharnier en opgeklapte
-  poten ervoor), `leanTilt` (°, standaard 11) is de leunhoek. Beide raakpunten krijgen contactschaduw (vloer:
-  contactpass; sweep: `userData.catcher`). De sweep is **gebakken** zoals de vloer (`engine._bakeWall`):
-  160 richtingen over de hele bovenhalve bol + de sleutelkegel, in het wandvlak, vervaagd; vloer en wand
-  wegen hun richtingen met een normaal die in een **holle hoek** (`rig.cove`, 35 cm) naar 45° buigt, zodat
-  de schaduw zonder lijn van de vloer de wand op loopt (geen gestapelde kopieën, geen naad).
+  de schoren mee omhoog, kinematisch berekend). Ingeklapt kan zo'n tafel niet zelfstandig staan (hij rust dan
+  alleen op de kolomvoet), dus los in beeld **leunt** hij tegen een **zichtbare wand**: een lichte studiowand een
+  tint donkerder dan de vloer (`rig.wallTone {base 0,925, top 0,035, height 1,6}`: de wand is iets donkerder dan
+  de vloer en loopt naar boven nog iets af) met een krappe holle hoek (`rig.cove` 3 cm), zodat de hoeklijn
+  vloer/wand zichtbaar is en de koper ziet waar de tafel tegenaan leunt; kolomvoet op de vloer, bladrand tegen
+  de wand, de mechaniekzijde (kolom, opgeklapte poten, scharnier, knop) naar de camera. De hero kijkt van 52°
+  opzij (blad als ellips, kolom en poten ervoor, de wand wijkt in perspectief). `leanYaw` (°, standaard 8)
+  draait de tafel t.o.v. de wand, `leanTilt` (°, standaard 11) is de leunhoek. Beide raakpunten krijgen
+  contactschaduw (vloer: contactpass; wand: `userData.catcher`). De wand is **gebakken** zoals de vloer
+  (`engine._bakeWall`): 160 richtingen over de hele bovenhalve bol + de sleutelkegel, in het wandvlak, vervaagd;
+  vloer en wand wegen hun richtingen met een normaal die in de holle hoek naar 45° buigt (geen naad in de
+  schaduw). Zonder `wallTone` blijft de wand een naadloze sweep (exact de achtergrondkleur).
   `lean: false` = de kale ingeklapte tafel rechtop (voor de transportkar).
 - Detailbeelden (`--angle detail` of `detail-<naam>`): `detail` = het klapmechaniek (schuifkraag met sterknop,
   schoren met gaffels, hub, voetdoppen), `detail-scharnier` = kantelbeugel en scharnier onder het blad van
@@ -306,29 +316,53 @@ van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 
 - `type: "stretch"` (statafelrok): polyester-elastaan single jersey (`statafelLook.jerseyKnit`: 0,9 mm
   tricotlussen als normal map, uv in meters, in close-ups versterkt via de engine-`weave`-hook, die daar ook
-  de flanken van elke lus donkerder maakt (`weave.cav`) en de lustoppen meer vezelglans geeft (`weave.crown`),
-  zodat zelfs zwart tricot zijn ribbels toont; sheen 0,6 in de eigen verfkleur (zwart: donkergrijs),
-  sheenRoughness 0,5, roughness 0,65; zwart tricot reflecteert ~3 %, dus een belichte zwarte rok leest als
-  donkergrijs doek). `knitLook {roughness, sheen, sheenColor, sheenRoughness, normal, specularIntensity,
-  envSpec, boost}` overschrijft het materiaal voor look-development. Constructie: rond bovenpand, op de bovenste bladrand aan het lijf genaaid
-  (naadrups + stiksel op de rand); het lijf omspant de 18 mm rand, loopt vanaf de onderste bladrand in een
-  trechter naar een strakke taille en waaiert uit naar de vier voeten. Spanning: fijne **radiale rekstrepen**
-  van de rand naar de taille, onregelmatige **stuiklobben** in de taille, **diagonale treklijnen** van de taille
-  naar elke voet (geen regelmatige groeven meer). Elke voet zit in een **elastische voetzak** (wand om de
-  voetdop, zaknaad met stiksel, zool van de dop net zichtbaar); tussen de voeten tilt de **omgeslagen zoom**
-  (2 cm, coverstitch in twee rijen, dunne vouwrand) in een boog (`hemLift`, standaard 11,5 cm).
+  de flanken van elke lus donkerder maakt (`weave.cav`) en de lustoppen meer vezelglans geeft (`weave.crown`)).
+  Gespannen tricot is **satijnglanzend**: het lijf heeft een **anisotrope** glanslob (`anisotropy` 0,38,
+  lange as langs uv v = het profiel af: rand → taille → voeten), zodat de studioboxen als **zachte
+  spanningsstrepen** langs de rek getrokken worden, roughness ~0,57–0,6, sheen 0,55 in de eigen verfkleur
+  (zwart: koel donkergrijs, dus Lycra en geen mat rubber). Daarbovenop het **streak-veld** van de engine
+  (`userData.streak`, alleen in de trechter: van net onder de onderste bladarris tot de taille,
+  `statafelLook.withStreakEnd`): ~95 onregelmatige radiale strepen rond de rok die glanzender en iets
+  spiegelender zijn en de normaal over de streep kantelen (fijne ribbels), uitgedoofd waar ze kleiner dan een
+  pixel worden; samen met de geometrische **radiale rekstrepen** (56 stuks, 0,6–2 mm) lezen ze op heroformaat.
+  Het vlakke bovenpand en de naadrups gebruiken een isotrope variant (`jerseyKnit(color, {flat: true})`).
+  `knitLook {roughness, sheen, sheenColor, sheenRoughness, normal, specularIntensity, envSpec, boost,
+  anisotropy, streak}` overschrijft het materiaal voor look-development. Constructie: rond bovenpand, op de
+  bovenste bladrand aan het lijf genaaid (naadrups + stiksel op de rand); het lijf omspant de 18 mm rand, loopt
+  vanaf de onderste bladrand in een trechter naar een strakke taille en waaiert uit naar de vier voeten.
+  Spanning: radiale rekstrepen van de rand naar de taille, onregelmatige **stuiklobben** in de taille,
+  **diagonale treklijnen** van de taille naar elke voet en **spanningsrimpels die vanaf elke voetzak waaieren**
+  (8–25 cm de baan in, het sterkst bij de zak). Elke voet zit in een **elastische voetzak**: een korte,
+  taps toelopende sok over de voetdop (zaknaad net boven de dop op 5,6 cm, elastische rand die de dop
+  omsluit, zool net zichtbaar) die met een zachte radius (~2,5 cm) uit de baan overrolt, zonder harde
+  kistranden. De hoeken van de zoomboog bij de zakken zijn C1-glad (geen kreuklijn die van de zakhoek naar de
+  taille loopt). Tussen de voeten tilt de **omgeslagen zoom** (2 cm, coverstitch in twee rijen, dunne vouwrand
+  van 1,2 mm) in een boog (`hemLift`, standaard 11,5 cm, per baan een paar mm anders) met een lichte golving
+  van de gerekte zoom (~3–4 cm).
   `topcover: "wit"` (of `true`) = losse topcover over blad en rand, elastische rand net onder de bladrand;
   `topcoverPrint: "stripes-rwb" | "voetbal"`.
-- `type: "strik"`: geweven polyester (`statafelLook.wovenCloth`). Het doek ligt vlak op het blad, valt over de
-  rand en wordt bij de taille samengebonden: **radiale plooien** vanaf de bladrand die naar de sjerp toe
-  vertakken in twee keer zoveel strakke plooien en bij de knoop **naar het knooppunt convergeren**; rok met
-  plooien van ongelijke diepte tot op de grond. Strik: twee **lussen van één laag doek** (dubbelzijdig, 240 × 26
-  onderverdeeld): heen op de voorlaag, een zachte ronde vouw (~1 cm) aan het eind, terug op de achterlaag;
-  het midden van de breedte reikt het verst (ronde lusvorm van voren) en bolt het meest, bij de knoop
-  samengeknepen met fijne plooitjes en **vouwen die vanuit de knoop over de lus waaieren**; beide randen
-  een opgerolde zoom van 1 mm die licht golft. Een **knoop van gewikkeld doek met plooirimpels**, en twee
-  **staarten die op de rokplooien rusten** (volgen de plooitoppen, zakken iets in de dalen, geen spleet) met een
-  **zwaluwstaartknip**. `sashColor` voor een contrasterende sjerp.
+- `type: "strik"`: geweven polyester (`statafelLook.wovenCloth`: fijne platbinding als normal map plus de
+  **macrolaag** `fabricMacroNormal` via de engine-`macro`-hook: garenspanningsstrepen van 1–6 mm in ketting en
+  inslag, slubs en een zachte cockle, die ook de glans laten variëren, zodat het weefsel op heroformaat
+  leesbaar is; lichte satijnsheen). Wit wordt belicht op ~236–244 (belichting 0,72, vulkaart 1,0,
+  vloerkaatskaart 3,8), zodat de plooien hun verloop houden. Het doek ligt vlak op het blad (eigen planaire uv,
+  geen pool in het weefsel), valt over de rand en wordt bij de taille samengebonden: **radiale plooien** vanaf
+  de bladrand die naar de sjerp toe vertakken in twee keer zoveel plooitjes en bij de knoop **naar het
+  knooppunt convergeren**. Het samengeraapte doek **bolt boven en onder de sjerp uit** (+1,3–2,2 cm) en wordt
+  onder de sjerprand ingesnoerd (één raaklijn-continue curve, geen trapjes in de plooien). De **sjerp** heeft
+  eigen zachte lengteplooien, een lichte twist en golf in hoogte en breedte, drukt op de plooitoppen (bultjes),
+  de randen liggen óp de plooien, en hij versmalt en plooit naar de knoop. Rok: plooitjes onder de sjerp die
+  overgaan in ~13 brede zachte plooien van ongelijke breedte en diepte (afgeronde toppen, smalle maar geen
+  V-dalen), de zoom raakt de vloer en kickt ~1 cm uit (donkere contactlijn, geen bies, geen plat
+  ruchesrandje). Strik: twee **lussen van één laag lint** (zo breed als de sjerp, ~7 cm), open aan boven- en
+  onderkant (voor- en achterstreng staan los, randen dun, geen paspel), vlak over de breedte met een lichte
+  holling en een twist langs de streng, bij de knoop samengeknepen (fijne plooitjes) met **één diagonale
+  knijpvouw** naar de bovenste verre hoek; een **knoop = om de lusvoeten gewikkelde band** (randen die over de
+  lusvoeten rijden, twee scheve wikkelvouwen, licht hol gezicht); twee **staarten** die van onder de knoop
+  komen (korte twist), op sjerp en rok liggen met hun randen ~2 mm van het doek (zachte contactschaduw, geen
+  donkere omtreklijn), het midden overbrugt de plooidalen, het uiteinde komt iets los, en eindigen in een
+  **schone zwaluwstaartknip** (kolommen van verschillende lengte, dus een scherpe knip). `sashColor` voor een
+  contrasterende sjerp.
 - `type: "kleed"`: rond tafelkleed dat over het blad tot op de grond valt, met godetplooien en lichte poel.
 - `print: {svg, color, width, y, azimuth}` (stretch): logo op het vlakke deel van een paneel tussen twee voeten
   (`azimuth` in graden, standaard het paneelmidden het dichtst bij de hero-camera), volgt de rok.
@@ -345,9 +379,18 @@ zwart blad geen grijze schijf), Neutral tonemapping (verzadigde verfkleuren met 
 0,5: de kleine kanalen van rood worden niet naar 0 gedrukt, dus geen digitaal puur rood maar geverfd doek met
 vorm in de schaduw), contact-AO onder voeten/zoom/hub (smal + brede halo),
 gladde vloer-AO (96 + 96 richtingen, σ 2,5 cm, vervaagt naar 1 aan de bake-rand) en belichting per albedo
-(wit 0,86, met vulkaart 1,45 zodat de afgekeerde kant ≥ 190 blijft; stretchrok met lichtere topcover belicht
+(wit 0,72 met vulkaart 1,0 en vloerkaart 3,8: belicht wit doek ~236–244, afgekeerde kant ≥ 185; stretchrok met lichtere topcover belicht
 voor de topcover). Close-ups (`detail*`) zonder `edgeFade`: de vloer in beeld ligt in de schaduwpoel van het
-product en loopt door tot de beeldrand. Controle: `python3 renders/tools/check-statafel-values.py`.
+product en loopt door tot de beeldrand. Controle: `python3 renders/tools/check-statafel-values.py`
+(waarden + doekstructuur: luma-spreiding op de belichte trechter ≥ 3).
+
+**Kale tafel en ingeklapte tafel** (`statafel`, onderstel `klap`): de studio krijgt er een **zacht
+achterscherm** (az. 180°, el. 16°, 120° × 22°, intensiteit 1,5) en **twee hoge striplichten** links en rechts bij
+(`statafelLook.STATAFEL_ENV_KAAL`): lakglans op het berkenblad, glansbanen op kolom, poten en schoren. De
+vloerschaduw van de overhead-box is krapper (`floorKey` el. 80°, **kegel 6°**, `keyShadow` 0,55), zodat elke
+poot, schoor en voetdop een eigen zachte schaduw legt (160 hemelrichtingen + 128 in de kegel, vervaging
+σ 4 mm in plaats van 2,5 cm, zodat dunne poten niet in de poel wegvegen); contact-AO tot ~8 cm hoogte (`h0`
+2 cm met 1,8 texel vervaging = donkere lijn rond elke voetdop, brede halo `h0` 8 cm, σ 6 mm, sterkte 0,65).
 
 ### Catalogusreview (oktober 2026)
 - `easyUpTent`: wandtype `half` (borstwering, `halfWallHeight` standaard 1,0 m, klittenband laag aan de poten);
@@ -444,9 +487,29 @@ Ronde 5 (22 oktober: de laatste 30 furniture-jobs zonder beeld; nieuwe bestanden
   opgevouwen PVC-kappen (`canopyColor`, standaard rood) in twee stapels.
 - `klaptafel {top, frame, frameColor}` (`banquetTable.js`): `frameColor` kleurt de poten; `chroom` = verchroomd T-onderstel
   in de lichte standaardomgeving (de vlakke kolommen spiegelen in de donkere studio-omgeving zwart en lezen als gunmetal).
-- `trolley {kind: "klapstoel"}` beladen: één opgezette stoel naast de kar (het pakketbeeld, zoals de stapelstoel- en
-  barkrukpakketten); `beside: false` toont alleen de kar. `trolley {kind: "klaptafel", beside: true}` zet één klaptafel op
-  naast de kar (standaard uit).
+- `trolley {kind: "klapstoel"}` beladen: de kar voor 30 klapstoelen / 26 weddingstoelen krijgt één opgezette stoel ernaast
+  (het pakketbeeld, zoals de stapelstoel- en barkrukpakketten; `beside: false` toont alleen de kar); meer dan 30 geladen =
+  de lange kar voor 50 (2 × 25), zonder stoel ernaast. `trolley {kind: "klaptafel"}` vol (10, het pakket) of met
+  `beside: true` zet één klaptafel op rechtsachter de kar (`beside: false` laat hem weg).
+- `chairs3.js` (via `chair` en `barStool`): `chair {style: "bistro-klap", color, folded}` houten klapstoel bistro (massief
+  beuken, gelakt eiken / vintage hout met een eigen toon per onderdeel / zwart gebeitst; X-frame, zeven zittinglatten, drie
+  gebogen ruglatten; ingeklapt ca. 6 cm, rechtop); `chair {style: "kunststof", color, legs, stack}` PP-kuip uit één stuk
+  (lip, schotel, taille, in plan gebogen rug, opgerolde rand, afwateringsgaatje) op een zwart Ø20-frame, `stack` nestelt
+  6,5 cm op / 2,2 cm terug; `chair {style: "polycarbonaat", color, translucent}` medaillonstoel met armleuningen uit één
+  stuk: transparant = helder PC met Fresnel-gewogen stochastische dekking (vlakken helder, contouren en glans lezen), wit /
+  zwart = glanzend opaak; `chair {style: "klapstoel", count, linked}` stoelen in een rij met zwarte stoelverbinders om de
+  voorpoten; `barStool {style: "klap", color, back, folded}` inklapbare barkruk (Ø25 X-frame, voetsteun, kunstleren
+  zitting en lage rug; ingeklapt ca. 12 cm, rechtop). Inklappen gaat met één helper (`foldFlat`): het achterframe draait om
+  het kruispunt op de voorpoten, de zitting om zijn scharnier, daarna staat de platte stoel rechtop.
+- `tableSets.js` (via `klaptafel {shape: "kwartrond", count: 4, diameter}`): vier kwartronden rond één middelpunt (cirkel
+  Ø 305 met open midden), voegen van 6 mm.
+- `stanchionGala.js` (via `stanchion {style: "gala" | "galerie", height, finish, rope, pair}`): luxe palen op een gietijzeren
+  voet Ø 35 (getrapte koepel met kraal, vilt eronder), gala 100 cm met bolle kop, galerie 60 / 90 cm met platte kop, twee ogen
+  per paal; afwerking goud (messinglook, haken in messing), chroom, zwart.
+- `trolley3.js`: `kind: "steekwagen"` (Ø25-frame met handgreeplus, schep 40 × 30, twee luchtbanden Ø 26; `loaded` = stapel
+  metalen stoelen met de rug tegen het frame) en `kind: "universeel"` (verzinkt plateau 60 × 60 of 120 × 60 met duwbeugel,
+  per stapel twee verschuifbare beugels van ~155 cm in vloerrails, spanband; `loaded: "mixed"` = stapel stoelen + stapel
+  barkrukken, beugels ertegenaan en de band erom).
 
 ### Overige (eenvoudiger, al bruikbaar)
 `klaptafel {length,width,height,color,frame}`, `biertafelset {length,tableWidth,frame}`,
@@ -520,6 +583,41 @@ geslagen touw), `gutterPackshot` (regengoot: het losse eind ligt als ronde U-goo
 - `tubeFittings`: knolling (buis links, van de camera af; koppelstukken in een kolom ernaast); losse buis diagonaal.
 - `protectionDisc`: hele statafel in beeld (geen uitsnede), softbox-reflectie weg van de opdruk; `stretchParts` touwenset: geslagen
   touw met oogsplitsingen; oogmoeren rechtop 2 × 2; `repairKit`: nette flat-lay van boven (48°); `haringen`: waaier.
+
+Ronde 4 (22 oktober 2026, alle 112 catalogusjobs van de groep; gedeelde kleine hardware in `js/partsKit4.js`, eigen bestand:
+`placeBin`, `threadRings`, `planarPath`/`bar`, `sHook`, `eyeBolt` (ook als houtschroef-oog), `wallPlug`, `turnbuckle`,
+`snapHook`, `chain`, `roundPeg`). Nieuwe parameters:
+- `tubeFittings {angle, lip, ground, corner, length, count}`: koppelstukken zoals de catalogus ze noemt. `3-weg` 140° = nokstuk
+  (standaard), 110°/120° = dakrandhoekstuk (staander + één dakrandarm in verstek, dakbuis op 20°/30°), 180° = dakvlak (rechte
+  buis + ligger); `4-weg` 110°/120° = dakrand (standaard), 140° = nokstuk met twee dakbuizen, 180° = dakvlak-kruis; `lip` = gelaste
+  lip met boutgat onder de nok; `2-weg {length: 0.5}` en `{ground: true}` (gelaste haringlip); `3-weg-grond` = T-stuk,
+  `{corner: true}` = grondframe-hoekstuk (nu in gebruiksstand, staanderarm omhoog); losse delen `voetplaat` (120 × 120 mm, koker
+  Ø 42 met moer + vleugelbout, haringgaten), `klem` (klem nokversteviging: gesplitste band, boutoren, lip) en `knevelbout`
+  (M8-vleugelbouten, `count`, twee rijen); `buis {count}` = bundel (3 + 2) met zwarte tape. Het dakrandhoekstuk kiest zelf de
+  draaiing waarbij geen arm naar de camera wijst.
+- `stretchParts`: `ronde-haring {length}` (Ø 25, slagkop, gelaste ring plat op de vloer), `haringtrekker` (hefboom met rubber
+  greep, gelaste voetbeugel, ketting met grijphaak, naast een ronde haring), `paaldop {kind: 'rubber'}` (zware rubberen dop op
+  zijn kant zodat de wand leest; standaard PE-dop), `voetplaat` (middenpaal, 400 × 400 × 8, kom met schotten), `haak` (vier
+  S-haken), en de RVS-bevestigingsset schaduwdoek `spanschroef`/`karabijn`/`muuroog` (met plug), samen als knolling.
+- `lightParts`: `eindhaak` (twee spanveren met karabijn en draadhaak), `koppelstekker` (rubber stekker + contrastekker met open
+  klepje), `pendel {length, onCable}` (prikkop, ronde kabel, E27-rubberfitting; zonder `length` de 50 cm-pendel aan een stuk
+  platte prikkabel).
+- `footCaps {shape: rond|vierkant|ovaal, size (mm), angle: 'schuin'}`: doppen voor stoelen en barkrukken; `schuin` = schuine
+  zool (één dop ondersteboven); een paar = rechtop + ondersteboven.
+- `haringen {type: 'pen'}` (loperpennen Ø 4 met platte kop Ø 30, twee verspringende rijen) en `{type: 'oog'}` (stertent-haring
+  Ø 16 met gesmeed oog).
+- `concreteBlock {cover: {color}}` (passende hoes: plooien in de hoeken, paspel, hoeknaden, klittenbandzoom, sleuf met de
+  hijslus erdoor), `{seat: {wood}}` (verlijmd hardhouten zitblad 80 × 80 × 10 op het kale blok, zonder hijslus) en
+  `{part: 'truss-baseplate', size, thickness}` (verzinkte plaat met M16-gaten en vier conische trusskoppelingen). De hoes en het
+  zitblad staan op het blok van 80 × 80 × 40 uit de accessoiretekst.
+- `easyUpParts {parts: ['dwarsbuis'], length}`: Ø 25 aluminium dwarsbuis met twee scharnierklemmen voor de zeskantpoot (met
+  buiszadel en duimschroef); de buis loopt het beeld uit (`noFrame` op het verre deel) zodat de klemmen leesbaar blijven.
+- `rainGutter {clamps: 38}`: buizenframe-goot (ca. 35 cm, gelaste zomen, geen klittenband) met een rij losse klikklemmen voor
+  38 mm buis.
+
+Batch: `renders/batches/parts.jsonl` (112 jobs uit `catalog/export/image-jobs.json`, Linnen `#ECE4D6`, paden naar
+`catalog/images/`). Waar twee catalogusvarianten dezelfde spec hebben, verfijnt de batch: paaldop `kind` (kunststof / rubber),
+ronde haring `length` 1.0 / 1.2. Preview: `--size 1200 --samples 14`; finaal zonder overrides (2000 px, 40 samples).
 
 ### Verlichting en heaters (eigen bestanden, vervangen de stubs)
 Gedeelde helpers: `js/lightKit.js` (hardware: E27-voet met echte schroefdraad, prikfitting `festoonSocket`,
@@ -943,7 +1041,8 @@ Interactief bekijken (handig bij modelleren): serveer `renders/` en open
   centrale hub, klapstatafel met schuifkraag en schoren). Controleer tegen de werkelijke leverancier en
   pas `SPEC` in `models/easyUpTent.js` / `statafelDims()` aan waar het afwijkt (bv. dakvorm 3×4,5).
 - **Weefsel/tricot-normalmaps** zijn alleen in `detail`-beelden zichtbaar; op 2000 px hero lees je het
-  doek aan naden, stiksels, doorhang en glans, niet aan de draad.
+  doek aan naden, stiksels, doorhang en glans, niet aan de draad. Uitzonderingen die wél op heroformaat lezen:
+  de macrolaag van het strikdoek (garenstrepen, slubs) en de spanningsstrepen + anisotrope glans van stretch.
 - **Wit doek** wordt lineair (zonder schouder) getoond, zodat het belichte vlak tot ~250 kan zonder dat de
   doorhang wegvalt; speculaire highlights op aluminium klippen daardoor eerder naar wit (gewenst).
 - **Scherptediepte** in `detail` is een gemiddelde over lensposities; bij weinig samples (< 40) is de

@@ -10,7 +10,7 @@
 //                     `tableFrame`; tops stand across the cart, all inside the end frames.
 //        'klaptafel'  platform (ca. 190 x 75 x 90 cm) for folding tables on their long edge:
 //                     carpeted bunks, U push frames at both ends; loaded with folded klaptafels;
-//                     `beside: true` sets one table up next to the cart.
+//                     full (10) or `beside: true`: one table set up next to the cart.
 //        'barkruk'    platform (ca. 150 x 55 cm) for 24 bar stools: 3 stacks of 8 metal stools
 //                     (barStool.js) in a row, plywood deck with a bumper edge, push handle.
 //        'plateau'    square dolly (`size` side, default 0.9 m) on 4 Ø100 castors (2 with brake), plywood deck with
@@ -203,12 +203,13 @@ function klaptafelCart(bins, group, p) {
       group.add(t);
     }
   }
-  // round 5: `beside: true` sets one klaptafel up next to the cart (the pakket shot), turned end-on
-  if (p.beside === true) {
+  // round 5: one klaptafel set up next to the cart (the pakket shot), turned end-on: `beside: true`, and by
+  // default when the cart is full (10, the pakket); `beside: false` omits it
+  if (p.beside === true || (p.beside == null && n >= 10)) {
     const t = klaptafel({ length: p.tableLength ?? 1.83, width: p.tableWidth ?? 0.76 }).object;
     const h = new THREE.Group(); h.add(t);
     h.rotation.y = Math.PI / 2;
-    h.position.set(Lc / 2 + 0.62, 0, 0.2);
+    h.position.set(Lc / 2 + 0.75, 0, -0.45); // behind-right of the cart, so it does not hide the load
     group.add(h);
   }
   return { L: Lc, W: Wc, H: Htot, detailTarget: [Lc / 2 - 0.12, R, Wc / 2 - 0.06] };

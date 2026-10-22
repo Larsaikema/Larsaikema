@@ -1,4 +1,4 @@
-/* Predictive search (Section Rendering API, ARIA combobox); data-params (header) adds the searched fields: sizes, SKU, tags. */
+/* Predictive search (ARIA combobox), see sections/predictive-search.liquid */
 (() => {
 const KK = window.KK;
 class Search extends HTMLElement {
@@ -13,12 +13,12 @@ class Search extends HTMLElement {
 		this.cache = {};
 		const first = () => (this.term ? this.results?.innerHTML && this.open() : this.open(true, this.start));
 		i.addEventListener('input', KK.debounce(() => this.onInput(), 220));
-		i.addEventListener('input', () => (showClear(), this.term ? this.cur === this.start && this.close() : this.open(true, this.start)));
+		i.addEventListener('input', () => (showClear(), this.term ? this.cur === this.start && this.close() : (this.say(''), this.open(true, this.start))));
 		i.addEventListener('focus', first);
 		i.addEventListener('click', () => this.cur || first());
 		i.addEventListener('keydown', (e) => this.onKey(e));
-		c?.addEventListener('click', () => ((i.value = ''), showClear(), this.close(), i.focus()));
-		// a click outside, or on the dimmed page (the element's own ::before), closes the panel
+		c?.addEventListener('click', () => ((i.value = ''), showClear(), this.say(''), this.close(), i.focus()));
+		this.addEventListener('mousedown', (e) => e.target.closest('.predictive') && e.preventDefault());
 		document.addEventListener('click', (e) => (e.target === this || !this.contains(e.target)) && this.close());
 		this.addEventListener('focusout', (e) => this.contains(e.relatedTarget) || setTimeout(() => this.contains(document.activeElement) || this.close()));
 		showClear();
@@ -27,18 +27,51 @@ class Search extends HTMLElement {
 	get term() {
 		return this.input.value.trim();
 	}
+	say(t) {
+		if (this.status) this.status.textContent = t;
+	}
+	async get(q, signal) {
+		const url = `${KK.routes.predictiveSearch}?q=${encodeURIComponent(q)}&section_id=predictive-search&${this.dataset.params}`;
+		const html = (this.cache[url] ||= await fetch(url, { signal }).then((r) => (r.ok ? r.text() : Promise.reject(r))));
+		return KK.parse(html).querySelector('[data-predictive-inner]');
+	}
 	async onInput() {
 		const q = this.term;
 		if (this.dataset.enabled === 'false' || !this.results || !q) return;
-		const url = `${KK.routes.predictiveSearch}?q=${encodeURIComponent(q)}&section_id=predictive-search&${this.dataset.params}`;
 		try {
 			this.abort?.abort();
-			this.abort = new AbortController();
-			const html = (this.cache[url] ||= await fetch(url, { signal: this.abort.signal }).then((r) => (r.ok ? r.text() : Promise.reject(r))));
+			const signal = (this.abort = new AbortController()).signal;
+			let inner = await this.get(q, signal);
 			if (q !== this.term) return;
-			const inner = KK.parse(html).querySelector('[data-predictive-inner]');
-			this.results.innerHTML = inner ? inner.outerHTML : '';
-			if (this.status) this.status.textContent = inner?.dataset.status || '';
+			if (inner?.dataset.total < 1) {
+				const i = q.lastIndexOf(' ') + 1;
+				const c = [];
+				for (let n = q.length - 1; n >= i + Math.max(3, (q.length - i) / 2); n--) c.push(q.slice(0, n));
+				i && c.push(q.slice(0, i - 1));
+				let alt;
+				for (const p of c) {
+					const a = await this.get(p, signal);
+					if (q !== this.term) return;
+					if (a.dataset.total < 1) continue;
+					const j = p.lastIndexOf(' ') + 1;
+					const w = p.slice(j).toLowerCase();
+					const fix = p.slice(0, j) + (a.textContent.toLowerCase().split(/[^\p{L}\p{N}]+/u).find((t) => t.startsWith(w)) || w);
+					const all = a.querySelector('[data-predictive-all]');
+					all.href = `${KK.routes.search}?q=${encodeURIComponent(fix)}`;
+					all.firstElementChild.textContent = all.textContent.replace(p, fix);
+					a.insertAdjacentHTML('afterbegin', `<p class="predictive__fixed">${inner.dataset.fixTpl.replace('__FIX__', KK.escape(fix))}</p>`);
+					alt = inner = a;
+					break;
+				}
+				const list = !alt && this.start?.querySelector('[role="listbox"]')?.cloneNode(true);
+				if (list) {
+					list.id = 'PredictiveListbox';
+					list.querySelectorAll('[id]').forEach((el) => (el.id = `nr-${el.id}`));
+					inner.querySelector('.predictive__footer')?.before(list);
+				}
+			}
+			this.results.replaceChildren(inner || '');
+			this.say(inner?.dataset.status || '');
 			this.open();
 		} catch (e) {
 			if (e.name !== 'AbortError') this.close();
@@ -52,7 +85,7 @@ class Search extends HTMLElement {
 		const list = o && el.querySelector('[role="listbox"]');
 		this.classList.toggle('is-open', o);
 		if (o) {
-			const r = this.getBoundingClientRect();
+			const r = i.getBoundingClientRect();
 			this.style.setProperty('--predictive-top', `${r.bottom + 8}px`);
 			this.style.setProperty('--ps-room', `${innerWidth - r.left - 24}px`);
 			document.querySelectorAll('mega-menu.is-open').forEach((m) => m.close(0));

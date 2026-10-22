@@ -94,7 +94,13 @@ function hookMaterial(mat) {
   // azimuth between a0 and a1 degrees (either side). A hex tube then shows light and dark facets
   // in turn (adjacent facets mirror directions 120 deg apart), whatever its orientation
   const envFlag = mat.userData.envFlag || null;
-  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag) return;
+  // streak: {fu, fv, rough, spec, tilt, v0, v1, seed}: tension streaks of stretched knit (statafel stretch
+  // rok). A procedural 1D streak field across the uv u direction (fu streaks per normal-map uv unit,
+  // wandering slowly along v at fv): glossier, more specular bands that also tilt the normal across the
+  // streak (fine ridges), on from v0 to v1 (normal-map uv units along v); faded where the streaks get
+  // finer than a pixel. Needs a normal map (uses its uv) and the weave hook (for the tilt).
+  const streak = mat.userData.streak && mat.normalMap ? mat.userData.streak : null;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag && !streak) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -130,6 +136,33 @@ void main() {
   vec3 clearcoatNormal = normalize( tbn * vec3( macroD * uMacro.z, 1.0 ) );
 #endif`);
     }
+    if (streak) {
+      shader.uniforms.uStreak = { value: new THREE.Vector4(streak.fu, streak.fv, streak.rough ?? 0.3, streak.spec ?? 0.4) };
+      shader.uniforms.uStreak2 = { value: new THREE.Vector4(streak.v0 ?? -1e9, streak.v1 ?? -1e9 + 1, streak.tilt ?? 0.3, streak.seed ?? 0) };
+      shader.uniforms.uStreak3 = { value: new THREE.Vector2(streak.v2 ?? 1e9, streak.v3 ?? 1e9 + 1) };
+      fs = fs.replace('void main() {', `uniform vec4 uStreak; uniform vec4 uStreak2; uniform vec2 uStreak3;
+float stHash( float n ) { return fract( sin( n * 12.9898 + uStreak2.w * 7.31 ) * 43758.5453 ); }
+float stNoise( float x ) { float i = floor( x ), f = fract( x ); float u = f * f * ( 3.0 - 2.0 * f ); return mix( stHash( i ), stHash( i + 1.0 ), u ); }
+float stField( float x, float y ) {
+  float w = 0.9 * stNoise( y + 7.1 ) + 0.45 * stNoise( y * 2.3 + 1.3 );
+  float n = 0.62 * stNoise( x + w ) + 0.38 * stNoise( x * 2.17 + 3.7 + 0.6 * w );
+  return smoothstep( 0.46, 0.9, n ) * ( 0.5 + 0.5 * stNoise( y * 0.6 + x * 0.031 + 11.0 ) );
+}
+void main() {
+  float stK = 0.0, stD = 0.0;`);
+      fs = fs.replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+  {
+    vec2 stUv = vNormalMapUv * uStreak.xy;
+    float stFw = fwidth( stUv.x );
+    float stOn = smoothstep( uStreak2.x, uStreak2.y, vNormalMapUv.y ) * ( 1.0 - smoothstep( uStreak3.x, uStreak3.y, vNormalMapUv.y ) ) * ( 1.0 - smoothstep( 0.22, 0.6, stFw ) );
+    stK = stField( stUv.x, stUv.y ) * stOn;
+    stD = ( stField( stUv.x + 0.035, stUv.y ) - stField( stUv.x - 0.035, stUv.y ) ) / 0.07 * stOn;
+    roughnessFactor = clamp( roughnessFactor * ( 1.0 - uStreak.z * stK ), 0.05, 1.0 );
+  }`);
+      fs = fs.replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
+  material.specularColor *= 1.0 + uStreak.w * stK;
+  material.specularColorBlended *= 1.0 + uStreak.w * stK;`);
+    }
     if (wCav) {
       fs = fs.replace('void main() {', 'void main() {\n  float wvCrown = 0.0;');
       fs = fs.replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
@@ -157,6 +190,7 @@ void main() {
   roughnessFactor = sqrt( roughnessFactor * roughnessFactor + uWeave.w * ( 1.0 - wvClose ) );` : 'mapN.xy *= normalScale;'}
   ${wCav ? `wvCrown = ( pow( wvTz, 10.0 ) - 0.3 ) * wvClose; diffuseColor.rgb *= 1.0 - ${Number(wCav.cav || 0).toFixed(4)} * wvClose * ( 1.0 - pow( wvTz, 6.0 ) );` : ''}
   ${macro ? 'mapN.xy += macroD;' : ''}
+  ${streak ? 'mapN.x -= uStreak2.z * stD * 0.12;' : ''}
   normal = normalize( tbn * mapN );
 #endif`);
     }
@@ -256,7 +290,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}${streak ? `:st${streak.fu}/${streak.fv}/${streak.rough}/${streak.spec}/${streak.tilt}/${streak.v0}/${streak.v1}/${streak.v2}/${streak.v3}/${streak.seed}` : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -488,6 +522,7 @@ uniform float uCoveR;
 uniform float uAOEdge;
 uniform vec4 uC[ 4 ];
 uniform float uCK;
+uniform vec3 uTone;        // visible wall: tone at the floor junction (x), darker by y towards height z (1, 0, 1 = seamless sweep)
 varying vec3 vWP;
 void main() {
   vec2 uv = vec2( ( dot( vWP, uWU ) - uWBox.x ) * uWBox.z, ( vWP.y - uWBox.y ) * uWBox.w );
@@ -502,7 +537,7 @@ void main() {
   for ( int k = 0; k < 4; k ++ ) {
     if ( uC[ k ].w > 0.0 ) { float d = length( vWP - uC[ k ].xyz ) / uC[ k ].w; ratio *= 1.0 - uCK * exp( - d * d ); }
   }
-  gl_FragColor = vec4( ratio, 1.0, 0.0, 0.25 );
+  gl_FragColor = vec4( ratio, uTone.x - uTone.y * smoothstep( 0.0, uTone.z, vWP.y ), 0.0, 0.25 );
 }`;
 
 const groundVS = `
@@ -705,7 +740,7 @@ export class Studio {
     });
 
     this.wallBakedMat = new THREE.ShaderMaterial({
-      uniforms: { uWAO: { value: null }, uWBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uWU: { value: new THREE.Vector3(1, 0, 0) }, uAOStrength: { value: 1 }, uKS: { value: new THREE.Vector2() }, uCoveR: { value: 0.35 }, uAOEdge: { value: 0 }, uC: { value: [0, 1, 2, 3].map(() => new THREE.Vector4()) }, uCK: { value: 0.35 } },
+      uniforms: { uWAO: { value: null }, uWBox: { value: new THREE.Vector4(0, 0, 1, 1) }, uWU: { value: new THREE.Vector3(1, 0, 0) }, uAOStrength: { value: 1 }, uKS: { value: new THREE.Vector2() }, uCoveR: { value: 0.35 }, uAOEdge: { value: 0 }, uC: { value: [0, 1, 2, 3].map(() => new THREE.Vector4()) }, uCK: { value: 0.35 }, uTone: { value: new THREE.Vector3(1, 0, 1) } },
       vertexShader: wallBakedVS, fragmentShader: wallBakedFS,
     });
 
@@ -1175,6 +1210,10 @@ export class Studio {
         WB.uWU.value.copy(wb.U);
         WB.uAOStrength.value = ao.strength; WB.uKS.value.set(ks45, ksW); WB.uCoveR.value = sweep.r; WB.uAOEdge.value = ao.edgeFade || 0;
         WB.uCK.value = R.wallContact ?? 0.35;
+        // rig.wallTone {base, top, height}: a visible wall (a studio flat the product leans against) a little
+        // darker than the floor, so the floor / wall corner reads; default: seamless sweep (exact backdrop)
+        const WT = R.wallTone || null;
+        WB.uTone.value.set(WT ? WT.base ?? 0.94 : 1, WT ? WT.top ?? 0 : 0, WT ? WT.height ?? 1.5 : 1);
         WB.uC.value.forEach((v, k) => v.copy(this.wallMat.uniforms.uC.value[k]));
         for (const c of catchers) c.o.material = this.wallBakedMat;
       } else GU.uCoveG.value.z = 0;

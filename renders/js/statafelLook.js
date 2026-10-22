@@ -3,13 +3,14 @@
 //
 // Materials
 //   jerseyKnit(color)  polyester-elastane single jersey (statafelrok stretch): 0.9 mm wales of V
-//                      loops (knit normal map, uv in metres; the engine `weave` hook boosts it in
-//                      close-ups and fades it to a matte lobe at catalogue distance), physical sheen
-//                      tinted by the dye, roughness 0.65. Black knit reflects ~3 % (not 1 %), so a
-//                      lit black rok reads as dark grey cloth, never as a silhouette.
-//   wovenCloth(color)  woven polyester (strik hoes): matte, fine plain weave, faint sheen.
-//   satinPowder(color) powder coat without stipple noise: smooth, satin clearcoat, so tubes carry
-//                      long soft highlights of the studio boxes.
+//                      loops (knit normal, uv in metres; the engine `weave` hook boosts it in close-ups
+//                      and fades it at catalogue distance), satin-glossy under tension: anisotropic lobe
+//                      along the stretch (uv v), dye-tinted sheen, the engine `streak` field (tension
+//                      streaks in the funnel, see withStreakEnd). {flat: true}: isotropic top panel.
+//   wovenCloth(color)  woven polyester (strik hoes): fine plain weave + fabricMacro layer (yarn streaks
+//                      and slubs that read at hero size), faint satin sheen.
+//   satinPowder(color) powder coat without stipple noise: ~4 % black under a satin clear layer, so tubes
+//                      carry broad soft highlights of the studio strips.
 //   thread(color)      sewing thread for seams / hems (same dye, sheen).
 // Rig
 //   statafelRig({ albedoL, kind, folded }) -> rig hints { default, detail }: a large overhead
@@ -124,51 +125,83 @@ const chroma = (c) => { const s = c.clone().convertLinearToSRGB(); return Math.m
 // sRGB chroma (max - min channel) of a catalogue colour, 0 for neutrals, ~0.6 for rood
 export const dyeChroma = (color) => chroma(new THREE.Color(resolveColor(color, '#1D1E20')));
 
-export function jerseyKnit(color, { normal = 0.6 } = {}) {
+export function jerseyKnit(color, { normal = 0.6, flat = false } = {}) {
   const hex = resolveColor(color, '#1D1E20');
-  return cached(`jersey:${hex}:${normal}`, () => {
+  return cached(`jersey3:${hex}:${normal}:${flat ? 'flat' : 'body'}`, () => {
     const base = clothAlbedo(hex);
     const L = lumLin(base), dark = L < 0.06, light = L > 0.5;
     const chr = chroma(base);
+    // polyester-elastane jersey under tension is a satin-glossy cloth: the stretched loops lie flat and
+    // aligned with the pull, so the highlights of the studio boxes are drawn out into streaks along the
+    // stretch (anisotropic lobe, long axis along the uv v = down the profile: rim -> waist -> feet). The
+    // flat top panel (planar uv, tension in all directions) keeps an isotropic lobe.
     const m = new THREE.MeshPhysicalMaterial({
-      color: base, roughness: 0.65, metalness: 0,
-      // polyester knit: a dielectric lobe, kept below the default so coloured cloth does not
-      // whiten on faces that mirror a softbox
-      specularIntensity: dark ? 0.55 : chr > 0.2 ? 0.32 : 0.42,
-      sheen: 0.6, sheenRoughness: 0.5,
-      // fibre sheen in the dye's own colour (black: a dark neutral grey, so it shows as soft
-      // grazing light on the curvature instead of a white veil)
-      sheenColor: dark ? new THREE.Color().setRGB(0.1, 0.101, 0.106) : base.clone().multiplyScalar(light ? 1.0 : 1.15),
+      color: base, metalness: 0,
+      roughness: flat ? (dark ? 0.64 : 0.6) : dark ? 0.6 : chr > 0.2 ? 0.57 : 0.6,
+      specularIntensity: flat ? (dark ? 0.36 : 0.42) : dark ? 0.46 : chr > 0.2 ? 0.42 : 0.46,
+      sheen: flat && dark ? 0.45 : 0.55, sheenRoughness: 0.42,
+      // fibre sheen in the dye's own colour (black: a cool dark grey: Lycra, not rubber)
+      sheenColor: dark ? new THREE.Color().setRGB(0.12, 0.122, 0.13) : base.clone().multiplyScalar(light ? 1.0 : 1.15),
       normalMap: knitNormal().clone(), normalScale: new THREE.Vector2(normal, normal),
-      side: THREE.DoubleSide, name: `jersey ${hex}`,
+      side: THREE.DoubleSide, name: `jersey ${hex}${flat ? ' (top panel)' : ''}`,
     });
+    if (!flat) { m.anisotropy = 0.3; m.anisotropyRotation = Math.PI / 2; }
     m.normalMap.repeat.set(1 / (KNIT.WALES * KNIT.WALE), 1 / (KNIT.COURSES * KNIT.COURSE)); m.normalMap.needsUpdate = true;
     m.userData = {
-      envSpec: dark ? 0.55 : chr > 0.2 ? 0.28 : 0.4,
+      envSpec: flat ? 0.4 : dark ? 0.55 : chr > 0.2 ? 0.45 : 0.5,
       // close-ups: loops shade (cavity) and their crowns carry the fibre sheen, so even black jersey
       // shows its wales; at catalogue distance the relief folds into a matte lobe (engine weave hook)
-      weave: { repeats: KNIT.WALES, boost: 2.8, roughVar: 0.3, matte: 0.05, cav: dark ? 0.6 : 0.35, crown: dark ? 3.5 : 1.4 },
+      weave: { repeats: KNIT.WALES, boost: 2.8, roughVar: 0.3, matte: 0.04, cav: dark ? 0.6 : 0.35, crown: dark ? 3.5 : 1.4 },
       dye: chr > 0.2 ? 0.3 : 0,
       albedoL: L,
     };
+    // tension streaks (engine streak hook) on the body: ~170 streaks round the rok (uv u = theta x 0.25 m,
+    // so at the blad rim ~1.5 cm apart, converging into the waist), wandering slowly along the profile;
+    // glossier and more specular, with a fine ridge across each. Start just under the lower blad arris
+    // (v0..v1, in normal-map uv units along v: 0.03..0.07 m of profile)
+    if (!flat) {
+      const repU = 1 / (KNIT.WALES * KNIT.WALE), repV = 1 / (KNIT.COURSES * KNIT.COURSE);
+      m.userData.streak = { fu: 95 / (Math.PI * 2 * 0.25 * repU), fv: 3.2 / repV, rough: 0.36, spec: dark ? 0.7 : 0.5, tilt: dark ? 0.45 : 0.35, v0: 0.03 * repV, v1: 0.07 * repV, seed: 3 };
+    }
+    return m;
+  });
+}
+
+// The body material with its streak field ending at the waist (v2..v3, in metres of profile): the
+// strain streaks belong to the funnel; below the waist the pull lines (geometry) carry the sheen.
+export function withStreakEnd(mat, v2, v3) {
+  if (!mat.userData.streak) return mat;
+  const repV = 1 / (KNIT.COURSES * KNIT.COURSE);
+  return cached(`streakEnd:${mat.uuid}:${v2.toFixed(4)}:${v3.toFixed(4)}`, () => {
+    const m = mat.clone();
+    m.userData = { ...mat.userData, streak: { ...mat.userData.streak, v2: v2 * repV, v3: v3 * repV } };
+    delete m.userData.__hooked;
     return m;
   });
 }
 
 export function wovenCloth(color) {
   const hex = resolveColor(color, '#F3F3F0');
-  return cached(`woven:${hex}`, () => {
-    const base = clothAlbedo(hex, { min: 0.03, max: 0.8 });
+  return cached(`woven3:${hex}`, () => {
+    const base = clothAlbedo(hex, { min: 0.03, max: 0.78 });
     const L = lumLin(base), dark = L < 0.06, light = L > 0.5, chr = chroma(base);
+    // polyester gabardine-like strik cloth: fine plain weave (sub-pixel at hero size) plus a macro layer
+    // that does read at catalogue size (engine macro hook, textures.fabricMacroNormal: yarn-tension streaks
+    // 1-6 mm along warp and weft, slubs, a soft cockle; it also varies the gloss), a faint satin sheen
     const m = new THREE.MeshPhysicalMaterial({
-      color: base, roughness: 0.72, metalness: 0, specularIntensity: dark ? 0.5 : 0.38,
-      sheen: 0.35, sheenRoughness: 0.55,
-      sheenColor: dark ? new THREE.Color().setRGB(0.07, 0.07, 0.075) : base.clone(),
+      color: base, roughness: 0.6, metalness: 0, specularIntensity: dark ? 0.6 : 0.55,
+      sheen: 0.55, sheenRoughness: 0.42,
+      sheenColor: dark ? new THREE.Color().setRGB(0.08, 0.08, 0.085) : base.clone(),
       normalMap: wovenNormal().clone(), normalScale: new THREE.Vector2(0.45, 0.45),
       side: THREE.DoubleSide, name: `woven poly ${hex}`,
     });
     m.normalMap.repeat.set(1 / (WOVEN.THREADS * WOVEN.PITCH), 1 / (WOVEN.THREADS * WOVEN.PITCH)); m.normalMap.needsUpdate = true;
-    m.userData = { envSpec: light ? 0.3 : dark ? 0.5 : 0.3, weave: { repeats: WOVEN.THREADS, boost: 1.8, roughVar: 0.2, matte: 0.04 }, dye: chr > 0.2 ? 0.3 : 0, albedoL: L };
+    m.userData = {
+      envSpec: light ? 0.42 : dark ? 0.55 : 0.4,
+      weave: { repeats: WOVEN.THREADS, boost: 1.8, roughVar: 0.2, matte: 0.04 },
+      macro: { tex: 'fabricMacro', scale: WOVEN.THREADS * WOVEN.PITCH, strength: light ? 0.75 : 0.55, coat: 0.4, rough: 0.3 },
+      dye: chr > 0.2 ? 0.3 : 0, albedoL: L,
+    };
     return m;
   });
 }
@@ -188,13 +221,15 @@ export function thread(color) {
 // Satin powder coat: no stipple (it read as mottled noise on the black column).
 export function satinPowder(color = '#1C1D1F', { roughness = 0.36 } = {}) {
   const hex = resolveColor(color, '#1C1D1F');
-  return cached(`satinPowder:${hex}:${roughness}`, () => {
+  return cached(`satinPowder2:${hex}:${roughness}`, () => {
     const c = new THREE.Color(hex), dark = lumLin(c) < 0.05;
+    // black satin powder coat: ~4 % albedo (#26282B, not a void) under a satin clear layer that carries
+    // broad soft reflections of the studio strips, so the oval legs and the column keep their form
     const m = new THREE.MeshPhysicalMaterial({
-      color: c, metalness: 0, roughness, specularIntensity: 0.7,
-      clearcoat: dark ? 0.45 : 0.3, clearcoatRoughness: dark ? 0.24 : 0.3, name: `satin powder ${hex}`,
+      color: dark ? new THREE.Color('#222427') : c, metalness: 0, roughness: dark ? 0.45 : roughness, specularIntensity: dark ? 0.5 : 0.7,
+      clearcoat: dark ? 0.8 : 0.3, clearcoatRoughness: dark ? 0.13 : 0.3, name: `satin powder ${hex}`,
     });
-    m.userData = { envSpec: dark ? 1.0 : 0.6 };
+    m.userData = { envSpec: dark ? 0.8 : 0.6 };
     return m;
   });
 }
@@ -207,9 +242,9 @@ export function blackPlastic(color = '#151515', rough = 0.42) {
     return m;
   });
 }
-export function zincSteel() {
-  return cached('sfZinc', () => {
-    const m = new THREE.MeshPhysicalMaterial({ color: '#C9CCCF', metalness: 1, roughness: 0.28, name: 'zinc plated steel' });
+export function zincSteel({ tone = '#C9CCCF', roughness = 0.28 } = {}) {
+  return cached(`sfZinc:${tone}:${roughness}`, () => {
+    const m = new THREE.MeshPhysicalMaterial({ color: tone, metalness: 1, roughness, name: 'zinc plated steel' });
     m.userData = { envSpec: 0.9 };
     return m;
   });
@@ -229,6 +264,21 @@ export const STATAFEL_ENV = {
     { az: 28, el: 8, w: 48, h: 34, I: 1.1, soft: 0.6, hot: 0.15 },       // frontal fill card right
     { az: 150, el: 30, w: 10, h: 40, I: 1.4, soft: 0.5, hot: 0.2 },      // rim strip behind-right
     { az: -150, el: 22, w: 26, h: 18, I: 0.45, soft: 0.6, hot: 0.1 },    // dim reflector behind-left
+  ],
+};
+
+// Bare table (statafel kaal, folded): the same studio plus what a furniture photographer adds for
+// a lacquered top on a black frame: a broad, soft white sheet behind and above the set (the top mirrors
+// it as a soft lacquer sheen over its far half; the upper faces of the legs and struts mirror it as a
+// satin highlight) and two tall strip boxes left and right (vertical highlights down the column and
+// along the leg sides). A covered table keeps STATAFEL_ENV (dark behind: a red top keeps its hue).
+export const STATAFEL_ENV_KAAL = {
+  ...STATAFEL_ENV,
+  boxes: [
+    ...STATAFEL_ENV.boxes,
+    { az: 180, el: 16, w: 120, h: 22, I: 1.5, soft: 0.8, hot: 0.15 },    // soft sheet behind the set
+    { az: -105, el: 6, w: 14, h: 70, I: 2.2, soft: 0.5, hot: 0.25 },     // strip box left
+    { az: 112, el: 4, w: 12, h: 70, I: 1.4, soft: 0.5, hot: 0.2 },       // strip box right
   ],
 };
 

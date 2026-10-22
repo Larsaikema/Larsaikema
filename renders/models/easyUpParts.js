@@ -215,6 +215,33 @@ function staander(bins, extras, kind, { collapsed = false } = {}) {
   return { length: He + 0.04 - lift, lift };
 }
 
+
+// hinged ring clamp for a 40 / 50 mm hex leg (inner Ø 58, rubber liner), closing lugs with a
+// wing bolt, a welded post with a U-cradle for the Ø 25 mm cross bar and a thumbscrew.
+// Lying flat (ring axis vertical), origin at the ring centre on the floor, cradle towards +Z.
+function clampForBar(bins, galv, zinc) {
+  const Ri = 0.029, t = 0.004, h = 0.03;
+  bins.add(galv, K.lathe([[Ri, 0], [Ri + t, 0], [Ri + t, h], [Ri, h], [Ri, 0]], 72));
+  bins.add(SG.rubberSG('#151515'), K.lathe([[Ri - 0.0025, 0.002], [Ri, 0.002], [Ri, h - 0.002], [Ri - 0.0025, h - 0.002], [Ri - 0.0025, 0.002]], 72));
+  // hinge knuckles at -X
+  for (const y0 of [0, h * 0.55]) bins.add(galv, K.lathe([[0.0001, y0], [0.0058, y0], [0.0058, y0 + h * 0.45], [0.0001, y0 + h * 0.45]], 18).translate(-(Ri + t + 0.0035), 0, 0));
+  bins.add(zinc, G.tube(V3(-(Ri + t + 0.0035), -0.0005, 0), V3(-(Ri + t + 0.0035), h + 0.0015, 0), 0.0025, 12));
+  // closing lugs at +X with a wing bolt across them (axis along z)
+  for (const s of [-1, 1]) { const lug = G.roundedBox(0.02, h, 0.004, 0.0012, 2); lug.translate(Ri + t + 0.009, h / 2, s * 0.0035); bins.add(galv, lug); }
+  bins.add(zinc, G.tube(V3(Ri + t + 0.012, h / 2, -0.013), V3(Ri + t + 0.012, h / 2, 0.012), 0.003, 12));
+  const wn = K.wingNutGeo(0.85); wn.rotateX(Math.PI / 2); wn.rotateZ(Math.PI / 2); wn.translate(Ri + t + 0.012, h / 2, 0.0065); bins.add(zinc, wn);
+  // welded post at +Z and the U-cradle (axis along x, opening up) with a thumbscrew
+  const z0 = Ri + t - 0.001;
+  bins.add(galv, G.tube(V3(0, h / 2, z0), V3(0, h / 2, z0 + 0.03), 0.007, 16));
+  const cr = 0.0132, cw = 0.003, cl = 0.036, zc = z0 + 0.03 + cr + cw;
+  const cradle = K.lathe([[cr, -cl / 2], [cr + cw, -cl / 2], [cr + cw, cl / 2], [cr, cl / 2], [cr, -cl / 2]], 40, Math.PI * 0.88, Math.PI * 1.24);
+  cradle.rotateZ(Math.PI / 2); cradle.translate(0, cr + cw, zc);
+  bins.add(galv, cradle);
+  // thumbscrew through the cradle wall from below
+  bins.add(zinc, G.tube(V3(0, -0.0005, zc + 0.0), V3(0, 0.006, zc), 0.0028, 12));
+  const ts = K.lathe([[0.0001, 0], [0.0075, 0], [0.008, 0.002], [0.008, 0.005], [0.0001, 0.006]], 20); ts.translate(0, 0, zc + cr + cw + 0.0065); ts.rotateX(0); bins.add(SG.moulded('#161616', { rough: 0.45 }), ts.translate(0, 0, 0));
+}
+
 export function easyUpParts(p = {}) {
   let parts = p.parts || ['hoekstuk-premium', 'hoekstuk-professional', 'voetplaat-professional', 'schuifstuk'];
   if (typeof parts === 'string') parts = [parts];
@@ -222,6 +249,45 @@ export function easyUpParts(p = {}) {
   const bins = new G.PartBin();
   const extras = [];
   const kindOf = (s) => (/prof/.test(s) ? 'professional' : 'premium');
+  // round 4: dwarsbuis voor halve zijwand: Ø 25 mm aluminium tube of `length` m plus two hinged
+  // leg clamps (40 / 50 mm hex legs) with a welded cradle for the tube end and a thumbscrew
+  if (parts.length === 1 && parts[0] === 'dwarsbuis') {
+    const Lt = Number(p.length ?? 3);
+    const alu = SG.aluSG({ tone: '#C8CCD0', rough: 0.3 });
+    const galv = L3.galvFine({ cell: 0.0035 });
+    const zinc = K.zinc();
+    const ro = 0.0125, ri = 0.011;
+    // near part (framed) and the rest of the bar, which runs on out of the frame (noFrame): a 3 m
+    // bar next to two hand-sized clamps would otherwise shrink the clamps to a few pixels
+    const Ln = Math.min(Lt, 0.95);
+    const tube = K.lathe([[ri, 0.05], [ri, 0.0006], [ri + 0.0004, 0], [ro - 0.0004, 0], [ro, 0.0006], [ro, Ln]].reverse(), 40);
+    const far = K.lathe([[ro, Ln], [ro, Lt - 0.0006], [ro - 0.0004, Lt], [ri + 0.0004, Lt], [ri, Lt - 0.0006], [ri, Lt - 0.05]].reverse(), 40);
+    // lies on the floor running away from the camera, a little diagonal
+    const yawT = (34 + 90 + 26) * DEG;
+    const dir = V3(Math.cos(yawT), 0, -Math.sin(yawT));
+    const start = V3(0, 0, 0);
+    for (const t of [tube, far]) { t.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), dir)); t.translate(start.x, ro, start.z); }
+    bins.add(alu, tube);
+    const farMesh = K.meshOf(far, alu); farMesh.userData.noFrame = true; group.add(farMesh);
+    // the two clamps lie flat in front of the near end, side by side
+    const right = V3(Math.cos(34 * DEG), 0, -Math.sin(34 * DEG)), fwd = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
+    const near = start.clone();
+    [-1, 1].forEach((s2, k) => {
+      const sub = new G.PartBin();
+      clampForBar(sub, galv, zinc);
+      const c = near.clone().addScaledVector(right, 0.16 + k * 0.16).addScaledVector(fwd, 0.12 - k * 0.1);
+      const m = new THREE.Matrix4().makeRotationY((34 + 200 + k * 25) * DEG).setPosition(c.x, 0, c.z);
+      for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(m); bins.add(mat, geo); }
+    });
+    bins.build(group);
+    return {
+      object: group,
+      detail: { target: [near.x + 0.2, 0.03, near.z + 0.05], size: 0.3, azimuth: 30, elevation: 30 },
+      view: { hero: { elevation: 26 } },
+      rig: { default: { envIntensity: 1.0, contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+      meta: { parts, length: Lt },
+    };
+  }
   // single complete leg: lies on the floor diagonally (foot plate edge + bracket support it)
   if (parts.length === 1 && /^staander/.test(parts[0])) {
     const kind = kindOf(parts[0]);

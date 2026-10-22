@@ -1,0 +1,206 @@
+{%- comment -%}
+  Search results head (sections/main-search.liquid, results state): the title, the categories to jump to and the pages
+  and advice found. Categories: first those whose name holds a word of the term (plural, '-s' and compounds count:
+  'zijwand' finds Zijwanden, 'statafels' finds Statafelrokken en -hoezen; most words matched, then names that start with
+  the word, then the shortest); when none does, those that hold a good share of the products on this page. Three at most,
+  with a picture and the count. Pages and advice: an aside beside the title on a computer (two, the rest behind 'Toon nog
+  N'), the end of the same scroll row as the categories on a phone.
+  Params: results (search.results of the shown page), terms, terms_esc, page_products, page_others, section_id,
+  show_categories
+{%- endcomment -%}
+{%- liquid
+  # categories whose name holds a word of the term: plural, '-s' and compounds count ('zijwand' finds Zijwanden,
+  # 'statafels' finds Statafelrokken en -hoezen); the ones matching the most words win, then names that start with the
+  # word, then the shortest name; four at most
+  assign cat_keys = ''
+  if terms != blank and show_categories
+    assign t_words = terms | downcase | replace: '-', ' ' | replace: '/', ' ' | replace: ',', ' ' | replace: '.', ' ' | replace: '"', ' ' | split: ' '
+    assign stems = ''
+    for w in t_words
+      if w.size < 3
+        continue
+      endif
+      assign w_nd = w | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+      if w_nd.size != w.size
+        continue
+      endif
+      assign st = w
+      assign w_end2 = w | slice: -2, 2
+      assign w_end1 = w | slice: -1, 1
+      if w.size > 5 and w_end2 == 'en'
+        assign st_len = w.size | minus: 2
+        assign st = w | slice: 0, st_len
+      elsif w.size > 4 and w_end1 == 's'
+        assign st_len = w.size | minus: 1
+        assign st = w | slice: 0, st_len
+      endif
+      assign stems = stems | append: st | append: ','
+    endfor
+    assign stems = stems | split: ','
+    assign best = 0
+    assign scored = ''
+    if stems.size > 0
+      for c in collections
+        if c.handle == 'all' or c.handle == 'frontpage' or c.products_count == 0
+          continue
+        endif
+        assign c_lc = c.title | downcase
+        assign score = 0
+        assign c_flag = 1
+        for st in stems
+          if c_lc contains st
+            assign score = score | plus: 1
+            assign c_head = c_lc | slice: 0, st.size
+            if c_head == st
+              assign c_flag = 0
+            endif
+          endif
+        endfor
+        if score > 0
+          if score > best
+            assign best = score
+          endif
+          assign c_len = c.title.size | plus: 100
+          assign scored = scored | append: score | append: '|' | append: c_flag | append: '|' | append: c_len | append: '|' | append: c.handle | append: ','
+        endif
+      endfor
+    endif
+    if best > 0
+      assign scored = scored | split: ',' | sort
+      assign best_s = best | append: '|'
+      for row in scored
+        assign row_start = row | slice: 0, best_s.size
+        if row_start == best_s
+          assign cat_keys = cat_keys | append: row | append: ','
+        endif
+      endfor
+      assign cat_keys = cat_keys | split: ','
+    endif
+  endif
+
+  # no category name matches the term: the categories that hold the products found on this page instead, at least 2 of
+  # them and at least a quarter of the category, ranked by hits x share ('stretchrok' -> Statafelrokken en -hoezen,
+  # Stretch statafelrokken, Pakketten; never the 200-product parent)
+  # (not when a page is named after the term: 'retour' wants the returns page, not the products that mention it)
+  assign rc_keys = '' | split: ','
+  assign info_hit = false
+  assign term_lc = terms | downcase
+  for item in results
+    if item.object_type != 'product'
+      assign it_lc = item.title | downcase
+      if it_lc contains term_lc
+        assign info_hit = true
+      endif
+    endif
+  endfor
+  if page_products > 1 and show_categories and cat_keys.size == 0 and info_hit == false
+    assign rc_all = ''
+    for item in results
+      if item.object_type != 'product'
+        continue
+      endif
+      for c in item.collections
+        if c.handle == 'all' or c.handle == 'frontpage'
+          continue
+        endif
+        assign rc_all = rc_all | append: '|' | append: c.handle | append: '|'
+      endfor
+    endfor
+    assign rc_list = rc_all | split: '|' | uniq
+    assign rc_str = ''
+    for h in rc_list
+      if h == blank
+        continue
+      endif
+      assign needle = '|' | append: h | append: '|'
+      assign rest = rc_all | remove: needle
+      assign n = rc_all.size | minus: rest.size | divided_by: needle.size
+      assign c = collections[h]
+      assign quarter = n | times: 4
+      if n < 2 or c == blank or quarter < c.products_count
+        continue
+      endif
+      assign k = n | times: n | times: 100 | divided_by: c.products_count
+      assign k = 99999 | minus: k
+      assign rc_str = rc_str | append: k | append: '|' | append: h | append: ','
+    endfor
+    assign rc_keys = rc_str | split: ',' | sort
+  endif
+  assign chip_str = ','
+  for row in cat_keys
+    assign h = row | split: '|' | last
+    assign chip_str = chip_str | append: h | append: ','
+  endfor
+  for row in rc_keys
+    assign h = row | split: '|' | last
+    assign probe = ',' | append: h | append: ','
+    unless chip_str contains probe
+      assign chip_str = chip_str | append: h | append: ','
+    endunless
+  endfor
+  assign chips = chip_str | remove_first: ',' | split: ','
+
+  # pages and advice on this page, next to the products (a term that finds only pages lists them in the results)
+  assign adv_n = 0
+  if page_products > 0 and page_others > 0
+    assign adv_n = page_others
+  endif
+  assign wj_hyphen = ' -⁠'
+-%}
+{%- capture adv_first -%}{%- endcapture -%}
+{%- capture adv_rest -%}{%- endcapture -%}
+{%- if adv_n > 0 -%}
+  {%- assign adv_i = 0 -%}
+  {%- for item in results -%}
+    {%- if item.object_type == 'product' -%}{%- continue -%}{%- endif -%}
+    {%- assign adv_i = adv_i | plus: 1 -%}
+    {%- capture adv_link -%}
+      <a class="search-adv__item" href="{{ item.url }}">
+        <span class="search-adv__icon">{%- if item.object_type == 'article' -%}{%- render 'icon', icon: 'info', class: 'icon--sm' -%}{%- else -%}{%- render 'icon', icon: 'file', class: 'icon--sm' -%}{%- endif -%}</span>
+        <span class="search-adv__text"><span class="search-adv__name">{{ item.title }}</span><span class="search-adv__type">{% if item.object_type == 'article' %}{{ 'search.articles' | t }}{% else %}{{ 'search.page' | t }}{% endif %}</span></span>
+      </a>
+    {%- endcapture -%}
+    {%- if adv_i <= 2 -%}
+      {%- assign adv_first = adv_first | append: adv_link -%}
+    {%- else -%}
+      {%- assign adv_rest = adv_rest | append: adv_link -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+<div class="search-head__grid{% if adv_n > 0 %} search-head__grid--aside{% endif %}">
+  <div class="search-head__main">
+    <h1 class="collection-head__title search-head__title">{{ 'search.results_for_html' | t: terms: terms_esc }}</h1>
+    {%- if chips.size > 0 or adv_n > 0 -%}
+      <nav class="search-head__cats subnav subnav--scroll" aria-label="{{ 'search.collections' | t }}">
+        {%- if chips.size > 0 -%}<span class="eyebrow search-head__cats-label" aria-hidden="true">{{ 'search.collections' | t }}</span>{%- endif -%}
+        <div class="subnav__track">
+          {%- for c_handle in chips limit: 3 -%}
+            {%- assign c = collections[c_handle] -%}
+            {%- if c == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign c_img = c.featured_image | default: c.image -%}
+            <a class="subnav__item{% if c_img != blank %} subnav__item--img{% endif %}" href="{{ c.url }}">
+              {%- if c_img != blank -%}<span class="subnav__img">{{ c_img | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', width: 60, height: 60 }}</span>{%- endif -%}
+              <span class="subnav__label">{{ c.title | replace: ' -', wj_hyphen }}</span> <span class="search-head__count">{{ 'collection.products_count' | t: count: c.products_count }}</span>
+            </a>
+          {%- endfor -%}
+          {%- comment -%} phone: pages and advice continue the same scroll row {%- endcomment -%}
+          {%- assign adv_all = adv_first | append: adv_rest -%}
+          {{ adv_all | replace: 'class="search-adv__item"', 'class="subnav__item search-adv__item search-adv__item--m"' }}
+        </div>
+      </nav>
+    {%- endif -%}
+  </div>
+  {%- if adv_n > 0 -%}
+    <aside class="search-adv" aria-labelledby="SearchAdv-{{ section_id }}">
+      <h2 class="eyebrow search-adv__title" id="SearchAdv-{{ section_id }}">{{ 'search.other_results' | t }}</h2>
+      <div class="search-adv__list">{{ adv_first }}</div>
+      {%- if adv_n > 2 -%}
+        {%- assign adv_more = adv_n | minus: 2 -%}
+        <details class="search-adv__more">
+          <summary class="link">{{ 'search.more_results' | t: count: adv_more }}</summary>
+          <div class="search-adv__list">{{ adv_rest }}</div>
+        </details>
+      {%- endif -%}
+    </aside>
+  {%- endif -%}
+</div>

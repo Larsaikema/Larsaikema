@@ -9,12 +9,24 @@
 //   paalverbinder galvanised pole cap (fits the Ø 80-100 mm pole top) with an M12 threaded
 //                 stud and an M12 eye nut on top
 //   oogmoeren     four M12 eye nuts
+// Round 4 (22 Oct 2026), knolled across the frame when combined:
+//   ronde-haring  round galvanised peg Ø 25 mm, `length` (default 1.0 m), beaten head, cone tip,
+//                 welded ring flat on the floor
+//   haringtrekker lever puller: 40 x 40 powder-coated lever with rubber grip and rocker foot, a
+//                 short galvanised chain with grab hook, lying next to a 100 cm round peg
+//   paaldop       pole-top cap; `kind: 'rubber'` = heavy ribbed rubber cap (tipped on its side so
+//                 the 12 mm wall reads), default moulded PE cap
+//   voetplaat     centre-pole foot plate 400 x 400 x 8 mm, welded cup with gussets, peg holes
+//   haak          four galvanised S-hooks
+//   spanschroef / karabijn / muuroog   RVS 316 shade-sail fixings: open-body hook-eye
+//                 turnbuckle M8, 8 mm snap hook with spring gate, screw eye with nylon wall plug
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as K4 from '../js/partsKit4.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -202,11 +214,167 @@ export function stretchParts(p = {}) {
       bins.add(SG.rubberSG('#0C0C0C'), G.tube(V3(cx, 0.0005, cz), V3(cx, 0.0016, cz), 0.0058, 18));
     }
   }
+  // ---- round 4 (22 Oct): the rest of the stretch-tent spare parts + the shade-sail fixing set.
+  // Knolled along the camera axes (hero azimuth 34 deg): each part's long axis runs across the
+  // frame, parts stacked front to back.
+  const NEW = ['ronde-haring', 'haringtrekker', 'paaldop', 'voetplaat', 'haak', 'spanschroef', 'karabijn', 'muuroog'];
+  const newParts = parts.filter((x) => NEW.includes(x));
+  const view = { hero: { elevation: 34 } };
+  if (newParts.length) {
+    const ss = SG.aluSG({ tone: '#D5D8DB', rough: 0.18 });
+    const galv = L3.galvFine({ cell: 0.0035 });
+    const across = 34; // yaw that lays local +X across the hero frame (camera right)
+    let zRow = 0;
+    const rows = [];
+    for (const name of newParts) {
+      const sub = new G.PartBin();
+      let yaw = across, gap = 0.03;
+      if (name === 'ronde-haring') {
+        const L = Number(p.length ?? 1.0);
+        K4.roundPeg(sub, { metal: galv }, { L, D: 0.025, R: 0.034, rw: 0.0055, seed: 5 });
+        yaw = -31; view.hero = { elevation: 30 };
+      } else if (name === 'haringtrekker') {
+        // lever (40 x 40 square tube, powder coated) with a rubber grip, a welded rocker foot near
+        // the working end and a short galvanised chain with a grab hook that loops round the peg;
+        // lying on its side next to a 100 cm round peg
+        const red = SG.powderSG('#B3261E', { rough: 0.38 });
+        const Ll = 1.25, s = 0.04;
+        const lev = G.roundedBox(Ll, s, s, 0.004, 2); lev.translate(Ll / 2, s / 2, 0); sub.add(red, lev);
+        for (const x of [0.0, Ll]) { const cap = G.roundedBox(0.004, s - 0.004, s - 0.004, 0.0015); cap.translate(x, s / 2, 0); sub.add(SG.rubberSG('#121212'), cap); }
+        const grip = K.lathe([[0.0001, 0], [0.026, 0], [0.027, 0.004], [0.027, 0.2], [0.025, 0.205], [0.0001, 0.205]], 32); grip.rotateZ(-Math.PI / 2); grip.translate(Ll - 0.2, s / 2 + 0.001, 0);
+        for (let k = 0; k < 14; k++) { const t = new THREE.TorusGeometry(0.0272, 0.0011, 6, 28); t.rotateY(Math.PI / 2); t.translate(Ll - 0.19 + k * 0.013, s / 2 + 0.001, 0); sub.add(SG.rubberSG('#151515'), t); }
+        sub.add(SG.rubberSG('#151515', { rough: 0.78 }), grip);
+        // rocker foot: a welded frame of 10 mm plate in the lever's plane (flat on the floor now):
+        // a curved runner joined to the lever by two legs, with a lightening cut-out
+        const rk = new THREE.Shape();
+        rk.moveTo(0.05, 0); rk.lineTo(0.31, 0); rk.absarc(0.18, 0.02, 0.135, -0.15, Math.PI + 0.15, true); rk.lineTo(0.05, 0);
+        const cut = new THREE.Path(); cut.moveTo(0.09, -0.016); cut.lineTo(0.27, -0.016); cut.absarc(0.18, 0.02, 0.108, -0.33, Math.PI + 0.33, true); cut.lineTo(0.09, -0.016); rk.holes.push(cut);
+        const rkG = new THREE.ExtrudeGeometry(rk, { depth: 0.008, bevelEnabled: true, bevelThickness: 0.001, bevelSize: 0.001, bevelSegments: 1, curveSegments: 40 });
+        // shape y -> -z (the runner lies out on the +z side of the lever), extrusion -> up
+        rkG.rotateX(-Math.PI / 2); rkG.translate(0, 0.001, s / 2 - 0.0005);
+        sub.add(red, rkG);
+        // chain from an eye at the lever's working end, grab hook at its end
+        const eye = new THREE.TorusGeometry(0.014, 0.004, 12, 32); eye.rotateX(Math.PI / 2); eye.translate(-0.012, 0.004, 0); sub.add(galv, eye);
+        K4.chain(sub, galv, [V3(-0.025, 0, 0.0), V3(-0.09, 0, 0.03), V3(-0.14, 0, 0.11), V3(-0.12, 0, 0.19), V3(-0.05, 0, 0.225)], { d: 0.008, link: 0.042 });
+        const hk = K4.planarPath([['line', 0.03], ['arc', 0.02, 200], ['line', 0.012]], { y: 0.006, step: 0.0015, start: V3(-0.045, 0, 0.232), heading: 8 });
+        sub.add(galv, K4.bar(hk, 0.006, 14));
+        // the round peg it pulls, lying alongside
+        const pegBin = new G.PartBin();
+        K4.roundPeg(pegBin, { metal: galv }, { L: 1.0, D: 0.025, R: 0.034, rw: 0.0055, seed: 8 });
+        for (const [mat, list] of pegBin.bins) for (const g of list) { g.translate(0.05, 0, 0.26); sub.add(mat, g); }
+        yaw = -31; view.hero = { elevation: 32 };
+      } else if (name === 'paaldop') {
+        const rubber = String(p.kind || '').startsWith('rub');
+        if (rubber) {
+          // heavy rubber cap for a centre pole: Ø 125, 75 high, 12 mm wall, grip ribs, raised boss
+          const m = SG.rubberSG('#141414', { rough: 0.72 });
+          const Ro = 0.0625, H = 0.075, w = 0.012;
+          const prof = [[Ro - w, 0], [Ro - 0.002, 0], [Ro, 0.003], [Ro, H - 0.022]];
+          for (let i = 1; i <= 8; i++) { const a = (i / 8) * Math.PI / 2; prof.push([Ro - 0.022 + Math.cos(a) * 0.022, H - 0.022 + Math.sin(a) * 0.022]); }
+          prof.push([0.019, H], [0.0165, H + 0.008], [0.0085, H + 0.008], [0.0075, H - 0.004], [0.0075, H - 0.016], [Ro - w - 0.012, H - 0.016]);
+          for (let i = 1; i <= 6; i++) { const a = Math.PI / 2 - (i / 6) * Math.PI / 2; prof.push([Ro - w - 0.012 + Math.cos(a) * 0.012, H - 0.028 + Math.sin(a) * 0.012]); }
+          prof.push([Ro - w, 0.002], [Ro - w, 0]);
+          sub.add(m, K.lathe(prof.reverse(), 72));
+          // moulded reinforcing bead round the skirt
+          { const t = new THREE.TorusGeometry(Ro + 0.0004, 0.0022, 10, 72); t.rotateX(Math.PI / 2); t.translate(0, 0.006, 0); sub.add(m, t); }
+          // tipped over onto its side, opening towards the camera's left: the thick wall reads
+          const geos = []; for (const [, l] of sub.bins) geos.push(...l);
+          for (const g of geos) { g.rotateX(-Math.PI / 2 - 0.12); }
+          yaw = -10;
+        } else {
+          // moulded PE cap: Ø 104, 62 high, 3.5 mm wall, a full rounded crown, bolt hole in the top
+          const m = SG.moulded('#181818', { rough: 0.4, spec: 0.5 });
+          const Ro = 0.052, H = 0.062, w = 0.0035, rc = 0.03;
+          const prof = [[Ro - w, 0], [Ro - 0.0008, 0], [Ro, 0.0012], [Ro, H - rc]];
+          for (let i = 1; i <= 12; i++) { const a = (i / 12) * Math.PI / 2; prof.push([Ro - rc + Math.cos(a) * rc, H - rc + Math.sin(a) * rc]); }
+          prof.push([0.0105, H], [0.0085, H - 0.0015], [0.0075, H - w]);
+          for (let i = 0; i <= 12; i++) { const a = Math.PI / 2 - (i / 12) * Math.PI / 2; prof.push([Math.max(0.0075, Ro - rc + Math.cos(a) * (rc - w)), H - rc + Math.sin(a) * (rc - w)]); }
+          prof.push([Ro - w, 0.001], [Ro - w, 0]);
+          sub.add(m, K.lathe(prof.reverse(), 80));
+          yaw = 0;
+        }
+        view.hero = { elevation: 30 };
+      } else if (name === 'voetplaat') {
+        // 400 x 400 x 8 mm plate, welded cup (Ø 133 x 60) with four gussets, four peg holes
+        const S = 0.4, T = 0.008;
+        const sh = new THREE.Shape(G.roundedRectProfile(S, S, 0.025, 6).map((q) => new THREE.Vector2(q.x, q.y)));
+        for (const [sx, sz] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) { const h = new THREE.Path(); h.absarc(sx * 0.155, sz * 0.155, 0.011, 0, TAU, true); sh.holes.push(h); }
+        { const h = new THREE.Path(); h.absarc(0, 0, 0.012, 0, TAU, true); sh.holes.push(h); }
+        sub.add(galv, K.extrudeY(sh, T, { y0: 0, bevel: 0.001, bevelSegs: 1, curveSegs: 24 }));
+        const Rc = 0.0665, wc = 0.005, Hc = 0.06;
+        sub.add(galv, K.lathe([[Rc - wc, T + 0.0005], [Rc - wc, T + Hc - 0.001], [Rc - wc + 0.001, T + Hc], [Rc - 0.001, T + Hc], [Rc, T + Hc - 0.001], [Rc, T]], 72));
+        // fillet welds round the cup
+        for (const [rr, yy, nn] of [[Rc + 0.001, T + 0.001, 1]]) {
+          const pts = [], nrm = [];
+          for (let k = 0; k <= 72; k++) { const a = (k / 72) * TAU; pts.push(V3(Math.cos(a) * rr, yy, Math.sin(a) * rr)); nrm.push(V3(Math.cos(a), 1, Math.sin(a)).normalize()); }
+          sub.add(galv, K.sweep(pts, K.circle(0.0028, 10).map(([a, b]) => [a, b * 0.75]), { normals: nrm, closed: true }));
+        }
+        for (let k = 0; k < 4; k++) {
+          const a = (k / 4) * TAU + Math.PI / 4;
+          const gs = new THREE.Shape(); gs.moveTo(0, 0); gs.lineTo(0.07, 0); gs.lineTo(0.0, 0.045); gs.lineTo(0, 0);
+          const gg = new THREE.ExtrudeGeometry(gs, { depth: 0.006, bevelEnabled: true, bevelThickness: 0.0006, bevelSize: 0.0006, bevelSegments: 1 });
+          gg.translate(0, 0, -0.003);
+          const d = V3(Math.cos(a), 0, Math.sin(a));
+          gg.applyMatrix4(new THREE.Matrix4().makeBasis(d, V3(0, 1, 0), V3().crossVectors(d, V3(0, 1, 0))).setPosition(d.clone().multiplyScalar(Rc - 0.001).setY(T)));
+          sub.add(galv, gg);
+        }
+        yaw = 12; view.hero = { elevation: 30 };
+      } else if (name === 'haak') {
+        // four galvanised S-hooks (10 mm bar, 12 cm), side by side
+        for (let k = 0; k < 4; k++) {
+          const g = K4.sHook(0.01, 0.12, { open: 26 });
+          g.rotateY(((k % 2) ? 0.06 : -0.04));
+          g.translate((k - 1.5) * 0.068, 0, (k % 2) * 0.01);
+          sub.add(galv, g);
+        }
+        yaw = across; view.hero = { elevation: 40 };
+      } else if (name === 'spanschroef') {
+        K4.turnbuckle(sub, { metal: ss }, { M: 0.008, body: 0.11 });
+        yaw = across;
+      } else if (name === 'karabijn') {
+        K4.snapHook(sub, { metal: ss }, { L: 0.08, d: 0.008 });
+        yaw = across;
+      } else if (name === 'muuroog') {
+        K4.eyeBolt(sub, { metal: ss }, { R: 0.011, d: 0.0075, shank: 0.06, thread: 0.008, screw: true });
+        const plug = new G.PartBin();
+        K4.wallPlug(plug, SG.moulded('#C8C3B6', { rough: 0.5 }), { D: 0.01, L: 0.05 });
+        for (const [mat, list] of plug.bins) for (const g of list) { g.translate(0.012, 0, 0.032); sub.add(mat, g); }
+        yaw = across;
+      }
+      rows.push({ sub, yaw, name });
+    }
+    // stack rows front to back along the camera's depth axis
+    const fwd = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
+    const depth = [];
+    for (const r of rows) {
+      const tmp = new G.PartBin();
+      const box = K4.placeBin(tmp, r.sub, { yaw: r.yaw });
+      depth.push({ tmp, box });
+    }
+    // depth of each row measured along fwd
+    // extent of each row along the camera's depth axis, from its vertices (a long part lying
+    // across the frame has a big axis-aligned box but is shallow in depth)
+    const ext = depth.map(({ tmp }) => {
+      let lo = Infinity, hi = -Infinity;
+      for (const [, list] of tmp.bins) for (const g of list) { const pa = g.attributes.position; for (let i = 0; i < pa.count; i += 3) { const d = pa.getX(i) * fwd.x + pa.getZ(i) * fwd.z; if (d < lo) lo = d; if (d > hi) hi = d; } }
+      return [lo, hi];
+    });
+    const gap = 0.03;
+    const total = ext.reduce((a, [lo, hi]) => a + (hi - lo), 0) + gap * (rows.length - 1);
+    let cur = -total / 2;
+    depth.forEach(({ tmp }, i) => {
+      const [lo, hi] = ext[i];
+      const off = fwd.clone().multiplyScalar(cur - lo);
+      for (const [mat, list] of tmp.bins) for (const g of list) { g.translate(off.x, 0, off.z); bins.add(mat, g); }
+      cur += hi - lo + gap;
+    });
+    if (newParts.length > 1) view.hero = { elevation: 36 };
+  }
   const g = K.finish(bins, 'stretchParts');
   return {
     object: g,
     detail: { target: [-0.1, 0.02, 0.08], size: 0.25, azimuth: 30, elevation: 35 },
-    view: { hero: { elevation: 34 } },
+    view,
     rig: { default: { contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
     meta: { parts },
   };
