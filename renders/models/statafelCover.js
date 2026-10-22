@@ -197,12 +197,20 @@ export function statafelCover(p = {}) {
   }
   // value control: exposure from the cover's albedo; white and black get their own fill balance
   const albedoL = SL.clothAlbedo(color).r * 0.2126 + SL.clothAlbedo(color).g * 0.7152 + SL.clothAlbedo(color).b * 0.0722;
-  const rig = SL.statafelRig({ albedoL, white: albedoL > 0.5, black: albedoL < 0.05 });
+  const rig = SL.statafelRig({ albedoL, white: albedoL > 0.5, black: albedoL < 0.05, chroma: SL.dyeChroma(color) });
   // soft goods: the parts that face down (the stretch funnel under the blad, the strik drape) sit in
   // the blad's shadow; a large white floor card front-left, below the product, opens them up
   rig.default.bounce = { azimuth: -28, elevation: -22, intensity: albedoL > 0.5 ? 3.3 : albedoL < 0.05 ? 3.1 : 1.9 };
-  if (albedoL > 0.5) rig.default.fill = { ...rig.default.fill, intensity: 1.25 };
+  // white: a stronger frontal fill opens the side turned away from the key (strik drape >= 190)
+  if (albedoL > 0.5) rig.default.fill = { ...rig.default.fill, intensity: 1.45 };
   if (albedoL < 0.05) rig.default.exposure *= 1.06;
+  // a lighter topcover (or a printed one, white base) on a dark rok: expose for the lighter cloth so the
+  // top keeps its shading instead of clipping to paper white; the dark rok stays readable at that exposure
+  if (type !== 'kleed' && type !== 'strik' && type !== 'bow' && p.topcover) {
+    const tcColor = p.topcoverPrint ? 'wit' : typeof p.topcover === 'string' ? p.topcover : p.topcoverColor || 'wit';
+    const ca = SL.clothAlbedo(tcColor), tcL = ca.r * 0.2126 + ca.g * 0.7152 + ca.b * 0.0722;
+    if (tcL > albedoL * 1.5) rig.default.exposure = Math.min(rig.default.exposure, SL.statafelRig({ albedoL: tcL, white: tcL > 0.5 }).default.exposure * 1.04);
+  }
   return { object: group, detail, details, meta: { type, color, D: S.D, probes }, rig };
 }
 
@@ -224,7 +232,20 @@ function topProfile(S, f, gammaDeg, extraRim = 0) {
 // =====================================================================================
 // Stretch statafelrok
 function buildStretch(group, S, p, color) {
-  const mat = SL.jerseyKnit(color);
+  let mat = SL.jerseyKnit(color);
+  if (p.knitLook) {
+    // look-development override: {roughness, sheen, sheenColor (grey level or hex), normal, specularIntensity, envSpec}
+    const k = p.knitLook;
+    mat = mat.clone(); delete mat.userData.__hooked;
+    if (k.roughness != null) mat.roughness = k.roughness;
+    if (k.sheen != null) mat.sheen = k.sheen;
+    if (k.sheenRoughness != null) mat.sheenRoughness = k.sheenRoughness;
+    if (k.sheenColor != null) mat.sheenColor = typeof k.sheenColor === 'number' ? new THREE.Color().setRGB(k.sheenColor, k.sheenColor, k.sheenColor * 1.04) : new THREE.Color(k.sheenColor);
+    if (k.normal != null) mat.normalScale.set(k.normal, k.normal);
+    if (k.specularIntensity != null) mat.specularIntensity = k.specularIntensity;
+    if (k.envSpec != null) mat.userData.envSpec = k.envSpec;
+    if (k.boost != null) mat.userData.weave = { ...mat.userData.weave, boost: k.boost };
+  }
   const thr = SL.thread(color);
   const { R, H, T } = S;
   const f = 0.0022;                                  // fabric thickness / offset from the table
@@ -320,7 +341,8 @@ function buildStretch(group, S, p, color) {
         r = rW + (hm.Er - rW) * gOn(u);
         y = yW + (hm.Ey - yW) * u;
         // panels pull slightly concave between the corner ridges
-        r -= 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * Math.pow(hm.m, 1.2);
+        // (eased in from the waist: no crease line where the skirt leaves the waist)
+        r -= 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
         info.dh = lEF + (1 - u) * Math.hypot(hm.Er - rW, hm.Ey - yW) * 1.02;
       } else {
         const u = (t - tB) / (1 - tB);
@@ -346,9 +368,10 @@ function buildStretch(group, S, p, color) {
       const x = wrapA(th - Ls.th) / Ls.w; if (x * x > 9) continue;
       d += Ls.a * e * (0.4 + 0.6 * q) * Math.exp(-x * x);
     }
-    return d * (1 - 0.6 * smoothstep(0.94, 1.0, q));
+    // fade out into the waist (no step where the funnel meets the skirt: the rumples take over)
+    return d * (1 - smoothstep(0.86, 1.0, q));
   };
-  const rumples = Array.from({ length: 56 }, (_, i) => { const big = i < 9; return { th: Rg() * TAU, y: yW + (Rg() - 0.55) * (big ? 0.07 : 0.1), a: (Rg() < 0.66 ? 1 : -0.8) * (big ? 1.8 + 1.6 * Rg() : 0.4 + 1.5 * Rg()) * 1e-3, wt: big ? 0.18 + 0.25 * Rg() : 0.05 + 0.2 * Rg(), wy: big ? 0.035 + 0.03 * Rg() : 0.006 + 0.02 * Rg(), sh: (Rg() - 0.5) * (big ? 14 : 7) }; });
+  const rumples = Array.from({ length: 56 }, (_, i) => { const big = i < 9; return { th: Rg() * TAU, y: yW + (Rg() - 0.55) * (big ? 0.07 : 0.1), a: (Rg() < 0.66 ? 1 : -0.8) * (big ? 2.4 + 2.0 * Rg() : 0.6 + 1.8 * Rg()) * 1e-3, wt: big ? 0.18 + 0.25 * Rg() : 0.05 + 0.2 * Rg(), wy: big ? 0.035 + 0.03 * Rg() : 0.006 + 0.02 * Rg(), sh: (Rg() - 0.5) * (big ? 14 : 7) }; });
   const rumpleD = (th, y) => {
     const dyW = y - yW; if (Math.abs(dyW) > 0.13) return 0;
     let d = 0;
@@ -362,7 +385,7 @@ function buildStretch(group, S, p, color) {
   const pulls = [];
   for (let k = 0; k < n; k++) {
     const tf = S.footAngle + k * sector;
-    for (const s of [-1, 1]) for (let i = 0; i < 5; i++) pulls.push({ th0: tf + s * (0.1 + 0.62 * Rg()), th1: tf + s * (0.012 + 0.04 * Rg()), t0: 0.03 + 0.16 * Rg(), t1: 0.78 + 0.16 * Rg(), a: (0.45 + 1.2 * Rg()) * 1e-3, w: 0.0035 + 0.0055 * Rg(), bend: 0.55 + 0.8 * Rg() });
+    for (const s of [-1, 1]) for (let i = 0; i < 7; i++) pulls.push({ th0: tf + s * (0.1 + 0.62 * Rg()), th1: tf + s * (0.012 + 0.045 * Rg()), t0: 0.03 + 0.16 * Rg(), t1: 0.74 + 0.18 * Rg(), a: (0.6 + 1.4 * Rg()) * 1e-3, w: 0.0035 + 0.0065 * Rg(), bend: 0.55 + 0.8 * Rg() });
   }
   const pullD = (th, t, r) => {
     let d = 0;
@@ -371,7 +394,8 @@ function buildStretch(group, S, p, color) {
       const u = (t - P.t0) / (P.t1 - P.t0);
       const thL = P.th0 + (P.th1 - P.th0) * Math.pow(u, P.bend);
       const x = wrapA(th - thL) * r / P.w; if (x * x > 9) continue;
-      d += P.a * Math.pow(Math.sin(Math.PI * u), 0.7) * Math.exp(-x * x);
+      // soft onset at the waist and soft fade into the pocket (no line where a pull starts)
+      d += P.a * smoothstep(0, 0.3, u) * (1 - smoothstep(0.75, 1, u)) * Math.exp(-x * x);
     }
     return d;
   };
@@ -525,7 +549,7 @@ function buildStretch(group, S, p, color) {
       const radiusAt = (th, y) => {
         hemAt(th, hm);
         const u = clamp((yW - y) / (yW - hm.Ey));
-        return rW + (hm.Er - rW) * gOn(u) - 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * Math.pow(hm.m, 1.2);
+        return rW + (hm.Er - rW) * gOn(u) - 0.011 * Math.sin(Math.PI * Math.min(1, u * 1.05)) * smoothstep(0, 0.3, u) * Math.pow(hm.m, 1.2);
       };
       const wP = Number(p.print.width ?? 0.15), hP = wP * art.vb[1] / art.vb[0];
       const yc = Number(p.print.y ?? 0.3);
@@ -776,43 +800,56 @@ function buildStrik(group, S, p, color) {
   const nrm = V3(Math.sin(tb), 0, Math.cos(tb)), tan = V3(Math.cos(tb), 0, -Math.sin(tb));
   const knotC = nrm.clone().multiplyScalar(rBand + 0.015).setY(yS + 0.002);
   const th2 = 0.0024; // ribbon thickness (double-folded edge reads soft)
-  // loop: a ribbon swept along a closed teardrop path in the plane (axis A, nrm); width across the plane
-  const loop = (side, L, beta, D, w1, droop, out = 0.0) => {
+  // loop: one sheet of cloth (double sided) folded into a closed loop: out from the knot on the front
+  // layer, a soft rounded fold at the far end (~1 cm radius), back on the rear layer. Across the width
+  // the centre reaches furthest (rounded end in the front view) and puffs out most; near the knot the
+  // cloth is gathered (fine pleats, creases fanning out from the knot over the loop face); the edges
+  // carry a rolled hem (1 mm) and curl a little. side -1 left, +1 right; L loop length, beta lift,
+  // D front bulge, w1 width at the end, droop, out (forward tilt), seed.
+  const loop = (side, L, beta, D, w1, droop, out = 0.0, seed = 1) => {
     const A = tan.clone().multiplyScalar(side * Math.cos(beta)).addScaledVector(Y, Math.sin(beta)).addScaledVector(nrm, out).normalize();
     const Nn = nrm.clone().addScaledVector(A, -nrm.dot(A)).normalize();
     const Bw = V3().crossVectors(A, Nn).normalize();
-    const NP = 180, NR = 28, w0 = 0.03;
-    const path = [];
-    for (let i = 0; i <= NP; i++) {
-      const ph = (i / NP) * TAU, xs = (1 - Math.cos(ph)) / 2;
-      const front = Math.sin(ph) >= 0;
-      const prof = Math.pow(Math.sin(Math.PI * Math.min(1, xs * 1.04)), 0.55) * (1 - 0.15 * xs);
-      const n = Math.sin(ph) * prof * (front ? D : D * 0.45);
-      path.push({ P: knotC.clone().addScaledVector(A, 0.012 + L * xs).addScaledVector(Nn, n + 0.003 + 0.004 * xs).addScaledVector(Y, -droop * xs * xs), xs, front });
-    }
+    const Rl = rng(31 + seed);
+    const creases = Array.from({ length: 7 }, () => ({ phi: (Rl() - 0.5) * 1.1, a: (0.0016 + 0.0026 * Rl()) * (Rl() < 0.8 ? 1 : -0.7), w: 0.004 + 0.006 * Rl(), back: 0.5 + 0.5 * Rl() }));
+    const NP = 240, NW = 26, w0 = 0.026;
     const rows = [];
-    for (let i = 0; i <= NP; i++) {
-      const a = path[Math.max(0, i - 1)].P, b = path[Math.min(NP, i + 1)].P;
-      const T = b.clone().sub(a).normalize();
-      let Np = V3().crossVectors(Bw, T).normalize();
-      if (Np.dot(Nn) * (path[i].front ? 1 : -1) < 0) Np.negate();
-      const { P, xs, front } = path[i];
-      const w = lerp(w0, w1, smoothstep(0.0, 0.6, xs)) * (1 - 0.1 * smoothstep(0.85, 1, xs));
+    for (let j = 0; j <= NW; j++) {
+      const xw = (j / NW) * 2 - 1;
       const ring = [];
-      for (let k = 0; k < NR; k++) {
-        const ps = (k / NR) * TAU, xw = Math.cos(ps), yt = Math.sin(ps);
-        const cup = 0.008 * (1 - xw * xw) * Math.sin(Math.PI * xs) * (front ? 1 : 0.5);
-        const pinch = 0.0024 * Math.sin(xw * 6.5 + side) * Math.pow(1 - smoothstep(0, 0.35, xs), 2);
-        // edges roll a little towards the inside of the loop
-        const roll = -0.0025 * Math.pow(Math.abs(xw), 6) * Math.sin(Math.PI * xs);
-        ring.push(P.clone().addScaledVector(Bw, (w / 2) * xw).addScaledVector(Np, (th2 / 2) * yt + cup + pinch + roll));
+      for (let i = 0; i < NP; i++) {
+        const ph = (i / NP) * TAU, xs = (1 - Math.cos(ph)) / 2, sn = Math.sin(ph);
+        const front = sn >= 0, sg = sn > 1e-9 ? 1 : sn < -1e-9 ? -1 : 0;
+        const w = lerp(w0, w1, smoothstep(0.0, 0.55, xs)) * (1 - 0.08 * smoothstep(0.85, 1, xs));
+        // along the loop axis: the centre of the width runs out furthest (rounded end in the front view)
+        const a = 0.012 + L * xs * (1 - 0.085 * xw * xw);
+        // rounded fold at the far end: n ~ sqrt(1 - xs); puffier in the middle of the width
+        const g = Math.pow(Math.max(0, Math.sin(Math.PI * xs)), 0.5) * (1 - 0.12 * xs);
+        let n = sg * g * (front ? D : D * 0.55) * (1 - 0.3 * xw * xw);
+        // cupped across the width, edges rolling back
+        n += sg * (0.007 * (1 - xw * xw) * Math.sin(Math.PI * xs) * (front ? 1 : 0.5) - 0.0022 * Math.pow(Math.abs(xw), 6) * Math.sin(Math.PI * xs));
+        // gathered at the knot: fine pleats across the width
+        n += 0.0026 * Math.sin(xw * 7.5 + side + seed) * Math.pow(1 - smoothstep(0, 0.3, xs), 2);
+        // creases fanning out from the knot over the loop face
+        const b = (w / 2) * xw;
+        for (const c of creases) {
+          const dl = (b * Math.cos(c.phi) - (a - 0.012) * Math.sin(c.phi)) / c.w;
+          if (dl * dl > 9) continue;
+          n += sg * c.a * (front ? 1 : c.back) * Math.exp(-dl * dl) * Math.exp(-(a - 0.012) / 0.07) * smoothstep(0.0, 0.08, xs);
+        }
+        // the edges wave a little
+        const bw = b + 0.0025 * Math.pow(Math.abs(xw), 4) * Math.sin(xs * 7 + side + (xw > 0 ? 0 : 2.1)) * Math.sin(Math.PI * xs);
+        ring.push(knotC.clone().addScaledVector(A, a).addScaledVector(Nn, n + 0.003 + 0.004 * xs).addScaledVector(Bw, bw).addScaledVector(Y, -droop * xs * xs));
       }
       rows.push(ring);
     }
-    return K.gridGeometry(rows, { closedU: true, flip: false });
+    const sheet = K.gridGeometry(rows, { closedU: true, flip: side > 0 });
+    // rolled hems along both edges
+    const hems = [rows[0], rows[NW]].map((r) => K.sweep(r, K.circle(0.0011, 8), { closed: true, up: Bw }));
+    return [sheet, ...hems];
   };
-  group.add(G.mesh(loop(-1, 0.148, 26 * DEG, 0.026, 0.094, 0.016, 0.16), ribbon));
-  group.add(G.mesh(loop(1, 0.158, 17 * DEG, 0.028, 0.098, 0.022, 0.13), ribbon));
+  for (const g of loop(-1, 0.148, 26 * DEG, 0.03, 0.094, 0.016, 0.16, 1)) group.add(G.mesh(g, ribbon));
+  for (const g of loop(1, 0.158, 17 * DEG, 0.032, 0.098, 0.022, 0.13, 2)) group.add(G.mesh(g, ribbon));
   // knot: cloth wrapped round the loop roots, gather creases running round it
   group.add(G.mesh(G.surface((u, v, o) => {
     const ps = u * TAU, vv = 2 * v - 1;
@@ -847,7 +884,7 @@ function buildStrik(group, S, p, color) {
       for (let k = 0; k < NR; k++) {
         const ps = (k / NR) * TAU, xw = Math.cos(ps), yt = Math.sin(ps);
         // fishtail: the centre of the end is cut 4 cm shorter (V notch)
-        const notch = 0.04 * (1 - Math.abs(xw)) * smoothstep(0.9, 1, u);
+        const notch = 0.032 * (1 - Math.abs(xw)) * smoothstep(0.92, 1, u);
         const y = yTop - u * len + notch * 0 - (u >= 1 ? 0 : 0);
         const yy = y + notch;
         const rs = Math.max(0.06, skirtR(thC, Math.max(0.01, yy)));

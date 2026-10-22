@@ -155,7 +155,9 @@ def build():
             'gewicht_kg': 22, 'garantie': '2 jaar'},
            ['tafels-stoelen.statafels'], 'statafel', 'Vaste horeca-statafel die blijft staan: zwaarder, niet inklapbaar, stelvoetjes voor schuine terrassen.',
            ['statafel horeca', 'statafel kruisvoet'], {'band': 'zwaar kruisvoet €272 (VVEP)', 'ours': KV}, vmap=vmap)
-    VQ = {'60 x 60 cm': 119.0, '70 x 70 cm': 129.0, '80 x 80 cm': 139.0}
+    # catalog round 5: ca. 7-9% under the reference (Statafelshop Indus vanaf € 148,77, Kansas € 163,29; Outmate 70x70 € 159-169); it sat
+    # 13-20% under it, and its new terrace twin (75 cm) is priced € 10 under it
+    VQ = {'60 x 60 cm': 139.0, '70 x 70 cm': 149.0, '80 x 80 cm': 159.0}
     VQK = HOEK_DECORS
     # catalog round 3: binnen (HPL, zwart or geborsteld RVS onderstel, RVS + € 30) and buiten (compact HPL 12 mm, zwart or wit onderstel,
     # + € 55): the reference compact lines are Statafelshop Indus / Kansas / Mississippi (€ 149-381)
@@ -401,7 +403,8 @@ def build():
     # Set stays cheaper than tafel + 2 banken los.
     BTU = ['Set: tafel en 2 banken', 'Alleen tafel', 'Alleen bank']
     BK_HOES = ['Wit', 'Zwart', 'Antraciet', 'Crème', 'Zilver', 'Rood', 'Bordeaux', 'Blauw', 'Marineblauw', 'Groen']
-    HOES_T = ['180 x 50 cm', '180 x 60 cm', '180 x 70 cm', '180 x 80 cm', '220 x 50 cm', '220 x 60 cm', '220 x 70 cm', '220 x 80 cm']
+    # catalog round 4: a hoes for the 220 x 67 cm blad too (it was offered the 220 x 70 cm hoes)
+    HOES_T = ['180 x 50 cm', '180 x 60 cm', '180 x 70 cm', '180 x 80 cm', '220 x 50 cm', '220 x 60 cm', '220 x 67 cm', '220 x 70 cm', '220 x 80 cm']
     BT = [(m, BTU[0], 22.95 if int(m.split(' x ')[1][:2]) <= 60 else 24.95, 1300 + 40 * int(m.split(' x ')[1][:2]) // 10, 'S') for m in HOES_T] + \
          [(m, BTU[1], 13.95 if int(m.split(' x ')[1][:2]) <= 60 else 14.95, 600 + 30 * int(m.split(' x ')[1][:2]) // 10, 'T') for m in HOES_T] + \
          [('180 x 25 cm', BTU[2], 6.95, 300, 'B'), ('220 x 25 cm', BTU[2], 6.95, 350, 'B')]
@@ -420,7 +423,7 @@ def build():
                      'hero', k, 'existing', alt=f'één bankhoes in {k.lower()} op een bierbank van 220 × 25 cm (bank niet inbegrepen)')]
     simple('hoes-biertafelset', 'Hoes biertafelset, biertafel of bierbank', 'Tafelhoes', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:evenement'],
            [opt('Maat', BTM), opt('Uitvoering', BTU), opt('Kleur', BK)], vs, imgs,
-           {'kenmerk_kort': 'Stretch voor tafel + 2 banken, of los · 180 of 220 cm · 10 kleuren', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank-220'], 'verzending': 'pakket'},
+           {'kenmerk_kort': 'Stretch voor tafel + 2 banken, of los · 180 of 220 cm · 10 kleuren', 'staffelkorting': ST_TEXTIEL, 'past_op': ['biertafelset', 'bierbank'], 'verzending': 'pakket'},
            ['statafelrokken-hoezen.biertafelset-hoezen'], 'textiel', 'Biertafelset feestklaar in één keer: 3 hoezen, ook buiten; of één hoes voor een losse tafel of bank.',
            ['hoes biertafelset', 'biertafel hoes', 'hoes bierbank', 'hoezen biertafelset 180'], {'outmate': 'set van 3 hoezen €24,99 in 180 x 50/60/70/80 en 220 x 50/60/70/80', 'ours': {f'{m} {u}': p for m, u, p, g, c in BT}}, vmap=vmap,
            extra={'variant_image_sku': {**{f'KK-THOES-BT-{code(m)}-T-{COLOR_CODE[k]}': f'hoes-biertafelset-alleen-tafel-{slug(k)}.webp' for m in HOES_T for k in BK},
@@ -458,7 +461,8 @@ def build():
            [img('beschermplaat-statafel-hero.webp', 'hero', 1, 'protectionDisc', {'diameter': 0.78, 'onCover': {'type': 'stretch', 'color': 'zwart'}}, 'hero', 'Transparant', 'needs-model',
                 alt='op een statafel met zwarte stretchrok (tafel en rok niet inbegrepen)')],
            {'kenmerk_kort': 'Transparant PVC over hoes en topcover · tegen vlekken', 'staffelkorting': ST_TEXTIEL, 'verzending': 'pakket',
-            'past_op': ROUND + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-wijnvat-houtlook', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig',
+            # catalog round 4: not the HDPE blow-mould statafel (wipe-clean blad: the plaat has no use there)
+            'past_op': [h for h in ROUND if h != 'statafel-inklapbaar-hdpe-80'] + ['statafel-vierkant-stapelbaar', 'statafel-rechthoekig-inklapbaar', 'statafel-wijnvat-houtlook', 'terrastafel-inklapbaar', 'klaptafel-hdpe-rechthoekig',
                                 'statafel-breed-stapelbaar', 'statafel-design-marmerlook', 'statafel-design-zuilvoet']},
            ['statafelrokken-hoezen.beschermplaten'], 'textiel', 'Glasheldere plaat die de rok schoon houdt (bier, wijn); maat iets kleiner dan het blad.',
            ['beschermplaat statafel', 'transparante plaat statafel'], {'statafelshop': 'Ø68/78/83 vanaf €18,09 · 182x75 €30,19', 'ours': BP})

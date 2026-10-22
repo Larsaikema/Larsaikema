@@ -3,10 +3,10 @@
 import json, sys, os, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kk_base import *
-import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, fam_new, kk_addons, kk_ship, kk_site as site
+import fam_easyup, fam_acc, fam_big, fam_tafel, fam_rest, fam_set, fam_new, fam_r4, fam_r5, kk_addons, kk_ship, kk_site as site
 
 OUT, ASSORT = sys.argv[1], sys.argv[2]
-fam_easyup.build(); fam_acc.build(); fam_big.build(); fam_tafel.build(); fam_rest.build(); fam_set.build(); fam_new.build()
+fam_easyup.build(); fam_acc.build(); fam_big.build(); fam_tafel.build(); fam_rest.build(); fam_set.build(); fam_new.build(); fam_r4.build(); fam_r5.build()
 
 # ---------------------------------------------------------------- fixups
 for h in ['statafel-inklapbaar-professional', 'statafelrok-stretch']:
@@ -162,6 +162,18 @@ for p in PRODUCTS:
     # variant image
     vmap, vby = p.get('variant_images'), p.get('variant_image_by')
     vsku = p.pop('variant_image_sku', None) or {}
+    # catalog round 5: an image mapped by SKU onto variants that all share one Kleur (the full colour walls and tents on white cloth) says
+    # that Kleur, so the variant-image check (image Kleur = variant Kleur) holds once the render exists
+    if 'Kleur' in names and vsku:
+        ki = names.index('Kleur') + 1
+        by_file = {}
+        for v in p['variants']:
+            if v['sku'] in vsku:
+                by_file.setdefault(vsku[v['sku']], set()).add(v[f'option{ki}'])
+        for i in p['images']:
+            ks = by_file.get(i['file'])
+            if i.get('kleur') is None and ks and len(ks) == 1:
+                i['kleur'] = next(iter(ks))
     for v in p['variants']:
         if v['sku'] in vsku:
             v['image'] = vsku[v['sku']]  # e.g. the full colour variant of a product whose images follow Kleur
@@ -245,10 +257,15 @@ errors += [f'uncovered {m}' for m in missing] + [f'bad cover key {b}' for b in b
 EU_SETS = ['starterspakket-easy-up-premium', 'compleet-pakket-easy-up-professional']
 STF_SETS = ['pakket-statafel-met-stretchrok', 'pakket-statafel-hdpe-met-stretchrok', 'pakket-4-statafels-met-stretchrokken', 'pakket-statafels-met-transportkar',
            'pakket-5-statafels-stretchrokken-transportkar', 'pakket-10-statafels-stretchrokken-transportkar', 'pakket-15-statafels-stretchrokken-transportkar']
-G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank-220', 'los-statafelblad', 'voetdoppen-set-van-4',
-             'onderdelen-statafel']
+G4_MEUBEL = ['klaptafel-hdpe-rechthoekig', 'klaptafel-hdpe-rond', 'terrastafel-inklapbaar', 'biertafelset', 'bierbank', 'los-statafelblad', 'voetdoppen-set-van-4',
+             'onderdelen-statafel',
+             # catalog round 5: the terrace twins, the wiebelvrije tafel, the klaptafel met banken and the seating spare parts
+             'terrastafel-vierkant-stapelbaar', 'terrastafel-breed-stapelbaar', 'terrastafel-design-zuilvoet', 'terrastafel-wiebelvrij',
+             'klaptafel-met-banken-rolbaar', 'onderdelen-stoelen-en-barkrukken']
 BF_TENTS = [p['handle'] for p in PRODUCTS if p['product_type'] == 'Partytent']
 SEATS = ['barkruk-stapelbaar-metaal', 'barkruk-houten-zitting', 'klapstoel', 'stapelstoel-cross-back', 'zitkussen-stoel-en-barkruk',
+         # catalog round 4
+         'stapelstoel-kunststof', 'stapelstoel-polycarbonaat', 'klapstoel-hout-bistro', 'barkruk-inklapbaar', 'stoelverbinder',
          'barkruk-velours-stapelbaar', 'barkruk-pe-rotan', 'barkruk-draad-stapelbaar', 'kruk-laag-stapelbaar', 'stapelstoel-metaal',
          'banquetstoel-gestoffeerd', 'bank-houten-frame', 'barkruk-chroom-stapelbaar']
 def group_of(p):

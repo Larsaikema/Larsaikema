@@ -123,6 +123,7 @@
     endfor
   endif
   assign chip_count = 0
+  assign chip_chars = 0
   assign chip_others = 0
   assign chip_seen = ''
 -%}
@@ -137,6 +138,7 @@
       # two menu links to the same page ('Statafels' and 'Per maat') make one chip
       assign chip_seen = chip_seen | append: chip_key
       assign chip_count = chip_count | plus: 1
+      assign chip_chars = chip_chars | plus: l.title.size
       assign l_img = nil
       if l.type == 'collection_link'
         assign l_img = l.object.image | default: l.object.featured_image
@@ -177,8 +179,12 @@
       {%- endif -%}
     {%- endcapture -%}
     {%- liquid
+      # next to the title only when the chips fit on one row of the ~480 px column (a chip is ~75 px plus ~8.2 px per
+      # letter); a second row would push the title down ('Transport en onderdelen', 'Terrastafels', 'Statafelpakketten')
       assign chips_side = false
-      if chip_count > 0 and chip_count <= 3
+      assign chip_w = chip_count | times: 750
+      assign chip_w = chip_chars | times: 82 | plus: chip_w
+      if chip_count > 0 and chip_count <= 3 and chip_w <= 4880
         assign chips_side = true
       endif
       assign has_aside = false

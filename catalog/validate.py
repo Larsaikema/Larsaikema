@@ -626,6 +626,7 @@ def run(verbose=False):
             if any(v.get('requires_shipping') for v in vs):
                 rep.e('variants', f'{a}: gift card variants must not require shipping')
     check_frame_plus_roof(rep, P)
+    check_printed_frame_roof(rep, P)
     check_parts_vs_complete(rep, P)
     check_size_ladder(rep, products)
     check_addon_fit(rep, products, P)
@@ -633,6 +634,8 @@ def run(verbose=False):
     check_bundle_staffels(rep, products, P)
     check_round3(rep, products, P)
     check_shipping_weight(rep, products, P)
+    check_round4(rep, products, P)
+    check_seed(rep, products)
     for p in products:
         for f in p['metafields'].get('downloads') or []:
             if not (IMAGES / f).exists():
@@ -1112,7 +1115,8 @@ def check_frame_plus_roof(rep, P):
             names = [o['name'] for o in tent['options']]
             for v in tent['variants']:
                 o = {n: v.get(f'option{i + 1}') for i, n in enumerate(names)}
-                if uitv and o.get('Uitvoering') != uitv:
+                # catalog round 4: the 2 x 2 and 5 x 5 m Professional have no one-value Uitvoering option (polyester only)
+                if uitv and (o.get('Uitvoering') or 'Polyester') != uitv:
                     continue
                 m = o.get('Maat')
                 roof = [r['price'] for r in roofs['variants'] if r['option1'] == m and r['option2'] == roof_u]
@@ -1122,6 +1126,44 @@ def check_frame_plus_roof(rep, P):
                     rep.e('prices', f'{h} {m} {o.get("Uitvoering") or ""}: frame {frame_price[m] / 100:.2f} + dak {min(roof) / 100:.2f} '
                                     f'< tent {v["price"] / 100:.2f} (parts cheaper than the tent)')
                 break  # one colour per size is enough (same price)
+
+
+PRINTED_FRAME_ROOF = [  # (full colour tent, frame) — catalog round 5: los frame + bedrukt dakzeil of the same size and cloth >= the printed tent
+    ('easy-up-partytent-professional-full-colour-bedrukt', 'los-frame-easy-up-professional'),
+    ('easy-up-partytent-premium-full-colour-bedrukt', 'los-frame-easy-up-premium'),
+]
+
+
+def check_printed_frame_roof(rep, P):
+    """Standing item d for the printed tents: a loose frame plus a loose printed roof (bedrukt-dakzeil-easy-up, same Maat and cloth) must
+    never be cheaper than the full colour tent's 'Dak en luifel' variant (the cloth is the Uitvoering, Polyester when the tent has none)."""
+    roofs = P.get('bedrukt-dakzeil-easy-up')
+    if not roofs:
+        return
+    rn = [o['name'] for o in roofs['options']]
+    roof = {}
+    for v in roofs['variants']:
+        o = {n: v.get(f'option{i + 1}') for i, n in enumerate(rn)}
+        roof[(o['Maat'], o.get('Uitvoering') or 'Polyester')] = v['price']
+    for th, fh in PRINTED_FRAME_ROOF:
+        tent, frame = P.get(th), P.get(fh)
+        if not tent or not frame:
+            continue
+        fp = {v['option1']: v['price'] for v in frame['variants']}
+        tn = [o['name'] for o in tent['options']]
+        for v in tent['variants']:
+            o = {n: v.get(f'option{i + 1}') for i, n in enumerate(tn)}
+            if (o.get('Samenstelling') or o.get('Uitvoering')) != 'Dak en luifel':
+                continue
+            cloth = o.get('Uitvoering') if o.get('Uitvoering') in ('Polyester', 'Heavy duty PVC') else 'Polyester'
+            key = (o['Maat'], cloth)
+            if o['Maat'] not in fp or key not in roof:
+                if o['Maat'] in fp:
+                    rep.e('parts', f'{th} {o["Maat"]} {cloth}: no bedrukt dakzeil in this size and cloth')
+                continue
+            if fp[o['Maat']] + roof[key] < v['price']:
+                rep.e('prices', f'{th} {o["Maat"]} {cloth}: frame € {fp[o["Maat"]] / 100:.2f} + bedrukt dak € {roof[key] / 100:.2f} '
+                                f'< tent € {v["price"] / 100:.2f} (parts cheaper than the printed tent)')
 
 
 def check_parts_vs_complete(rep, P):
@@ -1162,6 +1204,15 @@ def check_parts_vs_complete(rep, P):
             rep.e('parts', f'stretchtent-compleet: {len(missing)} variant(s) without custom.stuklijst (doek + palen + afspanning)')
 
 
+def _lin(m):
+    """'6 m' -> ('l', 600), '4,5 m breed' -> ('l', 450), '200 cm' -> ('l', 200), 'Ø80 cm' -> ('d', 80): a diameter compares with diameters
+    only; None for anything else."""
+    mm = re.fullmatch(r'(Ø)?(\d+(?:,\d+)?) (m|cm)( breed)?', m or '')
+    if not mm:
+        return None
+    return ('d' if mm.group(1) else 'l', float(mm.group(2).replace(',', '.')) * (100 if mm.group(3) == 'm' else 1))
+
+
 def check_size_ladder(rep, products):
     """Catalog round 2026-10-18: within one product, with the other options equal, a size that contains another size (both sides at
     least as long) never costs less than it (a 5 x 6 m tent under the 4 x 6 m reads as an error)."""
@@ -1186,6 +1237,14 @@ def check_size_ladder(rep, products):
             for m, (a, b) in sizes.items():
                 for m2, (a2, b2) in sizes.items():
                     if m2 != m and a2 <= a and b2 <= b and pr[m2] > pr[m]:
+                        rep.w('prices', f'product {p["handle"]} {" · ".join(str(k) for k in key if k)}: {m} € {pr[m] / 100:.2f} is cheaper than the smaller {m2} € {pr[m2] / 100:.2f}')
+            # catalog round 5 (low): single-dimension sizes too (a wall of 8 m under the 6 m in the same cloth and colour: '6 m', '4,5 m',
+            # '8 m breed', '200 cm', 'Ø80 cm'); a longer or wider one never costs less than a shorter one
+            lin = {m: _lin(m) for m in pr}
+            lin = {m: x for m, x in lin.items() if x is not None}
+            for m, a in lin.items():
+                for m2, a2 in lin.items():
+                    if a2[0] == a[0] and a2[1] < a[1] and pr[m2] > pr[m]:
                         rep.w('prices', f'product {p["handle"]} {" · ".join(str(k) for k in key if k)}: {m} € {pr[m] / 100:.2f} is cheaper than the smaller {m2} € {pr[m2] / 100:.2f}')
 
 
@@ -1443,6 +1502,40 @@ def check_shipping_weight(rep, products, P):
     if quantity_only:
         rep.i('shipping', f'{len(set(quantity_only))} parcel products at the class rate pass 31,5 kg only from 11-100 pieces on; checkout takes the '
                           f'weight-based rate there (e.g. {", ".join(sorted(set(quantity_only))[:4])})')
+
+
+def check_round4(rep, products, P):
+    """Catalog round 4 (2026-10-22 graded findings):
+      1. option noise: no Kleur, Uitvoering or Samenstelling option with a single value (it reads as a choice that is none: 'Kleur: Zwart' on a
+         barkoelkast, 'Uitvoering: Polyester' on the Professional 2 x 2 m); a one-value Maat stays allowed (add-on fit and filters use it);
+      2. a handle that names one length (bierbank-220) while the product sells several (180 and 220 cm) is a naming error;
+      3. no option value reads as 'price on request' ('PVC 620 (op aanvraag)' sat on priced, buyable variants);
+      4. an add-on that goes along once per order line (custom.addon_eenmalig) carries more than one piece of the main product: a kar that
+         takes one koelkast follows the quantity;
+      5. every product carries a price_ref; the ones without a reference price are listed (info), so an off-market price cannot hide
+         behind 'prijs niet gevonden' (price_ref is refreshed from the live capture each round)."""
+    for p in products:
+        for o in p['options']:
+            if o['name'] in ('Kleur', 'Uitvoering', 'Samenstelling') and len(o['values']) == 1:
+                rep.e('options', f'product {p["handle"]}: option {o["name"]} has one value {o["values"][0]!r} (drop the option, put it in the specs)')
+            for val in o['values']:
+                if re.search(r'op aanvraag|prijs op', val, re.I):
+                    rep.e('options', f'product {p["handle"]}: option value {val!r} reads as price on request on a priced variant')
+        m = re.search(r'(?:^|-)([a-z0-9]+)-(\d{2,})(?:-(m|cm))?$', p['handle'])
+        names = [o['name'] for o in p['options']]
+        if m and m.group(1) not in ('pvc', 'pe', 'e27') and 'Maat' in names:
+            maten = p['options'][names.index('Maat')]['values']
+            if len(maten) > 1 and not all(m.group(2) in v.replace(',', '') for v in maten):
+                rep.e('naming', f'product {p["handle"]}: the handle names {m.group(2)} but the product sells {", ".join(maten[:4])}')
+    one_piece = {'transportkar-koelkasten'}
+    for p in products:
+        for h in p['metafields'].get('addon_eenmalig') or []:
+            if h in one_piece:
+                rep.e('addons', f'product {p["handle"]}: {h} carries one piece, so it must follow the quantity (not addon_eenmalig)')
+    no_ref = [p['handle'] for p in products if not p.get('gift_card') and 'set' not in p['tags']
+              and not re.search(r'\d', json.dumps({k: v for k, v in (p.get('price_ref') or {}).items() if k in ('outmate', 'statafelshop', 'band')}, ensure_ascii=False))]
+    if no_ref:
+        rep.i('prices', f'{len(no_ref)} products without a reference price in price_ref (owner sets these on their own): {", ".join(no_ref[:8])}…')
 
 
 def _korting(st, n):
@@ -1721,6 +1814,53 @@ def check_fixture(rep, cat, products):
                 missing_img.add(src)
     if missing_img:
         rep.i('fixture', f'{len(missing_img)} fixture image files not in catalog/images yet (expected until rendered)')
+
+
+def check_seed(rep, products):
+    """Catalog round 5 (high): the reference and variant metafields reach Shopify through scripts/seed/seed.mjs, not the CSV.
+    (1) export/product-references.json carries every reference metafield of catalog.json (product addons, addon_eenmalig, past_op,
+    onderdelen, andere_maten, alternatieven, maatgids, downloads; variant addon_varianten/_aantallen, componenten/_aantallen, stuklijst);
+    (2) the seed dry run (an in-memory store holding exactly what products.csv creates) resolves every one of them and sends only
+    inputs the Admin API accepts."""
+    import subprocess
+    try:
+        refs = json.loads((EXPORT / 'product-references.json').read_text(encoding='utf-8'))['products']
+    except (OSError, ValueError, KeyError):
+        rep.e('seed', 'export/product-references.json missing or unreadable')
+        return
+    R = {r['handle']: r for r in refs}
+    ref_keys = [k for k, t, *_ in build.PRODUCT_MF if build.is_reference(t) and k != 'componenten']
+    vkeys = ['addon_varianten', 'addon_aantallen', 'componenten', 'component_aantallen', 'stuklijst']
+    n_p = n_v = 0
+    for p in products:
+        r = R.get(p['handle'], {'metafields': [], 'variants': []})
+        have = {m['key']: m.get('value') for m in r['metafields']}
+        for k in ref_keys:
+            v = p['metafields'].get(k)
+            if v in (None, [], ''):
+                continue
+            n_p += 1
+            if have.get(k) != v:
+                rep.e('seed', f'product {p["handle"]}: {k} not (or not the same) in product-references.json')
+        rv = {x['sku']: {m['key']: m for m in x['metafields']} for x in r['variants']}
+        for v in p['variants']:
+            for k in vkeys:
+                if (v.get('metafields') or {}).get(k):
+                    n_v += 1
+                    if k not in rv.get(v['sku'], {}):
+                        rep.e('seed', f'{p["handle"]} / {v["sku"]}: variant {k} not in product-references.json')
+    try:
+        out = subprocess.run(['node', str(REPO / 'scripts' / 'seed' / 'seed.mjs'), '--dry-run'], capture_output=True, text=True, timeout=300)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        rep.w('seed', f'seed dry run not run ({e.__class__.__name__}): node 22 needed for scripts/seed/seed.mjs')
+        return
+    errs = [ln[6:] for ln in out.stdout.splitlines() if ln.startswith('ERROR ')]
+    for e in errs[:30]:
+        rep.e('seed', f'seed dry run: {e}')
+    if out.returncode and not errs:
+        rep.e('seed', f'seed dry run failed: {(out.stderr or out.stdout).strip()[-400:]}')
+    summary = next((ln for ln in out.stdout.splitlines() if ln.startswith('store after the run')), '')
+    rep.i('seed', f'{n_p} product and {n_v} variant reference metafields go through scripts/seed/seed.mjs; dry run: {summary[21:]}')
 
 
 def main(argv=None):

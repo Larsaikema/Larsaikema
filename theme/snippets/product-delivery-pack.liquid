@@ -1,6 +1,7 @@
 {%- comment -%}
   Carrier and parcel line under the delivery promise on the product page (feature product.shipping-method-label):
-  'Pakketdienst · verpakt 155 × 28 × 28 cm · 27 kg' or 'Palletvervoer …', from custom.verzending (or tag 'pallet'),
+  'Pakketdienst · verpakt 155 × 28 × 28 cm · 27 kg' or 'Palletvervoer …', from custom.verzending (or tag 'pallet', or a chosen variant
+  above 31,5 kg),
   custom.verpakt and the weight of the chosen variant (variant.weight, grams; Heavy duty PVC is heavier than polyester), else
   custom.gewicht_kg. Renders nothing without packed size and weight. A custom.verpakt that names the form and weight
   ('Pakket · 1 doos · ca. 0,7 kg') reads 'Pakketdienst · 1 doos · ca. 0,7 kg'. Params: product, variant.
@@ -14,6 +15,15 @@
   assign kg = product.metafields.custom.gewicht_kg.value
   if variant.weight > 0
     assign kg = variant.weight | divided_by: 1000.0
+  endif
+  # catalog round 4: above 31,5 kg nothing ships as a parcel (CONTRACT), whatever the product's class: a 'Set van 4' voetgewichten
+  # of 60 kg reads 'Palletvervoer'. A verpakt that covers both ('Pakket tot 31,5 kg, zwaarder op pallet …') is replaced by the class of
+  # the chosen variant and its own weight.
+  if variant.weight > 31500
+    assign ship_class = 'pallet'
+  endif
+  if packed contains 'zwaarder op pallet'
+    assign packed = blank
   endif
   # custom.verpakt is a box size ('155 x 28 x 28 cm': 'verpakt …' + weight) or the shipping form with its weight
   # ('Pakket · 1 doos · ca. 0,7 kg', 'Vracht op pallet (120 x 80 cm) · ca. 150 kg'): then the form word the carrier label

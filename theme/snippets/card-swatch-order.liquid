@@ -1,0 +1,46 @@
+{%- comment -%}
+  Swatch order of a product card (snippets/product-card.liquid). Outputs '<marked index>;<index>,<index>,…' (marked: -1 when
+  none). A colour filter (color) marks its swatch, and moves it to the front when it would sit behind '+N' or behind the 4 of
+  a narrow card. Without a colour filter the colour the photo shows goes first, unmarked (a black stretch rok leads with
+  Zwart, not Wit): the colour of the variant whose photo the card uses (variant), else of the variant whose own image is the
+  product's featured image. Params: product, option (the colour option, with values), color, variant (optional).
+{%- endcomment -%}
+{%- liquid
+  assign so_idx = option.position | minus: 1
+  assign so_find = color
+  if color == blank and variant
+    assign so_find = variant.options[so_idx]
+  elsif color == blank
+    assign so_src = product.featured_media.preview_image.src | append: ''
+    for v in product.variants
+      assign so_v_src = v.featured_image.src | append: ''
+      if so_v_src != '' and so_v_src == so_src
+        assign so_find = v.options[so_idx]
+        break
+      endif
+    endfor
+  endif
+  assign so_lead = -1
+  for value in option.values
+    if value.name == so_find
+      assign so_lead = forloop.index0
+      break
+    endif
+  endfor
+  assign so_mark = -1
+  if color != blank
+    assign so_mark = so_lead
+  endif
+  assign so_order = ''
+  if so_lead >= 4 or so_lead > 0 and color == blank
+    assign so_order = so_lead | append: ','
+  else
+    assign so_lead = -1
+  endif
+  for value in option.values
+    if forloop.index0 != so_lead
+      assign so_order = so_order | append: forloop.index0 | append: ','
+    endif
+  endfor
+  echo so_mark | append: ';' | append: so_order
+-%}

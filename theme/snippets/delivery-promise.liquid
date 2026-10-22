@@ -29,6 +29,10 @@
   if product.tags contains 'pallet'
     assign dp_ship = 'pallet'
   endif
+  # catalog round 4: above 31,5 kg nothing ships as a parcel (CONTRACT): the chosen variant decides
+  if dv.weight > 31500
+    assign dp_ship = 'pallet'
+  endif
   assign dp_status = product.metafields.custom.availability_status.value | downcase | strip | replace: ' ', '-'
   assign dp_country = localization.country.iso_code | default: 'NL'
   if dp_ship == 'pallet'
@@ -54,8 +58,86 @@
   endif
   assign dp_holidays = settings.holidays | newline_to_br | strip_newlines | replace: '<br />', ',' | replace: ' ', ''
 
+  # expected (re)stock or delivery date (custom.verwacht_op, owner input) next to a later / sold-out stock line
+  assign dp_expected = ''
+  assign dp_exp = product.metafields.custom.verwacht_op.value
+  if dp_exp != blank and dp_state != 'stock' and dp_state != 'leadtime' and dp_state != 'discontinued'
+    assign dp_exp_m = dp_exp | date: '%-m' | plus: 0 | minus: 1
+    assign dp_months = 'delivery.months' | t | split: ','
+    assign dp_exp_d = dp_exp | date: '%-d'
+    assign dp_exp_txt = dp_exp_d | append: ' ' | append: dp_months[dp_exp_m]
+    assign dp_expected = 'delivery.expected_on' | t: date: dp_exp_txt
+  endif
+
   # shipping cost line per class (product.shipping-cost-line); product metafield custom.verzendkosten overrides
   assign dp_cost_line = product.metafields.custom.verzendkosten.value
+  # catalog round 4: custom.verzendkosten_staffel gives the shipping of the SELECTED variant (per_optie.waarden[<value of
+  # per_optie.optie>], else staffel) by quantity, as the weight-based rates at checkout charge it: a 'Set van 8' voetgewichten of 120 kg
+  # shows the pallet rate, not the parcel rate. Shown at 1 piece; product-form.js updates amount and label for the chosen quantity
+  # (data-ship-line: tiers [[vanaf, cents], ...]; data-each: per stuk × quantity). The cart estimate reads the same field.
+  assign dp_st = product.metafields.custom.verzendkosten_staffel.value
+  assign dp_tiers = blank
+  if dp_st != blank and dv != blank
+    assign dp_tiers = dp_st.staffel
+    if dp_st.per_optie != blank
+      for dp_o in product.options_with_values
+        if dp_o.name == dp_st.per_optie.optie
+          assign dp_ov = dv.options[forloop.index0]
+          assign dp_t2 = dp_st.per_optie.waarden[dp_ov]
+          if dp_t2 != blank
+            assign dp_tiers = dp_t2
+          endif
+        endif
+      endfor
+    endif
+  endif
+  if dp_tiers != blank and dp_tiers.size > 0
+    assign dp_each = false
+    if dp_st.eenheid == 'per stuk'
+      assign dp_each = true
+    endif
+    capture dp_tiers_json
+      echo '['
+      for dp_r in dp_tiers
+        assign dp_rc = dp_r.bedrag | times: 100 | round
+        echo '[' | append: dp_r.vanaf | append: ',' | append: dp_rc | append: ']'
+        unless forloop.last
+          echo ','
+        endunless
+      endfor
+      echo ']'
+    endcapture
+    assign dp_r1 = dp_tiers | first
+    assign dp_c1 = dp_r1.bedrag | times: 100 | round
+    capture dp_amt1
+      render 'vat-money', cents: dp_c1
+    endcapture
+    assign dp_next = ''
+    if dp_each == false and dp_tiers.size > 1
+      assign dp_r2 = dp_tiers[1]
+      assign dp_c2 = dp_r2.bedrag | times: 100 | round
+      capture dp_amt2
+        render 'vat-money', cents: dp_c2
+      endcapture
+      assign dp_next = 'delivery.shipping_tier_next' | t: qty: dp_r2.vanaf, amount: '__A__' | replace: '__A__', dp_amt2 | prepend: ' · '
+    endif
+    assign dp_l1 = 'delivery.shipping_label' | t
+    assign dp_lq = 'delivery.shipping_label_qty' | t: qty: '__N__'
+    assign dp_ln = 'delivery.shipping_tier_next' | t: qty: '__N__', amount: '__A__'
+    assign dp_le = 'delivery.shipping_each' | t
+    capture dp_cost_line
+      echo '<span data-ship-line data-tiers="' | append: dp_tiers_json | append: '"'
+      if dp_each
+        echo ' data-each="1"'
+      endif
+      echo ' data-tpl1="' | append: dp_l1 | append: '" data-tpl-q="' | append: dp_lq | append: '" data-tpl-n="' | append: dp_ln | append: '">'
+      echo '<span data-ship-q>' | append: dp_l1 | append: '</span> <span data-ship-amt>' | append: dp_amt1 | append: '</span>'
+      if dp_each
+        echo ' ' | append: dp_le
+      endif
+      echo '<span data-ship-next>' | append: dp_next | append: '</span></span>'
+    endcapture
+  endif
   assign dp_excl_label = 'price.excl' | t
   if dp_cost_line == blank and settings.show_shipping_cost
     if dp_ship == 'pallet'
@@ -106,9 +188,9 @@
     <p class="{{ dp_stock_class }}">
       {%- case dp_state -%}
         {%- when 'discontinued' -%}{{ 'product.status_discontinued' | t }}
-        {%- when 'coming' -%}{{ 'product.status_coming' | t }}
-        {%- when 'out' -%}{{ 'product.stock_out' | t }}
-        {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}
+        {%- when 'coming' -%}{{ 'product.status_coming' | t }}{%- if dp_expected != blank %} · {{ dp_expected }}{%- endif -%}
+        {%- when 'out' -%}{{ 'product.stock_out' | t }}{%- if dp_expected != blank %} · {{ dp_expected }}{%- endif -%}
+        {%- when 'backorder' -%}{{ settings.delivery_text_backorder }}{%- if dp_expected != blank %} · {{ dp_expected }}{%- endif -%}
         {%- when 'leadtime' -%}{{ dp_leadtime }}
         {%- else -%}
           {%- assign dp_low = settings.low_stock_threshold | default: 5 -%}

@@ -9,7 +9,8 @@
 //                     with folded statafels (statafel.js, folded: true), top `tableTop`, frame
 //                     `tableFrame`; tops stand across the cart, all inside the end frames.
 //        'klaptafel'  platform (ca. 190 x 75 x 90 cm) for folding tables on their long edge:
-//                     carpeted bunks, U push frames at both ends; loaded with folded klaptafels.
+//                     carpeted bunks, U push frames at both ends; loaded with folded klaptafels;
+//                     `beside: true` sets one table up next to the cart.
 //        'barkruk'    platform (ca. 150 x 55 cm) for 24 bar stools: 3 stacks of 8 metal stools
 //                     (barStool.js) in a row, plywood deck with a bumper edge, push handle.
 //        'plateau'    square dolly (`size` side, default 0.9 m) on 4 Ø100 castors (2 with brake), plywood deck with
@@ -26,6 +27,8 @@
 //                     (`tableWidth` 0.5 / 0.7, `loaded` = sets).
 //        'terras'     platform cart for terrastafels with a tilted top (ca. 140 x 80 cm): deck, U end frames (one
 //                     with grip) and side rails; shown empty.
+//        'marktkraam' cart for 6 market stalls, 'steekwagen' (hand truck for a chair stack), 'universeel'
+//                     (plateau with hoops, `stacks` 1 | 2): trolley3.js.
 //   loaded  number of products on the cart (0 = empty)
 //   frame   'hamerslag' (default for statafel) | 'grijs' | 'galv' | powder coat colour
 import * as THREE from 'three';
@@ -39,6 +42,7 @@ import { barStool } from './barStool.js';
 import { chair } from './chair.js';
 import { biertafelset } from './biertafelset.js';
 import { chairCart, postCart, rackCart, fridgeCart } from './trolley2.js';
+import { marketCart, sackTruck, universalCart } from './trolley3.js'; // round 5: 'marktkraam', 'steekwagen', 'universeel'
 
 const { V3 } = G;
 
@@ -198,6 +202,14 @@ function klaptafelCart(bins, group, p) {
       t.position.set(0, yd + 0.045, -((n - 1) * pitch) / 2 + i * pitch);
       group.add(t);
     }
+  }
+  // round 5: `beside: true` sets one klaptafel up next to the cart (the pakket shot), turned end-on
+  if (p.beside === true) {
+    const t = klaptafel({ length: p.tableLength ?? 1.83, width: p.tableWidth ?? 0.76 }).object;
+    const h = new THREE.Group(); h.add(t);
+    h.rotation.y = Math.PI / 2;
+    h.position.set(Lc / 2 + 0.62, 0, 0.2);
+    group.add(h);
   }
   return { L: Lc, W: Wc, H: Htot, detailTarget: [Lc / 2 - 0.12, R, Wc / 2 - 0.06] };
 }
@@ -460,6 +472,9 @@ export function trolley(p = {}) {
   else if (kind === 'afzetpaal' || kind === 'afzetpalen') info = postCart(bins, group, p);
   else if (kind === 'kapstok' || kind === 'kapstokken') info = rackCart(bins, group, p);
   else if (kind === 'koelkast' || kind === 'koelkasten') info = fridgeCart(bins, group, p);
+  else if (kind === 'marktkraam' || kind === 'marktkramen') info = marketCart(bins, group, p);
+  else if (kind === 'steekwagen') info = sackTruck(bins, group, p, { chair });
+  else if (kind === 'universeel' || kind === 'universal') info = universalCart(bins, group, p, { chair, barStool });
   else info = statafelCart(bins, group, p);
   bins.build(group);
   return {

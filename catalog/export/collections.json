@@ -479,7 +479,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/opblaasbare-promotietent-rood-hero.webp",
     "alt": "Opblaasbare promotietent 3 × 3 m, Rood, schuin vooraanzicht"
    },
-   "product_count": 12
+   "product_count": 13
   },
   {
    "handle": "ster-en-opblaasbare-tenten",
@@ -538,7 +538,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stertent-enkele-mast-wit-hero.webp",
     "alt": "Stertent enkele mast Ø 10 m, Wit, met 6 punten, schuin vooraanzicht"
    },
-   "product_count": 15
+   "product_count": 16
   },
   {
    "handle": "overkappingen-en-schaduwdoeken",
@@ -768,9 +768,9 @@
    "image": {
     "src": "zijwandenset-easy-up-wit-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
-    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen) (onderdeel van dit pakket)"
    },
-   "product_count": 73
+   "product_count": 77
   },
   {
    "handle": "partytent-onderdelen",
@@ -872,9 +872,9 @@
    "image": {
     "src": "zijwandenset-easy-up-wit-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
-    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen) (onderdeel van dit pakket)"
    },
-   "product_count": 57
+   "product_count": 59
   },
   {
    "handle": "easy-up-onderdelen",
@@ -947,7 +947,7 @@
    "image": {
     "src": "zijwandenset-easy-up-wit-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
-    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen) (onderdeel van dit pakket)"
    },
    "product_count": 31
   },
@@ -1038,6 +1038,7 @@
     "zijwanden-stertent",
     "zijwand-opblaasbare-promotietent",
     "zijwand-opblaasbare-promotietent-pro",
+    "zijwand-opblaasbare-partytent-met-waterpoten",
     "pomp-opblaasbare-tent",
     "luifel-opblaasbare-promotietent",
     "verbindingstunnel-opblaasbare-tent",
@@ -1077,7 +1078,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwand-stretchtent-hero.webp",
     "alt": "Zijwand stretchtent 3 m, zwart PVC met panoramavenster en ritsen, startwand tussen 2 palen, schuin vooraanzicht"
    },
-   "product_count": 18
+   "product_count": 19
   },
   {
    "handle": "verwarming",
@@ -1200,7 +1201,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/marktkraam-2-m-rood-hero.webp",
     "alt": "Marktkraam 2 m, kap in rood, met werkblad, schuin vooraanzicht"
    },
-   "product_count": 20
+   "product_count": 22
   },
   {
    "handle": "koelkasten-en-vriezers",
@@ -1311,9 +1312,9 @@
    "image": {
     "src": "zijwandenset-easy-up-wit-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/zijwandenset-easy-up-wit-hero.webp",
-    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)"
+    "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen) (onderdeel van dit pakket)"
    },
-   "product_count": 19
+   "product_count": 20
   },
   {
    "handle": "gewichten-en-verankering",
@@ -1367,7 +1368,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/collectie-gewichten-en-verankering.webp",
     "alt": "Voetgewichten op de poten van een easy-up partytent"
    },
-   "product_count": 15
+   "product_count": 16
   },
   {
    "handle": "tassen-en-wielsets",
@@ -1903,7 +1904,7 @@
    "image": {
     "src": "stretchhoes-klaptafel-zwart-hero.webp",
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stretchhoes-klaptafel-zwart-hero.webp",
-    "alt": "Stretchhoes klaptafel 183 × 76 cm, Zwart, schuin vooraanzicht"
+    "alt": "Klaptafel 183 × 76 cm met zwarte stretchhoes tot de grond"
    },
    "product_count": 3
   },
@@ -1954,7 +1955,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/pakket-4-statafels-met-stretchrokken-zwart-hero.webp",
     "alt": "4 statafels met stretchrok en topcover, Zwart, schuin vooraanzicht"
    },
-   "product_count": 22
+   "product_count": 26
   },
   {
    "handle": "meubilair",
@@ -2053,7 +2054,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
     "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
    },
-   "product_count": 41
+   "product_count": 54
   },
   {
    "handle": "barkrukken",
@@ -2102,7 +2103,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
     "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
    },
-   "product_count": 7
+   "product_count": 8
   },
   {
    "handle": "stoelen-en-banken",
@@ -2152,7 +2153,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Stoelen, krukken en banken\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij een tafel van 72 tot 76 cm hoog hoort een zithoogte van ongeveer 45 cm. De stoelen, banken en de lage kruk hier zitten op die hoogte. Voor een statafel kies je een \"}, {\"type\": \"link\", \"url\": \"/collections/barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"barkruk\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Kiezen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klapstoel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klapstoel\"}]}, {\"type\": \"text\", \"value\": \": plat opvouwbaar en licht, voor ceremonies, scholen en feesten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klapstoel-wedding\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Weddingstoel\"}]}, {\"type\": \"text\", \"value\": \": klapbaar resin met gevoerde zitting, in rijen te koppelen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-metaal\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stapelstoel metaal\"}]}, {\"type\": \"text\", \"value\": \": bistrostoel voor terras en kantine, stapelt tot 10.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-cross-back\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Cross back\"}]}, {\"type\": \"text\", \"value\": \": massief hout met kruisrug, voor bruiloft en diner.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/banquetstoel-gestoffeerd\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Banquetstoel\"}]}, {\"type\": \"text\", \"value\": \": gestoffeerd en stapelbaar tot 10, voor zalen en congressen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/kruk-laag-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Lage kruk\"}]}, {\"type\": \"text\", \"value\": \": extra zitplek bij een gewone tafel of een biertafel.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bank-houten-frame\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Bank met houten frame\"}]}, {\"type\": \"text\", \"value\": \" voor lounge en receptie, of een losse \"}, {\"type\": \"link\", \"url\": \"/products/bierbank-220\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" bij je biertafel.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Comfort en opslag\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/zitkussen-stoel-en-barkruk\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zitkussen\"}]}, {\"type\": \"text\", \"value\": \" maakt een houten of metalen stoel zachter, een \"}, {\"type\": \"link\", \"url\": \"/products/stoelhoes-stretch\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretch stoelhoes\"}]}, {\"type\": \"text\", \"value\": \" kleedt hem aan voor een bruiloft of gala. Klapstoelen en weddingstoelen rijd je met de \"}, {\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar voor 30 klapstoelen of 26 weddingstoelen\"}]}, {\"type\": \"text\", \"value\": \". Vanaf 10 stuks geldt een staffelprijs.\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Stoelen, krukken en banken\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Bij een tafel van 72 tot 76 cm hoog hoort een zithoogte van ongeveer 45 cm. De stoelen, banken en de lage kruk hier zitten op die hoogte. Voor een statafel kies je een \"}, {\"type\": \"link\", \"url\": \"/collections/barkrukken\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"barkruk\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Kiezen\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klapstoel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klapstoel\"}]}, {\"type\": \"text\", \"value\": \": plat opvouwbaar en licht, voor ceremonies, scholen en feesten.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klapstoel-wedding\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Weddingstoel\"}]}, {\"type\": \"text\", \"value\": \": klapbaar resin met gevoerde zitting, in rijen te koppelen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-metaal\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Stapelstoel metaal\"}]}, {\"type\": \"text\", \"value\": \": bistrostoel voor terras en kantine, stapelt tot 10.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/stapelstoel-cross-back\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Cross back\"}]}, {\"type\": \"text\", \"value\": \": massief hout met kruisrug, voor bruiloft en diner.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/banquetstoel-gestoffeerd\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Banquetstoel\"}]}, {\"type\": \"text\", \"value\": \": gestoffeerd en stapelbaar tot 10, voor zalen en congressen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/kruk-laag-stapelbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Lage kruk\"}]}, {\"type\": \"text\", \"value\": \": extra zitplek bij een gewone tafel of een biertafel.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bank-houten-frame\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Bank met houten frame\"}]}, {\"type\": \"text\", \"value\": \" voor lounge en receptie, of een losse \"}, {\"type\": \"link\", \"url\": \"/products/bierbank\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" bij je biertafel.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Comfort en opslag\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/zitkussen-stoel-en-barkruk\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"zitkussen\"}]}, {\"type\": \"text\", \"value\": \" maakt een houten of metalen stoel zachter, een \"}, {\"type\": \"link\", \"url\": \"/products/stoelhoes-stretch\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretch stoelhoes\"}]}, {\"type\": \"text\", \"value\": \" kleedt hem aan voor een bruiloft of gala. Klapstoelen en weddingstoelen rijd je met de \"}, {\"type\": \"link\", \"url\": \"/products/transportkar-klaptafels-en-stoelen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar voor 30 klapstoelen of 26 weddingstoelen\"}]}, {\"type\": \"text\", \"value\": \". Vanaf 10 stuks geldt een staffelprijs.\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -2166,7 +2167,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/stapelstoel-cross-back-eiken-hero.webp",
     "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht"
    },
-   "product_count": 8
+   "product_count": 11
   },
   {
    "handle": "tafels",
@@ -2216,7 +2217,7 @@
      "namespace": "custom",
      "key": "seo_tekst",
      "type": "rich_text_field",
-     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafels, bankettafels en biertafelsets\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor een buffet, een vergadering of een diner zoek je een tafel van ongeveer 74 cm hoog die je na afloop inklapt. Tafels om aan te staan vind je bij de \"}, {\"type\": \"link\", \"url\": \"/collections/statafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafels\"}]}, {\"type\": \"text\", \"value\": \", tafels voor het terras bij de \"}, {\"type\": \"link\", \"url\": \"/collections/terrastafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"terrastafels\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Welke tafel?\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rechthoekig\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rechthoekig\"}]}, {\"type\": \"text\", \"value\": \": 122, 183 of 244 cm, licht en tegen regen bestand; de 183 cm ook in het midden inklapbaar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rond\"}]}, {\"type\": \"text\", \"value\": \": Ø 150 of Ø 180 cm voor diners en bruiloften.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bankettafel-hout-rechthoekig\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Bankettafel met houten blad\"}]}, {\"type\": \"text\", \"value\": \": 122 tot 220 cm lang, 76 cm diep, de klassieker voor diner en buffet.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bankettafel-hout-rond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Ronde bankettafel\"}]}, {\"type\": \"text\", \"value\": \": Ø122 tot Ø183 cm, voor 6 tot 12 personen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hout-vormen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Halfrond, kwartrond, ovaal en vierkant\"}]}, {\"type\": \"text\", \"value\": \": om bankettafels aan te sluiten tot een kop, bocht of buffetslang.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/conferentietafel-inklapbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Conferentietafel\"}]}, {\"type\": \"text\", \"value\": \": 80 cm diep met T- of U-onderstel, koppelbaar tot een U-vorm of carré.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/examentafel-inklapbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Examentafel\"}]}, {\"type\": \"text\", \"value\": \": 90 x 60 cm voor één persoon, 30 op een kar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Biertafelset\"}]}, {\"type\": \"text\", \"value\": \": tafel en 2 banken van 180 of 220 cm, 50 tot 80 cm breed; een losse \"}, {\"type\": \"link\", \"url\": \"/products/bierbank-220\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" erbij.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Aankleden en vervoeren\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/stretchhoes-klaptafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretchhoes\"}]}, {\"type\": \"text\", \"value\": \" maakt van een klaptafel een nette buffet- of registratietafel, een \"}, {\"type\": \"link\", \"url\": \"/products/statafelkleed-rond-tot-de-grond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"rond kleed tot de grond\"}]}, {\"type\": \"text\", \"value\": \" kleedt de ronde tafel aan, en de \"}, {\"type\": \"link\", \"url\": \"/products/hoes-biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"hoes voor de biertafelset\"}]}, {\"type\": \"text\", \"value\": \" doet hetzelfde voor tafel en banken. Bij elke tafel staat de \"}, {\"type\": \"link\", \"url\": \"/collections/transportkarren\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar\"}]}, {\"type\": \"text\", \"value\": \" die erbij hoort.\"}]}]}"
+     "value": "{\"type\": \"root\", \"children\": [{\"type\": \"heading\", \"level\": 2, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafels, bankettafels en biertafelsets\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Voor een buffet, een vergadering of een diner zoek je een tafel van ongeveer 74 cm hoog die je na afloop inklapt. Tafels om aan te staan vind je bij de \"}, {\"type\": \"link\", \"url\": \"/collections/statafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"statafels\"}]}, {\"type\": \"text\", \"value\": \", tafels voor het terras bij de \"}, {\"type\": \"link\", \"url\": \"/collections/terrastafels\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"terrastafels\"}]}, {\"type\": \"text\", \"value\": \".\"}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Welke tafel?\"}]}, {\"type\": \"list\", \"listType\": \"unordered\", \"children\": [{\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rechthoekig\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rechthoekig\"}]}, {\"type\": \"text\", \"value\": \": 122, 183 of 244 cm, licht en tegen regen bestand; de 183 cm ook in het midden inklapbaar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hdpe-rond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Klaptafel HDPE rond\"}]}, {\"type\": \"text\", \"value\": \": Ø 150 of Ø 180 cm voor diners en bruiloften.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bankettafel-hout-rechthoekig\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Bankettafel met houten blad\"}]}, {\"type\": \"text\", \"value\": \": 122 tot 220 cm lang, 76 cm diep, de klassieker voor diner en buffet.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/bankettafel-hout-rond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Ronde bankettafel\"}]}, {\"type\": \"text\", \"value\": \": Ø122 tot Ø183 cm, voor 6 tot 12 personen.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/klaptafel-hout-vormen\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Halfrond, kwartrond, ovaal en vierkant\"}]}, {\"type\": \"text\", \"value\": \": om bankettafels aan te sluiten tot een kop, bocht of buffetslang.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/conferentietafel-inklapbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Conferentietafel\"}]}, {\"type\": \"text\", \"value\": \": 80 cm diep met T- of U-onderstel, koppelbaar tot een U-vorm of carré.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/examentafel-inklapbaar\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Examentafel\"}]}, {\"type\": \"text\", \"value\": \": 90 x 60 cm voor één persoon, 30 op een kar.\"}]}, {\"type\": \"list-item\", \"children\": [{\"type\": \"link\", \"url\": \"/products/biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"Biertafelset\"}]}, {\"type\": \"text\", \"value\": \": tafel en 2 banken van 180 of 220 cm, 50 tot 80 cm breed; een losse \"}, {\"type\": \"link\", \"url\": \"/products/bierbank\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"bierbank\"}]}, {\"type\": \"text\", \"value\": \" erbij.\"}]}]}, {\"type\": \"heading\", \"level\": 3, \"children\": [{\"type\": \"text\", \"value\": \"Aankleden en vervoeren\"}]}, {\"type\": \"paragraph\", \"children\": [{\"type\": \"text\", \"value\": \"Een \"}, {\"type\": \"link\", \"url\": \"/products/stretchhoes-klaptafel\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"stretchhoes\"}]}, {\"type\": \"text\", \"value\": \" maakt van een klaptafel een nette buffet- of registratietafel, een \"}, {\"type\": \"link\", \"url\": \"/products/statafelkleed-rond-tot-de-grond\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"rond kleed tot de grond\"}]}, {\"type\": \"text\", \"value\": \" kleedt de ronde tafel aan, en de \"}, {\"type\": \"link\", \"url\": \"/products/hoes-biertafelset\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"hoes voor de biertafelset\"}]}, {\"type\": \"text\", \"value\": \" doet hetzelfde voor tafel en banken. Bij elke tafel staat de \"}, {\"type\": \"link\", \"url\": \"/collections/transportkarren\", \"title\": null, \"children\": [{\"type\": \"text\", \"value\": \"transportkar\"}]}, {\"type\": \"text\", \"value\": \" die erbij hoort.\"}]}]}"
     },
     {
      "namespace": "custom",
@@ -2230,7 +2231,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/klaptafel-hdpe-rechthoekig-hero.webp",
     "alt": "Klaptafel HDPE rechthoekig 183 × 76 cm, lichtgrijs blad, schuin vooraanzicht"
    },
-   "product_count": 11
+   "product_count": 16
   },
   {
    "handle": "terrastafels",
@@ -2279,7 +2280,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/terrastafel-inklapbaar-zwart-hero.webp",
     "alt": "Terrastafel inklapbaar 70 × 70 cm, Zwart, schuin vooraanzicht"
    },
-   "product_count": 2
+   "product_count": 6
   },
   {
    "handle": "transportkarren",
@@ -2328,7 +2329,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/transportkar-statafels-gevuld.webp",
     "alt": "Grote transportkar gevuld met 15 ingeklapte statafels (statafels niet inbegrepen)"
    },
-   "product_count": 10
+   "product_count": 12
   },
   {
    "handle": "verlichting",
@@ -2574,7 +2575,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/compleet-pakket-easy-up-professional-rood-hero.webp",
     "alt": "Compleet pakket easy-up Professional, Rood, met zijwanden en voetgewichten, schuin vooraanzicht"
    },
-   "product_count": 180
+   "product_count": 201
   },
   {
    "handle": "all",
@@ -2623,7 +2624,7 @@
     "url": "https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/easy-up-partytent-professional-3x3-rood-hero.webp",
     "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht"
    },
-   "product_count": 222
+   "product_count": 243
   }
  ]
 }

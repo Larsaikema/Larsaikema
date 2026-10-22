@@ -486,7 +486,8 @@
       { "type": "paragraph", "content": "Zet dit blok vlak boven de koopknop: een vinkje telt dan mee in het totaal op de knop. Heeft een product drie rijen opties (bv. maat, uitvoering en kleur), dan staat het blok onder 'Voorraad en levering', zodat de koopknop in het eerste scherm blijft." },
       { "type": "text", "id": "heading", "label": "Kop", "default": "Handig erbij" },
       { "type": "range", "id": "visible", "label": "Zichtbaar vóór 'Nog … tonen'", "min": 1, "max": 10, "step": 1, "default": 3, "info": "Wat niet in de doos zit (custom.excluded) staat altijd bovenaan, goedkoopste eerst." },
-      { "type": "text", "id": "deal", "label": "Korting bij de tent (optioneel)", "info": "Bv. '10% korting op zijwanden als je ze met de tent bestelt'. Alleen invullen als die korting als automatische korting in Shopify staat; leeg = niet tonen." }
+      { "type": "text", "id": "deal", "label": "Korting bij de tent (optioneel)", "info": "Bv. '10% korting op zijwanden als je ze met de tent bestelt'. Alleen invullen als die korting als automatische korting in Shopify staat; leeg = niet tonen." },
+      { "type": "checkbox", "id": "show_addon_korting", "label": "'−10% met je tent' bij de add-ons tonen", "default": false, "info": "Leest custom.addon_korting op de tent. Alleen aanzetten als de automatische korting (Koop X, krijg Y) in Shopify bestaat; de korting zelf rekent Shopify in de winkelwagen (docs/claims-to-confirm.md)." }
     ] },
     { "type": "buy_buttons", "name": "Koopknop", "limit": 1, "settings": [
       { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Snelle betaalknoppen", "default": false },
@@ -513,7 +514,8 @@
       { "type": "select", "id": "source", "label": "Inhoud", "options": [
         { "value": "description", "label": "Productbeschrijving" }, { "value": "specs", "label": "Specificaties (custom.specificaties)" },
         { "value": "delivery", "label": "Levering & retour" }, { "value": "downloads", "label": "Downloads (custom.downloads)" },
-        { "value": "faq", "label": "Veelgestelde vragen (custom.faq)" }, { "value": "safety", "label": "Veilig opzetten" }, { "value": "custom", "label": "Eigen tekst of pagina" } ], "default": "description" },
+        { "value": "faq", "label": "Veelgestelde vragen (custom.faq)" }, { "value": "safety", "label": "Veilig opzetten" },
+        { "value": "parts", "label": "Onderdelen en bouwtekening (custom.onderdelen, variant custom.stuklijst)" }, { "value": "custom", "label": "Eigen tekst of pagina" } ], "default": "description" },
       { "type": "richtext", "id": "content", "label": "Eigen tekst" },
       { "type": "page", "id": "page", "label": "Pagina" },
       { "type": "url", "id": "link", "label": "Link (bv. een advies-artikel)", "info": "Bij 'Veilig opzetten': verschijnt onder de tekst. Een link naar een artikel dat niet bestaat wordt verborgen." },

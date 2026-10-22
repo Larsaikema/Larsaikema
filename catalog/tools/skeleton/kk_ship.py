@@ -20,7 +20,9 @@ GROOT_PAKKET = [(25, 19.95), (40, 39.9)]
 BULKY = GROOT_PAKKET[0][1]
 BULKY_TYPES = {'Statafel', 'Terrastafel', 'Klaptafel'}
 # heavy goods per piece with a quantity tier (betonblokken: the reference charges € 75-135 per block)
-PER_STUK = {'betonblok-ballast-tent': {'120 kg met vorkuitsparing': 45.0, '140 kg': 45.0, '240 kg': 59.0, '500 kg': 75.0, '500 kg met M16-inserts voor truss': 75.0, '750 kg': 99.0, '1000 kg': 135.0}}
+# catalog round 4: the 120 and 140 kg blocks were € 45, under the € 49 pallet floor of every other shipment above 31,5 kg
+PER_STUK = {'betonblok-ballast-tent': {'120 kg met vorkuitsparing': 49.0, '140 kg': 49.0, '240 kg': 59.0, '500 kg': 75.0, '500 kg met M16-inserts voor truss': 75.0,
+                                         '500 kg met vlaggenmastkoker': 75.0, '1000 kg met vlaggenmastkoker': 135.0, '750 kg': 99.0, '1000 kg': 135.0}}
 TIER_FROM = 4            # from 4 pieces on one address: - 15% per piece
 MAX_PIECES = 100         # quantity tiers are listed up to this many pieces per order line (or 3.000 kg)
 QTY_PIECES = 10          # a parcel product of which this many pieces pass 31,5 kg gets weight tiers of its own (catalog round 4)
@@ -283,7 +285,8 @@ def verpakt(products):
 # those add-ons; the discount itself is a Shopify automatic discount (docs/claims-to-confirm.md, docs/theme-setup.md).
 KORTING_OP = {'Zijwand', 'Zijwandenset', 'Stertent zijwand', 'Stretchtent zijwand', 'Tas & wielset'}
 KORTING_HANDLES = {'stormbandenset-partytent', 'spanbanden-en-haringen-easy-up', 'zijwand-opblaasbare-promotietent', 'zijwand-opblaasbare-promotietent-pro',
-                   'zijwand-opblaasbare-zeshoektent', 'opbergtas-opblaasbare-tent'}
+                   'zijwand-opblaasbare-zeshoektent', 'opbergtas-opblaasbare-tent',
+                   'zijwand-opblaasbare-partytent-met-waterpoten'}
 TENT_TYPES = {'Easy-up partytent', 'Partytent', 'Opslagtent', 'Stretchtent', 'Stertent', 'Opblaasbare tent'}
 
 

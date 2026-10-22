@@ -236,6 +236,64 @@
         {%- endcapture -%}
         {%- if s_links != blank -%}<p class="tab-links">{{ s_links }}</p>{%- endif -%}
       {%- endif -%}
+    {%- when 'parts' -%}
+      {%- comment -%}
+        Catalog round 4 (CONTRACT): the bouwtekening of the chosen variant (variant custom.stuklijst: [{groep, onderdeel, handle, sku,
+        aantal}], buizenframe tents, opslagtent, stretchtent compleet) as a parts table per groep, each row a link to that part in its
+        variant (all_products[handle]; at most ~8 handles per stuklijst, under the 20-lookup limit), swapped on variant change
+        (data-dynamic="bom"); and custom.onderdelen (the reverse of past_op: parts and accessories that fit), 12 visible, the rest
+        behind 'Alle … onderdelen'.
+      {%- endcomment -%}
+      {%- liquid
+        assign bom = current_variant.metafields.custom.stuklijst.value
+        assign fits = product.metafields.custom.onderdelen.value
+      -%}
+      {%- if bom != blank and bom.size > 0 -%}
+        <style>.parts__note{margin:0 0 8px;color:var(--color-muted,#5D625C);font-size:14px}.parts__table td:last-child,.parts__table th:last-child{text-align:right;white-space:nowrap}.parts__group th{padding-top:12px;font-weight:var(--p6)}</style>
+        <div class="parts__bom" data-dynamic="bom">
+          <h3 class="parts__title">{{ 'product.parts_bom' | t }}</h3>
+          <p class="parts__note">{{ 'product.parts_bom_note' | t }}</p>
+          <table class="specs__table parts__table">
+            <thead><tr><th scope="col">{{ 'product.parts_part' | t }}</th><th scope="col">{{ 'product.parts_qty' | t }}</th></tr></thead>
+            {%- assign bom_groups = bom | map: 'groep' | uniq -%}
+            {%- for g in bom_groups -%}
+              <tbody>
+                <tr class="parts__group"><th scope="rowgroup" colspan="2">{{ g }}</th></tr>
+                {%- for r in bom -%}
+                  {%- if r.groep != g -%}{%- continue -%}{%- endif -%}
+                  {%- assign rp = all_products[r.handle] -%}
+                  {%- assign r_url = '' -%}
+                  {%- if rp != blank -%}
+                    {%- assign r_url = rp.url -%}
+                    {%- for rv in rp.variants -%}{%- if rv.sku == r.sku -%}{%- assign r_url = rv.url -%}{%- break -%}{%- endif -%}{%- endfor -%}
+                  {%- endif -%}
+                  <tr><td>{%- if r_url != blank -%}<a class="link" href="{{ r_url }}">{{ r.onderdeel }}</a>{%- else -%}{{ r.onderdeel }}{%- endif -%}</td><td>{{ r.aantal }}×</td></tr>
+                {%- endfor -%}
+              </tbody>
+            {%- endfor -%}
+          </table>
+        </div>
+      {%- endif -%}
+      {%- if fits != blank and fits.size > 0 -%}
+        <style>.parts__list{list-style:none;margin:0;padding:0;display:grid;gap:6px 24px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}.parts__list li{display:flex;justify-content:space-between;gap:12px;font-size:15px}.parts__list span{color:var(--color-muted,#5D625C);white-space:nowrap}.parts__all{margin-top:8px}</style>
+        <h3 class="parts__title">{{ 'product.parts_list' | t }}</h3>
+        {%- assign fit_n = 0 -%}
+        {%- capture fit_rows -%}
+          {%- for fp in fits -%}
+            {%- if fp == blank or fp.available == false -%}{%- continue -%}{%- endif -%}
+            {%- assign fit_n = fit_n | plus: 1 -%}
+            {%- if fit_n > 1 -%}¦{%- endif -%}
+            <li><a class="link" href="{{ fp.url }}">{{ fp.title | replace: ' x ', ' × ' }}</a><span>{%- if fp.price_varies -%}{{ 'price.from' | t }} {% endif -%}{{ fp.price_min | money }}</span></li>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- assign fit_list = fit_rows | split: '¦' -%}
+        <ul class="parts__list" role="list">{%- for li in fit_list limit: 12 -%}{{ li }}{%- endfor -%}</ul>
+        {%- if fit_n > 12 -%}
+          <details class="parts__all"><summary class="link">{{ 'product.parts_more' | t: count: fit_n }}</summary>
+            <ul class="parts__list" role="list">{%- for li in fit_list offset: 12 -%}{{ li }}{%- endfor -%}</ul>
+          </details>
+        {%- endif -%}
+      {%- endif -%}
     {%- when 'custom' -%}
       {%- if block.settings.content != blank -%}<div class="rte">{{ block.settings.content }}</div>{%- endif -%}
       {%- if block.settings.page != blank -%}<div class="rte">{{ block.settings.page.content }}</div>{%- endif -%}

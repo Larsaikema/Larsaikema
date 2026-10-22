@@ -13,6 +13,9 @@
 @media (max-width:749px){.ptabs__all{width:100%}}
 .js .ptabs__panel--rest,.ptabs__panel--lead .card__stock,.no-js .ptabs__bar{display:none}
 .no-js .ptabs__panel+.ptabs__panel{margin-top:48px}
+/* mobile: swipe row, 2 cards + peek */
+@media (max-width:749px){.ptabs__row{--slide-w:calc((100% - 24px) / 2.18)}}
+@media (min-width:750px) and (max-width:989px){.ptabs__row{--slide-w:calc((100% - 32px) / 3.2)}}
 @media (max-width:989px){.slider.product-row--mobile-grid{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:visible;margin-inline:0;padding-inline:0}}
 @media (min-width:750px) and (max-width:989px){.slider.product-row--mobile-grid{gap:16px}}
 .ptabs__lead{margin:0 0 16px;font-size:13.5px;font-weight:var(--font-body-weight-semibold)}

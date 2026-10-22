@@ -1,28 +1,60 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 957,
+  "jobs": 1072,
   "by_priority": {
-   "1": 216,
-   "2": 285,
-   "3": 456
+   "1": 236,
+   "2": 296,
+   "3": 540
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 625,
+   "existing": 633,
    "generated": 1,
-   "needs-model": 32,
-   "needs-param": 296
+   "needs-model": 42,
+   "needs-param": 393
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 945
+   "product": 1060
   },
-  "already_present": 594
+  "already_present": 705
  },
  "jobs": [
+  {
+   "file": "accessoires-betonblok-hoes.webp",
+   "out": "catalog/images/accessoires-betonblok-hoes.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "concreteBlock",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "concreteBlock",
+    "params": {
+     "weight": 500,
+     "cover": {
+      "color": "zwart"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Zwarte hoes over een betonblok van 500 kg (blok niet inbegrepen)",
+   "alt_hint": "zwarte hoes over een betonblok van 500 kg (blok niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "accessoires-betonblok",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
   {
    "file": "afzetkoord-velours-bordeaux-hero.webp",
    "out": "catalog/images/afzetkoord-velours-bordeaux-hero.webp",
@@ -51,6 +83,38 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "afzetpaal-gala-goud-hero.webp",
+   "out": "catalog/images/afzetpaal-gala-goud-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Goud",
+   "model": "stanchion",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "stanchion",
+    "params": {
+     "style": "gala",
+     "finish": "goud",
+     "rope": "bordeaux",
+     "pair": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee luxe afzetpalen gala, goud, met bordeaux fluwelen koord ertussen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "afzetpaal-gala",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -396,10 +460,42 @@
     {
      "handle": "barkruk-houten-zitting",
      "role": "hero",
-     "variant": false
+     "variant": true
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "barkruk-inklapbaar-zwart-hero.webp",
+   "out": "catalog/images/barkruk-inklapbaar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "barStool",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "klap",
+     "color": "zwart",
+     "height": 0.76,
+     "back": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Inklapbare barkruk met rugleuning, Zwart frame, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-inklapbaar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -525,7 +621,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -815,7 +911,7 @@
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "bierbank-220",
+     "handle": "bierbank",
      "role": "hero",
      "variant": false
     }
@@ -1218,7 +1314,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2250,6 +2346,36 @@
    "draft": false
   },
   {
+   "file": "klapstoel-hout-bistro-eiken-hero.webp",
+   "out": "catalog/images/klapstoel-hout-bistro-eiken-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Eiken",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "bistro-klap",
+     "color": "#B8915F"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "klapstoel-hout-bistro",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "klapstoel-wedding-wit-hero.webp",
    "out": "catalog/images/klapstoel-wedding-wit-hero.webp",
    "kind": "product",
@@ -2304,6 +2430,11 @@
      "handle": "klapstoel",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "pakket-50-klapstoelen-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -2400,6 +2531,37 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "klaptafel-met-banken-rolbaar-hero.webp",
+   "out": "catalog/images/klaptafel-met-banken-rolbaar-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "foldTable",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "foldTable",
+    "params": {
+     "length": 2.0,
+     "width": 0.6,
+     "open": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Klaptafel met banken 200 × 60 cm, uitgeklapt met twee banken, schuin vooraanzicht",
+   "alt_hint": "uitgeklapt, met twee banken",
+   "used_by": [
+    {
+     "handle": "klaptafel-met-banken-rolbaar",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -2931,6 +3093,37 @@
    "draft": false
   },
   {
+   "file": "loperpennen-set-van-25-hero.webp",
+   "out": "catalog/images/loperpennen-set-van-25-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "haringen",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "haringen",
+    "params": {
+     "count": 25,
+     "length": 0.15,
+     "type": "pen"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "25 stalen bevestigingspennen met platte kop, naast elkaar",
+   "alt_hint": "25 stalen pennen met kop",
+   "used_by": [
+    {
+     "handle": "loperpennen-set-van-25",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "los-frame-easy-up-premium-hero.webp",
    "out": "catalog/images/los-frame-easy-up-premium-hero.webp",
    "kind": "product",
@@ -3283,6 +3476,44 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-hero.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "items",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "seatParts",
+      "part": "zitting",
+      "chair": "barkruk-inklapbaar"
+     },
+     {
+      "model": "footCaps",
+      "shape": "rond",
+      "count": 4
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Losse zitting van de inklapbare barkruk met een set voetdoppen ernaast",
+   "alt_hint": "zitting en voetdoppen naast elkaar",
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -3654,6 +3885,58 @@
    "draft": false
   },
   {
+   "file": "pakket-20-stapelstoelen-met-transportkar-zwart-hero.webp",
+   "out": "catalog/images/pakket-20-stapelstoelen-met-transportkar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "items",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 20,
+      "loaded": 19,
+      "chairStyle": "metaal",
+      "chairColor": "zwart",
+      "position": [
+       -0.35,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "zwart",
+      "position": [
+       0.65,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 2 stapels zwarte metalen stapelstoelen en één stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "pakket-24-barkrukken-met-transportkar-zwart-hero.webp",
    "out": "catalog/images/pakket-24-barkrukken-met-transportkar-zwart-hero.webp",
    "kind": "product",
@@ -3953,6 +4236,40 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "pakket-50-klapstoelen-met-transportkar-wit-hero.webp",
+   "out": "catalog/images/pakket-50-klapstoelen-met-transportkar-wit-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Wit",
+   "model": "items",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "klapstoel",
+      "loaded": 50,
+      "chairColor": "wit"
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 50 ingeklapte witte klapstoelen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-50-klapstoelen-met-transportkar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -4544,7 +4861,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4753,6 +5070,37 @@
    "draft": false
   },
   {
+   "file": "stapelstoel-kunststof-wit-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-wit-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Wit",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "wit",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Wit, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "stapelstoel-metaal-zwart-hero.webp",
    "out": "catalog/images/stapelstoel-metaal-zwart-hero.webp",
    "kind": "product",
@@ -4777,9 +5125,45 @@
      "handle": "stapelstoel-metaal",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-polycarbonaat-transparant-hero.webp",
+   "out": "catalog/images/stapelstoel-polycarbonaat-transparant-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Transparant",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "polycarbonaat",
+     "color": "#E9EEF0",
+     "translucent": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transparante stapelstoel van polycarbonaat met ovale rug, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-polycarbonaat",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -5337,6 +5721,36 @@
    "draft": false
   },
   {
+   "file": "steekwagen-stapelstoelen-hero.webp",
+   "out": "catalog/images/steekwagen-stapelstoelen-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "steekwagen",
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Steekwagen voor stapelstoelen, leeg, schuin vooraanzicht",
+   "alt_hint": "leeg, schuin vooraanzicht",
+   "used_by": [
+    {
+     "handle": "steekwagen-stapelstoelen",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "stertent-dubbele-mast-wit-hero.webp",
    "out": "catalog/images/stertent-dubbele-mast-wit-hero.webp",
    "kind": "product",
@@ -5436,6 +5850,38 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stoelverbinder-hero.webp",
+   "out": "catalog/images/stoelverbinder-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "chairLinker",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "chairLinker",
+    "params": {
+     "kinds": [
+      "klapstoel",
+      "stapelstoel"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee stoelverbinders: een kunststof voor de klapstoel en een stalen voor de stapelstoel",
+   "alt_hint": "twee stoelverbinders, voor een klapstoel en een stapelstoel",
+   "used_by": [
+    {
+     "handle": "stoelverbinder",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -5579,6 +6025,11 @@
    "used_by": [
     {
      "handle": "stretchhoes-klaptafel",
+     "role": "hero",
+     "variant": true
+    },
+    {
+     "handle": "pakket-buffettafel-met-stretchhoes",
      "role": "hero",
      "variant": true
     }
@@ -5884,6 +6335,75 @@
    "draft": false
   },
   {
+   "file": "terrastafel-breed-stapelbaar-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-eiken-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "eiken",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Eiken, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-wit-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-wit-marmer-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Wit marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "marmer-wit",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in wit marmer, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "terrastafel-inklapbaar-zwart-hero.webp",
    "out": "catalog/images/terrastafel-inklapbaar-zwart-hero.webp",
    "kind": "product",
@@ -5942,6 +6462,74 @@
    "used_by": [
     {
      "handle": "terrastafel-rond-inklapbaar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-zwart-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Zwart, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-betonlook-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-betonlook-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Betonlook",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad betonlook, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
      "role": "hero",
      "variant": true
     }
@@ -6035,6 +6623,47 @@
    "used_by": [
     {
      "handle": "transportkar-afzetpalen",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-biertafelsets-gevuld.webp",
+   "out": "catalog/images/transportkar-biertafelsets-gevuld.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "existing",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "biertafel",
+     "loaded": 10,
+     "tableWidth": 0.5
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 10 ingeklapte biertafelsets van 220 × 50 cm, tafels onderop en banken erop (sets niet inbegrepen)",
+   "alt_hint": "gevuld met 10 biertafelsets van 220 × 50 cm, tafels onder en banken erop (sets niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "transportkar-biertafelsets",
+     "role": "in-gebruik",
+     "variant": false
+    },
+    {
+     "handle": "biertafelsets-10-stuks",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-10-biertafels-met-transportkar",
      "role": "hero",
      "variant": false
     }
@@ -6189,7 +6818,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6311,6 +6940,37 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-universeel-hero.webp",
+   "out": "catalog/images/transportkar-universeel-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "universeel",
+     "stacks": 1,
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Universele transportkar, enkele uitvoering, leeg, met twee beugels",
+   "alt_hint": "enkele uitvoering, leeg",
+   "used_by": [
+    {
+     "handle": "transportkar-universeel",
+     "role": "hero",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -6546,7 +7206,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6676,7 +7336,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6773,11 +7433,6 @@
      "handle": "zijwand-easy-up-dicht",
      "role": "hero",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -6886,6 +7541,42 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
+   "out": "catalog/images/zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Wit",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "legs": "water",
+     "height": 3.2,
+     "color": "wit",
+     "walls": {
+      "back": "closed"
+     },
+     "wallColor": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare partytent met waterpoten, Wit, met witte dichte achterwand, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
+     "role": "hero",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -7231,6 +7922,11 @@
      "handle": "zijwandenset-easy-up",
      "role": "hero",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -7324,6 +8020,68 @@
     }
    ],
    "exists": true
+  },
+  {
+   "file": "accessoires-betonblok-truss-voetplaat.webp",
+   "out": "catalog/images/accessoires-betonblok-truss-voetplaat.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "concreteBlock",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "concreteBlock",
+    "params": {
+     "part": "truss-baseplate",
+     "size": 0.45
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stalen truss-voetplaat van 45 × 45 cm met vier gaten",
+   "alt_hint": "stalen voetplaat van 45 x 45 cm met gaten voor een trusspaal",
+   "used_by": [
+    {
+     "handle": "accessoires-betonblok",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "accessoires-betonblok-zitblad.webp",
+   "out": "catalog/images/accessoires-betonblok-zitblad.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "concreteBlock",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "concreteBlock",
+    "params": {
+     "weight": 500,
+     "seat": {
+      "wood": "hardhout"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Houten zitblad op een betonblok, als bank (blok niet inbegrepen)",
+   "alt_hint": "houten zitblad op een betonblok, als bank (blok niet inbegrepen)",
+   "used_by": [
+    {
+     "handle": "accessoires-betonblok",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
   },
   {
    "file": "bedrukt-dakzeil-easy-up-op-frame.webp",
@@ -7869,7 +8627,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7900,7 +8658,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -10806,14 +11564,42 @@
      "handle": "klapstoel-wedding",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "pakket-26-weddingstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "klaptafel-hout-kwartrond-set-van-4.webp",
+   "out": "catalog/images/klaptafel-hout-kwartrond-set-van-4.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "klaptafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "klaptafel",
+    "params": {
+     "shape": "kwartrond",
+     "count": 4,
+     "arrangement": "cirkel",
+     "diameter": 3.05,
+     "top": "hout"
+    },
+    "angle": "top",
+    "size": 2000
+   },
+   "alt": "Vier kwartronde klaptafels met houten blad als cirkel van Ø 305 cm, van boven gezien",
+   "alt_hint": "4 kwartronde tafels als cirkel van Ø 305 cm, van boven",
+   "used_by": [
+    {
+     "handle": "klaptafel-hout-vormen",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -10904,6 +11690,37 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "klaptafel-met-banken-rolbaar-ingeklapt.webp",
+   "out": "catalog/images/klaptafel-met-banken-rolbaar-ingeklapt.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "detail",
+   "kleur": null,
+   "model": "foldTable",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "foldTable",
+    "params": {
+     "length": 2.0,
+     "width": 0.6,
+     "open": false
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Klaptafel met banken, ingeklapt en rechtop op de wielen",
+   "alt_hint": "ingeklapt op de wielen, rechtop",
+   "used_by": [
+    {
+     "handle": "klaptafel-met-banken-rolbaar",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -11916,7 +12733,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12467,6 +13284,37 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp",
+   "out": "catalog/images/onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "lightParts",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "lightParts",
+    "params": {
+     "parts": [
+      "eindhaak"
+     ]
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee eindhaken met spanveer voor een prikkabel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-prikkabel-en-lichtslang",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -14043,7 +14891,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -15963,6 +16811,38 @@
    "draft": false
   },
   {
+   "file": "steekwagen-stapelstoelen-geladen.webp",
+   "out": "catalog/images/steekwagen-stapelstoelen-geladen.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "steekwagen",
+     "loaded": 10,
+     "chairStyle": "metaal",
+     "chairColor": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Steekwagen met een stapel van 10 zwarte metalen stapelstoelen (stoelen niet inbegrepen)",
+   "alt_hint": "met een stapel van 10 zwarte stapelstoelen",
+   "used_by": [
+    {
+     "handle": "steekwagen-stapelstoelen",
+     "role": "in-gebruik",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "stertent-enkele-mast-full-colour.webp",
    "out": "catalog/images/stertent-enkele-mast-full-colour.webp",
    "kind": "product",
@@ -16453,39 +17333,36 @@
    "draft": false
   },
   {
-   "file": "transportkar-biertafelsets-gevuld.webp",
-   "out": "catalog/images/transportkar-biertafelsets-gevuld.webp",
+   "file": "terrastafel-wiebelvrij-statafel-110-cm.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-statafel-110-cm.webp",
    "kind": "product",
    "priority": 2,
-   "role": "in-gebruik",
-   "kleur": null,
-   "model": "trolley",
-   "model_status": "existing",
+   "role": "variant",
+   "kleur": "Betonlook",
+   "model": "statafel",
+   "model_status": "needs-param",
    "spec": {
-    "model": "trolley",
+    "model": "statafel",
     "params": {
-     "kind": "biertafel",
-     "loaded": 10,
-     "tableWidth": 0.5
+     "diameter": 0.7,
+     "height": 1.1,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "zelfstellend"
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Transportkar met 10 ingeklapte biertafelsets van 220 × 50 cm, tafels onderop en banken erop (sets niet inbegrepen)",
-   "alt_hint": "gevuld met 10 biertafelsets van 220 × 50 cm, tafels onder en banken erop (sets niet inbegrepen)",
+   "alt": "Wiebelvrije tafel als statafel van 110 cm, blad in betonlook, schuin vooraanzicht",
+   "alt_hint": "als statafel van 110 cm, betonlook blad",
    "used_by": [
     {
-     "handle": "transportkar-biertafelsets",
-     "role": "in-gebruik",
-     "variant": false
-    },
-    {
-     "handle": "biertafelsets-10-stuks",
+     "handle": "terrastafel-wiebelvrij",
      "role": "variant",
      "variant": true
     }
    ],
-   "exists": true,
+   "exists": false,
    "draft": false
   },
   {
@@ -16579,6 +17456,37 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "transportkar-universeel-dubbel.webp",
+   "out": "catalog/images/transportkar-universeel-dubbel.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "universeel",
+     "stacks": 2,
+     "loaded": 0
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Universele transportkar, dubbele uitvoering, leeg, met vier beugels",
+   "alt_hint": "dubbele uitvoering, leeg",
+   "used_by": [
+    {
+     "handle": "transportkar-universeel",
+     "role": "variant",
+     "variant": false
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -16787,12 +17695,168 @@
    "draft": true
   },
   {
+   "file": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
+   "out": "catalog/images/zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "legs": "water",
+     "height": 3.2,
+     "color": "wit",
+     "walls": {
+      "back": "print"
+     },
+     "wallColor": "wit",
+     "wallPrint": {
+      "artwork": "brand/img/voorbeeld-fullcolour.png",
+      "side": "back"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-promotietent-full-colour.webp",
+   "out": "catalog/images/zijwand-opblaasbare-promotietent-full-colour.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "color": "wit",
+     "walls": {
+      "back": "print"
+     },
+     "wallColor": "wit",
+     "wallPrint": {
+      "artwork": "brand/img/voorbeeld-fullcolour.png",
+      "side": "back"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-promotietent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-promotietent-pro-full-colour.webp",
+   "out": "catalog/images/zijwand-opblaasbare-promotietent-pro-full-colour.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 4,
+     "color": "wit",
+     "tubeDiameter": 0.3,
+     "height": 2.5,
+     "walls": {
+      "back": "print"
+     },
+     "wallColor": "wit",
+     "wallPrint": {
+      "artwork": "brand/img/voorbeeld-fullcolour.png",
+      "side": "back"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare promotietent Pro met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-promotietent-pro",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-zeshoektent-full-colour.webp",
+   "out": "catalog/images/zijwand-opblaasbare-zeshoektent-full-colour.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 8,
+     "shape": "hexagon",
+     "color": "wit",
+     "walls": {
+      "back": "print"
+     },
+     "wallPrint": {
+      "artwork": "brand/img/voorbeeld-fullcolour.png",
+      "side": "back"
+     }
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare zeshoektent met één full colour bedrukt vak met voorbeeldontwerp",
+   "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-zeshoektent",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "zijwanden-stertent-full-colour.webp",
    "out": "catalog/images/zijwanden-stertent-full-colour.webp",
    "kind": "product",
    "priority": 2,
    "role": "variant",
-   "kleur": null,
+   "kleur": "Wit",
    "model": "stertent",
    "model_status": "needs-param",
    "spec": {
@@ -16819,7 +17883,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17149,6 +18213,11 @@
      "handle": "zijwandenset-easy-up",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "compleet-pakket-easy-up-professional",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -17703,6 +18772,103 @@
    "draft": false
   },
   {
+   "file": "afzetpaal-gala-chroom-hero.webp",
+   "out": "catalog/images/afzetpaal-gala-chroom-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Chroom",
+   "model": "stanchion",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "stanchion",
+    "params": {
+     "style": "gala",
+     "finish": "#C9CCCF",
+     "rope": "bordeaux",
+     "pair": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee luxe afzetpalen gala, chroom, met bordeaux fluwelen koord ertussen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "afzetpaal-gala",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "afzetpaal-gala-galerie-60-cm.webp",
+   "out": "catalog/images/afzetpaal-gala-galerie-60-cm.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "stanchion",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "stanchion",
+    "params": {
+     "style": "galerie",
+     "height": 0.6,
+     "finish": "zwart",
+     "rope": "zwart",
+     "pair": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee lage galeriepalen van 60 cm, zwart, met zwart koord ertussen",
+   "alt_hint": "twee lage galeriepalen van 60 cm met zwart koord",
+   "used_by": [
+    {
+     "handle": "afzetpaal-gala",
+     "role": "variant",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "afzetpaal-gala-zwart-hero.webp",
+   "out": "catalog/images/afzetpaal-gala-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "stanchion",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "stanchion",
+    "params": {
+     "style": "gala",
+     "finish": "zwart",
+     "rope": "zwart",
+     "pair": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee luxe afzetpalen gala, zwart, met zwart fluwelen koord ertussen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "afzetpaal-gala",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "afzetpaal-met-trekband-blauw-hero.webp",
    "out": "catalog/images/afzetpaal-met-trekband-blauw-hero.webp",
    "kind": "product",
@@ -17792,7 +18958,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17823,7 +18989,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17886,7 +19052,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18073,6 +19239,133 @@
    "draft": false
   },
   {
+   "file": "barkruk-houten-zitting-antraciet-hero.webp",
+   "out": "catalog/images/barkruk-houten-zitting-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "barStool",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "hout",
+     "color": "antraciet",
+     "height": 0.76
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Barkruk met houten zitting in eikenlook, Antraciet frame, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-houten-zitting",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "barkruk-houten-zitting-wit-hero.webp",
+   "out": "catalog/images/barkruk-houten-zitting-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "barStool",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "hout",
+     "color": "wit",
+     "height": 0.76
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Barkruk met houten zitting in eikenlook, Wit frame, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-houten-zitting",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "barkruk-inklapbaar-wit-hero.webp",
+   "out": "catalog/images/barkruk-inklapbaar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "barStool",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "klap",
+     "color": "wit",
+     "height": 0.76,
+     "back": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Inklapbare barkruk met rugleuning, Wit frame, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-inklapbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "barkruk-inklapbaar-zwart-ingeklapt.webp",
+   "out": "catalog/images/barkruk-inklapbaar-zwart-ingeklapt.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Zwart",
+   "model": "barStool",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "klap",
+     "color": "zwart",
+     "height": 0.76,
+     "back": true,
+     "folded": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Inklapbare barkruk, zwart, ingeklapt",
+   "alt_hint": "ingeklapt",
+   "used_by": [
+    {
+     "handle": "barkruk-inklapbaar",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "barkruk-pe-rotan-bruin-hero.webp",
    "out": "catalog/images/barkruk-pe-rotan-bruin-hero.webp",
    "kind": "product",
@@ -18195,7 +19488,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18226,7 +19519,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18257,7 +19550,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18288,7 +19581,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18517,7 +19810,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18578,7 +19871,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18901,7 +20194,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18934,7 +20227,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18968,7 +20261,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19002,7 +20295,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19263,7 +20556,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19294,7 +20587,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19325,7 +20618,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19356,7 +20649,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19515,7 +20808,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19554,7 +20847,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19594,7 +20887,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19634,7 +20927,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19674,7 +20967,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19713,7 +21006,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20813,7 +22106,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20848,7 +22141,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20882,7 +22175,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20917,7 +22210,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20951,7 +22244,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -20986,7 +22279,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -21021,7 +22314,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -21056,7 +22349,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -21090,7 +22383,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22352,7 +23645,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22385,7 +23678,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22484,6 +23777,97 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
+   "out": "catalog/images/klapstoel-hout-bistro-eiken-ingeklapt.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Eiken",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "bistro-klap",
+     "color": "#B8915F",
+     "folded": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Houten klapstoel in eiken, ingeklapt en plat",
+   "alt_hint": "ingeklapt, 6 cm dik",
+   "used_by": [
+    {
+     "handle": "klapstoel-hout-bistro",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "klapstoel-hout-bistro-vintage-hout-hero.webp",
+   "out": "catalog/images/klapstoel-hout-bistro-vintage-hout-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Vintage hout",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "bistro-klap",
+     "color": "#7A5C43"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Houten klapstoel bistro in vintage hout, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "klapstoel-hout-bistro",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "klapstoel-hout-bistro-zwart-hero.webp",
+   "out": "catalog/images/klapstoel-hout-bistro-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "bistro-klap",
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Houten klapstoel bistro, zwart gebeitst, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "klapstoel-hout-bistro",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
    "draft": false
   },
@@ -22514,7 +23898,7 @@
      "variant": true
     },
     {
-     "handle": "pakket-30-klapstoelen-met-transportkar",
+     "handle": "pakket-50-klapstoelen-met-transportkar",
      "role": "component",
      "variant": false
     }
@@ -23186,6 +24570,37 @@
    "draft": false
   },
   {
+   "file": "loper-per-meter-bordeaux-hero.webp",
+   "out": "catalog/images/loper-per-meter-bordeaux-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Bordeaux",
+   "model": "carpetRunner",
+   "model_status": "existing",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 6,
+     "color": "bordeaux"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper per meter, bordeaux, 1 m breed, uitgerold",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-per-meter",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "loper-per-meter-groen-hero.webp",
    "out": "catalog/images/loper-per-meter-groen-hero.webp",
    "kind": "product",
@@ -23217,6 +24632,37 @@
    "draft": false
   },
   {
+   "file": "loper-per-meter-roze-hero.webp",
+   "out": "catalog/images/loper-per-meter-roze-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Roze",
+   "model": "carpetRunner",
+   "model_status": "existing",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 6,
+     "color": "roze"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper per meter, roze, 1 m breed, uitgerold",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-per-meter",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "loper-per-meter-wit-hero.webp",
    "out": "catalog/images/loper-per-meter-wit-hero.webp",
    "kind": "product",
@@ -23236,6 +24682,37 @@
     "size": 2000
    },
    "alt": "Loper van naaldvilt in wit, 1 m breed, op de rol met het eind uitgerold, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-per-meter",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "loper-per-meter-zandkleur-hero.webp",
+   "out": "catalog/images/loper-per-meter-zandkleur-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zandkleur",
+   "model": "carpetRunner",
+   "model_status": "existing",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 6,
+     "color": "zand"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper per meter, zandkleur, 1 m breed, uitgerold",
    "alt_hint": null,
    "used_by": [
     {
@@ -23375,6 +24852,38 @@
    "draft": false
   },
   {
+   "file": "loper-rol-50-m-bordeaux-hero.webp",
+   "out": "catalog/images/loper-rol-50-m-bordeaux-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Bordeaux",
+   "model": "carpetRunner",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 50,
+     "color": "bordeaux",
+     "rolled": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper op rol, 50 m, bordeaux, op een koker",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-rol-50-m",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "loper-rol-50-m-groen-hero.webp",
    "out": "catalog/images/loper-rol-50-m-groen-hero.webp",
    "kind": "product",
@@ -23407,6 +24916,38 @@
    "draft": false
   },
   {
+   "file": "loper-rol-50-m-roze-hero.webp",
+   "out": "catalog/images/loper-rol-50-m-roze-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Roze",
+   "model": "carpetRunner",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 50,
+     "color": "roze",
+     "rolled": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper op rol, 50 m, roze, op een koker",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-rol-50-m",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "loper-rol-50-m-wit-hero.webp",
    "out": "catalog/images/loper-rol-50-m-wit-hero.webp",
    "kind": "product",
@@ -23427,6 +24968,38 @@
     "size": 2000
    },
    "alt": "Loper op rol, 50 m wit naaldvilt op een koker, deels uitgerold",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "loper-rol-50-m",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "loper-rol-50-m-zandkleur-hero.webp",
+   "out": "catalog/images/loper-rol-50-m-zandkleur-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zandkleur",
+   "model": "carpetRunner",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "carpetRunner",
+    "params": {
+     "width": 1,
+     "length": 50,
+     "color": "zand",
+     "rolled": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Loper op rol, 50 m, zandkleur, op een koker",
    "alt_hint": null,
    "used_by": [
     {
@@ -24256,6 +25829,315 @@
      "variant": true
     }
    ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-beugelklemmen-barkruk-inklapbaar.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-beugelklemmen-barkruk-inklapbaar.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "seatParts",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "seatParts",
+    "params": {
+     "part": "buisklem",
+     "chair": "barkruk-inklapbaar",
+     "count": 2
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee beugelklemmen voor de inklapbare barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-onderbeugel-barkruk-inklapbaar.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-onderbeugel-barkruk-inklapbaar.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "seatParts",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "seatParts",
+    "params": {
+     "part": "onderbeugel",
+     "chair": "barkruk-inklapbaar"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Zwarte onderbeugel voor de inklapbare barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "footCaps",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "footCaps",
+    "params": {
+     "shape": "rond",
+     "size": 25,
+     "count": 4
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Vier ronde voetdoppen voor de inklapbare barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "footCaps",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "footCaps",
+    "params": {
+     "shape": "vierkant",
+     "size": 25,
+     "count": 2,
+     "angle": "schuin"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee schuine voetdoppen voor de achterpoten van de metalen barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "footCaps",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "footCaps",
+    "params": {
+     "shape": "vierkant",
+     "size": 25,
+     "count": 2
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Twee vierkante voetdoppen voor de voorpoten van de metalen barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "footCaps",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "footCaps",
+    "params": {
+     "shape": "ovaal",
+     "size": 20,
+     "count": 4
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Vier ovale voetdoppen voor de klapstoel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "footCaps",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "footCaps",
+    "params": {
+     "shape": "rond",
+     "size": 22,
+     "count": 4
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Vier ronde voetdoppen voor de metalen stapelstoel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-zitting-barkruk-inklapbaar-zwart.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-zitting-barkruk-inklapbaar-zwart.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "seatParts",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "seatParts",
+    "params": {
+     "part": "zitting",
+     "chair": "barkruk-inklapbaar"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Losse zwarte zitting voor de inklapbare barkruk",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-zitting-weddingstoel-wit.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-zitting-weddingstoel-wit.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "seatParts",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "seatParts",
+    "params": {
+     "part": "zitting",
+     "chair": "klapstoel-wedding",
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Losse witte zitting voor de weddingstoel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "onderdelen-stoelen-en-barkrukken-zitting-weddingstoel-zwart.webp",
+   "out": "catalog/images/onderdelen-stoelen-en-barkrukken-zitting-weddingstoel-zwart.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": null,
+   "model": "seatParts",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "seatParts",
+    "params": {
+     "part": "zitting",
+     "chair": "klapstoel-wedding",
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Losse zwarte zitting voor de weddingstoel",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "onderdelen-stoelen-en-barkrukken",
+     "role": "variant",
+     "variant": true
+    }
+   ],
    "exists": false,
    "draft": false
   },
@@ -24949,7 +26831,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24983,7 +26865,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25080,6 +26962,110 @@
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp",
+   "out": "catalog/images/pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "items",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 20,
+      "loaded": 19,
+      "chairStyle": "metaal",
+      "chairColor": "antraciet",
+      "position": [
+       -0.35,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "antraciet",
+      "position": [
+       0.65,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 2 stapels antraciet metalen stapelstoelen en één stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "pakket-20-stapelstoelen-met-transportkar-wit-hero.webp",
+   "out": "catalog/images/pakket-20-stapelstoelen-met-transportkar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "items",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "stapelstoel",
+      "chairs": 20,
+      "loaded": 19,
+      "chairStyle": "metaal",
+      "chairColor": "wit",
+      "position": [
+       -0.35,
+       0,
+       0
+      ]
+     },
+     {
+      "model": "chair",
+      "style": "metaal",
+      "color": "wit",
+      "position": [
+       0.65,
+       0,
+       0.45
+      ],
+      "rotationY": -30
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 2 stapels witte metalen stapelstoelen en één stoel ernaast",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -25222,7 +27208,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25256,7 +27242,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25364,6 +27350,40 @@
    "draft": false
   },
   {
+   "file": "pakket-50-klapstoelen-met-transportkar-zwart-hero.webp",
+   "out": "catalog/images/pakket-50-klapstoelen-met-transportkar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "items",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "trolley",
+      "kind": "klapstoel",
+      "loaded": 50,
+      "chairColor": "zwart"
+     }
+    ],
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Transportkar met 50 ingeklapte zwarte klapstoelen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "pakket-50-klapstoelen-met-transportkar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "partytent-pe-basis-buizenframe-blauw-wit-hero.webp",
    "out": "catalog/images/partytent-pe-basis-buizenframe-blauw-wit-hero.webp",
    "kind": "product",
@@ -25395,7 +27415,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25465,7 +27485,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25500,7 +27520,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25535,7 +27555,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25605,7 +27625,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25640,7 +27660,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25675,7 +27695,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25710,7 +27730,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25745,7 +27765,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25815,7 +27835,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25850,7 +27870,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25884,7 +27904,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25919,7 +27939,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25953,7 +27973,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25988,7 +28008,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26023,7 +28043,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26058,7 +28078,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26128,7 +28148,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26353,7 +28373,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26384,7 +28404,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26415,7 +28435,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26446,7 +28466,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26512,6 +28532,193 @@
    "draft": false
   },
   {
+   "file": "stapelstoel-kunststof-antraciet-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "antraciet",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Antraciet, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-kunststof-blauw-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-blauw-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Blauw",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "blauw",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Blauw, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-kunststof-groen-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-groen-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Groen",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "groen",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Groen, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-kunststof-taupe-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-taupe-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Taupe",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "taupe",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Taupe, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-kunststof-wit-gestapeld.webp",
+   "out": "catalog/images/stapelstoel-kunststof-wit-gestapeld.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Wit",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "wit",
+     "legs": "zwart",
+     "stack": 8
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Acht witte kunststof stapelstoelen op elkaar gestapeld",
+   "alt_hint": "8 stoelen gestapeld",
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-kunststof-zwart-hero.webp",
+   "out": "catalog/images/stapelstoel-kunststof-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "kunststof",
+     "color": "zwart",
+     "legs": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel kunststof, Zwart, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-kunststof",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "stapelstoel-metaal-antraciet-hero.webp",
    "out": "catalog/images/stapelstoel-metaal-antraciet-hero.webp",
    "kind": "product",
@@ -26536,6 +28743,11 @@
      "handle": "stapelstoel-metaal",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
@@ -26568,7 +28780,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26598,7 +28810,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26628,7 +28840,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26658,7 +28870,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26686,9 +28898,76 @@
      "handle": "stapelstoel-metaal",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-20-stapelstoelen-met-transportkar",
+     "role": "component",
+     "variant": false
     }
    ],
    "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-polycarbonaat-wit-hero.webp",
+   "out": "catalog/images/stapelstoel-polycarbonaat-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "polycarbonaat",
+     "color": "wit",
+     "translucent": false
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel polycarbonaat, Wit, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-polycarbonaat",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "stapelstoel-polycarbonaat-zwart-hero.webp",
+   "out": "catalog/images/stapelstoel-polycarbonaat-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "chair",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "chair",
+    "params": {
+     "style": "polycarbonaat",
+     "color": "zwart",
+     "translucent": false
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stapelstoel polycarbonaat, Zwart, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stapelstoel-polycarbonaat",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
    "draft": false
   },
   {
@@ -29036,6 +31315,40 @@
    "draft": false
   },
   {
+   "file": "stertent-dubbele-mast-zwart-hero.webp",
+   "out": "catalog/images/stertent-dubbele-mast-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "stertent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "stertent",
+    "params": {
+     "diameter": 10,
+     "length": 16,
+     "masts": 2,
+     "points": 8,
+     "height": 6,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Stertent dubbele mast 10 × 16 m, Zwart, met 8 punten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "stertent-dubbele-mast",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "stoelhoes-stretch-antraciet-hero.webp",
    "out": "catalog/images/stoelhoes-stretch-antraciet-hero.webp",
    "kind": "product",
@@ -29068,7 +31381,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29104,7 +31417,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29140,7 +31453,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29176,7 +31489,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29212,7 +31525,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29248,7 +31561,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29282,6 +31595,41 @@
      "handle": "pakket-klapstoelen-met-stoelhoezen",
      "role": "variant",
      "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "stoelverbinder-in-gebruik.webp",
+   "out": "catalog/images/stoelverbinder-in-gebruik.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "items",
+   "model_status": "needs-model",
+   "spec": {
+    "model": "items",
+    "items": [
+     {
+      "model": "chair",
+      "style": "klapstoel",
+      "color": "wit",
+      "count": 3,
+      "linked": true
+     }
+    ],
+    "angle": "low",
+    "size": 2000
+   },
+   "alt": "Drie witte klapstoelen in een rechte rij, met stoelverbinders aan de voorpoten",
+   "alt_hint": "drie klapstoelen in een rij, aan elkaar gekoppeld",
+   "used_by": [
+    {
+     "handle": "stoelverbinder",
+     "role": "in-gebruik",
+     "variant": false
     }
    ],
    "exists": false,
@@ -29319,6 +31667,11 @@
      "handle": "buffetpakket-klaptafels-stretchhoezen",
      "role": "variant",
      "variant": true
+    },
+    {
+     "handle": "pakket-buffettafel-met-stretchhoes",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
@@ -29354,6 +31707,11 @@
     },
     {
      "handle": "buffetpakket-klaptafels-stretchhoezen",
+     "role": "variant",
+     "variant": true
+    },
+    {
+     "handle": "pakket-buffettafel-met-stretchhoes",
      "role": "variant",
      "variant": true
     }
@@ -29874,6 +32232,638 @@
    "draft": false
   },
   {
+   "file": "terrastafel-breed-stapelbaar-antraciet-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "antraciet",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Antraciet, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-betonlook-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-betonlook-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Betonlook",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Betonlook, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-gestapeld.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-gestapeld.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true,
+     "stack": 3
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Drie zwarte brede terrastafels op elkaar gestapeld",
+   "alt_hint": "drie tafels gestapeld",
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-graniet-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-graniet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Graniet",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "graniet",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Graniet, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-grijs-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-grijs-eiken-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "eiken-grijs",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Grijs eiken, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-leisteen-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-leisteen-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Leisteen",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "leisteen",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Leisteen, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-teak-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-teak-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Teak",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "teak",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Teak, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-vintage-hout-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-vintage-hout-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Vintage hout",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "vintage-hout",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Vintage hout, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-wit-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "wit",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Wit, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-wit-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-wit-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "marmer-wit",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Wit marmer, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-zwart-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Zwart, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-zwart-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-breed-stapelbaar-zwart-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "rect",
+     "width": 1.2,
+     "depth": 0.7,
+     "height": 0.75,
+     "top": "marmer-zwart",
+     "frame": "zwart",
+     "base": "vierpoot",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Zwart marmer, op een zwart onderstel met 4 poten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-betonlook-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-betonlook-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Betonlook",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in betonlook, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-grijs-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-grijs-eiken-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "eiken-grijs",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in grijs eiken, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-teak-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-teak-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Teak",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "teak",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in teak, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-vierkant-teak.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-vierkant-teak.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Teak",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "teak",
+     "frame": "zandkleur",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, vierkant blad 70 × 70 cm in teak op een zandkleurig onderstel",
+   "alt_hint": "vierkant blad 70 x 70 cm in teak op een zandkleurig onderstel",
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-zwart-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in zwart, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-design-zuilvoet-zwart-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-design-zuilvoet-zwart-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "marmer-zwart",
+     "frame": "zwart",
+     "base": "zuil-plaat"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel HPL met zuilvoet, rond blad Ø70 cm in zwart marmer, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-design-zuilvoet",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "terrastafel-inklapbaar-antraciet-hero.webp",
    "out": "catalog/images/terrastafel-inklapbaar-antraciet-hero.webp",
    "kind": "product",
@@ -29903,7 +32893,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29936,7 +32926,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30002,7 +32992,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30035,7 +33025,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30068,7 +33058,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30101,7 +33091,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30134,7 +33124,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30200,7 +33190,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30233,7 +33223,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30265,6 +33255,696 @@
      "handle": "terrastafel-rond-inklapbaar",
      "role": "detail",
      "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-antraciet-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "antraciet",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Antraciet, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-betonlook-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-betonlook-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Betonlook",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Betonlook, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-eiken-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "eiken",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Eiken, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-eiken-rvs-onderstel.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-eiken-rvs-onderstel.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "eiken",
+     "frame": "rvs",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar, eiken blad op een geborsteld RVS onderstel, schuin vooraanzicht",
+   "alt_hint": "eiken blad op een geborsteld RVS onderstel",
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-gestapeld.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-gestapeld.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true,
+     "stack": 4
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Vier zwarte terrastafels vierkant stapelbaar op elkaar gestapeld",
+   "alt_hint": "vier terrastafels op elkaar gestapeld",
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-graniet-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-graniet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Graniet",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "graniet",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Graniet, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-grijs-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-grijs-eiken-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "eiken-grijs",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Grijs eiken, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-leisteen-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-leisteen-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Leisteen",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "leisteen",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Leisteen, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-teak-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-teak-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Teak",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "teak",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Teak, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-vintage-hout-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-vintage-hout-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Vintage hout",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "vintage-hout",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Vintage hout, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-wit-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "wit",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Wit, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-wit-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-wit-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "marmer-wit",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Wit marmer, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-wit-wit-onderstel.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-wit-wit-onderstel.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "wit",
+     "frame": "wit",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar, wit compact-HPL-blad op een wit onderstel, schuin vooraanzicht",
+   "alt_hint": "wit compact-HPL-blad op een wit onderstel",
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-zwart-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-vierkant-stapelbaar-zwart-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "shape": "square",
+     "width": 0.7,
+     "height": 0.75,
+     "top": "marmer-zwart",
+     "frame": "zwart",
+     "base": "kruis",
+     "stackable": true
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Zwart marmer, op een zwart onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-grijs-eiken-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-grijs-eiken-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Grijs eiken",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "eiken-grijs",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad grijs eiken, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-teak-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-teak-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Teak",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "teak",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad teak, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-voet-detail.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-voet-detail.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "detail",
+   "kleur": null,
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "beton",
+     "frame": "zwart",
+     "base": "zelfstellend",
+     "ground": "tegels-scheef"
+    },
+    "angle": "detail",
+    "size": 2000
+   },
+   "alt": "Detail van de zelfstellende voeten van de wiebelvrije tafel op scheve terrastegels",
+   "alt_hint": "de zelfstellende voeten op een scheef terras",
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "detail",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-wit-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "wit",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad wit, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-wit-marmer-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-wit-marmer-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "marmer-wit",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad wit marmer, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "terrastafel-wiebelvrij-zwart-hero.webp",
+   "out": "catalog/images/terrastafel-wiebelvrij-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 0.75,
+     "top": "zwart",
+     "frame": "zwart",
+     "base": "zelfstellend"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Wiebelvrije terrastafel Ø70 cm, blad zwart, zwart onderstel met zelfstellende voeten, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "terrastafel-wiebelvrij",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": false,
@@ -31033,7 +34713,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31102,6 +34782,187 @@
    "draft": false
   },
   {
+   "file": "transportkar-universeel-geladen.webp",
+   "out": "catalog/images/transportkar-universeel-geladen.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "in-gebruik",
+   "kleur": null,
+   "model": "trolley",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "trolley",
+    "params": {
+     "kind": "universeel",
+     "stacks": 2,
+     "loaded": "mixed"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Dubbele universele transportkar met een stapel stoelen en een stapel barkrukken (meubilair niet inbegrepen)",
+   "alt_hint": "dubbel, met een stapel stoelen en een stapel barkrukken",
+   "used_by": [
+    {
+     "handle": "transportkar-universeel",
+     "role": "in-gebruik",
+     "variant": false
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "verbindingsstrook-easy-up-antraciet-hero.webp",
+   "out": "catalog/images/verbindingsstrook-easy-up-antraciet-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Antraciet",
+   "model": "connectionStrip",
+   "model_status": "existing",
+   "spec": {
+    "model": "connectionStrip",
+    "params": {
+     "length": 3,
+     "color": "antraciet"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verbindingsstrook easy-up, antraciet, klittenband langs beide lange randen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "verbindingsstrook-easy-up",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "verbindingsstrook-easy-up-blauw-hero.webp",
+   "out": "catalog/images/verbindingsstrook-easy-up-blauw-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Blauw",
+   "model": "connectionStrip",
+   "model_status": "existing",
+   "spec": {
+    "model": "connectionStrip",
+    "params": {
+     "length": 3,
+     "color": "blauw"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verbindingsstrook easy-up, blauw, klittenband langs beide lange randen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "verbindingsstrook-easy-up",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "verbindingsstrook-easy-up-groen-hero.webp",
+   "out": "catalog/images/verbindingsstrook-easy-up-groen-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Groen",
+   "model": "connectionStrip",
+   "model_status": "existing",
+   "spec": {
+    "model": "connectionStrip",
+    "params": {
+     "length": 3,
+     "color": "groen"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verbindingsstrook easy-up, groen, klittenband langs beide lange randen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "verbindingsstrook-easy-up",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "verbindingsstrook-easy-up-rood-hero.webp",
+   "out": "catalog/images/verbindingsstrook-easy-up-rood-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Rood",
+   "model": "connectionStrip",
+   "model_status": "existing",
+   "spec": {
+    "model": "connectionStrip",
+    "params": {
+     "length": 3,
+     "color": "rood"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verbindingsstrook easy-up, rood, klittenband langs beide lange randen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "verbindingsstrook-easy-up",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "verbindingsstrook-easy-up-zandkleur-hero.webp",
+   "out": "catalog/images/verbindingsstrook-easy-up-zandkleur-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zandkleur",
+   "model": "connectionStrip",
+   "model_status": "existing",
+   "spec": {
+    "model": "connectionStrip",
+    "params": {
+     "length": 3,
+     "color": "zand"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Verbindingsstrook easy-up, zandkleur, klittenband langs beide lange randen",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "verbindingsstrook-easy-up",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
    "file": "verbindingsstrook-easy-up-zwart-hero.webp",
    "out": "catalog/images/verbindingsstrook-easy-up-zwart-hero.webp",
    "kind": "product",
@@ -31119,7 +34980,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Verbindingsstrook easy-up, zwart, 3 m",
+   "alt": "Verbindingsstrook easy-up, zwart, klittenband langs beide lange randen",
    "alt_hint": null,
    "used_by": [
     {
@@ -31419,11 +35280,6 @@
      "handle": "zijwand-easy-up-dicht",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -31850,8 +35706,8 @@
    "draft": false
   },
   {
-   "file": "zijwand-opblaasbare-promotietent-antraciet-hero.webp",
-   "out": "catalog/images/zijwand-opblaasbare-promotietent-antraciet-hero.webp",
+   "file": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
+   "out": "catalog/images/zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
    "kind": "product",
    "priority": 3,
    "role": "variant",
@@ -31862,6 +35718,8 @@
     "model": "opblaasbareTent",
     "params": {
      "w": 3,
+     "legs": "water",
+     "height": 3.2,
      "color": "antraciet",
      "walls": {
       "back": "closed"
@@ -31871,11 +35729,47 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, antraciet, met een antraciet dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, Antraciet, met antraciet dichte achterwand, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
-     "handle": "zijwand-opblaasbare-promotietent",
+     "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": false,
+   "draft": false
+  },
+  {
+   "file": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
+   "out": "catalog/images/zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart",
+   "model": "opblaasbareTent",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "opblaasbareTent",
+    "params": {
+     "w": 3,
+     "legs": "water",
+     "height": 3.2,
+     "color": "zwart",
+     "walls": {
+      "back": "closed"
+     },
+     "wallColor": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Opblaasbare partytent met waterpoten, Zwart, met zwarte dichte achterwand, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
      "role": "variant",
      "variant": true
     }
@@ -31914,7 +35808,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31948,7 +35842,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31982,7 +35876,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32016,7 +35910,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32050,7 +35944,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32086,7 +35980,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32122,7 +36016,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32158,7 +36052,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32194,7 +36088,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32230,7 +36124,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32266,7 +36160,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32302,7 +36196,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32336,7 +36230,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32370,7 +36264,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {

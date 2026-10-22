@@ -86,7 +86,7 @@ export function marketStall(p = {}) {
     const at = (t) => { for (const sg of segs) if (t <= sg.t0 + sg.L + 1e-9) { const f = (t - sg.t0) / sg.L; return { x: sg.ax + (sg.bx - sg.ax) * f, z: sg.az + (sg.bz - sg.az) * f, nx: (sg.bz - sg.az) / sg.L, nz: -(sg.bx - sg.ax) / sg.L }; } const sg = segs[2]; return { x: sg.bx, z: sg.bz, nx: (sg.bz - sg.az) / sg.L, nz: -(sg.bx - sg.ax) / sg.L }; };
     // gathered folds: irregular pitch ~8 cm, deeper towards the hem; at the corners the folds open
     let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
-    const nF = Math.round(tot / 0.075), cw = [0]; for (let k = 0; k < nF; k++) cw.push(cw[k] + 0.6 + 0.8 * rnd());
+    const nF = Math.round(tot / 0.088), cw = [0]; for (let k = 0; k < nF; k++) cw.push(cw[k] + 0.6 + 0.8 * rnd());
     const amp = []; for (let k = 0; k <= nF + 1; k++) amp.push(0.6 + 0.8 * rnd());
     const yTop = yT - 0.002, yBot = 0.025, band = 0.045;
     const nx = nF * 10, ny = 30, rows = [];
@@ -96,7 +96,8 @@ export function marketStall(p = {}) {
         const t = (i / nx) * tot, a = at(t);
         const fi = (i / nx) * cw[nF]; let k = 0; while (k < nF - 1 && cw[k + 1] < fi) k++;
         const fr = (fi - cw[k]) / (cw[k + 1] - cw[k]);
-        const A = (amp[k] * (1 - fr) + amp[k + 1] * fr) * (0.012 + 0.014 * v);
+        // soft gathered folds (~±30 deg flanks, not a corrugated sheet), a little deeper to the hem
+        const A = (amp[k] * (1 - fr) + amp[k + 1] * fr) * (0.0085 + 0.0095 * v);
         const d = A * Math.sin((k + fr) * Math.PI * 2) + 0.014 + 0.01 * v;
         row.push(V3(a.x + a.nx * d, y, a.z + a.nz * d));
       }
@@ -155,13 +156,20 @@ export function marketStall(p = {}) {
   bins.add(K.pvcPatch(hex), K.sweep(rp, 0.008, 6));
 
   bins.build(group);
+  // white kap: a touch more exposure than the generic white tent rig, so it reads white (~248)
+  // like the easy-up. With the skirt (the rok product) the softbox beam is wider and aimed at the
+  // counter, so the skirt (the product) is in the light, not at the dim edge of the beam
+  const rig0 = K.tentRig(hex, { print: !!print });
+  const stallRig = {
+    ...rig0, ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.6 } : {}),
+    ...(p.skirt && !kapOnly ? { key: { ...rig0.key, aimRel: [0.05, -0.12, 0.69], angle: 64 } } : {}),
+  };
   return {
     object: group,
     detail: { target: [hw - 0.2, yT, hd], size: 0.7, azimuth: 30, elevation: 20 },
     // the loose cover is seen from the front left, so it never repeats the complete stall's hero
     view: { hero: kapOnly ? { azimuth: -34, elevation: 20 } : { elevation: 17 } },
-    // white kap: a touch more exposure than the generic white tent rig, so it reads white (~248) like the easy-up
-    rig: { default: { ...K.tentRig(hex, { print: !!print }), ...(K.lumOf(hex) > 0.7 && !print ? { exposure: 0.6 } : {}) } },
+    rig: { default: stallRig },
     meta: { W, D },
   };
 }

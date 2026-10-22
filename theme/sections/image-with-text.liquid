@@ -1,5 +1,5 @@
 {{ 'section-image-with-text.css' | asset_url | stylesheet_tag }}
-<section class="section iwt color-{{ section.settings.color_scheme }} iwt--{{ section.settings.layout }}{% if section.settings.image_fit == 'contain' %} iwt--contain{% endif %}" aria-labelledby="Title-{{ section.id }}">
+<section class="section iwt color-{{ section.settings.color_scheme }} iwt--{{ section.settings.layout }}{% if section.settings.image_fit == 'contain' %} iwt--contain{% endif %}{% if section.settings.mobile_compact %} iwt--mobile-compact{% endif %}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width iwt__inner">
     <div class="iwt__media">
       {%- if section.settings.image != blank -%}
@@ -27,6 +27,24 @@
               {%- assign items = block.settings.items | newline_to_br | split: '<br />' -%}
               {%- for it in items -%}{%- assign it_s = it | strip -%}{%- if it_s != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ it_s }}</span></li>{%- endif -%}{%- endfor -%}
             </ul>
+          {%- when 'products' -%}
+            {%- comment -%} a few concrete products with their real 'vanaf' price (e.g. what you can have printed), each a link {%- endcomment -%}
+            {%- if block.settings.products != blank and block.settings.products.size > 0 -%}
+              <div class="iwt__products" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}<p class="iwt__products-title" id="IwtProducts-{{ block.id }}">{{ block.settings.heading }}</p>{%- endif -%}
+                <ul class="iwt__plist" role="list"{% if block.settings.heading != blank %} aria-labelledby="IwtProducts-{{ block.id }}"{% endif %}>
+                  {%- for p in block.settings.products -%}
+                    <li>
+                      <a class="iwt__prow" href="{{ p.url }}">
+                        <span class="iwt__pimg">{%- if p.featured_image != blank -%}{{ p.featured_image | image_url: width: 120, height: 120, crop: 'center' | image_tag: loading: 'lazy', alt: '', width: 56, height: 56 }}{%- endif -%}</span>
+                        <span class="iwt__ptext"><span class="iwt__ptitle">{{ p.title }}</span>{%- if p.metafields.custom.kenmerk_kort != blank -%}<span class="iwt__pspec">{{ p.metafields.custom.kenmerk_kort.value }}</span>{%- endif -%}</span>
+                        <span class="iwt__pprice">{%- render 'price', product: p, secondary: false -%}</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
           {%- when 'buttons' -%}
             {%- capture l1_ok -%}{%- render 'link-exists', url: block.settings.link_1 -%}{%- endcapture -%}
             {%- capture l2_ok -%}{%- render 'link-exists', url: block.settings.link_2 -%}{%- endcapture -%}
@@ -57,7 +75,8 @@
       ], "default": "none" },
     { "type": "select", "id": "image_fit", "label": "Beeld in het vlak", "options": [ { "value": "cover", "label": "Vullen (foto)" }, { "value": "contain", "label": "Helemaal tonen (render op Linnen)" } ], "default": "cover" },
     { "type": "text", "id": "badge", "label": "Badge op het beeld", "info": "Bijvoorbeeld 'Voorbeeldopdruk' bij een render met logo." },
-    { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "image-left", "label": "Beeld links" }, { "value": "image-right", "label": "Beeld rechts" } ], "default": "image-left" }
+    { "type": "select", "id": "layout", "label": "Indeling", "options": [ { "value": "image-left", "label": "Beeld links" }, { "value": "image-right", "label": "Beeld rechts" } ], "default": "image-left" },
+    { "type": "checkbox", "id": "mobile_compact", "label": "Compact op mobiel", "default": false, "info": "Lager beeld (4:3) en de knoppen naast elkaar, zodat de pagina op de telefoon korter blijft." }
   ],
   "blocks": [
     { "type": "eyebrow", "name": "Bovenregel", "limit": 1, "settings": [ { "type": "text", "id": "text", "label": "Tekst", "default": "Met jouw logo" } ] },
@@ -70,6 +89,10 @@
       { "type": "text", "id": "step_4", "label": "Stap 4" }
     ] },
     { "type": "checklist", "name": "Vinkjeslijst", "settings": [ { "type": "textarea", "id": "items", "label": "Regels", "default": "Eerst een drukproef\nVanaf 10 stuks staffelprijs" } ] },
+    { "type": "products", "name": "Productlijst", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "label": "Kop", "default": "Bijvoorbeeld" },
+      { "type": "product_list", "id": "products", "label": "Producten", "limit": 4, "info": "Met beeldje, titel en de echte (vanaf-)prijs." }
+    ] },
     { "type": "buttons", "name": "Knoppen", "limit": 1, "settings": [
       { "type": "text", "id": "label_1", "label": "Knop 1", "default": "Ontwerp je tent" },
       { "type": "url", "id": "link_1", "label": "Link 1" },

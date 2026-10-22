@@ -45,4 +45,4 @@
 {%- comment -%} storefront price filters work on the stored prices (incl. btw); in the excl. mode ('Zakelijk') facets.js shows
   and takes the amounts excl. btw and converts them, so the note follows the mode {%- endcomment -%}
 <p class="facet__price-note" id="PriceNote-{{ section_id }}"><span data-vat-show="incl">{{ 'collection.price_note' | t }}</span><span data-vat-show="excl">{{ 'collection.price_note_excl' | t }}</span></p>
-<p class="facet__price-hint" role="status" data-price-hint data-swap="{{ 'collection.price_swap' | t | escape }}" data-format="{{ 'collection.price_format' | t | escape }}" hidden>{{ 'collection.price_swap' | t }}</p>
+<p class="facet__price-hint" id="PriceHint-{{ section_id }}" role="status" data-price-hint data-swap="{{ 'collection.price_swap' | t | escape }}" data-format="{{ 'collection.price_format' | t | escape }}" hidden>{{ 'collection.price_swap' | t }}</p>

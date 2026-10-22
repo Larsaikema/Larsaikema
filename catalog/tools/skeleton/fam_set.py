@@ -189,7 +189,7 @@ def build():
            '40 metalen stapelstoelen + transportkar · één kleur',
            'Kantine, terras en verhuur: 40 stapelstoelen in 4 stapels van 10 op één kar, rijden en opslaan; besparing t.o.v. los.',
            ['stapelstoelen met trolley', 'stapelstoelen 40 stuks', 'stoelen met transportkar'], ['tafels-stoelen.bundels', 'tafels-stoelen.trolleys', 'statafelrokken-hoezen.actiepakketten'],
-           ['zakelijk', 'pallet', 'gebruik:horeca', 'gebruik:evenement'], {'statafelshop': 'transportkar voor stapelstoel Waal 20/40 st (gevuld, prijs niet gevonden)'},
+           ['zakelijk', 'pallet', 'gebruik:horeca', 'gebruik:evenement'], {'statafelshop': 'transportkar inclusief stapelstoel Waal 40 stuks €2.539,79 · Waal 20 stuks €1.482,25 (live, 2026-10-18; luxere stoel)'},
            sku='40STM', verz='pallet')
     # one starter pack per Premium size; 6-legged tents get 2 sets of spanbanden (one band per poot)
     PRM = {'3 x 3 m': ('easy-up-partytent-premium-3x3', 1, 449.0), '3 x 4,5 m': ('easy-up-partytent-premium-3x4-5', 2, 549.0),
@@ -210,9 +210,7 @@ def build():
     CU = ['Polyester', 'Heavy duty PVC']
     wset = lambda u: 'zijwandenset-easy-up' if u == 'Polyester' else 'zijwandenset-easy-up-heavy-duty-pvc'
     def cp_walls(m, u, k):
-        if m == '2 x 2 m':
-            return [('zijwand-easy-up-dicht', {'Maat': '2 m', 'Kleur': k}, 1), ('zijwand-easy-up-met-deur', {'Maat': '2 m', 'Kleur': k}, 1),
-                    ('zijwand-easy-up-met-raam', {'Maat': '2 m', 'Kleur': k}, 2)]
+        # catalog round 4: the zijwandenset has a 2 x 2 m variant too (1 dicht, 1 met deur, 2 met raam)
         return [(wset(u), {'Maat': m, 'Kleur': k}, 1)]
     def cp_combos():
         for m in CM:
@@ -224,7 +222,7 @@ def build():
     bundle('compleet-pakket-easy-up-professional', 'Compleet pakket easy-up Professional', [opt('Maat', CM), opt('Uitvoering', CU), opt('Kleur', TENT_KLEUREN)],
            list(cp_combos()),
            lambda los, m, u, k: float(x9(0.9 * los)),
-           lambda m, u, k: [(h_pro(m), {'Uitvoering': u, 'Kleur': k}, 1)] + cp_walls(m, u, k) +
+           lambda m, u, k: [(h_pro(m), {'Kleur': k} if m in PRO_KLEUREN else {'Uitvoering': u, 'Kleur': k}, 1)] + cp_walls(m, u, k) +
                            [('voetgewicht-partytent-15-kg', {'Uitvoering': f'Set van {legs(m)}'}, 1)],
            *(lambda: (lambda imgs: (imgs, {i['kleur']: i['file'] for i in imgs}))(
                [img(f'compleet-pakket-easy-up-professional-{slug(k)}-hero.webp', 'hero' if k == 'Rood' else 'variant', 1 if k == 'Rood' else 3, 'easyUpTent',
@@ -243,7 +241,7 @@ def build():
            {k: f'pakket-24-barkrukken-met-transportkar-{slug(k)}-hero.webp' for k in BKK}, 'Kleur',
            '24 stapelbare barkrukken + transportkar · één kleur', 'Voor horeca en verhuur: 24 krukken op één kar, rijden en opslaan; besparing t.o.v. los noemen.',
            ['barkrukken met trolley', 'barkrukken set 24', 'barkrukken verhuur'], ['tafels-stoelen.bundels', 'tafels-stoelen.barkrukken', 'statafelrokken-hoezen.actiepakketten'],
-           ['zakelijk', 'pallet', 'gebruik:horeca', 'gebruik:evenement'], {'outmate': "'Supercombi 24x barkruk Hamburg + trolley' (prijs niet gevonden)"}, sku='24BKR', verz='pallet')
+           ['zakelijk', 'pallet', 'gebruik:horeca', 'gebruik:evenement'], {'outmate': 'Supercombi 24x barkruk Times Square + trolley €2.495 (live, 2026-10-18; designkruk, niet vergelijkbaar)'}, sku='24BKR', verz='pallet')
     PK = ['10 m', '20 m']
     bundle('prikkabelset-led', 'Prikkabelset met LED-lampen', [opt('Maat', PK), opt('Kleur', ['Zwart', 'Wit'])], [(m, k) for m in PK for k in ['Zwart', 'Wit']],
            lambda los, m, k: {'10 m': 47.95, '20 m': 85.95}[m],

@@ -37,9 +37,8 @@ const priceView = (root) => {
     i.dataset.k = k;
   });
 };
-// the lead line above the grid: the window the product page shows for the same wait ('Op bestelling, in huis 3 – 10 nov'),
-// counted by delivery-countdown.js (cutoff, shipping and carrier days, holidays, transit); data-transit-max widens it for
-// a pallet in the grid. A wait that counts from something else ('na akkoord drukproef') or has no number keeps its text.
+// lead line above the grid: the product page's window for the same wait (delivery-countdown.js; data-transit-max widens
+// it for a pallet); a wait counted from something else ('na akkoord drukproef') or without a number keeps its text
 const leadDates = (root) =>
   KK.delivery &&
   root.querySelectorAll('[data-lead-eta]').forEach((el) => {
@@ -179,11 +178,13 @@ class FacetFilters extends HTMLElement {
       [a.value, b.value] = [b.value, a.value];
       bad = false;
     }
-    a.toggleAttribute('aria-invalid', bad || x === null);
-    b.toggleAttribute('aria-invalid', bad || y === null);
     // not an amount ('abc'): said under the fields and not sent, so the filter is not dropped without a word
     const nan = x === null || y === null;
     const hint = this.querySelector('[data-price-hint]');
+    // aria-invalid="" reads as valid; the hint describes the field while it shows
+    const inv = (el, on) => ['aria-invalid', 'aria-describedby'].forEach((k, i) => (on ? el.setAttribute(k, i ? hint?.id : 'true') : el.removeAttribute(k)));
+    inv(a, bad || x === null);
+    inv(b, bad || y === null);
     if (hint) {
       hint.hidden = !bad && !nan;
       if (!hint.hidden && hint.dataset.format) hint.textContent = nan ? hint.dataset.format : hint.dataset.swap;
@@ -281,6 +282,9 @@ class FacetFilters extends HTMLElement {
       // a price field being typed in stays the same node; the form around it is renewed
       const keep = hadFocus && active.matches(PRICE) ? active.closest('[data-facets-form] > .facet') : null;
       const scrollBody = this.querySelector('[data-facets-body]')?.scrollTop || 0;
+      // desktop, filter column taller than the screen: the control just used stays put
+      const panel = this.querySelector('[data-facets-panel]');
+      const pin = !mq.matches && hadFocus && active.id && panel?.classList.contains('is-tall') && panel.contains(active) ? active.getBoundingClientRect().top : null;
       const countText = fresh.querySelector('[data-results-count], .collection__count')?.textContent.trim();
       const swap = (sel) => {
         const a = this.querySelector(sel);
@@ -332,7 +336,15 @@ class FacetFilters extends HTMLElement {
         if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
       }
       if (this.drawerOpen) this.scrollPending = true;
-      else this.scrollToResults();
+      else if (pin == null) this.scrollToResults();
+      else {
+        const hold = () => {
+          const el = document.getElementById(active.id);
+          if (el) scrollBy(0, el.getBoundingClientRect().top - pin);
+        };
+        hold();
+        requestAnimationFrame(() => requestAnimationFrame(hold));
+      }
       this.checkBar?.();
     } catch (e) {
       if (e.name === 'AbortError' || seq !== this.seq) return;

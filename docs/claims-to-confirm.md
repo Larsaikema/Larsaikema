@@ -189,7 +189,7 @@ lampen bij een prikkabel. Voorstel, als automatische korting in Shopify (Korting
 
 | Onderwerp | Wat er nu staat | Te bevestigen |
 |---|---|---|
-| Easy-up tenten | Hooguit vier vinkjes: zijwandenset in dezelfde maat en kleur (heavy duty PVC bij een PVC-dak), voetgewichten (set per aantal poten), spanbanden en haringen (alleen Premium; Professional heeft ze in de doos) en een vierde vinkje (Premium: wieltas; Professional, ook met logo en full colour: LED-vloedlicht 30 W, want de wieltas zit al in de doos en een beschermhoes deed dubbel). Regengoot, koppelset, verbindingsstrook, zandzakken en heater staan in de winkelwagen-aanbevelingen. De 2 x 2 m heeft geen zijwandenset: de losse 2 m wanden staan in de aanbevelingen. | Of de tas en de voetgewichten de juiste standaard zijn. |
+| Easy-up tenten | Hooguit vier vinkjes: zijwandenset in dezelfde maat en kleur (heavy duty PVC bij een PVC-dak; sinds catalogusronde 4 ook voor de 2 x 2 m Professional, die nu een zijwandenset van 2 x 2 m heeft), voetgewichten (set per aantal poten), spanbanden en haringen en een vierde vinkje (Premium: wieltas; Professional, ook met logo en full colour: LED-vloedlicht 30 W, want de wieltas zit al in de doos en een beschermhoes deed dubbel). Spanbanden en haringen: bij de Premium één set per 4 poten (er zitten er geen in de doos); bij de Professional met 6 of 8 poten één extra set voor de middenpoten (de 4 in de doos zijn voor de hoeken), bij 4 poten geen. Regengoot, koppelset, verbindingsstrook, zandzakken en heater staan in de winkelwagen-aanbevelingen. | Of de tas en de voetgewichten de juiste standaard zijn, en of de extra set spanbanden bij 6 en 8 poten klopt. |
 | Statafel inklapbaar Professional, HDPE, kruisvoet | Rok en strikhoes krijgen dezelfde standaardkleur: de bladkleur als die als textielkleur bestaat (wit, zwart, antraciet), anders zwart (graniet, berken, lichtgrijs). Uitvoering met parasolgat: de rok **zonder** topcover, geen strikhoes en geen beschermplaat (die dekken het gat af). | Of zwart de gewenste standaard is. |
 | Statafel vierkant en rechthoekig, terrastafel | Beschermplaat in dezelfde maat (nieuw: 60 x 60, 70 x 70, 80 x 80, 120 x 60, 120 x 70, 160 x 60 cm, € 16,95–€ 25,95) en barkrukken (4 bij vierkant, 6 of 8 bij rechthoekig) of stapelstoelen (2, 4 of 6 bij de terrastafel), in de framekleur als die bestaat, anders zwart. | Platen op maat bij de leverancier; aantallen krukken/stoelen per tafel. |
 | Barkrukken | Transportkar 'Voor 24 barkrukken' als add-on, één per bestelregel (`custom.addon_eenmalig`), bij de vijf stapelbare krukken; niet meer bij de PE-rotan kruk (stapelt niet, review 3), die krijgt het zitkussen. Zitkussen ook bij de houten zitting en de draadkruk. Capaciteit per kruk staat in de tekst en in 'Niet inbegrepen' boven de add-ons: 24 (metaal, draad), 18 (houten zitting, chroom), 15 (velours). | Stapelhoogtes en capaciteit per kruk bij de leverancier. |
@@ -326,7 +326,7 @@ De optie **Samenstelling** (Set: tafel en 2 banken / Alleen tafel; Zonder / Met 
 | `/products/voetgewicht-easy-up-15-kg` | `/products/voetgewicht-partytent-15-kg` | Het is ook de add-on per staander van de buizenframe- en opslagtenten (menu: 'Voetgewicht per staander'). |
 
 `catalog/export/redirects.csv` importeer je in Shopify via **Online Store › Navigatie › URL-omleidingen › Importeren**; het
-seed-script (`scripts/seed/`, nog te bouwen) moet dezelfde omleidingen maken (CONTRACT.md). `past_op`, add-ons, menu's, teksten en blogs verwijzen al naar de nieuwe handles.
+seed-script maakt dezelfde omleidingen (`node scripts/seed/seed.mjs redirects`, docs/import-en-seed.md). `past_op`, add-ons, menu's, teksten en blogs verwijzen al naar de nieuwe handles.
 
 ### Beelden
 
@@ -335,6 +335,82 @@ seed-script (`scripts/seed/`, nog te bouwen) moet dezelfde omleidingen maken (CO
   losgehaalde onderdelen en de beelden per uitvoering. De luifel van de promotietent in antraciet bestond al.
 - Een product waarvan de render (nog) ontbreekt, staat zonder beeld in de export en nooit met een beeld in een andere kleur
   (`catalog/build.py` houdt ontbrekende bestanden tegen; `validate.py` meldt het).
+
+## Catalogus: catalogusronde 2026-10-22 (bevindingen tegen de live-referentie)
+
+Deze ronde legde de prijzen naast de live-gegevens van de referentie (18 oktober 2026, alleen getallen) en zette verzendkosten per
+gewicht voor elk product. Alles staat als data in `catalog/tools/skeleton/*.py` (nieuw: `fam_r4.py`) en `catalog/parts/*.json`; elk product
+heeft zijn eigen punten in `claims` (zoek op ‘Catalogusronde 2026-10-22’).
+
+### Verzendkosten volgen het gewicht van de gekozen uitvoering
+
+| Wat er nu staat | Wat je doet |
+|---|---|
+| Elk product met een uitvoering die met een paar stuks boven 31,5 kg komt, heeft eigen staffels in `custom.verzendkosten_staffel`: een set van 4 voetgewichten (60 kg) € 49, een dakzeil van 8 × 12 m (61 kg) € 49, een opblaasbare promotietent van 5 × 5 m (32 kg) € 49. Boven 31,5 kg gaat niets als pakket. | **Zet in Shopify dezelfde gewichtsafhankelijke tarieven** (pakket tot 31,5 kg € 6,95; daarboven de palletklassen). |
+| De productpagina toont nu de verzendkosten van de gekozen uitvoering en het gekozen aantal ("Verzendkosten bij 3 stuks € 79,00 · vanaf 7 stuks € 129,00"); de regel ‘Pakketdienst / Palletvervoer’ volgt het gewicht van de uitvoering. | Niets; controleer na het instellen van de tarieven één zware uitvoering in de checkout. |
+| Betonblokken van 120 en 140 kg: € 49 per stuk (was € 45, onder het palletminimum). Nieuwe blokken met vlaggenmastkoker: € 75 (500 kg) en € 135 (1000 kg) per stuk. | Bevestig de vrachtprijzen per blok. |
+
+### Prijzen naar de live-referentie
+
+| Product | Was | Nu | Referentie (live) |
+|---|---|---|---|
+| Palen stretchtent, kastanjehout 2,5 / 3 / 4 / 5 m | € 59,95 / 69,95 / 89,95 / 109 | € 25,95 / 30,95 / 43,95 / 70,95 (aluminium € 34,95 / 41,95 / 58,95 / 94,95) | hout € 29 / 35 / 49 / 79 |
+| Stretchtent compleet 6 × 10,5 en 7,5 × 10,5 m; los stretchdoek 6 maten | € 5.195 / 6.195 | € 5.095 / 5.895; doek omhoog (bijv. 6 × 10,5 m € 4.095), zodat doek + palen + afspanning de tent niet onderbieden | tent € 5.805 / 6.830 |
+| Flameheater 9 kW · loungeheater staand 9 kW · terrasheater 13 kW | € 329 · € 249 · € 179 | € 179 · € 149 · € 159 | flame 11 kW € 199 · lounge 11 kW € 169 · RVS 13 kW € 179 (antraciet € 149) |
+| LED-vloedlicht easy-up 30 W | € 74,95 | € 119 | € 129 |
+| Tuinpaviljoen staal (nu de zware lijn: staanders 120 × 120 mm, dak 8 mm) | € 519–719 | € 829 / 929 / 1.079 | stalen lijn € 925 / 1.039 / 1.204,50 |
+| Zijwanden tuinpaviljoen dicht / gaas | € 119–159 / € 99–129 | € 70,95–88,95 / € 61,95–79,95 | € 79–99 / € 69–89 |
+| Funderingsset tuinpaviljoen: betonpoeren / stelvoeten (per 4) | € 59,95 / 49,95 | € 119 / 44,95 | € 35 / 12,50 per stuk |
+| Regengoot buizenframe 3–12 m | € 49,95–159 | € 52,95–88,95 | € 59–99 |
+| Zijwand opblaasbare promotietent 3 / 4 / 5 / 6 m (dicht / overige) | € 159–269 | € 159/179 · 259/269 · 349/359 · 439/449; bedrukt € 229–489 | € 179/199 · 295 · 399 · 499 |
+| Zijwand Pro 4 / 5 / 6 m | € 209–289 | € 269/279 · 359/369 · 449/459; bedrukt € 329–499 | € 299 / 399 / 499 |
+| Zijwand zeshoektent 8 / 10 / 12 m | € 349–519 | € 599–699 · 729–849 · 849–979 | 8 m-wand € 699 |
+| Dakzeil PVC 550 (18 maten) · PVC 620 · PE | 3 × 3 € 149 … 8 × 12 € 649 | 3 × 3 € 139 … 8 × 12 € 519 (PVC 620 ca. 15% hoger, PE € 79,95–159) | PVC € 159 … € 559 |
+| Opslagtent PVC (alle maten) | 5–8% onder de partytent | gelijk aan de partytent in hetzelfde doek, binnen 5–15% onder de referentie | opslagtent € 399–1.699 |
+| Eindwand / tussenwand / 220 cm | eindwand + € 5 / + € 10 | elk een eigen prijs (eindwand 8 m € 64,95: de referentie verkoopt de 8 m onder de 6 m) | € 49–119 |
+| Prikkabel E27, 2 fittingen per meter; 60–90 m nieuw | 10 m € 62,95 … 40 m € 189 | 10 m € 69,95 … 100 m € 539; 60/70/80/90 m € 209/239/269/309 (1 per meter) | € 78,25 … € 247; € 237,50–345 |
+| Easy-up full colour Professional · Premium | 3 × 3 € 949 · 4 × 8 € 1.749 · Premium 3 × 3 € 649 | € 829 · € 2.089 · € 559 (elke maat ca. 10% onder de referentie) | € 925 · € 2.325 · € 625 |
+| Schaduwdoek waterdoorlatend / waterdicht | doorlatend onder waterdicht | doorlatend boven waterdicht, beide ca. 10% onder de referentie | € 39–79 |
+| Wandunit afzetsysteem 2 m · afzetpaal zwart / messing | € 39,95 · € 49,95 / 54,95 | € 25,95 · € 33,95 / 46,95 | € 27,50–29 · € 37,50 / 52 |
+| Overig (prijzen naar de referentie) | | reparatieset € 14,95/13,95 · PE-zijwand lang € 44,95–79,95 · los statafelblad 70 × 70 / 120 × 70 € 58,95/76,95 · kar 20 stapelstoelen € 389 · afstandsdimmer € 37,95 · tijdschakelaar € 6,95 · infraroodbrander € 13,95/18,95 · PE-rotan barkruk € 129 · dimbare IP65-lamp € 2,29/2,49 · kwartronde klaptafel 152 cm € 129 | |
+
+**Te bevestigen:** alle nieuwe prijzen (eigenaar) en de specificaties van de stalen paviljoenlijn en de wandtypes (leverancier).
+
+### Assortiment erbij
+
+| Wat | Producten | Te bevestigen |
+|---|---|---|
+| Stoelen | stapelstoel kunststof (€ 24,95, 6 kleuren), transparante stoel polycarbonaat (€ 119), houten klapstoel bistro (€ 64,95), inklapbare barkruk met rugleuning (€ 62,95) | modellen, kleuren, stapelhoogtes, hoeveel er op de karren passen |
+| Stoelverbinders | per stoelmodel (klapstoel € 0,79, stapelstoel metaal en banquet € 1,95, kunststof € 1,49, weddingstoel-reserve € 1,39), als add-on één per stoel op klapstoel, stapelstoelen en banquetstoel | passen per model; de shop noemt geen brandveiligheidsregel (vraag het na bij de locatie) |
+| Ballast | hoes per blokmaat (€ 24,95–33,95), houten zitblad (€ 159), truss-voetplaat 6/10 mm (€ 89/119); betonblok met vlaggenmastkoker 500/1000 kg (€ 269/349) | maten, kokermaat en verloopringen |
+| Klaptafels in vormen | halfrond Ø140 (€ 96,95), kwartrond 170/80 (€ 169), set van 4 kwartronden voor Ø 305 cm (€ 489) | maten |
+| Wanden opblaasbare tenten | met raam, enkele rits en full colour bedrukt (drukproef, 10–15 werkdagen na akkoord, maatwerk: niet retour) op alle drie de wandproducten | leverbaarheid en drukprocedé |
+| Easy-up 2 × 2 m | zijwandenset 2 × 2 m (€ 189), nu de wand-add-on van de Professional 2 × 2 m | samenstelling |
+| Hoes biertafel 220 × 67 cm | eigen hoes (set € 24,95, tafel € 14,95) | maat |
+| Barkruk houten zitting | frame ook wit en antraciet | leverbaarheid |
+
+### Add-ons, opties en namen
+
+- **Transportkar voor koelkasten** volgt nu het aantal (één kar per koelkast); hij ging 1 keer per bestelling mee.
+- Geen beschermplaat meer als add-on op de HDPE-statafel en het HDPE-pakket (afwasbaar blad); geen klaptafelkar op de bankettafel van 220 cm.
+- Opties met één waarde zijn weg: Kleur op de barkoelkast (zwart) en de koel- en vrieskist (wit), Uitvoering ‘Polyester’ op de Professional 2 × 2
+  en 5 × 5 m. De kleur staat in de specificaties. `validate.py` meldt zo'n optie voortaan als fout.
+- **Dakzeil PVC 620 en PVC 500 heten ‘(maakwerk, 3–4 weken)’** in plaats van ‘(op aanvraag)’: dat las als ‘prijs op aanvraag’ terwijl de
+  prijs erbij staat.
+- **Nieuwe handle:** `bierbank` (was `bierbank-220`; hij verkoopt 180 en 220 cm). De oude URL gaat via `export/redirects.csv` naar de nieuwe.
+- **Korting op add-ons (−10% met je tent):** het label staat nu in het thema, maar **uit** (blok ‘Handig erbij’, vinkje ‘−10% met je tent bij de
+  add-ons tonen’). Zet het pas aan als de automatische korting in Shopify bestaat.
+
+### Downloads
+
+91 van 228 producten hebben nu downloads (was 60): nieuwe opbouw- en veiligheidshandleidingen en productbladen voor de gasheaters en de
+elektrische heater, de dakzeilen, de verankering (voetgewichten, zandzakken, watergewicht, spanbanden, stormbanden, haringen, betonblokken),
+alle transportkarren en de statafelrokken, topcover, stretchhoes, hoes met strik en het statafelkleed. **Laat de veiligheidstekst van de
+gasheaters nalezen tegen de handleiding van de fabrikant** (drukregelaar, afstanden, gasfles).
+
+### Preview-voorraad
+
+De demovoorraad in de preview is opnieuw verdeeld: 84% op voorraad, 8% laag (1–3), 7% in nabestelling. De CSV blijft 0 met doorverkopen.
 
 ## Catalogus: catalogusronde 4 (18 oktober 2026)
 
@@ -493,3 +569,75 @@ statafels, en een **opbouw- en veiligheidshandleiding** voor dezelfde wanden en 
 - **Carport 3,3 × 9,6 m (€ 989)** staat boven de actieprijs van de referentie (€ 750, normaal € 1.099).
 - **Statafelrok bij een statafel**: de add-on volgt de bladkleur (wit bij wit, anders zwart). Een andere van de 24 kleuren kies je op de rokpagina; een kleurkeuze in de add-on staat op de theme-backlog.
 
+## Catalogus: catalogusronde 5 (22 oktober 2026, beoordeelde bevindingen)
+
+Alles hieronder is een voorstel voor jou en de leverancier. Specificaties zijn productdefinities; prijzen liggen ca. 5–15 % onder de live-referentie
+(Outmate en Statafelshop, opname 18 oktober 2026) tenzij anders vermeld. `python3 catalog/validate.py` draait schoon.
+
+### Verwijzingen naar Shopify: het seed-script (nieuw)
+
+De add-ons per variant, de pakketinhoud en "Je bespaart", de maatwissel tussen de easy-ups, de bouwtekening, onderdelen, maatgids en downloads staan niet in
+`products.csv`: die hebben de ID's nodig die Shopify pas na de import geeft. `node scripts/seed/seed.mjs` zet ze via de Admin API, samen met collecties,
+menu's, pagina's, blog en redirects. Volgorde en rechten: `docs/import-en-seed.md`. Te doen door jou: een eigen app met Admin API-token aanmaken en het script
+draaien (eerst `--dry-run`).
+
+### Nieuwe producten (15)
+
+| Product | Prijs | Te bevestigen |
+|---|---|---|
+| Zijwand opblaasbare partytent met waterpoten (3 / 4,5 / 6 m, 220 cm hoog, wit, zwart, antraciet; dicht, raam, deur, rits of full colour, drukzijde binnen of buiten) | dicht € 179 / 299 / 459, raam/deur/rits € 199 / 309 / 469, full colour € 229 / 349 / 499 | Hoogte en pasvorm op de waterpoten-tent; de tent biedt nu de wand voor de lange zijde aan (4,5 m bij 3 x 4,5, 6 m bij 3 x 6). De gewone zijwand is alleen nog voor de promotietent (190 cm) en niet meer in antraciet. |
+| Terrastafel vierkant stapelbaar (60/70/80 cm, 75 cm hoog, onderstel zwart, RVS of wit) | € 129 / 139 / 149 binnen zwart; RVS + € 30, compact HPL + € 55 | Stapelhoogte (tot 6), gewichten, RVS en wit onderstel. |
+| Terrastafel breed stapelbaar (120 x 60, 120 x 70, 140 x 70, 180 x 70 cm) | € 229 / 249 / 289 / 349; compact HPL + € 80 / 90 / 110 | Maten en stapelbaarheid. |
+| Terrastafel HPL met zuilvoet (Ø70 of 70 x 70 cm) | € 169 / 179, decor + € 10 | Zelfde zuil en voetplaat als de statafel. |
+| Wiebelvrije terrastafel en statafel (zelfstellende voeten, 75 of 110 cm) | terras € 229–259, sta + € 40 | Werking en bereik (ca. 15 mm per voet) van het onderstel. |
+| Steekwagen voor stapelstoelen | € 109 | Capaciteit (ca. 12 stoelen, 150 kg). |
+| Transportkar universeel (enkel / dubbel) | € 369 / € 479 | Beugelhoogte en draagvermogen. |
+| Klaptafel met banken, rolbaar 200 x 60 cm | € 859 | Werking met gasveren, gewicht 62 kg. |
+| Onderdelen voor stoelen en barkrukken (zittingen, beugels, voetdoppen per model) | € 2,49–€ 20,95 | Pasvorm per model. |
+| Luxe afzetpaal gala en galerie (zwart, goud, chroom) | € 82,95–€ 94,95 | Voet en of ze in de afzetpalenkar passen. |
+| Bevestigingspennen voor loper, 25 stuks | € 10,95 | — |
+| 20 stapelstoelen met kar · 50 klapstoelen met kar (nieuwe kar voor 50 klapstoelen, € 369) · 10 biertafels zonder banken met kar · buffettafel met stretchhoes | ca. 10 % onder los | Kar voor 50 klapstoelen. |
+
+### Uitbreidingen van bestaande producten
+
+- **Stertent dubbele mast** ook in **Zwart** (alle vier maten, zelfde prijs), met zwarte wanden; add-ons per kleur.
+- **Bedrukte easy-ups in heavy duty PVC**: de Professional full colour (3 x 3 tot 4 x 8 m, € 1.079–€ 2.799, met 3 wanden € 1.759–€ 3.819) en met logo op de
+  luifel (wit of zwart, HD-tent + € 150). Bij de full colour tent is het doek nu de optie Uitvoering en wat er bedrukt wordt de optie Samenstelling.
+  **Bevestigen met de drukker dat HD PVC full colour bedrukt kan worden.**
+- **Bedrukt dakzeil** in heavy duty PVC (€ 999–€ 2.529), en de polyester prijzen opnieuw ca. 10 % onder de referentie (€ 539–€ 1.499, was € 319–€ 729): met de
+  oude prijzen was een los frame + bedrukt dak goedkoper dan de full colour tent (Premium alle maten, Professional 3 x 4,5, 4 x 6, 4 x 8). `validate.py` controleert dat nu.
+- **Stormbandenset**: haringen 50, 75 of 100 cm en 1, 2 of 3 sets; prijzen terug in de band (75 cm, 3 m breed € 31,95, was € 25,95).
+- **Beschermhoes easy-up** per dakdoek (polyester of PVC-dak, PVC + € 1). **Verbindingsstrook** in de 7 tentkleuren. **Halve zijwand** ook in heavy duty PVC
+  (3 / 4 / 4,5 m, wit of zwart). **Lopers** ook in roze, bordeaux en zandkleur. **Afzetpaal met trekband** ook als set van 2 en met magneetsluiting.
+- **Prikkabel E27**: eindkap, eindhaak met spanveer (nieuw onderdeel, € 4,95) en bij zwart een verlengkabel van 5 m als opties onder de knop.
+- **Statafels met transportkar (pakket)**: naast rok en beschermplaat nu ook een hoes met strik per tafel als optie.
+
+### Prijzen aangepast
+
+| Product | Was | Nu | Waarom |
+|---|---|---|---|
+| Klaptafel HDPE 122 x 61 cm | € 59,95 | € 67,95 | 20–30 % onder de marktbodem (€ 74,96 / € 85,50) |
+| Transportkar afzetpalen 12 / 16 | € 649 / € 829 | € 779 / € 869 | 18–30 % onder de referentie (€ 922,50 / € 1.010,50) |
+| Opbergtassenset 5 / 6 / 8 m breed | € 69,95 / 79,95 / 94,95 | € 79,95 / 89,95 / 104,95 | 19–21 % onder de referentie (€ 89 / € 99) |
+| Stertent full colour Ø16 m | € 2.649 | € 2.949 | 19 % onder € 3.278 |
+| Stertent dubbele mast full colour 8x13 / 10x16 / 12x19 / 13x21 | € 3.899 / 4.549 / 5.149 / 5.649 | € 4.699 / 5.619 / 6.069 / 6.479 | 22–27 % onder € 5.225–€ 7.200 |
+| Eindwand 8 m | € 64,95 | € 94,95 | lag onder de 6 m (€ 79,95), een eigenaardigheid uit de referentielijst; meer doek en een hogere gevel |
+| Statafel vierkant stapelbaar 60 / 70 / 80 cm | € 119 / 129 / 139 | € 139 / 149 / 159 | 13–20 % onder Indus € 148,77 en Times Square € 159; de terrastafel-tweeling ligt € 10 lager |
+
+### Specificaties gelijkgetrokken met de keuze
+
+- **Barkruk stapelbaar metaal**: de specificatie Kleur noemt nu alle 7 kleuren uit de keuze (zwart, wit, antraciet, rood, blauw, groen, taupe). **Bevestig dat
+  de leverancier rood, blauw, groen en taupe levert**; anders halen we die uit de keuze. Deze kruk staat als standaard-add-on (4 stuks) bij elke ronde statafel.
+- **Stretchhoes vierkante en rechthoekige statafel**: specificatie, USP en SEO noemen nu de 10 kleuren uit de keuze, en de maten 140 x 70 en 180 x 70 cm.
+  **Bevestig de 10 kleuren per maat.**
+
+### Kleuren die de referentie niet voert (eigenaarsactie, geen datafout)
+
+Onze kleurkeuze gaat op een paar plekken verder dan wat de referentie op voorraad heeft. De producten zeggen al "leverbaarheid per kleur en maat bevestigen";
+bevestig ze met de leverancier vóór de lancering, of haal de kleur uit de keuze:
+
+- **Buizenframe-tenten** (PE Basis, PVC 500 Comfort, PVC 550 Premium en Compleet, PVC 620 Professional) en hun dakzeilen en wanden: elke maat in 7–8
+  kleurstellingen, waar Outmate per maat 1–5 voert (bijvoorbeeld Classic 6 x 12 alleen in wit en grijs/wit).
+- **Stretchtenten** in wit en zwart (de referentie voert alleen taupe en zandkleur).
+- **Hypar schaduwzeil** in 6 kleuren.
+- Nieuw in deze ronde: stertent dubbele mast in zwart, verbindingsstrook in 7 kleuren, lopers in roze, bordeaux en zandkleur.

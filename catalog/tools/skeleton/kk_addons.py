@@ -54,7 +54,7 @@ def r_easy_up(p, v):
     if o.get('Uitvoering') == 'Heavy duty PVC':
         r.append(('zijwandenset-easy-up-heavy-duty-pvc', {'Maat': m, 'Kleur': k}, 1))
     else:
-        r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': k}, 1))   # no 2 x 2 m set: the 2 x 2 m tent gets none (walls in complementary)
+        r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': k}, 1))   # catalog round 4: the set has a 2 x 2 m variant too
     r.append(('voetgewicht-partytent-15-kg', {'Uitvoering': f'Set van {n}'}, 1))
     if not pro:
         r.append(('spanbanden-en-haringen-easy-up', {}, math.ceil(n / 4)))   # Premium ships without banden/haringen
@@ -84,9 +84,11 @@ def r_easy_up_logo(p, v):
     pro = 'professional' in p['handle']
     n = legs(m)
     r = []
+    hd = o.get('Uitvoering') == 'Heavy duty PVC'   # catalog round 5: the printed Professional also in heavy duty PVC
     if o.get('Kleur'):
-        r.append(('zijwandenset-easy-up', {'Maat': m, 'Kleur': o['Kleur']}, 1))
-    if o.get('Uitvoering') == 'Dak en luifel':
+        r.append(('zijwandenset-easy-up-heavy-duty-pvc' if hd else 'zijwandenset-easy-up', {'Maat': m, 'Kleur': o['Kleur']}, 1))
+    # the printed back wall is polyester: offered on a polyester full colour roof only (no HD PVC printed wall, so none on the HD tent)
+    if (o.get('Samenstelling') or o.get('Uitvoering')) == 'Dak en luifel' and not hd:
         # full colour roof without walls: offer one printed back wall on the long side (4 x 8 m: the 8 m side, 2 x 2 m: 2 m)
         w, d = DIMS[m]
         side = lenstr(max(w, d)) if lenstr(max(w, d)) in BEDRUKTE_WAND else lenstr(min(w, d))
@@ -117,7 +119,7 @@ def r_buizenframe(p, v):
     n = staanders(o['Maat'])
     r = []
     if p['handle'] != 'partytent-pvc-550-compleet':                 # compleet: stormbanden en tassen zitten erin
-        r.append(('stormbandenset-partytent', {'Maat': f'{w:g} m breed'}, math.ceil(d / 2)))
+        r.append(('stormbandenset-partytent', {'Maat': f'{w:g} m breed', 'Uitvoering': 'Haringen 75 cm', 'Samenstelling': '1 set'}, math.ceil(d / 2)))
         r.append(('opbergtassenset-partytent', {'Maat': f'{w:g} m breed'}, 1))
     r.append(('haringen-en-bevestigingsmateriaal-partytent', {'Uitvoering': 'Lange haring 75 cm'}, n))
     r.append(('voetgewicht-partytent-15-kg', {'Uitvoering': '1 stuk'}, n))
@@ -144,8 +146,10 @@ def r_statafel_rond(p, v):
     n = int(u.split()[-1]) if u.startswith('Set van ') else 1       # HDPE packs of 2 and 4: one rok, hoes, plaat and 4 krukken per table
     r = [('statafelrok-stretch', {'Maat': rok, 'Uitvoering': 'Zonder topcover' if parasol else 'Met topcover', 'Kleur': k}, n)]
     if not parasol:
-        r += [('statafelhoes-met-strik', {'Maat': rok, 'Kleur': k}, n),
-              ('beschermplaat-statafel', {'Maat': PLAAT[o['Maat']]}, n)]
+        r.append(('statafelhoes-met-strik', {'Maat': rok, 'Kleur': k}, n))
+        # catalog round 4: no beschermplaat on the HDPE blow-mould blad (wipe-clean, it protects nothing there)
+        if p['handle'] != 'statafel-inklapbaar-hdpe-80':
+            r.append(('beschermplaat-statafel', {'Maat': PLAAT[o['Maat']]}, n))
     # M3 (catalog round 2026-10-18): seating at every round statafel: 4 metalen barkrukken, wit at a wit onderstel, else zwart
     kruk = blad if blad in KRUK_KLEUREN else ('Wit' if 'wit onderstel' in u else 'Zwart')
     r.append(('barkruk-stapelbaar-metaal', {'Kleur': kruk}, 4 * n))
@@ -185,6 +189,21 @@ def r_terrastafel(p, v):
             ('transportkar-terrastafels', {}, 1)]   # once per order line (custom.addon_eenmalig)
 
 
+def r_terras_twin(p, v, n_by_maat, kar=None):
+    """Catalog round 5: the terrace twins (75 cm) of the hoekige and design statafels and the wiebelvrije tafel: a beschermplaat cut to the
+    blad (2 cm under a round one), chairs round it (stapelstoelen at 75 cm, barkrukken when the wiebelvrije tafel is ordered at 110 cm), in
+    the blad colour when the chair has it, else wit at a wit onderstel, else zwart; the plateaukar for the stackable one, once per order line."""
+    o = vopts(p, v)
+    u = o.get('Uitvoering') or ''
+    k = o.get('Kleur') if o.get('Kleur') in KRUK_KLEUREN else ('Wit' if 'wit onderstel' in u else 'Zwart')
+    seat = 'barkruk-stapelbaar-metaal' if u.startswith('Statafel') else 'stapelstoel-metaal'
+    r = [('beschermplaat-statafel', {'Maat': PLAAT.get(o['Maat'], o['Maat'])}, 1),
+         (seat, {'Kleur': k}, n_by_maat.get(o['Maat'], 4))]
+    if kar:
+        r.append(('transportkar-statafels', {'Uitvoering': kar}, 1))
+    return r
+
+
 def r_terrastafel_rond(p, v):
     """Round terrace table on the Professional base (H4): beschermplaat 2 cm under the blad, stapelstoelen around it (Ø70: 3, Ø80 and
     Ø85: 4; wit at a wit onderstel, else zwart) and the terrastafel kar once per order line."""
@@ -210,8 +229,12 @@ KAR_EENMALIG = {
     'klapstoel-wedding': 'transportkar-klaptafels-en-stoelen', 'bankettafel-hout-rechthoekig': 'transportkar-klaptafels-en-stoelen',
     'conferentietafel-inklapbaar': 'transportkar-klaptafels-en-stoelen', 'examentafel-inklapbaar': 'transportkar-klaptafels-en-stoelen',
     'bankettafel-hout-rond': 'transportkar-ronde-klaptafels', 'afzetpaal-met-trekband': 'transportkar-afzetpalen', 'afzetpaal-met-koord': 'transportkar-afzetpalen',
-    'kapstok-verrijdbaar': 'transportkar-kapstokken', 'marktkraam-2-m': 'transportkar-marktkramen', 'barkoelkast-glazen-deur': 'transportkar-koelkasten', 'koelkast-staand-horeca': 'transportkar-koelkasten',
-    'koelkast-rvs-horeca': 'transportkar-koelkasten', 'koel-vrieskist-liggend': 'transportkar-koelkasten',
+    'kapstok-verrijdbaar': 'transportkar-kapstokken', 'marktkraam-2-m': 'transportkar-marktkramen',
+    # catalog round 5
+    'terrastafel-vierkant-stapelbaar': 'transportkar-statafels', 'afzetpaal-gala': 'transportkar-afzetpalen',
+    # catalog round 4: transportkar-koelkasten carries one koelkast, so it follows the quantity there (no addon_eenmalig); the new seats
+    'stapelstoel-kunststof': 'transportkar-stapelstoelen', 'klapstoel-hout-bistro': 'transportkar-klaptafels-en-stoelen',
+    'barkruk-inklapbaar': 'transportkar-klaptafels-en-stoelen',
 }
 
 
@@ -234,6 +257,8 @@ def r_stapelstoel(p, v):
     if p['handle'] in ('stapelstoel-metaal', 'banquetstoel-gestoffeerd'):
         k = vopts(p, v).get('Kleur')
         r.append(('stoelhoes-stretch', {'Uitvoering': 'Voor stapel- of banquetstoel', 'Kleur': k if find_one('stoelhoes-stretch', {'Uitvoering': 'Voor stapel- of banquetstoel', 'Kleur': k}) else 'Zwart'}, 1))
+        # catalog round 4: a stoelverbinder per stoel, for rows (both references sell them per chair model)
+        r.append(('stoelverbinder', {'Uitvoering': 'Voor stapelstoel metaal' if p['handle'] == 'stapelstoel-metaal' else 'Voor banquetstoel'}, 1))
     r.append(('transportkar-stapelstoelen', {'Uitvoering': 'Voor 20 stapelstoelen'}, 1))
     return r
 
@@ -306,10 +331,16 @@ def r_air_square(p, v):
     # the luifel only in the tent's own colour (an Antraciet tent was offered a Zwart luifel); the luifel now comes in Antraciet too
     # blocker B2: the Pro is higher and gets the Pro wall (zijwand-opblaasbare-promotietent-pro), never the standard one
     wall = 'zijwand-opblaasbare-promotietent-pro' if p['handle'] == 'opblaasbare-promotietent-pro' else 'zijwand-opblaasbare-promotietent'
+    lang = n
+    # catalog round 5: the waterpoten tent (3 x 3 / 3 x 4,5 / 3 x 6 m, doorloop 220 cm) gets its own higher wall, in the length of its long
+    # side (4,5 m on the 3 x 4,5, 6 m on the 3 x 6): the 3 m wall only closed a short side
+    if p['handle'] == 'opblaasbare-partytent-met-waterpoten':
+        wall = 'zijwand-opblaasbare-partytent-met-waterpoten'
+        lang = o['Maat'].split(' x ')[1]
     # catalog round 3: the extra hoge 3 x 3 m (220 cm) gets no wall or luifel: those are made for the 190 cm doorloop
     hoog = 'extra hoog' in (o.get('Uitvoering') or '')
     return [('pomp-opblaasbare-tent', {'Uitvoering': 'Elektrische pomp'}, 1)] + ([] if hoog else [
-            (wall, {'Maat': n, 'Uitvoering': 'Dicht', 'Kleur': k}, 1),   # the wall in the tent's frame colour
+            (wall, {'Maat': lang, 'Uitvoering': 'Dicht', 'Kleur': k}, 1),   # the wall in the tent's frame colour
             ('luifel-opblaasbare-promotietent', {'Maat': n, 'Kleur': k}, 1)]) + [
             ('watergewichtzakken-4x20-kg', {}, 1),
             ('led-verlichting-opblaasbare-tent', {}, 1),
@@ -343,13 +374,13 @@ RULES = {
                                                ([('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 10 klaptafels 183 cm'}, 1)] if vopts(p, v)['Maat'] == '183 x 76 cm' else []),
     # the hoes that covers what you buy: set → tafel + 2 banken, 'Alleen tafel' → tafelhoes, a loose bank → bankhoes (one hoes fits
     # both Uitvoeringen: the brouwerij blad is 1 cm thicker, the stretch takes it); and the kar for 10 sets, once per order line
-    'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'].replace('67', '70'), 'Kleur': 'Wit',
+    'biertafelset': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit',
                                                           'Uitvoering': 'Alleen tafel' if vopts(p, v)['Samenstelling'] == 'Alleen tafel' else 'Set: tafel en 2 banken'}, 1),
                                   ('transportkar-biertafelsets', {}, 1)],
     'biertafelsets-10-stuks': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Wit', 'Uitvoering': 'Set: tafel en 2 banken'}, 10)],
     'pakket-10-ronde-klaptafels-met-transportkar': lambda p, v: [('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] == 'Ø150 cm' else 'Ø330 cm', 'Kleur': 'Wit'}, 10)],
     'pakket-40-stapelstoelen-met-transportkar': lambda p, v: [('zitkussen-stoel-en-barkruk', {'Kleur': {'Zwart': 'Zwart', 'Antraciet': 'Antraciet'}.get(vopts(p, v)['Kleur'], 'Zandkleur')}, 40)],
-    'bierbank-220': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Uitvoering': 'Alleen bank', 'Kleur': 'Wit'}, 1)],
+    'bierbank': lambda p, v: [('hoes-biertafelset', {'Maat': vopts(p, v)['Maat'], 'Uitvoering': 'Alleen bank', 'Kleur': 'Wit'}, 1)],
     # wijnvat: 4 barkrukken in its style (as in the wijnvat-set) and a beschermplaat 2 cm under the Ø80 blad
     'statafel-wijnvat-houtlook': lambda p, v: [('barkruk-wijnvat', {}, 4)] + ([('beschermplaat-statafel', {'Maat': 'Ø78 cm'}, 1)] if vopts(p, v)['Maat'] == 'Ø80 cm' else []),
     # catalog round 3: the wide and design statafels
@@ -366,14 +397,21 @@ RULES = {
     'stapelstoel-metaal': r_stapelstoel,
     'banquetstoel-gestoffeerd': r_stapelstoel,
     'klapstoel': lambda p, v: [('stoelhoes-stretch', {'Uitvoering': 'Voor klapstoel', 'Kleur': vopts(p, v)['Kleur']}, 1),
+                               ('stoelverbinder', {'Uitvoering': 'Voor klapstoel'}, 1),   # catalog round 4: rows
                                ('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 30 klapstoelen'}, 1)],
+    # catalog round 4: the new seats (verbinder per stoel for rows; the kar once per order line)
+    'stapelstoel-kunststof': lambda p, v: [('stoelverbinder', {'Uitvoering': 'Voor stapelstoel kunststof'}, 1),
+                                           ('transportkar-stapelstoelen', {'Uitvoering': 'Voor 20 stapelstoelen'}, 1)],
+    'klapstoel-hout-bistro': lambda p, v: [('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 30 klapstoelen'}, 1)],
+    'barkruk-inklapbaar': lambda p, v: [('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 15 barkrukken'}, 1)],
     # catalog round 2026-10-18: the new tables, chairs, koeling, afzetten, garderobe and the loper tape
     'klapstoel-wedding': lambda p, v: [('stoelhoes-stretch', {'Uitvoering': 'Voor klapstoel', 'Kleur': vopts(p, v)['Kleur']}, 1),
                                        ('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 26 weddingstoelen'}, 1)],
     'bankettafel-hout-rechthoekig': lambda p, v: ([('stretchhoes-klaptafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Zwart'}, 1)]
                                                   if find_one('stretchhoes-klaptafel', {'Maat': vopts(p, v)['Maat'], 'Kleur': 'Zwart'}) else []) +
-                                                 [('klapstoel-wedding', {'Kleur': 'Wit'}, {'122 x 76 cm': 4, '153 x 76 cm': 6, '183 x 76 cm': 6, '220 x 76 cm': 8}[vopts(p, v)['Maat']]),
-                                                  ('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 10 klaptafels 183 cm'}, 1)],
+                                                 [('klapstoel-wedding', {'Kleur': 'Wit'}, {'122 x 76 cm': 4, '153 x 76 cm': 6, '183 x 76 cm': 6, '220 x 76 cm': 8}[vopts(p, v)['Maat']])] +
+                                                 # catalog round 4: the kar takes tables up to 183 cm long; the 220 x 76 cm table gets none
+                                                 ([('transportkar-klaptafels-en-stoelen', {'Uitvoering': 'Voor 10 klaptafels 183 cm'}, 1)] if vopts(p, v)['Maat'] != '220 x 76 cm' else []),
     'bankettafel-hout-rond': lambda p, v: ([('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] in ('Ø153 cm', 'Ø165 cm') else 'Ø330 cm', 'Kleur': 'Wit'}, 1)]
                                            if vopts(p, v)['Maat'] != 'Ø122 cm' else []) +
                                           [('klapstoel-wedding', {'Kleur': 'Wit'}, {'Ø122 cm': 6, 'Ø153 cm': 8, 'Ø165 cm': 10, 'Ø183 cm': 10}[vopts(p, v)['Maat']]),
@@ -388,13 +426,17 @@ RULES = {
                                          ('transportkar-afzetpalen', {'Uitvoering': 'Voor 16 afzetpalen'}, 1)],
     'afzetpaal-met-trekband': lambda p, v: [('transportkar-afzetpalen', {'Uitvoering': 'Voor 16 afzetpalen'}, 1)],
     'kapstok-verrijdbaar': lambda p, v: [('transportkar-kapstokken', {'Uitvoering': 'Voor 2 kapstokken'}, 1)],
-    'loper-per-meter': lambda p, v: [('tape-voor-loper-en-vloer', {'Uitvoering': 'Dubbelzijdige tapijttape 50 mm x 25 m'}, 1)],
+    'loper-per-meter': lambda p, v: [('tape-voor-loper-en-vloer', {'Uitvoering': 'Dubbelzijdige tapijttape 50 mm x 25 m'}, 1),
+                                     ('loperpennen-set-van-25', {}, 1)],   # catalog round 5: tape on a hard floor, pins on grass
     'halve-zijwand-easy-up': lambda p, v: [('dwarsbuis-halve-zijwand-easy-up', {'Maat': vopts(p, v)['Maat']}, 1)],
     # M20: optional per-table extras in the statafel + kar pakket: a stretchrok met topcover and a beschermplaat per statafel
     'pakket-statafels-met-transportkar': lambda p, v: [
         ('statafelrok-stretch', {'Maat': 'Ø60-70 cm' if vopts(p, v)['Maat'] == 'Ø70 cm' else 'Ø80-85 cm', 'Uitvoering': 'Met topcover',
                                  'Kleur': vopts(p, v)['Kleur'] if vopts(p, v)['Kleur'] in ROK_KLEUREN else TEXTIEL_DEFAULT}, int(vopts(p, v)['Uitvoering'].split()[0])),
-        ('beschermplaat-statafel', {'Maat': PLAAT[vopts(p, v)['Maat']]}, int(vopts(p, v)['Uitvoering'].split()[0]))],
+        ('beschermplaat-statafel', {'Maat': PLAAT[vopts(p, v)['Maat']]}, int(vopts(p, v)['Uitvoering'].split()[0])),
+        # catalog round 5 (low): the other per-table extra Statafelshop offers in its pack: a hoes met strik instead of the rok
+        ('statafelhoes-met-strik', {'Maat': 'Ø60-70 cm' if vopts(p, v)['Maat'] == 'Ø70 cm' else 'Ø80-85 cm',
+                                    'Kleur': vopts(p, v)['Kleur'] if vopts(p, v)['Kleur'] in STRIK_KLEUREN else TEXTIEL_DEFAULT}, int(vopts(p, v)['Uitvoering'].split()[0]))],
     'barkruk-stapelbaar-metaal': r_barkruk,
     'barkruk-houten-zitting': r_barkruk,
     'barkruk-velours-stapelbaar': r_barkruk,
@@ -404,9 +446,22 @@ RULES = {
     'statafel-vierkant-stapelbaar': r_statafel_hoekig({'60 x 60 cm': 4, '70 x 70 cm': 4, '80 x 80 cm': 4}, kar=KAR_STAPEL),
     'statafel-rechthoekig-inklapbaar': r_statafel_hoekig({'120 x 60 cm': 6, '120 x 70 cm': 6, '160 x 60 cm': 8, '180 x 70 cm': 8}),
     'terrastafel-inklapbaar': r_terrastafel,
+    # catalog round 5: the terrace twins of the hoekige and design statafels and the wiebelvrije tafel
+    'terrastafel-vierkant-stapelbaar': lambda p, v: r_terras_twin(p, v, {'60 x 60 cm': 2, '70 x 70 cm': 4, '80 x 80 cm': 4}, kar=KAR_STAPEL),
+    'terrastafel-breed-stapelbaar': lambda p, v: r_terras_twin(p, v, {'120 x 60 cm': 4, '120 x 70 cm': 4, '140 x 70 cm': 6, '180 x 70 cm': 8}),
+    'terrastafel-design-zuilvoet': lambda p, v: r_terras_twin(p, v, {'Ø70 cm': 4, '70 x 70 cm': 4}),
+    'terrastafel-wiebelvrij': lambda p, v: r_terras_twin(p, v, {'Ø70 cm': 4, '70 x 70 cm': 4, 'Ø80 cm': 4}),
+    # the koord in the paal's own colour where the koord has it (zwart, goud); bordeaux at chroom
+    'afzetpaal-gala': lambda p, v: [('afzetkoord-velours', {'Uitvoering': 'Koord 150 cm', 'Kleur': 'Bordeaux' if vopts(p, v)['Kleur'] == 'Chroom' else vopts(p, v)['Kleur']}, 1),
+                                    ('transportkar-afzetpalen', {'Uitvoering': 'Voor 16 afzetpalen'}, 1)],
     'terrastafel-rond-inklapbaar': r_terrastafel_rond,
     'prikkabel-e27': lambda p, v: [('led-lamp-e27', {'Uitvoering': 'Warm wit melkglas 1 W'},
-                                    int(vopts(p, v)['Maat'].split()[0]) * (2 if vopts(p, v).get('Uitvoering', '').startswith('2') else 1))],  # one lamp per fitting
+                                    int(vopts(p, v)['Maat'].split()[0]) * (2 if vopts(p, v).get('Uitvoering', '').startswith('2') else 1)),  # one lamp per fitting
+                                   # catalog round 5 (low): the end of the line (the contrastekker chains a next cable; an eindkap closes it, an
+                                   # eindhaak spans it) and a lead to the first fitting (a verlengkabel in front: only in zwart, so on zwart cables)
+                                   ('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Eindkap'}, 1),
+                                   ('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Eindhaak met spanveer (set van 2)'}, 1)] +
+                                  ([('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Verlengkabel 5 m zwart'}, 1)] if vopts(p, v)['Kleur'] == 'Zwart' else []),
     'led-lichtslang': lambda p, v: [('onderdelen-prikkabel-en-lichtslang', {'Uitvoering': 'Aansluitsnoer lichtslang met stekker'}, 1)],
     'opslagtent-pvc': r_buizenframe,
     # catalog round 3: the carport had no add-ons: a lange haring per staander and a spanband over every boog (bogen om de 2,4 m)
@@ -427,7 +482,7 @@ RULES = {
     'klaptafel-hdpe-rond': lambda p, v: [('statafelkleed-rond-tot-de-grond', {'Maat': 'Ø300 cm' if vopts(p, v)['Maat'] == 'Ø150 cm' else 'Ø330 cm', 'Kleur': 'Wit'}, 1),
                                          ('transportkar-ronde-klaptafels', {}, 1)],
     'pakket-statafel-met-stretchrok': r_pakket_plaat(1),
-    'pakket-statafel-hdpe-met-stretchrok': r_pakket_plaat(1),
+    # catalog round 4: no beschermplaat on the HDPE pakket (wipe-clean blad)
     'pakket-4-statafels-met-stretchrokken': r_pakket_plaat(4),
     'terraspakket-statafel-barkrukken': r_pakket_plaat(1),
     'pakket-5-statafels-stretchrokken-transportkar': r_pakket_plaat(5),
@@ -542,6 +597,9 @@ BUNDLE_FAMILY = {
     # catalog round 2026-10-18
     'pakket-klaptafels-met-transportkar': ST_GROOT, 'pakket-30-klapstoelen-met-transportkar': ST_GROOT, 'pakket-15-of-30-barkrukken-met-transportkar': ST_GROOT,
     'pakket-26-weddingstoelen-met-transportkar': ST_GROOT, 'pakket-klapstoelen-met-stoelhoezen': ST_GROOT,
+    # catalog round 5
+    'pakket-20-stapelstoelen-met-transportkar': ST_GROOT, 'pakket-50-klapstoelen-met-transportkar': ST_GROOT,
+    'pakket-10-biertafels-met-transportkar': ST_GROOT, 'pakket-buffettafel-met-stretchhoes': ST_KLAPTAFEL,
 }
 
 

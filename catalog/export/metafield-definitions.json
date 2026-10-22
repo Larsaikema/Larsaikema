@@ -1,5 +1,5 @@
 {
- "note": "Create these definitions BEFORE importing products.csv: Shopify imports a metafield column only when its definition exists. Reference types (product/page/variant/file) are not in the CSV; the seed script sets them from product-references.json after products exist. Link option Kleur to the category metafield shopify.color-pattern (swatches) after import.",
+ "note": "Create these definitions BEFORE importing products.csv (node scripts/seed/seed.mjs definitions): Shopify imports a metafield column only when its definition exists. Reference types (product/page/variant/file) and the variant metafields are not in the CSV: node scripts/seed/seed.mjs references sets them from product-references.json after the import (docs/import-en-seed.md). Link option Kleur to the category metafield shopify.color-pattern (swatches) after import.",
  "definitions": [
   {
    "owner_type": "PRODUCT",

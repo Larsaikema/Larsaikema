@@ -22,8 +22,10 @@ def build():
     SK = ['Zandkleur', 'Taupe', 'Wit', 'Zwart']
     # (houten palen + spanbanden, reference complete with spanbanden, kg). Catalog round 3: every size ca. 10% under the reference; the
     # 10,5 x 15 and 10,5 x 19,5 m were 15-16% under it and the step from 10,5 x 12 to 10,5 x 15 m added 7,6% for 25% more doek (now +18%, as there)
-    STC = {'4,5 x 6 m': (2395, 2630, 85), '4,5 x 7,5 m': (2795, 3115, 100), '6 x 6 m': (3095, 3425, 110), '6 x 10,5 m': (5195, 5805, 180),
-           '7,5 x 10,5 m': (6195, 6830, 225), '9 x 10,5 m': (7395, 8149, 270), '10,5 x 10,5 m': (8295, 9135, 320), '10,5 x 12 m': (8995, 9960, 365),
+    # catalog round 4: 6 x 10,5 and 7,5 x 10,5 m ca. 12-14% under the reference (were 9-10%): with the loose poles at market price the loose doek
+    # + palen + afspanning must still cost at least the tent (standing item d) with the doek inside 5-15% under its reference
+    STC = {'4,5 x 6 m': (2395, 2630, 85), '4,5 x 7,5 m': (2795, 3115, 100), '6 x 6 m': (3095, 3425, 110), '6 x 10,5 m': (5095, 5805, 180),
+           '7,5 x 10,5 m': (5895, 6830, 225), '9 x 10,5 m': (7395, 8149, 270), '10,5 x 10,5 m': (8295, 9135, 320), '10,5 x 12 m': (8995, 9960, 365),
            '10,5 x 15 m': (10595, 11710, 420), '10,5 x 19,5 m': (13795, 15315, 540)}
     # Uitvoering = palen (hout / aluminium) and afspanning: standaard (spanband met ratel per lus) or zwaar (touwensets met RVS-karabijnen
     # en ronde haringen van 100 cm op de hoek- en middenpunten, for a tent that stays up for weeks or stands open in the wind)
@@ -62,11 +64,13 @@ def build():
     # The loose doek + palen + afspanning stays above the tent (standing item d; asserted here, checked again in validate.py).
     SD_REF = {'4,5 x 6 m': 2100, '4,5 x 7,5 m': 2215, '6 x 6 m': 2474, '6 x 10,5 m': 4304, '7,5 x 10,5 m': 4999, '9 x 10,5 m': 6458,
               '10,5 x 10,5 m': 7534, '10,5 x 12 m': 8560, '10,5 x 15 m': 10710}
-    SD = {'4,5 x 6 m': 1895.0, '4,5 x 7,5 m': 1995.0, '6 x 6 m': 2245.0, '6 x 10,5 m': 3895.0, '7,5 x 10,5 m': 4695.0, '9 x 10,5 m': 5795.0,
-          '10,5 x 10,5 m': 6795.0, '10,5 x 12 m': 7695.0, '10,5 x 15 m': 9645.0, '10,5 x 19,5 m': 12445.0}
+    # catalog round 4: 4,5 x 7,5 / 6 x 6 / 6 x 10,5 / 7,5 x 10,5 / 9 x 10,5 / 10,5 x 10,5 m raised (the loose poles went to market price, so the
+    # doek carries more of the tent price); still 5-15% under the reference doek
+    SD = {'4,5 x 6 m': 1895.0, '4,5 x 7,5 m': 2095.0, '6 x 6 m': 2345.0, '6 x 10,5 m': 4095.0, '7,5 x 10,5 m': 4745.0, '9 x 10,5 m': 6145.0,
+          '10,5 x 10,5 m': 6895.0, '10,5 x 12 m': 7695.0, '10,5 x 15 m': 9645.0, '10,5 x 19,5 m': 12445.0}
     for m, (p, om, kg) in STC.items():
         assert SD[m] + kk_bom.stretch_kit_prijs(m, 'Kastanjehout') >= p, m
-        assert m not in SD_REF or 0.85 <= SD[m] / SD_REF[m] <= 0.95, m
+        assert m not in SD_REF or 0.85 <= SD[m] / SD_REF[m] <= 0.955, m
     def sd_kg(m):
         a, b = [float(x.replace(',', '.')) for x in m.replace(' m', '').split(' x ')]
         return round(a * b * 0.75 + 2)
@@ -146,7 +150,9 @@ def build():
            {'kenmerk_kort': 'Kastanjehout Ø 80–100 mm of aluminium Ø 50 mm · 2,5 tot 5 m', 'verzending': 'pallet',
             'past_op': ['stretchtent-compleet', 'stretchdoek-los', 'hypar-schaduwzeil-stretch']},
            ['stretchtenten.stretch-palensets'], 'stretch', 'Losse palen of uitbreiding van je palenset; hout (sfeer) of aluminium (licht).',
-           ['palen stretchtent', 'stretchtent paal'], {'note': 'geen referentieprijs gevonden'})
+           ['palen stretchtent', 'stretchtent paal'], {'outmate': 'paal hout 2,5 m €29 · 3 m €35 · 4 m €49 · 5 m €79 (live, 2026-10-18)',
+                                                       'rule': 'hout ca. 10% onder de referentie; aluminium ca. x 1,34 van hout (geen referentie)',
+                                                       'ours': {f'{m} {u}': p for (m, u), p in kk_bom.PAAL_PRIJS.items()}})
     HY = {'4,5 x 4,5 m': 1989, '6 x 6 m': 3149, '7,5 x 7,5 m': 4359}   # ca. 10% under Outmate HYPAR Shadow (€2.219 / €3.500 / €4.850), catalog round 2026-10-18
     # catalog round 3: 6 colours like the reference (Grijs, Zwart and Rood added; Zwart and Rood are a dearer dye, + € 95 / 225 / 130 there too)
     HK = ['Zandkleur', 'Wit', 'Taupe', 'Grijs', 'Zwart', 'Rood']
@@ -168,7 +174,7 @@ def build():
     STU = ['Effen doek', 'Full colour bedrukt']
     STK = ['Wit', 'Zwart', 'Zandkleur']
     # full colour: the surcharge on the plain tent grows with the cloth area (Ø8 +950 · Ø10 +1.070 · Ø12 +1.100 · Ø14 +1.170 · Ø16 +1.220)
-    ST1 = {'Ø8 m': (899, 989, 53, 1849), 'Ø10 m': (979, 1029, 58, 2049), 'Ø12 m': (1149, 1225, 62, 2249), 'Ø14 m': (1279, 1350, 67, 2449), 'Ø16 m': (1429, 1500, 75, 2649)}
+    ST1 = {'Ø8 m': (899, 989, 53, 1849), 'Ø10 m': (979, 1029, 58, 2049), 'Ø12 m': (1149, 1225, 62, 2249), 'Ø14 m': (1279, 1350, 67, 2449), 'Ø16 m': (1429, 1500, 75, 2949)}
     vs = []
     for m, (p, om, kg, fc) in ST1.items():
         vs += [variant(f'KK-TENT-SR-{code(m)}-{COLOR_CODE[k]}', [m, STU[0], k], p, kg * 1000, inv(2, m + k)) for k in STK]
@@ -191,8 +197,12 @@ def build():
            {'outmate': {m: v[1] for m, v in ST1.items()}, 'outmate_full_colour': 'Ø8 tot €2.071 · Ø10 tot €2.299 · Ø14 tot €2.588 · Ø16 tot €3.278',
             'ours': {m: v[0] for m, v in ST1.items()}, 'ours_full_colour': {m: v[3] for m, v in ST1.items()}}, vmap=vmap,
            extra={'variant_image_sku': {f'KK-TENT-SR-{code(m)}-FC-WIT': fc1 for m in ST1}})
-    ST2 = {'8 x 13 m': (2295, 2500, 106, 3899), '10 x 16 m': (2649, 2900, 130, 4549), '12 x 19 m': (2949, 3200, 160, 5149), '13 x 21 m': (3249, 3500, 185, 5649)}
-    STK2 = ['Wit', 'Zandkleur']
+    # catalog round 5 (low): full colour Ø16 m and the dubbele mast sat 19-27% under the reference (Ø16 € 3.278; 8x13 € 5.225, 10x16 € 6.250,
+    # 12x19 € 6.750, 13x21 € 7.200): now ca. 10% under each
+    ST2 = {'8 x 13 m': (2295, 2500, 106, 4699), '10 x 16 m': (2649, 2900, 130, 5619), '12 x 19 m': (2949, 3200, 160, 6069), '13 x 21 m': (3249, 3500, 185, 6479)}
+    # catalog round 5: the dubbele mast in Zwart too (the reference sells all four sizes in Zwart, Wit and Zandkleur at one price, with
+    # double-mast walls in black); same price in every colour, as on the enkele mast
+    STK2 = ['Wit', 'Zwart', 'Zandkleur']
     vs = []
     for m, (p, om, kg, fc) in ST2.items():
         vs += [variant(f'KK-TENT-SRD-{code(m)}-{COLOR_CODE[k]}', [m, STU[0], k], p, kg * 1000, None, tracked=False) for k in STK2]
@@ -209,7 +219,7 @@ def build():
             'drukopties': {'posities': ['Dak (alle vlakken)'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
                            'optie': 'Uitvoering', 'zonder': ['Effen doek']}},
            ['stertenten.stertent-dubbelmast'], 'ster', 'Langgerekte stertent voor grotere groepen: capaciteit per maat, opzetten met 2–3 personen in een half uur; effen of full colour bedrukt.',
-           ['stertent dubbele mast', 'stertent 8x13'], {'outmate': {m: v[1] for m, v in ST2.items()}, 'ours': {m: v[0] for m, v in ST2.items()},
+           ['stertent dubbele mast', 'stertent 8x13'], {'outmate': {m: v[1] for m, v in ST2.items()}, 'outmate_full_colour': '8x13 €5.225 · 10x16 €6.250 · 12x19 €6.750 · 13x21 €7.200 (live, 2026-10-18)', 'ours': {m: v[0] for m, v in ST2.items()},
                                                          'ours_full_colour': {m: v[3] for m, v in ST2.items()}}, vmap=vmap,
            extra={'variant_image_sku': {f'KK-TENT-SRD-{code(m)}-FC-WIT': fc2 for m in ST2}})
     # walls: per vak (los) or the full set, for every enkele-mast diameter and every dubbelmast size
@@ -220,7 +230,7 @@ def build():
     # catalog round 3: full colour bedrukte wanden (sublimatie op wit doek, like the full colour tent), a loose wall or the set rondom, Wit only
     SZFC = [('Losse wand dicht, full colour bedrukt', 'LDFC', 2900), ('Set rondom, full colour bedrukt', 'SETFC', None)]
     # Kleur (blocker B1, catalog round 2026-10-18): the walls come in the tent colours, so a Zwart or Zandkleur tent gets walls in its own
-    # colour; the enkele mast in Wit, Zwart and Zandkleur, the dubbele mast in Wit and Zandkleur (the colours of those tents)
+    # colour; both masts in Wit, Zwart and Zandkleur (the colours of those tents; Zwart on the dubbele mast since catalog round 5)
     SZK = {m: (STK if m.startswith('Ø') else STK2) for m in SZ}
     vs = [variant(f'KK-ZW-SR-{code(m)}-{c}-{COLOR_CODE[k]}', [m, u, k], (v[0] + d) if d is not None else v[1], g if g else 30000 + 4000 * j,
                   inv(3 if d is not None else 1, m + u + k))
@@ -306,35 +316,84 @@ def build():
            ['opblaasbare tent zeshoek', 'opblaasbare eventtent groot'], {'outmate': '8x8 €4.950 · 10x10 €7.250 · 12x12 €9.950', 'ours': ZH}, vmap=vmap)
     # catalog round 2026-10-18 (like blocker B1 on the stertent): the walls come in the frame colours of the tents they fit (Wit only gave
     # a white wall on a Rood or Zwart tent); Antraciet for the waterpoten tent. Same price in every colour, SKU ends in the colour code.
-    AWK = AK + ['Antraciet']
-    AW = {'3 m': (159, 179), '4 m': (189, 209), '5 m': (219, 239), '6 m': (249, 269)}
-    vs = [variant(f'KK-ZW-AIR-{code(m)}-{"DI" if i == 0 else "DE"}-{COLOR_CODE[k]}', [m, u, k], v[i], 3000 + 800 * j, inv(3, m + u + k))
-          for j, (m, v) in enumerate(AW.items()) for i, u in enumerate(['Dicht', 'Met deur']) for k in AWK]
-    imgs, vmap = kleur_images('zijwand-opblaasbare-promotietent', AWK, 'opblaasbareTent',
-                              lambda k: {'w': 3, 'color': render_color(k), 'walls': {'back': 'closed'}, 'wallColor': render_color(k)}, 'Wit', status='needs-param', p2=3)
-    for i in imgs:   # the white wall keeps its existing render file
-        if i['kleur'] == 'Wit':
-            i['file'] = vmap['Wit'] = 'zijwand-opblaasbare-promotietent-hero.webp'
-    simple('zijwand-opblaasbare-promotietent', 'Zijwand opblaasbare promotietent', 'Opblaasbare tent accessoire', ['zakelijk'],
-           [opt('Maat', list(AW)), opt('Uitvoering', ['Dicht', 'Met deur']), opt('Kleur', AWK)], vs, imgs,
-           {'kenmerk_kort': 'Met rits aan het luchtframe · dicht of met deur · in de tentkleur', 'verzending': 'pakket',
-            'past_op': ['opblaasbare-promotietent', 'opblaasbare-partytent-met-waterpoten']},
-           ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar', 'Wand per zijde met rits, in de framekleur van de tent; ook bedrukbaar via offerte.', ['zijwand opblaasbare tent'],
-           {'outmate': 'zijwand dicht €179 · raam/deur €199', 'ours': AW}, vmap=vmap)
+    # catalog round 5: the waterpoten tent has its own, higher wall line (below), so the standard wall keeps the promotietent colours only
+    AWK = list(AK)
+    # catalog round 4 (medium): every wall type the reference sells (dicht, met raam, met deur, met enkele rits) and a full colour printed
+    # wall (sublimatie op wit doek, drukproef vooraf), so a business buyer can put a printed back wall on the tent; ca. 10% under the
+    # reference AirMate Alpha walls (dicht 3x3 € 179, raam/deur/rits € 199; 4x4 € 295, 5x5 € 399, 6x6 € 499 for every type). Printed: a
+    # print surcharge on the plain price (the reference's printed 3 m wall costs € 249).
+    AIR_WU = ['Dicht', 'Met raam', 'Met deur', 'Enkele rits']
+    AIR_WC = {'Dicht': 'DI', 'Met raam': 'RA', 'Met deur': 'DE', 'Enkele rits': 'RI'}
+    AIR_FC = 'Full colour bedrukt'
+    # catalog round 5: the shopper picks the print side (the reference offers binnenkant / buitenkant); both sides is a quote
+    AIR_WDRUK = {'posities': ['Buitenkant', 'Binnenkant'], 'aanlevering': AANLEVERING + ' (of ons sjabloon)', 'levertijd': LT_DRUK, 'min_aantal': 1,
+                 'optie': 'Uitvoering', 'zonder': list(AIR_WU)}
+    def air_walls(h, sku, sizes, kleuren, g0, gstep, render, title, kenmerk, past_op, specs, covers, brief, kw, ref, tags=('zakelijk',), lt=None):
+        vs = []
+        w0 = float(next(iter(sizes)).split()[0].replace(',', '.'))
+        for m, (pdi, pov, pfc) in sizes.items():
+            g = int(g0 + gstep * (float(m.split()[0].replace(',', '.')) - w0))   # per meter of width (3 / 4,5 / 6 m)
+            for u in AIR_WU:
+                vs += [variant(f'{sku}-{code(m)}-{AIR_WC[u]}-{COLOR_CODE[k]}', [m, u, k], pdi if u == 'Dicht' else pov, g, None, tracked=False) for k in kleuren]
+            vs.append(variant(f'{sku}-{code(m)}-FC-WIT', [m, AIR_FC, 'Wit'], pfc, g + 200, None, tracked=False))
+        imgs, vmap = kleur_images(h, kleuren, 'opblaasbareTent', lambda k: render(k, {'back': 'closed'}), 'Wit', status='needs-param', p2=3)
+        fc_img = f'{h}-full-colour.webp'
+        # the printed wall is white cloth with the design (Kleur 'Wit' on the variant): the image says so, so a variant image check matches it
+        imgs.append(img(fc_img, 'variant', 2, 'opblaasbareTent', {**render('Wit', {'back': 'print'}), 'wallPrint': {'artwork': 'brand/img/voorbeeld-fullcolour.png', 'side': 'back'}},
+                        'hero', 'Wit', 'needs-param', alt='met een voorbeeldontwerp full colour op de achterwand'))
+        mf = {'kenmerk_kort': kenmerk, 'verzending': 'pakket', 'past_op': past_op, 'bedrukbaar': True, 'drukopties': dict(AIR_WDRUK),
+              'specificaties': specs + [sp('Wand', 'Uitvoeringen', 'Dicht, met raam (helder PVC), met deur (rits in een boog, op te rollen) of met één rits van boven naar beneden'),
+                                        sp('Bedrukt', 'Druk', 'Full colour sublimatie op wit doek, buitenkant; drukproef vooraf')]}
+        if lt:
+            mf['levertijd'] = lt
+        simple(h, title, 'Opblaasbare tent accessoire', list(tags) + ['bedrukbaar'], [opt('Maat', list(sizes)), opt('Uitvoering', AIR_WU + [AIR_FC]), opt('Kleur', kleuren)],
+               vs, imgs, mf, covers, 'opblaasbaar', brief, kw, ref, vmap=vmap,
+               extra={'variant_image_sku': {v['sku']: fc_img for v in vs if v['option2'] == AIR_FC}})
+    AW = {'3 m': (159, 179, 229), '4 m': (259, 269, 319), '5 m': (349, 359, 409), '6 m': (439, 449, 489)}
+    air_walls('zijwand-opblaasbare-promotietent', 'KK-ZW-AIR', AW, AWK, 3000, 800,
+              lambda k, walls: {'w': 3, 'color': render_color(k), 'walls': walls, 'wallColor': render_color(k)},
+              'Zijwand opblaasbare promotietent', 'Rits aan het luchtframe · dicht, raam, deur of rits · ook full colour bedrukt',
+              ['opblaasbare-promotietent'], [sp('Wand', 'Doek', '600D polyester, PU-gecoat, waterdicht')],
+              ['opblaasbare-tenten.air-accessoires'],
+              'Wand per zijde met rits: dicht, met raam, met deur of met één rits, in de framekleur van de tent, of full colour bedrukt met jouw ontwerp (drukproef vooraf).',
+              ['zijwand opblaasbare tent', 'zijwand promotietent bedrukt', 'zijwand opblaasbare tent met raam'],
+              {'outmate': 'AirMate Alpha: dicht 3x3 €179 · raam/deur/enkele rits €199 · 4x4 €295 · 5x5 €399 · 6x6 €499 (alle uitvoeringen); bedrukte wand Theta 3 m €249 (live, 2026-10-18)',
+               'ours': {m: dict(zip(['dicht', 'raam/deur/rits', 'full colour'], v)) for m, v in AW.items()}})
+    # the white wall keeps its existing render file
+    for i in HANDLES['zijwand-opblaasbare-promotietent']['images']:
+        if i['kleur'] == 'Wit' and i['file'].endswith('-wit-hero.webp'):
+            i['file'] = HANDLES['zijwand-opblaasbare-promotietent']['variant_images']['Wit'] = 'zijwand-opblaasbare-promotietent-hero.webp'
     # blocker B2 (catalog round 2026-10-18): the Pro is 20-40 cm higher (doorloop 2,5 / 2,6 / 2,7 m), so the standard wall does not fit it;
     # the Pro wall is its own product in the Pro sizes, + € 20 for the extra height, in the Pro's frame colours
-    AWP = {'4 m': (209, 229, 250), '5 m': (239, 259, 260), '6 m': (269, 289, 270)}
-    vs = [variant(f'KK-ZW-AIRP-{code(m)}-{"DI" if i == 0 else "DE"}-{COLOR_CODE[k]}', [m, u, k], v[i], 3600 + 900 * j, inv(3, m + u + k + 'pro'))
-          for j, (m, v) in enumerate(AWP.items()) for i, u in enumerate(['Dicht', 'Met deur']) for k in AK]
-    imgs, vmap = kleur_images('zijwand-opblaasbare-promotietent-pro', AK, 'opblaasbareTent',
-                              lambda k: {'w': 4, 'color': render_color(k), 'tubeDiameter': 0.3, 'height': 2.5, 'walls': {'back': 'closed'}, 'wallColor': render_color(k)},
-                              'Wit', status='needs-param', p2=3)
-    simple('zijwand-opblaasbare-promotietent-pro', 'Zijwand opblaasbare promotietent Pro', 'Opblaasbare tent accessoire', ['zakelijk'],
-           [opt('Maat', list(AWP)), opt('Uitvoering', ['Dicht', 'Met deur']), opt('Kleur', AK)], vs, imgs,
-           {'kenmerk_kort': 'Hogere wand voor de Pro · 250 tot 270 cm · in de tentkleur', 'verzending': 'pakket', 'past_op': ['opblaasbare-promotietent-pro'],
-            'specificaties': [sp('Wand', 'Hoogte', '250 cm (4 m), 260 cm (5 m), 270 cm (6 m): de doorloop van de Pro')]},
-           ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar', 'Wand per zijde voor de hogere Pro: hoogte volgt de doorloop per maat; dicht of met deur; in de framekleur.',
-           ['zijwand opblaasbare tent pro', 'zijwand promotietent pro'], {'outmate': 'zijwand dicht €179 · raam/deur €199 (AirMate)', 'ours': {m: v[:2] for m, v in AWP.items()}}, vmap=vmap)
+    # catalog round 4: re-based on the reference's higher model (AirMate Beta: € 299 / 399 / 499 for 4x4 / 5x5 / 6x6, every type), ca. 7-10%
+    # under it and € 10 over our standard wall of the same width; it sat ca. 30% under it
+    AWP = {'4 m': (269, 279, 329), '5 m': (359, 369, 419), '6 m': (449, 459, 499)}
+    air_walls('zijwand-opblaasbare-promotietent-pro', 'KK-ZW-AIRP', AWP, AK, 3600, 900,
+              lambda k, walls: {'w': 4, 'color': render_color(k), 'tubeDiameter': 0.3, 'height': 2.5, 'walls': walls, 'wallColor': render_color(k)},
+              'Zijwand opblaasbare promotietent Pro', 'Hogere wand voor de Pro · 250 tot 270 cm · 4 uitvoeringen of full colour',
+              ['opblaasbare-promotietent-pro'], [sp('Wand', 'Hoogte', '250 cm (4 m), 260 cm (5 m), 270 cm (6 m): de doorloop van de Pro'),
+                                                 sp('Wand', 'Doek', '600D polyester, PU-gecoat, waterdicht')],
+              ['opblaasbare-tenten.air-accessoires'],
+              'Wand per zijde voor de hogere Pro: hoogte volgt de doorloop per maat; dicht, met raam, met deur of met één rits in de framekleur, of full colour bedrukt.',
+              ['zijwand opblaasbare tent pro', 'zijwand promotietent pro', 'bedrukte zijwand opblaasbare tent'],
+              {'outmate': 'AirMate Beta: dicht/raam/deur/enkele rits 4x4 €299 · 5x5 €399 · 6x6 €499 (live, 2026-10-18)',
+               'ours': {m: dict(zip(['dicht', 'raam/deur/rits', 'full colour'], v)) for m, v in AWP.items()}})
+    # catalog round 5 (medium): the waterpoten tent sells as 3 x 3, 3 x 4,5 and 3 x 6 m with a 2,2 m doorloop, but its wall add-on was the
+    # standard 3 m wall (190 cm) at every size, so its long sides could not be closed. Its own wall line, like the reference (AirMate
+    # Theta: 3, 4,5 and 6 m; dicht, raam, enkele rits, oproldeur; full colour with a choice of print side, € 249 for the 3 m): 220 cm
+    # high, in the tent's frame colours. 3 m printed € 229 (8% under), the longer walls scale with the cloth (no reference price per size).
+    AWW = {'3 m': (179, 199, 229), '4,5 m': (299, 309, 349), '6 m': (459, 469, 499)}
+    air_walls('zijwand-opblaasbare-partytent-met-waterpoten', 'KK-ZW-AIRW', AWW, WK, 3400, 800,
+              lambda k, walls: {'w': 3, 'legs': 'water', 'height': 3.2, 'color': render_color(k), 'walls': walls, 'wallColor': render_color(k)},
+              'Zijwand opblaasbare partytent met waterpoten', '220 cm hoog · 3, 4,5 of 6 m · dicht, raam, deur of rits · ook full colour',
+              ['opblaasbare-partytent-met-waterpoten'], [sp('Wand', 'Hoogte', '220 cm: de doorloop van de partytent met waterpoten'),
+                                                         sp('Wand', 'Doek', '600D polyester, PU-gecoat, waterdicht')],
+              ['opblaasbare-tenten.air-accessoires'],
+              'Wand per zijde voor de partytent met waterpoten: 3 m voor de korte kant, 4,5 of 6 m voor de lange kant; dicht, met raam, met deur of met één rits in de framekleur, of full colour bedrukt (binnen- of buitenkant).',
+              ['zijwand opblaasbare partytent', 'zijwand opblaasbare tent 3x6', 'zijwand opblaasbare tent 4,5 m'],
+              {'outmate': 'AirMate Theta zijwand gesloten / raam / enkele rits / oproldeur, full colour, 3 / 4,5 / 6 m, binnen- of buitenkant: €249 (3 m; live, 2026-10-18)',
+               'ours': {m: dict(zip(['dicht', 'raam/deur/rits', 'full colour'], v)) for m, v in AWW.items()}},
+              tags=('zakelijk', 'gebruik:tuinfeest'))
     simple('pomp-opblaasbare-tent', 'Pomp voor opblaasbare tent', 'Opblaasbare tent accessoire', ['zakelijk'], [opt('Uitvoering', ['Elektrische pomp', 'Handpomp'])],
            [variant('KK-AIR-POMP-EL', ['Elektrische pomp'], 69.95, 2200, 10), variant('KK-AIR-POMP-HA', ['Handpomp'], 34.95, 1500, 15)],
            [img('pomp-opblaasbare-tent-hero.webp', 'hero', 1, 'airPump', {'kind': 'elektrisch'}, 'hero', None, 'needs-model')],
@@ -357,7 +416,7 @@ def build():
                               sp('Luifel', 'Doek', '600D polyester, PU-gecoat'), sp('Bevestiging', 'Aan de tent', 'Rits en klittenband langs de dakrand')]},
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar',
            'Extra schaduw en droogte voor de ingang van je promotietent: luifel per zijde, maat = zijde van de tent, zelfde kleuren als de frames.',
-           ['luifel opblaasbare tent', 'luifel promotietent'], {'note': 'Outmate verkoopt luifels (prijs niet gevonden)', 'ours': LF}, vmap=vmap)
+           ['luifel opblaasbare tent', 'luifel promotietent'], {'note': 'Outmate verkoopt luifels; niet in de live-data van 2026-10-18 (geen prijs)', 'ours': LF}, vmap=vmap)
     TU = {'3 m breed': 449, '4 m breed': 529}
     TUK = ['Wit', 'Zwart']
     vs = [variant(f'KK-AIR-TUN-{code(m.split()[0] + " m")}-{COLOR_CODE[k]}', [m, k], p, 9000 + 2000 * i, None, tracked=False) for i, (m, p) in enumerate(TU.items()) for k in TUK]
@@ -373,7 +432,7 @@ def build():
                               sp('Tunnel', 'Frame', 'Twee luchtbogen met ventiel'), sp('Bevestiging', 'Aan de tent', 'Rits langs de dakrand van beide tenten')]},
            ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar',
            'Twee opblaasbare tenten tot één ruimte koppelen: droog van de ene naar de andere tent, breedte = zijde waarop je koppelt.',
-           ['verbindingstunnel opblaasbare tent', 'opblaasbare tenten koppelen'], {'note': 'Outmate verkoopt tunnels (prijs niet gevonden)', 'ours': TU}, vmap=vmap)
+           ['verbindingstunnel opblaasbare tent', 'opblaasbare tenten koppelen'], {'note': 'Outmate verkoopt tunnels; niet in de live-data van 2026-10-18 (geen prijs)', 'ours': TU}, vmap=vmap)
     OB = {'3 x 3 m': 69.0, '4 x 4 m': 79.0, '5 x 5 m': 89.0, '6 x 6 m': 99.0}
     simple('opbergtas-opblaasbare-tent', 'Opbergtas met wielen voor opblaasbare tent', 'Opblaasbare tent accessoire', ['zakelijk', 'gebruik:evenement'],
            [opt('Maat', list(OB))], [variant(f'KK-AIR-TAS-{code(m)}', [m], p, 2400 + 400 * i, inv(4, m + 'airtas')) for i, (m, p) in enumerate(OB.items())],
@@ -397,25 +456,30 @@ def build():
            'Licht in je opblaasbare tent op een avondevent of beurs: 12 W LED onder de nok, klittenband om het luchtframe, 5 m kabel; geen gereedschap.',
            ['verlichting opblaasbare tent', 'led lamp promotietent', 'tentverlichting opblaasbaar'],
            {'outmate': 'LED-verlichting 12 W voor opblaasbare tenten €119', 'ours': 104.95})
-    ZHW = {'8 x 8 m': (349, 379), '10 x 10 m': (419, 449), '12 x 12 m': (489, 519)}
+    # catalog round 4: the reference sells the wall of its 8 m hexagon (4 m per vak) at € 699 (live data; ours was € 349, 50% under it); the
+    # 10 and 12 m tents have 5 and 6 m vakken and cost more per wall. Same four types and a full colour printed wall as the square tents.
+    ZHW = {'8 x 8 m': (599, 629, 699), '10 x 10 m': (729, 759, 849), '12 x 12 m': (849, 879, 979)}
     ZWK = ['Wit', 'Zwart', 'Rood', 'Blauw']   # the 4 colours of the zeshoektent (merchandising review: Rood / Blauw tents got Wit walls)
-    vs = [variant(f'KK-ZW-HEX-{code(m)}-{"DI" if i == 0 else "DE"}-{COLOR_CODE[k]}', [m, u, k], v[i], 6000 + 1500 * j, None, tracked=False)
-          for j, (m, v) in enumerate(ZHW.items()) for i, u in enumerate(['Dicht', 'Met deur']) for k in ZWK]
-    imgs, vmap = kleur_images('zijwand-opblaasbare-zeshoektent', ZWK, 'opblaasbareTent', lambda k: {'w': 8, 'shape': 'hexagon', 'color': render_color(k), 'walls': {'back': 'closed'}},
-                              'Wit', status='needs-param', p2=3)
-    simple('zijwand-opblaasbare-zeshoektent', 'Zijwand opblaasbare zeshoektent', 'Opblaasbare tent accessoire', ['zakelijk', 'gebruik:evenement'],
-           [opt('Maat', list(ZHW)), opt('Uitvoering', ['Dicht', 'Met deur']), opt('Kleur', ZWK)], vs, imgs,
-           {'kenmerk_kort': 'Eén wand per vak · rits aan het luchtframe · dicht of met deur', 'verzending': 'pakket', 'levertijd': 'Levertijd 2–3 weken',
-            'past_op': ['opblaasbare-zeshoektent'],
-            'specificaties': [sp('Wand', 'Doek', '600D polyester, PU-gecoat'), sp('Wand', 'Bevestiging', 'Rits langs poten en dakrand'),
-                              sp('Wand', 'Met deur', 'Rits in het midden, op te rollen met 2 banden'), sp('Maat', 'Kies', 'De maat van je zeshoektent; 1 wand = 1 van de 6 vakken')]},
-           ['opblaasbare-tenten.air-accessoires'], 'opblaasbaar',
-           'Wand voor één vak van de zeshoektent (dicht of met deur): achterwand als windscherm of de hele tent rondom dicht; maat = tentmaat.',
-           ['zijwand zeshoektent', 'zijwand opblaasbare eventtent'], {'note': 'geen referentieprijs gevonden', 'ours': ZHW}, vmap=vmap)
+    air_walls('zijwand-opblaasbare-zeshoektent', 'KK-ZW-HEX', ZHW, ZWK, 6000, 1500,
+              lambda k, walls: {'w': 8, 'shape': 'hexagon', 'color': render_color(k), 'walls': walls},
+              'Zijwand opblaasbare zeshoektent', 'Eén wand per vak · rits aan het luchtframe · 4 uitvoeringen of full colour',
+              ['opblaasbare-zeshoektent'],
+              [sp('Wand', 'Doek', '600D polyester, PU-gecoat'), sp('Wand', 'Bevestiging', 'Rits langs poten en dakrand'),
+               sp('Maat', 'Kies', 'De maat van je zeshoektent; 1 wand = 1 van de 6 vakken (4, 5 of 6 m breed)')],
+              ['opblaasbare-tenten.air-accessoires'],
+              'Wand voor één vak van de zeshoektent (dicht, met raam, met deur, met één rits of full colour bedrukt): achterwand als windscherm of als reclamevlak, of de hele tent rondom dicht; maat = tentmaat.',
+              ['zijwand zeshoektent', 'zijwand opblaasbare eventtent', 'bedrukte wand zeshoektent'],
+              {'outmate': 'zijwand 4 m voor de AirMate Hexon 8 m €699 (live, 2026-10-18); 10 en 12 m niet gevonden',
+               'ours': {m: dict(zip(['dicht', 'raam/deur/rits', 'full colour'], v)) for m, v in ZHW.items()}},
+              tags=('zakelijk', 'gebruik:evenement'), lt='Levertijd 2–3 weken')
 
     # ------------------------------------------------------------ schaduw & overkapping
-    SCH = {'3 x 3 m': (34.95, 39.95), '4 x 4 m': (44.95, 54.95), '5 x 5 m': (59.95, 74.95), '4 x 2 m': (32.95, 39.95), '5 x 3 m': (49.95, 59.95),
-           '6 x 4 m': (59.95, 74.95), '3 x 3 x 3 m': (27.95, 32.95), '4 x 4 x 4 m': (34.95, 42.95), '5 x 5 x 5 m': (42.95, 52.95)}
+    # catalog round 4: (waterdoorlatend, waterdicht) ca. 10% under the reference per size and type (doorlatend 3x3 € 49 · 4x4 € 69 · 5x5 € 69
+    # · 4x2 € 45 · 6x4 € 79 · 3x3x3 € 39 · 4x4x4 € 58,50; waterresistent € 39 / 62,50 / 68,95 / 39 / 59 (5x3) / 69 / 35 / 52,50). The breathable
+    # HDPE cloth costs more than the waterproof one there; ours had it the other way round and 29-35% under the reference. No larger size is
+    # cheaper than a size it contains.
+    SCH = {'3 x 3 m': (44.95, 34.95), '4 x 4 m': (62.95, 56.95), '5 x 5 m': (64.95, 62.95), '4 x 2 m': (40.95, 34.95), '5 x 3 m': (56.95, 52.95),
+           '6 x 4 m': (71.95, 62.95), '3 x 3 x 3 m': (34.95, 31.95), '4 x 4 x 4 m': (52.95, 47.95), '5 x 5 x 5 m': (68.95, 61.95)}
     SCK = ['Antraciet', 'Zandkleur']
     vs = [variant(f'KK-SCH-{code(m)}-{"WD" if i == 0 else "WDI"}-{COLOR_CODE[k]}', [m, u, k], v[i], 1500 + 300 * j, inv(6, m + u + k))
           for j, (m, v) in enumerate(SCH.items()) for i, u in enumerate(['Waterdoorlatend', 'Waterdicht']) for k in SCK]
@@ -424,7 +488,8 @@ def build():
            {'kenmerk_kort': 'HDPE 95% UV-blokkering of waterdicht polyester · RVS-ringen', 'verzending': 'pakket',
             'specificaties': [sp('Doek', 'Waterdoorlatend', 'HDPE, blokkeert ca. 95% UV'), sp('Doek', 'Waterdicht', 'PU-gecoat polyester; span met min. 30° helling')]},
            ['schaduw-overkapping.schaduwdoeken'], 'schaduw', 'Schaduw voor tuin en terras: verschil waterdoorlatend/waterdicht (helling!), vierkant vs driehoek, ophangpunten.',
-           ['schaduwdoek', 'schaduwdoek waterdicht', 'schaduwdoek driehoek'], {'outmate': '3x3 €39 · 5x3 €59 · 5x5 €69 · 4x2 en 4x4x4 per URL', 'ours': SCH}, vmap=vmap)
+           ['schaduwdoek', 'schaduwdoek waterdicht', 'schaduwdoek driehoek'], {'outmate': 'waterdoorlatend 3x3 €49 · 4x4 €69 · 5x5 €69 · 4x2 €45 · 6x4 €79 · 3x3x3 €39 · 4x4x4 €58,50; waterresistent 3x3 €39 · 4x4 €62,50 · 5x5 €68,95 · 4x2 €39 · 5x3 €59 · 6x4 €69 · 3x3x3 €35 · 4x4x4 €52,50 (live, 2026-10-18)',
+            'ours': SCH, 'order': '(waterdoorlatend, waterdicht)'}, vmap=vmap)
     BSD = [('Set voor 3 hoeken', 19.95, '3', 1100), ('Set voor 4 hoeken', 24.95, '4', 1400)]
     simple('bevestigingsset-schaduwdoek', 'Bevestigingsset schaduwdoek RVS', 'Schaduwdoek', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Uitvoering', [b[0] for b in BSD])],
            [variant(f'KK-SCH-BEV-{c}', [n], p, g, inv(20, c + 'bsd')) for n, p, c, g in BSD],
@@ -433,7 +498,7 @@ def build():
            {'kenmerk_kort': 'RVS spanschroeven, karabijnhaken en muurogen · 3 of 4 hoeken', 'verzending': 'pakket', 'past_op': ['schaduwdoek'],
             'specificaties': [sp('Set', 'Per hoek', '1 spanschroef M8, 1 karabijnhaak 8 mm, 1 muuroog met plug'), sp('Set', 'Materiaal', 'RVS 316')]},
            ['schaduw-overkapping.schaduwdoeken'], 'schaduw', 'Alles om een schaduwdoek strak op te spannen aan muur of paal: spanschroef, karabijn en muuroog per hoek.',
-           ['bevestigingsset schaduwdoek', 'spanschroef schaduwdoek'], {'outmate': 'bevestigingsset schaduwdoek (per URL)', 'ours': {b[0]: b[1] for b in BSD}})
+           ['bevestigingsset schaduwdoek', 'spanschroef schaduwdoek'], {'outmate': 'bevestigingset voor schaduwdoek €13,50 (live, 2026-10-18; aantal hoeken niet vermeld)', 'ours': {b[0]: b[1] for b in BSD}})
     OKK = ['Wit', 'Antraciet', 'Zwart', 'Transparant']
     vs = [variant(f'KK-OVK-OM-{COLOR_CODE[k]}', [k], 32.95, 600, None, tracked=False, policy='continue', qrule={'min': 2, 'max': 200, 'increment': 1}) for k in OKK]
     simple('overkappingzeil-op-maat', 'Overkappingzeil op maat (per m²)', 'Overkapping', ['zakelijk', 'gebruik:horeca'], [opt('Kleur', OKK)], vs,
@@ -455,19 +520,30 @@ def build():
            ['zijwand overkapping', 'veranda zijwand pvc'], {'outmate': '3 m €109 · 4 m €149 · 6 m €189 · 8 m €249 · 10 m €269', 'ours': OZ}, vmap=vmap)
     # catalog round 2026-10-18 (M17): 4 x 4 m, frame in Wit too, a gepoedercoat stalen line next to aluminium, footings as a separate part
     TPM = {'3 x 3 m': (649, 62000), '3 x 4 m': (749, 70000), '4 x 4 m': (899, 84000)}
-    TPU = ['Aluminium', 'Staal']   # staal: gepoedercoat verzinkt staal, ca. 20% under aluminium, heavier
+    # catalog round 4: Staal is the heavy-duty line, as at the reference (its steel line costs more than the lighter one): thicker posts,
+    # 8 mm polycarbonaat, heavier; priced ca. 10% under the reference steel line (€ 925 / 1.039 / 1.204,50). It sat 44% under it, below our
+    # own aluminium. Aluminium stays the lighter line, under the reference Lite (€ 695 / 865).
+    TPU = ['Aluminium', 'Staal']
+    TPS = {'3 x 3 m': 829.0, '3 x 4 m': 929.0, '4 x 4 m': 1079.0}
     TPK = ['Antraciet', 'Wit']
-    vs = [variant(f'KK-OVK-TP-{code(m)}-{COLOR_CODE[k]}' + ('-ST' if u == 'Staal' else ''), [m, u, k], (p if u == 'Aluminium' else x9b(p * 0.8)), g * (1.25 if u == 'Staal' else 1), 3)
+    vs = [variant(f'KK-OVK-TP-{code(m)}-{COLOR_CODE[k]}' + ('-ST' if u == 'Staal' else ''), [m, u, k], (p if u == 'Aluminium' else TPS[m]), g * (1.35 if u == 'Staal' else 1), 3)
           for m, (p, g) in TPM.items() for u in TPU for k in TPK]
     tp_imgs = [img('tuinpaviljoen-aluminium-hero.webp', 'hero', 1, 'gardenPavilion', {'w': 3, 'd': 4, 'color': 'antraciet', 'roof': 'polycarbonaat'}, 'hero', 'Antraciet', 'needs-model'),
                img('tuinpaviljoen-aluminium-wit-hero.webp', 'variant', 2, 'gardenPavilion', {'w': 3, 'd': 4, 'color': 'wit', 'roof': 'polycarbonaat'}, 'hero', 'Wit', 'needs-model')]
     simple('tuinpaviljoen-aluminium', 'Tuinpaviljoen met polycarbonaat dak', 'Overkapping', ['pallet', 'gebruik:tuinfeest'],
            [opt('Maat', list(TPM)), opt('Uitvoering', TPU), opt('Kleur', TPK)], vs, tp_imgs,
-           {'kenmerk_kort': 'Aluminium of staal · 6 mm polycarbonaat · gordijnrails · tot 4 × 4 m', 'verzending': 'pallet', 'levertijd': 'Levertijd 1–2 weken', 'garantie': '2 jaar op het frame'},
+           {'kenmerk_kort': 'Aluminium of zwaar staal · polycarbonaat dak · gordijnrails · tot 4 × 4 m', 'verzending': 'pallet', 'levertijd': 'Levertijd 1–2 weken', 'garantie': '2 jaar op het frame',
+            'specificaties': [sp('Aluminium', 'Frame', 'Gepoedercoat aluminium, staanders 80 x 80 mm'), sp('Aluminium', 'Dak', 'Polycarbonaat 6 mm, UV-werend'),
+                              sp('Staal', 'Frame', 'Gepoedercoat verzinkt staal, staanders 120 x 120 mm, zwaardere liggers'),
+                              sp('Staal', 'Dak', 'Polycarbonaat 8 mm, UV-werend, voor meer sneeuwlast'),
+                              sp('Beide', 'Gordijnrails', 'Dubbele rail rondom voor zijwanden of gordijnen'), sp('Beide', 'Verankering', 'Betonpoeren, stelvoeten of grondankers (los)')]},
            ['schaduw-overkapping.tuinpaviljoen'], 'schaduw', 'Vaste tuinoverkapping die het hele seizoen blijft staan; zelf te monteren, verankeren in de grond.',
-           ['tuinpaviljoen aluminium', 'paviljoen 3x4', 'tuinpaviljoen 4x4', 'paviljoen staal'], {'outmate': 'Lite 3x3 €695 · 3x4 €795–€865 · 4x4 en stalen lijn per URL', 'ours': {m: v[0] for m, v in TPM.items()}},
+           ['tuinpaviljoen aluminium', 'paviljoen 3x4', 'tuinpaviljoen 4x4', 'paviljoen staal'],
+           {'outmate': 'Skyshade Lite 3x3 €695 · 3x4 €865 · Skyshade Steel 3x3 €925 · 3x4 €1.039 · 4x4 €1.204,50 (live, 2026-10-18)',
+            'ours': {m: {'Aluminium': v[0], 'Staal': TPS[m]} for m, v in TPM.items()}, 'rule': 'aluminium onder Lite; staal (zware lijn) ca. 10% onder Steel'},
            vmap={'Antraciet': 'tuinpaviljoen-aluminium-hero.webp', 'Wit': 'tuinpaviljoen-aluminium-wit-hero.webp'})
-    TPV = [('Betonpoer (set van 4)', 59.95, 'POER', 48000), ('Verstelbare voet (set van 4)', 49.95, 'STEL', 6000), ('Grondanker (set van 4)', 34.95, 'ANK', 4000)]
+    # catalog round 4 (price_ref refresh): betonpoer met voetplaat € 35 and stelvoet € 12,50 apiece at the reference (live data); per 4 ca. 10-15% under
+    TPV = [('Betonpoer (set van 4)', 119.0, 'POER', 48000), ('Verstelbare voet (set van 4)', 44.95, 'STEL', 6000), ('Grondanker (set van 4)', 34.95, 'ANK', 4000)]
     simple('funderingsset-tuinpaviljoen', 'Funderingsset tuinpaviljoen', 'Overkapping', ['gebruik:tuinfeest'], [opt('Uitvoering', [t_[0] for t_ in TPV])],
            [variant(f'KK-OVK-TPF-{c}', [n], p, g, 3) for n, p, c, g in TPV],
            [img('funderingsset-tuinpaviljoen-hero.webp', 'hero', 1, 'gardenPavilion', {'part': 'footings', 'kinds': ['poer', 'stelvoet', 'grondanker']}, 'detail', None, 'needs-model',
@@ -476,12 +552,15 @@ def build():
             'specificaties': [sp('Betonpoer', 'Afmeting', '30 x 30 x 30 cm met verzinkte voetplaat, 12 kg per stuk'), sp('Verstelbare voet', 'Bereik', '0–8 cm hoogteverschil'),
                               sp('Grondanker', 'Lengte', '60 cm, verzinkt staal, voor gras en zand')]},
            ['schaduw-overkapping.tuinpaviljoen'], 'schaduw', 'Hoe je het tuinpaviljoen vastzet: betonpoeren in de grond, verstelbare voeten op een scheef terras, of grondankers in gras.',
-           ['betonpoer tuinpaviljoen', 'paviljoen verankeren', 'stelvoet paviljoen'], {'ours': {t_[0]: t_[1] for t_ in TPV}})
-    TZ = [('3 x 3 m', 'Dicht', 119), ('3 x 3 m', 'Muggengaas', 99), ('3 x 4 m', 'Dicht', 139), ('3 x 4 m', 'Muggengaas', 115), ('4 x 4 m', 'Dicht', 159), ('4 x 4 m', 'Muggengaas', 129)]
+           ['betonpoer tuinpaviljoen', 'paviljoen verankeren', 'stelvoet paviljoen'],
+           {'outmate': 'betonpoer met voetplaat €35 · betonpoer €22,50 · stelvoet €12,50 per stuk (live, 2026-10-18)', 'ours': {t_[0]: t_[1] for t_ in TPV}})
+    # catalog round 4: ca. 10% under the reference wall sets (dicht € 79 / 89 / 99, mesh € 69 / 75 / 89); they were 43-61% over it
+    TZ = [('3 x 3 m', 'Dicht', 70.95), ('3 x 3 m', 'Muggengaas', 61.95), ('3 x 4 m', 'Dicht', 79.95), ('3 x 4 m', 'Muggengaas', 66.95), ('4 x 4 m', 'Dicht', 88.95),
+          ('4 x 4 m', 'Muggengaas', 79.95)]
     simple('zijwanden-tuinpaviljoen', 'Zijwanden tuinpaviljoen', 'Overkapping', ['gebruik:tuinfeest'], [opt('Maat', ['3 x 3 m', '3 x 4 m', '4 x 4 m']), opt('Uitvoering', ['Dicht', 'Muggengaas'])],
            [variant(f'KK-OVK-TPZ-{code(m)}-{"DI" if u == "Dicht" else "GAAS"}', [m, u], p, 4000, inv(3, m + u)) for m, u, p in TZ],
            [img('zijwanden-tuinpaviljoen-hero.webp', 'hero', 1, 'gardenPavilion', {'w': 3, 'd': 4, 'color': 'antraciet', 'curtains': 'half-open'}, 'hero', 'Antraciet', 'needs-model',
                 alt='aan het tuinpaviljoen (paviljoen niet inbegrepen)')],
            {'kenmerk_kort': 'Gordijnen voor de dubbele rails · dicht of gaas', 'verzending': 'pakket', 'past_op': ['tuinpaviljoen-aluminium']},
            ['schaduw-overkapping.tuinpaviljoen-zijwanden'], 'schaduw', 'Set gordijnen rondom: dicht voor privacy, gaas tegen muggen.', ['zijwanden tuinpaviljoen'],
-           {'note': 'geen referentieprijs gevonden'})
+           {'outmate': 'zijwandenset dicht 3x3 €79 · 3x4 €89 · 4x4 €99 · mesh €69 / €75 / €89 (live, 2026-10-18)', 'ours': {f'{m} {u}': p for m, u, p in TZ}})

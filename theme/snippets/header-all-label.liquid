@@ -1,13 +1,29 @@
 {%- comment -%}
   Header only: the label of the 'see everything' link of a menu item. A collection (or a filtered collection URL) reads
   'Alles in Partytenten'; a page reads as its own title ('Bedrukken met jouw logo'), never 'Alles in Met jouw logo'.
+  A title that already says 'all' keeps its own words ('Alle onderdelen', never 'Alles in Alle onderdelen'), and a title
+  that starts with 'Voor' reads 'Alles voor easy-up' (never 'Alles in Voor easy-up').
   Param: link
 {%- endcomment -%}
 {%- liquid
+  assign hal_coll = false
   if link.type == 'collection_link' or link.type == 'collections_link' or link.type == 'catalog_link'
-    echo 'header.all_in' | t: title: link.title
+    assign hal_coll = true
   elsif link.type == 'http_link' and link.url contains '/collections/'
-    echo 'header.all_in' | t: title: link.title
+    assign hal_coll = true
+  endif
+  if hal_coll
+    assign hal_title = link.title | strip
+    assign hal_first = hal_title | split: ' ' | first | downcase
+    if hal_first == 'alle' or hal_first == 'alles' or hal_first == 'all'
+      echo hal_title | escape
+    elsif hal_first == 'voor' or hal_first == 'for'
+      assign hal_rest = hal_title | slice: 1, 500
+      assign hal_low = hal_title | slice: 0 | downcase | append: hal_rest
+      echo 'header.all_for' | t: title: hal_low
+    else
+      echo 'header.all_in' | t: title: link.title
+    endif
   elsif link.type == 'page_link' and link.object.title != blank
     echo link.object.title | escape
   else

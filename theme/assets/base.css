@@ -231,6 +231,7 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
 /* bottom left of the photo, clear of the round action: the size of a one-size product, the 'Foto in rood' note */
 .card__tags{position:absolute;left:10px;bottom:10px;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:calc(100% - 72px)}
 .card__size{padding:3px 9px;border-radius:999px;background:var(--c-wit);box-shadow:inset 0 0 0 1px var(--c-lijn);font-size:13px;font-weight:var(--font-body-weight-bold);line-height:1.35;white-space:nowrap;font-variant-numeric:tabular-nums}
+@media (max-width:359px){.card__size{padding:2px 6px;font-size:12px}}
 /* the action follows the card body in the DOM (Tab: product link first); this box covers the photo and holds it bottom right */
 .card__actions{position:absolute;top:0;left:0;right:0;aspect-ratio:var(--card-ratio);display:flex;align-items:flex-end;justify-content:flex-end;padding:10px;z-index:2;pointer-events:none}
 .card__actions>*{pointer-events:auto}
@@ -252,7 +253,9 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
 .card__title a:focus-visible{outline:none}
 .card:has(.card__title a:focus-visible){outline:3px solid var(--c-inkt);outline-offset:2px}
 .card__spec{font-size:13.5px;color:var(--c-kiezel);margin:0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-wrap:pretty}
-.card__meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;margin-top:3px}
+.card__fit{display:flex;align-items:center;gap:6px;margin:2px 0 0;font-size:13px;font-weight:var(--font-body-weight-semibold);line-height:1.35}.card__fit .icon{flex:none;color:var(--c-kiezel)}@container card (max-width:230px){.card__fit-more{display:none}}
+.card__meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;margin-top:3px;min-height:24px}
+ul:not(:has(.card__meta:not(:empty))) .card__meta{display:none}
 .card__swatches{position:relative;z-index:1;gap:2px;align-self:flex-start;flex-wrap:nowrap}
 .card__swatch{display:inline-grid;place-items:center;width:28px;height:28px;margin:-2px 0;border-radius:50%}
 .swatch--card{--size:20px;transition:box-shadow var(--dur-fast)}
@@ -266,8 +269,6 @@ html[data-vat="excl"] .price [data-vat-mode="excl"]{display:flex}
 .price__note{white-space:nowrap}
 @container card (max-width:265px){.card__price .price__note{display:block}.price__note-sep{display:none}}
 .card__footer{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:5px}
-/* the stock line sits above the price, so the price is the bottom line of every card and prices line up across a row */
-.card__footer>.stock,.card__stock{order:-1}
 .card__price .price__main .price__value{font-size:18px;letter-spacing:-.01em}
 @media (min-width:750px){.card__price .price__main .price__value{font-size:20px}}
 .card__price .price__alt{font-size:13px}
@@ -395,3 +396,4 @@ html:not([data-vat="excl"]) [data-vat-show="excl"],html[data-vat="excl"] [data-v
 .downloads__name{font-weight:var(--font-body-weight-semibold);line-height:1.3}
 .downloads__meta{font-size:13px;color:var(--c-kiezel)}
 .downloads__icon{color:var(--c-kiezel)}
+.section-header:has(.header-wrap.is-hidden){pointer-events:none}

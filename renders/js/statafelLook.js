@@ -121,6 +121,8 @@ export function clothAlbedo(color, { min = 0.03, max = 0.8 } = {}) {
   return c;
 }
 const chroma = (c) => { const s = c.clone().convertLinearToSRGB(); return Math.max(s.r, s.g, s.b) - Math.min(s.r, s.g, s.b); };
+// sRGB chroma (max - min channel) of a catalogue colour, 0 for neutrals, ~0.6 for rood
+export const dyeChroma = (color) => chroma(new THREE.Color(resolveColor(color, '#1D1E20')));
 
 export function jerseyKnit(color, { normal = 0.6 } = {}) {
   const hex = resolveColor(color, '#1D1E20');
@@ -136,14 +138,16 @@ export function jerseyKnit(color, { normal = 0.6 } = {}) {
       sheen: 0.6, sheenRoughness: 0.5,
       // fibre sheen in the dye's own colour (black: a dark neutral grey, so it shows as soft
       // grazing light on the curvature instead of a white veil)
-      sheenColor: dark ? new THREE.Color().setRGB(0.075, 0.076, 0.08) : base.clone().multiplyScalar(light ? 1.0 : 1.15),
+      sheenColor: dark ? new THREE.Color().setRGB(0.1, 0.101, 0.106) : base.clone().multiplyScalar(light ? 1.0 : 1.15),
       normalMap: knitNormal().clone(), normalScale: new THREE.Vector2(normal, normal),
       side: THREE.DoubleSide, name: `jersey ${hex}`,
     });
     m.normalMap.repeat.set(1 / (KNIT.WALES * KNIT.WALE), 1 / (KNIT.COURSES * KNIT.COURSE)); m.normalMap.needsUpdate = true;
     m.userData = {
       envSpec: dark ? 0.55 : chr > 0.2 ? 0.28 : 0.4,
-      weave: { repeats: KNIT.WALES, boost: 2.0, roughVar: 0.25, matte: 0.05 },
+      // close-ups: loops shade (cavity) and their crowns carry the fibre sheen, so even black jersey
+      // shows its wales; at catalogue distance the relief folds into a matte lobe (engine weave hook)
+      weave: { repeats: KNIT.WALES, boost: 2.8, roughVar: 0.3, matte: 0.05, cav: dark ? 0.6 : 0.35, crown: dark ? 3.5 : 1.4 },
       dye: chr > 0.2 ? 0.3 : 0,
       albedoL: L,
     };
@@ -228,13 +232,15 @@ export const STATAFEL_ENV = {
   ],
 };
 
-export function statafelRig({ albedoL = 0.2, folded = false, white = false, black = false } = {}) {
+export function statafelRig({ albedoL = 0.2, folded = false, white = false, black = false, chroma = 0 } = {}) {
   // exposure: gentler than the engine's auto curve (fabric products differ more in albedo than in
   // what the eye accepts as "correctly exposed")
   const exposure = white ? 0.86 : Math.min(1.28, Math.max(0.62, 0.84 * Math.pow(0.2 / Math.max(0.01, albedoL), 0.13)));
   const def = {
     exposure,
-    toneMapping: 'neutral', shoulder: white ? 0.84 : 0.8,
+    // Neutral tone mapping; for saturated dyes a gentler toe (Khronos' toe pushes the minor channels of
+    // a red to 0: digital pure red instead of dyed cloth), neutrals keep the standard toe (deep black)
+    toneMapping: 'neutral', shoulder: white ? 0.84 : 0.8, toe: chroma > 0.25 ? 0.5 : 1,
     env: 'studio', envStudio: STATAFEL_ENV, envIntensity: 1.0,
     // modelling key: front-left, 38 deg up (horizontal faces get sin 38 = 0.62 of it, faces turned to it
     // 0.8): the top no longer outshines the skirt
@@ -254,6 +260,7 @@ export function statafelRig({ albedoL = 0.2, folded = false, white = false, blac
     shadowStrength: 0.9,
     edgeFade: 0.06,
   };
-  const detail = { key: { cone: 12 }, contact: { strength: 0.62, h0: 0.012, res: 1024, blur: 1.2, wide: { strength: 0.3, h0: 0.035, sigma: 0.02 } } };
+  // close-ups: the floor in view lies in the product's shadow pool; no fade to the backdrop at the frame edge
+  const detail = { edgeFade: 0, key: { cone: 12 }, contact: { strength: 0.62, h0: 0.012, res: 1024, blur: 1.2, wide: { strength: 0.3, h0: 0.035, sigma: 0.02 } } };
   return { default: def, detail };
 }

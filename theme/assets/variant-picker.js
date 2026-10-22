@@ -201,7 +201,7 @@ const html=this.cache.get(url)||(await(await fetch(url)).text());
 this.cache.set(url,html);
 if(this.variant!==v)return;
 const doc=KK.parse(html);
-['price','badge-sale','staffel','delivery','eta','bundle','sticky-price','sticky-variant','sticky-stock','sticky-media','sku','notify','service','compare-price','colours'].forEach((key)=>{
+['price','badge-sale','staffel','delivery','eta','bundle','bom','sticky-price','sticky-variant','sticky-stock','sticky-media','sku','notify','service','compare-price','colours'].forEach((key)=>{
 const fresh=doc.querySelector(`[data-dynamic="${key}"]`);
 if(fresh)this.querySelectorAll(`[data-dynamic="${key}"]`).forEach((el)=>el.replaceWith(fresh.cloneNode(true)));
 });

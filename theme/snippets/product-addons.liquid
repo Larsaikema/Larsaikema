@@ -79,6 +79,15 @@
         assign addon_list = addons
       endif
     -%}
+    {%- liquid
+      # catalog round 4: '−10% met je tent' next to the add-ons in custom.addon_korting.op, only when the merchant switched it on
+      # (block setting show_addon_korting): the discount itself is a Shopify automatic discount that must exist first
+      assign ak = product.metafields.custom.addon_korting.value
+      assign ak_ops = ''
+      if block.settings.show_addon_korting and ak != blank and ak.op != blank
+        assign ak_ops = ak.op | join: ',' | prepend: ',' | append: ','
+      endif
+    -%}
     {%- capture addon_rows -%}
       {%- for item in addon_list -%}
         {%- liquid
@@ -136,6 +145,8 @@
               {%- endcapture -%}
               {%- if a_meta != blank -%}<span class="addon__spec">{{ a_meta }}</span>{%- endif -%}
               {%- if a_once -%}<span class="addon__spec">{{ 'product.addon_once' | t }}</span>{%- endif -%}
+              {%- assign a_hk = ',' | append: addon.handle | append: ',' -%}
+              {%- if ak_ops != blank and ak_ops contains a_hk -%}<span class="addon__spec addon__deal"><strong>{{ 'product.addon_korting' | t: percent: ak.procent }}</strong></span>{%- endif -%}
             </span>
             <span class="addon__price">+&nbsp;{%- render 'vat-money', cents: a_price -%}</span>
           </label>

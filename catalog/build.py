@@ -160,7 +160,7 @@ PAST_OP_REMOVE = {
                                        'G2: no 2 m / 5 m heavy duty PVC wall and no HD dak on 2x2/5x5'),
     'zijwandenset-easy-up-heavy-duty-pvc': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
                                             'G2: no 2x2/5x5 heavy duty PVC set'),
-    'zijwandenset-easy-up': (['easy-up-partytent-professional-2x2'], 'G2: the set has no 2 x 2 m option'),
+    # catalog round 4: zijwandenset-easy-up has a 2 x 2 m variant now, so the Professional 2 x 2 m stays in its past_op
     'halve-zijwand-easy-up': (['easy-up-partytent-professional-2x2'], 'G2: no 2 m half wall (5 m and 8 m exist since the merchandising review)'),
     # zijwand-partytent-2-m-pvc / eindwand-en-tussenwand-partytent: the PVC 620 Professional is back in past_op, both now have a 220 cm version
     'bedrukte-zijwand-easy-up': (['easy-up-partytent-professional-2x2', 'easy-up-partytent-professional-5x5'],
@@ -1137,10 +1137,11 @@ def definitions_export():
     add('COLLECTION', COLLECTION_MF)
     add('ARTICLE', ARTICLE_MF)
     return {
-        'note': ('Create these definitions BEFORE importing products.csv: Shopify imports a metafield column only '
-                 'when its definition exists. Reference types (product/page/variant/file) are not in the CSV; the '
-                 'seed script sets them from product-references.json after products exist. Link option Kleur to '
-                 'the category metafield shopify.color-pattern (swatches) after import.'),
+        'note': ('Create these definitions BEFORE importing products.csv (node scripts/seed/seed.mjs definitions): Shopify '
+                 'imports a metafield column only when its definition exists. Reference types (product/page/variant/file) '
+                 'and the variant metafields are not in the CSV: node scripts/seed/seed.mjs references sets them from '
+                 'product-references.json after the import (docs/import-en-seed.md). Link option Kleur to the category '
+                 'metafield shopify.color-pattern (swatches) after import.'),
         'definitions': defs,
     }
 
@@ -1241,7 +1242,9 @@ def demo_stock(p, v) -> int:
     if bucket < 15:
         return 1 + h % 3
     price = v['price'] / 100
-    lo, hi = (40, 240) if price < 15 else (12, 90) if price < 60 else (4, 30) if price < 250 else (2, 9) if price < 1000 else (1, 4)
+    # catalog round 4: in stock means more than the low-stock line (1-3); the dearest goods were 1-4 and read 'Nog 2 op voorraad' on a quarter
+    # of all variants
+    lo, hi = (40, 240) if price < 15 else (12, 90) if price < 60 else (6, 30) if price < 250 else (4, 14) if price < 1000 else (4, 9)
     return lo + (h // 100) % (hi - lo + 1)
 
 
@@ -1645,7 +1648,8 @@ def main(argv=None):
     write_json(EXPORT / 'product-references.json', {
         'note': ('Reference metafields by handle (product_reference → product handle, page_reference → page handle, '
                  'file_reference → file name in catalog/images, upload it to Files first), bundle components and per-variant '
-                 'add-ons by variant SKU. Resolve to GIDs after products, pages and files exist.'),
+                 'add-ons by variant SKU. Resolve to GIDs after products, pages and files exist: node scripts/seed/seed.mjs '
+                 '(steps files, pages, references; --dry-run checks it offline). docs/import-en-seed.md.'),
         'products': refs})
     jobs = image_jobs(products, article_jobs, set((sk.get('render_models') or {}).get('existing') or []), sk.get('collections') or [])
     write_json(EXPORT / 'image-jobs.json', {

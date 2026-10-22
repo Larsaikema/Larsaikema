@@ -221,18 +221,23 @@
                           {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
                         </a>
                         {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
-                        {%- comment -%} a link already listed in an earlier column of this panel is not repeated (panel_seen) {%- endcomment -%}
+                        {%- comment -%}
+                          a link already listed in an earlier column of this panel (panel_seen) or pointing at a page that a column
+                          heading of this panel links to (panel_heads, see snippets/header-panel-heads) is not repeated
+                        {%- endcomment -%}
                         {%- assign panel_seen = '' -%}
+                        {%- capture panel_heads -%}{%- render 'header-panel-heads', link: link, menu: menu -%}{%- endcapture -%}
                         <div class="mega__cols mega__cols--{{ link.links.size | at_most: 6 }}">
                           {%- for child in link.links -%}
                             {%- liquid
                               assign tj = ti | append: '-' | append: forloop.index
-                              assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen
-                              # a column whose heading points at the item's own page has a plain heading (no second link to the
-                              # same page under another name); the only column of a panel then has none ('Alles in …' is above)
-                              assign head_link = true
-                              if child.url == link.url
-                                assign head_link = false
+                              assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen | append: panel_heads
+                              # a column whose heading points at the item's own page (or names a part of another top item but opens
+                              # all of it) has a plain heading; the only column of a panel then has none ('Alles in …' is above)
+                              assign head_key = '|' | append: child.url | append: '|'
+                              assign head_link = false
+                              if panel_heads contains head_key
+                                assign head_link = true
                               endif
                             -%}
                             <div class="mega__col">
@@ -243,6 +248,11 @@
                                 </a>
                               {%- elsif head_link -%}
                                 <a class="mega__heading" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>{{ child.title }}</a>
+                              {%- elsif link.links.size > 1 and thumbs_ok == 'yes' -%}
+                                <p class="mega__heading mega__heading--thumb">
+                                  <span class="mega__thumb">{{ child.object.image | image_url: width: 168 | image_tag: widths: '56, 112, 168', sizes: '56px', loading: 'lazy', alt: '' }}</span>
+                                  <span>{{ child.title }}</span>
+                                </p>
                               {%- elsif link.links.size > 1 -%}
                                 <p class="mega__heading">{{ child.title }}</p>
                               {%- endif -%}
@@ -405,13 +415,15 @@
             </a>
             {%- capture thumbs_ok -%}{%- render 'header-thumbs-ok', link: link -%}{%- endcapture -%}
             {%- assign panel_seen = '' -%}
+            {%- capture panel_heads -%}{%- render 'header-panel-heads', link: link, menu: menu -%}{%- endcapture -%}
             <ul class="mdrawer__groups{% if thumbs_ok == 'yes' %} mdrawer__groups--thumbs{% endif %}" role="list">
               {%- for child in link.links -%}
                 {%- capture group_thumb -%}
                   {%- if thumbs_ok == 'yes' -%}<span class="mdrawer__thumb">{{ child.object.image | image_url: width: 144 | image_tag: widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '' }}</span>{%- endif -%}
                 {%- endcapture -%}
                 {%- assign tj = ti | append: '-' | append: forloop.index -%}
-                {%- assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen -%}
+                {%- assign head_key = '|' | append: child.url | append: '|' -%}
+                {%- assign skip_urls = child.url | append: '|' | append: promo_url | append: panel_seen | append: panel_heads -%}
                 {%- for g in child.links -%}{%- assign panel_seen = panel_seen | append: '|' | append: g.url -%}{%- endfor -%}
                 {%- comment -%} a panel with one group (Zakelijk) lists that group's links as its rows, without an accordion {%- endcomment -%}
                 {%- if link.links.size == 1 and child.links != blank and child.url == link.url -%}
@@ -426,9 +438,9 @@
                         {%- render 'icon', icon: 'chevron-down', class: 'icon--sm mdrawer__pm' -%}
                       </summary>
                       <div class="mdrawer__group-body">
-                        {%- unless child.url == link.url -%}
+                        {%- if panel_heads contains head_key -%}
                           <a class="mdrawer__group-all" href="{{ child.url }}"{% if cur_key == tj %} aria-current="page"{% endif %}>{%- render 'header-all-label', link: child -%}</a>
-                        {%- endunless -%}
+                        {%- endif -%}
                         {%- render 'header-sublinks', links: child.links, label: child.title, key: tj, current: cur_key, skip: skip_urls -%}
                       </div>
                     </details>

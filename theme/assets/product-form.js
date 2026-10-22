@@ -184,6 +184,16 @@ sp.orig??=sp.innerHTML;
 sp.innerHTML=total===unit?sp.orig:`<span class="price__value">${fm(total)}</span>${excl?` <span class="price__label">${KK.strings.excl||'excl. btw'}</span>`:''}`;
 }
 const vm=(c)=>['incl','excl'].map((m)=>`<span data-vat-show="${m}">${fm(c,m==='excl')}</span>`).join('');
+const sh=this.$('[data-ship-line]');
+if(sh){
+const t=JSON.parse(sh.dataset.tiers||'[]'),r=t.filter((x)=>q>=x[0]).pop(),n=t.find((x)=>q<x[0]),each=!!sh.dataset.each;
+if(r){
+sh.querySelector('[data-ship-q]').textContent=q>1?sh.dataset.tplQ.replace('__N__',q):sh.dataset.tpl1;
+sh.querySelector('[data-ship-amt]').innerHTML=vm(each?r[1]*q:r[1]);
+const nx=sh.querySelector('[data-ship-next]');
+if(nx)nx.innerHTML=n&&!each?' · '+sh.dataset.tplN.replace('__N__',n[0]).replace('__A__',vm(n[1])):'';
+}
+}
 this.root.querySelectorAll('[data-addon]').forEach((a)=>{
 const out=a.closest('.addon')?.querySelector('.addon__price');
 const per=Math.max(1,+a.dataset.qty||1);

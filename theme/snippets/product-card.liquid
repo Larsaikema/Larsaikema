@@ -222,7 +222,11 @@
       # lowest price and the lowest compare-at of the product can belong to different sizes)
       assign sale_p = 0
       assign sale_cp = 0
-      if product.compare_at_price_max > product.price
+      if card_price_v
+        # narrowed by filters: the percentage of the variant whose price the card shows
+        assign sale_p = card_price_v.price
+        assign sale_cp = card_price_v.compare_at_price | default: 0
+      elsif product.compare_at_price_max > product.price
         for v in product.variants
           if v.compare_at_price > v.price
             if sale_p == 0 or v.price < sale_p
@@ -258,6 +262,7 @@
     {%- if settings.card_kenmerk and product.metafields.custom.kenmerk_kort != blank -%}
       <p class="card__spec">{{ product.metafields.custom.kenmerk_kort.value }}</p>
     {%- endif -%}
+    {%- render 'card-fit', product: product -%}
     {%- render 'rating', product: product -%}
     {%- capture card_meta -%}
       {%- if settings.card_swatches -%}
@@ -268,26 +273,13 @@
           {%- if is_swatch and option.values.size > 1 -%}
             {%- liquid
               assign opt_idx = option.position | minus: 1
-              # the filtered colour is marked; one that would sit behind '+N' (or behind the 4 of a narrow card) goes first
-              assign sw_chosen = -1
-              if color != blank
-                for value in option.values
-                  if value.name == color
-                    assign sw_chosen = forloop.index0
-                    break
-                  endif
-                endfor
-              endif
-              assign sw_order = ''
-              if sw_chosen >= 4
-                assign sw_order = sw_chosen | append: ','
-              endif
-              for value in option.values
-                if sw_chosen >= 4 and forloop.index0 == sw_chosen
-                  continue
-                endif
-                assign sw_order = sw_order | append: forloop.index0 | append: ','
-              endfor
+              # the marked swatch and the order (snippets/card-swatch-order: the filtered colour, else the photo's colour first)
+              capture sw_raw
+                render 'card-swatch-order', product: product, option: option, color: color, variant: card_img_v
+              endcapture
+              assign sw_raw = sw_raw | strip | split: ';'
+              assign sw_chosen = sw_raw[0] | plus: 0
+              assign sw_order = sw_raw[1]
               assign sw_order = sw_order | split: ','
             -%}
             <div class="card__swatches swatches">
@@ -324,7 +316,6 @@
       {%- endif -%}
       {%- if card_size_line != '' -%}<p class="card__sizes" title="{{ card_size_line | strip_html | escape }}"><span class="card__sizes-long">{{ card_size_line }}</span><span class="card__sizes-short">{{ card_size_short }}</span></p>{%- endif -%}
     {%- endcapture -%}
-    {%- if card_meta != blank -%}<div class="card__meta">{{ card_meta }}</div>{%- endif -%}
     <div class="card__footer">
       <div class="card__price">
         {%- if card_unit != '' -%}{%- render 'price', product: product, variant: card_price_v, from: card_from, unit: card_unit, secondary: card_secondary -%}{%- else -%}{%- render 'price', product: product, variant: card_price_v, from: card_from, secondary: card_secondary -%}{%- endif -%}
@@ -341,6 +332,9 @@
         {%- endif -%}
       {%- endif -%}
     </div>
+    {%- comment -%} swatches come last, under price and stock; an empty row keeps the place so prices line up with the cards
+      next to it (base.css hides the row in a list where no card has one) {%- endcomment -%}
+    <div class="card__meta">{{ card_meta | strip }}</div>
   </div>
   {%- if cta != 'none' -%}
     {%- capture cta_icon -%}

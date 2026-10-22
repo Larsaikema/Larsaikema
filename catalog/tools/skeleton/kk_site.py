@@ -190,8 +190,8 @@ def build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buiz
         brief='Tafels om aan te zitten: HDPE-klaptafels, bankettafels met houten blad (recht, rond, halfrond, kwartrond, ovaal, vierkant), conferentie- en examentafels, terrastafels, biertafelsets en bierbanken.',
         kenmerken=['Inklapbaar', 'Recht, rond en aansluitvormen', 'Binnen en buiten'])
     col('terrastafels', 'Terrastafels', 'meubilair', types(['Terrastafel']), ext=True,
-        brief='Terrastafels op 75 cm: rond op het onderstel van de statafel (zelfde bladen en onderstelkleuren) en vierkant of rechthoekig met klapblad; kar voor na sluitingstijd.',
-        kenmerken=['Zelfde bladen als de statafel', 'Rond of vierkant', 'Binnen en buiten (compact HPL)'])
+        brief='Terrastafels op 75 cm, de terrasversie van elke statafel: rond op het onderstel van de statafel, vierkant en breed stapelbaar (zwart, RVS of wit onderstel), HPL op een zuilvoet, met klapblad en wiebelvrij; zelfde bladen en decors; kar voor na sluitingstijd.',
+        kenmerken=['Zelfde bladen als de statafel', 'Stapelbaar, klapblad of zuilvoet', 'Onderstel zwart, wit of RVS', 'Binnen en buiten (compact HPL)'])
     col('transportkarren', 'Transportkarren', 'meubilair', types(['Transportkar']), ext=True,
         brief='Karren voor statafels (5 of 15), klaptafels, barkrukken en klapstoelen.',
         kenmerken=['5 of 15 statafels', 'Klaptafels, barkrukken, klapstoelen', 'Levering op pallet'])
@@ -261,7 +261,10 @@ def build_menus():
                 P('Transportkar statafels', 'transportkar-statafels'), P('Onderstel, ring en scharnier', 'onderdelen-statafel'), P('Los statafelblad', 'los-statafelblad'),
                 P('Voetdoppen', 'voetdoppen-set-van-4')]),
             L('Terrastafels', 'collection', 'terrastafels', items=[
-                P('Terrastafel rond', 'terrastafel-rond-inklapbaar'), P('Terrastafel met klapblad', 'terrastafel-inklapbaar'), P('Transportkar terrastafels', 'transportkar-terrastafels')]),
+                P('Terrastafel rond', 'terrastafel-rond-inklapbaar'), P('Terrastafel met klapblad', 'terrastafel-inklapbaar'),
+                # catalog round 5: the terrace twins of the hoekige and design statafels and the wiebelvrije tafel
+                P('Vierkant stapelbaar', 'terrastafel-vierkant-stapelbaar'), P('Breed stapelbaar', 'terrastafel-breed-stapelbaar'),
+                P('HPL met zuilvoet', 'terrastafel-design-zuilvoet'), P('Wiebelvrij', 'terrastafel-wiebelvrij'), P('Transportkar terrastafels', 'transportkar-terrastafels')]),
             L('Statafelpakketten', 'collection', 'actiepakketten', items=[
                 P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
                 P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('4 statafels met rokken', 'pakket-4-statafels-met-stretchrokken'),
@@ -302,7 +305,8 @@ def build_menus():
                 P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal stretchtent', 'onderdelen-stretchtent'),
                 P('Koppelgoot stretchtent', 'koppelgoot-stretchtent'),
                 P('Zijwanden stertent', 'zijwanden-stertent'), P('Pomp opblaasbare tent', 'pomp-opblaasbare-tent'),
-                P('Zijwand opblaasbare tent', 'zijwand-opblaasbare-promotietent'), P('Luifel opblaasbare tent', 'luifel-opblaasbare-promotietent'),
+                P('Zijwand opblaasbare tent', 'zijwand-opblaasbare-promotietent'), P('Zijwand tent met waterpoten', 'zijwand-opblaasbare-partytent-met-waterpoten'),
+                P('Luifel opblaasbare tent', 'luifel-opblaasbare-promotietent'),
                 P('Verbindingstunnel', 'verbindingstunnel-opblaasbare-tent'), P('Opbergtas met wielen', 'opbergtas-opblaasbare-tent')]),
             L('Alle onderdelen', 'collection', 'partytent-onderdelen', items=[
                 L('Zijwanden', 'collection', 'zijwanden'), L('Gewichten en verankering', 'collection', 'gewichten-en-verankering'), L('Tassen en wielsets', 'collection', 'tassen-en-wielsets')]),
@@ -319,22 +323,26 @@ def build_menus():
             L('Tafels', 'collection', 'tafels', items=[P('Klaptafel rechthoekig', 'klaptafel-hdpe-rechthoekig'), P('Klaptafel rond', 'klaptafel-hdpe-rond'),
                                                                         P('Bankettafel recht', 'bankettafel-hout-rechthoekig'), P('Bankettafel rond', 'bankettafel-hout-rond'),
                                                                         P('Halfrond, kwartrond, ovaal', 'klaptafel-hout-vormen'), P('Conferentietafel', 'conferentietafel-inklapbaar'),
-                                                                        P('Examentafel', 'examentafel-inklapbaar'), L('Terrastafels', 'collection', 'terrastafels'), P('Biertafelset', 'biertafelset')]),
+                                                                        P('Examentafel', 'examentafel-inklapbaar'), L('Terrastafels', 'collection', 'terrastafels'), P('Biertafelset', 'biertafelset'),
+                                                                        P('Klaptafel met banken', 'klaptafel-met-banken-rolbaar')]),
             L('Barkrukken', 'collection', 'barkrukken', items=[P('Barkruk metaal', 'barkruk-stapelbaar-metaal'), P('Barkruk hout', 'barkruk-houten-zitting'),
                                                                          P('Barkruk velours', 'barkruk-velours-stapelbaar'), P('Barkruk PE-rotan', 'barkruk-pe-rotan'),
                                                                          P('Barkruk draad', 'barkruk-draad-stapelbaar'), P('Barkruk chroom', 'barkruk-chroom-stapelbaar'),
-                                                                         P('Barkruk wijnvat', 'barkruk-wijnvat')]),
+                                                                         P('Barkruk wijnvat', 'barkruk-wijnvat'), P('Barkruk inklapbaar', 'barkruk-inklapbaar')]),
             L('Stoelen, krukken en banken', 'collection', 'stoelen-en-banken', items=[
                 P('Klapstoel', 'klapstoel'), P('Weddingstoel', 'klapstoel-wedding'), P('Stoelhoes stretch', 'stoelhoes-stretch'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
-                P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank-220')]),
+                P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Stapelstoel kunststof', 'stapelstoel-kunststof'), P('Transparante stoel', 'stapelstoel-polycarbonaat'),
+                P('Houten klapstoel', 'klapstoel-hout-bistro'), P('Stoelverbinders', 'stoelverbinder'), P('Onderdelen stoelen en barkrukken', 'onderdelen-stoelen-en-barkrukken'),
+                P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank')]),
             L('Transportkarren', 'collection', 'transportkarren', items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels, barkrukken en klapstoelen', 'transportkar-klaptafels-en-stoelen'),
                                                                          P('Voor stapelstoelen', 'transportkar-stapelstoelen'), P('Voor ronde klaptafels', 'transportkar-ronde-klaptafels'),
                                                                          P('Voor biertafelsets', 'transportkar-biertafelsets'), P('Voor terrastafels', 'transportkar-terrastafels'),
                                                                          P('Voor koelkasten', 'transportkar-koelkasten'), P('Voor afzetpalen', 'transportkar-afzetpalen'),
-                                                                         P('Voor kapstokken', 'transportkar-kapstokken'), P('Voor marktkramen', 'transportkar-marktkramen')]),
+                                                                         P('Voor kapstokken', 'transportkar-kapstokken'), P('Voor marktkramen', 'transportkar-marktkramen'),
+                                                                         P('Steekwagen stapelstoelen', 'steekwagen-stapelstoelen'), P('Universeel voor stapels', 'transportkar-universeel')]),
             L('Evenement en inrichting', 'collection', 'evenement', items=[P('Afzetpaal met band', 'afzetpaal-met-trekband'), P('Afzetpaal met koord', 'afzetpaal-met-koord'),
-                                                                        P('Afzetpaal met logo', 'afzetpaal-met-logo'), P('Marktkraam', 'marktkraam-2-m'), P('Dakzeil, rok en blad voor marktkraam', 'dakzeil-marktkraam'),
-                                                                        P('Loper per meter', 'loper-per-meter'), P('Loper op rol, 50 m', 'loper-rol-50-m'),
+                                                                        P('Afzetpaal met logo', 'afzetpaal-met-logo'), P('Luxe afzetpaal gala', 'afzetpaal-gala'), P('Marktkraam', 'marktkraam-2-m'), P('Dakzeil, rok en blad voor marktkraam', 'dakzeil-marktkraam'),
+                                                                        P('Loper per meter', 'loper-per-meter'), P('Loper op rol, 50 m', 'loper-rol-50-m'), P('Loperpennen', 'loperpennen-set-van-25'),
                                                                         P('Tentvloer', 'tentvloer-kunststof'), P('Kapstok verrijdbaar', 'kapstok-verrijdbaar'),
                                                                         L('Koelkasten en vriezers', 'collection', 'koelkasten-en-vriezers')]),
         ]),
@@ -356,9 +364,11 @@ def build_menus():
             L('Tafels en stoelen met kar', 'collection', 'actiepakketten', items=[
                 P('Klaptafels met kar', 'pakket-klaptafels-met-transportkar'), P('10 ronde klaptafels met kar', 'pakket-10-ronde-klaptafels-met-transportkar'),
                 P('30 klapstoelen met kar', 'pakket-30-klapstoelen-met-transportkar'), P('26 weddingstoelen met kar', 'pakket-26-weddingstoelen-met-transportkar'),
-                P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'), P('15 of 30 barkrukken met kar', 'pakket-15-of-30-barkrukken-met-transportkar'),
+                P('20 stapelstoelen met kar', 'pakket-20-stapelstoelen-met-transportkar'), P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'),
+                P('50 klapstoelen met kar', 'pakket-50-klapstoelen-met-transportkar'), P('15 of 30 barkrukken met kar', 'pakket-15-of-30-barkrukken-met-transportkar'),
                 P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar')]),
-            L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'),
+            L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Buffettafel met hoes', 'pakket-buffettafel-met-stretchhoes'),
+                                                                       P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'), P('10 biertafels met kar', 'pakket-10-biertafels-met-transportkar'),
                                                                       P('Klapstoelen met stoelhoezen', 'pakket-klapstoelen-met-stoelhoezen'), P('Prikkabelset met lampen', 'prikkabelset-led'),
                                                                       P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
         ]),
@@ -447,6 +457,8 @@ FILTERS = [
 REDIRECTS = [
     {'from': '/products/opblaasbare-partytent-3x3-waterpoten', 'to': '/products/opblaasbare-partytent-met-waterpoten'},
     {'from': '/products/voetgewicht-easy-up-15-kg', 'to': '/products/voetgewicht-partytent-15-kg'},
+    # catalog round 4: the loose bierbank is sold in 180 and 220 cm, so its handle no longer names one length
+    {'from': '/products/bierbank-220', 'to': '/products/bierbank'},
 ]
 
 TAXONOMY_VERSION = '2026-11-unstable'
@@ -506,6 +518,7 @@ PRODUCT_CATEGORY_BY_TYPE = {
     'Cadeaubon': ('Gift Cards', 'gc'),
 }
 PRODUCT_CATEGORY_BY_HANDLE = {
+    'stoelverbinder': ('Furniture > Chair Accessories', 'fr-6'),   # catalog round 4
     'koel-vrieskist-liggend': ('Home & Garden > Kitchen & Dining > Kitchen Appliances > Freezers > Chest Freezers', 'hg-11-7-20-1'),
     'afzetpaal-met-koord': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers', 'ha-3-8'),
     'afzetkoord-velours': ('Hardware > Fencing & Barriers > Safety & Crowd Control Barriers', 'ha-3-8'),
@@ -526,6 +539,7 @@ PRODUCT_CATEGORY_BY_HANDLE = {
     'zijwand-partytent-2-m-pvc': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Side Walls', 'hg-12-2-6-2-6'),
     'eindwand-en-tussenwand-partytent': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Side Walls', 'hg-12-2-6-2-6'),
     'zijwand-opblaasbare-promotietent': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Side Walls', 'hg-12-2-6-2-6'),
+    'zijwand-opblaasbare-partytent-met-waterpoten': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Side Walls', 'hg-12-2-6-2-6'),
     'kerstverlichting-10-m': ('Home & Garden > Lighting > Light Ropes & Strings > String Lights', 'hg-13-8-2'),
     'led-lichtslang-set-warm-wit': ('Home & Garden > Lighting > Light Ropes & Strings > Rope Lights', 'hg-13-8-1'),
     'statafel-inklapbaar-hdpe-80': ('Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables', 'fr-15-6-1'),
@@ -556,6 +570,11 @@ PRODUCT_CATEGORY_BY_HANDLE = {
     'compleet-pakket-easy-up-professional': ('Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies', 'hg-12-2-6-1-1'),
     'pakket-24-barkrukken-met-transportkar': ('Furniture > Chairs > Table & Bar Stools > Bar Stools', 'fr-7-12-2'),
     'pakket-40-stapelstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    # catalog round 5
+    'pakket-20-stapelstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    'pakket-50-klapstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),
+    'pakket-10-biertafels-met-transportkar': ('Furniture > Outdoor Furniture > Outdoor Furniture Sets', 'fr-15-2'),
+    'pakket-buffettafel-met-stretchhoes': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
     'pakket-10-ronde-klaptafels-met-transportkar': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
     'pakket-klaptafels-met-transportkar': ('Furniture > Tables > Folding Tables', 'fr-24-3'),
     'pakket-30-klapstoelen-met-transportkar': ('Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs', 'fr-7-9-1'),

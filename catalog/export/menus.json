@@ -481,6 +481,34 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Vierkant stapelbaar",
+         "type": "product",
+         "url": "/products/terrastafel-vierkant-stapelbaar",
+         "handle": "terrastafel-vierkant-stapelbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Breed stapelbaar",
+         "type": "product",
+         "url": "/products/terrastafel-breed-stapelbaar",
+         "handle": "terrastafel-breed-stapelbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "HPL met zuilvoet",
+         "type": "product",
+         "url": "/products/terrastafel-design-zuilvoet",
+         "handle": "terrastafel-design-zuilvoet",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Wiebelvrij",
+         "type": "product",
+         "url": "/products/terrastafel-wiebelvrij",
+         "handle": "terrastafel-wiebelvrij",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Transportkar terrastafels",
          "type": "product",
          "url": "/products/transportkar-terrastafels",
@@ -996,6 +1024,13 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Zijwand tent met waterpoten",
+         "type": "product",
+         "url": "/products/zijwand-opblaasbare-partytent-met-waterpoten",
+         "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Luifel opblaasbare tent",
          "type": "product",
          "url": "/products/luifel-opblaasbare-promotietent",
@@ -1242,6 +1277,13 @@
          "url": "/products/biertafelset",
          "handle": "biertafelset",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Klaptafel met banken",
+         "type": "product",
+         "url": "/products/klaptafel-met-banken-rolbaar",
+         "handle": "klaptafel-met-banken-rolbaar",
+         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -1300,6 +1342,13 @@
          "url": "/products/barkruk-wijnvat",
          "handle": "barkruk-wijnvat",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Barkruk inklapbaar",
+         "type": "product",
+         "url": "/products/barkruk-inklapbaar",
+         "handle": "barkruk-inklapbaar",
+         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -1353,6 +1402,41 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Stapelstoel kunststof",
+         "type": "product",
+         "url": "/products/stapelstoel-kunststof",
+         "handle": "stapelstoel-kunststof",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Transparante stoel",
+         "type": "product",
+         "url": "/products/stapelstoel-polycarbonaat",
+         "handle": "stapelstoel-polycarbonaat",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Houten klapstoel",
+         "type": "product",
+         "url": "/products/klapstoel-hout-bistro",
+         "handle": "klapstoel-hout-bistro",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Stoelverbinders",
+         "type": "product",
+         "url": "/products/stoelverbinder",
+         "handle": "stoelverbinder",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Onderdelen stoelen en barkrukken",
+         "type": "product",
+         "url": "/products/onderdelen-stoelen-en-barkrukken",
+         "handle": "onderdelen-stoelen-en-barkrukken",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Lage kruk",
          "type": "product",
          "url": "/products/kruk-laag-stapelbaar",
@@ -1369,8 +1453,8 @@
         {
          "title": "Bierbank",
          "type": "product",
-         "url": "/products/bierbank-220",
-         "handle": "bierbank-220",
+         "url": "/products/bierbank",
+         "handle": "bierbank",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1451,6 +1535,20 @@
          "url": "/products/transportkar-marktkramen",
          "handle": "transportkar-marktkramen",
          "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Steekwagen stapelstoelen",
+         "type": "product",
+         "url": "/products/steekwagen-stapelstoelen",
+         "handle": "steekwagen-stapelstoelen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Universeel voor stapels",
+         "type": "product",
+         "url": "/products/transportkar-universeel",
+         "handle": "transportkar-universeel",
+         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -1483,6 +1581,13 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Luxe afzetpaal gala",
+         "type": "product",
+         "url": "/products/afzetpaal-gala",
+         "handle": "afzetpaal-gala",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Marktkraam",
          "type": "product",
          "url": "/products/marktkraam-2-m",
@@ -1508,6 +1613,13 @@
          "type": "product",
          "url": "/products/loper-rol-50-m",
          "handle": "loper-rol-50-m",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Loperpennen",
+         "type": "product",
+         "url": "/products/loperpennen-set-van-25",
+         "handle": "loperpennen-set-van-25",
          "admin_type": "PRODUCT"
         },
         {
@@ -1772,10 +1884,24 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "20 stapelstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-20-stapelstoelen-met-transportkar",
+         "handle": "pakket-20-stapelstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "40 stapelstoelen met kar",
          "type": "product",
          "url": "/products/pakket-40-stapelstoelen-met-transportkar",
          "handle": "pakket-40-stapelstoelen-met-transportkar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "50 klapstoelen met kar",
+         "type": "product",
+         "url": "/products/pakket-50-klapstoelen-met-transportkar",
+         "handle": "pakket-50-klapstoelen-met-transportkar",
          "admin_type": "PRODUCT"
         },
         {
@@ -1809,10 +1935,24 @@
          "admin_type": "PRODUCT"
         },
         {
+         "title": "Buffettafel met hoes",
+         "type": "product",
+         "url": "/products/pakket-buffettafel-met-stretchhoes",
+         "handle": "pakket-buffettafel-met-stretchhoes",
+         "admin_type": "PRODUCT"
+        },
+        {
          "title": "Biertafelsets 10 stuks",
          "type": "product",
          "url": "/products/biertafelsets-10-stuks",
          "handle": "biertafelsets-10-stuks",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "10 biertafels met kar",
+         "type": "product",
+         "url": "/products/pakket-10-biertafels-met-transportkar",
+         "handle": "pakket-10-biertafels-met-transportkar",
          "admin_type": "PRODUCT"
         },
         {

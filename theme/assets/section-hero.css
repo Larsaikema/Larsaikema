@@ -79,5 +79,13 @@
 .hero__inner:not(:has(.hero__sizes)) .hero__content{grid-row:1 / span 2;align-self:center}
 .hero__subline{margin-bottom:0}
 }
-/* narrow desktop: whole scene, no crop */
-@media (min-width:990px) and (max-width:1199px){.hero__media>.hero__img{object-fit:contain}}
+/* 990-1199: text | scene (18:11) + chip + sizes stacked */
+@media (min-width:990px) and (max-width:1199px){
+.hero__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"content media" "content sizes";gap:24px 40px}
+.hero--image-left .hero__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"media content" "sizes content"}
+.hero__content{align-self:center}
+.hero__media{min-height:0;height:auto;aspect-ratio:auto;overflow:visible;background:transparent;align-self:end}
+.hero__media>.hero__img{position:relative;inset:auto;display:block;aspect-ratio:18/11;height:auto;border-radius:var(--radius-panel);background:var(--c-media)}
+.hero__product{position:relative;left:auto;right:auto;bottom:auto;width:auto;margin:-28px 14px 0}
+.hero__sizes{padding-top:18px}
+}

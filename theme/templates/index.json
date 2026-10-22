@@ -93,7 +93,7 @@
         "product": "easy-up-partytent-premium-3x3",
         "product_collection": "easy-up-premium",
         "product_label": "Easy-up partytent Premium 3 × 3 m",
-        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met zwarte stretchrok en een met witte hoes met strik",
+        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met een zwarte stretchrok en een met een witte hoes met strik",
         "sizes_heading": "Snel naar je maat",
         "badge": "Voorbeeldopdruk"
       }
@@ -171,6 +171,38 @@
           "settings": {
             "collection": "actiepakketten"
           }
+        },
+        "o1": {
+          "type": "occasion",
+          "settings": {
+            "label": "Tuinfeest",
+            "link": "/collections/all?filter.p.m.custom.gebruik=Tuinfeest",
+            "icon": "flag"
+          }
+        },
+        "o2": {
+          "type": "occasion",
+          "settings": {
+            "label": "Horeca en terras",
+            "link": "/collections/all?filter.p.m.custom.gebruik=Horeca",
+            "icon": "table"
+          }
+        },
+        "o3": {
+          "type": "occasion",
+          "settings": {
+            "label": "Evenement",
+            "link": "/collections/all?filter.p.m.custom.gebruik=Evenement",
+            "icon": "tent"
+          }
+        },
+        "o4": {
+          "type": "occasion",
+          "settings": {
+            "label": "Markt",
+            "link": "/collections/all?filter.p.m.custom.gebruik=Markt",
+            "icon": "pin"
+          }
         }
       },
       "block_order": [
@@ -183,17 +215,22 @@
         "p3",
         "p4",
         "p5",
-        "p6"
+        "p6",
+        "o1",
+        "o2",
+        "o3",
+        "o4"
       ],
       "settings": {
-        "heading": "Waar ben je naar op zoek?",
+        "heading": "Wat zet jij neer?",
         "text": "",
         "link_label": "Alle categorieën",
         "columns": 4,
         "style": "panel",
         "show_meta": true,
         "more_label": "Meer in de winkel",
-        "more_style": "tiles"
+        "more_style": "tiles",
+        "occasion_label": "Of kies op gelegenheid"
       }
     },
     "usps": {
@@ -289,6 +326,17 @@
             "label_2": "Zo werkt bedrukken",
             "link_2": "shopify://pages/bedrukken"
           }
+        },
+        "p": {
+          "type": "products",
+          "settings": {
+            "heading": "Wat we voor je bedrukken, bijvoorbeeld",
+            "products": [
+              "easy-up-partytent-premium-met-logo-op-de-luifel",
+              "statafelhoes-stretch-met-logo",
+              "bedrukte-zijwand-easy-up"
+            ]
+          }
         }
       },
       "block_order": [
@@ -296,6 +344,7 @@
         "h",
         "t",
         "s",
+        "p",
         "b"
       ],
       "settings": {
@@ -304,7 +353,8 @@
         "badge": "Voorbeeldopdruk",
         "layout": "image-left",
         "fallback_image": "tent-logo",
-        "image_fit": "contain"
+        "image_fit": "contain",
+        "mobile_compact": true
       }
     },
     "zakelijk": {
@@ -315,7 +365,9 @@
           "settings": {
             "icon": "euro",
             "title": "Prijzen excl. btw",
-            "text": "Schakel bovenin om naar Zakelijk"
+            "text": "Kies welke prijzen je ziet, in de hele winkel",
+            "text_excl": "Je ziet nu alle prijzen excl. btw",
+            "vat_toggle": true
           }
         },
         "b2": {
@@ -391,7 +443,8 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "heading": ""
+        "heading": "",
+        "a11y_heading": "Pakketten en zeilen op maat"
       }
     },
     "visit": {
@@ -520,7 +573,7 @@
         "color_scheme": "scheme-1",
         "eyebrow": "Statafels",
         "heading": "Statafels, rokken en barkrukken",
-        "text": "Statafel Ø 70, 80 of 85 cm met een stretchrok of een hoes met strik. Vanaf 10 stuks staffelprijs.",
+        "text": "Statafel Ø 70, 80 of 85 cm, met een stretchrok of een hoes met strik. Meer nodig voor je zaak of evenement? Vraag een staffelprijs op offerte.",
         "limit": 4,
         "columns": 4,
         "link_prefix": "Alle"
@@ -583,7 +636,7 @@
           "type": "question",
           "settings": {
             "question": "Kan ik zakelijk bestellen?",
-            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Zet bovenin Zakelijk aan, dan zie je alle prijzen excl. btw. Voor grotere aantallen, bedrukking of levering op locatie maken we een offerte op maat.</p>"
+            "answer": "<p>Ja, voor bedrijven, scholen en verenigingen. Zet Zakelijk aan (bovenaan de pagina, in het menu of bij Klapklaar Zakelijk), dan zie je alle prijzen excl. btw. Voor grotere aantallen, bedrukking of levering op locatie maken we een offerte op maat.</p>"
           }
         },
         "q4": {

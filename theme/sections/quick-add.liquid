@@ -59,7 +59,7 @@
             {%- capture sl -%}{%- render 'size-label', p: sp, size_names: size_names -%}{%- endcapture -%}
             {%- assign sl = sl | strip | replace: ' x ', times_nb -%}
             {%- if cin == 0 -%}
-              <span class="qa__pill is-selected" aria-current="true">{{ sl }}</span>
+              <span class="qa__pill is-selected" aria-current="true" tabindex="-1">{{ sl }}</span>
             {%- else -%}
               <a class="qa__pill{% unless sp.available %} is-unavailable{% endunless %}" href="{{ sp.url }}" data-qa-load="{{ sp.url }}">{{ sl }}{% unless sp.available %}<span class="visually-hidden">, {{ 'product.option_unavailable' | t }}</span>{% endunless %}</a>
             {%- endif -%}
@@ -96,7 +96,9 @@
     <div class="qa__buy">
       {%- render 'quantity-input', id: 'QA-qty', min: 1 -%}
       {%- if qv.available -%}
-        <button type="submit" name="add" class="btn btn--buy qa__add">{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}{{ 'product.add_to_cart' | t }}</button>
+        {%- comment -%} custom.availability_status 'pre-order' (catalog/CONTRACT.md): the product page's words {%- endcomment -%}
+        {%- assign qa_status = product.metafields.custom.availability_status.value | downcase | strip | replace: ' ', '-' -%}
+        <button type="submit" name="add" class="btn btn--buy qa__add">{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}{% if qa_status == 'pre-order' %}{{ 'product.pre_order' | t }}{% else %}{{ 'product.add_to_cart' | t }}{% endif %}</button>
       {%- else -%}
         <button type="submit" name="add" class="btn qa__add" disabled>{{ 'product.sold_out' | t }}</button>
       {%- endif -%}

@@ -1,0 +1,10 @@
+{%- comment -%}
+  The collections a storefront filter is limited to (snippets/facets.liquid, section setting 'Filters alleen op deze
+  collecties': one line per filter, 'Past op: accessoires, zijwanden'). Outputs ',accessoires,zijwanden,' for the filter
+  named label, or nothing when the setting does not name it. Params: lines (the setting split into lines), label (lowercase).
+{%- endcomment -%}
+{%- for line in lines -%}
+  {%- assign fs_parts = line | split: ':' -%}
+  {%- assign fs_name = fs_parts.first | strip | downcase -%}
+  {%- if fs_parts.size > 1 and fs_name == label -%}{{ fs_parts.last | remove: ' ' | strip | downcase | prepend: ',' | append: ',' }}{%- break -%}{%- endif -%}
+{%- endfor -%}

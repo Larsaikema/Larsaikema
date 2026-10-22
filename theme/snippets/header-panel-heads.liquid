@@ -1,0 +1,41 @@
+{%- comment -%}
+  Header only. Prints '|url|url|': the column headings of one top menu item that the mega menu shows as a link (and
+  the mobile menu as 'Alles in …' inside the column's accordion). A heading is no link when
+  - it points at the item's own page ('Alles in …' is already above the columns), or
+  - it has links under it and points at the page of ANOTHER top menu item under a different name: 'Statafelpakketten'
+    under Statafels that opens the whole Pakketten collection would promise statafels and show tents. The heading then
+    stays as a title over its own links, and that page is one click away in the main menu under its real name.
+  sections/header.liquid also leaves out a link lower in the panel that points at a page one of these headings already
+  links to, so a panel never offers the same page twice (Bevestigingsmateriaal, and 'Gewichten en verankering' under
+  'Alle onderdelen' to the same collection).
+  Params: link (the top menu item), menu (the whole link list)
+{%- endcomment -%}
+{%- liquid
+  assign hph_top_urls = '|'
+  assign hph_top_pairs = '|'
+  for hph_t in menu.links
+    assign hph_t_title = hph_t.title | strip | downcase
+    assign hph_top_urls = hph_top_urls | append: hph_t.url | append: '|'
+    assign hph_top_pairs = hph_top_pairs | append: hph_t.url | append: '=>' | append: hph_t_title | append: '|'
+  endfor
+  assign hph_out = '|'
+  for hph_c in link.links
+    assign hph_linked = true
+    if hph_c.url == link.url
+      assign hph_linked = false
+    elsif hph_c.links != blank
+      assign hph_key = '|' | append: hph_c.url | append: '|'
+      if hph_top_urls contains hph_key
+        assign hph_c_title = hph_c.title | strip | downcase
+        assign hph_pair = '|' | append: hph_c.url | append: '=>' | append: hph_c_title | append: '|'
+        unless hph_top_pairs contains hph_pair
+          assign hph_linked = false
+        endunless
+      endif
+    endif
+    if hph_linked
+      assign hph_out = hph_out | append: hph_c.url | append: '|'
+    endif
+  endfor
+  echo hph_out
+-%}

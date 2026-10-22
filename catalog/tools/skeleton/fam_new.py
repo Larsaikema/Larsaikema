@@ -71,22 +71,28 @@ def build():
            ['ronde bankettafel', 'ronde tafel 8 personen', 'ronde klaptafel hout'],
            {'outmate': 'inklapbare tafel rond Ø122 €119 · Ø153 €149 · houten blad Ø183 €249', 'statafelshop': 'Ø122 €143,93 · Ø153 €211,15 · Ø165 €278,24 · Ø183 €332,69',
             'ours': {m: v[0] for m, v in BRD.items()}})
-    KV = [('Halfrond', 'Ø122 cm', 94.95, 9), ('Halfrond', 'Ø153 cm', 99.0, 12), ('Kwartrond', '122 x 76 cm', 109.0, 11), ('Kwartrond', '152 x 76 cm', 119.0, 13),
-          ('Kwartrond', '183 x 91 cm', 179.0, 17), ('Ovaal', '243 x 122 cm', 149.0, 30), ('Vierkant', '140 x 140 cm', 139.0, 24)]
-    KVM = [k[1] for k in KV]
-    KV_IMG = {'Halfrond': 'klaptafel-hout-halfrond.webp', 'Kwartrond': 'klaptafel-hout-kwartrond.webp', 'Ovaal': 'klaptafel-hout-ovaal.webp', 'Vierkant': 'klaptafel-hout-vierkant.webp'}
+    # catalog round 4: halfrond Ø140, kwartrond 170/80 and the set of 4 kwartronde tafels that close a circle of Ø 305 cm (reference € 102,50 /
+    # € 189 / € 555,90 = 4 x its 152/76 kwartrond at € 139); the 152/76 kwartrond to € 129 (was 14% under the reference), the set 5% under 4 los
+    KV = [('Halfrond', 'Ø122 cm', 94.95, 9), ('Halfrond', 'Ø140 cm', 96.95, 10.5), ('Halfrond', 'Ø153 cm', 99.0, 12), ('Kwartrond', '122 x 76 cm', 109.0, 11),
+          ('Kwartrond', '152 x 76 cm', 129.0, 13), ('Kwartrond', '170 x 80 cm', 169.0, 15), ('Kwartrond', '183 x 91 cm', 179.0, 17),
+          ('Kwartrond, set van 4', 'Ø305 cm', 489.0, 52), ('Ovaal', '243 x 122 cm', 149.0, 30), ('Vierkant', '140 x 140 cm', 139.0, 24)]
+    KVM = ['Ø122 cm', 'Ø140 cm', 'Ø153 cm', 'Ø305 cm', '122 x 76 cm', '152 x 76 cm', '170 x 80 cm', '183 x 91 cm', '243 x 122 cm', '140 x 140 cm']
+    KV_IMG = {'Halfrond': 'klaptafel-hout-halfrond.webp', 'Kwartrond': 'klaptafel-hout-kwartrond.webp', 'Kwartrond, set van 4': 'klaptafel-hout-kwartrond-set-van-4.webp',
+              'Ovaal': 'klaptafel-hout-ovaal.webp', 'Vierkant': 'klaptafel-hout-vierkant.webp'}
     simple('klaptafel-hout-vormen', 'Klaptafel met houten blad: halfrond, kwartrond, ovaal of vierkant', 'Klaptafel', ['zakelijk', 'gebruik:evenement'],
-           [opt('Maat', KVM), opt('Uitvoering', ['Halfrond', 'Kwartrond', 'Ovaal', 'Vierkant'])],
+           [opt('Maat', KVM), opt('Uitvoering', ['Halfrond', 'Kwartrond', 'Kwartrond, set van 4', 'Ovaal', 'Vierkant'])],
            [variant(f'KK-MEU-KLV-{u[:3].upper()}-{code(m)}', [m, u], p, kg * 1000, inv(8, m + u)) for u, m, p, kg in KV],
            [img(KV_IMG['Halfrond'], 'hero', 1, 'klaptafel', {'shape': 'halfrond', 'diameter': 1.53, 'top': 'hout'}, 'hero', None, 'needs-param')] +
-           [img(KV_IMG[u], 'variant', 2, 'klaptafel', {'shape': u.lower(), 'top': 'hout'}, 'hero', None, 'needs-param') for u in ['Kwartrond', 'Ovaal', 'Vierkant']],
+           [img(KV_IMG[u], 'variant', 2, 'klaptafel', {'shape': u.lower(), 'top': 'hout'}, 'hero', None, 'needs-param') for u in ['Kwartrond', 'Ovaal', 'Vierkant']] +
+           [img(KV_IMG['Kwartrond, set van 4'], 'variant', 2, 'klaptafel', {'shape': 'kwartrond', 'count': 4, 'arrangement': 'cirkel', 'diameter': 3.05, 'top': 'hout'},
+                'top', None, 'needs-param', alt='4 kwartronde tafels als cirkel van Ø 305 cm, van boven')],
            {'kenmerk_kort': 'Houten blad · 74 cm · om tafels aan te sluiten tot een U, cirkel of slang', 'staffelkorting': ST_KLAPTAFEL, 'verzending': 'pallet',
             'specificaties': [sp('Blad', 'Materiaal', WOOD), sp('Onderstel', 'Materiaal', 'Staal, zwart gepoedercoat, inklapbaar'), sp('Afmetingen', 'Hoogte', '74 cm'),
                               sp('Aansluiten', 'Op', 'Bankettafels 76 cm diep (halfrond Ø153 op 153 en 183 cm lang, kwartrond als hoek of slang)')]},
            ['tafels-stoelen.klaptafels'], 'meubilair',
            'Vormen om bankettafels aan te sluiten: halfrond als kop, kwartrond voor bochten en cirkels (4 = Ø 305 cm), ovaal en vierkant 140 voor een grote groep; opstellingen.',
            ['halfronde tafel', 'kwartronde klaptafel', 'ovale klaptafel', 'vierkante klaptafel 140'],
-           {'outmate': 'halfrond Ø122 €109 · Ø153 €115 · kwartrond 122/76 €129 · 152/76 €139 · 183/91 €199 · ovaal 243x122 €169 · vierkant 140 €159',
+           {'outmate': 'halfrond Ø122 €109 · Ø140 €102,50 · Ø153 €115 · kwartrond 122/76 €129 · 152/76 €139 · 170/80 €189 · 183/91 €199 · set van 4 kwartrond Ø305 €555,90 · ovaal 243x122 €169 · vierkant 140 €159 (live, 2026-10-18)',
             'ours': {f'{u} {m}': p for u, m, p, kg in KV}}, vmap=KV_IMG, vby='Uitvoering')
     # catalog round 3: the T-onderstel is the dearer frame at both references (Statafelshop U €169,40-217,80, T zwart €199,65-248,05,
     # T chroom €254,10-307,34; Outmate T €214,50, U €188,50); ours had T under U and no chroom. Ca. 10% under Statafelshop per frame and
@@ -139,12 +145,13 @@ def build():
     # ------------------------------------------------------------ koelkasten en vriezers (H10)
     KTAGS = ['zakelijk', 'gebruik:horeca', 'gebruik:evenement']
     BK = {'128 liter': (539.0, 38, '50 x 52 x 85 cm'), '198 liter': (569.0, 46, '60 x 56 x 110 cm'), '320 liter': (829.0, 68, '60 x 60 x 173 cm')}
-    simple('barkoelkast-glazen-deur', 'Barkoelkast met glazen deur', 'Koeling', KTAGS + ['pallet'], [opt('Uitvoering', list(BK)), opt('Kleur', ['Zwart'])],
-           [variant(f'KK-KOEL-BAR-{u.split()[0]}', [u, 'Zwart'], p, kg * 1000, inv(4, u + 'bar')) for u, (p, kg, d) in BK.items()],
+    # catalog round 4 (option noise): one colour only, so no one-value Kleur option (the colour is in the specs)
+    simple('barkoelkast-glazen-deur', 'Barkoelkast met glazen deur', 'Koeling', KTAGS + ['pallet'], [opt('Uitvoering', list(BK))],
+           [variant(f'KK-KOEL-BAR-{u.split()[0]}', [u], p, kg * 1000, inv(4, u + 'bar')) for u, (p, kg, d) in BK.items()],
            [img('barkoelkast-glazen-deur-hero.webp', 'hero', 1, 'fridge', {'kind': 'bar', 'door': 'glas', 'litres': 198, 'color': 'zwart', 'light': True}, 'hero', 'Zwart', 'needs-model',
                 alt='zwart, met glazen deur en LED-verlichting, gevuld met flessen (flessen niet inbegrepen)')],
            {'kenmerk_kort': 'Glazen deur · LED-binnenlicht · 2–10 °C · 128, 198 of 320 liter', 'verzending': 'pallet', 'garantie': '1 jaar',
-            'specificaties': [sp('Koeling', 'Temperatuur', '2 tot 10 °C, digitaal instelbaar'), sp('Koeling', 'Klimaatklasse', 'N (16–32 °C omgeving)'),
+            'specificaties': [sp('Uitvoering', 'Kleur', 'Zwart'), sp('Koeling', 'Temperatuur', '2 tot 10 °C, digitaal instelbaar'), sp('Koeling', 'Klimaatklasse', 'N (16–32 °C omgeving)'),
                               sp('Uitvoering', 'Deur', 'Dubbel glas, slot, deur links of rechts te hangen'), sp('Uitvoering', 'Verlichting', 'LED binnenin'),
                               sp('Afmetingen', '128 / 198 / 320 liter', ' · '.join(d for _, _, d in BK.values()))]},
            ['inrichting-evenement.koelkasten-en-vriezers'], 'koeling',
@@ -174,11 +181,11 @@ def build():
            'Professionele horecakoelkast in RVS: GN 2/1, digitaal, dicht of glas; voor keuken en catering; wat je nodig hebt aan stroom en ruimte.',
            ['koelkast rvs horeca', 'horeca koelkast glazen deur', 'gn koelkast'], {'outmate': 'Koelkast RVS staand digitaal €2.169 · glasdeur €2.215', 'ours': {u: v[0] for u, v in KR.items()}},
            vmap={'Dichte deur': 'koelkast-rvs-horeca-hero.webp', 'Glazen deur': 'koelkast-rvs-horeca-glazen-deur.webp'}, vby='Uitvoering')
-    simple('koel-vrieskist-liggend', 'Koel- en vrieskist liggend', 'Koeling', KTAGS + ['pallet'], [opt('Kleur', ['Wit'])],
-           [variant('KK-KOEL-KIST-WIT', ['Wit'], 609.0, 52000, 3)],
+    simple('koel-vrieskist-liggend', 'Koel- en vrieskist liggend', 'Koeling', KTAGS + ['pallet'], [],
+           [variant('KK-KOEL-KIST-WIT', [], 609.0, 52000, 3)],
            [img('koel-vrieskist-liggend-hero.webp', 'hero', 1, 'fridge', {'kind': 'kist', 'color': 'wit', 'lid': 'open'}, 'hero', 'Wit', 'needs-model', alt='met deksel open')],
            {'kenmerk_kort': 'Liggend · koelen of vriezen met één schakelaar · ca. 300 liter', 'verzending': 'pallet', 'garantie': '1 jaar',
-            'specificaties': [sp('Koeling', 'Stand koelen', '+2 tot +8 °C'), sp('Koeling', 'Stand vriezen', '-18 tot -24 °C'), sp('Koeling', 'Inhoud', 'ca. 300 liter'),
+            'specificaties': [sp('Uitvoering', 'Kleur', 'Wit'), sp('Koeling', 'Stand koelen', '+2 tot +8 °C'), sp('Koeling', 'Stand vriezen', '-18 tot -24 °C'), sp('Koeling', 'Inhoud', 'ca. 300 liter'),
                               sp('Uitvoering', 'Deksel', 'Met slot, 2 manden'), sp('Afmetingen', 'B x D x H', 'ca. 110 x 70 x 85 cm')]},
            ['inrichting-evenement.koelkasten-en-vriezers'], 'koeling',
            'Kist die koelt of vriest: ijs, ijsjes en voorraad op het evenement; schakelaar koelen/vriezen; op een trolley rijden.',
@@ -203,12 +210,13 @@ def build():
            ['tafels-stoelen.trolleys', 'inrichting-evenement.koelkasten-en-vriezers'], 'koeling',
            'Koelkast of koelkist rijden in plaats van tillen: plateau met spanbanden; welke kar bij welke koeling.',
            ['transportkar koelkast', 'trolley koelkist'], {'outmate': 'trolley staande koelkasten €325 · liggende koelkist €375', 'ours': {t_[0]: t_[1] for t_ in KT}})
-    for h in ['barkoelkast-glazen-deur', 'koelkast-staand-horeca', 'koelkast-rvs-horeca', 'koel-vrieskist-liggend']:
-        HANDLES[h]['metafields']['addon_eenmalig'] = ['transportkar-koelkasten']
+    # catalog round 4: the kar carries ONE koelkast or koelkist, so it follows the quantity (3 koelkasten, 3 karren) and is no
+    # addon_eenmalig (it was: 3 fridges got 1 kar)
 
     # ------------------------------------------------------------ Premium full colour (M7)
     h = 'easy-up-partytent-premium-full-colour-bedrukt'
-    PFC = {'3 x 3 m': (649, 899), '3 x 4,5 m': (779, 1069), '3 x 6 m': (929, 1249)}   # Premium + print (roof +370, +3 walls +250) under the Professional FC
+    # catalog round 4: ca. 10% under the reference's Premium full colour (3x3 € 625, 3x4,5 € 859, 3x6 € 999; live data); 3x3 sat 4% above it
+    PFC = {'3 x 3 m': (559, 809), '3 x 4,5 m': (769, 1059), '3 x 6 m': (899, 1219)}
     UV = ['Dak en luifel', 'Dak, luifel en 3 zijwanden']
     vs = [variant(f'KK-BDR-EUPRM-FC-{code(m)}-{"DL" if i == 0 else "DLW"}', [m, u], PFC[m][i], (PREM[m][1] + (4 if i else 0)) * 1000, None, tracked=False)
           for m in PFC for i, u in enumerate(UV)]
@@ -228,7 +236,8 @@ def build():
          'covers': ['easy-up-partytenten.easy-up-premium'], 'family': 'bedrukt-tent', 'weight': 2,
          'copy_brief': 'De stalen Premium helemaal in je huisstijl: dak en luifel (en 3 wanden) in full colour, drukproef vooraf; voor vereniging, school en markt; eerlijk naast de Professional full colour.',
          'seo_keywords': ['bedrukte partytent goedkoop', 'easy up full colour premium', 'partytent bedrukken vereniging'],
-         'price_ref': {'outmate': 'Premium volledig bedrukt (per URL)', 'ours': {m: v[0] for m, v in PFC.items()}}})
+         'price_ref': {'outmate': 'Premium full colour bedrukking: 3x3 €625 · 3x4,5 €859 · 3x6 €999 (live, 2026-10-18)', 'rule': 'ca. 10% onder de referentie',
+                       'ours': {m: v[0] for m, v in PFC.items()}}})
 
     # ------------------------------------------------------------ dwarsbuis halve zijwand (M18)
     HDB = {'3 m': 16.95, '4 m': 19.95, '4,5 m': 21.95, '5 m': 22.95, '6 m': 26.95, '8 m': 32.95}
@@ -296,7 +305,7 @@ def build():
            ['inrichting-evenement.afzetpalen'], 'inrichting', 'Velours koord tussen twee palen voor de koord-afzetting: lengte per afstand tussen de palen, 8 kleuren.',
            ['afzetkoord', 'velours koord afzetpaal', 'rood koord afzetpaal'], {'outmate': 'koord voor afzetpaal 150 cm €29 (10 kleuren), scheepstouw €32', 'ours': dict(KO)}, vmap=vmap)
     AW = [('Wandhaak voor koord, chroom', 9.95, 'WHC', 300), ('Wandhaak voor koord, messinglook', 9.95, 'WHM', 300), ('Wandhaak voor koord, zwart', 9.95, 'WHZ', 300),
-          ('Wandunit met trekband 2 m, zwart', 39.95, 'WU2', 900), ('Wandunit met trekband 3 m, zwart', 49.95, 'WU3', 1100),
+          ('Wandunit met trekband 2 m, zwart', 25.95, 'WU2', 900), ('Wandunit met trekband 3 m, zwart', 32.95, 'WU3', 1100),
           ('Bordhouder A4 liggend, zwart', 27.95, 'BA4L', 800), ('Bordhouder A4 staand, zwart', 27.95, 'BA4S', 800), ('Bordhouder A4 liggend, RVS', 32.95, 'BA4R', 800),
           ('Bordhouder A3 liggend, zwart', 34.95, 'BA3L', 1100)]
     AW_IMG = {n: f'onderdelen-afzetsysteem-{slug(n.split(",")[0])}.webp' for n, _, _, _ in AW}
@@ -313,7 +322,9 @@ def build():
            'Het afzetsysteem afmaken: koord of band aan de muur vastzetten, en een bord op de paal (A4 of A3) voor de bewegwijzering.',
            ['wandunit trekband', 'bordhouder afzetpaal', 'wandhaak koord'], {'outmate': 'wandhaak €11 · A4 houder €27,50–€36', 'ours': {a[0]: a[1] for a in AW}},
            vmap=AW_IMG, vby='Uitvoering')
-    TA = [('Voor 12 afzetpalen', 649.0, '12', 45), ('Voor 16 afzetpalen', 829.0, '16', 55)]
+    # catalog round 5 (low): 18-30% under the reference trolleys (16 Premium € 922,50, 14 Professional € 1.010,50); now 16 ca. 6% under the 16-place
+    # one and 12 priced per place of the 14-place one (€ 72) less ca. 10%
+    TA = [('Voor 12 afzetpalen', 779.0, '12', 45), ('Voor 16 afzetpalen', 869.0, '16', 55)]
     simple('transportkar-afzetpalen', 'Transportkar voor afzetpalen', 'Transportkar', ['zakelijk', 'pallet', 'gebruik:evenement'], [opt('Uitvoering', [t_[0] for t_ in TA])],
            [variant(f'KK-MEU-TKAZ-{c}', [n], p, kg * 1000, inv(2, c + 'tkaz')) for n, p, c, kg in TA],
            [img('transportkar-afzetpalen-hero.webp', 'hero', 1, 'trolley', {'kind': 'afzetpaal', 'loaded': 0}, 'hero', None, 'needs-model')],
@@ -379,7 +390,7 @@ def build():
            [img('onderdelen-biertafel-en-klaptafel-hero.webp', 'hero', 1, 'biertafelset', {'only': 'onderstel'}, 'hero', None, 'needs-param', alt='onderstelset biertafel, klikslot en vloerbeschermers')] +
            [img(TO_IMG[n], 'variant', 2, 'biertafelset', {'only': 'onderstel', 'part': c.lower()}, 'hero', None, 'needs-param') for n, _, c, _ in TO],
            {'kenmerk_kort': 'Onderstellen, klikslot, bouten, vloerbeschermers en stelpoten', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
-            'past_op': ['biertafelset', 'bierbank-220', 'bankettafel-hout-rechthoekig', 'conferentietafel-inklapbaar', 'klaptafel-hdpe-rechthoekig'],
+            'past_op': ['biertafelset', 'bierbank', 'bankettafel-hout-rechthoekig', 'conferentietafel-inklapbaar', 'klaptafel-hdpe-rechthoekig'],
             'specificaties': [sp('Onderstel', 'Biertafel', 'Verzinkt staal, voor bladen van 50 cm (extra breed: 60–80 cm), met bouten'),
                               sp('Onderstel', 'Zelf bouwen', 'Schroef het onderstel onder je eigen blad van 25–35 mm'),
                               sp('Vloerbeschermers', 'Set', '8 kunststof doppen voor de voeten van tafel en banken')]},
@@ -401,7 +412,8 @@ def build():
            ['verlichting.ledlampen'], 'verlichting', 'Losse gekleurde lampen per stuk (zelf mengen) of extra warm 2000 K; onbreekbaar; staffel vanaf 50.',
            ['gekleurde led lamp e27', 'led lamp 2000k', 'gekleurde lampen prikkabel'], {'outmate': 'gekleurde LED-lampen per stuk (8 kleuren + 2000 K)', 'ours': {'Warm wit': 1.69, 'kleur': 1.79}},
            vmap=vmap)
-    LD = [('2 W dimbaar, IP65', 3.49, '2W'), ('3 W dimbaar, IP65', 3.95, '3W')]
+    # catalog round 4: ca. 8% under the reference (2 W dimbaar € 2,49 · 3 W dimbaar € 2,69 · 1 W IP65 € 1,99; live data); they were 40-47% over it
+    LD = [('2 W dimbaar, IP65', 2.29, '2W'), ('3 W dimbaar, IP65', 2.49, '3W')]
     simple('led-lamp-e27-dimbaar-ip65', 'LED-lamp E27 dimbaar IP65', 'LED-lamp', ['zakelijk', 'gebruik:horeca', 'gebruik:evenement'], [opt('Uitvoering', [l[0] for l in LD])],
            [variant(f'KK-LCHT-LEDD-{c}', [n], p, 45, inv(300, c + 'ledd')) for n, p, c in LD],
            [img('led-lamp-e27-dimbaar-ip65-hero.webp', 'hero', 1, 'ledBulb', {'type': 'filament', 'on': True, 'sealed': True}, 'hero', None, 'needs-param')],
@@ -410,7 +422,7 @@ def build():
             'specificaties': [sp('Lamp', 'Vermogen', '2 of 3 W LED, ca. 180 / 250 lumen'), sp('Lamp', 'Licht', '2200 K'), sp('Lamp', 'Dimbaar', 'Ja, met een fase-afsnijdingsdimmer'),
                               sp('Lamp', 'Beschermingsklasse', 'IP65, ook in een open fitting in de regen')]},
            ['verlichting.ledlampen'], 'verlichting', 'Voor prikkabels die het hele seizoen buiten hangen of gedimd worden: IP65, dimbaar, 2 of 3 W.',
-           ['led lamp dimbaar ip65', 'waterdichte led lamp e27', 'dimbare prikkabel lamp'], {'outmate': 'dimbare IP65 LED-lampen 2–3 W (per URL)', 'ours': {l[0]: l[1] for l in LD}})
+           ['led lamp dimbaar ip65', 'waterdichte led lamp e27', 'dimbare prikkabel lamp'], {'outmate': 'LED 2 W dimbaar met lens €2,49 · 3 W spiraal dimbaar €2,69 · 1 W IP65 €1,99 (live, 2026-10-18)', 'ours': {l[0]: l[1] for l in LD}})
 
     # ------------------------------------------------------------ pakketten (M20, M9)
     def setp(los):

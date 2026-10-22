@@ -20,7 +20,20 @@
 <script>
   (() => {
     const done = document.querySelector('[data-newsletter-done]');
-    if (done) return done.focus();
+    if (done) {
+      // Shopify returns to /?customer_posted=true#FooterNewsletter; when the browser handles that fragment (the form,
+      // which cannot take focus) it drops focus to <body>. For the first seconds the success message takes it back.
+      const t0 = Date.now();
+      const keep = () => {
+        const a = document.activeElement;
+        if (Date.now() - t0 < 4000 && (!a || a === document.body || a === done.closest('form'))) done.focus();
+      };
+      done.focus();
+      done.addEventListener('focusout', (e) => { if (!e.relatedTarget) setTimeout(keep, 0); });
+      window.addEventListener('load', () => setTimeout(keep, 0), { once: true });
+      window.addEventListener('hashchange', () => setTimeout(keep, 0), { once: true });
+      return;
+    }
     const f = document.getElementById('FooterNewsletterEmail');
     if (!f) return;
     f.addEventListener('invalid', () => f.setCustomValidity(f.validity.valueMissing ? f.dataset.msgEmpty : f.dataset.msgInvalid));

@@ -14,10 +14,13 @@
 .mega__cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(28px,2.2vw,32px) clamp(28px,2.8vw,40px);align-content:start}
 .mega__cols--1{grid-template-columns:minmax(0,320px)}
 .mega__cols--2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.mega__cols--3,.mega__cols--6{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mega__cols--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mega__cols--6{display:block;columns:3;column-gap:clamp(28px,2.8vw,40px)}
+.mega__cols--6>.mega__col{break-inside:avoid;padding-bottom:clamp(24px,2vw,28px)}
 .mega__cols--5{grid-template-columns:repeat(5,minmax(0,1fr));column-gap:clamp(20px,1.7vw,24px)}
 .mega__inner:has(.mega__cols--5):has(.mega__aside){grid-template-columns:minmax(0,1fr) clamp(230px,18vw,260px);gap:clamp(32px,2.8vw,40px)}
-.mega__cols--5 .mega__heading{gap:10px;min-height:60px;font-size:15.5px}
+.mega__cols--5 .mega__heading{gap:10px;font-size:15.5px}
+.mega__cols--5 .mega__heading--thumb{min-height:60px}
 .mega__cols--5 .mega__thumb{width:48px;height:48px}
 .mega__cols--5 .hlinks__chip{padding:0 9px;font-size:13.5px}
 .mega__inner:not(:has(.mega__aside)) .mega__cols--4{grid-template-columns:repeat(4,minmax(0,280px))}

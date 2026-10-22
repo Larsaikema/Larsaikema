@@ -12,7 +12,9 @@
 //          'wit' | 'lichtgrijs' | colour / #hex (melamine 25 mm with ABS edge band)
 //   frame  'u' (default: folding U leg frames, black powder coat, braces with locking rings) |
 //          't' (conferentietafel: two folding T legs at the ends: foot bar with glides, column, top bar)
+//   frameColor  powder coat colour of the frames (default zwart) | 'chroom' (chromed)
 //   folded true: legs folded flat under the top, the table stood on its long edge, underside to the camera
+//   count  > 1 (kwartrond): that many quarter rounds round one centre, `diameter` = ring (tableSets.js)
 // Construction: the board outline is filleted (3 cm corners) and inset; the edge is one swept band with
 // radiused arrises, the faces a flat plate; leg frames hinge in pressed brackets screwed to the underside.
 import * as THREE from 'three';
@@ -22,6 +24,7 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import * as TX from '../js/textures.js';
+import { tableRing } from './tableSets.js'; // round 5: `count` quarter rounds as a ring
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -165,6 +168,7 @@ function tLeg(bins, mats, { x, D, yU, inward }) {
 }
 
 export function banquetTable(p = {}) {
+  if (Number(p.count) > 1) return tableRing(p);
   const shapeIn = String(p.shape || 'rechthoek').toLowerCase();
   const shape = shapeIn.startsWith('rond') ? 'rond' : shapeIn.startsWith('half') ? 'halfrond' : shapeIn.startsWith('kwart') ? 'kwartrond'
     : shapeIn.startsWith('ova') ? 'ovaal' : shapeIn.startsWith('vier') ? 'vierkant' : 'rechthoek';
@@ -177,7 +181,10 @@ export function banquetTable(p = {}) {
   const T = tm.T;
   const folded = !!p.folded;
   const frameKind = String(p.frame || 'u').toLowerCase();
-  const mats = { steel: F.powder(['u', 't', ''].includes(frameKind) ? 'zwart' : frameKind), cap: F.plastic('#1A1A1A', 0.6), chrome: M.chrome() };
+  // frameColor (round 5): powder coat colour of the leg frames, or 'chroom' (verchroomd T-onderstel)
+  const fcol = String(p.frameColor || (['u', 't', ''].includes(frameKind) ? 'zwart' : frameKind)).toLowerCase();
+  const chromed = fcol === 'chroom' || fcol === 'chrome' || fcol === 'verchroomd';
+  const mats = { steel: chromed ? M.chrome() : F.powder(fcol), cap: F.plastic('#1A1A1A', 0.6), chrome: M.chrome() };
   const o = outlineFor(shape, { L, W, D });
   const bins = new G.PartBin();
   const { faces, band } = board(o, T);
@@ -231,11 +238,14 @@ export function banquetTable(p = {}) {
     object: group,
     detail: folded ? { target: [L / 2 - 0.25, W / 2, 0.05], size: 0.5, azimuth: 30, elevation: 10 }
       : { target: [shape === 'rechthoek' ? L / 2 - 0.12 : 0.3, H - 0.1, 0.3], size: 0.45, azimuth: 40, elevation: 14 },
-    meta: { shape, L, W, D, H, top: p.top, frame: frameKind, folded },
+    meta: { shape, L, W, D, H, top: p.top, frame: frameKind, frameColor: fcol, folded },
     view: shape === 'kwartrond' || shape === 'halfrond' || shape === 'rond' || shape === 'ovaal' || shape === 'vierkant'
       ? { hero: { elevation: 22 } } : undefined,
     rig: (() => {
       const big = shape !== 'rechthoek' || L > 1.5;
+      // chrome T legs stay in the default (bright room) environment: their columns and foot bars are
+      // flat-faced, and in the dark studio map (barStool chroom) those faces mirror the black surround and
+      // read as gunmetal
       const r = S.seatRig(group, { default: big && !folded
         ? { groundAO: { maxZenith: 50, strength: 0.5, blur: 4.5 }, shadowFloor: 0.76, keyShadow: 0.3, contact: { strength: 0.5 } }
         : { groundAO: { maxZenith: 55, blur: 3.0 }, shadowFloor: 0.72 } });

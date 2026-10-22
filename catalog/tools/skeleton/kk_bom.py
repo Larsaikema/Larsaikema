@@ -198,8 +198,11 @@ def _emit(p, v, sub, maat, kleur, dak_h, dak_u, sku_of, find_one, errors, zijhoo
 # every paal (hoek- en middenpunten). Counts are our definition, to confirm with the supplier (docs/claims-to-confirm.md).
 STRETCH_PALEN = {'4,5 x 6 m': (1, 2, 2), '4,5 x 7,5 m': (1, 2, 2), '6 x 6 m': (1, 2, 4), '6 x 10,5 m': (2, 2, 4), '7,5 x 10,5 m': (2, 2, 6),
                  '9 x 10,5 m': (2, 4, 6), '10,5 x 10,5 m': (2, 4, 8), '10,5 x 12 m': (3, 4, 8), '10,5 x 15 m': (3, 4, 8), '10,5 x 19,5 m': (4, 6, 10)}
-PAAL_PRIJS = {('2,5 m', 'Kastanjehout'): 59.95, ('3 m', 'Kastanjehout'): 69.95, ('4 m', 'Kastanjehout'): 89.95, ('5 m', 'Kastanjehout'): 109.0,
-              ('2,5 m', 'Aluminium'): 79.95, ('3 m', 'Aluminium'): 94.95, ('4 m', 'Aluminium'): 119.0, ('5 m', 'Aluminium'): 149.0}
+# catalog round 4 (high): the loose poles cost about twice the market (€ 59,95-109 against Outmate's wooden poles at € 29 / 35 / 49 / 79); now
+# ca. 10% under that reference, aluminium the same step over wood as before (ca. x 1,34: lighter, no reference price found)
+PAAL_REF = {'2,5 m': 29.0, '3 m': 35.0, '4 m': 49.0, '5 m': 79.0}
+PAAL_PRIJS = {('2,5 m', 'Kastanjehout'): 25.95, ('3 m', 'Kastanjehout'): 30.95, ('4 m', 'Kastanjehout'): 43.95, ('5 m', 'Kastanjehout'): 70.95,
+              ('2,5 m', 'Aluminium'): 34.95, ('3 m', 'Aluminium'): 41.95, ('4 m', 'Aluminium'): 58.95, ('5 m', 'Aluminium'): 94.95}
 ANKER = ('Spanband met ratel', 6.95, 'Lange haring 75 cm', 10.95)
 ZWAAR_PUNT = ('Touwenset 3-punts met RVS karabijnen', 49.95, 'Ronde haring 100 cm', 20.95)
 

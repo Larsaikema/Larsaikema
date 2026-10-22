@@ -3,7 +3,8 @@
 // { w, d, diameter, height, top, frame, base }
 //   w x d  square/rectangular top (default 0.7 x 0.7 m); diameter -> round top
 //   top    'zwart' | 'wit' | 'houtlook' | 'antraciet' (20 mm moulded outdoor laminate top
-//          with rounded edges; houtlook = oak-print laminate)
+//          with rounded edges; houtlook = oak-print laminate) | decors (js/hplDecors.js): 'beton',
+//          'graniet', 'leisteen', 'marmer-wit', 'marmer-zwart', 'teak', 'eiken-grijs', 'vintage-hout'
 //   frame  powder coat colour (default zwart)
 //   base   'kruis' (default: cast 4-star foot with levelling glides) | 'rond' (cast disc)
 // Construction: Ø60 steel column, flip-top mechanism (cross plate under the top, hinge
@@ -13,12 +14,16 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
+import { hplDecor } from '../js/hplDecors.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
 
 function topMaterials(top) {
   const t = String(top || 'zwart').toLowerCase();
+  // round 5: stone / concrete / wood decors (js/hplDecors.js); compact HPL ones show the black core on the edge
+  const dec = hplDecor(t);
+  if (dec) return { face: dec.face, edge: dec.edge };
   if (t === 'houtlook' || t === 'hout' || t === 'eiken') {
     const face = S.woodMat('eiken', { stain: '#9C7A55', finish: 'lak', seed: 31 });
     return { face, edge: face };
@@ -105,10 +110,11 @@ export function patioTable(p = {}) {
     object: group,
     detail: { target: [cR * 0.7, H - 0.02, cR * 0.7], size: 0.35, azimuth: 40, elevation: 18 },
     meta: { Wt, Dt, H, round },
-    // a wide, low product: 74 % instead of 80 % of the frame, so it does not crowd the tile
-    // and seen from a little lower (12 deg) than the other furniture, so the tilt-top hinge head and its
-    // release lever under the top are in the hero (the selling point: the top tilts up)
-    view: { hero: { fill: 0.74, elevation: 12 } },
+    // a wide, low product: 74 % instead of 80 % of the frame, so it does not crowd the tile.
+    // Round 5: 20 deg (was 12): the hero is also the colour / decor variant image of 12 tops (marble,
+    // slate, concrete, wood prints), and at 12 deg the top was a sliver whose decor did not read; from
+    // 20 deg the top reads as a surface while the column, the hinge head and the cast foot stay in view
+    view: { hero: { fill: 0.74, elevation: 20 } },
     rig: S.seatRig(group),
   };
 }

@@ -8,3 +8,20 @@
 @media (min-width:990px){.iwt__inner{grid-template-columns:1fr 1fr;gap:72px}.iwt--image-right .iwt__media{order:2}.iwt__media{aspect-ratio:5/4}}
 .iwt--contain .iwt__media img{object-fit:contain}
 @media (max-width:749px){.iwt .btn-row .btn{flex:1 1 auto}}
+@media (max-width:749px){.iwt--mobile-compact .iwt__inner{gap:20px}.iwt--mobile-compact .iwt__media{aspect-ratio:4/3}.iwt--mobile-compact .iwt__content{gap:12px}.iwt--mobile-compact .btn-row{align-self:stretch;gap:10px}.iwt--mobile-compact .btn-row .btn{flex:1 1 auto;padding-inline:12px}}
+.iwt__products{align-self:stretch}
+.iwt__products-title{margin:0 0 8px;font-size:14px;font-weight:var(--font-body-weight-semibold);color:var(--c-kiezel)}
+.iwt__plist{list-style:none;margin:0;padding:0;border-top:1px solid var(--c-lijn)}
+.iwt__prow{display:flex;align-items:center;gap:14px;padding:10px 4px 10px 0;border-bottom:1px solid var(--c-lijn);color:var(--c-inkt);text-decoration:none;transition:background-color var(--dur-fast)}
+.iwt__prow:hover{background:var(--c-tint-wit)}
+.iwt__prow:hover .iwt__ptitle{text-decoration:underline;text-underline-offset:3px}
+.iwt__pimg{flex:none;width:56px;height:56px;border-radius:8px;overflow:hidden;background:var(--c-media)}
+.iwt__pimg img{width:100%;height:100%;object-fit:cover}
+.iwt__ptext{display:flex;flex-direction:column;flex:1;min-width:0}
+.iwt__ptitle{font-weight:var(--font-body-weight-bold);font-size:15px;line-height:1.3}
+.iwt__pspec{font-size:13px;line-height:1.35;color:var(--c-kiezel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iwt__pprice{flex:none;text-align:right}
+.iwt__pprice .price{align-items:flex-end}
+.iwt__pprice .price__value{font-size:16px}
+.iwt__pprice .price__label{font-size:12px}
+@media (max-width:749px){.iwt__prow{display:grid;grid-template-columns:48px minmax(0,1fr);grid-template-areas:"i t" "i p";gap:2px 12px}.iwt__pimg{grid-area:i;width:48px;height:48px;align-self:center}.iwt__ptext{grid-area:t}.iwt__pprice{grid-area:p;text-align:left}.iwt__pprice .price{align-items:flex-start}.iwt__pprice .price__main{justify-content:flex-start}.iwt__pprice .price__value{font-size:15px}.iwt__pspec{display:none}.iwt__ptitle{font-size:14.5px}}

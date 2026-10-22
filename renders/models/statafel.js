@@ -337,7 +337,7 @@ export function statafel(p = {}) {
   const det = S.base === 'klap' ? klapDetails(S) : {};
   const view = {};
   let rig = L.statafelRig({ albedoL: top === 'berken' || top === 'hout' ? 0.55 : top.startsWith('hdpe') || top === 'wit' ? 0.75 : 0.12 });
-  if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.96; }
+  if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.975; }
   let meta = { D: S.D, H, top, base: S.base, folded, probes };
   let object = group;
   if (folded) {
@@ -356,6 +356,9 @@ export function statafel(p = {}) {
       rig.default.key = { azimuth: -32, elevation: 56, intensity: 2.1, cone: 18, mapSize: 2048, radius: 2.5 };
       rig.default.floorKey = null;
       rig.default.wallAmbient = 0.42;
+      // baked studio sweep (engine _bakeWall): uniform hemisphere samples, cove-weighted floor + wall
+      rig.default.groundAO = { ...rig.default.groundAO, samples: 160, wallSamples: 160, wallRes: 512 };
+      rig.default.cove = 0.35;
       meta = { ...meta, contacts: res.contacts };
     }
   }
@@ -426,7 +429,7 @@ function leanAgainstSweep(group, S, p) {
   return {
     object: holder,
     contacts: { floor: floorPt.toArray(), wall: wallPt.toArray() },
-    view: { hero: { azimuth: 50, elevation: 10, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
+    view: { hero: { azimuth: 34, elevation: 12, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
   };
 }
 

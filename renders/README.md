@@ -289,9 +289,14 @@ van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 - `folded: true`: blad verticaal (om de scharnierbout), poten langs de kolom opgeklapt (de kraag schuift via
   de schoren mee omhoog, kinematisch berekend). Los in beeld **leunt** de ingeklapte tafel tegen de (onzichtbare)
   studiosweep: kolomvoet op de vloer, bladrand tegen de sweep, de mechaniekzijde (kolom, opgeklapte poten,
-  scharnier, knop) naar de camera; `leanYaw` (°, standaard 8) draait hem t.o.v. de sweep (de hero kijkt van 50° opzij, zodat je de leunhoek, de bladrand, het scharnier en de opgeklapte poten ziet), `leanTilt` (°,
-  standaard 11) is de leunhoek. Beide raakpunten krijgen contactschaduw (vloer: contactpass; sweep:
-  `userData.catcher`, zie Licht). `lean: false` = de kale ingeklapte tafel rechtop (voor de transportkar).
+  scharnier, knop) naar de camera; `leanYaw` (°, standaard 8) draait hem t.o.v. de sweep (de hero kijkt van
+  34° opzij, de catalogushoek: blad als brede ellips met zichtbare rand, kruisbeugel, scharnier en opgeklapte
+  poten ervoor), `leanTilt` (°, standaard 11) is de leunhoek. Beide raakpunten krijgen contactschaduw (vloer:
+  contactpass; sweep: `userData.catcher`). De sweep is **gebakken** zoals de vloer (`engine._bakeWall`):
+  160 richtingen over de hele bovenhalve bol + de sleutelkegel, in het wandvlak, vervaagd; vloer en wand
+  wegen hun richtingen met een normaal die in een **holle hoek** (`rig.cove`, 35 cm) naar 45° buigt, zodat
+  de schaduw zonder lijn van de vloer de wand op loopt (geen gestapelde kopieën, geen naad).
+  `lean: false` = de kale ingeklapte tafel rechtop (voor de transportkar).
 - Detailbeelden (`--angle detail` of `detail-<naam>`): `detail` = het klapmechaniek (schuifkraag met sterknop,
   schoren met gaffels, hub, voetdoppen), `detail-scharnier` = kantelbeugel en scharnier onder het blad van
   schuin onder, `detail-kraag` = kraag + knop, `detail-voet` = een voetdop.
@@ -300,9 +305,12 @@ van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 `{ type, color, diameter, topcover, topcoverPrint, print, waistY, waistR, hemLift, sashColor, bowAngle, tableTop, seed }`
 
 - `type: "stretch"` (statafelrok): polyester-elastaan single jersey (`statafelLook.jerseyKnit`: 0,9 mm
-  tricotlussen als normal map, uv in meters, in close-ups versterkt via de engine-`weave`-hook; sheen 0,6 in de
-  eigen verfkleur, sheenRoughness 0,5, roughness 0,65; zwart tricot reflecteert ~3 %, dus een belichte zwarte
-  rok leest als donkergrijs doek). Constructie: rond bovenpand, op de bovenste bladrand aan het lijf genaaid
+  tricotlussen als normal map, uv in meters, in close-ups versterkt via de engine-`weave`-hook, die daar ook
+  de flanken van elke lus donkerder maakt (`weave.cav`) en de lustoppen meer vezelglans geeft (`weave.crown`),
+  zodat zelfs zwart tricot zijn ribbels toont; sheen 0,6 in de eigen verfkleur (zwart: donkergrijs),
+  sheenRoughness 0,5, roughness 0,65; zwart tricot reflecteert ~3 %, dus een belichte zwarte rok leest als
+  donkergrijs doek). `knitLook {roughness, sheen, sheenColor, sheenRoughness, normal, specularIntensity,
+  envSpec, boost}` overschrijft het materiaal voor look-development. Constructie: rond bovenpand, op de bovenste bladrand aan het lijf genaaid
   (naadrups + stiksel op de rand); het lijf omspant de 18 mm rand, loopt vanaf de onderste bladrand in een
   trechter naar een strakke taille en waaiert uit naar de vier voeten. Spanning: fijne **radiale rekstrepen**
   van de rand naar de taille, onregelmatige **stuiklobben** in de taille, **diagonale treklijnen** van de taille
@@ -314,8 +322,11 @@ van opzij en een kaart rechts zodat ook de zijwand om de hoek leest.
 - `type: "strik"`: geweven polyester (`statafelLook.wovenCloth`). Het doek ligt vlak op het blad, valt over de
   rand en wordt bij de taille samengebonden: **radiale plooien** vanaf de bladrand die naar de sjerp toe
   vertakken in twee keer zoveel strakke plooien en bij de knoop **naar het knooppunt convergeren**; rok met
-  plooien van ongelijke diepte tot op de grond. Strik: twee **lussen als dik lint** (afgeronde randen, gebold,
-  bij de knoop samengeknepen, fijn onderverdeeld), een **knoop van gewikkeld doek met plooirimpels**, en twee
+  plooien van ongelijke diepte tot op de grond. Strik: twee **lussen van één laag doek** (dubbelzijdig, 240 × 26
+  onderverdeeld): heen op de voorlaag, een zachte ronde vouw (~1 cm) aan het eind, terug op de achterlaag;
+  het midden van de breedte reikt het verst (ronde lusvorm van voren) en bolt het meest, bij de knoop
+  samengeknepen met fijne plooitjes en **vouwen die vanuit de knoop over de lus waaieren**; beide randen
+  een opgerolde zoom van 1 mm die licht golft. Een **knoop van gewikkeld doek met plooirimpels**, en twee
   **staarten die op de rokplooien rusten** (volgen de plooitoppen, zakken iets in de dalen, geen spleet) met een
   **zwaluwstaartknip**. `sashColor` voor een contrasterende sjerp.
 - `type: "kleed"`: rond tafelkleed dat over het blad tot op de grond valt, met godetplooien en lichte poel.
@@ -330,9 +341,13 @@ het product, blijft in beeld), modelleerlicht linksvoor op 38° (horizontale vla
 grote frontale vulkaart rechts op ooghoogte, een witte **vloerkaatskaart** linksvoor onder het product (licht de
 naar beneden gekeerde delen: trechter onder het blad, strikdrapering; intensiteit 1,7–2,3 voor hoezen), studio-
 reflectieomgeving met vaste boxen (donker achter het product, dus een rood blad wordt niet zalmroze en een
-zwart blad geen grijze schijf), Neutral tonemapping, contact-AO onder voeten/zoom/hub (smal + brede halo),
+zwart blad geen grijze schijf), Neutral tonemapping (verzadigde verfkleuren met een zachtere toe, `rig.toe`
+0,5: de kleine kanalen van rood worden niet naar 0 gedrukt, dus geen digitaal puur rood maar geverfd doek met
+vorm in de schaduw), contact-AO onder voeten/zoom/hub (smal + brede halo),
 gladde vloer-AO (96 + 96 richtingen, σ 2,5 cm, vervaagt naar 1 aan de bake-rand) en belichting per albedo
-(wit 0,86).
+(wit 0,86, met vulkaart 1,45 zodat de afgekeerde kant ≥ 190 blijft; stretchrok met lichtere topcover belicht
+voor de topcover). Close-ups (`detail*`) zonder `edgeFade`: de vloer in beeld ligt in de schaduwpoel van het
+product en loopt door tot de beeldrand. Controle: `python3 renders/tools/check-statafel-values.py`.
 
 ### Catalogusreview (oktober 2026)
 - `easyUpTent`: wandtype `half` (borstwering, `halfWallHeight` standaard 1,0 m, klittenband laag aan de poten);
@@ -369,7 +384,7 @@ rugstijlen op een vlakke zitting) en de auto-belichting met de echte albedo van 
 | `trolley` | `kind` (`statafel` ca. 126 × 97 × 113 hamerslag, `klaptafel` 190 × 75 × 90, `barkruk` 150 × 55 met 3 stapels van 8), `size` (`groot` 15 / `klein` 5), `loaded`, `tableTop` | ingeklapte statafels dwars in de kooi, binnen de eindframes; laden vanaf de camerakant |
 | `klaptafel` | `shape`, `diameter`/`length`, `color` (standaard `lichtgrijs`) | ronde tafel met open, zachte vloerschaduw |
 
-Batch: `node renders/render.mjs --batch renders/batches/furniture.jsonl` (alle 140 jobs van deze groep, Linnen `#ECE4D6`, paden naar
+Batch: `node renders/render.mjs --batch renders/batches/furniture.jsonl` (alle 156 jobs van deze groep, Linnen `#ECE4D6`, paden naar
 `catalog/images/`; preview: `--size 1200 --samples 16 --concurrency 2`).
 
 Ronde 3 (`js/upholstery2.js`, eigen bestand naast `seatKit.js`): het materiaal dat het product benoemt moet als dat
@@ -409,7 +424,29 @@ Ronde 4 (art direction 18 oktober: elke furniture-job heeft een beeld; eigen bes
   `afzetpaal` (bak onderin + kamrails), `kapstok`, `koelkast` (plateau met twee spanbanden). `biertafel` gevuld: tafels in de
   middelste baan, banken in een stapel aan weerszijden, alles binnen de eindframes (~1 m hoog bij 10 sets); `statafel` met een
   deellading staat midden in de kooi. `tableTop` berken: `birchPly({clean: true})` (geen lap of knoest in het midden).
-  `patioTable`: zichtbare kantelkop met hendel onder het blad, hero op 12°.
+  `patioTable`: zichtbare kantelkop met hendel onder het blad; hero op 20° (ronde 5, was 12°: de decorbladen moeten lezen).
+
+Ronde 5 (22 oktober: de laatste 30 furniture-jobs zonder beeld; nieuwe bestanden, door de bestaande bouwers aangeroepen):
+- `barrelStool.js` (via `barStool {style: "vat", finish}`): barkruk wijnvat, PE-vat in dezelfde eikenlook als `barrelTable`
+  (18 duigen van ongelijke breedte, toon per duig, donkerder naar de kimmen, vier zwarte hoepels met klinknagels, Ø 36/43 cm),
+  zitting van drie planken met een dikke ronde kussenrand op de kim, zithoogte 76 cm. Wijnvat-set: `barrelTable` + 4 krukken.
+- `js/hplDecors.js` (via `patioTable {top}`): decorbladen `beton`, `graniet`, `leisteen`, `marmer-wit`, `marmer-zwart`, `teak`,
+  `eiken-grijs`, `vintage-hout`: één procedurele kleurtextuur (+ reliëf) per blad in meters (tegel 0,8 m, geen herhaling),
+  turbulente marmeraders (kern + waas, fijne dwarsaders), leisteen met splijtreliëf, beton met wolken, gaatjes en zandkorrel,
+  vintage hout als planken van 9-16 cm met naden, knoesten, spijkergaatjes en restjes witsel in de nerf. Compact-HPL-decors
+  (beton, marmer, teak, grijs eiken) tonen de zwarte kern op de kant; de overige een omgezette decorkant.
+- `workBoard.js` (via `tableTop` zodra `w`/`d` of een multiplex-`finish` gezet is): rechthoekig los blad plat op de vloer;
+  `multiplex-antislip` = berken multiplex 18 mm met donkerbruine fenolfilm en het zeshoekige antislip-reliëf (cellen van 8 mm),
+  kanten bruin gelakt over de lagen; `multiplex` = blank gelakt berken.
+- `trolley3.js` (via `trolley {kind: "marktkraam"}`): kar voor 6 marktkramen (215 × 110 × 125, verzinkt, Ø160 zwenkwielen,
+  latten-bodem, hoge U-eindframes, drie rongen per zijde met bovenregel); `loaded` = kramen: werkbladen plat gestapeld,
+  de 25 mm kraambuizen in twee gesjorde bundels langs de zijkanten, de liggers in een korte bundel in het midden en de
+  opgevouwen PVC-kappen (`canopyColor`, standaard rood) in twee stapels.
+- `klaptafel {top, frame, frameColor}` (`banquetTable.js`): `frameColor` kleurt de poten; `chroom` = verchroomd T-onderstel
+  in de lichte standaardomgeving (de vlakke kolommen spiegelen in de donkere studio-omgeving zwart en lezen als gunmetal).
+- `trolley {kind: "klapstoel"}` beladen: één opgezette stoel naast de kar (het pakketbeeld, zoals de stapelstoel- en
+  barkrukpakketten); `beside: false` toont alleen de kar. `trolley {kind: "klaptafel", beside: true}` zet één klaptafel op
+  naast de kar (standaard uit).
 
 ### Overige (eenvoudiger, al bruikbaar)
 `klaptafel {length,width,height,color,frame}`, `biertafelset {length,tableWidth,frame}`,
@@ -608,6 +645,33 @@ Batch (1200 px preview, 14 frames, Linnen): `node renders/render.mjs --batch ren
 - 620 Professional (`frameTent {series: '620'}`): hero laag langs de gesloten tent met de rechtergevel opgerold
   (azimut 58°, elevatie 9°), zodat de 2,2 m zijhoogte leest en het beeld niet meer gelijk is aan de 550 Premium.
 
+### Tents-other ronde 5 (22 oktober 2026)
+- `frameTent {gableDoor: 'left' | 'right'}` (eindwand): die gevel wordt gesloten door **één eindwand over de volle
+  breedte** (de gevel­driehoek van het dakzeil sluit hem tot in de nok) met een **doorgang in het midden** tussen twee
+  verticale ritsen met gelaste verstevigingsbanden; `door: 'open'` rolt het deurpaneel op onder de dakrand met twee
+  oprolbanden; ogen in de onderzoom voor haringen. De lange zijde krijgt dan geen deur. Camera (hero én front) op de
+  gevel vanaf 70° (standaard de linkergevel: het sleutellicht strijkt over de eindwand, de lange zijde wijkt in het
+  zachte zijlicht). `batch_tents_other.py` zet `gableDoor` op alle `eindwand-en-tussenwand-partytent-*`-jobs (de
+  catalogusspec liet anders de lange zijde zien, niet het product).
+- Rollen van tweekleurig doek (`frameTent`, opgerolde deur/wand): de bemonstering langs de rol krijgt een
+  hoekpuntpaar op elke baangrens, dus de banden lopen strak om de rol (geen zaagtand waar een baan van kleur wisselt).
+- `opblaasbareTent {walls: {back: 'print'}}` of `wallPrint: {artwork, side}`: full colour bedrukte wand in de boog,
+  het voorbeeldontwerp rechtop en niet gespiegeld zoals je hem van buiten ziet (embleem in het midden, tekst onderaan).
+  Een tent met wanden wordt bekeken van de kant waar de wand **links in beeld, aan de kant van de softbox** staat
+  (bij gelijke stand: zelfde aantal wanden van buiten): de wand is het product van die beelden en zijn kleur moet
+  lezen (grijs las als antraciet in de schaduw van de boog).
+- `stertent {wallPrint}`: alleen de buitenkant bedrukt; 4 mm binnen de bedrukte band ligt een effen binnenzijde,
+  zodat je door de panoramavensters op de verre wanden de witte achterkant ziet en geen gespiegelde print.
+- `marketStall {skirt}`: zachtere, onregelmatige plooien (flanken ~±30°, geen golfplaat) en een bredere softbox die
+  op de toonbank mikt, zodat een witte rok wit leest (was ~150–190, nu ~200–230).
+- Nieuwe jobs uit de catalogus v2 (kleurvarianten: tweekleurige buizenframe-lijnen, eindwand, zijwand opblaasbare
+  tent 3 m en Pro, dakzeil en rok marktkraam, kartelrand, carport grijs/groen, hypar grijs/rood/zwart, full-colour
+  zijwanden stertent) renderen met de bestaande parameters; achtergrond blijft Linnen `#ECE4D6` (brand tokens
+  `backdrop`), zoals alle catalogusbeelden.
+- Preview (`batch_tents_other.py --preview`): 1200 px, 12–28 samples (buizenframe met wanden 16, stertent met
+  wanden 28, paviljoen 18, transparant zeil 20) en `rig.groundAO {samples: 32, keySamples: 32}`; op de gedeelde
+  machine kost een frame van 1200 px ~4–5 s en de vloerbake plus shaders ~1 min per job.
+
 ## Camera
 
 `js/camera.js` — vaste lens (22° verticale FOV, weinig vertekening), vaste kijkrichting per preset en
@@ -676,7 +740,7 @@ gelijkgekleurde productkaart staan.
 
 ```json
 { "exposure": "auto", "exposureAuto": { "ref": 0.2, "base": 0.86, "power": 0.22, "min": 0.6, "max": 1.25 },
-  "toneMapping": "neutral|agx|aces|linear", "shoulder": 0.76, "envIntensity": 0.9,
+  "toneMapping": "neutral|agx|aces|linear", "shoulder": 0.76, "toe": 1, "envIntensity": 0.9,
   "key":   { "azimuth": -48, "elevation": 56, "intensity": 3.0, "cone": 10, "mapSize": 2048 },
   "dome":  { "count": 2, "intensity": 1.6, "maxZenith": 62 },
   "fill":  { "azimuth": 72, "elevation": 18, "intensity": 0.35 },
@@ -700,6 +764,13 @@ gelijkgekleurde productkaart staan.
 - `shoulder` (alleen `neutral`) — waar de hooglichtcompressie begint (Khronos-standaard 0,76). Wit doek
   gebruikt 0,88: het bovenste bereik blijft lineair, zodat de gradiënt van het belichte dakvlak niet in
   vlak papierwit verdwijnt.
+- `toe` (alleen `neutral`, standaard 1) — schaal van de zwartniveau-toe van Khronos PBR Neutral. Die toe trekt
+  het kleinste kanaal naar 0 (lineair 0,008 → 0,0004): een rood doek wordt dan digitaal puur rood zonder vorm
+  in de schaduw. 0,5 voor verzadigde verfkleuren (statafelrokken); neutrale producten houden 1 (diep zwart).
+- `cove` (m, standaard 0,35) / `wallBake` — bij een wandvanger (`userData.catcher`, de sweep waar een product
+  tegen leunt) wordt de wand gebakken als de vloer (`groundAO.wallSamples`, `wallRes`); vloer en wand buigen
+  hun normaal binnen `cove` naar 45°, zodat de schaduw naadloos doorloopt. `wallBake: false` = de oude live
+  wandvanger (schaduwkaarten per frame).
 - `groundSplit` — de zachte knik van `shadowFloor` geldt alleen voor de key-schaduw; hemelocclusie
   (`groundAO.strength`) vermenigvuldigt daarna, zodat de vloer binnen dichte wanden duidelijk donkerder
   wordt dan onder een open tent.

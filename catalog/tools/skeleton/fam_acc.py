@@ -70,14 +70,27 @@ def build():
            {'kenmerk_kort': '4 spanbanden ca. 3 m + 4 haringen 30 cm + opbergzak', 'past_op': EUX, 'verzending': 'pakket', 'gewicht_kg': 1.4},
            ['easy-up-accessoires.easy-up-bevestiging'], 'verankering', 'Basisverankering op gras: banden van dakhoek naar haring; altijd gebruiken, ook als het rustig lijkt.',
            ['haringen easy up', 'spanbanden partytent'], {'outmate': '€19,99', 'ours': 17.95})
-    SB = {'3 m breed': 25.95, '4 m breed': 29.95, '5 m breed': 33.95, '6 m breed': 37.95, '8 m breed': 45.95}   # L3: was 35% under the reference
-    simple('stormbandenset-partytent', 'Stormbandenset partytent', 'Verankering', ['zakelijk', 'gebruik:evenement'], [opt('Maat', list(SB))],
-           [variant(f'KK-VER-STB-{code(m.split()[0] + " m")}', [m], p, 1800 + 200 * i, inv(10, m + 'stb')) for i, (m, p) in enumerate(SB.items())],
+    # catalog round 5 (low): the haring length (50 / 75 / 100 cm) and the number of sets (1 / 2 / 3), like the reference (1 set 3-4 m breed
+    # € 29 with 50 cm, € 35 with 75 cm; 5-6 m € 35 / € 45; 2 sets from € 52,50, 3 sets from € 69). The 75 cm set was 26% under the
+    # reference at 3 m: re-based ca. 7-11% under it. 2 sets = 2 x 0,9, 3 sets = 3 x 0,8 of one set (the reference's own steps).
+    SB = {'3 m breed': (26.95, 31.95, 37.95), '4 m breed': (27.95, 32.95, 38.95), '5 m breed': (31.95, 39.95, 45.95), '6 m breed': (33.95, 41.95, 47.95),
+          '8 m breed': (39.95, 49.95, 55.95)}
+    SBU = [('Haringen 75 cm', 1, '', 0), ('Haringen 50 cm', 0, '-H50', -300), ('Haringen 100 cm', 2, '-H100', 300)]
+    SBS = [('1 set', 1, 1.0, ''), ('2 sets', 2, 0.9, '-2S'), ('3 sets', 3, 0.8, '-3S')]
+    def sb_price(x, n, f):
+        t = x * n * f
+        return round(int(t) + 0.95 if t - int(t) >= 0.95 else int(t) - 0.05 if n > 1 else x, 2)
+    sb_vs = [variant(f'KK-VER-STB-{code(m.split()[0] + " m")}{us}{ss}', [m, u, sn], sb_price(prs[ui], n, f), (1800 + 200 * i + ug) * n, inv(10, m + 'stb' + u + sn))
+             for i, (m, prs) in enumerate(SB.items()) for u, ui, us, ug in SBU for sn, n, f, ss in SBS]
+    simple('stormbandenset-partytent', 'Stormbandenset partytent', 'Verankering', ['zakelijk', 'gebruik:evenement'],
+           [opt('Maat', list(SB)), opt('Uitvoering', [u[0] for u in SBU]), opt('Samenstelling', [x[0] for x in SBS])], sb_vs,
            [img('stormbandenset-partytent-hero.webp', 'hero', 1, 'items', {'items': [{'model': 'spanbanden', 'color': 'oranje', 'length': 12, 'position': [-0.15, 0, 0]},
                                                                                     {'model': 'haringen', 'count': 2, 'length': 0.75, 'position': [0.25, 0, 0]}]}, 'hero', None, 'existing')],
            {'kenmerk_kort': '1 band over het dak + 2 lange haringen per set', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL},
            ['partytent-onderdelen-accessoires.stormbandensets'], 'buizenframe', 'Per tentbreedte één set over het dak; hoeveel sets per lengte (elke 2 m). Voor buizenframe- en opslagtenten.',
-           ['stormband partytent', 'stormbanden set'], {'outmate': '1 set €16–€24', 'ours': SB},
+           ['stormband partytent', 'stormbanden set', 'stormbanden haringen 100 cm'],
+           {'outmate': '1 set 3-4 m breed €29 (haring 50 cm) / €35 (75 cm) · 5-6 m €35 / €45 · 2 sets vanaf €52,50 · 3 sets vanaf €69 (live, 2026-10-18)',
+            'ours': {m: dict(zip(['50 cm', '75 cm', '100 cm'], v)) for m, v in SB.items()}, 'sets': '2 sets = 2 x 0,9 · 3 sets = 3 x 0,8'},
            extra={'past_op_note': 'buizenframe- en opslagtenten (ingevuld in build)'})
     # Merchandising review 3: the tentelastieken were one Uitvoering behind the haringen image; they are their own product now. Each
     # haring has its own image (the draaiharing from renders/models/miscParts.js).
@@ -119,24 +132,35 @@ def build():
     # catalog round 3: 120 and 240 kg were 21-27% under the reference (€ 135 / € 189), the truss block 20% (€ 299). The 120 kg block is the one
     # with a vorkuitsparing underneath (a palletwagen moves it without a kraan), as at the reference, so it sits above the plain 140 kg block.
     BB = [('120 kg met vorkuitsparing', 119.0, 120000, '120'), ('140 kg', 109.0, 140000, '140'), ('240 kg', 169.0, 240000, '240'), ('500 kg', 219.0, 500000, '500'),
-          ('750 kg', 259.0, 750000, '750'), ('1000 kg', 299.0, 1000000, '1000'), ('500 kg met M16-inserts voor truss', 269.0, 500000, '500T')]
+          ('750 kg', 259.0, 750000, '750'), ('1000 kg', 299.0, 1000000, '1000'), ('500 kg met M16-inserts voor truss', 269.0, 500000, '500T'),
+          # catalog round 4: with a vlaggenmastkoker cast in (reference € 299 / 389 for 500 / 1000 kg)
+          ('500 kg met vlaggenmastkoker', 269.0, 500000, '500V'), ('1000 kg met vlaggenmastkoker', 349.0, 1000000, '1000V')]
     simple('betonblok-ballast-tent', 'Betonblok ballast voor tenten', 'Verzwaring', ['zakelijk', 'pallet', 'gebruik:evenement'],
            [opt('Uitvoering', [b[0] for b in BB])], [variant(f'KK-GEW-BETON-{c}', [n], p, g, None, tracked=False) for n, p, g, c in BB],
            [img('betonblok-ballast-tent-hero.webp', 'hero', 1, 'concreteBlock', {'weight': 500, 'lifting': 'lepelgat'}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Ballast met lepelgat · 120 tot 1000 kg · ook voor truss · op pallet', 'verzending': 'pallet', 'levertijd': 'Levertijd 5–8 werkdagen (vracht)'},
            ['partytent-onderdelen-accessoires.betonblokken'], 'verankering', 'Ballast voor evenementen op verharding (stretch-, ster- en grote tenten); levering met vracht, afladen met heftruck of kraan.',
-           ['betonblok tent', 'ballast evenement'], {'outmate': '120 kg met lepelgat en uitsparing €135 · 140 kg €117 · 240 kg €189 · 500 kg €235 · 750 kg €275 · 1000 kg €319 · truss 500 kg €299', 'ours': {b[0]: b[1] for b in BB}})
+           ['betonblok tent', 'ballast evenement', 'betonblok vlaggenmast'], {'outmate': '120 kg met lepelgat en uitsparing €135 · 140 kg €117 · 240 kg €189 · 500 kg €235 · 750 kg €275 · 1000 kg €319 · truss 500 kg €299 · met vlaggenmastuitsparing 500 kg €299 / 1000 kg €389 (live, 2026-10-18)', 'ours': {b[0]: b[1] for b in BB}})
 
     # ------------------------------------------------------------ tassen & wielen
     SIZES8 = ['2 x 2 m', '3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
     BH = [15.95, 17.95, 19.95, 21.95, 19.95, 23.95, 25.95, 25.95]
     WT = [34.95, 39.95, 44.95, 49.95, 44.95, 54.95, 64.95, 59.95]
-    simple('beschermhoes-easy-up', 'Beschermhoes easy-up partytent', 'Tas & wielset', ['gebruik:tuinfeest'], [opt('Maat', SIZES8)],
-           [variant(f'KK-TAS-BH-{code(m)}', [m], p, 900 + 100 * i, inv(8, m + 'bh')) for i, (m, p) in enumerate(zip(SIZES8, BH))],
+    # catalog round 5 (low): a cover per roof cloth, like the reference (polyester and PVC covers sold apart, the PVC one ca. € 1 dearer: a
+    # heavy duty PVC roof folds up thicker); PVC in the sizes the HD roof comes in
+    BH_PVC = ['3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m']
+    bh_vs = []
+    for i, (m, p_) in enumerate(zip(SIZES8, BH)):
+        bh_vs.append(variant(f'KK-TAS-BH-{code(m)}', [m, 'Voor polyester dak'], p_, 900 + 100 * i, inv(8, m + 'bh')))
+        if m in BH_PVC:
+            bh_vs.append(variant(f'KK-TAS-BH-PVC-{code(m)}', [m, 'Voor PVC-dak'], round(p_ + 1, 2), 1000 + 120 * i, inv(8, m + 'bhp')))
+    simple('beschermhoes-easy-up', 'Beschermhoes easy-up partytent', 'Tas & wielset', ['gebruik:tuinfeest'],
+           [opt('Maat', SIZES8), opt('Uitvoering', ['Voor polyester dak', 'Voor PVC-dak'])], bh_vs,
            [img('beschermhoes-easy-up-hero.webp', 'hero', 1, 'draagtas', {'height': 1.55, 'color': 'zwart'}, 'hero', None, 'existing')],
            {'kenmerk_kort': 'Schuift over frame en dak · 2 handvatten · gesp', 'past_op': EUX, 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL},
            ['easy-up-accessoires.easy-up-transport'], 'tassen', 'Stofhoes voor opslag in schuur of bus; maat = tentmaat; past op Premium en Professional.',
-           ['beschermhoes easy up', 'hoes vouwtent'], {'outmate': '€19,99–€27,50', 'ours': dict(zip(SIZES8, BH))})
+           ['beschermhoes easy up', 'hoes vouwtent', 'beschermhoes pvc dak'],
+           {'outmate': 'polyester dakzeil €19,99–€26,50 · PVC dakzeil €19,99–€27,50 (live, 2026-10-18)', 'ours': dict(zip(SIZES8, BH)), 'pvc': '+ € 1'})
     simple('wieltas-easy-up', 'Wieltas easy-up partytent', 'Tas & wielset', ['zakelijk', 'gebruik:evenement'], [opt('Maat', SIZES8)],
            [variant(f'KK-TAS-WT-{code(m)}', [m], p, 3000 + 300 * i, inv(5, m + 'wt')) for i, (m, p) in enumerate(zip(SIZES8, WT))],
            [img('wieltas-easy-up-hero.webp', 'hero', 1, 'draagtas', {'height': 1.7, 'color': 'zwart', 'wheels': True, 'logo': True}, 'hero', None, 'needs-param'),
@@ -151,13 +175,14 @@ def build():
             'specificaties': [sp('Wiel', 'Diameter', '10 cm, rubber'), sp('Wiel', 'Rem', 'Ja, op alle 4'), sp('Pasvorm', 'Poten', 'Zeskant 40 en 50 mm, met vleugelbout')]},
            ['easy-up-accessoires.easy-up-transport'], 'tassen', 'Wielen onder de poten om de opgezette tent te verplaatsen (bv. op een beurs); altijd remmen vast en verzwaren.',
            ['wielen easy up', 'wielset partytent'], {'outmate': '€35', 'ours': 32.95})
-    OT = {'3 m breed': 54.95, '4 m breed': 59.95, '5 m breed': 69.95, '6 m breed': 79.95, '8 m breed': 94.95}
+    # catalog round 5 (low): 5 and 6 m were 21% / 19% under the reference (€ 89 / € 99): now ca. 10% under; 8 m stays above the 6 m
+    OT = {'3 m breed': 54.95, '4 m breed': 59.95, '5 m breed': 79.95, '6 m breed': 89.95, '8 m breed': 104.95}
     simple('opbergtassenset-partytent', 'Opbergtassenset partytent buizenframe', 'Tas & wielset', ['zakelijk', 'gebruik:evenement'], [opt('Maat', list(OT))],
            [variant(f'KK-TAS-OTS-{code(m.split()[0] + " m")}', [m], p, 2500 + 400 * i, inv(6, m + 'ots')) for i, (m, p) in enumerate(OT.items())],
            [img('opbergtassenset-partytent-hero.webp', 'hero', 1, 'tubeBag', {'count': 3, 'color': 'zwart'}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Tassen voor buizen, koppelstukken en doek', 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL},
            ['partytent-onderdelen-accessoires.opbergtassen'], 'buizenframe', 'Ordelijk opbergen van een buizenframe-tent: tas voor buizen, voor koppelstukken en voor het doek.',
-           ['opbergtas partytent', 'tas partytent buizen'], {'outmate': '3 m breed €65 · 4 m breed €69', 'ours': OT})
+           ['opbergtas partytent', 'tas partytent buizen'], {'outmate': '3 m breed €65 · 4 m breed €69 · 5 m breed €89 · 6 m breed €99', 'ours': OT})
 
     # ------------------------------------------------------------ goten & koppelingen
     # 2 m (easy-up 2 x 2), 5 m (5 x 5) and 10 m (buizenframe 5 x 10 / 6 x 10) so every tent side has a gutter
@@ -184,10 +209,11 @@ def build():
            ['easy-up-accessoires.easy-up-goten'], 'goten', 'Twee tenten strak naast elkaar: per gedeelde poot één klem; combineer met regengoot of verbindingsstrook.',
            ['koppelstuk easy up', 'twee partytenten koppelen'], {'outmate': '€12,50', 'ours': {'Professional': 11.95, 'Premium': 9.95}})
     VS = {'3 m': 16.95, '4 m': 19.95, '4,5 m': 21.95, '6 m': 26.95}
-    vs = [variant(f'KK-GOOT-VBS-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 300 + 80 * i, inv(8, m + k + 'v')) for i, (m, p) in enumerate(VS.items()) for k in RGK]
-    imgs, vmap = kleur_images('verbindingsstrook-easy-up', RGK, 'connectionStrip', lambda k: {'length': 3, 'color': render_color(k)}, 'Wit', status='needs-model', p2=3)
+    # catalog round 5 (low): in the 7 tent colours (was Wit and Zwart only), so the strook matches the roofs it joins
+    vs = [variant(f'KK-GOOT-VBS-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 300 + 80 * i, inv(8, m + k + 'v')) for i, (m, p) in enumerate(VS.items()) for k in TENT_KLEUREN]
+    imgs, vmap = kleur_images('verbindingsstrook-easy-up', TENT_KLEUREN, 'connectionStrip', lambda k: {'length': 3, 'color': render_color(k)}, 'Wit', status='needs-model', p2=3)
     simple('verbindingsstrook-easy-up', 'Verbindingsstrook easy-up', 'Regengoot & koppeling', ['gebruik:evenement'],
-           [opt('Maat', list(VS)), opt('Kleur', RGK)], vs, imgs, {'kenmerk_kort': 'Dicht de kier tussen twee daken · klittenband', 'past_op': EU, 'verzending': 'pakket'},
+           [opt('Maat', list(VS)), opt('Kleur', TENT_KLEUREN)], vs, imgs, {'kenmerk_kort': 'Dicht de kier tussen twee daken · klittenband', 'past_op': EU, 'verzending': 'pakket'},
            ['easy-up-accessoires.easy-up-goten'], 'goten', 'Strook die de kier tussen twee daken afdekt, voor één doorlopende overkapping.',
            ['verbindingsstrook partytent'], {'outmate': '€19 per stuk', 'ours': VS}, vmap=vmap)
 
@@ -273,14 +299,20 @@ def build():
     OS_TENT = {'PVC 500 Comfort': 'partytent-pvc-500-comfort', 'PVC 550 Premium': 'partytent-pvc-550-premium', 'PVC 620 Professional': 'partytent-pvc-620-professional'}
     OS_KLEUR = {'PVC 500 Comfort': ['Wit', 'Grijs', 'Groen', 'Zwart'], 'PVC 550 Premium': ['Wit', 'Grijs', 'Groen', 'Zwart'], 'PVC 620 Professional': ['Wit', 'Grijs']}
     OSK = ['Wit', 'Grijs', 'Groen', 'Zwart']
+    # catalog round 4: the reference prices its opslagtent like its partytent in the same doek; ours sat 6-10% under our own partytent and 18
+    # of 38 line/size pairs more than 15% under the reference. Now: the price of our partytent in the same doek and maat, held inside 5-15%
+    # under the opslagtent reference (90% of it where we sell no partytent in that maat), rounded up to the next price ending in 9.
+    def up9(x):
+        n = int(-(-x // 1))
+        p = n - n % 10 + 9
+        return p if p >= x else p + 10
     OS = {}
     for u in OSU:
         tent = BF_LINE[OS_TENT[u]]['sizes']
         for m, ref in OS_REF[u].items():
             pt = tent.get(m, (None,))[0]
-            want = min(pt * 0.94, ref * 0.92) if pt else ref * 0.92
-            floor = min(ref * 0.85, pt * 0.95) if pt else ref * 0.85     # never more than 15% under the reference, never above the tent
-            OS.setdefault(m, {})[u] = float(x9(max(want, floor)))
+            want = min(max(pt if pt else ref * 0.90, ref * 0.85), ref * 0.95)
+            OS.setdefault(m, {})[u] = float(up9(want) if up9(want) <= ref * 0.95 else x9(want))
     # within one doek and one breedte the price rises with the length (the reference has dips, e.g. 5 x 12 m under 5 x 10 m)
     for u in OSU:
         for wdt in {m.split(' x ')[0] for m in OS}:
@@ -330,9 +362,14 @@ def build():
     # product per cloth group would pass the 250 variants Liquid lists. PE and PVC 550 are the standard roofs (levertijd 1-2 weken); PVC 500 and
     # PVC 620 are made on request (3-4 weken), and the Uitvoering says so, because the contract has no per-variant levertijd. Prices: PVC 550
     # rises with the roof area, PVC 500 ~8 % under, PVC 620 ~12 % over, PE ~half; the same price in every colour. Owner review.
-    P550 = {'3 x 3 m': 149, '3 x 4 m': 169, '3 x 6 m': 199, '3 x 8 m': 249, '4 x 4 m': 189, '4 x 6 m': 239, '4 x 8 m': 289, '4 x 10 m': 319, '5 x 4 m': 209,
-            '5 x 6 m': 279, '5 x 8 m': 339, '5 x 10 m': 429, '5 x 12 m': 479, '6 x 6 m': 319, '6 x 8 m': 389, '6 x 10 m': 479, '6 x 12 m': 549, '8 x 12 m': 649}
-    PPE = {'3 x 4 m': 89, '3 x 6 m': 109, '4 x 4 m': 99, '4 x 6 m': 129, '4 x 8 m': 149, '5 x 10 m': 199}
+    # catalog round 4: every PVC 550 roof ca. 7-13% under the reference PVC roof (3x3 € 159 · 3x4 € 169 · 3x6 € 199 · 3x8 € 227 · 4x4 € 195 · 4x6 € 211
+    # · 4x8 € 279 · 4x10 € 319 · 5x4 € 175 · 5x6 € 209 · 5x8 € 319 · 5x10 € 399 · 5x12 € 429 · 6x6 € 295 · 6x8 € 349 · 6x10 € 415 · 6x12 € 499 ·
+    # 8x12 € 559; live data); the large ones sat 11-16% above it. 5 x 4 m costs what 4 x 4 m costs (the reference prices it under its 4 x 4 m).
+    # PVC 620 ca. 15% over PVC 550 (reference Professional 3x4 € 189 · 4x6 € 235 · 4x8 € 325 · 5x10 € 469 · 6x12 € 599: 8-13% under it).
+    # PE ca. 5-14% under the reference PE Basic roof (3x4 € 92,50 · 3x6 € 109 · 4x4 € 89 · 4x6 € 125 · 4x8 € 169 · 5x10 € 169).
+    P550 = {'3 x 3 m': 139, '3 x 4 m': 149, '3 x 6 m': 179, '3 x 8 m': 209, '4 x 4 m': 179, '4 x 6 m': 189, '4 x 8 m': 259, '4 x 10 m': 289, '5 x 4 m': 179,
+            '5 x 6 m': 189, '5 x 8 m': 289, '5 x 10 m': 369, '5 x 12 m': 389, '6 x 6 m': 269, '6 x 8 m': 319, '6 x 10 m': 379, '6 x 12 m': 459, '8 x 12 m': 519}
+    PPE = {'3 x 4 m': 79.95, '3 x 6 m': 97.95, '4 x 4 m': 79.95, '4 x 6 m': 109, '4 x 8 m': 149, '5 x 10 m': 159}
     def cloth_sizes_colours(tent_hs, os_u):
         ms, ks = set(), []
         for tent_h in ([tent_hs] if isinstance(tent_hs, str) else tent_hs):
@@ -363,29 +400,30 @@ def build():
                      extra={'shared_with': 'dakzeil-partytent-buizenframe'} if h != 'dakzeil-partytent-buizenframe' else None) for k in ks_all if k != 'Wit']
         simple(h, title, 'Dakzeil', ['zakelijk'], [opt('Maat', ms_all), opt('Uitvoering', [g[0] for g in groups]), opt('Kleur', ks_all)], vs_, imgs,
                {'kenmerk_kort': kenmerk, 'verzending': 'pakket', 'staffelkorting': ST_TEXTIEL,
-                'levertijd': 'Levertijd 1–2 weken' + ((' (' + ' en '.join(g[0].split(' (')[0] for g in groups if 'aanvraag' in g[0]) + ' op aanvraag: 3–4 weken)')
-                                                       if any('aanvraag' in g[0] for g in groups) else '')},
+                'levertijd': 'Levertijd 1–2 weken' + ((' (' + ' en '.join(g[0].split(' (')[0] for g in groups if 'maakwerk' in g[0]) + ' is maakwerk: 3–4 weken)')
+                                                       if any('maakwerk' in g[0] for g in groups) else '')},
                ['partytent-onderdelen-accessoires.dakzeilen'], 'buizenframe', brief, kw, {'outmate': ref, 'ours': ref_},
                vmap={'Wit': 'dakzeil-partytent-buizenframe-hero.webp', **{k: f'dakzeil-partytent-buizenframe-{slug(k)}-hero.webp' for k in ks_all if k != 'Wit'}})
     dakzeil('dakzeil-partytent-buizenframe', 'Dakzeil partytent buizenframe PVC 550 en PVC 620',
             [('PVC 550', 'PVC', ['partytent-pvc-550-premium', 'partytent-pvc-550-compleet'], 'PVC 550 Premium', 550, lambda m: P550[m]),
-             ('PVC 620 (op aanvraag)', 'P62', 'partytent-pvc-620-professional', 'PVC 620 Professional', 620, lambda m: x9(P550[m] * 1.12))],
+             ('PVC 620 (maakwerk, 3–4 weken)', 'P62', 'partytent-pvc-620-professional', 'PVC 620 Professional', 620, lambda m: x9(P550[m] * 1.15))],
             'Vervangend dak · PVC 550 of 620 g/m² · 3 × 3 tot 8 × 12 m · in de tentkleur',
             'Vervangend dak voor de PVC 550 Premium, PVC 550 compleet, PVC 620 Professional en de opslagtenten in die doeken: zelfde maat, doek en kleur.',
             ['dakzeil partytent 4x8', 'vervangend dak partytent', 'dakzeil partytent 6x12 pvc', 'dakzeil grijs wit'],
-            '3x4 PVC €189 · 4x10 €319 · 5x10 €399–€469 · 5x12 €429 · 6x10 €415 · 6x12 €599 · 8x12 €559')
+            'PVC: 3x3 €159 · 3x4 €169 · 3x6 €199 · 3x8 €227 · 4x4 €195 · 4x6 €211 · 4x8 €279 · 4x10 €319 · 5x4 €175 · 5x6 €209 · 5x8 €319 · 5x10 €399 · 5x12 €429 · 6x6 €295 · '
+            '6x8 €349 · 6x10 €415 · 6x12 €499 · 8x12 €559; Professional: 3x4 €189 · 4x6 €235 · 4x8 €325 · 5x10 €469 · 6x12 €599 (live, 2026-10-18)')
     dakzeil('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'Dakzeil partytent buizenframe PE en PVC 500',
             [('PE', 'PE', 'partytent-pe-basis-buizenframe', None, 190, lambda m: PPE[m]),
-             ('PVC 500 (op aanvraag)', 'C5', 'partytent-pvc-500-comfort', 'PVC 500 Comfort', 500, lambda m: x9(P550[m] * 0.92))],
+             ('PVC 500 (maakwerk, 3–4 weken)', 'C5', 'partytent-pvc-500-comfort', 'PVC 500 Comfort', 500, lambda m: x9(P550[m] * 0.92))],
             'Vervangend dak · PE of PVC 500 g/m² · 3 × 3 tot 6 × 12 m · in de tentkleur',
             'Vervangend dak voor de PE Basis, de PVC 500 Comfort en de opslagtent PVC 500: zelfde maat, doek en kleur.',
-            ['dakzeil partytent pe', 'dakzeil partytent 3x6', 'dakzeil pvc 500'], 'PE 4x8 €169 · 5x6 PVC €209')
+            ['dakzeil partytent pe', 'dakzeil partytent 3x6', 'dakzeil pvc 500'], 'PE Basic: 3x4 €92,50 · 3x6 €109 · 4x4 €89 · 4x6 €125 · 4x8 €169 · 5x10 €169 (live, 2026-10-18)')
     BF_DAK = {'partytent-pe-basis-buizenframe': ('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'PE'),
-              'partytent-pvc-500-comfort': ('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'PVC 500 (op aanvraag)'),
+              'partytent-pvc-500-comfort': ('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'PVC 500 (maakwerk, 3–4 weken)'),
               'partytent-pvc-550-premium': ('dakzeil-partytent-buizenframe', 'PVC 550'), 'partytent-pvc-550-compleet': ('dakzeil-partytent-buizenframe', 'PVC 550'),
-              'partytent-pvc-620-professional': ('dakzeil-partytent-buizenframe', 'PVC 620 (op aanvraag)')}
-    OS_DAK = {'PVC 500 Comfort': ('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'PVC 500 (op aanvraag)'), 'PVC 550 Premium': ('dakzeil-partytent-buizenframe', 'PVC 550'),
-              'PVC 620 Professional': ('dakzeil-partytent-buizenframe', 'PVC 620 (op aanvraag)')}
+              'partytent-pvc-620-professional': ('dakzeil-partytent-buizenframe', 'PVC 620 (maakwerk, 3–4 weken)')}
+    OS_DAK = {'PVC 500 Comfort': ('dakzeil-partytent-buizenframe-pe-en-pvc-500', 'PVC 500 (maakwerk, 3–4 weken)'), 'PVC 550 Premium': ('dakzeil-partytent-buizenframe', 'PVC 550'),
+              'PVC 620 Professional': ('dakzeil-partytent-buizenframe', 'PVC 620 (maakwerk, 3–4 weken)')}
     # compleet sizes the PVC 550 roof must cover too
     for m in BF_LINE['partytent-pvc-550-compleet']['sizes']:
         assert m in P550, m
@@ -419,7 +457,8 @@ def build():
            {'outmate': '2 m raam €24–€29 · ritsen €45–€49 · Professional 2,2 m hoog €29 / met ritsen €49 · zonder raam €27–€39', 'ours': {f'{m} {n}': p for m, n, p, c, g, ks in ZW2}},
            vmap={'Wit': 'partytent-pvc-550-premium-hero.webp', **{k: f'zijwand-partytent-2-m-pvc-{slug(k)}-hero.webp' for k in WALL_K if k != 'Wit'}})
     # long side walls in one piece (M8): PE 4-10 m (PE Basis), PVC 620 at 220 cm 3-10 m (Professional), with ramen
-    ZWL = [('4 m', 'PE met ramen', 39.95), ('6 m', 'PE met ramen', 54.95), ('8 m', 'PE met ramen', 69.95), ('10 m', 'PE met ramen', 84.95),
+    # catalog round 4: PE ca. 8-10% under the reference PE wall met ramen (4/6/8/10 m € 49 / 59 / 69 / 89); 4 m was 18% under, 8 m 1% over it
+    ZWL = [('4 m', 'PE met ramen', 44.95), ('6 m', 'PE met ramen', 53.95), ('8 m', 'PE met ramen', 62.95), ('10 m', 'PE met ramen', 79.95),
            ('3 m', 'PVC 620 met ramen, 220 cm', 79.95), ('4 m', 'PVC 620 met ramen, 220 cm', 99.0), ('6 m', 'PVC 620 met ramen, 220 cm', 139.0),
            ('8 m', 'PVC 620 met ramen, 220 cm', 179.0), ('10 m', 'PVC 620 met ramen, 220 cm', 219.0)]
     ZWLU = ['PE met ramen', 'PVC 620 met ramen, 220 cm']
@@ -437,8 +476,16 @@ def build():
                               sp('Bevestiging', 'Aan de tent', 'Elastieken met bol rond dakrand en staanders')]},
            ['partytent-onderdelen-accessoires.zijwanden'], 'buizenframe',
            'Een hele lange zijde in één doek in plaats van losse panelen: PE (4–10 m) voor de PE Basis, PVC 620 van 220 cm hoog (3–10 m) voor de Professional; minder naden, sneller opgehangen.',
-           ['zijwand partytent 6 meter', 'zijwand partytent lang', 'zijwand pe partytent'], {'outmate': 'zijwanden PE 4–10 m en PVC Professional 220 cm 3–10 m (per URL)', 'ours': {f'{m} {u}': p for m, u, p in ZWL}})
-    ET = {'3 m': 44.95, '4 m': 54.95, '5 m': 64.95, '6 m': 74.95, '8 m': 94.95}
+           ['zijwand partytent 6 meter', 'zijwand partytent lang', 'zijwand pe partytent'], {'outmate': 'zijwand PE met ramen 4 m €49 · 6 m €59 · 8 m €69 · 10 m €89 (live, 2026-10-18); PVC Professional 220 cm lang niet gevonden', 'ours': {f'{m} {u}': p for m, u, p in ZWL}})
+    # catalog round 4: each type priced on its own reference (it was eindwand + € 5 for the tussenwand and + € 10 for 220 cm, so the tussenwanden
+    # sat 26-33% and the 220 cm eindwanden up to 32% under it, the 8 m eindwand 38% over it): ca. 10% under eindwand PVC 3/4/5/6/8 m
+    # € 49/59/65/89/69 (the reference sells its 8 m under its 6 m; we follow it), Professional 220 cm 3/4/5/6 m € 69/95/95/119, tussenwand
+    # 550 g 3/4/5/6 m € 75/85/95/112,50 (8 m: the 6 m step on top); the tussenwand 220 cm costs the tussenwand + € 10. Live data 2026-10-18.
+    # catalog round 5 (low): the 8 m eindwand was € 64,95, under the 6 m (€ 79,95) in the same cloth: a copy of a quirk in the reference
+    # list (8 m € 69 < 6 m € 89). More cloth, higher gable: € 94,95, above the 6 m (supplier to confirm)
+    ET = {'3 m': 44.95, '4 m': 52.95, '5 m': 58.95, '6 m': 79.95, '8 m': 94.95}
+    ET_TW = {'3 m': 67.95, '4 m': 76.95, '5 m': 85.95, '6 m': 99.95, '8 m': 124.95}
+    ET_220 = {'3 m': 62.95, '4 m': 82.95, '5 m': 86.95, '6 m': 106.95}
     ETU = ['Eindwand', 'Tussenwand', 'Eindwand, zijhoogte 220 cm', 'Tussenwand, zijhoogte 220 cm', 'Eindwand PE']
     ET220 = ['3 m', '4 m', '5 m', '6 m']   # the widths of the PVC 620 Professional (220 cm side height, higher gable)
     ETPE = {'3 m': 26.95, '4 m': 34.95, '5 m': 44.95}   # M8: PE end walls for the PE Basis (Outmate PE eindwand 3/4/5 m € 29 / 39 / 49)
@@ -454,7 +501,8 @@ def build():
             if ('220' in u and m not in ET220) or (u == 'Eindwand PE' and m not in ETPE):
                 continue
             for k in et_kleuren(u):
-                pr = ETPE[m] if u == 'Eindwand PE' else p + (0 if u.startswith('Eindwand') else 5) + (10 if '220' in u else 0)
+                pr = (ETPE[m] if u == 'Eindwand PE' else ET_220[m] if u == 'Eindwand, zijhoogte 220 cm' else
+                      round(ET_TW[m] + 10, 2) if u == 'Tussenwand, zijhoogte 220 cm' else ET_TW[m] if u == 'Tussenwand' else p)
                 sk = f'KK-ZW-BF-{"EW" if u.startswith("Eindwand") else "TW"}-{code(m)}' + ('-220' if '220' in u else '') + ('-PE' if u == 'Eindwand PE' else '') + f'-{COLOR_CODE[k]}'
                 ets.append(variant(sk, [m, u, k], pr, (900 + 250 * i) if u == 'Eindwand PE' else 2500 + 600 * i + (300 if '220' in u else 0), inv(4, m + u + k)))
     et_imgs = [img('partytent-pvc-550-premium-front.webp', 'hero', 1, 'frameTent', {'w': 4, 'd': 8, 'line': 'pvc', 'series': '550-premium', 'color': 'wit', 'walls': 'windows', 'door': 'open'}, 'front', 'Wit', 'existing',
@@ -466,8 +514,9 @@ def build():
            {'kenmerk_kort': 'Kopse wand met ritsen · tot de nok · PVC of PE · tentkleuren', 'verzending': 'pakket', 'past_op': bf_handles + ['opslagtent-pvc'], 'staffelkorting': ST_TEXTIEL},
            ['partytent-onderdelen-accessoires.eindwanden', 'partytent-onderdelen-accessoires.tussenwanden'], 'buizenframe',
            'Eindwand (kopse kant tot in de nok) of tussenwand om de tent in twee ruimtes te delen; maat = tentbreedte; PVC in de tentkleuren, PE voor de PE Basis.',
-           ['eindwand partytent', 'tussenwand partytent', 'eindwand pe'], {'outmate': 'eindwand 3 m vanaf €49 · PVC 5 m €65–€79 · Professional 220 cm 4/5 m €95 · 6 m €119 · PE 3/4/5 m €29/€39/€49', 'ours': ET,
-                                                                           'zijhoogte_220': '+ € 10 (3, 4, 5 en 6 m)', 'pe': ETPE},
+           ['eindwand partytent', 'tussenwand partytent', 'eindwand pe'],
+           {'outmate': 'eindwand PVC 3/4/5/6/8 m €49/€59/€65/€89/€69 · Professional 220 cm 3/4/5/6 m €69/€95/€95/€119 · tussenwand 550 g 3/4/5/6 m €75/€85/€95/€112,50 · '
+                       'PE 3/4/5 m €29/€39/€49 (live, 2026-10-18)', 'ours': {'eindwand': ET, 'tussenwand': ET_TW, 'eindwand_220': ET_220, 'pe': ETPE}},
            vmap={'Wit': 'partytent-pvc-550-premium-front.webp', **{k: f'eindwand-en-tussenwand-partytent-{slug(k)}-hero.webp' for k in WALL_K if k != 'Wit'}})
     # Frame parts from our own bouwtekeningen (H12, catalog round 2026-10-18): kk_bom.py derives the parts of every tent size from the same
     # geometry (spanten every 2 m, 1,5 m vakken on 3 m long tents, dakspant per breedte, grondframe and nokversteviging per lijn) and writes
@@ -503,13 +552,15 @@ def build():
            vmap=BU_IMG, vby='Uitvoering')
     kk_bom.register(BF_LINE, OS, OSU, BF_DAK, OS_DAK)
     simple('reparatieset-tentdoek', 'Reparatieset tentdoek PVC en polyester', 'Frame-onderdeel', [], [opt('Uitvoering', ['PVC (lijm en lappen)', 'Polyester (plakband en lappen)'])],
-           [variant('KK-FRM-REP-PVC', ['PVC (lijm en lappen)'], 12.95, 300, 30), variant('KK-FRM-REP-POL', ['Polyester (plakband en lappen)'], 9.95, 200, 30)],
+           [variant('KK-FRM-REP-PVC', ['PVC (lijm en lappen)'], 14.95, 300, 30), variant('KK-FRM-REP-POL', ['Polyester (plakband en lappen)'], 13.95, 200, 30)],
            [img('reparatieset-tentdoek-hero.webp', 'hero', 1, 'repairKit', {'kind': 'pvc'}, 'hero', None, 'needs-model')],
            {'kenmerk_kort': 'Scheurtjes en gaatjes zelf dichten', 'verzending': 'pakket'},
            ['partytent-onderdelen-accessoires.grondframes-reparatie'], 'buizenframe', 'Kleine reparaties aan dak en wanden; stap voor stap, wanneer wel en wanneer een nieuw dak beter is.',
-           ['reparatieset partytent', 'pvc tentdoek repareren'], {'note': 'geen referentieprijs gevonden'})
+           ['reparatieset partytent', 'pvc tentdoek repareren'], {'outmate': 'reparatieset PVC of PE (tear aid) €16,95 (live, 2026-10-18)', 'ours': {'PVC': 14.95, 'Polyester': 13.95},
+                                                                  'rule': 'catalogusronde 4: was 24-41% onder de referentie'})
     # M21: a buizenframe gutter of its own (the easy-up gutter hangs on klittenband; this one on klemmen round the 38 mm dakrand)
-    RGB = {'3 m': 49.95, '4 m': 59.95, '5 m': 69.95, '6 m': 84.95, '8 m': 109.0, '10 m': 139.0, '12 m': 159.0}
+    # catalog round 4: ca. 10% under the reference gutter per length (€ 59 / 65 / 69 / 75 / 84 / 95 / 99); 6-12 m were 13-61% over it
+    RGB = {'3 m': 52.95, '4 m': 57.95, '5 m': 62.95, '6 m': 67.95, '8 m': 75.95, '10 m': 84.95, '12 m': 88.95}
     vs = [variant(f'KK-GOOT-RGB-{code(m)}-{COLOR_CODE[k]}', [m, k], p, 900 + 250 * i, inv(6, m + k + 'rgb')) for i, (m, p) in enumerate(RGB.items()) for k in ['Wit', 'Grijs']]
     imgs, vmap = kleur_images('regengoot-partytent-buizenframe', ['Wit', 'Grijs'], 'rainGutter', lambda k: {'length': 4, 'color': render_color(k), 'clamps': 38}, 'Wit',
                               status='needs-param', p2=3)
@@ -519,7 +570,7 @@ def build():
             'specificaties': [sp('Goot', 'Materiaal', 'PVC 650 g/m², ca. 35 cm breed'), sp('Bevestiging', 'Aan de tent', 'Kunststof klemmen om de dakrandbuis van 38 mm, elke 50 cm')]},
            ['partytent-onderdelen-accessoires.regengoten-partytent'], 'buizenframe',
            'Goot tussen twee buizenframe-tenten: klemt om de dakrandbuizen in plaats van klittenband; lengte = zijde waarop je koppelt.',
-           ['regengoot partytent buizenframe', 'regengoot tussen twee partytenten'], {'outmate': 'regengoot buizenframe-partytent ca. 2x easy-up-goot (per URL)', 'ours': RGB}, vmap=vmap)
+           ['regengoot partytent buizenframe', 'regengoot tussen twee partytenten'], {'outmate': 'regengoot 3 m €59 · 4 m €65 · 5 m €69 · 6 m €75 · 8 m €84 · 10 m €95 · 12 m €99 (live, 2026-10-18)', 'ours': RGB}, vmap=vmap)
 
     # fill stormband past_op
     HANDLES['stormbandenset-partytent']['metafields']['past_op'] = bf_handles + ['opslagtent-pvc']

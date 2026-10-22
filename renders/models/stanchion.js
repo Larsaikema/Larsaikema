@@ -53,7 +53,7 @@ export function post(bins, mats, x, H, { mouth = true, slotTowards = 1 } = {}) {
 
 export function stanchion(p = {}) {
   // rope posts (ovaal head), the loose velours rope and the wall/sign parts: stanchionParts.js
-  if (p.rope || p.head || p.parts || p.only) return stanchionParts(p);
+  if (p.rope || p.head || p.parts || p.only || p.style) return stanchionParts(p);
   let H = Number(p.height ?? 0.99); if (H > 5) H /= 100;
   const finish = String(p.finish || 'rvs').toLowerCase();
   const pair = p.pair === true || p.pair === 'true' || p.span != null;

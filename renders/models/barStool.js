@@ -17,6 +17,9 @@
 //         'velours'  upholstered bar stool: velvet seat cushion (crowned, gathered corners,
 //                   piping on the top and bottom seam), channel-tufted curved back, thin black
 //                   steel legs with a square footrest.
+//         'vat'      barkruk wijnvat: PE cask in oak look with hoops and a rimmed plank seat
+//                   (models/barrelStool.js, `finish` as barrelTable).
+//         'klap'     inklapbare barkruk with a low back, `folded` (models/chairs3.js).
 //         'chroom'   chrome Ø25 tube frame (seat ring, four splayed legs, foot ring) with a
 //                   round faux-leather (kunstleer) seat pad Ø36 with piping; stackable.
 //   height   seat height (m): 0.76 bar (default), 0.65 counter, 0.45 low stool.
@@ -30,6 +33,8 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { rng, makeNoise2 } from '../js/rng.js';
+import { barrelStool } from './barrelStool.js'; // round 5: style 'vat' (barkruk wijnvat)
+import { foldingBarStool } from './chairs3.js'; // round 5: style 'klap' (inklapbare barkruk)
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -368,6 +373,8 @@ function stoolChrome(bins, H, color) {
 
 export function barStool(p = {}) {
   const style = String(p.style || 'metaal').toLowerCase();
+  if (style === 'vat' || style === 'wijnvat' || style === 'barrel') return barrelStool(p);
+  if (style === 'klap' || style === 'inklapbaar' || style === 'folding') return foldingBarStool(p);
   let H = Number(p.height ?? (style === 'rotan' || style === 'velours' ? 0.75 : 0.76));
   if (H > 5) H /= 100;
   const color = p.color || 'zwart';

@@ -1,0 +1,19 @@
+{%- comment -%}
+  How many people a tent holds, on the product card (snippets/product-card.liquid): custom.specificaties Afmetingen ›
+  Capaciteit when it gives people ('ca. 13 staand / 9 zittend'), not a rule per m² (that one needs the size: product page).
+  A narrow card (two columns on a phone) keeps the first figure on one line ('ca. 13 staand'). Param: product.
+{%- endcomment -%}
+{%- liquid
+  assign cf = ''
+  if product.type contains 'ent'
+    for r in product.metafields.custom.specificaties.value
+      if r.label == 'Capaciteit' and r.groep == 'Afmetingen'
+        unless r.waarde contains 'per m'
+          assign cf = r.waarde | split: ' / '
+        endunless
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if cf != blank -%}<p class="card__fit">{%- render 'icon', icon: 'user', class: 'icon--xs' -%}<span>{{ cf[0] }}{% if cf[1] %}<span class="card__fit-more"> · {{ cf[1] }}</span>{% endif %}</span></p>{%- endif -%}

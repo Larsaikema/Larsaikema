@@ -126,7 +126,7 @@
               {%- if pages.contact.url != blank -%}<a class="link ptabs__ask" href="{{ pages.contact.url }}">{{ 'collection.lead_ask' | t }}</a>{%- endif -%}
             </p>
           {%- endif -%}
-          <ul class="slider slider--desktop-grid product-row product-row--mobile-grid" role="list" style="--cols: {{ section.settings.columns }}; --slide-w: 68%">
+          <ul class="slider slider--desktop-grid product-row ptabs__row{% if section.settings.mobile_layout == 'grid' %} product-row--mobile-grid{% endif %}" role="list" style="--cols: {{ section.settings.columns }}">
             {%- for product in tab_products limit: limit -%}
               <li>{%- render 'product-card', product: product, sizes: '(min-width: 990px) 320px, 50vw' -%}</li>
             {%- endfor -%}
@@ -156,6 +156,7 @@
     { "type": "text", "id": "text", "label": "Tekst" },
     { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "label": "Producten per tabblad", "default": 4 },
     { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Kolommen desktop", "default": 4 },
+    { "type": "select", "id": "mobile_layout", "label": "Op mobiel", "options": [ { "value": "slider", "label": "Schuifrij (2 kaarten, veeg voor meer)" }, { "value": "grid", "label": "Raster van 2 kolommen" } ], "default": "slider", "info": "De schuifrij houdt de pagina kort: elke categorie is één rij hoog." },
     { "type": "text", "id": "link_prefix", "label": "Begin van de knop onder elk tabblad", "default": "Alle", "info": "De knop wordt bv. 'Alle statafels (6)'. Per tabblad kun je een eigen tekst invullen." }
   ],
   "blocks": [

@@ -19,7 +19,8 @@
 //  - options: closed side walls in the arched openings (`walls: {back: 'closed'}`), a front
 //    awning (`awning: 'front'`) on two poles, a full-colour printed canopy (`canopyPrint`), an
 //    LED lamp under the hub (`light: {watt, on}`, with a low view from inside), the tunnel
-//    (`opblaasbareTunnel`).
+//    (`opblaasbareTunnel`); a full-colour printed wall (`walls: {back: 'print'}` or
+//    `wallPrint: {artwork, side}`): the sample design upright on the wall as seen from outside.
 // Framing: guy ropes and stakes do not count for the auto-framing; a fixed footprint proxy
 // (legs + 0.3 m) does, so every colour / leg variant of one size is framed identically.
 // Units: metres, Y up, front +Z.
@@ -372,15 +373,19 @@ export function opblaasbareTent(p = {}) {
   // type 'closed': a plain wall; 'tunnel': a wall with an arched doorway where the
   // verbindingstunnel zips on (opblaasbareTunnel uses the same doorway profile, tunnelDoor())
   const walls = parseWalls(p.walls);
-  const wallSides = [], wallType = {};
+  const wallSides = [], wallType = {}, wallName = {};
   for (const [name, type] of Object.entries(walls)) {
     if (!type || type === 'none' || type === 'open') continue;
     const target = { front: 0, right: Math.PI / 2, back: Math.PI, left: -Math.PI / 2 }[name];
     if (target == null) continue;
     let best = 0, bd = 9;
     nSide.forEach((n, k) => { const a = Math.atan2(n.x, n.z); const d = Math.abs(Math.atan2(Math.sin(a - target), Math.cos(a - target))); if (d < bd) { bd = d; best = k; } });
-    if (!wallSides.includes(best)) { wallSides.push(best); wallType[best] = String(type); }
+    if (!wallSides.includes(best)) { wallSides.push(best); wallType[best] = String(type); wallName[best] = name; }
   }
+  // full-colour printed wall: type 'print', or `wallPrint: {artwork, side}` on that side
+  const wpSide = p.wallPrint && typeof p.wallPrint === 'object' ? String(p.wallPrint.side || 'back') : null;
+  const isPrintWall = (k) => wallType[k] === 'print' || (wpSide != null && wallName[k] === wpSide && wallType[k] !== 'tunnel');
+  const wallPrintMat = wallSides.some(isPrintWall) ? K.printed(K.pvc(K.col(p.wallColor || 'wit', M.COLORS.wit)), K.artwork('panel'), 'inflatable-wall') : null;
   const wallMat = K.pvc(K.col(p.wallColor || p.canopyColor || p.color || 'wit', M.COLORS.wit));
   const wallPatch = K.pvcPatch(K.col(p.wallColor || p.canopyColor || p.color || 'wit', M.COLORS.wit));
   const zipM = M.zipTooth('#151516');
@@ -430,7 +435,19 @@ export function opblaasbareTent(p = {}) {
       }
       g.setIndex(keep); g.computeVertexNormals();
     }
-    bins.add(wallMat, g);
+    if (wallPrintMat && isPrintWall(k)) {
+      // the sample design upright on the wall as seen from outside: u left -> right, v up from the
+      // hem to the crown of the arch
+      const right = V3().crossVectors(n.clone().negate(), V3(0, 1, 0));
+      const flipU = flank(k1, -1, 1).sub(flank(k, 1, 1)).dot(right) < 0;
+      let yMax = 0; for (let i = 0; i <= nx; i++) yMax = Math.max(yMax, top(i / nx).y);
+      const uv1 = new Float32Array((nx + 1) * (ny + 1) * 2); let m = 0;
+      for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const u = i / nx; uv1[m++] = flipU ? 1 - u : u; uv1[m++] = Math.min(1, rows[j][i].y / yMax); }
+      const gp = K.gridGeometry(rows, { uv1 });
+      if (isTunnel) gp.setIndex(g.index);
+      gp.computeVertexNormals();
+      K.addMesh(group, gp, wallPrintMat);
+    } else bins.add(wallMat, g);
     // folded hem on the floor (interrupted by a doorway)
     const hemRuns = [[]];
     for (let i = 0; i <= nx; i++) {
@@ -570,10 +587,13 @@ export function opblaasbareTent(p = {}) {
   let heroAz = az0;
   const closedSides = wallSides.filter((k) => wallType[k] !== 'tunnel');
   if (closedSides.length && p.heroAzimuth == null) {
+    // of the views that show the most walls from outside, the one with the walls on the key side
+    // (image left, the softbox comes from camera left): a wall is the product of these pictures
+    // and its colour must read, not sit in the shade of the arch
     let best = -1;
     for (const az of [az0, -az0, 180 - az0, az0 - 180]) {
-      const cd = dirOf(az * Math.PI / 180);
-      const sc = closedSides.reduce((acc, k) => acc + (nSide[k].dot(cd) > 0.25 ? 1 : 0), 0);
+      const cd = dirOf(az * Math.PI / 180), lit = dirOf((az - az0) * Math.PI / 180);
+      const sc = closedSides.reduce((acc, k) => acc + (nSide[k].dot(cd) > 0.25 ? 1 : 0) + 0.01 * nSide[k].dot(lit), 0);
       if (sc > best) { best = sc; heroAz = az; }
     }
   } else if (p.heroAzimuth != null) heroAz = Number(p.heroAzimuth);

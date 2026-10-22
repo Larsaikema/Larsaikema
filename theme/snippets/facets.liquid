@@ -126,9 +126,16 @@
         endfor
         assign value_order = sw_order | split: ',' | sort
       endif
-      # a product-level value that every product shown holds ('Gebruik: Evenement 14' of 14) cannot narrow the list
+      # a product-level value that every product shown holds ('Gebruik: Evenement 14' of 14) cannot narrow the list. A
+      # scoped filter (scope setting: 'Past op' on the parts collections) keeps it: 'Past op: Easy-up 12 · Buizenframe 4'
+      # says what every part fits, where 'Buizenframe 4' alone reads as if the easy-up parts belonged to another tent
+      # f_scope: the scope setting's handles for this filter (',accessoires,zijwanden,'), else ''
+      capture f_scope
+        render 'facet-scope', lines: scope_lines, label: f_label
+      endcapture
+      assign f_scope = f_scope | strip
       assign p_level = false
-      if filter.param_name contains 'filter.p.' and total != blank and active_count == 0
+      if filter.param_name contains 'filter.p.' and total != blank and active_count == 0 and f_scope == ''
         assign p_level = true
       endif
       # values shown (tag filter without internal tags); how many of them would narrow the list now
@@ -201,21 +208,10 @@
         assign f_useless = true
       endif
       # scoped filters: only on the collections the setting names for them (an active one always stays, so it can be undone)
-      if f_useless == false and active_count == 0 and handle != blank
-        for line in scope_lines
-          assign sl_parts = line | split: ':'
-          if sl_parts.size < 2
-            continue
-          endif
-          assign sl_name = sl_parts.first | strip | downcase
-          if sl_name == f_label
-            assign sl_handles = sl_parts.last | remove: ' ' | strip | downcase | split: ','
-            unless sl_handles contains handle
-              assign f_useless = true
-            endunless
-          endif
-        endfor
-      endif
+      assign h_key = handle | downcase | prepend: ',' | append: ','
+      unless f_useless or active_count > 0 or handle == blank or f_scope == '' or f_scope contains h_key
+        assign f_useless = true
+      endunless
     -%}
     {%- if f_useless -%}{%- continue -%}{%- endif -%}
     {%- if f_kind == 'switch' -%}
@@ -244,6 +240,7 @@
               {%- if f_kind == 'image' -%}<style>.facet__img{flex:none;width:32px;height:32px;border-radius:6px;overflow:hidden;background:var(--c-media)}.facet__img img{width:100%;height:100%;object-fit:contain}</style>{%- endif -%}
               <ul class="facet__list facet__list--{{ f_kind }}" role="list">
                 {%- assign vi = 0 -%}
+                {%- assign v_grp = value_order.first | slice: 0 -%}
                 {%- for vo in value_order -%}
                   {%- assign v_i = vo | split: ':' | last | plus: 0 | minus: 1000 -%}
                   {%- assign value = fvals[v_i] -%}
@@ -251,6 +248,10 @@
                   {%- if filter.param_name == 'filter.p.tag' and hidden_list contains vkey -%}{%- continue -%}{%- endif -%}
                   {%- if p_level and value.count >= total and f_kind == 'list' -%}{%- continue -%}{%- endif -%}
                   {%- assign vi = vi | plus: 1 -%}
+                  {%- comment -%} sizes: round, rectangular and lengths each start a row (snippets/facet-value-order: the key's first digit is the group) {%- endcomment -%}
+                  {%- assign vo_grp = vo | slice: 0 -%}
+                  {%- if f_kind == 'pills' and vo_grp != v_grp -%}<li class="facet__break{% if vi > limit_n %} facet__item--more{% endif %}" aria-hidden="true"></li>{%- endif -%}
+                  {%- assign v_grp = vo_grp -%}
                   {%- assign input_id = 'Filter-' | append: section_id | append: '-' | append: filter.param_name | handleize | append: '-' | append: v_i -%}
                   {%- assign disabled = false -%}
                   {%- if value.count == 0 and value.active == false -%}{%- assign disabled = true -%}{%- endif -%}
@@ -263,7 +264,9 @@
                       <label class="check facet__value{% if disabled %} is-disabled{% endif %}" for="{{ input_id }}">
                         <input type="checkbox" id="{{ input_id }}" name="{{ value.param_name }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if disabled %} disabled{% endif %}>
                         {%- if f_kind == 'swatch' -%}
-                          {%- render 'swatch', value: value, class: 'facet__swatch' -%}
+                          {%- comment -%} the label next to it names the colour: the swatch's own title stays out of the name {%- endcomment -%}
+                          {%- capture f_sw -%}{%- render 'swatch', value: value, class: 'facet__swatch' -%}{%- endcapture -%}
+                          {{- f_sw | replace_first: '<span ', '<span aria-hidden="true" ' -}}
                         {%- elsif f_kind == 'image' -%}
                           {%- comment -%} Search & Discovery 'image' presentation: the value's own image {%- endcomment -%}
                           <span class="facet__img">{%- if value.image -%}{{ value.image | image_url: width: 96 | image_tag: loading: 'lazy', alt: '', width: 48, height: 48 }}{%- endif -%}</span>

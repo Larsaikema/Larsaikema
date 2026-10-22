@@ -28,6 +28,7 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { post as beltPost } from './stanchion.js';
+import { galaPosts } from './stanchionGala.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -38,7 +39,7 @@ const cached = (k, f) => { if (!cache.has(k)) cache.set(k, f()); return cache.ge
 export function brass() {
   return cached('brass', () => new THREE.MeshPhysicalMaterial({ color: '#D7B46A', metalness: 1, roughness: 0.16, name: 'brass look' }));
 }
-function finishMat(f) {
+export function finishMat(f) {
   const s = String(f || 'chroom').toLowerCase();
   if (s.startsWith('mess') || s === 'goud' || s === 'brass') return brass();
   if (s === 'zwart' || s === 'black') return F.powder('zwart');
@@ -48,7 +49,7 @@ function finishMat(f) {
 }
 // velours as it photographs (deep dyed pile; gold = mustard gold velvet)
 const ROPE = { bordeaux: '#5A1420', rood: '#A0131B', zwart: '#1D1D20', blauw: '#1D3A86', groen: '#1B5833', goud: '#B48C42', wit: '#ECEAE3', grijs: '#80848A' };
-function ropeMat(color) {
+export function ropeMat(color) {
   const key = String(color || 'bordeaux').toLowerCase();
   const hex = ROPE[key] || M.resolveColor(color, ROPE.bordeaux);
   const L = new THREE.Color(hex); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
@@ -111,7 +112,7 @@ function ropePost(bins, mat, x, z, { H = 1.0, eyes = [0, 90, 180, 270] } = {}) {
 }
 
 // rope hanging between two eyes A and B (eye centres, outward dirs); sag at mid-span
-function hangingRope(bins, rmat, hw, A, B, sag) {
+export function hangingRope(bins, rmat, hw, A, B, sag) {
   // the hook hangs from the top wire of the eye; the ferrule follows the rope's end tangent
   const topA = A.c.clone().addScaledVector(A.out, 0.0095), topB = B.c.clone().addScaledVector(B.out, 0.0095);
   const span = topA.distanceTo(topB);
@@ -404,6 +405,7 @@ function beltMats(finish = 'rvs') {
 }
 
 export function stanchionParts(p = {}) {
+  if (p.style) return galaPosts(p); // round 5: 'gala' / 'galerie' (stanchionGala.js)
   if (p.parts) return partsScene(p);
   if (String(p.only || '').toLowerCase() === 'rope' || (p.rope && !p.pair && !p.head)) return looseRope(p);
   return ropeLine(p);

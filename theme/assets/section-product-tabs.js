@@ -48,6 +48,13 @@ if (!customElements.get('product-tabs')) {
             this.select(next, true);
           });
         });
+        // theme editor: picking a tab block in the sidebar shows that tab
+        if (window.Shopify?.designMode) {
+          document.addEventListener('shopify:block:select', (e) => {
+            const i = this.tabs.findIndex((t) => t.id === `Tab-${e.detail.sectionId}-${e.detail.blockId}`);
+            if (i >= 0) this.select(i);
+          });
+        }
         const dates = () => leadDates(this);
         if (KK.delivery) dates();
         else window.addEventListener('DOMContentLoaded', dates, { once: true });

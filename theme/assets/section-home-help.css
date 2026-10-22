@@ -21,3 +21,5 @@
 .home-help__list .accordion>summary{font-size:17px;cursor:pointer}
 .home-help__all{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:12px;font-weight:var(--font-body-weight-semibold)}
 @media (min-width:990px){.home-help__faq{padding-top:6px}.home-help__faq-title{font-size:22px;margin-bottom:12px}}
+/* phone: tight guide list */
+@media (max-width:749px){.home-help__inner{gap:32px;grid-template-columns:minmax(0,1fr)}.home-help__text{margin-bottom:16px}.guides{gap:8px;margin-bottom:20px;grid-template-columns:minmax(0,1fr)}.guide{min-height:0;gap:12px;padding:10px 12px 10px 10px}.guide__icon{width:36px;height:36px}.guide__icon .icon{width:19px;height:19px}.guide__title{font-size:15.5px}.guide__text{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}

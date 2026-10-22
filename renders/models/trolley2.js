@@ -3,6 +3,8 @@
 //   'klapstoel'  chair cart for folded chairs standing upright in two lanes (chairStyle 'klapstoel', 30 = 2 x 15,
 //                or 'wedding', 26 = 2 x 13): plywood deck dolly on Ø125 castors, U end frames (push grip on
 //                one), a centre divider frame and side rails at 0.5 / 0.85 m; `loaded` chairs, `chairColor`.
+//                Loaded, one chair stands set up beside the 30 / 26 cart (the pakket shot); `beside: false` omits it.
+//                More than 30 loaded: the long cart for 50 klapstoelen (2 x 25), shown without a chair beside it.
 //   'afzetpaal'  cart for 16 afzetpalen (ca. 150 x 75 x 110 cm): a steel tray as deck ("de bak onderin") with a
 //                rubber mat, two comb rails at 0.72 m with eight rubber-lined post slots each, U end frames with a
 //                grip; shown empty.
@@ -17,6 +19,7 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import { castors4, endFrame, frameMat, sq, deckDolly } from './trolley.js';
 import { foldedChair } from './chairs2.js';
+import { chair } from './chair.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -24,7 +27,8 @@ const DEG = Math.PI / 180;
 // ------------------------------------------------------------------ folded chairs in two lanes
 export function chairCart(bins, group, p) {
   const wedding = String(p.chairStyle || '').toLowerCase().startsWith('wed');
-  const cap = wedding ? 26 : 30, perLane = cap / 2;
+  // round 5: the long cart for 50 klapstoelen (2 x 25) when more than 30 are loaded
+  const cap = wedding ? 26 : Number(p.loaded ?? 0) > 30 || Number(p.capacity) === 50 ? 50 : 30, perLane = cap / 2;
   const n = Math.max(0, Math.min(cap, Math.round(Number(p.loaded ?? 0))));
   const mat = frameMat(p.frame, 'grijs');
   const { object: proto, pitch } = foldedChair(wedding ? 'wedding' : 'klapstoel', p.chairColor || 'wit');
@@ -52,6 +56,15 @@ export function chairCart(bins, group, p) {
         h.position.set(-L / 2 + 0.07 + pitch * (i + 0.5) - pitch * 0.15, yTop, zl);
         group.add(h);
       }
+    }
+    // the pakket shot (round 5): one chair set up beside the loaded cart, front-right, turned towards the
+    // camera (as the stapelstoel / barkruk pakketten); `beside: false` shows the cart alone
+    if (p.beside === true || (p.beside == null && cap <= 30)) {
+      const c = chair({ style: wedding ? 'wedding' : 'klapstoel', color: p.chairColor || 'wit' }).object;
+      const h = new THREE.Group(); h.add(c);
+      h.rotation.y = -30 * DEG;
+      h.position.set(L / 2 + 0.42, 0, W / 2 - 0.12);
+      group.add(h);
     }
   }
   return { L, W, H: yT, detailTarget: [L / 2 - 0.08, R, W / 2 - 0.07], view: n ? { hero: { azimuth: 36 } } : undefined };

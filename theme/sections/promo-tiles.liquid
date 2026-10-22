@@ -7,10 +7,17 @@
 {%- endcomment -%}
 {{ 'section-promo-tiles.css' | asset_url | stylesheet_tag }}
 {%- assign vat_factor = settings.vat_rate | plus: 100 -%}
-<section class="section promo-tiles color-{{ section.settings.color_scheme }}"{% if section.settings.heading != blank %} aria-labelledby="Title-{{ section.id }}"{% else %} aria-label="{{ section.blocks.first.settings.heading | escape }}"{% endif %}>
+{%- comment -%}
+  Without a visible heading the section still gets an h2 (visually hidden), so the panel titles (h3) do not fall under the
+  previous section's heading in the outline, and the region is named after all its panels, not the first one.
+{%- endcomment -%}
+<section class="section promo-tiles color-{{ section.settings.color_scheme }}" aria-labelledby="Title-{{ section.id }}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
       <div class="section-head"><h2 class="section-head__title" id="Title-{{ section.id }}">{{ section.settings.heading }}</h2></div>
+    {%- else -%}
+      {%- capture promo_names -%}{%- for block in section.blocks -%}{{ block.settings.eyebrow | default: block.settings.heading }}{%- unless forloop.last %} · {% endunless -%}{%- endfor -%}{%- endcapture -%}
+      <h2 class="visually-hidden" id="Title-{{ section.id }}">{{ section.settings.a11y_heading | default: promo_names }}</h2>
     {%- endif -%}
     <ul class="promo-tiles__list" role="list" style="--count: {{ section.blocks.size }}">
       {%- for block in section.blocks -%}
@@ -85,7 +92,7 @@
               <p class="promo__price">
                 <span class="promo__price-main" data-vat-show="incl">{{ promo_from_t }}<strong>{{ promo_incl | money }}</strong>{{ promo_unit_t }} <span class="promo__vat">{{ 'price.incl' | t }}</span></span>
                 <span class="promo__price-main" data-vat-show="excl">{{ promo_from_t }}<strong>{{ promo_excl | money }}</strong>{{ promo_unit_t }} <span class="promo__vat">{{ 'price.excl' | t }}</span></span>
-                {%- if settings.price_show_secondary -%}
+                {%- if settings.price_show_secondary and section.settings.show_secondary -%}
                   <span class="promo__price-alt" data-vat-show="incl">{{ promo_excl | money }} {{ 'price.excl' | t }}</span>
                   <span class="promo__price-alt" data-vat-show="excl">{{ promo_incl | money }} {{ 'price.incl' | t }}</span>
                 {%- endif -%}
@@ -115,7 +122,9 @@
   "max_blocks": 3,
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Kleurschema", "default": "scheme-1" },
-    { "type": "text", "id": "heading", "label": "Kop (optioneel)" }
+    { "type": "text", "id": "heading", "label": "Kop (optioneel)" },
+    { "type": "text", "id": "a11y_heading", "label": "Kop voor schermlezers (als de kop leeg is)", "info": "Leeg = de bovenregels van de tegels, bv. 'Pakketten · Op maat'." },
+    { "type": "checkbox", "id": "show_secondary", "label": "Ook de prijs in de andere btw-stand tonen", "default": false, "info": "Uit = zoals op de productkaarten: één prijs, in de stand die de bezoeker gekozen heeft (incl. of excl. btw)." }
   ],
   "blocks": [
     {

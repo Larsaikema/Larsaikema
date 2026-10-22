@@ -35,19 +35,21 @@ def models(spec):
 
 def preview_samples(job, spec):
     """Low sample counts for the preview run; more where stochastic glazing / soft shadows need it."""
+    # (round 5: lower again; on a shared 4-core machine a 1200 px frame costs ~4-5 s per sample, the
+    # floor bake and shader set-up ~1 min per job, and the preview only has to be judged, not shipped)
     m = models(spec)[0]
     p = spec.get('params') or {}
     if m == 'stertent' and p.get('walls'):
-        return 40          # panorama windows: stochastic glazing over the floor
+        return 28          # panorama windows: stochastic glazing over the floor
     if m == 'frameTent' and (p.get('walls') or 'windows') not in ('none',) and p.get('frame', True) is not False:
-        return 22
+        return 16
     if m == 'gardenPavilion':
-        return 24          # twin-wall polycarbonate roof
+        return 18          # twin-wall polycarbonate roof
     if m == 'tarp' and p.get('color') == 'transparant':
-        return 28
+        return 20
     if spec.get('items'):
-        return 18
-    return 16
+        return 14
+    return 12
 
 
 def translate(job):
@@ -55,6 +57,9 @@ def translate(job):
     f = job['file']
     if spec.get('model') == 'frameTent':
         p = spec.setdefault('params', {})
+        # the eindwand product: the end wall with its doorway at the gable, not the long side
+        if f.startswith('eindwand-en-tussenwand-partytent'):
+            p.setdefault('gableDoor', 'left')
         if 'series' not in p:
             for prefix, ser in SERIES:
                 if f.startswith(prefix):
@@ -91,6 +96,8 @@ def main():
             if 'imageWidth' not in s:
                 s['size'] = 1200
             s['samples'] = preview_samples(j, s)
+            # half the floor-bake passes (one-level merge into the builder's groundAO)
+            s.setdefault('rig', {}).setdefault('groundAO', {}).update({'samples': 32, 'keySamples': 32})
         s['bg'] = BG
         s['out'] = f'../../{j["out"]}'
         out.append(s)

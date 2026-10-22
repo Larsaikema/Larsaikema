@@ -1,6 +1,6 @@
 // Los statafelblad (loose table top for a statafel), shown lying on the floor.
 //
-// { diameter, top, thickness }
+// { diameter, top, thickness }   (rectangular boards `w`, `d`, `finish`: models/workBoard.js)
 //   diameter 0.7 / 0.8 (default) / 0.85 m (cm accepted)
 //   top      'wit' (default) | 'zwart' | 'antraciet' | 'berken' | 'hdpe' | 'hdpe-grijs'
 // Construction (catalogue: 18 mm): HPL-faced board (wit / zwart / antraciet) with a 2 mm ABS
@@ -17,6 +17,7 @@ import * as F from '../js/furniture.js';
 import * as TX from '../js/textures.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
+import { workBoard } from './workBoard.js'; // round 5: rectangular boards (werkblad marktkraam)
 
 const { V3 } = G;
 const HPL = { wit: ['#F1F0EB', '#E3E2DC'], zwart: ['#1B1C1E', '#141517'], antraciet: ['#3A3D41', '#33363A'] };
@@ -31,6 +32,8 @@ function hpl(hex) {
 }
 
 export function tableTop(p = {}) {
+  // a rectangle (w x d) or a plywood finish: the rectangular board builder
+  if (p.w != null || /multiplex|antislip/i.test(String(p.finish || ''))) return workBoard(p);
   let D = Number(p.diameter ?? p.d ?? 0.8); if (D > 5) D /= 100;
   const R = D / 2;
   const top = String(p.top || 'wit').toLowerCase();

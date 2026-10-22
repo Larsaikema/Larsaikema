@@ -306,17 +306,9 @@
             elsif section.settings.columns == 2
               assign card_sizes = '(min-width: 990px) 500px, (min-width: 750px) 33vw, calc(50vw - 22px)'
             endif
-            # the band sits after a full row on desktop (columns) and on the phone (2 columns): round up to a common multiple
+            # the Zakelijk tile takes one cell of the grid after product nr. promo_position (a card-sized tile, not a band across the grid)
             assign promo_on = false
-            assign promo_at = 0
-            if section.settings.promo_position > 0
-              assign promo_step = section.settings.columns
-              assign col_mod = section.settings.columns | modulo: 2
-              if col_mod == 1
-                assign promo_step = section.settings.columns | times: 2
-              endif
-              assign promo_at = section.settings.promo_position | plus: promo_step | minus: 1 | divided_by: promo_step | times: promo_step
-            endif
+            assign promo_at = section.settings.promo_position
             if promo_at > 0 and section.settings.promo_heading != blank and paginate.current_page == 1 and collection.products.size > promo_at
               assign promo_on = true
             endif
@@ -346,17 +338,18 @@
                 {%- render 'product-card', product: product, priority: card_priority, sizes: card_sizes, color: active_color, show_sizes: false -%}
               </li>
               {%- if promo_on and forloop.index == promo_at -%}
-                <li class="promo-band color-scheme-4">
+                {%- comment -%} not a product: role presentation keeps the list at the number of products for screen readers {%- endcomment -%}
+                <li class="promo-band color-scheme-4" role="presentation">
                   <div class="promo-band__media">
                     {%- if section.settings.promo_image != blank -%}
-                      {{ section.settings.promo_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 420px, 100vw', alt: section.settings.promo_image.alt | default: '' }}
+                      {{ section.settings.promo_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '240, 360, 480, 720', sizes: card_sizes, alt: section.settings.promo_image.alt | default: '' }}
                     {%- else -%}
                       {%- render 'fallback-image', key: 'scene-zakelijk', alt: '' -%}
                     {%- endif -%}
                   </div>
                   <div class="promo-band__body">
                     {%- if section.settings.promo_eyebrow != blank -%}<p class="eyebrow promo-band__eyebrow">{%- render 'icon', icon: 'case', class: 'icon--xs' -%}{{ section.settings.promo_eyebrow }}</p>{%- endif -%}
-                    <p class="promo-band__title h3">{{ section.settings.promo_heading }}</p>
+                    <p class="promo-band__title">{{ section.settings.promo_heading }}</p>
                     {%- if section.settings.promo_text != blank -%}<p class="promo-band__text">{{ section.settings.promo_text }}</p>{%- endif -%}
                     {%- if section.settings.promo_label != blank -%}
                       <a class="btn btn--sm promo-band__btn" href="{{ section.settings.promo_link | default: settings.quote_page | default: routes.root_url }}">{{ section.settings.promo_label }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a>
@@ -457,14 +450,14 @@
     { "type": "checkbox", "id": "show_description", "label": "Collectiebeschrijving tonen als er geen intro is", "default": true },
     { "type": "link_list", "id": "menu", "label": "Menu voor subcategorieën", "default": "main-menu", "info": "Kruimelpad en de knoppen onder de titel komen uit dit menu: de onderliggende links van deze collectie, of bij een laatste niveau de collecties ernaast." },
     { "type": "checkbox", "id": "enable_filtering", "label": "Filters", "default": true, "info": "Filters stel je in met de app Search & Discovery." },
-    { "type": "textarea", "id": "hidden_filter_values", "label": "Tags niet als filter tonen", "default": "pallet, zakelijk, bedrukbaar, set, badge:nieuw, badge:actie", "info": "Interne tags (komma's ertussen) die niet in het filter 'Gebruik' horen. Tags als 'gebruik:horeca' tonen we als 'Horeca'." },
+    { "type": "textarea", "id": "hidden_filter_values", "label": "Tags niet als filter tonen", "default": "pallet, zakelijk, bedrukbaar, set, badge:nieuw, badge:actie", "info": "Alleen voor een tagfilter dat je zelf in Search & Discovery aanzet: deze interne tags (komma's ertussen) laten we daar weg. 'Gebruik' leest het metaveld custom.gebruik, niet de tags." },
     { "type": "textarea", "id": "filter_scope", "label": "Filters alleen op deze collecties", "default": "Past op: accessoires, partytent-onderdelen, easy-up-onderdelen, buizenframe-onderdelen, zijwanden, gewichten-en-verankering, tassen-en-wielsets, verlichting, verwarming", "info": "Eén filter per regel: 'Filternaam: collectie-handle, collectie-handle'. Op andere collecties blijft dat filter weg." },
     { "type": "checkbox", "id": "enable_sorting", "label": "Sorteren", "default": true },
-    { "type": "header", "content": "Zakelijk-band in het raster" },
+    { "type": "header", "content": "Zakelijk-tegel in het raster" },
     { "type": "range", "id": "promo_position", "min": 0, "max": 12, "step": 1, "label": "Na product nr. (0 = uit)", "default": 6 },
     { "type": "image_picker", "id": "promo_image", "label": "Beeld", "info": "Leeg: de zakelijke opstelling uit de theme." },
     { "type": "text", "id": "promo_eyebrow", "label": "Bovenregel", "default": "Klapklaar Zakelijk" },
-    { "type": "text", "id": "promo_heading", "label": "Kop", "default": "Meer dan 10 nodig?" },
+    { "type": "text", "id": "promo_heading", "label": "Kop", "default": "Grotere aantallen nodig?" },
     { "type": "text", "id": "promo_text", "label": "Tekst", "default": "Staffelprijs, prijzen excl. btw en een offerte op maat." },
     { "type": "text", "id": "promo_label", "label": "Knop", "default": "Offerte aanvragen" },
     { "type": "url", "id": "promo_link", "label": "Link" }

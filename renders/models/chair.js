@@ -14,6 +14,7 @@
 //                      legs, rear legs bent back into posts, aprons, solid seat, curved top
 //                      rail and the two crossed back slats, stretchers; grain runs along
 //                      every part.
+//         'bistro-klap' | 'kunststof' | 'polycarbonaat', and `count` / `linked` rows: chairs3.js (round 5)
 //         'metaal'     stackable steel chair (Tolix A type): pressed seat pan with rolled
 //                      skirt and drainage holes, V-section legs, rear legs running up to a
 //                      curved back panel.
@@ -25,6 +26,7 @@ import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { rng } from '../js/rng.js';
 import { weddingChair, stretchCover } from './chairs2.js';
+import { chair3, chairRow } from './chairs3.js'; // round 5: bistro-klap, kunststof, polycarbonaat, rows
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -246,6 +248,9 @@ function chairMetal(bins, color) {
 
 export function chair(p = {}) {
   const style = String(p.style || 'banquet').toLowerCase();
+  // round 5 (chairs3.js): `count` chairs in a row (stoelverbinder), and three new chairs
+  if (Number(p.count) > 1) return chairRow(p, chair);
+  if (style.startsWith('bistro') || style === 'kunststof' || style === 'pp' || style.startsWith('polycarb')) return chair3(style, p);
   const color = p.color || 'zwart';
   const bins = new G.PartBin();
   let info;

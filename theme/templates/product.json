@@ -131,6 +131,13 @@
             "link": "shopify://blogs/advies/easy-up-premium-of-professional",
             "link_label": "Lees het hele verschil"
           }
+        },
+        "tab_parts": {
+          "type": "collapsible_tab",
+          "settings": {
+            "source": "parts",
+            "heading": "Onderdelen en bouwtekening"
+          }
         }
       },
       "block_order": [
@@ -151,6 +158,7 @@
         "tab_description",
         "tab_specs",
         "tab_downloads",
+        "tab_parts",
         "tab_delivery",
         "tab_faq",
         "quote_form"

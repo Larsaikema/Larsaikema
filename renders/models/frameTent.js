@@ -23,10 +23,15 @@
 //  - `stripes: 'wit'`: two-tone cloth (Grijs-wit, Rood-wit, ...): 50 cm lanes of `color` and
 //    `stripes` over roof, valance, gables and walls, lined up from wall to roof;
 //  - `frame: false` (the loose roof cover): shown on the bare frame without walls, so it reads as
-//    the cloth it is (frame not included).
+//    the cloth it is (frame not included);
+//  - `gableDoor: 'left' | 'right'` (the eindwand product): that gable is closed by one end wall
+//    over the full width (the cover's gable triangle closes it up to the ridge) with a doorway in
+//    the middle between two zips with welded reinforcement bands; `door: 'open'` rolls the door
+//    panel up under the eave with two roll-up straps; eyelets in the bottom hem. The camera looks
+//    at that gable from 70 degrees (hero and front), the long side receding.
 //
 //   { w (span), d (length), line: 'pe'|'pvc', series, color, stripes, walls: 'windows'|'closed'|'none',
-//     door: 'closed'|'open'|'rolled', variant: 'party'|'opslag', frame: bool, openGable: bool }
+//     door: 'closed'|'open'|'rolled', variant: 'party'|'opslag', frame: bool, openGable: bool, gableDoor }
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
@@ -63,7 +68,7 @@ export function buildFrameTent(o) {
     span: W, length: L, eave: He, ridge: Hr, line = 'pvc', color = 'wit', walls = 'none', door = 'closed',
     gableFront = false, frame = true, bay: bayWanted = 2, frontGableDoor = false, ties = false, valance = 0.17,
     groundFrame = false, collar = false, straps = false, openGable = null, openFront = false,
-    stripes = null, stripeW = 0.5,
+    stripes = null, stripeW = 0.5, gableDoor = null,
   } = o;
   const hex = K.col(color, M.COLORS.wit);
   const pe = line === 'pe';
@@ -301,7 +306,7 @@ export function buildFrameTent(o) {
     const doorBay = Math.min(nb - 1, Math.floor(nb / 2));
     for (let i = 0; i < nb; i++) {
       for (const sz of [-1, 1]) {
-        const isDoor = !frontGableDoor && sz > 0 && i === doorBay;
+        const isDoor = !frontGableDoor && !gableDoor && sz > 0 && i === doorBay;
         if (!frontGableDoor && sz > 0 && openFront && nb >= 3 && i === doorBay - 1) {
           panels.push({ a: V3(xs[i], 0, hw + r + 0.012), b: V3(xs[i + 1], 0, hw + r + 0.012), out: V3(0, 0, 1), type: 'rolledwall', seed: i * 2 + 1 });
           continue;
@@ -315,6 +320,9 @@ export function buildFrameTent(o) {
       const gx = sx * (L / 2 + r + 0.012);
       const rolled = openGable === (sx > 0 ? 'right' : 'left');
       if (frontGableDoor && sx < 0) { panels.push({ a: V3(gx, 0, hw), b: V3(gx, 0, -hw), out: V3(sx, 0, 0), type: 'gabledoor', seed: 20 }); continue; }
+      // eindwand: one wall over the full width of the gable (the cover's gable triangle closes it
+      // up to the ridge) with a doorway in the middle between two vertical zips
+      if (gableDoor === (sx > 0 ? 'right' : 'left')) { panels.push({ a: V3(gx, 0, sx > 0 ? hw : -hw), b: V3(gx, 0, sx > 0 ? -hw : hw), out: V3(sx, 0, 0), type: 'enddoor', seed: 40 + sx }); continue; }
       const halves = W >= 3.9 ? [[hw, 0], [0, -hw]] : [[hw, -hw]];
       for (const [z0, z1] of halves) {
         const a = V3(gx, 0, sx > 0 ? z0 : -z0), b = V3(gx, 0, sx > 0 ? z1 : -z1);
@@ -327,9 +335,31 @@ export function buildFrameTent(o) {
   function buildPanel({ a, b, out, type, seed = 0 }) {
     const len = a.distanceTo(b);
     const along = b.clone().sub(a).normalize();
+    // samples along the panel between s0 < s1, with a vertex pair at every lane join of two-tone
+    // cloth, so the rolled-up panels show clean bands (no saw teeth where a lane changes colour)
+    const laneX = Math.abs(out.z) > 0.5;
+    const sCols = (s0, s1, n) => {
+      const o = []; for (let i = 0; i <= n; i++) o.push(s0 + ((s1 - s0) * i) / n);
+      const c0 = laneX ? a.x : a.z, dc = laneX ? along.x : along.z, span = laneX ? L : W;
+      if (fab2 && Math.abs(dc) > 1e-6) for (let k = 0; k * stripeW <= span + 1e-6; k++) {
+        const sj = (k * stripeW - span / 2 - c0) / dc;
+        if (sj > s0 + 0.004 && sj < s1 - 0.004) o.push(sj - 0.0015, sj + 0.0015);
+      }
+      return o.sort((p, q) => p - q).filter((v, i, arr) => i === 0 || v - arr[i - 1] > 1e-4);
+    };
+    // a rolled-up panel between s0 and s1 (radius noise in metres along the roll, not per sample)
+    const rollAlong = (s0, s1, n, y, rollR) => {
+      const ss = sCols(s0, s1, n);
+      const rp = ss.map((sv) => P(sv, y).addScaledVector(out, rollR * 0.6));
+      return K.sweep(rp, rollR, 18, { rFn: (ii, ang) => rollR * (1 + 0.07 * Math.sin(ang * 3 + ss[ii] * 12) + 0.04 * Math.sin(ss[ii] * 26)), capStart: true, capEnd: true });
+    };
     const open = ((type === 'door' || type === 'gabledoor') && (door === 'open' || door === 'rolled')) || type === 'rolledwall';
     const H = open ? 0.0 : wallTop;
     const ph = seed * 1.7;
+    // eindwand doorway: the panel between the two zips (d0..d1) rolls up under the eave
+    const endDoor = type === 'enddoor';
+    const endOpen = endDoor && (door === 'open' || door === 'rolled');
+    const dw = Math.min(2.0, Math.max(1.2, len * 0.4)), d0 = len / 2 - dw / 2, d1 = len / 2 + dw / 2;
     const P = (s, y) => {
       const t = s / len, f = Math.min(1, y / wallTop);
       // a belly between the legs, soft irregular vertical drape folds (broader to the hem), the
@@ -364,6 +394,7 @@ export function buildFrameTent(o) {
       const iw = [], iwin = [];
       for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
         const k = j * (nx + 1) + i, sC = (len * (i + 0.5)) / nx, yC = (H * (j + 0.5)) / ny;
+        if (endOpen && sC > d0 && sC < d1) continue;
         (inside(sC, yC) ? iwin : iw).push(k, k + 1, k + nx + 1, k + 1, k + nx + 2, k + nx + 1);
       }
       const mk = (idx) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals(); return g; };
@@ -371,7 +402,9 @@ export function buildFrameTent(o) {
       addCloth(mk(iw), axis);
       if (iwin.length) bins.add(clear, mk(iwin));
       // folded hem, side hems with the velcro join at the legs, hooks at the top
-      addCloth(K.sweep([0, 0.25, 0.5, 0.75, 1].flatMap((f) => [f]).map((f) => P(len * f, 0.006).addScaledVector(out, 0.002)), 0.005, 5), axis);
+      if (endOpen) {
+        for (const [s0, s1] of [[0, d0], [d1, len]]) addCloth(K.sweep([0, 0.25, 0.5, 0.75, 1].map((f) => P(s0 + (s1 - s0) * f, 0.006).addScaledVector(out, 0.002)), 0.005, 5), axis);
+      } else addCloth(K.sweep([0, 0.25, 0.5, 0.75, 1].flatMap((f) => [f]).map((f) => P(len * f, 0.006).addScaledVector(out, 0.002)), 0.005, 5), axis);
       for (const s of [0.012, len - 0.012]) {
         const vp = []; for (let t = 0; t <= 16; t++) vp.push(P(s, 0.02 + ((H - 0.06) * t) / 16).addScaledVector(out, 0.0025));
         bins.add(tapeMat, T2.bandAlong(vp, vp.map(() => out.clone()), 0.028, 0.0016));
@@ -409,12 +442,47 @@ export function buildFrameTent(o) {
         const fl = []; for (let t = 0; t <= 24; t++) fl.push(P(zx - 0.035, 0.02 + ((H - 0.08) * t) / 24).addScaledVector(out, 0.006));
         bins.add(tapeMat, T2.bandAlong(fl, fl.map(() => out.clone()), 0.06, 0.002));
       }
+      if (endDoor) {
+        // two vertical zips, each with a welded reinforcement band (doubled edge of the doorway)
+        for (const [zx, sd] of [[d0, -1], [d1, 1]]) {
+          const zp = [], bp = [];
+          for (let t = 0; t <= 28; t++) {
+            const y = 0.02 + ((H - 0.06) * t) / 28;
+            zp.push(P(zx + sd * 0.006, y).addScaledVector(out, 0.004));
+            bp.push(P(zx + sd * 0.03, y).addScaledVector(out, 0.0026));
+          }
+          bins.add(zipM, K.sweep(zp, 0.0045, 5));
+          bins.add(tapeMat, T2.bandAlong(bp, bp.map(() => out.clone()), 0.05, 0.0018));
+          bins.add(thread, K.sweep(bp.map((q) => q.clone().addScaledVector(along, sd * 0.019).addScaledVector(out, 0.0012)), 0.0008, 4));
+        }
+        // eyelets in the bottom hem for pegs (every 50 cm, not in the doorway)
+        const eyeM = M.galvanised();
+        for (let s = 0.2; s < len - 0.1; s += 0.5) {
+          if (endOpen && s > d0 - 0.06 && s < d1 + 0.06) continue;
+          const e = new THREE.TorusGeometry(0.009, 0.0026, 6, 14);
+          const q = P(s, 0.045).addScaledVector(out, 0.003);
+          e.lookAt(out); e.translate(q.x, q.y, q.z); bins.add(eyeM, e);
+        }
+        if (endOpen) {
+          // the door panel rolled up to the top of the doorway, held by two roll-up straps
+          const rollR = 0.065, y = wallTop - rollR - 0.03;
+          addCloth(rollAlong(d0 + 0.01, d1 - 0.01, 30, y, rollR), laneX ? 'x' : 'z');
+          for (const f of [0.22, 0.78]) {
+            const s = d0 + dw * f, base = P(s, y);
+            const loopPts = []; for (let t = 0; t <= 24; t++) { const an = (t / 24) * Math.PI * 2; loopPts.push(base.clone().addScaledVector(out, rollR * 0.6 + Math.cos(an) * (rollR + 0.004)).add(V3(0, Math.sin(an) * (rollR + 0.004), 0))); }
+            bins.add(strapM, K.sweep(loopPts, 0.006, 4, { rFn: (ii, ang) => (Math.abs(Math.cos(ang)) > 0.7 ? 0.0015 : 0.012) }));
+            bins.add(strapM, T2.bandAlong([base.clone().addScaledVector(out, 0.004).setY(y + rollR), base.clone().addScaledVector(out, 0.004).setY(wallTop - 0.005)], [out, out], 0.024, 0.0016));
+          }
+          const strip = [];
+          for (let j = 0; j <= 2; j++) { const row = []; for (const sv of sCols(d0, d1, 16)) row.push(P(sv, y + rollR * 0.6 + ((wallTop - y - rollR * 0.6) * j) / 2)); strip.push(row); }
+          addCloth(K.gridGeometry(strip), Math.abs(out.z) > 0.5 ? 'x' : 'z');
+        }
+      }
     }
     if (open) {
       // rolled up under the eave and tied with straps; a short top strip stays under the valance
       const rollR = 0.07, y = wallTop - rollR - 0.03;
-      const rp = []; for (let t = 0; t <= 40; t++) rp.push(P((len * t) / 40, y).addScaledVector(out, rollR * 0.6));
-      addCloth(K.sweep(rp, rollR, 18, { rFn: (ii, ang) => rollR * (1 + 0.07 * Math.sin(ang * 3 + ii * 0.6) + 0.04 * Math.sin(ii * 1.3)), capStart: true, capEnd: true }), Math.abs(out.z) > 0.5 ? 'x' : 'z');
+      addCloth(rollAlong(0, len, 40, y, rollR), laneX ? 'x' : 'z');
       for (const f of (len > 2.5 ? [0.2, 0.5, 0.8] : [0.25, 0.75])) {
         const s = len * f, base = P(s, y);
         const loopPts = []; for (let t = 0; t <= 24; t++) { const an = (t / 24) * Math.PI * 2; loopPts.push(base.clone().addScaledVector(out, rollR * 0.6 + Math.cos(an) * (rollR + 0.004)).add(V3(0, Math.sin(an) * (rollR + 0.004), 0))); }
@@ -422,7 +490,7 @@ export function buildFrameTent(o) {
         bins.add(strapM, T2.bandAlong([base.clone().addScaledVector(out, 0.004).setY(y + rollR), base.clone().addScaledVector(out, 0.004).setY(wallTop - 0.005)], [out, out], 0.024, 0.0016));
       }
       const strip = [];
-      for (let j = 0; j <= 2; j++) { const row = []; for (let i = 0; i <= 24; i++) row.push(P((len * i) / 24, y + rollR * 0.6 + ((wallTop - y - rollR * 0.6) * j) / 2)); strip.push(row); }
+      for (let j = 0; j <= 2; j++) { const row = []; for (const sv of sCols(0, len, 24)) row.push(P(sv, y + rollR * 0.6 + ((wallTop - y - rollR * 0.6) * j) / 2)); strip.push(row); }
       addCloth(K.gridGeometry(strip), Math.abs(out.z) > 0.5 ? 'x' : 'z');
     }
   }
@@ -458,7 +526,12 @@ export function frameTent(p = {}) {
   // inside reads (legs, knee braces, rafters, connectors, ground frame); `door: 'open'` rolls up
   // only the door (front view). Storage tents: the front gable is the roll-up door.
   const pro620 = !!ser && String(p.series) === '620' && walled && !opslag;
-  const openFront = walled && !opslag && p.door == null && p.openFront !== false && !pro620;
+  // eindwand (`gableDoor: 'right' | 'left'`): that gable gets the end wall with its doorway, `door`
+  // is the state of that doorway, and the camera looks at the gable (the long side recedes)
+  // ('left' by default: seen from the front left the key light rakes over the end wall and the
+  // long side recedes in the soft side light)
+  const gableDoor = walled && !opslag && p.gableDoor ? (String(p.gableDoor) === 'right' ? 'right' : 'left') : null;
+  const openFront = walled && !opslag && !gableDoor && p.door == null && p.openFront !== false && !pro620;
   const door = p.door || (openFront ? 'open' : 'closed');
   // 620 Professional: its selling point is the 2,2 m side height, which a side-by-side 3/4 view
   // of the same 4 x 8 m tent hardly shows (round 3: 550 Premium and 620 heroes were the same
@@ -469,7 +542,7 @@ export function frameTent(p = {}) {
     span, length, eave: He, ridge: Hr, line, color: p.color || 'wit', walls, door, frame: true,
     gableFront: opslag, frontGableDoor: opslag, ties: opslag, openFront,
     groundFrame: ser ? ser.groundFrame : !!p.groundFrame, collar: ser ? ser.collar : !!p.collar, straps: ser ? !!ser.straps : !!p.straps,
-    openGable, stripes: p.stripes || null,
+    openGable, stripes: p.stripes || null, gableDoor,
   });
   group.name = `frameTent ${span}x${length} ${line}${opslag ? ' opslag' : ''}${ser ? ' ' + p.series : ''}`;
   // enclosure for the interior light (walls on three or four sides); openings: the rolled gable,
@@ -480,7 +553,8 @@ export function frameTent(p = {}) {
     const openings = [];
     if (openGable) openings.push([length / 2, 0, 1]);
     if (door === 'open' || door === 'rolled') {
-      if (opslag) openings.push([0, length / 2, 1.2]);
+      if (gableDoor) openings.push([(gableDoor === 'left' ? -1 : 1) * length / 2, 0, 1]);
+      else if (opslag) openings.push([0, length / 2, 1.2]);
       else if (openFront) openings.push([-1, span / 2, 1.2], [1, span / 2, 1.2]);
       else openings.push([0, span / 2, 1]);
     }
@@ -493,12 +567,14 @@ export function frameTent(p = {}) {
   return {
     object: group,
     detail: { target: [length / 2, He - 0.2, span / 2], size: 1.2, azimuth: 30, elevation: 8 },
-    view: { hero: pro620 ? { azimuth: 58, elevation: 9 } : frame ? { elevation: walled ? 15 : 17 } : { azimuth: 34, elevation: 18 }, front: { elevation: 6 } },
+    view: gableDoor
+      ? { hero: { azimuth: gableDoor === 'left' ? -70 : 70, elevation: 9 }, front: { azimuth: gableDoor === 'left' ? -70 : 70, elevation: 9 } }
+      : { hero: pro620 ? { azimuth: 58, elevation: 9 } : frame ? { elevation: walled ? 15 : 17 } : { azimuth: 34, elevation: 18 }, front: { elevation: 6 } },
     rig: {
       default: rigD,
       // straight-on view of a walled tent: the walls face the camera, so the softbox comes
       // from front-left (not raking) and white cloth gets the easy-up front exposure
-      front: { key: { ...rigD.key, azimuth: -38, elevation: 28, distanceRel: 2.0, aimRel: [-0.05, 0.3, 0.6], angle: 50, penumbra: 0.9 }, fill: { azimuth: 55, elevation: 10, intensity: 2.2 }, ...(K.lumOf(hex) > 0.7 ? { exposure: 0.66 } : {}) },
+      front: gableDoor ? {} : { key: { ...rigD.key, azimuth: -38, elevation: 28, distanceRel: 2.0, aimRel: [-0.05, 0.3, 0.6], angle: 50, penumbra: 0.9 }, fill: { azimuth: 55, elevation: 10, intensity: 2.2 }, ...(K.lumOf(hex) > 0.7 ? { exposure: 0.66 } : {}) },
     },
     meta: { span, length, He, Hr, line, opslag, frame, series: p.series || null },
   };

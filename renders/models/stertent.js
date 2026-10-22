@@ -219,6 +219,9 @@ export function stertent(p = {}) {
           const uv = new Float32Array((nx + 1) * (ny + 1) * 2); let m = 0;
           for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const sx = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); uv[m++] = sx; uv[m++] = Math.min(1, Math.max(0, (y - printV[0]) / (printV[1] - printV[0]))); }
           K.addMesh(group, K.gridGeometry(rowsW, { uv1: uv }), wallPrintMat);
+          // printed on the outside only: a plain inner face 4 mm inside, so the far walls seen over
+          // the near ones (through the panorama windows) show the white back, not a mirrored print
+          bins.add(mat, K.gridGeometry(rowsW.map((r) => r.map((q) => q.clone().addScaledVector(inward, 0.004)))));
         } else bins.add(mat, K.gridGeometry(rowsW));
       };
       const topAt = yTop - 0.05;

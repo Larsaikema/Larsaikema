@@ -108,3 +108,93 @@ order with the exact data the PDP has to render. The PDP files (`sections/main-p
   Handleidingen pick them up as before.
 - **Wall sets**: the `<table data-kk="set-vs-los">` in `zijwandenset-easy-up(-heavy-duty-pvc)` is rebuilt by build.py from the loose wall
   prices (same markup as the bundles): style it, do not compute it.
+
+---
+
+# Catalog round 2026-10-22 (graded findings against the live reference): theme side
+
+The catalog builds and validates clean (`python3 catalog/build.py`, `python3 catalog/validate.py`: 0 errors). The PDP files were free in this
+round, so the catalog engineer did the shipping blocker and items 2–5 of the round-3 list below in the theme. Contract text: `catalog/CONTRACT.md`.
+
+## Done in this round (theme)
+
+- **Shipping line per variant and quantity** (round-3 item 1, the blocker): `snippets/delivery-promise.liquid` reads
+  `custom.verzendkosten_staffel` for the selected variant (`per_optie.waarden[<value>]`, else `staffel`) and shows the amount at 1 piece plus the
+  next tier ("Verzendkosten € 49,00 · vanaf 3 stuks € 79,00"); `assets/product-form.js` (`refresh()`) rewrites it for the chosen quantity
+  ("Verzendkosten bij 3 stuks € 79,00"), per stuk × quantity for `eenheid: "per stuk"`. The line sits in `data-dynamic="delivery"`, so a variant
+  change swaps it. A variant above 31,5 kg reads as pallet (delivery copy, transit days) and `snippets/product-delivery-pack.liquid` says
+  "Palletvervoer · 60 kg" for it, whatever the product's `verzending`. Checked in the preview: voetgewicht Set van 4 € 49 (was € 6,95),
+  1 stuk € 6,95 → 3 stuks € 49; dakzeil 8 × 12 m € 49; no console errors.
+- **Bouwtekening + parts list** (round-3 items 2 and 3): a new collapsible-tab source `parts` ("Onderdelen en bouwtekening", block `tab_parts`
+  in `templates/product.json`) renders the variant `custom.stuklijst` as a table per `groep` with a link per row to the part's variant
+  (`all_products[handle]`, matched on SKU) inside `data-dynamic="bom"` (added to the swap list in `assets/variant-picker.js`), and
+  `custom.onderdelen` as a link list with prices, 12 visible and the rest behind "Alle N onderdelen en accessoires". Checked: the 3 × 3 m
+  PVC 550 stuklijst swaps to the 6 × 12 m one on variant change.
+- **Add-on discount label** (round-3 item 4): `snippets/product-addons.liquid` shows "−10% met je tent" next to the add-ons in
+  `custom.addon_korting.op`, only when the add-ons block setting **`show_addon_korting`** is on. **Default off** until the owner has created the
+  Shopify automatic discount.
+- **Expected date** (round-3 item 5): "Verwacht op 12 november" after the stock line for `binnenkort`, sold-out and backorder variants
+  (`custom.verwacht_op`; month names in `delivery.months`).
+- Locale keys added (nl + en): `delivery.shipping_label`, `shipping_label_qty`, `shipping_tier_next`, `shipping_each`, `expected_on`, `months`;
+  `product.addon_korting`, `parts_bom`, `parts_bom_note`, `parts_part`, `parts_qty`, `parts_list`, `parts_more`.
+
+## Still open (theme)
+
+- Round-3 item 6 (colour select inside an add-on row) is unchanged.
+- The parts tab uses the spec-table style; a card row with images could replace the link list once the parts have real renders.
+
+## New or changed data the theme should handle
+
+- **Uitvoering values** on the inflatable walls: `Met raam`, `Enkele rits`, `Full colour bedrukt` (next to `Dicht` / `Met deur`); the walls are
+  `bedrukbaar` now (`drukopties.optie: Uitvoering`, `zonder` = the four plain values), so the print block appears for the printed variant only.
+- **Fewer options**: the Professional 2 × 2 and 5 × 5 m have no `Uitvoering` (only `Maat` and `Kleur`), the barkoelkast only `Uitvoering`, the
+  koel- en vrieskist no option at all. The size switch between Professional sizes matches on `Kleur` there (best match, as before).
+- **New option values**: `Maat` `Ø140 cm`, `Ø305 cm`, `170 x 80 cm` and `Uitvoering` `Kwartrond, set van 4` (klaptafel-hout-vormen); `Maat`
+  `220 x 67 cm` on the biertafel hoes; `Uitvoering` `PVC 620 (maakwerk, 3–4 weken)` / `PVC 500 (maakwerk, 3–4 weken)` on the roofs; betonblok
+  `500 kg met vlaggenmastkoker` / `1000 kg met vlaggenmastkoker`; prikkabel `60 m` … `90 m`; `Kleur` `Transparant`, `Vintage hout` on chairs.
+- **New products** (6): `stapelstoel-kunststof`, `stapelstoel-polycarbonaat`, `klapstoel-hout-bistro`, `barkruk-inklapbaar`, `stoelverbinder`
+  (product type `Meubelonderdeel`, add-on on klapstoel, stapelstoel-metaal, banquetstoel and stapelstoel-kunststof), `accessoires-betonblok`;
+  their images are render jobs in `catalog/export/image-jobs.json` (`chair` styles `kunststof` / `polycarbonaat` / `bistro-klap`, `barStool` style
+  `klap`, new model `chairLinker`, `concreteBlock` with `cover` / `seat` / `part: truss-baseplate`).
+- **Handle renamed**: `bierbank-220` → `bierbank` (redirect in `export/redirects.csv`; menus updated).
+- **Add-on changes**: the `transportkar-koelkasten` follows the quantity (no `addon_eenmalig`), the 2 × 2 m Professional gets the 2 × 2 m
+  zijwandenset, the HDPE statafel no beschermplaat, the 220 × 76 cm bankettafel no klaptafelkar.
+- **Downloads**: 91 products carry `custom.downloads` (was 60): handleidingen and productbladen for heaters, dakzeilen, verankering,
+  transportkarren and statafeltextiel.
+
+---
+
+# Catalog round 5 (2026-10-22, graded findings): theme side
+
+The catalog builds and validates clean (`python3 catalog/build.py`, `python3 catalog/validate.py`: 0 errors). Contract text: `catalog/CONTRACT.md`
+(sections Product options, Import path, Variant metafields).
+
+## For the theme (please pick up)
+
+1. **Add-on rows of one product (medium)**: `custom.addon_varianten` may now hold two or more variants of the SAME add-on product, each its own row
+   (prikkabel E27: eindkap, eindhaak met spanveer and, on zwart, a verlengkabel 5 m, all from `onderdelen-prikkabel-en-lichtslang`). `assets/product-form.js`
+   keeps ticked add-ons across a variant change by `data-product` (product id) in `swapAddons` and `quickAddons`, so ticking one of those rows ticks all
+   rows of that product after a variant change. Key the kept state by product id + variant title (or product id + row position among that product's rows);
+   the label already shows `av.title`.
+2. **Samenstelling on more products**: the full colour Professional now has `Uitvoering` = cloth (`Polyester` / `Heavy duty PVC`) and `Samenstelling` = print
+   scope (`Dak en luifel` / `Dak, luifel en 3 zijwanden`); its variant images follow `Samenstelling`. Also `Samenstelling` on stormbandenset (`1 set` /
+   `2 sets` / `3 sets`), afzetpaal met trekband (`1 stuk`, `Set van 2`, `… met magneetsluiting`) and the buffettafel-pakket. Plain pills, as for the biertafels.
+3. **Print side on inflatable walls**: `drukopties.posities` is `['Buitenkant', 'Binnenkant']` on the three printed inflatable wall lines; the print block
+   shows them as the drukpositie choice (no price difference).
+4. **New `Kleur` value in use**: `Chroom` as a post finish (afzetpaal gala); it is in `SWATCH_HEX` and the `swatch_colors` default already.
+
+## New or changed data
+
+- **New products (15)**: `zijwand-opblaasbare-partytent-met-waterpoten`, `terrastafel-vierkant-stapelbaar`, `terrastafel-breed-stapelbaar`,
+  `terrastafel-design-zuilvoet`, `terrastafel-wiebelvrij`, `steekwagen-stapelstoelen`, `transportkar-universeel`, `klaptafel-met-banken-rolbaar`,
+  `onderdelen-stoelen-en-barkrukken`, `afzetpaal-gala`, `loperpennen-set-van-25`, `pakket-20-stapelstoelen-met-transportkar`,
+  `pakket-50-klapstoelen-met-transportkar`, `pakket-10-biertafels-met-transportkar`, `pakket-buffettafel-met-stretchhoes`. Render jobs in
+  `catalog/export/image-jobs.json` (`statafel` with `height: 0.75` and `base: 'zelfstellend'`, `trolley` kinds `steekwagen` / `universeel`, new models
+  `foldTable` and `seatParts`, `stanchion` style `gala` / `galerie`).
+- **Terrastafels landing**: 6 products now (was 2); menu Statafels › Terrastafels lists the four new ones.
+- **Options**: stertent dubbele mast `Kleur` + `Zwart`; logo Professional + `Uitvoering` (`Polyester` / `Heavy duty PVC`); halve zijwand + `Uitvoering`
+  (`Polyester` / `Heavy duty PVC`); bedrukt dakzeil + `Uitvoering`; beschermhoes + `Uitvoering` (`Voor polyester dak` / `Voor PVC-dak`); verbindingsstrook
+  `Kleur` in the 7 tent colours; lopers + `Roze`, `Bordeaux`, `Zandkleur`; standard inflatable wall without `Antraciet` (the waterpoten tent has its own wall).
+- **Seed script**: `scripts/seed/seed.mjs` (Node 22, no deps) sets every reference and variant metafield products.csv cannot carry, plus collections, menus,
+  pages, blog and redirects; the `stuklijst` rows get `variant_id` (numeric) so the parts tab can link `/products/<handle>?variant=<variant_id>` without an
+  `all_products` lookup. Owner guide `docs/import-en-seed.md`.
