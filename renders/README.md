@@ -600,6 +600,13 @@ Batch (1200 px preview, 14 frames, Linnen): `node renders/render.mjs --batch ren
   embrasse een smalle kolom (geen zandloper), nooit buiten de rail.
 - `stretchtent` `low`: oog in het kwadrant rechtsvoor onder het doek, middenpaal heel in beeld tot in de piek.
 - `tarp` transparant: dichtere folie met lichte tint, bredere reflectieband, melkwitte zomen.
+- `marketStall`: `frame`/`frameColor` (bv. `zwart`), `valance: 'kartel'` (kartelrand: ronde schulpen voor en achter),
+  `only: 'kap'` (los dakzeil op het kale frame zonder werkblad, van linksvoor), `skirt: <kleur>` (geplooide rok om de
+  voorkant en zijkanten van de toonbank, klittenbandstrook bovenaan).
+- `stertent {wallPrint: {artwork}}`: full colour bedrukte zijwanden (voorbeeldontwerp op de dichte band onder de
+  panoramavensters); `wallColor` los van de doekkleur.
+- 620 Professional (`frameTent {series: '620'}`): hero laag langs de gesloten tent met de rechtergevel opgerold
+  (azimut 58°, elevatie 9°), zodat de 2,2 m zijhoogte leest en het beeld niet meer gelijk is aan de 550 Premium.
 
 ## Camera
 

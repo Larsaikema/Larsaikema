@@ -217,7 +217,7 @@ export function stertent(p = {}) {
         if (wallPrintMat && printV) {
           // uv1: u along the panel, v up the printed band (the hem at 0); the panel is seen from outside
           const uv = new Float32Array((nx + 1) * (ny + 1) * 2); let m = 0;
-          for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const sx = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); uv[m++] = 1 - sx; uv[m++] = Math.min(1, Math.max(0, (y - printV[0]) / (printV[1] - printV[0]))); }
+          for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) { const sx = s0 + (s1 - s0) * (i / nx), y = y0 + (y1 - y0) * (j / ny); uv[m++] = sx; uv[m++] = Math.min(1, Math.max(0, (y - printV[0]) / (printV[1] - printV[0]))); }
           K.addMesh(group, K.gridGeometry(rowsW, { uv1: uv }), wallPrintMat);
         } else bins.add(mat, K.gridGeometry(rowsW));
       };

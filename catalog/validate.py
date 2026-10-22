@@ -632,6 +632,7 @@ def run(verbose=False):
     check_round_fields(rep, products, P, cat)
     check_bundle_staffels(rep, products, P)
     check_round3(rep, products, P)
+    check_shipping_weight(rep, products, P)
     for p in products:
         for f in p['metafields'].get('downloads') or []:
             if not (IMAGES / f).exists():
@@ -1356,6 +1357,92 @@ def check_round3(rep, products, P):
             per_m2.append(v['price'] / (a * b))
         if min(v['price'] for v in so['variants']) + 0.5 < min(per_m2):
             rep.e('prices', f'product stretchdoek-op-maat: per m² under the cheapest stock stretchdoek per m² (€ {min(per_m2) / 100:.2f})')
+
+
+# Weight-based shipping rates (catalog/tools/skeleton/kk_ship.py, docs/claims-to-confirm.md 'Verzendkosten per product'): the Shopify
+# shipping profiles carry the same amounts, so the PDP and the cart estimate must never show less than checkout charges.
+SHIP_PARCEL, SHIP_PARCEL_MAX = 6.95, 31.5
+SHIP_GROOT = [(25, 19.95), (40, 39.9)]
+SHIP_PALLET = [(150, 49.0), (400, 79.0), (700, 129.0), (1000, 175.0), (2000, 350.0), (3000, 525.0)]
+SHIP_BULKY_TYPES = {'Statafel', 'Terrastafel', 'Klaptafel'}
+SHIP_QTY_PIECES = 10   # a parcel product at the class rate must stay under 31,5 kg up to this many pieces (kk_ship.QTY_PIECES)
+
+
+def _ship_rate(cls, kg):
+    if cls == 'groot':
+        for top, eur in SHIP_GROOT:
+            if kg <= top:
+                return eur
+    elif cls == 'pakket' and kg <= SHIP_PARCEL_MAX:
+        return SHIP_PARCEL
+    for top, eur in SHIP_PALLET:
+        if kg <= top:
+            return eur
+    return SHIP_PALLET[-1][1]
+
+
+def _shown_shipping(p, v, n, pallet_rate=59.0):
+    """What the PDP and the cart estimate show for n pieces of variant v: custom.verzendkosten_staffel, else the amount in
+    custom.verzendkosten, else the class rate (theme settings shipping_cost_pakket / shipping_cost_pallet)."""
+    mf = p['metafields']
+    st = mf.get('verzendkosten_staffel')
+    if st:
+        return _tiers_at(st, p, v, n)
+    txt = mf.get('verzendkosten') or ''
+    m = re.search(r'€\s*([\d.]+,\d{2})', txt)
+    if m:
+        return float(m.group(1).replace('.', '').replace(',', '.'))
+    if 'gratis' in txt.lower():
+        return 0.0
+    return pallet_rate if mf.get('verzending') == 'pallet' else SHIP_PARCEL
+
+
+def check_shipping_weight(rep, products, P):
+    """Catalog round 4 (blocker): the shipping check of the pakketten, extended to every product. Per variant, the amount the PDP and the
+    cart estimate show (custom.verzendkosten_staffel, else custom.verzendkosten, else the class rate) is never under the weight-based rate
+    of that shipment: above 31,5 kg nothing ships as a parcel (a 'Set van 8' voetgewichten of 120 kg showed € 6,95 against the € 49
+    pallet rate at checkout). Products with tiers are checked at every quantity up to 100 pieces or 3.000 kg, parcels at the class rate up
+    to 10 pieces; per-stuk products (betonblokken) carry their own per-piece rates and are left out. Parcels at the class rate whose
+    shipment passes 31,5 kg only from 11 pieces on are counted as info (checkout takes the weight-based rate)."""
+    skus = sku_index(products)
+    quantity_only = []
+    for p in products:
+        if p.get('gift_card') or not any(v.get('requires_shipping', True) for v in p['variants']):
+            continue
+        mf = p['metafields']
+        st = mf.get('verzendkosten_staffel')
+        if st and st.get('eenheid') == 'per stuk':
+            continue
+        if mf.get('verzending') == 'pallet':
+            cls = 'pallet'
+        elif p['product_type'] in SHIP_BULKY_TYPES or (p.get('bundle') and any(
+                P[skus[s_][0]]['product_type'] in SHIP_BULKY_TYPES for v in p['variants']
+                for s_ in (v.get('metafields') or {}).get('componenten') or [] if s_ in skus)):
+            cls = 'groot'
+        else:
+            cls = 'pakket'
+        bad = None
+        for v in p['variants']:
+            kg = (v.get('grams') or 0) / 1000
+            if not kg:
+                continue
+            top = (SHIP_QTY_PIECES if cls == 'pakket' else 1) if not st else max(1, min(100, int(3000 // kg)))
+            for n in range(1, top + 1):
+                shown, want = _shown_shipping(p, v, n), _ship_rate(cls, n * kg)
+                if shown is None or shown + 0.005 < want:
+                    bad = (v, n, kg, shown, want)
+                    break
+            if bad:
+                break
+            if not st and cls == 'pakket' and kg * 100 > SHIP_PARCEL_MAX:
+                quantity_only.append(p['handle'])
+        if bad:
+            v, n, kg, shown, want = bad
+            rep.e('shipping', f'product {p["handle"]} / {v["sku"]}: {n} x {kg:g} kg shows € {shown} shipping, the weight-based rate is € {want:.2f} '
+                              f'(above 31,5 kg nothing ships as a parcel; PDP, cart and checkout must agree)')
+    if quantity_only:
+        rep.i('shipping', f'{len(set(quantity_only))} parcel products at the class rate pass 31,5 kg only from 11-100 pieces on; checkout takes the '
+                          f'weight-based rate there (e.g. {", ".join(sorted(set(quantity_only))[:4])})')
 
 
 def _korting(st, n):

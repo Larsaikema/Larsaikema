@@ -23,6 +23,7 @@ BULKY_TYPES = {'Statafel', 'Terrastafel', 'Klaptafel'}
 PER_STUK = {'betonblok-ballast-tent': {'120 kg met vorkuitsparing': 45.0, '140 kg': 45.0, '240 kg': 59.0, '500 kg': 75.0, '500 kg met M16-inserts voor truss': 75.0, '750 kg': 99.0, '1000 kg': 135.0}}
 TIER_FROM = 4            # from 4 pieces on one address: - 15% per piece
 MAX_PIECES = 100         # quantity tiers are listed up to this many pieces per order line (or 3.000 kg)
+QTY_PIECES = 10          # a parcel product of which this many pieces pass 31,5 kg gets weight tiers of its own (catalog round 4)
 
 
 def pallet_cost(kg):
@@ -72,11 +73,19 @@ def option_index(p, name):
 
 
 def ship_class(p):
-    """pallet | groot | pakket, or None for goods that ship at the parcel class rate without a line of their own."""
+    """pallet | groot | pakket, or None for goods that ship at the parcel class rate without a line of their own.
+    Catalog round 4 (blocker): the class follows the heaviest variant, not only the product type. A product with a variant above 31,5 kg
+    ('Set van 8' voetgewichten = 120 kg, a 6 x 12 m dakzeil = 61 kg) gets weight tiers of its own ('pakket': a parcel up to 31,5 kg, the
+    pallet classes above), so its PDP and the cart estimate never show the € 6,95 parcel rate for a shipment that checkout charges
+    € 49 or more for (weight-based rates in the Shopify shipping profile)."""
     if p['metafields'].get('verzending') == 'pallet':
         return 'pallet'
     if p['product_type'] in BULKY_TYPES:
         return 'groot'
+    # ... and so does every parcel product of which a few pieces already pass 31,5 kg (QTY_PIECES: 10 barkrukken of 5,5 kg, 2 easy-ups of
+    # 27 kg): the cart estimate takes the tier at the line quantity, so it never shows € 6,95 for a pallet shipment
+    if max((v.get('grams') or 0) for v in p['variants']) * QTY_PIECES > PARCEL_MAX * 1000:
+        return 'pakket'
     return None
 
 
@@ -160,6 +169,11 @@ def apply(products):
         if not cls:
             continue
         _write(p, {v['sku']: tiers(cls, v['grams'] / 1000) for v in p['variants']})
+        # every variant above 31,5 kg: the product ships on a pallet as a whole when even its lightest variant does
+        if cls == 'pakket' and min(v['grams'] for v in p['variants']) > PARCEL_MAX * 1000:
+            mf['verzending'] = 'pallet'
+            if 'pallet' not in p['tags']:
+                p['tags'] = p['tags'] + ['pallet']
     bundles(products)
 
 
@@ -227,6 +241,12 @@ def bundles(products):
             p['tags'] = [t for t in p['tags'] if t != 'pallet']
 
 
+def _all_tiers(st):
+    if not st:
+        return [[{'vanaf': 1, 'bedrag': PARCEL}]]
+    return [st['staffel']] + list(((st.get('per_optie') or {}).get('waarden') or {}).values())
+
+
 def kg(x):
     """Decimal comma, no trailing zeros: 4,2 · 15 · 0,04 (2 decimals below 1 kg, 1 above)."""
     t = f'{x:.2f}' if x < 1 else f'{x:.1f}'
@@ -249,8 +269,14 @@ def verpakt(products):
             # colli are not guessed from the weight: a bundle ships every part in its own packaging, a single product as one load
             n = ' · elk onderdeel in eigen verpakking' if p.get('bundle') else ''
             mf['verpakt'] = f'Vracht op pallet (120 x 80 cm){n} · {w}'
+        elif hi <= PARCEL_MAX:
+            mf['verpakt'] = f'Pakket · 1 doos · {w}'
+        elif ship_class(p) == 'groot' or {t[0]['bedrag'] for t in _all_tiers(mf.get('verzendkosten_staffel'))} <= {b for _, b in GROOT_PAKKET}:
+            n = ' · elk onderdeel in eigen verpakking' if p.get('bundle') else ''
+            mf['verpakt'] = f'Groot pakket{n} · {w}'
         else:
-            mf['verpakt'] = f'Pakket · 1 doos · {w}' if hi <= 31.5 else f'Pakket · 2 dozen · {w}'
+            # catalog round 4: a product whose heavier variants go on a pallet (no parcel above 31,5 kg, and no guessed colli count)
+            mf['verpakt'] = f'Pakket tot 31,5 kg, zwaarder op pallet (120 x 80 cm) · {w}'
 
 
 # M1: 10% on walls, storage bags and storm straps bought with the tent (the reference does it on ca. 70 PDPs). Shown on the PDP next to
