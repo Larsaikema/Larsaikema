@@ -237,12 +237,12 @@ export function stretchParts(p = {}) {
         // lever (40 x 40 square tube, powder coated) with a rubber grip, a welded rocker foot near
         // the working end and a short galvanised chain with a grab hook that loops round the peg;
         // lying on its side next to a 100 cm round peg
-        const red = SG.powderSG('#B3261E', { rough: 0.38 });
+        const red = SG.powderSG('#9C1F17', { rough: 0.42 });
         const Ll = 1.25, s = 0.04;
         const lev = G.roundedBox(Ll, s, s, 0.004, 2); lev.translate(Ll / 2, s / 2, 0); sub.add(red, lev);
         for (const x of [0.0, Ll]) { const cap = G.roundedBox(0.004, s - 0.004, s - 0.004, 0.0015); cap.translate(x, s / 2, 0); sub.add(SG.rubberSG('#121212'), cap); }
-        const grip = K.lathe([[0.0001, 0], [0.026, 0], [0.027, 0.004], [0.027, 0.2], [0.025, 0.205], [0.0001, 0.205]], 32); grip.rotateZ(-Math.PI / 2); grip.translate(Ll - 0.2, s / 2 + 0.001, 0);
-        for (let k = 0; k < 14; k++) { const t = new THREE.TorusGeometry(0.0272, 0.0011, 6, 28); t.rotateY(Math.PI / 2); t.translate(Ll - 0.19 + k * 0.013, s / 2 + 0.001, 0); sub.add(SG.rubberSG('#151515'), t); }
+        const grip = K.lathe([[0.0001, 0], [0.0305, 0], [0.0315, 0.004], [0.0315, 0.2], [0.0295, 0.205], [0.0001, 0.205]], 32); grip.rotateZ(-Math.PI / 2); grip.translate(Ll - 0.2, s / 2 + 0.001, 0);
+        for (let k = 0; k < 14; k++) { const t = new THREE.TorusGeometry(0.0317, 0.0011, 6, 28); t.rotateY(Math.PI / 2); t.translate(Ll - 0.19 + k * 0.013, s / 2 + 0.001, 0); sub.add(SG.rubberSG('#151515'), t); }
         sub.add(SG.rubberSG('#151515', { rough: 0.78 }), grip);
         // rocker foot: a welded frame of 10 mm plate in the lever's plane (flat on the floor now):
         // a curved runner joined to the lever by two legs, with a lightening cut-out

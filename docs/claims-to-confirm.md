@@ -63,8 +63,16 @@ thema alleen als een review-app ze levert.
   datum die het veld toestaat is de laatste dag van de verwachte levering die de winkelwagen toont (zelfde instellingen als
   hierboven); een eerdere datum wordt niet opgeslagen en houdt Afrekenen tegen tot hij is aangepast of leeg is. Bij een
   winkelwagen met alleen een cadeaubon staat het veld er niet. Uitzetten: sectie Winkelwagen › "Veld 'Gewenste leverdatum'".
-- Zakelijk-pagina: staffelvoorbeeld (10/25/50 stuks: 5/10/15%), "Op factuur", "Levering op locatie".
-- Offertepagina: "Prijzen excl. btw", "Staffelkorting vanaf 10 stuks", "Op factuur voor bedrijven en verenigingen".
+- Zakelijk-pagina: staffelvoorbeeld (10/25/50 stuks: 5/10/15%), "Op factuur", "Levering op locatie", de reactietijd onder de
+  knoppen (`response_time`) en de vragen in de sectie Veelgestelde vragen van die pagina: "Betalen kan binnen de termijn op de
+  factuur", "Zet je aantallen in een offerteaanvraag, dan rekenen we met de staffelprijs" (past bij `staffel_mode` = offerte),
+  "Bij elke bedrukking eerst een digitale drukproef", "Grote aantallen per pallet, op een dag die we samen afspreken" en de btw
+  voor zakelijke leveringen in België.
+- Offertepagina: "Prijzen excl. btw", "Staffelkorting vanaf 10 stuks", "Op factuur voor bedrijven en verenigingen", onder de
+  knop en na versturen "[reactietijd] Je krijgt prijzen incl. en excl. btw" (`response_time` + sectie-instellingen), en de
+  btw-uitleg die verschijnt als het land niet Nederland is (sectie-instelling "Btw-uitleg bij levering buiten Nederland", zelfde
+  tekst als op de productpagina: laat je boekhouder hem bevestigen). Het vinkje "Ik wil ballastadvies" belooft advies of een
+  eerlijke doorverwijzing, zoals de paginatekst Ballastadvies zegt.
 - Bedrukken: "Levertijd 10–15 werkdagen na akkoord drukproef", PNG ≥ 2000 px wordt drukklaar gemaakt.
 - Formulieren: "We reageren / sturen binnen één werkdag een offerte" (locale `forms.contact_success`, `quote.success`).
 - Productpagina, bedrukken: stappen "Je krijgt een digitale drukproef per mail", "Pas na jouw akkoord gaan we drukken".

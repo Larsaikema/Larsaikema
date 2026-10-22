@@ -1,0 +1,37 @@
+{%- comment -%}
+  One product line of the offerte form (sections/page-offerte.liquid, assets/quote-form.js). Params: n (line number or
+  '__N__' in the template), sid (section id), first (bool: required fields, no remove button), details_label, variant_pick.
+  The 'uitvoering' is a free text field; once the product matches the catalogue, quote-form.js swaps in the select with its
+  variants (same field name, only one of the two is enabled).
+{%- endcomment -%}
+<div class="qt-line" data-line>
+  <div class="qt-line__head">
+    <span class="qt-line__label" data-line-num>{{ 'quote.line_label' | t: index: n }}</span>
+    <button type="button" class="qt-line__remove" data-remove-line aria-label="{{ 'quote.remove_line' | t }}"{% if first %} hidden{% endif %}>{%- render 'icon', icon: 'trash', class: 'icon--sm' -%}</button>
+  </div>
+  <div class="qt-line__grid">
+    <div class="field qt-line__product">
+      <label class="field__label" for="QL-{{ n }}-product-{{ sid }}">{{ 'quote.line_product' | t }}{% if first %} <span class="required" aria-hidden="true">*</span>{% endif %}</label>
+      <div class="input-icon">{%- render 'icon', icon: 'search', class: 'icon--sm' -%}<input class="input" id="QL-{{ n }}-product-{{ sid }}" name="contact[Regel {{ n }} - product]" list="QuoteProducts-{{ sid }}" autocomplete="off" data-line-product{% if first %} required{% endif %}></div>
+    </div>
+    <div class="field qt-line__variant">
+      <label class="field__label" for="QL-{{ n }}-variant-{{ sid }}" data-variant-label>{{ 'quote.line_variant' | t }}</label>
+      <input class="input" id="QL-{{ n }}-variant-{{ sid }}" name="contact[Regel {{ n }} - uitvoering]" data-line-variant>
+      <select class="select" id="QL-{{ n }}-variants-{{ sid }}" name="contact[Regel {{ n }} - uitvoering]" data-line-variant-select hidden disabled><option value="">{{ variant_pick }}</option></select>
+    </div>
+    <div class="field qt-line__qty">
+      <label class="field__label" for="QL-{{ n }}-qty-{{ sid }}">{{ 'quote.line_qty' | t }}{% if first %} <span class="required" aria-hidden="true">*</span>{% endif %}</label>
+      <quantity-input class="qty">
+        <button type="button" class="qty__btn" name="minus" aria-label="{{ 'product.quantity_decrease' | t }}">{%- render 'icon', icon: 'minus', class: 'icon--sm' -%}</button>
+        <input class="qty__input" type="number" inputmode="numeric" min="1" id="QL-{{ n }}-qty-{{ sid }}" name="contact[Regel {{ n }} - aantal]" data-line-qty{% if first %} required{% endif %}>
+        <button type="button" class="qty__btn" name="plus" aria-label="{{ 'product.quantity_increase' | t }}">{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}</button>
+      </quantity-input>
+    </div>
+  </div>
+  <div class="qt-line__match" data-line-match hidden></div>
+  <button type="button" class="qt-line__more" data-details-toggle aria-expanded="false" aria-controls="QL-{{ n }}-box-{{ sid }}">{%- render 'icon', icon: 'plus', class: 'icon--xs' -%}{{ details_label }}</button>
+  <div class="field qt-line__details" id="QL-{{ n }}-box-{{ sid }}" hidden>
+    <label class="field__label" for="QL-{{ n }}-details-{{ sid }}">{{ 'quote.line_details' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+    <input class="input" id="QL-{{ n }}-details-{{ sid }}" name="contact[Regel {{ n }} - details]" data-line-details>
+  </div>
+</div>

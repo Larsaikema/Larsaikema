@@ -73,6 +73,9 @@ function profAt(prof, s) {
   return [lerp(prof.pts[i][0], prof.pts[i + 1][0], w), lerp(prof.pts[i][1], prof.pts[i + 1][1], w)];
 }
 
+// depth of the pressed-in seam line between the stretch rok's top panel and body (m)
+const SEAM_G = 0.0003;
+
 // Revolve a profile [r,y] around Y; disp(theta, i, prof) -> [dr, dy].
 function revolve(prof, nTheta, disp = null, { theta0 = 0 } = {}) {
   const { pts, s } = prof;
@@ -111,7 +114,7 @@ function foldField(count, seed, { sharp = 2.0, warp = 0.9, ampJitter = 0.35 } = 
 // Grid mesh from a point function over (theta columns, row params): pf(theta, row, outVec3) and
 // uvf(theta, row) -> [u, v]. Columns close around (last column = first + 2 pi). Normals outward when
 // rows run down the profile (flip).
-function gridMesh(thetas, rows, pf, uvf, { flip = true } = {}) {
+function gridMesh(thetas, rows, pf, uvf, { flip = true, post = null } = {}) {
   const nu = thetas.length, nv = rows.length, cols = nu + 1;
   const pos = new Float32Array(cols * nv * 3), uv = new Float32Array(cols * nv * 2);
   const p = V3();
@@ -131,6 +134,8 @@ function gridMesh(thetas, rows, pf, uvf, { flip = true } = {}) {
     const a = j * cols + i, b = a + 1, c = a + cols, d = c + 1;
     if (flip) idx.push(a, c, b, b, c, d); else idx.push(a, b, c, b, d, c);
   }
+  // post(pos, cols, nv, uv): a pass over the finished grid (e.g. smoothing, uv) before the normals are computed
+  if (post) post(pos, cols, nv, uv);
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
@@ -258,13 +263,18 @@ function buildStretch(group, S, p, color) {
   const yW = Number(p.waistY ?? 0.6 * H), rW = Number(p.waistR ?? 0.056);
   const n = S.nLegs, sector = TAU / n;
   const Rg = rng(Number(p.seed ?? 11));
-  const ra = 0.0045, cxo = R - ra, yTopC = H - ra, yBotC = H - T + ra, rc = ra + f;
-  const seamA = 34 * DEG;                            // top seam on the upper arris
+  // the jersey wraps the 18 mm blad edge as a rounded bullnose: under tension it bridges the 4.5 mm arrises
+  // with larger radii (upper 8 mm, lower 9 mm; the birch's 2.5 mm arrises stay >= 0.3 mm inside), so the edge reads as one
+  // soft rounded band (~22 mm, catching a soft highlight) instead of a thin plate on a cone
+  const rhoU = 0.008, rhoL = 0.009;
+  const cxU = R + f - rhoU, cyU = H + f - rhoU;      // upper bullnose arc centre
+  const cxL = R + f - rhoL, cyL = H - T - f + rhoL;  // lower arc centre
+  const seamA = 42 * DEG;                            // top seam on the shoulder of the bullnose
   const gDep = 52 * DEG;                             // the body leaves the lower arris at this angle
 
   // ---- upper profile (axisymmetric): seam -> edge -> lower arris -> funnel -> waist
-  const arcU = arc(cxo, yTopC, rc, seamA, 0, 10);
-  const arcL = arc(cxo, yBotC, rc, 0, -gDep, 14);
+  const arcU = arc(cxU, cyU, rhoU, seamA, 0, 14);
+  const arcL = arc(cxL, cyL, rhoL, 0, -gDep, 18);
   const P0 = arcL[arcL.length - 1], d0 = [-Math.sin(gDep), -Math.cos(gDep)];
   const span = Math.hypot(rW - P0[0], yW - P0[1]);
   const funnel = bezier(P0, [P0[0] + d0[0] * span * 0.42, P0[1] + d0[1] * span * 0.42], [rW, yW + span * 0.44], [rW, yW], 160);
@@ -338,7 +348,7 @@ function buildStretch(group, S, p, color) {
 
   // ---- base surface: rho in [0, 1] upper (s = rho * Lup), [1, 2] lower (t = rho - 1)
   const hm = { Er: 0, Ey: 0, Fr: 0, Fy: 0, pw: 0, m: 0, dl: 0 };
-  const info = { r: 0, y: 0, zone: 0, q: 0, t: 0, pw: 0, m: 0, dh: 0, dl: 0 };
+  const info = { r: 0, y: 0, zone: 0, s: 0, q: 0, t: 0, pw: 0, m: 0, dh: 0, dl: 0 };
   // lower profile (unrounded) at t in [0, 1]: waist -> bend E (tB) -> hem / pocket edge F
   const segPt = (t, o) => {
     const lEF = Math.hypot(hm.Fr - hm.Er, hm.Fy - hm.Ey);
@@ -365,7 +375,7 @@ function buildStretch(group, S, p, color) {
     if (rho <= 1) {
       const s = rho * Lup;
       [r, y] = profAt(up, s);
-      info.zone = 0; info.q = s <= sDep ? 0 : (s - sDep) / (Lup - sDep); info.t = 0; info.pw = 0; info.dh = 1; info.dl = footDelta(th);
+      info.zone = 0; info.s = s; info.q = s <= sDep ? 0 : (s - sDep) / (Lup - sDep); info.t = 0; info.pw = 0; info.dh = 1; info.dl = footDelta(th);
     } else {
       const t = Math.min(1, rho - 1);
       hemAt(th, hm);
@@ -442,7 +452,8 @@ function buildStretch(group, S, p, color) {
   function disp(th) {
     const { zone, q, t, r, y, pw, dh, dl } = info;
     let d = 0;
-    if (zone === 0) d += strainD(th, q) + waveD(th, y) * smoothstep(0.05, 0.3, q);
+    // seam where the top panel meets the body: a fine pressed-in line just under the shoulder (no welt)
+    if (zone === 0) d += strainD(th, q) + waveD(th, y) * smoothstep(0.05, 0.3, q) - SEAM_G * Math.exp(-(((info.s - 0.0005) / 0.0007) ** 2));
     else {
       d += pullD(th, t, r) + waveD(th, y) * (1 - 0.7 * pw);
       // turned hem: 2 cm double layer (slightly proud) with a soft ridge at the fold line
@@ -472,14 +483,15 @@ function buildStretch(group, S, p, color) {
       const a = x * Lg.out.x + z * Lg.out.z, b = x * Lg.side.x + z * Lg.side.z;
       if (a < 0.25) continue;
       // foot glide
-      dmin = Math.min(dmin, sdRoundBox(a - cap.c, y - cap.H / 2, b, cap.L / 2, cap.H / 2, cap.W / 2, cap.r));
+      // (rounded more than the moulded glide: the elastic pocket bridges its corners, no box ghosting through)
+      dmin = Math.min(dmin, sdRoundBox(a - cap.c, y - cap.H / 2, b, cap.L / 2, cap.H / 2, cap.W / 2, 0.012));
       // leg tube near its end (oval 30 x 16 approximated by a rounded box along the leg)
       const yl = S.hubY + (a - S.pivotR) * tanL;
       dmin = Math.min(dmin, sdRoundBox(a - (S.tipR - 0.05), y - yl, b, 0.05, 0.015, 0.008, 0.007));
     }
     return dmin;
   };
-  const kPush = f + 0.0006, wPush = 0.0055; // a soft wrap over the leg end (the ridge highlight stays a satin band, not a hairline)
+  const kPush = f + 0.0006, wPush = 0.008; // a soft wrap over the leg end (the ridge highlight stays a satin band, not a hairline)
   function finalPoint(th, rho, out) {
     const e = 2e-4;
     const r1 = Math.min(2, rho + e), r0 = Math.max(0, rho - e);
@@ -515,30 +527,86 @@ function buildStretch(group, S, p, color) {
   for (let t = 0.005; t < 1 - 1e-6;) { rows.push(1 + t); t += t > tB - 0.04 ? 0.0032 : t < 0.15 ? 0.005 : 0.0082; }
   rows.push(2);
   const uScale = 0.25;
+  // ridge rounding: the panels meet over each leg in a tension ridge from the waist to the pocket. Built from
+  // the pocket's U section scaled towards the waist, that ridge got ever sharper upwards (a razor highlight);
+  // jersey under tension bends with a roughly constant radius, so the radius is averaged across theta with a
+  // physical kernel (sigma 9 mm of arc) near each ridge, from 10 cm above the floor to just under the waist
+  const smoothRidges = (pos, cols) => {
+    const nu = cols - 1, sig = 0.009;
+    const rr = new Float64Array(nu), ang = new Float64Array(nu);
+    for (let j = 0; j < rows.length; j++) {
+      const rho = rows[j];
+      if (rho <= 1.0) continue;
+      for (let i = 0; i < nu; i++) { const k = (j * cols + i) * 3; rr[i] = Math.hypot(pos[k], pos[k + 2]); ang[i] = Math.atan2(pos[k], pos[k + 2]); }
+      for (let i = 0; i < nu; i++) {
+        const k = (j * cols + i) * 3, y = pos[k + 1];
+        const wR = Math.exp(-((footDelta(thetas[i]) / 0.16) ** 2)) * smoothstep(0.1, 0.18, y) * (1 - smoothstep(yW - 0.13, yW - 0.03, y));
+        if (wR < 1e-3) continue;
+        const dMax = (3 * sig) / Math.max(0.03, rr[i]);
+        let sw = 0, sr = 0;
+        for (const dir of [-1, 1]) {
+          for (let o = dir > 0 ? 0 : 1; o < nu; o++) {
+            const q = (i + dir * o + nu * 4) % nu;
+            const da = Math.abs(wrapA(ang[q] - ang[i]));
+            if (da > dMax) break;
+            const x = (da * rr[i]) / sig, w = Math.exp(-0.5 * x * x);
+            sw += w; sr += w * rr[q];
+          }
+        }
+        const rN = lerp(rr[i], sr / sw, wR), kk = rN / Math.max(1e-6, rr[i]);
+        pos[k] *= kk; pos[k + 2] *= kk;
+      }
+    }
+  };
   const bodyGeo = gridMesh(thetas, rows, finalPoint, (th, rho) => {
     if (rho <= 1) return [th * uScale, rho * Lup];
     hemAt(th, hm);
     return [th * uScale, Lup + (rho - 1) * (Math.hypot(hm.Er - rW, hm.Ey - yW) + Math.hypot(hm.Fr - hm.Er, hm.Fy - hm.Ey))];
+  }, {
+    post: (pos, cols, nv, uv) => {
+      smoothRidges(pos, cols);
+      // knit uv round each row by arc length (the same number of wales round every row, spread by the cloth's
+      // own length): with uv u = theta, the flanks of the pocket ridges (a radial wall over a few degrees)
+      // stretched the knit 10-50 x into glossy stripes along the ridge
+      const nu = cols - 1, acc = new Float64Array(cols);
+      for (let j = 0; j < nv; j++) {
+        acc[0] = 0;
+        for (let i = 1; i < cols; i++) { const a = (j * cols + i - 1) * 3, b = (j * cols + i) * 3; acc[i] = acc[i - 1] + Math.hypot(pos[b] - pos[a], pos[b + 1] - pos[a + 1], pos[b + 2] - pos[a + 2]); }
+        const u0 = uv[j * cols * 2], span = TAU * uScale;
+        for (let i = 1; i <= nu; i++) uv[(j * cols + i) * 2] = u0 + span * (acc[i] / acc[nu]);
+      }
+    },
   });
-  group.add(G.mesh(bodyGeo, mat));
+  // first row (the seam on the bullnose shoulder): the analytic normal, so the top panel and the body shade
+  // as one surface across the seam (one-sided normals there showed as a light line under the top)
+  { const n0 = bodyGeo.attributes.normal, p0 = bodyGeo.attributes.position, cols = thetas.length + 1;
+    for (let i = 0; i < cols; i++) { const x = p0.getX(i), z = p0.getZ(i), l = Math.hypot(x, z) || 1; n0.setXYZ(i, (x / l) * Math.cos(seamA), Math.sin(seamA), (z / l) * Math.cos(seamA)); } }
+  if (p.debugFaces) {
+    // look-dev: front faces grey, back faces red (a back face in view = the panel folds over itself)
+    const fm = new THREE.MeshStandardMaterial({ color: '#808080', roughness: 0.7, side: THREE.FrontSide });
+    const bm = new THREE.MeshStandardMaterial({ color: '#d02020', roughness: 0.7, side: THREE.BackSide });
+    group.add(G.mesh(bodyGeo, fm)); group.add(G.mesh(bodyGeo, bm));
+  } else group.add(G.mesh(bodyGeo, mat));
 
-  // ---- top panel (flat over the blad, round the upper arris to the seam) --------------
-  const topProf = resample(concat([[0, H + f], [cxo, H + f]], arc(cxo, yTopC, rc, Math.PI / 2, seamA, 10)), 0.004);
-  const topGeo = revolve(topProf, 480);
-  { const pos = topGeo.attributes.position, uv = topGeo.attributes.uv; for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getZ(i)); }
-  group.add(G.mesh(topGeo, matTop));
-  // seam welt on the arris + a row of edge stitching on the side of the blad edge
-  const sP = [cxo + Math.cos(seamA) * rc, yTopC + Math.sin(seamA) * rc];
+  // ---- top panel (flat over the blad, over the bullnose shoulder to the seam) -----------
+  // profile without resampling: the flat in 40 rings (denser towards the rim), the shoulder arc in 14 steps
+  const topPts = [];
+  for (let i = 0; i <= 40; i++) topPts.push([cxU * (1 - (1 - i / 40) ** 1.6), H + f]);
+  for (const q of arc(cxU, cyU, rhoU, Math.PI / 2, seamA, 14).slice(1)) topPts.push(q);
+  const topS = [0]; for (let i = 1; i < topPts.length; i++) topS.push(topS[i - 1] + Math.hypot(topPts[i][0] - topPts[i - 1][0], topPts[i][1] - topPts[i - 1][1]));
+  const topProf = { pts: topPts, s: topS, L: topS[topS.length - 1] };
   const nS = [Math.cos(seamA), Math.sin(seamA)];
-  const welt = [];
-  for (let i = 0; i < 720; i++) { const th = (i / 720) * TAU, rr = sP[0] + nS[0] * 0.0003; welt.push(V3(Math.sin(th) * rr, sP[1] + nS[1] * 0.0003, Math.cos(th) * rr)); }
-  group.add(G.mesh(K.sweep(welt, K.circle(0.0012, 10), { closed: true, up: V3(0, 1, 0) }), matTop));
-  {
-    const pts = [], nn = [], rr = cxo + rc + 0.0002, ys = H - T * 0.42;
-    for (let i = 0; i <= 1600; i++) { const th = (i / 1600) * TAU; pts.push(V3(Math.sin(th) * rr, ys, Math.cos(th) * rr)); nn.push(V3(Math.sin(th), 0, Math.cos(th))); }
-    const st = SG.stitches(pts, nn, { len: 0.003, gap: 0.0012, w: 0.0009, h: 0.00045 });
-    if (st) group.add(G.mesh(st, thr, { cast: false }));
+  const topGeo = revolve(topProf, 600, (th, i, pr) => {
+    // the other side of the seam groove
+    const g = SEAM_G * Math.exp(-(((pr.L - pr.s[i] - 0.0005) / 0.0007) ** 2));
+    return [-g * nS[0], -g * nS[1]];
+  });
+  { const pos = topGeo.attributes.position, uv = topGeo.attributes.uv; for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i), pos.getZ(i)); }
+  { // seam ring: the analytic normal (matches the body's first row)
+    const pos = topGeo.attributes.position, nor = topGeo.attributes.normal, nv = topPts.length - 1, nT = 600;
+    for (let k = 0; k <= nT; k++) { const i = nv * (nT + 1) + k, x = pos.getX(i), z = pos.getZ(i), l = Math.hypot(x, z) || 1; nor.setXYZ(i, (x / l) * nS[0], nS[1], (z / l) * nS[0]); }
   }
+  group.add(G.mesh(topGeo, matTop));
 
   // ---- hem: thin folded edge, coverstitch rows, pocket seams ------------------------
   const tmp = V3();
@@ -619,8 +687,7 @@ function buildStretch(group, S, p, color) {
     const tcColor = typeof p.topcover === 'string' ? p.topcover : p.topcoverColor || 'wit';
     let tmat = SL.jerseyKnit(tcColor, { flat: true });
     const o = 0.0024; // lies on the rok
-    const rc2 = rc + o;
-    const prof = concat([[0, H + f + o], [cxo, H + f + o]], arc(cxo, yTopC, rc2, Math.PI / 2, 0, 12), arc(cxo, yBotC, rc2, 0, -gDep, 14));
+    const prof = concat([[0, H + f + o], [cxU, H + f + o]], arc(cxU, cyU, rhoU + o, Math.PI / 2, 0, 14), arc(cxL, cyL, rhoL + o, 0, -gDep, 16));
     const e0 = prof[prof.length - 1];
     prof.push([e0[0] + d0[0] * 0.016, e0[1] + d0[1] * 0.016]);
     const tp = resample(prof, 0.002);

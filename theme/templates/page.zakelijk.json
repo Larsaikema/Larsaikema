@@ -34,25 +34,103 @@
             "title": "Levering op locatie",
             "text": "Grote aantallen per pallet, op een afgesproken dag."
           }
+        },
+        "s1": {
+          "type": "segment",
+          "settings": {
+            "title": "Horeca",
+            "icon": "table",
+            "text": "Terras, bar of catering: stevige tafels en krukken in één kleur, makkelijk na te bestellen.",
+            "collection_1": "terrastafels",
+            "label_1": "Terrastafels",
+            "collection_2": "barkrukken",
+            "label_2": "Barkrukken",
+            "collection_3": "statafels",
+            "label_3": "Statafels"
+          }
+        },
+        "s2": {
+          "type": "segment",
+          "settings": {
+            "title": "Eventbureaus",
+            "icon": "paint",
+            "text": "Beurs, festival of bedrijfsfeest: tent en statafels in je eigen huisstijl, met een drukproef vooraf.",
+            "collection_1": "bedrukte-partytenten",
+            "label_1": "Partytenten met logo",
+            "collection_2": "bedrukte-statafelhoezen",
+            "label_2": "Statafelhoezen met logo",
+            "collection_3": "verlichting",
+            "label_3": "Verlichting"
+          }
+        },
+        "s3": {
+          "type": "segment",
+          "settings": {
+            "title": "Verhuurbedrijven",
+            "icon": "pallet",
+            "text": "Materiaal dat elke week op- en afgaat: aluminium frames, karren om te stapelen en losse onderdelen.",
+            "collection_1": "transportkarren",
+            "label_1": "Transportkarren",
+            "collection_2": "easy-up-professional",
+            "label_2": "Easy-up Professional",
+            "collection_3": "partytent-onderdelen",
+            "label_3": "Onderdelen"
+          }
+        },
+        "s4": {
+          "type": "segment",
+          "settings": {
+            "title": "Verenigingen",
+            "icon": "flag",
+            "text": "Clubfeest, toernooi of carnaval: complete pakketten en tenten met je clublogo.",
+            "collection_1": "actiepakketten",
+            "label_1": "Pakketten",
+            "collection_2": "easy-up-partytenten",
+            "label_2": "Easy-up partytenten",
+            "collection_3": "statafelrokken",
+            "label_3": "Statafelrokken"
+          }
+        },
+        "s5": {
+          "type": "segment",
+          "settings": {
+            "title": "Scholen",
+            "icon": "tent",
+            "text": "Schoolfeest, open dag of markt op het plein: kramen, tafels en stoelen die snel staan.",
+            "collection_1": "evenement",
+            "label_1": "Marktkramen",
+            "collection_2": "tafels",
+            "label_2": "Klaptafels",
+            "collection_3": "stoelen-en-banken",
+            "label_3": "Stoelen en banken"
+          }
         }
       },
       "block_order": [
         "b1",
         "b2",
         "b3",
-        "b4"
+        "b4",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
       ],
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/scene-zakelijk.webp"
+      }
     },
     "products": {
       "type": "featured-collection",
       "settings": {
-        "eyebrow": "Zakelijk",
-        "heading": "Populair bij bedrijven",
-        "collection": "zakelijk",
+        "eyebrow": "Pakketten",
+        "heading": "Klaar voor je terras of evenement",
+        "text": "Statafels, rokken, krukken en karren in één keer, goedkoper dan los.",
+        "collection": "actiepakketten",
         "limit": 4,
         "columns": 4,
-        "link_label": "Alle zakelijke producten"
+        "link_label": "Alle pakketten"
       }
     },
     "faq": {
@@ -61,92 +139,71 @@
         "q1": {
           "type": "question",
           "settings": {
-            "question": "Hoe werkt bestellen op factuur?",
-            "answer": "<p>Vraag een zakelijk account aan. Na goedkeuring kun je op factuur bestellen. Betalen kan binnen de termijn op de factuur.</p>"
+            "question": "Hoe zie ik de prijzen excl. btw?",
+            "answer": "<p>Zet de schakelaar bovenin op Zakelijk. Op de zakelijke pagina's staan de prijzen al standaard excl. btw. Met een zakelijk account zie je ze overal zo.</p>"
           }
         },
         "q2": {
           "type": "question",
           "settings": {
-            "question": "Leveren jullie ook in België?",
-            "answer": "<p>Ja. Heb je een geldig btw-nummer, dan regelen we de btw volgens de regels voor zakelijke leveringen binnen de EU.</p>"
+            "question": "Hoe werkt bestellen op factuur?",
+            "answer": "<p>Vraag een zakelijk account aan. Na goedkeuring kun je op factuur bestellen. Betalen kan binnen de termijn op de factuur.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
+            "question": "Hoe krijg ik de staffelprijs?",
+            "answer": "<p>Op elke productpagina staat de staffel van dat product. Zet je aantallen in een <a href=\"/pages/offerte\">offerteaanvraag</a>, dan rekenen we met de staffelprijs.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
             "question": "Hoe snel heb ik een offerte?",
-            "answer": "<p>Meestal binnen één werkdag.</p>"
+            "answer": "<p>Meestal binnen één werkdag. Hoe meer je invult (aantallen, maat, kleur, leverdatum en adres), hoe sneller het gaat.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "Kan ik eerst een drukproef zien?",
+            "answer": "<p>Ja. Bij elke bedrukking krijg je eerst een digitale drukproef. Pas na jouw akkoord gaan we drukken. Lees meer bij <a href=\"/pages/bedrukken\">bedrukken</a>.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Leveren jullie op locatie, op een vaste dag?",
+            "answer": "<p>Grote aantallen leveren we per pallet, op een dag die we samen afspreken. Zet je gewenste datum en het afleveradres in je offerteaanvraag.</p>"
+          }
+        },
+        "q7": {
+          "type": "question",
+          "settings": {
+            "question": "Leveren jullie ook in België?",
+            "answer": "<p>Ja. Heb je een geldig btw-nummer, dan regelen we de btw volgens de regels voor zakelijke leveringen binnen de EU.</p>"
           }
         }
       },
       "block_order": [
         "q1",
         "q2",
-        "q3"
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "heading": "Vragen van zakelijke klanten",
         "layout": "side"
       }
-    },
-    "opstelling": {
-      "type": "image-with-text",
-      "blocks": {
-        "e": {
-          "type": "eyebrow",
-          "settings": {
-            "text": "Zo staat het er"
-          }
-        },
-        "h": {
-          "type": "heading",
-          "settings": {
-            "heading": "Eén look voor je hele evenement"
-          }
-        },
-        "t": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Tent met je logo op de luifel, statafels in dezelfde bedrukte hoes. Je bestelt het in één offerte en krijgt eerst een drukproef van alles.</p>"
-          }
-        },
-        "c": {
-          "type": "checklist",
-          "settings": {
-            "items": "Eén offerte voor tent, statafels en hoezen\nEerst een drukproef, dan drukken we\nLevering op locatie op een afgesproken dag"
-          }
-        },
-        "b": {
-          "type": "buttons",
-          "settings": {
-            "label_1": "Offerte aanvragen",
-            "link_1": "shopify://pages/offerte",
-            "label_2": "Zo werkt bedrukken",
-            "link_2": "shopify://pages/bedrukken"
-          }
-        }
-      },
-      "block_order": [
-        "e",
-        "h",
-        "t",
-        "c",
-        "b"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/scene-zakelijk.webp",
-        "badge": "Voorbeeldopdruk",
-        "layout": "image-right",
-        "fallback_image": "scene-zakelijk"
-      }
     }
   },
   "order": [
     "main",
-    "opstelling",
     "products",
     "faq"
   ]

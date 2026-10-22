@@ -175,7 +175,9 @@ export function stringLights(p = {}) {
   return {
     object: group,
     detail: { target: [dP.x, dP.y + 0.006, dP.z], size: 0.12, azimuth: 30, elevation: 30 },
-    view: { hero: { elevation: 38 } },
+    // from higher up (56 deg) the loose rosette reads round and fills the square instead of a thin
+    // ellipse across the middle third of the frame
+    view: { hero: { elevation: 56 } },
     rig: { default: { exposure: on ? 1.0 : 'auto', contact: { strength: 0.7, h0: 0.004, res: 1024, blur: 1.2 }, groundAO: { strength: 0.7, maxZenith: 80 } } },
     meta: { count, length: len, on },
   };

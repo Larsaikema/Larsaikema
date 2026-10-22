@@ -15,7 +15,11 @@ export function connectionStrip(p = {}) {
   const width = Number(p.width ?? 0.3);
   const color = p.color || 'wit';
   const hex = M.resolveColor(color, '#F3F3F0');
-  const light = new THREE.Color(hex).getHSL({}).l > 0.5;
+  const hsl = new THREE.Color(hex).getHSL({});
+  const light = hsl.l > 0.5;
+  // saturated mid colours (rood, blauw, groen, ...): the dark-cloth rig below washes them out to
+  // a pink / sky tone; a lower exposure with half the black-level toe keeps the swatch colour
+  const vivid = !light && hsl.s > 0.35;
   const cloth = M.pvcCloth(color, { translucent: false });
   const hook = SG.hookTape(light ? '#CBCCC8' : '#1B1C1D');
   const thr = SG.thread(light ? '#E9E8E3' : '#34353A', { sheen: light ? 0.3 : 0.8 });
@@ -24,7 +28,7 @@ export function connectionStrip(p = {}) {
     object,
     detail: { target: [0.25, 0.01, 0.5], size: 0.3, azimuth: 40, elevation: 35 },
     view: { hero: { elevation: 28, azimuth: 30 } },
-    rig: { default: { contact: { strength: 0.8, h0: 0.006, res: 1024, blur: 1.4 }, groundAO: { strength: 0.75, maxZenith: 80 }, ...(light ? { exposure: 0.68, toneMapping: 'neutral', shoulder: 0.88 } : { key: { intensity: 3.6 }, fill: { azimuth: 80, elevation: 16, intensity: 1.4 }, rim: { azimuth: 150, elevation: 34, intensity: 1.4 }, exposure: 1.25 }) } },
+    rig: { default: { contact: { strength: 0.8, h0: 0.006, res: 1024, blur: 1.4 }, groundAO: { strength: 0.75, maxZenith: 80 }, ...(light ? { exposure: 0.68, toneMapping: 'neutral', shoulder: 0.88 } : vivid ? { key: { intensity: 3.0 }, fill: { intensity: 0.6 }, rim: { intensity: 0.8 }, exposure: 0.6, toe: 0.5 } : { key: { intensity: 3.6 }, fill: { azimuth: 80, elevation: 16, intensity: 1.4 }, rim: { azimuth: 150, elevation: 34, intensity: 1.4 }, exposure: 1.25 }) } },
     meta: { L, color },
   };
 }

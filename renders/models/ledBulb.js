@@ -57,7 +57,13 @@ export function ledBulb(p = {}) {
     const col = colours[k % colours.length];
     const M4 = new THREE.Matrix4().makeRotationY((17 + k * 71) * DEG).setPosition(x, 0, z);
     const single = count === 1;
-    const r = g45(GC, bins, M4, { kind, on, color: col, K, bloomR: kind === 'colour' ? (single ? 0.052 : 0.06) : 0.075, bloom: kind === 'colour' ? (single ? 0.7 : 0.8) : 1 });
+    // coloured coating: emissive ~0.85 keeps the lit globe's radiance near 1, below the point where
+    // the neutral tone curve desaturates it (at 1.15-1.55 a red lamp came out coral, blue lavender);
+    // a single lamp fills the frame, so its clearcoat is softer (no glitter of tiny reflections)
+    const r = g45(GC, bins, M4, {
+      kind, on, color: col, K, bloomR: kind === 'colour' ? (single ? 0.052 : 0.06) : 0.075, bloom: kind === 'colour' ? (single ? 0.7 : 0.8) : 1,
+      glassI: p.glassI ?? 0.85, coatRough: single ? 0.26 : 0.1,
+    });
     if (sealed) {
       // silicone sealing sleeve over the neck, in the lamp frame
       const add = (m, g) => bins.add(m, g.applyMatrix4(M4));

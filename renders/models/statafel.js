@@ -346,7 +346,7 @@ export function statafel(p = {}) {
       bins.add(frame, G.prism(G.roundedRectProfile(0.016, 0.03, 0.0075, 5), pivot.clone().addScaledVector(dir, -0.011), tip, { side }));
       // foot glide: moulded boot over the tube end, flat sole
       const capC = out.clone().multiplyScalar(S.cap.c);
-      const boot = G.roundedBox(S.cap.W, S.cap.H, S.cap.L, S.cap.r);
+      const boot = smoothBox(S.cap.W, S.cap.H, S.cap.L, S.cap.r);
       boot.applyMatrix4(basis(V3(capC.x, S.cap.H / 2, capC.z), side, V3(0, 1, 0), out));
       if (folded) {
         // the boot rides on the tube end: rotate it with the leg about the pivot pin
@@ -518,6 +518,26 @@ function leanAgainstSweep(group, S, p) {
     // reads as one leaning package, the wall recedes so its corner with the floor shows the lean)
     view: { hero: { azimuth: 52, elevation: 12, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
   };
+}
+
+// Box with every edge and corner rounded (radius r) and analytic normals: a moulded part (foot glide) without
+// flat end caps or faceted corners. Grid points of a subdivided cube, pushed onto the rounded surface.
+export function smoothBox(w, h, d, r, seg = 22) {
+  const g = new THREE.BoxGeometry(1, 1, 1, seg, seg, seg);
+  const pos = g.attributes.position, nor = g.attributes.normal;
+  const hx = w / 2 - r, hy = h / 2 - r, hz = d / 2 - r;
+  const v = V3(), q = V3(), n = V3();
+  // cluster the grid towards the edges, so the rounded bands get most of the segments
+  const warp = (t) => Math.sign(t) * 0.5 * Math.pow(Math.abs(2 * t), 0.6);
+  for (let i = 0; i < pos.count; i++) {
+    v.set(warp(pos.getX(i)) * w, warp(pos.getY(i)) * h, warp(pos.getZ(i)) * d);
+    q.set(Math.max(-hx, Math.min(hx, v.x)), Math.max(-hy, Math.min(hy, v.y)), Math.max(-hz, Math.min(hz, v.z)));
+    n.subVectors(v, q);
+    if (n.lengthSq() < 1e-14) n.set(nor.getX(i), nor.getY(i), nor.getZ(i)); else n.normalize();
+    pos.setXYZ(i, q.x + n.x * r, q.y + n.y * r, q.z + n.z * r);
+    nor.setXYZ(i, n.x, n.y, n.z);
+  }
+  return g;
 }
 
 // Outer edge band of a disc (from y = -T to 0) with rounded arrises of radius r.

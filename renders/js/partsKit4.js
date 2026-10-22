@@ -187,6 +187,8 @@ export function snapHook(bins, mats, { L = 0.08, d = 0.008 } = {}) {
   // spring gate: straight bar from the hinge on the eye side to just inside the nose tip
   const g0 = pts[0].clone().add(V3(0.004, 0, -0.001)), g1 = tip.clone().add(V3(-0.006, 0, -0.0045));
   bins.add(mats.metal, G.tube(g0.clone().setY(yc + 0.0004), g1.clone().setY(yc + 0.0004), r * 0.72, 14));
+  // the forged boss where the body ends at the gate hinge
+  { const bs = new THREE.SphereGeometry(r * 1.15, 16, 10); bs.translate(pts[0].x, yc, pts[0].z); bins.add(mats.metal, bs); }
   // hinge rivet + the gate's notch boss
   bins.add(mats.metal, G.tube(g0.clone().setY(yc - r * 0.9), g0.clone().setY(yc + r * 1.25), r * 0.55, 12));
   return { length: L };

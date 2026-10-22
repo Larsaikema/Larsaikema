@@ -53,6 +53,11 @@ function rvs(rough = 0.19) {
   // and the pole the studio's strip lights become long vertical highlights between dark bands
   return L.cached(`htrRvs:${rough}`, () => new THREE.MeshPhysicalMaterial({ color: '#D9DCDF', metalness: 1, roughness: rough, anisotropy: 0.4, anisotropyRotation: Math.PI / 2, name: 'stainless 304' }));
 }
+// spun stainless (base dish, housing shoulder, reflector top): the grain runs round the part,
+// so the overhead scrim becomes a soft radial sheen instead of a blown white ring
+function rvsSpun() {
+  return L.cached('htrRvsSpun', () => new THREE.MeshPhysicalMaterial({ color: '#B4B8BC', metalness: 1, roughness: 0.3, anisotropy: 0.55, anisotropyRotation: 0, envMapIntensity: 0.72, name: 'spun stainless' }));
+}
 function frameMat(color) {
   const c = String(color || '').toLowerCase();
   if (c === 'rvs' || c === 'stainless' || c === 'zilver') return rvs(0.19);
@@ -154,6 +159,7 @@ function frustum(wb, wt, y0, y1) {
 
 function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
   const steel = mat;
+  const spun = steel.metalness === 1 ? rvsSpun() : steel;
   const seam = L.moulded('#2C2D2F', 0.6);
   const doorAz = 20 * DEG;
   const out = (a) => V3(Math.sin(a), 0, Math.cos(a));
@@ -163,7 +169,7 @@ function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
     // base: rubber edge ring + spun dish
     const Rb = 0.235;
     bins.add(rubberMat(), G.lathe([[Rb - 0.014, 0], [Rb + 0.003, 0], [Rb + 0.004, 0.013], [Rb - 0.014, 0.013]], 96));
-    bins.add(steel, G.lathe([[Rb - 0.001, 0.011], [Rb + 0.0005, 0.02], [Rb - 0.006, 0.028], [0.205, 0.039], [0.15, 0.052], [0.0001, 0.058]], 96));
+    bins.add(spun, G.lathe([[Rb - 0.001, 0.011], [Rb + 0.0005, 0.02], [Rb - 0.006, 0.028], [0.205, 0.039], [0.15, 0.052], [0.0001, 0.058]], 96));
     // two wheels at the back
     for (const s of [-1, 1]) {
       const a = Math.PI + doorAz + s * 0.42, c = out(a).multiplyScalar(0.2).setY(0.034);
@@ -177,7 +183,8 @@ function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
     }
     // bottle housing with domed top and a collar for the pole
     const Rh = 0.2155, y0 = 0.034, y1 = 0.83;
-    bins.add(steel, G.lathe([[0.199, y0], [0.212, y0 + 0.004], [Rh, y0 + 0.016], [Rh, y1 - 0.03], [0.212, y1 - 0.012], [0.193, y1], [0.1, y1 + 0.022], [0.05, y1 + 0.03], [0.046, y1 + 0.036], [0.046, y1 + 0.052], [0.0001, y1 + 0.053]], 128));
+    bins.add(steel, G.lathe([[0.199, y0], [0.212, y0 + 0.004], [Rh, y0 + 0.016], [Rh, y1 - 0.03], [0.2145, y1 - 0.02]], 128));
+    bins.add(spun, G.lathe([[0.2145, y1 - 0.02], [0.212, y1 - 0.012], [0.193, y1], [0.1, y1 + 0.022], [0.05, y1 + 0.03], [0.046, y1 + 0.036], [0.046, y1 + 0.052], [0.0001, y1 + 0.053]], 128));
     // door: two vertical seams and two horizontal seams, lock knob
     const dw = 0.36; // half angle of the door (rad)
     for (const s of [-1, 1]) {
@@ -207,7 +214,7 @@ function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
   } else {
     // weighted round foot, short pole
     bins.add(rubberMat(), G.lathe([[0.16, 0], [0.183, 0], [0.184, 0.01], [0.16, 0.01]], 80));
-    bins.add(steel, G.lathe([[0.182, 0.008], [0.183, 0.022], [0.17, 0.035], [0.12, 0.056], [0.05, 0.068], [0.03, 0.072], [0.03, 0.09], [0.0001, 0.091]], 80));
+    bins.add(spun, G.lathe([[0.182, 0.008], [0.183, 0.022], [0.17, 0.035], [0.12, 0.056], [0.05, 0.068], [0.03, 0.072], [0.03, 0.09], [0.0001, 0.091]], 80));
     poleR = 0.024; yC = 0.55;
     bins.add(steel, G.tube(V3(0, 0.088, 0), V3(0, yC + 0.002, 0), poleR, 32));
     // gas hose from the foot to a regulator lying on the floor
@@ -289,8 +296,8 @@ function mushroom(bins, extra, { table = false, on, mat, color, GC }) {
   // reflector hat: thin spun cone with a rolled rim, on three stays. Underside (lit by the
   // screen) and top are separate surfaces, so only the underside takes the glow
   bins.add(hotRefl, G.lathe([[0.0001, yR + hR - 0.012], [0.05, yR + hR - 0.016], [Rr * 0.55, yR + hR * 0.42], [Rr - 0.004, yR - 0.002], [Rr + 0.004, yR - 0.004], [Rr + 0.008, yR + 0.001]], 160));
-  bins.add(steel, G.lathe([[Rr + 0.008, yR + 0.001], [Rr + 0.004, yR + 0.006], [Rr * 0.55, yR + hR * 0.42 + 0.008], [0.05, yR + hR - 0.006], [0.0001, yR + hR - 0.004]], 160));
-  bins.add(steel, G.lathe([[0.0001, yR + hR - 0.006], [0.055, yR + hR - 0.006], [0.05, yR + hR + 0.012], [0.02, yR + hR + 0.026], [0.006, yR + hR + 0.04], [0.0001, yR + hR + 0.042]], 48));
+  bins.add(spun, G.lathe([[Rr + 0.008, yR + 0.001], [Rr + 0.004, yR + 0.006], [Rr * 0.55, yR + hR * 0.42 + 0.008], [0.05, yR + hR - 0.006], [0.0001, yR + hR - 0.004]], 160));
+  bins.add(spun, G.lathe([[0.0001, yR + hR - 0.006], [0.055, yR + hR - 0.006], [0.05, yR + hR + 0.012], [0.02, yR + hR + 0.026], [0.006, yR + hR + 0.04], [0.0001, yR + hR + 0.042]], 48));
   for (let i = 0; i < 3; i++) {
     const a = (i / 3) * TAU + 0.5, c0 = out(a).multiplyScalar(Rg).setY(yE1 + 0.004), c1 = out(a).multiplyScalar(Rr * 0.5).setY(yR + hR * 0.42 + 0.004);
     bins.add(hot, G.tube(c0, c1, table ? 0.003 : 0.0045, 8));

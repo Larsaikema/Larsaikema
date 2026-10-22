@@ -1,97 +1,256 @@
 {{ 'section-pages.css' | asset_url | stylesheet_tag }}
-{%- comment -%} Klapklaar Zakelijk (brand.md v6 §6): Linnen + Inkt, one-colour logo with the ZAKELIJK label, Inkt buttons, no festive flags. {%- endcomment -%}
+{{ 'section-page-zakelijk.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Klapklaar Zakelijk (brand.md §6): Linnen + Inkt, the one-colour logo with the ZAKELIJK label, Inkt buttons, no Lampion,
+  no festive flags. Layout: hero (opstelling + staffel example) with the benefits strip, 'Voor wie' cards (blocks 'Doelgroep',
+  each with up to three collections), the page text as cards (split on its <h3> headings), and the account form with the
+  direct contact options. Business claims (staffel, op factuur, reactietijd) are settings: docs/claims-to-confirm.md.
+{%- endcomment -%}
 {%- liquid
   assign form_id = 'B2BForm-' | append: section.id
   assign quote_url = settings.quote_page | default: '/pages/offerte'
   assign staffel_rows = section.settings.staffel | newline_to_br | split: '<br />'
+  assign email = settings.email | default: shop.email
+  assign phone = settings.phone | default: shop.phone
+  assign seg_count = 0
+  assign benefit_count = 0
+  for block in section.blocks
+    if block.type == 'segment'
+      assign seg_count = seg_count | plus: 1
+    elsif block.type == 'benefit'
+      assign benefit_count = benefit_count | plus: 1
+    endif
+  endfor
+  assign staffel_max = 0
+  for row in staffel_rows
+    assign parts = row | split: ':'
+    if parts.size == 2
+      assign pct = parts.last | remove: '%' | remove: '-' | replace: ',', '.' | strip | plus: 0
+      if pct > staffel_max
+        assign staffel_max = pct
+      endif
+    endif
+  endfor
 -%}
-<div class="color-scheme-4">
-  <div class="page-width b2b-hero">
+
+<div class="color-scheme-4 zk-band zk-band--hero">
+  <div class="page-width">
     {%- render 'breadcrumbs' -%}
-    <div class="b2b-hero__grid">
-      <div>
-        <p class="b2b-hero__logo">{%- render 'logo', variant: 'zakelijk' -%}</p>
-        <h1>{{ section.settings.heading | default: page.title }}</h1>
-        <div class="rte text-lg">{{ section.settings.intro }}</div>
-        <div class="btn-row" style="margin-top:24px">
-          <a class="btn" href="{{ quote_url }}">{{ settings.b2b_cta_label }}</a>
+    <div class="zk-hero">
+      <div class="zk-hero__copy">
+        <p class="zk-hero__logo">{%- render 'logo', variant: 'zakelijk' -%}</p>
+        <h1 class="zk-hero__title">{{ section.settings.heading | default: page.title }}</h1>
+        <div class="rte zk-hero__intro">{{ section.settings.intro }}</div>
+        <div class="btn-row zk-hero__ctas">
+          <a class="btn" href="{{ quote_url }}">{%- render 'icon', icon: 'invoice' -%}{{ settings.b2b_cta_label }}</a>
           <a class="btn btn--outline" href="#B2BContact">{{ section.settings.contact_label }}</a>
         </div>
-        {%- assign segs = section.settings.segments | split: ',' -%}
-        {%- if segs.size > 0 -%}
-          <ul class="segments" role="list" aria-label="{{ section.settings.segments_label | escape }}">
-            {%- for sgm in segs -%}<li class="chip">{%- render 'icon', icon: 'check', class: 'icon--xs' -%}{{ sgm | strip }}</li>{%- endfor -%}
-          </ul>
+        {%- if settings.response_time != blank -%}
+          <p class="zk-hero__meta">{%- render 'icon', icon: 'clock', class: 'icon--sm' -%}<span>{{ settings.response_time }}</span></p>
         {%- endif -%}
       </div>
-      <div class="panel">
-        <h2 class="panel__title">{{ section.settings.staffel_heading }}</h2>
-        <p class="muted text-sm">{{ section.settings.staffel_text }}</p>
-        <div class="table-wrap example-staffel">
-          <table class="table">
-            <thead><tr><th scope="col">{{ 'product.staffel_qty' | t }}</th><th scope="col">{{ 'product.staffel_discount' | t }}</th></tr></thead>
-            <tbody>
-              {%- for row in staffel_rows -%}
-                {%- assign parts = row | split: ':' -%}
-                {%- if parts.size == 2 -%}<tr><td>{{ parts.first | strip }}</td><td><strong>{{ parts.last | strip }}</strong></td></tr>{%- endif -%}
-              {%- endfor -%}
-            </tbody>
-          </table>
+
+      <div class="zk-hero__visual">
+        <figure class="zk-hero__media">
+          {%- if section.settings.image != blank -%}
+            {%- render 'image', image: section.settings.image, alt: section.settings.image_alt, priority: true, sizes: '(min-width: 990px) 56vw, 100vw', widths: '480, 640, 800, 1000, 1200, 1500, 1800', class: 'zk-hero__img' -%}
+          {%- else -%}
+            {%- render 'fallback-image', key: section.settings.fallback_image, alt: section.settings.image_alt, priority: true, class: 'zk-hero__img' -%}
+          {%- endif -%}
+          {%- if section.settings.image_badge != blank -%}<figcaption class="badge badge--logo zk-hero__badge">{%- render 'icon', icon: 'upload' -%}{{ section.settings.image_badge }}</figcaption>{%- endif -%}
+        </figure>
+      </div>
+      {%- if section.settings.staffel != blank -%}
+        <aside class="zk-staffel" aria-labelledby="ZkStaffel-{{ section.id }}">
+          <div class="zk-staffel__head">
+            <h2 class="zk-staffel__title" id="ZkStaffel-{{ section.id }}">{{ section.settings.staffel_heading }}</h2>
+            {%- if section.settings.staffel_text != blank -%}<p class="zk-staffel__text">{{ section.settings.staffel_text }}</p>{%- endif -%}
+          </div>
+          <ol class="zk-tiers" role="list">
+            {%- for row in staffel_rows -%}
+              {%- assign parts = row | split: ':' -%}
+              {%- if parts.size == 2 -%}
+                {%- liquid
+                  assign pct = parts.last | remove: '%' | remove: '-' | replace: ',', '.' | strip | plus: 0
+                  assign bar = 100
+                  if staffel_max > 0
+                    assign bar = pct | times: 100 | divided_by: staffel_max | round
+                  endif
+                -%}
+                <li class="zk-tier" style="--hn:{{ bar | divided_by: 100.0 }}">
+                  <span class="zk-tier__bar" aria-hidden="true"></span>
+                  <strong class="zk-tier__pct">{{ parts.last | strip }}</strong>
+                  <span class="zk-tier__qty">{{ parts.first | strip }}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+          {%- if section.settings.staffel_note != blank -%}<p class="zk-staffel__note"><a href="{{ quote_url }}">{{ section.settings.staffel_note }}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a></p>{%- endif -%}
+        </aside>
+      {%- endif -%}
+    </div>
+
+    {%- if benefit_count > 0 -%}
+      <div class="zk-benefits">
+        <h2 class="visually-hidden">{{ section.settings.benefits_heading }}</h2>
+        <ul class="zk-benefits__list" role="list" style="--n:{{ benefit_count }}">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              <li class="zk-benefit" {{ block.shopify_attributes }}>
+                <span class="zk-benefit__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
+                <span class="zk-benefit__body"><strong>{{ block.settings.title }}</strong>{%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if seg_count > 0 -%}
+  <section class="section color-scheme-1 zk-segs" aria-labelledby="ZkSegs-{{ section.id }}">
+    <div class="page-width">
+      <div class="zk-head">
+        <div>
+          {%- if section.settings.segments_eyebrow != blank -%}<p class="eyebrow">{{ section.settings.segments_eyebrow }}</p>{%- endif -%}
+          <h2 class="zk-head__title" id="ZkSegs-{{ section.id }}">{{ section.settings.segments_heading }}</h2>
         </div>
-        <p class="form-note">{{ section.settings.staffel_note }}</p>
+        {%- if section.settings.segments_text != blank -%}<p class="zk-head__text">{{ section.settings.segments_text }}</p>{%- endif -%}
+      </div>
+      <ul class="zk-seg-list" role="list" style="--n:{{ seg_count }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'segment' -%}
+            {%- liquid
+              assign seg_img = block.settings.image
+              if seg_img == blank
+                for n in (1..3)
+                  assign ckey = 'collection_' | append: n
+                  assign c = block.settings[ckey]
+                  if c != blank and c.image != blank
+                    assign seg_img = c.image
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            <li class="zk-seg" id="Seg-{{ block.id }}" {{ block.shopify_attributes }}>
+              <div class="zk-seg__media">
+                {%- if seg_img != blank -%}
+                  {{ seg_img | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 1200px) 260px, (min-width: 750px) 33vw, 72vw', alt: '', class: 'zk-seg__img' }}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+                <span class="zk-seg__icon" aria-hidden="true">{%- render 'icon', icon: block.settings.icon -%}</span>
+              </div>
+              <div class="zk-seg__body">
+                <h3 class="zk-seg__title">{{ block.settings.title }}</h3>
+                {%- if block.settings.text != blank -%}<p class="zk-seg__text">{{ block.settings.text }}</p>{%- endif -%}
+                <ul class="zk-seg__links" role="list">
+                  {%- for n in (1..3) -%}
+                    {%- liquid
+                      assign ckey = 'collection_' | append: n
+                      assign lkey = 'label_' | append: n
+                      assign c = block.settings[ckey]
+                      assign clabel = block.settings[lkey] | default: c.title
+                    -%}
+                    {%- if c != blank -%}
+                      <li><a href="{{ c.url }}"><span>{{ clabel }}</span>{%- if c.products_count > 0 -%}<span class="zk-seg__count">{{ c.products_count }}</span>{%- endif -%}{%- render 'icon', icon: 'arrow-right', class: 'icon--xs' -%}</a></li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- if page.content != blank -%}
+  {%- assign chunks = page.content | split: '<h3>' -%}
+  <section class="section color-scheme-1 zk-how" aria-labelledby="ZkHow-{{ section.id }}">
+    <div class="page-width">
+      <div class="zk-head">
+        <h2 class="zk-head__title" id="ZkHow-{{ section.id }}">{{ section.settings.content_heading }}</h2>
+        {%- if section.settings.content_text != blank -%}<p class="zk-head__text">{{ section.settings.content_text }}</p>{%- endif -%}
+      </div>
+      {%- assign lead = chunks.first | strip -%}
+      {%- if lead != blank -%}
+        {%- unless lead contains '</h3>' -%}<div class="rte zk-how__lead">{{ lead }}</div>{%- endunless -%}
+      {%- endif -%}
+      <div class="zk-how__grid">
+        {%- for ch in chunks -%}
+          {%- if ch contains '</h3>' -%}
+            {%- assign ch_title = ch | split: '</h3>' | first -%}
+            {%- assign ch_body = ch | remove_first: ch_title | remove_first: '</h3>' -%}
+            <article class="zk-how__card rte"><h3>{{ ch_title }}</h3>{{ ch_body }}</article>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     </div>
-  </div>
-</div>
+  </section>
+{%- endif -%}
 
-<div class="section color-scheme-1">
-  <div class="page-width">
-    <div class="section-head"><h2 class="section-head__title">{{ section.settings.benefits_heading }}</h2></div>
-    <ul class="benefits benefits--4" role="list">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'benefit' -%}
-          <li class="benefit" {{ block.shopify_attributes }}>
-            <span class="benefit__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
-            <h3>{{ block.settings.title }}</h3>
-            <p>{{ block.settings.text }}</p>
-          </li>
-        {%- endif -%}
-      {%- endfor -%}
-    </ul>
-  </div>
-</div>
-
-<div class="section color-scheme-4" id="B2BContact">
-  <div class="page-width split">
-    <div>
-      <h2>{{ section.settings.form_heading }}</h2>
+<div class="color-scheme-4 zk-band zk-band--form" id="B2BContact">
+  <div class="page-width zk-account">
+    <div class="zk-account__intro">
+      <h2 class="zk-account__title">{{ section.settings.form_heading }}</h2>
       <div class="rte">{{ section.settings.form_text }}</div>
-      {%- if page.content != blank -%}<div class="rte" style="margin-top:16px">{{ page.content }}</div>{%- endif -%}
+      <ul class="zk-contact" role="list">
+        {%- if phone != blank -%}
+          {%- capture phone_href -%}{%- render 'header-contact-href', number: phone, type: 'tel' -%}{%- endcapture -%}
+          <li><a href="{{ phone_href | strip }}">{%- render 'icon', icon: 'phone' -%}<span><strong>{{ phone }}</strong>{%- if settings.openingstijden != blank -%}<small>{{ settings.openingstijden | newline_to_br }}</small>{%- endif -%}</span></a></li>
+        {%- endif -%}
+        {%- if settings.whatsapp != blank -%}
+          <li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp' -%}<span><strong>{{ 'contact.whatsapp_cta' | t }}</strong></span></a></li>
+        {%- endif -%}
+        {%- if email != blank -%}
+          <li><a href="mailto:{{ email }}">{%- render 'icon', icon: 'mail' -%}<span><strong>{{ email }}</strong>{%- if settings.response_time != blank -%}<small>{{ settings.response_time }}</small>{%- endif -%}</span></a></li>
+        {%- endif -%}
+      </ul>
+      <a class="zk-quote-card" href="{{ quote_url }}">
+        <span class="zk-quote-card__icon">{%- render 'icon', icon: 'invoice' -%}</span>
+        <span><strong>{{ section.settings.quote_card_title }}</strong><span>{{ section.settings.quote_card_text }}</span></span>
+        {%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}
+      </a>
     </div>
-    <div class="panel">
+    <div class="panel zk-account__form">
       {%- form 'contact', id: form_id -%}
         <input type="hidden" name="contact[Onderwerp]" value="Zakelijk account / vraag">
         {%- if form.posted_successfully? -%}
-          <div class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'forms.contact_success' | t }}</strong></span></div>
+          <div class="zk-done" role="status" tabindex="-1">
+            <span class="zk-done__icon">{%- render 'icon', icon: 'check' -%}</span>
+            <h3>{{ 'forms.contact_success' | t }}</h3>
+            <a class="btn btn--outline" href="{{ quote_url }}">{{ settings.b2b_cta_label }}</a>
+          </div>
         {%- else -%}
+          <h3 class="zk-account__form-title">{{ section.settings.form_panel_heading }}</h3>
           {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
           <div class="form-grid form-grid--2">
-            <div class="field"><label class="field__label" for="B2B-company">{{ 'forms.company' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-company" name="contact[Bedrijfsnaam]" autocomplete="organization" required></div>
-            <div class="field"><label class="field__label" for="B2B-name">{{ 'forms.contact_person' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-name" name="contact[name]" autocomplete="name" required></div>
-            <div class="field"><label class="field__label" for="B2B-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-email" type="email" name="contact[email]" autocomplete="email" required></div>
-            <div class="field"><label class="field__label" for="B2B-phone">{{ 'forms.phone' | t }}</label><input class="input" id="B2B-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
-            <div class="field"><label class="field__label" for="B2B-kvk">{{ 'forms.kvk' | t }}</label><input class="input" id="B2B-kvk" name="contact[KvK-nummer]" inputmode="numeric"></div>
-            <div class="field"><label class="field__label" for="B2B-btw">{{ 'forms.btw' | t }}</label><input class="input" id="B2B-btw" name="contact[Btw-nummer]"></div>
+            <div class="field"><label class="field__label" for="B2B-company-{{ section.id }}">{{ 'forms.company' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-company-{{ section.id }}" name="contact[Bedrijfsnaam]" autocomplete="organization" required></div>
+            <div class="field"><label class="field__label" for="B2B-name-{{ section.id }}">{{ 'forms.contact_person' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-name-{{ section.id }}" name="contact[name]" autocomplete="name" required></div>
+            <div class="field"><label class="field__label" for="B2B-email-{{ section.id }}">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="B2B-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required></div>
+            <div class="field"><label class="field__label" for="B2B-phone-{{ section.id }}">{{ 'forms.phone' | t }}</label><input class="input" id="B2B-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel"></div>
+            <div class="field"><label class="field__label" for="B2B-kvk-{{ section.id }}">{{ 'forms.kvk' | t }}</label><input class="input" id="B2B-kvk-{{ section.id }}" name="contact[KvK-nummer]" inputmode="numeric"></div>
+            <div class="field"><label class="field__label" for="B2B-btw-{{ section.id }}">{{ 'forms.btw' | t }}</label><input class="input" id="B2B-btw-{{ section.id }}" name="contact[Btw-nummer]" autocapitalize="characters"></div>
             <div class="field field--full">
-              <label class="field__label" for="B2B-sector">{{ 'forms.sector' | t }}</label>
-              <select class="select" id="B2B-sector" name="contact[Branche]">
-                {%- for sgm in segs -%}<option>{{ sgm | strip }}</option>{%- endfor -%}
+              <label class="field__label" for="B2B-sector-{{ section.id }}">{{ 'forms.sector' | t }}</label>
+              <select class="select" id="B2B-sector-{{ section.id }}" name="contact[Branche]">
+                {%- if seg_count > 0 -%}
+                  {%- for block in section.blocks -%}{%- if block.type == 'segment' and block.settings.title != blank -%}<option>{{ block.settings.title }}</option>{%- endif -%}{%- endfor -%}
+                {%- else -%}
+                  {%- assign segs = section.settings.segments | split: ',' -%}
+                  {%- for sgm in segs -%}<option>{{ sgm | strip }}</option>{%- endfor -%}
+                {%- endif -%}
                 <option>{{ section.settings.other_label }}</option>
               </select>
             </div>
-            <div class="field field--full"><label class="field__label" for="B2B-body">{{ 'forms.message' | t }}</label><textarea class="textarea" id="B2B-body" name="contact[body]" rows="4"></textarea></div>
+            <div class="field field--full"><label class="field__label" for="B2B-body-{{ section.id }}">{{ 'forms.message' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label><textarea class="textarea" id="B2B-body-{{ section.id }}" name="contact[body]" rows="3"></textarea></div>
           </div>
-          <div class="form-actions"><button type="submit" class="btn">{{ 'forms.send' | t }}</button><a class="link" href="{{ quote_url }}">{{ settings.b2b_cta_label }}</a></div>
+          <div class="form-actions"><button type="submit" class="btn">{%- if section.settings.submit_label != blank -%}{{ section.settings.submit_label }}{%- else -%}{{ 'forms.send' | t }}{%- endif -%}</button></div>
+          {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
         {%- endif -%}
       {%- endform -%}
     </div>
@@ -103,27 +262,60 @@
   "name": "Zakelijk",
   "class": "section-page-zakelijk",
   "settings": [
+    { "type": "header", "content": "Bovenaan" },
     { "type": "text", "id": "heading", "label": "Kop", "default": "Bestellen voor je bedrijf, club of school" },
     { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Voor horeca, eventbureaus, verhuurbedrijven, verenigingen en scholen. Prijzen excl. btw, staffelkorting en een offerte op maat.</p>" },
     { "type": "text", "id": "contact_label", "label": "Tweede knop", "default": "Zakelijk account aanvragen" },
-    { "type": "text", "id": "segments", "label": "Doelgroepen (komma's)", "default": "Horeca, Eventbureaus, Verhuurbedrijven, Verenigingen, Scholen" },
-    { "type": "text", "id": "segments_label", "label": "Label doelgroepen", "default": "Voor wie" },
+    { "type": "image_picker", "id": "image", "label": "Beeld" },
+    { "type": "select", "id": "fallback_image", "label": "Standaardbeeld", "info": "Meegeleverde 3D-render, zichtbaar zolang er geen beeld gekozen is.", "options": [
+      { "value": "scene-zakelijk", "label": "Zakelijke opstelling" },
+      { "value": "scene-hero", "label": "Tuinfeest" },
+      { "value": "tent-logo", "label": "Tent met logo" }
+    ], "default": "scene-zakelijk" },
+    { "type": "text", "id": "image_alt", "label": "Alt-tekst beeld", "default": "Twee zwarte easy-up partytenten met logo op de luifel en vier statafels in bedrukte hoezen" },
+    { "type": "text", "id": "image_badge", "label": "Badge op het beeld", "default": "Voorbeeldopdruk", "info": "Bij een render met een logo dat niet van een echte klant is." },
     { "type": "text", "id": "staffel_heading", "label": "Kop staffel", "default": "Staffelkorting" },
     { "type": "text", "id": "staffel_text", "label": "Tekst staffel", "default": "Een voorbeeld. De exacte staffel staat op elke productpagina." },
-    { "type": "textarea", "id": "staffel", "label": "Staffelregels (Aantal: korting)", "default": "Vanaf 10 stuks: 5%\nVanaf 25 stuks: 10%\nVanaf 50 stuks: 15%", "info": "Claim: alleen tonen wat je ook echt als korting instelt." },
-    { "type": "text", "id": "staffel_note", "label": "Noot", "default": "Meer nodig? Dan maken we een offerte op maat." },
-    { "type": "text", "id": "benefits_heading", "label": "Kop voordelen", "default": "Wat je krijgt" },
-    { "type": "text", "id": "form_heading", "label": "Kop formulier", "default": "Zakelijk account aanvragen" },
-    { "type": "richtext", "id": "form_text", "label": "Tekst formulier", "default": "<p>Laat je gegevens achter. We zetten je account klaar zodat je prijzen excl. btw ziet en op factuur kunt bestellen.</p>" },
-    { "type": "text", "id": "other_label", "label": "Optie 'anders'", "default": "Anders" }
+    { "type": "textarea", "id": "staffel", "label": "Staffelregels (Aantal: korting)", "default": "Vanaf 10 stuks: 5%\nVanaf 25 stuks: 10%\nVanaf 50 stuks: 15%", "info": "Claim: alleen tonen wat je ook echt als korting geeft. Leeg = geen staffelkaart." },
+    { "type": "text", "id": "staffel_note", "label": "Link onder de staffel", "default": "Meer nodig? Vraag een offerte op maat" },
+    { "type": "text", "id": "benefits_heading", "label": "Kop voordelen (voor schermlezers)", "default": "Wat je krijgt" },
+    { "type": "header", "content": "Voor wie" },
+    { "type": "text", "id": "segments_eyebrow", "label": "Bovenregel", "default": "Voor wie" },
+    { "type": "text", "id": "segments_heading", "label": "Kop", "default": "Wat bedrijven bij ons bestellen" },
+    { "type": "text", "id": "segments_text", "label": "Tekst", "default": "Kies je branche en ga direct naar wat daar het vaakst nodig is." },
+    { "type": "text", "id": "segments", "label": "Doelgroepen zonder blokken (komma's)", "default": "Horeca, Eventbureaus, Verhuurbedrijven, Verenigingen, Scholen", "info": "Alleen voor de keuzelijst Branche als er geen blokken 'Doelgroep' zijn." },
+    { "type": "header", "content": "Paginatekst" },
+    { "type": "paragraph", "content": "De tekst van de pagina (Online winkel › Pagina's) verschijnt als kaarten: elke kop 3 begint een nieuwe kaart." },
+    { "type": "text", "id": "content_heading", "label": "Kop", "default": "Wat je kunt verwachten" },
+    { "type": "text", "id": "content_text", "label": "Tekst" },
+    { "type": "header", "content": "Formulier" },
+    { "type": "text", "id": "form_heading", "label": "Kop", "default": "Zakelijk account aanvragen" },
+    { "type": "richtext", "id": "form_text", "label": "Tekst", "default": "<p>Laat je gegevens achter. We zetten je account klaar zodat je prijzen excl. btw ziet en op factuur kunt bestellen.</p>" },
+    { "type": "text", "id": "form_panel_heading", "label": "Kop in het formulier", "default": "Je bedrijfsgegevens" },
+    { "type": "text", "id": "submit_label", "label": "Knoptekst", "default": "Account aanvragen" },
+    { "type": "text", "id": "other_label", "label": "Optie 'anders'", "default": "Anders" },
+    { "type": "text", "id": "quote_card_title", "label": "Offertekaart: titel", "default": "Liever meteen een offerte?" },
+    { "type": "text", "id": "quote_card_text", "label": "Offertekaart: tekst", "default": "Zet je producten en aantallen in één aanvraag." }
   ],
   "blocks": [
     { "type": "benefit", "name": "Voordeel", "settings": [
       { "type": "select", "id": "icon", "label": "Icoon", "options": [ { "value": "invoice", "label": "Factuur" }, { "value": "euro", "label": "Euro" }, { "value": "proof", "label": "Drukproef" }, { "value": "truck", "label": "Levering" }, { "value": "pallet", "label": "Pallet" }, { "value": "chat", "label": "Contact" }, { "value": "case", "label": "Zakelijk" } ], "default": "invoice" },
       { "type": "text", "id": "title", "label": "Titel", "default": "Op factuur" },
       { "type": "text", "id": "text", "label": "Tekst" }
+    ] },
+    { "type": "segment", "name": "Doelgroep", "settings": [
+      { "type": "text", "id": "title", "label": "Titel", "default": "Horeca" },
+      { "type": "text", "id": "text", "label": "Tekst", "default": "Terras, festivalbar of catering: stevig, in één kleur, snel na te bestellen." },
+      { "type": "select", "id": "icon", "label": "Icoon", "options": [ { "value": "table", "label": "Tafel" }, { "value": "tent", "label": "Tent" }, { "value": "pallet", "label": "Pallet" }, { "value": "flag", "label": "Vlag" }, { "value": "case", "label": "Koffer" }, { "value": "paint", "label": "Bedrukken" }, { "value": "truck", "label": "Levering" } ], "default": "table" },
+      { "type": "image_picker", "id": "image", "label": "Beeld", "info": "Leeg = het beeld van de eerste collectie." },
+      { "type": "collection", "id": "collection_1", "label": "Collectie 1" },
+      { "type": "text", "id": "label_1", "label": "Linktekst 1", "info": "Leeg = de naam van de collectie." },
+      { "type": "collection", "id": "collection_2", "label": "Collectie 2" },
+      { "type": "text", "id": "label_2", "label": "Linktekst 2" },
+      { "type": "collection", "id": "collection_3", "label": "Collectie 3" },
+      { "type": "text", "id": "label_3", "label": "Linktekst 3" }
     ] }
   ],
-  "presets": [{ "name": "Zakelijk" }]
+  "presets": [{ "name": "Zakelijk", "blocks": [{ "type": "benefit" }, { "type": "segment" }] }]
 }
 {% endschema %}

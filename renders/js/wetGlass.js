@@ -91,8 +91,8 @@ function dropGeo(C, R, d, a, h, s = 1) {
   M.setPosition(C.clone().addScaledVector(d, R));
   g.applyMatrix4(M);
   // the glass normal under the bead (the lens term measures the bead's slope against it)
-  const n = g.attributes.position.count, base = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) { base[i * 3] = d.x; base[i * 3 + 1] = d.y; base[i * 3 + 2] = d.z; }
+  const nv = g.attributes.position.count, base = new Float32Array(nv * 3);
+  for (let i = 0; i < nv; i++) { base[i * 3] = d.x; base[i * 3 + 1] = d.y; base[i * 3 + 2] = d.z; }
   g.setAttribute('aBase', new THREE.Float32BufferAttribute(base, 3));
   return g;
 }

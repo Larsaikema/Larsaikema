@@ -100,7 +100,11 @@ function hookMaterial(mat) {
   // streak (fine ridges), on from v0 to v1 (normal-map uv units along v); faded where the streaks get
   // finer than a pixel. Needs a normal map (uses its uv) and the weave hook (for the tilt).
   const streak = mat.userData.streak && mat.normalMap ? mat.userData.streak : null;
-  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag && !streak) return;
+  // grazing: {spec, sheen, w}: soft goods (stretch jersey): the specular (direct + environment) and the
+  // sheen lobe are scaled down towards grazing view (dot(N, V) < w: x spec / x sheen at the silhouette), so
+  // tight ridges and folds turned edge-on carry a soft satin band instead of a chrome / glass hairline
+  const grazing = mat.userData.grazing || null;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag && !streak && !grazing) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -162,6 +166,18 @@ void main() {
       fs = fs.replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
   material.specularColor *= 1.0 + uStreak.w * stK;
   material.specularColorBlended *= 1.0 + uStreak.w * stK;`);
+    }
+    if (grazing) {
+      fs = fs.replace('#include <lights_physical_fragment>', `#include <lights_physical_fragment>
+  {
+    vec3 gzV = isOrthographic ? vec3( 0.0, 0.0, 1.0 ) : normalize( vViewPosition );
+    float gzK = smoothstep( 0.0, ${Number(grazing.w ?? 0.4).toFixed(4)}, saturate( dot( normal, gzV ) ) );
+    float gzS = mix( ${Number(grazing.spec ?? 0.4).toFixed(4)}, 1.0, gzK );
+    material.specularColor *= gzS; material.specularColorBlended *= gzS; material.specularF90 *= gzS;
+    #ifdef USE_SHEEN
+    material.sheenColor *= mix( ${Number(grazing.sheen ?? 0.5).toFixed(4)}, 1.0, gzK );
+    #endif
+  }`);
     }
     if (wCav) {
       fs = fs.replace('void main() {', 'void main() {\n  float wvCrown = 0.0;');
@@ -290,7 +306,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}${streak ? `:st${streak.fu}/${streak.fv}/${streak.rough}/${streak.spec}/${streak.tilt}/${streak.v0}/${streak.v1}/${streak.v2}/${streak.v3}/${streak.seed}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}${streak ? `:st${streak.fu}/${streak.fv}/${streak.rough}/${streak.spec}/${streak.tilt}/${streak.v0}/${streak.v1}/${streak.v2}/${streak.v3}/${streak.seed}` : ''}${grazing ? `:gz${grazing.spec}/${grazing.sheen}/${grazing.w}` : ''}`;
   mat.needsUpdate = true;
 }
 
@@ -659,6 +675,8 @@ export const DEFAULT_RIG = {
   groundSplit: false,           // true: shadowFloor softens only the key shadow, sky occlusion (groundAO) multiplies after
   edgeFade: 0.07,               // floor shadow fades to the exact backdrop colour near the frame edges
   floorKey: null,               // {azimuth, elevation, cone}: direction of the key's *floor* shadow (default = key)
+  overhead: null,               // {azimuth, elevation, distance, intensity, size, aim}: shadowed overhead softbox at a
+                                // real distance (soft falloff over a horizontal top); the floor bake ignores it
   envRotation: null,            // degrees: yaw of the reflection environment relative to the camera (null = fixed)
   env: 'room',                  // 'room' (three RoomEnvironment) or 'studio' (dark studio + softboxes, js/studioEnv.js;
                                 // always camera-relative). envStudio: overrides for the studio map.
@@ -715,6 +733,12 @@ export class Studio {
     this.keySpot.castShadow = true;
     this.keySpot.visible = false;
     this.lightGroup.add(this.keySpot, this.keySpot.target);
+    // optional overhead softbox (rig.overhead): a large box above the set at a real distance, so a
+    // horizontal top gets the most light with a soft falloff across it (and a broad, low reflection)
+    this.overSpot = new THREE.SpotLight(0xffffff, 0, 0, Math.PI / 4, 1, 2);
+    this.overSpot.castShadow = true;
+    this.overSpot.visible = false;
+    this.lightGroup.add(this.overSpot, this.overSpot.target);
     this.envCache = new Map();
     this.dome = [0, 1, 2, 3, 4, 5].map(() => this._dirLight(true));
     this.fill = this._dirLight(false);
@@ -1288,6 +1312,13 @@ export class Studio {
       keyAim.add(new THREE.Vector3(Math.cos(a) * ax * boxR + Math.sin(a) * az * boxR, ay * boxR, -Math.sin(a) * ax * boxR + Math.cos(a) * az * boxR));
     }
     const spotAuto = useSpot ? Math.atan((boxR * 1.15) / keyDist) / DEG : 30;
+    // rig.overhead {azimuth, elevation (camera-relative), distance (m), intensity (illuminance at the aim
+    // point), size (angular radius of the box, deg), aim [x, y, z] (default: top centre of the product box),
+    // angle / penumbra (spot cone), mapSize, radius}: a shadowed overhead softbox at a real distance
+    const OV = R.overhead && R.overhead.intensity > 0 ? R.overhead : null;
+    this.overSpot.visible = !!OV;
+    const ovBase = OV ? dirFromAzEl(camAz + (OV.azimuth ?? 0), OV.elevation ?? 80) : null;
+    const ovAim = OV ? (OV.aim ? new THREE.Vector3(...OV.aim) : new THREE.Vector3((box.min.x + box.max.x) / 2, box.max.y, (box.min.z + box.max.z) / 2)) : null;
     // dome.tilt: tip the sky cap towards the key side (like negative fill on the far
     // side): the faces turned away from the key get less sky, so white products keep form
     let domeTiltQ = null;
@@ -1342,6 +1373,27 @@ export class Studio {
       } else {
         this.key.intensity = R.key.intensity;
         this._fitShadow(this.key, tmpKey, box, R.key.mapSize, R.key.radius);
+      }
+      if (OV) {
+        // overhead softbox: a jittered point on the box (angular radius OV.size seen from the aim
+        // point) at OV.distance; candela so the illuminance at the aim point equals OV.intensity
+        const [ox, oy] = squareToDisk(...r2(i, [0.613, 0.247]));
+        const u1 = new THREE.Vector3().crossVectors(ovBase, Math.abs(ovBase.y) > 0.98 ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0)).normalize();
+        const u2 = new THREE.Vector3().crossVectors(u1, ovBase).normalize();
+        const ot = Math.tan((OV.size ?? 20) * DEG);
+        const od = ovBase.clone().addScaledVector(u1, ox * ot).addScaledVector(u2, oy * ot).normalize();
+        const sp = this.overSpot, Do = OV.distance ?? 1.6;
+        sp.position.copy(ovAim).addScaledVector(od, Do);
+        sp.target.position.copy(ovAim);
+        sp.updateMatrixWorld(); sp.target.updateMatrixWorld();
+        sp.intensity = OV.intensity * Do * Do;
+        sp.decay = 2; sp.distance = 0;
+        sp.angle = (OV.angle ?? 60) * DEG; sp.penumbra = OV.penumbra ?? 1;
+        const sc = sp.shadow.camera;
+        sc.near = Math.max(0.05, Do - boxR * 1.5); sc.far = Do + boxR * 3;
+        sp.shadow.mapSize.set(OV.mapSize ?? 1024, OV.mapSize ?? 1024);
+        sp.shadow.radius = OV.radius ?? 2; sp.shadow.bias = -0.0002; sp.shadow.normalBias = 0.003;
+        sp.shadow.needsUpdate = true;
       }
 
       // dome: cosine-weighted directions inside a zenith cap, stratified over frames

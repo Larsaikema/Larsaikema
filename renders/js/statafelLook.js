@@ -49,42 +49,124 @@ function heightToNormal(H, w, h, strength) {
 }
 
 // --------------------------------------------------------------------------- knit
-// Single jersey, technical face: columns (wales) of V-shaped loops. One tile = WALES x COURSES
-// loops; WALE / COURSE are the physical loop pitches (m).
-export const KNIT = { WALES: 8, COURSES: 10, WALE: 0.0009, COURSE: 0.00072 };
+// Fine single jersey (polyester-elastane), technical face: each loop shows as two short inclined legs
+// (a V) whose ends tuck under the neighbouring courses. One tile = WALES x COURSES loops; WALE / COURSE are
+// the physical loop pitches (m): ~17 wales/cm, a fine Lycra jersey. The relief is shallow and the legs are
+// short rounded grains with per-loop jitter (position, tilt, height), so the close-up reads as a smooth
+// knit with a fine isotropic texture, not as ribbed webbing.
+export const KNIT = { WALES: 10, COURSES: 12, WALE: 0.00058, COURSE: 0.00046 };
 export function knitNormal() {
-  return cached('jerseyKnit', () => {
+  return cached('jerseyKnit4', () => {
     const N = 256, { WALES, COURSES } = KNIT;
     const cw = N / WALES, ch = N / COURSES;
     const R = rng(77), { noise } = makeNoise2(77);
-    // per-loop height jitter (yarn tension varies loop to loop)
-    const jit = []; for (let i = 0; i < WALES * COURSES * 2; i++) jit.push(0.85 + 0.3 * R());
+    // per loop: x/y jitter, leg tilt jitter, height
+    const L = [];
+    for (let i = 0; i < WALES * COURSES; i++) L.push({ jx: (R() - 0.5) * 0.12, jy: (R() - 0.5) * 0.14, jt: (R() - 0.5) * 0.18, h: 0.8 + 0.35 * R(), h2: 0.8 + 0.35 * R() });
     const H = new Float32Array(N * N);
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
       let h = 0;
-      // a loop's legs reach a little into the neighbouring courses: test the 3 nearest
-      for (let dc = -1; dc <= 1; dc++) {
-        const c = Math.floor(y / ch) + dc, wv = Math.floor(x / cw);
-        for (let dw = -1; dw <= 1; dw++) {
-          const w = wv + dw;
-          const lx = (x - w * cw) / cw, ly = (y - c * ch) / ch; // 0..1 inside the cell
-          if (ly < -0.25 || ly > 1.25 || lx < -0.6 || lx > 1.6) continue;
-          const id = ((((c % COURSES) + COURSES) % COURSES) * WALES + (((w % WALES) + WALES) % WALES)) * 2;
-          for (const s of [-1, 1]) {
-            // leg centre line: from the loop base (0.5, 0) out to (0.5 + s 0.32, 1.1), slightly curved
-            const t = Math.min(1.15, Math.max(-0.15, ly));
-            const cx = 0.5 + s * (0.06 + 0.26 * t + 0.05 * Math.sin(Math.PI * t));
-            const d = Math.abs(lx - cx) * cw / (ch * 0.9);
-            const wid = 0.24;
-            const along = 1 - Math.pow(Math.abs(t - 0.5) / 0.68, 4);
-            const v = Math.max(0, 1 - (d / wid) ** 2) * Math.max(0, along);
-            h = Math.max(h, Math.sqrt(v) * jit[id + (s > 0 ? 1 : 0)]);
-          }
+      const c0 = Math.floor(y / ch), w0 = Math.floor(x / cw);
+      for (let dc = -1; dc <= 1; dc++) for (let dw = -1; dw <= 1; dw++) {
+        const c = c0 + dc, w = w0 + dw;
+        const id = (((c % COURSES) + COURSES) % COURSES) * WALES + (((w % WALES) + WALES) % WALES);
+        const q = L[id];
+        // loop centre (cell units), legs either side, inclined +-24 deg (V opening upwards)
+        const lx = (x - w * cw) / cw - 0.5 - q.jx, ly = (y - c * ch) / ch - 0.5 - q.jy;
+        for (const s of [-1, 1]) {
+          const a = s * (0.42 + q.jt);
+          const px = lx - s * 0.23, py = ly;
+          // rotate into the leg frame (u along the leg, v across) in physical proportion
+          const X = px * cw, Y = py * ch;
+          const u = (X * Math.sin(a) + Y * Math.cos(a)) / (ch * 0.62), v = (X * Math.cos(a) - Y * Math.sin(a)) / (cw * 0.22);
+          const d2 = u * u + v * v;
+          if (d2 < 1) h = Math.max(h, Math.sqrt(1 - d2) * (s > 0 ? q.h : q.h2));
         }
       }
-      H[y * N + x] = h + 0.06 * noise(x * 0.35, y * 0.35);
+      // fibre fuzz
+      H[y * N + x] = 0.55 * h + 0.05 * noise(x * 0.5, y * 0.5);
     }
-    return dataTex(heightToNormal(H, N, N, 2.6), N, N, { name: 'jersey knit normal' });
+    return dataTex(heightToNormal(H, N, N, 1.5), N, N, { name: 'jersey knit normal' });
+  });
+}
+
+// Jersey surface at catalogue distance (the loops themselves are sub-pixel there): a fine isotropic
+// grain of ~1-1.5 mm (yarn and loop irregularity), a soft mottle of 0.6-3 cm (uneven stretch over the
+// blad) and faint course bars (barre). Encoding as textures.fabricMacroNormal (R,G = slope, B = roughness
+// modulation, 0.5 = neutral). 1 tile = JMACRO m, 512 texels (~0.5 mm).
+export const JMACRO = 0.25;
+function tileField(R, N, k0, k1, count, beta = 1) {
+  const f = new Float32Array(N * N);
+  const cx = new Float32Array(N), sx = new Float32Array(N), cy = new Float32Array(N), sy = new Float32Array(N);
+  for (let w = 0; w < count; w++) {
+    const kk = k0 + (k1 - k0) * R(), th = R() * Math.PI * 2;
+    const kx = Math.round(kk * Math.cos(th)), ky = Math.round(kk * Math.sin(th));
+    if (kx === 0 && ky === 0) continue;
+    const amp = Math.pow(Math.hypot(kx, ky) / k0, -beta), ph = R() * Math.PI * 2;
+    for (let i = 0; i < N; i++) { const a = (2 * Math.PI * kx * i) / N + ph; cx[i] = Math.cos(a); sx[i] = Math.sin(a); const b = (2 * Math.PI * ky * i) / N; cy[i] = Math.cos(b); sy[i] = Math.sin(b); }
+    for (let y = 0; y < N; y++) { const c = cy[y] * amp, s2 = sy[y] * amp, o = y * N; for (let x = 0; x < N; x++) f[o + x] += cx[x] * c - sx[x] * s2; }
+  }
+  let m = 0; for (const v of f) m += v * v; m = Math.sqrt(m / f.length) || 1;
+  for (let i = 0; i < f.length; i++) f[i] /= m;
+  return f;
+}
+function blurTile(a, N, r, passes = 2) {
+  let src = a;
+  for (let p = 0; p < passes; p++) {
+    const tmp = new Float32Array(N * N), out = new Float32Array(N * N);
+    for (let y = 0; y < N; y++) { let acc = 0; for (let i = -r; i <= r; i++) acc += src[y * N + ((i + N) % N)]; for (let x = 0; x < N; x++) { tmp[y * N + x] = acc / (2 * r + 1); acc += src[y * N + ((x + r + 1) % N)] - src[y * N + ((x - r + N) % N)]; } }
+    for (let x = 0; x < N; x++) { let acc = 0; for (let i = -r; i <= r; i++) acc += tmp[((i + N) % N) * N + x]; for (let y = 0; y < N; y++) { out[y * N + x] = acc / (2 * r + 1); acc += tmp[((y + r + 1) % N) * N + x] - tmp[((y - r + N) % N) * N + x]; } }
+    src = out;
+  }
+  let m = 0; for (const v of src) m += v * v; m = Math.sqrt(m / src.length) || 1;
+  for (let i = 0; i < src.length; i++) src[i] /= m;
+  return src;
+}
+export function jerseyMacroNormal() {
+  return cached('jerseyMacro', () => {
+    const N = 512, R = rng(61);
+    const white = new Float32Array(N * N); for (let i = 0; i < N * N; i++) white[i] = R() * 2 - 1;
+    const grain = blurTile(white, N, 1, 2);                          // ~1-1.5 mm
+    const mottle = tileField(R, N, 8, 40, 36, 1.1);                  // 6-30 mm
+    const bars = new Float32Array(N); { let s = 0; for (let i = 0; i < N; i++) { s = 0.82 * s + (R() * 2 - 1); bars[i] = s; } }
+    let bm = 0; for (const v of bars) bm += v * v; bm = Math.sqrt(bm / N); for (let i = 0; i < N; i++) bars[i] /= bm;
+    const barMod = tileField(R, N, 3, 10, 12);
+    const roughF = tileField(R, N, 6, 30, 24);
+    const h = new Float32Array(N * N), rr = new Float32Array(N * N);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const i = y * N + x;
+      h[i] = 0.016 * grain[i] + 0.05 * mottle[i] + 0.006 * bars[y] * Math.max(0, 0.4 + 0.6 * barMod[i]);
+      rr[i] = 0.35 * roughF[i] + 0.25 * grain[i];
+    }
+    const out = new Uint8Array(N * N * 4);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const xl = (x - 1 + N) % N, xr = (x + 1) % N, yu = (y - 1 + N) % N, yd = (y + 1) % N;
+      const dx = (h[y * N + xr] - h[y * N + xl]) / 2, dy = (h[yd * N + x] - h[yu * N + x]) / 2;
+      const k = (y * N + x) * 4;
+      out[k] = Math.round(Math.min(255, Math.max(0, (-dx * 2 + 0.5) * 255)));
+      out[k + 1] = Math.round(Math.min(255, Math.max(0, (-dy * 2 + 0.5) * 255)));
+      out[k + 2] = Math.round(Math.min(255, Math.max(0, (0.5 + rr[y * N + x] * 0.25) * 255)));
+      out[k + 3] = 255;
+    }
+    return dataTex(out, N, N, { name: 'jersey macro normal' });
+  });
+}
+// Dye / stretch mottle of a cloth panel as a colour multiplier (linear, mean ~0.975, +-1.5 %), one
+// tile = 0.9 m (a whole blad): soft 1-6 cm clouds and a faint fine grain.
+export const MOTTLE = 0.9;
+export function clothMottle(amount = 1) {
+  return cached(`clothMottle:${amount}`, () => {
+    const N = 512, R = rng(67);
+    const low = tileField(R, N, 15, 80, 48, 1.2);
+    const white = new Float32Array(N * N); for (let i = 0; i < N * N; i++) white[i] = R() * 2 - 1;
+    const grain = blurTile(white, N, 1, 1);
+    const out = new Uint8Array(N * N * 4);
+    for (let i = 0; i < N * N; i++) {
+      const v = Math.min(1, Math.max(0, 0.975 + amount * (0.011 * low[i] + 0.004 * grain[i])));
+      const b = Math.round(v * 255);
+      out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = b; out[i * 4 + 3] = 255;
+    }
+    return dataTex(out, N, N, { name: 'cloth mottle' });
   });
 }
 
@@ -125,33 +207,40 @@ const chroma = (c) => { const s = c.clone().convertLinearToSRGB(); return Math.m
 // sRGB chroma (max - min channel) of a catalogue colour, 0 for neutrals, ~0.6 for rood
 export const dyeChroma = (color) => chroma(new THREE.Color(resolveColor(color, '#1D1E20')));
 
-export function jerseyKnit(color, { normal = 0.6, flat = false } = {}) {
+export function jerseyKnit(color, { normal = 0.32, flat = false } = {}) {
   const hex = resolveColor(color, '#1D1E20');
-  return cached(`jersey3:${hex}:${normal}:${flat ? 'flat' : 'body'}`, () => {
+  return cached(`jersey4:${hex}:${normal}:${flat ? 'flat' : 'body'}`, () => {
     const base = clothAlbedo(hex);
     const L = lumLin(base), dark = L < 0.06, light = L > 0.5;
     const chr = chroma(base);
-    // polyester-elastane jersey under tension is a satin-glossy cloth: the stretched loops lie flat and
-    // aligned with the pull, so the highlights of the studio boxes are drawn out into streaks along the
-    // stretch (anisotropic lobe, long axis along the uv v = down the profile: rim -> waist -> feet). The
-    // flat top panel (planar uv, tension in all directions) keeps an isotropic lobe.
+    // polyester-elastane jersey under tension: a satin-matte cloth. The stretched loops lie flat and aligned
+    // with the pull, so the body's highlights are drawn out a little along the stretch (weak anisotropic lobe
+    // along uv v = down the profile: rim -> waist -> feet); the flat top panel (planar uv, tension in all
+    // directions) is isotropic. Specular and sheen fall off towards grazing view (engine `grazing` hook):
+    // ridges and folds turned edge-on keep a soft satin band, never a chrome or glassy hairline.
+    // Dye mottle (map, mean 0.975: colour compensated) and the jersey macro layer (fine grain, soft stretch
+    // mottle, faint course bars) give the cloth its texture at catalogue distance, where the loops are sub-pixel.
     const m = new THREE.MeshPhysicalMaterial({
-      color: base, metalness: 0,
-      roughness: flat ? (dark ? 0.64 : 0.6) : dark ? 0.6 : chr > 0.2 ? 0.57 : 0.6,
-      specularIntensity: flat ? (dark ? 0.36 : 0.42) : dark ? 0.46 : chr > 0.2 ? 0.42 : 0.46,
-      sheen: flat && dark ? 0.45 : 0.55, sheenRoughness: 0.42,
+      color: base.clone().multiplyScalar(1 / 0.975), metalness: 0,
+      roughness: flat ? (dark ? 0.62 : 0.6) : dark ? 0.62 : chr > 0.2 ? 0.6 : 0.62,
+      specularIntensity: flat ? (dark ? 0.4 : 0.42) : dark ? 0.42 : chr > 0.2 ? 0.4 : 0.42,
+      sheen: flat && dark ? 0.4 : 0.45, sheenRoughness: 0.5,
       // fibre sheen in the dye's own colour (black: a cool dark grey: Lycra, not rubber)
-      sheenColor: dark ? new THREE.Color().setRGB(0.12, 0.122, 0.13) : base.clone().multiplyScalar(light ? 1.0 : 1.15),
+      sheenColor: dark ? new THREE.Color().setRGB(0.1, 0.102, 0.108) : base.clone().multiplyScalar(light ? 0.9 : 1.05),
       normalMap: knitNormal().clone(), normalScale: new THREE.Vector2(normal, normal),
+      map: clothMottle(flat ? 1 : 0.6).clone(),
       side: THREE.DoubleSide, name: `jersey ${hex}${flat ? ' (top panel)' : ''}`,
     });
-    if (!flat) { m.anisotropy = 0.3; m.anisotropyRotation = Math.PI / 2; }
+    if (!flat) { m.anisotropy = 0.12; m.anisotropyRotation = Math.PI / 2; }
     m.normalMap.repeat.set(1 / (KNIT.WALES * KNIT.WALE), 1 / (KNIT.COURSES * KNIT.COURSE)); m.normalMap.needsUpdate = true;
+    m.map.repeat.set(1 / MOTTLE, 1 / MOTTLE); m.map.needsUpdate = true;
     m.userData = {
-      envSpec: flat ? 0.4 : dark ? 0.55 : chr > 0.2 ? 0.45 : 0.5,
-      // close-ups: loops shade (cavity) and their crowns carry the fibre sheen, so even black jersey
-      // shows its wales; at catalogue distance the relief folds into a matte lobe (engine weave hook)
-      weave: { repeats: KNIT.WALES, boost: 2.8, roughVar: 0.3, matte: 0.04, cav: dark ? 0.6 : 0.35, crown: dark ? 3.5 : 1.4 },
+      envSpec: flat ? 0.42 : dark ? 0.5 : chr > 0.2 ? 0.42 : 0.46,
+      // close-ups: the loops shade a little (cavity) and their crowns carry a little more sheen; at catalogue
+      // distance the relief folds into a matte lobe (engine weave hook)
+      weave: { repeats: KNIT.WALES, boost: 1.3, roughVar: 0.1, matte: 0.03, cav: dark ? 0.2 : 0.12, crown: dark ? 0.9 : 0.5 },
+      macro: { tex: jerseyMacroNormal(), scale: (KNIT.WALES * KNIT.WALE) / JMACRO, strength: flat ? 1.0 : 0.8, coat: 0, rough: 0.1 },
+      grazing: { spec: 0.3, sheen: 0.45, w: 0.45 },
       dye: chr > 0.2 ? 0.3 : 0,
       albedoL: L,
     };
@@ -161,7 +250,7 @@ export function jerseyKnit(color, { normal = 0.6, flat = false } = {}) {
     // (v0..v1, in normal-map uv units along v: 0.03..0.07 m of profile)
     if (!flat) {
       const repU = 1 / (KNIT.WALES * KNIT.WALE), repV = 1 / (KNIT.COURSES * KNIT.COURSE);
-      m.userData.streak = { fu: 95 / (Math.PI * 2 * 0.25 * repU), fv: 3.2 / repV, rough: 0.36, spec: dark ? 0.7 : 0.5, tilt: dark ? 0.45 : 0.35, v0: 0.03 * repV, v1: 0.07 * repV, seed: 3 };
+      m.userData.streak = { fu: 95 / (Math.PI * 2 * 0.25 * repU), fv: 3.2 / repV, rough: 0.3, spec: dark ? 0.55 : 0.4, tilt: dark ? 0.4 : 0.3, v0: 0.035 * repV, v1: 0.075 * repV, seed: 3 };
     }
     return m;
   });
@@ -302,6 +391,10 @@ export function statafelRig({ albedoL = 0.2, folded = false, white = false, blac
     fill: { azimuth: 26, elevation: 10, intensity: black ? 1.25 : 0.95 },
     rim: { azimuth: 155, elevation: 32, intensity: 0.55 },
     bounce: { azimuth: 6, elevation: -24, intensity: 0.7 },
+    // big overhead softbox a little behind the set, 2.2 m from the blad centre (engine rig.overhead): every
+    // horizontal top gets the most light of the product, falling off softly towards its front edge (1.1 : 0.67
+    // between the far and the near rim), plus a broad, low-contrast sheen of the box on the far half
+    overhead: { azimuth: 172, elevation: 62, distance: 2.2, intensity: 1.3, size: 14, angle: 60, penumbra: 1, mapSize: 1024, radius: 2 },
     groundAmbient: 0.3,
     // sky occlusion up to 66 deg from the zenith (a studio, not an open field), 96 + 96 directions,
     // smoothed to one pool (sigma 2.5 cm), faded out at the bake border (no step in the sweep)

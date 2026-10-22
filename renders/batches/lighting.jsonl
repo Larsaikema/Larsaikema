@@ -2,6 +2,8 @@
 {"model": "heater", "params": {"kind": "elektrisch", "watt": 1500, "clamp": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/elektrische-heater-partytent-hero.webp"}
 {"model": "heater", "params": {"kind": "gas", "style": "flame"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/flameheater-gas-9-kw-hero.webp"}
 {"model": "stringLights", "params": {"kind": "kerst", "count": 100, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/kerstverlichting-10-m-hero.webp"}
+{"model": "ledBulb", "params": {"type": "filament", "on": true, "sealed": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-dimbaar-ip65-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "rood", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-rood-hero.webp"}
 {"model": "ledBulb", "params": {"type": "melkglas", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-hero.webp"}
 {"model": "ropeLight", "params": {"color": "#F4E3BC", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-set-warm-wit-hero.webp"}
 {"model": "ropeLight", "params": {"color": "#F4E3BC", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-warm-wit-hero.webp"}
@@ -12,6 +14,13 @@
 {"model": "heater", "params": {"kind": "gas", "style": "paddenstoel"}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/terrasheater-gas-13-kw-hero.webp"}
 {"model": "prikkabel", "bulbs": 12, "spacing": 1.0, "sag": 0.25, "on": true, "angle": "front", "imageWidth": 1200, "imageHeight": 733, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/advies-prikkabel-op-maat.webp"}
 {"model": "prikkabel", "params": {"bulbs": 10, "spacing": 0.5, "sag": 0.25, "on": true, "cable": "zwart"}, "angle": "detail", "detail": {"size": 1.2, "aperture": 0}, "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/collectie-verlichting.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "blauw", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-blauw-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "geel", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-geel-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "groen", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-groen-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "oranje", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-oranje-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "paars", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-paars-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "roze", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-roze-hero.webp"}
+{"model": "ledBulb", "params": {"type": "gekleurd", "color": "#F4E3BC", "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd-warm-wit-hero.webp"}
 {"model": "ledBulb", "params": {"type": "gekleurd", "count": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lamp-e27-gekleurd.webp"}
 {"model": "ropeLight", "params": {"color": "blauw", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-blauw-hero.webp"}
 {"model": "ropeLight", "params": {"color": "geel", "length": 5, "on": true}, "angle": "hero", "size": 1200, "samples": 14, "bg": "#ECE4D6", "out": "../../catalog/images/led-lichtslang-geel-hero.webp"}

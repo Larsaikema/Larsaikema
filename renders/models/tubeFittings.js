@@ -395,14 +395,14 @@ export function tubeFittings(p = {}) {
     // M8 wing bolts knolled in two rows (heads one way), wings flat on the floor
     const n = Math.max(1, Number(p.count ?? 10));
     const perRow = Math.ceil(n / 2);
-    // side by side across the frame (wings flat, shanks pointing away from the camera and a
-    // little to the right), two rows one behind the other
+    // two columns of bolts side by side
     const rgt = V3(Math.cos(34 * DEG), 0, -Math.sin(34 * DEG)), fw = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
     for (let i = 0; i < n; i++) {
       const row = Math.floor(i / perRow), col = i % perRow;
       const nInRow = row === 0 ? perRow : n - perRow;
-      const c = rgt.clone().multiplyScalar((col - (nInRow - 1) / 2) * 0.056 + row * 0.014).addScaledVector(fw, (0.5 - row) * 0.075);
-      const m = new THREE.Matrix4().makeRotationY((34 + 180 + 16) * DEG + (((i * 37) % 7) - 3) * 0.7 * DEG).setPosition(c.x, 0.0085, c.z);
+      // shank towards the camera's right, wings flat, the bolts stacked front to back
+      const c = rgt.clone().multiplyScalar((row - 0.5) * 0.095 + (col % 2) * 0.004).addScaledVector(fw, (col - (nInRow - 1) / 2) * 0.066);
+      const m = new THREE.Matrix4().makeRotationY((34 + 90) * DEG + (((i * 37) % 7) - 3) * 0.7 * DEG).setPosition(c.x, 0.0085, c.z);
       wingBolt(bins, mats, m);
     }
   }

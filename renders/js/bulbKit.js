@@ -36,7 +36,7 @@ function filamentMat(on) {
     : L.cached('bk:fil:off', () => new THREE.MeshPhysicalMaterial({ color: '#E7B04C', roughness: 0.42, sheen: 0.5, sheenColor: new THREE.Color('#FFE6B0'), name: 'led filament (phosphor)' }));
 }
 
-export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, bloom = 1, volume = 1, bloomR = 0.085, K = null } = {}) {
+export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, bloom = 1, volume = 1, bloomR = 0.085, K = null, glassI = 1.15, coatRough = 0.06 } = {}) {
   const mats = L.e27Mats();
   const xf = (g) => g.applyMatrix4(M4);
   const add = (m, g) => bins.add(m, xf(g));
@@ -84,16 +84,22 @@ export function g45(GC, bins, M4, { kind = 'filament', on = true, color = null, 
       // K: colour temperature of an opal lamp (default 2700 K; the 2000 K "extra warm" lamp of the
       // coloured series glows a deeper amber)
       light = kelvin(K || 2700);
-      const em = K && K < 2500 ? '#FFB463' : '#FFCF8F';
+      const warm = K && K < 2500;
+      // 2000 K: a warm-tinted diffuser at a lower level, so the tone curve keeps it golden amber
+      // (a white diffuser at 6 x washed out to salmon)
+      const em = warm ? '#FFB534' : '#FFCF8F', emI = warm ? 2.5 : 6;
       glass = on
-        ? L.cached(`bk:opal:on:${em}`, () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.34, clearcoat: 0.5, clearcoatRoughness: 0.1, emissive: new THREE.Color(em), emissiveIntensity: 6, name: 'opal glass lit' }), 0.42, 0.75))
+        ? L.cached(`bk:opal:on:${em}`, () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: warm ? '#F2D59A' : '#FFFFFF', roughness: 0.34, clearcoat: 0.5, clearcoatRoughness: 0.1, emissive: new THREE.Color(em), emissiveIntensity: emI, name: 'opal glass lit' }), warm ? 0.5 : 0.42, 0.75))
         : L.cached('bk:opal:off', () => new THREE.MeshPhysicalMaterial({ color: '#F3F1EC', roughness: 0.36, clearcoat: 0.6, clearcoatRoughness: 0.08, sheen: 0.3, sheenColor: new THREE.Color('#ffffff'), name: 'opal glass' }));
     } else {
       const hex = L.lightHex(color, L.LIGHT.rood);
       const lc = new THREE.Color(hex); light = [lc.r, lc.g, lc.b];
       const base = new THREE.Color(hex).multiplyScalar(0.55);
       glass = on
-        ? L.cached(`bk:col:on:${hex}`, () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: base, roughness: 0.3, clearcoat: 0.7, clearcoatRoughness: 0.06, emissive: new THREE.Color(hex), emissiveIntensity: 1.15, name: `coloured glass lit ${hex}` }), 0.4, 0.7))
+        // lit: the coating's own colour must survive the tone curve, so the white studio reflection
+        // is kept small (specular 0.3, a thin clearcoat, env 0.5): a broad white sheen over a red
+        // globe made it read coral, a blue one lavender; the clearcoat keeps one crisp highlight
+        ? L.cached(`bk:col:on:${hex}:${glassI}:${coatRough}`, () => L.litDiffuser(new THREE.MeshPhysicalMaterial({ color: base, roughness: 0.34, specularIntensity: 0.3, clearcoat: 0.4, clearcoatRoughness: coatRough, envMapIntensity: 0.5, emissive: new THREE.Color(hex), emissiveIntensity: glassI, name: `coloured glass lit ${hex}` }), 0.4, 0.7))
         : L.cached(`bk:col:off:${hex}`, () => new THREE.MeshPhysicalMaterial({ color: base, roughness: 0.3, clearcoat: 0.7, clearcoatRoughness: 0.06, name: `coloured glass ${hex}` }));
     }
     add(glass, G.lathe(L.globeProfile('collar'), 64));

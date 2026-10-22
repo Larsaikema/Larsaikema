@@ -1,113 +1,241 @@
 {{ 'section-pages.css' | asset_url | stylesheet_tag }}
+{{ 'section-page-offerte.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'quote-form.js' | asset_url }}" defer></script>
-{%- assign form_id = 'QuoteForm-' | append: section.id -%}
-<div class="color-scheme-4">
+{%- comment -%}
+  Offerte request (feature b2b.quote-page), Zakelijk style (brand.md §6: Linnen + Inkt, no Lampion). One {% form 'contact' %}
+  in four numbered parts: product lines (product search over the catalogue; a known product turns its 'uitvoering' field into
+  a list of its variants with the price), bedrukking, levering (date, country, address, site conditions for ballast advice),
+  and the contact details. A live summary sits next to it on desktop. Prefill: ?product=&variant=&qty= (PDP), ?from=cart, or
+  the 'take over my cart' button (assets/quote-form.js). The page text appears as the intro (before its first <h3>) and as
+  folding notes in the side column (each <h3> starts one). Shopify contact forms cannot take files: logo as a link or by mail.
+{%- endcomment -%}
+{%- liquid
+  assign form_id = 'QuoteForm-' | append: section.id
+  assign email = settings.email | default: shop.email
+  assign phone = settings.phone | default: shop.phone
+  assign chunks = page.content | split: '<h3>'
+  assign lead = chunks.first | strip
+  if lead contains '</h3>'
+    assign lead = ''
+  endif
+  if lead == blank
+    assign lead = section.settings.intro
+  endif
+  assign step_count = 0
+  for block in section.blocks
+    if block.type == 'step'
+      assign step_count = step_count | plus: 1
+    endif
+  endfor
+  capture tomorrow
+    echo 'now' | date: '%s' | plus: 86400 | date: '%Y-%m-%d'
+  endcapture
+-%}
+<div class="color-scheme-4 qt">
   <div class="page-width">
-    <header class="page-head">
-      {%- render 'breadcrumbs' -%}
-      <h1>{{ section.settings.heading | default: page.title }}</h1>
-      <div class="page-head__intro rte text-lg">{% if page.content != blank %}{{ page.content }}{% else %}{{ section.settings.intro }}{% endif %}</div>
+    {%- render 'breadcrumbs' -%}
+    <header class="qt-head">
+      <div class="qt-head__copy">
+        <p class="qt-head__logo">{%- render 'logo', variant: 'zakelijk' -%}</p>
+        <h1 class="qt-head__title">{{ section.settings.heading | default: page.title }}</h1>
+        <div class="rte qt-head__intro">{{ lead }}</div>
+      </div>
+      {%- if step_count > 0 -%}
+        <div class="qt-head__steps">
+          <h2 class="qt-head__steps-title">{{ section.settings.aside_heading }}</h2>
+          <ol class="qt-steps" role="list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'step' -%}
+                <li class="qt-steps__item" {{ block.shopify_attributes }}><span class="qt-steps__num" aria-hidden="true">{{ forloop.index }}</span><span>{{ block.settings.text }}</span></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+        </div>
+      {%- endif -%}
     </header>
-    <div class="page-body split">
-      <div class="panel">
+
+    <div class="qt-layout">
+      <div class="panel qt-main">
         {%- form 'contact', id: form_id, class: 'quote-form' -%}
           <input type="hidden" name="contact[Onderwerp]" value="Offerteaanvraag">
           {%- if form.posted_successfully? -%}
-            <div class="notice notice--success" role="status">{%- render 'icon', icon: 'check' -%}<span><strong>{{ 'quote.success' | t }}</strong></span></div>
+            {%- assign quote_sent = true -%}
+            <div class="qt-done" role="status">
+              <span class="qt-done__icon">{%- render 'icon', icon: 'check' -%}</span>
+              <h2 class="qt-done__title">{{ section.settings.success_heading }}</h2>
+              <p class="qt-done__text">{{ settings.response_time }} {{ section.settings.success_text }}</p>
+              {%- if step_count > 0 -%}
+                <ol class="qt-steps qt-steps--done" role="list">
+                  {%- for block in section.blocks -%}{%- if block.type == 'step' -%}<li class="qt-steps__item{% if forloop.first %} is-done{% endif %}"><span class="qt-steps__num" aria-hidden="true">{%- if forloop.first -%}{%- render 'icon', icon: 'check', class: 'icon--xs' -%}{%- else -%}{{ forloop.index }}{%- endif -%}</span><span>{{ block.settings.text }}</span></li>{%- endif -%}{%- endfor -%}
+                </ol>
+              {%- endif -%}
+              <div class="btn-row"><a class="btn" href="{{ routes.all_products_collection_url }}">{{ section.settings.success_shop }}</a>{%- if settings.b2b_page != blank -%}<a class="btn btn--outline" href="{{ settings.b2b_page }}">{{ 'general.zakelijk' | t }}</a>{%- endif -%}</div>
+            </div>
           {%- else -%}
             {%- if form.errors -%}<div class="notice notice--error" role="alert">{%- render 'icon', icon: 'alert' -%}<span><strong>{{ 'forms.error_heading' | t }}</strong>{% render 'form-errors', form: form %}</span></div>{%- endif -%}
-            <quote-form data-max="{{ section.settings.max_lines }}" data-cart-note="{{ 'quote.prefilled_cart' | t | escape }}" data-product-note="{{ 'quote.prefilled_product' | t | escape }}">
-              <fieldset class="form-section">
-                <legend>{{ 'quote.lines_title' | t }}</legend>
-                <p class="notice notice--info" data-prefill-note hidden>{%- render 'icon', icon: 'info' -%}<span></span></p>
-                <div class="quote-lines" data-lines>
+            <quote-form
+              data-max="{{ section.settings.max_lines }}"
+              data-cart-note="{{ 'quote.prefilled_cart' | t | escape }}"
+              data-product-note="{{ 'quote.prefilled_product' | t | escape }}"
+              data-line-label="{{ 'quote.line_label' | t: index: '__N__' | escape }}"
+              data-pieces="{{ section.settings.summary_pieces | escape }}"
+              data-lines-label="{{ section.settings.summary_lines | escape }}"
+              data-excl="{{ 'price.excl' | t | escape }}"
+              data-incl="{{ 'price.incl' | t | escape }}"
+              data-per-piece="{{ section.settings.per_piece | escape }}"
+              data-from="{{ 'price.from' | t | escape }}"
+            >
+              <fieldset class="qt-sec">
+                <legend class="qt-sec__legend"><span class="qt-sec__num" aria-hidden="true">1</span>{{ 'quote.lines_title' | t }}</legend>
+                <p class="notice notice--info qt-prefill" data-prefill-note hidden>{%- render 'icon', icon: 'info' -%}<span></span></p>
+                <button type="button" class="qt-import" data-import-cart hidden>{%- render 'icon', icon: 'cart', class: 'icon--sm' -%}<span data-import-label="{{ section.settings.import_cart | escape }}"></span></button>
+                <div class="qt-lines" data-lines>
                   {%- for i in (1..section.settings.start_lines) -%}
-                    <div class="quote-line" data-line>
-                      <span class="quote-line__label">{{ 'quote.line_label' | t: index: i }}</span>
-                      <div class="field">
-                        <label class="field__label" for="QL-{{ i }}-product">{{ 'quote.line_product' | t }}</label>
-                        <input class="input" id="QL-{{ i }}-product" name="contact[Regel {{ i }} - product]" list="QuoteProducts-{{ section.id }}" data-line-product{% if forloop.first %} required{% endif %}>
-                      </div>
-                      <div class="field quote-line__variant">
-                        <label class="field__label" for="QL-{{ i }}-variant">{{ 'quote.line_variant' | t }}</label>
-                        <input class="input" id="QL-{{ i }}-variant" name="contact[Regel {{ i }} - uitvoering]" data-line-variant>
-                      </div>
-                      <div class="field">
-                        <label class="field__label" for="QL-{{ i }}-qty">{{ 'quote.line_qty' | t }}</label>
-                        <input class="input" id="QL-{{ i }}-qty" type="number" min="1" inputmode="numeric" name="contact[Regel {{ i }} - aantal]" data-line-qty{% if forloop.first %} required{% endif %}>
-                      </div>
-                      <button type="button" class="icon-btn quote-line__remove" data-remove-line aria-label="{{ 'quote.remove_line' | t }}"{% if forloop.first %} hidden{% endif %}>{%- render 'icon', icon: 'trash', class: 'icon--sm' -%}</button>
-                      <div class="field quote-line__details">
-                        <label class="field__label" for="QL-{{ i }}-details">{{ 'quote.line_details' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
-                        <input class="input" id="QL-{{ i }}-details" name="contact[Regel {{ i }} - details]" data-line-details>
-                      </div>
-                    </div>
+                    {%- render 'quote-line-fields', n: i, sid: section.id, first: forloop.first, details_label: section.settings.details_toggle, variant_pick: section.settings.variant_pick -%}
                   {%- endfor -%}
                 </div>
-                <button type="button" class="btn btn--outline btn--sm" data-add-line>{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}{{ 'quote.add_line' | t }}</button>
+                <div class="qt-lines__foot">
+                  <button type="button" class="btn btn--outline btn--sm" data-add-line>{%- render 'icon', icon: 'plus', class: 'icon--sm' -%}{{ 'quote.add_line' | t }}</button>
+                  <p class="qt-lines__total" data-lines-total aria-live="polite"></p>
+                </div>
                 <datalist id="QuoteProducts-{{ section.id }}">
                   {%- comment -%} a for loop over collection products stops at 50 without paginate; 250 is the page maximum {%- endcomment -%}
                   {%- paginate collections.all.products by 250 -%}
-                    {%- for p in collections.all.products -%}<option value="{{ p.title | escape }}"></option>{%- endfor -%}
+                    {%- for p in collections.all.products -%}<option value="{{ p.title | escape }}" data-handle="{{ p.handle }}"></option>{%- endfor -%}
                   {%- endpaginate -%}
                 </datalist>
                 <template data-line-template>
-                  <div class="quote-line" data-line>
-                    <span class="quote-line__label">{{ 'quote.line_label' | t: index: '__N__' }}</span>
-                    <div class="field"><label class="field__label" for="QL-__N__-product">{{ 'quote.line_product' | t }}</label><input class="input" id="QL-__N__-product" name="contact[Regel __N__ - product]" list="QuoteProducts-{{ section.id }}" data-line-product></div>
-                    <div class="field quote-line__variant"><label class="field__label" for="QL-__N__-variant">{{ 'quote.line_variant' | t }}</label><input class="input" id="QL-__N__-variant" name="contact[Regel __N__ - uitvoering]" data-line-variant></div>
-                    <div class="field"><label class="field__label" for="QL-__N__-qty">{{ 'quote.line_qty' | t }}</label><input class="input" id="QL-__N__-qty" type="number" min="1" inputmode="numeric" name="contact[Regel __N__ - aantal]" data-line-qty></div>
-                    <button type="button" class="icon-btn quote-line__remove" data-remove-line aria-label="{{ 'quote.remove_line' | t }}">{%- render 'icon', icon: 'trash', class: 'icon--sm' -%}</button>
-                    <div class="field quote-line__details"><label class="field__label" for="QL-__N__-details">{{ 'quote.line_details' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label><input class="input" id="QL-__N__-details" name="contact[Regel __N__ - details]" data-line-details></div>
-                  </div>
+                  {%- render 'quote-line-fields', n: '__N__', sid: section.id, first: false, details_label: section.settings.details_toggle, variant_pick: section.settings.variant_pick -%}
                 </template>
               </fieldset>
 
-              <fieldset class="form-section">
-                <legend>{{ 'quote.print' | t }}</legend>
-                <div class="radio-row">
-                  <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_none' | t }}" checked><span>{{ 'quote.print_none' | t }}</span></label>
-                  <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_yes' | t }}" data-print-yes><span>{{ 'quote.print_yes' | t }}</span></label>
-                  <label class="check"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_unsure' | t }}"><span>{{ 'quote.print_unsure' | t }}</span></label>
+              <fieldset class="qt-sec qt-sec--print">
+                <legend class="qt-sec__legend"><span class="qt-sec__num" aria-hidden="true">2</span>{{ 'quote.print' | t }}</legend>
+                <div class="qt-pills" role="radiogroup" aria-label="{{ 'quote.print' | t | escape }}">
+                  <label class="qt-pill"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_none' | t }}" checked><span>{{ 'quote.print_none' | t }}</span></label>
+                  <label class="qt-pill"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_yes' | t }}" data-print-yes><span>{%- render 'icon', icon: 'upload', class: 'icon--xs' -%}{{ 'quote.print_yes' | t }}</span></label>
+                  <label class="qt-pill"><input type="radio" name="contact[Bedrukking]" value="{{ 'quote.print_unsure' | t }}" data-print-unsure><span>{{ 'quote.print_unsure' | t }}</span></label>
                 </div>
-                <div class="field" style="margin-top:14px">
-                  <label class="field__label" for="Q-logo">{{ 'quote.logo_link' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
-                  <input class="input" id="Q-logo" type="url" name="contact[Link naar logo]" data-logo-link placeholder="https://" aria-describedby="Q-logo-help">
-                  <p class="field__help" id="Q-logo-help">{{ 'quote.logo_link_help' | t }}</p>
+                <div class="qt-reveal qt-reveal--print">
+                  <div class="form-grid form-grid--2">
+                    <div class="field">
+                      <label class="field__label" for="Q-logo-{{ section.id }}">{{ 'quote.logo_link' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+                      <input class="input" id="Q-logo-{{ section.id }}" type="url" name="contact[Link naar logo]" data-logo-link placeholder="https://" aria-describedby="Q-logo-help-{{ section.id }}">
+                    </div>
+                    <div class="field">
+                      <label class="field__label" for="Q-pos-{{ section.id }}">{{ section.settings.print_position }} <span class="muted">({{ 'general.optional' | t }})</span></label>
+                      <input class="input" id="Q-pos-{{ section.id }}" name="contact[Drukpositie]" placeholder="{{ section.settings.print_position_placeholder | escape }}">
+                    </div>
+                  </div>
+                  <p class="field__help" id="Q-logo-help-{{ section.id }}">{{ 'quote.logo_link_help' | t }}{%- if email != blank %} <a href="mailto:{{ email }}?subject={{ 'Logo bij offerteaanvraag' | url_encode }}">{{ email }}</a>{%- endif -%}{%- assign print_url = section.settings.print_link | default: '/pages/bedrukken' -%}{%- capture print_ok -%}{%- render 'link-exists', url: print_url -%}{%- endcapture -%}{%- if print_ok contains 'true' and section.settings.print_link_label != blank %} · <a href="{{ print_url }}">{{ section.settings.print_link_label }}</a>{%- endif -%}</p>
                 </div>
               </fieldset>
 
-              <fieldset class="form-section">
-                <legend>{{ 'quote.company_title' | t }}</legend>
+              <fieldset class="qt-sec">
+                <legend class="qt-sec__legend"><span class="qt-sec__num" aria-hidden="true">3</span>{{ section.settings.delivery_title }}</legend>
                 <div class="form-grid form-grid--2">
-                  <div class="field"><label class="field__label" for="Q-company">{{ 'forms.company' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="Q-company" name="contact[Bedrijfsnaam]" autocomplete="organization" required></div>
-                  <div class="field"><label class="field__label" for="Q-name">{{ 'forms.contact_person' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="Q-name" name="contact[name]" autocomplete="name" required></div>
-                  <div class="field"><label class="field__label" for="Q-email">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="Q-email" type="email" name="contact[email]" autocomplete="email" required></div>
-                  <div class="field"><label class="field__label" for="Q-phone">{{ 'forms.phone' | t }}</label><input class="input" id="Q-phone" type="tel" name="contact[phone]" autocomplete="tel"></div>
-                  <div class="field"><label class="field__label" for="Q-kvk">{{ 'forms.kvk' | t }}</label><input class="input" id="Q-kvk" name="contact[KvK-nummer]" inputmode="numeric"></div>
-                  <div class="field"><label class="field__label" for="Q-btw">{{ 'forms.btw' | t }}</label><input class="input" id="Q-btw" name="contact[Btw-nummer]"></div>
-                  <div class="field"><label class="field__label" for="Q-date">{{ 'quote.delivery_date' | t }}</label><input class="input" id="Q-date" type="date" name="contact[Gewenste leverdatum]"></div>
-                  <div class="field"><label class="field__label" for="Q-address">{{ 'forms.address' | t }}</label><input class="input" id="Q-address" name="contact[Afleveradres]" autocomplete="street-address"></div>
-                  <div class="field field--full"><label class="field__label" for="Q-body">{{ 'quote.notes' | t }}</label><textarea class="textarea" id="Q-body" name="contact[body]" rows="4"></textarea></div>
+                  <div class="field"><label class="field__label" for="Q-date-{{ section.id }}">{{ 'quote.delivery_date' | t }}</label><input class="input" id="Q-date-{{ section.id }}" type="date" name="contact[Gewenste leverdatum]" min="{{ tomorrow | strip }}" data-quote-date></div>
+                  <div class="field">
+                    <label class="field__label" for="Q-country-{{ section.id }}">{{ 'forms.country' | t }}</label>
+                    <select class="select" id="Q-country-{{ section.id }}" name="contact[Land]" data-quote-country>
+                      <option value="Nederland" selected>Nederland</option>
+                      <option value="België" data-abroad>België</option>
+                      <option value="{{ 'forms.country_other' | t }}" data-abroad>{{ 'forms.country_other' | t }}</option>
+                    </select>
+                  </div>
+                  <div class="field field--full"><label class="field__label" for="Q-address-{{ section.id }}">{{ section.settings.address_label }}</label><input class="input" id="Q-address-{{ section.id }}" name="contact[Afleveradres]" autocomplete="street-address" placeholder="{{ section.settings.address_placeholder | escape }}" data-quote-place></div>
+                </div>
+                <p class="qt-sub">{{ section.settings.site_title }} <span class="muted">({{ 'general.optional' | t }})</span></p>
+                <div class="qt-checks">
+                  <label class="check"><input type="checkbox" name="contact[Ballastadvies]" value="Ja" data-ballast><span>{{ section.settings.site_ballast }}</span></label>
+                  <div class="qt-reveal qt-reveal--ballast">
+                    <div class="form-grid form-grid--2">
+                      <div class="field">
+                        <label class="field__label" for="Q-ground-{{ section.id }}">{{ section.settings.ground_label }}</label>
+                        <select class="select" id="Q-ground-{{ section.id }}" name="contact[Ondergrond]">
+                          {%- assign grounds = section.settings.ground_options | split: ',' -%}
+                          {%- for g in grounds -%}<option>{{ g | strip }}</option>{%- endfor -%}
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label class="field__label" for="Q-spot-{{ section.id }}">{{ section.settings.spot_label }}</label>
+                        <select class="select" id="Q-spot-{{ section.id }}" name="contact[Plek]">
+                          {%- assign spots = section.settings.spot_options | split: ',' -%}
+                          {%- for g in spots -%}<option>{{ g | strip }}</option>{%- endfor -%}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  {%- if section.settings.site_forklift != blank -%}<label class="check"><input type="checkbox" name="contact[Geen heftruck]" value="Ja"><span>{{ section.settings.site_forklift }}</span></label>{%- endif -%}
+                  {%- if section.settings.site_access != blank -%}<label class="check"><input type="checkbox" name="contact[Lastig bereikbaar]" value="Ja"><span>{{ section.settings.site_access }}</span></label>{%- endif -%}
                 </div>
               </fieldset>
-              <div class="form-actions"><button type="submit" class="btn">{{ 'quote.submit' | t }}</button></div>
+
+              <fieldset class="qt-sec">
+                <legend class="qt-sec__legend"><span class="qt-sec__num" aria-hidden="true">4</span>{{ 'quote.company_title' | t }}</legend>
+                <div class="form-grid form-grid--2">
+                  <div class="field"><label class="field__label" for="Q-name-{{ section.id }}">{{ 'forms.contact_person' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="Q-name-{{ section.id }}" name="contact[name]" autocomplete="name" required></div>
+                  <div class="field"><label class="field__label" for="Q-email-{{ section.id }}">{{ 'forms.email' | t }} <span class="required" aria-hidden="true">*</span></label><input class="input" id="Q-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required></div>
+                  <div class="field"><label class="field__label" for="Q-company-{{ section.id }}">{{ section.settings.organisation_label }} <span class="muted">({{ 'general.optional' | t }})</span></label><input class="input" id="Q-company-{{ section.id }}" name="contact[Bedrijfsnaam]" autocomplete="organization"></div>
+                  <div class="field"><label class="field__label" for="Q-phone-{{ section.id }}">{{ 'forms.phone' | t }}</label><input class="input" id="Q-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel"></div>
+                  <div class="field"><label class="field__label" for="Q-kvk-{{ section.id }}">{{ 'forms.kvk' | t }}</label><input class="input" id="Q-kvk-{{ section.id }}" name="contact[KvK-nummer]" inputmode="numeric"></div>
+                  <div class="field"><label class="field__label" for="Q-btw-{{ section.id }}">{{ 'forms.btw' | t }}</label><input class="input" id="Q-btw-{{ section.id }}" name="contact[Btw-nummer]" autocapitalize="characters"></div>
+                  {%- if section.settings.vat_note != blank -%}<p class="notice notice--info qt-vat-note field--full">{%- render 'icon', icon: 'info' -%}<span>{{ section.settings.vat_note }}</span></p>{%- endif -%}
+                  <div class="field field--full"><label class="field__label" for="Q-body-{{ section.id }}">{{ 'quote.notes' | t }} <span class="muted">({{ 'general.optional' | t }})</span></label><textarea class="textarea" id="Q-body-{{ section.id }}" name="contact[body]" rows="3" placeholder="{{ 'quote.notes_placeholder' | t | escape }}"></textarea></div>
+                </div>
+              </fieldset>
+
+              <div class="qt-submit">
+                <button type="submit" class="btn qt-submit__btn">{{ 'quote.submit' | t }}{%- render 'icon', icon: 'arrow-right', class: 'icon--sm' -%}</button>
+                {%- if settings.response_time != blank -%}<p class="qt-submit__meta">{%- render 'icon', icon: 'clock', class: 'icon--sm' -%}<span>{{ settings.response_time }} {{ section.settings.submit_note }}</span></p>{%- endif -%}
+              </div>
               {%- if shop.privacy_policy -%}<p class="form-note">{{ 'forms.privacy_note_html' | t: url: shop.privacy_policy.url }}</p>{%- endif -%}
             </quote-form>
           {%- endif -%}
         {%- endform -%}
       </div>
-      <aside class="panel panel--plain" aria-labelledby="QuoteHow-{{ section.id }}">
-        <h2 class="panel__title" id="QuoteHow-{{ section.id }}">{{ section.settings.aside_heading }}</h2>
-        <ol class="steps">
-          {%- for block in section.blocks -%}
-            <li class="steps__item" {{ block.shopify_attributes }}><span class="steps__num" aria-hidden="true">{{ forloop.index }}</span><span>{{ block.settings.text }}</span></li>
-          {%- endfor -%}
-        </ol>
-        <ul class="checklist" role="list" style="margin-top:20px">
+
+      <aside class="qt-side" aria-label="{{ section.settings.summary_title | escape }}">
+        <div class="panel qt-summary" data-quote-summary{% if quote_sent %} hidden{% endif %}>
+          <h2 class="qt-summary__title">{{ section.settings.summary_title }}</h2>
+          <p class="qt-summary__empty" data-summary-empty>{{ section.settings.summary_empty }}</p>
+          <ul class="qt-summary__lines" role="list" data-summary-lines></ul>
+          <dl class="qt-summary__facts" data-summary-facts hidden>
+            <div><dt>{{ section.settings.summary_pieces_label }}</dt><dd data-sum="pieces"></dd></div>
+            <div><dt>{{ 'quote.print' | t }}</dt><dd data-sum="print"></dd></div>
+            <div data-sum-row="date" hidden><dt>{{ 'quote.delivery_date' | t }}</dt><dd data-sum="date"></dd></div>
+            <div data-sum-row="place" hidden><dt>{{ section.settings.address_label }}</dt><dd data-sum="place"></dd></div>
+          </dl>
           {%- assign aside_items = section.settings.aside_points | newline_to_br | split: '<br />' -%}
-          {%- for it in aside_items -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}
-        </ul>
+          <ul class="checklist qt-summary__points" role="list">
+            {%- for it in aside_items -%}{%- assign its = it | strip -%}{%- if its != blank -%}<li>{%- render 'icon', icon: 'check' -%}<span>{{ its }}</span></li>{%- endif -%}{%- endfor -%}
+          </ul>
+        </div>
+        <div class="qt-help">
+          <h2 class="qt-help__title">{{ section.settings.help_heading }}</h2>
+          <ul class="qt-contact" role="list">
+            {%- if phone != blank -%}
+              {%- capture phone_href -%}{%- render 'header-contact-href', number: phone, type: 'tel' -%}{%- endcapture -%}
+              <li><a href="{{ phone_href | strip }}">{%- render 'icon', icon: 'phone' -%}<span><strong>{{ phone }}</strong>{%- if settings.openingstijden != blank -%}<small>{{ settings.openingstijden | newline_to_br }}</small>{%- endif -%}</span></a></li>
+            {%- endif -%}
+            {%- if settings.whatsapp != blank -%}
+              <li><a href="https://wa.me/{{ settings.whatsapp | remove: '+' | remove: ' ' }}" target="_blank" rel="noopener">{%- render 'icon', icon: 'whatsapp' -%}<span><strong>{{ 'contact.whatsapp_cta' | t }}</strong></span></a></li>
+            {%- endif -%}
+            {%- if email != blank -%}
+              <li><a href="mailto:{{ email }}">{%- render 'icon', icon: 'mail' -%}<span><strong>{{ email }}</strong>{%- if settings.response_time != blank -%}<small>{{ settings.response_time }}</small>{%- endif -%}</span></a></li>
+            {%- endif -%}
+          </ul>
+          {%- for ch in chunks -%}
+            {%- if ch contains '</h3>' -%}
+              {%- assign ch_title = ch | split: '</h3>' | first -%}
+              {%- assign ch_body = ch | remove_first: ch_title | remove_first: '</h3>' -%}
+              <details class="qt-note">
+                <summary>{%- render 'icon', icon: 'info', class: 'icon--sm' -%}<span>{{ ch_title | strip_html }}</span>{%- render 'icon', icon: 'chevron-down', class: 'icon--xs qt-note__chev' -%}</summary>
+                <div class="rte qt-note__body">{{ ch_body }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
       </aside>
     </div>
   </div>
@@ -119,11 +247,48 @@
   "class": "section-page-offerte",
   "settings": [
     { "type": "text", "id": "heading", "label": "Kop", "default": "Offerte op maat aanvragen" },
-    { "type": "richtext", "id": "intro", "label": "Intro (als de pagina leeg is)", "default": "<p>Grote aantallen, eigen bedrukking of levering op locatie? Vul in wat je nodig hebt.</p>" },
+    { "type": "richtext", "id": "intro", "label": "Intro (als de pagina leeg is)", "default": "<p>Grote aantallen, eigen bedrukking of levering op locatie? Vul in wat je nodig hebt.</p>", "info": "De tekst van de pagina tot de eerste kop 3 staat bovenaan; elke kop 3 daarna wordt een uitklapblok naast het formulier." },
+    { "type": "text", "id": "aside_heading", "label": "Kop stappen", "default": "Zo werkt het" },
+    { "type": "header", "content": "Producten" },
     { "type": "range", "id": "start_lines", "min": 1, "max": 5, "step": 1, "label": "Aantal regels bij start", "default": 2 },
     { "type": "range", "id": "max_lines", "min": 5, "max": 20, "step": 1, "label": "Maximaal aantal regels", "default": 12 },
-    { "type": "text", "id": "aside_heading", "label": "Kop zijkant", "default": "Zo werkt het" },
-    { "type": "textarea", "id": "aside_points", "label": "Punten zijkant", "default": "Prijzen excl. btw\nStaffelkorting vanaf 10 stuks\nOp factuur voor bedrijven en verenigingen", "info": "Claims: alleen wat je echt aanbiedt." }
+    { "type": "text", "id": "variant_pick", "label": "Lege keuze uitvoering", "default": "Kies maat, kleur of uitvoering" },
+    { "type": "text", "id": "details_toggle", "label": "Knop toelichting per regel", "default": "Toelichting bij deze regel" },
+    { "type": "text", "id": "import_cart", "label": "Knop winkelwagen overnemen", "default": "Neem je winkelwagen over (__COUNT__ producten)", "info": "__COUNT__ wordt het aantal producten. Verschijnt alleen als er iets in de winkelwagen ligt." },
+    { "type": "text", "id": "per_piece", "label": "Prijs per stuk", "default": "per stuk" },
+    { "type": "header", "content": "Bedrukking" },
+    { "type": "text", "id": "print_position", "label": "Label drukpositie", "default": "Waar moet het logo?" },
+    { "type": "text", "id": "print_position_placeholder", "label": "Voorbeeld drukpositie", "default": "Bijv. luifel voorkant, rok rondom" },
+    { "type": "url", "id": "print_link", "label": "Link uitleg bedrukken", "info": "Leeg = /pages/bedrukken." },
+    { "type": "text", "id": "print_link_label", "label": "Linktekst uitleg bedrukken", "default": "Zo werkt bedrukken" },
+    { "type": "header", "content": "Levering" },
+    { "type": "text", "id": "delivery_title", "label": "Kop", "default": "Levering" },
+    { "type": "text", "id": "address_label", "label": "Label adres", "default": "Afleveradres of plaats" },
+    { "type": "text", "id": "address_placeholder", "label": "Voorbeeld adres", "default": "Straat en huisnummer, postcode en plaats" },
+    { "type": "text", "id": "site_title", "label": "Kop locatie", "default": "Op de locatie" },
+    { "type": "text", "id": "site_ballast", "label": "Vinkje ballastadvies", "default": "Ik wil ballastadvies voor een tent" },
+    { "type": "text", "id": "ground_label", "label": "Label ondergrond", "default": "Ondergrond" },
+    { "type": "text", "id": "ground_options", "label": "Keuzes ondergrond (komma's)", "default": "Gras, Tegels of klinkers, Asfalt of beton, Zand, Weet ik nog niet" },
+    { "type": "text", "id": "spot_label", "label": "Label plek", "default": "Plek" },
+    { "type": "text", "id": "spot_options", "label": "Keuzes plek (komma's)", "default": "Beschut, Open terrein, Evenement met publiek, Weet ik nog niet" },
+    { "type": "text", "id": "site_forklift", "label": "Vinkje heftruck", "default": "Er is geen heftruck of laadperron op het afleveradres", "info": "Leeg = niet tonen." },
+    { "type": "text", "id": "site_access", "label": "Vinkje bereikbaarheid", "default": "Het adres is lastig bereikbaar voor een vrachtwagen", "info": "Leeg = niet tonen." },
+    { "type": "header", "content": "Gegevens" },
+    { "type": "text", "id": "organisation_label", "label": "Label organisatie", "default": "Bedrijf, club of school" },
+    { "type": "textarea", "id": "vat_note", "label": "Btw-uitleg bij levering buiten Nederland", "default": "Bedrijf in België of elders in de EU met een geldig btw-nummer? Dan krijg je een offerte zonder Nederlandse btw: de btw wordt verlegd (intracommunautaire levering).", "info": "Verschijnt zodra een ander land dan Nederland gekozen is. Leeg = niet tonen. Laat je boekhouder dit bevestigen (docs/claims-to-confirm.md)." },
+    { "type": "text", "id": "submit_note", "label": "Tekst na de reactietijd", "default": "Je krijgt prijzen incl. en excl. btw." },
+    { "type": "header", "content": "Zijkant" },
+    { "type": "text", "id": "summary_title", "label": "Kop overzicht", "default": "Je aanvraag" },
+    { "type": "text", "id": "summary_empty", "label": "Overzicht leeg", "default": "Nog geen producten. Vul links in wat je nodig hebt, of neem je winkelwagen over." },
+    { "type": "text", "id": "summary_pieces_label", "label": "Label totaal", "default": "Totaal" },
+    { "type": "text", "id": "summary_pieces", "label": "Totaal stuks", "default": "__COUNT__ stuks" },
+    { "type": "text", "id": "summary_lines", "label": "Totaal regels", "default": "__LINES__ regels · __COUNT__ stuks" },
+    { "type": "textarea", "id": "aside_points", "label": "Punten zijkant", "default": "Prijzen excl. btw\nStaffelkorting vanaf 10 stuks\nOp factuur voor bedrijven en verenigingen", "info": "Claims: alleen wat je echt aanbiedt." },
+    { "type": "text", "id": "help_heading", "label": "Kop contact", "default": "Liever even overleggen?" },
+    { "type": "header", "content": "Na versturen" },
+    { "type": "text", "id": "success_heading", "label": "Kop", "default": "Je aanvraag is binnen" },
+    { "type": "text", "id": "success_text", "label": "Tekst na de reactietijd", "default": "Je krijgt een offerte met prijzen incl. en excl. btw, levering en levertijd." },
+    { "type": "text", "id": "success_shop", "label": "Knop verder winkelen", "default": "Verder winkelen" }
   ],
   "blocks": [
     { "type": "step", "name": "Stap", "settings": [ { "type": "text", "id": "text", "label": "Tekst", "default": "Je vult in wat je nodig hebt" } ] }
