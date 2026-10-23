@@ -1003,6 +1003,22 @@ dakondersteuning onder de open gevel, en "zwart frame" niet te onderscheiden van
   "in het voorste vak" (zeshoek) i.p.v. "achterwand"; `bedrukt-dakzeil-easy-up-hero` zegt "getoond op een
   zwart frame (frame niet inbegrepen)" i.p.v. "los dak".
 
+### Laatste producten zonder model (23 oktober 2026)
+Acht nieuwe bouwers voor de catalogusjobs die nog `needs-model` waren (36 jobs, incl. het `items`-beeld
+zitting + voetdoppen). Achtergrond zoals de job (geen `bg`: #EFEDE8), licht `L5.goodsRig` / `flatLayRig` /
+`S.seatRig` zoals de bestaande onderdelen- en meubelbeelden.
+
+| model | parameters | wat je ziet |
+|---|---|---|
+| `fixings` | `parts, count, color` | verzinkt kleinmateriaal als flat-lay: `dakhaak` (Ø 4 draad, open haak voor 38 mm buis, oog; 2 x 2), `klittenband` (rol haak- en rol lusband plat op karton, losse eindes naar de camera; wit/zwart), `oogbout`/`vleugelmoer`/`schroefoog` (M6 oogbout met vleugelmoer, schroefoog; geknold, of een handvol), `oogbout-vleugelmoer` (2 x 5), `schroefoog-elastiek` (tentelastiek met bal door het oog), `schroef` (4,5 x 45 torx T20, rij), `spanschroef` (M6 haak-oog), `zeilring`+`ponsijzer`+`slagstempel` (messing ringen en tegenringen, pons en stempel op een beuken plankje) |
+| `tentFloor` | `tiles, color, rolled` | `tiles`: stapel naaldvilt tapijttegels 50 x 50 op bitumen rug + één tegel ernaast; anders de oprolbare kunststof vloer (1 m, rooster 36 mm gaten, 12 mm) half uitgerold op een graszode (sprieten met vertexkleur, onder de vloer platgedrukt) |
+| `fridge` | `kind (bar/staand/rvs/kist/flessenkoeler), door, color, litres, lid` | glazen deuren/deksels met `stochasticAlpha` (werpen geen schaduw), verlicht interieur via LED-strips (emissief) + `PointLight`s in de kast; flesjes/blikjes, RVS GN 2/1-roosters met bakken, kist met deksel open en twee manden, flessenkoeler met kratten onder drie schuifdeksels op zwenkwielen |
+| `seatParts` | `part (zitting/onderbeugel/buisklem), chair, color, count` | losse zitting barkruk inklapbaar (ligt links achter de oorsprong zodat `items` voetdoppen ervoor kan zetten), klikzitting weddingstoel, U-voetsteun Ø 19 met geplette, geboorde einden, gedeelde klemmen met M6-bout |
+| `foldTable` | `length, width, open` | rolbare kantinetafel met banken: chassis op 4 zwenkwielen, tweedelig blad (HPL) met gasveren; open op H-poten met bankarmen, ingeklapt rechtop (bladen tegen elkaar, ca. 155 cm); `refPoints` = de open set, dus één schaal |
+| `coatRack` | `length, hooks, height` | open versie van de kapstok op de transportkar: chroom frame, T-voeten met zwenkwielen, telescoopkragen met sterknop, `hooks` J-haken met nummerlabels (atlas 1..n) aan twee kanten, draadhoedenplank |
+| `chairLinker` | `kinds` | PP dubbele klemring (klapstoel) en verzinkte strip met twee haken (stapelstoel) |
+| `tapeRoll` | `kinds, runner, runnerColor` | rol dubbelzijdige tapijttape (bedrukte liner, rechtop) en rol gaffertape (plat) naast een stuk rode loper, met een strook gaffer over de loperrand |
+
 ## Camera
 
 `js/camera.js` — vaste lens (22° verticale FOV, weinig vertekening), vaste kijkrichting per preset en

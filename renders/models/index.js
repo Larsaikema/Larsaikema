@@ -66,6 +66,15 @@ import { sideWall } from './sideWall.js';
 import { tentElastics } from './tentElastics.js';
 // merchandising review 3: per-Uitvoering images of the mixed-parts products (kabel, verlengkabel, aansluitsnoer, draaiharing)
 import { miscParts } from './miscParts.js';
+// open catalogue jobs without a model: fixings, floors, refrigeration, chair parts, mobile bench table, coat rack, tape
+import { fixings } from './fixings.js';
+import { tentFloor } from './tentFloor.js';
+import { fridge } from './fridge.js';
+import { seatParts } from './seatParts.js';
+import { foldTable } from './foldTable.js';
+import { tapeRoll } from './tapeRoll.js';
+import { coatRack } from './coatRack.js';
+import { chairLinker } from './chairLinker.js';
 
 export const MODELS = {
   easyUpTent,
@@ -80,4 +89,5 @@ export const MODELS = {
   wielset, sandbag, waterBag, concreteBlock, protectionDisc, repairKit, airPump, tubeBag, stretchParts, lightParts,
   prikkabel, ropeLight, stringLights, ledBulb, heaterCover,
   carpetRunner, seatCushion, sideWall, tentElastics, miscParts,
+  fixings, tentFloor, fridge, seatParts, foldTable, tapeRoll, coatRack, chairLinker,
 };
