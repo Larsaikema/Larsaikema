@@ -73,10 +73,13 @@ export function weddingChair(bins, color) {
     const a = V3(x, y0, zPost(y0) - bow(x)), b = V3(x, y1, zPost(y1) - bow(x));
     bins.add(mat, F.latheAt(prof2, a, b.clone().sub(a).normalize(), 16));
   }
+  // round 7: a moulded seat panel fills the frame flush with the rails (the cushion stood on an open frame), and
+  // the cushion covers the rails to their outer edges, centred on the frame (it read as slid off to one side)
+  bins.add(mat, G.roundedBox(2 * xs - 0.02, 0.012, 0.4, 0.004).translate(0, ySeat + 0.002, -0.005));
   // padded seat in vinyl, piping on the top seam
-  const W = 0.4, D = 0.385, T = 0.05;
+  const W = 0.43, D = 0.42, T = 0.05;
   const seat = S.softBlock(W, T, D, { r: 0.02, crown: 0.01, belly: 0.003, gather: 0.0016, uneven: 0.0008, seed: 17, seg: [70, 12, 66] });
-  const sy = ySeat + 0.008 + T / 2, sz = 0.0;
+  const sy = ySeat + 0.009 + T / 2, sz = -0.003;
   const vinyl = S.leatherMat(vinylHex(color));
   bins.add(vinyl, seat.translate(0, sy, sz));
   bins.add(vinyl, F.sweep(S.weltPath(seat.userData.shape, 1, { cr: 0.0032 }).map((p) => p.add(V3(0, sy, sz))), G.circleProfile(0.0032, 10), { closed: true }));

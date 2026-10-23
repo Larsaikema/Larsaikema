@@ -42,7 +42,7 @@ def preview_samples(job, spec):
     if m == 'stertent' and p.get('walls'):
         return 28          # panorama windows: stochastic glazing over the floor
     if m == 'frameTent' and (p.get('walls') or 'windows') not in ('none',) and p.get('frame', True) is not False:
-        return 16
+        return 18
     if m == 'gardenPavilion':
         return 18          # twin-wall polycarbonate roof
     if m == 'tarp' and p.get('color') == 'transparant':
@@ -50,6 +50,19 @@ def preview_samples(job, spec):
     if spec.get('items'):
         return 14
     return 12
+
+
+def walled(spec):
+    """Tents with hanging side walls (floor visible through windows / doors)."""
+    m = models(spec)[0]
+    p = spec.get('params') or {}
+    if m == 'stertent' and p.get('walls'):
+        return True
+    if m == 'frameTent' and p.get('frame', True) is not False:
+        return str(p.get('variant', '')).startswith('opslag') or (p.get('walls') or 'none') != 'none'
+    if m == 'opblaasbareTent' and p.get('walls'):
+        return True
+    return False
 
 
 def translate(job):
@@ -75,11 +88,18 @@ def translate(job):
         a['position'] = [-(tw / 2 + gap / 2), 0, 0]
         b['position'] = [tw / 2 + gap / 2, 0, 0]
         spec['items'] = [a, b, {'model': 'opblaasbareTunnel', 'length': gap, 'color': t.get('color', a.get('color', 'wit')), 'tentW': tw}]
-        spec.setdefault('camera', {'elevation': 22, 'azimuth': 28})
+        # round 6: from 28 deg the open right tent showed the inside of its doorway wall as a
+        # stray slab and the joins did not resolve; from 10 deg the vault runs between the two
+        # tents with an arch rib at each join
+        spec['camera'] = {'elevation': 24, 'azimuth': 10}
     if f == 'advies-stretchtent-of-stertent.webp':
         for it in spec['items']:
             x = it.get('position', [0, 0, 0])[0]
             it['position'] = [(-5.6 if x < 0 else 5.6), 0, 0]
+        # round 6: the scene took the zand stretch tent's auto exposure (0.49), so the white star
+        # tent read mid grey (165-206); one exposure with the white-cloth tone curve keeps the star
+        # white (as its own hero) and the zand sail at its hero value
+        spec.setdefault('rig', {}).update({'exposure': 0.78, 'toneMapping': 'neutral', 'shoulder': 0.88})
     return spec
 
 
@@ -96,8 +116,13 @@ def main():
             if 'imageWidth' not in s:
                 s['size'] = 1200
             s['samples'] = preview_samples(j, s)
-            # half the floor-bake passes (one-level merge into the builder's groundAO)
-            s.setdefault('rig', {}).setdefault('groundAO', {}).update({'samples': 32, 'keySamples': 32})
+            # half the floor-bake passes (one-level merge into the builder's groundAO); round 6:
+            # NOT for tents with hanging walls: the floor seen through windows / doors came out
+            # blotchy with 32 directions, so those get a denser, softer bake
+            gao = {'samples': 32, 'keySamples': 32}
+            if walled(s):
+                gao = {'samples': 144, 'keySamples': 96, 'blur': 3.0}
+            s.setdefault('rig', {}).setdefault('groundAO', {}).update(gao)
         s['bg'] = BG
         s['out'] = f'../../{j["out"]}'
         out.append(s)

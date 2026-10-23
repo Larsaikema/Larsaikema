@@ -16,6 +16,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
 import * as T2 from '../js/tentkit2.js';
+import { fixedView } from '../js/fixedView.js';
 
 const { V3 } = K;
 
@@ -181,31 +182,27 @@ export function stretchtent(p = {}) {
   // edges with the studio beyond. Eye and aim point are placed from the form-found sail (the
   // eye stays >= 0.5 m under the cloth); the framing proxy is two points either side of the aim
   // point, so the auto-framing lands exactly on that eye.
+  // `low` (round 6): the round-3/4 eye under the cloth gave an abstract crop of fabric. Now the
+  // whole tent from just outside, the lens at ~0.7 m and looking a little up past a perimeter
+  // pole: through the open side the underside of the sail sweeps up to the peak and the centre
+  // pole runs from its foot plate up into the peak; the corners, guys and stakes frame it.
+  // `low` (round 7: "the alt says 'laag standpunt onder het doek', the image is a horizon-level
+  // side view from outside, the tent a thin band, no ground"): the eye now stands UNDER the
+  // sail, just inside the front perimeter pole and right of it at ~1 m, and looks up ~13 deg past
+  // the centre pole to the back: the ground under the tent with the pole foot plates and the
+  // soft shadow in the lower third, the centre pole running from its foot plate up into the
+  // peak right of centre, the underside of the sail sweeping up to the peak overhead and down to
+  // the back corners, the back pole and the studio beyond. The camera is placed by a proxy
+  // rectangle (js/fixedView.js), so it lands exactly on that eye.
   const low = p.__angle === 'low' && !hypar;
   let lowView = null;
   if (low) {
-    const sailY = (x, z) => { let best = null, bd = 1e9; for (const row of rows) for (const q of row) { const d = (q.x - x) ** 2 + (q.z - z) ** 2; if (d < bd) { bd = d; best = q; } } return best.y; };
-    // round 4: the eye stands in the front-right quadrant under the cloth and looks at the
-    // centre pole from 2.5-3 m away, so the pole stands whole from its foot to the peak (a
-    // little left of centre) with the underside of the sail sweeping up to it on all sides and
-    // the far perimeter pole and edges beyond (round 3 stood next to the pole: "a pole through
-    // the frame and a slab of fabric")
-    const c0 = poles[0].top;
-    const ex = c0.x + W * 0.3, ez = c0.z + D * 0.31;
-    const eye = V3(ex, Math.min(1.3, sailY(ex, ez) - 0.5), ez);
-    const aim = V3(c0.x - 0.35, Math.min(c0.y * 0.58, sailY(c0.x - 0.35, c0.z - 0.3) - 0.2), c0.z - 0.3);
-    const d = eye.clone().sub(aim), dist = d.length(); d.normalize();
-    const az = Math.atan2(d.x, d.z) * 180 / Math.PI, el = Math.asin(d.y) * 180 / Math.PI;
-    const fov = 70, fill = 0.5;
-    const right = V3(d.z, 0, -d.x).normalize();
-    const e = fill * dist * Math.tan((fov * Math.PI) / 360);
+    const cp = poles.find((q) => q.centre);
+    const eye = V3(cp.top.x + 0.55, 0.8, hd - 0.9), aim = V3(cp.top.x - 0.75, 2.1, -1.1 * (D / 6));
+    const fv = fixedView(eye, aim, { fov: 80, fill: 0.92 });
     group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
-    const g = new THREE.BufferGeometry();
-    const a = aim.clone().addScaledVector(right, -e), b = aim.clone().addScaledVector(right, e);
-    g.setAttribute('position', new THREE.Float32BufferAttribute([a.x, a.y, a.z, b.x, b.y, b.z], 3)); g.setIndex([0, 0, 1]);
-    const pm = new THREE.Mesh(g, new THREE.MeshBasicMaterial()); pm.layers.set(5); pm.frustumCulled = false; pm.castShadow = false; pm.userData.frameProxy = true;
-    group.add(pm);
-    lowView = { azimuth: az, elevation: el, fov, fill };
+    group.add(fv.proxy);
+    lowView = fv.view;
   }
   return {
     object: group,

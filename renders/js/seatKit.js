@@ -224,7 +224,7 @@ export function leatherMat(hex) {
 const WOOD2 = {
   eiken:  { base: [186, 146, 100], late: [150, 108, 66], ring: 0.55, rings: 210, pore: 0.20, fleck: 0.03, figure: 0.07, knots: 0 },
   beuken: { base: [214, 172, 128], late: [196, 150, 106], ring: 0.35, rings: 260, pore: 0.05, fleck: 0.10, figure: 0.05, knots: 0 },
-  vuren:  { base: [232, 206, 160], late: [208, 160, 104], ring: 0.75, rings: 170, pore: 0.0, fleck: 0, figure: 0.05, knots: 0.6 },
+  vuren:  { base: [228, 194, 142], late: [194, 138, 78], ring: 0.95, rings: 150, pore: 0.0, fleck: 0, figure: 0.09, knots: 0.7 }, // round 7: lacquered spruce, warmer + more grain (read as flat beige)
 };
 export function woodTextures2(species = 'eiken', seed = 3, { lenM = 1.0, widM = 0.25 } = {}) {
   const S = WOOD2[species] || WOOD2.eiken;
@@ -330,7 +330,14 @@ export function holedSheet(base, holes, sizeM, key) {
 }
 
 // --------------------------------------------------------------------------- lighting
-export const SEAT_RIG = { default: { dome: { count: 6, radius: 20 } } };
+// round 6: the floor bake gets a 1.8 cm Gaussian (groundAO.sigma) on top of
+// the texel blur, so the long soft key shadow of a chair or table is one smooth pool, not a blotchy stack of
+// discrete shadow copies (the statafel floors were smooth, ours were not); contact shadows stay crisp
+// Also round 6 ("benches, banquet tables, white chairs look flat and clay-like"): more modelling light. The key
+// carries more of the light (3.9, was 3.0), the six-light dome less (1.1, was 1.6), a stronger rim (1.0) to lift
+// the far edges off the backdrop and a weaker frontal fill (0.25): lit and turned-away faces of a white chair
+// now differ by ~25 levels instead of ~10, without hard shadows (the dome keeps them soft).
+export const SEAT_RIG = { default: { dome: { count: 6, radius: 20, intensity: 1.1 }, key: { intensity: 3.9 }, rim: { intensity: 1.0 }, fill: { intensity: 0.25 }, groundAO: { sigma: 0.018 } } };
 // The engine's auto exposure formula (DEFAULT_RIG.exposureAuto) with true albedos.
 export function exposureFor(root, { ref = 0.2, base = 0.86, power = 0.22, min = 0.6, max = 1.25 } = {}) {
   let sum = 0, area = 0;
@@ -360,7 +367,7 @@ export function exposureFor(root, { ref = 0.2, base = 0.86, power = 0.22, min = 
 }
 export function seatRig(root, extra = {}) {
   const d = { ...SEAT_RIG.default, exposure: exposureFor(root), ...(extra.default || {}) };
-  if (extra.default && extra.default.dome) d.dome = { ...SEAT_RIG.default.dome, ...extra.default.dome };
+  for (const k of ['dome', 'groundAO', 'key', 'rim', 'fill']) if (extra.default && extra.default[k]) d[k] = { ...SEAT_RIG.default[k], ...extra.default[k] };
   return { ...extra, default: d };
 }
 

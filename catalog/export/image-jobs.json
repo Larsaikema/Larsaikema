@@ -20,7 +20,7 @@
    "collection": 2,
    "product": 1060
   },
-  "already_present": 705
+  "already_present": 816
  },
  "jobs": [
   {
@@ -52,7 +52,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -114,7 +114,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -495,7 +495,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -647,7 +647,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Bedrukt dakzeil voor easy-up 3 × 3 m met voorbeeldontwerp, los dak met luifel",
+   "alt": "Bedrukt dakzeil met luifel voor easy-up 3 × 3 m met voorbeeldontwerp, getoond op een zwart frame (frame niet inbegrepen)",
    "alt_hint": "met voorbeeldontwerp",
    "used_by": [
     {
@@ -886,7 +886,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -993,7 +993,12 @@
      }
     ],
     "angle": "hero",
-    "size": 2000
+    "size": 2000,
+    "camera": {
+     "azimuth": 58,
+     "elevation": 27,
+     "fill": 0.9
+    }
    },
    "alt": "Drie biertafelsets van vurenhout naast elkaar opgesteld, uit het pakket van 10, schuin vooraanzicht",
    "alt_hint": null,
@@ -1086,7 +1091,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -1416,7 +1421,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2372,7 +2377,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2430,11 +2435,6 @@
      "handle": "klapstoel",
      "role": "hero",
      "variant": true
-    },
-    {
-     "handle": "pakket-50-klapstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -2843,7 +2843,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2874,7 +2874,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2920,7 +2920,7 @@
     "model": "ropeLight",
     "params": {
      "color": "#F4E3BC",
-     "length": 5,
+     "length": 15,
      "on": true
     },
     "angle": "hero",
@@ -3120,7 +3120,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -3933,7 +3933,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4269,7 +4269,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4771,7 +4771,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5097,7 +5097,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5125,11 +5125,6 @@
      "handle": "stapelstoel-metaal",
      "role": "hero",
      "variant": true
-    },
-    {
-     "handle": "pakket-20-stapelstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -5163,7 +5158,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5747,7 +5742,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6970,7 +6965,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7567,7 +7562,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent met waterpoten, Wit, met witte dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, Wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -7576,7 +7571,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7601,7 +7596,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, wit, met witte dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -7637,7 +7632,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, wit, met een wit zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -7671,7 +7666,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare zeshoektent met witte dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare zeshoektent met een dichte witte zijwand in het voorste vak, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -8048,7 +8043,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8080,7 +8075,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8148,7 +8143,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8180,7 +8175,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8212,7 +8207,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8244,7 +8239,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8276,7 +8271,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8308,7 +8303,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8340,7 +8335,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8372,7 +8367,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8404,7 +8399,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8436,7 +8431,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8468,7 +8463,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8500,7 +8495,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8532,7 +8527,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8564,7 +8559,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -8596,7 +8591,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11536,7 +11531,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11599,7 +11594,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11847,7 +11842,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11879,7 +11874,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11911,7 +11906,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11943,7 +11938,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11975,7 +11970,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12007,7 +12002,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12039,7 +12034,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12070,7 +12065,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12103,7 +12098,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12135,7 +12130,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12168,7 +12163,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12200,7 +12195,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12232,7 +12227,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12263,7 +12258,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12750,7 +12745,8 @@
     "params": {
      "parts": [
       "liggend"
-     ]
+     ],
+     "format": "A3"
     },
     "angle": "hero",
     "size": 2000
@@ -12781,7 +12777,8 @@
     "params": {
      "parts": [
       "liggend"
-     ]
+     ],
+     "format": "A4"
     },
     "angle": "hero",
     "size": 2000
@@ -12874,7 +12871,8 @@
     "params": {
      "parts": [
       "m"
-     ]
+     ],
+     "beltLength": 2
     },
     "angle": "hero",
     "size": 2000
@@ -12905,7 +12903,8 @@
     "params": {
      "parts": [
       "m"
-     ]
+     ],
+     "beltLength": 3
     },
     "angle": "hero",
     "size": 2000
@@ -13314,7 +13313,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13407,7 +13406,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13439,7 +13438,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13471,7 +13470,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13503,7 +13502,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13534,7 +13533,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13751,7 +13750,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13782,7 +13781,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13844,7 +13843,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13875,7 +13874,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13937,7 +13936,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13968,7 +13967,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14061,7 +14060,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -16839,7 +16838,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17486,7 +17485,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17722,7 +17721,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
    "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
    "used_by": [
     {
@@ -17731,7 +17730,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17760,7 +17759,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt": "Opblaasbare promotietent met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
    "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
    "used_by": [
     {
@@ -17800,7 +17799,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro met een full colour bedrukte achterwand met voorbeeldontwerp",
+   "alt": "Opblaasbare promotietent Pro met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
    "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
    "used_by": [
     {
@@ -18800,7 +18799,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18833,7 +18832,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -18865,7 +18864,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19266,7 +19265,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19297,7 +19296,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19329,7 +19328,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -19362,7 +19361,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23808,7 +23807,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23838,7 +23837,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23868,7 +23867,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23896,11 +23895,6 @@
      "handle": "klapstoel",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "pakket-50-klapstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -24027,7 +24021,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24058,7 +24052,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24089,7 +24083,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24120,7 +24114,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24151,7 +24145,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24182,7 +24176,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24213,7 +24207,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25921,7 +25915,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25953,7 +25947,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25984,7 +25978,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26015,7 +26009,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26046,7 +26040,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -27013,7 +27007,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -27065,7 +27059,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -27380,7 +27374,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28254,7 +28248,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28559,7 +28553,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28590,7 +28584,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28621,7 +28615,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28652,7 +28646,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28684,7 +28678,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28715,7 +28709,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28743,11 +28737,6 @@
      "handle": "stapelstoel-metaal",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "pakket-20-stapelstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -28898,11 +28887,6 @@
      "handle": "stapelstoel-metaal",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "pakket-20-stapelstoelen-met-transportkar",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -28936,7 +28920,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28967,7 +28951,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31345,7 +31329,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31632,7 +31616,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34809,7 +34793,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34839,7 +34823,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34869,7 +34853,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34899,7 +34883,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34929,7 +34913,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -34959,7 +34943,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -35729,7 +35713,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent met waterpoten, Antraciet, met antraciet dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, Antraciet, met een dichte antraciet zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35738,7 +35722,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -35765,7 +35749,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare partytent met waterpoten, Zwart, met zwarte dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare partytent met waterpoten, Zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35774,7 +35758,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -35799,7 +35783,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een blauw dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35833,7 +35817,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een geel dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35867,7 +35851,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een grijs dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35901,7 +35885,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een groen dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35935,7 +35919,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een oranje dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35971,7 +35955,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, blauw, met een blauw zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36007,7 +35991,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, geel, met een geel zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36043,7 +36027,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, grijs, met een grijs zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36079,7 +36063,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, groen, met een groen zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36115,7 +36099,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, oranje, met een oranje zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36151,7 +36135,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, rood, met een rood zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36187,7 +36171,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent Pro, zwart, met een zwart zijwand aan de achterkant",
+   "alt": "Opblaasbare promotietent Pro, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36221,7 +36205,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een rood dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36255,7 +36239,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een zwart dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -36357,7 +36341,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Opblaasbare zeshoektent met zwarte dichte achterwand, schuin vooraanzicht",
+   "alt": "Opblaasbare zeshoektent met een dichte zwarte zijwand in het voorste vak, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {

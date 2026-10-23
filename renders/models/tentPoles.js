@@ -15,6 +15,7 @@ import * as K from '../js/partsKit.js';
 import { makeNoise2 } from '../js/rng.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -113,7 +114,7 @@ export function tentPoles(p = {}) {
     object: root,
     detail: { target: [L * 0.4, 0.05, -0.2], size: 0.4, azimuth: 30, elevation: 25 },
     view: { hero: { elevation: 30 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.012, res: 1024, blur: 1.4 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+    rig: L5.flatLayRig({ contact: { h0: 0.006, wide: { strength: 0.5, h0: 0.02, sigma: 0.014 } } }),
     meta: { material, L, n },
   };
 }

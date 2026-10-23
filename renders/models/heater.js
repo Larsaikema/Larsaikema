@@ -11,14 +11,18 @@
 //                      and vents, quartz-glass tube (Ø 10 cm) with a swirling flame, four slanted
 //                      posts with two tie frames, square hood. Black powder coat (color 'rvs').
 //   gas 'lounge'       standing lounge heater, 1.15 m: the same flame column on a 5 kg bottle housing.
-//   gas 'tafel'        table-top mushroom heater, 0.92 m: weighted round foot, emitter and Ø 56 cm
-//                      reflector; gas hose with regulator.
+//   gas 'tafel'        table model of the lounge heater (round 5), 0.86 m: the same black glass-tube
+//                      flame column on a low square base (valve knob + piezo button, no door), gas
+//                      from a hose at the back (not in the picture).
+//   gas 'tafelpaddenstoel'  table-top stainless mushroom heater, 0.92 m: weighted round foot,
+//                      emitter and Ø 56 cm reflector; gas hose with regulator.
 //   elektrisch         infrared quartz heater (1500 W): extruded aluminium housing with cooling ribs,
 //                      polished reflector trough, golden quartz-halogen tube (glowing when on), wire
 //                      guard, end caps, U-bracket with tilt knobs. Default (clamp): shown *fitted*:
 //                      the leg clamp round a piece of hexagonal easy-up leg (running out of the
-//                      frame), the bracket bolted to its stud as a fork, the heater tilted 12 deg
-//                      down; seen from a little above, so the clamp shows behind the housing.
+//                      frame), a square arm from the clamp out over the housing, the U-bracket
+//                      hanging under its end (star knob) with its arms down to the tilt knobs, the
+//                      heater tilted 12 deg down; seen from a little above (round 5).
 //                      mountedOn 'leg': the same at the y axis without the leg (a tent provides it).
 //                      clamp false: standing on its bracket on the floor, tilted up.
 //   on (default true): gas heaters glow / show the flame, the electric element glows.
@@ -370,16 +374,17 @@ function flameTransMat() {
   }));
 }
 
-function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, GC }) {
+function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, table = false, GC }) {
   const body = mat;
   const seam = L.moulded('#0E0E0F', 0.6);
   // lit: the flame lights the posts, tie frames, collars, the housing's top plate and the hood's
   // underside (js/heatGlow.js spill); the housing sides and the hood's top keep the studio light
   const yF0 = Hb + 0.016 + 0.06, yF1 = H - (lounge ? 0.11 : 0.19) - 0.08;
-  const hot = on ? L.cached(`htrFlameHot:${lounge}:${body.uuid}`, () => spill(body, [
-    { a: V3(0, yF0, 0), b: V3(0, G.lerp(yF0, yF1, 0.55), 0), color: [1.0, 0.42, 0.11], I: 0.85, R: 0.13, p: 1.6, wrap: 0.1 },
-    { a: V3(0, G.lerp(yF0, yF1, 0.55), 0), b: V3(0, yF1, 0), color: [1.0, 0.36, 0.08], I: 0.45, R: 0.13, p: 1.6, wrap: 0.1 },
-  ], { key: `fl${lounge}` })) : body;
+  const kS = table ? 0.75 : 1;
+  const hot = on ? L.cached(`htrFlameHot:${lounge}:${table}:${body.uuid}`, () => spill(body, [
+    { a: V3(0, yF0, 0), b: V3(0, G.lerp(yF0, yF1, 0.55), 0), color: [1.0, 0.42, 0.11], I: 0.85, R: 0.13 * kS, p: 1.6, wrap: 0.1 },
+    { a: V3(0, G.lerp(yF0, yF1, 0.55), 0), b: V3(0, yF1, 0), color: [1.0, 0.36, 0.08], I: 0.45, R: 0.13 * kS, p: 1.6, wrap: 0.1 },
+  ], { key: `fl${lounge}${table}` })) : body;
   // plinth, tapered housing, top plate
   bins.add(body, frustum(W + 0.02, W + 0.02, 0, 0.016));
   const Wh = W * 0.88;
@@ -387,16 +392,19 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, GC
   bins.add(hot, frustum(Wh + 0.024, Wh + 0.024, Hb, Hb + 0.016));
   // door on the front face: the face leans back, so the seams follow the taper
   const face = (y, inset = 0) => { const w = G.lerp(W, Wh, (y - 0.016) / (Hb - 0.016)); return w / 2 + 0.0006 - inset; };
-  const yd0 = 0.07, yd1 = Hb - 0.07;
-  for (const s of [-1, 1]) {
-    const a = V3(s * (face(yd0) - 0.06), yd0, face(yd0)), b = V3(s * (face(yd1) - 0.06), yd1, face(yd1));
-    bins.add(seam, G.tube(a, b, 0.0012, 6));
+  // (the table model's low base holds only the valve: no door, two vent slots)
+  if (!table) {
+    const yd0 = 0.07, yd1 = Hb - 0.07;
+    for (const s of [-1, 1]) {
+      const a = V3(s * (face(yd0) - 0.06), yd0, face(yd0)), b = V3(s * (face(yd1) - 0.06), yd1, face(yd1));
+      bins.add(seam, G.tube(a, b, 0.0012, 6));
+    }
+    for (const yy of [yd0, yd1]) bins.add(seam, G.tube(V3(-(face(yy) - 0.06), yy, face(yy)), V3(face(yy) - 0.06, yy, face(yy)), 0.0012, 6));
+    // door handle (recessed pull) and vents on the side faces
+    const hy = (yd0 + yd1) / 2 + 0.06;
+    bins.add(knobMat(), G.roundedBox(0.012, 0.07, 0.008, 0.004, 2).translate(face(hy) - 0.09, hy, face(hy) + 0.002));
   }
-  for (const yy of [yd0, yd1]) bins.add(seam, G.tube(V3(-(face(yy) - 0.06), yy, face(yy)), V3(face(yy) - 0.06, yy, face(yy)), 0.0012, 6));
-  // door handle (recessed pull) and vents on the side faces
-  const hy = (yd0 + yd1) / 2 + 0.06;
-  bins.add(knobMat(), G.roundedBox(0.012, 0.07, 0.008, 0.004, 2).translate(face(hy) - 0.09, hy, face(hy) + 0.002));
-  for (const s of [-1, 1]) for (let k = 0; k < 5; k++) {
+  for (const s of [-1, 1]) for (let k = 0; k < (table ? 2 : 5); k++) {
     const yy = 0.06 + k * 0.022, x = s * (face(yy) + 0.0002);
     const g = G.roundedBox(0.0014, 0.008, W * 0.42, 0.0035, 2); g.translate(x, yy, 0); bins.add(seam, g);
   }
@@ -430,9 +438,10 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, GC
   bins.add(body, frustum(Wr - 0.004, Wr * 0.32, yG1 + 0.042, H - 0.03));
   bins.add(body, frustum(Wr * 0.3, Wr * 0.26, H - 0.03, H));
   // control knob + igniter on the front of the housing top
-  const kz = Wh / 2 + 0.002, ky = Hb - 0.035;
-  const kn = G.lathe([[0.0001, 0], [0.021, 0], [0.021, 0.018], [0.017, 0.024], [0.0001, 0.025]], 32); kn.rotateX(Math.PI / 2); kn.translate(0.07, ky, kz); bins.add(knobMat(), kn);
-  const bt = G.lathe([[0.0001, 0], [0.008, 0], [0.008, 0.008], [0.0001, 0.009]], 16); bt.rotateX(Math.PI / 2); bt.translate(0.12, ky, kz); bins.add(L.moulded('#B3261E', 0.4), bt);
+  const ky = table ? Hb * 0.52 : Hb - 0.035, kz = G.lerp(W, Wh, (ky - 0.016) / (Hb - 0.016)) / 2 + 0.002;
+  const kx = table ? 0.035 : 0.07, bx = table ? 0.085 : 0.12;
+  const kn = G.lathe([[0.0001, 0], [0.021, 0], [0.021, 0.018], [0.017, 0.024], [0.0001, 0.025]], 32); kn.rotateX(Math.PI / 2); kn.translate(kx, ky, kz); bins.add(knobMat(), kn);
+  const bt = G.lathe([[0.0001, 0], [0.008, 0], [0.008, 0.008], [0.0001, 0.009]], 16); bt.rotateX(Math.PI / 2); bt.translate(bx, ky, kz); bins.add(L.moulded('#B3261E', 0.4), bt);
   if (on) {
     // the flame: additive light inside the glass (no speckle), plus a warm bloom round the tube
     const fg = flameGeometry(yG0 + 0.04, yG1 - 0.05, R, 1.3);
@@ -448,12 +457,12 @@ function flameColumn(bins, extra, { H, W, Hb, Wt, R, on, mat, lounge = false, GC
     const pts = []; for (let i = 0; i <= 16; i++) pts.push(V3(0, yG0 + 0.06 + (yG1 - yG0 - 0.16) * (i / 16), 0));
     GC.haloTube(pts, R * 4.6, [1.25, 0.5, 0.12], 0.62, { core: 0.36, coreW: 0.72, radial: 28, iFn: (t) => 0.62 * (1 - 0.6 * t) * G.smoothstep(0, 0.12, t) });
     // warm light on the floor round the housing (the housing shades the floor under it)
-    const yS = G.lerp(yG0, yG1, 0.4), pad = lounge ? 1.0 : 1.4, half = W / 2 + 0.01;
+    const yS = G.lerp(yG0, yG1, 0.4), pad = table ? 0.7 : lounge ? 1.0 : 1.4, half = W / 2 + 0.01;
     const occl = (x, z, s) => {
       const r = Math.max(Math.abs(x), Math.abs(z)), rs = half * s.p.y / Math.max(0.05, s.p.y - Hb);
       return G.smoothstep(rs * 0.8, rs * 1.2, r) * G.smoothstep(pad, pad * 0.45, Math.hypot(x, z));
     };
-    GC.floorPool([{ p: V3(0, yS, 0), I: 1, color: [1.25, 0.5, 0.13] }], { pad, res: 200, k: lounge ? 0.5 : 0.9, max: 0.16, minH: 0.05, occl });
+    GC.floorPool([{ p: V3(0, yS, 0), I: 1, color: [1.25, 0.5, 0.13] }], { pad, res: 200, k: table ? 0.32 : lounge ? 0.5 : 0.9, max: 0.16, minH: 0.05, occl });
   }
   return { top: H, detailY: G.lerp(yG0, yG1, 0.35) };
 }
@@ -516,23 +525,36 @@ function electric(p, GC) {
   let tiltDeg, glowWorld = null;
   if (fitted) {
     // clamp round the leg (y axis) at hc, the bracket as a fork from the stud to the knobs
+    // round 5: the heater *hangs* from the clamp: a square arm from the clamp's stud plate runs out
+    // over the housing, the U-bracket (opening down) is bolted under its end with a star knob,
+    // and its arms come down to the tilt knobs on the end caps. Seen from a little above, the
+    // whole load path reads: leg, clamp, arm, knob, bracket, knobs, heater (the old fork sat
+    // behind the housing, out of sight, so the heater seemed to float in front of the leg)
     const hc = mountedTent ? Number(p.height ?? 2.0) : 1.9;
-    const stud = PM.clampAt(bins2, body, capBase, hc);
-    const zb = 0.072;
-    const fork = PM.forkBracket(xs, zb); fork.translate(0, hc, stud.z - 0.002 + zb); bins2.add(body, fork);
+    PM.clampAt(bins2, body, capBase, hc);
+    const zH = 0.1, hBr = 0.082;
+    const top = PM.clampArm(bins2, body, capBase, hc, zH);
+    const yK = top.y - 0.0015 - hBr;                // tilt-knob axis (strap centre 1.5 mm under the arm)
+    const br = PM.hangerBracket(xs, hBr); br.translate(0, yK, zH); bins2.add(body, br);
     tiltDeg = mountedTent ? 22 : 12;                // pointing a little down, at the people
     headG.rotation.x = tiltDeg * DEG;
-    headG.position.set(0, hc, stud.z - 0.002 + zb);
+    headG.position.set(0, yK, zH);
     if (!mountedTent) {
       // the leg: runs out of the frame both ways
       const legB = new G.PartBin(); PM.easyUpLeg(legB, hc - 1.2, hc + 0.9);
       const legG = new THREE.Group(); legB.build(legG); SG.noFrame(legG); group.add(legG);
       // cable from the right end cap, hanging down along the leg
       const hm = new THREE.Matrix4().compose(headG.position, new THREE.Quaternion().setFromEuler(headG.rotation), V3(1, 1, 1));
-      const s0 = V3(Lh / 2 + 0.012, -0.03, -0.03).applyMatrix4(hm);
-      const ctrl = [s0, s0.clone().add(V3(0.01, -0.05, -0.01)), V3(s0.x - 0.02, hc - 0.2, s0.z - 0.06), V3(0.05, hc - 0.45, 0.06), V3(0.035, hc - 0.9, 0.035)];
+      // (round 5) the lead leaves the underside of the right end cap through its gland and drops
+      // straight down before it swings to the leg (it used to stick out sideways past the cap)
+      const s0 = V3(Lh / 2 + 0.006, -Hh / 2 - 0.004, -0.018).applyMatrix4(hm);
+      const ctrl = [s0, s0.clone().add(V3(0, -0.05, 0)), V3(s0.x - 0.03, hc - 0.32, s0.z - 0.05), V3(0.05, hc - 0.55, 0.06), V3(0.035, hc - 0.95, 0.035)];
       const cab = new THREE.CatmullRomCurve3(ctrl, false, 'centripetal').getSpacedPoints(80);
-      const cg = new THREE.Group(); const cb = new G.PartBin(); cb.add(rub, L.sweepProfile(cab, L.circleProfile(0.0035, 12)).geo); cb.build(cg);
+      const cg = new THREE.Group(); const cb = new G.PartBin(); cb.add(rub, L.sweepProfile(cab, L.circleProfile(0.0035, 12)).geo);
+      // cable gland under the end cap
+      const gl = G.lathe([[0.0001, 0], [0.0068, 0], [0.0068, -0.006], [0.0055, -0.009], [0.0048, -0.016], [0.0001, -0.016]], 20);
+      gl.translate(s0.x, s0.y + 0.003, s0.z); cb.add(capBase, gl);
+      cb.build(cg);
       // the first few cm count for the framing (the cable gland), the rest hangs out of the frame
       SG.noFrame(cg); group.add(cg);
     }
@@ -605,21 +627,25 @@ export function heater(p = {}) {
   let info;
   if (style === 'flame' || style === 'pyramide' || style === 'piramide') info = flameColumn(bins, extra, { H: 2.27, W: 0.5, Hb: 0.66, Wt: 0.26, R: 0.05, on, mat: frameMat(p.color || 'zwart'), GC });
   else if (style === 'lounge') info = flameColumn(bins, extra, { H: 1.15, W: 0.4, Hb: 0.44, Wt: 0.3, R: 0.045, on, mat: frameMat(p.color || 'zwart'), lounge: true, GC });
-  else if (style === 'tafel' || style === 'table') info = mushroom(bins, extra, { table: true, on, mat: frameMat(p.color || 'rvs'), GC });
+  // 'tafel' (round 5): the table model of the black glass-tube lounge heater (loungeheater-gas
+  // tafelmodel); the stainless mushroom table heater stays as 'tafelpaddenstoel'
+  else if (style === 'tafel' || style === 'table') info = flameColumn(bins, extra, { H: 0.86, W: 0.3, Hb: 0.15, Wt: 0.24, R: 0.038, on, mat: frameMat(p.color || 'zwart'), lounge: true, table: true, GC });
+  else if (/^(tafel|table)[\s-]*(paddenstoel|mushroom)$/.test(style)) info = mushroom(bins, extra, { table: true, on, mat: frameMat(p.color || 'rvs'), GC });
   else info = mushroom(bins, extra, { on, mat: frameMat(p.color || 'rvs'), GC });
   const group = new THREE.Group(); group.name = `heater ${kind} ${style}`;
   bins.build(group);
   group.traverse((o) => { if (o.isMesh) { const nm = o.material.name || ''; o.castShadow = !/clear glass|lit/.test(nm); o.receiveShadow = true; } });
   for (const e of extra) group.add(e);
   if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.05, 0)));
-  const mushroomStyle = !(style === 'flame' || style === 'pyramide' || style === 'piramide' || style === 'lounge');
-  const steelish = !/zwart|antraciet|brons/.test(String(p.color || (style === 'flame' || style === 'lounge' ? 'zwart' : 'rvs')));
+  const columnStyle = style === 'flame' || style === 'pyramide' || style === 'piramide' || style === 'lounge' || style === 'tafel' || style === 'table';
+  const mushroomStyle = !columnStyle;
+  const steelish = !/zwart|antraciet|brons/.test(String(p.color || (columnStyle ? 'zwart' : 'rvs')));
   return {
     object: group,
-    detail: { target: [0, info.detailY, 0], size: style === 'tafel' ? 0.4 : 0.55, azimuth: 30, elevation: 8 },
+    detail: { target: [0, info.detailY, 0], size: /tafel|table/.test(style) ? 0.4 : 0.55, azimuth: 30, elevation: 8 },
     // mushroom heaters: from a little under the reflector's rim, so its underside (orange from the
     // glowing screen) is in the picture, as in a photo of a heater that is on
-    view: { hero: { elevation: mushroomStyle ? (style === 'tafel' || style === 'table' ? 4 : 3) : 15 } },
+    view: { hero: { elevation: mushroomStyle ? (/tafel|table/.test(style) ? 4 : 3) : 15 } },
     // stainless reflects the studio: the dark studio map gives it real contrast (light and dark
     // bands) instead of a flat grey; a dimmer key keeps the white of the reflector off the clip
     rig: { default: { exposure: 1.0, env: steelish ? 'studio' : 'room', envIntensity: steelish ? 1.15 : 0.9, contact: { strength: 0.7, h0: 0.01 }, groundAO: { strength: 0.8 } } },

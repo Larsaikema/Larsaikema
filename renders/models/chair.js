@@ -26,7 +26,8 @@ import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { rng } from '../js/rng.js';
 import { weddingChair, stretchCover } from './chairs2.js';
-import { chair3, chairRow } from './chairs3.js'; // round 5: bistro-klap, kunststof, polycarbonaat, rows
+import { chair3, chairRow } from './chairs3.js';
+import { coveredFrame, stretchCoverFull } from './chairCover.js'; // round 6: lycra stoelhoes // round 5: bistro-klap, kunststof, polycarbonaat, rows
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -260,8 +261,10 @@ export function chair(p = {}) {
       // the cover goes on a white chair under pale lycra, a black one under dark lycra (the bare
       // low stretchers then match the cover)
       const L = new THREE.Color(M.resolveColor(p.coverColor || 'wit', '#F3F3F0')); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
-      info = klapstoel(bins, p.color || (lum > 0.3 ? 'wit' : 'zwart'));
-      stretchCover(bins, p.coverColor || 'wit');
+      // round 6 (chairCover.js): the sewn lycra cover over the whole chair; only the low stretchers stay bare
+      coveredFrame(bins, p.color || (lum > 0.3 ? 'wit' : 'zwart'));
+      stretchCoverFull(bins, p.coverColor || 'wit');
+      info = { seatY: 0.48, seatZ: 0 };
     } else info = klapstoel(bins, color);
   }
   else if (style === 'crossback' || style === 'cross-back') info = crossback(bins, color);
@@ -284,8 +287,10 @@ export function chair(p = {}) {
       if (p.cover) {
         const cc = String(p.coverColor || 'wit').toLowerCase();
         const L = new THREE.Color(M.resolveColor(cc, '#F3F3F0')); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
-        if (lum > 0.45) r.default.exposure = Math.max(r.default.exposure, 0.84);
-        else if (cc !== 'zwart' && cc !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 0.95);
+        // round 6: pale lycra at 0.72 (at 0.84 the back printed as a blank white board: the waist, the tension
+        // wrinkles and the seams need the top of the curve)
+        if (lum > 0.45) r.default.exposure = 0.72;
+        else if (cc !== 'zwart' && cc !== 'antraciet') r.default.exposure = Math.min(r.default.exposure, 0.86);
       }
       return r;
     })(),

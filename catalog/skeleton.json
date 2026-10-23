@@ -205528,7 +205528,7 @@
       "model": "ropeLight",
       "params": {
        "color": "#F4E3BC",
-       "length": 5,
+       "length": 15,
        "on": true
       },
       "angle": "hero"
@@ -292154,7 +292154,12 @@
         }
        ]
       },
-      "angle": "hero"
+      "angle": "hero",
+      "camera": {
+       "azimuth": 58,
+       "elevation": 27,
+       "fill": 0.9
+      }
      },
      "model_status": "existing"
     },
@@ -309289,7 +309294,8 @@
       "params": {
        "parts": [
         "m"
-       ]
+       ],
+       "beltLength": 2
       },
       "angle": "hero"
      },
@@ -309305,7 +309311,8 @@
       "params": {
        "parts": [
         "m"
-       ]
+       ],
+       "beltLength": 3
       },
       "angle": "hero"
      },
@@ -309321,7 +309328,8 @@
       "params": {
        "parts": [
         "liggend"
-       ]
+       ],
+       "format": "A4"
       },
       "angle": "hero"
      },
@@ -309353,7 +309361,8 @@
       "params": {
        "parts": [
         "liggend"
-       ]
+       ],
+       "format": "A3"
       },
       "angle": "hero"
      },

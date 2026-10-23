@@ -5,7 +5,8 @@
 //     four quarter-round tables (banquetTable.js kwartrond: outer radius = diameter / 2, depth `width`,
 //     default 0.76) round one centre, forming a ring (Ø 305 cm with an open middle of Ø 153); a 6 mm
 //     joint between neighbours as two real tables leave. Other counts / arrangements: the quarters
-//     follow each other round the same centre (2 = a half ring, 3 = three quarters).
+//     follow each other round the same centre (2 = a half ring, 3 = three quarters). Angle 'top' looks
+//     straight down (89 deg), so the ring reads as a circle.
 import * as THREE from 'three';
 import * as S from '../js/seatKit.js';
 import { banquetTable } from './banquetTable.js';
@@ -35,6 +36,9 @@ export function tableRing(p = {}) {
     object: group,
     detail: { target: [R1 * 0.7, 0.72, R1 * 0.7], size: 0.6, azimuth: 40, elevation: 20 },
     meta: { ...(first.meta || {}), count: n, arrangement: p.arrangement || 'cirkel', D },
+    // round 6: 'top' really from above (89 deg; the 62 deg preset drew the Ø305 ring as an oval, while the
+    // alt text says "van boven gezien")
+    view: { top: { elevation: 89, azimuth: 0, fill: 0.84 } },
     rig: (() => {
       const r = S.seatRig(group, { default: { groundAO: { maxZenith: 50, strength: 0.5, blur: 4.5 }, shadowFloor: 0.76, keyShadow: 0.3, contact: { strength: 0.5 } } });
       if (top === 'hout' || top.includes('berk')) r.default.exposure = Math.max(r.default.exposure, 0.8);

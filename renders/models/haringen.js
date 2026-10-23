@@ -18,6 +18,7 @@ import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
 import * as K4 from '../js/partsKit4.js';
+import * as L5 from '../js/partsLook5.js';
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -121,7 +122,7 @@ export function haringen(p = {}) {
       object: root,
       detail: { target: [0, 0.03, len / 2], size: 0.22, azimuth: 20, elevation: 24 },
       view: { hero: { elevation: 32, azimuth: 34 } },
-      rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } },
+      rig: L5.flatLayRig({ envIntensity: 1.1 }),
       meta: { type, n, len },
     };
   }
@@ -148,7 +149,7 @@ export function haringen(p = {}) {
       for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(place); bins.add(mat, geo); }
     }
     const g = K.finish(bins, `haringen pen ${n}`);
-    return { object: g, detail: { target: [0, 0.01, 0], size: 0.12, azimuth: 20, elevation: 40 }, view: { hero: { elevation: 42 } }, rig: { default: { contact: { strength: 0.85, h0: 0.003, res: 1024, blur: 1.1 }, groundAO: { strength: 0.75, maxZenith: 80 } } }, meta: { type, n, len } };
+    return { object: g, detail: { target: [0, 0.01, 0], size: 0.12, azimuth: 20, elevation: 40 }, view: { hero: { elevation: 42 } }, rig: L5.flatLayRig({ contact: { h0: 0.0025 } }), meta: { type, n, len } };
   }
   if (type === 'oog') {
     // stertent-haring met oog: Ø 16 mm galvanised round bar, cone point, the head forged into a
@@ -167,24 +168,32 @@ export function haringen(p = {}) {
     const g = K.finish(bins, `haringen oog ${len}`);
     g.rotation.y = -31 * DEG;
     const root = new THREE.Group(); root.add(g);
-    return { object: root, detail: { target: [0, 0.02, 0], size: 0.15, azimuth: 20, elevation: 30 }, view: { hero: { elevation: 32 } }, rig: { default: { envIntensity: 1.1, contact: { strength: 0.9, h0: 0.004, res: 1024, blur: 1.1 }, groundAO: { strength: 0.8, maxZenith: 80 } } }, meta: { type, n: 1, len } };
+    return { object: root, detail: { target: [0, 0.02, 0], size: 0.15, azimuth: 20, elevation: 30 }, view: { hero: { elevation: 32 } }, rig: L5.flatLayRig({ envIntensity: 1.1 }), meta: { type, n: 1, len } };
   }
-  // wire pegs with hook + red stopper, laid in a fan
+  // wire pegs with hook + red stopper. Round 5: a tidy parallel row (knolling), hooks at the
+  // same end, every other peg set back a little; spaced so no hook or stopper touches its
+  // neighbour (the round-4 fan ran the hooks through each other)
   const galv = M.galvanised();
   const cap = M.nylon('#C7372E');
   const wr = 0.0032;
+  const pitch = 0.03;
   for (let i = 0; i < n; i++) {
-    const a = (-24 + (48 * i) / Math.max(1, n - 1)) * DEG;
-    const dir = V3(Math.sin(a), 0, -Math.cos(a));
-    const base = V3((i - (n - 1) / 2) * 0.014, 0, 0.1);
+    const dir = V3(0, 0, -1);
+    const base = V3((i - (n - 1) / 2) * pitch, 0, 0.1 + (i % 2) * 0.018);
     const pts = [];
     // hook (in the vertical plane through the shaft), then the straight shaft to the tip
     const R = 0.012;
     for (let k = 0; k <= 16; k++) { const t = Math.PI * 1.1 * (1 - k / 16); pts.push(base.clone().addScaledVector(dir, -R + R * Math.cos(t)).setY(wr + R * Math.sin(t))); }
     for (let k = 1; k <= 20; k++) pts.push(base.clone().addScaledVector(dir, (len - 0.01) * (k / 20)).setY(wr));
-    bins.add(galv, K.tubeAlong(pts, wr, 10, { scale: (j) => (j > pts.length - 4 ? Math.max(0.2, (pts.length - 1 - j) / 3) : 1) }));
-    bins.add(cap, G.tube(base.clone().addScaledVector(dir, 0.012).setY(wr), base.clone().addScaledVector(dir, 0.04).setY(wr), 0.0062, 14));
+    bins.add(galv, K.tubeAlong(pts, wr, 12, { scale: (j) => (j > pts.length - 4 ? Math.max(0.2, (pts.length - 1 - j) / 3) : 1) }));
+    // moulded stopper: a short tapered sleeve with a collar
+    const st = K.lathe([[0.0035, 0], [0.0062, 0], [0.0066, 0.004], [0.0058, 0.026], [0.0046, 0.03], [0.0035, 0.03]], 24);
+    st.rotateX(Math.PI / 2); st.rotateY(Math.PI); st.translate(base.x, wr, base.z - 0.012);
+    bins.add(cap, st);
   }
   const g = K.finish(bins, `haringen wand ${n}`);
-  return { object: g, detail: { target: [0, 0.01, 0], size: 0.2, azimuth: 20, elevation: 40 }, view: { hero: { elevation: 38 } }, meta: { type, n, len } };
+  // the row runs across the frame (hooks towards the camera's left-front)
+  g.rotation.y = (34 + 90 - 8) * DEG;
+  const root = new THREE.Group(); root.add(g);
+  return { object: root, detail: { target: [0, 0.01, 0], size: 0.2, azimuth: 20, elevation: 40 }, view: { hero: { elevation: 40 } }, rig: L5.flatLayRig(), meta: { type, n, len } };
 }

@@ -7,7 +7,7 @@ spec unchanged; only size / samples / background are set here. Output paths poin
 catalog/images/ (relative to the batch file).
 
   python3 renders/tools/batch_lighting.py            # final: renders/batches/lighting-final.jsonl (2000 px, 40 samples)
-  python3 renders/tools/batch_lighting.py --preview  # renders/batches/lighting.jsonl (1200 px, 14 samples)
+  python3 renders/tools/batch_lighting.py --preview  # renders/batches/lighting.jsonl (1200 px, 14 samples; banners at job size)
   node renders/render.mjs --batch renders/batches/lighting.jsonl
 """
 import copy, json, sys
@@ -37,8 +37,9 @@ def main():
         w, h = s.pop('imageWidth', None), s.pop('imageHeight', None)
         s.pop('size', None)
         if w and h:
-            k = 1200 / max(w, h) if preview else 1
-            s['imageWidth'], s['imageHeight'] = round(w * k), round(h * k)
+            # banners keep their job size (1800 x 1100) in the preview too: scaled to 1200 x 733 the
+            # lamps of the prikkabel banner were specks (art director, round 5)
+            s['imageWidth'], s['imageHeight'] = w, h
         else:
             s['size'] = 1200 if preview else 2000
         s['samples'] = 14 if preview else 40

@@ -23,6 +23,7 @@ import * as TX from '../js/textures.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -252,39 +253,46 @@ export function easyUpParts(p = {}) {
   // round 4: dwarsbuis voor halve zijwand: Ø 25 mm aluminium tube of `length` m plus two hinged
   // leg clamps (40 / 50 mm hex legs) with a welded cradle for the tube end and a thumbscrew
   if (parts.length === 1 && parts[0] === 'dwarsbuis') {
+    // Round 5: shown fitted, as it is used: two easy-up legs (Professional 50 mm hex, running out
+    // of the frame top and bottom), a clamp round each leg at half-wall height and the Ø 25 mm bar
+    // spanning the full `length` between their cradles. Seen from close to one leg with a wider
+    // lens, so the near clamp (hinge, wing bolt, cradle, thumbscrew) is large and the bar runs
+    // back to the far leg and its clamp (round 4: a thin rod out of the frame + two tiny clamps).
     const Lt = Number(p.length ?? 3);
     const alu = SG.aluSG({ tone: '#C8CCD0', rough: 0.3 });
     const galv = L3.galvFine({ cell: 0.0035 });
     const zinc = K.zinc();
+    const m = mats('professional');
     const ro = 0.0125, ri = 0.011;
-    // near part (framed) and the rest of the bar, which runs on out of the frame (noFrame): a 3 m
-    // bar next to two hand-sized clamps would otherwise shrink the clamps to a few pixels
-    const Ln = Math.min(Lt, 0.95);
-    const tube = K.lathe([[ri, 0.05], [ri, 0.0006], [ri + 0.0004, 0], [ro - 0.0004, 0], [ro, 0.0006], [ro, Ln]].reverse(), 40);
-    const far = K.lathe([[ro, Ln], [ro, Lt - 0.0006], [ro - 0.0004, Lt], [ri + 0.0004, Lt], [ri, Lt - 0.0006], [ri, Lt - 0.05]].reverse(), 40);
-    // lies on the floor running away from the camera, a little diagonal
-    const yawT = (34 + 90 + 26) * DEG;
-    const dir = V3(Math.cos(yawT), 0, -Math.sin(yawT));
-    const start = V3(0, 0, 0);
-    for (const t of [tube, far]) { t.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), dir)); t.translate(start.x, ro, start.z); }
-    bins.add(alu, tube);
-    const farMesh = K.meshOf(far, alu); farMesh.userData.noFrame = true; group.add(farMesh);
-    // the two clamps lie flat in front of the near end, side by side
-    const right = V3(Math.cos(34 * DEG), 0, -Math.sin(34 * DEG)), fwd = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
-    const near = start.clone();
-    [-1, 1].forEach((s2, k) => {
+    const yB = 1.0;                                   // bar height
+    const cr = 0.0132, cw = 0.003, zc = 0.029 + 0.004 - 0.001 + 0.03 + cr + cw;
+    const yClamp = yB - (cr + cw);                    // clamp base so the bar sits in the cradles
+    for (const x of [0, -Lt]) {
       const sub = new G.PartBin();
       clampForBar(sub, galv, zinc);
-      const c = near.clone().addScaledVector(right, 0.16 + k * 0.16).addScaledVector(fwd, 0.12 - k * 0.1);
-      const m = new THREE.Matrix4().makeRotationY((34 + 200 + k * 25) * DEG).setPosition(c.x, 0, c.z);
-      for (const [mat, list] of sub.bins) for (const geo of list) { geo.applyMatrix4(m); bins.add(mat, geo); }
-    });
+      for (const [mat, list] of sub.bins) for (const geo of list) { geo.translate(x, yClamp, 0); bins.add(mat, geo); }
+      // the leg through the clamp, standing on its foot plate (not framed: the near one runs out
+      // of the picture)
+      const leg = G.prism(hexP(SPEC.professional.leg), V3(x, 0.005, 0), V3(x, 2.9, 0), { side: V3(1, 0, 0) });
+      const lm = K.meshOf(leg, m.tube); lm.userData.noFrame = true; group.add(lm);
+      const fp = new G.PartBin(); voetplaat(fp, 'professional');
+      for (const [mat, list] of fp.bins) for (const geo of list) { geo.translate(x, 0, 0); const mm = K.meshOf(geo, mat); mm.userData.noFrame = true; group.add(mm); }
+    }
+    // the bar, cut ends with a small chamfer, resting in both cradles
+    const tube = K.lathe([[ri, 0.05], [ri, 0.0006], [ri + 0.0004, 0], [ro - 0.0004, 0], [ro, 0.0006], [ro, Lt + 0.03 - 0.0006], [ro - 0.0004, Lt + 0.03], [ri + 0.0004, Lt + 0.03], [ri, Lt + 0.03 - 0.0006], [ri, Lt + 0.03 - 0.05]].reverse(), 48);
+    tube.rotateZ(Math.PI / 2); tube.translate(0.015, yB, zc);
+    bins.add(alu, tube);
     bins.build(group);
+    group.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.userData.noFrame = true; } });
+    // camera pinned close to the near leg (solved offline): near clamp ~0.5 m from the lens on the
+    // right, the bar running back to the far clamp ~3.7 m away on the left
+    const cam = { az: 74.9, el: 6.5, D: 0.886, fov: 40, fill: 0.86 };
+    group.add(L5.viewProxy(V3(-0.4, yB, zc), cam.az, cam.el, cam.D * Math.tan((cam.fov / 2) * DEG) * cam.fill));
     return {
       object: group,
-      detail: { target: [near.x + 0.2, 0.03, near.z + 0.05], size: 0.3, azimuth: 30, elevation: 30 },
-      view: { hero: { elevation: 26 } },
-      rig: { default: { envIntensity: 1.0, contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+      detail: { target: [0, yB, zc * 0.5], size: 0.3, azimuth: 30, elevation: 12 },
+      view: { hero: { azimuth: cam.az, elevation: cam.el, fov: cam.fov, fill: cam.fill } },
+      rig: { default: { env: 'studio', envIntensity: 1.0, edgeFade: 0.07, contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
       meta: { parts, length: Lt },
     };
   }
@@ -301,7 +309,10 @@ export function easyUpParts(p = {}) {
     const lay = new THREE.Group();
     const inner = new THREE.Group();
     sub.build(inner); subEx.forEach((e) => inner.add(e));
-    inner.rotation.set((p.spin ?? 30) * DEG, 0, -Math.PI / 2);
+    // round 5: a FACET faces the camera (spin 0), so one broad face reads between two narrower,
+    // differently lit ones: the hexagon reads (with a ridge to the camera, spin 30, two equal faces
+    // read as a square bar)
+    inner.rotation.set((p.spin ?? 0) * DEG, 0, -Math.PI / 2);
     inner.position.x = -length / 2 - lift;
     lay.add(inner); lay.updateMatrixWorld(true);
     let foot = { y: Infinity, x: 0 }, head = { y: Infinity, x: 0 };
@@ -326,8 +337,8 @@ export function easyUpParts(p = {}) {
       detail: { target: [0.75, 0.06, 0.35], size: 0.4, azimuth: 30, elevation: 25 },
       // a corner of the hex tube up: two lit flanks meet in a ridge and the hex reads; low
       // enough that the bracket, slider and foot socket show their sides
-      view: { hero: { elevation: 24 } },
-      rig: { default: { env: 'studio', envIntensity: 1.0, contact: { strength: 0.85, h0: 0.008, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+      view: { hero: { elevation: 26, fill: 0.88 } },
+      rig: { default: { env: 'studio', envStudio: L5.GOODS_ENV, envIntensity: 1.0, contact: { strength: 0.95, h0: 0.006, res: 1024, blur: 1.2, wide: { strength: 0.45, h0: 0.02, sigma: 0.014 } }, groundAO: { strength: 0.8, maxZenith: 80 } } },
       meta: { parts, kind },
     };
   }

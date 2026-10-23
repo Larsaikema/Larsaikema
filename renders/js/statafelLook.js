@@ -2,22 +2,27 @@
 // coat, and the studio rig every statafel / statafelrok packshot uses.
 //
 // Materials
-//   jerseyKnit(color)  polyester-elastane single jersey (statafelrok stretch): 0.9 mm wales of V
-//                      loops (knit normal, uv in metres; the engine `weave` hook boosts it in close-ups
-//                      and fades it at catalogue distance), satin-glossy under tension: anisotropic lobe
-//                      along the stretch (uv v), dye-tinted sheen, the engine `streak` field (tension
-//                      streaks in the funnel, see withStreakEnd). {flat: true}: isotropic top panel.
+//   jerseyKnit(color)  polyester-elastane single jersey (statafelrok stretch, round 5): fine 0.58 x 0.46 mm loops
+//                      (shallow, jittered V legs, engine `weave` hook; faded out before the wales reach ~1 px), a
+//                      faint isotropic stretch mottle (jerseyMacroNormal) and a dithered dye mottle map; one
+//                      isotropic specular lobe strong enough to mirror the studio softboxes as broad highlights that
+//                      follow the form, a fibre sheen lobe (dye-tinted; black a cool dark grey), both softened at
+//                      grazing view (engine `grazing` hook). No streak field. uv in metres on every panel.
+//                      {flat: true}: top panel. jerseyEdge(color): thin folded edges (no relief).
 //   wovenCloth(color)  woven polyester (strik hoes): fine plain weave + fabricMacro layer (yarn streaks
 //                      and slubs that read at hero size), faint satin sheen.
 //   satinPowder(color) powder coat without stipple noise: ~4 % black under a satin clear layer, so tubes
 //                      carry broad soft highlights of the studio strips.
 //   thread(color)      sewing thread for seams / hems (same dye, sheen).
 // Rig
-//   statafelRig({ albedoL, kind, folded }) -> rig hints { default, detail }: a large overhead
-//   softbox for the floor shadow (pools under the product), a front-left modelling key at 38 deg,
-//   a large frontal fill, a floor bounce card, a studio reflection map with defined softboxes
-//   (dark elsewhere: black cloth keeps its depth, red keeps its hue), Neutral tone mapping, soft
-//   contact occlusion under feet / hems, and per-product exposure.
+//   statafelRig({ albedoL, kind, folded }) -> rig hints { default, detail }: a shadowed overhead softbox
+//   at 1.2 m on the key side (every horizontal top the brightest surface, with a soft falloff), a large
+//   overhead box for the floor shadow (pools under the product), a front-left modelling key at 38 deg, a
+//   large frontal fill, a floor bounce card, a studio reflection map with defined softboxes and a low soft
+//   sheet behind the set (broad, low sheen on a top's far half; dark elsewhere: black cloth keeps its depth,
+//   red keeps its hue), Neutral tone mapping, soft contact occlusion under feet / hems, and per-product
+//   exposure. STATAFEL_ENV_BLACK (black jersey): + two tall strip boxes and a white floor card, so black cloth
+//   shows its form in what it mirrors.
 import * as THREE from 'three';
 import { makeNoise2, rng } from './rng.js';
 import { resolveColor } from './materials.js';
@@ -123,34 +128,33 @@ function blurTile(a, N, r, passes = 2) {
   return src;
 }
 export function jerseyMacroNormal() {
-  return cached('jerseyMacro', () => {
+  return cached('jerseyMacro7', () => {
+    // round 5: only a soft, isotropic stretch mottle (blurred noise, ~7 and ~20 mm blobs: uneven tension over
+    // the form); no fine grain, no course bars and no plane-wave sums (each of those read as parallel streaks
+    // once the cloth carries a real specular lobe)
     const N = 512, R = rng(61);
     const white = new Float32Array(N * N); for (let i = 0; i < N * N; i++) white[i] = R() * 2 - 1;
-    const grain = blurTile(white, N, 1, 2);                          // ~1-1.5 mm
-    const mottle = tileField(R, N, 8, 40, 36, 1.1);                  // 6-30 mm
-    const bars = new Float32Array(N); { let s = 0; for (let i = 0; i < N; i++) { s = 0.82 * s + (R() * 2 - 1); bars[i] = s; } }
-    let bm = 0; for (const v of bars) bm += v * v; bm = Math.sqrt(bm / N); for (let i = 0; i < N; i++) bars[i] /= bm;
-    const barMod = tileField(R, N, 3, 10, 12);
-    const roughF = tileField(R, N, 6, 30, 24);
+    const m1 = blurTile(white, N, 14, 3), m2 = blurTile(white, N, 40, 3);
+    const roughF = blurTile(white, N, 24, 3);
     const h = new Float32Array(N * N), rr = new Float32Array(N * N);
-    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
-      const i = y * N + x;
-      h[i] = 0.016 * grain[i] + 0.05 * mottle[i] + 0.006 * bars[y] * Math.max(0, 0.4 + 0.6 * barMod[i]);
-      rr[i] = 0.35 * roughF[i] + 0.25 * grain[i];
-    }
+    for (let i = 0; i < N * N; i++) { h[i] = 0.035 * m1[i] + 0.05 * m2[i]; rr[i] = 0.3 * roughF[i]; }
+    // slopes encoded with a gain of JMACRO_GAIN (they are tiny: at the usual x2 they fell into 1-4 steps of the 8 bit
+    // range and the quantisation terraces read as fine streaks in the specular); the material's macro strength
+    // divides it out again
     const out = new Uint8Array(N * N * 4);
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
       const xl = (x - 1 + N) % N, xr = (x + 1) % N, yu = (y - 1 + N) % N, yd = (y + 1) % N;
       const dx = (h[y * N + xr] - h[y * N + xl]) / 2, dy = (h[yd * N + x] - h[yu * N + x]) / 2;
       const k = (y * N + x) * 4;
-      out[k] = Math.round(Math.min(255, Math.max(0, (-dx * 2 + 0.5) * 255)));
-      out[k + 1] = Math.round(Math.min(255, Math.max(0, (-dy * 2 + 0.5) * 255)));
+      out[k] = Math.round(Math.min(255, Math.max(0, (-dx * JMACRO_GAIN + 0.5) * 255)));
+      out[k + 1] = Math.round(Math.min(255, Math.max(0, (-dy * JMACRO_GAIN + 0.5) * 255)));
       out[k + 2] = Math.round(Math.min(255, Math.max(0, (0.5 + rr[y * N + x] * 0.25) * 255)));
       out[k + 3] = 255;
     }
     return dataTex(out, N, N, { name: 'jersey macro normal' });
   });
 }
+export const JMACRO_GAIN = 40;
 // Dye / stretch mottle of a cloth panel as a colour multiplier (linear, mean ~0.975, +-1.5 %), one
 // tile = 0.9 m (a whole blad): soft 1-6 cm clouds and a faint fine grain.
 export const MOTTLE = 0.9;
@@ -163,7 +167,7 @@ export function clothMottle(amount = 1) {
     const out = new Uint8Array(N * N * 4);
     for (let i = 0; i < N * N; i++) {
       const v = Math.min(1, Math.max(0, 0.975 + amount * (0.011 * low[i] + 0.004 * grain[i])));
-      const b = Math.round(v * 255);
+      const b = Math.min(255, Math.max(0, Math.round(v * 255 + (R() - 0.5))));
       out[i * 4] = out[i * 4 + 1] = out[i * 4 + 2] = b; out[i * 4 + 3] = 255;
     }
     return dataTex(out, N, N, { name: 'cloth mottle' });
@@ -209,49 +213,59 @@ export const dyeChroma = (color) => chroma(new THREE.Color(resolveColor(color, '
 
 export function jerseyKnit(color, { normal = 0.32, flat = false } = {}) {
   const hex = resolveColor(color, '#1D1E20');
-  return cached(`jersey4:${hex}:${normal}:${flat ? 'flat' : 'body'}`, () => {
+  return cached(`jersey5:${hex}:${normal}:${flat ? 'flat' : 'body'}`, () => {
     const base = clothAlbedo(hex);
     const L = lumLin(base), dark = L < 0.06, light = L > 0.5;
     const chr = chroma(base);
-    // polyester-elastane jersey under tension: a satin-matte cloth. The stretched loops lie flat and aligned
-    // with the pull, so the body's highlights are drawn out a little along the stretch (weak anisotropic lobe
-    // along uv v = down the profile: rim -> waist -> feet); the flat top panel (planar uv, tension in all
-    // directions) is isotropic. Specular and sheen fall off towards grazing view (engine `grazing` hook):
-    // ridges and folds turned edge-on keep a soft satin band, never a chrome or glassy hairline.
-    // Dye mottle (map, mean 0.975: colour compensated) and the jersey macro layer (fine grain, soft stretch
-    // mottle, faint course bars) give the cloth its texture at catalogue distance, where the loops are sub-pixel.
+    // polyester-elastane jersey under tension (round 5): a smooth filament knit with a soft satin sheen. One
+    // isotropic specular lobe (roughness ~0.45) strong enough to mirror the studio's softboxes as BROAD soft
+    // highlights that follow the form (the funnel, the top, the flare), plus a fibre sheen lobe that lightens the
+    // cloth towards grazing view. Black relies on these for its form (its diffuse is ~3 %), a dyed colour keeps
+    // them weaker so its hue holds. Fine knit (close-ups) from the knit normal map, uv in metres on every panel;
+    // no streak field (it read as brushed metal).
     const m = new THREE.MeshPhysicalMaterial({
       color: base.clone().multiplyScalar(1 / 0.975), metalness: 0,
-      roughness: flat ? (dark ? 0.62 : 0.6) : dark ? 0.62 : chr > 0.2 ? 0.6 : 0.62,
-      specularIntensity: flat ? (dark ? 0.4 : 0.42) : dark ? 0.42 : chr > 0.2 ? 0.4 : 0.42,
-      sheen: flat && dark ? 0.4 : 0.45, sheenRoughness: 0.5,
-      // fibre sheen in the dye's own colour (black: a cool dark grey: Lycra, not rubber)
-      sheenColor: dark ? new THREE.Color().setRGB(0.1, 0.102, 0.108) : base.clone().multiplyScalar(light ? 0.9 : 1.05),
+      roughness: dark ? 0.38 : chr > 0.2 ? 0.48 : 0.46,
+      specularIntensity: dark ? 0.7 : chr > 0.2 ? 0.55 : 0.6,
+      sheen: dark ? 0.6 : 0.6, sheenRoughness: dark ? 0.38 : 0.42,
+      // fibre sheen: black a cool dark grey (Lycra, not rubber), dyes in their own colour
+      sheenColor: dark ? new THREE.Color().setRGB(0.09, 0.092, 0.098) : base.clone().multiplyScalar(light ? 0.9 : 1.1),
       normalMap: knitNormal().clone(), normalScale: new THREE.Vector2(normal, normal),
-      map: clothMottle(flat ? 1 : 0.6).clone(),
+      map: clothMottle(flat ? 0.8 : 0.6).clone(),
       side: THREE.DoubleSide, name: `jersey ${hex}${flat ? ' (top panel)' : ''}`,
     });
-    if (!flat) { m.anisotropy = 0.12; m.anisotropyRotation = Math.PI / 2; }
     m.normalMap.repeat.set(1 / (KNIT.WALES * KNIT.WALE), 1 / (KNIT.COURSES * KNIT.COURSE)); m.normalMap.needsUpdate = true;
     m.map.repeat.set(1 / MOTTLE, 1 / MOTTLE); m.map.needsUpdate = true;
     m.userData = {
-      envSpec: flat ? 0.42 : dark ? 0.5 : chr > 0.2 ? 0.42 : 0.46,
+      envSpec: dark ? 0.8 : chr > 0.2 ? 0.55 : 0.6,
       // close-ups: the loops shade a little (cavity) and their crowns carry a little more sheen; at catalogue
       // distance the relief folds into a matte lobe (engine weave hook)
-      weave: { repeats: KNIT.WALES, boost: 1.3, roughVar: 0.1, matte: 0.03, cav: dark ? 0.2 : 0.12, crown: dark ? 0.9 : 0.5 },
-      macro: { tex: jerseyMacroNormal(), scale: (KNIT.WALES * KNIT.WALE) / JMACRO, strength: flat ? 1.0 : 0.8, coat: 0, rough: 0.1 },
-      grazing: { spec: 0.3, sheen: 0.45, w: 0.45 },
+      // repeats counted per half-wale (the V legs): the relief fades out before the wales reach ~1 px (at a
+      // grazing view a half-resolved knit filtered into horizontal streaks)
+      weave: { repeats: KNIT.WALES * 1.6, boost: 1.3, roughVar: 0.08, matte: 0.02, cav: dark ? 0.2 : 0.12, crown: dark ? 0.7 : 0.4 },
+      // a faint stretch mottle only (0.2 at the old x2 slope encoding): stronger, its blobs seen at the grazing
+      // angle of the upper funnel were foreshortened into wavy horizontal streaks in the sheen
+      macro: { tex: jerseyMacroNormal(), scale: (KNIT.WALES * KNIT.WALE) / JMACRO, strength: (0.2 * 2) / JMACRO_GAIN, coat: 0, rough: 0.05 },
+      // a soft satin band at the silhouette, not a chrome hairline
+      grazing: { spec: 0.5, sheen: 0.9, w: 0.3 },
       dye: chr > 0.2 ? 0.3 : 0,
       albedoL: L,
     };
-    // tension streaks (engine streak hook) on the body: ~170 streaks round the rok (uv u = theta x 0.25 m,
-    // so at the blad rim ~1.5 cm apart, converging into the waist), wandering slowly along the profile;
-    // glossier and more specular, with a fine ridge across each. Start just under the lower blad arris
-    // (v0..v1, in normal-map uv units along v: 0.03..0.07 m of profile)
-    if (!flat) {
-      const repU = 1 / (KNIT.WALES * KNIT.WALE), repV = 1 / (KNIT.COURSES * KNIT.COURSE);
-      m.userData.streak = { fu: 95 / (Math.PI * 2 * 0.25 * repU), fv: 3.2 / repV, rough: 0.3, spec: dark ? 0.55 : 0.4, tilt: dark ? 0.4 : 0.3, v0: 0.035 * repV, v1: 0.075 * repV, seed: 3 };
-    }
+    return m;
+  });
+}
+
+// Folded edges and other thin tubes of jersey: the top panel's cloth without the knit / macro relief
+// (a 1 mm tube has no meaningful knit uv: the relief turned into glints)
+export function jerseyEdge(color) {
+  const hex = resolveColor(color, '#1D1E20');
+  return cached(`jerseyEdge:${hex}`, () => {
+    const m = jerseyKnit(color, { flat: true }).clone();
+    m.normalMap = null; m.map = null; m.color = clothAlbedo(hex);
+    // a 1 mm round edge always holds a normal facing the key: keep its highlight a soft satin line
+    m.roughness = 0.78; m.specularIntensity = 0.22; m.sheen = 0.3;
+    m.userData = { envSpec: m.userData.envSpec, grazing: m.userData.grazing, albedoL: m.userData.albedoL };
+    m.name = `jersey edge ${hex}`;
     return m;
   });
 }
@@ -271,20 +285,24 @@ export function withStreakEnd(mat, v2, v3) {
 
 export function wovenCloth(color) {
   const hex = resolveColor(color, '#F3F3F0');
-  return cached(`woven3:${hex}`, () => {
+  return cached(`woven4:${hex}`, () => {
     const base = clothAlbedo(hex, { min: 0.03, max: 0.78 });
     const L = lumLin(base), dark = L < 0.06, light = L > 0.5, chr = chroma(base);
     // polyester gabardine-like strik cloth: fine plain weave (sub-pixel at hero size) plus a macro layer
     // that does read at catalogue size (engine macro hook, textures.fabricMacroNormal: yarn-tension streaks
     // 1-6 mm along warp and weft, slubs, a soft cockle; it also varies the gloss), a faint satin sheen
+    // + the dye / tension mottle as a colour multiplier (mean 0.975, colour compensated): a white top is
+    // not a flat fill at catalogue size
     const m = new THREE.MeshPhysicalMaterial({
-      color: base, roughness: 0.6, metalness: 0, specularIntensity: dark ? 0.6 : 0.55,
+      color: base.clone().multiplyScalar(1 / 0.975), roughness: 0.6, metalness: 0, specularIntensity: dark ? 0.6 : 0.55,
       sheen: 0.55, sheenRoughness: 0.42,
       sheenColor: dark ? new THREE.Color().setRGB(0.08, 0.08, 0.085) : base.clone(),
       normalMap: wovenNormal().clone(), normalScale: new THREE.Vector2(0.45, 0.45),
+      map: clothMottle(0.8).clone(),
       side: THREE.DoubleSide, name: `woven poly ${hex}`,
     });
     m.normalMap.repeat.set(1 / (WOVEN.THREADS * WOVEN.PITCH), 1 / (WOVEN.THREADS * WOVEN.PITCH)); m.normalMap.needsUpdate = true;
+    m.map.repeat.set(1 / MOTTLE, 1 / MOTTLE); m.map.needsUpdate = true;
     m.userData = {
       envSpec: light ? 0.42 : dark ? 0.55 : 0.4,
       weave: { repeats: WOVEN.THREADS, boost: 1.8, roughVar: 0.2, matte: 0.04 },
@@ -353,6 +371,7 @@ export const STATAFEL_ENV = {
     { az: 28, el: 8, w: 48, h: 34, I: 1.1, soft: 0.6, hot: 0.15 },       // frontal fill card right
     { az: 150, el: 30, w: 10, h: 40, I: 1.4, soft: 0.5, hot: 0.2 },      // rim strip behind-right
     { az: -150, el: 22, w: 26, h: 18, I: 0.45, soft: 0.6, hot: 0.1 },    // dim reflector behind-left
+    { az: 180, el: 14, w: 110, h: 20, I: 0.6, soft: 0.8, hot: 0.1 },     // low soft sheet behind the set (sheen on the far half of a top)
   ],
 };
 
@@ -365,9 +384,24 @@ export const STATAFEL_ENV_KAAL = {
   ...STATAFEL_ENV,
   boxes: [
     ...STATAFEL_ENV.boxes,
-    { az: 180, el: 16, w: 120, h: 22, I: 1.5, soft: 0.8, hot: 0.15 },    // soft sheet behind the set
+    { az: 180, el: 16, w: 120, h: 22, I: 0.5, soft: 0.8, hot: 0.15 },    // soft sheet behind the set (with the covers' one: 1.1)
     { az: -105, el: 6, w: 14, h: 70, I: 2.2, soft: 0.5, hot: 0.25 },     // strip box left
     { az: 112, el: 4, w: 12, h: 70, I: 1.4, soft: 0.5, hot: 0.2 },       // strip box right
+  ],
+};
+
+// Black stretch jersey (round 5): black cloth shows its form only through what it mirrors, so the studio gets two
+// tall strip boxes left and right of the camera and a low white card on the floor in front: the funnel (whose
+// faces look down) mirrors the card, the waist and the flare mirror the strips, and the hourglass reads as soft
+// highlight bands instead of a flat silhouette.
+export const STATAFEL_ENV_BLACK = {
+  ...STATAFEL_ENV,
+  boxes: [
+    // (the low soft sheet behind the set stays at 0.6: brighter, the black top turned into a uniform mid-grey disc)
+    ...STATAFEL_ENV.boxes,
+    { az: -68, el: 4, w: 16, h: 64, I: 1.6, soft: 0.5, hot: 0.2 },      // strip box front-left
+    { az: 62, el: 4, w: 12, h: 64, I: 0.9, soft: 0.5, hot: 0.2 },       // strip box front-right
+    { az: -18, el: -24, w: 70, h: 24, I: 0.7, soft: 0.7, hot: 0.1 },    // white card on the floor in front
   ],
 };
 
@@ -386,15 +420,16 @@ export function statafelRig({ albedoL = 0.2, folded = false, white = false, blac
     key: { azimuth: -46, elevation: 38, intensity: 2.0, cone: 14, mapSize: 2048, radius: 2.5 },
     // the floor shadow comes from the big overhead box: it pools under / just behind the product
     floorKey: { azimuth: -25, elevation: 78, cone: 24 },
-    dome: { count: 3, intensity: 1.3, maxZenith: 70, mapSize: 1024, radius: 12 },
+    dome: { count: 3, intensity: 1.1, maxZenith: 70, mapSize: 1024, radius: 12 },
     // large frontal fill (camera-right, near eye level) and a floor bounce card
     fill: { azimuth: 26, elevation: 10, intensity: black ? 1.25 : 0.95 },
     rim: { azimuth: 155, elevation: 32, intensity: 0.55 },
     bounce: { azimuth: 6, elevation: -24, intensity: 0.7 },
-    // big overhead softbox a little behind the set, 2.2 m from the blad centre (engine rig.overhead): every
-    // horizontal top gets the most light of the product, falling off softly towards its front edge (1.1 : 0.67
-    // between the far and the near rim), plus a broad, low-contrast sheen of the box on the far half
-    overhead: { azimuth: 172, elevation: 62, distance: 2.2, intensity: 1.3, size: 14, angle: 60, penumbra: 1, mapSize: 1024, radius: 2 },
+    // big overhead softbox high on the key side, 1.2 m from the blad centre (engine rig.overhead): every
+    // horizontal top gets the most light of the product, falling off softly across it from the key side
+    // (about 2.5 : 1 from the left to the right rim, softened by the box's size); the back sheet of the
+    // studio map adds a broad, low-contrast sheen on the far half
+    overhead: { azimuth: -75, elevation: 58, distance: 1.2, intensity: 2.0, size: 18, angle: 60, penumbra: 1, mapSize: 1024, radius: 2 },
     groundAmbient: 0.3,
     // sky occlusion up to 66 deg from the zenith (a studio, not an open field), 96 + 96 directions,
     // smoothed to one pool (sigma 2.5 cm), faded out at the bake border (no step in the sweep)

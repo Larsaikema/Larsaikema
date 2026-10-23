@@ -14,12 +14,13 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
 
 // one cap, standing open side up, centred at the origin on y = 0
-function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72, n = 2.4, tilt = 0 }) {
+function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 96, n = 2.4, tilt = 0 }) {
   // profile: [offset from the inner oval (+ = outward), y]
   const prof = [];
   const ao = wall;
@@ -66,7 +67,9 @@ function capGeo({ ai, bi, H = 0.024, wall = 0.0018, floor = 0.004, nu = 72, n = 
 export function footCaps(p = {}) {
   const n = Number(p.count ?? 4);
   const type = String(p.type || 'statafel');
-  let dims = type === 'klaptafel' ? { ai: 0.0127, bi: 0.0127, H: 0.026 } : type === 'barkruk' ? { ai: 0.0112, bi: 0.0112, H: 0.024 } : { ai: 0.0153, bi: 0.0083, H: 0.024 };
+  // round 5: the statafel cap is the rectangular boot over the end of the statafel's foot tube
+  // (the same glide as on models/statafel.js: ~46 x 25 mm, 50 mm deep), not an oval
+  let dims = type === 'klaptafel' ? { ai: 0.0127, bi: 0.0127, H: 0.026 } : type === 'barkruk' ? { ai: 0.0112, bi: 0.0112, H: 0.024 } : { ai: 0.0212, bi: 0.0106, H: 0.05, n: 9, floor: 0.005 };
   // round 4: chair / bar stool caps by tube shape and size (mm): shape rond | vierkant | ovaal
   if (p.shape) {
     const mm = Number(p.size ?? 25) / 1000;
@@ -76,7 +79,7 @@ export function footCaps(p = {}) {
       : { ai: mm / 2, bi: mm / 2, H: mm > 0.023 ? 0.024 : 0.021, n: 2 };
     if (p.angle === 'schuin' || p.tilt) dims.tilt = (Number(p.tilt) || 18) * Math.PI / 180;
   }
-  const pe = SG.moulded('#161616', { rough: 0.42, clearcoat: 0.1 });
+  const pe = L5.pe5('#161616', { rough: 0.4, spec: 0.55 });
   const bins = new G.PartBin();
   const W = 2 * (dims.ai + 0.0018);
   const poses = [
@@ -93,7 +96,9 @@ export function footCaps(p = {}) {
     if (ps.flip === 2) { g.rotateX(Math.PI / 2); g.translate(0, dims.bi + 0.0018, 0); }
     g.rotateY(ps.yaw);
     const extra = i >= poses.length ? [Math.floor(i / poses.length) * (W + 0.03), 0, 0] : [0, 0, 0];
-    g.translate(ps.pos[0] + extra[0], 0, ps.pos[2] + extra[2]);
+    // the layout was drawn for ~30 mm caps: spread it for bigger ones so they do not touch
+    const sp = Math.max(1, (Math.max(W, dims.H * 0.9) + 0.012) / 0.044);
+    g.translate(ps.pos[0] * sp + extra[0], 0, ps.pos[2] * sp + extra[2]);
     // rest exactly on the floor
     g.computeBoundingBox(); g.translate(0, -g.boundingBox.min.y, 0);
     bins.add(pe, g);
@@ -103,7 +108,8 @@ export function footCaps(p = {}) {
     object: g,
     detail: { target: [0.026, dims.H, 0.026], size: 0.06, azimuth: 30, elevation: 40 },
     view: { hero: { elevation: 30 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.0025, res: 1024, blur: 1.2 }, groundAO: { strength: 0.7, maxZenith: 80 } } },
+    // round 5: black PE lit like the catalogue's black products (was crushed to ~16)
+    rig: L5.goodsRig({ tone: 'black', size: 0.12, extra: { exposure: 1.1, contact: { strength: 0.9, h0: 0.0025, res: 1024, blur: 1.1, wide: { strength: 0.4, h0: 0.008, sigma: 0.006 } } } }),
     meta: { type, n },
   };
 }

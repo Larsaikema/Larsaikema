@@ -78,13 +78,12 @@ function filmAlbedo() {
     const N = 1024, L = 1.0;
     const { noise, fbm } = makeNoise2(401);
     const d = new Uint8Array(N * N * 4);
-    const hx = antislipNormal();
     for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
       const x = (i / N) * L, y = (j / N) * L;
       const k = 1 + fbm(x * 3, y * 3, 4) * 0.07 + fbm(x * 18 + 2, y * 18, 3) * 0.04 + noise(x * 300, y * 300) * 0.02;
-      // the hexagon tops wear a touch lighter than the valleys
-      const hi = hx.H[(Math.floor(((y % hx.Hh) / hx.Hh) * hx.N) % hx.N) * hx.N + (Math.floor(((x % hx.W) / hx.W) * hx.N) % hx.N)];
-      const kk = k * (0.95 + 0.08 * hi);
+      // (round 6: no hexagon term here any more: its 1 m tile did not match the emboss period and beat
+      // against the normal map into moire)
+      const kk = k;
       const o = (j * N + i) * 4;
       d[o] = 92 * kk; d[o + 1] = 62 * kk; d[o + 2] = 44 * kk; d[o + 3] = 255;
     }
@@ -94,8 +93,8 @@ function filmAlbedo() {
 function antislipFilm() {
   return cached('antislipMat', () => {
     const m = new THREE.MeshPhysicalMaterial({
-      map: filmAlbedo(), normalMap: antislipNormal().n, normalScale: new THREE.Vector2(0.6, 0.6),
-      roughness: 0.46, specularIntensity: 0.55, clearcoat: 0.3, clearcoatRoughness: 0.35, name: 'phenolic film antislip',
+      map: filmAlbedo(), normalMap: antislipNormal().n, normalScale: new THREE.Vector2(1.1, 1.1),
+      roughness: 0.4, specularIntensity: 0.6, clearcoat: 0.25, clearcoatRoughness: 0.3, name: 'phenolic film antislip',
     });
     m.userData.albedoL = 0.06;
     return m;
@@ -132,14 +131,28 @@ export function workBoard(p = {}) {
   }
   const group = new THREE.Group(); group.name = `workBoard ${L}x${W} ${fin}`;
   bins.build(group);
+  // round 7: the hero frames the whole board (art direction: the product was cropped off the left edge); the near
+  // two-thirds crop is still available with frameNear: true
+  if (antislip && p.frameNear === true) {
+    // round 6: the 8 mm hexagons were ~4 px at catalogue size (invisible, and beating into moire). Frame the
+    // nearer two thirds of the board (the far end runs out of the picture), so the near corner with the
+    // sealed ply edge and the emboss reads; a lower, raking key makes every hexagon catch light.
+    group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
+    const pos = [];
+    for (const x of [-L / 2 + L * 0.45, L / 2]) for (const y of [0, T]) for (const z of [-W / 2, W / 2]) pos.push(x, y, z);
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex([0, 0, 0]);
+    const proxy = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0xff00ff }));
+    proxy.layers.set(5); proxy.castShadow = false; proxy.receiveShadow = false; proxy.frustumCulled = false; proxy.userData.frameProxy = true;
+    group.add(proxy);
+  }
   return {
     object: group,
     detail: { target: [L / 2 - 0.05, T, W / 2 - 0.05], size: 0.18, azimuth: 34, elevation: 26 },
     meta: { L, W, T, finish: fin },
     // a long flat board: seen from a little higher so the face (and its hexagon emboss) reads
-    view: { hero: { elevation: 36, fill: 0.84 }, front: { elevation: 24 } },
+    view: { hero: antislip ? { elevation: 30, fill: 0.9 } : { elevation: 36, fill: 0.84 }, front: { elevation: 24 } },
     rig: (() => {
-      const r = S.seatRig(group, { default: { key: { azimuth: -30, elevation: 40, distanceRel: 1.4, aimRel: [-0.3, 0, 0.3] } } });
+      const r = S.seatRig(group, { default: { key: antislip ? { azimuth: -50, elevation: 24, distanceRel: 1.4, aimRel: [0.1, 0, 0.3] } : { azimuth: -30, elevation: 40, distanceRel: 1.4, aimRel: [-0.3, 0, 0.3] } } });
       // dark brown film: expose for the board, not for a mid grey
       if (antislip) r.default.exposure = Math.min(Math.max(r.default.exposure, 1.0), 1.15);
       return r;

@@ -18,6 +18,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import { kit, darkRig, addZip, addHandle, addPiping } from './draagtas.js';
+import * as L3 from '../js/partsLook3.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -39,6 +40,16 @@ function lying(bins, k, { L, H, D, r, re, disp, warp, seed, x = 0, z = 0, yaw = 
   bins.add(k.fab, geo);
   const sh = (q) => { q.p.y += dy; return q; };
   return { box, pt: (f, t, l) => sh(pt(f, t, l)), ptM: (f, m, l) => sh(ptM(f, m, l)), fr: box.frac, dy };
+}
+
+// round 5: a printed function label on the front face of a lying bag (light grey on black), so
+// the three bags of the set read apart at catalogue size
+function frontLabel(extras, B, text, { tc = 0.5, h = 0.05, f0 = 0 } = {}) {
+  const { tex, aspect } = K.printTex(text, { color: '#D9D5CC', px: 1024, font: '800 160px Arial, Helvetica, sans-serif' });
+  const len = h * aspect * 0.86;
+  const P = B.box.P, Lb = B.box.L;
+  const fw = h / 2 / P, t0 = tc - len / Lb / 2, t1 = tc + len / Lb / 2;
+  extras.push(L3.decalOn((u, v) => B.pt(f0 - fw + 2 * fw * v, t0 + (t1 - t0) * u, 0.0008).p, tex, { nu: 48, nv: 6, rough: 0.55, name: `bag label ${text}` }));
 }
 
 function endPiping(bins, k, B) {
@@ -65,6 +76,7 @@ export function tubeBag(p = {}) {
   const hex = p.color && p.color !== 'zwart' ? M.resolveColor(p.color) : '#19191B';
   const k = kit(hex);
   const bins = new G.PartBin();
+  const extras = [];
   // 1. buizentas
   {
     const L = 2.2, H = 0.22, D = 0.27, r = 0.085, re = 0.05;
@@ -87,6 +99,7 @@ export function tubeBag(p = {}) {
     for (const [f, t] of ft) { const q = B.pt(f, t, 0.0012); pts.push(q.p); nrm.push(q.n); }
     addZip(bins, k, { pts, nrm }, { sliders: [0.92] });
     for (const tc of [0.4, 0.6]) addHandle(bins, k, B.pt(B.fr.left - 0.11, tc, 0.0015), B.pt(B.fr.left + 0.11, tc, 0.0015), { h: 0.05, w: 0.036 });
+    frontLabel(extras, B, 'BUIZEN', { tc: 0.86, h: 0.06, f0: 0.015 });
     // grab loops on both end panels
     for (const mm of [0.03, B.box.mEnd - 0.03]) {
       const a = B.ptM(B.fr.left - 0.06, mm, 0.0015), b = B.ptM(B.fr.left + 0.06, mm, 0.0015);
@@ -103,13 +116,14 @@ export function tubeBag(p = {}) {
     ], { periodU: P0 });
     const crE = SG.creases(24, [{ n: 8, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.07, 0.15], wid: [0.02, 0.04], amp: [0.0015, 0.004], sharp: 0.3 }]);
     const B = lying(bins, k, {
-      L, H, D, r, re, seed: 23, x: -0.36, z: 0.26, yaw: 16,
+      L, H, D, r, re, seed: 23, x: -0.44, z: 0.3, yaw: 14,
       disp: (q) => (q.part === 'wall' ? 0.022 * q.face * Math.pow(Math.sin(Math.PI * q.t), 0.6) + cr(q.s, q.y) * (0.5 + 0.5 * q.face) : crE(q.x, q.z) + (q.part === 'top' || q.part === 'bot' ? 0.012 : 0)),
       warp: (pp) => { const v = -pp.x, h = v / (H / 2 + 0.02); const sq = h > 0 ? 1 - 0.12 * h : 1 - 0.05 * -h; const spread = 1 + 0.08 * Math.max(0, 1 - Math.abs(h + 0.6)); return V3(pp.x * sq, pp.y, pp.z * spread); },
     });
     endPiping(bins, k, B);
     uZip(bins, k, B, 0.085, 0.08, 0.92, [0.44, 0.56]);
     for (const tc of [0.36, 0.64]) addHandle(bins, k, B.pt(B.fr.left - 0.13, tc, 0.0015), B.pt(B.fr.left + 0.13, tc, 0.0015), { h: 0.06, w: 0.038 });
+    frontLabel(extras, B, 'DOEK', { tc: 0.5, h: 0.06, f0: 0.01 });
   }
   if (n >= 3) {
     // 3. koppelstukkentas: stiff bottom, heavy -> walls bulge low, lid sags
@@ -120,7 +134,7 @@ export function tubeBag(p = {}) {
     ], { periodU: P0 });
     const crE = SG.creases(26, [{ n: 5, u: [-H / 2, H / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.06, 0.12], wid: [0.015, 0.03], amp: [0.001, 0.0025], sharp: 0.3 }]);
     const B = lying(bins, k, {
-      L, H, D, r, re, seed: 25, x: 0.3, z: 0.3, yaw: -16,
+      L, H, D, r, re, seed: 25, x: 0.36, z: 0.36, yaw: -12,
       disp: (q) => {
         // local x>0 = down: bottom face (fr.right) stays flat (stiff board), walls bulge low, lid sags
         if (q.part !== 'wall') return crE(q.x, q.z) * 0.8 + 0.004;
@@ -134,13 +148,14 @@ export function tubeBag(p = {}) {
     endPiping(bins, k, B);
     uZip(bins, k, B, 0.075, 0.1, 0.9, [0.5]);
     addHandle(bins, k, B.pt(B.fr.left - 0.1, 0.5 - 0.0, 0.0015).p ? B.pt(B.fr.left - 0.1, 0.5, 0.0015) : null, B.pt(B.fr.left + 0.1, 0.5, 0.0015), { h: 0.055, w: 0.038, grip: k.tray });
+    frontLabel(extras, B, 'KOPPELSTUKKEN', { tc: 0.5, h: 0.03, f0: 0.0 });
   }
-  const g = K.finish(bins, `tubeBag set ${n}`);
+  const g = K.finish(bins, `tubeBag set ${n}`, extras);
   return {
     object: g,
     detail: { target: [0.3, 0.2, 0.3], size: 0.45, azimuth: 30, elevation: 25 },
-    view: { hero: { elevation: 20 } },
-    rig: darkRig(k.dark),
+    view: { hero: { elevation: 22, fill: 0.88 } },
+    rig: darkRig(k.dark, {}, 1.2),
     meta: { n },
   };
 }

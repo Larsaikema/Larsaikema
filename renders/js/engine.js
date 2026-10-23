@@ -104,7 +104,11 @@ function hookMaterial(mat) {
   // sheen lobe are scaled down towards grazing view (dot(N, V) < w: x spec / x sheen at the silhouette), so
   // tight ridges and folds turned edge-on carry a soft satin band instead of a chrome / glass hairline
   const grazing = mat.userData.grazing || null;
-  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag && !streak && !grazing) return;
+  // floorAO: {h, k}: soft goods that reach the floor (a hem): the last h metres above the floor lose light
+  // towards k at y = 0 (the floor and the cloth's own fold-under occlude them), so a hem sits on a dark contact
+  // line instead of catching the floor bounce as a lit outline
+  const floorAO = mat.userData.floorAO || null;
+  if (stoch == null && !transl && !macro && !weave && envSpec == null && !interior && !dye && !sheet && !envFlag && !streak && !grazing && !floorAO) return;
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, r) => {
     if (prev) prev(shader, r);
@@ -118,6 +122,17 @@ float stochHash( vec2 p ) { vec3 p3 = fract( vec3( p.xyx ) * 0.1031 ); p3 += dot
     if (interior) {
       shader.vertexShader = 'varying vec3 vIntW;\n' + shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
   vIntW = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;`);
+    }
+    if (floorAO) {
+      shader.vertexShader = 'varying float vFloorY;\n' + shader.vertexShader.replace('#include <project_vertex>', `#include <project_vertex>
+  vFloorY = ( modelMatrix * vec4( transformed, 1.0 ) ).y;`);
+      fs = 'varying float vFloorY;\n' + fs;
+      fs = fs.replace('#include <aomap_fragment>', `#include <aomap_fragment>
+  {
+    float fAO = mix( ${Number(floorAO.k ?? 0.35).toFixed(4)}, 1.0, smoothstep( 0.0, ${Number(floorAO.h ?? 0.015).toFixed(4)}, vFloorY ) );
+    reflectedLight.directDiffuse *= fAO; reflectedLight.indirectDiffuse *= fAO;
+    reflectedLight.directSpecular *= fAO; reflectedLight.indirectSpecular *= fAO;
+  }`);
     }
     if (stoch != null) {
       fs = fs.replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
@@ -207,6 +222,7 @@ void main() {
   ${wCav ? `wvCrown = ( pow( wvTz, 10.0 ) - 0.3 ) * wvClose; diffuseColor.rgb *= 1.0 - ${Number(wCav.cav || 0).toFixed(4)} * wvClose * ( 1.0 - pow( wvTz, 6.0 ) );` : ''}
   ${macro ? 'mapN.xy += macroD;' : ''}
   ${streak ? 'mapN.x -= uStreak2.z * stD * 0.12;' : ''}
+  ${grazing ? '// grazing: the cloth relief flattens towards the silhouette (no relief glints on flanks seen edge-on)\n  mapN.xy *= mix( 0.25, 1.0, smoothstep( 0.0, 0.35, abs( dot( normal, normalize( vViewPosition ) ) ) ) );' : ''}
   normal = normalize( tbn * mapN );
 #endif`);
     }
@@ -306,7 +322,7 @@ ${lightsBeginInterior()}`);
     }
     shader.fragmentShader = fs;
   };
-  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}${streak ? `:st${streak.fu}/${streak.fv}/${streak.rough}/${streak.spec}/${streak.tilt}/${streak.v0}/${streak.v1}/${streak.v2}/${streak.v3}/${streak.seed}` : ''}${grazing ? `:gz${grazing.spec}/${grazing.sheen}/${grazing.w}` : ''}`;
+  mat.customProgramCacheKey = () => `hk:${stoch}:${transl}:${trKey}:${trSky}:${macro ? 'm' : ''}:${weave ? 'w' : ''}${wCav ? `c${wCav.cav}/${wCav.crown}` : ''}:${interior ? 'i' : ''}${solid ? `s${solid.k}/${solid.kNear}` : ''}:${envSpec}:${dye}:${sheet ? `${sheet.L}x${sheet.H}x${sheet.strength}x${sheet.c}x${sheet.dir || ''}x${sheet.sigma ?? ''}x${sheet.wave ?? ''}x${sheet.mod ?? ''}x${sheet.off ?? ''}` : ''}:${envFlag ? `${envFlag.k}/${envFlag.a0}/${envFlag.a1}` : ''}${streak ? `:st${streak.fu}/${streak.fv}/${streak.rough}/${streak.spec}/${streak.tilt}/${streak.v0}/${streak.v1}/${streak.v2}/${streak.v3}/${streak.seed}` : ''}${grazing ? `:gz${grazing.spec}/${grazing.sheen}/${grazing.w}` : ''}${floorAO ? `:fao${floorAO.h}/${floorAO.k}` : ''}`;
   mat.needsUpdate = true;
 }
 

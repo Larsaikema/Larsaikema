@@ -228,6 +228,19 @@ export function biertafelParts(p = {}) {
     const t = new G.PartBin();
     for (let i = 0; i < 3; i++) boltSet(t, mats, 0, i * 0.035, -0.2 + i * 0.15);
     place(bins, t, { x: 0.55, z: 0.5, yaw: 0.3 });
+    // round 7: the alt text also promises vloerbeschermers and stelpoten: a row of four foot shoes (one on its
+    // side, the saddle groove in profile) and three levelling feet, two with their tube plug, in the front gap
+    const v = new G.PartBin();
+    for (let i = 0; i < 4; i++) {
+      const g = footShoe();
+      if (i === 3) g.rotateX(Math.PI / 2).translate(0, 0.018, 0);
+      g.rotateY(0.12 - i * 0.05).translate(i * 0.085, 0, (i % 2) * 0.012);
+      v.add(mats.cap, g);
+    }
+    place(bins, v, { x: 0.02, z: 0.74, yaw: 0.0 });
+    const lf = new G.PartBin();
+    levelFoot(lf, mats, 0, 0, true); levelFoot(lf, mats, 0.075, 0.03, true); levelFoot(lf, mats, 0.155, -0.005, false);
+    place(bins, lf, { x: 0.36, z: 0.72, yaw: 0 });
     view = { hero: { azimuth: 24, elevation: 40, fill: 0.8 } };
     name = 'onderdelen biertafel en klaptafel';
   }

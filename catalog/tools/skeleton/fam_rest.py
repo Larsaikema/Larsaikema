@@ -427,7 +427,7 @@ def build():
     LSS = {'15 m': (44.95, 2900), '20 m': (54.95, 3800)}
     simple('led-lichtslang-set-warm-wit', 'LED-lichtslang warm wit, set van 15 of 20 m', 'Lichtslang', ['gebruik:tuinfeest', 'gebruik:horeca'], [opt('Maat', list(LSS))],
            [variant(f'KK-LCHT-LSS-{code(m)}', [m], pr, g, inv(10, m + 'lss')) for m, (pr, g) in LSS.items()],
-           [img('led-lichtslang-set-warm-wit-hero.webp', 'hero', 1, 'ropeLight', {'color': render_color('Warm wit'), 'length': 5, 'on': True}, 'hero', 'Warm wit', 'existing',
+           [img('led-lichtslang-set-warm-wit-hero.webp', 'hero', 1, 'ropeLight', {'color': render_color('Warm wit'), 'length': 15, 'on': True}, 'hero', 'Warm wit', 'existing',
                 alt='warm wit, brandend, op de haspel')],
            {'kenmerk_kort': 'Vaste rol 15 of 20 m · warm wit · stekker en eindkap gemonteerd', 'verzending': 'pakket', 'staffelkorting': ST_PRIK,
             'specificaties': [sp('Slang', 'LEDs', '36 per meter, warm wit (ca. 2200 K)'), sp('Slang', 'Diameter', '13 mm'), sp('Slang', 'Beschermingsklasse', 'IP44'),

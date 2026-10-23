@@ -18,6 +18,7 @@ import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as L from '../js/lightKit.js';
 import { GlowComp } from '../js/lightGlow.js';
+import { glowGlobeMat, glowColours } from '../js/bulbKit.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -38,16 +39,21 @@ function ledPatternTex(base = 0.3) {
   });
 }
 
-// lit rope: the tube's own glow (emissive pattern) under a glossy PVC skin
+// colours of the lit rope (linear radiance): a saturated rim (the tube's flanks) and a hotter, paler
+// core line (round 5, as the coloured G45 lamps): warm white is a golden tube with a pale gold core,
+// so it reads as *light* against the linen backdrop, not as a beige hose
+function ropeGlow(hex) {
+  if (hex === '#FFD596') return { rim: [0.95, 0.44, 0.07], core: [2.3, 1.75, 0.78], halo: [1.2, 0.56, 0.11], p: 2.2, I: 0.52 };
+  return glowColours(L.lin(hex, 1));
+}
+// lit rope: the tube glows from inside (bulbKit glowGlobeMat: almost no albedo, so the studio does
+// not shade it; facing-weighted emission = bright core line, saturated flanks) with an LED spot
+// every 27.8 mm, under a PVC skin that keeps one soft studio highlight
 function ropeLitMat(hex, perM) {
-  return L.cached(`ropeLit:${hex}:${perM}`, () => {
-    const map = ledPatternTex().clone(); map.repeat.set(perM, 1); map.needsUpdate = true;
-    const c = new THREE.Color(hex);
-    const m = new THREE.MeshPhysicalMaterial({
-      color: c.clone().multiplyScalar(0.35), roughness: 0.25, clearcoat: 0.8, clearcoatRoughness: 0.08, specularIntensity: 0.6,
-      emissive: c, emissiveIntensity: 1.6, emissiveMap: map, name: `rope light lit ${hex}`,
-    });
-    return L.litDiffuser(m, 0.55, 0.6);
+  return L.cached(`ropeLit2:${hex}:${perM}`, () => {
+    const map = ledPatternTex(0.45).clone(); map.repeat.set(perM, 1); map.needsUpdate = true;
+    const gc = ropeGlow(hex);
+    return glowGlobeMat(`rope${hex}`, { rim: gc.rim, core: gc.core, edge: 0.78, p: gc.p ?? 1.3, albedo: 0.06, spec: 0.35, rough: 0.22, map, name: `rope light lit ${hex}` });
   });
 }
 function ropeOffMats() {
@@ -83,7 +89,8 @@ export function ropeLight(p = {}) {
   const nz = L.noise;
 
   // --- coil path in the floor plane -------------------------------------------------------
-  const R0 = Number(p.coilRadius ?? Math.min(0.24, 0.12 + len * 0.02));
+  // (a 15-20 m set lies in a wider coil of ~7 loops; 5 m in ~3.5)
+  const R0 = Number(p.coilRadius ?? Math.min(0.34, 0.12 + len * 0.02));
   const drift = V3(0.05, 0, 0.03);       // the loops drift as they are laid down
   const raw = [];
   const theta0 = 120 * DEG;
@@ -176,12 +183,11 @@ export function ropeLight(p = {}) {
   group.traverse((o) => { if (o.isMesh) { const nm = o.material.name || ''; o.castShadow = !/rope light lit|clear glass/.test(nm); o.receiveShadow = true; } });
   for (const m of glassMeshes) group.add(m);
   if (on) {
-    const col = L.lin(hex, 1);
-    const pk = Math.max(...col);
-    const glowCol = col.map((v) => v / pk);
-    GC.haloTube(L.resample(path, Math.round(len * 40)).pts, 0.03, glowCol.map((v) => v * 1.2), 0.32, { core: 0.3, coreW: 0.7, radial: 14 });
+    const rg = ropeGlow(hex), glowCol = rg.halo.map((v) => v / 1.2);
+    GC.haloTube(L.resample(path, Math.round(len * 40)).pts, 0.032, glowCol.map((v) => v * 1.2), rg.I ?? 0.44, { core: 0.34, coreW: 0.6, radial: 14 });
     const src = L.resample(path, Math.round(len * 24)).pts.map((q) => ({ p: q.clone().setY(q.y + 0.004), I: 1, color: glowCol.map((v) => v * 1.2) }));
-    GC.floorPool(src, { pad: 0.18, res: 256, k: 0.00075, max: 0.24, minH: 0.012 });
+    // (a 15-20 m coil has 3-4 x the sources: scaled, so the floor round it keeps the linen colour)
+    GC.floorPool(src, { pad: 0.18, res: 256, k: 0.00075 * Math.min(1, Math.sqrt(5 / len)), max: 0.24, minH: 0.012 });
   }
   if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.005, 0)));
   // detail: a stretch of the outer loop nearest the hero camera

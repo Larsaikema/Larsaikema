@@ -42,7 +42,9 @@ export function stringLights(p = {}) {
   const wire = wireMat(p.wire || (kind === 'feest' ? 'zwart' : 'groen'));
   const holderMat = wire;
   const multi = /multi|kleur/i.test(String(p.color || ''));
-  const lightHex = multi ? null : (String(p.color || '').toLowerCase().startsWith('koel') ? '#EAF1FF' : L.lightHex(p.color, '#FFB25E'));
+  // warm white (2400 K) is a pale gold, not orange: on a linen backdrop an orange LED reads as a
+  // speck of colour, a gold-white one with a golden halo as a burning light
+  const lightHex = multi ? null : (String(p.color || '').toLowerCase().startsWith('koel') ? '#EAF1FF' : L.lightHex(p.color, '#FFD39C'));
   const nz = L.noise;
   const rw = 0.0013;
 
@@ -110,7 +112,7 @@ export function stringLights(p = {}) {
     const strand = fine.map((q, i) => { const a = (ff.S[i] / 0.022) * Math.PI * 2 + ph; return q.clone().addScaledVector(ff.B[i], Math.cos(a) * rw * 0.5).addScaledVector(ff.N[i], Math.sin(a) * rw * 0.42); });
     bins.add(wire, L.sweepProfile(strand, L.circleProfile(rw * 0.62, 8), { caps: false }).geo);
   }
-  const ledOn = on ? L.emissiveMat('#FFBE6A', 5, { color: '#FFE2B0', roughness: 0.3, name: 'mini led lit' }) : null;
+  const ledOn = on ? L.emissiveMat(lightHex === '#FFD39C' ? '#FFE6BE' : (lightHex || '#FFE6BE'), 7, { color: '#FFF1D8', roughness: 0.3, name: 'mini led lit' }) : null;
   const chip = L.cached('ledChip', () => new THREE.MeshPhysicalMaterial({ color: '#E9D08A', roughness: 0.4, name: 'led chip' }));
   const halos = [], sources = [];
   const multiCols = ['#FF3A2A', '#FFB020', '#2FD45A', '#2F6BFF', '#FF4FB0'];
@@ -137,17 +139,33 @@ export function stringLights(p = {}) {
       bins.add(multi ? L.emissiveMat(lc, 3, { color: '#FFFFFF', roughness: 0.3, name: 'mini led lit' }) : ledOn, cap);
       const c = V3(0, 0.0145, 0).applyMatrix4(M4);
       const lcol = L.lin(lc, 1); const pk = Math.max(...lcol); const nc = lcol.map((v) => v / pk);
-      GC.halo({ c, R: 0.034, color: nc.map((v) => v * 1.25), I: 0.62, core: 0.22, coreW: 0.6 });
+      // a bright tight glow round the cap and a wider soft one: each LED reads as a light at
+      // catalogue size, not as a coloured speck
+      GC.halo({ c, R: 0.03, color: nc.map((v) => v * 1.4), I: 0.85, core: 0.5, coreW: 0.3 });
+      GC.halo({ c, R: 0.05, color: nc.map((v) => v * 1.2), I: 0.32, core: 0.2, coreW: 0.5 });
       sources.push({ p: c.clone().setY(0.006), I: 1, color: nc.map((v) => 1.15 * v) });
     } else { bins.extra = bins.extra || []; bins.extra.push(GC.glass(cap, { T: 0.92, env: 1.0 })); bins.add(chip, die); }
   });
 
   // --- lead from the first lamp to the transformer --------------------------------------------
-  const s0 = path[0], d0 = s0.clone().sub(path[4]).setY(0).normalize();
-  const sideL = V3(-d0.z, 0, d0.x);
-  const leadCtrl = [s0.clone(), s0.clone().addScaledVector(d0, 0.08).addScaledVector(sideL, 0.02), s0.clone().addScaledVector(d0, 0.18).addScaledVector(sideL, -0.03), s0.clone().addScaledVector(d0, 0.3).addScaledVector(sideL, 0.01)];
-  const leadPts = new THREE.CatmullRomCurve3(leadCtrl.map((q) => q.setY(0.0016)), false, 'centripetal').getSpacedPoints(50);
-  leadPts.forEach((q, i) => { q.y = 0.0016 + (0.012 - 0.0016) * G.smoothstep(0.82, 1, i / (leadPts.length - 1)); });
+  // (round 5) the transformer lies just outside the rosette towards the camera and a little to the
+  // right: the free lower-right of the square frame, so it no longer widens the framing (the old
+  // 30 cm lead pushed it out to the right and the rosette filled only half the picture)
+  const s0 = path[0];
+  let rMax = 0; for (const q of path) rMax = Math.max(rMax, Math.hypot(q.x, q.z));
+  const az = 34 * DEG, toCam = V3(Math.sin(az), 0, Math.cos(az)), rightV = V3(Math.cos(az), 0, -Math.sin(az));
+  const dirT = toCam.clone().addScaledVector(rightV, Number(p.plugSide ?? 0.75)).normalize();
+  const pT = dirT.clone().multiplyScalar(rMax * 0.86 + 0.03);
+  const d0 = s0.clone().sub(path[4]).setY(0).normalize();
+  // the lead leaves the first lamp along the string's own direction for a few cm, then swings in
+  // one soft curve to the transformer (no hairpin)
+  const toT = pT.clone().sub(s0).setY(0).normalize();
+  const out0 = d0.clone().lerp(toT, 0.9).normalize();
+  const leadCtrl = [s0.clone(), s0.clone().addScaledVector(out0, 0.025), s0.clone().lerp(pT, 0.55).addScaledVector(V3(-toT.z, 0, toT.x), 0.012), pT.clone().addScaledVector(toT.clone().lerp(dirT, 0.5).normalize(), -0.025), pT.clone()];
+  const leadPts = new THREE.CatmullRomCurve3(leadCtrl.map((q) => q.setY(0.0016)), false, 'centripetal').getSpacedPoints(60);
+  leadPts.forEach((q, i) => { q.y = 0.0016 + (0.012 - 0.0016) * G.smoothstep(0.85, 1, i / (leadPts.length - 1)); });
+  // where the lead crosses the string it lies on top of it
+  for (const q of leadPts) for (let i = 0; i < path.length; i += 2) { const d = Math.hypot(q.x - path[i].x, q.z - path[i].z); if (d < 0.004) q.y = Math.max(q.y, path[i].y + rw + 0.0016 - d * 0.3); }
   bins.add(L.cableRubber('#151615', 0.5), L.sweepProfile(leadPts, L.circleProfile(0.0016, 10)).geo);
   {
     // plug-in transformer (31 V, IP44) lying on its back: rounded body, Schuko-style round face
@@ -175,9 +193,9 @@ export function stringLights(p = {}) {
   return {
     object: group,
     detail: { target: [dP.x, dP.y + 0.006, dP.z], size: 0.12, azimuth: 30, elevation: 30 },
-    // from higher up (56 deg) the loose rosette reads round and fills the square instead of a thin
+    // from higher up (60 deg) the loose rosette reads round and fills the square instead of a thin
     // ellipse across the middle third of the frame
-    view: { hero: { elevation: 56 } },
+    view: { hero: { elevation: 60, fill: 0.84 } },
     rig: { default: { exposure: on ? 1.0 : 'auto', contact: { strength: 0.7, h0: 0.004, res: 1024, blur: 1.2 }, groundAO: { strength: 0.7, maxZenith: 80 } } },
     meta: { count, length: len, on },
   };

@@ -104,7 +104,7 @@ function topMats(top) {
     const edge = cached('absBirch', () => new THREE.MeshPhysicalMaterial({ color: '#D2B48A', roughness: 0.4, clearcoat: 0.25, clearcoatRoughness: 0.3, name: 'ABS edge birch' }));
     return { face, edge, T: 0.025, kind: 'melamine' };
   }
-  const hex = t === 'wit' ? '#EEEDE8' : t === 'lichtgrijs' ? '#C9CAC6' : M.resolveColor(top, '#EEEDE8');
+  const hex = t === 'wit' ? '#EEEDE8' : t === 'lichtgrijs' ? '#B2B4B1' : M.resolveColor(top, '#EEEDE8'); // round 7: lichtgrijs darker (RAL 7035 look; #C9CAC6 printed as white)
   const face = cached(`mel:${hex}`, () => {
     const nm = TXstipple();
     return new THREE.MeshPhysicalMaterial({ color: hex, roughness: 0.46, specularIntensity: 0.55, clearcoat: 0.18, clearcoatRoughness: 0.35, normalMap: nm, normalScale: new THREE.Vector2(0.08, 0.08), name: `melamine ${hex}` });
@@ -239,7 +239,10 @@ export function banquetTable(p = {}) {
     detail: folded ? { target: [L / 2 - 0.25, W / 2, 0.05], size: 0.5, azimuth: 30, elevation: 10 }
       : { target: [shape === 'rechthoek' ? L / 2 - 0.12 : 0.3, H - 0.1, 0.3], size: 0.45, azimuth: 40, elevation: 14 },
     meta: { shape, L, W, D, H, top: p.top, frame: frameKind, frameColor: fcol, folded },
-    view: shape === 'kwartrond' || shape === 'halfrond' || shape === 'rond' || shape === 'ovaal' || shape === 'vierkant'
+    // round 7: the single kwartrond hero is a high bird's-eye view (its alt text: "opgezet, van boven gezien"):
+    // the quarter-ring top reads as a shape, the legs still show it stands
+    view: shape === 'kwartrond' && !folded ? { hero: { elevation: 58, azimuth: 24 } }
+      : shape === 'halfrond' || shape === 'rond' || shape === 'ovaal' || shape === 'vierkant'
       ? { hero: { elevation: 22 } } : undefined,
     rig: (() => {
       const big = shape !== 'rechthoek' || L > 1.5;

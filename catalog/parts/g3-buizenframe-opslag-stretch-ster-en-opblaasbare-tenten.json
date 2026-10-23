@@ -3435,15 +3435,15 @@
    "description": "Zijwand voor de opblaasbare promotietent: 3 tot 6 m, dicht, met raam, met deur of enkele rits in de framekleur, of full colour bedrukt met drukproef."
   },
   "image_alts": {
-   "zijwand-opblaasbare-promotietent-hero.webp": "Opblaasbare promotietent 3 × 3 m, wit, met witte dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-rood-hero.webp": "Opblaasbare promotietent 3 × 3 m, rood, met een rood dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-zwart-hero.webp": "Opblaasbare promotietent 3 × 3 m, zwart, met een zwart dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-blauw-hero.webp": "Opblaasbare promotietent 3 × 3 m, blauw, met een blauw dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-groen-hero.webp": "Opblaasbare promotietent 3 × 3 m, groen, met een groen dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-oranje-hero.webp": "Opblaasbare promotietent 3 × 3 m, oranje, met een oranje dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-geel-hero.webp": "Opblaasbare promotietent 3 × 3 m, geel, met een geel dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-grijs-hero.webp": "Opblaasbare promotietent 3 × 3 m, grijs, met een grijs dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-promotietent-full-colour.webp": "Opblaasbare promotietent met een full colour bedrukte achterwand met voorbeeldontwerp"
+   "zijwand-opblaasbare-promotietent-hero.webp": "Opblaasbare promotietent 3 × 3 m, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-rood-hero.webp": "Opblaasbare promotietent 3 × 3 m, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-zwart-hero.webp": "Opblaasbare promotietent 3 × 3 m, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-blauw-hero.webp": "Opblaasbare promotietent 3 × 3 m, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-groen-hero.webp": "Opblaasbare promotietent 3 × 3 m, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-oranje-hero.webp": "Opblaasbare promotietent 3 × 3 m, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-geel-hero.webp": "Opblaasbare promotietent 3 × 3 m, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-grijs-hero.webp": "Opblaasbare promotietent 3 × 3 m, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-full-colour.webp": "Opblaasbare promotietent met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht"
   },
   "claims": [
    "Wand alleen in Wit en één hoogte per breedte: zie _meta.data_notes (Pro is hoger, tenten zijn er in 6 kleuren).",
@@ -3841,8 +3841,8 @@
    "description": "Zijwand voor één vak van de opblaasbare zeshoektent: dicht, met raam, deur of rits in de 4 tentkleuren, of full colour bedrukt. Voor 8, 10 en 12 m."
   },
   "image_alts": {
-   "zijwand-opblaasbare-zeshoektent-wit-hero.webp": "Opblaasbare zeshoektent met witte dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-zeshoektent-zwart-hero.webp": "Opblaasbare zeshoektent met zwarte dichte achterwand, schuin vooraanzicht",
+   "zijwand-opblaasbare-zeshoektent-wit-hero.webp": "Opblaasbare zeshoektent met een dichte witte zijwand in het voorste vak, schuin vooraanzicht",
+   "zijwand-opblaasbare-zeshoektent-zwart-hero.webp": "Opblaasbare zeshoektent met een dichte zwarte zijwand in het voorste vak, schuin vooraanzicht",
    "zijwand-opblaasbare-zeshoektent-rood-hero.webp": "Zijwand opblaasbare zeshoektent in rood, dicht, aan een zeshoektent (tent niet inbegrepen)",
    "zijwand-opblaasbare-zeshoektent-blauw-hero.webp": "Zijwand opblaasbare zeshoektent in blauw, dicht, aan een zeshoektent (tent niet inbegrepen)",
    "zijwand-opblaasbare-zeshoektent-full-colour.webp": "Opblaasbare zeshoektent met één full colour bedrukt vak met voorbeeldontwerp"
@@ -5917,15 +5917,15 @@
    "description": "Zijwand voor de opblaasbare promotietent Pro: 250 tot 270 cm hoog, dicht, met raam, deur of rits in de framekleur, of full colour bedrukt."
   },
   "image_alts": {
-   "zijwand-opblaasbare-promotietent-pro-rood-hero.webp": "Opblaasbare promotietent Pro, rood, met een rood zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-wit-hero.webp": "Opblaasbare promotietent Pro, wit, met een wit zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-zwart-hero.webp": "Opblaasbare promotietent Pro, zwart, met een zwart zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-blauw-hero.webp": "Opblaasbare promotietent Pro, blauw, met een blauw zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-groen-hero.webp": "Opblaasbare promotietent Pro, groen, met een groen zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-oranje-hero.webp": "Opblaasbare promotietent Pro, oranje, met een oranje zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-geel-hero.webp": "Opblaasbare promotietent Pro, geel, met een geel zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-grijs-hero.webp": "Opblaasbare promotietent Pro, grijs, met een grijs zijwand aan de achterkant",
-   "zijwand-opblaasbare-promotietent-pro-full-colour.webp": "Opblaasbare promotietent Pro met een full colour bedrukte achterwand met voorbeeldontwerp"
+   "zijwand-opblaasbare-promotietent-pro-rood-hero.webp": "Opblaasbare promotietent Pro, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-wit-hero.webp": "Opblaasbare promotietent Pro, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-zwart-hero.webp": "Opblaasbare promotietent Pro, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-blauw-hero.webp": "Opblaasbare promotietent Pro, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-groen-hero.webp": "Opblaasbare promotietent Pro, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-oranje-hero.webp": "Opblaasbare promotietent Pro, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-geel-hero.webp": "Opblaasbare promotietent Pro, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-grijs-hero.webp": "Opblaasbare promotietent Pro, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-promotietent-pro-full-colour.webp": "Opblaasbare promotietent Pro met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht"
   },
   "claims": [
    "Nieuw product (catalogusronde 2026-10-18, B2): eigen wand voor de Pro in plaats van de standaard wand met een notitie bij de bestelling. Hoogtes 250/260/270 cm en prijzen 209–289 bevestigen met de leverancier.",
@@ -6022,10 +6022,10 @@
    "description": "Zijwand voor de opblaasbare partytent met waterpoten: 3, 4,5 of 6 m, 220 cm hoog. Dicht, raam, deur of rits in wit, zwart of antraciet, of full colour."
   },
   "image_alts": {
-   "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp": "Opblaasbare partytent met waterpoten, Wit, met witte dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp": "Opblaasbare partytent met waterpoten, Zwart, met zwarte dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp": "Opblaasbare partytent met waterpoten, Antraciet, met antraciet dichte achterwand, schuin vooraanzicht",
-   "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp": "Opblaasbare partytent met waterpoten met een full colour bedrukte achterwand met voorbeeldontwerp"
+   "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp": "Opblaasbare partytent met waterpoten, Wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp": "Opblaasbare partytent met waterpoten, Zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp": "Opblaasbare partytent met waterpoten, Antraciet, met een dichte antraciet zijwand links vooraan, schuin vooraanzicht",
+   "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp": "Opblaasbare partytent met waterpoten met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht"
   },
   "claims": [
    "Hoogte 220 cm, lengtes 3 / 4,5 / 6 m, rits aan het luchtframe, gewicht per wand: productdefinitie, bevestigen met de leverancier.",

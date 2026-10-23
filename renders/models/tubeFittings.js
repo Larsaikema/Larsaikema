@@ -34,6 +34,7 @@ import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
 import { makeNoise2 } from '../js/rng.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -171,7 +172,7 @@ function connector(name, mats, seed, opt = {}) {
   const bins = new G.PartBin();
   const C = V3();
   const L = 0.12, armS = L - 0.034;
-  const up = V3(0.25, 1, 0.15).normalize();
+  let up = V3(0.25, 1, 0.15).normalize();
   const ang = opt.angle != null ? Number(opt.angle) : null;
   if (name === '2-weg') {
     const len = Number(opt.length ?? 0.2);
@@ -252,8 +253,18 @@ function connector(name, mats, seed, opt = {}) {
     // dakrand 4-weg (110 / 120 deg): eave through tube, leg down, rafter up
     const pitch = ((ang || 120) - 90) * DEG;
     const leg = V3(0, -1, 0), raf = V3(-Math.cos(pitch), Math.sin(pitch), 0);
+    // round 5: it lies on the eave tube and the rafter (an L flat on the floor), the leg rising
+    // from the hub; the wing bolts point up, away from the floor (round 4 balanced it on one tube
+    // end: the plane through leg and eave ends contains the hub, the sign of `down` was arbitrary
+    // and the leg's bolt pointed into the floor)
+    // two candidate rests: on the eave tube + rafter (L flat, leg up) or on the eave tube + leg
+    // (rafter up); the bolts point away from the floor of the one that is used (the steeper the
+    // roof, the more the rising leg overhangs: 120 deg rests on the leg)
+    const dA = V3(Math.sin(pitch), Math.cos(pitch), 0), dB = V3(1, 0, 0);
+    const useB = (ang || 120) >= 115;
+    down = useB ? dB : dA;
+    up = useB ? V3(-1, 0.3, 0.2).normalize() : V3(-Math.sin(pitch), -Math.cos(pitch), 0.18).normalize();
     through(V3(0, 0, 1), [leg, raf]);
-    down = planeDown([leg, V3(0, 0, 1), V3(0, 0, -1)].map((d) => d.clone().multiplyScalar(L * 0.9)));
   } else if (name === '3-weg-grond') {
     if (opt.corner) {
       // grondframe hoekstuk: two ground arms mitred at 90 deg, staander arm up (use orientation)
@@ -363,6 +374,7 @@ export function tubeFittings(p = {}) {
   const connectorNames = ['2-weg', '3-weg', '4-weg', '3-weg-grond', 'voetplaat', 'klem'];
   const front = parts.filter((x) => connectorNames.includes(x));
   const hasTube = parts.includes('buis');
+  let singleProxy = null, dimGeo = null;
   const opt = { angle: p.angle, lip: !!p.lip, ground: !!p.ground, corner: !!p.corner, length: p.length };
   // camera-aligned knolling (round 3: tidy, not scattered): with the tube, the tube lies on the
   // left running straight away from the camera and the connectors stand in an evenly spaced
@@ -376,7 +388,12 @@ export function tubeFittings(p = {}) {
     let arms = null;
     if (name !== 'voetplaat' && name !== 'klem') ({ bins: sub, down, arms } = connector(name, mats, 7 + i * 11, opt));
     const geos = []; for (const [, list] of sub.bins) geos.push(...list);
-    if (down) layDown(geos, down);
+    if (down) {
+      // a pose that would clearly tip (centre of mass outside the support) falls back to the
+      // nearest stable one (L5.stableDown); the reviewed poses are left as they are
+      if (opt.restCheck && L5.restMargin(geos, down, { eps: 0.0035 }) < -0.004) { const st = L5.stableDown(geos, down, { eps: 0.0035, margin: 0.004 }); down = st.down; }
+      layDown(geos, down);
+    }
     const a = opt.angle != null ? Number(opt.angle) : null;
     const yawDeg = name === '2-weg' ? (opt.length > 0.3 ? 34 - 58 : opt.ground ? 34 - 30 : 34 - 22)
       : name === '3-weg' ? (a === 180 ? 34 + 25 : (a === 110 || a === 120) ? 34 + 150 : opt.lip ? 34 - 8 : 34 - 8)
@@ -412,8 +429,30 @@ export function tubeFittings(p = {}) {
     const r0 = 0.019, ri = 0.0178;
     // with connectors: left-right behind them; alone: corner to corner through the frame
     const alone = front.length === 0 && !parts.includes('knevelbout');
+    // round 5: a single loose tube (the length variants) lies on one fixed line at one fixed scale
+    // for every length, so a 50 cm and a 242 cm tube differ in the picture, with a dimension line
+    // and its length on the floor in front of it
+    const single = alone && n === 1;
+    const camR = V3(Math.cos(34 * DEG), 0, -Math.sin(34 * DEG)), camF = V3(Math.sin(34 * DEG), 0, Math.cos(34 * DEG));
     const yawT = alone ? -31 * DEG : (34 + 90) * DEG; // with connectors: straight away from the camera
-    const dir = V3(Math.cos(yawT), 0, -Math.sin(yawT));
+    const dir = single ? camR.clone().multiplyScalar(Math.cos(52 * DEG)).addScaledVector(camF, -Math.sin(52 * DEG)).normalize() : V3(Math.cos(yawT), 0, -Math.sin(yawT));
+    if (single) {
+      // fixed line, a scale that changes much less than the length (50 cm fills ~36 % of the
+      // diagonal, 242 cm all of it): length differences stay visible and the short tubes are not
+      // lost in an empty frame; the dimension line carries the exact length
+      const Lmax = 0.45 * 2.45 + 0.55 * L, sc = Lmax / 2.45, off = 0.13 * sc;
+      // framing proxy: the longest tube on the same line plus its dimension line
+      const ends = [dir.clone().multiplyScalar(-Lmax / 2), dir.clone().multiplyScalar(Lmax / 2)];
+      const dimOff = V3(-dir.z, 0, dir.x); if (dimOff.dot(camF) < 0) dimOff.negate();
+      const pts = [...ends, ...ends.map((e) => e.clone().addScaledVector(dimOff, off + 0.16 * sc))];
+      const bb = new THREE.Box3().setFromPoints(pts);
+      singleProxy = SG.frameProxy([bb.min.x - 0.02, 0, bb.min.z - 0.02], [bb.max.x + 0.02, 0.05, bb.max.z + 0.02]);
+      // dimension line: from the left end to the right end as the camera sees it
+      const A = dir.clone().multiplyScalar(-L / 2), Bp = dir.clone().multiplyScalar(L / 2);
+      const [a0, b0] = A.dot(camR) < Bp.dot(camR) ? [A, Bp] : [Bp, A];
+      const lineSide = V3(-(b0.z - a0.z), 0, b0.x - a0.x).normalize();
+      dimGeo = L5.dimensionLine(a0, b0, `${Math.round(L * 100)} cm`, { off: off * (lineSide.dot(dimOff) > 0 ? 1 : -1), h: 0.05 * sc, lw: 0.003 * sc, tick: 0.04 * sc, readAlong: camR, elev: 34 });
+    }
     const side = V3(-dir.z, 0, dir.x);
     // bundle cross-section: rows of 3, 2, ... (stacked in the grooves)
     const centres = [];
@@ -466,11 +505,13 @@ export function tubeFittings(p = {}) {
     }
   }
   const g = K.finish(bins, 'tubeFittings');
+  if (singleProxy) g.add(singleProxy);
+  if (dimGeo) { const dm = K.meshOf(dimGeo, L5.inkMat(), { cast: false, receive: true }); dm.userData.noFrame = true; g.add(dm); }
   const solo = front.length === 1 && !hasTube;
   return {
     object: g,
     detail: { target: [0, 0.05, 0.2], size: 0.25, azimuth: 30, elevation: 30 },
-    view: { hero: { elevation: parts.includes('knevelbout') ? 40 : front.includes('voetplaat') || front.includes('klem') ? 32 : 28 } },
+    view: { hero: { elevation: singleProxy ? 34 : parts.includes('knevelbout') ? 40 : front.includes('voetplaat') || front.includes('klem') ? 32 : 28, ...(singleProxy ? { fill: 0.86 } : {}) } },
     rig: { default: { contact: { strength: 0.85, h0: solo ? 0.004 : 0.006, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 }, envIntensity: 1.0 } },
     meta: { parts, opt },
   };

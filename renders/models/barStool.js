@@ -33,6 +33,7 @@ import * as F from '../js/furniture.js';
 import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { rng, makeNoise2 } from '../js/rng.js';
+import * as V2 from '../js/fabric2.js'; // round 6: velvetLux
 import { barrelStool } from './barrelStool.js'; // round 5: style 'vat' (barkruk wijnvat)
 import { foldingBarStool } from './chairs3.js'; // round 5: style 'klap' (inklapbare barkruk)
 
@@ -41,7 +42,7 @@ const DEG = Math.PI / 180;
 const lumOf = (hex) => { const c = new THREE.Color(hex); return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; };
 const sstep = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 // velours as it photographs (mid tone of the pile; faces read darker, flanks lighter)
-const VELVET = { grijs: '#8A8D90', camel: '#97693D', groen: '#2C5D45', marineblauw: '#1F2843', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
+const VELVET = { grijs: '#8A8D90', camel: '#9A6A3A', groen: '#2C5D45', marineblauw: '#1F2843', zwart: '#222224', antraciet: '#45484C', bordeaux: '#6A1F2A', roze: '#C98E98', zand: '#C8B596' };
 const WICKER = { zwart: '#2E2C2A', bruin: '#6A4D36', grijs: '#8A8781', naturel: '#A88B62', wit: '#E4E0D6' };
 const WICKER_FRAME = { zwart: '#1F1E1D', bruin: '#3A2C21', grijs: '#4F5154', naturel: '#3A2C21', wit: '#D9D8D3' };
 // faux leather (PU kunstleer) as it photographs
@@ -257,18 +258,36 @@ function chairRattan(bins, H, color, back) {
 function stoolVelvet(bins, H, color, back, frameColor = 'zwart', extra = []) {
   const key = String(color).toLowerCase();
   const hex = VELVET[key] || M.resolveColor(color, '#7E8184');
-  const light = lumOf(hex) > 0.12;
-  // light velvets (camel, grijs) get a gentler rim so the flanks do not go chalky
-  const vopt = light ? { face: 0.72, rimGain: 1.48, desat: 0.3, lean: 0.08 } : { desat: 0.38 };
-  const vel = U.velvetPile(hex, vopt);
+  // round 6 (fabric2.velvetLux): dark, saturated faces, a light desaturated glow on every flank, channel
+  // ridge and rolled edge (the velvet rim), crush patches and sheen streaks down the channels; no specular
+  // at all. The round-3 pile read as vinyl / leather (camel especially).
+  // round 7 (art direction: "shiny vinyl or satin with streaky highlights; the grey and green seats much lighter
+  // than their backs"): the velvet rim is narrowed to the true silhouette (rimPow 3: a seat top seen at 20 deg no
+  // longer counts as "grazing" and turns pale), face and rim closer together, the crush patches and grain much
+  // weaker and larger (they printed as satin streaks down the channels), a broad soft sheen. The seat carries a
+  // nap term (vertex colours): its pile is brushed towards the back, so from the front the top reads as deep as
+  // the back panel instead of a pale grazing glow.
+  const Lh = lumOf(hex);
+  const vopt = Lh > 0.2 ? { face: 0.8, rim: 1.4, rimPow: 2.0, crush: 0.1, desat: 0.08, grain: 0.12, streak: 0, sheen: 0.5, sheenRough: 0.5, sheenTint: 0.15, crushScale: 0.5, iso: true }
+    : Lh > 0.1 ? { face: 0.78, rim: 1.5, rimPow: 2.0, crush: 0.1, desat: 0.08, grain: 0.12, streak: 0, sheen: 0.55, sheenRough: 0.5, sheenTint: 0.15, crushScale: 0.5, iso: true }
+    : { face: 0.8, rim: 1.8, rimPow: 1.9, crush: 0.11, desat: 0.12, grain: 0.12, streak: 0, sheen: 0.65, sheenRough: 0.5, sheenTint: 0.25, crushScale: 0.5, iso: true };
+  const vel = V2.velvetLux(hex, vopt);
+  const velNap = V2.velvetLux(hex, { ...vopt, vertexColors: true });
   const frame = U.powder(frameColor);
   const glide = F.plastic('#161616', 0.6);
   const W = 0.44, D = 0.42, T = 0.078;
-  const seat = S.softBlock(W, T, D, { r: 0.03, crown: 0.014, belly: 0.005, gather: 0.0022, uneven: 0.001, seed: 4, seg: [64, 14, 62] });
-  U.puckerSeams(seat, { amp: 0.0008, pitch: 0.026, width: 0.012, seed: 4 });
+  // round 7: denser mesh, softer gathers and seam pucker: the velvet rim term turned every facet and ripple of the
+  // seat's side band into a light/dark stripe
+  const seat = S.softBlock(W, T, D, { r: 0.03, crown: 0.014, belly: 0.005, gather: 0.0012, uneven: 0.0006, seed: 4, seg: [96, 24, 92] });
+  U.puckerSeams(seat, { amp: 0.0003, pitch: 0.026, width: 0.012, seed: 4 });
   const yC = H - T / 2 - 0.008;
   const shape = seat.userData.shape;
-  bins.add(vel, seat.translate(0, yC, 0));
+  seat.translate(0, yC, 0); seat.computeVertexNormals();
+  {
+    const nrm = seat.attributes.normal;
+    U.cavityColors(seat, (i) => 1 - 0.46 * sstep(0.3, 0.92, nrm.getY(i)));
+  }
+  extra.push(U.meshOf(seat, velNap, 'velvet seat'));
   for (const side of [1, -1]) bins.add(vel, F.sweep(S.weltPath(shape, side, { cr: 0.0034 }).map((p) => p.setY(p.y + yC)), G.circleProfile(0.0034, 12), { closed: true }));
   const yB = H - T - 0.008;
   bins.add(frame, G.roundedBox(0.32, 0.016, 0.3, 0.004).translate(0, yB - 0.006, 0));
@@ -330,7 +349,7 @@ function stoolVelvet(bins, H, color, back, frameColor = 'zwart', extra = []) {
     for (let i = 0; i < pp.count; i++) { tv.fromBufferAttribute(pp, i); const w = place(tv); pp.setXYZ(i, w.x, w.y, w.z); }
     panel.computeVertexNormals();
     U.cavityColors(panel, (i) => 1 - 0.55 * occ[i]);
-    extra.push(U.meshOf(panel, U.velvetPile(hex, { ...vopt, vertexColors: true }), 'velvet back'));
+    extra.push(U.meshOf(panel, V2.velvetLux(hex, { ...vopt, vertexColors: true }), 'velvet back'));
     bins.add(vel, F.sweep(welt.map(place), G.circleProfile(0.0034, 12), { closed: true }));
     for (const s of [-1, 1]) {
       const a = V3(s * 0.11, yB - 0.01, -0.13), b = V3(s * 0.11, H + 0.02, -D / 2 - 0.02), c = V3(s * 0.11, H + 0.13, -D / 2 - 0.035);

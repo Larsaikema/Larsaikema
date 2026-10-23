@@ -17,7 +17,7 @@
 {"model": "barStool", "params": {"style": "vat", "finish": "houtlook", "height": 0.76}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/barkruk-wijnvat-hero.webp"}
 {"model": "biertafelset", "params": {"length": 2.2, "only": "bank"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/bierbank-220-hero.webp"}
 {"model": "biertafelset", "params": {"length": 2.2, "tableWidth": 0.5}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/biertafelset-hero.webp"}
-{"model": "items", "items": [{"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, -1.9]}, {"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, 0]}, {"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, 1.9]}], "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/biertafelsets-10-stuks-hero.webp"}
+{"model": "items", "items": [{"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, -1.9]}, {"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, 0]}, {"model": "biertafelset", "length": 2.2, "tableWidth": 0.5, "position": [0, 0, 1.9]}], "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/biertafelsets-10-stuks-hero.webp", "camera": {"azimuth": 58, "elevation": 27, "fill": 0.9}}
 {"model": "klaptafel", "params": {"length": 1.6, "width": 0.8, "height": 0.74, "top": "wit", "frame": "t"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/conferentietafel-inklapbaar-wit-hero.webp"}
 {"model": "klaptafel", "params": {"length": 0.9, "width": 0.6, "height": 0.74, "top": "berken"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/examentafel-inklapbaar-hero.webp"}
 {"model": "chair", "params": {"style": "bistro-klap", "color": "#B8915F"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/klapstoel-hout-bistro-eiken-hero.webp"}
@@ -69,12 +69,12 @@
 {"model": "tableTop", "params": {"diameter": 0.8, "top": "antraciet"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/los-statafelblad-antraciet-hero.webp"}
 {"model": "tableTop", "params": {"diameter": 0.8, "top": "berken"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/los-statafelblad-berken-hero.webp"}
 {"model": "tableTop", "params": {"diameter": 0.8, "top": "zwart"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/los-statafelblad-zwart-hero.webp"}
-{"model": "stanchion", "params": {"parts": ["liggend"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-bordhouder-a3-liggend.webp"}
-{"model": "stanchion", "params": {"parts": ["liggend"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-bordhouder-a4-liggend.webp"}
+{"model": "stanchion", "params": {"parts": ["liggend"], "format": "A3"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-bordhouder-a3-liggend.webp"}
+{"model": "stanchion", "params": {"parts": ["liggend"], "format": "A4"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-bordhouder-a4-liggend.webp"}
 {"model": "stanchion", "params": {"parts": ["staand"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-bordhouder-a4-staand.webp"}
 {"model": "stanchion", "params": {"parts": ["koord"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-wandhaak-voor-koord.webp"}
-{"model": "stanchion", "params": {"parts": ["m"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-wandunit-met-trekband-2-m.webp"}
-{"model": "stanchion", "params": {"parts": ["m"]}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-wandunit-met-trekband-3-m.webp"}
+{"model": "stanchion", "params": {"parts": ["m"], "beltLength": 2}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-wandunit-met-trekband-2-m.webp"}
+{"model": "stanchion", "params": {"parts": ["m"], "beltLength": 3}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-afzetsysteem-wandunit-met-trekband-3-m.webp"}
 {"model": "biertafelset", "params": {"only": "onderstel", "part": "bm5"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-biertafel-en-klaptafel-bm5.webp"}
 {"model": "biertafelset", "params": {"only": "onderstel", "part": "ks"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-biertafel-en-klaptafel-ks.webp"}
 {"model": "biertafelset", "params": {"only": "onderstel", "part": "obb"}, "angle": "hero", "size": 2000, "bg": "#ECE4D6", "out": "../../catalog/images/onderdelen-biertafel-en-klaptafel-obb.webp"}

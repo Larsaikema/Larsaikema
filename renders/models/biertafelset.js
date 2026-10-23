@@ -93,8 +93,13 @@ function table(bins, mats, L, W, H, z0, folded = false) {
     for (const sx of [-1, 1]) bins.add(mats.steel, G.prism(G.roundedRectProfile(0.004, 0.034, 0.0015, 2), V3(x + sx * 0.023, yU - 0.019, z0 - W / 2 + 0.03), V3(x + sx * 0.023, yU - 0.019, z0 + W / 2 - 0.03), { side: V3(1, 0, 0) }));
     const legW = W / 2 - 0.07;
     const g = new G.PartBin();
-    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.03, zTop: legW, zFoot: legW + 0.04, yCross: 0.36, braceTo: -s * 0.5, folded });
-    if (folded) { foldInto(bins, g, x, z0, yU - 0.045, s); continue; }
+    // folded: the frame nests between the two battens (as the real ones do), so a stack shows wood edges,
+    // not a row of tube loops
+    legFrame(g, mats, folded ? { x: 0, inward: -s, yTop: yU - 0.03, zTop: W / 2 - 0.1, zFoot: W / 2 - 0.095, yCross: 0.36, braceTo: -s * 0.5, folded }
+      : { x: 0, inward: -s, yTop: yU - 0.03, zTop: legW, zFoot: legW + 0.04, yCross: 0.36, braceTo: -s * 0.5, folded });
+    // round 7: folded flat right under the top, between the battens (the frame plane 2 cm under the top's
+    // underside): a folded table is ~6 cm thick, so ten of them stack to ~62 cm, not 95
+    if (folded) { foldInto(bins, g, x, z0, yU - 0.02, s); continue; }
     for (const [mat, list] of g.bins) for (const geo of list) bins.add(mat, geo.translate(x, 0, z0));
   }
 }
@@ -112,8 +117,12 @@ function bench(bins, mats, L, W, H, z0, folded = false) {
     const x = s * xl;
     bins.add(mats.steel, G.prism(G.roundedRectProfile(0.05, 0.004, 0.0015, 2), V3(x, yU - 0.002, z0 - W / 2 + 0.02), V3(x, yU - 0.002, z0 + W / 2 - 0.02), { side: V3(1, 0, 0) }));
     const g = new G.PartBin();
-    legFrame(g, mats, { x: 0, inward: -s, yTop: yU - 0.024, zTop: W / 2 - 0.045, zFoot: 0.17, yCross: 0.2, braceTo: -s * 0.36, folded });
-    if (folded) { foldInto(bins, g, x, z0, yU - 0.037, s); continue; }
+    // folded (on a cart): the leg frame lies flat under the seat, within its width (the real frames nest when
+    // folded; feet sticking out of a stack read as drawer handles)
+    legFrame(g, mats, folded ? { x: 0, inward: -s, yTop: yU - 0.024, zTop: 0.014, zFoot: 0.017, yCross: 0.2, braceTo: -s * 0.36, folded }
+      : { x: 0, inward: -s, yTop: yU - 0.024, zTop: W / 2 - 0.045, zFoot: 0.17, yCross: 0.2, braceTo: -s * 0.36, folded });
+    // folded: the frame lies flat right under the seat, tucked behind the centre batten (hidden from the side)
+    if (folded) { foldInto(bins, g, x, z0, yU - 0.014, s); continue; }
     for (const [mat, list] of g.bins) for (const geo of list) bins.add(mat, geo.translate(x, 0, z0));
   }
 }

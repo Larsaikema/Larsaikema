@@ -61,6 +61,17 @@ export function frameCamera(root, presetName = 'hero', { aspect = 1, detail = nu
   const az = preset.azimuth * DEG, el = preset.elevation * DEG;
   const dir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el));
   const pts = collectPoints(root);
+  // refPoints (world [x, y, z] list, from a product builder's view hint): the camera DISTANCE is the one that
+  // frames these points by the usual rules (e.g. the open table), the product itself is only centred. Variants
+  // of one SKU (open / folded) then share one pixels-per-metre scale. If the product would not fit at that
+  // scale it is framed by its own bounds after all (fill 0.94).
+  if (preset.refPoints && preset.refPoints.length) {
+    const ref = preset.refPoints.map((q) => new THREE.Vector3(...q));
+    const fr = fitPoints(ref, dir, fov, aspect, preset.fill, preset.offsetY || 0, null);
+    const own = fitPoints(pts, dir, fov, aspect, 0.94, preset.offsetY || 0, null);
+    const res = fitPoints(pts, dir, fov, aspect, preset.fill, preset.offsetY || 0, Math.max(fr.dist, own.dist));
+    return { position: res.position, target: res.target, fov, azimuth: preset.azimuth, elevation: preset.elevation, distance: res.dist };
+  }
   const box = new THREE.Box3().setFromPoints(pts);
   const target = box.getCenter(new THREE.Vector3());
   let dist = box.getSize(new THREE.Vector3()).length() / (2 * tanV);
@@ -86,3 +97,33 @@ export function frameCamera(root, presetName = 'hero', { aspect = 1, detail = nu
   cam.position.copy(target).addScaledVector(dir, dist);
   return { position: cam.position.clone(), target, fov, azimuth: preset.azimuth, elevation: preset.elevation, distance: dist };
 }
+
+// Fit points in view direction dir: iteratively centre their projected bounds and scale the distance so the
+// larger half-extent fills `fill` of the half-frame; with fixedDist the distance is kept and only the target
+// is centred.
+function fitPoints(pts, dir, fov, aspect, fill, offsetY, fixedDist) {
+  const tanV = Math.tan((fov * DEG) / 2), tanH = tanV * aspect;
+  const box = new THREE.Box3().setFromPoints(pts);
+  const target = box.getCenter(new THREE.Vector3());
+  let dist = fixedDist || box.getSize(new THREE.Vector3()).length() / (2 * tanV);
+  const cam = new THREE.PerspectiveCamera(fov, aspect, 0.01, 1000);
+  const v = new THREE.Vector3();
+  for (let it = 0; it < 10; it++) {
+    cam.position.copy(target).addScaledVector(dir, dist);
+    cam.lookAt(target); cam.updateMatrixWorld(); cam.updateProjectionMatrix();
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (const p of pts) {
+      v.copy(p).project(cam);
+      if (v.x < x0) x0 = v.x; if (v.x > x1) x1 = v.x; if (v.y < y0) y0 = v.y; if (v.y > y1) y1 = v.y;
+    }
+    const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2 + offsetY;
+    const ext = Math.max((x1 - x0) / 2, (y1 - y0) / 2);
+    const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
+    target.addScaledVector(right, cx * dist * tanH).addScaledVector(up, cy * dist * tanV);
+    if (!fixedDist) dist *= ext / fill;
+  }
+  const position = target.clone().addScaledVector(dir, dist);
+  return { position, target, dist };
+}
+

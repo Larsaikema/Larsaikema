@@ -20,6 +20,8 @@ import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
 import * as F from '../js/furniture.js';
+import * as L5 from '../js/partsLook5.js';
+const M5 = L5;
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -96,7 +98,8 @@ export function concreteBlock(p = {}) {
     object: g,
     detail: { target: [0, H - 0.01, 0], size: Math.min(0.42, S * 0.7), azimuth: 30, elevation: 38 },
     view: { hero: { elevation: acc ? 24 : 20, fill: acc ? 0.7 : 0.62 } },
-    rig: { default: { contact: { strength: 0.95, h0: 0.012, res: 1024, blur: 1.4, wide: { h0: 0.05, sigma: 0.03, strength: 0.5 } }, groundAO: { strength: 0.85, maxZenith: 80 } } },
+    rig: p.cover ? L5.goodsRig({ tone: 'black', size: 0.62, extra: { contact: { strength: 0.95, h0: 0.01, res: 1024, blur: 1.4, wide: { h0: 0.04, sigma: 0.026, strength: 0.45 } } } })
+      : { default: { contact: { strength: 0.95, h0: 0.012, res: 1024, blur: 1.4, wide: { h0: 0.05, sigma: 0.03, strength: 0.5 } }, groundAO: { strength: 0.85, maxZenith: 80 } } },
     meta: { weight: wt, size: [S, H, Dz] },
   };
 }
@@ -131,81 +134,149 @@ function rrAt(a, b, r, u) {
   return { p: V3(0, 0, b), n: V3(0, 0, 1) };
 }
 
-// fitted cover over a W x H x D block: sides with soft folds fanning from the bottom corners,
-// rounded top edge with piping, vertical corner seams, hook-and-loop hem band, and a hemmed
-// slot in the top the lifting loop comes through
+// fitted cover over a W x H x D block (round 5: reads as sewn 600D cloth, not a moulded box):
+// a top panel taut over the block with the soft packing creases of a new cover, piping in the
+// top seam, side panels with a little slack (a belly low on each face, soft diagonal tension
+// folds from the top corners, a horizontal packing crease), excess cloth bunching into folds at
+// each bottom corner where the hem kicks out onto the floor, corner seams with two stitch rows,
+// a folded hem band with two stitch rows, and a bound slot in the top for the lifting loop.
 function blockCover(bins, { W, H, D, color = 'zwart', seed = 4 }) {
-  const hex = color === 'zwart' ? '#1C1D1F' : color;
-  const cloth = L3.pvcSatin(hex, { rough: 0.55, coat: 0.15, weave: 0.35 });
+  const hex = color === 'zwart' ? '#1C1D1F' : M5.liftAlbedo(color).getStyle();
+  const cloth = L5.cloth5(hex, { rough: 0.76, sheen: 0.75, spec: 0.3, env: 0.2 });
+  const pipeM = L5.cloth5(hex, { rough: 0.6, sheen: 0.9, spec: 0.42, env: 0.3 });
+  const thr = SG.thread('#55575D', { sheen: 0.7 });
   const nz = makeNoise2(seed);
-  const a = W / 2, b = D / 2, rc = 0.03, re = 0.022, nu = 320;
-  const rowsP = [];
-  const ring = (y, inset, k) => {
-    const row = [];
-    for (let i = 0; i <= nu; i++) {
-      const u = i / nu;
-      const { p, n } = rrAt(a - inset, b - inset, Math.max(0.004, rc - inset), u);
-      // folds: near each corner (u = 1/8, 3/8, ...) a few soft vertical folds that fade upwards
-      let d = 0;
-      if (k > 0) {
-        for (let c = 0; c < 4; c++) {
-          const uc = (c + 0.5) / 4;
-          const du = ((u - uc + 1.5) % 1) - 0.5;
-          const env = Math.exp(-Math.pow(du / 0.035, 2));
-          d += env * (0.0045 * Math.sin(du * 260 + c * 1.7) + 0.0025);
-        }
-        // fabric slack: position-based (seamless round the ring)
-        d += 0.0016 * nz.noise(p.x * 9 + p.z * 5.3, y * 6 + p.z * 3.1) + 0.0010 * Math.sin((p.x + p.z) * 38 + y * 9);
-        d *= k;
-      }
-      row.push(p.addScaledVector(n, d).setY(y));
+  const a = W / 2, b = D / 2, rc = 0.024, re = 0.02;
+  const fr = K.rrFractions(a, b, rc), P = fr.P;
+  const Hw = H - re, eArc = (Math.PI / 2) * re, inner = Math.min(a, b) - re - 0.004;
+  const corners = [fr.cFR, fr.cBR, fr.cBL, fr.cFL].map((f) => f * P);
+  const faces = [fr.front, fr.right, fr.back, fr.left].map((f) => f * P);
+  const wrap = (d) => ((d % P) + P * 1.5) % P - P / 2;
+  // crease list on the walls in (s = perimeter metres, y): diagonal tension folds from the top
+  // corners towards the middle of each face
+  const R = (() => { let x = seed * 9301 + 49297; return () => ((x = (x * 9301 + 49297) % 233280) / 233280); })();
+  const cr = [];
+  corners.forEach((sc) => {
+    for (const sg of [-1, 1]) for (let k = 0; k < 2; k++) {
+      const al = (48 + 14 * k + (R() - 0.5) * 10) * DEG;
+      cr.push({ s0: sc + sg * (0.025 + 0.03 * k), y0: Hw - 0.012 - 0.03 * k, ds: sg * Math.cos(al), dy: -Math.sin(al), l: 0.16 + 0.12 * R(), w: 0.011 + 0.008 * R(), A: (0.0026 + 0.0016 * R()) * (k ? 0.8 : 1) });
     }
-    return row;
+  });
+  const creaseAt = (s, y) => {
+    let v = 0;
+    for (const c of cr) {
+      const dsv = wrap(s - c.s0), dyv = y - c.y0;
+      const al = dsv * c.ds + dyv * c.dy; if (al < 0 || al > c.l) continue;
+      const ac = -dsv * c.dy + dyv * c.ds;
+      const t = al / c.l;
+      v += c.A * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.6 + 0.08)), 0.8) * (1 - 0.6 * t) * Math.exp(-((ac / c.w) ** 2));
+    }
+    return v;
   };
-  // hem flares a little onto the floor, folds strongest at the bottom
-  const nv = 34;
-  for (let j = 0; j <= nv; j++) {
-    const t = j / nv, y = 0.002 + (H - re - 0.002) * t;
-    const flare = 0.008 * Math.pow(1 - Math.min(1, y / 0.05), 2);
-    const row = ring(y, -flare, Math.pow(1 - t, 1.4) * 0.9 + 0.1);
-    rowsP.push(row);
+  const wallDisp = (s, y, face) => {
+    let d = 0;
+    // belly low on each face (cloth slack under its own weight)
+    d += 0.005 * face * Math.pow(Math.max(0, 1 - y / H), 1.3);
+    // excess cloth at the bottom corners: a bulge, two folds either side, the hem kicking out
+    for (const sc of corners) {
+      const dc = wrap(s - sc);
+      if (Math.abs(dc) > 0.14) continue;
+      const e = Math.pow(Math.max(0, 1 - y / 0.15), 1.7);
+      d += e * (0.011 * Math.exp(-((dc / 0.045) ** 2)) + 0.0065 * (Math.exp(-(((dc - 0.05) / 0.011) ** 2)) + Math.exp(-(((dc + 0.055) / 0.012) ** 2))) - 0.003 * (Math.exp(-(((dc - 0.075) / 0.014) ** 2)) + Math.exp(-(((dc + 0.08) / 0.014) ** 2))));
+      d += 0.016 * Math.exp(-((dc / 0.06) ** 2)) * Math.pow(Math.max(0, 1 - y / 0.045), 2);
+    }
+    // folded hem band (two layers) and the hem standing out a touch
+    d += 0.0016 * (1 - K.sstep(0.028, 0.033, y)) + 0.003 * Math.pow(Math.max(0, 1 - y / 0.02), 2);
+    // horizontal packing crease (the cover was folded in the box), alternating ridge / valley per face
+    const fi = Math.round(((s / P) % 1) * 4) % 4;
+    const yc = 0.215 + 0.008 * Math.sin(s * 2.7 + 1.1);
+    const xh = Math.abs(y - yc) / 0.007;
+    d += (fi % 2 ? -1 : 1) * 0.0017 * face * (xh < 1 ? (1 - xh) * (1 - xh) : 0) + 0.0008 * face * Math.exp(-(((y - yc) / 0.02) ** 2));
+    // vertical packing crease in the middle of each face
+    for (const sf of faces) { const df = Math.abs(wrap(s - sf)) / 0.006; if (df < 1) d += 0.0014 * (1 - df) * (1 - df) * K.sstep(0.05, 0.12, y) * (1 - K.sstep(Hw - 0.05, Hw, y)); }
+    d += creaseAt(s, y);
+    d += 0.0014 * nz.noise(s * 6.1 + 2.2, y * 7.3) * face;
+    // taut over the top edge
+    return d * (1 - 0.75 * K.sstep(Hw - 0.03, Hw, y));
+  };
+  const topDisp = (x, z) => {
+    let d = 0.0012 + 0.0008 * (0.5 + 0.5 * nz.noise(x * 7 + 3.3, z * 7 + 1.1));
+    // cross of packing creases (ridges standing up off the block)
+    const r1 = Math.abs(z - 0.03 - 0.01 * Math.sin(x * 4)) / 0.006, r2 = Math.abs(x + 0.12 + 0.012 * Math.sin(z * 3.2)) / 0.007;
+    if (r1 < 1) d += 0.0022 * (1 - r1) * (1 - r1);
+    if (r2 < 1) d += 0.0017 * (1 - r2) * (1 - r2);
+    // soft wrinkles radiating from the slot (the loop pulls the cloth up)
+    const rr = Math.hypot(x, z), th = Math.atan2(z, x);
+    if (rr > 0.09 && rr < 0.3) d += 0.0012 * Math.pow(Math.max(0, Math.sin(th * 7 + 0.6)), 3) * (1 - (rr - 0.09) / 0.21);
+    return d * (1 - K.sstep(inner - 0.04, inner + 0.004, Math.max(Math.abs(x), Math.abs(z))));
+  };
+  // surface: wall rows (hem -> edge), edge arc, top rings (edge -> centre)
+  const nu = 360;
+  const ms = [];
+  const nWall = 70, nEdge = 8, nTop = 22;
+  for (let j = 0; j <= nWall; j++) ms.push(0.0015 + (Hw - 0.0015) * Math.pow(j / nWall, 0.92));
+  for (let j = 1; j <= nEdge; j++) ms.push(Hw + eArc * (j / nEdge));
+  for (let j = 1; j <= nTop; j++) ms.push(Hw + eArc + inner * Math.pow(j / nTop, 0.8));
+  const point = (f, m) => {
+    let d, y, ny, part;
+    if (m <= Hw) { part = 'wall'; d = 0; y = m; ny = 0; }
+    else if (m <= Hw + eArc) { part = 'edge'; const th = ((m - Hw) / eArc) * (Math.PI / 2); d = re - re * Math.cos(th); y = Hw + re * Math.sin(th); ny = Math.sin(th); }
+    else { part = 'top'; d = re + (m - Hw - eArc); y = H; ny = 1; }
+    const q = K.rrPoint(f, Math.max(0.002, a - d), Math.max(0.002, b - d), Math.max(0.002, rc - Math.min(d, rc) * 0.6));
+    const hz = Math.sqrt(Math.max(0, 1 - ny * ny));
+    const n = V3(q.nx * hz, ny, q.nz * hz).normalize();
+    const p = V3(q.x, y, q.z);
+    let o = 0;
+    if (part === 'wall') o = wallDisp(f * P, y, K.rrPoint(f, a, b, rc).face);
+    else if (part === 'top') o = topDisp(q.x, q.z);
+    else o = 0.0004;
+    return { p: p.addScaledVector(n, o), n, part };
+  };
+  const rows = ms.map((m) => { const row = []; for (let i = 0; i < nu; i++) row.push(point(i / nu, m).p); return row; });
+  bins.add(cloth, K.gridGeometry(rows, { closedU: true, flip: true, uvRows: ms }));
+  // surface normal at (f, m) by finite differences (for trims lying on the cloth)
+  const at = (f, m, lift = 0) => {
+    const e = 0.0015;
+    const p = point(f, m).p;
+    const pu = point(f + e / P, m).p.sub(point(f - e / P, m).p), pv = point(f, m + e).p.sub(point(f, Math.max(0.001, m - e)).p);
+    const n = V3().crossVectors(pu, pv).normalize();
+    if (n.dot(point(f, m).n) < 0) n.negate();
+    return { p: p.addScaledVector(n, lift), n };
+  };
+  const line = (fn, n) => { const pts = [], nrm = []; for (let i = 0; i <= n; i++) { const q = fn(i / n); pts.push(q.p); nrm.push(q.n); } return { pts, nrm }; };
+  // piping in the top seam (on the edge arc, 40 deg up), one stitch row on the wall just below
+  {
+    const mP = Hw + eArc * 0.45;
+    const pp = line((t) => at(t, mP, 0.0026), 520);
+    pp.pts.push(pp.pts[0].clone()); pp.nrm.push(pp.nrm[0].clone());
+    bins.add(pipeM, K.tubeAlong(pp.pts, 0.0034, 12));
+    const st = line((t) => at(t, Hw - 0.009, 0.0004), 520);
+    bins.add(thr, SG.stitches(st.pts, st.nrm, { len: 0.0042, gap: 0.0022, w: 0.0012, h: 0.0006 }));
   }
-  for (let k = 1; k <= 8; k++) { const th = (k / 8) * Math.PI / 2; rowsP.push(ring(H - re + Math.sin(th) * re, re * (1 - Math.cos(th)), 0)); }
-  for (let k = 1; k <= 10; k++) { const t = k / 10; rowsP.push(ring(H + 0.0008 * Math.sin(Math.PI * t), re + (Math.min(a, b) - re - 0.004) * t, 0)); }
-  bins.add(cloth, K.gridGeometry(rowsP, { closedU: true, flip: true }));
-  // piping round the top edge
-  const pip = []; for (let i = 0; i <= nu; i++) { const { p, n } = rrAt(a - re * 0.32, b - re * 0.32, rc - re * 0.32, i / nu); pip.push(p.addScaledVector(n, 0.0016).setY(H - re * 0.32 + 0.0012)); }
-  bins.add(cloth, K.tubeAlong(pip, 0.0032, 10, { closed: true }));
-  // vertical corner seams
-  for (let c = 0; c < 4; c++) {
-    const u = (c + 0.5) / 4, pts = [];
-    for (let j = 0; j <= 30; j++) { const y = 0.05 + (H - re - 0.05) * (j / 30); const { p, n } = rrAt(a, b, rc, u); pts.push(p.addScaledVector(n, 0.0012).setY(y)); }
-    bins.add(cloth, K.tubeAlong(pts, 0.0018, 8));
+  // corner seams: a raised seam allowance and two stitch rows
+  for (const sc of corners) {
+    const f0 = sc / P;
+    const ridge = line((t) => at(f0, 0.036 + (Hw - 0.05) * t, 0.0009), 90);
+    bins.add(pipeM, K.tubeAlong(ridge.pts, 0.0019, 8));
+    for (const off of [-0.009, 0.009]) {
+      const st = line((t) => at(f0 + off / P, 0.04 + (Hw - 0.06) * t, 0.0003), 120);
+      bins.add(thr, SG.stitches(st.pts, st.nrm, { len: 0.0042, gap: 0.0022, w: 0.0011, h: 0.0005 }));
+    }
   }
-  // hem band (hook-and-loop band sewn round the bottom): follows the cloth surface of the
-  // matching rows (same folds), so it sits on the cover instead of cutting through it
-  const band = L3.cloth600('#141516', { rough: 0.85 });
-  const rowAt = (j) => rowsP[Math.max(0, Math.min(nv, j))];
-  const jB = Math.round(((0.03 - 0.002) / (H - re - 0.002)) * nv);
-  const bp = [], bn = [];
-  for (let i = 0; i < nu; i++) {
-    const q = rowAt(jB)[i], q1 = rowAt(jB)[(i + 1) % nu], qu = rowAt(jB + 1)[i];
-    const n = V3().crossVectors(q1.clone().sub(q), qu.clone().sub(q)).normalize();
-    const out = rrAt(a, b, rc, i / nu).n; if (n.dot(out) < 0) n.negate();
-    bp.push(q.clone().addScaledVector(n, 0.0022)); bn.push(n);
+  // hem band stitch rows
+  for (const yS of [0.007, 0.026]) {
+    const st = line((t) => at(t, yS, 0.0003), 640);
+    bins.add(thr, SG.stitches(st.pts, st.nrm, { len: 0.0042, gap: 0.0022, w: 0.0011, h: 0.0005 }));
   }
-  bins.add(band, K.strapAlong(bp, 0.05, 0.0018, { normals: bn, closed: true }));
-  const thr = SG.thread('#3A3B3F', { sheen: 0.7 });
-  for (const off of [-0.021, 0.021]) {
-    const st = bp.map((q, i) => q.clone().addScaledVector(bn[i], 0.0012).add(V3(0, off, 0)));
-    bins.add(thr, SG.stitches([...st, st[0]], [...bn, bn[0]], { len: 0.004, gap: 0.0022, w: 0.0011, h: 0.0005 }));
-  }
-  // slot in the top for the lifting loop: a hemmed opening with two flaps
-  const slotL = 0.17, slotW = 0.04;
-  const sp = []; for (let i = 0; i <= 64; i++) { const t = (i / 64) * TAU; sp.push(V3(Math.cos(t) * slotL / 2, H + 0.0035, Math.sin(t) * slotW / 2)); }
-  const slotRing = K.tubeAlong(sp, 0.0042, 10, { closed: true }); slotRing.rotateY(28 * DEG); bins.add(cloth, slotRing);
-  const hole = new THREE.Shape(); hole.absellipse(0, 0, slotL / 2 - 0.002, slotW / 2 - 0.002, 0, TAU, false);
-  const hg = new THREE.ShapeGeometry(hole, 32); hg.rotateX(-Math.PI / 2); hg.translate(0, H + 0.0025, 0); hg.rotateY(28 * DEG);
+  // bound slot in the top for the lifting loop: binding tape round the opening + stitches
+  const slotL = 0.17, slotW = 0.042;
+  const sp = []; for (let i = 0; i <= 96; i++) { const t = (i / 96) * TAU; sp.push(V3(Math.cos(t) * slotL / 2, H + 0.0034, Math.sin(t) * slotW / 2)); }
+  const slotRing = K.strapAlong(sp, 0.016, 0.0036, { up: V3(0, 1, 0), closed: true }); slotRing.rotateY(28 * DEG); bins.add(pipeM, slotRing);
+  const ss = []; for (let i = 0; i <= 96; i++) { const t = (i / 96) * TAU; ss.push(V3(Math.cos(t) * (slotL / 2 + 0.006), H + 0.0054, Math.sin(t) * (slotW / 2 + 0.006))); }
+  const ssn = ss.map(() => V3(0, 1, 0));
+  const sg = SG.stitches(ss, ssn, { len: 0.0038, gap: 0.002, w: 0.001, h: 0.0005 }); sg.rotateY(28 * DEG); bins.add(thr, sg);
+  const hole = new THREE.Shape(); hole.absellipse(0, 0, slotL / 2 - 0.004, slotW / 2 - 0.004, 0, TAU, false);
+  const hg = new THREE.ShapeGeometry(hole, 32); hg.rotateX(-Math.PI / 2); hg.translate(0, H + 0.0022, 0); hg.rotateY(28 * DEG);
   bins.add(SG.moulded('#0A0A0A', { rough: 0.9 }), hg);
 }
 

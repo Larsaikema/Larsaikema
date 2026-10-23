@@ -18,6 +18,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as L5 from '../js/partsLook5.js';
 import { makeNoise2 } from '../js/rng.js';
 
 const { V3 } = G;
@@ -115,26 +116,53 @@ function ringBag(bins, extras, mats, { Ro = 0.252, Ri = 0.056, H = 0.112, hs = 0
     return sec(v, kOf(phi, r0), phi)[1];
   };
   // closures across the slit: hook-and-loop tab (inner) and webbing strap with buckle (outer).
-  // They lie on the thinned ends and bridge the gap with a slight sag.
-  const across = (r, half, lift) => {
-    const pts = [];
-    const pA = (phi) => V3(Math.cos(phi) * r, topY(phi, r) + lift, -Math.sin(phi) * r);
-    const e = phiE(r) + 0.003;
-    for (let i = 0; i <= 30; i++) pts.push(pA(e + half * (1 - i / 30)));
-    const a = pA(e), b = pA(TAU - e);
-    for (let i = 1; i < 10; i++) { const q = a.clone().lerp(b, i / 10); q.y -= 0.003 * Math.sin(Math.PI * i / 10); pts.push(q); }
-    for (let i = 0; i <= 30; i++) pts.push(pA(TAU - e - half * (i / 30)));
-    return pts;
+  // Round 5: they lie ON the cloth (surface normals from the top surface, the strap follows the
+  // slope down into the pinched end and bridges the slit taut, a hair above the end seams), with
+  // box stitching where each is welded / sewn on; no more flat blades floating over the slit.
+  const surf = (phi, r, lift) => {
+    const y = topY(phi, r);
+    const e = 0.002;
+    const yx = (topY(phi, r + e) - topY(phi, r - e)) / (2 * e);               // d y / d r
+    const yp = (topY(phi + e / r, r) - topY(phi - e / r, r)) / (2 * e);       // d y / d (arc)
+    const radial = V3(Math.cos(phi), 0, -Math.sin(phi)), tang = V3(-Math.sin(phi), 0, -Math.cos(phi));
+    const n = V3(0, 1, 0).addScaledVector(radial, -yx).addScaledVector(tang, -yp).normalize();
+    return { p: V3(Math.cos(phi) * r, y, -Math.sin(phi) * r).addScaledVector(n, lift), n };
   };
-  const tab = across(Ri + 0.04, 0.5, 0.0024);
-  bins.add(mats.hook, K.strapAlong(tab, 0.05, 0.0026, { up: V3(0, 1, 0) }));
-  const str = across(Ro - 0.04, 0.2, 0.002);
-  bins.add(mats.web, K.strapAlong(str, 0.025, 0.002, { up: V3(0, 1, 0) }));
+  const across = (r, half, lift) => {
+    const pts = [], nrm = [];
+    const e = phiE(r) + 0.004;
+    for (let i = 0; i <= 40; i++) { const q = surf(e + half * (1 - i / 40), r, lift); pts.push(q.p); nrm.push(q.n); }
+    const a = surf(e, r, lift), b = surf(TAU - e, r, lift);
+    const ya = Math.max(a.p.y, b.p.y);
+    for (let i = 1; i < 12; i++) { const t = i / 12; const q = a.p.clone().lerp(b.p, t); q.y = Math.max(q.y, ya - 0.002 * Math.sin(Math.PI * t)); pts.push(q); nrm.push(a.n.clone().lerp(b.n, t).normalize()); }
+    for (let i = 0; i <= 40; i++) { const q = surf(TAU - e - half * (i / 40), r, lift); pts.push(q.p); nrm.push(q.n); }
+    return { pts, nrm };
+  };
+  const tab = across(Ri + 0.045, 0.42, 0.0022);
+  bins.add(mats.hook, K.strapAlong(tab.pts, 0.034, 0.0022, { normals: tab.nrm }));
+  const str = across(Ro - 0.042, 0.2, 0.0018);
+  bins.add(mats.web, K.strapAlong(str.pts, 0.025, 0.0018, { normals: str.nrm }));
+  // box stitching on the sewn-down ends (first / last 3 cm of each closure)
+  for (const [path, w] of [[tab, 0.034], [str, 0.025]]) {
+    for (const end of [0, 1]) {
+      const n = path.pts.length, i0 = end ? n - 1 : 0, i1 = end ? n - 9 : 8;
+      const A = path.pts[i0], B = path.pts[i1], N = path.nrm[i0];
+      const T = B.clone().sub(A).normalize(), Sd = V3().crossVectors(N, T).normalize();
+      const hw = w / 2 - 0.004;
+      const c = (sx, t) => A.clone().lerp(B, t).addScaledVector(Sd, sx * hw).addScaledVector(N, 0.0013);
+      const bx = [c(-1, 0.1), c(1, 0.1), c(1, 0.9), c(-1, 0.9)];
+      for (const [k0, k1] of [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2], [1, 3]]) {
+        const line = [], nl = []; for (let q = 0; q <= 10; q++) { line.push(bx[k0].clone().lerp(bx[k1], q / 10)); nl.push(N); }
+        bins.add(mats.thr, SG.stitches(line, nl, { len: 0.003, gap: 0.0014, w: 0.0009, h: 0.0005 }));
+      }
+    }
+  }
   {
-    const i = Math.round(str.length * 0.6);
-    const T = str[i + 1].clone().sub(str[i - 1]).normalize();
+    const i = Math.round(str.pts.length * 0.62);
+    const T = str.pts[i + 1].clone().sub(str.pts[i - 1]).normalize();
+    const N = str.nrm[i];
     const bk = K.buckleGeo(0.025);
-    bk.applyMatrix4(K.basisAt(str[i].clone().add(V3(0, 0.0008, 0)), V3().crossVectors(V3(0, 1, 0), T).normalize(), V3(0, 1, 0), T));
+    bk.applyMatrix4(K.basisAt(str.pts[i].clone().addScaledVector(N, 0.0012), V3().crossVectors(N, T).normalize(), N, T));
     bins.add(mats.buckle, bk);
   }
   // filler spout + screw cap opposite the slit, on the crest
@@ -161,9 +189,9 @@ export function waterBag(p = {}) {
   const n = Number(p.count ?? 4);
   const filled = p.filled !== false;
   const hex = p.color && p.color !== 'zwart' ? M.resolveColor(p.color) : '#1B1C1E';
-  const pvc = L3.pvcSatin(hex, { rough: 0.44, coat: 0.2 });
+  const pvc = L5.pvc5(hex, { rough: 0.44, coat: 0.2 });
   const { tex } = K.printTex('MAX 20 L', { color: '#E9E6DF', px: 1024, font: '700 160px "Arial", sans-serif' });
-  const mats = { pvc, hook: SG.hookTape('#1B1C1D'), web: M.webbing('#141516'), buckle: SG.moulded('#151617', { rough: 0.42, spec: 0.6 }), cap: SG.moulded('#232426', { rough: 0.38, spec: 0.55 }), print: tex };
+  const mats = { pvc, thr: SG.thread('#4A4B50', { sheen: 0.7 }), hook: SG.hookTape('#2A2B2E'), web: M.webbing('#141516'), buckle: SG.moulded('#151617', { rough: 0.42, spec: 0.6 }), cap: SG.moulded('#232426', { rough: 0.38, spec: 0.55 }), print: tex };
   const bins = new G.PartBin();
   const extras = [];
   const cols = 2, pitch = 0.6;
@@ -184,7 +212,7 @@ export function waterBag(p = {}) {
     object: g,
     detail: { target: [-0.1, 0.1, 0.25], size: 0.4, azimuth: 30, elevation: 30 },
     view: { hero: { elevation: 30 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.01, res: 1024, blur: 1.4 }, groundAO: { strength: 0.8, maxZenith: 80 }, key: { intensity: 3.6 }, fill: { azimuth: 80, elevation: 16, intensity: 1.5 }, rim: { azimuth: 150, elevation: 34, intensity: 1.2 }, exposure: 1.2 } },
+    rig: L5.goodsRig({ tone: 'black', size: 0.6, extra: { contact: { strength: 0.9, h0: 0.008, res: 1024, blur: 1.3, wide: { strength: 0.4, h0: 0.03, sigma: 0.02 } } } }),
     meta: { n, filled },
   };
 }

@@ -13,7 +13,7 @@ function getStudio() {
 
 // spec = { model, params?, ...params, angle, size, imageWidth, imageHeight, bg, samples, rig, camera, items? }
 // Render options are reserved keys; everything else is passed to the model builder.
-export const RENDER_KEYS = ['model', 'params', 'items', 'angle', 'size', 'imageWidth', 'imageHeight', 'bg', 'samples', 'rig', 'camera', 'detail', 'out', 'rotationY'];
+export const RENDER_KEYS = ['model', 'params', 'items', 'angle', 'size', 'imageWidth', 'imageHeight', 'bg', 'samples', 'rig', 'camera', 'detail', 'out', 'rotationY', 'clay'];
 function modelParams(o) {
   if (o.params) return o.params;
   const p = {}; for (const [k, v] of Object.entries(o)) if (!RENDER_KEYS.includes(k) && k !== 'position') p[k] = v;
@@ -45,6 +45,11 @@ export function buildScene(spec) {
     if (!rig && res.rig) rig = res.rig;
   }
   if (spec.rotationY) root.rotation.y = (spec.rotationY * Math.PI) / 180;
+  // look-dev: spec.clay = true renders every surface in one neutral matte clay (geometry checks)
+  if (spec.clay) {
+    const clay = new THREE.MeshStandardMaterial({ color: '#B8B6B0', roughness: 0.85, metalness: 0, side: THREE.DoubleSide, name: 'clay' });
+    root.traverse((o) => { if (o.isMesh && !o.userData.catcher) o.material = clay; });
+  }
   return { root, detail: spec.detail ? { ...(detail || {}), ...spec.detail } : detail, meta, viewHints: view, rigHints: rig };
 }
 

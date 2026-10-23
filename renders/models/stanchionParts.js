@@ -11,8 +11,8 @@
 //        chrome ferrule and a snap hook (J hook + spring gate) at each end, lying on the floor in a
 //        loose horseshoe that opens towards the camera; higher hero angle so the arc reads.
 //   parts [...] (onderdelen-afzetsysteem)
-//        'wandhaak' | 'koord'   wall hook for a rope: domed rosette with a fixed eye, shown in the three
-//                               finishes (chroom, messinglook, zwart) lying on their back, with screws + plugs
+//        'wandhaak' | 'koord'   wall hook for a rope: domed rosette with a fixed eye, lying on its back, with
+//                               screws + plugs; `finish` chroom (default) | messing | zwart (round 6: one finish)
 //        'wandunit' | 'm'       wall cassette with a retractable belt (black ABS case on a steel wall plate,
 //                               belt mouth, belt pulled out onto the floor with its clip) + receiver plate;
 //                               `beltLength` 2 | 3 puts a "2 m" / "3 m" label on the case
@@ -29,6 +29,8 @@ import * as S from '../js/seatKit.js';
 import * as U from '../js/upholstery2.js';
 import { post as beltPost } from './stanchion.js';
 import { galaPosts } from './stanchionGala.js';
+import * as V2 from '../js/fabric2.js';
+import { makeNoise2, rng } from '../js/rng.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -47,14 +49,101 @@ export function finishMat(f) {
   if (s === 'rvs' || s === 'stainless') return F.stainlessPolished();
   return M.chrome();
 }
-// velours as it photographs (deep dyed pile; gold = mustard gold velvet)
-const ROPE = { bordeaux: '#5A1420', rood: '#A0131B', zwart: '#1D1D20', blauw: '#1D3A86', groen: '#1B5833', goud: '#B48C42', wit: '#ECEAE3', grijs: '#80848A' };
+// velours as it photographs (deep dyed pile; gold = mustard gold velvet). Round 6: fabric2.velvetLux (dark,
+// saturated faces, a light desaturated rim along both flanks of the rope, crush patches and sheen streaks
+// along the rope) instead of the round-3 pile, which printed as a matte rubber hose
+const ROPE = { bordeaux: '#5E1522', rood: '#A3141D', zwart: '#222226', blauw: '#1E3C8A', groen: '#1C5A35', goud: '#B88E42', wit: '#E9E7E0', grijs: '#7E8288' };
 export function ropeMat(color) {
   const key = String(color || 'bordeaux').toLowerCase();
   const hex = ROPE[key] || M.resolveColor(color, ROPE.bordeaux);
   const L = new THREE.Color(hex); const lum = 0.2126 * L.r + 0.7152 * L.g + 0.0722 * L.b;
-  // pale pile (wit, grijs): less fall-off face-on, or white velvet prints grey
-  return lum > 0.5 ? U.velvetPile(hex, { face: 0.86, rimGain: 1.18, desat: 0.1 }) : U.velvetPile(hex, { face: 0.74, rimGain: 1.6 });
+  // pale pile (wit, grijs): the rim cannot go much lighter, so the crush and a darker face carry it;
+  // black: a cool grey rim (the only thing that shows black velvet)
+  // crush patches of 1.5-4 cm and fine sheen streaks: on a 32 mm rope the pile has to show as mottled, glowing
+  // flanks round a deep core, or it reads as a rubber hose
+  const o = { grain: 0.26, streak: 0.1, sheenRough: 0.5, crushScale: 2.2, crush: 0.3 };
+  // round 7: pale pile with a much weaker crush (at 0.3 a white rope read as grey marble), black with a stronger
+  // grey fibre sheen at the flanks (it read as a black rubber hose)
+  if (lum > 0.5) return V2.velvetLux(hex, { ...o, crush: 0.1, streak: 0.04, grain: 0.14, face: 0.84, rim: 1.14, rimPow: 1.6, desat: 0.05, sheen: 0.4, sheenTint: 0.2 });
+  if (lum > 0.15) return V2.velvetLux(hex, { ...o, face: 0.46, rim: 2.0, rimPow: 1.4, desat: 0.36, sheen: 1.0, sheenTint: 0.55 });
+  if (lum < 0.02) return V2.velvetLux(hex, { ...o, face: 0.55, rim: 3.4, rimPow: 1.3, desat: 0.7, sheen: 1.0, sheenTint: 0.7, sheenRough: 0.42 });
+  return V2.velvetLux(hex, { ...o, face: 0.44, rim: 2.7, rimPow: 1.4, desat: 0.42, sheen: 0.95, sheenTint: 0.5 });
+}
+// A velours rope as sewn cloth over a soft core (round 6): a tube of radius r along pts whose cloth gathers
+// in soft transverse folds on the inside of every bend (compression ~ r / bend radius), lies a little
+// fuller there, wanders +-0.4 mm in thickness, and carries the sewn seam as a shallow groove that slowly
+// twists round the rope (so it shows in places, as on a real rope). uv in metres: u round the rope, v along.
+export function velvetRopeGeo(pts, r, { seed = 3, segs = 40, foldPitch = 0.019, foldAmp = 0.0017, ends = true, rest = false, crease = 0 } = {}) {
+  const n = pts.length;
+  const T = [], S = [0];
+  for (let i = 0; i < n; i++) T.push(pts[Math.min(n - 1, i + 1)].clone().sub(pts[Math.max(0, i - 1)]).normalize());
+  for (let i = 1; i < n; i++) S.push(S[i - 1] + pts[i].distanceTo(pts[i - 1]));
+  // curvature vector per point (towards the centre of the bend), lightly smoothed
+  const K = pts.map((_, i) => {
+    const a = T[Math.max(0, i - 2)], b = T[Math.min(n - 1, i + 2)];
+    const ds = S[Math.min(n - 1, i + 2)] - S[Math.max(0, i - 2)] || 1;
+    return b.clone().sub(a).multiplyScalar(1 / ds);
+  });
+  // parallel-transport frame
+  let N0 = Math.abs(T[0].y) < 0.95 ? V3(0, 1, 0) : V3(1, 0, 0);
+  N0.addScaledVector(T[0], -N0.dot(T[0])).normalize();
+  const Ns = [N0.clone()], q = new THREE.Quaternion();
+  for (let i = 1; i < n; i++) { q.setFromUnitVectors(T[i - 1], T[i]); const Nn = Ns[i - 1].clone().applyQuaternion(q); Nn.addScaledVector(T[i], -Nn.dot(T[i])).normalize(); Ns.push(Nn); }
+  const { noise } = makeNoise2(seed);
+  const R = rng(seed);
+  const ph = R() * 6;
+  // fold phase: irregular pitch (0.6-1.5 x foldPitch), integrated along the rope
+  const phase = [0];
+  for (let i = 1; i < n; i++) { const ds = S[i] - S[i - 1]; const lam = foldPitch * (1.05 + 0.45 * noise(S[i] * 7 + 11, 0.3)); phase.push(phase[i - 1] + (2 * Math.PI * ds) / lam); }
+  const pos = new Float32Array(n * (segs + 1) * 3), uv = new Float32Array(n * (segs + 1) * 2);
+  const d = new THREE.Vector3(), B = new THREE.Vector3();
+  for (let i = 0; i < n; i++) {
+    const Nn = Ns[i]; B.crossVectors(T[i], Nn);
+    const kap = K[i].length(), kd = kap > 1e-6 ? K[i].clone().multiplyScalar(1 / kap) : null;
+    const comp = Math.min(1, (kap * r) / 0.09); // 0 straight .. 1 at a bend radius of ~11 r
+    // taper to the ferrules: no folds in the last 3 cm
+    const endK = ends ? Math.min(1, Math.min(S[i], S[n - 1] - S[i]) / 0.03) : 1;
+    // fold strength wanders along the rope: some folds deep, some barely there, stretches without any
+    const env = Math.max(0, 0.35 + 0.9 * noise(S[i] * 4.3 + 5.1, 2.2)) * (0.6 + 0.4 * Math.max(0, noise(phase[i] / (2 * Math.PI) * 1.7, 9.1) + 0.5));
+    const seamA = ph + S[i] * 2.1 + 0.6 * noise(S[i] * 3, 1.7);
+    for (let j = 0; j <= segs; j++) {
+      const a = (j / segs) * Math.PI * 2;
+      d.copy(Nn).multiplyScalar(Math.cos(a)).addScaledVector(B, Math.sin(a));
+      const inner = kd ? Math.max(0, d.dot(kd)) : 0;
+      // folds: crests across the rope on the inner side, a little skewed and irregular
+      const fold = 0.5 + 0.5 * Math.cos(phase[i] + 0.9 * noise(S[i] * 9, a) + (a - Math.PI) * 0.45);
+      // round 7: a velours sleeve is sewn a little full over its core, so soft transverse creases show all along
+      // the rope (strongest on the inside of a bend, weaker over the outside), not only in the tight bends
+      const fk = Math.min(1.4, comp * Math.pow(inner, 2.2) * endK * env + crease * endK * env * (0.45 + 0.55 * inner));
+      let rr = r * (1 + 0.025 * noise(S[i] * 6 + 3, Math.cos(a) * 1.5) + 0.05 * fk) + foldAmp * fk * (fold * 1.6 - 0.6);
+      // the seam: a 2 mm groove with soft shoulders
+      const da = Math.atan2(Math.sin(a - seamA), Math.cos(a - seamA));
+      rr -= 0.0007 * Math.exp(-((da / 0.07) ** 2)) * endK;
+      // lying on the floor: the soft rope settles, a little wider and flatter at the bottom
+      if (rest) rr *= 1 - 0.07 * Math.max(0, -d.y) ** 2 + 0.03 * (1 - d.y * d.y);
+      const k = i * (segs + 1) + j;
+      pos[k * 3] = pts[i].x + d.x * rr; pos[k * 3 + 1] = pts[i].y + d.y * rr; pos[k * 3 + 2] = pts[i].z + d.z * rr;
+      uv[k * 2] = (j / segs) * Math.PI * 2 * r; uv[k * 2 + 1] = S[i];
+    }
+  }
+  const idx = [];
+  for (let i = 0; i < n - 1; i++) for (let j = 0; j < segs; j++) {
+    const a = i * (segs + 1) + j, b = a + 1, c = a + segs + 1, e = c + 1;
+    idx.push(a, b, e, a, e, c);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  // weld the seam column of normals (j = 0 and j = segs coincide)
+  const nr = g.attributes.normal;
+  for (let i = 0; i < n; i++) {
+    const a = i * (segs + 1), b = a + segs;
+    const x = nr.getX(a) + nr.getX(b), y = nr.getY(a) + nr.getY(b), z = nr.getZ(a) + nr.getZ(b), l = Math.hypot(x, y, z) || 1;
+    nr.setXYZ(a, x / l, y / l, z / l); nr.setXYZ(b, x / l, y / l, z / l);
+  }
+  return g;
 }
 
 // ------------------------------------------------------------------------ rope end hardware
@@ -134,14 +223,14 @@ export function hangingRope(bins, rmat, hw, A, B, sag) {
   }
   const [a, b] = ends;
   const pts = [];
-  const N = 64;
+  const N = 360;
   for (let i = 0; i <= N; i++) {
     const t = i / N;
     const p = a.clone().lerp(b, t);
     p.y -= 4 * sag * t * (1 - t) + 0; // parabola through both ends
     pts.push(p);
   }
-  bins.add(rmat, F.sweep(pts, G.circleProfile(ROPE_R, 22)));
+  bins.add(rmat, velvetRopeGeo(pts, ROPE_R, { seed: 5, foldAmp: 0.0026, foldPitch: 0.024, crease: 0.4, segs: 48 }));
 }
 
 function ropeLine(p) {
@@ -171,9 +260,9 @@ function looseRope(p) {
   // hand-placed points, resampled; the two legs splay and wander a little
   const ctrl = [[-0.3, 0.3], [-0.29, 0.12], [-0.25, -0.06], [-0.13, -0.19], [0.03, -0.215], [0.18, -0.15], [0.26, 0.0], [0.27, 0.16], [0.31, 0.31]];
   const curve = new THREE.CatmullRomCurve3(ctrl.map(([x, z]) => V3(x, ROPE_R, z)), false, 'centripetal');
-  const pts = curve.getSpacedPoints(120);
+  const pts = curve.getSpacedPoints(820);
   const r0 = pts[0], r1 = pts[pts.length - 1];
-  bins.add(rmat, F.sweep(pts, G.circleProfile(ROPE_R, 22)));
+  bins.add(rmat, velvetRopeGeo(pts, ROPE_R, { seed: 3, rest: true, foldAmp: 0.0026, crease: 0.18, segs: 56 }));
   // the ends: ferrule along the end tangent, the hook lying on its side, tipping down to the floor
   for (const [end, prev] of [[r0, pts[2]], [r1, pts[pts.length - 3]]]) {
     const d = end.clone().sub(prev).setY(0).normalize();
@@ -189,8 +278,13 @@ function looseRope(p) {
     object: group,
     detail: { target: [r1.x, 0.02, r1.z], size: 0.2, azimuth: 30, elevation: 30 },
     meta: { kind: 'rope', color: p.rope },
-    view: { hero: { azimuth: 24, elevation: 38, fill: 0.78 }, front: { elevation: 30 } },
-    rig: S.seatRig(group, { default: { key: { azimuth: -40, elevation: 50 } } }),
+    view: { hero: { azimuth: 20, elevation: 64, fill: 0.84 }, front: { elevation: 30 } },
+    rig: (() => {
+      const r = S.seatRig(group, { default: { key: { azimuth: -40, elevation: 50 } } });
+      // round 6: velours is exposed for the dye, not lifted to a mid grey (bordeaux printed pink, black grey)
+      r.default.exposure = Math.min(r.default.exposure, 0.95);
+      return r;
+    })(),
   };
 }
 
@@ -246,10 +340,13 @@ function wallUnit(bins, group, x, z, { beltColor = 'zwart', len = 2, rotY = 0 } 
   // belt mouth on the right side, clip parked in it is replaced by the belt pulled out
   bins.add(slot, G.roundedBox(0.006, 0.058, 0.012, 0.002).translate(W / 2 + 0.001, yc + 0.02, 0).applyMatrix4(T));
   bins.add(abs, F.cushion(0.016, 0.07, 0.03, { r: 0.005, puff: 0, seg: [4, 8, 4] }).translate(W / 2 + 0.004, yc + 0.02, 0).applyMatrix4(T));
-  // label on the front: "2 m" / "3 m"
-  const lab = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.025), new THREE.MeshPhysicalMaterial({ map: labelTex(`${len} m`), roughness: 0.55, name: 'label' }));
-  lab.position.set(0, yc - 0.035, D / 2 + 0.0006); lab.applyMatrix4(T); lab.castShadow = false; lab.receiveShadow = true;
-  group.add(lab);
+  // label on the front: "2 m" / "3 m", only when the spec names the length (round 6: the 2 m and 3 m jobs share
+  // one spec without beltLength, and a "2 m" label on the 3 m image contradicted its alt text)
+  if (len) {
+    const lab = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.025), new THREE.MeshPhysicalMaterial({ map: labelTex(`${len} m`), roughness: 0.55, name: 'label' }));
+    lab.position.set(0, yc - 0.035, D / 2 + 0.0006); lab.applyMatrix4(T); lab.castShadow = false; lab.receiveShadow = true;
+    group.add(lab);
+  }
   // belt: out of the mouth, a soft bend down to the floor, then lying flat curving to the right
   const bw = 0.05, bt = 0.0012;
   const yM = yc + 0.02;
@@ -313,19 +410,27 @@ function signHolder(bins, group, x, z, { format = 'A4', orient = 'liggend', fini
   if (orient === 'staand') [w, h] = [h, w];
   const pf = 0.016, ft = 0.012; // snap-frame profile: 16 mm wide, 12 mm deep
   const tilt = 20 * DEG;
-  // stem from the post top, hinge knuckle, bracket plate behind the frame
+  // stem from the post top up to a horizontal hinge knuckle; the frame hangs IN FRONT of the knuckle on a
+  // bracket plate screwed to its back, so stem, knuckle and the bracket's two cheeks all sit behind the back
+  // plate (round 6: the cheeks stood in front of the sign face and covered the arrow)
   const yH = H + 0.035;
   bins.add(fmat, G.tube(V3(x, H - 0.004, z), V3(x, yH, z), 0.009, 18));
   bins.add(fmat, G.tube(V3(x - 0.03, yH, z), V3(x + 0.03, yH, z), 0.009, 18));
   // the frame in its own plane: u across (x), v up the face, n out of the face
   const n = V3(0, Math.sin(tilt), Math.cos(tilt)), up = V3(0, Math.cos(tilt), -Math.sin(tilt));
-  // the frame sits in front of the knuckle: the hinge and stem stay behind the sign
-  const c0 = V3(x, yH + 0.012, z + 0.03).addScaledVector(up, h / 2 + pf - 0.03);
+  const vB = -h / 2 - pf + 0.04;                              // bracket height on the frame (near its lower edge)
+  const K = V3(x, yH, z);
+  const c0 = K.clone().addScaledVector(n, 0.009 + 0.006 + ft / 2).addScaledVector(up, -vB);
   const toW = (u, v, d) => c0.clone().add(V3(u, 0, 0)).addScaledVector(up, v).addScaledVector(n, d);
-  // back plate and bracket
+  // back plate and bracket plate
   bins.add(fmat, G.roundedBox(w + 2 * pf - 0.006, h + 2 * pf - 0.006, 0.003, 0.003).applyMatrix4(F.basis(toW(0, 0, -ft / 2 + 0.0015), V3(1, 0, 0), up)));
-  bins.add(fmat, G.roundedBox(0.07, 0.07, 0.006, 0.003).applyMatrix4(F.basis(toW(0, -h / 2 - pf + 0.035, -ft / 2 - 0.003), V3(1, 0, 0), up)));
-  for (const s of [-1, 1]) bins.add(fmat, G.roundedBox(0.006, 0.045, 0.03, 0.002).translate(x + s * 0.02, yH + 0.012, z + 0.008));
+  bins.add(fmat, G.roundedBox(0.075, 0.06, 0.004, 0.002).applyMatrix4(F.basis(toW(0, vB, -ft / 2 - 0.002), V3(1, 0, 0), up)));
+  // two cheeks from the bracket plate back round the knuckle (behind the plate, hidden from the front)
+  for (const sx of [-1, 1]) {
+    const a = toW(sx * 0.022, vB, -ft / 2 - 0.004), b = K.clone().add(V3(sx * 0.022, 0, 0));
+    bins.add(fmat, G.flatBar(a, b, 0.03, 0.004, V3(1, 0, 0)));
+    bins.add(fmat, G.lathe([[0.0001, -0.003], [0.012, -0.003], [0.012, 0.003], [0.0001, 0.003]], 18).rotateZ(Math.PI / 2).translate(b.x + sx * 0.002, b.y, b.z));
+  }
   // frame: rounded profile swept round the rectangle
   const path = F.rectPath(w + pf, h + pf, 0.006, 0, 6).map((q) => toW(q.x, q.z, 0));
   bins.add(fmat, F.sweep(path, G.roundedRectProfile(ft, pf, 0.005, 3), { closed: true, up: n }));
@@ -346,7 +451,6 @@ function partsScene(p) {
   const wantSign = has('bordhouder', 'liggend', 'staand');
   const bins = new G.PartBin();
   const group = new THREE.Group();
-  const finishes = ['chroom', 'messing', 'zwart'];
   const many = [wantHook, wantUnit, wantSign].filter(Boolean).length > 1;
   let view = null, detail = null;
   if (many) {
@@ -376,14 +480,16 @@ function partsScene(p) {
     detail = { target: [0, 1.15, 0], size: 0.5, azimuth: 30, elevation: 12 };
     group.name = `bordhouder ${p.format || 'A4'} ${orient}`;
   } else if (wantUnit) {
-    wallUnit(bins, group, 0, 0, { len: Number(p.beltLength ?? p.length ?? 2) > 2.5 ? 3 : 2, beltColor: p.belt || 'zwart' });
+    const bl = p.beltLength ?? p.length;
+    wallUnit(bins, group, 0, 0, { len: bl == null ? null : Number(bl) > 2.5 ? 3 : 2, beltColor: p.belt || 'zwart' });
     view = { hero: { elevation: 22, fill: 0.74 } };
     detail = { target: [0.05, 0.1, 0.03], size: 0.2, azimuth: 30, elevation: 16 };
     group.name = 'wandunit trekband';
   } else {
-    // three finishes in a loose diagonal row, screws and plugs beside the chrome one
-    finishes.forEach((f, i) => wallHook(bins, finishMat(f), -0.085 + i * 0.085, -0.03 + i * 0.03, 0.2 + i * 0.35));
-    screwsAndPlugs(bins, -0.06, 0.07, -0.15);
+    // round 6: one hook in the finish of the image (default chroom, as its alt text says; the three finishes
+    // side by side contradicted it), with the screws and plugs that come with it; `finish` for the others
+    wallHook(bins, finishMat(p.finish || 'chroom'), 0.045, 0.024, 0.35);
+    screwsAndPlugs(bins, -0.105, -0.07, -0.2);
     view = { hero: { elevation: 34, fill: 0.72 } };
     detail = { target: [0, 0.02, 0], size: 0.12, azimuth: 30, elevation: 30 };
     group.name = 'wandhaak koord';

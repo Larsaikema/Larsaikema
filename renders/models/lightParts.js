@@ -29,6 +29,7 @@ import * as K from '../js/partsKit.js';
 import * as L from '../js/lightKit.js';
 import * as SG from '../js/softGoods.js';
 import * as K4 from '../js/partsKit4.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -86,46 +87,52 @@ export function lightParts(p = {}) {
     const bore = K.lathe([[0.0001, 0.006], [0.0086, 0.006], [0.0086, -0.0004]], 48); bore.rotateZ(-Math.PI / 2); add(dark, bore, T);
     const slot = G.roundedBox(0.0008, 0.0064, 0.0118, 0.0028); slot.translate(0.0045, 0, 0); add(SG.moulded('#060606', { rough: 0.8 }), slot, T);
   }
+  // shared housing of the plug-in parts (dimmer, dimmer-ab, timer). Round 5: a real recessed
+  // Schuko socket: the front shell is an extrusion of the rounded front with a round opening
+  // (its rim rounded by the bevel), the recess 15 mm deep down to the face of the body behind
+  // it (flat, no lathe fan), the two pin holes as dark holes in that floor, the earth clips on
+  // the recess wall; no part of the socket stands proud of the front any more.
+  const housing = (T, W, H, D, ys) => {
+    const rC = 0.011, recess = 0.015, bev = 0.0028, Rh = 0.0196;
+    const zj = D / 2 - recess;
+    // body behind the recess (rounded rect section, extruded along z)
+    const bodyS = new THREE.Shape(G.roundedRectProfile(W - 0.0008, H - 0.0008, rC, 10).map((q) => new THREE.Vector2(q.x, q.y + H / 2)));
+    const body = new THREE.ExtrudeGeometry(bodyS, { depth: D - recess - bev, bevelEnabled: true, bevelThickness: bev, bevelSize: 0, bevelSegments: 1, curveSegments: 10 });
+    body.translate(0, 0, -D / 2 + bev);
+    add(plastic, L5.creased(body, 40), T);
+    // front shell with the socket opening
+    const shellS = new THREE.Shape(G.roundedRectProfile(W - 2 * bev, H - 2 * bev, rC - bev, 10).map((q) => new THREE.Vector2(q.x, q.y + H / 2)));
+    const hole = new THREE.Path(); hole.absarc(0, ys, Rh + bev, 0, TAU, true); shellS.holes.push(hole);
+    const shell = new THREE.ExtrudeGeometry(shellS, { depth: recess - bev, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 5, curveSegments: 48 });
+    shell.translate(0, 0, zj);
+    add(plastic, L5.creased(shell, 40), T);
+    // recess floor details: pin holes (dark, a hair in front of the floor), earth clips on the wall
+    for (const sx of [-1, 1]) {
+      const h = new THREE.CircleGeometry(0.0026, 28); h.translate(sx * 0.0095, ys, zj + 0.0003); add(dark, h, T);
+      const ring = new THREE.RingGeometry(0.0026, 0.0036, 28); ring.translate(sx * 0.0095, ys, zj + 0.0002); add(grey, ring, T);
+    }
+    for (const sy of [-1, 1]) {
+      const clip = G.roundedBox(0.0085, 0.0014, 0.009, 0.0005); clip.translate(0, ys + sy * (Rh - 0.0008), zj + 0.006); add(zinc, clip, T);
+    }
+    // Schuko plug at the back: round base + two pins
+    const base = K.lathe([[0.0001, 0], [0.018, 0], [0.0185, 0.004], [0.0175, 0.011], [0.0001, 0.011]], 48); base.rotateX(-Math.PI / 2); base.translate(0, ys, -D / 2 + 0.001); add(plastic, base, T);
+    for (const sx of [-1, 1]) {
+      const pg = K.lathe([[0.0001, 0], [0.0024, 0], [0.0024, 0.0175], [0.0016, 0.0188], [0.0001, 0.019]], 20); pg.rotateX(-Math.PI / 2); pg.translate(sx * 0.0095, ys, -D / 2 - 0.01); add(pin, pg, T);
+    }
+    return D / 2;
+  };
   if (parts.includes('dimmer')) {
     // standing on its bottom face, socket face towards the camera
-    const T = new THREE.Matrix4().makeRotationY(-14 * DEG).setPosition(0.14, 0, -0.07);
+    const T = new THREE.Matrix4().makeRotationY(-14 * DEG).setPosition(parts.length === 1 ? 0 : 0.14, 0, parts.length === 1 ? 0 : -0.07);
     const W = 0.066, H = 0.066, D = 0.044;
-    const body = G.roundedBox(W, H, D, 0.011, 4); body.translate(0, H / 2, 0); add(plastic, body, T);
-    // parting line round the front bezel
-    const bz = G.roundedBox(W - 0.004, H - 0.004, 0.003, 0.0095, 4); bz.translate(0, H / 2, D / 2 - 0.0005); add(plastic, bz, T);
-    // Schuko socket: recess floor, rim, two holes, earth clips
-    const zf = D / 2 + 0.001;
-    const rim = new THREE.TorusGeometry(0.0195, 0.0016, 10, 48); rim.translate(0, H / 2, zf); add(plastic, rim, T);
-    const floor = K.lathe([[0.0001, -0.002], [0.0185, -0.002], [0.0185, 0.0], [0.0001, 0.0]], 48); floor.rotateX(Math.PI / 2); floor.translate(0, H / 2, zf); add(grey, floor, T);
-    for (const s of [-1, 1]) add(dark, G.tube(V3(s * 0.0095, H / 2, zf + 0.0001), V3(s * 0.0095, H / 2, zf + 0.0012), 0.0028, 16), T);
-    for (const s of [-1, 1]) { const clip = G.roundedBox(0.009, 0.0032, 0.0035, 0.001); clip.translate(0, H / 2 + s * 0.0172, zf + 0.0006); add(zinc, clip, T); }
+    housing(T, W, H, D, H / 2);
     // rotary knob on top with grip ribs and an indicator
     const kc = V3(0.008, H, -0.002);
-    const knob = K.lathe([[0.0001, 0.0105], [0.0105, 0.0105], [0.0112, 0.0095], [0.0112, 0.001], [0.0001, 0.001]].reverse(), 40);
+    const knob = K.lathe([[0.0001, 0.0105], [0.0098, 0.0105], [0.0108, 0.0099], [0.0112, 0.0088], [0.0112, 0.001], [0.0001, 0.001]].reverse(), 64);
     knob.translate(kc.x, kc.y, kc.z); add(grey, knob, T);
     for (let k = 0; k < 24; k++) { const a = (k / 24) * TAU; const rib = G.roundedBox(0.0012, 0.008, 0.0012, 0.0004); rib.translate(kc.x + Math.cos(a) * 0.0113, kc.y + 0.0055, kc.z + Math.sin(a) * 0.0113); add(grey, rib, T); }
     const ind = G.roundedBox(0.0016, 0.001, 0.007, 0.0004); ind.translate(kc.x, kc.y + 0.011, kc.z + 0.004); add(SG.moulded('#E2681B', { rough: 0.4 }), ind, T);
-    // Schuko plug at the back: round base + two pins
-    const base = K.lathe([[0.0001, 0], [0.018, 0], [0.0185, 0.004], [0.0175, 0.011], [0.0001, 0.011]], 40); base.rotateX(-Math.PI / 2); base.translate(0, H / 2, -D / 2 + 0.001); add(plastic, base, T);
-    for (const s of [-1, 1]) {
-      const pg = K.lathe([[0.0001, 0], [0.0024, 0], [0.0024, 0.0175], [0.0016, 0.0188], [0.0001, 0.019]], 16); pg.rotateX(-Math.PI / 2); pg.translate(s * 0.0095, H / 2, -D / 2 - 0.01); add(pin, pg, T);
-    }
   }
-  // shared housing of the plug-in parts (dimmer-ab, timer): body, bezel, Schuko socket at height ys, plug at the back
-  const housing = (T, W, H, D, ys) => {
-    const body = G.roundedBox(W, H, D, 0.011, 4); body.translate(0, H / 2, 0); add(plastic, body, T);
-    const bz = G.roundedBox(W - 0.004, H - 0.004, 0.003, 0.0095, 4); bz.translate(0, H / 2, D / 2 - 0.0005); add(plastic, bz, T);
-    const zf = D / 2 + 0.001;
-    const rim = new THREE.TorusGeometry(0.0195, 0.0016, 10, 48); rim.translate(0, ys, zf); add(plastic, rim, T);
-    const floor = K.lathe([[0.0001, -0.002], [0.0185, -0.002], [0.0185, 0.0], [0.0001, 0.0]], 48); floor.rotateX(Math.PI / 2); floor.translate(0, ys, zf); add(grey, floor, T);
-    for (const s of [-1, 1]) add(dark, G.tube(V3(s * 0.0095, ys, zf + 0.0001), V3(s * 0.0095, ys, zf + 0.0012), 0.0028, 16), T);
-    for (const s of [-1, 1]) { const clip = G.roundedBox(0.009, 0.0032, 0.0035, 0.001); clip.translate(0, ys + s * 0.0172, zf + 0.0006); add(zinc, clip, T); }
-    const base = K.lathe([[0.0001, 0], [0.018, 0], [0.0185, 0.004], [0.0175, 0.011], [0.0001, 0.011]], 40); base.rotateX(-Math.PI / 2); base.translate(0, ys, -D / 2 + 0.001); add(plastic, base, T);
-    for (const s of [-1, 1]) {
-      const pg = K.lathe([[0.0001, 0], [0.0024, 0], [0.0024, 0.0175], [0.0016, 0.0188], [0.0001, 0.019]], 16); pg.rotateX(-Math.PI / 2); pg.translate(s * 0.0095, ys, -D / 2 - 0.01); add(pin, pg, T);
-    }
-    return zf;
-  };
   const solo = parts.length === 1;
   if (parts.includes('dimmer-ab')) {
     const T = new THREE.Matrix4().makeRotationY(-16 * DEG).setPosition(solo ? -0.03 : 0.14, 0, solo ? -0.03 : -0.07);
@@ -149,7 +156,7 @@ export function lightParts(p = {}) {
     const zf = housing(T, W, H, D, 0.03);
     // dial: recessed ring, 96 tabs (06:00-23:00 pushed in), arrow mark, centre hub
     const yc = 0.073, Rd = 0.023;
-    const ring = K.lathe([[0.0001, 0.0], [Rd + 0.003, 0.0], [Rd + 0.003, 0.0015], [0.0001, 0.0015]], 64); ring.rotateX(Math.PI / 2); ring.translate(0, yc, zf - 0.0005); add(grey, ring, T);
+    const ring = K.lathe([[0.0001, 0.0], [Rd + 0.002, 0.0], [Rd + 0.003, 0.0], [Rd + 0.003, 0.0015], [Rd + 0.002, 0.0015], [0.0001, 0.0015]], 96); ring.rotateX(Math.PI / 2); ring.translate(0, yc, zf - 0.0005); add(grey, ring, T);
     for (let k = 0; k < 96; k++) {
       const a = (k / 96) * TAU;
       const pushed = k >= 24 && k < 92;
@@ -157,7 +164,7 @@ export function lightParts(p = {}) {
       tab.translate(0, Rd - 0.0022, 0); tab.rotateZ(-a); tab.translate(0, yc, zf + 0.001 + (pushed ? 0 : 0.0008));
       add(pushed ? SG.moulded('#2F6FB0', { rough: 0.4 }) : plastic, tab, T);
     }
-    const hub = K.lathe([[0.0001, 0], [0.0175, 0], [0.0175, 0.0035], [0.0165, 0.0045], [0.0001, 0.0045]], 48); hub.rotateX(Math.PI / 2); hub.translate(0, yc, zf + 0.0015); add(plastic, hub, T);
+    const hub = K.lathe([[0.0001, 0], [0.0175, 0], [0.0175, 0.0035], [0.0165, 0.0045], [0.0157, 0.0045], [0.0001, 0.0045]], 96); hub.rotateX(Math.PI / 2); hub.translate(0, yc, zf + 0.0015); add(plastic, hub, T);
     for (let k = 0; k < 24; k++) { const a = (k / 24) * TAU; const tk = G.roundedBox(0.0006, k % 6 === 0 ? 0.004 : 0.0022, 0.0004, 0.0001); tk.translate(0, 0.0145, 0); tk.rotateZ(-a); tk.translate(0, yc, zf + 0.0062); add(dark, tk, T); }
     const arrow = G.roundedBox(0.003, 0.006, 0.0012, 0.0006); arrow.translate(0, yc + Rd + 0.0055, zf + 0.0006); add(SG.moulded('#E2681B', { rough: 0.4 }), arrow, T);
   }

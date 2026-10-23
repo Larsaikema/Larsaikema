@@ -82,14 +82,15 @@ export function endFrame(bins, mat, x, z, y0, y1, r = 0.0125, grip = false) {
 // (the model's open fold is squeezed to 50 % across the stacking direction), the top keeps
 // its thickness and moves back onto the hinge. Local frame: top faces +z.
 function packedTable(p) {
-  let o = statafel({ diameter: p.diameter ?? 0.8, top: p.tableTop || 'berken', frame: p.tableFrame || 'zwart', folded: true }).object;
+  // lean: false = the bare folded table (statafel.js leans a lone folded table against a wall catcher)
+  let o = statafel({ diameter: p.diameter ?? 0.8, top: p.tableTop || 'berken', frame: p.tableFrame || 'zwart', folded: true, lean: false }).object;
   o.updateMatrixWorld(true);
   const D = Number(p.diameter ?? 0.8) > 5 ? Number(p.diameter) / 100 : Number(p.diameter ?? 0.8);
   const s = 0.5;
   // flatten: bake every mesh's transform into its geometry (the folded top sits in a rotated
   // sub-group), so the squeeze acts across the stacking direction of the whole table
   const flat = new THREE.Group();
-  const meshes = []; o.traverse((m) => { if (m.isMesh) meshes.push(m); });
+  const meshes = []; o.traverse((m) => { if (m.isMesh && !m.userData.catcher && !m.userData.contactProxy && !m.userData.frameProxy) meshes.push(m); });
   for (const m of meshes) {
     const g = m.geometry.clone().applyMatrix4(m.matrixWorld);
     const mm = new THREE.Mesh(g, m.material); mm.castShadow = m.castShadow; mm.receiveShadow = m.receiveShadow; mm.name = m.name;
@@ -387,9 +388,10 @@ function roundCart(bins, group, p) {
 }
 
 // ------------------------------------------------------------------- biertafelsets, flat
-// Three lanes on one deck: the folded tables stacked flat in the middle, the folded benches in a stack
-// on either side (their splayed feet make a folded bench ~37 cm wide), so 10 sets stand ~1 m high, all
-// inside the end frames (which are sized for a full load of 10, loaded or not).
+// Round 6 (alt text: "tafels onderop en banken erop"): the folded tables lie flat in one stack on the deck,
+// the folded benches in two stacks side by side on top of them (two 25 cm benches cover a 50 cm table),
+// everything inside the end frames; the folded leg frames lie flat under each top, within its width
+// (round 4 had three lanes with the bench feet sticking out of the stacks like drawer handles).
 function bierCart(bins, group, p) {
   const n = Math.max(0, Math.min(10, Math.round(Number(p.loaded ?? 0))));
   const mat = frameMat(p.frame, 'galv');
@@ -398,30 +400,31 @@ function bierCart(bins, group, p) {
   const bProto = biertafelset({ only: 'bank', folded: true }).object;
   tProto.updateMatrixWorld(true); bProto.updateMatrixWorld(true);
   const tb = new THREE.Box3().setFromObject(tProto), bb = new THREE.Box3().setFromObject(bProto);
-  const tH = tb.max.y - tb.min.y + 0.002, bH = bb.max.y - bb.min.y + 0.002;
+  const tH = tb.max.y - tb.min.y + 0.001, bH = bb.max.y - bb.min.y + 0.001;
   const tW = tb.max.z - tb.min.z, bW = bb.max.z - bb.min.z;
-  const zB = tW / 2 + 0.03 + bW / 2;               // bench lane centres
-  const L = 2.32, W = 2 * zB + bW + 0.08, R = 0.0625, yM = F.castorHeight(R);
+  // bench stack centres, side by side on the tables with a 2 cm gap (round 7: two separate stacks must read as benches)
+  const zB = Math.max(bW / 2 + 0.01, tW / 4);
+  // round 7: 10 cm clear between the boards' ends and each end frame (at 4 cm the stack read as running through it)
+  const L = 2.42, W = Math.max(tW, 2 * zB + bW) + 0.12, R = 0.0625, yM = F.castorHeight(R);
   const yd = yM + 0.045;
-  castors4(bins, [-L / 2 + 0.12, L / 2 - 0.12], [-W / 2 + 0.08, W / 2 - 0.08], yM, { R });
-  // base: two long rails, cross members, deck slats under each lane
+  castors4(bins, [-L / 2 + 0.12, L / 2 - 0.12], [-W / 2 + 0.07, W / 2 - 0.07], yM, { R });
+  // base: two long rails, cross members, three slats along the cart
   for (const s of [-1, 1]) bins.add(mat, G.prism(sq(), V3(-L / 2, yd - 0.02, s * (W / 2 - 0.02)), V3(L / 2, yd - 0.02, s * (W / 2 - 0.02)), { side: V3(0, 1, 0) }));
   const nx = 6;
   for (let i = 0; i <= nx; i++) {
     const x = -L / 2 + 0.02 + ((L - 0.04) * i) / nx;
     bins.add(mat, G.prism(sq(0.04), V3(x, yd - 0.02, -W / 2 + 0.04), V3(x, yd - 0.02, W / 2 - 0.04), { side: V3(0, 1, 0) }));
   }
-  const slats = [-zB - bW * 0.3, -zB + bW * 0.3, -tW * 0.3, tW * 0.3, zB - bW * 0.3, zB + bW * 0.3];
-  for (const z of slats) bins.add(mat, G.prism(sq(0.03), V3(-L / 2 + 0.04, yd + 0.015, z), V3(L / 2 - 0.04, yd + 0.015, z), { side: V3(0, 1, 0) }));
-  // lane dividers: low posts between the lanes at both ends
+  for (const z of [-tW * 0.36, 0, tW * 0.36]) bins.add(mat, G.prism(sq(0.03), V3(-L / 2 + 0.04, yd + 0.015, z), V3(L / 2 - 0.04, yd + 0.015, z), { side: V3(0, 1, 0) }));
   const y0 = yd + 0.03;
-  const full = Math.max(10 * tH, 10 * bH);
-  const yTop = Math.max(1.05, y0 + full + 0.08);
+  const full = 10 * tH + 10 * bH;
+  const yTop = Math.max(1.05, y0 + full + 0.06);
   for (const s of [-1, 1]) {
     const x = s * (L / 2 - 0.02);
     endFrame(bins, mat, x, W / 2 - 0.03, yd, yTop, 0.0125, s > 0);
-    for (const y of [yd + 0.45, yTop - 0.3]) bins.add(mat, G.tube(V3(x, y, -(W / 2 - 0.03)), V3(x, y, W / 2 - 0.03), 0.0105, 14));
-    for (const zs of [-1, 1]) bins.add(mat, G.prism(sq(0.03), V3(x, yd, zs * (tW / 2 + 0.015)), V3(x, yTop - 0.3, zs * (tW / 2 + 0.015)), { side: V3(1, 0, 0) }));
+    for (const y of [yd + 0.42, yd + 0.84, ...(yTop - yd > 1.3 ? [yd + 1.26] : [])]) bins.add(mat, G.tube(V3(x, y, -(W / 2 - 0.03)), V3(x, y, W / 2 - 0.03), 0.0105, 14));
+    // corner plates where the end frame stands on the base rails
+    for (const zs of [-1, 1]) bins.add(mat, G.roundedBox(0.05, 0.004, 0.05, 0.002).translate(x, yd + 0.002, zs * (W / 2 - 0.03)));
   }
   if (n) {
     const tc = tb.getCenter(V3()), bc = bb.getCenter(V3());
@@ -432,15 +435,17 @@ function bierCart(bins, group, p) {
     }
     let first = true;
     for (const z of [-zB, zB]) {
-      let yb2 = y0;
+      let yb2 = y;
       for (let i = 0; i < n; i++) {
         const b = first ? bProto : bProto.clone(); first = false;
         b.position.set(-bc.x, yb2 - bb.min.y, z - bc.z); group.add(b); yb2 += bH;
       }
     }
   }
+  // loaded: a higher three-quarter view from the front, so the end of the stack reads inside its end frame and the
+  // top shows the two bench stacks side by side on the tables
   return { L, W, H: yTop, detailTarget: [L / 2 - 0.12, R, W / 2 - 0.07],
-    view: n ? { hero: { azimuth: -30 } } : undefined };
+    view: n ? { hero: { azimuth: 20, elevation: 24 } } : undefined };
 }
 
 // ------------------------------------------------------------------- terrastafels with a tilted top

@@ -30,7 +30,7 @@
   "counts": {
    "products": 243,
    "variants": 6391,
-   "images": 1285,
+   "images": 1280,
    "unique_images": 1060,
    "collections": 44,
    "menus": 5,
@@ -26100,7 +26100,7 @@
      },
      "model_status": "existing",
      "alt_hint": "met voorbeeldontwerp",
-     "alt": "Bedrukt dakzeil voor easy-up 3 × 3 m met voorbeeldontwerp, los dak met luifel",
+     "alt": "Bedrukt dakzeil met luifel voor easy-up 3 × 3 m met voorbeeldontwerp, getoond op een zwart frame (frame niet inbegrepen)",
      "draft": false,
      "exported": true
     },
@@ -30769,7 +30769,7 @@
      "taxable": true,
      "image": "haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp"
     },
     {
      "sku": "KK-VER-BEV-HTRK",
@@ -30919,7 +30919,7 @@
      "model_status": "needs-param",
      "alt": "Stertent-haring van 60 cm met oog, verzinkt",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "haringen-en-bevestigingsmateriaal-partytent-haringtrekker-met-hefboom.webp",
@@ -34288,7 +34288,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-rood-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-3M-WIT",
@@ -34339,7 +34339,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-antraciet-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-3M-BLA",
@@ -34356,7 +34356,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-blauw-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-3M-GRN",
@@ -34373,7 +34373,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-groen-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-3M-ZND",
@@ -34390,7 +34390,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-zandkleur-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-4M-ROD",
@@ -34407,7 +34407,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-rood-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-4M-WIT",
@@ -34458,7 +34458,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-antraciet-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-4M-BLA",
@@ -34475,7 +34475,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-blauw-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-4M-GRN",
@@ -34492,7 +34492,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-groen-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-4M-ZND",
@@ -34509,7 +34509,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-zandkleur-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-45M-ROD",
@@ -34526,7 +34526,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-rood-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-45M-WIT",
@@ -34577,7 +34577,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-antraciet-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-45M-BLA",
@@ -34594,7 +34594,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-blauw-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-45M-GRN",
@@ -34611,7 +34611,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-groen-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-45M-ZND",
@@ -34628,7 +34628,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-zandkleur-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-6M-ROD",
@@ -34645,7 +34645,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-rood-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-6M-WIT",
@@ -34696,7 +34696,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-antraciet-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-6M-BLA",
@@ -34713,7 +34713,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-blauw-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-6M-GRN",
@@ -34730,7 +34730,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-groen-hero.webp"
     },
     {
      "sku": "KK-GOOT-VBS-6M-ZND",
@@ -34747,7 +34747,7 @@
      "taxable": true,
      "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "verbindingsstrook-easy-up-zandkleur-hero.webp"
     }
    ],
    "images": [
@@ -34785,7 +34785,7 @@
      "model_status": "existing",
      "alt": "Verbindingsstrook easy-up, rood, klittenband langs beide lange randen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "verbindingsstrook-easy-up-zwart-hero.webp",
@@ -34821,7 +34821,7 @@
      "model_status": "existing",
      "alt": "Verbindingsstrook easy-up, antraciet, klittenband langs beide lange randen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "verbindingsstrook-easy-up-blauw-hero.webp",
@@ -34839,7 +34839,7 @@
      "model_status": "existing",
      "alt": "Verbindingsstrook easy-up, blauw, klittenband langs beide lange randen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "verbindingsstrook-easy-up-groen-hero.webp",
@@ -34857,7 +34857,7 @@
      "model_status": "existing",
      "alt": "Verbindingsstrook easy-up, groen, klittenband langs beide lange randen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "verbindingsstrook-easy-up-zandkleur-hero.webp",
@@ -34875,7 +34875,7 @@
      "model_status": "existing",
      "alt": "Verbindingsstrook easy-up, zandkleur, klittenband langs beide lange randen",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -124206,7 +124206,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-k2l.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-k2l.webp"
     },
     {
      "sku": "KK-FRM-BF-D3-120",
@@ -124223,7 +124223,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-d3-120.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-d3-120.webp"
     },
     {
      "sku": "KK-FRM-BF-K4",
@@ -124257,7 +124257,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-d3-110.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-d3-110.webp"
     },
     {
      "sku": "KK-FRM-BF-D4-110",
@@ -124274,7 +124274,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-d4-110.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-d4-110.webp"
     },
     {
      "sku": "KK-FRM-BF-K3",
@@ -124308,7 +124308,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-n4.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-n4.webp"
     },
     {
      "sku": "KK-FRM-BF-N3L",
@@ -124325,7 +124325,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-n3l.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-n3l.webp"
     },
     {
      "sku": "KK-FRM-BF-N4L",
@@ -124342,7 +124342,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-n4l.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-n4l.webp"
     },
     {
      "sku": "KK-FRM-BF-V3",
@@ -124359,7 +124359,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-v3.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-v3.webp"
     },
     {
      "sku": "KK-FRM-BF-V4",
@@ -124376,7 +124376,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-v4.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-v4.webp"
     },
     {
      "sku": "KK-FRM-BF-G3H",
@@ -124393,7 +124393,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-g3h.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-g3h.webp"
     },
     {
      "sku": "KK-FRM-BF-K3G",
@@ -124427,7 +124427,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-g2.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-g2.webp"
     },
     {
      "sku": "KK-FRM-BF-VP",
@@ -124444,7 +124444,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-vp.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-vp.webp"
     },
     {
      "sku": "KK-FRM-BF-KN",
@@ -124461,7 +124461,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-kn.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-kn.webp"
     },
     {
      "sku": "KK-FRM-BF-KB10",
@@ -124478,7 +124478,7 @@
      "taxable": true,
      "image": "koppelstukken-buizenframe-38-mm-kb10.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "koppelstukken-buizenframe-38-mm-kb10.webp"
     }
    ],
    "images": [
@@ -124541,7 +124541,7 @@
      "model_status": "needs-param",
      "alt": "Koppelstuk 2-weg recht 50 cm, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-d3-120.webp",
@@ -124561,7 +124561,7 @@
      "model_status": "needs-param",
      "alt": "Dakrand hoekstuk 3-weg 120°, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-en-buizen-38-mm-k4.webp",
@@ -124600,7 +124600,7 @@
      "model_status": "needs-param",
      "alt": "Dakrand hoekstuk 3-weg 110°, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-d4-110.webp",
@@ -124620,7 +124620,7 @@
      "model_status": "needs-param",
      "alt": "Dakrand 4-weg 110°, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-en-buizen-38-mm-k3.webp",
@@ -124659,7 +124659,7 @@
      "model_status": "needs-param",
      "alt": "Nokstuk 4-weg 140°, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-n3l.webp",
@@ -124680,7 +124680,7 @@
      "model_status": "needs-param",
      "alt": "Nokstuk 3-weg 140° met lip, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-n4l.webp",
@@ -124701,7 +124701,7 @@
      "model_status": "needs-param",
      "alt": "Nokstuk 4-weg 140° met lip, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-v3.webp",
@@ -124721,7 +124721,7 @@
      "model_status": "needs-param",
      "alt": "Dakvlak 3-weg vlak, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-v4.webp",
@@ -124741,7 +124741,7 @@
      "model_status": "needs-param",
      "alt": "Dakvlak 4-weg vlak, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-g3h.webp",
@@ -124761,7 +124761,7 @@
      "model_status": "needs-param",
      "alt": "Grondframe hoekstuk 3-weg, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-en-buizen-38-mm-k3g.webp",
@@ -124800,7 +124800,7 @@
      "model_status": "needs-param",
      "alt": "Grondframe 2-weg recht, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-vp.webp",
@@ -124819,7 +124819,7 @@
      "model_status": "needs-param",
      "alt": "Voetplaat met haringgat, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-kn.webp",
@@ -124838,7 +124838,7 @@
      "model_status": "needs-param",
      "alt": "Klem nokversteviging, verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-buizenframe-38-mm-kb10.webp",
@@ -124858,7 +124858,7 @@
      "model_status": "needs-param",
      "alt": "Knevelbouten M8 (10 stuks), verzinkt staal, voor een 38 mm buizenframe",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -125072,7 +125072,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-s192.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-s192.webp"
     },
     {
      "sku": "KK-FRM-BF-S212",
@@ -125106,7 +125106,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-l142.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-l142.webp"
     },
     {
      "sku": "KK-FRM-BF-B192",
@@ -125174,7 +125174,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-d129.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-d129.webp"
     },
     {
      "sku": "KK-FRM-BF-D155",
@@ -125191,7 +125191,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-d155.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-d155.webp"
     },
     {
      "sku": "KK-FRM-BF-D205",
@@ -125208,7 +125208,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-d205.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-d205.webp"
     },
     {
      "sku": "KK-FRM-BF-G142",
@@ -125225,7 +125225,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-g142.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-g142.webp"
     },
     {
      "sku": "KK-FRM-BF-G192",
@@ -125242,7 +125242,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-g192.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-g192.webp"
     },
     {
      "sku": "KK-FRM-BF-G242",
@@ -125259,7 +125259,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-g242.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-g242.webp"
     },
     {
      "sku": "KK-FRM-BF-N78",
@@ -125276,7 +125276,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-n78.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-n78.webp"
     },
     {
      "sku": "KK-FRM-BF-N98",
@@ -125293,7 +125293,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-n98.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-n98.webp"
     },
     {
      "sku": "KK-FRM-BF-N118",
@@ -125310,7 +125310,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-n118.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-n118.webp"
     },
     {
      "sku": "KK-FRM-BF-N138",
@@ -125327,7 +125327,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-n138.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-n138.webp"
     },
     {
      "sku": "KK-FRM-BF-N178",
@@ -125344,7 +125344,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-n178.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-n178.webp"
     },
     {
      "sku": "KK-FRM-BF-B50",
@@ -125361,7 +125361,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-b50.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-b50.webp"
     },
     {
      "sku": "KK-FRM-BF-B100",
@@ -125378,7 +125378,7 @@
      "taxable": true,
      "image": "buizen-buizenframe-38-mm-b100.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "buizen-buizenframe-38-mm-b100.webp"
     }
    ],
    "images": [
@@ -125402,7 +125402,7 @@
      "alt_hint": "bundel buizen van 38 mm",
      "alt": "Bundel verzinkte buizen van 38 mm voor een buizenframe-partytent",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-s192.webp",
@@ -125422,7 +125422,7 @@
      "model_status": "existing",
      "alt": "Staander van 192 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-en-buizen-38-mm-s212.webp",
@@ -125463,7 +125463,7 @@
      "model_status": "existing",
      "alt": "Ligger van 142 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "koppelstukken-en-buizen-38-mm-b192.webp",
@@ -125546,7 +125546,7 @@
      "model_status": "existing",
      "alt": "Dakbuis van 129 cm voor een 5 m brede tent, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-d155.webp",
@@ -125566,7 +125566,7 @@
      "model_status": "existing",
      "alt": "Dakbuis van 155 cm voor een 6 m brede tent, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-d205.webp",
@@ -125586,7 +125586,7 @@
      "model_status": "existing",
      "alt": "Dakbuis van 205 cm voor een 8 m brede tent, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-g142.webp",
@@ -125606,7 +125606,7 @@
      "model_status": "existing",
      "alt": "Grondbuis van 142 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-g192.webp",
@@ -125626,7 +125626,7 @@
      "model_status": "existing",
      "alt": "Grondbuis van 192 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-g242.webp",
@@ -125646,7 +125646,7 @@
      "model_status": "existing",
      "alt": "Grondbuis van 242 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-n78.webp",
@@ -125666,7 +125666,7 @@
      "model_status": "existing",
      "alt": "Schoor nokversteviging van 78 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-n98.webp",
@@ -125686,7 +125686,7 @@
      "model_status": "existing",
      "alt": "Schoor nokversteviging van 98 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-n118.webp",
@@ -125706,7 +125706,7 @@
      "model_status": "existing",
      "alt": "Schoor nokversteviging van 118 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-n138.webp",
@@ -125726,7 +125726,7 @@
      "model_status": "existing",
      "alt": "Schoor nokversteviging van 138 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-n178.webp",
@@ -125746,7 +125746,7 @@
      "model_status": "existing",
      "alt": "Schoor nokversteviging van 178 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-b50.webp",
@@ -125766,7 +125766,7 @@
      "model_status": "existing",
      "alt": "Verlengbuis van 50 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "buizen-buizenframe-38-mm-b100.webp",
@@ -125786,7 +125786,7 @@
      "model_status": "existing",
      "alt": "Buis van 100 cm, verzinkt staal 38 mm",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -126192,7 +126192,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-3M-GRS",
@@ -126209,7 +126209,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-4M-WIT",
@@ -126226,7 +126226,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-4M-GRS",
@@ -126243,7 +126243,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-5M-WIT",
@@ -126260,7 +126260,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-5M-GRS",
@@ -126277,7 +126277,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-6M-WIT",
@@ -126294,7 +126294,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-6M-GRS",
@@ -126311,7 +126311,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-8M-WIT",
@@ -126328,7 +126328,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-8M-GRS",
@@ -126345,7 +126345,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-10M-WIT",
@@ -126362,7 +126362,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-10M-GRS",
@@ -126379,7 +126379,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-12M-WIT",
@@ -126396,7 +126396,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-wit-hero.webp"
     },
     {
      "sku": "KK-GOOT-RGB-12M-GRS",
@@ -126413,7 +126413,7 @@
      "taxable": true,
      "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "regengoot-partytent-buizenframe-grijs-hero.webp"
     }
    ],
    "images": [
@@ -126434,7 +126434,7 @@
      "model_status": "needs-param",
      "alt": "Regengoot partytent buizenframe, wit PVC met klemmen voor 38 mm buis, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "regengoot-partytent-buizenframe-grijs-hero.webp",
@@ -126453,7 +126453,7 @@
      "model_status": "needs-param",
      "alt": "Regengoot partytent buizenframe, grijs PVC met klemmen voor 38 mm buis, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -144104,7 +144104,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-ronde-haring-100-cm.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-ronde-haring-100-cm.webp"
     },
     {
      "sku": "KK-STR-OND-RH120",
@@ -144121,7 +144121,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-ronde-haring-120-cm.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-ronde-haring-120-cm.webp"
     },
     {
      "sku": "KK-STR-OND-PDK",
@@ -144138,7 +144138,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-paaldop-kunststof.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-paaldop-kunststof.webp"
     },
     {
      "sku": "KK-STR-OND-PDR",
@@ -144155,7 +144155,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-paaldop-rubber-zwaar.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-paaldop-rubber-zwaar.webp"
     },
     {
      "sku": "KK-STR-OND-VPM",
@@ -144172,7 +144172,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-voetplaat-middenpaal.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-voetplaat-middenpaal.webp"
     },
     {
      "sku": "KK-STR-OND-HK4",
@@ -144189,7 +144189,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-haken-gegalvaniseerd.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-haken-gegalvaniseerd.webp"
     },
     {
      "sku": "KK-STR-OND-HTR",
@@ -144206,7 +144206,7 @@
      "taxable": true,
      "image": "onderdelen-stretchtent-haringtrekker.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stretchtent-haringtrekker.webp"
     }
    ],
    "images": [
@@ -144324,7 +144324,7 @@
      "model_status": "needs-param",
      "alt": "Ronde stalen haring van 100 cm met ring",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-ronde-haring-120-cm.webp",
@@ -144343,7 +144343,7 @@
      "model_status": "needs-param",
      "alt": "Ronde stalen haring van 120 cm met ring",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-paaldop-kunststof.webp",
@@ -144362,7 +144362,7 @@
      "model_status": "needs-param",
      "alt": "Kunststof paaldop voor een stretchtentpaal",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-paaldop-rubber-zwaar.webp",
@@ -144381,7 +144381,7 @@
      "model_status": "needs-param",
      "alt": "Zware rubberen paaldop voor een middenpaal",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-voetplaat-middenpaal.webp",
@@ -144400,7 +144400,7 @@
      "model_status": "needs-param",
      "alt": "Stalen voetplaat voor een middenpaal van een stretchtent",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-haken-gegalvaniseerd.webp",
@@ -144419,7 +144419,7 @@
      "model_status": "needs-param",
      "alt": "Vier gegalvaniseerde haken",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stretchtent-haringtrekker.webp",
@@ -144438,7 +144438,7 @@
      "model_status": "needs-param",
      "alt": "Haringtrekker met hefboom naast een lange haring",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -147604,7 +147604,7 @@
       ]
      },
      "image": "stertent-dubbele-mast-zwart-hero.webp",
-     "export_image": null
+     "export_image": "stertent-dubbele-mast-zwart-hero.webp"
     },
     {
      "sku": "KK-TENT-SRD-8X13-ZND",
@@ -147708,7 +147708,7 @@
       ]
      },
      "image": "stertent-dubbele-mast-zwart-hero.webp",
-     "export_image": null
+     "export_image": "stertent-dubbele-mast-zwart-hero.webp"
     },
     {
      "sku": "KK-TENT-SRD-10X16-ZND",
@@ -147812,7 +147812,7 @@
       ]
      },
      "image": "stertent-dubbele-mast-zwart-hero.webp",
-     "export_image": null
+     "export_image": "stertent-dubbele-mast-zwart-hero.webp"
     },
     {
      "sku": "KK-TENT-SRD-12X19-ZND",
@@ -147916,7 +147916,7 @@
       ]
      },
      "image": "stertent-dubbele-mast-zwart-hero.webp",
-     "export_image": null
+     "export_image": "stertent-dubbele-mast-zwart-hero.webp"
     },
     {
      "sku": "KK-TENT-SRD-13X21-ZND",
@@ -148014,7 +148014,7 @@
      "model_status": "needs-param",
      "alt": "Stertent dubbele mast 10 × 16 m, Zwart, met 8 punten, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stertent-dubbele-mast-zandkleur-hero.webp",
@@ -160475,7 +160475,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, wit, met witte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160497,7 +160497,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een rood dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160519,7 +160519,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een zwart dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160541,7 +160541,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een blauw dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160563,7 +160563,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een groen dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160585,7 +160585,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een oranje dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160607,7 +160607,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een geel dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160629,7 +160629,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een grijs dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -160656,7 +160656,7 @@
      },
      "model_status": "needs-param",
      "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
-     "alt": "Opblaasbare promotietent met een full colour bedrukte achterwand met voorbeeldontwerp",
+     "alt": "Opblaasbare promotietent met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -162701,7 +162701,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, wit, met een wit zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162725,7 +162725,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, rood, met een rood zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162749,7 +162749,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, zwart, met een zwart zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162773,7 +162773,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, blauw, met een blauw zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162797,7 +162797,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, groen, met een groen zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162821,7 +162821,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, oranje, met een oranje zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162845,7 +162845,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, geel, met een geel zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162869,7 +162869,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare promotietent Pro, grijs, met een grijs zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -162898,7 +162898,7 @@
      },
      "model_status": "needs-param",
      "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
-     "alt": "Opblaasbare promotietent Pro met een full colour bedrukte achterwand met voorbeeldontwerp",
+     "alt": "Opblaasbare promotietent Pro met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -163217,7 +163217,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-DI-ZWA",
@@ -163234,7 +163234,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-DI-ANT",
@@ -163251,7 +163251,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RA-WIT",
@@ -163268,7 +163268,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RA-ZWA",
@@ -163285,7 +163285,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RA-ANT",
@@ -163302,7 +163302,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-DE-WIT",
@@ -163319,7 +163319,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-DE-ZWA",
@@ -163336,7 +163336,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-DE-ANT",
@@ -163353,7 +163353,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RI-WIT",
@@ -163370,7 +163370,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RI-ZWA",
@@ -163387,7 +163387,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-RI-ANT",
@@ -163404,7 +163404,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-3M-FC-WIT",
@@ -163421,7 +163421,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DI-WIT",
@@ -163438,7 +163438,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DI-ZWA",
@@ -163455,7 +163455,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DI-ANT",
@@ -163472,7 +163472,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RA-WIT",
@@ -163489,7 +163489,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RA-ZWA",
@@ -163506,7 +163506,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RA-ANT",
@@ -163523,7 +163523,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DE-WIT",
@@ -163540,7 +163540,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DE-ZWA",
@@ -163557,7 +163557,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-DE-ANT",
@@ -163574,7 +163574,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RI-WIT",
@@ -163591,7 +163591,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RI-ZWA",
@@ -163608,7 +163608,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-RI-ANT",
@@ -163625,7 +163625,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-45M-FC-WIT",
@@ -163642,7 +163642,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DI-WIT",
@@ -163659,7 +163659,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DI-ZWA",
@@ -163676,7 +163676,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DI-ANT",
@@ -163693,7 +163693,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RA-WIT",
@@ -163710,7 +163710,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RA-ZWA",
@@ -163727,7 +163727,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RA-ANT",
@@ -163744,7 +163744,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DE-WIT",
@@ -163761,7 +163761,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DE-ZWA",
@@ -163778,7 +163778,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-DE-ANT",
@@ -163795,7 +163795,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RI-WIT",
@@ -163812,7 +163812,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RI-ZWA",
@@ -163829,7 +163829,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-RI-ANT",
@@ -163846,7 +163846,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp"
     },
     {
      "sku": "KK-ZW-AIRW-6M-FC-WIT",
@@ -163863,7 +163863,7 @@
      "taxable": true,
      "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp"
     }
    ],
    "images": [
@@ -163887,9 +163887,9 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare partytent met waterpoten, Wit, met witte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare partytent met waterpoten, Wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
@@ -163911,9 +163911,9 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare partytent met waterpoten, Zwart, met zwarte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare partytent met waterpoten, Zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
@@ -163935,9 +163935,9 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare partytent met waterpoten, Antraciet, met antraciet dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare partytent met waterpoten, Antraciet, met een dichte antraciet zijwand links vooraan, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
@@ -163964,9 +163964,9 @@
      },
      "model_status": "needs-param",
      "alt_hint": "met een voorbeeldontwerp full colour op de achterwand",
-     "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte achterwand met voorbeeldontwerp",
+     "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -167393,7 +167393,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare zeshoektent met witte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare zeshoektent met een dichte witte zijwand in het voorste vak, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -167415,7 +167415,7 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Opblaasbare zeshoektent met zwarte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare zeshoektent met een dichte zwarte zijwand in het voorste vak, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -168816,7 +168816,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "bevestigingsset-schaduwdoek-hero.webp"
     },
     {
      "sku": "KK-SCH-BEV-4",
@@ -168833,7 +168833,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "bevestigingsset-schaduwdoek-hero.webp"
     }
    ],
    "images": [
@@ -168857,7 +168857,7 @@
      "alt_hint": "RVS spanschroeven, karabijnhaken en muurogen",
      "alt": "Bevestigingsset schaduwdoek: RVS spanschroeven, karabijnhaken en muurogen",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -205690,7 +205690,7 @@
       ]
      },
      "image": "barkruk-houten-zitting-wit-hero.webp",
-     "export_image": null
+     "export_image": "barkruk-houten-zitting-wit-hero.webp"
     },
     {
      "sku": "KK-MEU-BKH-ANT",
@@ -205716,7 +205716,7 @@
       ]
      },
      "image": "barkruk-houten-zitting-antraciet-hero.webp",
-     "export_image": null
+     "export_image": "barkruk-houten-zitting-antraciet-hero.webp"
     }
    ],
    "images": [
@@ -205756,7 +205756,7 @@
      "model_status": "needs-param",
      "alt": "Barkruk met houten zitting in eikenlook, Wit frame, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "barkruk-houten-zitting-antraciet-hero.webp",
@@ -205775,7 +205775,7 @@
      "model_status": "needs-param",
      "alt": "Barkruk met houten zitting in eikenlook, Antraciet frame, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -222653,7 +222653,7 @@
       "model": "ropeLight",
       "params": {
        "color": "#F4E3BC",
-       "length": 5,
+       "length": 15,
        "on": true
       },
       "angle": "hero"
@@ -223499,7 +223499,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-pendel-20-cm-met-e27-fitting.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-pendel-20-cm-met-e27-fitting.webp"
     },
     {
      "sku": "KK-LCHT-OND-PD30",
@@ -223516,7 +223516,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp"
     },
     {
      "sku": "KK-LCHT-OND-PD40",
@@ -223533,7 +223533,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp"
     },
     {
      "sku": "KK-LCHT-OND-PD50",
@@ -223550,7 +223550,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp"
     },
     {
      "sku": "KK-LCHT-OND-KST",
@@ -223567,7 +223567,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp"
     },
     {
      "sku": "KK-LCHT-OND-KC25",
@@ -223669,7 +223669,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp"
     }
    ],
    "images": [
@@ -223827,7 +223827,7 @@
      "model_status": "needs-param",
      "alt": "Pendel van 20 cm met E27-fitting",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp",
@@ -223847,7 +223847,7 @@
      "model_status": "needs-param",
      "alt": "Pendel van 30 cm met E27-fitting",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp",
@@ -223867,7 +223867,7 @@
      "model_status": "needs-param",
      "alt": "Pendel van 40 cm met E27-fitting",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp",
@@ -223886,7 +223886,7 @@
      "model_status": "needs-param",
      "alt": "Pendel van 50 cm met E27-fitting aan een stuk prikkabel",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp",
@@ -223905,7 +223905,7 @@
      "model_status": "needs-param",
      "alt": "Koppelstekker en contrastekker voor het doorkoppelen van een prikkabel",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-kabelclips.webp",
@@ -224019,7 +224019,7 @@
      "model_status": "needs-param",
      "alt": "Twee eindhaken met spanveer voor een prikkabel",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -327007,7 +327007,12 @@
         }
        ]
       },
-      "angle": "hero"
+      "angle": "hero",
+      "camera": {
+       "azimuth": 58,
+       "elevation": 27,
+       "fill": 0.9
+      }
      },
      "model_status": "existing",
      "alt": "Drie biertafelsets van vurenhout naast elkaar opgesteld, uit het pakket van 10, schuin vooraanzicht",
@@ -340765,7 +340770,7 @@
      "taxable": true,
      "image": "klaptafel-hout-kwartrond-set-van-4.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "klaptafel-hout-kwartrond-set-van-4.webp"
     },
     {
      "sku": "KK-MEU-KLV-OVA-243X122",
@@ -340896,7 +340901,7 @@
      "alt_hint": "4 kwartronde tafels als cirkel van Ø 305 cm, van boven",
      "alt": "Vier kwartronde klaptafels met houten blad als cirkel van Ø 305 cm, van boven gezien",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -345136,7 +345141,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     },
     {
      "sku": "KK-FRM-HDB-4M",
@@ -345153,7 +345158,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     },
     {
      "sku": "KK-FRM-HDB-45M",
@@ -345170,7 +345175,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     },
     {
      "sku": "KK-FRM-HDB-5M",
@@ -345187,7 +345192,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     },
     {
      "sku": "KK-FRM-HDB-6M",
@@ -345204,7 +345209,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     },
     {
      "sku": "KK-FRM-HDB-8M",
@@ -345221,7 +345226,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "dwarsbuis-halve-zijwand-easy-up-hero.webp"
     }
    ],
    "images": [
@@ -345244,7 +345249,7 @@
      "alt_hint": "aluminium dwarsbuis met twee klemmen",
      "alt": "Aluminium dwarsbuis voor een halve zijwand, met twee klemmen voor de poten van een easy-up",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -347341,7 +347346,8 @@
       "params": {
        "parts": [
         "m"
-       ]
+       ],
+       "beltLength": 2
       },
       "angle": "hero"
      },
@@ -347360,7 +347366,8 @@
       "params": {
        "parts": [
         "m"
-       ]
+       ],
+       "beltLength": 3
       },
       "angle": "hero"
      },
@@ -347379,7 +347386,8 @@
       "params": {
        "parts": [
         "liggend"
-       ]
+       ],
+       "format": "A4"
       },
       "angle": "hero"
      },
@@ -347417,7 +347425,8 @@
       "params": {
        "parts": [
         "liggend"
-       ]
+       ],
+       "format": "A3"
       },
       "angle": "hero"
      },
@@ -349835,7 +349844,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-warm-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-warm-wit-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-ROD",
@@ -349852,7 +349861,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-rood-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-rood-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-ORA",
@@ -349869,7 +349878,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-oranje-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-oranje-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-GEL",
@@ -349886,7 +349895,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-geel-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-geel-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-GRN",
@@ -349903,7 +349912,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-groen-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-groen-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-BLA",
@@ -349920,7 +349929,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-blauw-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-blauw-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-ROZ",
@@ -349937,7 +349946,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-roze-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-roze-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-PRS",
@@ -349954,7 +349963,7 @@
      "taxable": true,
      "image": "led-lamp-e27-gekleurd-paars-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-gekleurd-paars-hero.webp"
     }
    ],
    "images": [
@@ -349975,7 +349984,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 rood, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-warm-wit-hero.webp",
@@ -349994,7 +350003,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 warm wit 2000 K, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-oranje-hero.webp",
@@ -350013,7 +350022,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 oranje, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-geel-hero.webp",
@@ -350032,7 +350041,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 geel, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-groen-hero.webp",
@@ -350051,7 +350060,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 groen, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-blauw-hero.webp",
@@ -350070,7 +350079,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 blauw, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-roze-hero.webp",
@@ -350089,7 +350098,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 roze, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "led-lamp-e27-gekleurd-paars-hero.webp",
@@ -350108,7 +350117,7 @@
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 paars, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -350271,7 +350280,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-dimbaar-ip65-hero.webp"
     },
     {
      "sku": "KK-LCHT-LEDD-3W",
@@ -350288,7 +350297,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "led-lamp-e27-dimbaar-ip65-hero.webp"
     }
    ],
    "images": [
@@ -350309,7 +350318,7 @@
      "model_status": "needs-param",
      "alt": "Dimbare LED-lamp E27 IP65 met waterdruppels op de kap, brandend",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -352969,7 +352978,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-wit-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-wit-hero.webp"
     },
     {
      "sku": "KK-MEU-STK-ZWA",
@@ -352995,7 +353004,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-zwart-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-zwart-hero.webp"
     },
     {
      "sku": "KK-MEU-STK-ANT",
@@ -353021,7 +353030,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-antraciet-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-antraciet-hero.webp"
     },
     {
      "sku": "KK-MEU-STK-TAU",
@@ -353047,7 +353056,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-taupe-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-taupe-hero.webp"
     },
     {
      "sku": "KK-MEU-STK-GRN",
@@ -353073,7 +353082,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-groen-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-groen-hero.webp"
     },
     {
      "sku": "KK-MEU-STK-BLA",
@@ -353099,7 +353108,7 @@
       ]
      },
      "image": "stapelstoel-kunststof-blauw-hero.webp",
-     "export_image": null
+     "export_image": "stapelstoel-kunststof-blauw-hero.webp"
     }
    ],
    "images": [
@@ -353120,7 +353129,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Wit, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-zwart-hero.webp",
@@ -353139,7 +353148,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Zwart, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-antraciet-hero.webp",
@@ -353158,7 +353167,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Antraciet, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-taupe-hero.webp",
@@ -353177,7 +353186,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Taupe, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-groen-hero.webp",
@@ -353196,7 +353205,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Groen, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-blauw-hero.webp",
@@ -353215,7 +353224,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel kunststof, Blauw, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-kunststof-wit-gestapeld.webp",
@@ -353236,7 +353245,7 @@
      "alt_hint": "8 stoelen gestapeld",
      "alt": "Acht witte kunststof stapelstoelen op elkaar gestapeld",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -353467,7 +353476,7 @@
      "taxable": true,
      "image": "stapelstoel-polycarbonaat-transparant-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "stapelstoel-polycarbonaat-transparant-hero.webp"
     },
     {
      "sku": "KK-MEU-SPC-ZWA",
@@ -353484,7 +353493,7 @@
      "taxable": true,
      "image": "stapelstoel-polycarbonaat-zwart-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "stapelstoel-polycarbonaat-zwart-hero.webp"
     },
     {
      "sku": "KK-MEU-SPC-WIT",
@@ -353501,7 +353510,7 @@
      "taxable": true,
      "image": "stapelstoel-polycarbonaat-wit-hero.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "stapelstoel-polycarbonaat-wit-hero.webp"
     }
    ],
    "images": [
@@ -353522,7 +353531,7 @@
      "model_status": "needs-param",
      "alt": "Transparante stapelstoel van polycarbonaat met ovale rug, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-polycarbonaat-zwart-hero.webp",
@@ -353541,7 +353550,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel polycarbonaat, Zwart, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "stapelstoel-polycarbonaat-wit-hero.webp",
@@ -353560,7 +353569,7 @@
      "model_status": "needs-param",
      "alt": "Stapelstoel polycarbonaat, Wit, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -353773,7 +353782,7 @@
       ]
      },
      "image": "klapstoel-hout-bistro-eiken-hero.webp",
-     "export_image": null
+     "export_image": "klapstoel-hout-bistro-eiken-hero.webp"
     },
     {
      "sku": "KK-MEU-KLH-VHT",
@@ -353797,7 +353806,7 @@
       ]
      },
      "image": "klapstoel-hout-bistro-vintage-hout-hero.webp",
-     "export_image": null
+     "export_image": "klapstoel-hout-bistro-vintage-hout-hero.webp"
     },
     {
      "sku": "KK-MEU-KLH-ZWA",
@@ -353821,7 +353830,7 @@
       ]
      },
      "image": "klapstoel-hout-bistro-zwart-hero.webp",
-     "export_image": null
+     "export_image": "klapstoel-hout-bistro-zwart-hero.webp"
     }
    ],
    "images": [
@@ -353841,7 +353850,7 @@
      "model_status": "needs-param",
      "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "klapstoel-hout-bistro-vintage-hout-hero.webp",
@@ -353859,7 +353868,7 @@
      "model_status": "needs-param",
      "alt": "Houten klapstoel bistro in vintage hout, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "klapstoel-hout-bistro-zwart-hero.webp",
@@ -353877,7 +353886,7 @@
      "model_status": "needs-param",
      "alt": "Houten klapstoel bistro, zwart gebeitst, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
@@ -353897,7 +353906,7 @@
      "alt_hint": "ingeklapt, 6 cm dik",
      "alt": "Houten klapstoel in eiken, ingeklapt en plat",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -354116,7 +354125,7 @@
       ]
      },
      "image": "barkruk-inklapbaar-zwart-hero.webp",
-     "export_image": null
+     "export_image": "barkruk-inklapbaar-zwart-hero.webp"
     },
     {
      "sku": "KK-MEU-BKI-WIT",
@@ -354140,7 +354149,7 @@
       ]
      },
      "image": "barkruk-inklapbaar-wit-hero.webp",
-     "export_image": null
+     "export_image": "barkruk-inklapbaar-wit-hero.webp"
     }
    ],
    "images": [
@@ -354162,7 +354171,7 @@
      "model_status": "needs-param",
      "alt": "Inklapbare barkruk met rugleuning, Zwart frame, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "barkruk-inklapbaar-wit-hero.webp",
@@ -354182,7 +354191,7 @@
      "model_status": "needs-param",
      "alt": "Inklapbare barkruk met rugleuning, Wit frame, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "barkruk-inklapbaar-zwart-ingeklapt.webp",
@@ -354204,7 +354213,7 @@
      "alt_hint": "ingeklapt",
      "alt": "Inklapbare barkruk, zwart, ingeklapt",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -354419,7 +354428,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "stoelverbinder-in-gebruik.webp"
     },
     {
      "sku": "KK-MEU-SVB-STM",
@@ -354436,7 +354445,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "stoelverbinder-in-gebruik.webp"
     },
     {
      "sku": "KK-MEU-SVB-BQS",
@@ -354453,7 +354462,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "stoelverbinder-in-gebruik.webp"
     },
     {
      "sku": "KK-MEU-SVB-STK",
@@ -354470,7 +354479,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "stoelverbinder-in-gebruik.webp"
     },
     {
      "sku": "KK-MEU-SVB-WED",
@@ -354487,7 +354496,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "stoelverbinder-in-gebruik.webp"
     }
    ],
    "images": [
@@ -354536,7 +354545,7 @@
      "alt_hint": "drie klapstoelen in een rij, aan elkaar gekoppeld",
      "alt": "Drie witte klapstoelen in een rechte rij, met stoelverbinders aan de voorpoten",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -354708,7 +354717,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-hoes.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-hoes.webp"
     },
     {
      "sku": "KK-GEW-BETON-ACC-H60",
@@ -354725,7 +354734,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-hoes.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-hoes.webp"
     },
     {
      "sku": "KK-GEW-BETON-ACC-H80",
@@ -354742,7 +354751,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-hoes.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-hoes.webp"
     },
     {
      "sku": "KK-GEW-BETON-ACC-ZIT",
@@ -354759,7 +354768,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-zitblad.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-zitblad.webp"
     },
     {
      "sku": "KK-GEW-BETON-ACC-TV6",
@@ -354776,7 +354785,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-truss-voetplaat.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-truss-voetplaat.webp"
     },
     {
      "sku": "KK-GEW-BETON-ACC-TV10",
@@ -354793,7 +354802,7 @@
      "taxable": true,
      "image": "accessoires-betonblok-truss-voetplaat.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "accessoires-betonblok-truss-voetplaat.webp"
     }
    ],
    "images": [
@@ -354816,7 +354825,7 @@
      "alt_hint": "zwarte hoes over een betonblok van 500 kg (blok niet inbegrepen)",
      "alt": "Zwarte hoes over een betonblok van 500 kg (blok niet inbegrepen)",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "accessoires-betonblok-zitblad.webp",
@@ -354837,7 +354846,7 @@
      "alt_hint": "houten zitblad op een betonblok, als bank (blok niet inbegrepen)",
      "alt": "Houten zitblad op een betonblok, als bank (blok niet inbegrepen)",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "accessoires-betonblok-truss-voetplaat.webp",
@@ -354856,7 +354865,7 @@
      "alt_hint": "stalen voetplaat van 45 x 45 cm met gaten voor een trusspaal",
      "alt": "Stalen truss-voetplaat van 45 × 45 cm met vier gaten",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -365714,7 +365723,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "steekwagen-stapelstoelen-hero.webp"
     }
    ],
    "images": [
@@ -365735,7 +365744,7 @@
      "alt_hint": "leeg, schuin vooraanzicht",
      "alt": "Steekwagen voor stapelstoelen, leeg, schuin vooraanzicht",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "steekwagen-stapelstoelen-geladen.webp",
@@ -365756,7 +365765,7 @@
      "alt_hint": "met een stapel van 10 zwarte stapelstoelen",
      "alt": "Steekwagen met een stapel van 10 zwarte metalen stapelstoelen (stoelen niet inbegrepen)",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -365940,7 +365949,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "transportkar-universeel-hero.webp"
     },
     {
      "sku": "KK-MEU-TKU-D",
@@ -365957,7 +365966,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "transportkar-universeel-hero.webp"
     }
    ],
    "images": [
@@ -365979,7 +365988,7 @@
      "alt_hint": "enkele uitvoering, leeg",
      "alt": "Universele transportkar, enkele uitvoering, leeg, met twee beugels",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "transportkar-universeel-dubbel.webp",
@@ -365999,7 +366008,7 @@
      "alt_hint": "dubbele uitvoering, leeg",
      "alt": "Universele transportkar, dubbele uitvoering, leeg, met vier beugels",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "transportkar-universeel-geladen.webp",
@@ -366019,7 +366028,7 @@
      "alt_hint": "dubbel, met een stapel stoelen en een stapel barkrukken",
      "alt": "Dubbele universele transportkar met een stapel stoelen en een stapel barkrukken (meubilair niet inbegrepen)",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -366570,7 +366579,7 @@
      "taxable": true,
      "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp"
     },
     {
      "sku": "KK-MEU-OSB-BKM-VV",
@@ -366587,7 +366596,7 @@
      "taxable": true,
      "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp"
     },
     {
      "sku": "KK-MEU-OSB-BKM-VA",
@@ -366604,7 +366613,7 @@
      "taxable": true,
      "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp"
     },
     {
      "sku": "KK-MEU-OSB-WED-ZW",
@@ -366655,7 +366664,7 @@
      "taxable": true,
      "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp"
     },
     {
      "sku": "KK-MEU-OSB-STM-VD",
@@ -366672,7 +366681,7 @@
      "taxable": true,
      "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp"
     }
    ],
    "images": [
@@ -366777,7 +366786,7 @@
      "model_status": "needs-param",
      "alt": "Vier ronde voetdoppen voor de inklapbare barkruk",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
@@ -366796,7 +366805,7 @@
      "model_status": "needs-param",
      "alt": "Twee vierkante voetdoppen voor de voorpoten van de metalen barkruk",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
@@ -366816,7 +366825,7 @@
      "model_status": "needs-param",
      "alt": "Twee schuine voetdoppen voor de achterpoten van de metalen barkruk",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stoelen-en-barkrukken-zitting-weddingstoel-wit.webp",
@@ -366873,7 +366882,7 @@
      "model_status": "needs-param",
      "alt": "Vier ovale voetdoppen voor de klapstoel",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
@@ -366892,7 +366901,7 @@
      "model_status": "needs-param",
      "alt": "Vier ronde voetdoppen voor de metalen stapelstoel",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -367111,7 +367120,7 @@
       ]
      },
      "image": "afzetpaal-gala-zwart-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-zwart-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GALA-GOU",
@@ -367137,7 +367146,7 @@
       ]
      },
      "image": "afzetpaal-gala-goud-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-goud-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GALA-CHR",
@@ -367163,7 +367172,7 @@
       ]
      },
      "image": "afzetpaal-gala-chroom-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-chroom-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL60-ZWA",
@@ -367189,7 +367198,7 @@
       ]
      },
      "image": "afzetpaal-gala-zwart-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-zwart-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL60-GOU",
@@ -367215,7 +367224,7 @@
       ]
      },
      "image": "afzetpaal-gala-goud-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-goud-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL60-CHR",
@@ -367241,7 +367250,7 @@
       ]
      },
      "image": "afzetpaal-gala-chroom-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-chroom-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL90-ZWA",
@@ -367267,7 +367276,7 @@
       ]
      },
      "image": "afzetpaal-gala-zwart-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-zwart-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL90-GOU",
@@ -367293,7 +367302,7 @@
       ]
      },
      "image": "afzetpaal-gala-goud-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-goud-hero.webp"
     },
     {
      "sku": "KK-INR-AZG-GAL90-CHR",
@@ -367319,7 +367328,7 @@
       ]
      },
      "image": "afzetpaal-gala-chroom-hero.webp",
-     "export_image": null
+     "export_image": "afzetpaal-gala-chroom-hero.webp"
     }
    ],
    "images": [
@@ -367341,7 +367350,7 @@
      "model_status": "needs-param",
      "alt": "Twee luxe afzetpalen gala, goud, met bordeaux fluwelen koord ertussen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "afzetpaal-gala-zwart-hero.webp",
@@ -367361,7 +367370,7 @@
      "model_status": "needs-param",
      "alt": "Twee luxe afzetpalen gala, zwart, met zwart fluwelen koord ertussen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "afzetpaal-gala-chroom-hero.webp",
@@ -367381,7 +367390,7 @@
      "model_status": "needs-param",
      "alt": "Twee luxe afzetpalen gala, chroom, met bordeaux fluwelen koord ertussen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "afzetpaal-gala-galerie-60-cm.webp",
@@ -367403,7 +367412,7 @@
      "alt_hint": "twee lage galeriepalen van 60 cm met zwart koord",
      "alt": "Twee lage galeriepalen van 60 cm, zwart, met zwart koord ertussen",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -367668,7 +367677,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": null
+     "export_image": "loperpennen-set-van-25-hero.webp"
     }
    ],
    "images": [
@@ -367690,7 +367699,7 @@
      "alt_hint": "25 stalen pennen met kop",
      "alt": "25 stalen bevestigingspennen met platte kop, naast elkaar",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "metafields": {
@@ -367858,7 +367867,7 @@
       ]
      },
      "bundle_los_totaal": 124800,
-     "export_image": "stapelstoel-metaal-zwart-hero.webp"
+     "export_image": "pakket-20-stapelstoelen-met-transportkar-zwart-hero.webp"
     },
     {
      "sku": "KK-SET-20STM-WIT",
@@ -367885,7 +367894,7 @@
       ]
      },
      "bundle_los_totaal": 124800,
-     "export_image": "stapelstoel-metaal-wit-hero.webp"
+     "export_image": "pakket-20-stapelstoelen-met-transportkar-wit-hero.webp"
     },
     {
      "sku": "KK-SET-20STM-ANT",
@@ -367912,7 +367921,7 @@
       ]
      },
      "bundle_los_totaal": 124800,
-     "export_image": "stapelstoel-metaal-antraciet-hero.webp"
+     "export_image": "pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp"
     }
    ],
    "images": [
@@ -367956,7 +367965,7 @@
      "model_status": "needs-param",
      "alt": "Transportkar met 2 stapels zwarte metalen stapelstoelen en één stoel ernaast",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "pakket-20-stapelstoelen-met-transportkar-wit-hero.webp",
@@ -367998,7 +368007,7 @@
      "model_status": "needs-param",
      "alt": "Transportkar met 2 stapels witte metalen stapelstoelen en één stoel ernaast",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp",
@@ -368040,64 +368049,7 @@
      "model_status": "needs-param",
      "alt": "Transportkar met 2 stapels antraciet metalen stapelstoelen en één stoel ernaast",
      "draft": false,
-     "exported": false
-    },
-    {
-     "file": "stapelstoel-metaal-zwart-hero.webp",
-     "role": "component",
-     "priority": 3,
-     "kleur": "Zwart",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "metaal",
-       "color": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stapelstoel metaal, Zwart, schuin vooraanzicht (onderdeel van dit pakket)",
-     "draft": false,
-     "exported": true,
-     "component_of": "stapelstoel-metaal"
-    },
-    {
-     "file": "stapelstoel-metaal-wit-hero.webp",
-     "role": "component",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "metaal",
-       "color": "wit"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stapelstoel metaal, Wit, schuin vooraanzicht (onderdeel van dit pakket)",
-     "draft": false,
-     "exported": true,
-     "component_of": "stapelstoel-metaal"
-    },
-    {
-     "file": "stapelstoel-metaal-antraciet-hero.webp",
-     "role": "component",
-     "priority": 3,
-     "kleur": "Antraciet",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "metaal",
-       "color": "antraciet"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stapelstoel metaal, Antraciet, schuin vooraanzicht (onderdeel van dit pakket)",
-     "draft": false,
-     "exported": true,
-     "component_of": "stapelstoel-metaal"
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -368364,7 +368316,7 @@
       ]
      },
      "bundle_los_totaal": 136650,
-     "export_image": "klapstoel-wit-hero.webp"
+     "export_image": "pakket-50-klapstoelen-met-transportkar-wit-hero.webp"
     },
     {
      "sku": "KK-SET-50KLS-ZWA",
@@ -368391,7 +368343,7 @@
       ]
      },
      "bundle_los_totaal": 136650,
-     "export_image": "klapstoel-zwart-hero.webp"
+     "export_image": "pakket-50-klapstoelen-met-transportkar-zwart-hero.webp"
     }
    ],
    "images": [
@@ -368417,7 +368369,7 @@
      "model_status": "needs-param",
      "alt": "Transportkar met 50 ingeklapte witte klapstoelen",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "pakket-50-klapstoelen-met-transportkar-zwart-hero.webp",
@@ -368441,45 +368393,7 @@
      "model_status": "needs-param",
      "alt": "Transportkar met 50 ingeklapte zwarte klapstoelen",
      "draft": false,
-     "exported": false
-    },
-    {
-     "file": "klapstoel-wit-hero.webp",
-     "role": "component",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "klapstoel",
-       "color": "wit"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Klapstoel, Wit, schuin vooraanzicht (onderdeel van dit pakket)",
-     "draft": false,
-     "exported": true,
-     "component_of": "klapstoel"
-    },
-    {
-     "file": "klapstoel-zwart-hero.webp",
-     "role": "component",
-     "priority": 3,
-     "kleur": "Zwart",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "klapstoel",
-       "color": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Klapstoel, Zwart, schuin vooraanzicht (onderdeel van dit pakket)",
-     "draft": false,
-     "exported": true,
-     "component_of": "klapstoel"
+     "exported": true
     }
    ],
    "variant_image_by": "Kleur",
@@ -394536,12 +394450,11 @@
    }
   ],
   "images": {
-   "real": 897,
+   "real": 1008,
    "draft": 59,
-   "missing": 308,
+   "missing": 197,
    "products_without_image": [
     "zijwand-partytent-buizenframe-lang",
-    "regengoot-partytent-buizenframe",
     "spanband-met-ratel",
     "oogbouten-en-schroefogen",
     "klittenband-zelfklevend",
@@ -394549,8 +394462,6 @@
     "dakhaken-partytent",
     "spanschroeven-set-van-5",
     "schroevenset-tent",
-    "zijwand-opblaasbare-partytent-met-waterpoten",
-    "bevestigingsset-schaduwdoek",
     "statafel-breed-stapelbaar",
     "statafel-design-marmerlook",
     "statafel-design-zuilvoet",
@@ -394561,45 +394472,27 @@
     "koelkast-rvs-horeca",
     "koel-vrieskist-liggend",
     "flessenkoeler-verrijdbaar-1000-liter",
-    "dwarsbuis-halve-zijwand-easy-up",
     "tentvloer-kunststof",
     "tapijttegel-50x50",
     "kapstok-verrijdbaar",
     "tape-voor-loper-en-vloer",
-    "led-lamp-e27-gekleurd",
-    "led-lamp-e27-dimbaar-ip65",
-    "stapelstoel-kunststof",
-    "stapelstoel-polycarbonaat",
-    "klapstoel-hout-bistro",
-    "barkruk-inklapbaar",
-    "stoelverbinder",
-    "accessoires-betonblok",
     "terrastafel-vierkant-stapelbaar",
     "terrastafel-breed-stapelbaar",
     "terrastafel-design-zuilvoet",
     "terrastafel-wiebelvrij",
-    "steekwagen-stapelstoelen",
-    "transportkar-universeel",
-    "klaptafel-met-banken-rolbaar",
-    "onderdelen-stoelen-en-barkrukken",
-    "afzetpaal-gala",
-    "loperpennen-set-van-25"
+    "klaptafel-met-banken-rolbaar"
    ],
-   "variants_own": 4699,
+   "variants_own": 4869,
    "variants_same_kleur": 112,
-   "variants_component": 21,
-   "variants_hero": 299,
-   "variants_no_image": 1260,
+   "variants_component": 16,
+   "variants_hero": 318,
+   "variants_no_image": 1076,
    "variants_no_image_by_product": {
     "easy-up-partytent-professional-full-colour-bedrukt": 14,
-    "haringen-en-bevestigingsmateriaal-partytent": 2,
+    "haringen-en-bevestigingsmateriaal-partytent": 1,
     "tentelastieken-met-bal": 2,
-    "verbindingsstrook-easy-up": 20,
     "zijwand-partytent-2-m-pvc": 68,
     "zijwand-partytent-buizenframe-lang": 22,
-    "koppelstukken-en-buizen-38-mm": 14,
-    "buizen-buizenframe-38-mm": 15,
-    "regengoot-partytent-buizenframe": 14,
     "spanband-met-ratel": 4,
     "oogbouten-en-schroefogen": 5,
     "klittenband-zelfklevend": 6,
@@ -394607,10 +394500,6 @@
     "dakhaken-partytent": 2,
     "spanschroeven-set-van-5": 2,
     "schroevenset-tent": 2,
-    "onderdelen-stretchtent": 7,
-    "stertent-dubbele-mast": 4,
-    "zijwand-opblaasbare-partytent-met-waterpoten": 39,
-    "bevestigingsset-schaduwdoek": 2,
     "statafel-inklapbaar-professional": 57,
     "statafel-inklapbaar-hdpe-80": 3,
     "statafel-vierkant-stapelbaar": 78,
@@ -394620,42 +394509,27 @@
     "statafel-design-zuilvoet": 36,
     "hoes-biertafelset": 140,
     "stretchhoes-statafel-vierkant-en-rechthoekig": 56,
-    "barkruk-houten-zitting": 2,
     "biertafelset": 12,
-    "onderdelen-prikkabel-en-lichtslang": 11,
+    "onderdelen-prikkabel-en-lichtslang": 5,
     "loper-per-meter": 28,
     "loper-rol-50-m": 20,
     "terrastafel-rond-inklapbaar": 87,
-    "klaptafel-hout-vormen": 1,
     "barkoelkast-glazen-deur": 3,
     "koelkast-staand-horeca": 2,
     "koelkast-rvs-horeca": 2,
     "koel-vrieskist-liggend": 1,
     "flessenkoeler-verrijdbaar-1000-liter": 1,
     "easy-up-partytent-premium-full-colour-bedrukt": 3,
-    "dwarsbuis-halve-zijwand-easy-up": 6,
     "tentvloer-kunststof": 2,
     "tapijttegel-50x50": 5,
     "kapstok-verrijdbaar": 1,
     "tape-voor-loper-en-vloer": 2,
-    "led-lamp-e27-gekleurd": 8,
-    "led-lamp-e27-dimbaar-ip65": 2,
-    "stapelstoel-kunststof": 6,
-    "stapelstoel-polycarbonaat": 3,
-    "klapstoel-hout-bistro": 3,
-    "barkruk-inklapbaar": 2,
-    "stoelverbinder": 5,
-    "accessoires-betonblok": 6,
     "terrastafel-vierkant-stapelbaar": 114,
     "terrastafel-breed-stapelbaar": 124,
     "terrastafel-design-zuilvoet": 36,
     "terrastafel-wiebelvrij": 36,
-    "steekwagen-stapelstoelen": 1,
-    "transportkar-universeel": 2,
     "klaptafel-met-banken-rolbaar": 1,
-    "onderdelen-stoelen-en-barkrukken": 10,
-    "afzetpaal-gala": 9,
-    "loperpennen-set-van-25": 1
+    "onderdelen-stoelen-en-barkrukken": 5
    }
   }
  }

@@ -25,6 +25,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const TAU = Math.PI * 2;
@@ -96,8 +97,9 @@ function kit(fabHex, { coverCloth = false } = {}) {
   const dark = new THREE.Color(fabHex).getHSL({}).l < 0.2;
   return {
     dark,
-    fab: dark ? L3.cloth600(fabHex === '#19191B' ? '#212224' : fabHex, { rough: 0.74, sheen: 0.75, env: 0.2, spec: 0.3 }) : L3.cloth600(fabHex),
-    pipe: dark ? L3.cloth600(fabHex === '#19191B' ? '#212224' : fabHex, { rough: 0.62, sheen: 0.85, env: 0.26, spec: 0.36 }) : L3.cloth600(fabHex, { rough: 0.66 }),
+    // round 5: black cloth at the catalogue's black-product albedo (L5.cloth5), fibre sheen
+    fab: dark ? L5.cloth5('#1C1D1F', { rough: 0.74, sheen: 0.72, env: 0.2, spec: 0.3 }) : L3.cloth600(fabHex),
+    pipe: dark ? L5.cloth5('#1C1D1F', { rough: 0.58, sheen: 0.9, env: 0.3, spec: 0.42 }) : L3.cloth600(fabHex, { rough: 0.66 }),
     web: M.webbing('#161719'),
     tape: M.webbing('#1B1C1E'),
     coil: SG.moulded('#121314', { rough: 0.32, spec: 0.7, scale: 0.0006 }),
@@ -111,9 +113,11 @@ function kit(fabHex, { coverCloth = false } = {}) {
   };
 }
 
-function darkRig(dark, extra = {}) {
+function darkRig(dark, extra = {}, size = 0.7) {
   const base = { contact: { strength: 0.85, h0: 0.012, res: 1024, blur: 1.4 }, groundAO: { strength: 0.75, maxZenith: 80 } };
   if (!dark) return { default: { ...base, ...extra } };
+  // round 5: the catalogue's black-product studio (black cloth ~55-65 instead of ~30)
+  if (!extra.legacy) return L5.goodsRig({ tone: 'black', size, extra });
   return { default: { ...base, key: { intensity: 4.2 }, fill: { azimuth: 80, elevation: 14, intensity: 2.0 }, rim: { azimuth: 150, elevation: 32, intensity: 1.8 }, exposure: 1.3, envIntensity: 1.1, ...extra } };
 }
 
@@ -186,6 +190,41 @@ function addPiping(bins, k, pts, nrm, { r = 0.0042, stitchOff = 0.008, sideRef =
       return q.clone().addScaledVector(B, stitchOff).addScaledVector(nrm[i], 0.0004 - r * 0.4);
     });
     bins.add(k.thr, SG.stitches(off, nrm, { len: 0.0036, gap: 0.0016 }));
+  }
+}
+
+// webbing handle sewn to a softBox wall at both ends (box-X patches), the loop between them hangs
+// down against the cloth: a horizontal handle at wall fraction t on face f
+function addSoftHandle(bins, k, box, f, t, { span = 0.15, sag = 0.045, w = 0.036, patchL = 0.05 } = {}) {
+  const P = box.P;
+  const df = span / 2 / P;
+  const A = box.point(f - df, t, 0.0014), B = box.point(f + df, t, 0.0014);
+  // path: patch A (flat on the cloth), leaves the cloth, hangs in a U, back onto patch B
+  const pts = [];
+  const N = 60;
+  for (let i = 0; i <= N; i++) {
+    const u = i / N;
+    const fu = f - df - (patchL / P) * 0.5 + (2 * df + patchL / P) * u;
+    const base = box.point(fu, t, 0.0016);
+    const inLoop = Math.max(0, Math.min(1, (u - 0.18) / 0.64));
+    const hang = Math.sin(Math.PI * inLoop);
+    const p = base.p.clone().addScaledVector(base.n, 0.004 * Math.pow(hang, 0.5) + 0.006 * hang).add(V3(0, -sag * Math.pow(hang, 1.3), 0));
+    pts.push(p);
+  }
+  const nrm = pts.map((_, i) => box.point(f - df + 2 * df * (i / N), t).n);
+  bins.add(k.web, K.strapAlong(pts, w, 0.0026, { normals: nrm }));
+  for (const e of [A, B]) {
+    const along = B.p.clone().sub(A.p).normalize();
+    const side = V3().crossVectors(e.n, along).normalize();
+    const c0 = e.p.clone().addScaledVector(e.n, 0.0032);
+    const hw = w / 2 - 0.004, hl = patchL / 2 - 0.004;
+    const corner = (sx, sz) => c0.clone().addScaledVector(side, sx * hw).addScaledVector(along, sz * hl);
+    const bx = [corner(-1, -1), corner(1, -1), corner(1, 1), corner(-1, 1)];
+    for (const [i0, i1] of [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2], [1, 3]]) {
+      const line = [], nl = [];
+      for (let q = 0; q <= 12; q++) { line.push(bx[i0].clone().lerp(bx[i1], q / 12)); nl.push(e.n); }
+      bins.add(k.thr, SG.stitches(line, nl, { len: 0.0032, gap: 0.0014, w: 0.001 }));
+    }
   }
 }
 
@@ -371,38 +410,61 @@ function cover(p, fabHex) {
     bins.add(plate, G.prism(G.roundedRectProfile(0.12, 0.12, 0.012, 3), V3(x + sx * 0.022, 0, z + sz * 0.022), V3(x + sx * 0.022, 0.005, z + sz * 0.022), { side: V3(1, 0, 0) }));
   }
   // cover body: hem 9 cm above the floor; soft, well rounded top edge over the brackets
-  const y0 = 0.09, re = 0.07, r = 0.06;
+  const y0 = 0.09, re = 0.075, r = 0.085;
   const L = H - y0 - re - 0.01;
   const P0 = K.rrFractions(W / 2, D / 2, r).P;
   const fr0 = K.rrFractions(W / 2, D / 2, r);
-  const yStrap = y0 + 0.055;
+  const yStrap = y0 + 0.07;
+  // round 5: the cloth must read as cloth at catalogue size: deep, irregular drape folds that
+  // break the silhouette, folds fanning from the four bracket corners at the top, the cloth
+  // gathered by the strap with a short flared skirt below it
   const cr = SG.creases(17, [
-    // a few long soft drape folds hanging between the legs, growing towards the hem
-    { n: 9, u: [0, P0], v: [y0 + 0.25, y0 + L - 0.2], ang: Math.PI / 2, angJ: 0.05, len: [0.8, 1.3], wid: [0.06, 0.11], amp: [0.006, 0.012], sharp: 0.2, sign: 1 },
-    { n: 8, u: [0, P0], v: [y0 + 0.2, y0 + L - 0.25], ang: Math.PI / 2, angJ: 0.06, len: [0.4, 0.9], wid: [0.035, 0.06], amp: [0.003, 0.006], sharp: 0.3 },
-    // soft diagonal drape from the top corners
-    { n: 8, u: [0, P0], v: [y0 + L - 0.4, y0 + L - 0.03], ang: Math.PI / 2, angJ: 0.45, len: [0.18, 0.35], wid: [0.03, 0.05], amp: [0.002, 0.004], sharp: 0.25 },
+    // long drape folds (ridges), deepest towards the strap
+    { n: 13, u: [0, P0], v: [y0 + 0.12, y0 + L - 0.28], ang: Math.PI / 2, angJ: 0.05, len: [0.75, 1.25], wid: [0.045, 0.085], amp: [0.018, 0.034], sharp: 0.12, sign: 1, skew: -0.35 },
+    // valleys between them
+    { n: 11, u: [0, P0], v: [y0 + 0.15, y0 + L - 0.35], ang: Math.PI / 2, angJ: 0.05, len: [0.5, 1.0], wid: [0.03, 0.055], amp: [0.01, 0.02], sharp: 0.25, sign: -1 },
+    // smaller secondary folds
+    { n: 12, u: [0, P0], v: [y0 + 0.2, y0 + L - 0.2], ang: Math.PI / 2, angJ: 0.12, len: [0.25, 0.55], wid: [0.02, 0.035], amp: [0.003, 0.007], sharp: 0.3 },
     // gathered folds above the strap
-    { n: 16, u: [0, P0], v: [yStrap - 0.02, yStrap + 0.12], ang: Math.PI / 2, angJ: 0.15, len: [0.06, 0.16], wid: [0.016, 0.03], amp: [0.002, 0.0045], sharp: 0.4 },
+    { n: 26, u: [0, P0], v: [yStrap + 0.02, yStrap + 0.16], ang: Math.PI / 2, angJ: 0.18, len: [0.08, 0.22], wid: [0.012, 0.024], amp: [0.004, 0.009], sharp: 0.45 },
   ], { periodU: P0 });
-  const crTop = SG.creases(23, [{ n: 7, u: [-W / 2, W / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.1, 0.22], wid: [0.025, 0.045], amp: [0.002, 0.004], sharp: 0.25 }]);
+  // diagonal folds fanning down from each top corner (the bracket holds the corner up)
+  const fanC = [fr0.cFR, fr0.cBR, fr0.cBL, fr0.cFL].map((f) => f * P0);
+  const wrapP = (d) => ((d % P0) + P0 * 1.5) % P0 - P0 / 2;
+  const fan = (s, y) => {
+    let v = 0; const top = y0 + L;
+    for (const sc of fanC) for (const [sg, k, al] of [[-1, 0, 58], [1, 0, 62], [-1, 1, 72], [1, 1, 76]]) {
+      const c = Math.cos(al * DEG) * sg, d = -Math.sin(al * DEG);
+      const ds = wrapP(s - sc - sg * 0.015), dy = y - (top - 0.01);
+      const along = ds * c + dy * d; const len = k ? 0.42 : 0.3;
+      if (along < 0 || along > len) continue;
+      const across = -ds * d + dy * c;
+      const t = along / len;
+      v += (k ? 0.006 : 0.009) * Math.sin(Math.PI * Math.min(1, t * 1.4 + 0.1)) * (1 - 0.5 * t) * Math.exp(-((across / (0.016 + 0.02 * t)) ** 2));
+    }
+    return v;
+  };
+  const crTop = SG.creases(23, [{ n: 7, u: [-W / 2, W / 2], v: [-D / 2, D / 2], ang: 0, angJ: 1.6, len: [0.1, 0.22], wid: [0.025, 0.045], amp: [0.002, 0.005], sharp: 0.25 }]);
   const box = SG.softBox({
-    W, D, L, r, re, y0, nu: 220, nWall: 240, nEdge: 12, nEnd: 10,
+    W, D, L, r, re, y0, nu: 260, nWall: 260, nEdge: 12, nEnd: 12,
     disp: (q) => {
       if (q.part === 'bot' || q.part === 'botEdge') return 0;
       if (q.part === 'wall') {
         const t = q.t;
-        // cloth falls in between the corner legs (taut over the legs), widens to the hem
-        const sagIn = -0.016 * q.face * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, (t - 0.02) / 0.96))), 0.5);
-        const flare = 0.012 * Math.pow(1 - Math.min(1, t * 3), 2) * (0.4 + 0.6 * q.face);
-        // the strap cinches the cloth
-        const cinch = -0.012 * Math.exp(-(((q.y - yStrap) / 0.02) ** 2));
-        return sagIn + flare + cinch + cr(q.s, q.y) * (0.2 + 0.8 * q.face);
+        // cloth falls in between the corner legs (taut over the corners)
+        const sagIn = -0.014 * q.face * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, (t - 0.02) / 0.96))), 0.5);
+        // the strap cinches the cloth; below it a short skirt flares out
+        const cinch = -0.02 * Math.exp(-(((q.y - yStrap) / 0.022) ** 2));
+        const skirt = 0.02 * Math.pow(Math.max(0, 1 - (q.y - y0) / (yStrap - y0)), 1.5);
+        const above = K.sstep(yStrap - 0.01, yStrap + 0.05, q.y);
+        // soft horizontal compression ripples (the cover was pulled down over the frame)
+        const rip = 0.005 * Math.sin(q.y * 38 + 1.7 * Math.sin(q.s * 9)) * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, (q.y - yStrap) / (L * 0.8)))), 2) * (0.4 + 0.6 * q.face);
+        return sagIn + cinch + skirt + rip * above + cr(q.s, q.y) * (0.6 + 0.4 * q.face) * above + fan(q.s, q.y) + 0.004 * Math.sin(q.s * 41 + 1.3) * (1 - above);
       }
       // top: drapes over the corner brackets of the frame, sags in between
       const cx = Math.abs(q.x) / (W / 2), cz = Math.abs(q.z) / (D / 2);
       const corner = Math.exp(-((1 - cx) ** 2 + (1 - cz) ** 2) / 0.05);
-      return 0.012 * corner - 0.018 * (1 - cx * cx) * (1 - cz * cz) + crTop(q.x, q.z) * (q.part === 'top' ? 1 : 0.6);
+      return 0.014 * corner - 0.026 * (1 - cx * cx) * (1 - cz * cz) + crTop(q.x, q.z) * (q.part === 'top' ? 1 : 0.6);
     },
   });
   // open bottom: drop the bottom panel rows -> rebuild a geometry from wall + top only
@@ -450,9 +512,10 @@ function cover(p, fabHex) {
     bk.applyMatrix4(K.basisAt(q.p.clone().addScaledVector(T, -0.03), V3().crossVectors(q.n, T).normalize().negate(), q.n, T));
     bins.add(SG.moulded('#151617', { rough: 0.42, spec: 0.6 }), bk);
   }
-  // two stitched handles on the right side + one over the top
-  for (const tc of [0.36, 0.66]) addHandle(bins, k, box.point(fr.right, tc - 0.065, 0.0012), box.point(fr.right, tc + 0.065, 0.0012), { h: 0.04, w: 0.036 });
-  addHandle(bins, k, box.pointM(fr.left, box.mTop0 - 0.015, 0.0012), box.pointM(fr.right, box.mTop0 - 0.015, 0.0012), { h: 0.055, w: 0.038 });
+  // two webbing carry handles on the right side (soft loops that hang against the cloth) and
+  // one strap over the top
+  for (const tc of [0.4, 0.66]) addSoftHandle(bins, k, box, fr.right, tc, { span: 0.16, sag: 0.05, w: 0.036 });
+  addHandle(bins, k, box.pointM(fr.left, box.mTop0 - 0.015, 0.0012), box.pointM(fr.right, box.mTop0 - 0.015, 0.0012), { h: 0.04, w: 0.038 });
   // a sewn-in label on the front near the hem
   {
     const q = box.point(0.0, 0.1, 0.0012);
@@ -468,7 +531,7 @@ function cover(p, fabHex) {
     object: root,
     detail: { target: [0, H - 0.08, 0], size: 0.45, azimuth: 30, elevation: 25 },
     view: { hero: { elevation: 12, azimuth: 36 } },
-    rig: darkRig(k.dark),
+    rig: darkRig(k.dark, { exposure: 1.45 }, 0.85),
     meta: { shape: 'upright', height: H, wheels: false },
   };
 }
@@ -559,12 +622,33 @@ function duffel(p, fabHex) {
   const zw = Dd / 2 - 0.045, R = 0.058, wW = 0.036;
   const zb = zw - wW / 2 - 0.012;
   const bx0 = xE - 0.03, bx1 = xE + 0.04;
-  const base = fillet([[-zb, 0.014], [zb, 0.014], [zb, 0.128], [Dd / 2 - 0.035, 0.165], [Dd / 2 - 0.05, 0.205], [-(Dd / 2 - 0.05), 0.205], [-(Dd / 2 - 0.035), 0.165], [-zb, 0.128]], [0.012, 0.012, 0.02, 0.02, 0.025, 0.025, 0.02, 0.02]);
+  // round 5: a moulded end boot (the wheel end of a rolling duffel) instead of a flat slab: an
+  // offset shell over the whole end panel that wraps back onto the body, ~11 cm at the bottom
+  // and ~2 cm at the top, with a rolled lip where the cloth is sewn into it
   {
-    const sh = new THREE.Shape(base.map(([z, y]) => new THREE.Vector2(z, y)));
-    const g = new THREE.ExtrudeGeometry(sh, { depth: bx1 - bx0 - 0.012, bevelEnabled: true, bevelThickness: 0.006, bevelSize: 0.006, bevelSegments: 3, curveSegments: 10 });
-    g.rotateY(Math.PI / 2); g.translate(bx0 + 0.006, 0, 0);
-    bins.add(k.tray, g);
+    const bootMat = L5.pe5('#17181A', { rough: 0.46, spec: 0.55 });
+    const nuB = 180, nmB = 26;
+    const fBot = fr.right; // world bottom
+    const mB = (f) => {
+      const d = Math.abs(((f - fBot + 1.5) % 1) - 0.5) * 2;   // 0 at the bottom .. 1 at the top
+      return box.mWall1 - (0.02 + 0.09 * Math.pow(1 - d, 1.5));
+    };
+    const rowsB = [];
+    for (let j = 0; j <= nmB; j++) {
+      const row = [];
+      for (let i = 0; i < nuB; i++) {
+        const f = i / nuB, m0 = mB(f), m = m0 + (box.mEnd - 0.002 - m0) * Math.pow(j / nmB, 0.85);
+        row.push(ptM(f, m, 0.007).p);
+      }
+      rowsB.push(row);
+    }
+    bins.add(bootMat, K.gridGeometry(rowsB, { closedU: true, flip: true }));
+    const lip = []; for (let i = 0; i <= nuB; i++) { const f = i / nuB; lip.push(ptM(f, mB(f), 0.0045).p); }
+    bins.add(bootMat, K.tubeAlong(lip, 0.0052, 12, { closed: true }));
+    // stitch row in the cloth just in front of the lip
+    const st = [], sn = [];
+    for (let i = 0; i <= 360; i++) { const f = i / 360; const q = ptM(f, mB(f) - 0.012, 0.0009); st.push(q.p); sn.push(q.n); }
+    bins.add(k.thr, SG.stitches(st, sn));
   }
   const xw = xE + 0.022;
   for (const sz of [-1, 1]) {
@@ -573,6 +657,8 @@ function duffel(p, fabHex) {
     bins.add(k.tyre, wh.tyre); bins.add(k.hubM, wh.hub);
     const cap = wh.cap.clone(); cap.rotateY(sz > 0 ? -Math.PI / 2 : Math.PI / 2); cap.translate(xw, R, sz * (zw + wW / 2 - 0.0005)); bins.add(k.zinc, cap);
     bins.add(k.zinc, G.tube(V3(xw, R, sz * (zb - 0.004)), V3(xw, R, sz * (zw - wW / 2 + 0.002)), 0.0065, 16));
+    // moulded axle pod out of the boot to the wheel hub
+    bins.add(L5.pe5('#17181A', { rough: 0.46, spec: 0.55 }), K.lathe([[0.0001, 0], [0.02, 0], [0.024, 0.006], [0.024, 0.05], [0.0001, 0.05]], 32).rotateX(sz > 0 ? -Math.PI / 2 : Math.PI / 2).translate(xw, R, sz * (zw - wW / 2 - 0.001)));
     const fender = K.lathe([[R + 0.005, -wW / 2 - 0.004], [R + 0.012, -wW / 2 - 0.004], [R + 0.012, wW / 2 + 0.004], [R + 0.005, wW / 2 + 0.004]], 36, Math.PI * 0.42, Math.PI * 0.85);
     fender.rotateX(Math.PI / 2); fender.translate(xw, R, sz * zw);
     bins.add(k.tray, fender);

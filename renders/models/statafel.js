@@ -17,11 +17,18 @@
 // shape: 'round' (default) | 'square' (width) | 'rect' (width x depth). Square tables stand on 4 splayed
 //        square-tube legs ('stapel', stackable), rectangular ones on two folding leg frames.
 // frame: 'zwart' | 'wit' | 'chroom' | 'alu' | 'antraciet' (satin powder coat, no stipple)
-// folded: true -> blad tilted vertical, legs folded up along the column. Folded, the table cannot stand on
-//         its own (it would balance on the column end), so on its own it leans back against a VISIBLE wall
-//         (a light studio flat a shade darker than the floor, tight cove, rig.wallTone): its column end
-//         stands on the floor, the blad's rim rests against the wall; both touch points carry contact
-//         shadows (engine wall catcher). lean: false gives the bare folded table upright (trolley loads).
+// folded: true -> blad tilted vertical, legs folded up parallel to the column: one flat package. Folded, the table
+//         cannot stand on its own (it would balance on the column end), so it leans back against the catalogue's
+//         seamless sweep (backdrop tone, soft cove, no corner line): its column end stands on the floor, the
+//         blad's upper rim rests against the sweep. leanFace 'wall' (default): the blad's face against the sweep,
+//         the mechanism to the room, so the camera sees what the package is (pale birch underside with its cross
+//         bars, tilt bracket, column, the four legs folded flat along it); 'room' turns the birch face out. The
+//         set (package + sweep) is turned by leanView (deg, default -14 / -28 for 'room') so the hero camera sees
+//         the package at three-quarters from the side, at the open table's scale (view hint refPoints: the
+//         camera distance that frames the open table). lean: false gives the bare folded table upright
+//         (trolley loads).
+// footAngle: default 45 deg for every variant (bare, covered, folded): the same table shows the same base in
+//         every image, one foot towards the hero camera.
 // noTop: true -> onderstel only (no blad; the cross bracket and hinge stay), for spare-part shots.
 //
 // Detail views (angle 'detail' / 'detail-<name>'): klap base 'detail' = the folding mechanism (sliding
@@ -70,16 +77,19 @@ const TAU = Math.PI * 2;
 
 // Birch veneer of the statafel blad: one physically scaled rotary-cut face (upholstery2.birchPly,
 // 0.9 m tile = one blad, grain lines ~4 mm apart, low contrast), a clear face without pin knots (at
-// catalogue size they read as dirt specks), under a satin lacquer: clearcoat 0.72 / 0.15, so the studio's
+// catalogue size they read as dirt specks), under a satin lacquer: clearcoat 0.32 / 0.28, so the studio's
 // soft back sheet shows as a lacquer sheen over the far half of the top.
 const BIRCH_KNOTS = [];
+const BIRCH_EXPOSURE = 0.75;
 const _lacq = new Map();
 export function birchTopFace(seed = 5) {
   const m = U.birchPly({ seed, clean: true, knots: BIRCH_KNOTS });
   if (!_lacq.has(m)) {
     const c = m.clone();
-    c.roughness = 0.42; c.clearcoat = 0.72; c.clearcoatRoughness = 0.15; c.name = 'birch plywood face (lacquered statafel top)';
-    c.userData = { ...m.userData, envSpec: 0.7 };
+    // satin (not gloss) lacquer: a broad soft sheen that leaves the grain and the wood's colour readable (a
+    // stronger coat mirrored the studio's back sheet over the whole top as a pale laminate-like film)
+    c.roughness = 0.48; c.clearcoat = 0.32; c.clearcoatRoughness = 0.28; c.name = 'birch plywood face (lacquered statafel top)';
+    c.userData = { ...m.userData, envSpec: 0.55 };
     _lacq.set(m, c);
   }
   return _lacq.get(m);
@@ -182,6 +192,7 @@ function starKnob(c, n, { R0 = 0.016, lobe = 0.0045, th = 0.013, lobes = 6 } = {
 export function statafel(p = {}) {
   const shape = (p.shape || 'round').toLowerCase();
   if (shape === 'square' || shape === 'rect') return statafelSquare(p, shape);
+  // round 5: one base orientation for every variant (45 deg, a foot towards the hero camera), bare or covered
   const S = statafelDims(p);
   const { R, H, T, top } = S;
   const folded = !!p.folded;
@@ -227,7 +238,9 @@ export function statafel(p = {}) {
     const face = birchTopFace(5), under = birchTopFace(11);
     const f1 = G.prism(G.circleProfile(R - 0.0025, 192), V3(0, -0.0006, 0), V3(0, 0, 0), { caps: true });
     const f2 = G.prism(G.circleProfile(R - 0.0025, 192), V3(0, -T, 0), V3(0, -T + 0.0006, 0), { caps: true });
-    U.planarUV(f1, { rot: 0.35 }); U.planarUV(f2, { rot: 1.2 });
+    // grain of the face running roughly front-to-back from the hero camera (lines across the view would be
+    // foreshortened to sub-pixel spacing and the top would read as plain laminate)
+    U.planarUV(f1, { rot: -0.85 }); U.planarUV(f2, { rot: 1.2 });
     topBins.add(face, f1); topBins.add(under, f2);
     topBins.add(M.birchEdge(), roundedDiscEdge(R, T, 0.0025));
   }
@@ -320,7 +333,8 @@ export function statafel(p = {}) {
     const hubY = S.hubY;
     const hubR = S.colR + 0.008;
     bins.add(frame, G.tube(V3(0, hubY - 0.04, 0), V3(0, hubY + 0.035, 0), hubR, 40));
-    const legAng = folded ? 86 * DEG : S.legAng0;
+    // folded: the legs lie parallel to the column (a flat, even bundle)
+    const legAng = folded ? 89 * DEG : S.legAng0;
     const aS = S.legLen * 0.45, eS = 0.021;         // strut pin on the leg: along / above the leg axis
     const collarR = S.colR + 0.005, rcp = collarR + 0.015;
     // strut length from the open geometry (collar pin at S.collarY)
@@ -397,13 +411,15 @@ export function statafel(p = {}) {
   bins.build(group);
   if (!folded) {
     probes.top = [[Math.sin(34 * DEG) * 0.12, H + 0.0002, Math.cos(34 * DEG) * 0.12], [Math.sin(10 * DEG) * 0.25, H + 0.0002, Math.cos(10 * DEG) * 0.25]];
+    probes.topRing = Array.from({ length: 32 }, (_, i) => [Math.sin((i / 32) * TAU) * R * 0.85, H + 0.0002, Math.cos((i / 32) * TAU) * R * 0.85]);
     probes.floorOpen = [[Math.sin(-30 * DEG) * 0.75, 0.001, Math.cos(-30 * DEG) * 0.75]];
   }
 
   const det = S.base === 'klap' ? klapDetails(S) : {};
   const view = {};
   let rig = L.statafelRig({ albedoL: top === 'berken' || top === 'hout' ? 0.55 : top.startsWith('hdpe') || top === 'wit' ? 0.75 : 0.12 });
-  if (top === 'berken' || top === 'hout') { rig.default.exposure = 0.975; }
+  // birch: the same exposure as the folded table (one SKU, one wood colour in every image)
+  if (top === 'berken' || top === 'hout') { rig.default.exposure = BIRCH_EXPOSURE; }
   if (S.base === 'klap') {
     // bare frame: the studio gets its back sheet and strip boxes (statafelLook.STATAFEL_ENV_KAAL) so the
     // lacquered top and the black powder coat carry soft reflections, and the floor shadow of the big
@@ -411,13 +427,19 @@ export function statafel(p = {}) {
     // soft shadow; contact occlusion reaches up the 3-8 cm the legs float above the floor, with a dark
     // line at each glide
     rig.default.envStudio = L.STATAFEL_ENV_KAAL;
-    rig.default.floorKey = { azimuth: -20, elevation: 80, cone: 6 };
-    rig.default.keyShadow = 0.55;
+    // floor shadow from almost straight overhead: the pool sits under the frame, not off to the back right
+    rig.default.floorKey = { azimuth: -20, elevation: 86, cone: 6 };
+    rig.default.keyShadow = 0.45;
+    // the white floor lights the underside of the blad (it sees the lit sweep round its own shadow): a steep
+    // floor bounce keeps the same birch reading as pale wood in shade from below (detail-scharnier), not as a
+    // dark olive board
+    rig.default.bounce = { azimuth: 0, elevation: -62, intensity: 1.8 };
     // more sky directions and less blur than the covers: thin legs keep a defined shadow instead of being
     // smeared into the pool (160 directions keep the discrete copies of the legs from showing)
     rig.default.groundAO = { ...rig.default.groundAO, samples: 160, keySamples: 128, sigma: 0.004, blur: 1.0 };
-    rig.default.contact = { strength: 0.75, h0: 0.02, res: 1024, blur: 1.8, wide: { strength: 0.65, h0: 0.08, sigma: 0.006 } };
-    rig.detail = { ...rig.detail, contact: { strength: 0.75, h0: 0.02, res: 1024, blur: 1.5, wide: { strength: 0.65, h0: 0.08, sigma: 0.005 } } };
+    // crisp contact under each foot glide (sole on the floor: dark, tight), a soft halo a few cm round it
+    rig.default.contact = { strength: 0.9, h0: 0.008, res: 1024, blur: 1.0, wide: { strength: 0.55, h0: 0.05, sigma: 0.005 } };
+    rig.detail = { ...rig.detail, contact: { strength: 0.9, h0: 0.008, res: 1024, blur: 1.0, wide: { strength: 0.55, h0: 0.05, sigma: 0.004 } } };
   }
   let meta = { D: S.D, H, top, base: S.base, folded, probes };
   let object = group;
@@ -432,17 +454,18 @@ export function statafel(p = {}) {
       object = res.object;
       Object.assign(view, res.view);
       rig = L.statafelRig({ albedoL: 0.45 });
-      rig.default.exposure = 0.8;
+      // the vertical blad faces away from the overhead box: a touch more exposure brings its birch to the
+      // same colour as the open table's top (one SKU, one wood)
+      rig.default.exposure = BIRCH_EXPOSURE * 1.07;
       // one high overhead box: the wall shadow and the floor shadow come from the same light
       rig.default.key = { azimuth: -32, elevation: 56, intensity: 2.1, cone: 18, mapSize: 2048, radius: 2.5 };
       rig.default.floorKey = null;
       rig.default.wallAmbient = 0.42;
       // baked studio sweep (engine _bakeWall): uniform hemisphere samples, cove-weighted floor + wall
       rig.default.groundAO = { ...rig.default.groundAO, samples: 160, wallSamples: 160, wallRes: 512 };
-      // a VISIBLE wall (a light studio flat a shade darker than the floor, with a tight cove): the table
-      // reads as leaning against something real, its shadow lands on a surface the buyer can see
-      rig.default.cove = 0.03;
-      rig.default.wallTone = { base: 0.925, top: 0.035, height: 1.6 };
+      // the wall is the catalogue's own seamless sweep (backdrop tone, a soft 35 cm cove, no corner line):
+      // only the table's shadow on it shows that it leans; same backdrop and margins as every other hero
+      rig.default.cove = 0.35;
       rig.default.envStudio = L.STATAFEL_ENV_KAAL;
       meta = { ...meta, contacts: res.contacts };
     }
@@ -475,18 +498,24 @@ function klapDetails(S) {
   };
 }
 
-// Folded table leaning back against a visible studio wall. The table is turned (yaw) so the camera
-// sees the mechanism side at three-quarters (column, folded legs, hinge cheeks, lock knob) in
-// front of the blad, whose rim rests against the sweep; the column end stands on the floor.
+// Folded table leaning back against the seamless sweep: blad vertical, its birch face to the front of the set,
+// the column and the folded leg bundle behind and below it; the blad's upper rim rests against the sweep, the
+// column end stands on the floor (a small tilt about the wall line, no yaw relative to the wall: one flat
+// package). The whole set (package + sweep) is then turned by leanView (deg) so the hero camera sees the
+// package at three-quarters from the side: the birch face foreshortened, its ply edge and the package depth,
+// the column with the four legs folded flat along it.
 // Adds an invisible wall catcher (userData.catcher) that the engine renders as backdrop + shadows.
 function leanAgainstSweep(group, S, p) {
-  const yaw = Number(p.leanYaw ?? 8) * DEG, tilt = Number(p.leanTilt ?? 11) * DEG;
+  const yaw = Number(p.leanYaw ?? 0) * DEG, tilt = Number(p.leanTilt ?? 9) * DEG;
   const holder = new THREE.Group();
   holder.name = group.name + ' leaning';
   const inner = new THREE.Group();
   inner.add(group);
-  // blad face to the sweep (-z), mechanism to the camera
-  inner.rotation.y = Math.PI + yaw;
+  // leanFace 'wall' (default): the blad's face rests against the sweep and the mechanism faces the room: the
+  // camera sees what the package is (the pale birch underside with its cross bars, the tilt bracket, the column
+  // with the four legs folded flat along it). leanFace 'room': the birch face to the room, mechanism hidden.
+  const faceWall = (p.leanFace ?? 'wall') === 'wall';
+  inner.rotation.y = yaw + (faceWall ? Math.PI : 0);
   const tiltG = new THREE.Group(); tiltG.add(inner); tiltG.rotation.x = -tilt;
   holder.add(tiltG);
   holder.updateMatrixWorld(true);
@@ -496,27 +525,39 @@ function leanAgainstSweep(group, S, p) {
   holder.traverse((o) => {
     if (!o.isMesh) return;
     const pos = o.geometry.attributes.position;
-    for (let i = 0; i < pos.count; i += 3) { v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld); pts.push(v.clone()); }
+    for (let i = 0; i < pos.count; i++) { v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld); pts.push(v.clone()); }
   });
   let minY = Infinity, minZ = Infinity, floorPt = null, wallPt = null;
   for (const q of pts) { if (q.y < minY) { minY = q.y; floorPt = q; } if (q.z < minZ) { minZ = q.z; wallPt = q; } }
   tiltG.position.y -= minY;
   floorPt = floorPt.clone().setY(0); wallPt = wallPt.clone().setY(wallPt.y - minY);
-  // centre the footprint on x
-  const shiftX = -(floorPt.x + wallPt.x) / 2;
+  // centre the footprint on x and z (the package, not the wall, sits at the origin)
+  const shiftX = -(floorPt.x + wallPt.x) / 2, shiftZ = -(floorPt.z + wallPt.z) / 2;
   tiltG.position.x += shiftX; floorPt.x += shiftX; wallPt.x += shiftX;
-  const zWall = minZ - 0.0004;
+  tiltG.position.z += shiftZ; floorPt.z += shiftZ; wallPt.z += shiftZ;
+  const zWall = minZ + shiftZ - 0.0004;
   const wall = new THREE.Mesh(new THREE.PlaneGeometry(8, 4).translate(0, 2, 0), new THREE.MeshBasicMaterial({ color: '#ffffff' }));
   wall.position.set(0, 0, zWall);
   wall.userData = { catcher: true, noFrame: true, contacts: [[wallPt.x, wallPt.y, zWall, 0.05]] };
   wall.castShadow = false; wall.receiveShadow = true; wall.name = 'sweep (shadow catcher)';
   holder.add(wall);
+  // three-quarter view of the package: turn the whole set
+  const view3q = Number(p.leanView ?? (faceWall ? -14 : -28)) * DEG;
+  const outer = new THREE.Group(); outer.name = holder.name + ' (3/4)';
+  outer.add(holder); holder.rotation.y = view3q;
+  const rotP = (q) => new THREE.Vector3(...q).applyAxisAngle(new THREE.Vector3(0, 1, 0), view3q).toArray();
+  // the open table's framing points (rim of the blad, the four foot glides): the folded hero is shot from the
+  // same distance as the open hero (one pixels-per-metre scale for the SKU)
+  const refPoints = [];
+  for (let i = 0; i < 48; i++) { const a = (i / 48) * TAU; for (const y of [S.H, S.H - S.T]) refPoints.push([Math.sin(a) * S.R, y, Math.cos(a) * S.R]); }
+  for (const [, , a] of S.feet) {
+    const out = [Math.sin(a), Math.cos(a)], side = [Math.cos(a), -Math.sin(a)];
+    for (const rr of [S.cap.c - S.cap.L / 2, S.cap.c + S.cap.L / 2]) for (const w of [-S.cap.W / 2, S.cap.W / 2]) for (const y of [0, S.cap.H]) refPoints.push([out[0] * rr + side[0] * w, y, out[1] * rr + side[1] * w]);
+  }
   return {
-    object: holder,
-    contacts: { floor: floorPt.toArray(), wall: wallPt.toArray() },
-    // hero from further round (the blad as an ellipse, column and folded legs in front of it: the mass
-    // reads as one leaning package, the wall recedes so its corner with the floor shows the lean)
-    view: { hero: { azimuth: 52, elevation: 12, fill: 0.84 }, front: { azimuth: 0, elevation: 6 }, side: { azimuth: 90, elevation: 6 } },
+    object: outer,
+    contacts: { floor: rotP(floorPt.toArray()), wall: rotP(wallPt.toArray()) },
+    view: { hero: { azimuth: 34, elevation: 17, refPoints }, front: { azimuth: 0, elevation: 6, refPoints }, side: { azimuth: 90, elevation: 6, refPoints } },
   };
 }
 

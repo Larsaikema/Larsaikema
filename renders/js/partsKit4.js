@@ -135,23 +135,40 @@ export function wallPlug(bins, mat, { D = 0.01, L = 0.05 } = {}) {
   bins.add(mat, K.lathe(prof, 28).rotateZ(-Math.PI / 2).translate(0, r * 1.25, 0));
   // anti-rotation fins
   for (const s of [-1, 1]) { const f = G.roundedBox(0.012, 0.0018, 0.0024, 0.0006); f.translate(0.012, r * 1.25 + s * 0.0, s * (r + 0.0006)); bins.add(mat, f); }
-  // expansion slot (dark) along the legs
-  const dark = K.cached('pk4-slot', () => new THREE.MeshStandardMaterial({ color: '#2A2824', roughness: 0.9, name: 'plug slot' }));
-  const sl = G.roundedBox(L * 0.55, 0.0009, 0.0012, 0.0003); sl.translate(L * 0.66, r * 2.2, 0); bins.add(dark, sl);
+  // (round 5: no dark slot strip on top: at catalogue size it read as black stripes)
 }
 
-// open-body turnbuckle, hook + eye, lying flat along +X centred at the origin (M8 RVS)
+// open-body turnbuckle, hook + eye, lying flat along +X centred at the origin (M8 RVS).
+// Round 5: the forged body is one closed frame: each side bar starts inside one end boss, bows
+// out and runs into the other boss (the round-4 bars ended at the boss surfaces and read as
+// detached, one overlapping a boss and stopping short of the other). Bosses are hexagon-ish
+// forged blocks a little fatter than the bars; everything lies at one height on the floor.
 export function turnbuckle(bins, mats, { M = 0.008, body = 0.11 } = {}) {
-  const r = M / 2, yc = r + 0.0035;
+  const r = M / 2, bw = 0.0034;               // rod radius, side bar radius
   const half = body / 2;
-  // two threaded end bosses joined by two side bars (flat-lay: side bars in the floor plane)
+  const Rb = r + 0.0042;                       // boss radius
+  const yc = Rb;                               // everything centred on the boss axis, boss on the floor
+  const bossL = 0.014;
   for (const s of [-1, 1]) {
-    bins.add(mats.metal, K.lathe([[0.0001, 0], [r + 0.0032, 0], [r + 0.0038, 0.0015], [r + 0.0038, 0.011], [r + 0.0032, 0.0125], [0.0001, 0.0125]], 24).rotateZ(-Math.PI / 2).translate(s > 0 ? half - 0.0125 : -half, yc, 0));
+    const x0 = s > 0 ? half - bossL : -half;
+    const g = K.lathe([[0.0001, 0], [Rb - 0.0012, 0], [Rb, 0.0012], [Rb, bossL - 0.0012], [Rb - 0.0012, bossL], [0.0001, bossL]], 6);
+    g.rotateY(Math.PI / 6);
+    g.rotateZ(-Math.PI / 2); g.translate(x0, yc, 0);
+    bins.add(mats.metal, g);
   }
+  // side bars: one continuous path per side from boss centre to boss centre, flattened oval section
+  const W = r + 0.0085;                        // half width of the frame window at the middle
   for (const s of [-1, 1]) {
     const pts = [];
-    for (let i = 0; i <= 30; i++) { const t = i / 30, x = -half + 0.008 + (body - 0.016) * t; const bow = Math.sin(Math.PI * t); pts.push(V3(x, yc, s * (r + 0.004 + 0.007 * Math.pow(bow, 0.5)))); }
-    bins.add(mats.metal, bar(pts, 0.0032, 14));
+    const xa = -half + bossL * 0.5, xb = half - bossL * 0.5;
+    for (let i = 0; i <= 48; i++) {
+      const t = i / 48, x = xa + (xb - xa) * t;
+      // leaves the boss at its edge and bows out (smooth shoulder), flat in the middle
+      const e = Math.min(1, Math.min(x - xa, xb - x) / 0.016);
+      const bow = Math.sin((Math.PI / 2) * e);
+      pts.push(V3(x, yc, s * (Rb * 0.45 + (W - Rb * 0.45) * bow)));
+    }
+    bins.add(mats.metal, K.sweep(pts, K.circle(bw, 16).map(([a, b]) => [a, b * 0.85]), { up: V3(0, 1, 0) }));
   }
   // threaded rods out of both ends
   for (const s of [-1, 1]) {

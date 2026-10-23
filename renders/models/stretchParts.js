@@ -27,6 +27,7 @@ import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
 import * as L3 from '../js/partsLook3.js';
 import * as K4 from '../js/partsKit4.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -148,45 +149,78 @@ export function stretchParts(p = {}) {
   }
   if (parts.includes('touwenset')) {
     const sub = new G.PartBin();
-    // three 10 mm 3-strand twisted ropes, each with an eye splice round the stainless ring and
-    // an eye splice through the eye of a stainless snap hook; laid out as a fan
+    // Round 5: three 10 mm 3-strand ropes, each ONE continuous rope: its tail lies alongside the
+    // standing part at the ring, the eye goes round the ring wire (the ring rests on the three
+    // eyes), the rope runs out to a stainless DIN 5299 carabiner with a spring gate (K4.snapHook,
+    // no more open J-hooks), round the carabiner's eye and back alongside itself; both tail ends
+    // sit inside a black heat-shrink sleeve that binds tail and standing part (no open rope ends).
     const rope = L3.ropeMat('#2A2C2F');
-    const rr = 0.005;
-    const ringC = V3(0, 0.0046, 0), RR = 0.032;
-    const ring = new THREE.TorusGeometry(RR, 0.0046, 16, 56); ring.rotateX(Math.PI / 2); ring.translate(ringC.x, ringC.y, ringC.z); sub.add(mats.ss, ring);
-    // eye splice: the rope comes in along `dir` to the eye point, wraps round a bar (centre c,
-    // radius rb, in the floor plane) and runs back alongside itself for `tail` m, tapering
-    const eyeSplice = (eye, dir, rb, tail, seed) => {
-      const side = V3(-dir.z, 0, dir.x);
-      const pts = [];
-      const c = eye.clone().addScaledVector(dir, rb + rr);
-      for (let k = 0; k <= 16; k++) { const a = Math.PI + (k / 16) * Math.PI; pts.push(c.clone().addScaledVector(dir, Math.cos(a) * (rb + rr) * -1).addScaledVector(side, Math.sin(a) * (rb + rr)).setY(rr)); }
-      const back = pts[pts.length - 1];
-      for (let k = 1; k <= 12; k++) pts.push(back.clone().addScaledVector(dir, -tail * (k / 12)).addScaledVector(side, -rr * 1.6 * Math.min(1, k / 3)).setY(rr + 0.003 * Math.min(1, k / 4)));
-      return pts;
+    const sleeveM = SG.moulded('#141516', { rough: 0.5, spec: 0.5 });
+    const rr = 0.005, wr = 0.0046, RR = 0.032;
+    const yc = wr + 2 * rr - 0.0006;           // ring wire centre: resting on the rope eyes
+    const ringC = V3(0, yc, 0);
+    const ring = new THREE.TorusGeometry(RR, wr, 16, 64); ring.rotateX(Math.PI / 2); ring.translate(0, yc, 0); sub.add(mats.ss, ring);
+    // flattened capsule along a floor line from A to B (black heat-shrink over tail + standing part)
+    const sleeve = (A, B, w, sd) => {
+      const L = A.distanceTo(B);
+      const g = K.lathe([[0.0001, 0], [w * 0.75, 0.001], [w, 0.0045], [w, L - 0.0045], [w * 0.75, L - 0.001], [0.0001, L]], 28);
+      g.scale(1, 1, (rr * 1.12) / w);
+      const d = B.clone().sub(A).normalize();
+      // lathe: x across (sd), y along (d), z up (squashed); sd x d = up (right-handed)
+      g.applyMatrix4(new THREE.Matrix4().makeBasis(sd, d, V3().crossVectors(sd, d)).setPosition(A));
+      return g;
     };
-    [-36, 0, 36].forEach((ang, i) => {
-      const a = (ang - 90) * DEG; // fan towards -z (back)
-      const d = V3(Math.cos(a), 0, Math.sin(a));
-      const side = V3(-d.z, 0, d.x);
-      const L = 0.4 + (i === 1 ? 0.05 : 0);
-      const start = ringC.clone().addScaledVector(d, RR).setY(rr);
-      const end = ringC.clone().addScaledVector(d, L).setY(rr);
-      // main rope with a gentle lie (not ruler-straight)
-      const ctrl = [start.clone().addScaledVector(d, 0.03), ringC.clone().addScaledVector(d, L * 0.35).addScaledVector(side, (i - 1) * 0.012 + 0.008).setY(rr), ringC.clone().addScaledVector(d, L * 0.7).addScaledVector(side, -0.01).setY(rr), end.clone().addScaledVector(d, -0.06)];
-      const main = K.smoothPath(ctrl, 80);
-      sub.add(rope, L3.ropeGeo(main, rr, { phase: i * 1.3, up: V3(0, 1, 0) }));
-      // splice round the ring and round the snap hook's eye
-      const sp1 = eyeSplice(start.clone().addScaledVector(d, 0.0), d.clone().negate(), 0.0046, 0.07, i);
-      sub.add(rope, L3.ropeGeo(K.smoothPath([main[0], ...sp1.slice().reverse().map((q) => q)].reverse(), 60), rr * 0.97, { phase: i * 0.7 + 0.4, up: V3(0, 1, 0) }));
-      const sp2 = eyeSplice(end.clone().addScaledVector(d, -0.004), d, 0.0045, 0.075, i + 7);
-      sub.add(rope, L3.ropeGeo(K.smoothPath([main[main.length - 1], ...sp2], 60), rr * 0.97, { phase: i * 0.9 + 1.1, up: V3(0, 1, 0) }));
-      // whipping where the tails end
-      for (const sp of [sp1, sp2]) { const q = sp[sp.length - 1], qq = sp[sp.length - 3]; const T = q.clone().sub(qq).normalize(); sub.add(L3.ropeMat('#141516'), G.tube(q.clone().addScaledVector(T, -0.012), q.clone().addScaledVector(T, 0.004), rr * 1.55, 16)); }
-      // snap hook: its eye where the splice turns
-      const hk = snapHookGeo();
-      hk.applyMatrix4(new THREE.Matrix4().makeBasis(d, V3(0, 1, 0), V3().crossVectors(d, V3(0, 1, 0))).setPosition(end.clone().addScaledVector(d, 0.006).setY(0)));
-      sub.add(mats.ss, hk);
+    [-38, 0, 38].forEach((ang, i) => {
+      const a = (ang - 90) * DEG;
+      const d = V3(Math.cos(a), 0, Math.sin(a)), up = V3(0, 1, 0);
+      const sd = V3(-d.z, 0, d.x);
+      const Lr = 0.42 + (i === 1 ? 0.04 : 0);
+      const Pr = ringC.clone().addScaledVector(d, RR);           // ring wire where the eye wraps it
+      const R0 = wr + rr;
+      const yb = rr;
+      const oT = 1.75 * rr, oS = -0.35 * rr;                     // sideways offsets: tail, standing part
+      const tail = 0.075;
+      const pts = [];
+      // ring end: tail on the floor beside the standing part, in under the wire, up inside the
+      // ring, over the top, down the outside
+      for (let k = 0; k <= 14; k++) pts.push(Pr.clone().addScaledVector(d, R0 + tail * (1 - k / 14)).addScaledVector(sd, oT).setY(yb));
+      for (let k = 1; k <= 30; k++) {
+        const t = k / 30, ph = -Math.PI / 2 - t * Math.PI * 1.5;
+        pts.push(Pr.clone().addScaledVector(d, Math.cos(ph) * R0).addScaledVector(up, Math.sin(ph) * R0).addScaledVector(sd, oT + (oS - oT) * K.sstep(0, 1, t)));
+      }
+      // standing part: down to the floor and out to the carabiner with a gentle lie
+      const out0 = pts[pts.length - 1];
+      const hookE = ringC.clone().addScaledVector(d, Lr).setY(0);
+      const hwr = 0.0035, hy = hwr + 2 * rr - 0.0006, R1 = hwr + rr;
+      const Ph = hookE.clone().setY(hy);
+      const ctrl = [out0, Pr.clone().addScaledVector(d, R0 + 0.035).addScaledVector(sd, oS).setY(yb),
+        ringC.clone().addScaledVector(d, Lr * 0.45).addScaledVector(sd, oS + (i - 1) * 0.008 + 0.005).setY(yb),
+        ringC.clone().addScaledVector(d, Lr * 0.75).addScaledVector(sd, oS - 0.006).setY(yb),
+        Ph.clone().addScaledVector(d, -tail - 0.02).addScaledVector(sd, oS).setY(yb),
+        Ph.clone().addScaledVector(d, -0.012).addScaledVector(sd, oS).setY(yb)];
+      pts.push(...K.smoothPath(ctrl, 110).slice(1));
+      // carabiner end: under the eye wire, up inside the eye, over the top, down and back as the tail
+      for (let k = 0; k <= 30; k++) {
+        const t = k / 30, ph = -Math.PI / 2 + t * Math.PI * 1.62;
+        pts.push(Ph.clone().addScaledVector(d, Math.cos(ph) * R1).addScaledVector(up, Math.sin(ph) * R1).addScaledVector(sd, oS + (oT - oS) * K.sstep(0, 1, t)));
+      }
+      const t0 = pts[pts.length - 1];
+      for (let k = 1; k <= 14; k++) pts.push(Ph.clone().addScaledVector(d, -R1 - 0.01 - tail * (k / 14)).addScaledVector(sd, oT).setY(yb + (t0.y - yb) * Math.max(0, 1 - k / 3)));
+      sub.add(rope, L3.ropeGeo(K.smoothPath(pts, 560), rr, { phase: i * 1.3, up: V3(0, 1, 0) }));
+      // sleeves over both tail ends
+      const mid = (oT + oS) / 2;
+      const ringTailEnd = Pr.clone().addScaledVector(d, R0 + tail).addScaledVector(sd, mid).setY(yb);
+      sub.add(sleeveM, sleeve(ringTailEnd.clone().addScaledVector(d, 0.006), ringTailEnd.clone().addScaledVector(d, -0.026), rr * 2.2, sd.clone().negate()));
+      const hookTailEnd = Ph.clone().addScaledVector(d, -R1 - 0.01 - tail).addScaledVector(sd, mid).setY(yb);
+      sub.add(sleeveM, sleeve(hookTailEnd.clone().addScaledVector(d, -0.006), hookTailEnd.clone().addScaledVector(d, 0.026), rr * 2.2, sd));
+      // the carabiner (DIN 5299 with spring gate): eye wire at Ph, resting on the rope eye, nose
+      // tipped down onto the floor
+      const hk = new G.PartBin();
+      K4.snapHook(hk, { metal: mats.ss }, { L: 0.09, d: 2 * hwr });
+      const tilt = Math.atan2(hy - hwr, 0.085);
+      const Mh = new THREE.Matrix4().makeBasis(d, up, V3().crossVectors(d, up)).multiply(new THREE.Matrix4().makeRotationZ(-tilt));
+      Mh.setPosition(Ph.x, hy - hwr, Ph.z);
+      for (const [m, list] of hk.bins) for (const g of list) { g.applyMatrix4(Mh); sub.add(m, g); }
     });
     place(sub, new THREE.Matrix4().makeRotationY(28 * DEG).setPosition(0.12, 0, 0.12));
   }
@@ -320,14 +354,23 @@ export function stretchParts(p = {}) {
         }
         yaw = 12; view.hero = { elevation: 30 };
       } else if (name === 'haak') {
-        // four galvanised S-hooks (10 mm bar, 12 cm), side by side
+        // four galvanised S-hooks (10 mm bar, 12 cm) side by side, long axis towards the camera,
+        // alternately mirrored, spaced by their measured width (round 4 ran them through each other)
+        let x = 0; const hooks = [];
         for (let k = 0; k < 4; k++) {
           const g = K4.sHook(0.01, 0.12, { open: 26 });
-          g.rotateY(((k % 2) ? 0.06 : -0.04));
-          g.translate((k - 1.5) * 0.068, 0, (k % 2) * 0.01);
-          sub.add(galv, g);
+          g.computeBoundingBox();
+          const bb = g.boundingBox;
+          if (bb.max.x - bb.min.x > bb.max.z - bb.min.z) g.rotateY(Math.PI / 2);
+          if (k % 2) g.rotateY(Math.PI);
+          g.computeBoundingBox();
+          const w = g.boundingBox.max.x - g.boundingBox.min.x;
+          g.translate(x - g.boundingBox.min.x, 0, (k % 2) * 0.008);
+          x += w + 0.022;
+          hooks.push(g);
         }
-        yaw = across; view.hero = { elevation: 40 };
+        for (const g of hooks) { g.translate(-(x - 0.022) / 2, 0, 0); sub.add(galv, g); }
+        yaw = across; view.hero = { elevation: 52 };
       } else if (name === 'spanschroef') {
         K4.turnbuckle(sub, { metal: ss }, { M: 0.008, body: 0.11 });
         yaw = across;
@@ -375,7 +418,7 @@ export function stretchParts(p = {}) {
     object: g,
     detail: { target: [-0.1, 0.02, 0.08], size: 0.25, azimuth: 30, elevation: 35 },
     view,
-    rig: { default: { contact: { strength: 0.85, h0: 0.005, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+    rig: L5.flatLayRig(),
     meta: { parts },
   };
 }

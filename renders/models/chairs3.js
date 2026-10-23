@@ -325,43 +325,99 @@ function plasticChair(p) {
 }
 
 // ------------------------------------------------------------------ polycarbonaat medaillonstoel
-function ghostMaterial(tint = '#76838A') {
-  const m = new THREE.MeshPhysicalMaterial({ color: tint, roughness: 0.05, metalness: 0, specularIntensity: 1.0, clearcoat: 1.0, clearcoatRoughness: 0.04, envMapIntensity: 1.4, side: THREE.DoubleSide, name: 'clear polycarbonate' });
-  // the engine's stochastic coverage (declares the frame-seeded hash) at 1.0, then our own Fresnel-weighted
-  // coverage: faces seen square-on stay clear (2 %), from ~68 deg off-axis the coverage ramps up to the outline
-  // (few samples then leave little grain on the faces). The tint is a cool mid
-  // grey: in clear PC the outlines read darker than the backdrop (refraction of the room), plus highlights
-  m.userData.stochasticAlpha = 1.0;
-  m.userData.albedoL = 0.35;
-  m.onBeforeCompile = (shader) => {
-    shader.fragmentShader = shader.fragmentShader.replace('#include <alphatest_fragment>', `#include <alphatest_fragment>
+// Clear polycarbonate (round 6). The round-5 stochastic coverage printed as a grainy pencil sketch at
+// preview sample counts. Now noise-free and analytic: the chair is opaque to the compositor but shows what
+// lies behind it. Per fragment the view ray is followed straight through (thin-wall approximation) to the
+// floor or the backdrop: backdrop colour x the floor shading under the chair (a soft Gaussian like the
+// baked floor shadow), x a transmission that falls from ~94 % face-on to ~55 % at grazing angles (the
+// outlines of clear PC read darker: longer path, total internal reflection), with a faint cool tint.
+// That target colour is pushed back through the engine's Khronos-neutral curve and exposure, so after
+// tone mapping the clear faces land exactly on the backdrop colour. On top: real clearcoat reflections
+// and highlights of the studio (diffuse = 0). `bg` must be the job's backdrop (catalogue Linnen #ECE4D6).
+export const CLEAR_EXPOSURE = 0.86;
+const CLEAR_GLSL_FN = `
+uniform vec3 uBgLin; uniform float uExpo; uniform vec4 uShC; uniform float uShK; uniform vec3 uTint; uniform vec2 uTr; uniform float uHid;
+varying vec3 vPcW;
+vec3 pcNeutral( vec3 color ) {
+  float x = min( color.r, min( color.g, color.b ) );
+  float offset = x < 0.08 ? x - 6.25 * x * x : 0.04;
+  color -= offset;
+  float peak = max( color.r, max( color.g, color.b ) );
+  if ( peak < 0.76 ) return color;
+  float d = 0.24; float newPeak = 1. - d * d / ( peak + d - 0.76 );
+  color *= newPeak / peak;
+  float g = 1. - 1. / ( 0.15 * ( peak - newPeak ) + 1. );
+  return mix( color, vec3( newPeak ), g );
+}
+`;
+function clearPC({ bg = '#ECE4D6', sheet = false, hidden = false } = {}) {
+  const key = `clearPC:${bg}:${sheet}:${hidden}`;
+  if (clearPC.cache && clearPC.cache[key]) return clearPC.cache[key];
+  const m = new THREE.MeshPhysicalMaterial({ color: '#000000', roughness: 0.05, metalness: 0, specularIntensity: 0.45, clearcoat: 0.35, clearcoatRoughness: 0.04, envMapIntensity: 0.4, emissive: '#ffffff', side: hidden ? THREE.FrontSide : THREE.DoubleSide, name: `clear polycarbonate (see-through${sheet ? ', sheet' : ''}${hidden ? ', behind' : ''})` });
+  if (hidden) { m.depthFunc = THREE.GreaterDepth; m.depthWrite = false; }
+  const bgLin = new THREE.Color(bg); // THREE.Color from hex is linear in r186 (colour management on)
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uBgLin = { value: new THREE.Vector3(bgLin.r, bgLin.g, bgLin.b) };
+    sh.uniforms.uExpo = { value: CLEAR_EXPOSURE };
+    sh.uniforms.uShC = { value: new THREE.Vector4(0, -0.02, 0.3, 0.32) }; // floor shadow centre x, z and radii
+    sh.uniforms.uShK = { value: 0.2 };
+    sh.uniforms.uTint = { value: new THREE.Vector3(0.86, 0.93, 1.0) };
+    sh.uniforms.uTr = { value: sheet ? new THREE.Vector2(0.87, 0.7) : new THREE.Vector2(0.86, 0.16) };
+    sh.uniforms.uHid = { value: hidden ? 0.88 : 1.0 };
+    sh.vertexShader = sh.vertexShader
+      .replace('void main() {', 'varying vec3 vPcW;\nvoid main() {')
+      .replace('#include <project_vertex>', '#include <project_vertex>\n  vPcW = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>\n${CLEAR_GLSL_FN}`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
   {
-    vec3 gnV = normalize( vNormal );
-    float gCos = abs( dot( gnV, normalize( vViewPosition ) ) );
-    float gA = smoothstep( 0.38, 0.03, gCos ) * 0.94 + 0.02;
-    if ( fract( stochHash( floor( gl_FragCoord.xy ) + 17.0 ) + uFrameSeed * 0.7548776662 ) > gA ) discard;
+    vec3 Vw = normalize( vPcW - cameraPosition );
+    float fl = 1.0;
+    if ( Vw.y < -0.001 ) {
+      float tt = - vPcW.y / Vw.y; vec2 hit = vPcW.xz + Vw.xz * tt;
+      vec2 dd = ( hit - uShC.xy ) / uShC.zw; fl = 1.0 - uShK * exp( - dot( dd, dd ) );
+    }
+    float ndv = abs( dot( normalize( vNormal ), normalize( vViewPosition ) ) );
+    float edge = smoothstep( 0.22, 0.9, 1.0 - ndv );
+    vec3 tr = mix( vec3( uTr.x ), uTint * uTr.y, edge );
+    vec3 target = uBgLin * fl * tr * uHid;
+    vec3 xx = target;
+    for ( int k = 0; k < 8; k ++ ) xx += target - pcNeutral( xx );
+    totalEmissiveRadiance = max( xx, vec3( 0.0 ) ) / uExpo;
   }`);
   };
-  m.customProgramCacheKey = () => 'ghostPC';
+  m.customProgramCacheKey = () => 'clearPC-v2';
+  m.userData.albedoL = 0.5;
+  clearPC.cache = { ...(clearPC.cache || {}), [key]: m };
   return m;
 }
 function polyChair(p) {
   const c = String(p.color || 'transparant').toLowerCase();
   const clear = p.translucent === true || c.includes('trans') || c === '#e9eef0';
-  const mat = clear ? ghostMaterial()
+  const sheetMat = clear ? clearPC({ sheet: true }) : null;
+  const mat = clear ? clearPC()
     : new THREE.MeshPhysicalMaterial({ color: c === 'zwart' ? '#141516' : c === 'wit' ? '#F2F2EE' : M.resolveColor(c, '#F2F2EE'), roughness: 0.16, specularIntensity: 0.7, clearcoat: 1.0, clearcoatRoughness: 0.08, side: THREE.DoubleSide, name: `polycarbonate ${c}` });
   const bins = new G.PartBin();
   const ySeat = 0.46, T = 0.05;
   // seat: cushion-shaped, slightly wider at the front
   const seat = F.cushion(0.46, T, 0.43, { r: 0.022, puff: 0.006, seg: [28, 6, 28], taper: 0.03 });
-  bins.add(mat, seat.translate(0, ySeat - T / 2, 0.01));
+  bins.add(sheetMat || mat, seat.translate(0, ySeat - T / 2, 0.01));
+  // medallion plane (see the back below), needed by the rear posts
+  const toWorldB = (x, y, z = 0) => { const rk = 12 * DEG; return V3(x, 0.73 + y * Math.cos(rk) + z * Math.sin(rk), -0.215 - y * Math.sin(rk) + z * Math.cos(rk)); };
   // front legs: tapered, rising past the seat into the arm supports
   for (const s of [-1, 1]) {
     const front = bez([V3(s * 0.212, 0.0, 0.205), V3(s * 0.205, 0.3, 0.2), V3(s * 0.2, 0.46, 0.19), V3(s * 0.225, 0.635, 0.16)], 20);
     bins.add(mat, taper(front, (t) => 0.0125 + 0.008 * Math.sin(Math.min(1, t * 1.6) * Math.PI / 2) - (t > 0.75 ? (t - 0.75) * 0.02 : 0)));
-    // sabre rear legs
-    const rear = bez([V3(s * 0.2, ySeat - 0.03, -0.16), V3(s * 0.205, 0.28, -0.2), V3(s * 0.215, 0.12, -0.25), V3(s * 0.222, 0.0, -0.285)], 18);
-    bins.add(mat, taper(rear, (t) => 0.02 - 0.008 * t));
+    // sabre rear legs (round 7): moulded on through the seat's rear corners into two short posts that carry the
+    // medallion at its lower flanks, as on the real chair (the round-6 back stood on one central neck, which in
+    // clear PC read as a medallion balanced on a stem)
+    const rear = bez([V3(s * 0.222, 0.0, -0.285), V3(s * 0.215, 0.12, -0.25), V3(s * 0.205, 0.28, -0.2), V3(s * 0.19, ySeat - 0.02, -0.168)], 18);
+    const t0 = -Math.PI / 2 + s * 0.78;
+    const top = toWorldB(0.17 * Math.cos(t0) * 1.02, 0.205 * Math.sin(t0) * 1.02);
+    const post = bez([V3(s * 0.19, ySeat - 0.02, -0.168), V3(s * 0.178, ySeat + 0.05, -0.174), top], 10);
+    const full = rear.concat(post.slice(1));
+    const nR = rear.length, nAll = full.length;
+    bins.add(mat, taper(full, (t) => { const k = t * (nAll - 1) / (nR - 1); return k <= 1 ? 0.02 - 0.007 * k : 0.013 - 0.002 * Math.min(1, (k - 1) * (nR - 1) / (nAll - nR)); }));
     // arm: from the front support, out and back into the medallion's side
     // (ends on the medallion's outer face, not through it)
     const arm = bez([V3(s * 0.225, 0.635, 0.16), V3(s * 0.262, 0.665, 0.02), V3(s * 0.24, 0.69, -0.13), V3(s * 0.186, 0.7, -0.205)], 22);
@@ -380,12 +436,19 @@ function polyChair(p) {
     const bow = 0.02 * (1 - (x / a) ** 2) * (1 - rr * rr * 0.3);
     o.copy(toWorld(x, y, -bow));
   }, 48, 8, { closedU: true });
-  bins.add(mat, panel);
-  // neck: from the seat's rear edge up into the oval's bottom
-  const neck = bez([V3(0, ySeat - 0.01, -0.185), V3(0, ySeat + 0.03, -0.19), toWorld(0, -b + 0.01)], 10);
-  bins.add(mat, taper(neck, (t) => 0.03 - 0.012 * t, 20));
+  bins.add(sheetMat || mat, panel);
+
   const g = new THREE.Group(); bins.build(g);
-  if (clear) g.traverse((m) => { if (m.isMesh) m.castShadow = true; });
+  if (clear) {
+    // what lies behind a clear part shows through it: a second, depth-inverted copy of every front face
+    // that is hidden behind another part, drawn a little darker (seen through two walls)
+    const meshes = []; g.traverse((m) => { if (m.isMesh) { m.castShadow = true; meshes.push(m); } });
+    for (const m of meshes) {
+      const h = new THREE.Mesh(m.geometry, clearPC({ sheet: m.material === sheetMat, hidden: true }));
+      h.renderOrder = 10; h.castShadow = false; h.receiveShadow = false; h.userData.noFrame = true;
+      g.add(h);
+    }
+  }
   return { object: g, seatY: ySeat, clear };
 }
 
@@ -456,11 +519,14 @@ export function chair3(style, p) {
     object,
     detail: p.folded ? { target: [0, 0.4, 0], size: 0.4, azimuth: 30, elevation: 10 } : { target: [0.12, info.seatY - 0.02, 0.17], size: 0.36, azimuth: 34, elevation: 18 },
     meta: { style: st, color: p.color, folded: !!p.folded, stack },
+    // clear PC (round 7): a more frontal hero, so both arms stand free beside the medallion instead of one of them
+    // crossing it (in a see-through chair that read as a missing arm and a medallion on one stem)
+    view: info.clear ? { hero: { azimuth: 12, elevation: 18 } } : undefined,
     rig: (() => {
       const r = S.seatRig(object);
       if (c === 'wit') r.default.exposure = Math.max(r.default.exposure, 0.84);
       // clear polycarbonate: expose for the backdrop and the highlights, not for a "mid grey" chair
-      if (info.clear) r.default.exposure = 0.86;
+      if (info.clear) r.default.exposure = CLEAR_EXPOSURE;
       return r;
     })(),
   };

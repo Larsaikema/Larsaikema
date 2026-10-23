@@ -32,7 +32,11 @@ export function canopyRoof(p = {}) {
   // low over the studio floor with its soft shadow under it (round 3 put it on a black frame,
   // which contradicted the product: the frame is not included)
   const loose = !!(p.roofPrint || p.canopyPrint) && !(p.roofPrint && p.roofPrint.note) && p.withFrame == null;
-  const keepFrame = p.withFrame !== false && !loose;
+  // round 6: the hovering loose roof read as "a rigid shell floating in mid-air". Like the plain
+  // dakzeil variants, the loose printed cover is now shown on the frame (frame not included), seen
+  // from higher up (30 deg) so the printed roof is the subject and the picture differs from the
+  // complete printed tent's hero (17 deg) and the 'op frame' shot (front left)
+  const keepFrame = p.withFrame !== false;
   // roof-only product on a frame (no 'note' = not the complete tent): seen from front-left, so it
   // never repeats the complete printed tent's hero
   const roofOnly = !(p.roofPrint && p.roofPrint.note) && !!(p.roofPrint || p.canopyPrint) && !!p.withFrame;
@@ -99,7 +103,8 @@ export function canopyRoof(p = {}) {
   if (keepFrame) {
     const rigs = { ...(res.rig || {}) };
     if (print && rigs.default) { rigs.default = { ...rigs.default, exposure: 'auto' }; delete rigs.default.toneMapping; delete rigs.default.shoulder; }
-    const view = roofOnly ? { ...(res.view || {}), hero: { ...((res.view || {}).hero || {}), azimuth: -34 } } : res.view;
+    const view = roofOnly ? { ...(res.view || {}), hero: { ...((res.view || {}).hero || {}), azimuth: -34 } }
+      : loose ? { ...(res.view || {}), hero: { ...((res.view || {}).hero || {}), azimuth: 34, elevation: 30 } } : res.view;
     return { ...res, object: root, rig: rigs, view, meta: { ...(res.meta || {}), w, d, print: !!print, withFrame: true } };
   }
   if (loose) {
@@ -144,102 +149,210 @@ function printAtlas() {
   return atlasTex;
 }
 
-// Folded cover (round 4; round 3's seven pillow-shaped layers read as "a stack of red rubber
-// mats"). The roof as it comes out of the bag, about 50 x 36 x 9 cm, built the way cloth is
-// folded: ONE thin sheet zig-zagged into 13 layers. Each layer is a thin, slightly crinkled
-// sheet with a little air under it; consecutive layers are joined alternately on the left and
-// the right by a soft U-shaped fold that bulges out a few millimetres, so the visible side shows
-// a column of loose rounded loops and the front shows the thin free edges of the sheets, like
-// the pages of a book, uneven and a little wavy. The top layer is the roof's outer face with
-// broad soft creases and a pressed diagonal fold, the valance hem with its double stitch runs
-// along the front. Default cloth: matte PU-coated polyester (the easy-up roof cloth).
+// Folded cover. Round 7 (art direction: "a flat stack of paper or felt sheets with razor-thin
+// edges and stray stitch lines, not a bulky folded 3 x 3 canopy"; round 4's single zig-zagged
+// sheet had 13 thin layers with free edges). A 3 x 3 m roof with its valance is ~11 m2 of
+// coated cloth: folded for the bag it is a bulky bundle of ~56 x 40 x 15 cm. Built as folded
+// cloth is: ten folded layers, each a soft slab ~1.2 cm thick whose every edge is a ROUND fold
+// (no free sheet edge anywhere in view), wavy in plan and in height, every layer a little
+// different in size and offset, the layers bedded on each other with a dark groove between them;
+// on the right side and on the front the layers pair up into thicker U-folds (the folds of the
+// last two folding steps), the top layer domes over the bundle like a cushion with broad soft
+// creases and a pressed cross fold. On top lies the folded valance (21 cm band) with its doubled
+// hem band and two stitch rows along its free edge (the stitches belong to that hem, nowhere
+// else), and two black velcro tabs (the frame straps on the inside of the roof) stick out between
+// the layers.
 function foldedRoof(p, hex) {
   const poly = !String(p.material || '').toLowerCase().startsWith('pvc');
   const fab = poly ? K.polyesterFabric(hex) : K.pvc(hex, { translucent: false });
   const thread = M.tentThread(hex);
+  const strapM = M.webbing('#151617');
   const bins = new G.PartBin();
   const group = new THREE.Group(); group.name = 'canopyRoof folded';
   const nz = makeNoise2(57);
-  const Lx = 0.5, Lz = 0.36, nL = 13;
-  // layer table: height, extents, offsets (every layer a little different)
-  const L = [];
-  let y = 0.0016;
+  const A = 0.28, B = 0.2, nL = 17;           // half size of the bundle in plan, layers
+  const TAU = Math.PI * 2;
+  // rounded-rectangle boundary in plan, by arc length u in [0,1): point + outward normal
+  const rrect = (a, b, rc, u) => {
+    const sa = 2 * (a - rc), sb = 2 * (b - rc), q = (Math.PI / 2) * rc;
+    const per = 2 * sa + 2 * sb + 4 * q;
+    let t = (((u % 1) + 1) % 1) * per;
+    // start at the middle of the front edge (+z), run towards +x
+    const segs = [
+      ['L', sa / 2, [0, b], [1, 0], [0, 1]], ['C', q, [a - rc, b - rc], Math.PI / 2, 0],
+      ['L', sb, [a, b - rc], [0, -1], [1, 0]], ['C', q, [a - rc, -(b - rc)], 0, -Math.PI / 2],
+      ['L', sa, [a - rc, -b], [-1, 0], [0, -1]], ['C', q, [-(a - rc), -(b - rc)], -Math.PI / 2, -Math.PI],
+      ['L', sb, [-a, -(b - rc)], [0, 1], [-1, 0]], ['C', q, [-(a - rc), b - rc], Math.PI, Math.PI / 2],
+      ['L', sa / 2, [-(a - rc), b], [1, 0], [0, 1]],
+    ];
+    for (const sg of segs) {
+      if (t <= sg[1] + 1e-9) {
+        if (sg[0] === 'L') return { x: sg[2][0] + sg[3][0] * t, z: sg[2][1] + sg[3][1] * t, nx: sg[4][0], nz: sg[4][1] };
+        const ang = sg[3] + (sg[4] - sg[3]) * (t / sg[1]);
+        return { x: sg[2][0] + rc * Math.cos(ang), z: sg[2][1] + rc * Math.sin(ang), nx: Math.cos(ang), nz: Math.sin(ang) };
+      }
+      t -= sg[1];
+    }
+    return { x: 0, z: b, nx: 0, nz: 1 };
+  };
+  // one folded layer: a slab whose edges are all round folds (Minkowski rounded rectangle),
+  // wavy edge in plan (wob) and in height (lift), a domed top
+  // noise along the closed edge, sampled on a circle so u = 0 and u = 1 meet without a step
+  const pn = (u, freq, a, b, oct = 3) => nz.fbm(Math.cos(TAU * u) * freq / TAU + a, Math.sin(TAU * u) * freq / TAU + b, oct);
+  const slab = (L) => {
+    const NU = 160, NT = 9, NR = 14, NBt = 3;
+    const rows = [];
+    const edge = (u) => {
+      const e = rrect(L.a, L.b, L.rc, u);
+      // corners: where two folds cross the cloth bunches, so every layer's corner splays out or
+      // tucks in on its own (a folded bundle never has four neat round corners)
+      let cs = 0;
+      for (let c = 0; c < 4; c++) {
+        const uc = [0.25 * (L.a / (L.a + L.b)), 0.5 - 0.25 * (L.a / (L.a + L.b)), 0.5 + 0.25 * (L.a / (L.a + L.b)), 1 - 0.25 * (L.a / (L.a + L.b))][c];
+        const du = ((((u - uc) % 1) + 1.5) % 1) - 0.5;
+        cs += L.corner[c] * Math.exp(-((du / 0.035) ** 2));
+      }
+      const w = L.wob * pn(u, 9, L.k * 3.7, L.k * 1.3) + L.pull * Math.exp(-((((((u - L.pu) % 1) + 1.5) % 1 - 0.5) / 0.05) ** 2)) + cs;
+      // the fold edge is never a ruled line: slow waves plus a fine crinkle (pressed PVC
+      // puckers along a fold every few cm)
+      const lift = L.lift * pn(u, 7, 11 + L.k, L.k * 2.1) + L.crink * pn(u, 70, L.k * 7.3, L.k * 1.9, 1);
+      const rr = L.rho * (1 + 0.22 * pn(u, 45, L.k * 3.1, 5.5 + L.k, 1));
+      return { x: L.cx + e.x + e.nx * w, z: L.cz + e.z + e.nz * w, nx: e.nx, nz: e.nz, lift, rr };
+    };
+    const E = []; for (let i = 0; i <= NU; i++) E.push(edge(i / NU));
+    // top face: from the centre out to the fold
+    for (let j = 0; j <= NT; j++) {
+      const s = j / NT, row = [];
+      for (let i = 0; i <= NU; i++) {
+        const e = E[i];
+        const x = L.cx + (e.x - L.cx) * s, z = L.cz + (e.z - L.cz) * s;
+        const dome = L.dome * (1 - s * s) + (L.top ? L.topFn(x, z) * Math.min(1, (1 - s) / 0.12) : 0.0015 * nz.fbm(x * 12 + L.k, z * 12, 2));
+        row.push(V3(x, L.y + L.rho + e.lift * s * s + dome, z));
+      }
+      rows.push(row);
+    }
+    // round fold edge: from the top round to the bottom
+    for (let j = 1; j <= NR; j++) {
+      const v = (j / NR) * Math.PI, row = [];
+      for (let i = 0; i <= NU; i++) {
+        const e = E[i];
+        const puff = 1 + 0.3 * Math.sin(v);
+        row.push(V3(e.x + e.nx * e.rr * Math.sin(v) * puff, L.y + e.lift + L.rho * Math.cos(v), e.z + e.nz * e.rr * Math.sin(v) * puff));
+      }
+      rows.push(row);
+    }
+    for (let j = 1; j <= NBt; j++) {
+      const s = 1 - j / NBt, row = [];
+      for (let i = 0; i <= NU; i++) { const e = E[i]; row.push(V3(L.cx + (e.x - L.cx) * s, L.y - L.rho + e.lift * s, L.cz + (e.z - L.cz) * s)); }
+      rows.push(row);
+    }
+    return rows;
+  };
+  // top layer: broad soft creases and a pressed cross fold
+  const topFn = (x, z) => {
+    let h = 0.0055 * nz.fbm(x * 5 + 7, z * 5 + 2, 4) + 0.0018 * nz.fbm(x * 18 + 1, z * 18 + 5, 3);
+    const crease = (d, ww) => -0.004 * Math.exp(-((d / ww) ** 2)) + 0.0018 * Math.exp(-(((Math.abs(d) - ww * 1.7) / (ww * 1.2)) ** 2));
+    h += crease(x + 0.06 + 0.012 * Math.sin(z * 9), 0.008);
+    // the pressed fold lines of the last folding steps (a cross over the top)
+    h += 0.8 * crease(z + 0.01 + 0.006 * Math.sin(x * 7), 0.006);
+    h += 0.7 * crease(x - 0.14 + 0.008 * Math.sin(z * 8 + 1), 0.006);
+    for (const [xc, zc, a, len] of [[0.1, -0.06, 0.5, 0.1], [-0.15, -0.08, 2.3, 0.08], [0.17, 0.02, 1.3, 0.07]]) {
+      const dx = x - xc, dz = z - zc, t = dx * Math.cos(a) + dz * Math.sin(a), n = -dx * Math.sin(a) + dz * Math.cos(a);
+      if (Math.abs(t) < len) h += 0.0022 * Math.exp(-((n / 0.007) ** 2)) * Math.cos((Math.PI * t) / (2 * len));
+    }
+    return h;
+  };
+  const Ls = [];
+  let y = 0;
   for (let k = 0; k < nL; k++) {
-    const gap = 0.0042 + 0.0034 * (0.5 + 0.5 * Math.sin(k * 2.3 + 0.4)) + (k === 0 ? 0 : 0.0012 * Math.cos(k * 1.7));
-    const x0 = -Lx / 2 + 0.011 * Math.sin(k * 1.9 + 0.3) + 0.004 * (k % 2 ? 1 : -1);
-    const x1 = Lx / 2 + 0.011 * Math.sin(k * 2.7 + 1.1) + 0.005 * (k % 3 - 1);
-    const z0 = -Lz / 2 + 0.009 * Math.sin(k * 1.3 + 2) - 0.003 * k / nL, z1 = Lz / 2 + 0.011 * Math.cos(k * 2.1) + 0.004 * Math.sin(k * 3.3);
-    L.push({ k, y, x0, x1, z0, z1 });
-    y += gap;
+    const rho = 0.0031 + 0.0011 * (0.5 + 0.5 * Math.sin(k * 2.1 + 0.7));
+    const top = k === nL - 1;
+    const L = {
+      k, rho, top, topFn,
+      a: A + 0.012 * Math.sin(k * 1.9 + 0.3) - (top ? 0.004 : 0), b: B + 0.01 * Math.cos(k * 2.4 + 1.1),
+      rc: 0.016 + 0.008 * (0.5 + 0.5 * Math.sin(k * 1.3)), cx: 0.011 * Math.sin(k * 2.7 + 1.1), cz: 0.009 * Math.sin(k * 1.7 + 2.2),
+      corner: [0, 1, 2, 3].map((c) => 0.016 * Math.sin(k * (1.7 + c * 0.9) + c * 2.1) + (((k + c) % 5 === 0) ? 0.012 : 0)),
+      wob: 0.007, pull: (k % 3 === 1 ? 0.014 : 0) * (k % 2 ? 1 : -1), pu: (0.13 + 0.37 * k) % 1,
+      lift: 0.003, crink: 0.0011, dome: top ? 0.007 : 0.0012 + 0.0008 * Math.sin(k * 1.1),
+    };
+    // bundle bulges: the middle layers a little bigger (the folds pushed out by the stack)
+    const mid = Math.sin(Math.PI * (k + 0.5) / nL);
+    L.a += 0.012 * mid; L.b += 0.01 * mid;
+    L.y = y + rho;
+    y += 2 * rho + L.dome * 0.6 + 0.0011;
+    Ls.push(L);
+    bins.add(fab, K.gridGeometry(slab(L), { closedU: true }));
   }
-  const NXg = 64, NZg = 46;
-  // height of layer k at (u, w) in [0,1]^2: air pillow in the middle, crinkles, top-layer creases
-  const hAt = (Lk, u, w) => {
-    const x = Lk.x0 + (Lk.x1 - Lk.x0) * u, z = Lk.z0 + (Lk.z1 - Lk.z0) * w;
-    const edge = Math.min(1, Math.min(u, 1 - u) / 0.08) * Math.min(1, Math.min(w, 1 - w) / 0.1);
-    let h = 0.0016 * Math.sin(Math.PI * u) * Math.sin(Math.PI * w);
-    h += 0.0012 * nz.fbm(x * 14 + Lk.k * 3.1, z * 14, 3) * edge;
-    if (Lk.k === nL - 1) {
-      h += 0.009 * nz.fbm(x * 6 + 7, z * 6 + 2, 4) * edge + 0.0032 * nz.fbm(x * 22 + 1, z * 22 + 5, 3) * edge;
-      const crease = (d, ww) => -0.0045 * Math.exp(-((d / ww) ** 2)) + 0.002 * Math.exp(-(((Math.abs(d) - ww * 1.6) / (ww * 1.2)) ** 2));
-      h += crease(z - 0.035 + 0.01 * Math.sin(x * 9), 0.006) * edge;
-      h += crease(x + 0.07 + 0.008 * Math.sin(z * 11), 0.007) * 0.8 * edge;
-      for (const [xc, zc, a, len] of [[0.05, 0.06, 0.6, 0.09], [-0.12, -0.05, 2.2, 0.07], [0.14, -0.07, 1.2, 0.08], [-0.02, 0.1, 2.8, 0.06]]) {
-        const dx = x - xc, dz = z - zc, t = dx * Math.cos(a) + dz * Math.sin(a), n = -dx * Math.sin(a) + dz * Math.cos(a);
-        if (Math.abs(t) < len) h += 0.0024 * Math.exp(-((n / 0.006) ** 2)) * Math.cos((Math.PI * t) / (2 * len)) * edge;
+  // U-folds joining pairs of layers: on the right side (+x) layers 0-1, 2-3, ...; on the front
+  // (+z) layers 1-2, 3-4, ... (the last two folding steps): a soft round filling the groove
+  const pairFold = (L0, L1, side) => {
+    const pts = [];
+    const n = 40;
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      if (side === 'x') {
+        const z = -B * 0.82 + 1.64 * B * t;
+        const x = Math.min(L0.a + L0.cx, L1.a + L1.cx) + 0.0005 + 0.003 * nz.fbm(z * 9 + L0.k, 4.2, 2);
+        pts.push(V3(x, (L0.y + L1.y) / 2 + 0.0015 * nz.noise(z * 11, L0.k), z));
+      } else {
+        const x = -A * 0.82 + 1.64 * A * t;
+        const z = Math.min(L0.b + L0.cz, L1.b + L1.cz) + 0.0005 + 0.003 * nz.fbm(x * 9 + L0.k, 7.7, 2);
+        pts.push(V3(x, (L0.y + L1.y) / 2 + 0.0015 * nz.noise(x * 11, L0.k + 3), z));
       }
     }
-    // free front / back edges curl a hair up or down
-    const ew = Math.max(0, 1 - Math.min(w, 1 - w) / 0.06);
-    h += 0.0015 * ew * nz.noise(x * 30 + Lk.k * 5, Lk.k * 2.3);
-    return Lk.y + h;
+    const r = (L1.y - L0.y) / 2 + 0.0012;
+    bins.add(fab, K.sweep(pts, r, 14, { capStart: true, capEnd: true }));
   };
-  const P = (Lk, u, w) => V3(Lk.x0 + (Lk.x1 - Lk.x0) * u, hAt(Lk, u, w), Lk.z0 + (Lk.z1 - Lk.z0) * w);
-  for (const Lk of L) {
+  for (let k = 0; k + 1 < nL - 1; k += 2) pairFold(Ls[k], Ls[k + 1], 'x');
+  for (let k = 1; k + 1 < nL - 1; k += 2) pairFold(Ls[k], Ls[k + 1], 'z');
+  // the folded valance on top: a 4 mm band along the front of the top layer, its front edge a
+  // round fold, its free back edge the doubled hem band with two stitch rows
+  {
+    const T = Ls[nL - 1];
+    const yTop = (x, z) => T.y + T.rho + T.dome * (1 - Math.min(1, (x * x) / (A * A) * 0.6 + (z * z) / (B * B) * 0.6)) + topFn(x, z);
+    const z0 = B - 0.004, z1 = B - 0.16;
+    const NXv = 120;
     const rows = [];
-    for (let j = 0; j <= NZg; j++) { const row = []; for (let i = 0; i <= NXg; i++) row.push(P(Lk, i / NXg, j / NZg)); rows.push(row); }
-    bins.add(fab, K.gridGeometry(rows));
-    // the free edges front and back: a thin rolled edge so the sheet reads with its thickness
-    for (const w of [0, 1]) {
-      const e = []; for (let i = 0; i <= NXg; i++) e.push(P(Lk, i / NXg, w).add(V3(0, 0.0004, 0)));
-      bins.add(fab, K.sweep(e, 0.0011, 5));
-    }
-  }
-  // U-folds joining layer k and k+1, alternately on the right (+x) and the left (-x)
-  for (let k = 0; k < nL - 1; k++) {
-    const A = L[k], B = L[k + 1], right = k % 2 === 0;
-    const rows = [];
-    const NA = 14;
-    for (let j = 0; j <= NZg; j++) {
-      const w = j / NZg;
-      const a = P(A, right ? 1 : 0, w), b = P(B, right ? 1 : 0, w);
-      const mid = a.clone().lerp(b, 0.5), rad = Math.max(0.0025, (b.y - a.y) / 2);
-      const bulge = 0.005 + 0.004 * (0.5 + 0.5 * nz.noise(w * 7 + k * 1.3, k * 0.9)) + 0.007 * Math.sin(Math.PI * w) * (0.6 + 0.4 * Math.sin(k * 1.7));
-      const sx = right ? 1 : -1;
-      const row = [];
-      for (let i = 0; i <= NA; i++) {
-        const t = (Math.PI * i) / NA; // 0: at layer k, pi: at layer k+1
-        const out = Math.sin(t) * (rad + bulge);
-        const yy = mid.y - Math.cos(t) * rad;
-        const base = a.clone().lerp(b, (1 - Math.cos(t)) / 2);
-        row.push(V3(base.x + sx * out, yy, base.z));
+    for (let j = 0; j <= 10; j++) {
+      const f = j / 10, row = [];
+      for (let i = 0; i <= NXv; i++) {
+        const x = -A * 0.9 + 1.8 * A * (i / NXv);
+        const zb = z1 + 0.008 * nz.fbm(x * 6 + 2, 1.3, 3);
+        const z = z0 + (zb - z0) * f;
+        row.push(V3(x, yTop(x, z) + 0.0032 + 0.0015 * Math.sin(Math.PI * f), z));
       }
       rows.push(row);
     }
     bins.add(fab, K.gridGeometry(rows));
+    // round front fold of the valance (wraps down to the top layer) and the hem edge
+    const front = rows[0].map((q) => q.clone().add(V3(0, -0.0016, 0)));
+    bins.add(fab, K.sweep(front, 0.0024, 8));
+    const hemE = rows[10].map((q) => q.clone().add(V3(0, -0.0012, 0)));
+    bins.add(fab, K.sweep(hemE, 0.0021, 6));
+    // doubled hem band (2 cm) and two stitch rows (5 and 13.5 mm from the edge)
+    const band = [];
+    for (let jj = 0; jj <= 2; jj++) band.push(rows[10].map((q, i) => { const r9 = rows[9][i]; const d = q.clone().sub(r9).normalize(); return q.clone().addScaledVector(d, -0.02 * (jj / 2)).add(V3(0, 0.0009, 0)); }));
+    bins.add(fab, K.gridGeometry(band));
+    for (const dd of [0.005, 0.0135]) bins.add(thread, K.sweep(rows[10].map((q, i) => { const d = q.clone().sub(rows[9][i]).normalize(); return q.clone().addScaledVector(d, -dd).add(V3(0, 0.0016, 0)); }), 0.0007, 4));
   }
-  // valance hem along the front of the top layer + double stitch
-  const T = L[nL - 1];
-  const hem = [], st1 = [], st2 = [];
-  for (let i = 0; i <= 60; i++) {
-    const u = 0.08 + 0.84 * (i / 60);
-    hem.push(P(T, u, 0.93).add(V3(0, 0.0012, 0)));
-    st1.push(P(T, u, 0.9).add(V3(0, 0.0009, 0)));
-    st2.push(P(T, u, 0.875).add(V3(0, 0.0009, 0)));
-  }
-  bins.add(fab, K.sweep(hem, 0.0022, 6));
-  bins.add(thread, K.sweep(st1, 0.0007, 4));
-  bins.add(thread, K.sweep(st2, 0.0007, 4));
+  // velcro tabs (frame straps on the inside of the roof) sticking out between the layers
+  const tab = (L0, side, along, len, droop) => {
+    const yy = L0.y + L0.rho + 0.0008;
+    const pts = [], n = 10;
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      const out = -0.03 + (len + 0.03) * t;
+      const dy = -droop * Math.max(0, t - 0.45) ** 2 / 0.3;
+      if (side === 'x') pts.push(V3(L0.a + L0.cx + out, yy + dy, along));
+      else pts.push(V3(along, yy + dy, L0.b + L0.cz + out));
+    }
+    for (let i = 0; i < n; i++) {
+      const a = pts[i], b = pts[i + 1];
+      bins.add(strapM, K.strapGeo(a, b, 0.025, 0.0022, side === 'x' ? V3(0, 1, 0) : V3(0, 1, 0)));
+    }
+  };
+  tab(Ls[5], 'x', 0.07, 0.045, 0.012);
+  tab(Ls[10], 'z', -0.12, 0.035, 0.008);
   bins.build(group);
   return {
     object: group,

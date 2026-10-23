@@ -60,9 +60,13 @@ export function ledBulb(p = {}) {
     // coloured coating: emissive ~0.85 keeps the lit globe's radiance near 1, below the point where
     // the neutral tone curve desaturates it (at 1.15-1.55 a red lamp came out coral, blue lavender);
     // a single lamp fills the frame, so its clearcoat is softer (no glitter of tiny reflections)
+    // switched-on coloured lamps (and the 2000 K one) glow from inside (bulbKit glowGlobeMat): a hot
+    // paler core, a saturated rim, a matte coating and a halo in their colour; in the set of five the
+    // halos are tighter, so the neighbours keep their own colour
+    const lit = kind === 'colour' || K;
     const r = g45(GC, bins, M4, {
-      kind, on, color: col, K, bloomR: kind === 'colour' ? (single ? 0.052 : 0.06) : 0.075, bloom: kind === 'colour' ? (single ? 0.7 : 0.8) : 1,
-      glassI: p.glassI ?? 0.85, coatRough: single ? 0.26 : 0.1,
+      kind, on, color: col, K, bloomR: lit ? (single ? 0.064 : 0.05) : 0.075, bloom: lit ? (single ? 1 : 0.8) : 1,
+      glassI: p.glassI ?? 0.85, coatRough: single ? 0.26 : 0.1, glow: p.glow || null,
     });
     if (sealed) {
       // silicone sealing sleeve over the neck, in the lamp frame
@@ -77,7 +81,7 @@ export function ledBulb(p = {}) {
     }
     if (on) {
       const c = new THREE.Color().setRGB(...r.light);
-      const pc = kind === 'colour' ? c.clone().lerp(new THREE.Color(1, 1, 1), 0.15) : c.clone().lerp(new THREE.Color(1, 0.85, 0.65), 0.4);
+      const pc = kind === 'colour' || K ? c.clone().lerp(new THREE.Color(1, 1, 1), 0.1) : c.clone().lerp(new THREE.Color(1, 0.85, 0.65), 0.4);
       sources.push({ p: r.centre.clone().setY(r.centre.y * 0.95), I: 1, color: pc.toArray().map((v) => v * 1.15) });
     }
   });
@@ -87,7 +91,7 @@ export function ledBulb(p = {}) {
   group.traverse((o) => { if (o.isMesh && o.material.name !== 'glass marker') { const nm = o.material.name || ''; o.castShadow = !/glass lit/.test(nm); o.receiveShadow = true; } });
   if (sources.length) {
     // the base and neck shade the floor right under each lamp: sources sit inside the globe
-    GC.floorPool(sources, { pad: 0.16, res: 160, k: kind === 'colour' ? 0.0011 : 0.0009, max: 0.16, minH: 0.05 });
+    GC.floorPool(sources, { pad: 0.16, res: 160, k: kind === 'colour' || K ? (count === 1 ? 0.0012 : 0.0011) : 0.0009, max: kind === 'colour' || K ? 0.2 : 0.16, minH: 0.05 });
   }
   if (!GC.isEmpty()) group.add(GC.build(V3(0, 0.03, 0)));
   return {

@@ -15,6 +15,7 @@
 //   marmer-wit   Carrara: off-white with soft grey clouds and meandering grey veins (fine + bold)
 //   marmer-zwart Nero Marquina: deep black with crisp white veins
 //   teak         golden-brown wood print, straight grain, dark pore lines
+//   eiken        natural oak print (round 6)
 //   eiken-grijs  grey-washed oak print
 //   vintage-hout boards of 9-16 cm in mixed weathered tones (grey, brown, worn whitewash), seams,
 //                knots and nail holes, brushed grain relief
@@ -208,6 +209,8 @@ function woodPrint(seed, { planks, pore = 0.25, figure = 0.08, ringScale = 120, 
 }
 const ONE = (tone) => [{ y0: -1, y1: 2, tone }];
 const teak = () => woodPrint(351, { planks: ONE([146, 106, 74]), pore: 0.32, figure: 0.07, ringScale: 150, contrast: 0.2 });
+// round 6: warm natural oak print (terrastafel eiken; the solid-wood material showed a dark smudge mid-top)
+const eiken = () => woodPrint(381, { planks: ONE([184, 140, 94]), pore: 0.34, figure: 0.08, ringScale: 120, contrast: 0.22 });
 const eikenGrijs = () => woodPrint(361, { planks: ONE([168, 160, 148]), pore: 0.3, figure: 0.06, ringScale: 110, contrast: 0.2 });
 function vintageHout() {
   const R = rng(371);
@@ -225,6 +228,7 @@ const DECORS = {
   'marmer-wit': { make: marmerWit, rough: 0.3, cc: 0.4, normal: 0, compact: true },
   'marmer-zwart': { make: marmerZwart, rough: 0.28, cc: 0.45, normal: 0, compact: true },
   teak: { make: teak, rough: 0.5, cc: 0.15, normal: 0.45, strength: 2.0, compact: true },
+  eiken: { make: eiken, rough: 0.5, cc: 0.15, normal: 0.45, strength: 2.0, compact: false },
   'eiken-grijs': { make: eikenGrijs, rough: 0.52, cc: 0.12, normal: 0.45, strength: 2.0, compact: true },
   'vintage-hout': { make: vintageHout, rough: 0.6, cc: 0.06, normal: 0.8, strength: 2.4, compact: false },
 };

@@ -19607,7 +19607,7 @@
    "images": [
     {
      "src": "bedrukt-dakzeil-easy-up-hero.webp",
-     "alt": "Bedrukt dakzeil voor easy-up 3 × 3 m met voorbeeldontwerp, los dak met luifel",
+     "alt": "Bedrukt dakzeil met luifel voor easy-up 3 × 3 m met voorbeeldontwerp, getoond op een zwart frame (frame niet inbegrepen)",
      "width": 2000,
      "height": 2000
     },
@@ -22491,7 +22491,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp",
      "metafields": []
     },
     {
@@ -22553,6 +22553,12 @@
     {
      "src": "haringen-en-bevestigingsmateriaal-partytent-haringen-18-cm-voor-wanden.webp",
      "alt": "10 wandharingen van 18 cm, verzinkt staal met haak en rode stopper",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp",
+     "alt": "Stertent-haring van 60 cm met oog, verzinkt",
      "width": 2000,
      "height": 2000
     }
@@ -25000,7 +25006,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": []
     },
     {
@@ -25057,7 +25063,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -25076,7 +25082,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": []
     },
     {
@@ -25095,7 +25101,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": []
     },
     {
@@ -25114,7 +25120,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": []
     },
     {
@@ -25133,7 +25139,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": []
     },
     {
@@ -25190,7 +25196,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -25209,7 +25215,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": []
     },
     {
@@ -25228,7 +25234,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": []
     },
     {
@@ -25247,7 +25253,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": []
     },
     {
@@ -25266,7 +25272,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": []
     },
     {
@@ -25323,7 +25329,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -25342,7 +25348,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": []
     },
     {
@@ -25361,7 +25367,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": []
     },
     {
@@ -25380,7 +25386,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": []
     },
     {
@@ -25399,7 +25405,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-rood-hero.webp",
      "metafields": []
     },
     {
@@ -25456,7 +25462,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -25475,7 +25481,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-blauw-hero.webp",
      "metafields": []
     },
     {
@@ -25494,7 +25500,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-groen-hero.webp",
      "metafields": []
     },
     {
@@ -25513,7 +25519,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "verbindingsstrook-easy-up-zandkleur-hero.webp",
      "metafields": []
     }
    ],
@@ -25530,8 +25536,38 @@
      "height": 2000
     },
     {
+     "src": "verbindingsstrook-easy-up-rood-hero.webp",
+     "alt": "Verbindingsstrook easy-up, rood, klittenband langs beide lange randen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "verbindingsstrook-easy-up-zwart-hero.webp",
      "alt": "Verbindingsstrook easy-up, zwart, klittenband langs beide lange randen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "verbindingsstrook-easy-up-antraciet-hero.webp",
+     "alt": "Verbindingsstrook easy-up, antraciet, klittenband langs beide lange randen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "verbindingsstrook-easy-up-blauw-hero.webp",
+     "alt": "Verbindingsstrook easy-up, blauw, klittenband langs beide lange randen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "verbindingsstrook-easy-up-groen-hero.webp",
+     "alt": "Verbindingsstrook easy-up, groen, klittenband langs beide lange randen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "verbindingsstrook-easy-up-zandkleur-hero.webp",
+     "alt": "Verbindingsstrook easy-up, zandkleur, klittenband langs beide lange randen",
      "width": 2000,
      "height": 2000
     }
@@ -57892,7 +57928,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-k2l.webp",
      "metafields": []
     },
     {
@@ -57911,7 +57947,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-d3-120.webp",
      "metafields": []
     },
     {
@@ -57949,7 +57985,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-d3-110.webp",
      "metafields": []
     },
     {
@@ -57968,7 +58004,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-d4-110.webp",
      "metafields": []
     },
     {
@@ -58006,7 +58042,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-n4.webp",
      "metafields": []
     },
     {
@@ -58025,7 +58061,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-n3l.webp",
      "metafields": []
     },
     {
@@ -58044,7 +58080,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-n4l.webp",
      "metafields": []
     },
     {
@@ -58063,7 +58099,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-v3.webp",
      "metafields": []
     },
     {
@@ -58082,7 +58118,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-v4.webp",
      "metafields": []
     },
     {
@@ -58101,7 +58137,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-g3h.webp",
      "metafields": []
     },
     {
@@ -58139,7 +58175,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-g2.webp",
      "metafields": []
     },
     {
@@ -58158,7 +58194,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-vp.webp",
      "metafields": []
     },
     {
@@ -58177,7 +58213,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-kn.webp",
      "metafields": []
     },
     {
@@ -58196,7 +58232,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "koppelstukken-buizenframe-38-mm-kb10.webp",
      "metafields": []
     }
    ],
@@ -58219,8 +58255,32 @@
      "height": 2000
     },
     {
+     "src": "koppelstukken-buizenframe-38-mm-k2l.webp",
+     "alt": "Koppelstuk 2-weg recht 50 cm, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-d3-120.webp",
+     "alt": "Dakrand hoekstuk 3-weg 120°, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "koppelstukken-en-buizen-38-mm-k4.webp",
      "alt": "Dakrand 4-weg 120°, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-d3-110.webp",
+     "alt": "Dakrand hoekstuk 3-weg 110°, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-d4-110.webp",
+     "alt": "Dakrand 4-weg 110°, verzinkt staal, voor een 38 mm buizenframe",
      "width": 2000,
      "height": 2000
     },
@@ -58231,8 +58291,68 @@
      "height": 2000
     },
     {
+     "src": "koppelstukken-buizenframe-38-mm-n4.webp",
+     "alt": "Nokstuk 4-weg 140°, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-n3l.webp",
+     "alt": "Nokstuk 3-weg 140° met lip, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-n4l.webp",
+     "alt": "Nokstuk 4-weg 140° met lip, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-v3.webp",
+     "alt": "Dakvlak 3-weg vlak, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-v4.webp",
+     "alt": "Dakvlak 4-weg vlak, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-g3h.webp",
+     "alt": "Grondframe hoekstuk 3-weg, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "koppelstukken-en-buizen-38-mm-k3g.webp",
      "alt": "Grondframe T-stuk 3-weg, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-g2.webp",
+     "alt": "Grondframe 2-weg recht, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-vp.webp",
+     "alt": "Voetplaat met haringgat, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-kn.webp",
+     "alt": "Klem nokversteviging, verzinkt staal, voor een 38 mm buizenframe",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "koppelstukken-buizenframe-38-mm-kb10.webp",
+     "alt": "Knevelbouten M8 (10 stuks), verzinkt staal, voor een 38 mm buizenframe",
      "width": 2000,
      "height": 2000
     }
@@ -58399,7 +58519,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-s192.webp",
      "metafields": []
     },
     {
@@ -58437,7 +58557,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-l142.webp",
      "metafields": []
     },
     {
@@ -58513,7 +58633,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-d129.webp",
      "metafields": []
     },
     {
@@ -58532,7 +58652,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-d155.webp",
      "metafields": []
     },
     {
@@ -58551,7 +58671,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-d205.webp",
      "metafields": []
     },
     {
@@ -58570,7 +58690,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-g142.webp",
      "metafields": []
     },
     {
@@ -58589,7 +58709,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-g192.webp",
      "metafields": []
     },
     {
@@ -58608,7 +58728,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-g242.webp",
      "metafields": []
     },
     {
@@ -58627,7 +58747,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-n78.webp",
      "metafields": []
     },
     {
@@ -58646,7 +58766,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-n98.webp",
      "metafields": []
     },
     {
@@ -58665,7 +58785,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-n118.webp",
      "metafields": []
     },
     {
@@ -58684,7 +58804,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-n138.webp",
      "metafields": []
     },
     {
@@ -58703,7 +58823,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-n178.webp",
      "metafields": []
     },
     {
@@ -58722,7 +58842,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-b50.webp",
      "metafields": []
     },
     {
@@ -58741,7 +58861,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "buizen-buizenframe-38-mm-b100.webp",
      "metafields": []
     }
    ],
@@ -58752,8 +58872,26 @@
    },
    "images": [
     {
+     "src": "buizen-buizenframe-38-mm-hero.webp",
+     "alt": "Bundel verzinkte buizen van 38 mm voor een buizenframe-partytent",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-s192.webp",
+     "alt": "Staander van 192 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "koppelstukken-en-buizen-38-mm-s212.webp",
      "alt": "Staander van 212 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-l142.webp",
+     "alt": "Ligger van 142 cm, verzinkt staal 38 mm",
      "width": 2000,
      "height": 2000
     },
@@ -58772,6 +58910,84 @@
     {
      "src": "koppelstukken-en-buizen-38-mm-b216.webp",
      "alt": "Dakbuis van 216 cm voor een 4 m brede tent, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-d129.webp",
+     "alt": "Dakbuis van 129 cm voor een 5 m brede tent, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-d155.webp",
+     "alt": "Dakbuis van 155 cm voor een 6 m brede tent, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-d205.webp",
+     "alt": "Dakbuis van 205 cm voor een 8 m brede tent, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-g142.webp",
+     "alt": "Grondbuis van 142 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-g192.webp",
+     "alt": "Grondbuis van 192 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-g242.webp",
+     "alt": "Grondbuis van 242 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-n78.webp",
+     "alt": "Schoor nokversteviging van 78 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-n98.webp",
+     "alt": "Schoor nokversteviging van 98 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-n118.webp",
+     "alt": "Schoor nokversteviging van 118 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-n138.webp",
+     "alt": "Schoor nokversteviging van 138 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-n178.webp",
+     "alt": "Schoor nokversteviging van 178 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-b50.webp",
+     "alt": "Verlengbuis van 50 cm, verzinkt staal 38 mm",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "buizen-buizenframe-38-mm-b100.webp",
+     "alt": "Buis van 100 cm, verzinkt staal 38 mm",
      "width": 2000,
      "height": 2000
     }
@@ -59065,7 +59281,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59084,7 +59300,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59103,7 +59319,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59122,7 +59338,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59141,7 +59357,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59160,7 +59376,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59179,7 +59395,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59198,7 +59414,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59217,7 +59433,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59236,7 +59452,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59255,7 +59471,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59274,7 +59490,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     },
     {
@@ -59293,7 +59509,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-wit-hero.webp",
      "metafields": []
     },
     {
@@ -59312,7 +59528,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "regengoot-partytent-buizenframe-grijs-hero.webp",
      "metafields": []
     }
    ],
@@ -59321,7 +59537,20 @@
     "name": "Canopy & Gazebo Accessories",
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "regengoot-partytent-buizenframe-wit-hero.webp",
+     "alt": "Regengoot partytent buizenframe, wit PVC met klemmen voor 38 mm buis, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "regengoot-partytent-buizenframe-grijs-hero.webp",
+     "alt": "Regengoot partytent buizenframe, grijs PVC met klemmen voor 38 mm buis, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -68707,7 +68936,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-ronde-haring-100-cm.webp",
      "metafields": []
     },
     {
@@ -68726,7 +68955,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-ronde-haring-120-cm.webp",
      "metafields": []
     },
     {
@@ -68745,7 +68974,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-paaldop-kunststof.webp",
      "metafields": []
     },
     {
@@ -68764,7 +68993,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-paaldop-rubber-zwaar.webp",
      "metafields": []
     },
     {
@@ -68783,7 +69012,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-voetplaat-middenpaal.webp",
      "metafields": []
     },
     {
@@ -68802,7 +69031,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-haken-gegalvaniseerd.webp",
      "metafields": []
     },
     {
@@ -68821,7 +69050,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stretchtent-haringtrekker.webp",
      "metafields": []
     }
    ],
@@ -68858,6 +69087,48 @@
     {
      "src": "onderdelen-stretchtent-oogmoeren-m12.webp",
      "alt": "Vier oogmoeren M12, verzinkt",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-ronde-haring-100-cm.webp",
+     "alt": "Ronde stalen haring van 100 cm met ring",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-ronde-haring-120-cm.webp",
+     "alt": "Ronde stalen haring van 120 cm met ring",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-paaldop-kunststof.webp",
+     "alt": "Kunststof paaldop voor een stretchtentpaal",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-paaldop-rubber-zwaar.webp",
+     "alt": "Zware rubberen paaldop voor een middenpaal",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-voetplaat-middenpaal.webp",
+     "alt": "Stalen voetplaat voor een middenpaal van een stretchtent",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-haken-gegalvaniseerd.webp",
+     "alt": "Vier gegalvaniseerde haken",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stretchtent-haringtrekker.webp",
+     "alt": "Haringtrekker met hefboom naast een lange haring",
      "width": 2000,
      "height": 2000
     }
@@ -71134,7 +71405,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stertent-dubbele-mast-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -71262,7 +71533,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stertent-dubbele-mast-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -71390,7 +71661,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stertent-dubbele-mast-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -71518,7 +71789,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stertent-dubbele-mast-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -71608,6 +71879,12 @@
     {
      "src": "stertent-dubbele-mast-wit-hero.webp",
      "alt": "Stertent dubbele mast 10 × 16 m, Wit, met 8 punten, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stertent-dubbele-mast-zwart-hero.webp",
+     "alt": "Stertent dubbele mast 10 × 16 m, Zwart, met 8 punten, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -82812,55 +83089,55 @@
    "images": [
     {
      "src": "zijwand-opblaasbare-promotietent-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, wit, met witte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-rood-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een rood dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-zwart-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een zwart dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-blauw-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een blauw dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-groen-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een groen dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-oranje-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een oranje dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-geel-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een geel dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-grijs-hero.webp",
-     "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een grijs dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare promotietent 3 × 3 m, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-full-colour.webp",
-     "alt": "Opblaasbare promotietent met een full colour bedrukte achterwand met voorbeeldontwerp",
+     "alt": "Opblaasbare promotietent met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -84969,55 +85246,55 @@
    "images": [
     {
      "src": "zijwand-opblaasbare-promotietent-pro-wit-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, wit, met een wit zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-rood-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, rood, met een rood zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, rood, met een dichte rode zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-zwart-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, zwart, met een zwart zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-blauw-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, blauw, met een blauw zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, blauw, met een dichte blauwe zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-groen-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, groen, met een groen zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, groen, met een dichte groene zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-oranje-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, oranje, met een oranje zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, oranje, met een dichte oranje zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-geel-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, geel, met een geel zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, geel, met een dichte gele zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-grijs-hero.webp",
-     "alt": "Opblaasbare promotietent Pro, grijs, met een grijs zijwand aan de achterkant",
+     "alt": "Opblaasbare promotietent Pro, grijs, met een dichte grijze zijwand links vooraan, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-promotietent-pro-full-colour.webp",
-     "alt": "Opblaasbare promotietent Pro met een full colour bedrukte achterwand met voorbeeldontwerp",
+     "alt": "Opblaasbare promotietent Pro met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -85223,7 +85500,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85242,7 +85519,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85261,7 +85538,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85280,7 +85557,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85299,7 +85576,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85318,7 +85595,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85337,7 +85614,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85356,7 +85633,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85375,7 +85652,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85394,7 +85671,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85413,7 +85690,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85432,7 +85709,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85451,7 +85728,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": []
     },
     {
@@ -85470,7 +85747,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85489,7 +85766,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85508,7 +85785,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85527,7 +85804,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85546,7 +85823,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85565,7 +85842,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85584,7 +85861,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85603,7 +85880,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85622,7 +85899,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85641,7 +85918,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85660,7 +85937,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85679,7 +85956,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85698,7 +85975,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": []
     },
     {
@@ -85717,7 +85994,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85736,7 +86013,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85755,7 +86032,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85774,7 +86051,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85793,7 +86070,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85812,7 +86089,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85831,7 +86108,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85850,7 +86127,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85869,7 +86146,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85888,7 +86165,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
      "metafields": []
     },
     {
@@ -85907,7 +86184,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -85926,7 +86203,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
      "metafields": []
     },
     {
@@ -85945,7 +86222,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
      "metafields": []
     }
    ],
@@ -85954,7 +86231,32 @@
     "name": "Canopy & Gazebo Side Walls",
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Side Walls"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "zijwand-opblaasbare-partytent-met-waterpoten-wit-hero.webp",
+     "alt": "Opblaasbare partytent met waterpoten, Wit, met een dichte witte zijwand links vooraan, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwand-opblaasbare-partytent-met-waterpoten-zwart-hero.webp",
+     "alt": "Opblaasbare partytent met waterpoten, Zwart, met een dichte zwarte zijwand links vooraan, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwand-opblaasbare-partytent-met-waterpoten-antraciet-hero.webp",
+     "alt": "Opblaasbare partytent met waterpoten, Antraciet, met een dichte antraciet zijwand links vooraan, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
+     "alt": "Opblaasbare partytent met waterpoten met een full colour bedrukte zijwand links vooraan, met voorbeeldontwerp, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -88866,13 +89168,13 @@
    "images": [
     {
      "src": "zijwand-opblaasbare-zeshoektent-wit-hero.webp",
-     "alt": "Opblaasbare zeshoektent met witte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare zeshoektent met een dichte witte zijwand in het voorste vak, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
     {
      "src": "zijwand-opblaasbare-zeshoektent-zwart-hero.webp",
-     "alt": "Opblaasbare zeshoektent met zwarte dichte achterwand, schuin vooraanzicht",
+     "alt": "Opblaasbare zeshoektent met een dichte zwarte zijwand in het voorste vak, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -89923,7 +90225,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "bevestigingsset-schaduwdoek-hero.webp",
      "metafields": []
     },
     {
@@ -89942,7 +90244,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "bevestigingsset-schaduwdoek-hero.webp",
      "metafields": []
     }
    ],
@@ -89951,7 +90253,14 @@
     "name": "Outdoor Umbrellas & Sunshades",
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Umbrellas & Sunshades"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "bevestigingsset-schaduwdoek-hero.webp",
+     "alt": "Bevestigingsset schaduwdoek: RVS spanschroeven, karabijnhaken en muurogen",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -122748,7 +123057,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "barkruk-houten-zitting-wit-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -122780,7 +123089,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "barkruk-houten-zitting-antraciet-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -122806,6 +123115,18 @@
     {
      "src": "barkruk-houten-zitting-hero.webp",
      "alt": "Barkruk met houten zitting in eikenlook, Zwart frame, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "barkruk-houten-zitting-wit-hero.webp",
+     "alt": "Barkruk met houten zitting in eikenlook, Wit frame, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "barkruk-houten-zitting-antraciet-hero.webp",
+     "alt": "Barkruk met houten zitting in eikenlook, Antraciet frame, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -136955,7 +137276,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-pendel-20-cm-met-e27-fitting.webp",
      "metafields": []
     },
     {
@@ -136974,7 +137295,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp",
      "metafields": []
     },
     {
@@ -136993,7 +137314,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp",
      "metafields": []
     },
     {
@@ -137012,7 +137333,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp",
      "metafields": []
     },
     {
@@ -137031,7 +137352,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp",
      "metafields": []
     },
     {
@@ -137145,7 +137466,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp",
      "metafields": []
     }
    ],
@@ -137194,6 +137515,42 @@
     {
      "src": "onderdelen-prikkabel-en-lichtslang-rubberkabel-per-meter-zwart.webp",
      "alt": "Platte zwarte rubberkabel 2 × 1,5 mm², opgerold, met de koperen aders zichtbaar aan het eind",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-pendel-20-cm-met-e27-fitting.webp",
+     "alt": "Pendel van 20 cm met E27-fitting",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-pendel-30-cm-met-e27-fitting.webp",
+     "alt": "Pendel van 30 cm met E27-fitting",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-pendel-40-cm-met-e27-fitting.webp",
+     "alt": "Pendel van 40 cm met E27-fitting",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-pendel-50-cm-met-e27-fitting.webp",
+     "alt": "Pendel van 50 cm met E27-fitting aan een stuk prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp",
+     "alt": "Koppelstekker en contrastekker voor het doorkoppelen van een prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-eindhaak-met-spanveer.webp",
+     "alt": "Twee eindhaken met spanveer voor een prikkabel",
      "width": 2000,
      "height": 2000
     }
@@ -213506,7 +213863,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "klaptafel-hout-kwartrond-set-van-4.webp",
      "metafields": []
     },
     {
@@ -213575,6 +213932,12 @@
     {
      "src": "klaptafel-hout-vierkant.webp",
      "alt": "Vierkante klaptafel met houten blad 140 x 140 cm, opgezet",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "klaptafel-hout-kwartrond-set-van-4.webp",
+     "alt": "Vier kwartronde klaptafels met houten blad als cirkel van Ø 305 cm, van boven gezien",
      "width": 2000,
      "height": 2000
     }
@@ -216803,7 +217166,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     },
     {
@@ -216822,7 +217185,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     },
     {
@@ -216841,7 +217204,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     },
     {
@@ -216860,7 +217223,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     },
     {
@@ -216879,7 +217242,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     },
     {
@@ -216898,7 +217261,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
      "metafields": []
     }
    ],
@@ -216907,7 +217270,14 @@
     "name": "Canopy & Gazebo Frames",
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Frames"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "dwarsbuis-halve-zijwand-easy-up-hero.webp",
+     "alt": "Aluminium dwarsbuis voor een halve zijwand, met twee klemmen voor de poten van een easy-up",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -220467,7 +220837,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-warm-wit-hero.webp",
      "metafields": []
     },
     {
@@ -220486,7 +220856,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-rood-hero.webp",
      "metafields": []
     },
     {
@@ -220505,7 +220875,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-oranje-hero.webp",
      "metafields": []
     },
     {
@@ -220524,7 +220894,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-geel-hero.webp",
      "metafields": []
     },
     {
@@ -220543,7 +220913,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-groen-hero.webp",
      "metafields": []
     },
     {
@@ -220562,7 +220932,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-blauw-hero.webp",
      "metafields": []
     },
     {
@@ -220581,7 +220951,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-roze-hero.webp",
      "metafields": []
     },
     {
@@ -220600,7 +220970,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-gekleurd-paars-hero.webp",
      "metafields": []
     }
    ],
@@ -220609,7 +220979,56 @@
     "name": "LED Light Bulbs",
     "full_name": "Home & Garden > Lighting > Light Bulbs > LED Light Bulbs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "led-lamp-e27-gekleurd-rood-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 rood, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-warm-wit-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 warm wit 2000 K, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-oranje-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 oranje, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-geel-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 geel, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-groen-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 groen, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-blauw-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 blauw, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-roze-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 roze, brandend",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-paars-hero.webp",
+     "alt": "Onbreekbare LED-lamp E27 paars, brandend",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -220735,7 +221154,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-dimbaar-ip65-hero.webp",
      "metafields": []
     },
     {
@@ -220754,7 +221173,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "led-lamp-e27-dimbaar-ip65-hero.webp",
      "metafields": []
     }
    ],
@@ -220763,7 +221182,14 @@
     "name": "LED Light Bulbs",
     "full_name": "Home & Garden > Lighting > Light Bulbs > LED Light Bulbs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "led-lamp-e27-dimbaar-ip65-hero.webp",
+     "alt": "Dimbare LED-lamp E27 IP65 met waterdruppels op de kap, brandend",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -222388,7 +222814,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-wit-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222420,7 +222846,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222452,7 +222878,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-antraciet-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222484,7 +222910,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-taupe-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222516,7 +222942,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-groen-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222548,7 +222974,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-kunststof-blauw-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222570,7 +222996,50 @@
     "name": "Dining Chairs",
     "full_name": "Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "stapelstoel-kunststof-wit-hero.webp",
+     "alt": "Stapelstoel kunststof, Wit, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-zwart-hero.webp",
+     "alt": "Stapelstoel kunststof, Zwart, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-antraciet-hero.webp",
+     "alt": "Stapelstoel kunststof, Antraciet, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-taupe-hero.webp",
+     "alt": "Stapelstoel kunststof, Taupe, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-groen-hero.webp",
+     "alt": "Stapelstoel kunststof, Groen, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-blauw-hero.webp",
+     "alt": "Stapelstoel kunststof, Blauw, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-kunststof-wit-gestapeld.webp",
+     "alt": "Acht witte kunststof stapelstoelen op elkaar gestapeld",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -222732,7 +223201,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-polycarbonaat-transparant-hero.webp",
      "metafields": []
     },
     {
@@ -222751,7 +223220,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-polycarbonaat-zwart-hero.webp",
      "metafields": []
     },
     {
@@ -222770,7 +223239,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stapelstoel-polycarbonaat-wit-hero.webp",
      "metafields": []
     }
    ],
@@ -222779,7 +223248,26 @@
     "name": "Dining Chairs",
     "full_name": "Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "stapelstoel-polycarbonaat-transparant-hero.webp",
+     "alt": "Transparante stapelstoel van polycarbonaat met ovale rug, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-polycarbonaat-zwart-hero.webp",
+     "alt": "Stapelstoel polycarbonaat, Zwart, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-polycarbonaat-wit-hero.webp",
+     "alt": "Stapelstoel polycarbonaat, Wit, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -222924,7 +223412,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "klapstoel-hout-bistro-eiken-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222956,7 +223444,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "klapstoel-hout-bistro-vintage-hout-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -222988,7 +223476,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "klapstoel-hout-bistro-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -223010,7 +223498,32 @@
     "name": "Dining Chairs",
     "full_name": "Furniture > Chairs > Kitchen & Dining Room Chairs > Dining Chairs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "klapstoel-hout-bistro-eiken-hero.webp",
+     "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "klapstoel-hout-bistro-vintage-hout-hero.webp",
+     "alt": "Houten klapstoel bistro in vintage hout, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "klapstoel-hout-bistro-zwart-hero.webp",
+     "alt": "Houten klapstoel bistro, zwart gebeitst, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
+     "alt": "Houten klapstoel in eiken, ingeklapt en plat",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -223166,7 +223679,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "barkruk-inklapbaar-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -223198,7 +223711,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "barkruk-inklapbaar-wit-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -223220,7 +223733,26 @@
     "name": "Bar Stools",
     "full_name": "Furniture > Chairs > Table & Bar Stools > Bar Stools"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "barkruk-inklapbaar-zwart-hero.webp",
+     "alt": "Inklapbare barkruk met rugleuning, Zwart frame, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "barkruk-inklapbaar-wit-hero.webp",
+     "alt": "Inklapbare barkruk met rugleuning, Wit frame, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "barkruk-inklapbaar-zwart-ingeklapt.webp",
+     "alt": "Inklapbare barkruk, zwart, ingeklapt",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -223378,7 +223910,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stoelverbinder-in-gebruik.webp",
      "metafields": []
     },
     {
@@ -223397,7 +223929,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stoelverbinder-in-gebruik.webp",
      "metafields": []
     },
     {
@@ -223416,7 +223948,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stoelverbinder-in-gebruik.webp",
      "metafields": []
     },
     {
@@ -223435,7 +223967,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stoelverbinder-in-gebruik.webp",
      "metafields": []
     },
     {
@@ -223454,7 +223986,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "stoelverbinder-in-gebruik.webp",
      "metafields": []
     }
    ],
@@ -223463,7 +223995,14 @@
     "name": "Chair Accessories",
     "full_name": "Furniture > Chair Accessories"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "stoelverbinder-in-gebruik.webp",
+     "alt": "Drie witte klapstoelen in een rechte rij, met stoelverbinders aan de voorpoten",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -223600,7 +224139,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-hoes.webp",
      "metafields": []
     },
     {
@@ -223619,7 +224158,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-hoes.webp",
      "metafields": []
     },
     {
@@ -223638,7 +224177,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-hoes.webp",
      "metafields": []
     },
     {
@@ -223657,7 +224196,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-zitblad.webp",
      "metafields": []
     },
     {
@@ -223676,7 +224215,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-truss-voetplaat.webp",
      "metafields": []
     },
     {
@@ -223695,7 +224234,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "accessoires-betonblok-truss-voetplaat.webp",
      "metafields": []
     }
    ],
@@ -223704,7 +224243,26 @@
     "name": "Canopy Weights",
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy Weights"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "accessoires-betonblok-hoes.webp",
+     "alt": "Zwarte hoes over een betonblok van 500 kg (blok niet inbegrepen)",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "accessoires-betonblok-zitblad.webp",
+     "alt": "Houten zitblad op een betonblok, als bank (blok niet inbegrepen)",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "accessoires-betonblok-truss-voetplaat.webp",
+     "alt": "Stalen truss-voetplaat van 45 × 45 cm met vier gaten",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -234626,7 +235184,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "steekwagen-stapelstoelen-hero.webp",
      "metafields": []
     }
    ],
@@ -234635,7 +235193,20 @@
     "name": "Platform Dollies",
     "full_name": "Hardware > Tools > Dollies & Hand Trucks > Platform Dollies"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "steekwagen-stapelstoelen-hero.webp",
+     "alt": "Steekwagen voor stapelstoelen, leeg, schuin vooraanzicht",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "steekwagen-stapelstoelen-geladen.webp",
+     "alt": "Steekwagen met een stapel van 10 zwarte metalen stapelstoelen (stoelen niet inbegrepen)",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -234773,7 +235344,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "transportkar-universeel-hero.webp",
      "metafields": []
     },
     {
@@ -234792,7 +235363,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "transportkar-universeel-hero.webp",
      "metafields": []
     }
    ],
@@ -234801,7 +235372,26 @@
     "name": "Platform Dollies",
     "full_name": "Hardware > Tools > Dollies & Hand Trucks > Platform Dollies"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "transportkar-universeel-hero.webp",
+     "alt": "Universele transportkar, enkele uitvoering, leeg, met twee beugels",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "transportkar-universeel-dubbel.webp",
+     "alt": "Universele transportkar, dubbele uitvoering, leeg, met vier beugels",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "transportkar-universeel-geladen.webp",
+     "alt": "Dubbele universele transportkar met een stapel stoelen en een stapel barkrukken (meubilair niet inbegrepen)",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -235157,7 +235747,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp",
      "metafields": []
     },
     {
@@ -235176,7 +235766,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
      "metafields": []
     },
     {
@@ -235195,7 +235785,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
      "metafields": []
     },
     {
@@ -235252,7 +235842,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp",
      "metafields": []
     },
     {
@@ -235271,7 +235861,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
      "metafields": []
     }
    ],
@@ -235280,7 +235870,38 @@
     "name": "Table Accessories",
     "full_name": "Furniture > Table Accessories"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-inklapbaar.webp",
+     "alt": "Vier ronde voetdoppen voor de inklapbare barkruk",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-voor.webp",
+     "alt": "Twee vierkante voetdoppen voor de voorpoten van de metalen barkruk",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stoelen-en-barkrukken-voetdoppen-barkruk-metaal-achter.webp",
+     "alt": "Twee schuine voetdoppen voor de achterpoten van de metalen barkruk",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stoelen-en-barkrukken-voetdoppen-klapstoel.webp",
+     "alt": "Vier ovale voetdoppen voor de klapstoel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-stoelen-en-barkrukken-voetdoppen-stapelstoel-metaal.webp",
+     "alt": "Vier ronde voetdoppen voor de metalen stapelstoel",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -235425,7 +236046,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235457,7 +236078,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-goud-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235489,7 +236110,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-chroom-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235521,7 +236142,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235553,7 +236174,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-goud-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235585,7 +236206,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-chroom-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235617,7 +236238,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235649,7 +236270,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-goud-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235681,7 +236302,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "afzetpaal-gala-chroom-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -235703,7 +236324,32 @@
     "name": "Retractable Belts",
     "full_name": "Hardware > Fencing & Barriers > Safety & Crowd Control Barriers > Retractable Belts"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "afzetpaal-gala-goud-hero.webp",
+     "alt": "Twee luxe afzetpalen gala, goud, met bordeaux fluwelen koord ertussen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "afzetpaal-gala-zwart-hero.webp",
+     "alt": "Twee luxe afzetpalen gala, zwart, met zwart fluwelen koord ertussen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "afzetpaal-gala-chroom-hero.webp",
+     "alt": "Twee luxe afzetpalen gala, chroom, met bordeaux fluwelen koord ertussen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "afzetpaal-gala-galerie-60-cm.webp",
+     "alt": "Twee lage galeriepalen van 60 cm, zwart, met zwart koord ertussen",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -235840,7 +236486,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "loperpennen-set-van-25-hero.webp",
      "metafields": []
     }
    ],
@@ -235849,7 +236495,14 @@
     "name": "Rugs",
     "full_name": "Home & Garden > Decor > Rugs"
    },
-   "images": [],
+   "images": [
+    {
+     "src": "loperpennen-set-van-25-hero.webp",
+     "alt": "25 stalen bevestigingspennen met platte kop, naast elkaar",
+     "width": 2000,
+     "height": 2000
+    }
+   ],
    "metafields": [
     {
      "namespace": "custom",
@@ -235989,7 +236642,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stapelstoel-metaal-zwart-hero.webp",
+     "image": "pakket-20-stapelstoelen-met-transportkar-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -236021,7 +236674,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stapelstoel-metaal-wit-hero.webp",
+     "image": "pakket-20-stapelstoelen-met-transportkar-wit-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -236053,7 +236706,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stapelstoel-metaal-antraciet-hero.webp",
+     "image": "pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -236077,20 +236730,20 @@
    },
    "images": [
     {
-     "src": "stapelstoel-metaal-zwart-hero.webp",
-     "alt": "Stapelstoel metaal, Zwart, schuin vooraanzicht (onderdeel van dit pakket)",
+     "src": "pakket-20-stapelstoelen-met-transportkar-zwart-hero.webp",
+     "alt": "Transportkar met 2 stapels zwarte metalen stapelstoelen en één stoel ernaast",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "stapelstoel-metaal-wit-hero.webp",
-     "alt": "Stapelstoel metaal, Wit, schuin vooraanzicht (onderdeel van dit pakket)",
+     "src": "pakket-20-stapelstoelen-met-transportkar-wit-hero.webp",
+     "alt": "Transportkar met 2 stapels witte metalen stapelstoelen en één stoel ernaast",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "stapelstoel-metaal-antraciet-hero.webp",
-     "alt": "Stapelstoel metaal, Antraciet, schuin vooraanzicht (onderdeel van dit pakket)",
+     "src": "pakket-20-stapelstoelen-met-transportkar-antraciet-hero.webp",
+     "alt": "Transportkar met 2 stapels antraciet metalen stapelstoelen en één stoel ernaast",
      "width": 2000,
      "height": 2000
     }
@@ -236233,7 +236886,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klapstoel-wit-hero.webp",
+     "image": "pakket-50-klapstoelen-met-transportkar-wit-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -236265,7 +236918,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klapstoel-zwart-hero.webp",
+     "image": "pakket-50-klapstoelen-met-transportkar-zwart-hero.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -236289,14 +236942,14 @@
    },
    "images": [
     {
-     "src": "klapstoel-wit-hero.webp",
-     "alt": "Klapstoel, Wit, schuin vooraanzicht (onderdeel van dit pakket)",
+     "src": "pakket-50-klapstoelen-met-transportkar-wit-hero.webp",
+     "alt": "Transportkar met 50 ingeklapte witte klapstoelen",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "klapstoel-zwart-hero.webp",
-     "alt": "Klapstoel, Zwart, schuin vooraanzicht (onderdeel van dit pakket)",
+     "src": "pakket-50-klapstoelen-met-transportkar-zwart-hero.webp",
+     "alt": "Transportkar met 50 ingeklapte zwarte klapstoelen",
      "width": 2000,
      "height": 2000
     }

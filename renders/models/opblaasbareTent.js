@@ -30,6 +30,7 @@ import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
 import * as T2 from '../js/tentkit2.js';
 import * as LK from '../js/lightKit.js';
+import { fixedView } from '../js/fixedView.js';
 
 const { V3, TAU } = K;
 const dirOf = (a) => V3(Math.sin(a), 0, Math.cos(a));
@@ -197,7 +198,10 @@ export function opblaasbareTent(p = {}) {
   }
 
   // ---- canopy faces: taut membranes hung under the arches ---------------------------------------
-  const s1 = arch.sAtRho(D.stop);
+  // round 6: the faces run on to 62 % of the old stop radius, into the hub node: from under the
+  // hub (LED view) their straight top edges left lens-shaped gaps and notches next to the arches
+  const stopF = D.stop * 0.62;
+  const s1 = arch.sAtRho(stopF);
   const NV = 48, NU = 36;
   const levels = []; for (let j = 0; j <= NV; j++) levels.push(s0 + ((s1 - s0) * j) / NV);
   const faces = [];
@@ -256,7 +260,7 @@ export function opblaasbareTent(p = {}) {
   {
     let yAvg = 0; for (let k = 0; k < N; k++) for (let i = 0; i <= NU; i++) yAvg += faces[k][NV][i].y;
     yAvg /= N * (NU + 1);
-    const disc = G.lathe([[1e-4, yAvg + 0.01], [D.stop * 1.05, yAvg - 0.004], [D.stop * 1.08, yAvg - 0.02]], 48);
+    const disc = G.lathe([[1e-4, yAvg + 0.01], [stopF * 1.05, yAvg - 0.004], [stopF * 1.08, yAvg - 0.02]], 48);
     bins.add(print ? K.pvc('#1C4A86') : roofBase, disc);
   }
   // seam where every face meets its arch (a welt tucked under the flank of the tube)
@@ -569,9 +573,20 @@ export function opblaasbareTent(p = {}) {
 
   // framing: a fixed footprint (legs + 0.3 m) and the hub top, so every colour / leg variant of a
   // size is framed the same; the lamp view frames the lamp and the hub only
+  let lowView = null;
   if (light) {
     group.traverse((o) => { if (o.isMesh) o.userData.noFrame = true; });
-    group.add(T2.frameProxy([-0.24, lampPos.y - 0.12, -0.24], [0.24, lampPos.y + 0.3, 0.24]));
+    // round 7 ("broken geometry: tubes cut flat by the near plane, the knot missing, the lamp's
+    // rod ending in mid-air, not readable as the inside of a tent"): the camera now stands just
+    // outside the open front, 25 cm off the floor, and looks up under the front band into the
+    // tent: the front band across the top, the lamp burning under the hub with the four arches
+    // converging on the knot, the lit canopy round it, the back arch and its legs down to the
+    // floor inside. Nothing is closer than ~1 m, so nothing reaches the near plane. The camera
+    // is fixed by a proxy rectangle square to the view (the auto-framing puts the camera exactly
+    // where the rectangle fills the frame).
+    const fv = fixedView(V3(0.55, 0.3, D.w / 2 + 1.15 * (D.w / 3)), V3(0, lampPos.y - 0.34, 0), { fov: 38, fill: 0.9 });
+    group.add(fv.proxy);
+    lowView = fv.view;
   } else {
     const pts = [];
     for (let k = 0; k < N; k++) for (let i = -2; i <= 2; i++) pts.push(C[k].clone().add(dirOf(ang[k] + i * 0.35).multiplyScalar(r + 0.3)));
@@ -619,7 +634,10 @@ export function opblaasbareTent(p = {}) {
       back: { azimuth: heroAz + 180 },
       // straight up under the hub, square onto the X of the four arches, the lamp in the middle
       // (round 3's 24 / -38 / fov 62 showed a burnt-out roof and a tiny disc)
-      ...(light ? { low: { azimuth: 0, elevation: -40, fov: 46, fill: 0.5 } } : {}),
+      // round 6: straight up under the hub read as an abstract upward crop with the lamp a small
+      // disc: now from just inside the entrance, looking up ~24 deg at the lamp (diffuser and
+      // housing both read), the hub with the arches converging above it, the lit canopy around
+      ...(lowView ? { low: lowView } : {}),
     },
     rig,
     meta: {

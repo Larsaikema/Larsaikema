@@ -37,6 +37,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/tentkit.js';
 import * as T2 from '../js/tentkit2.js';
+import * as CK from '../js/clothKit.js';
 
 const { V3 } = K;
 
@@ -66,7 +67,7 @@ function connector(bins, steel, at, dirs, { rs = 0.0235, len = 0.11, screws = tr
 export function buildFrameTent(o) {
   const {
     span: W, length: L, eave: He, ridge: Hr, line = 'pvc', color = 'wit', walls = 'none', door = 'closed',
-    gableFront = false, frame = true, bay: bayWanted = 2, frontGableDoor = false, ties = false, valance = 0.17,
+    gableFront = false, frame = true, bay: bayWanted = 2, frontGableDoor = false, ties = false, valance = 0.2,
     groundFrame = false, collar = false, straps = false, openGable = null, openFront = false,
     stripes = null, stripeW = 0.5, gableDoor = null,
   } = o;
@@ -107,6 +108,8 @@ export function buildFrameTent(o) {
   const zipM = M.zipTooth('#1A1A1B');
   const strapM = M.webbing('#1A1A1B');
   const bungeeM = M.mouldedNylon('#202022');
+  const eyeM = M.galvanised();
+  const holeM = M.mouldedNylon('#0E0E0F');
   const bins = new G.PartBin();
   const inner = new THREE.Group();
   const r = pe ? 0.016 : 0.019, c = 0.012;
@@ -190,18 +193,67 @@ export function buildFrameTent(o) {
   }
 
   // ---- roof cover ------------------------------------------------------------------------------
-  const sagA = pe ? 0.04 : 0.024;
-  const xe = L / 2 + r + c; // gable cloth plane
+  // Round 6 ("hard slabs, no tension"): the cover is a tensioned membrane, not a plate.
+  //  - every 2 m bay sags between its rafters, eave tube and ridge tube (first membrane mode,
+  //    PVC ~4.5 cm, PE ~6.5 cm, each bay a little different), so every bay reads as its own
+  //    panel with a soft trough and the rafters as crisp lines;
+  //  - tension wrinkles fan out of the eave corners over every leg (where the straps pull the
+  //    cover down) and, weaker, out of the ridge nodes: ridges along the pull, 15-22 cm apart,
+  //    dying out within ~60 cm, zero on the supported edges;
+  //  - the valance hangs from ball bungees every 50 cm: a pressed eyelet with the black ball at
+  //    every bungee on a doubled hem band, the hem pulled in and up at each eyelet, a soft belly
+  //    between them with pinch folds converging on the eyelet;
+  //  - the gable triangles hang from the gable rafters with wrinkles fanning from the apex and
+  //    the eave corners.
+  const sagA = pe ? 0.095 : 0.075;
+  const xe = L / 2 + r + c + 0.004; // gable cloth plane
+  const Sl = Math.hypot(hw, rise); // slope length eave -> ridge
+  const bayK = []; for (let i = 0; i < nb; i++) bayK.push(0.82 + 0.36 * CK.hash(i * 3.1 + (pe ? 7 : 1)));
+  const bayOf = (x) => Math.min(nb - 1, Math.max(0, Math.floor((x + L / 2) / bay)));
   const sag = (x, z) => {
     const fx = ((x + L / 2) / bay) % 1, fu = 1 - Math.abs(z) / hw;
     const inBay = Math.abs(x) < L / 2 ? Math.sin(Math.PI * Math.min(1, Math.max(0, fx))) : 0;
-    // PE: a few soft diagonal wrinkles from the eave corners of each bay
-    const wr = pe ? 0.006 * Math.sin((x - z * 0.7) * 5.1) * inBay * fu * (1 - fu) * 4 : 0;
-    return sagA * Math.pow(inBay, 0.8) * Math.sin(Math.PI * Math.min(1, Math.max(0, fu))) + wr;
+    return sagA * bayK[bayOf(x)] * Math.pow(inBay, 0.8) * Math.sin(Math.PI * Math.min(1, Math.max(0, fu)));
   };
-  const NZ = 30, NB = 8, NV = 5;
-  const xCols = withJoins(-xe, xe, Math.max(60, nb * 36), L), NX = xCols.length - 1;
+  // wrinkle fans per slope in (a = x, b = metres up the slope from the eave)
+  const fans = [];
+  const wA = pe ? 0.016 : 0.012, wLam = pe ? 0.17 : 0.22;
+  xs.forEach((x, i) => {
+    for (const sd of [-1, 1]) {
+      if ((i === 0 && sd < 0) || (i === nb && sd > 0)) continue;
+      const ph = CK.hash(i * 5.3 + sd) * 6.28;
+      fans.push({ a: x, b: 0, da: sd * bay * 0.42, db: Sl * 0.58, A: wA, lam: wLam, reach: 0.8, spread: 0.6, phase: ph });
+      fans.push({ a: x, b: Sl, da: sd * bay * 0.5, db: -Sl * 0.5, A: wA * 0.55, lam: wLam * 0.9, reach: 0.42, spread: 0.5, phase: ph + 1.3 });
+    }
+  });
+  const wrinkle = CK.fanWrinkles(fans);
+  const roofW = (x, z) => {
+    if (Math.abs(x) >= L / 2) return 0;
+    const fx = ((x + L / 2) / bay) % 1, b = (1 - Math.abs(z) / hw) * Sl;
+    const win = Math.pow(Math.sin(Math.PI * fx), 0.6) * CK.sst(0, 0.06, b) * CK.sst(0, 0.05, Sl - b);
+    return wrinkle(x, b) * win;
+  };
+  // a point of the cloth on a slope (sz = +-1): on the rafters, minus the sag, plus the wrinkles
+  // along the slope normal
+  const nSl = (sz) => V3(0, Math.cos(pitch), sz * Math.sin(pitch));
+  const roofPt = (x, z, sz) => V3(x, roofY(z) - sag(x, z), z).addScaledVector(nSl(sz), roofW(x, z));
+  // valance on ball bungees every 50 cm
+  const bung0 = -L / 2 + 0.25, bungP = 0.5;
+  const valOut = (x, f) => {
+    const fe = CK.festoon(x, bung0, bungP);
+    const bel = CK.sst(0, 1, fe.d);
+    const lo = Math.pow(1 - f, 1.3);
+    return 0.006 + lo * (0.003 + 0.013 * bel + 0.0028 * (1 - fe.d) * Math.cos(fe.ph * Math.PI * 2 * 3)) + 0.003 * Math.sin(x * 4.1) * (1 - f);
+  };
+  const valY = (x, f) => {
+    const fe = CK.festoon(x, bung0, bungP);
+    const lift = 0.009 * Math.pow(1 - fe.d, 2);
+    return He - valance + lift + (valance - lift) * f;
+  };
+  const NZ = 60, NB = 8, NV = 12;
+  const xCols = withJoins(-xe, xe, Math.max(120, nb * 60), L), NX = xCols.length - 1;
   const slopes = [];
+  const cv = c + 0.004; // valance clearance outside the eave tube (walls hang inside it)
   for (const sz of [-1, 1]) {
     const rows = [];
     for (let j = 0; j <= NV + NB + NZ; j++) {
@@ -210,17 +262,16 @@ export function buildFrameTent(o) {
         const x = xCols[i];
         let q;
         if (j <= NV) {
-          const f = j / NV, y = He - valance + valance * f;
-          const wave = 0.005 * Math.sin(x * 4.1 + sz) * (1 - f);
-          q = V3(x, y, sz * (hw + r + c + wave));
+          const f = j / NV;
+          q = V3(x, valY(x, f), sz * (hw + r + cv + valOut(x, f) * (1 - f * 0.999)));
         } else if (j <= NV + NB) {
           const b = ((j - NV) / NB) * (Math.PI / 2 - pitch);
-          q = V3(x, He + (r + c) * Math.sin(b), sz * (hw + (r + c) * Math.cos(b)));
+          q = V3(x, He + (r + cv) * Math.sin(b), sz * (hw + (r + cv) * Math.cos(b)));
         } else {
           const f = (j - NV - NB) / NZ;
           const z = sz * hw * (1 - f);
-          const yy = roofY(z) - sag(x, z);
-          q = V3(x, yy, z);
+          q = roofPt(x, z, sz);
+          if (f < 0.04) q.y += (r + cv - (r + c)) * (1 - f / 0.04) * 0.0; // (continuity with the bend)
         }
         row.push(q);
       }
@@ -229,14 +280,29 @@ export function buildFrameTent(o) {
     if (sz < 0) for (const row of rows) row.reverse();
     addCloth(K.gridGeometry(rows), 'x');
     slopes.push(rows);
-    // valance hem + stitch, ball bungees every 50 cm round the eave tube
-    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5), 'x');
-    bins.add(thread, K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.022, sz * 0.0025))), 0.0011, 4));
-    if (frame) {
-      for (let x = -L / 2 + 0.25; x < L / 2; x += 0.5) {
-        const b = new THREE.SphereGeometry(0.011, 10, 8); b.translate(x, He - valance + 0.03, sz * (hw + r + c + 0.012)); bins.add(bungeeM, b);
-        const cord = []; for (let t = 0; t <= 8; t++) { const a = (t / 8) * Math.PI; cord.push(V3(x, He - valance + 0.03 + (valance - 0.02) * Math.sin(a * 0.5), sz * (hw + r + c + 0.006 - 0.02 * Math.sin(a)))); }
-        bins.add(bungeeM, K.sweep(cord, 0.0025, 5));
+    // doubled hem band (4 cm) with the stitch line, the eyelets with their ball bungees
+    const hemTop = 0.045 / valance;
+    const band = [];
+    for (let jj = 0; jj <= 3; jj++) {
+      const f = (hemTop * jj) / 3, row = [];
+      for (let i = 0; i <= NX; i++) { const x = xCols[i]; row.push(V3(x, valY(x, f), sz * (hw + r + cv + valOut(x, f) + 0.0013))); }
+      band.push(row);
+    }
+    if (sz < 0) for (const row of band) row.reverse();
+    addCloth(K.gridGeometry(band), 'x');
+    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.003, 0))), 0.0045, 5), 'x');
+    bins.add(thread, K.sweep(xCols.map((x) => V3(x, valY(x, hemTop) - 0.003, sz * (hw + r + cv + valOut(x, hemTop) + 0.0024))), 0.0011, 4));
+    bins.add(thread, K.sweep(xCols.map((x) => V3(x, valY(x, 0.02 / valance), sz * (hw + r + cv + valOut(x, 0.02 / valance) + 0.0024))), 0.0011, 4));
+    for (let x = bung0; x < L / 2; x += bungP) {
+      const f = 0.026 / valance;
+      const at = V3(x, valY(x, f), sz * (hw + r + cv + valOut(x, f) + 0.0016));
+      const n = V3(0, 0, sz);
+      bins.add(eyeM, CK.grommet(at, n, { R: 0.0115, r: 0.0062 }));
+      bins.add(holeM, CK.grommetHole(at, n));
+      if (frame) {
+        const ball = new THREE.SphereGeometry(0.0105, 12, 9); ball.translate(x, at.y - 0.002, at.z + sz * 0.011); bins.add(bungeeM, ball);
+        const cord = [at.clone().addScaledVector(n, 0.002), at.clone().addScaledVector(n, 0.009).add(V3(0, -0.001, 0))];
+        bins.add(bungeeM, K.sweep(cord, 0.0028, 5));
       }
     }
   }
@@ -250,26 +316,74 @@ export function buildFrameTent(o) {
   }
   const ridge = []; for (let i = 0; i <= 60; i++) ridge.push(V3(-xe + (2 * xe * i) / 60, Hr + r + c + 0.002, 0));
   bins.add(tapeMat, K.sweep(ridge, 0.012, 8, { rFn: (ii, a) => (Math.sin(a) > 0 ? 0.012 : 0.004) }));
-  // gable triangles (part of the cover), with the bottom flap continuing the valance line
-  for (const sx of [-1, 1]) {
+  // corner reinforcement patches (welded triangles over the four roof corners)
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
     const rows = [];
-    const zCols = withJoins(-hw - r - c, hw + r + c, 48, W), NG = zCols.length - 1, NH = 34;
-    for (let j = 0; j <= NH; j++) {
-      const f = j / NH, row = [];
-      for (let i = 0; i <= NG; i++) {
-        const z = zCols[i];
-        const zc = Math.max(-hw, Math.min(hw, z));
-        const yTop = Math.max(roofY(zc), He + r + c);
-        const y0 = He - valance;
-        const y = y0 + (yTop - y0) * f;
-        const bulge = 0.012 * Math.sin(Math.PI * (z + hw + r + c) / (2 * (hw + r + c))) * Math.sin(Math.PI * f);
-        row.push(V3(sx * (xe + bulge), y, z));
+    for (let j = 0; j <= 6; j++) {
+      const row = [];
+      for (let i = 0; i <= 6; i++) {
+        const u = i / 6, v = j / 6 * (1 - u);
+        const x = sx * (L / 2 - 0.34 * u), z = sz * (hw - 0.36 * v);
+        row.push(roofPt(x, z, sz).addScaledVector(nSl(sz), 0.0011));
       }
       rows.push(row);
     }
+    // keep the patch normal facing out of the slope (the grid winding follows the corner)
+    const gp = K.gridGeometry(rows), nn = gp.attributes.normal;
+    if (nn.getY(0) < 0) { const ix = gp.index.array; for (let k = 0; k < ix.length; k += 3) { const t = ix[k + 1]; ix[k + 1] = ix[k + 2]; ix[k + 2] = t; } gp.computeVertexNormals(); }
+    bins.add(seamM, gp);
+  }
+  // gable triangles (part of the cover), with the bottom flap continuing the valance line
+  const gPole = W >= 3.9;
+  for (const sx of [-1, 1]) {
+    const rows = [];
+    const zCols = withJoins(-hw - r - cv, hw + r + cv, 72, W), NG = zCols.length - 1, NH = 44;
+    const gf = [];
+    for (const sz of [-1, 1]) {
+      gf.push({ a: 0, b: Hr, da: sz * 0.62, db: -1, A: pe ? 0.007 : 0.0052, lam: 0.17, reach: 0.5, spread: 0.45, phase: 1.1 + sz + sx });
+      gf.push({ a: sz * hw, b: He, da: -sz * 0.8, db: 0.55, A: pe ? 0.007 : 0.005, lam: 0.18, reach: 0.45, spread: 0.5, phase: 2.3 + sz * sx });
+    }
+    const gw = CK.fanWrinkles(gf);
+    // the triangle bellies out between its supports (gable rafters on top, the gable pole in the
+    // middle when there is one, the corner legs): two soft pillows either side of the pole, so a
+    // gable seen head-on gets a gradient across each half instead of one flat value
+    const gA = pe ? 0.04 : 0.03;
+    const gP = (z, f) => {
+      const zc = Math.max(-hw, Math.min(hw, z));
+      const yTop = Math.max(roofY(zc), He + r + c);
+      const y0 = He - valance;
+      const y = y0 + (yTop - y0) * f;
+      const below = yTop - y;
+      const win = CK.sst(0, 0.07, below) * (gPole ? CK.sst(0.02, 0.12, Math.abs(z)) : 1) * CK.sst(0, 0.05, hw + r - Math.abs(z));
+      const fz = gPole ? Math.min(1, Math.abs(z) / hw) : Math.min(1, Math.max(0, (z + hw) / (2 * hw)));
+      const bulge = gA * Math.sin(Math.PI * fz) * Math.pow(Math.sin(Math.PI * Math.min(1, f * 1.15)), 0.8) * (1 + 0.15 * Math.sin(z * 2.3 + sx));
+      return V3(sx * (xe + bulge + gw(z, y) * win), y, z);
+    };
+    for (let j = 0; j <= NH; j++) {
+      const f = j / NH, row = [];
+      for (let i = 0; i <= NG; i++) row.push(gP(zCols[i], f));
+      rows.push(row);
+    }
+    // welded seams of the gable panels (vertical, 1 m apart)
+    for (const zs of (gPole ? [-hw / 2, hw / 2] : [-hw / 3, hw / 3])) {
+      const pts = [], nrm = [];
+      for (let t = 0; t <= 30; t++) { const q = gP(zs, (t / 30) * 0.985); pts.push(q.clone().add(V3(sx * 0.0011, 0, 0))); nrm.push(V3(sx, 0, 0)); }
+      bins.add(seamM, T2.bandAlong(pts, nrm, 0.035, 0.0011));
+    }
     if (sx > 0) for (const row of rows) row.reverse();
     addCloth(K.gridGeometry(rows), 'z');
-    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.004, 0))), 0.005, 5), 'z');
+    addCloth(K.sweep(rows[0].map((q) => q.clone().add(V3(0, 0.003, 0))), 0.0045, 5), 'z');
+    // hem band of the gable flap
+    const band = [];
+    for (let jj = 0; jj <= 2; jj++) { const row = []; for (const z of zCols) row.push(V3(sx * (xe + 0.0013), He - valance + (0.045 * jj) / 2, z)); band.push(row); }
+    if (sx > 0) for (const row of band) row.reverse();
+    addCloth(K.gridGeometry(band), 'z');
+    bins.add(thread, K.sweep(zCols.map((z) => V3(sx * (xe + 0.0024), He - valance + 0.042, z)), 0.0011, 4));
+    for (let z = -hw + 0.25; z < hw; z += 0.5) {
+      const at = V3(sx * (xe + 0.0016), He - valance + 0.026, z), n = V3(sx, 0, 0);
+      bins.add(eyeM, CK.grommet(at, n, { R: 0.0115, r: 0.0062 }));
+      bins.add(holeM, CK.grommetHole(at, n));
+    }
   }
 
   // ---- storm straps (550 compleet) ----------------------------------------------------------------
@@ -283,8 +397,9 @@ export function buildFrameTent(o) {
       // front stake -> eave edge -> up the roof -> ridge -> down the back -> back stake
       const zs = [];
       for (let t = 0; t <= 10; t++) { const f = t / 10; pts.push(V3(x, (He + r + c + 0.01) * f, hw + out * (1 - f) + (r + c + 0.01) * f)); }
-      for (let t = 1; t <= 24; t++) { const z = hw * (1 - t / 24); pts.push(V3(x, roofY(z) - sag(x, z) * 0.6 + 0.008, z)); }
-      for (let t = 1; t <= 24; t++) { const z = -hw * (t / 24); pts.push(V3(x, roofY(z) - sag(x, z) * 0.6 + 0.008, z)); }
+      // the strap lies on the cloth (round 6: it pressed nothing and floated over the sagging bay)
+      for (let t = 1; t <= 24; t++) { const z = hw * (1 - t / 24); pts.push(roofPt(x, z, 1).addScaledVector(nSl(1), 0.005)); }
+      for (let t = 1; t <= 24; t++) { const z = -hw * (t / 24); pts.push(roofPt(x, z, -1).addScaledVector(nSl(-1), 0.005)); }
       for (let t = 1; t <= 10; t++) { const f = t / 10; pts.push(V3(x, (He + r + c + 0.01) * (1 - f), -hw - (r + c + 0.01) - (out - r - c) * f)); }
       for (let k = 0; k < pts.length; k++) {
         const a = pts[Math.max(0, k - 1)], b = pts[Math.min(pts.length - 1, k + 1)];
@@ -360,15 +475,26 @@ export function buildFrameTent(o) {
     const endDoor = type === 'enddoor';
     const endOpen = endDoor && (door === 'open' || door === 'rolled');
     const dw = Math.min(2.0, Math.max(1.2, len * 0.4)), d0 = len / 2 - dw / 2, d1 = len / 2 + dw / 2;
+    // Round 6: the wall hangs from hooks every 50 cm on the eave tube: between two hooks the
+    // cloth droops into a soft swag with fan folds converging on the hook (visible for ~40 cm
+    // under the valance); broad, irregular vertical drape folds over the whole height (deeper
+    // to the hem, PVC folds broad and shallow, PE narrower); a wind belly between the legs; the
+    // hem kicks out where it rests on the floor. Under the valance the cloth stays behind it.
+    const yVal = He - valance - 0.01;
     const P = (s, y) => {
       const t = s / len, f = Math.min(1, y / wallTop);
-      // a belly between the legs, soft irregular vertical drape folds (broader to the hem), the
-      // hem a few cm long: it kicks out where it rests on the floor
-      const belly = 0.03 * Math.sin(Math.PI * t) * Math.sin(Math.PI * Math.min(1, 0.12 + f * 0.88));
+      const edge = Math.sin(Math.PI * Math.min(1, t * 1.05 + 0.02));
+      const belly = 0.022 * Math.sin(Math.PI * t) * Math.sin(Math.PI * Math.min(1, 0.12 + f * 0.88));
       const lo = (1 - f);
-      const folds = (0.011 * Math.sin(s * 3.3 + ph) + 0.007 * Math.sin(s * 7.9 + 2 + ph) + 0.004 * Math.sin(s * 15.7 + ph * 2)) * lo * lo * Math.sin(Math.PI * Math.min(1, t * 1.05 + 0.02));
+      const fs = pe ? 1.35 : 1;
+      const n1 = CK.noise1(s * 1.6 * fs + ph, 3), n2 = CK.noise1(s * 3.4 * fs + ph * 1.3, 5), n3 = CK.noise1(s * 7.5 * fs + ph * 0.7, 9);
+      const folds = (0.024 * n1 + 0.013 * n2 + (pe ? 0.006 : 0.004) * n3) * (0.3 + 0.7 * Math.pow(lo, 1.3)) * edge;
+      const fe = CK.festoon(s, 0.25, 0.5), dt = wallTop - y;
+      const swag = (0.016 * (CK.sst(0, 1, fe.d) - 0.3) + 0.006 * Math.cos(fe.ph * Math.PI * 4) * (1 - 0.6 * fe.d)) * Math.exp(-Math.max(0, dt - 0.12) / 0.3) * edge;
       const kick = y < 0.05 ? (0.05 - y) * 0.7 : 0;
-      return a.clone().addScaledVector(along, s).addScaledVector(out, belly + folds + kick).setY(Math.max(0.003, y));
+      let d = belly + folds + swag + kick;
+      if (y > yVal) d = Math.min(d, 0.007 * (1 - CK.sst(yVal, wallTop, y)) + 0.001);
+      return a.clone().addScaledVector(along, s).addScaledVector(out, d).setY(Math.max(0.003, y));
     };
     const holes = [];
     if (type === 'windows') {
@@ -560,10 +686,23 @@ export function frameTent(p = {}) {
     }
     enclosure = { box: [0, 0, hx + 0.07, hz + 0.07], floorBox: [0, 0, hx + 0.04, hz + 0.04], top: Hr + 0.05, feather: 0.14, k: 0.55, kNear: 1.0, amb: 0.8, ambNear: 1.7, floor: 0.4, floorNear: 0.8, fall: 2.8, openings };
   }
+  const stripes0 = !!p.stripes;
   const rigW = T2.tentRig2(hex, { walled, enclosure });
   // long walled tents: the softbox beam wider and aimed at the walls' half height, a low card in
   // front, so the long wall on the key side reads white (not mid grey) and keeps its drape
-  const rigD = walled ? { ...rigW, key: { ...rigW.key, aimRel: [0.05, 0.02, 0.62], angle: 66 }, bounce: { azimuth: -20, elevation: -22, intensity: K.lumOf(hex) > 0.7 ? 3.2 : 1.5 } } : rigW;
+  // Round 6 (white read as flat blown-out plates): the softbox rakes the long wall from further
+  // round to the left (-88 deg from the camera), so the drape folds and the bay sag model, and the
+  // flat front fill (low card, fill) is roughly halved; white gets exposure 0.56 (lit roof ~240-246,
+  // lit wall ~230-242 with fold modulation, almost nothing above 248)
+  const whiteC = K.lumOf(hex) > 0.7 && !stripes0;
+  const rigD = walled
+    ? { ...rigW, key: { ...rigW.key, azimuth: -88, aimRel: [0.05, 0.02, 0.62], angle: 66 }, bounce: { azimuth: -20, elevation: -22, intensity: whiteC ? 1.0 : 0.8 },
+      fill: { ...rigW.fill, intensity: whiteC ? 1.3 : 2.2 }, ...(whiteC ? { exposure: 0.56 } : {}) }
+    : { ...rigW, key: { ...rigW.key, azimuth: -84 }, ...(whiteC ? { exposure: 0.55, fill: { ...rigW.fill, intensity: 1.6 } } : {}) };
+  // opslagtent hero: the long wall seen in the hero faces away from the softbox (+x, image
+  // right) and read light grey (~158 white); a lower, more frontal fill from the right lights it to
+  // the turned-away value of a white easy-up face (~210-220) and leaves the lit gable on top
+  const rigO = opslag ? { ...rigD, fill: { azimuth: 75, elevation: 14, intensity: whiteC ? 3.6 : 3.0 } } : rigD;
   return {
     object: group,
     detail: { target: [length / 2, He - 0.2, span / 2], size: 1.2, azimuth: 30, elevation: 8 },
@@ -571,10 +710,10 @@ export function frameTent(p = {}) {
       ? { hero: { azimuth: gableDoor === 'left' ? -70 : 70, elevation: 9 }, front: { azimuth: gableDoor === 'left' ? -70 : 70, elevation: 9 } }
       : { hero: pro620 ? { azimuth: 58, elevation: 9 } : frame ? { elevation: walled ? 15 : 17 } : { azimuth: 34, elevation: 18 }, front: { elevation: 6 } },
     rig: {
-      default: rigD,
+      default: rigO,
       // straight-on view of a walled tent: the walls face the camera, so the softbox comes
       // from front-left (not raking) and white cloth gets the easy-up front exposure
-      front: gableDoor ? {} : { key: { ...rigD.key, azimuth: -38, elevation: 28, distanceRel: 2.0, aimRel: [-0.05, 0.3, 0.6], angle: 50, penumbra: 0.9 }, fill: { azimuth: 55, elevation: 10, intensity: 2.2 }, ...(K.lumOf(hex) > 0.7 ? { exposure: 0.66 } : {}) },
+      front: gableDoor ? {} : { key: { ...rigD.key, azimuth: -38, elevation: 28, distanceRel: 2.0, aimRel: [-0.05, 0.3, 0.6], angle: 50, penumbra: 0.9 }, fill: { azimuth: 55, elevation: 10, intensity: 2.2 }, ...(whiteC ? { exposure: 0.56, bounce: { azimuth: -20, elevation: -22, intensity: 1.0 } } : {}) },
     },
     meta: { span, length, He, Hr, line, opslag, frame, series: p.series || null },
   };

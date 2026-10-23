@@ -67,3 +67,51 @@ export function clampAt(bins, mat, wingMat, y) {
   for (const [m, list] of cb.bins) for (const g of list) { g.translate(0, y - h / 2, 0); bins.add(m, g); }
   return V3(0, y, LEG.ringR + 0.004 + 0.03);
 }
+
+// Round 5: a heater (or lamp) *hanging* from the clamp, so the mounting reads at a glance.
+//   clampArm(bins, mat, knobMat, y, z1, { s })  a square steel arm (s x s) welded to the clamp's
+//       stud plate at height y, running out along +Z to z1 + s, with a vertical M8 bolt at z = z1:
+//       a star knob on top of the arm and a nut under the bracket strap. Returns the point under
+//       the arm where the bracket strap's top sits (V3).
+//   hangerBracket(xs, h, { w, t, r })  the product's U-bracket hanging *under* that arm, opening
+//       down: arms from the tilt knobs at x = +-xs (y = 0, z = 0) up to a strap at y = h whose
+//       flat side faces up (width along Z), rounded bends. Product frame: tilt axis = X.
+export function starKnob(add, knobMat, { r = 0.016, h = 0.012, lobes = 5 } = {}) {
+  // lobed star knob, axis +Y, base at y = 0
+  add(knobMat, G.lathe([[0.0001, 0], [r * 0.62, 0], [r * 0.64, h * 0.85], [r * 0.5, h], [0.0001, h]], 28));
+  for (let i = 0; i < lobes; i++) {
+    const a = (i / lobes) * Math.PI * 2;
+    const g = G.lathe([[0.0001, 0], [r * 0.36, 0], [r * 0.38, h * 0.7], [r * 0.3, h * 0.82], [0.0001, h * 0.82]], 18);
+    g.translate(Math.cos(a) * r * 0.62, 0, Math.sin(a) * r * 0.62); add(knobMat, g);
+  }
+}
+
+export function clampArm(bins, mat, knobMat, y, z1, { s = 0.022 } = {}) {
+  const z0 = LEG.ringR + 0.004 + 0.003;
+  bins.add(mat, G.prism(G.roundedRectProfile(s, s, s * 0.16, 2), V3(0, y, z0), V3(0, y, z1 + s * 0.9), { side: V3(1, 0, 0) }));
+  // end plug
+  bins.add(knobMat, G.roundedBox(s * 0.92, s * 0.92, 0.003, 0.0015, 2).translate(0, y, z1 + s * 0.9 + 0.0012));
+  // weld bead round the arm where it meets the stud plate
+  bins.add(mat, G.prism(G.roundedRectProfile(s + 0.004, s + 0.004, s * 0.2, 2), V3(0, y, z0), V3(0, y, z0 + 0.004), { side: V3(1, 0, 0) }));
+  // bolt: washer + star knob on top, threaded end and nut under the strap
+  const shell = L.e27Mats().shell;
+  bins.add(shell, G.lathe([[0.0001, 0], [0.0095, 0], [0.0095, 0.0016], [0.0001, 0.0016]], 24).translate(0, y + s / 2, z1));
+  const kb = []; starKnob((m, g) => kb.push([m, g]), knobMat);
+  for (const [m, g] of kb) bins.add(m, g.translate(0, y + s / 2 + 0.0016, z1));
+  const yS = y - s / 2 - 0.0035;               // under the strap (3 mm) + washer
+  bins.add(shell, G.tube(V3(0, yS - 0.012, z1), V3(0, y, z1), 0.004, 12));
+  bins.add(shell, G.lathe([[0.0001, 0], [0.0075, 0], [0.0075, 0.0065], [0.0001, 0.0065]], 6).translate(0, yS - 0.0075, z1));
+  return V3(0, y - s / 2, z1);
+}
+
+export function hangerBracket(xs, h, { w = 0.024, t = 0.003, r = 0.012 } = {}) {
+  const pts = [];
+  const seg = (a, b, n) => { for (let i = pts.length ? 1 : 0; i <= n; i++) pts.push(a.clone().lerp(b, i / n)); };
+  const arc = (c, a0, a1, n) => { for (let i = 1; i <= n; i++) { const a = a0 + (a1 - a0) * (i / n); pts.push(V3(c.x + Math.cos(a) * r, c.y + Math.sin(a) * r, 0)); } };
+  seg(V3(-xs, 0, 0), V3(-xs, h - r, 0), 6);
+  arc(V3(-xs + r, h - r, 0), Math.PI, Math.PI / 2, 8);
+  seg(V3(-xs + r, h, 0), V3(xs - r, h, 0), 12);
+  arc(V3(xs - r, h - r, 0), Math.PI / 2, 0, 8);
+  seg(V3(xs, h - r, 0), V3(xs, 0, 0), 6);
+  return L.sweepProfile(pts, strapProfile(w, t), { up: V3(0, 0, 1) }).geo;
+}

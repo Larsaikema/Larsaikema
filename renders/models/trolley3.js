@@ -94,7 +94,7 @@ export function marketCart(bins, group, p) {
   if (n) {
     const Rr = rng(77);
     // werkbladen flat on the deck
-    const board = workBoard({ w: 2.0, d: 1.0, finish: 'multiplex-antislip' }).object;
+    const board = workBoard({ w: 2.0, d: 1.0, finish: 'multiplex-antislip', frameNear: false }).object;
     let y = deck;
     for (let i = 0; i < n; i++) {
       const b = i === 0 ? board : board.clone();
@@ -141,9 +141,14 @@ export function sackTruck(bins, group, p, { chair }) {
   bins.add(mat, G.tube(V3(-(W / 2 - 0.02) * 0.92, yH, zH), V3((W / 2 - 0.02) * 0.92, yH, zH), r, 18));
   for (const s of [-1, 1]) bins.add(F.plastic('#151515', 0.7), G.tube(V3(s * 0.08, yH, zH), V3(s * 0.2, yH, zH), r + 0.004, 18));
   for (const y of [0.32, 0.62, 0.92]) bins.add(mat, G.tube(V3(-(W / 2 - 0.02), y, zAt(y)), V3(W / 2 - 0.02, y, zAt(y)), r * 0.8, 14));
-  // scoop: 40 x 30 steel plate with a bent-up back flange welded to the uprights
-  bins.add(mat, G.roundedBox(0.4, 0.006, 0.3, 0.002).translate(0, 0.003, 0.15));
-  bins.add(mat, G.roundedBox(0.44, 0.05, 0.006, 0.002).translate(0, 0.028, 0.0));
+  // scoop: steel plate with a bent-up back flange welded to the uprights. Round 7: 50 x 48 cm, the footprint of a
+  // stacking chair (feet at +-24 cm), so the loaded stack stands ON the scoop with all four feet; at 40 x 30 the
+  // stack stood on the floor straddling it (art direction 22 oct)
+  const SW = 0.52, SD = 0.5;
+  bins.add(mat, G.roundedBox(SW, 0.006, SD, 0.002).translate(0, 0.003, SD / 2));
+  bins.add(mat, G.roundedBox(SW + 0.02, 0.05, 0.006, 0.002).translate(0, 0.028, 0.0));
+  // a turned-down front lip (stiffens the plate, lets it slide under a stack)
+  bins.add(mat, G.roundedBox(SW, 0.012, 0.006, 0.002).rotateX(-0.5).translate(0, 0.004, SD - 0.001));
   // axle bracket and two pneumatic wheels behind the frame
   const R = 0.13, yA = R, zW = -0.13;
   for (const s of [-1, 1]) bins.add(mat, G.flatBar(V3(s * (W / 2 - 0.02), 0.2, zAt(0.2)), V3(s * (W / 2 - 0.02), yA, zW), 0.03, 0.006, V3(1, 0, 0)));
@@ -161,7 +166,7 @@ export function sackTruck(bins, group, p, { chair }) {
     for (let i = 0; i < n; i++) {
       const c = i === 0 ? proto : proto.clone();
       // backs against the frame (chair front +z away from it), on the scoop
-      c.position.set(0, 0.006 + i * pitch, 0.29);
+      c.position.set(0, 0.006 + i * pitch, 0.25);
       group.add(c);
     }
   }
@@ -187,8 +192,16 @@ export function universalCart(bins, group, p, { chair, barStool }) {
   for (const x of [-L / 2 + 0.02, L / 2 - 0.02, ...(stacks === 2 ? [0] : [])]) bins.add(mat, G.prism(sq(0.04, 0.03), V3(x, yd - 0.015, -Wd / 2 + 0.02), V3(x, yd - 0.015, Wd / 2 - 0.02), { side: V3(0, 1, 0) }));
   bins.add(mat, G.roundedBox(L, 0.004, Wd, 0.002).translate(0, yd + 0.002, 0));
   const yTop = yd + 0.004;
-  // push bar at -x
-  endFrame(bins, F.powder('zwart'), -L / 2 - 0.01, Wd / 2 - 0.05, yTop, yTop + 0.95, 0.0125, true);
+  // push bar at -x (round 6: it stood beside the deck with its legs ending in mid-air): the U handle stands in
+  // two square sockets welded on the deck's end member, with a locking bolt through each socket
+  const xh = -L / 2 + 0.03, zh = Wd / 2 - 0.06;
+  endFrame(bins, F.powder('zwart'), xh, zh, yTop + 0.012, yTop + 0.95, 0.0125, true);
+  for (const s of [-1, 1]) {
+    bins.add(mat, G.prism(sq(0.036), V3(xh, yTop, s * zh), V3(xh, yTop + 0.13, s * zh), { side: V3(1, 0, 0) }));
+    bins.add(mat, G.roundedBox(0.06, 0.006, 0.06, 0.002).translate(xh, yTop + 0.003, s * zh));
+    bins.add(M.chrome(), G.tube(V3(xh, yTop + 0.09, s * zh - 0.026), V3(xh, yTop + 0.09, s * zh + 0.026), 0.0045, 10));
+    for (const e of [-1, 1]) bins.add(M.chrome(), G.lathe([[0.0001, 0], [0.0075, 0], [0.0075, 0.004], [0.0001, 0.005]], 6).rotateX(e * Math.PI / 2).translate(xh, yTop + 0.09, s * zh + e * 0.026));
+  }
   // hoops: per stack two inverted U frames across x, sliding in two floor rails along z
   const hoopH = 1.55;
   const mats2 = { hoop: F.powder('zwart'), rail: mat, strap: F.beltWebbing('zwart'), buckle: M.chrome() };

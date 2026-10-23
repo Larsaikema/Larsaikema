@@ -12,6 +12,7 @@ import * as G from '../js/geom.js';
 import * as M from '../js/materials.js';
 import * as K from '../js/partsKit.js';
 import * as SG from '../js/softGoods.js';
+import * as L5 from '../js/partsLook5.js';
 
 const { V3 } = G;
 const DEG = Math.PI / 180;
@@ -64,14 +65,16 @@ export function airPump(p = {}) {
   const hoseMat = SG.moulded('#1A1B1C', { rough: 0.45, clearcoat: 0.2 });
   // body: lower base + upper shell (rounded boxes), parting line between
   const W = 0.27, D = 0.17, H1 = 0.075, H2 = 0.1;
-  const lower = K.extrudeY(new THREE.Shape(G.roundedRectProfile(W - 0.02, D - 0.02, 0.028, 6).map((q) => new THREE.Vector2(q.x, q.y))), H1, { y0: 0.012, bevel: 0.01, bevelSegs: 3, curveSegs: 10 });
-  bins.add(base, lower);
-  const upper = K.extrudeY(new THREE.Shape(G.roundedRectProfile(W - 0.006 - 0.044, D - 0.006 - 0.044, 0.014, 6).map((q) => new THREE.Vector2(q.x, q.y))), H2, { y0: 0.012 + H1 + 0.002, bevel: 0.022, bevelSegs: 5, curveSegs: 10 });
-  bins.add(shell, upper);
+  // round 5: dense rounded corners and bevels with smooth (creased) normals: ExtrudeGeometry is
+  // flat-shaded per triangle, which showed the low-poly corners at 1200 px
+  const lower = K.extrudeY(new THREE.Shape(G.roundedRectProfile(W - 0.02, D - 0.02, 0.028, 24).map((q) => new THREE.Vector2(q.x, q.y))), H1, { y0: 0.012, bevel: 0.01, bevelSegs: 10, curveSegs: 24 });
+  bins.add(base, L5.creased(lower, 50));
+  const upper = K.extrudeY(new THREE.Shape(G.roundedRectProfile(W - 0.006 - 0.044, D - 0.006 - 0.044, 0.014, 24).map((q) => new THREE.Vector2(q.x, q.y))), H2, { y0: 0.012 + H1 + 0.002, bevel: 0.022, bevelSegs: 16, curveSegs: 24 });
+  bins.add(shell, L5.creased(upper, 50));
   const yTop = 0.012 + H1 + 0.002 + H2;
   // moulded carry handle on top
   const hp = []; for (let i = 0; i <= 40; i++) { const t = i / 40; hp.push(V3(-0.09 + 0.18 * t, yTop - 0.01 + 0.055 * Math.sin(Math.PI * t) ** 0.6, 0)); }
-  bins.add(shell, K.sweep(hp, K.rrect(0.03, 0.022, 0.009, 3).map(([x, y]) => [x, y]), { up: V3(0, 0, 1) }));
+  bins.add(shell, K.sweep(hp, K.rrect(0.03, 0.022, 0.009, 8).map(([x, y]) => [x, y]), { up: V3(0, 0, 1) }));
   // vent slots on both short sides
   for (const s of [-1, 1]) for (let k = 0; k < 7; k++) { const sl = G.roundedBox(0.004, 0.006, 0.09, 0.002); sl.translate(s * (W / 2 + 0.0005), 0.04 + k * 0.012, 0); bins.add(black, sl); }
   // rubber feet
@@ -81,12 +84,12 @@ export function airPump(p = {}) {
   const bezel = K.lathe([[0.034, -0.002], [0.037, 0.004], [0.036, 0.01], [0.031, 0.011]], 48); bezel.rotateX(Math.PI / 2); bezel.translate(-0.05, 0.139, fz); bins.add(black, bezel);
   const dial = new THREE.CircleGeometry(0.031, 48); dial.translate(-0.05, 0.139, fz + 0.006);
   const dm = new THREE.Mesh(dial, K.cached('gaugeDial', () => new THREE.MeshPhysicalMaterial({ map: gaugeTex(), roughness: 0.4, clearcoat: 1, clearcoatRoughness: 0.05, name: 'gauge dial' }))); dm.castShadow = false; extras.push(dm);
-  const sw = G.roundedBox(0.03, 0.04, 0.012, 0.004); sw.translate(0.055, 0.136, fz + 0.003); bins.add(black, sw);
-  const rk = G.roundedBox(0.024, 0.017, 0.008, 0.003); rk.rotateX(-0.25); rk.translate(0.055, 0.145, fz + 0.01); bins.add(SG.moulded('#B3231C', { rough: 0.35 }), rk);
-  const rk2 = G.roundedBox(0.024, 0.017, 0.006, 0.003); rk2.rotateX(0.2); rk2.translate(0.055, 0.127, fz + 0.009); bins.add(SG.moulded('#8E1B16', { rough: 0.4 }), rk2);
+  const sw = G.roundedBox(0.03, 0.04, 0.012, 0.004, 6); sw.translate(0.055, 0.136, fz + 0.003); bins.add(black, sw);
+  const rk = G.roundedBox(0.024, 0.017, 0.008, 0.003, 6); rk.rotateX(-0.25); rk.translate(0.055, 0.145, fz + 0.01); bins.add(SG.moulded('#B3231C', { rough: 0.35 }), rk);
+  const rk2 = G.roundedBox(0.024, 0.017, 0.006, 0.003, 6); rk2.rotateX(0.2); rk2.translate(0.055, 0.127, fz + 0.009); bins.add(SG.moulded('#8E1B16', { rough: 0.4 }), rk2);
   // outlet port on the right side (+x), hose from it
   const op = V3(W / 2 + 0.002, 0.07, -0.02);
-  bins.add(black, G.tube(op.clone().add(V3(-0.01, 0, 0)), op.clone().add(V3(0.03, 0, 0)), 0.022, 32));
+  bins.add(black, G.tube(op.clone().add(V3(-0.01, 0, 0)), op.clone().add(V3(0.03, 0, 0)), 0.022, 48));
   bins.add(black, G.tube(op.clone().add(V3(0.02, 0, 0)), op.clone().add(V3(0.05, 0, 0)), 0.019, 32));
   // hose: out of the port, down to the floor, a loose loop round to the front, nozzle at the end
   const ctrl = [op.clone().add(V3(0.05, 0, 0)), op.clone().add(V3(0.12, -0.03, 0)), V3(0.3, 0.018, -0.02), V3(0.42, 0.018, 0.1), V3(0.38, 0.018, 0.26), V3(0.2, 0.018, 0.3), V3(0.08, 0.018, 0.22), V3(0.12, 0.018, 0.12), V3(0.25, 0.018, 0.08), V3(0.36, 0.018, 0.16)];
@@ -114,7 +117,7 @@ export function airPump(p = {}) {
     object: g,
     detail: { target: [-0.03, 0.135, D / 2], size: 0.2, azimuth: 25, elevation: 12 },
     view: { hero: { elevation: 24 } },
-    rig: { default: { contact: { strength: 0.85, h0: 0.006, res: 1024, blur: 1.2 }, groundAO: { strength: 0.75, maxZenith: 80 } } },
+    rig: L5.flatLayRig({ contact: { h0: 0.005 } }),
     meta: { kind },
   };
 }
