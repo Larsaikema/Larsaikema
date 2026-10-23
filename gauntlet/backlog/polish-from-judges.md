@@ -30,3 +30,8 @@ These are the weaknesses judges named for *our* side; fix them in the polish pha
 - Header height: ~128 px sticky on desktop (two rows), ~105 px on mobile; consider hide-on-scroll-down.
 - Stock contradiction ("Uit voorraad … morgen verzonden" vs "Leverbaar over 2–3 weken") — resolved by demo stock in
   catalog v2; re-check after.
+
+## Imagery consistency
+- Studio backdrop differs between batches: newer renders use #EFEDE8 (default), many older parts images use Linnen #ECE4D6.
+  Pick one (brand: product media = Studio #EFEDE8) and re-render the parts group with it for a uniform grid.
+- Coat-rack hook numbers are unreadable at 1200 px (cosmetic).
