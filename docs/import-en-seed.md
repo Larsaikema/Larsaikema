@@ -16,16 +16,26 @@ via de Admin API. Zonder deze tweede stap mist de winkel:
 ## Wat je nodig hebt
 
 - Node.js 22 of nieuwer (geen extra pakketten).
-- Een eigen app in je winkel met een Admin API-toegangstoken: Instellingen › Apps en verkoopkanalen › Apps ontwikkelen › App maken.
-  Geef de app deze Admin API-rechten: `write_products`, `write_files`, `write_content`, `write_online_store_pages`,
-  `write_online_store_navigation`, `write_publications`. Installeer de app en kopieer het token (`shpat_…`).
+- Een app met Admin API-toegang tot je winkel. Sinds januari 2026 maak je die in het **Dev Dashboard**
+  (https://dev.shopify.com/dashboard, inloggen met hetzelfde account als je winkel; de app en de winkel moeten in
+  dezelfde organisatie staan):
+  1. **App maken** (bijv. "Klapklaar import").
+  2. **Versie maken** met de Admin API-rechten `write_products`, `write_files`, `write_content`,
+     `write_online_store_pages`, `write_online_store_navigation`, `write_publications`, en de versie **vrijgeven**.
+  3. **Installeren** op je winkel.
+  4. Bij **Instellingen** van de app: kopieer **Client ID** en **Client secret**. Het script wisselt die zelf in voor
+     een toegangstoken van 24 uur.
 
-Zet de winkel en het token in je terminal:
+Zet de winkel en de sleutels in je terminal (nooit in een bestand dat je commit):
 
 ```
 export SHOPIFY_STORE=jouwwinkel.myshopify.com
-export SHOPIFY_ADMIN_TOKEN=shpat_...
+export SHOPIFY_CLIENT_ID=...
+export SHOPIFY_CLIENT_SECRET=...
 ```
+
+Heb je nog een oude custom app met een `shpat_…`-token, dan werkt `export SHOPIFY_ADMIN_TOKEN=shpat_...` ook.
+In een omgeving met een HTTP-proxy (zoals een Claude Code-cloudsessie) draai je het script met `NODE_USE_ENV_PROXY=1`.
 
 ## Volgorde
 

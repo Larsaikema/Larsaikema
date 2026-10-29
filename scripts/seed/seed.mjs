@@ -25,7 +25,7 @@
 //   menus        main-menu and the footer menus (export/menus.json), every link resolved to its resource
 //   redirects    URL redirects for renamed handles (export/redirects.csv)
 //
-// Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2025-07 · --files-from-url (fileCreate from
+// Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2026-07 · --files-from-url (fileCreate from
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
@@ -603,8 +603,24 @@ export class Seeder {
 }
 
 // ------------------------------------------------------------------------------------------------ CLI
+// Since 2026 an app for your own store is made in the Dev Dashboard; its Client ID + secret are exchanged for a 24-hour
+// Admin API token (client credentials grant). Works only when app and store are in the same Shopify organization.
+async function clientCredentialsToken(store, clientId, clientSecret) {
+  const res = await fetch(`https://${store}/admin/oauth/access_token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ grant_type: 'client_credentials', client_id: clientId, client_secret: clientSecret }),
+  });
+  if (!res.ok) {
+    throw new Error(`token request failed (${res.status}): is the app installed on ${store} and in the same organization? ${(await res.text()).slice(0, 200)}`);
+  }
+  const { access_token: token, scope } = await res.json();
+  console.log(`access token via client credentials (scopes: ${scope})`);
+  return token;
+}
+
 async function main(argv) {
-  const args = { steps: [], dryRun: false, verbose: false, filesFromUrl: false, version: '2025-07', store: process.env.SHOPIFY_STORE, token: process.env.SHOPIFY_ADMIN_TOKEN };
+  const args = { steps: [], dryRun: false, verbose: false, filesFromUrl: false, version: '2026-07', store: process.env.SHOPIFY_STORE, token: process.env.SHOPIFY_ADMIN_TOKEN };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry-run') args.dryRun = true;
@@ -625,7 +641,14 @@ async function main(argv) {
     api = MockAdmin.afterCsvImport(inputs.csvProducts);
     console.log(`dry run: in-memory store with the ${inputs.csvProducts.size} products of products.csv, no network`);
   } else {
-    if (!args.store || !args.token) { console.error('set SHOPIFY_STORE and SHOPIFY_ADMIN_TOKEN (or --store / --token), or use --dry-run'); return 2; }
+    if (args.store && !args.store.includes('.')) args.store = `${args.store}.myshopify.com`;
+    if (args.store && !args.token && process.env.SHOPIFY_CLIENT_ID && process.env.SHOPIFY_CLIENT_SECRET) {
+      args.token = await clientCredentialsToken(args.store, process.env.SHOPIFY_CLIENT_ID, process.env.SHOPIFY_CLIENT_SECRET);
+    }
+    if (!args.store || !args.token) {
+      console.error('set SHOPIFY_STORE plus SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET (Dev Dashboard app) or SHOPIFY_ADMIN_TOKEN (or --store / --token), or use --dry-run');
+      return 2;
+    }
     api = new Admin(args);
   }
   const res = await new Seeder(api, inputs, { verbose: args.verbose, filesFromUrl: args.filesFromUrl }).run(args.dryRun ? STEPS : steps);
