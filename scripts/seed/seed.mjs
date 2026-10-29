@@ -15,6 +15,7 @@
 // Steps (in this order; name one or more to run only those):
 //   definitions  metafield definitions (product, variant, collection, article) from export/metafield-definitions.json
 //   check        the CSV import is complete: every handle and SKU of products.csv exists in the store
+//   csvfields    the plain product metafields of products.csv (needed when the CSV was imported before the definitions)
 //   files        the PDF downloads (productbladen, handleidingen) uploaded to Content > Bestanden
 //   pages        pages + SEO (export/pages.json)
 //   blog         blog "advies" + articles + custom.producten (export/blog.json)
@@ -38,7 +39,7 @@ const REPO = resolve(HERE, '..', '..');
 const EXPORT = join(REPO, 'catalog', 'export');
 const IMAGES = join(REPO, 'catalog', 'images');
 const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/';
-export const STEPS = ['definitions', 'check', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
+export const STEPS = ['definitions', 'check', 'csvfields', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
 const SORT_ORDER = {
   'best-selling': 'BEST_SELLING', manual: 'MANUAL', 'alpha-ascending': 'ALPHA_ASC', 'alpha-descending': 'ALPHA_DESC',
   'price-ascending': 'PRICE_ASC', 'price-descending': 'PRICE_DESC', 'created-descending': 'CREATED_DESC', created: 'CREATED',
@@ -81,9 +82,18 @@ export function parseCsv(text) {
 export function loadInputs() {
   const csvRows = parseCsv(readFileSync(join(EXPORT, 'products.csv'), 'utf8'));
   const csvProducts = new Map();   // handle -> Set(sku)
+  const csvFields = new Map();     // handle -> [{key, value}] from the 'Name (product.metafields.custom.key)' columns
   for (const r of csvRows) {
     if (!csvProducts.has(r.Handle)) csvProducts.set(r.Handle, new Set());
     if (r['Variant SKU']) csvProducts.get(r.Handle).add(r['Variant SKU']);
+    if (!csvFields.has(r.Handle) && r.Title) {
+      const f = [];
+      for (const [col, value] of Object.entries(r)) {
+        const m = col.match(/\(product\.metafields\.custom\.([a-z0-9_]+)\)$/);
+        if (m && value !== '') f.push({ key: m[1], value });
+      }
+      csvFields.set(r.Handle, f);
+    }
   }
   const redirects = parseCsv(readFileSync(join(EXPORT, 'redirects.csv'), 'utf8'))
     .map((r) => ({ path: r['Redirect from'], target: r['Redirect to'] })).filter((r) => r.path);
@@ -96,6 +106,7 @@ export function loadInputs() {
     menus: readJson('menus.json').menus,
     redirects,
     csvProducts,
+    csvFields,
   };
 }
 
@@ -476,6 +487,30 @@ export class Seeder {
       }
     }
     if (P.size === 0) this.warn(S, 'no products in the store yet: smart collections fill once products.csv is imported');
+  }
+
+  // The plain product metafields of products.csv, set through the API: a CSV import done before the definitions existed
+  // skipped those columns, and this way a re-import is not needed for them.
+  async csvfields() {
+    const S = 'csvfields';
+    const P = await this.products();
+    const types = new Map(this.in.definitions.filter((d) => d.owner_type === 'PRODUCT' && d.namespace === 'custom').map((d) => [d.key, d.type]));
+    const sets = [];
+    for (const [handle, fields] of this.in.csvFields) {
+      const pid = P.get(handle);
+      if (!pid) { this.err(S, `product ${handle} not in the store`); continue; }
+      for (const f of fields) {
+        const type = types.get(f.key);
+        if (!type) { this.warn(S, `${handle}: no definition for custom.${f.key}`); continue; }
+        sets.push({ ownerId: pid, namespace: 'custom', key: f.key, type, value: f.value });
+      }
+    }
+    for (let i = 0; i < sets.length; i += 25) {
+      const batch = sets.slice(i, i + 25);
+      const r = (await this.api.gql(Q.metafieldsSet, { metafields: batch })).metafieldsSet;
+      if (r.userErrors.length) this.err(S, `metafieldsSet batch ${i / 25 + 1}: ${firstError(r)}`);
+      else this.count(S, 'metafields_set', batch.length);
+    }
   }
 
   async references() {
