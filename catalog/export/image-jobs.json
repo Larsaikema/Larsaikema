@@ -20,7 +20,7 @@
    "collection": 2,
    "product": 1060
   },
-  "already_present": 816
+  "already_present": 1069
  },
  "jobs": [
   {
@@ -370,7 +370,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -993,12 +993,12 @@
      }
     ],
     "angle": "hero",
-    "size": 2000,
     "camera": {
      "azimuth": 58,
      "elevation": 27,
      "fill": 0.9
-    }
+    },
+    "size": 2000
    },
    "alt": "Drie biertafelsets van vurenhout naast elkaar opgesteld, uit het pakket van 10, schuin vooraanzicht",
    "alt_hint": null,
@@ -1255,7 +1255,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2058,7 +2058,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2316,7 +2316,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2561,7 +2561,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2593,7 +2593,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2624,7 +2624,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2656,7 +2656,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -2687,7 +2687,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -3089,7 +3089,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -3513,7 +3513,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -3579,7 +3579,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4925,7 +4925,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -4957,7 +4957,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5036,7 +5036,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5231,7 +5231,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5264,7 +5264,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5297,7 +5297,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -5876,7 +5876,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6132,7 +6132,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6162,7 +6162,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6221,7 +6221,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6362,7 +6362,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6395,7 +6395,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6461,7 +6461,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6496,7 +6496,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -6529,7 +6529,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7395,7 +7395,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7744,7 +7744,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -7917,11 +7917,6 @@
      "handle": "zijwandenset-easy-up",
      "role": "hero",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8714,11 +8709,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8751,11 +8741,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8788,11 +8773,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8827,8 +8807,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-wit-hero.webp",
@@ -8857,11 +8837,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8894,11 +8869,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -8931,11 +8901,6 @@
      "handle": "easy-up-partytent-premium-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "starterspakket-easy-up-premium",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -9066,8 +9031,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-wit-hero.webp",
@@ -9290,8 +9255,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-wit-hero.webp",
@@ -9428,7 +9393,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -9460,8 +9425,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-2x2-wit-hero.webp",
@@ -9554,11 +9519,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -9591,11 +9551,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -9628,11 +9583,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -9667,8 +9617,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-wit-hero.webp",
@@ -9729,11 +9679,6 @@
      "handle": "easy-up-partytent-professional-3x3",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -9896,8 +9841,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-wit-hero.webp",
@@ -10120,8 +10065,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-wit-hero.webp",
@@ -10344,8 +10289,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-wit-hero.webp",
@@ -10568,8 +10513,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-wit-hero.webp",
@@ -10792,8 +10737,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-wit-hero.webp",
@@ -10952,8 +10897,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-wit-hero.webp",
@@ -11058,8 +11003,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-met-logo-op-de-luifel-antraciet-hero.webp",
@@ -11715,7 +11660,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11747,7 +11692,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11779,7 +11724,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -11810,7 +11755,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -12541,8 +12486,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "los-statafelblad-antraciet-hero.webp",
@@ -13657,7 +13602,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13688,7 +13633,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13719,7 +13664,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14091,7 +14036,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14122,7 +14067,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14153,7 +14098,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14184,7 +14129,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14283,7 +14228,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14316,7 +14261,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14349,7 +14294,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14382,7 +14327,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14415,7 +14360,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14448,7 +14393,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14514,7 +14459,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14623,7 +14568,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14689,7 +14634,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14722,7 +14667,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14755,7 +14700,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -14788,8 +14733,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-wit-wit-onderstel.webp",
@@ -14821,7 +14766,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17097,7 +17042,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17130,7 +17075,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17163,7 +17108,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17196,7 +17141,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17229,7 +17174,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17262,7 +17207,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17295,7 +17240,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17328,7 +17273,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17361,7 +17306,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -17550,8 +17495,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-dicht-wit-in-gebruik.webp",
@@ -17585,8 +17530,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-easy-up-heavy-duty-pvc-zwart-hero.webp",
@@ -17690,8 +17635,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "zijwand-opblaasbare-partytent-met-waterpoten-full-colour.webp",
@@ -18212,11 +18157,6 @@
      "handle": "zijwandenset-easy-up",
      "role": "variant",
      "variant": true
-    },
-    {
-     "handle": "compleet-pakket-easy-up-professional",
-     "role": "component",
-     "variant": false
     }
    ],
    "exists": true,
@@ -19779,8 +19719,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "biertafelset-180-hero.webp",
@@ -19970,8 +19910,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "compleet-pakket-easy-up-professional-blauw-hero.webp",
@@ -20008,8 +19948,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "compleet-pakket-easy-up-professional-groen-hero.webp",
@@ -20046,8 +19986,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "compleet-pakket-easy-up-professional-wit-hero.webp",
@@ -20084,8 +20024,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "compleet-pakket-easy-up-professional-zandkleur-hero.webp",
@@ -20122,8 +20062,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "compleet-pakket-easy-up-professional-zwart-hero.webp",
@@ -20160,8 +20100,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "conferentietafel-inklapbaar-berken-hero.webp",
@@ -21037,8 +20977,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x3-wit-zijwanden-hero.webp",
@@ -21075,8 +21015,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-rood-front.webp",
@@ -21107,8 +21047,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x4-5-wit-zijwanden-hero.webp",
@@ -21145,8 +21085,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-rood-front.webp",
@@ -21177,8 +21117,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-3x6-wit-zijwanden-hero.webp",
@@ -21215,8 +21155,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-premium-met-logo-op-de-luifel-antraciet-hero.webp",
@@ -21505,8 +21445,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-2x2-wit-zijwanden-hero.webp",
@@ -21543,8 +21483,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-rood-front.webp",
@@ -21575,8 +21515,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp",
@@ -21613,8 +21553,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-rood-front.webp",
@@ -21645,8 +21585,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x4-5-wit-zijwanden-hero.webp",
@@ -21683,8 +21623,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-rood-front.webp",
@@ -21715,8 +21655,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp",
@@ -21753,8 +21693,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-rood-front.webp",
@@ -21785,8 +21725,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp",
@@ -21823,8 +21763,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-rood-front.webp",
@@ -21855,8 +21795,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x6-wit-zijwanden-hero.webp",
@@ -21893,8 +21833,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-rood-front.webp",
@@ -21925,8 +21865,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-4x8-wit-zijwanden-hero.webp",
@@ -21963,8 +21903,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-rood-front.webp",
@@ -21995,8 +21935,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-5x5-wit-zijwanden-hero.webp",
@@ -22033,8 +21973,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "easy-up-partytent-professional-full-colour-bedrukt-detail.webp",
@@ -22422,8 +22362,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "frame-onderdelen-easy-up-staander.webp",
@@ -22729,7 +22669,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22762,7 +22702,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22795,7 +22735,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22828,7 +22768,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22861,7 +22801,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22894,7 +22834,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -22960,7 +22900,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23059,7 +22999,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23092,7 +23032,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23125,7 +23065,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23158,7 +23098,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23191,7 +23131,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23224,7 +23164,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23290,7 +23230,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23387,7 +23327,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23419,7 +23359,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23451,7 +23391,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23483,7 +23423,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23515,7 +23455,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23547,7 +23487,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -23579,7 +23519,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24467,8 +24407,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "loper-per-meter-antraciet-hero.webp",
@@ -24529,7 +24469,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24560,7 +24500,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24591,7 +24531,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24622,7 +24562,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24653,7 +24593,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24684,7 +24624,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24715,7 +24655,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24778,7 +24718,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24810,7 +24750,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24842,7 +24782,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24874,7 +24814,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24906,7 +24846,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24938,7 +24878,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -24970,7 +24910,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25002,7 +24942,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25034,7 +24974,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25065,8 +25005,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "losse-strik-statafelhoes-antraciet-hero.webp",
@@ -25854,7 +25794,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -25884,7 +25824,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26070,7 +26010,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26101,7 +26041,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -26132,7 +26072,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -28306,8 +28246,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "regengoot-partytent-zwart-hero.webp",
@@ -28988,8 +28928,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "starterspakket-easy-up-premium-blauw-hero.webp",
@@ -29025,8 +28965,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "starterspakket-easy-up-premium-groen-hero.webp",
@@ -29062,8 +29002,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "starterspakket-easy-up-premium-wit-hero.webp",
@@ -29099,8 +29039,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "starterspakket-easy-up-premium-zandkleur-hero.webp",
@@ -29136,8 +29076,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "starterspakket-easy-up-premium-zwart-hero.webp",
@@ -29173,8 +29113,8 @@
      "variant": true
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-breed-stapelbaar-antraciet-hero.webp",
@@ -29209,7 +29149,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29245,7 +29185,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29282,7 +29222,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29318,7 +29258,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29354,7 +29294,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29390,7 +29330,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29426,7 +29366,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29462,7 +29402,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29498,7 +29438,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29534,7 +29474,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29570,7 +29510,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29606,7 +29546,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29639,7 +29579,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29672,7 +29612,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29706,7 +29646,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29771,8 +29711,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-wit-chroom-onderstel.webp",
@@ -29804,7 +29744,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -29836,8 +29776,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-inklapbaar-professional-wit-parasolgat.webp",
@@ -29869,8 +29809,8 @@
      "variant": false
     }
    ],
-   "exists": false,
-   "draft": true
+   "exists": true,
+   "draft": false
   },
   {
    "file": "statafel-met-kruisvoet-berken-hero.webp",
@@ -29970,7 +29910,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30005,7 +29945,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30040,7 +29980,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30075,7 +30015,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30145,7 +30085,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30180,7 +30120,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30250,7 +30190,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30285,7 +30225,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30320,7 +30260,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30355,7 +30295,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30390,7 +30330,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30460,7 +30400,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30495,7 +30435,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -30530,7 +30470,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31766,7 +31706,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31799,7 +31739,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31832,7 +31772,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31865,7 +31805,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31898,7 +31838,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31931,7 +31871,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -31997,7 +31937,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32092,7 +32032,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32122,7 +32062,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32152,7 +32092,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32182,7 +32122,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32212,7 +32152,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32248,7 +32188,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32284,7 +32224,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32321,7 +32261,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32357,7 +32297,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32393,7 +32333,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32429,7 +32369,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32465,7 +32405,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32501,7 +32441,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32537,7 +32477,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32573,7 +32513,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32609,7 +32549,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32645,7 +32585,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32678,7 +32618,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32711,7 +32651,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32744,7 +32684,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32778,7 +32718,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32811,7 +32751,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -32844,7 +32784,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33241,7 +33181,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33276,7 +33216,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33311,7 +33251,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33346,7 +33286,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33381,7 +33321,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33417,7 +33357,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33452,7 +33392,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33487,7 +33427,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33522,7 +33462,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33557,7 +33497,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33592,7 +33532,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33627,7 +33567,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33662,7 +33602,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33697,7 +33637,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33732,7 +33672,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33765,7 +33705,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33798,7 +33738,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33832,7 +33772,7 @@
      "variant": false
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33865,7 +33805,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33898,7 +33838,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -33931,7 +33871,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36419,7 +36359,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36453,7 +36393,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36486,7 +36426,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36520,7 +36460,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36553,7 +36493,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36587,7 +36527,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36621,7 +36561,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36655,7 +36595,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -36688,7 +36628,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
