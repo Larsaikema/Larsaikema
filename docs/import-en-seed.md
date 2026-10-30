@@ -54,6 +54,10 @@ Twee stappen draaien alleen als je ze noemt:
 - `giftcard`: maakt de cadeaubon (het product met "Gift Card" TRUE in de CSV) aan, want Shopify's CSV-import slaat
   cadeaubonnen over. Zet eerst cadeaubonnen aan in Producten › Cadeaubonnen, anders weigert Shopify het. Draai daarna
   `images` en `csvfields` met `--handles cadeaubon`, en `menus` voor de footerlink.
+- Echte productfoto's: `catalog/photos.json` zegt welke foto bij welk product en welke kleur/maat hoort;
+  `python3 catalog/tools/photos.py --src <map met de foto's>` maakt ze vierkant en wit (webp), `python3 catalog/build.py` zet
+  ze vóór de renders en laat een render weg zodra elke variant waar hij voor stond een foto heeft. Daarna:
+  `node scripts/seed/seed.mjs images --prune --handles <producten>`.
 - `images`: zet productfoto's die nieuwer zijn dan je CSV-import erbij (van de openbare GitHub-link, dus eerst pushen) en
   koppelt per variant de juiste foto. Bestaande foto's blijven staan.
 

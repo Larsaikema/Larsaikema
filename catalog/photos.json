@@ -1,0 +1,984 @@
+{
+ "_comment": "Real product photos (the owner's, Drive: 04_Foto & Video / Catalogus productfotos PNG 29-10-2026). catalog/tools/photos.py makes the files; catalog/build.py puts them before the renders. targets.match: option values the photo shows (none = every variant); extra: a second photo, only in the gallery.",
+ "photos": [
+  {
+   "file": "easy-up-partytent-professional-3x3-wit-foto.webp",
+   "drive_id": "11aNG_m3tKkAyojvCe6kcQaOvhpTAk0iD",
+   "source": "Easy up partytent - wit - 3x3m - 2418.png",
+   "alt": "Witte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+   "targets": [
+    {
+     "handle": "easy-up-partytent-professional-3x3",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "easy-up-partytent-professional-3x6-wit-foto.webp",
+   "drive_id": "10XK_l-H7nJ6o7CBSMttfpUVxN8Fkv-0s",
+   "source": "Easy up partytent - wit - 3x6m - 1775.png",
+   "alt": "Witte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+   "targets": [
+    {
+     "handle": "easy-up-partytent-professional-3x6",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "easy-up-partytent-professional-4x4-wit-foto.webp",
+   "drive_id": "1Ioouux5iYkdaUloRuro5V9ueuVi06tLM",
+   "source": "Easy up partytent - wit - 4x4m - 2385.png",
+   "alt": "Witte easy-up partytent Professional 4 × 4 m met aluminium frame, uitgeklapt zonder zijwanden",
+   "targets": [
+    {
+     "handle": "easy-up-partytent-professional-4x4",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "easy-up-partytent-professional-3x3-zwart-foto.webp",
+   "drive_id": "1Zzo2VvK8qkJ46_0XI5z7wPNdHtl9_2Tb",
+   "source": "Easy up partytent - zwart - 3x3m - EU-595.png",
+   "alt": "Zwarte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+   "targets": [
+    {
+     "handle": "easy-up-partytent-professional-3x3",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "easy-up-partytent-professional-3x6-zwart-foto.webp",
+   "drive_id": "1h5qJ_dAWAIxULKY3TV38J7H44ST4x5el",
+   "source": "Easy up partytent - zwart - 3x6m - EU-1173.png",
+   "alt": "Zwarte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+   "targets": [
+    {
+     "handle": "easy-up-partytent-professional-3x6",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "zijwandenset-easy-up-3x6-wit-foto.webp",
+   "drive_id": "1BtnNxzrQoaHZXBI9ZTerIs1v2KQFtLmV",
+   "source": "Zijwanden voor easy up partytent - wit - 3x6m - 1778.png",
+   "alt": "Witte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+   "targets": [
+    {
+     "handle": "zijwandenset-easy-up",
+     "match": {
+      "Maat": "3 x 6 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "zijwandenset-easy-up-3x3-zwart-foto.webp",
+   "drive_id": "1n1SaC5fRhvxLPxzcZ_z2wmhAOydK96BJ",
+   "source": "Zijwanden voor easy up partytent - zwart - 3x3m - 1776.png",
+   "alt": "Zwarte zijwandenset op een easy-up van 3 × 3 m, met ramen",
+   "targets": [
+    {
+     "handle": "zijwandenset-easy-up",
+     "match": {
+      "Maat": "3 x 3 m",
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "zijwandenset-easy-up-3x6-zwart-foto.webp",
+   "drive_id": "1N6aoR-R_y7ECnDiqtPizF7wj5Cp0lTPN",
+   "source": "Zijwanden voor easy up partytent - zwart - 3x6m - 1777.png",
+   "alt": "Zwarte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+   "targets": [
+    {
+     "handle": "zijwandenset-easy-up",
+     "match": {
+      "Maat": "3 x 6 m",
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "zijwandenset-easy-up-3x3-zwart-schuin-foto.webp",
+   "drive_id": "1jlNG2mYO5reA__3NBB6fxJzitR2gI5ig",
+   "source": "Partytent - 3x3m - incl op- & afbouw - 2869.png",
+   "alt": "Zwarte easy-up van 3 × 3 m met de zijwandenset, schuin van voren",
+   "targets": [
+    {
+     "handle": "zijwandenset-easy-up",
+     "match": {
+      "Maat": "3 x 3 m",
+      "Kleur": "Zwart"
+     }
+    }
+   ],
+   "extra": true
+  },
+  {
+   "file": "zijwandenset-easy-up-3x6-zwart-schuin-foto.webp",
+   "drive_id": "16kahz6ibzXWFe17RD3rnNkHMJy1sYseq",
+   "source": "Partytent - 3x6m - incl op- & afbouw - 2868.png",
+   "alt": "Zwarte easy-up van 3 × 6 m met de zijwandenset, schuin van voren",
+   "targets": [
+    {
+     "handle": "zijwandenset-easy-up",
+     "match": {
+      "Maat": "3 x 6 m",
+      "Kleur": "Zwart"
+     }
+    }
+   ],
+   "extra": true
+  },
+  {
+   "file": "partytent-pvc-500-comfort-3x4-wit-foto.webp",
+   "drive_id": "1YWACIECLnr4Oxy0Bbg0oj5F2E1T-pxtL",
+   "source": "Partytent - wit - 3x4m - incl op- & afbouw - 1764.png",
+   "alt": "Witte partytent PVC 3 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "3 x 4 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-3x6-wit-foto.webp",
+   "drive_id": "1FJD12t6lgubkvjqkU2CJGxfYZ1VLyNyA",
+   "source": "Partytent - wit - 3x6m - incl op- & afbouw - 1614.png",
+   "alt": "Witte partytent PVC 3 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "3 x 6 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-4x4-wit-foto.webp",
+   "drive_id": "1Gk4Z3aaLUpCNaLAcBhIjvcbyCfH2KFjV",
+   "source": "Partytent - wit - 4x4m - incl op- & afbouw - 1765.png",
+   "alt": "Witte partytent PVC 4 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "4 x 4 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-4x6-wit-foto.webp",
+   "drive_id": "1To83xam3QWQl528HxCUmI7u2QWL5yEYh",
+   "source": "Partytent - wit - 4x6m - incl op- & afbouw - 1766.png",
+   "alt": "Witte partytent PVC 4 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "4 x 6 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-4x8-wit-foto.webp",
+   "drive_id": "1dA2YmYO8oV1iGKU2g8KBQJgEjfHqkt4K",
+   "source": "Partytent - wit - 4x8m - incl op- & afbouw - PT-1368.png",
+   "alt": "Witte partytent PVC 4 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "4 x 8 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-5x6-wit-foto.webp",
+   "drive_id": "1gIqRZd62XWdoVvuuvcUqwmhrQmrywSYi",
+   "source": "Partytent - wit - 5x6m - incl op- & afbouw - 1768.png",
+   "alt": "Witte partytent PVC 5 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "5 x 6 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-5x8-wit-foto.webp",
+   "drive_id": "11Nq1tjuw07-5MGcTTxkUMm39DrRegbyl",
+   "source": "Partytent - wit - 5x8m - incl op- & afbouw - 1769.png",
+   "alt": "Witte partytent PVC 5 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "5 x 8 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "partytent-pvc-500-comfort-5x10-wit-foto.webp",
+   "drive_id": "1gqmKC70cl3NFJLCm3l0RbR0qkBiDb0sJ",
+   "source": "Partytent - wit - 5x10 - incl op- & afbouw - 1770.png",
+   "alt": "Witte partytent PVC 5 × 10 m met zijwanden met ramen en ventilatie in de gevel",
+   "targets": [
+    {
+     "handle": "partytent-pvc-500-comfort",
+     "match": {
+      "Maat": "5 x 10 m",
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stretchtent-compleet-zandkleur-foto.webp",
+   "drive_id": "1kXzeg_DCamltA3Y8UcNg5t3j_ro4-m0c",
+   "source": "Stretchtent - Zand - 10x12m - ST-1505.png",
+   "alt": "Zandkleurige stretchtent opgezet met palen en spanbanden",
+   "targets": [
+    {
+     "handle": "stretchtent-compleet",
+     "match": {
+      "Kleur": "Zandkleur",
+      "Uitvoering": "Aluminium palen"
+     }
+    },
+    {
+     "handle": "stretchtent-compleet",
+     "match": {
+      "Kleur": "Zandkleur",
+      "Uitvoering": "Aluminium palen, zware afspanning"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stretchtent-compleet-zandkleur-lang-foto.webp",
+   "drive_id": "1snVNemtAmdv_UilNq-euUOqIPkhEeOE1",
+   "source": "Stretchtent - Zand - 10x18m - ST-1506.png",
+   "alt": "Lange zandkleurige stretchtent opgezet met palen en spanbanden",
+   "targets": [
+    {
+     "handle": "stretchtent-compleet",
+     "match": {
+      "Kleur": "Zandkleur",
+      "Uitvoering": "Aluminium palen"
+     }
+    }
+   ],
+   "extra": true
+  },
+  {
+   "file": "statafelrok-stretch-wit-foto.webp",
+   "drive_id": "1Y01YPsdLTAGgikcjf77B3zBsUMvO14Qy",
+   "source": "Statafelrok wit stretch (exclusief statafel) - 943.png",
+   "alt": "Statafelrok stretch in wit om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-zwart-foto.webp",
+   "drive_id": "14M0mYJaHRJ2f0fEWA7Vahjyh5mZJkR-z",
+   "source": "Statafelrok zwart stretch (exclusief statafel) - 944.png",
+   "alt": "Statafelrok stretch in zwart om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-rood-foto.webp",
+   "drive_id": "1x-l2lp1l1Z4BX7L-p2_L6JgqfFWtXY9U",
+   "source": "Statafelrok rood stretch (exclusief statafel) - 1467.png",
+   "alt": "Statafelrok stretch in rood om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Rood"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-blauw-foto.webp",
+   "drive_id": "1QUYXocIh8dyzJtGWiS_DMdw1l8ehSjDT",
+   "source": "Statafelrok blauw stretch (exclusief statafel) - 1465.png",
+   "alt": "Statafelrok stretch in blauw om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Blauw"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-geel-foto.webp",
+   "drive_id": "1E2gh00xzG98yGxv8Nwo-VjjHUOfOqcWC",
+   "source": "Statafelrok geel stretch (exclusief statafel) - 1471.png",
+   "alt": "Statafelrok stretch in geel om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Geel"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-goud-foto.webp",
+   "drive_id": "1Vv9nKNvvvXqJqBfH-8RpAN21gXv-Jt6k",
+   "source": "Statafelrok goud stretch (exclusief statafel) - 1472.png",
+   "alt": "Statafelrok stretch in goud om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Goud"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-grijs-foto.webp",
+   "drive_id": "1x5eWifnsuyEvZxPJ_RODw5ruKF5Jpp8f",
+   "source": "Statafelrok grijs stretch (exclusief statafel) - 1474.png",
+   "alt": "Statafelrok stretch in grijs om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Grijs"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-lichtgroen-foto.webp",
+   "drive_id": "1e7x41xZ4Ek68FgtSMrVfF3-UVF4EeJxV",
+   "source": "Statafelrok groen stretch (exclusief statafel) - 1470.png",
+   "alt": "Statafelrok stretch in lichtgroen om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Lichtgroen"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-marineblauw-foto.webp",
+   "drive_id": "1azC8W5WVesyC-J8xVNPZOi21xkMay3Pr",
+   "source": "Statafelrok marine stretch (exclusief statafel) - 1475.png",
+   "alt": "Statafelrok stretch in marineblauw om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Marineblauw"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-oranje-foto.webp",
+   "drive_id": "1ISyLGfQ-MthG62Q0bU03XcEP-bdKW2P-",
+   "source": "Statafelrok oranje stretch (exclusief statafel) - 1469.png",
+   "alt": "Statafelrok stretch in oranje om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Oranje"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-paars-foto.webp",
+   "drive_id": "1cKmxdKXT0iEJneyk0Vz9qy_4sWkXgw1e",
+   "source": "Statafelrok paars stretch (exclusief statafel) - 1466.png",
+   "alt": "Statafelrok stretch in paars om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Paars"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelrok-stretch-zilver-foto.webp",
+   "drive_id": "1l465NY03_m4nirK_ApEekzaTfFlysD4E",
+   "source": "Statafelrok silver stretch (exclusief statafel) - 1473.png",
+   "alt": "Statafelrok stretch in zilver om een statafel",
+   "targets": [
+    {
+     "handle": "statafelrok-stretch",
+     "match": {
+      "Kleur": "Zilver"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelhoes-met-strik-wit-foto.webp",
+   "drive_id": "1Yci-NrPhevD_4dygThFt809isN5REDNe",
+   "source": "Statafelrok wit los (exclusief statafel) - 1476.png",
+   "alt": "Statafelhoes in wit tot op de grond, in de taille samengebonden",
+   "targets": [
+    {
+     "handle": "statafelhoes-met-strik",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelhoes-met-strik-creme-foto.webp",
+   "drive_id": "1fkF6GJeY60xHGzHwU5eZKgQBxLD9Z9gq",
+   "source": "Statafelrok ecru los (exclusief statafel) - 1479.png",
+   "alt": "Statafelhoes in crème tot op de grond, in de taille samengebonden",
+   "targets": [
+    {
+     "handle": "statafelhoes-met-strik",
+     "match": {
+      "Kleur": "Crème"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafelhoes-met-strik-rood-foto.webp",
+   "drive_id": "1yLTIQrUJv2O9nNqLdv4Na0WP6oFQYkNm",
+   "source": "Statafelrok rood los (exclusief statafel) - 1478.png",
+   "alt": "Statafelhoes in rood tot op de grond, in de taille samengebonden",
+   "targets": [
+    {
+     "handle": "statafelhoes-met-strik",
+     "match": {
+      "Kleur": "Rood"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stretchhoes-klaptafel-zwart-foto.webp",
+   "drive_id": "1NdX_xptQnDJHzljHRdhQuUHFBKpi1RGs",
+   "source": "Buffettafelrok zwart stretch - 876.png",
+   "alt": "Zwarte stretchhoes om een rechthoekige klaptafel",
+   "targets": [
+    {
+     "handle": "stretchhoes-klaptafel",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "barkruk-stapelbaar-metaal-zwart-foto.webp",
+   "drive_id": "1gfJkB5kQaGidnD6dmuYPREcInPQaViSc",
+   "source": "Barkruk - Hamburg zwart - 1539.png",
+   "alt": "Zwarte metalen barkruk, stapelbaar",
+   "targets": [
+    {
+     "handle": "barkruk-stapelbaar-metaal",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stapelstoel-metaal-zwart-foto.webp",
+   "drive_id": "1eaM2cnCDgFAdrGpKSsHQYqyHKarsJr0G",
+   "source": "Stapelstoel Hamburg - 2099.png",
+   "alt": "Zwarte metalen stapelstoel",
+   "targets": [
+    {
+     "handle": "stapelstoel-metaal",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "bierbank-220-foto.webp",
+   "drive_id": "1rJvBBOIpXqRFaOYbMS6PwVsUlpGjwisA",
+   "source": "Bierbank 220x25cm - 602.png",
+   "alt": "Bierbank 220 × 25 cm met houten zitting en groen klaponderstel",
+   "targets": [
+    {
+     "handle": "bierbank",
+     "match": {
+      "Maat": "220 x 25 cm",
+      "Uitvoering": "Standaard"
+     }
+    }
+   ]
+  },
+  {
+   "file": "biertafelset-standaard-foto.webp",
+   "drive_id": "1X32tb19ppoWl5Apd9I1YN_4VkRY0NUfw",
+   "source": "Bierbankset - 601.png",
+   "alt": "Biertafelset: tafel en twee banken van hout met groen klaponderstel",
+   "targets": [
+    {
+     "handle": "biertafelset",
+     "match": {
+      "Samenstelling": "Set: tafel en 2 banken",
+      "Uitvoering": "Standaard"
+     }
+    }
+   ]
+  },
+  {
+   "file": "biertafel-standaard-foto.webp",
+   "drive_id": "1I3d8tGKzxFlkeFQwehoNcr4XTEMde8QO",
+   "source": "Biertafel 220x50cm - 603.png",
+   "alt": "Biertafel van hout met groen klaponderstel",
+   "targets": [
+    {
+     "handle": "biertafelset",
+     "match": {
+      "Samenstelling": "Alleen tafel",
+      "Uitvoering": "Standaard"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stapelstoel-cross-back-eiken-foto.webp",
+   "drive_id": "1UHOBPw6eKflJy1aRtiCwABhGRr1DyoK3",
+   "source": "Crossback stoel hout (exclusief kussen) - 1494.png",
+   "alt": "Houten cross back stoel in eikenkleur",
+   "targets": [
+    {
+     "handle": "stapelstoel-cross-back",
+     "match": {
+      "Kleur": "Eiken"
+     }
+    }
+   ]
+  },
+  {
+   "file": "stapelstoel-cross-back-eiken-kussen-foto.webp",
+   "drive_id": "1UaEU8TdNeeoj6GAntnJuRqm_-W_MTnGF",
+   "source": "Crossback stoel hout (inclusief grijs kussen) - 1495.png",
+   "alt": "Houten cross back stoel met een grijs zitkussen (kussen apart verkrijgbaar)",
+   "targets": [
+    {
+     "handle": "stapelstoel-cross-back",
+     "match": {
+      "Kleur": "Eiken"
+     }
+    }
+   ],
+   "extra": true
+  },
+  {
+   "file": "klapstoel-hout-bistro-eiken-foto.webp",
+   "drive_id": "1dXzNdfUdd-jZZhgbYDHbzhWQlgVr7Yc5",
+   "source": "Klapstoel hout - 2101.png",
+   "alt": "Houten klapstoel met latten zitting",
+   "targets": [
+    {
+     "handle": "klapstoel-hout-bistro",
+     "match": {
+      "Kleur": "Eiken"
+     }
+    }
+   ]
+  },
+  {
+   "file": "klapstoel-zwart-foto.webp",
+   "drive_id": "1PFUaZfdt1HDPsI7YamiE1AOnPyMP4vM9",
+   "source": "Klapstoel zwart - 877.png",
+   "alt": "Zwarte kunststof klapstoel",
+   "targets": [
+    {
+     "handle": "klapstoel",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "klapstoel-wedding-wit-foto.webp",
+   "drive_id": "1sjJQY0chUlJeU-fsgwx_yvQhdtpuJ1mQ",
+   "source": "Klapstoel, wedding chair wit - 1497.png",
+   "alt": "Witte weddingstoel, klapbaar, met wit zitkussen",
+   "targets": [
+    {
+     "handle": "klapstoel-wedding",
+     "match": {
+      "Kleur": "Wit"
+     }
+    }
+   ]
+  },
+  {
+   "file": "banquetstoel-gestoffeerd-zwart-foto.webp",
+   "drive_id": "1GoUOhvHl9z0MylYpVlvFYek0WBbWVBHl",
+   "source": "Stackchair zwart - 885.png",
+   "alt": "Zwarte gestoffeerde banquetstoel, stapelbaar",
+   "targets": [
+    {
+     "handle": "banquetstoel-gestoffeerd",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "klaptafel-hout-vormen-kwartrond-foto.webp",
+   "drive_id": "1Z6BR5Wi89yEYOc-MLB4JO6HQ_2e9hgGE",
+   "source": "Klaptafel 1-4 rond 80cm breed - 2583.png",
+   "alt": "Kwartronde klaptafel met houten blad en metalen klappoten",
+   "targets": [
+    {
+     "handle": "klaptafel-hout-vormen",
+     "match": {
+      "Uitvoering": "Kwartrond"
+     }
+    }
+   ]
+  },
+  {
+   "file": "bankettafel-hout-rechthoekig-122-foto.webp",
+   "drive_id": "1NRQ2PnjacUH6KtMNO8ocgcrQiz-CLcUG",
+   "source": "Klaptafel 120×80 cm - 893.png",
+   "alt": "Rechthoekige bankettafel met houten blad en metalen klappoten",
+   "targets": [
+    {
+     "handle": "bankettafel-hout-rechthoekig",
+     "match": {
+      "Maat": "122 x 76 cm"
+     }
+    }
+   ]
+  },
+  {
+   "file": "bankettafel-hout-rechthoekig-183-foto.webp",
+   "drive_id": "1NpFOfuBbpRD4_NlHmQeJE7JLIg8S6KPi",
+   "source": "Klaptafel 180×80 cm - 1988.png",
+   "alt": "Lange rechthoekige bankettafel met houten blad en metalen klappoten",
+   "targets": [
+    {
+     "handle": "bankettafel-hout-rechthoekig",
+     "match": {
+      "Maat": "183 x 76 cm"
+     }
+    }
+   ]
+  },
+  {
+   "file": "bankettafel-hout-rond-122-foto.webp",
+   "drive_id": "1jZsuwaGRZHAFG6ehaNS9WhTlvTyzqvVA",
+   "source": "Klaptafel rond 120cm - 1294.png",
+   "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+   "targets": [
+    {
+     "handle": "bankettafel-hout-rond",
+     "match": {
+      "Maat": "Ø122 cm"
+     }
+    }
+   ]
+  },
+  {
+   "file": "bankettafel-hout-rond-153-foto.webp",
+   "drive_id": "1d3KzM6xnRMG1ynOlO5RXw68PKEQyZhEe",
+   "source": "Klaptafel rond 150cm - 1295.png",
+   "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+   "targets": [
+    {
+     "handle": "bankettafel-hout-rond",
+     "match": {
+      "Maat": "Ø153 cm"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+   "drive_id": "1bB0QFYUXN9V69miiA4cKh_8LMK7H5o82",
+   "source": "Statafel Hamburg met hout (4p) - 1499.png",
+   "alt": "Vierkante statafel met houten blad en zwart metalen onderstel",
+   "targets": [
+    {
+     "handle": "statafel-vierkant-stapelbaar",
+     "match": {
+      "Kleur": "Eiken",
+      "Uitvoering": "Binnen, zwart onderstel"
+     }
+    }
+   ]
+  },
+  {
+   "file": "statafel-breed-stapelbaar-eiken-foto.webp",
+   "drive_id": "1yvJWMXKBNiurCNfnTO0BZak1oRwfMOhI",
+   "source": "Statafel Hamburg met hout (6p) - 1500.png",
+   "alt": "Brede statafel met houten blad en zwart metalen onderstel",
+   "targets": [
+    {
+     "handle": "statafel-breed-stapelbaar",
+     "match": {
+      "Kleur": "Eiken",
+      "Uitvoering": "Binnen, zwart onderstel"
+     }
+    }
+   ]
+  },
+  {
+   "file": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+   "drive_id": "1C4SBUHJ9Yg8ZL_JrXLmqA8EOVQi0jLIh",
+   "source": "Terrastafel Hamburg met hout (4p) - 2096.png",
+   "alt": "Vierkante terrastafel met houten blad en zwart metalen onderstel",
+   "targets": [
+    {
+     "handle": "terrastafel-vierkant-stapelbaar",
+     "match": {
+      "Kleur": "Eiken",
+      "Uitvoering": "Binnen, zwart onderstel"
+     }
+    }
+   ]
+  },
+  {
+   "file": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+   "drive_id": "12V4-70QDPOVqNTzv-RHLdNuabIspQV1Y",
+   "source": "Terrastafel Hamburg met hout (6p) - 2097.png",
+   "alt": "Brede terrastafel met houten blad en zwart metalen onderstel",
+   "targets": [
+    {
+     "handle": "terrastafel-breed-stapelbaar",
+     "match": {
+      "Kleur": "Eiken",
+      "Uitvoering": "Binnen, zwart onderstel"
+     }
+    }
+   ]
+  },
+  {
+   "file": "afzetpaal-met-koord-chroom-foto.webp",
+   "drive_id": "1h3LuZ4RjQOSHkFbh44db0ch7LKvpp_Vc",
+   "source": "Afzetpaal - Chroom - 671.png",
+   "alt": "Verchroomde afzetpaal met ronde voet en bolle kop",
+   "targets": [
+    {
+     "handle": "afzetpaal-met-koord",
+     "match": {
+      "Uitvoering": "Chroom"
+     }
+    }
+   ]
+  },
+  {
+   "file": "afzetpaal-met-koord-chroom-ingang-foto.webp",
+   "drive_id": "1eZWyCSxSniRqre51_Zx6g88fVpNprAb1",
+   "source": "PartyDeal ingang - Chroom - 674.png",
+   "alt": "Vier verchroomde afzetpalen met rood koord langs een rode loper",
+   "targets": [
+    {
+     "handle": "afzetpaal-met-koord",
+     "match": {
+      "Uitvoering": "Chroom"
+     }
+    }
+   ],
+   "extra": true
+  },
+  {
+   "file": "afzetkoord-velours-rood-foto.webp",
+   "drive_id": "1Hh-gOBt6D3b5U7Jb5XBmyiREyYpsRMjg",
+   "source": "Afzetkoord Standaard - Rood - Chroom - 672.png",
+   "alt": "Rood velours afzetkoord met verchroomde haak",
+   "targets": [
+    {
+     "handle": "afzetkoord-velours",
+     "match": {
+      "Kleur": "Rood"
+     }
+    }
+   ]
+  },
+  {
+   "file": "loper-per-meter-rood-foto.webp",
+   "drive_id": "1bqhU8EcIp9AGln3EW5itckVp1yqgSYfu",
+   "source": "Loper - Tokyo Rood - 1 m × 3 m - 673.png",
+   "alt": "Rode loper van 1 m breed, deels opgerold",
+   "targets": [
+    {
+     "handle": "loper-per-meter",
+     "match": {
+      "Maat": "1 m breed",
+      "Kleur": "Rood"
+     }
+    }
+   ]
+  },
+  {
+   "file": "kapstok-verrijdbaar-foto.webp",
+   "drive_id": "1NVF7RGDgauc8-WocUtVJgU4uWmrCOilP",
+   "source": "Garderoberek - kapstok 100-haaks - 1524.png",
+   "alt": "Verrijdbaar garderoberek met twee rijen haken",
+   "targets": [
+    {
+     "handle": "kapstok-verrijdbaar"
+    }
+   ]
+  },
+  {
+   "file": "koelkast-rvs-horeca-dicht-foto.webp",
+   "drive_id": "1IWuZXsmDRtMR0DtpfxT34l5_qjBw5G9f",
+   "source": "Koelkast 620L 2-1 GN - 2437.png",
+   "alt": "RVS horecakoelkast met dichte deur",
+   "targets": [
+    {
+     "handle": "koelkast-rvs-horeca",
+     "match": {
+      "Uitvoering": "Dichte deur"
+     }
+    }
+   ]
+  },
+  {
+   "file": "koel-vrieskist-liggend-foto.webp",
+   "drive_id": "1Ndx2MF0-Y8aNio12irsiFhv36QZHqDc2",
+   "source": "Vrieskist 155 ltr met klapdeksel - 2776.png",
+   "alt": "Witte vrieskist met klapdeksel",
+   "targets": [
+    {
+     "handle": "koel-vrieskist-liggend"
+    }
+   ]
+  },
+  {
+   "file": "loungeheater-gas-staand-foto.webp",
+   "drive_id": "1UJHykDHbhsrwKRUJk_K_5ZuBRv3gcIYj",
+   "source": "Terrasheater - Area lounge - excl gas - TH-873.png",
+   "alt": "Zwarte loungeheater op gas, staand model",
+   "targets": [
+    {
+     "handle": "loungeheater-gas",
+     "match": {
+      "Uitvoering": "Staand model 9 kW"
+     }
+    }
+   ]
+  },
+  {
+   "file": "flameheater-gas-9-kw-foto.webp",
+   "drive_id": "1AdNDxw6H7VbS6gnIwQb2ZsyoikC_xR_F",
+   "source": "Terrasverwarmer - Round (excl. gas) - 2394.png",
+   "alt": "Flameheater op gas met glazen buis en zichtbare vlam",
+   "targets": [
+    {
+     "handle": "flameheater-gas-9-kw"
+    }
+   ]
+  },
+  {
+   "file": "prikkabelset-led-zwart-foto.webp",
+   "drive_id": "1lAMC0M67g3WwgU6P4qVHdaZti56Fl26q",
+   "source": "2x Prikkabel - 25 meter 25 lampjes (Warm-Wit) - 782.png",
+   "alt": "Zwarte prikkabel met brandende warmwitte LED-lampen",
+   "targets": [
+    {
+     "handle": "prikkabelset-led",
+     "match": {
+      "Kleur": "Zwart"
+     }
+    }
+   ]
+  },
+  {
+   "file": "led-lamp-e27-gekleurd-oranje-foto.webp",
+   "drive_id": "1tS0aEV5i75bwROagSOjquD7pL60QhQVp",
+   "source": "2x Prikkabel - 25 meter 25 lampjes (Oranje) - 785.png",
+   "alt": "Oranje LED-lampen aan een zwarte prikkabel",
+   "targets": [
+    {
+     "handle": "led-lamp-e27-gekleurd",
+     "match": {
+      "Kleur": "Oranje"
+     }
+    }
+   ]
+  },
+  {
+   "file": "led-lamp-e27-gekleurd-mix-foto.webp",
+   "drive_id": "1rqfCa_4gDW7VnOAvHqUf1t-bgg-HRmnn",
+   "source": "2x Prikkabel - 25 meter 25 lampjes (Disco) - 781.png",
+   "alt": "Gekleurde LED-lampen in blauw, geel, groen en rood aan een zwarte prikkabel",
+   "targets": [
+    {
+     "handle": "led-lamp-e27-gekleurd",
+     "match": {
+      "Kleur": "Blauw"
+     }
+    }
+   ],
+   "extra": true
+  }
+ ]
+}

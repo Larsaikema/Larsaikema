@@ -508,8 +508,71 @@ class Build:
         self.apply_fixes(out)
         self.resolve_bundles(out)
         self.derive(out)
+        self.apply_photos(out)
         self.export_images(out)
         return out
+
+    def apply_photos(self, products):
+        """Real product photos (catalog/photos.json) before renders. Each photo names the products and option values it shows
+        ({"handle", "match": {"Kleur": "Wit", ...}}; no match = every variant; "extra": true = only in the gallery, after the
+        variant's own photo). A matching variant shows the photo; the photo
+        leads the product's images; a render goes when every variant it stood for (its Kleur, or the whole product for a render
+        without a Kleur) now has a photo. Renders of what has no photo yet stay."""
+        path = HERE / 'photos.json'
+        if not path.exists():
+            self.photo_stats = {'photos': 0, 'products': 0, 'variants': 0, 'renders_dropped': 0}
+            return
+        photos = read_json(path)['photos']
+        P = {p['handle']: p for p in products}
+        names = lambda p: [o['name'] for o in p['options']]
+        def val(p, v, opt):
+            n = names(p)
+            return v.get(f'option{n.index(opt) + 1}') if opt in n else None
+        st = self.photo_stats = {'photos': len(photos), 'products': 0, 'variants': 0, 'renders_dropped': 0}
+        per_product = {}
+        for ph in photos:
+            for t in ph['targets']:
+                p = P.get(t['handle'])
+                if p is None:
+                    raise SystemExit(f"photos.json: {ph['file']}: no product {t['handle']}")
+                match = t.get('match') or {}
+                for k, x in match.items():
+                    vals = next((o['values'] for o in p['options'] if o['name'] == k), None)
+                    if vals is None or x not in vals:
+                        raise SystemExit(f"photos.json: {ph['file']}: {t['handle']} has no {k} {x!r}")
+                hit = [v for v in p['variants'] if all(val(p, v, k) == x for k, x in match.items())]
+                if not hit:
+                    raise SystemExit(f"photos.json: {ph['file']}: {t['handle']} has no variant with {match}")
+                if ph.get('extra'):
+                    # a second photo of the same thing: in the gallery, but neither a variant's photo nor a reason to drop a render
+                    per_product.setdefault(p['handle'], []).append((ph, match, set()))
+                    continue
+                for v in hit:
+                    v['image'] = ph['file']
+                per_product.setdefault(p['handle'], []).append((ph, match, {v['sku'] for v in hit}))
+        for h, items in per_product.items():
+            p = P[h]
+            covered = set().union(*(s_ for _, _, s_ in items))
+            st['products'] += 1
+            st['variants'] += len(covered)
+            all_skus = {v['sku'] for v in p['variants']}
+            def gone(img):
+                k = img.get('kleur')
+                if k is not None and 'Kleur' in names(p):
+                    stood_for = {v['sku'] for v in p['variants'] if val(p, v, 'Kleur') == k}
+                else:
+                    stood_for = all_skus
+                return stood_for <= covered
+            keep = [i for i in p['images'] if not gone(i)]
+            st['renders_dropped'] += len(p['images']) - len(keep)
+            lead, seen = [], set()
+            for ph, match, _ in items:
+                if ph['file'] in seen:
+                    continue
+                seen.add(ph['file'])
+                lead.append({'file': ph['file'], 'role': 'photo', 'priority': 0, 'kleur': match.get('Kleur'), 'alt': ph['alt'],
+                             'photo': True, 'model_status': 'photo', 'draft': False})
+            p['images'] = lead + keep
 
     def derive(self, products):
         """Catalog round 2026-10-18: fields derived from the merged products (CONTRACT.md).
@@ -1176,6 +1239,8 @@ def image_jobs(products, article_jobs, existing_models=(), collections=()):
     jobs = {}
     for p in products:
         for img in p['images']:
+            if img.get('photo'):
+                continue  # a real photo (catalog/photos.json): nothing to render
             f = img['file']
             j = jobs.get(f)
             if not j:
@@ -1587,6 +1652,8 @@ def main(argv=None):
           f"{st['variants_hero']} hero (no colour), {st['variants_no_image']} none (no render in their colour yet) · "
           f"{len(st['products_without_image'])} products without a real render yet "
           f"· collections with an image: {sum(1 for c in collections if c.get('image'))}/{len(collections)}")
+    ps = b.photo_stats
+    print(f"photos: {ps['photos']} real photos on {ps['products']} products ({ps['variants']} variants), {ps['renders_dropped']} renders replaced")
     for e in b.bundle_errors:
         print('  bundle:', e)
     for w in b.warnings:

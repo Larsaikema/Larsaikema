@@ -13,7 +13,7 @@ Shopify-thema.
 | `catalog/export/products.csv` | Alle producten, varianten, prijzen, beelden en metafields voor Producten › Importeren. |
 | `catalog/export/*.json` | Collecties, menu's, pagina's, blog, metafield-definities en verwijzingen voor het seed-script. |
 | `catalog/catalog.json` | De bron van de catalogus (`python3 catalog/build.py` maakt de export, `catalog/validate.py` controleert). |
-| `catalog/images/` | Productbeelden (3D-renders) en pdf's (productbladen en handleidingen). |
+| `catalog/images/` | Productbeelden: echte foto's (`*-foto.webp`, gekoppeld in `catalog/photos.json`), 3D-renders voor de rest, en pdf's (productbladen en handleidingen). |
 | `scripts/seed/` | Zet via de Admin API alles neer wat de CSV niet kan (add-ons per variant, pakketinhoud, pagina's, menu's …). |
 | `brand/` | Merkboek (`brand.md`), logo's, favicons, kleuren en typografie (`tokens.json`). |
 | `docs/` | Handleidingen: zie hieronder. |

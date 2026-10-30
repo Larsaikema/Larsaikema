@@ -338,6 +338,8 @@ body.is-locked{overflow:hidden}
 
 /* misc */
 .media{position:relative;overflow:hidden;border-radius:var(--radius-card);background:var(--c-media)}
+/* real product photos (file name ends in -foto, catalog/photos.json) are shot on white: their frame is white too, renders keep the linnen frame */
+:is(.media,.card__media,.gallery__frame,.gallery__thumb,.gallery__viewer,.sticky-buy__media,.cart-line__media,.mini-card__media,.addon__media,.upsell__media,.qa__media,.bundle__media,.option-card__media,.predictive__thumb,.mega__thumb,.mdrawer__thumb,.tile__media,.print-card__media):has(img[src*="-foto"]){background:#fff}
 .media>img,.media>svg{width:100%;height:100%;object-fit:cover}
 .placeholder-svg{width:100%;height:100%;background:var(--c-media);fill:rgba(29,36,32,.25)}
 .breadcrumbs{font-size:14px;color:var(--c-kiezel);margin:0 0 12px}

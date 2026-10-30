@@ -523,7 +523,10 @@ def run(verbose=False):
                 rep.e('images', f'{a}: empty alt text for {img["file"]}')
             elif len(img['alt']) > 512:
                 rep.e('images', f'{a}: alt text > 512 chars for {img["file"]}')
-            if not (img.get('render') or {}).get('model'):
+            if img.get('photo'):
+                if not (HERE / 'images' / img['file']).exists():
+                    rep.e('images', f'{a}: photo {img["file"]} is not in catalog/images (python3 catalog/tools/photos.py --src ...)')
+            elif not (img.get('render') or {}).get('model'):
                 rep.e('images', f'{a}: image {img["file"]} has no render spec')
             if 'opdruk' in img['file'] or 'print' in img['file'] or 'logo' in img['file']:
                 if 'voorbeeld' not in img.get('alt', '').lower() and 'logo' not in img.get('alt', '').lower():
@@ -912,7 +915,9 @@ def run(verbose=False):
         rep.e('images', 'export/image-jobs.json missing or invalid')
     jobfiles = {j['file']: j for j in jobs}
     for p in products:
-        files = [i['file'] for i in p['images']]
+        files = [i['file'] for i in p['images'] if not i.get('photo')]  # real photos (catalog/photos.json) have nothing to render
+        if not files and any(i.get('photo') for i in p['images']):
+            continue
         if not any(f in jobfiles for f in files):
             rep.e('images', f'product {p["handle"]}: no image job')
         for f in files:

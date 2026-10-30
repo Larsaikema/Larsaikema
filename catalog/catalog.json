@@ -30,8 +30,8 @@
   "counts": {
    "products": 243,
    "variants": 6391,
-   "images": 1268,
-   "unique_images": 1060,
+   "images": 1294,
+   "unique_images": 1100,
    "collections": 44,
    "menus": 5,
    "pages": 15,
@@ -3150,8 +3150,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x3-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x3-wit-hero.webp"
+     "image": "easy-up-partytent-professional-3x3-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x3-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X3-POL-ZWA",
@@ -3178,8 +3178,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x3-zwart-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x3-zwart-hero.webp"
+     "image": "easy-up-partytent-professional-3x3-zwart-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x3-zwart-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X3-POL-ANT",
@@ -3318,8 +3318,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x3-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x3-wit-hero.webp"
+     "image": "easy-up-partytent-professional-3x3-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x3-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X3-HDP-ZWA",
@@ -3346,11 +3346,33 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x3-zwart-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x3-zwart-hero.webp"
+     "image": "easy-up-partytent-professional-3x3-zwart-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x3-zwart-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "easy-up-partytent-professional-3x3-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "easy-up-partytent-professional-3x3-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "easy-up-partytent-professional-3x3-rood-hero.webp",
      "role": "hero",
@@ -3368,46 +3390,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x3-wit-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 3,
-       "color": "wit",
-       "legs": "professional"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Wit, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x3-zwart-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Zwart",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 3,
-       "color": "zwart",
-       "legs": "professional"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Zwart, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -3529,33 +3511,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 3 × 3 m, Rood, vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp",
-     "role": "in-gebruik",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 3,
-       "color": "wit",
-       "legs": "professional",
-       "walls": {
-        "back": "window",
-        "left": "closed",
-        "right": "door"
-       },
-       "weights": 1
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -4976,8 +4931,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x6-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x6-wit-hero.webp"
+     "image": "easy-up-partytent-professional-3x6-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x6-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X6-POL-ZWA",
@@ -5006,8 +4961,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x6-zwart-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x6-zwart-hero.webp"
+     "image": "easy-up-partytent-professional-3x6-zwart-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x6-zwart-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X6-POL-ANT",
@@ -5156,8 +5111,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x6-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x6-wit-hero.webp"
+     "image": "easy-up-partytent-professional-3x6-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x6-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-3X6-HDP-ZWA",
@@ -5186,11 +5141,33 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-3x6-zwart-hero.webp",
-     "export_image": "easy-up-partytent-professional-3x6-zwart-hero.webp"
+     "image": "easy-up-partytent-professional-3x6-zwart-foto.webp",
+     "export_image": "easy-up-partytent-professional-3x6-zwart-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "easy-up-partytent-professional-3x6-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "easy-up-partytent-professional-3x6-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "easy-up-partytent-professional-3x6-rood-hero.webp",
      "role": "hero",
@@ -5208,46 +5185,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 3 × 6 m, Rood, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x6-wit-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 6,
-       "color": "wit",
-       "legs": "professional"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Wit, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x6-zwart-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Zwart",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 6,
-       "color": "zwart",
-       "legs": "professional"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Zwart, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -5369,33 +5306,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 3 × 6 m, Rood, vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp",
-     "role": "in-gebruik",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 3,
-       "d": 6,
-       "color": "wit",
-       "legs": "professional",
-       "walls": {
-        "back": "window",
-        "left": "closed",
-        "right": "door"
-       },
-       "weights": 1
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -5894,8 +5804,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-4x4-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-4x4-wit-hero.webp"
+     "image": "easy-up-partytent-professional-4x4-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-4x4-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-4X4-POL-ZWA",
@@ -6062,8 +5972,8 @@
        1
       ]
      },
-     "image": "easy-up-partytent-professional-4x4-wit-hero.webp",
-     "export_image": "easy-up-partytent-professional-4x4-wit-hero.webp"
+     "image": "easy-up-partytent-professional-4x4-wit-foto.webp",
+     "export_image": "easy-up-partytent-professional-4x4-wit-foto.webp"
     },
     {
      "sku": "KK-EU-PRO-4X4-HDP-ZWA",
@@ -6096,6 +6006,17 @@
    ],
    "images": [
     {
+     "file": "easy-up-partytent-professional-4x4-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte easy-up partytent Professional 4 × 4 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
      "file": "easy-up-partytent-professional-4x4-rood-hero.webp",
      "role": "hero",
      "priority": 1,
@@ -6112,26 +6033,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 4 × 4 m, Rood, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-4x4-wit-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 4,
-       "d": 4,
-       "color": "wit",
-       "legs": "professional"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Easy-up partytent Professional 4 × 4 m, Wit, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -6273,33 +6174,6 @@
      },
      "model_status": "existing",
      "alt": "Easy-up partytent Professional 4 × 4 m, Rood, vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp",
-     "role": "in-gebruik",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "easyUpTent",
-      "params": {
-       "w": 4,
-       "d": 4,
-       "color": "wit",
-       "legs": "professional",
-       "walls": {
-        "back": "window",
-        "left": "closed",
-        "right": "door"
-       },
-       "weights": 1
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-     "alt": "Easy-up partytent Professional 4 × 4 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -21330,9 +21204,9 @@
      "grams": 5200,
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-zwart-hero.webp",
+     "image": "zijwandenset-easy-up-3x3-zwart-foto.webp",
      "metafields": {},
-     "export_image": "zijwandenset-easy-up-zwart-hero.webp"
+     "export_image": "zijwandenset-easy-up-3x3-zwart-foto.webp"
     },
     {
      "sku": "KK-ZW-EU-SET-3X3-ANT",
@@ -21551,9 +21425,9 @@
      "grams": 7600,
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-wit-hero.webp",
+     "image": "zijwandenset-easy-up-3x6-wit-foto.webp",
      "metafields": {},
-     "export_image": "zijwandenset-easy-up-wit-hero.webp"
+     "export_image": "zijwandenset-easy-up-3x6-wit-foto.webp"
     },
     {
      "sku": "KK-ZW-EU-SET-3X6-ZWA",
@@ -21568,9 +21442,9 @@
      "grams": 7600,
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-zwart-hero.webp",
+     "image": "zijwandenset-easy-up-3x6-zwart-foto.webp",
      "metafields": {},
-     "export_image": "zijwandenset-easy-up-zwart-hero.webp"
+     "export_image": "zijwandenset-easy-up-3x6-zwart-foto.webp"
     },
     {
      "sku": "KK-ZW-EU-SET-3X6-ANT",
@@ -22118,6 +21992,61 @@
     }
    ],
    "images": [
+    {
+     "file": "zijwandenset-easy-up-3x6-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "zijwandenset-easy-up-3x3-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte zijwandenset op een easy-up van 3 × 3 m, met ramen",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "zijwandenset-easy-up-3x6-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "zijwandenset-easy-up-3x3-zwart-schuin-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte easy-up van 3 × 3 m met de zijwandenset, schuin van voren",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "zijwandenset-easy-up-3x6-zwart-schuin-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte easy-up van 3 × 6 m met de zijwandenset, schuin van voren",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "zijwandenset-easy-up-wit-hero.webp",
      "role": "hero",
@@ -38724,8 +38653,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-3x4-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-3x4-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-3X4-GRW",
@@ -39536,8 +39465,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-3x6-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-3x6-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-3X6-GRW",
@@ -41160,8 +41089,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-4x4-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-4x4-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-4X4-GRW",
@@ -41972,8 +41901,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-4x6-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-4x6-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-4X6-GRW",
@@ -42784,8 +42713,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-4x8-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-4x8-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-4X8-GRW",
@@ -45332,8 +45261,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-5x6-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-5x6-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-5X6-GRW",
@@ -46242,8 +46171,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-5x8-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-5x8-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-5X8-GRW",
@@ -47152,8 +47081,8 @@
        }
       ]
      },
-     "image": "partytent-pvc-500-comfort-hero.webp",
-     "export_image": "partytent-pvc-500-comfort-hero.webp"
+     "image": "partytent-pvc-500-comfort-5x10-wit-foto.webp",
+     "export_image": "partytent-pvc-500-comfort-5x10-wit-foto.webp"
     },
     {
      "sku": "KK-TENT-BF-C5-5X10-GRW",
@@ -52487,6 +52416,94 @@
     }
    ],
    "images": [
+    {
+     "file": "partytent-pvc-500-comfort-3x4-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 3 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-3x6-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 3 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-4x4-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 4 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-4x6-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 4 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-4x8-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 4 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-5x6-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 5 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-5x8-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 5 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "partytent-pvc-500-comfort-5x10-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Witte partytent PVC 5 × 10 m met zijwanden met ramen en ventilatie in de gevel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "partytent-pvc-500-comfort-hero.webp",
      "role": "hero",
@@ -128724,8 +128741,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-45X6-AL-TAU",
@@ -129386,8 +129403,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-45X6-AL-Z-TAU",
@@ -130020,8 +130037,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-45X75-AL-TAU",
@@ -130682,8 +130699,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-45X75-AL-Z-TAU",
@@ -131316,8 +131333,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-6X6-AL-TAU",
@@ -131978,8 +131995,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-6X6-AL-Z-TAU",
@@ -132612,8 +132629,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-6X105-AL-TAU",
@@ -133274,8 +133291,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-6X105-AL-Z-TAU",
@@ -133908,8 +133925,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-75X105-AL-TAU",
@@ -134570,8 +134587,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-75X105-AL-Z-TAU",
@@ -135204,8 +135221,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-9X105-AL-TAU",
@@ -135866,8 +135883,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-9X105-AL-Z-TAU",
@@ -136500,8 +136517,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X105-AL-TAU",
@@ -137162,8 +137179,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X105-AL-Z-TAU",
@@ -137796,8 +137813,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X12-AL-TAU",
@@ -138458,8 +138475,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X12-AL-Z-TAU",
@@ -139092,8 +139109,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X15-AL-TAU",
@@ -139754,8 +139771,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X15-AL-Z-TAU",
@@ -140388,8 +140405,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X195-AL-TAU",
@@ -141050,8 +141067,8 @@
        }
       ]
      },
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
-     "export_image": "stretchtent-compleet-zandkleur-hero.webp"
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
+     "export_image": "stretchtent-compleet-zandkleur-foto.webp"
     },
     {
      "sku": "KK-TENT-ST-105X195-AL-Z-TAU",
@@ -141319,6 +141336,28 @@
     }
    ],
    "images": [
+    {
+     "file": "stretchtent-compleet-zandkleur-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zandkleur",
+     "alt": "Zandkleurige stretchtent opgezet met palen en spanbanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "stretchtent-compleet-zandkleur-lang-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zandkleur",
+     "alt": "Lange zandkleurige stretchtent opgezet met palen en spanbanden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "stretchtent-compleet-zandkleur-hero.webp",
      "role": "hero",
@@ -179051,8 +179090,8 @@
        1
       ]
      },
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "statafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "statafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-STF-VK-60X60-EIK-RVS",
@@ -180191,8 +180230,8 @@
        1
       ]
      },
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "statafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "statafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-STF-VK-70X70-EIK-RVS",
@@ -181331,8 +181370,8 @@
        1
       ]
      },
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "statafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "statafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-STF-VK-80X80-EIK-RVS",
@@ -181846,6 +181885,17 @@
     }
    ],
    "images": [
+    {
+     "file": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Eiken",
+     "alt": "Vierkante statafel met houten blad en zwart metalen onderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "statafel-vierkant-stapelbaar-zwart-hero.webp",
      "role": "hero",
@@ -184644,8 +184694,8 @@
        6
       ]
      },
-     "image": "statafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "statafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "statafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "statafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-STF-BS-140X70-EIK-HPL",
@@ -185512,8 +185562,8 @@
        8
       ]
      },
-     "image": "statafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "statafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "statafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "statafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-STF-BS-180X70-EIK-HPL",
@@ -185937,6 +185987,17 @@
     }
    ],
    "images": [
+    {
+     "file": "statafel-breed-stapelbaar-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Eiken",
+     "alt": "Brede statafel met houten blad en zwart metalen onderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "statafel-breed-stapelbaar-eiken-hero.webp",
      "role": "hero",
@@ -188667,8 +188728,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-wit-hero.webp",
-     "export_image": "statafelrok-stretch-wit-hero.webp"
+     "image": "statafelrok-stretch-wit-foto.webp",
+     "export_image": "statafelrok-stretch-wit-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-CRM",
@@ -188763,8 +188824,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zilver-hero.webp",
-     "export_image": "statafelrok-stretch-zilver-hero.webp"
+     "image": "statafelrok-stretch-zilver-foto.webp",
+     "export_image": "statafelrok-stretch-zilver-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-GRS",
@@ -188787,8 +188848,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-grijs-hero.webp",
-     "export_image": "statafelrok-stretch-grijs-hero.webp"
+     "image": "statafelrok-stretch-grijs-foto.webp",
+     "export_image": "statafelrok-stretch-grijs-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-ANT",
@@ -188835,8 +188896,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zwart-hero.webp",
-     "export_image": "statafelrok-stretch-zwart-hero.webp"
+     "image": "statafelrok-stretch-zwart-foto.webp",
+     "export_image": "statafelrok-stretch-zwart-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-GOU",
@@ -188859,8 +188920,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-goud-hero.webp",
-     "export_image": "statafelrok-stretch-goud-hero.webp"
+     "image": "statafelrok-stretch-goud-foto.webp",
+     "export_image": "statafelrok-stretch-goud-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-GEL",
@@ -188883,8 +188944,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-geel-hero.webp",
-     "export_image": "statafelrok-stretch-geel-hero.webp"
+     "image": "statafelrok-stretch-geel-foto.webp",
+     "export_image": "statafelrok-stretch-geel-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-ORA",
@@ -188907,8 +188968,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-oranje-hero.webp",
-     "export_image": "statafelrok-stretch-oranje-hero.webp"
+     "image": "statafelrok-stretch-oranje-foto.webp",
+     "export_image": "statafelrok-stretch-oranje-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-ROD",
@@ -188931,8 +188992,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-rood-hero.webp",
-     "export_image": "statafelrok-stretch-rood-hero.webp"
+     "image": "statafelrok-stretch-rood-foto.webp",
+     "export_image": "statafelrok-stretch-rood-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-BOR",
@@ -189027,8 +189088,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-paars-hero.webp",
-     "export_image": "statafelrok-stretch-paars-hero.webp"
+     "image": "statafelrok-stretch-paars-foto.webp",
+     "export_image": "statafelrok-stretch-paars-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-LBL",
@@ -189099,8 +189160,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-blauw-hero.webp",
-     "export_image": "statafelrok-stretch-blauw-hero.webp"
+     "image": "statafelrok-stretch-blauw-foto.webp",
+     "export_image": "statafelrok-stretch-blauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-MAR",
@@ -189123,8 +189184,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
-     "export_image": "statafelrok-stretch-marineblauw-hero.webp"
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
+     "export_image": "statafelrok-stretch-marineblauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-LGN",
@@ -189147,8 +189208,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
-     "export_image": "statafelrok-stretch-lichtgroen-hero.webp"
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
+     "export_image": "statafelrok-stretch-lichtgroen-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-TC-GRN",
@@ -189245,8 +189306,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-wit-hero.webp",
-     "export_image": "statafelrok-stretch-wit-hero.webp"
+     "image": "statafelrok-stretch-wit-foto.webp",
+     "export_image": "statafelrok-stretch-wit-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-CRM",
@@ -189349,8 +189410,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zilver-hero.webp",
-     "export_image": "statafelrok-stretch-zilver-hero.webp"
+     "image": "statafelrok-stretch-zilver-foto.webp",
+     "export_image": "statafelrok-stretch-zilver-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-GRS",
@@ -189375,8 +189436,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-grijs-hero.webp",
-     "export_image": "statafelrok-stretch-grijs-hero.webp"
+     "image": "statafelrok-stretch-grijs-foto.webp",
+     "export_image": "statafelrok-stretch-grijs-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-ANT",
@@ -189427,8 +189488,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zwart-hero.webp",
-     "export_image": "statafelrok-stretch-zwart-hero.webp"
+     "image": "statafelrok-stretch-zwart-foto.webp",
+     "export_image": "statafelrok-stretch-zwart-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-GOU",
@@ -189453,8 +189514,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-goud-hero.webp",
-     "export_image": "statafelrok-stretch-goud-hero.webp"
+     "image": "statafelrok-stretch-goud-foto.webp",
+     "export_image": "statafelrok-stretch-goud-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-GEL",
@@ -189479,8 +189540,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-geel-hero.webp",
-     "export_image": "statafelrok-stretch-geel-hero.webp"
+     "image": "statafelrok-stretch-geel-foto.webp",
+     "export_image": "statafelrok-stretch-geel-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-ORA",
@@ -189505,8 +189566,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-oranje-hero.webp",
-     "export_image": "statafelrok-stretch-oranje-hero.webp"
+     "image": "statafelrok-stretch-oranje-foto.webp",
+     "export_image": "statafelrok-stretch-oranje-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-ROD",
@@ -189531,8 +189592,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-rood-hero.webp",
-     "export_image": "statafelrok-stretch-rood-hero.webp"
+     "image": "statafelrok-stretch-rood-foto.webp",
+     "export_image": "statafelrok-stretch-rood-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-BOR",
@@ -189635,8 +189696,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-paars-hero.webp",
-     "export_image": "statafelrok-stretch-paars-hero.webp"
+     "image": "statafelrok-stretch-paars-foto.webp",
+     "export_image": "statafelrok-stretch-paars-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-LBL",
@@ -189713,8 +189774,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-blauw-hero.webp",
-     "export_image": "statafelrok-stretch-blauw-hero.webp"
+     "image": "statafelrok-stretch-blauw-foto.webp",
+     "export_image": "statafelrok-stretch-blauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-MAR",
@@ -189739,8 +189800,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
-     "export_image": "statafelrok-stretch-marineblauw-hero.webp"
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
+     "export_image": "statafelrok-stretch-marineblauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-LGN",
@@ -189765,8 +189826,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
-     "export_image": "statafelrok-stretch-lichtgroen-hero.webp"
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
+     "export_image": "statafelrok-stretch-lichtgroen-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D80-85-ZT-GRN",
@@ -189867,8 +189928,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-wit-hero.webp",
-     "export_image": "statafelrok-stretch-wit-hero.webp"
+     "image": "statafelrok-stretch-wit-foto.webp",
+     "export_image": "statafelrok-stretch-wit-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-CRM",
@@ -189963,8 +190024,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zilver-hero.webp",
-     "export_image": "statafelrok-stretch-zilver-hero.webp"
+     "image": "statafelrok-stretch-zilver-foto.webp",
+     "export_image": "statafelrok-stretch-zilver-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-GRS",
@@ -189987,8 +190048,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-grijs-hero.webp",
-     "export_image": "statafelrok-stretch-grijs-hero.webp"
+     "image": "statafelrok-stretch-grijs-foto.webp",
+     "export_image": "statafelrok-stretch-grijs-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-ANT",
@@ -190035,8 +190096,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zwart-hero.webp",
-     "export_image": "statafelrok-stretch-zwart-hero.webp"
+     "image": "statafelrok-stretch-zwart-foto.webp",
+     "export_image": "statafelrok-stretch-zwart-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-GOU",
@@ -190059,8 +190120,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-goud-hero.webp",
-     "export_image": "statafelrok-stretch-goud-hero.webp"
+     "image": "statafelrok-stretch-goud-foto.webp",
+     "export_image": "statafelrok-stretch-goud-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-GEL",
@@ -190083,8 +190144,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-geel-hero.webp",
-     "export_image": "statafelrok-stretch-geel-hero.webp"
+     "image": "statafelrok-stretch-geel-foto.webp",
+     "export_image": "statafelrok-stretch-geel-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-ORA",
@@ -190107,8 +190168,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-oranje-hero.webp",
-     "export_image": "statafelrok-stretch-oranje-hero.webp"
+     "image": "statafelrok-stretch-oranje-foto.webp",
+     "export_image": "statafelrok-stretch-oranje-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-ROD",
@@ -190131,8 +190192,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-rood-hero.webp",
-     "export_image": "statafelrok-stretch-rood-hero.webp"
+     "image": "statafelrok-stretch-rood-foto.webp",
+     "export_image": "statafelrok-stretch-rood-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-BOR",
@@ -190227,8 +190288,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-paars-hero.webp",
-     "export_image": "statafelrok-stretch-paars-hero.webp"
+     "image": "statafelrok-stretch-paars-foto.webp",
+     "export_image": "statafelrok-stretch-paars-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-LBL",
@@ -190299,8 +190360,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-blauw-hero.webp",
-     "export_image": "statafelrok-stretch-blauw-hero.webp"
+     "image": "statafelrok-stretch-blauw-foto.webp",
+     "export_image": "statafelrok-stretch-blauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-MAR",
@@ -190323,8 +190384,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
-     "export_image": "statafelrok-stretch-marineblauw-hero.webp"
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
+     "export_image": "statafelrok-stretch-marineblauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-LGN",
@@ -190347,8 +190408,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
-     "export_image": "statafelrok-stretch-lichtgroen-hero.webp"
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
+     "export_image": "statafelrok-stretch-lichtgroen-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-TC-GRN",
@@ -190445,8 +190506,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-wit-hero.webp",
-     "export_image": "statafelrok-stretch-wit-hero.webp"
+     "image": "statafelrok-stretch-wit-foto.webp",
+     "export_image": "statafelrok-stretch-wit-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-CRM",
@@ -190549,8 +190610,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zilver-hero.webp",
-     "export_image": "statafelrok-stretch-zilver-hero.webp"
+     "image": "statafelrok-stretch-zilver-foto.webp",
+     "export_image": "statafelrok-stretch-zilver-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-GRS",
@@ -190575,8 +190636,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-grijs-hero.webp",
-     "export_image": "statafelrok-stretch-grijs-hero.webp"
+     "image": "statafelrok-stretch-grijs-foto.webp",
+     "export_image": "statafelrok-stretch-grijs-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-ANT",
@@ -190627,8 +190688,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-zwart-hero.webp",
-     "export_image": "statafelrok-stretch-zwart-hero.webp"
+     "image": "statafelrok-stretch-zwart-foto.webp",
+     "export_image": "statafelrok-stretch-zwart-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-GOU",
@@ -190653,8 +190714,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-goud-hero.webp",
-     "export_image": "statafelrok-stretch-goud-hero.webp"
+     "image": "statafelrok-stretch-goud-foto.webp",
+     "export_image": "statafelrok-stretch-goud-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-GEL",
@@ -190679,8 +190740,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-geel-hero.webp",
-     "export_image": "statafelrok-stretch-geel-hero.webp"
+     "image": "statafelrok-stretch-geel-foto.webp",
+     "export_image": "statafelrok-stretch-geel-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-ORA",
@@ -190705,8 +190766,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-oranje-hero.webp",
-     "export_image": "statafelrok-stretch-oranje-hero.webp"
+     "image": "statafelrok-stretch-oranje-foto.webp",
+     "export_image": "statafelrok-stretch-oranje-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-ROD",
@@ -190731,8 +190792,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-rood-hero.webp",
-     "export_image": "statafelrok-stretch-rood-hero.webp"
+     "image": "statafelrok-stretch-rood-foto.webp",
+     "export_image": "statafelrok-stretch-rood-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-BOR",
@@ -190835,8 +190896,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-paars-hero.webp",
-     "export_image": "statafelrok-stretch-paars-hero.webp"
+     "image": "statafelrok-stretch-paars-foto.webp",
+     "export_image": "statafelrok-stretch-paars-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-LBL",
@@ -190913,8 +190974,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-blauw-hero.webp",
-     "export_image": "statafelrok-stretch-blauw-hero.webp"
+     "image": "statafelrok-stretch-blauw-foto.webp",
+     "export_image": "statafelrok-stretch-blauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-MAR",
@@ -190939,8 +191000,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
-     "export_image": "statafelrok-stretch-marineblauw-hero.webp"
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
+     "export_image": "statafelrok-stretch-marineblauw-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-LGN",
@@ -190965,8 +191026,8 @@
        1
       ]
      },
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
-     "export_image": "statafelrok-stretch-lichtgroen-hero.webp"
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
+     "export_image": "statafelrok-stretch-lichtgroen-foto.webp"
     },
     {
      "sku": "KK-ROK-ST-D60-70-ZT-GRN",
@@ -191049,42 +191110,134 @@
    ],
    "images": [
     {
-     "file": "statafelrok-stretch-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
-     "kleur": "Zwart",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "zwart",
-       "diameter": 0.8,
-       "topcover": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Zwart, met topcover, op een statafel, schuin vooraanzicht",
+     "file": "statafelrok-stretch-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Wit",
+     "alt": "Statafelrok stretch in wit om een statafel",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
     {
-     "file": "statafelrok-stretch-wit-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Wit",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "wit",
-       "diameter": 0.8,
-       "topcover": "wit"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Wit, met topcover, op een statafel, schuin vooraanzicht",
+     "file": "statafelrok-stretch-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Statafelrok stretch in zwart om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-rood-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Rood",
+     "alt": "Statafelrok stretch in rood om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-blauw-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Blauw",
+     "alt": "Statafelrok stretch in blauw om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-geel-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Geel",
+     "alt": "Statafelrok stretch in geel om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-goud-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Goud",
+     "alt": "Statafelrok stretch in goud om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-grijs-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Grijs",
+     "alt": "Statafelrok stretch in grijs om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-lichtgroen-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Lichtgroen",
+     "alt": "Statafelrok stretch in lichtgroen om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-marineblauw-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Marineblauw",
+     "alt": "Statafelrok stretch in marineblauw om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-oranje-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Oranje",
+     "alt": "Statafelrok stretch in oranje om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-paars-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Paars",
+     "alt": "Statafelrok stretch in paars om een statafel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelrok-stretch-zilver-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zilver",
+     "alt": "Statafelrok stretch in zilver om een statafel",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -191149,46 +191302,6 @@
      "exported": true
     },
     {
-     "file": "statafelrok-stretch-zilver-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Zilver",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "zilver",
-       "diameter": 0.8,
-       "topcover": "zilver"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Zilver, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-grijs-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Grijs",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "grijs",
-       "diameter": 0.8,
-       "topcover": "grijs"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Grijs, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
      "file": "statafelrok-stretch-antraciet-hero.webp",
      "role": "variant",
      "priority": 2,
@@ -191205,86 +191318,6 @@
      },
      "model_status": "existing",
      "alt": "Statafelrok stretch, Antraciet, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-goud-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Goud",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "goud",
-       "diameter": 0.8,
-       "topcover": "goud"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Goud, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-geel-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Geel",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "geel",
-       "diameter": 0.8,
-       "topcover": "geel"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Geel, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-oranje-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Oranje",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "oranje",
-       "diameter": 0.8,
-       "topcover": "oranje"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Oranje, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-rood-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Rood",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "rood",
-       "diameter": 0.8,
-       "topcover": "rood"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Rood, met topcover, op een statafel, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -191349,26 +191382,6 @@
      "exported": true
     },
     {
-     "file": "statafelrok-stretch-paars-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Paars",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "paars",
-       "diameter": 0.8,
-       "topcover": "paars"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Paars, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
      "file": "statafelrok-stretch-lichtblauw-hero.webp",
      "role": "variant",
      "priority": 2,
@@ -191405,66 +191418,6 @@
      },
      "model_status": "existing",
      "alt": "Statafelrok stretch, Turquoise, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-blauw-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Blauw",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "blauw",
-       "diameter": 0.8,
-       "topcover": "blauw"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Blauw, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-marineblauw-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Marineblauw",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "marineblauw",
-       "diameter": 0.8,
-       "topcover": "marineblauw"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Marineblauw, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-lichtgroen-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Lichtgroen",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "lichtgroen",
-       "diameter": 0.8,
-       "topcover": "lichtgroen"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelrok stretch, Lichtgroen, met topcover, op een statafel, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -191525,48 +191478,6 @@
      },
      "model_status": "existing",
      "alt": "Statafelrok stretch, Bruin, met topcover, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-zwart-detail.webp",
-     "role": "detail",
-     "priority": 2,
-     "kleur": "Zwart",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "zwart",
-       "diameter": 0.8,
-       "topcover": "zwart"
-      },
-      "angle": "detail"
-     },
-     "model_status": "existing",
-     "alt_hint": "zoom tussen de voeten",
-     "alt": "Statafelrok stretch, Zwart, close-up van de zoom tussen de voeten",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelrok-stretch-wit-zwarte-topcover.webp",
-     "role": "in-gebruik",
-     "priority": 3,
-     "kleur": "Wit",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "stretch",
-       "color": "wit",
-       "diameter": 0.8,
-       "topcover": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt_hint": "wit met losse zwarte topcover (apart verkrijgbaar)",
-     "alt": "Statafelrok stretch, Wit, met losse zwarte topcover (apart verkrijgbaar), schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -193758,8 +193669,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-wit-hero.webp",
-     "export_image": "statafelhoes-met-strik-wit-hero.webp"
+     "image": "statafelhoes-met-strik-wit-foto.webp",
+     "export_image": "statafelhoes-met-strik-wit-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D80-85-CRM",
@@ -193782,8 +193693,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-creme-hero.webp",
-     "export_image": "statafelhoes-met-strik-creme-hero.webp"
+     "image": "statafelhoes-met-strik-creme-foto.webp",
+     "export_image": "statafelhoes-met-strik-creme-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D80-85-CHA",
@@ -193950,8 +193861,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-rood-hero.webp",
-     "export_image": "statafelhoes-met-strik-rood-hero.webp"
+     "image": "statafelhoes-met-strik-rood-foto.webp",
+     "export_image": "statafelhoes-met-strik-rood-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D80-85-GOU",
@@ -193998,8 +193909,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-wit-hero.webp",
-     "export_image": "statafelhoes-met-strik-wit-hero.webp"
+     "image": "statafelhoes-met-strik-wit-foto.webp",
+     "export_image": "statafelhoes-met-strik-wit-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D60-70-CRM",
@@ -194022,8 +193933,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-creme-hero.webp",
-     "export_image": "statafelhoes-met-strik-creme-hero.webp"
+     "image": "statafelhoes-met-strik-creme-foto.webp",
+     "export_image": "statafelhoes-met-strik-creme-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D60-70-CHA",
@@ -194190,8 +194101,8 @@
        1
       ]
      },
-     "image": "statafelhoes-met-strik-rood-hero.webp",
-     "export_image": "statafelhoes-met-strik-rood-hero.webp"
+     "image": "statafelhoes-met-strik-rood-foto.webp",
+     "export_image": "statafelhoes-met-strik-rood-foto.webp"
     },
     {
      "sku": "KK-HOES-STR-D60-70-GOU",
@@ -194220,40 +194131,35 @@
    ],
    "images": [
     {
-     "file": "statafelhoes-met-strik-wit-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "statafelhoes-met-strik-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Wit",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "strik",
-       "color": "wit",
-       "diameter": 0.8
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht",
+     "alt": "Statafelhoes in wit tot op de grond, in de taille samengebonden",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
     {
-     "file": "statafelhoes-met-strik-creme-hero.webp",
-     "role": "variant",
-     "priority": 2,
+     "file": "statafelhoes-met-strik-creme-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Crème",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "strik",
-       "color": "creme",
-       "diameter": 0.8
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelhoes met strik, Crème, op een statafel, schuin vooraanzicht",
+     "alt": "Statafelhoes in crème tot op de grond, in de taille samengebonden",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafelhoes-met-strik-rood-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Rood",
+     "alt": "Statafelhoes in rood tot op de grond, in de taille samengebonden",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -194372,25 +194278,6 @@
      "exported": true
     },
     {
-     "file": "statafelhoes-met-strik-rood-hero.webp",
-     "role": "variant",
-     "priority": 2,
-     "kleur": "Rood",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "strik",
-       "color": "rood",
-       "diameter": 0.8
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Statafelhoes met strik, Rood, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
      "file": "statafelhoes-met-strik-goud-hero.webp",
      "role": "variant",
      "priority": 2,
@@ -194406,26 +194293,6 @@
      },
      "model_status": "existing",
      "alt": "Statafelhoes met strik, Goud, op een statafel, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafelhoes-met-strik-wit-detail.webp",
-     "role": "detail",
-     "priority": 2,
-     "kleur": "Wit",
-     "render": {
-      "model": "statafelCover",
-      "params": {
-       "type": "strik",
-       "color": "wit",
-       "diameter": 0.8
-      },
-      "angle": "detail"
-     },
-     "model_status": "existing",
-     "alt_hint": "de strik",
-     "alt": "Statafelhoes met strik, Wit, close-up van de strik",
      "draft": false,
      "exported": true
     }
@@ -196441,9 +196308,9 @@
      "grams": 700,
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": {},
-     "export_image": "stretchhoes-klaptafel-zwart-hero.webp"
+     "export_image": "stretchhoes-klaptafel-zwart-foto.webp"
     },
     {
      "sku": "KK-THOES-122X61-ANT",
@@ -196492,9 +196359,9 @@
      "grams": 900,
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": {},
-     "export_image": "stretchhoes-klaptafel-zwart-hero.webp"
+     "export_image": "stretchhoes-klaptafel-zwart-foto.webp"
     },
     {
      "sku": "KK-THOES-183X76-ANT",
@@ -196543,9 +196410,9 @@
      "grams": 1100,
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": {},
-     "export_image": "stretchhoes-klaptafel-zwart-hero.webp"
+     "export_image": "stretchhoes-klaptafel-zwart-foto.webp"
     },
     {
      "sku": "KK-THOES-244X76-ANT",
@@ -196567,22 +196434,13 @@
    ],
    "images": [
     {
-     "file": "stretchhoes-klaptafel-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "stretchhoes-klaptafel-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Zwart",
-     "render": {
-      "model": "buffetCover",
-      "params": {
-       "length": 1.83,
-       "width": 0.76,
-       "color": "zwart",
-       "kind": "klaptafel"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stretchhoes klaptafel 183 × 76 cm, Zwart, schuin vooraanzicht",
+     "alt": "Zwarte stretchhoes om een rechthoekige klaptafel",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -205116,8 +204974,8 @@
        1
       ]
      },
-     "image": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-     "export_image": "barkruk-stapelbaar-metaal-zwart-hero.webp"
+     "image": "barkruk-stapelbaar-metaal-zwart-foto.webp",
+     "export_image": "barkruk-stapelbaar-metaal-zwart-foto.webp"
     },
     {
      "sku": "KK-MEU-BKM-WIT",
@@ -205266,21 +205124,13 @@
    ],
    "images": [
     {
-     "file": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "barkruk-stapelbaar-metaal-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Zwart",
-     "render": {
-      "model": "barStool",
-      "params": {
-       "style": "metaal",
-       "color": "zwart",
-       "height": 0.76
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht",
+     "alt": "Zwarte metalen barkruk, stapelbaar",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -205395,26 +205245,6 @@
      },
      "model_status": "existing",
      "alt": "Stapelbare metalen barkruk in taupe, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "barkruk-stapelbaar-metaal-zwart-gestapeld.webp",
-     "role": "detail",
-     "priority": 3,
-     "kleur": "Zwart",
-     "render": {
-      "model": "barStool",
-      "params": {
-       "style": "metaal",
-       "color": "zwart",
-       "stack": 4
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt_hint": "4 gestapeld",
-     "alt": "Barkruk stapelbaar metaal, Zwart, 4 krukken op elkaar gestapeld",
      "draft": false,
      "exported": true
     }
@@ -207820,8 +207650,8 @@
        1
       ]
      },
-     "image": "stapelstoel-metaal-zwart-hero.webp",
-     "export_image": "stapelstoel-metaal-zwart-hero.webp"
+     "image": "stapelstoel-metaal-zwart-foto.webp",
+     "export_image": "stapelstoel-metaal-zwart-foto.webp"
     },
     {
      "sku": "KK-MEU-STM-WIT",
@@ -208006,20 +207836,13 @@
    ],
    "images": [
     {
-     "file": "stapelstoel-metaal-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "stapelstoel-metaal-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Zwart",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "metaal",
-       "color": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stapelstoel metaal, Zwart, schuin vooraanzicht",
+     "alt": "Zwarte metalen stapelstoel",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -208363,8 +208186,8 @@
        1
       ]
      },
-     "image": "banquetstoel-gestoffeerd-zwart-hero.webp",
-     "export_image": "banquetstoel-gestoffeerd-zwart-hero.webp"
+     "image": "banquetstoel-gestoffeerd-zwart-foto.webp",
+     "export_image": "banquetstoel-gestoffeerd-zwart-foto.webp"
     },
     {
      "sku": "KK-MEU-BQS-ANT",
@@ -208453,20 +208276,13 @@
    ],
    "images": [
     {
-     "file": "banquetstoel-gestoffeerd-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "banquetstoel-gestoffeerd-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Zwart",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "banquet",
-       "color": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Banquetstoel gestoffeerd stapelbaar, Zwart, schuin vooraanzicht",
+     "alt": "Zwarte gestoffeerde banquetstoel, stapelbaar",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -209132,11 +208948,22 @@
        1
       ]
      },
-     "image": "klapstoel-zwart-hero.webp",
-     "export_image": "klapstoel-zwart-hero.webp"
+     "image": "klapstoel-zwart-foto.webp",
+     "export_image": "klapstoel-zwart-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "klapstoel-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Zwart",
+     "alt": "Zwarte kunststof klapstoel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "klapstoel-wit-hero.webp",
      "role": "hero",
@@ -209152,24 +208979,6 @@
      },
      "model_status": "existing",
      "alt": "Klapstoel, Wit, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "klapstoel-zwart-hero.webp",
-     "role": "variant",
-     "priority": 3,
-     "kleur": "Zwart",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "klapstoel",
-       "color": "zwart"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Klapstoel, Zwart, schuin vooraanzicht",
      "draft": false,
      "exported": true
     }
@@ -209401,8 +209210,8 @@
        1
       ]
      },
-     "image": "stapelstoel-cross-back-eiken-hero.webp",
-     "export_image": "stapelstoel-cross-back-eiken-hero.webp"
+     "image": "stapelstoel-cross-back-eiken-foto.webp",
+     "export_image": "stapelstoel-cross-back-eiken-foto.webp"
     },
     {
      "sku": "KK-MEU-CBS-ZWA",
@@ -209433,20 +209242,24 @@
    ],
    "images": [
     {
-     "file": "stapelstoel-cross-back-eiken-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "stapelstoel-cross-back-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Eiken",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "crossback",
-       "color": "#B8915F"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht",
+     "alt": "Houten cross back stoel in eikenkleur",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "stapelstoel-cross-back-eiken-kussen-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Eiken",
+     "alt": "Houten cross back stoel met een grijs zitkussen (kussen apart verkrijgbaar)",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -214664,8 +214477,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X50-T",
@@ -214690,8 +214503,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X60-SET",
@@ -214716,8 +214529,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X60-T",
@@ -214742,8 +214555,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X70-SET",
@@ -214768,8 +214581,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X70-T",
@@ -214794,8 +214607,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X80-SET",
@@ -214820,8 +214633,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X80-T",
@@ -214846,8 +214659,8 @@
        1
       ]
      },
-     "image": "biertafelset-180-hero.webp",
-     "export_image": "biertafelset-180-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X50-SET",
@@ -214872,8 +214685,8 @@
        1
       ]
      },
-     "image": "biertafelset-hero.webp",
-     "export_image": "biertafelset-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X50-T",
@@ -214898,8 +214711,8 @@
        1
       ]
      },
-     "image": "biertafelset-hero.webp",
-     "export_image": "biertafelset-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X60-SET",
@@ -214924,8 +214737,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X60-T",
@@ -214950,8 +214763,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X67-SET",
@@ -214976,8 +214789,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X67-T",
@@ -215002,8 +214815,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X70-SET",
@@ -215028,8 +214841,8 @@
        1
       ]
      },
-     "image": "biertafelset-70-hero.webp",
-     "export_image": "biertafelset-70-hero.webp"
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X70-T",
@@ -215054,8 +214867,8 @@
        1
       ]
      },
-     "image": "biertafelset-70-hero.webp",
-     "export_image": "biertafelset-70-hero.webp"
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X80-SET",
@@ -215080,8 +214893,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafelset-standaard-foto.webp",
+     "export_image": "biertafelset-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-220X80-T",
@@ -215106,8 +214919,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": null
+     "image": "biertafel-standaard-foto.webp",
+     "export_image": "biertafel-standaard-foto.webp"
     },
     {
      "sku": "KK-MEU-BTS-180X50-SET-BR",
@@ -216048,6 +215861,28 @@
    ],
    "images": [
     {
+     "file": "biertafelset-standaard-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Biertafelset: tafel en twee banken van hout met groen klaponderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "biertafel-standaard-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Biertafel van hout met groen klaponderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
      "file": "biertafelset-hero.webp",
      "role": "hero",
      "priority": 1,
@@ -216501,7 +216336,7 @@
       ]
      },
      "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "export_image": "bierbank-220-foto.webp"
     },
     {
      "sku": "KK-MEU-BB-180-BR",
@@ -216525,7 +216360,7 @@
       ]
      },
      "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "export_image": "bierbank-220-foto.webp"
     },
     {
      "sku": "KK-MEU-BB-180-BR-ZO",
@@ -216549,7 +216384,7 @@
       ]
      },
      "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "export_image": "bierbank-220-foto.webp"
     },
     {
      "sku": "KK-MEU-BB-220",
@@ -216572,8 +216407,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "image": "bierbank-220-foto.webp",
+     "export_image": "bierbank-220-foto.webp"
     },
     {
      "sku": "KK-MEU-BB-220-BR",
@@ -216597,7 +216432,7 @@
       ]
      },
      "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "export_image": "bierbank-220-foto.webp"
     },
     {
      "sku": "KK-MEU-BB-220-BR-ZO",
@@ -216621,10 +216456,21 @@
       ]
      },
      "image": null,
-     "export_image": "bierbank-220-hero.webp"
+     "export_image": "bierbank-220-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "bierbank-220-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Bierbank 220 × 25 cm met houten zitting en groen klaponderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "bierbank-220-hero.webp",
      "role": "hero",
@@ -225781,9 +225627,9 @@
      "grams": 16000,
      "requires_shipping": true,
      "taxable": true,
-     "image": "loungeheater-gas-hero.webp",
+     "image": "loungeheater-gas-staand-foto.webp",
      "metafields": {},
-     "export_image": "loungeheater-gas-hero.webp"
+     "export_image": "loungeheater-gas-staand-foto.webp"
     },
     {
      "sku": "KK-VRW-LOUNGE-3",
@@ -225804,6 +225650,17 @@
     }
    ],
    "images": [
+    {
+     "file": "loungeheater-gas-staand-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Zwarte loungeheater op gas, staand model",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "loungeheater-gas-hero.webp",
      "role": "hero",
@@ -226124,26 +225981,19 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "flameheater-gas-9-kw-hero.webp"
+     "image": "flameheater-gas-9-kw-foto.webp",
+     "export_image": "flameheater-gas-9-kw-foto.webp"
     }
    ],
    "images": [
     {
-     "file": "flameheater-gas-9-kw-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "flameheater-gas-9-kw-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": null,
-     "render": {
-      "model": "heater",
-      "params": {
-       "kind": "gas",
-       "style": "flame"
-      },
-      "angle": "hero"
-     },
-     "model_status": "existing",
-     "alt": "Flameheater op gas met zichtbare vlam in een glazen buis",
+     "alt": "Flameheater op gas met glazen buis en zichtbare vlam",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     }
@@ -231147,8 +230997,8 @@
        1
       ]
      },
-     "image": "loper-per-meter-rood-hero.webp",
-     "export_image": "loper-per-meter-rood-hero.webp"
+     "image": "loper-per-meter-rood-foto.webp",
+     "export_image": "loper-per-meter-rood-foto.webp"
     },
     {
      "sku": "KK-INR-LOP-1-ROD-Z",
@@ -231178,8 +231028,8 @@
        1
       ]
      },
-     "image": "loper-per-meter-rood-hero.webp",
-     "export_image": "loper-per-meter-rood-hero.webp"
+     "image": "loper-per-meter-rood-foto.webp",
+     "export_image": "loper-per-meter-rood-foto.webp"
     },
     {
      "sku": "KK-INR-LOP-1-ZWA",
@@ -232361,6 +232211,17 @@
     }
    ],
    "images": [
+    {
+     "file": "loper-per-meter-rood-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Rood",
+     "alt": "Rode loper van 1 m breed, deels opgerold",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "loper-per-meter-rood-hero.webp",
      "role": "hero",
@@ -335703,7 +335564,7 @@
      "grams": 1600,
      "requires_shipping": true,
      "taxable": true,
-     "image": "prikkabel-e27-zwart-hero.webp",
+     "image": "prikkabelset-led-zwart-foto.webp",
      "metafields": {
       "componenten": [
        "KK-LCHT-PK-10M-ZWA",
@@ -335715,7 +335576,7 @@
       ]
      },
      "bundle_los_totaal": 5785,
-     "export_image": "prikkabel-e27-zwart-hero.webp"
+     "export_image": "prikkabelset-led-zwart-foto.webp"
     },
     {
      "sku": "KK-SET-PKSET-10M-WIT",
@@ -335757,7 +335618,7 @@
      "grams": 3100,
      "requires_shipping": true,
      "taxable": true,
-     "image": "prikkabel-e27-zwart-hero.webp",
+     "image": "prikkabelset-led-zwart-foto.webp",
      "metafields": {
       "componenten": [
        "KK-LCHT-PK-20M-ZWA",
@@ -335769,7 +335630,7 @@
       ]
      },
      "bundle_los_totaal": 10475,
-     "export_image": "prikkabel-e27-zwart-hero.webp"
+     "export_image": "prikkabelset-led-zwart-foto.webp"
     },
     {
      "sku": "KK-SET-PKSET-20M-WIT",
@@ -335801,24 +335662,13 @@
    ],
    "images": [
     {
-     "file": "prikkabel-e27-zwart-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "prikkabelset-led-zwart-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Zwart",
-     "render": {
-      "model": "prikkabel",
-      "params": {
-       "bulbs": 10,
-       "spacing": 1.0,
-       "sag": 0.25,
-       "on": true,
-       "cable": "zwart"
-      },
-      "angle": "hero",
-      "shared_with": "prikkabel-e27"
-     },
-     "model_status": "existing",
-     "alt": "Prikkabelset zwart: prikkabel met brandende warm witte LED-lampen, schuin vooraanzicht",
+     "alt": "Zwarte prikkabel met brandende warmwitte LED-lampen",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -339540,8 +339390,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "bankettafel-hout-rechthoekig-hero.webp"
+     "image": "bankettafel-hout-rechthoekig-122-foto.webp",
+     "export_image": "bankettafel-hout-rechthoekig-122-foto.webp"
     },
     {
      "sku": "KK-MEU-BKT-153X76",
@@ -339567,7 +339417,7 @@
       ]
      },
      "image": null,
-     "export_image": "bankettafel-hout-rechthoekig-hero.webp"
+     "export_image": "bankettafel-hout-rechthoekig-122-foto.webp"
     },
     {
      "sku": "KK-MEU-BKT-183X76",
@@ -339594,8 +339444,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "bankettafel-hout-rechthoekig-hero.webp"
+     "image": "bankettafel-hout-rechthoekig-183-foto.webp",
+     "export_image": "bankettafel-hout-rechthoekig-183-foto.webp"
     },
     {
      "sku": "KK-MEU-BKT-220X76",
@@ -339619,10 +339469,32 @@
       ]
      },
      "image": null,
-     "export_image": "bankettafel-hout-rechthoekig-hero.webp"
+     "export_image": "bankettafel-hout-rechthoekig-122-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "bankettafel-hout-rechthoekig-122-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Rechthoekige bankettafel met houten blad en metalen klappoten",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "bankettafel-hout-rechthoekig-183-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Lange rechthoekige bankettafel met houten blad en metalen klappoten",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "bankettafel-hout-rechthoekig-hero.webp",
      "role": "hero",
@@ -339967,8 +339839,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "bankettafel-hout-rond-hero.webp"
+     "image": "bankettafel-hout-rond-122-foto.webp",
+     "export_image": "bankettafel-hout-rond-122-foto.webp"
     },
     {
      "sku": "KK-MEU-BKR-D153",
@@ -339995,8 +339867,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "bankettafel-hout-rond-hero.webp"
+     "image": "bankettafel-hout-rond-153-foto.webp",
+     "export_image": "bankettafel-hout-rond-153-foto.webp"
     },
     {
      "sku": "KK-MEU-BKR-D165",
@@ -340024,7 +339896,7 @@
       ]
      },
      "image": null,
-     "export_image": "bankettafel-hout-rond-hero.webp"
+     "export_image": "bankettafel-hout-rond-122-foto.webp"
     },
     {
      "sku": "KK-MEU-BKR-D183",
@@ -340052,10 +339924,32 @@
       ]
      },
      "image": null,
-     "export_image": "bankettafel-hout-rond-hero.webp"
+     "export_image": "bankettafel-hout-rond-122-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "bankettafel-hout-rond-122-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "bankettafel-hout-rond-153-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "bankettafel-hout-rond-hero.webp",
      "role": "hero",
@@ -340436,9 +340330,9 @@
      "grams": 11000,
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": {},
-     "export_image": "klaptafel-hout-kwartrond.webp"
+     "export_image": "klaptafel-hout-vormen-kwartrond-foto.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-152X76",
@@ -340453,9 +340347,9 @@
      "grams": 13000,
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": {},
-     "export_image": "klaptafel-hout-kwartrond.webp"
+     "export_image": "klaptafel-hout-vormen-kwartrond-foto.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-170X80",
@@ -340470,9 +340364,9 @@
      "grams": 15000,
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": {},
-     "export_image": "klaptafel-hout-kwartrond.webp"
+     "export_image": "klaptafel-hout-vormen-kwartrond-foto.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-183X91",
@@ -340487,9 +340381,9 @@
      "grams": 17000,
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": {},
-     "export_image": "klaptafel-hout-kwartrond.webp"
+     "export_image": "klaptafel-hout-vormen-kwartrond-foto.webp"
     },
     {
      "sku": "KK-MEU-KLV-KWA-D305",
@@ -340544,6 +340438,17 @@
     }
    ],
    "images": [
+    {
+     "file": "klaptafel-hout-vormen-kwartrond-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Kwartronde klaptafel met houten blad en metalen klappoten",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "klaptafel-hout-halfrond.webp",
      "role": "hero",
@@ -343286,8 +343191,8 @@
        1
       ]
      },
-     "image": "koelkast-rvs-horeca-hero.webp",
-     "export_image": "koelkast-rvs-horeca-hero.webp"
+     "image": "koelkast-rvs-horeca-dicht-foto.webp",
+     "export_image": "koelkast-rvs-horeca-dicht-foto.webp"
     },
     {
      "sku": "KK-KOEL-RVS-GL",
@@ -343315,6 +343220,17 @@
     }
    ],
    "images": [
+    {
+     "file": "koelkast-rvs-horeca-dicht-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "RVS horecakoelkast met dichte deur",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "koelkast-rvs-horeca-hero.webp",
      "role": "hero",
@@ -343543,28 +343459,19 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "koel-vrieskist-liggend-hero.webp"
+     "image": "koel-vrieskist-liggend-foto.webp",
+     "export_image": "koel-vrieskist-liggend-foto.webp"
     }
    ],
    "images": [
     {
-     "file": "koel-vrieskist-liggend-hero.webp",
-     "role": "hero",
-     "priority": 1,
-     "kleur": "Wit",
-     "render": {
-      "model": "fridge",
-      "params": {
-       "kind": "kist",
-       "color": "wit",
-       "lid": "open"
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-model",
-     "alt_hint": "met deksel open",
-     "alt": "Witte liggende koel- en vrieskist met het deksel open en twee manden",
+     "file": "koel-vrieskist-liggend-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Witte vrieskist met klapdeksel",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     }
@@ -345173,8 +345080,8 @@
        1
       ]
      },
-     "image": "klapstoel-wedding-wit-hero.webp",
-     "export_image": "klapstoel-wedding-wit-hero.webp"
+     "image": "klapstoel-wedding-wit-foto.webp",
+     "export_image": "klapstoel-wedding-wit-foto.webp"
     },
     {
      "sku": "KK-MEU-WED-ZWA",
@@ -345205,20 +345112,13 @@
    ],
    "images": [
     {
-     "file": "klapstoel-wedding-wit-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "klapstoel-wedding-wit-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Wit",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "wedding",
-       "color": "wit"
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-param",
-     "alt": "Witte weddingstoel klapbaar met wit kussen, schuin vooraanzicht",
+     "alt": "Witte weddingstoel, klapbaar, met wit zitkussen",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -346033,8 +345933,8 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "afzetpaal-met-koord-hero.webp"
+     "image": "afzetpaal-met-koord-chroom-foto.webp",
+     "export_image": "afzetpaal-met-koord-chroom-foto.webp"
     },
     {
      "sku": "KK-INR-AZK-MES",
@@ -346060,7 +345960,7 @@
       ]
      },
      "image": null,
-     "export_image": "afzetpaal-met-koord-hero.webp"
+     "export_image": "afzetpaal-met-koord-chroom-foto.webp"
     },
     {
      "sku": "KK-INR-AZK-ZWA",
@@ -346086,7 +345986,7 @@
       ]
      },
      "image": null,
-     "export_image": "afzetpaal-met-koord-hero.webp"
+     "export_image": "afzetpaal-met-koord-chroom-foto.webp"
     },
     {
      "sku": "KK-INR-AZK-WIT",
@@ -346112,10 +346012,32 @@
       ]
      },
      "image": null,
-     "export_image": "afzetpaal-met-koord-hero.webp"
+     "export_image": "afzetpaal-met-koord-chroom-foto.webp"
     }
    ],
    "images": [
+    {
+     "file": "afzetpaal-met-koord-chroom-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Verchroomde afzetpaal met ronde voet en bolle kop",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "afzetpaal-met-koord-chroom-ingang-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": null,
+     "alt": "Vier verchroomde afzetpalen met rood koord langs een rode loper",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "afzetpaal-met-koord-hero.webp",
      "role": "hero",
@@ -346339,9 +346261,9 @@
      "grams": 900,
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetkoord-velours-rood-hero.webp",
+     "image": "afzetkoord-velours-rood-foto.webp",
      "metafields": {},
-     "export_image": "afzetkoord-velours-rood-hero.webp"
+     "export_image": "afzetkoord-velours-rood-foto.webp"
     },
     {
      "sku": "KK-INR-KRD-150-ZWA",
@@ -346475,9 +346397,9 @@
      "grams": 900,
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetkoord-velours-rood-hero.webp",
+     "image": "afzetkoord-velours-rood-foto.webp",
      "metafields": {},
-     "export_image": "afzetkoord-velours-rood-hero.webp"
+     "export_image": "afzetkoord-velours-rood-foto.webp"
     },
     {
      "sku": "KK-INR-KRD-200-ZWA",
@@ -346584,6 +346506,17 @@
    ],
    "images": [
     {
+     "file": "afzetkoord-velours-rood-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Rood",
+     "alt": "Rood velours afzetkoord met verchroomde haak",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
      "file": "afzetkoord-velours-bordeaux-hero.webp",
      "role": "hero",
      "priority": 1,
@@ -346598,24 +346531,6 @@
      },
      "model_status": "needs-param",
      "alt": "Bordeaux velours afzetkoord met verchroomde haken, in een boog",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "afzetkoord-velours-rood-hero.webp",
-     "role": "variant",
-     "priority": 3,
-     "kleur": "Rood",
-     "render": {
-      "model": "stanchion",
-      "params": {
-       "rope": "rood",
-       "only": "rope"
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-param",
-     "alt": "Rood velours afzetkoord met verchroomde haken, in een boog",
      "draft": false,
      "exported": true
     },
@@ -348225,27 +348140,19 @@
        1
       ]
      },
-     "image": null,
-     "export_image": "kapstok-verrijdbaar-hero.webp"
+     "image": "kapstok-verrijdbaar-foto.webp",
+     "export_image": "kapstok-verrijdbaar-foto.webp"
     }
    ],
    "images": [
     {
-     "file": "kapstok-verrijdbaar-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "kapstok-verrijdbaar-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": null,
-     "render": {
-      "model": "coatRack",
-      "params": {
-       "length": 2,
-       "hooks": 104,
-       "wheels": true
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-model",
-     "alt": "Verrijdbare kapstok van 2 m met genummerde haken en een hoedenplank, schuin vooraanzicht",
+     "alt": "Verrijdbaar garderoberek met twee rijen haken",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     }
@@ -349612,9 +349519,9 @@
      "grams": 40,
      "requires_shipping": true,
      "taxable": true,
-     "image": "led-lamp-e27-gekleurd-oranje-hero.webp",
+     "image": "led-lamp-e27-gekleurd-oranje-foto.webp",
      "metafields": {},
-     "export_image": "led-lamp-e27-gekleurd-oranje-hero.webp"
+     "export_image": "led-lamp-e27-gekleurd-oranje-foto.webp"
     },
     {
      "sku": "KK-LCHT-LEDK-GEL",
@@ -349704,6 +349611,28 @@
    ],
    "images": [
     {
+     "file": "led-lamp-e27-gekleurd-oranje-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Oranje",
+     "alt": "Oranje LED-lampen aan een zwarte prikkabel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "led-lamp-e27-gekleurd-mix-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Blauw",
+     "alt": "Gekleurde LED-lampen in blauw, geel, groen en rood aan een zwarte prikkabel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
+    {
      "file": "led-lamp-e27-gekleurd-rood-hero.webp",
      "role": "hero",
      "priority": 1,
@@ -349738,25 +349667,6 @@
      },
      "model_status": "needs-param",
      "alt": "Onbreekbare LED-lamp E27 warm wit 2000 K, brandend",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "led-lamp-e27-gekleurd-oranje-hero.webp",
-     "role": "variant",
-     "priority": 3,
-     "kleur": "Oranje",
-     "render": {
-      "model": "ledBulb",
-      "params": {
-       "type": "gekleurd",
-       "color": "oranje",
-       "on": true
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-param",
-     "alt": "Onbreekbare LED-lamp E27 oranje, brandend",
      "draft": false,
      "exported": true
     },
@@ -353517,8 +353427,8 @@
        1
       ]
      },
-     "image": "klapstoel-hout-bistro-eiken-hero.webp",
-     "export_image": "klapstoel-hout-bistro-eiken-hero.webp"
+     "image": "klapstoel-hout-bistro-eiken-foto.webp",
+     "export_image": "klapstoel-hout-bistro-eiken-foto.webp"
     },
     {
      "sku": "KK-MEU-KLH-VHT",
@@ -353571,20 +353481,13 @@
    ],
    "images": [
     {
-     "file": "klapstoel-hout-bistro-eiken-hero.webp",
-     "role": "hero",
-     "priority": 1,
+     "file": "klapstoel-hout-bistro-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
      "kleur": "Eiken",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "bistro-klap",
-       "color": "#B8915F"
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-param",
-     "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
+     "alt": "Houten klapstoel met latten zitting",
+     "photo": true,
+     "model_status": "photo",
      "draft": false,
      "exported": true
     },
@@ -353621,26 +353524,6 @@
      },
      "model_status": "needs-param",
      "alt": "Houten klapstoel bistro, zwart gebeitst, schuin vooraanzicht",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
-     "role": "detail",
-     "priority": 3,
-     "kleur": "Eiken",
-     "render": {
-      "model": "chair",
-      "params": {
-       "style": "bistro-klap",
-       "color": "#B8915F",
-       "folded": true
-      },
-      "angle": "hero"
-     },
-     "model_status": "needs-param",
-     "alt_hint": "ingeklapt, 6 cm dik",
-     "alt": "Houten klapstoel in eiken, ingeklapt en plat",
      "draft": false,
      "exported": true
     }
@@ -355506,8 +355389,8 @@
        1
       ]
      },
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-VK-60X60-EIK-RVS",
@@ -356570,8 +356453,8 @@
        1
       ]
      },
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-VK-70X70-EIK-RVS",
@@ -357634,8 +357517,8 @@
        1
       ]
      },
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-VK-80X80-EIK-RVS",
@@ -358115,6 +357998,17 @@
     }
    ],
    "images": [
+    {
+     "file": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Eiken",
+     "alt": "Vierkante terrastafel met houten blad en zwart metalen onderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "terrastafel-vierkant-stapelbaar-zwart-hero.webp",
      "role": "hero",
@@ -359257,8 +359151,8 @@
        4
       ]
      },
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-BS-120X60-EIK-HPL",
@@ -360063,8 +359957,8 @@
        4
       ]
      },
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-BS-120X70-EIK-HPL",
@@ -360869,8 +360763,8 @@
        6
       ]
      },
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-BS-140X70-EIK-HPL",
@@ -361675,8 +361569,8 @@
        8
       ]
      },
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
-     "export_image": "terrastafel-breed-stapelbaar-eiken-hero.webp"
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "export_image": "terrastafel-breed-stapelbaar-eiken-foto.webp"
     },
     {
      "sku": "KK-TER-BS-180X70-EIK-HPL",
@@ -362070,6 +361964,17 @@
     }
    ],
    "images": [
+    {
+     "file": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "role": "photo",
+     "priority": 0,
+     "kleur": "Eiken",
+     "alt": "Brede terrastafel met houten blad en zwart metalen onderstel",
+     "photo": true,
+     "model_status": "photo",
+     "draft": false,
+     "exported": true
+    },
     {
      "file": "terrastafel-breed-stapelbaar-eiken-hero.webp",
      "role": "hero",
@@ -380821,7 +380726,7 @@
    "published": true,
    "image": {
     "src": "statafelhoes-met-strik-wit-hero.webp",
-    "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht"
+    "alt": "Statafelhoezen met strik"
    },
    "members": [
     "statafelhoes-met-strik",
@@ -383078,7 +382983,7 @@
    "published": true,
    "image": {
     "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+    "alt": "Meubilair"
    },
    "members": [
     "barkruk-stapelbaar-metaal",
@@ -383399,7 +383304,7 @@
    "published": true,
    "image": {
     "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+    "alt": "Barkrukken"
    },
    "members": [
     "barkruk-stapelbaar-metaal",
@@ -383739,7 +383644,7 @@
    "published": true,
    "image": {
     "src": "stapelstoel-cross-back-eiken-hero.webp",
-    "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht"
+    "alt": "Stoelen, krukken en banken"
    },
    "members": [
     "kruk-laag-stapelbaar",
@@ -385426,7 +385331,7 @@
    "published": true,
    "image": {
     "src": "prikkabel-e27-zwart-hero.webp",
-    "alt": "Prikkabelset zwart: prikkabel met brandende warm witte LED-lampen, schuin vooraanzicht"
+    "alt": "Prikkabel E27 zwart met brandende LED-lampen, schuin vooraanzicht (lampen niet inbegrepen)"
    },
    "members": [
     "prikkabel-e27",
@@ -394186,18 +394091,18 @@
    }
   ],
   "images": {
-   "real": 1264,
+   "real": 1290,
    "draft": 0,
    "missing": 0,
    "products_without_image": [],
-   "variants_own": 5973,
+   "variants_own": 5988,
    "variants_same_kleur": 50,
    "variants_component": 4,
-   "variants_hero": 339,
-   "variants_no_image": 25,
+   "variants_hero": 330,
+   "variants_no_image": 19,
    "variants_no_image_by_product": {
     "zijwand-partytent-buizenframe-lang": 13,
-    "biertafelset": 12
+    "biertafelset": 6
    }
   }
  }

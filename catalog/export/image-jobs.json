@@ -1,26 +1,26 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 1072,
+  "jobs": 1044,
   "by_priority": {
-   "1": 236,
-   "2": 296,
-   "3": 540
+   "1": 226,
+   "2": 287,
+   "3": 531
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 633,
+   "existing": 612,
    "generated": 1,
-   "needs-model": 42,
-   "needs-param": 393
+   "needs-model": 40,
+   "needs-param": 388
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 1060
+   "product": 1032
   },
-  "already_present": 1072
+  "already_present": 1044
  },
  "jobs": [
   {
@@ -311,36 +311,6 @@
    "draft": false
   },
   {
-   "file": "banquetstoel-gestoffeerd-zwart-hero.webp",
-   "out": "catalog/images/banquetstoel-gestoffeerd-zwart-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "chair",
-   "model_status": "existing",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "banquet",
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Banquetstoel gestoffeerd stapelbaar, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "banquetstoel-gestoffeerd",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "barkoelkast-glazen-deur-hero.webp",
    "out": "catalog/images/barkoelkast-glazen-deur-hero.webp",
    "kind": "product",
@@ -523,37 +493,6 @@
    "used_by": [
     {
      "handle": "barkruk-pe-rotan",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-   "out": "catalog/images/barkruk-stapelbaar-metaal-zwart-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "color": "zwart",
-     "height": 0.76
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-stapelbaar-metaal",
      "role": "hero",
      "variant": true
     }
@@ -2000,36 +1939,6 @@
    "draft": false
   },
   {
-   "file": "flameheater-gas-9-kw-hero.webp",
-   "out": "catalog/images/flameheater-gas-9-kw-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "heater",
-   "model_status": "existing",
-   "spec": {
-    "model": "heater",
-    "params": {
-     "kind": "gas",
-     "style": "flame"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Flameheater op gas met zichtbare vlam in een glazen buis",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "flameheater-gas-9-kw",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "flessenkoeler-verrijdbaar-1000-liter-hero.webp",
    "out": "catalog/images/flessenkoeler-verrijdbaar-1000-liter-hero.webp",
    "kind": "product",
@@ -2289,37 +2198,6 @@
    "draft": false
   },
   {
-   "file": "kapstok-verrijdbaar-hero.webp",
-   "out": "catalog/images/kapstok-verrijdbaar-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "coatRack",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "coatRack",
-    "params": {
-     "length": 2,
-     "hooks": 104,
-     "wheels": true
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Verrijdbare kapstok van 2 m met genummerde haken en een hoedenplank, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "kapstok-verrijdbaar",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "kerstverlichting-10-m-hero.webp",
    "out": "catalog/images/kerstverlichting-10-m-hero.webp",
    "kind": "product",
@@ -2345,66 +2223,6 @@
      "handle": "kerstverlichting-10-m",
      "role": "hero",
      "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "klapstoel-hout-bistro-eiken-hero.webp",
-   "out": "catalog/images/klapstoel-hout-bistro-eiken-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Eiken",
-   "model": "chair",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "bistro-klap",
-     "color": "#B8915F"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klapstoel-hout-bistro",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "klapstoel-wedding-wit-hero.webp",
-   "out": "catalog/images/klapstoel-wedding-wit-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "chair",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "wedding",
-     "color": "wit"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Witte weddingstoel klapbaar met wit kussen, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klapstoel-wedding",
-     "role": "hero",
-     "variant": true
     }
    ],
    "exists": true,
@@ -2597,37 +2415,6 @@
    "draft": false
   },
   {
-   "file": "koel-vrieskist-liggend-hero.webp",
-   "out": "catalog/images/koel-vrieskist-liggend-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "fridge",
-   "model_status": "needs-model",
-   "spec": {
-    "model": "fridge",
-    "params": {
-     "kind": "kist",
-     "color": "wit",
-     "lid": "open"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Witte liggende koel- en vrieskist met het deksel open en twee manden",
-   "alt_hint": "met deksel open",
-   "used_by": [
-    {
-     "handle": "koel-vrieskist-liggend",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "koelkast-rvs-horeca-hero.webp",
    "out": "catalog/images/koelkast-rvs-horeca-hero.webp",
    "kind": "product",
@@ -2653,7 +2440,7 @@
     {
      "handle": "koelkast-rvs-horeca",
      "role": "hero",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -3271,7 +3058,7 @@
     {
      "handle": "loungeheater-gas",
      "role": "hero",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -4701,11 +4488,6 @@
      "handle": "prikkabel-e27",
      "role": "hero",
      "variant": true
-    },
-    {
-     "handle": "prikkabelset-led",
-     "role": "hero",
-     "variant": true
     }
    ],
    "exists": true,
@@ -5040,36 +4822,6 @@
    "draft": false
   },
   {
-   "file": "stapelstoel-cross-back-eiken-hero.webp",
-   "out": "catalog/images/stapelstoel-cross-back-eiken-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Eiken",
-   "model": "chair",
-   "model_status": "existing",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "crossback",
-     "color": "#B8915F"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stapelstoel-cross-back",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "stapelstoel-kunststof-wit-hero.webp",
    "out": "catalog/images/stapelstoel-kunststof-wit-hero.webp",
    "kind": "product",
@@ -5093,36 +4845,6 @@
    "used_by": [
     {
      "handle": "stapelstoel-kunststof",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "stapelstoel-metaal-zwart-hero.webp",
-   "out": "catalog/images/stapelstoel-metaal-zwart-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "chair",
-   "model_status": "existing",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "metaal",
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stapelstoel metaal, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "stapelstoel-metaal",
      "role": "hero",
      "variant": true
     }
@@ -5506,37 +5228,6 @@
    "draft": false
   },
   {
-   "file": "statafelhoes-met-strik-wit-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-wit-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "wit",
-     "diameter": 0.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafelhoes-stretch-met-logo-zwart-hero.webp",
    "out": "catalog/images/statafelhoes-stretch-met-logo-zwart-hero.webp",
    "kind": "product",
@@ -5693,14 +5384,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Zwart, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Zwart, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "hero",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "hero",
@@ -6015,14 +5701,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Stretchhoes klaptafel 183 × 76 cm, Zwart, schuin vooraanzicht",
+   "alt": "Klaptafel 183 × 76 cm met zwarte stretchhoes tot de grond",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "stretchhoes-klaptafel",
-     "role": "hero",
-     "variant": true
-    },
     {
      "handle": "pakket-buffettafel-met-stretchhoes",
      "role": "hero",
@@ -9621,38 +9302,6 @@
    "draft": false
   },
   {
-   "file": "easy-up-partytent-professional-3x3-wit-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x3-wit-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 3,
-     "color": "wit",
-     "legs": "professional"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 3 m, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x3",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "easy-up-partytent-professional-3x3-zandkleur-hero.webp",
    "out": "catalog/images/easy-up-partytent-professional-3x3-zandkleur-hero.webp",
    "kind": "product",
@@ -9673,38 +9322,6 @@
     "size": 2000
    },
    "alt": "Easy-up partytent Professional 3 × 3 m, Zandkleur, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x3",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "easy-up-partytent-professional-3x3-zwart-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x3-zwart-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 3,
-     "color": "zwart",
-     "legs": "professional"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 3 m, Zwart, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -10069,38 +9686,6 @@
    "draft": false
   },
   {
-   "file": "easy-up-partytent-professional-3x6-wit-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x6-wit-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 6,
-     "color": "wit",
-     "legs": "professional"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 6 m, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x6",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "easy-up-partytent-professional-3x6-zandkleur-hero.webp",
    "out": "catalog/images/easy-up-partytent-professional-3x6-zandkleur-hero.webp",
    "kind": "product",
@@ -10121,38 +9706,6 @@
     "size": 2000
    },
    "alt": "Easy-up partytent Professional 3 × 6 m, Zandkleur, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x6",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "easy-up-partytent-professional-3x6-zwart-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x6-zwart-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 6,
-     "color": "zwart",
-     "legs": "professional"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 6 m, Zwart, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -10287,38 +9840,6 @@
      "handle": "easy-up-partytent-professional-4x4",
      "role": "detail",
      "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "easy-up-partytent-professional-4x4-wit-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-4x4-wit-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 4,
-     "d": 4,
-     "color": "wit",
-     "legs": "professional"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 4 × 4 m, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-4x4",
-     "role": "variant",
-     "variant": true
     }
    ],
    "exists": true,
@@ -11566,7 +11087,7 @@
     {
      "handle": "klaptafel-hout-vormen",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -14932,37 +14453,6 @@
    "draft": false
   },
   {
-   "file": "statafelhoes-met-strik-creme-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-creme-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Crème",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "creme",
-     "diameter": 0.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Crème, op een statafel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafelhoes-met-strik-goud-hero.webp",
    "out": "catalog/images/statafelhoes-met-strik-goud-hero.webp",
    "kind": "product",
@@ -15019,68 +14509,6 @@
      "handle": "statafelhoes-met-strik",
      "role": "variant",
      "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "statafelhoes-met-strik-rood-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-rood-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Rood",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "rood",
-     "diameter": 0.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Rood, op een statafel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "statafelhoes-met-strik-wit-detail.webp",
-   "out": "catalog/images/statafelhoes-met-strik-wit-detail.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "detail",
-   "kleur": "Wit",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "wit",
-     "diameter": 0.8
-    },
-    "angle": "detail",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Wit, close-up van de strik",
-   "alt_hint": "de strik",
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "detail",
-     "variant": false
     }
    ],
    "exists": true,
@@ -15302,14 +14730,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Blauw, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Blauw, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15704,14 +15127,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Geel, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Geel, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15771,14 +15189,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Goud, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Goud, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15838,14 +15251,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Grijs, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Grijs, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16039,14 +15447,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Lichtgroen, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Lichtgroen, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16106,14 +15509,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Marineblauw, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Marineblauw, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16173,14 +15571,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Oranje, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Oranje, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16273,14 +15666,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Paars, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Paars, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16340,14 +15728,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Rood, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Rood, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16608,14 +15991,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Wit, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Wit, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16675,14 +16053,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Zilver, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Zilver, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16717,38 +16090,6 @@
      "handle": "terraspakket-statafel-barkrukken",
      "role": "variant",
      "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "statafelrok-stretch-zwart-detail.webp",
-   "out": "catalog/images/statafelrok-stretch-zwart-detail.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "detail",
-   "kleur": "Zwart",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "stretch",
-     "color": "zwart",
-     "diameter": 0.8,
-     "topcover": "zwart"
-    },
-    "angle": "detail",
-    "size": 2000
-   },
-   "alt": "Statafelrok stretch, Zwart, close-up van de zoom tussen de voeten",
-   "alt_hint": "zoom tussen de voeten",
-   "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "detail",
-     "variant": false
     }
    ],
    "exists": true,
@@ -18621,36 +17962,6 @@
    "draft": false
   },
   {
-   "file": "afzetkoord-velours-rood-hero.webp",
-   "out": "catalog/images/afzetkoord-velours-rood-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Rood",
-   "model": "stanchion",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "stanchion",
-    "params": {
-     "rope": "rood",
-     "only": "rope"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Rood velours afzetkoord met verchroomde haken, in een boog",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "afzetkoord-velours",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "afzetkoord-velours-wit-hero.webp",
    "out": "catalog/images/afzetkoord-velours-wit-hero.webp",
    "kind": "product",
@@ -19549,37 +18860,6 @@
      "handle": "barkruk-stapelbaar-metaal",
      "role": "variant",
      "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-stapelbaar-metaal-zwart-gestapeld.webp",
-   "out": "catalog/images/barkruk-stapelbaar-metaal-zwart-gestapeld.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "detail",
-   "kleur": "Zwart",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "color": "zwart",
-     "stack": 4
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk stapelbaar metaal, Zwart, 4 krukken op elkaar gestapeld",
-   "alt_hint": "4 gestapeld",
-   "used_by": [
-    {
-     "handle": "barkruk-stapelbaar-metaal",
-     "role": "detail",
-     "variant": false
     }
    ],
    "exists": true,
@@ -21519,44 +20799,6 @@
    "draft": false
   },
   {
-   "file": "easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "in-gebruik",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 3,
-     "color": "wit",
-     "legs": "professional",
-     "walls": {
-      "back": "window",
-      "left": "closed",
-      "right": "door"
-     },
-     "weights": 1
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 3 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
-   "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x3",
-     "role": "in-gebruik",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "easy-up-partytent-professional-3x4-5-rood-front.webp",
    "out": "catalog/images/easy-up-partytent-professional-3x4-5-rood-front.webp",
    "kind": "product",
@@ -21659,44 +20901,6 @@
    "draft": false
   },
   {
-   "file": "easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "in-gebruik",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 3,
-     "d": 6,
-     "color": "wit",
-     "legs": "professional",
-     "walls": {
-      "back": "window",
-      "left": "closed",
-      "right": "door"
-     },
-     "weights": 1
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 3 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
-   "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-3x6",
-     "role": "in-gebruik",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "easy-up-partytent-professional-4x4-rood-front.webp",
    "out": "catalog/images/easy-up-partytent-professional-4x4-rood-front.webp",
    "kind": "product",
@@ -21722,44 +20926,6 @@
     {
      "handle": "easy-up-partytent-professional-4x4",
      "role": "front",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp",
-   "out": "catalog/images/easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "in-gebruik",
-   "kleur": "Wit",
-   "model": "easyUpTent",
-   "model_status": "existing",
-   "spec": {
-    "model": "easyUpTent",
-    "params": {
-     "w": 4,
-     "d": 4,
-     "color": "wit",
-     "legs": "professional",
-     "walls": {
-      "back": "window",
-      "left": "closed",
-      "right": "door"
-     },
-     "weights": 1
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Easy-up partytent Professional 4 × 4 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
-   "alt_hint": "met zijwandenset en voetgewichten (los verkrijgbaar)",
-   "used_by": [
-    {
-     "handle": "easy-up-partytent-professional-4x4",
-     "role": "in-gebruik",
      "variant": false
     }
    ],
@@ -23720,37 +22886,6 @@
    "draft": false
   },
   {
-   "file": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
-   "out": "catalog/images/klapstoel-hout-bistro-eiken-ingeklapt.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "detail",
-   "kleur": "Eiken",
-   "model": "chair",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "bistro-klap",
-     "color": "#B8915F",
-     "folded": true
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Houten klapstoel in eiken, ingeklapt en plat",
-   "alt_hint": "ingeklapt, 6 cm dik",
-   "used_by": [
-    {
-     "handle": "klapstoel-hout-bistro",
-     "role": "detail",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "klapstoel-hout-bistro-vintage-hout-hero.webp",
    "out": "catalog/images/klapstoel-hout-bistro-vintage-hout-hero.webp",
    "kind": "product",
@@ -23803,36 +22938,6 @@
    "used_by": [
     {
      "handle": "klapstoel-hout-bistro",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "klapstoel-zwart-hero.webp",
-   "out": "catalog/images/klapstoel-zwart-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "chair",
-   "model_status": "existing",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "klapstoel",
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Klapstoel, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klapstoel",
      "role": "variant",
      "variant": true
     }
@@ -24015,37 +23120,6 @@
     "size": 2000
    },
    "alt": "Onbreekbare LED-lamp E27 groen, brandend",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "led-lamp-e27-gekleurd",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "led-lamp-e27-gekleurd-oranje-hero.webp",
-   "out": "catalog/images/led-lamp-e27-gekleurd-oranje-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Oranje",
-   "model": "ledBulb",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "ledBulb",
-    "params": {
-     "type": "gekleurd",
-     "color": "oranje",
-     "on": true
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Onbreekbare LED-lamp E27 oranje, brandend",
    "alt_hint": null,
    "used_by": [
     {
@@ -31130,38 +30204,6 @@
      "handle": "statafelkleed",
      "role": "variant",
      "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "statafelrok-stretch-wit-zwarte-topcover.webp",
-   "out": "catalog/images/statafelrok-stretch-wit-zwarte-topcover.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "in-gebruik",
-   "kleur": "Wit",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "stretch",
-     "color": "wit",
-     "diameter": 0.8,
-     "topcover": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelrok stretch, Wit, met losse zwarte topcover (apart verkrijgbaar), schuin vooraanzicht",
-   "alt_hint": "wit met losse zwarte topcover (apart verkrijgbaar)",
-   "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "in-gebruik",
-     "variant": false
     }
    ],
    "exists": true,

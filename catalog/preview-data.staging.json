@@ -2056,7 +2056,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x3-wit-hero.webp",
+     "image": "easy-up-partytent-professional-3x3-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -2088,7 +2088,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x3-zwart-hero.webp",
+     "image": "easy-up-partytent-professional-3x3-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -2248,7 +2248,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x3-wit-hero.webp",
+     "image": "easy-up-partytent-professional-3x3-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -2280,7 +2280,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x3-zwart-hero.webp",
+     "image": "easy-up-partytent-professional-3x3-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -2304,20 +2304,20 @@
    },
    "images": [
     {
+     "src": "easy-up-partytent-professional-3x3-wit-foto.webp",
+     "alt": "Witte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "easy-up-partytent-professional-3x3-zwart-foto.webp",
+     "alt": "Zwarte easy-up partytent Professional 3 × 3 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "easy-up-partytent-professional-3x3-rood-hero.webp",
      "alt": "Easy-up partytent Professional 3 × 3 m, Rood, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x3-wit-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Wit, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x3-zwart-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Zwart, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -2354,12 +2354,6 @@
     {
      "src": "easy-up-partytent-professional-3x3-rood-front.webp",
      "alt": "Easy-up partytent Professional 3 × 3 m, Rood, vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x3-wit-zijwanden-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 3 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -3220,7 +3214,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x6-wit-hero.webp",
+     "image": "easy-up-partytent-professional-3x6-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -3252,7 +3246,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x6-zwart-hero.webp",
+     "image": "easy-up-partytent-professional-3x6-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -3412,7 +3406,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x6-wit-hero.webp",
+     "image": "easy-up-partytent-professional-3x6-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -3444,7 +3438,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-3x6-zwart-hero.webp",
+     "image": "easy-up-partytent-professional-3x6-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -3468,20 +3462,20 @@
    },
    "images": [
     {
+     "src": "easy-up-partytent-professional-3x6-wit-foto.webp",
+     "alt": "Witte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "easy-up-partytent-professional-3x6-zwart-foto.webp",
+     "alt": "Zwarte easy-up partytent Professional 3 × 6 m met aluminium frame, uitgeklapt zonder zijwanden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "easy-up-partytent-professional-3x6-rood-hero.webp",
      "alt": "Easy-up partytent Professional 3 × 6 m, Rood, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x6-wit-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Wit, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x6-zwart-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Zwart, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -3518,12 +3512,6 @@
     {
      "src": "easy-up-partytent-professional-3x6-rood-front.webp",
      "alt": "Easy-up partytent Professional 3 × 6 m, Rood, vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-3x6-wit-zijwanden-hero.webp",
-     "alt": "Easy-up partytent Professional 3 × 6 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -3802,7 +3790,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-4x4-wit-hero.webp",
+     "image": "easy-up-partytent-professional-4x4-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -3994,7 +3982,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "easy-up-partytent-professional-4x4-wit-hero.webp",
+     "image": "easy-up-partytent-professional-4x4-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -4050,14 +4038,14 @@
    },
    "images": [
     {
-     "src": "easy-up-partytent-professional-4x4-rood-hero.webp",
-     "alt": "Easy-up partytent Professional 4 × 4 m, Rood, schuin vooraanzicht",
+     "src": "easy-up-partytent-professional-4x4-wit-foto.webp",
+     "alt": "Witte easy-up partytent Professional 4 × 4 m met aluminium frame, uitgeklapt zonder zijwanden",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "easy-up-partytent-professional-4x4-wit-hero.webp",
-     "alt": "Easy-up partytent Professional 4 × 4 m, Wit, schuin vooraanzicht",
+     "src": "easy-up-partytent-professional-4x4-rood-hero.webp",
+     "alt": "Easy-up partytent Professional 4 × 4 m, Rood, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -4100,12 +4088,6 @@
     {
      "src": "easy-up-partytent-professional-4x4-rood-front.webp",
      "alt": "Easy-up partytent Professional 4 × 4 m, Rood, vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "easy-up-partytent-professional-4x4-wit-zijwanden-hero.webp",
-     "alt": "Easy-up partytent Professional 4 × 4 m, Wit, met zijwanden en voetgewichten (los verkrijgbaar), schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -16203,7 +16185,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-zwart-hero.webp",
+     "image": "zijwandenset-easy-up-3x3-zwart-foto.webp",
      "metafields": []
     },
     {
@@ -16450,7 +16432,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-wit-hero.webp",
+     "image": "zijwandenset-easy-up-3x6-wit-foto.webp",
      "metafields": []
     },
     {
@@ -16469,7 +16451,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "zijwandenset-easy-up-zwart-hero.webp",
+     "image": "zijwandenset-easy-up-3x6-zwart-foto.webp",
      "metafields": []
     },
     {
@@ -17087,6 +17069,36 @@
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopy & Gazebo Accessories > Canopy & Gazebo Enclosure Kits"
    },
    "images": [
+    {
+     "src": "zijwandenset-easy-up-3x6-wit-foto.webp",
+     "alt": "Witte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwandenset-easy-up-3x3-zwart-foto.webp",
+     "alt": "Zwarte zijwandenset op een easy-up van 3 × 3 m, met ramen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwandenset-easy-up-3x6-zwart-foto.webp",
+     "alt": "Zwarte zijwandenset op een easy-up van 3 × 6 m, met ramen",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwandenset-easy-up-3x3-zwart-schuin-foto.webp",
+     "alt": "Zwarte easy-up van 3 × 3 m met de zijwandenset, schuin van voren",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "zijwandenset-easy-up-3x6-zwart-schuin-foto.webp",
+     "alt": "Zwarte easy-up van 3 × 6 m met de zijwandenset, schuin van voren",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "zijwandenset-easy-up-wit-hero.webp",
      "alt": "Zijwandenset easy-up wit rondom een easy-up 3 × 3 m: deur voor, ramen opzij, dicht achter (tent niet inbegrepen)",
@@ -27196,7 +27208,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-3x4-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -27462,7 +27474,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-3x6-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -27994,7 +28006,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-4x4-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -28260,7 +28272,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-4x6-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -28526,7 +28538,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-4x8-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -29324,7 +29336,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-5x6-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -29590,7 +29602,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-5x8-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -29856,7 +29868,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "partytent-pvc-500-comfort-hero.webp",
+     "image": "partytent-pvc-500-comfort-5x10-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -31443,6 +31455,54 @@
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies"
    },
    "images": [
+    {
+     "src": "partytent-pvc-500-comfort-3x4-wit-foto.webp",
+     "alt": "Witte partytent PVC 3 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-3x6-wit-foto.webp",
+     "alt": "Witte partytent PVC 3 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-4x4-wit-foto.webp",
+     "alt": "Witte partytent PVC 4 × 4 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-4x6-wit-foto.webp",
+     "alt": "Witte partytent PVC 4 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-4x8-wit-foto.webp",
+     "alt": "Witte partytent PVC 4 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-5x6-wit-foto.webp",
+     "alt": "Witte partytent PVC 5 × 6 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-5x8-wit-foto.webp",
+     "alt": "Witte partytent PVC 5 × 8 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "partytent-pvc-500-comfort-5x10-wit-foto.webp",
+     "alt": "Witte partytent PVC 5 × 10 m met zijwanden met ramen en ventilatie in de gevel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "partytent-pvc-500-comfort-hero.webp",
      "alt": "Partytent PVC 500 Comfort met buizenframe, 4 × 8 m, wit, met zijwanden met ramen, schuin vooraanzicht",
@@ -61603,7 +61663,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -61907,7 +61967,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -62211,7 +62271,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -62515,7 +62575,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -62819,7 +62879,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -63123,7 +63183,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -63427,7 +63487,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -63731,7 +63791,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -64035,7 +64095,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -64339,7 +64399,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -64643,7 +64703,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -64947,7 +65007,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -65251,7 +65311,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -65555,7 +65615,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -65859,7 +65919,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -66163,7 +66223,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -66467,7 +66527,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -66771,7 +66831,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -67075,7 +67135,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -67379,7 +67439,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchtent-compleet-zandkleur-hero.webp",
+     "image": "stretchtent-compleet-zandkleur-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -67522,6 +67582,18 @@
     "full_name": "Home & Garden > Lawn & Garden > Outdoor Living > Outdoor Structures > Canopies & Gazebos > Canopies"
    },
    "images": [
+    {
+     "src": "stretchtent-compleet-zandkleur-foto.webp",
+     "alt": "Zandkleurige stretchtent opgezet met palen en spanbanden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stretchtent-compleet-zandkleur-lang-foto.webp",
+     "alt": "Lange zandkleurige stretchtent opgezet met palen en spanbanden",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "stretchtent-compleet-zandkleur-hero.webp",
      "alt": "Stretchtent 6 × 6 m, Zandkleur, op houten palen met spanbanden, schuin vooraanzicht",
@@ -99625,7 +99697,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -100841,7 +100913,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -102057,7 +102129,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "statafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -102624,6 +102696,12 @@
     "full_name": "Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables"
    },
    "images": [
+    {
+     "src": "statafel-vierkant-stapelbaar-eiken-foto.webp",
+     "alt": "Vierkante statafel met houten blad en zwart metalen onderstel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "statafel-vierkant-stapelbaar-zwart-hero.webp",
      "alt": "Statafel vierkant stapelbaar 70 × 70 cm, Zwart, schuin vooraanzicht",
@@ -104671,7 +104749,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "statafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -105663,7 +105741,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "statafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -106166,6 +106244,12 @@
     "full_name": "Furniture > Outdoor Furniture > Outdoor Tables > Bar Tables"
    },
    "images": [
+    {
+     "src": "statafel-breed-stapelbaar-eiken-foto.webp",
+     "alt": "Brede statafel met houten blad en zwart metalen onderstel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "statafel-breed-stapelbaar-eiken-hero.webp",
      "alt": "Statafel breed stapelbaar 180 × 70 cm, Eiken, schuin vooraanzicht",
@@ -108439,7 +108523,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-wit-hero.webp",
+     "image": "statafelrok-stretch-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108567,7 +108651,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zilver-hero.webp",
+     "image": "statafelrok-stretch-zilver-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108599,7 +108683,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-grijs-hero.webp",
+     "image": "statafelrok-stretch-grijs-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108663,7 +108747,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zwart-hero.webp",
+     "image": "statafelrok-stretch-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108695,7 +108779,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-goud-hero.webp",
+     "image": "statafelrok-stretch-goud-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108727,7 +108811,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-geel-hero.webp",
+     "image": "statafelrok-stretch-geel-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108759,7 +108843,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-oranje-hero.webp",
+     "image": "statafelrok-stretch-oranje-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108791,7 +108875,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-rood-hero.webp",
+     "image": "statafelrok-stretch-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -108919,7 +109003,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-paars-hero.webp",
+     "image": "statafelrok-stretch-paars-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109015,7 +109099,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-blauw-hero.webp",
+     "image": "statafelrok-stretch-blauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109047,7 +109131,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109079,7 +109163,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109207,7 +109291,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-wit-hero.webp",
+     "image": "statafelrok-stretch-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109335,7 +109419,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zilver-hero.webp",
+     "image": "statafelrok-stretch-zilver-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109367,7 +109451,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-grijs-hero.webp",
+     "image": "statafelrok-stretch-grijs-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109431,7 +109515,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zwart-hero.webp",
+     "image": "statafelrok-stretch-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109463,7 +109547,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-goud-hero.webp",
+     "image": "statafelrok-stretch-goud-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109495,7 +109579,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-geel-hero.webp",
+     "image": "statafelrok-stretch-geel-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109527,7 +109611,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-oranje-hero.webp",
+     "image": "statafelrok-stretch-oranje-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109559,7 +109643,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-rood-hero.webp",
+     "image": "statafelrok-stretch-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109687,7 +109771,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-paars-hero.webp",
+     "image": "statafelrok-stretch-paars-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109783,7 +109867,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-blauw-hero.webp",
+     "image": "statafelrok-stretch-blauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109815,7 +109899,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109847,7 +109931,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -109975,7 +110059,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-wit-hero.webp",
+     "image": "statafelrok-stretch-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110103,7 +110187,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zilver-hero.webp",
+     "image": "statafelrok-stretch-zilver-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110135,7 +110219,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-grijs-hero.webp",
+     "image": "statafelrok-stretch-grijs-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110199,7 +110283,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zwart-hero.webp",
+     "image": "statafelrok-stretch-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110231,7 +110315,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-goud-hero.webp",
+     "image": "statafelrok-stretch-goud-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110263,7 +110347,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-geel-hero.webp",
+     "image": "statafelrok-stretch-geel-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110295,7 +110379,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-oranje-hero.webp",
+     "image": "statafelrok-stretch-oranje-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110327,7 +110411,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-rood-hero.webp",
+     "image": "statafelrok-stretch-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110455,7 +110539,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-paars-hero.webp",
+     "image": "statafelrok-stretch-paars-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110551,7 +110635,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-blauw-hero.webp",
+     "image": "statafelrok-stretch-blauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110583,7 +110667,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110615,7 +110699,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110743,7 +110827,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-wit-hero.webp",
+     "image": "statafelrok-stretch-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110871,7 +110955,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zilver-hero.webp",
+     "image": "statafelrok-stretch-zilver-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110903,7 +110987,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-grijs-hero.webp",
+     "image": "statafelrok-stretch-grijs-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110967,7 +111051,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-zwart-hero.webp",
+     "image": "statafelrok-stretch-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -110999,7 +111083,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-goud-hero.webp",
+     "image": "statafelrok-stretch-goud-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111031,7 +111115,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-geel-hero.webp",
+     "image": "statafelrok-stretch-geel-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111063,7 +111147,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-oranje-hero.webp",
+     "image": "statafelrok-stretch-oranje-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111095,7 +111179,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-rood-hero.webp",
+     "image": "statafelrok-stretch-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111223,7 +111307,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-paars-hero.webp",
+     "image": "statafelrok-stretch-paars-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111319,7 +111403,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-blauw-hero.webp",
+     "image": "statafelrok-stretch-blauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111351,7 +111435,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-marineblauw-hero.webp",
+     "image": "statafelrok-stretch-marineblauw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111383,7 +111467,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelrok-stretch-lichtgroen-hero.webp",
+     "image": "statafelrok-stretch-lichtgroen-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -111503,14 +111587,74 @@
    },
    "images": [
     {
-     "src": "statafelrok-stretch-zwart-hero.webp",
-     "alt": "Statafelrok stretch, Zwart, met topcover, op een statafel, schuin vooraanzicht",
+     "src": "statafelrok-stretch-wit-foto.webp",
+     "alt": "Statafelrok stretch in wit om een statafel",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "statafelrok-stretch-wit-hero.webp",
-     "alt": "Statafelrok stretch, Wit, met topcover, op een statafel, schuin vooraanzicht",
+     "src": "statafelrok-stretch-zwart-foto.webp",
+     "alt": "Statafelrok stretch in zwart om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-rood-foto.webp",
+     "alt": "Statafelrok stretch in rood om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-blauw-foto.webp",
+     "alt": "Statafelrok stretch in blauw om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-geel-foto.webp",
+     "alt": "Statafelrok stretch in geel om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-goud-foto.webp",
+     "alt": "Statafelrok stretch in goud om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-grijs-foto.webp",
+     "alt": "Statafelrok stretch in grijs om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-lichtgroen-foto.webp",
+     "alt": "Statafelrok stretch in lichtgroen om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-marineblauw-foto.webp",
+     "alt": "Statafelrok stretch in marineblauw om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-oranje-foto.webp",
+     "alt": "Statafelrok stretch in oranje om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-paars-foto.webp",
+     "alt": "Statafelrok stretch in paars om een statafel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelrok-stretch-zilver-foto.webp",
+     "alt": "Statafelrok stretch in zilver om een statafel",
      "width": 2000,
      "height": 2000
     },
@@ -111533,44 +111677,8 @@
      "height": 2000
     },
     {
-     "src": "statafelrok-stretch-zilver-hero.webp",
-     "alt": "Statafelrok stretch, Zilver, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-grijs-hero.webp",
-     "alt": "Statafelrok stretch, Grijs, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
      "src": "statafelrok-stretch-antraciet-hero.webp",
      "alt": "Statafelrok stretch, Antraciet, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-goud-hero.webp",
-     "alt": "Statafelrok stretch, Goud, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-geel-hero.webp",
-     "alt": "Statafelrok stretch, Geel, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-oranje-hero.webp",
-     "alt": "Statafelrok stretch, Oranje, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-rood-hero.webp",
-     "alt": "Statafelrok stretch, Rood, met topcover, op een statafel, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -111593,12 +111701,6 @@
      "height": 2000
     },
     {
-     "src": "statafelrok-stretch-paars-hero.webp",
-     "alt": "Statafelrok stretch, Paars, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
      "src": "statafelrok-stretch-lichtblauw-hero.webp",
      "alt": "Statafelrok stretch, Lichtblauw, met topcover, op een statafel, schuin vooraanzicht",
      "width": 2000,
@@ -111607,24 +111709,6 @@
     {
      "src": "statafelrok-stretch-turquoise-hero.webp",
      "alt": "Statafelrok stretch, Turquoise, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-blauw-hero.webp",
-     "alt": "Statafelrok stretch, Blauw, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-marineblauw-hero.webp",
-     "alt": "Statafelrok stretch, Marineblauw, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-lichtgroen-hero.webp",
-     "alt": "Statafelrok stretch, Lichtgroen, met topcover, op een statafel, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     },
@@ -111643,18 +111727,6 @@
     {
      "src": "statafelrok-stretch-bruin-hero.webp",
      "alt": "Statafelrok stretch, Bruin, met topcover, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-zwart-detail.webp",
-     "alt": "Statafelrok stretch, Zwart, close-up van de zoom tussen de voeten",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelrok-stretch-wit-zwarte-topcover.webp",
-     "alt": "Statafelrok stretch, Wit, met losse zwarte topcover (apart verkrijgbaar), schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -113440,7 +113512,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-wit-hero.webp",
+     "image": "statafelhoes-met-strik-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -113472,7 +113544,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-creme-hero.webp",
+     "image": "statafelhoes-met-strik-creme-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -113696,7 +113768,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-rood-hero.webp",
+     "image": "statafelhoes-met-strik-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -113760,7 +113832,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-wit-hero.webp",
+     "image": "statafelhoes-met-strik-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -113792,7 +113864,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-creme-hero.webp",
+     "image": "statafelhoes-met-strik-creme-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -114016,7 +114088,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "statafelhoes-met-strik-rood-hero.webp",
+     "image": "statafelhoes-met-strik-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -114072,14 +114144,20 @@
    },
    "images": [
     {
-     "src": "statafelhoes-met-strik-wit-hero.webp",
-     "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht",
+     "src": "statafelhoes-met-strik-wit-foto.webp",
+     "alt": "Statafelhoes in wit tot op de grond, in de taille samengebonden",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "statafelhoes-met-strik-creme-hero.webp",
-     "alt": "Statafelhoes met strik, Crème, op een statafel, schuin vooraanzicht",
+     "src": "statafelhoes-met-strik-creme-foto.webp",
+     "alt": "Statafelhoes in crème tot op de grond, in de taille samengebonden",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "statafelhoes-met-strik-rood-foto.webp",
+     "alt": "Statafelhoes in rood tot op de grond, in de taille samengebonden",
      "width": 2000,
      "height": 2000
     },
@@ -114120,20 +114198,8 @@
      "height": 2000
     },
     {
-     "src": "statafelhoes-met-strik-rood-hero.webp",
-     "alt": "Statafelhoes met strik, Rood, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
      "src": "statafelhoes-met-strik-goud-hero.webp",
      "alt": "Statafelhoes met strik, Goud, op een statafel, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "statafelhoes-met-strik-wit-detail.webp",
-     "alt": "Statafelhoes met strik, Wit, close-up van de strik",
      "width": 2000,
      "height": 2000
     }
@@ -115616,7 +115682,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": []
     },
     {
@@ -115673,7 +115739,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": []
     },
     {
@@ -115730,7 +115796,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stretchhoes-klaptafel-zwart-hero.webp",
+     "image": "stretchhoes-klaptafel-zwart-foto.webp",
      "metafields": []
     },
     {
@@ -115760,8 +115826,8 @@
    },
    "images": [
     {
-     "src": "stretchhoes-klaptafel-zwart-hero.webp",
-     "alt": "Stretchhoes klaptafel 183 × 76 cm, Zwart, schuin vooraanzicht",
+     "src": "stretchhoes-klaptafel-zwart-foto.webp",
+     "alt": "Zwarte stretchhoes om een rechthoekige klaptafel",
      "width": 2000,
      "height": 2000
     },
@@ -123464,7 +123530,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "barkruk-stapelbaar-metaal-zwart-hero.webp",
+     "image": "barkruk-stapelbaar-metaal-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -123680,8 +123746,8 @@
    },
    "images": [
     {
-     "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-     "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht",
+     "src": "barkruk-stapelbaar-metaal-zwart-foto.webp",
+     "alt": "Zwarte metalen barkruk, stapelbaar",
      "width": 2000,
      "height": 2000
     },
@@ -123718,12 +123784,6 @@
     {
      "src": "barkruk-stapelbaar-metaal-taupe-hero.webp",
      "alt": "Stapelbare metalen barkruk in taupe, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "barkruk-stapelbaar-metaal-zwart-gestapeld.webp",
-     "alt": "Barkruk stapelbaar metaal, Zwart, 4 krukken op elkaar gestapeld",
      "width": 2000,
      "height": 2000
     }
@@ -125594,7 +125654,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stapelstoel-metaal-zwart-hero.webp",
+     "image": "stapelstoel-metaal-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -125810,8 +125870,8 @@
    },
    "images": [
     {
-     "src": "stapelstoel-metaal-zwart-hero.webp",
-     "alt": "Stapelstoel metaal, Zwart, schuin vooraanzicht",
+     "src": "stapelstoel-metaal-zwart-foto.webp",
+     "alt": "Zwarte metalen stapelstoel",
      "width": 2000,
      "height": 2000
     },
@@ -126019,7 +126079,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "banquetstoel-gestoffeerd-zwart-hero.webp",
+     "image": "banquetstoel-gestoffeerd-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -126139,8 +126199,8 @@
    },
    "images": [
     {
-     "src": "banquetstoel-gestoffeerd-zwart-hero.webp",
-     "alt": "Banquetstoel gestoffeerd stapelbaar, Zwart, schuin vooraanzicht",
+     "src": "banquetstoel-gestoffeerd-zwart-foto.webp",
+     "alt": "Zwarte gestoffeerde banquetstoel, stapelbaar",
      "width": 2000,
      "height": 2000
     },
@@ -126579,7 +126639,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klapstoel-zwart-hero.webp",
+     "image": "klapstoel-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -126603,14 +126663,14 @@
    },
    "images": [
     {
-     "src": "klapstoel-wit-hero.webp",
-     "alt": "Klapstoel, Wit, schuin vooraanzicht",
+     "src": "klapstoel-zwart-foto.webp",
+     "alt": "Zwarte kunststof klapstoel",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "klapstoel-zwart-hero.webp",
-     "alt": "Klapstoel, Zwart, schuin vooraanzicht",
+     "src": "klapstoel-wit-hero.webp",
+     "alt": "Klapstoel, Wit, schuin vooraanzicht",
      "width": 2000,
      "height": 2000
     }
@@ -126770,7 +126830,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "stapelstoel-cross-back-eiken-hero.webp",
+     "image": "stapelstoel-cross-back-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -126826,8 +126886,14 @@
    },
    "images": [
     {
-     "src": "stapelstoel-cross-back-eiken-hero.webp",
-     "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht",
+     "src": "stapelstoel-cross-back-eiken-foto.webp",
+     "alt": "Houten cross back stoel in eikenkleur",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "stapelstoel-cross-back-eiken-kussen-foto.webp",
+     "alt": "Houten cross back stoel met een grijs zitkussen (kussen apart verkrijgbaar)",
      "width": 2000,
      "height": 2000
     },
@@ -131128,7 +131194,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131160,7 +131226,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131192,7 +131258,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131224,7 +131290,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131256,7 +131322,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131288,7 +131354,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131320,7 +131386,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131352,7 +131418,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-180-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131384,7 +131450,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131416,7 +131482,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131448,7 +131514,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131480,7 +131546,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131512,7 +131578,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131544,7 +131610,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131576,7 +131642,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-70-hero.webp",
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131608,7 +131674,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "biertafelset-70-hero.webp",
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131640,7 +131706,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafelset-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -131672,7 +131738,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "biertafel-standaard-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -132848,6 +132914,18 @@
    },
    "images": [
     {
+     "src": "biertafelset-standaard-foto.webp",
+     "alt": "Biertafelset: tafel en twee banken van hout met groen klaponderstel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "biertafel-standaard-foto.webp",
+     "alt": "Biertafel van hout met groen klaponderstel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "biertafelset-hero.webp",
      "alt": "Biertafelset 220 × 50 cm, tafel met 2 banken, schuin vooraanzicht",
      "width": 2000,
@@ -133035,7 +133113,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133067,7 +133145,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133099,7 +133177,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133131,7 +133209,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133163,7 +133241,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133195,7 +133273,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bierbank-220-hero.webp",
+     "image": "bierbank-220-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -133218,6 +133296,12 @@
     "full_name": "Furniture > Outdoor Furniture > Outdoor Seating > Outdoor Benches > Picnic Benches"
    },
    "images": [
+    {
+     "src": "bierbank-220-foto.webp",
+     "alt": "Bierbank 220 × 25 cm met houten zitting en groen klaponderstel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "bierbank-220-hero.webp",
      "alt": "Bierbank los 220 cm van vurenhout, schuin vooraanzicht",
@@ -139506,7 +139590,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "loungeheater-gas-hero.webp",
+     "image": "loungeheater-gas-staand-foto.webp",
      "metafields": []
     },
     {
@@ -139535,6 +139619,12 @@
     "full_name": "Home & Garden > Household Appliances > Climate Control Appliances > Patio Heaters"
    },
    "images": [
+    {
+     "src": "loungeheater-gas-staand-foto.webp",
+     "alt": "Zwarte loungeheater op gas, staand model",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "loungeheater-gas-hero.webp",
      "alt": "Loungeheater op gas, staand model, schuin vooraanzicht",
@@ -139680,7 +139770,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "flameheater-gas-9-kw-hero.webp",
+     "image": "flameheater-gas-9-kw-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -139704,8 +139794,8 @@
    },
    "images": [
     {
-     "src": "flameheater-gas-9-kw-hero.webp",
-     "alt": "Flameheater op gas met zichtbare vlam in een glazen buis",
+     "src": "flameheater-gas-9-kw-foto.webp",
+     "alt": "Flameheater op gas met glazen buis en zichtbare vlam",
      "width": 2000,
      "height": 2000
     }
@@ -144292,7 +144382,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "loper-per-meter-rood-hero.webp",
+     "image": "loper-per-meter-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -144329,7 +144419,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "loper-per-meter-rood-hero.webp",
+     "image": "loper-per-meter-rood-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -145763,6 +145853,12 @@
     "full_name": "Home & Garden > Decor > Rugs"
    },
    "images": [
+    {
+     "src": "loper-per-meter-rood-foto.webp",
+     "alt": "Rode loper van 1 m breed, deels opgerold",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "loper-per-meter-rood-hero.webp",
      "alt": "Loper van naaldvilt in rood, 1 m breed, op de rol met het eind uitgerold, schuin vooraanzicht",
@@ -210667,7 +210763,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "prikkabel-e27-zwart-hero.webp",
+     "image": "prikkabelset-led-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -210731,7 +210827,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "prikkabel-e27-zwart-hero.webp",
+     "image": "prikkabelset-led-zwart-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -210787,8 +210883,8 @@
    },
    "images": [
     {
-     "src": "prikkabel-e27-zwart-hero.webp",
-     "alt": "Prikkabelset zwart: prikkabel met brandende warm witte LED-lampen, schuin vooraanzicht",
+     "src": "prikkabelset-led-zwart-foto.webp",
+     "alt": "Zwarte prikkabel met brandende warmwitte LED-lampen",
      "width": 2000,
      "height": 2000
     },
@@ -214186,7 +214282,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rechthoekig-hero.webp",
+     "image": "bankettafel-hout-rechthoekig-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214218,7 +214314,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rechthoekig-hero.webp",
+     "image": "bankettafel-hout-rechthoekig-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214250,7 +214346,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rechthoekig-hero.webp",
+     "image": "bankettafel-hout-rechthoekig-183-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214282,7 +214378,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rechthoekig-hero.webp",
+     "image": "bankettafel-hout-rechthoekig-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214305,6 +214401,18 @@
     "full_name": "Furniture > Tables > Folding Tables"
    },
    "images": [
+    {
+     "src": "bankettafel-hout-rechthoekig-122-foto.webp",
+     "alt": "Rechthoekige bankettafel met houten blad en metalen klappoten",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "bankettafel-hout-rechthoekig-183-foto.webp",
+     "alt": "Lange rechthoekige bankettafel met houten blad en metalen klappoten",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "bankettafel-hout-rechthoekig-hero.webp",
      "alt": "Bankettafel met houten blad 183 x 76 cm, opgezet, schuin vooraanzicht",
@@ -214474,7 +214582,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rond-hero.webp",
+     "image": "bankettafel-hout-rond-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214506,7 +214614,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rond-hero.webp",
+     "image": "bankettafel-hout-rond-153-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214538,7 +214646,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rond-hero.webp",
+     "image": "bankettafel-hout-rond-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214570,7 +214678,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "bankettafel-hout-rond-hero.webp",
+     "image": "bankettafel-hout-rond-122-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -214593,6 +214701,18 @@
     "full_name": "Furniture > Tables > Folding Tables"
    },
    "images": [
+    {
+     "src": "bankettafel-hout-rond-122-foto.webp",
+     "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "bankettafel-hout-rond-153-foto.webp",
+     "alt": "Ronde bankettafel met houten blad en metalen klappoten",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "bankettafel-hout-rond-hero.webp",
      "alt": "Ronde bankettafel met houten blad Ø153 cm, opgezet, schuin van boven",
@@ -214850,7 +214970,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": []
     },
     {
@@ -214869,7 +214989,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": []
     },
     {
@@ -214888,7 +215008,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": []
     },
     {
@@ -214907,7 +215027,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klaptafel-hout-kwartrond.webp",
+     "image": "klaptafel-hout-vormen-kwartrond-foto.webp",
      "metafields": []
     },
     {
@@ -214974,6 +215094,12 @@
     "full_name": "Furniture > Tables > Folding Tables"
    },
    "images": [
+    {
+     "src": "klaptafel-hout-vormen-kwartrond-foto.webp",
+     "alt": "Kwartronde klaptafel met houten blad en metalen klappoten",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "klaptafel-hout-halfrond.webp",
      "alt": "Halfronde klaptafel met houten blad Ø153 cm, opgezet",
@@ -217179,7 +217305,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "koelkast-rvs-horeca-hero.webp",
+     "image": "koelkast-rvs-horeca-dicht-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -217234,6 +217360,12 @@
     "full_name": "Home & Garden > Kitchen & Dining > Kitchen Appliances > Refrigerators > Commercial Refrigerators"
    },
    "images": [
+    {
+     "src": "koelkast-rvs-horeca-dicht-foto.webp",
+     "alt": "RVS horecakoelkast met dichte deur",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "koelkast-rvs-horeca-hero.webp",
      "alt": "RVS horecakoelkast met dichte deur en digitaal display, schuin vooraanzicht",
@@ -217385,7 +217517,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "koel-vrieskist-liggend-hero.webp",
+     "image": "koel-vrieskist-liggend-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -217409,8 +217541,8 @@
    },
    "images": [
     {
-     "src": "koel-vrieskist-liggend-hero.webp",
-     "alt": "Witte liggende koel- en vrieskist met het deksel open en twee manden",
+     "src": "koel-vrieskist-liggend-foto.webp",
+     "alt": "Witte vrieskist met klapdeksel",
      "width": 2000,
      "height": 2000
     }
@@ -218530,7 +218662,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klapstoel-wedding-wit-hero.webp",
+     "image": "klapstoel-wedding-wit-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -218586,8 +218718,8 @@
    },
    "images": [
     {
-     "src": "klapstoel-wedding-wit-hero.webp",
-     "alt": "Witte weddingstoel klapbaar met wit kussen, schuin vooraanzicht",
+     "src": "klapstoel-wedding-wit-foto.webp",
+     "alt": "Witte weddingstoel, klapbaar, met wit zitkussen",
      "width": 2000,
      "height": 2000
     },
@@ -219273,7 +219405,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetpaal-met-koord-hero.webp",
+     "image": "afzetpaal-met-koord-chroom-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -219305,7 +219437,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetpaal-met-koord-hero.webp",
+     "image": "afzetpaal-met-koord-chroom-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -219337,7 +219469,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetpaal-met-koord-hero.webp",
+     "image": "afzetpaal-met-koord-chroom-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -219369,7 +219501,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetpaal-met-koord-hero.webp",
+     "image": "afzetpaal-met-koord-chroom-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -219392,6 +219524,18 @@
     "full_name": "Hardware > Fencing & Barriers > Safety & Crowd Control Barriers"
    },
    "images": [
+    {
+     "src": "afzetpaal-met-koord-chroom-foto.webp",
+     "alt": "Verchroomde afzetpaal met ronde voet en bolle kop",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "afzetpaal-met-koord-chroom-ingang-foto.webp",
+     "alt": "Vier verchroomde afzetpalen met rood koord langs een rode loper",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "afzetpaal-met-koord-hero.webp",
      "alt": "Twee verchroomde afzetpalen met ovale kop en een bordeaux velours koord ertussen",
@@ -219619,7 +219763,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetkoord-velours-rood-hero.webp",
+     "image": "afzetkoord-velours-rood-foto.webp",
      "metafields": []
     },
     {
@@ -219771,7 +219915,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "afzetkoord-velours-rood-hero.webp",
+     "image": "afzetkoord-velours-rood-foto.webp",
      "metafields": []
     },
     {
@@ -219896,14 +220040,14 @@
    },
    "images": [
     {
-     "src": "afzetkoord-velours-bordeaux-hero.webp",
-     "alt": "Bordeaux velours afzetkoord met verchroomde haken, in een boog",
+     "src": "afzetkoord-velours-rood-foto.webp",
+     "alt": "Rood velours afzetkoord met verchroomde haak",
      "width": 2000,
      "height": 2000
     },
     {
-     "src": "afzetkoord-velours-rood-hero.webp",
-     "alt": "Rood velours afzetkoord met verchroomde haken, in een boog",
+     "src": "afzetkoord-velours-bordeaux-hero.webp",
+     "alt": "Bordeaux velours afzetkoord met verchroomde haken, in een boog",
      "width": 2000,
      "height": 2000
     },
@@ -221077,7 +221221,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "kapstok-verrijdbaar-hero.webp",
+     "image": "kapstok-verrijdbaar-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -221101,8 +221245,8 @@
    },
    "images": [
     {
-     "src": "kapstok-verrijdbaar-hero.webp",
-     "alt": "Verrijdbare kapstok van 2 m met genummerde haken en een hoedenplank, schuin vooraanzicht",
+     "src": "kapstok-verrijdbaar-foto.webp",
+     "alt": "Verrijdbaar garderoberek met twee rijen haken",
      "width": 2000,
      "height": 2000
     }
@@ -222049,7 +222193,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "led-lamp-e27-gekleurd-oranje-hero.webp",
+     "image": "led-lamp-e27-gekleurd-oranje-foto.webp",
      "metafields": []
     },
     {
@@ -222155,6 +222299,18 @@
    },
    "images": [
     {
+     "src": "led-lamp-e27-gekleurd-oranje-foto.webp",
+     "alt": "Oranje LED-lampen aan een zwarte prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "led-lamp-e27-gekleurd-mix-foto.webp",
+     "alt": "Gekleurde LED-lampen in blauw, geel, groen en rood aan een zwarte prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
      "src": "led-lamp-e27-gekleurd-rood-hero.webp",
      "alt": "Onbreekbare LED-lamp E27 rood, brandend",
      "width": 2000,
@@ -222163,12 +222319,6 @@
     {
      "src": "led-lamp-e27-gekleurd-warm-wit-hero.webp",
      "alt": "Onbreekbare LED-lamp E27 warm wit 2000 K, brandend",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "led-lamp-e27-gekleurd-oranje-hero.webp",
-     "alt": "Onbreekbare LED-lamp E27 oranje, brandend",
      "width": 2000,
      "height": 2000
     },
@@ -224586,7 +224736,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "klapstoel-hout-bistro-eiken-hero.webp",
+     "image": "klapstoel-hout-bistro-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -224674,8 +224824,8 @@
    },
    "images": [
     {
-     "src": "klapstoel-hout-bistro-eiken-hero.webp",
-     "alt": "Houten klapstoel bistro in eiken, schuin vooraanzicht",
+     "src": "klapstoel-hout-bistro-eiken-foto.webp",
+     "alt": "Houten klapstoel met latten zitting",
      "width": 2000,
      "height": 2000
     },
@@ -224688,12 +224838,6 @@
     {
      "src": "klapstoel-hout-bistro-zwart-hero.webp",
      "alt": "Houten klapstoel bistro, zwart gebeitst, schuin vooraanzicht",
-     "width": 2000,
-     "height": 2000
-    },
-    {
-     "src": "klapstoel-hout-bistro-eiken-ingeklapt.webp",
-     "alt": "Houten klapstoel in eiken, ingeklapt en plat",
      "width": 2000,
      "height": 2000
     }
@@ -226317,7 +226461,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -227533,7 +227677,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -228749,7 +228893,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-vierkant-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -229316,6 +229460,12 @@
     "full_name": "Furniture > Outdoor Furniture > Outdoor Tables > Bistro Tables"
    },
    "images": [
+    {
+     "src": "terrastafel-vierkant-stapelbaar-eiken-foto.webp",
+     "alt": "Vierkante terrastafel met houten blad en zwart metalen onderstel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "terrastafel-vierkant-stapelbaar-zwart-hero.webp",
      "alt": "Terrastafel vierkant stapelbaar 70 × 70 cm, Zwart, op een zwart onderstel, schuin vooraanzicht",
@@ -230140,7 +230290,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -231132,7 +231282,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -232124,7 +232274,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -233116,7 +233266,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": "terrastafel-breed-stapelbaar-eiken-hero.webp",
+     "image": "terrastafel-breed-stapelbaar-eiken-foto.webp",
      "metafields": [
       {
        "namespace": "custom",
@@ -233619,6 +233769,12 @@
     "full_name": "Furniture > Outdoor Furniture > Outdoor Tables > Bistro Tables"
    },
    "images": [
+    {
+     "src": "terrastafel-breed-stapelbaar-eiken-foto.webp",
+     "alt": "Brede terrastafel met houten blad en zwart metalen onderstel",
+     "width": 2000,
+     "height": 2000
+    },
     {
      "src": "terrastafel-breed-stapelbaar-eiken-hero.webp",
      "alt": "Terrastafel breed stapelbaar 120 × 70 cm, Eiken, op een zwart onderstel met 4 poten, schuin vooraanzicht",
@@ -240975,7 +241131,7 @@
    ],
    "image": {
     "src": "statafelhoes-met-strik-wit-hero.webp",
-    "alt": "Statafelhoes met strik, Wit, op een statafel, schuin vooraanzicht"
+    "alt": "Statafelhoezen met strik"
    },
    "rules": [
     {
@@ -241282,7 +241438,7 @@
    ],
    "image": {
     "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+    "alt": "Meubilair"
    },
    "rules": [
     {
@@ -241375,7 +241531,7 @@
    ],
    "image": {
     "src": "barkruk-stapelbaar-metaal-zwart-hero.webp",
-    "alt": "Barkruk stapelbaar metaal, Zwart, schuin vooraanzicht"
+    "alt": "Barkrukken"
    },
    "rules": [
     {
@@ -241418,7 +241574,7 @@
    ],
    "image": {
     "src": "stapelstoel-cross-back-eiken-hero.webp",
-    "alt": "Stapelstoel cross back hout, eikenkleurig gelakt, schuin vooraanzicht"
+    "alt": "Stoelen, krukken en banken"
    },
    "rules": [
     {
@@ -241693,7 +241849,7 @@
    ],
    "image": {
     "src": "prikkabel-e27-zwart-hero.webp",
-    "alt": "Prikkabelset zwart: prikkabel met brandende warm witte LED-lampen, schuin vooraanzicht"
+    "alt": "Prikkabel E27 zwart met brandende LED-lampen, schuin vooraanzicht (lampen niet inbegrepen)"
    },
    "rules": [
     {

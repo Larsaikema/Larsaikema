@@ -29,7 +29,8 @@
 // Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2026-07 · --files-from-url (fileCreate from
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
 // Extra steps, only when named: giftcard (create gift card products the CSV import skips) · images (photos newer than
-// the CSV import, from their public URL) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
+// the CSV import, from their public URL; with --prune also removes photos the CSV no longer lists and puts them in CSV
+// order) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
 // and read_locations). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
@@ -179,6 +180,8 @@ export const Q = {
   productMedia: `query ProductMedia($id: ID!) { product(id: $id) { media(first: 250) { nodes { id alt status ... on MediaImage { image { url } } } } variants(first: 250) { nodes { id sku media(first: 5) { nodes { id } } } } } }`,
   productAddMedia: `mutation ProductAddMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) { productUpdate(product: $product, media: $media) { product { id } userErrors { field message } } }`,
   variantDetachMedia: `mutation VariantDetachMedia($productId: ID!, $variantMedia: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
+  fileDelete: `mutation FileDelete($ids: [ID!]!) { fileDelete(fileIds: $ids) { deletedFileIds userErrors { field message code } } }`,
+  productReorderMedia: `mutation ReorderMedia($id: ID!, $moves: [MoveInput!]!) { productReorderMedia(id: $id, moves: $moves) { job { id } mediaUserErrors { field message } } }`,
   variantAppendMedia: `mutation VariantAppendMedia($productId: ID!, $variantMedia: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
   products: `query Products($after: String) { products(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
   variants: `query Variants($after: String) { productVariants(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id sku product { id handle } } } }`,
@@ -237,9 +240,9 @@ const firstError = (r) => (r?.userErrors || []).map((e) => `${(e.field || []).jo
 
 // ------------------------------------------------------------------------------------------------ the run
 export class Seeder {
-  constructor(api, inputs, { log = console.log, verbose = false, filesFromUrl = false, handles = null } = {}) {
+  constructor(api, inputs, { log = console.log, verbose = false, filesFromUrl = false, handles = null, prune = false } = {}) {
     this.api = api;
-    this.opts = { handles };
+    this.opts = { handles, prune };
     this.in = inputs;
     this.log = log;
     this.verbose = verbose;
@@ -692,6 +695,26 @@ export class Seeder {
         if (r.userErrors.length) this.err(S, `${handle} variant photos: ${firstError(r)}`);
         else this.count(S, 'variant_photos_set', part.length);
       }
+      // --prune: photos the CSV no longer lists for this product go (renders replaced by a real photo), and the rest follows
+      // the CSV order, so the first image (the card in a collection) is the CSV's first
+      if (this.opts.prune && want.images.length) {
+        prod = (await this.api.gql(Q.productMedia, { id: pid })).product;
+        const order = want.images.map((w) => stem(w.src));
+        const rank = (m) => order.findIndex((o) => same(stem(m.image?.url || ''), o));
+        const stale = prod.media.nodes.filter((m) => m.image?.url && rank(m) < 0);
+        if (stale.length) {
+          const r = (await this.api.gql(Q.fileDelete, { ids: stale.map((m) => m.id) })).fileDelete;
+          if (r.userErrors.length) this.err(S, `${handle} remove old photos: ${firstError(r)}`);
+          else this.count(S, 'images_removed', stale.length);
+        }
+        const kept = prod.media.nodes.filter((m) => m.image?.url && rank(m) >= 0);
+        const sorted = [...kept].sort((a, b) => rank(a) - rank(b));
+        if (sorted.some((m, i) => m.id !== kept[i].id)) {
+          const r = (await this.api.gql(Q.productReorderMedia, { id: pid, moves: sorted.map((m, i) => ({ id: m.id, newPosition: String(i) })) })).productReorderMedia;
+          if (r.mediaUserErrors.length) this.err(S, `${handle} reorder: ${firstError({ userErrors: r.mediaUserErrors })}`);
+          else this.count(S, 'products_reordered');
+        }
+      }
     }
   }
 
@@ -874,6 +897,7 @@ async function main(argv) {
     else if (a === '--help' || a === '-h') { console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimport ')[0]); return 0; }
     else if (STEPS.includes(a) || EXTRA_STEPS.includes(a)) args.steps.push(a);
     else if (a === '--handles') args.handles = new Set(argv[++i].split(','));
+    else if (a === '--prune') args.prune = true;
     else { console.error(`unknown argument ${a} (steps: ${STEPS.join(', ')})`); return 2; }
   }
   const steps = args.steps.length ? [...STEPS, ...EXTRA_STEPS].filter((s) => args.steps.includes(s)) : STEPS;
@@ -894,7 +918,7 @@ async function main(argv) {
     }
     api = new Admin(args);
   }
-  const res = await new Seeder(api, inputs, { verbose: args.verbose, filesFromUrl: args.filesFromUrl, handles: args.handles }).run(args.dryRun ? STEPS : steps);
+  const res = await new Seeder(api, inputs, { verbose: args.verbose, filesFromUrl: args.filesFromUrl, handles: args.handles, prune: args.prune }).run(args.dryRun ? STEPS : steps);
   if (args.dryRun && api.report) {
     const rep = api.report();
     console.log(`store after the run: ${JSON.stringify(rep.counts)}`);
