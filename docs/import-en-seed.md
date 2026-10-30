@@ -49,6 +49,16 @@ In een omgeving met een HTTP-proxy (zoals een Claude Code-cloudsessie) draai je 
 4. **Met de hand** (geen API): zet in Search & Discovery de filters aan die `docs/theme-setup.md` noemt (Gebruik, Past op,
    Met jouw logo met de labels Ja / Nee), en koppel de optie Kleur aan de categorie-metafield Kleur (swatches).
 
+Twee stappen draaien alleen als je ze noemt:
+
+- `giftcard`: maakt de cadeaubon (het product met "Gift Card" TRUE in de CSV) aan, want Shopify's CSV-import slaat
+  cadeaubonnen over. Zet eerst cadeaubonnen aan in Producten › Cadeaubonnen, anders weigert Shopify het. Draai daarna
+  `images` en `csvfields` met `--handles cadeaubon`, en `menus` voor de footerlink.
+- `images`: zet productfoto's die nieuwer zijn dan je CSV-import erbij (van de openbare GitHub-link, dus eerst pushen) en
+  koppelt per variant de juiste foto. Bestaande foto's blijven staan.
+
+Met `--handles a,b` beperk je `images`, `csvfields` en `giftcard` tot die producten.
+
 Elke stap kun je los draaien (`node scripts/seed/seed.mjs references menus`) en opnieuw draaien na een wijziging in de catalogus:
 bestaande pagina's, collecties, artikelen en menu's worden bijgewerkt, niets wordt dubbel aangemaakt, en metafields worden
 overschreven met de nieuwe waarde.

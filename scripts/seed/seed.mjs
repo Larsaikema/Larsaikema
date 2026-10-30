@@ -28,6 +28,8 @@
 //
 // Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2026-07 · --files-from-url (fileCreate from
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
+// Extra steps, only when named: giftcard (create gift card products the CSV import skips) · images (photos newer than
+// the CSV import, from their public URL). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
 import { readFileSync, existsSync, statSync } from 'node:fs';
@@ -40,6 +42,8 @@ const EXPORT = join(REPO, 'catalog', 'export');
 const IMAGES = join(REPO, 'catalog', 'images');
 const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/';
 export const STEPS = ['definitions', 'check', 'csvfields', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
+// Run only when named: top-ups for a store whose CSV import is older than the current catalog.
+export const EXTRA_STEPS = ['giftcard', 'images'];
 const SORT_ORDER = {
   'best-selling': 'BEST_SELLING', manual: 'MANUAL', 'alpha-ascending': 'ALPHA_ASC', 'alpha-descending': 'ALPHA_DESC',
   'price-ascending': 'PRICE_ASC', 'price-descending': 'PRICE_DESC', 'created-descending': 'CREATED_DESC', created: 'CREATED',
@@ -83,9 +87,16 @@ export function loadInputs() {
   const csvRows = parseCsv(readFileSync(join(EXPORT, 'products.csv'), 'utf8'));
   const csvProducts = new Map();   // handle -> Set(sku)
   const csvFields = new Map();     // handle -> [{key, value}] from the 'Name (product.metafields.custom.key)' columns
+  const csvImages = new Map();     // handle -> { images: [{src, alt, position}], variants: Map(sku -> src) }
+  const giftCards = new Map();     // handle -> CSV rows of products with 'Gift Card' TRUE (Shopify's CSV import skips those)
   for (const r of csvRows) {
     if (!csvProducts.has(r.Handle)) csvProducts.set(r.Handle, new Set());
     if (r['Variant SKU']) csvProducts.get(r.Handle).add(r['Variant SKU']);
+    if (!csvImages.has(r.Handle)) csvImages.set(r.Handle, { images: [], variants: new Map() });
+    const img = csvImages.get(r.Handle);
+    if (r['Image Src']) img.images.push({ src: r['Image Src'], alt: r['Image Alt Text'] || '', position: Number(r['Image Position']) || img.images.length + 1 });
+    if (r['Variant SKU'] && r['Variant Image']) img.variants.set(r['Variant SKU'], r['Variant Image']);
+    if (r['Gift Card'] === 'TRUE' || giftCards.has(r.Handle)) giftCards.set(r.Handle, [...(giftCards.get(r.Handle) || []), r]);
     if (!csvFields.has(r.Handle) && r.Title) {
       const f = [];
       for (const [col, value] of Object.entries(r)) {
@@ -107,6 +118,8 @@ export function loadInputs() {
     redirects,
     csvProducts,
     csvFields,
+    csvImages,
+    giftCards,
   };
 }
 
@@ -161,6 +174,10 @@ export class Admin {
 
 // ------------------------------------------------------------------------------------------------ GraphQL documents
 export const Q = {
+  productMedia: `query ProductMedia($id: ID!) { product(id: $id) { media(first: 250) { nodes { id alt status ... on MediaImage { image { url } } } } variants(first: 250) { nodes { id sku media(first: 5) { nodes { id } } } } } }`,
+  productAddMedia: `mutation ProductAddMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) { productUpdate(product: $product, media: $media) { product { id } userErrors { field message } } }`,
+  variantDetachMedia: `mutation VariantDetachMedia($productId: ID!, $variantMedia: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
+  variantAppendMedia: `mutation VariantAppendMedia($productId: ID!, $variantMedia: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
   products: `query Products($after: String) { products(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
   variants: `query Variants($after: String) { productVariants(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id sku product { id handle } } } }`,
   pages: `query Pages($after: String) { pages(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
@@ -185,6 +202,8 @@ export const Q = {
   collectionCreate: `mutation CollectionCreate($input: CollectionInput!) { collectionCreate(input: $input) { collection { id handle } userErrors { field message } } }`,
   collectionUpdate: `mutation CollectionUpdate($input: CollectionInput!) { collectionUpdate(input: $input) { collection { id handle } userErrors { field message } } }`,
   collectionAddProducts: `mutation CollectionAddProducts($id: ID!, $productIds: [ID!]!) { collectionAddProducts(id: $id, productIds: $productIds) { collection { id } userErrors { field message } } }`,
+  giftCardCreate: `mutation GiftCardProduct($product: ProductCreateInput!) { productCreate(product: $product) { product { id variants(first: 1) { nodes { id } } } userErrors { field message } } }`,
+  variantsReplace: `mutation VariantsReplace($productId: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkCreate(productId: $productId, variants: $variants, strategy: REMOVE_STANDALONE_VARIANT) { productVariants { id sku } userErrors { field message } } }`,
   publish: `mutation Publish($id: ID!, $input: [PublicationInput!]!) { publishablePublish(id: $id, input: $input) { userErrors { field message } } }`,
   metafieldsSet: `mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) { metafieldsSet(metafields: $metafields) { metafields { id } userErrors { field message code } } }`,
   menuCreate: `mutation MenuCreate($title: String!, $handle: String!, $items: [MenuItemCreateInput!]!) { menuCreate(title: $title, handle: $handle, items: $items) { menu { id handle } userErrors { field message code } } }`,
@@ -209,8 +228,9 @@ const firstError = (r) => (r?.userErrors || []).map((e) => `${(e.field || []).jo
 
 // ------------------------------------------------------------------------------------------------ the run
 export class Seeder {
-  constructor(api, inputs, { log = console.log, verbose = false, filesFromUrl = false } = {}) {
+  constructor(api, inputs, { log = console.log, verbose = false, filesFromUrl = false, handles = null } = {}) {
     this.api = api;
+    this.opts = { handles };
     this.in = inputs;
     this.log = log;
     this.verbose = verbose;
@@ -489,6 +509,95 @@ export class Seeder {
     if (P.size === 0) this.warn(S, 'no products in the store yet: smart collections fill once products.csv is imported');
   }
 
+  // Gift card products ('Gift Card' TRUE in products.csv): Shopify's CSV import skips them, so they are created here with
+  // their options, prices and SKUs, and published to the Online Store. Photos and metafields follow with the steps
+  // 'images' and 'csvfields'. An existing product with the same handle is left alone.
+  async giftcard() {
+    const S = 'giftcard';
+    const P = await this.products();
+    for (const [handle, rows] of this.in.giftCards) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
+      if (P.has(handle)) { this.count(S, 'already_there'); continue; }
+      const head = rows[0];
+      const values = rows.map((r) => r['Option1 Value']).filter(Boolean);
+      const product = {
+        title: head.Title, handle, descriptionHtml: head['Body (HTML)'], vendor: head.Vendor, productType: head.Type,
+        status: (head.Status || 'active').toUpperCase(), giftCard: true,
+        seo: { title: head['SEO Title'] || null, description: head['SEO Description'] || null },
+        productOptions: [{ name: head['Option1 Name'] || 'Bedrag', values: values.map((name) => ({ name })) }],
+      };
+      const c = (await this.api.gql(Q.giftCardCreate, { product })).productCreate;
+      if (c.userErrors.length) { this.err(S, `${handle}: ${firstError(c)}`); continue; }
+      const pid = c.product.id;
+      P.set(handle, pid);
+      const variants = rows.filter((r) => r['Option1 Value']).map((r) => ({
+        optionValues: [{ optionName: product.productOptions[0].name, name: r['Option1 Value'] }],
+        price: r['Variant Price'], taxable: r['Variant Taxable'] === 'TRUE',
+        inventoryItem: { sku: r['Variant SKU'], tracked: false, requiresShipping: r['Variant Requires Shipping'] === 'TRUE' },
+      }));
+      const v = (await this.api.gql(Q.variantsReplace, { productId: pid, variants })).productVariantsBulkCreate;
+      if (v.userErrors.length) { this.err(S, `${handle}: variants: ${firstError(v)}`); continue; }
+      this.count(S, 'created');
+      this.count(S, 'variants', v.productVariants.length);
+      const pub = await this.onlineStore();
+      if (!pub) { this.warn(S, `${handle}: no Online Store publication found: publish it by hand (Sales channels)`); continue; }
+      const p = (await this.api.gql(Q.publish, { id: pid, input: [{ publicationId: pub }] })).publishablePublish;
+      if (p.userErrors.length) this.warn(S, `${handle}: publish: ${firstError(p)}`);
+    }
+  }
+
+  // Product photos from products.csv that the store does not have yet (renders made after the CSV import), added from their
+  // public URL, plus the photo of every variant ('Variant Image'). Matching is on the file name: Shopify keeps it in the CDN
+  // URL (with a '_<suffix>' when the name already existed). Existing photos are never removed or reordered.
+  async images() {
+    const S = 'images';
+    const P = await this.products();
+    const stem = (u) => decodeURIComponent(String(u).split('?')[0].split('/').pop()).replace(/\.[a-z0-9]+$/i, '').toLowerCase();
+    const same = (have, want) => have === want || have.startsWith(`${want}_`);
+    for (const [handle, want] of this.in.csvImages) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
+      if (!want.images.length && !want.variants.size) continue;
+      const pid = P.get(handle);
+      if (!pid) { this.err(S, `product ${handle} not in the store`); continue; }
+      let prod = (await this.api.gql(Q.productMedia, { id: pid })).product;
+      const haveStems = () => prod.media.nodes.filter((m) => m.image?.url).map((m) => [stem(m.image.url), m]);
+      const missing = want.images.sort((a, b) => a.position - b.position)
+        .filter((w) => !haveStems().some(([h]) => same(h, stem(w.src))));
+      if (missing.length) {
+        const r = (await this.api.gql(Q.productAddMedia, { product: { id: pid }, media: missing.map((w) => ({ originalSource: w.src, alt: w.alt, mediaContentType: 'IMAGE' })) })).productUpdate;
+        if (r.userErrors.length) { this.err(S, `${handle}: ${firstError(r)}`); continue; }
+        this.count(S, 'images_added', missing.length);
+        // media is processed asynchronously; wait until it is READY before linking variants to it
+        for (let t = 0; t < 30; t++) {
+          await sleep(2000);
+          prod = (await this.api.gql(Q.productMedia, { id: pid })).product;
+          if (prod.media.nodes.every((m) => m.status === 'READY' || m.status === 'FAILED')) break;
+        }
+        for (const m of prod.media.nodes) if (m.status === 'FAILED') this.err(S, `${handle}: media ${m.alt || m.id} failed to process`);
+      }
+      const detach = [], append = [];
+      for (const v of prod.variants.nodes) {
+        const src = want.variants.get(v.sku);
+        if (!src) continue;
+        const target = haveStems().find(([h, m]) => same(h, stem(src)) && m.status === 'READY');
+        if (!target) { this.warn(S, `${handle} ${v.sku}: variant photo ${stem(src)} not available`); continue; }
+        const cur = v.media.nodes.map((n) => n.id);
+        if (cur.length === 1 && cur[0] === target[1].id) continue;
+        if (cur.length) detach.push({ variantId: v.id, mediaIds: cur });
+        append.push({ variantId: v.id, mediaIds: [target[1].id] });
+      }
+      if (detach.length) {
+        const r = (await this.api.gql(Q.variantDetachMedia, { productId: pid, variantMedia: detach })).productVariantDetachMedia;
+        if (r.userErrors.length) this.err(S, `${handle} detach: ${firstError(r)}`);
+      }
+      if (append.length) {
+        const r = (await this.api.gql(Q.variantAppendMedia, { productId: pid, variantMedia: append })).productVariantAppendMedia;
+        if (r.userErrors.length) this.err(S, `${handle} variant photos: ${firstError(r)}`);
+        else this.count(S, 'variant_photos_set', append.length);
+      }
+    }
+  }
+
   // The plain product metafields of products.csv, set through the API: a CSV import done before the definitions existed
   // skipped those columns, and this way a re-import is not needed for them.
   async csvfields() {
@@ -497,6 +606,7 @@ export class Seeder {
     const types = new Map(this.in.definitions.filter((d) => d.owner_type === 'PRODUCT' && d.namespace === 'custom').map((d) => [d.key, d.type]));
     const sets = [];
     for (const [handle, fields] of this.in.csvFields) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
       const pid = P.get(handle);
       if (!pid) { this.err(S, `product ${handle} not in the store`); continue; }
       for (const f of fields) {
@@ -665,10 +775,11 @@ async function main(argv) {
     else if (a === '--token') args.token = argv[++i];
     else if (a === '--api-version') args.version = argv[++i];
     else if (a === '--help' || a === '-h') { console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimport ')[0]); return 0; }
-    else if (STEPS.includes(a)) args.steps.push(a);
+    else if (STEPS.includes(a) || EXTRA_STEPS.includes(a)) args.steps.push(a);
+    else if (a === '--handles') args.handles = new Set(argv[++i].split(','));
     else { console.error(`unknown argument ${a} (steps: ${STEPS.join(', ')})`); return 2; }
   }
-  const steps = args.steps.length ? STEPS.filter((s) => args.steps.includes(s)) : STEPS;
+  const steps = args.steps.length ? [...STEPS, ...EXTRA_STEPS].filter((s) => args.steps.includes(s)) : STEPS;
   const inputs = loadInputs();
   let api;
   if (args.dryRun) {
@@ -686,7 +797,7 @@ async function main(argv) {
     }
     api = new Admin(args);
   }
-  const res = await new Seeder(api, inputs, { verbose: args.verbose, filesFromUrl: args.filesFromUrl }).run(args.dryRun ? STEPS : steps);
+  const res = await new Seeder(api, inputs, { verbose: args.verbose, filesFromUrl: args.filesFromUrl, handles: args.handles }).run(args.dryRun ? STEPS : steps);
   if (args.dryRun && api.report) {
     const rep = api.report();
     console.log(`store after the run: ${JSON.stringify(rep.counts)}`);
