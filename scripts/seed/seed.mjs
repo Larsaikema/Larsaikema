@@ -29,7 +29,8 @@
 // Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2026-07 · --files-from-url (fileCreate from
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
 // Extra steps, only when named: giftcard (create gift card products the CSV import skips) · images (photos newer than
-// the CSV import, from their public URL). --handles a,b limits giftcard, images and csvfields to those products.
+// the CSV import, from their public URL) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
+// and read_locations). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
 import { readFileSync, existsSync, statSync } from 'node:fs';
@@ -43,7 +44,7 @@ const IMAGES = join(REPO, 'catalog', 'images');
 const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/';
 export const STEPS = ['definitions', 'check', 'csvfields', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
 // Run only when named: top-ups for a store whose CSV import is older than the current catalog.
-export const EXTRA_STEPS = ['giftcard', 'images'];
+export const EXTRA_STEPS = ['giftcard', 'images', 'shipping'];
 const SORT_ORDER = {
   'best-selling': 'BEST_SELLING', manual: 'MANUAL', 'alpha-ascending': 'ALPHA_ASC', 'alpha-descending': 'ALPHA_DESC',
   'price-ascending': 'PRICE_ASC', 'price-descending': 'PRICE_DESC', 'created-descending': 'CREATED_DESC', created: 'CREATED',
@@ -115,6 +116,7 @@ export function loadInputs() {
     blog: readJson('blog.json').blog,
     collections: readJson('collections.json').collections,
     menus: readJson('menus.json').menus,
+    shipping: existsSync(join(EXPORT, 'shipping-profiles.json')) ? readJson('shipping-profiles.json') : null,
     redirects,
     csvProducts,
     csvFields,
@@ -202,6 +204,13 @@ export const Q = {
   collectionCreate: `mutation CollectionCreate($input: CollectionInput!) { collectionCreate(input: $input) { collection { id handle } userErrors { field message } } }`,
   collectionUpdate: `mutation CollectionUpdate($input: CollectionInput!) { collectionUpdate(input: $input) { collection { id handle } userErrors { field message } } }`,
   collectionAddProducts: `mutation CollectionAddProducts($id: ID!, $productIds: [ID!]!) { collectionAddProducts(id: $id, productIds: $productIds) { collection { id } userErrors { field message } } }`,
+  deliveryProfiles: `query DeliveryProfiles { deliveryProfiles(first: 50) { nodes { id name default } } }`,
+  deliveryProfile: `query DeliveryProfile($id: ID!) { deliveryProfile(id: $id) { id name default profileLocationGroups { locationGroup { id }
+    locationGroupZones(first: 10) { nodes { zone { id name countries { code { countryCode } } } methodDefinitions(first: 40) { nodes { id name
+      rateProvider { ... on DeliveryRateDefinition { price { amount } } } methodConditions { field operator conditionCriteria { ... on Weight { value unit } } } } } } } } } }`,
+  locations: `query Locations { locations(first: 50) { nodes { id name isActive fulfillsOnlineOrders } } }`,
+  deliveryProfileCreate: `mutation DeliveryProfileCreate($profile: DeliveryProfileInput!) { deliveryProfileCreate(profile: $profile) { profile { id } userErrors { field message } } }`,
+  deliveryProfileUpdate: `mutation DeliveryProfileUpdate($id: ID!, $profile: DeliveryProfileInput!) { deliveryProfileUpdate(id: $id, profile: $profile) { profile { id } userErrors { field message } } }`,
   giftCardCreate: `mutation GiftCardProduct($product: ProductCreateInput!) { productCreate(product: $product) { product { id variants(first: 1) { nodes { id } } } userErrors { field message } } }`,
   variantsReplace: `mutation VariantsReplace($productId: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkCreate(productId: $productId, variants: $variants, strategy: REMOVE_STANDALONE_VARIANT) { productVariants { id sku } userErrors { field message } } }`,
   publish: `mutation Publish($id: ID!, $input: [PublicationInput!]!) { publishablePublish(id: $id, input: $input) { userErrors { field message } } }`,
@@ -543,6 +552,88 @@ export class Seeder {
       if (!pub) { this.warn(S, `${handle}: no Online Store publication found: publish it by hand (Sales channels)`); continue; }
       const p = (await this.api.gql(Q.publish, { id: pid, input: [{ publicationId: pub }] })).publishablePublish;
       if (p.userErrors.length) this.warn(S, `${handle}: publish: ${firstError(p)}`);
+    }
+  }
+
+  // Shipping profiles from export/shipping-profiles.json (catalog/tools/shipping_profiles.py): weight-based rates per class, the same
+  // amounts the product pages show. The default profile gets the parcel rates; the others are created (needs read_locations) and get
+  // their variants. Per country one zone; a zone whose rates differ from the plan gets the plan's rates instead (old rates removed).
+  async shipping() {
+    const S = 'shipping';
+    const plan = this.in.shipping;
+    if (!plan) { this.err(S, 'catalog/export/shipping-profiles.json missing (python3 catalog/tools/shipping_profiles.py)'); return; }
+    const NAMES = { NL: 'Nederland', BE: 'België' };
+    const money = (x) => ({ amount: Number(x).toFixed(2), currencyCode: plan.currency });
+    const methods = (rates) => rates.map((r) => ({
+      name: r.name, active: true, rateDefinition: { price: money(r.amount) },
+      weightConditionsToCreate: [
+        { criteria: { value: r.min_kg, unit: 'KILOGRAMS' }, operator: 'GREATER_THAN_OR_EQUAL_TO' },
+        { criteria: { value: r.max_kg, unit: 'KILOGRAMS' }, operator: 'LESS_THAN_OR_EQUAL_TO' },
+      ],
+    }));
+    const sig = (name, amount, lo, hi) => `${name}|${Number(amount).toFixed(2)}|${Number(lo).toFixed(3)}|${Number(hi).toFixed(3)}`;
+    const want = (rates) => rates.map((r) => sig(r.name, r.amount, r.min_kg, r.max_kg)).sort().join('\n');
+    const have = (defs) => defs.map((m) => {
+      const w = (op) => m.methodConditions.find((c) => c.field === 'TOTAL_WEIGHT' && c.operator === op)?.conditionCriteria?.value ?? (op === 'GREATER_THAN_OR_EQUAL_TO' ? 0 : -1);
+      if (m.methodConditions.some((c) => c.field !== 'TOTAL_WEIGHT')) return `${m.id}|other`;
+      return sig(m.name, m.rateProvider?.price?.amount ?? -1, w('GREATER_THAN_OR_EQUAL_TO'), w('LESS_THAN_OR_EQUAL_TO'));
+    }).sort().join('\n');
+    const baseId = (id) => id.split('?')[0];
+    const profiles = (await this.api.gql(Q.deliveryProfiles)).deliveryProfiles.nodes;
+    let locations = null;
+    const V = await this.variants();
+    for (const pp of plan.profiles) {
+      const label = pp.name || 'General profile';
+      const ex = pp.default ? profiles.find((x) => x.default) : profiles.find((x) => x.name === pp.name);
+      const ids = (pp.skus || []).map((s) => V.get(s)).filter(Boolean);
+      if ((pp.skus || []).length !== ids.length) this.warn(S, `${label}: ${pp.skus.length - ids.length} SKUs not in the store`);
+      const zonesFor = (existing = []) => plan.countries.map((cc) => {
+        const z = existing.find((n) => n.zone.countries.some((c) => c.code.countryCode === cc));
+        return { cc, z };
+      });
+      if (!ex) {
+        if (!locations) {
+          try { locations = (await this.api.gql(Q.locations)).locations.nodes.filter((l) => l.isActive && l.fulfillsOnlineOrders).map((l) => l.id); }
+          catch (e) { this.err(S, `${label}: cannot read the locations (give the app the scope read_locations): ${String(e.message).slice(0, 120)}`); return; }
+        }
+        const profile = {
+          name: pp.name,
+          locationGroupsToCreate: [{ locations, zonesToCreate: plan.countries.map((cc) => ({ name: NAMES[cc] || cc, countries: [{ code: cc, includeAllProvinces: true }], methodDefinitionsToCreate: methods(pp.rates) })) }],
+          variantsToAssociate: ids.slice(0, 250),
+        };
+        const r = (await this.api.gql(Q.deliveryProfileCreate, { profile })).deliveryProfileCreate;
+        if (r.userErrors.length) { this.err(S, `${label}: ${firstError(r)}`); continue; }
+        this.count(S, 'profiles_created');
+        for (let i = 250; i < ids.length; i += 250) {
+          const u = (await this.api.gql(Q.deliveryProfileUpdate, { id: r.profile.id, profile: { variantsToAssociate: ids.slice(i, i + 250) } })).deliveryProfileUpdate;
+          if (u.userErrors.length) this.err(S, `${label} variants: ${firstError(u)}`);
+        }
+        this.count(S, 'variants_assigned', ids.length);
+        continue;
+      }
+      const full = (await this.api.gql(Q.deliveryProfile, { id: ex.id })).deliveryProfile;
+      const group = full.profileLocationGroups[0];
+      if (!group) { this.err(S, `${label}: has no locations`); continue; }
+      const zones = group.locationGroupZones.nodes;
+      const zonesToUpdate = [], zonesToCreate = [], methodDefinitionsToDelete = [];
+      for (const { cc, z } of zonesFor(zones)) {
+        if (!z) { zonesToCreate.push({ name: NAMES[cc] || cc, countries: [{ code: cc, includeAllProvinces: true }], methodDefinitionsToCreate: methods(pp.rates) }); continue; }
+        if (z.zone.countries.length > 1) { this.warn(S, `${label}: zone ${z.zone.name} holds more countries than ${cc}; its rates are replaced for all of them`); }
+        if (have(z.methodDefinitions.nodes) === want(pp.rates)) continue;
+        methodDefinitionsToDelete.push(...new Set(z.methodDefinitions.nodes.map((m) => baseId(m.id))));
+        zonesToUpdate.push({ id: z.zone.id, name: z.zone.countries.length > 1 ? z.zone.name : (NAMES[cc] || z.zone.name), methodDefinitionsToCreate: methods(pp.rates) });
+      }
+      if (zonesToUpdate.length || zonesToCreate.length) {
+        const profile = { locationGroupsToUpdate: [{ id: group.locationGroup.id, zonesToUpdate, zonesToCreate }], methodDefinitionsToDelete: [...new Set(methodDefinitionsToDelete)] };
+        const r = (await this.api.gql(Q.deliveryProfileUpdate, { id: ex.id, profile })).deliveryProfileUpdate;
+        if (r.userErrors.length) { this.err(S, `${label}: ${firstError(r)}`); continue; }
+        this.count(S, 'zones_set', zonesToUpdate.length + zonesToCreate.length);
+      }
+      for (let i = 0; i < ids.length; i += 250) {
+        const u = (await this.api.gql(Q.deliveryProfileUpdate, { id: ex.id, profile: { variantsToAssociate: ids.slice(i, i + 250) } })).deliveryProfileUpdate;
+        if (u.userErrors.length) { this.err(S, `${label} variants: ${firstError(u)}`); break; }
+      }
+      if (ids.length) this.count(S, 'variants_assigned', ids.length);
     }
   }
 

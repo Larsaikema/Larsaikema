@@ -57,6 +57,11 @@ Twee stappen draaien alleen als je ze noemt:
 - `images`: zet productfoto's die nieuwer zijn dan je CSV-import erbij (van de openbare GitHub-link, dus eerst pushen) en
   koppelt per variant de juiste foto. Bestaande foto's blijven staan.
 
+- `shipping`: zet de verzendprofielen uit `catalog/export/shipping-profiles.json` (gemaakt door
+  `python3 catalog/tools/shipping_profiles.py`): het standaardprofiel krijgt de pakkettarieven, en de profielen Groot pakket,
+  Pallet en Betonblok (per blokgewicht) worden aangemaakt met hun varianten. Per land (Nederland, België) één zone met
+  gewichtstarieven, precies de bedragen die de productpagina's tonen. Nodig: de scopes `write_shipping` en `read_locations`.
+
 Met `--handles a,b` beperk je `images`, `csvfields` en `giftcard` tot die producten.
 
 Elke stap kun je los draaien (`node scripts/seed/seed.mjs references menus`) en opnieuw draaien na een wijziging in de catalogus:

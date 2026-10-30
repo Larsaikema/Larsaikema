@@ -35,6 +35,10 @@ Instellingen › Belastingen en heffingen:
 
 ## 4. Verzending
 
+**Via het script:** `node scripts/seed/seed.mjs shipping` zet alles hieronder in één keer goed (profielen, zones Nederland en
+België, gewichtstarieven en welke producten in welk profiel zitten), uit dezelfde regels als de productpagina's. Daarna hoef je
+hier alleen nog een toeslag voor België te zetten als je die wilt. Met de hand gaat het zo:
+
 Instellingen › Verzending en bezorging. Het thema toont per product de verzendkosten uit de catalogus; **de checkout
 moet dezelfde bedragen rekenen**. Zet gewichtsafhankelijke tarieven (de CSV geeft elke variant zijn gewicht):
 
