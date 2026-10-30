@@ -64,7 +64,6 @@
       ],
       "settings": {
         "color_scheme": "scheme-5",
-        "menu": "",
         "show_phone": true,
         "interval": 5
       }
@@ -76,7 +75,6 @@
           "type": "promo",
           "settings": {
             "menu_item": "Statafels",
-            "image": "",
             "eyebrow": "Voor bedrijven",
             "heading": "Statafelrokken met jouw logo",
             "text": "Logo op één of twee kanten, of full colour rondom. Vanaf 1 stuk, staffelprijs vanaf 10.",
@@ -89,7 +87,6 @@
           "type": "promo",
           "settings": {
             "menu_item": "Met jouw logo",
-            "image": "",
             "eyebrow": "Drukproef vooraf",
             "heading": "Je eigen tent, met jouw logo",
             "text": "Luifel of dak bedrukt. Eerst je akkoord, dan drukken we.",
@@ -102,7 +99,6 @@
           "type": "promo",
           "settings": {
             "menu_item": "Zakelijk",
-            "image": "",
             "eyebrow": "Klapklaar Zakelijk",
             "heading": "Offerte op maat",
             "text": "Voor je bedrijf, club of verhuur: grote aantallen, bedrukking en prijzen excl. btw in één voorstel.",
