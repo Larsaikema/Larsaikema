@@ -57,7 +57,8 @@ Twee stappen draaien alleen als je ze noemt:
 - Echte productfoto's: `catalog/photos.json` zegt welke foto bij welk product en welke kleur/maat hoort;
   `python3 catalog/tools/photos.py --src <map met de foto's>` maakt ze vierkant en wit (webp), `python3 catalog/build.py` zet
   ze vóór de renders en laat een render weg zodra elke variant waar hij voor stond een foto heeft. Daarna:
-  `node scripts/seed/seed.mjs images --prune --handles <producten>`.
+  `node scripts/seed/seed.mjs images --prune --handles <producten>` en `node scripts/seed/seed.mjs options` (de kleuren met een
+  echte foto staan vooraan, zodat een productpagina op een foto opent).
 - `images`: zet productfoto's die nieuwer zijn dan je CSV-import erbij (van de openbare GitHub-link, dus eerst pushen) en
   koppelt per variant de juiste foto. Bestaande foto's blijven staan.
 

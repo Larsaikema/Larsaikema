@@ -573,6 +573,21 @@ class Build:
                 lead.append({'file': ph['file'], 'role': 'photo', 'priority': 0, 'kleur': match.get('Kleur'), 'alt': ph['alt'],
                              'photo': True, 'model_status': 'photo', 'draft': False})
             p['images'] = lead + keep
+            # the colours and uitvoeringen with a real photo come first (the first variant is the one a product page opens on);
+            # sizes keep their order
+            first = {}
+            for _, match, _ in items:
+                for k, x in match.items():
+                    if k in ('Kleur', 'Uitvoering'):
+                        first.setdefault(k, []).append(x)
+            for o in p['options']:
+                if o['name'] in first:
+                    lead_vals = [x for x in o['values'] if x in first[o['name']]]
+                    o['values'] = lead_vals + [x for x in o['values'] if x not in lead_vals]
+            if first:
+                n = names(p)
+                pos = [{x: i for i, x in enumerate(o['values'])} for o in p['options']]
+                p['variants'].sort(key=lambda v: [pos[i].get(v.get(f'option{i + 1}'), 0) for i in range(len(n))])
 
     def derive(self, products):
         """Catalog round 2026-10-18: fields derived from the merged products (CONTRACT.md).

@@ -30,7 +30,7 @@
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
 // Extra steps, only when named: giftcard (create gift card products the CSV import skips) · images (photos newer than
 // the CSV import, from their public URL; with --prune also removes photos the CSV no longer lists and puts them in CSV
-// order) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
+// order) · options (option value order as in the CSV) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
 // and read_locations). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
@@ -45,7 +45,7 @@ const IMAGES = join(REPO, 'catalog', 'images');
 const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/';
 export const STEPS = ['definitions', 'check', 'csvfields', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
 // Run only when named: top-ups for a store whose CSV import is older than the current catalog.
-export const EXTRA_STEPS = ['giftcard', 'images', 'shipping'];
+export const EXTRA_STEPS = ['giftcard', 'images', 'options', 'shipping'];
 const SORT_ORDER = {
   'best-selling': 'BEST_SELLING', manual: 'MANUAL', 'alpha-ascending': 'ALPHA_ASC', 'alpha-descending': 'ALPHA_DESC',
   'price-ascending': 'PRICE_ASC', 'price-descending': 'PRICE_DESC', 'created-descending': 'CREATED_DESC', created: 'CREATED',
@@ -91,6 +91,7 @@ export function loadInputs() {
   const csvFields = new Map();     // handle -> [{key, value}] from the 'Name (product.metafields.custom.key)' columns
   const csvImages = new Map();     // handle -> { images: [{src, alt, position}], variants: Map(sku -> src) }
   const giftCards = new Map();     // handle -> CSV rows of products with 'Gift Card' TRUE (Shopify's CSV import skips those)
+  const csvOptions = new Map();    // handle -> [{name, values}] in CSV order (the first variant row is the default variant)
   for (const r of csvRows) {
     if (!csvProducts.has(r.Handle)) csvProducts.set(r.Handle, new Set());
     if (r['Variant SKU']) csvProducts.get(r.Handle).add(r['Variant SKU']);
@@ -98,6 +99,8 @@ export function loadInputs() {
     const img = csvImages.get(r.Handle);
     if (r['Image Src']) img.images.push({ src: r['Image Src'], alt: r['Image Alt Text'] || '', position: Number(r['Image Position']) || img.images.length + 1 });
     if (r['Variant SKU'] && r['Variant Image']) img.variants.set(r['Variant SKU'], r['Variant Image']);
+    if (r.Title) csvOptions.set(r.Handle, [1, 2, 3].map((i) => r[`Option${i} Name`]).filter(Boolean).map((name) => ({ name, values: [] })));
+    (csvOptions.get(r.Handle) || []).forEach((o, i) => { const x = r[`Option${i + 1} Value`]; if (x && !o.values.includes(x)) o.values.push(x); });
     if (r['Gift Card'] === 'TRUE' || giftCards.has(r.Handle)) giftCards.set(r.Handle, [...(giftCards.get(r.Handle) || []), r]);
     if (!csvFields.has(r.Handle) && r.Title) {
       const f = [];
@@ -123,6 +126,7 @@ export function loadInputs() {
     csvFields,
     csvImages,
     giftCards,
+    csvOptions,
   };
 }
 
@@ -180,6 +184,8 @@ export const Q = {
   productMedia: `query ProductMedia($id: ID!) { product(id: $id) { media(first: 250) { nodes { id alt status ... on MediaImage { image { url } } } } variants(first: 250) { nodes { id sku media(first: 5) { nodes { id } } } } } }`,
   productAddMedia: `mutation ProductAddMedia($product: ProductUpdateInput!, $media: [CreateMediaInput!]) { productUpdate(product: $product, media: $media) { product { id } userErrors { field message } } }`,
   variantDetachMedia: `mutation VariantDetachMedia($productId: ID!, $variantMedia: [ProductVariantDetachMediaInput!]!) { productVariantDetachMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
+  productOptions: `query ProductOptions($id: ID!) { product(id: $id) { options { id name optionValues { id name } } } }`,
+  productOptionsReorder: `mutation OptionsReorder($productId: ID!, $options: [OptionReorderInput!]!) { productOptionsReorder(productId: $productId, options: $options) { product { id } userErrors { field message } } }`,
   fileDelete: `mutation FileDelete($ids: [ID!]!) { fileDelete(fileIds: $ids) { deletedFileIds userErrors { field message code } } }`,
   productReorderMedia: `mutation ReorderMedia($id: ID!, $moves: [MoveInput!]!) { productReorderMedia(id: $id, moves: $moves) { job { id } mediaUserErrors { field message } } }`,
   variantAppendMedia: `mutation VariantAppendMedia($productId: ID!, $variantMedia: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
@@ -555,6 +561,30 @@ export class Seeder {
       if (!pub) { this.warn(S, `${handle}: no Online Store publication found: publish it by hand (Sales channels)`); continue; }
       const p = (await this.api.gql(Q.publish, { id: pid, input: [{ publicationId: pub }] })).publishablePublish;
       if (p.userErrors.length) this.warn(S, `${handle}: publish: ${firstError(p)}`);
+    }
+  }
+
+  // Option and option value order as in products.csv (catalog/build.py puts the colours with a real photo first, so a product
+  // page opens on a photo); Shopify reorders the variants with it. A product already in that order is left alone.
+  async options() {
+    const S = 'options';
+    const P = await this.products();
+    for (const [handle, want] of this.in.csvOptions) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
+      const pid = P.get(handle);
+      if (!pid || !want.length) continue;
+      const have = (await this.api.gql(Q.productOptions, { id: pid })).product.options;
+      const same = want.every((o, i) => have[i]?.name === o.name && have[i].optionValues.map((v) => v.name).join('|') === o.values.join('|'));
+      if (same) continue;
+      const options = want.map((o) => {
+        const h = have.find((x) => x.name === o.name);
+        const vals = o.values.filter((x) => h?.optionValues.some((v) => v.name === x));
+        const rest = (h?.optionValues || []).map((v) => v.name).filter((x) => !vals.includes(x));
+        return { name: o.name, values: [...vals, ...rest].map((name) => ({ name })) };
+      });
+      const r = (await this.api.gql(Q.productOptionsReorder, { productId: pid, options })).productOptionsReorder;
+      if (r.userErrors.length) this.err(S, `${handle}: ${firstError(r)}`);
+      else this.count(S, 'reordered');
     }
   }
 
