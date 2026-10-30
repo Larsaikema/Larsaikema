@@ -3,12 +3,15 @@
 which file and which products and options it shows; catalog/build.py puts them before the renders).
 
 The sources are the owner's product photos (Drive: '04_Foto & Video / Catalogus productfotos PNG 29-10-2026'), downloaded
-as <drive_id>.png / .jpg into one folder. Each photo is trimmed to its content (near-white margins off), centred on a white
+as <drive_id>.png / .jpg into one folder, and the supplier's photos (Mebu, www.mebu.info: "url" in photos.json), which this
+script downloads into the same folder. Each photo is trimmed to its content (near-white margins off), centred on a white
 square with an even margin, so a tent, a statafelrok and a stoel sit the same way in the grid.
 
 Usage: python3 catalog/tools/photos.py --src <folder with the downloads> [--force] [--only file1,file2]
 """
+import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -70,8 +73,16 @@ def main():
         if out.exists() and '--force' not in sys.argv:
             skipped += 1
             continue
-        cand = [src / f"{ph['drive_id']}.{e}" for e in ('png', 'jpg', 'jpeg', 'webp')]
-        path = next((c for c in cand if c.exists()), None)
+        if ph.get('url'):
+            path = src / ('url-' + hashlib.sha1(ph['url'].encode()).hexdigest()[:16] + '.img')
+            if not path.exists():
+                r = subprocess.run(['curl', '-sSL', '--max-time', '60', '-o', str(path), ph['url']])
+                if r.returncode != 0:
+                    path.unlink(missing_ok=True)
+            path = path if path.exists() else None
+        else:
+            cand = [src / f"{ph['drive_id']}.{e}" for e in ('png', 'jpg', 'jpeg', 'webp')]
+            path = next((c for c in cand if c.exists()), None)
         if path is None:
             missing.append(f"{ph['file']} ({ph['source']})")
             continue
