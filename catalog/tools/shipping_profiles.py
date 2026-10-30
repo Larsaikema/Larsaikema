@@ -30,6 +30,8 @@ from validate import _tiers_at  # noqa: E402
 
 COUNTRIES = ['NL', 'BE']
 PER_STUK_MAX_PIECES = 12
+GRAM = 0.001             # Shopify adds up variant weights in grams: each rate starts 1 g above the one before, so no order weight
+                         # matches two rates (checkout would offer both, e.g. '1 st.' and '2 st.' for exactly one betonblok)
 
 
 def pallet_rates(start=0.0):
@@ -47,7 +49,13 @@ PROFILES = {
               {'name': '2 grote pakketten', 'min_kg': 25.0, 'max_kg': 40.0, 'amount': 39.9}] + pallet_rates(40.0),
     'pallet': pallet_rates(0.0),
 }
-NAMES = {'pakket': None, 'groot': 'Groot pakket', 'pallet': 'Pallet'}
+
+
+def separate(rates):
+    out = [dict(r) for r in rates]
+    for prev, r in zip(out, out[1:]):
+        r['min_kg'] = round(prev['max_kg'] + GRAM, 3)
+    return out
 
 
 def rate_at(rates, kg):
@@ -104,16 +112,16 @@ def main():
                     problems.append(f'{p["handle"]} {v["sku"]} x{n}: page {shown:.2f}, checkout {charged:.2f}')
                 elif charged < shown - 0.005:
                     higher += 1
-    profiles = [{'name': None, 'default': True, 'rates': PROFILES['pakket'], 'skus': None},
-                {'name': 'Groot pakket', 'rates': PROFILES['groot'], 'skus': skus['groot']},
-                {'name': 'Pallet', 'rates': PROFILES['pallet'], 'skus': skus['pallet']}]
+    profiles = [{'name': None, 'default': True, 'rates': separate(PROFILES['pakket']), 'skus': None},
+                {'name': 'Groot pakket', 'rates': separate(PROFILES['groot']), 'skus': skus['groot']},
+                {'name': 'Pallet', 'rates': separate(PROFILES['pallet']), 'skus': skus['pallet']}]
     for (kg, _), g in sorted(per_stuk.items()):
         rates, lo = [], 0.0
         for n in range(1, PER_STUK_MAX_PIECES + 1):
             each = [r for r in g['tiers'] if r['vanaf'] <= n][-1]['bedrag']
             rates.append({'name': f'Betonblok op pallet ({n} st.)', 'min_kg': lo, 'max_kg': round(n * kg, 3), 'amount': round(each * n, 2)})
             lo = round(n * kg, 3)
-        profiles.append({'name': f'Betonblok {kg:g} kg', 'rates': rates, 'skus': g['skus']})
+        profiles.append({'name': f'Betonblok {kg:g} kg', 'rates': separate(rates), 'skus': g['skus']})
     out = {'_comment': 'Made by catalog/tools/shipping_profiles.py from catalog.json; applied by `node scripts/seed/seed.mjs shipping`.',
            'currency': 'EUR', 'countries': COUNTRIES, 'profiles': profiles}
     (ROOT / 'export' / 'shipping-profiles.json').write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
