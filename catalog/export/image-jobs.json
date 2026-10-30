@@ -1,26 +1,26 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 1044,
+  "jobs": 1017,
   "by_priority": {
-   "1": 226,
-   "2": 287,
-   "3": 531
+   "1": 217,
+   "2": 282,
+   "3": 518
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 612,
+   "existing": 592,
    "generated": 1,
    "needs-model": 40,
-   "needs-param": 388
+   "needs-param": 381
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 1032
+   "product": 1005
   },
-  "already_present": 1044
+  "already_present": 1017
  },
  "jobs": [
   {
@@ -247,70 +247,6 @@
    "draft": false
   },
   {
-   "file": "bankettafel-hout-rechthoekig-hero.webp",
-   "out": "catalog/images/bankettafel-hout-rechthoekig-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "klaptafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "klaptafel",
-    "params": {
-     "length": 1.83,
-     "width": 0.76,
-     "height": 0.74,
-     "top": "hout"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Bankettafel met houten blad 183 x 76 cm, opgezet, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "bankettafel-hout-rechthoekig",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "bankettafel-hout-rond-hero.webp",
-   "out": "catalog/images/bankettafel-hout-rond-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "klaptafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "klaptafel",
-    "params": {
-     "shape": "rond",
-     "diameter": 1.53,
-     "height": 0.74,
-     "top": "hout"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Ronde bankettafel met houten blad Ø153 cm, opgezet, schuin van boven",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "bankettafel-hout-rond",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "barkoelkast-glazen-deur-hero.webp",
    "out": "catalog/images/barkoelkast-glazen-deur-hero.webp",
    "kind": "product",
@@ -344,37 +280,6 @@
    "draft": false
   },
   {
-   "file": "barkruk-chroom-stapelbaar-zwart-hero.webp",
-   "out": "catalog/images/barkruk-chroom-stapelbaar-zwart-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "chroom",
-     "height": 0.76,
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk chroom met kunstleren zitting, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-chroom-stapelbaar",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "barkruk-draad-stapelbaar-zwart-hero.webp",
    "out": "catalog/images/barkruk-draad-stapelbaar-zwart-hero.webp",
    "kind": "product",
@@ -398,37 +303,6 @@
    "used_by": [
     {
      "handle": "barkruk-draad-stapelbaar",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-houten-zitting-hero.webp",
-   "out": "catalog/images/barkruk-houten-zitting-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "hout",
-     "color": "zwart",
-     "height": 0.76
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk met houten zitting in eikenlook, Zwart frame, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-houten-zitting",
      "role": "hero",
      "variant": true
     }
@@ -493,38 +367,6 @@
    "used_by": [
     {
      "handle": "barkruk-pe-rotan",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-velours-stapelbaar-grijs-hero.webp",
-   "out": "catalog/images/barkruk-velours-stapelbaar-grijs-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Grijs",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "velours",
-     "height": 0.76,
-     "back": true,
-     "color": "grijs"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk velours stapelbaar, Grijs, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-velours-stapelbaar",
      "role": "hero",
      "variant": true
     }
@@ -2229,36 +2071,6 @@
    "draft": false
   },
   {
-   "file": "klapstoel-wit-hero.webp",
-   "out": "catalog/images/klapstoel-wit-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Wit",
-   "model": "chair",
-   "model_status": "existing",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "klapstoel",
-     "color": "wit"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Klapstoel, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klapstoel",
-     "role": "hero",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "klaptafel-hdpe-rechthoekig-hero.webp",
    "out": "catalog/images/klaptafel-hdpe-rechthoekig-hero.webp",
    "kind": "product",
@@ -2282,37 +2094,6 @@
    "used_by": [
     {
      "handle": "klaptafel-hdpe-rechthoekig",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "klaptafel-hdpe-rond-hero.webp",
-   "out": "catalog/images/klaptafel-hdpe-rond-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "klaptafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "klaptafel",
-    "params": {
-     "shape": "rond",
-     "diameter": 1.8,
-     "height": 0.74
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Klaptafel HDPE rond Ø 180 cm, lichtgrijs blad, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klaptafel-hdpe-rond",
      "role": "hero",
      "variant": false
     }
@@ -2566,37 +2347,6 @@
      "handle": "koppelstukken-en-buizen-38-mm",
      "role": "hero",
      "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "kruk-laag-stapelbaar-zwart-hero.webp",
-   "out": "catalog/images/kruk-laag-stapelbaar-zwart-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": "Zwart",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "height": 0.45,
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Lage kruk stapelbaar, Zwart, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "kruk-laag-stapelbaar",
-     "role": "hero",
-     "variant": true
     }
    ],
    "exists": true,
@@ -6490,36 +6240,6 @@
    "used_by": [
     {
      "handle": "transportkar-marktkramen",
-     "role": "hero",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "transportkar-ronde-klaptafels-hero.webp",
-   "out": "catalog/images/transportkar-ronde-klaptafels-hero.webp",
-   "kind": "product",
-   "priority": 1,
-   "role": "hero",
-   "kleur": null,
-   "model": "trolley",
-   "model_status": "existing",
-   "spec": {
-    "model": "trolley",
-    "params": {
-     "kind": "rond",
-     "loaded": 0
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Transportkar voor ronde klaptafels, leeg, met dragers en duwbeugel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "transportkar-ronde-klaptafels",
      "role": "hero",
      "variant": false
     }
@@ -11001,36 +10721,6 @@
    "draft": false
   },
   {
-   "file": "klapstoel-wedding-zwart-hero.webp",
-   "out": "catalog/images/klapstoel-wedding-zwart-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "chair",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "chair",
-    "params": {
-     "style": "wedding",
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Zwarte weddingstoel klapbaar met zwart kussen, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "klapstoel-wedding",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "klaptafel-hout-kwartrond-set-van-4.webp",
    "out": "catalog/images/klaptafel-hout-kwartrond-set-van-4.webp",
    "kind": "product",
@@ -11117,7 +10807,7 @@
     {
      "handle": "klaptafel-hout-vormen",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -11147,7 +10837,7 @@
     {
      "handle": "klaptafel-hout-vormen",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -13720,39 +13410,6 @@
    "draft": false
   },
   {
-   "file": "statafel-design-marmerlook-zwart-marmer-hero.webp",
-   "out": "catalog/images/statafel-design-marmerlook-zwart-marmer-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Zwart marmer",
-   "model": "statafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "statafel",
-    "params": {
-     "diameter": 0.7,
-     "height": 1.1,
-     "top": "marmer-zwart",
-     "frame": "goud",
-     "base": "design-klap"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Design statafel met zwart marmerlook blad op een geborsteld gouden onderstel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafel-design-marmerlook",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafel-design-zuilvoet-betonlook-hero.webp",
    "out": "catalog/images/statafel-design-zuilvoet-betonlook-hero.webp",
    "kind": "product",
@@ -14391,37 +14048,6 @@
    "draft": false
   },
   {
-   "file": "statafelhoes-met-strik-bordeaux-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-bordeaux-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Bordeaux",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "bordeaux",
-     "diameter": 0.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Bordeaux, op een statafel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafelhoes-met-strik-champagne-hero.webp",
    "out": "catalog/images/statafelhoes-met-strik-champagne-hero.webp",
    "kind": "product",
@@ -14484,25 +14110,25 @@
    "draft": false
   },
   {
-   "file": "statafelhoes-met-strik-marineblauw-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-marineblauw-hero.webp",
+   "file": "statafelhoes-met-strik-rood-hero.webp",
+   "out": "catalog/images/statafelhoes-met-strik-rood-hero.webp",
    "kind": "product",
    "priority": 2,
    "role": "variant",
-   "kleur": "Marineblauw",
+   "kleur": "Rood",
    "model": "statafelCover",
    "model_status": "existing",
    "spec": {
     "model": "statafelCover",
     "params": {
      "type": "strik",
-     "color": "marineblauw",
+     "color": "rood",
      "diameter": 0.8
     },
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelhoes met strik, Marineblauw, op een statafel, schuin vooraanzicht",
+   "alt": "Statafelhoes met strik, Rood, op een statafel, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -14546,37 +14172,6 @@
    "draft": false
   },
   {
-   "file": "statafelhoes-met-strik-zwart-hero.webp",
-   "out": "catalog/images/statafelhoes-met-strik-zwart-hero.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "statafelCover",
-   "model_status": "existing",
-   "spec": {
-    "model": "statafelCover",
-    "params": {
-     "type": "strik",
-     "color": "zwart",
-     "diameter": 0.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Statafelhoes met strik, Zwart, op een statafel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "statafelhoes-met-strik",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafelrok-stretch-antraciet-hero.webp",
    "out": "catalog/images/statafelrok-stretch-antraciet-hero.webp",
    "kind": "product",
@@ -14596,14 +14191,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Antraciet, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Antraciet, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -14663,14 +14253,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Beige, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Beige, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -14792,14 +14377,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Bordeaux, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Bordeaux, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -14859,14 +14439,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Bruin, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Bruin, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -14926,14 +14501,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Camel, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Camel, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -14993,14 +14563,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Crème, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Crème, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15313,14 +14878,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Groen, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Groen, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15790,14 +15350,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Roze, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Roze, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -15924,14 +15479,9 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Statafelrok stretch, Turquoise, met topcover, op een statafel, schuin vooraanzicht",
+   "alt": "Statafel met stretchrok en topcover, Turquoise, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
-    {
-     "handle": "statafelrok-stretch",
-     "role": "variant",
-     "variant": true
-    },
     {
      "handle": "pakket-statafel-met-stretchrok",
      "role": "variant",
@@ -16645,37 +16195,6 @@
      "handle": "terrastafel-wiebelvrij",
      "role": "variant",
      "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "transportkar-ronde-klaptafels-gevuld.webp",
-   "out": "catalog/images/transportkar-ronde-klaptafels-gevuld.webp",
-   "kind": "product",
-   "priority": 2,
-   "role": "in-gebruik",
-   "kleur": null,
-   "model": "trolley",
-   "model_status": "existing",
-   "spec": {
-    "model": "trolley",
-    "params": {
-     "kind": "rond",
-     "loaded": 10,
-     "diameter": 1.8
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Transportkar met 10 ingeklapte ronde klaptafels van Ø 180 cm op hun rand (tafels niet inbegrepen)",
-   "alt_hint": "gevuld met 10 ronde klaptafels van Ø 180 cm (tafels niet inbegrepen)",
-   "used_by": [
-    {
-     "handle": "transportkar-ronde-klaptafels",
-     "role": "in-gebruik",
-     "variant": false
     }
    ],
    "exists": true,
@@ -18274,38 +17793,6 @@
    "draft": false
   },
   {
-   "file": "bankettafel-hout-rechthoekig-ingeklapt.webp",
-   "out": "catalog/images/bankettafel-hout-rechthoekig-ingeklapt.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "detail",
-   "kleur": null,
-   "model": "klaptafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "klaptafel",
-    "params": {
-     "length": 1.83,
-     "width": 0.76,
-     "folded": true,
-     "top": "hout"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Bankettafel met houten blad op zijn kant, met de pootframes ingeklapt onder het blad",
-   "alt_hint": "poten ingeklapt",
-   "used_by": [
-    {
-     "handle": "bankettafel-hout-rechthoekig",
-     "role": "detail",
-     "variant": false
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "banquetstoel-gestoffeerd-antraciet-hero.webp",
    "out": "catalog/images/banquetstoel-gestoffeerd-antraciet-hero.webp",
    "kind": "product",
@@ -18415,37 +17902,6 @@
     "size": 2000
    },
    "alt": "Barkruk chroom met kunstleren zitting, Antraciet, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-chroom-stapelbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-chroom-stapelbaar-wit-hero.webp",
-   "out": "catalog/images/barkruk-chroom-stapelbaar-wit-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "chroom",
-     "height": 0.76,
-     "color": "wit"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk chroom met kunstleren zitting, Wit, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -18711,37 +18167,6 @@
    "draft": false
   },
   {
-   "file": "barkruk-stapelbaar-metaal-blauw-hero.webp",
-   "out": "catalog/images/barkruk-stapelbaar-metaal-blauw-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Blauw",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "color": "blauw",
-     "height": 0.76
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stapelbare metalen barkruk in blauw, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-stapelbaar-metaal",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "barkruk-stapelbaar-metaal-groen-hero.webp",
    "out": "catalog/images/barkruk-stapelbaar-metaal-groen-hero.webp",
    "kind": "product",
@@ -18761,37 +18186,6 @@
     "size": 2000
    },
    "alt": "Stapelbare metalen barkruk in groen, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-stapelbaar-metaal",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-stapelbaar-metaal-rood-hero.webp",
-   "out": "catalog/images/barkruk-stapelbaar-metaal-rood-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Rood",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "color": "rood",
-     "height": 0.76
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Stapelbare metalen barkruk in rood, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -18835,37 +18229,6 @@
    "draft": false
   },
   {
-   "file": "barkruk-stapelbaar-metaal-wit-hero.webp",
-   "out": "catalog/images/barkruk-stapelbaar-metaal-wit-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "color": "wit",
-     "height": 0.76
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk stapelbaar metaal, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-stapelbaar-metaal",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "barkruk-velours-stapelbaar-camel-hero.webp",
    "out": "catalog/images/barkruk-velours-stapelbaar-camel-hero.webp",
    "kind": "product",
@@ -18886,38 +18249,6 @@
     "size": 2000
    },
    "alt": "Barkruk velours stapelbaar, Camel, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "barkruk-velours-stapelbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "barkruk-velours-stapelbaar-groen-hero.webp",
-   "out": "catalog/images/barkruk-velours-stapelbaar-groen-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Groen",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "velours",
-     "height": 0.76,
-     "back": true,
-     "color": "groen"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Barkruk velours stapelbaar, Groen, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -23008,37 +22339,6 @@
    "draft": false
   },
   {
-   "file": "kruk-laag-stapelbaar-wit-hero.webp",
-   "out": "catalog/images/kruk-laag-stapelbaar-wit-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit",
-   "model": "barStool",
-   "model_status": "existing",
-   "spec": {
-    "model": "barStool",
-    "params": {
-     "style": "metaal",
-     "height": 0.45,
-     "color": "wit"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Lage kruk stapelbaar, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "kruk-laag-stapelbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "led-lamp-e27-gekleurd-blauw-hero.webp",
    "out": "catalog/images/led-lamp-e27-gekleurd-blauw-hero.webp",
    "kind": "product",
@@ -25051,7 +24351,7 @@
     {
      "handle": "onderdelen-stoelen-en-barkrukken",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -25081,7 +24381,7 @@
     {
      "handle": "onderdelen-stoelen-en-barkrukken",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -25112,7 +24412,7 @@
     {
      "handle": "onderdelen-stoelen-en-barkrukken",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -25143,7 +24443,7 @@
     {
      "handle": "onderdelen-stoelen-en-barkrukken",
      "role": "variant",
-     "variant": true
+     "variant": false
     }
    ],
    "exists": true,
@@ -28657,39 +27957,6 @@
    "draft": false
   },
   {
-   "file": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
-   "out": "catalog/images/statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Zwart marmer",
-   "model": "statafel",
-   "model_status": "needs-param",
-   "spec": {
-    "model": "statafel",
-    "params": {
-     "diameter": 0.7,
-     "height": 1.1,
-     "top": "marmer-zwart",
-     "frame": "zwart",
-     "base": "design-klap"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Design statafel met zwart marmerlook blad op een zwart onderstel",
-   "alt_hint": "zwart marmerlook op een zwart onderstel",
-   "used_by": [
-    {
-     "handle": "statafel-design-marmerlook",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "statafel-design-zuilvoet-vierkant-betonlook.webp",
    "out": "catalog/images/statafel-design-zuilvoet-vierkant-betonlook.webp",
    "kind": "product",
@@ -31863,39 +31130,6 @@
    "draft": false
   },
   {
-   "file": "terrastafel-inklapbaar-betonlook-hero.webp",
-   "out": "catalog/images/terrastafel-inklapbaar-betonlook-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Betonlook",
-   "model": "patioTable",
-   "model_status": "existing",
-   "spec": {
-    "model": "patioTable",
-    "params": {
-     "w": 0.7,
-     "d": 0.7,
-     "top": "beton",
-     "frame": "zwart",
-     "base": "kruis"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Terrastafel inklapbaar 70 × 70 cm, Betonlook (compact HPL), schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "terrastafel-inklapbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
    "file": "terrastafel-inklapbaar-eiken-hero.webp",
    "out": "catalog/images/terrastafel-inklapbaar-eiken-hero.webp",
    "kind": "product",
@@ -31950,39 +31184,6 @@
     "size": 2000
    },
    "alt": "Terrastafel inklapbaar 70 × 70 cm, Graniet, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "terrastafel-inklapbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "terrastafel-inklapbaar-grijs-eiken-hero.webp",
-   "out": "catalog/images/terrastafel-inklapbaar-grijs-eiken-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Grijs eiken",
-   "model": "patioTable",
-   "model_status": "existing",
-   "spec": {
-    "model": "patioTable",
-    "params": {
-     "w": 0.7,
-     "d": 0.7,
-     "top": "eiken-grijs",
-     "frame": "zwart",
-     "base": "kruis"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Terrastafel inklapbaar 70 × 70 cm, Grijs eiken (compact HPL), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -32115,72 +31316,6 @@
     "size": 2000
    },
    "alt": "Terrastafel inklapbaar 70 × 70 cm, Wit, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "terrastafel-inklapbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "terrastafel-inklapbaar-wit-marmer-hero.webp",
-   "out": "catalog/images/terrastafel-inklapbaar-wit-marmer-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Wit marmer",
-   "model": "patioTable",
-   "model_status": "existing",
-   "spec": {
-    "model": "patioTable",
-    "params": {
-     "w": 0.7,
-     "d": 0.7,
-     "top": "marmer-wit",
-     "frame": "zwart",
-     "base": "kruis"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Terrastafel inklapbaar 70 × 70 cm, Wit marmer (compact HPL), schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "terrastafel-inklapbaar",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "terrastafel-inklapbaar-zwart-marmer-hero.webp",
-   "out": "catalog/images/terrastafel-inklapbaar-zwart-marmer-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Zwart marmer",
-   "model": "patioTable",
-   "model_status": "existing",
-   "spec": {
-    "model": "patioTable",
-    "params": {
-     "w": 0.7,
-     "d": 0.7,
-     "top": "marmer-zwart",
-     "frame": "zwart",
-     "base": "kruis"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Terrastafel inklapbaar 70 × 70 cm, Zwart marmer (compact HPL), schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -35729,35 +34864,6 @@
     "size": 2000
    },
    "alt": "Zitkussen voor stoel en barkruk, zandkleur, met bies en strikbandjes, schuin vooraanzicht",
-   "alt_hint": null,
-   "used_by": [
-    {
-     "handle": "zitkussen-stoel-en-barkruk",
-     "role": "variant",
-     "variant": true
-    }
-   ],
-   "exists": true,
-   "draft": false
-  },
-  {
-   "file": "zitkussen-stoel-en-barkruk-zwart-hero.webp",
-   "out": "catalog/images/zitkussen-stoel-en-barkruk-zwart-hero.webp",
-   "kind": "product",
-   "priority": 3,
-   "role": "variant",
-   "kleur": "Zwart",
-   "model": "seatCushion",
-   "model_status": "existing",
-   "spec": {
-    "model": "seatCushion",
-    "params": {
-     "color": "zwart"
-    },
-    "angle": "hero",
-    "size": 2000
-   },
-   "alt": "Zitkussen voor stoel en barkruk, zwart, met bies en strikbandjes, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
