@@ -20,7 +20,7 @@
    "collection": 2,
    "product": 1060
   },
-  "already_present": 1069
+  "already_present": 1072
  },
  "jobs": [
   {
@@ -11355,7 +11355,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13311,7 +13311,7 @@
     "angle": "hero",
     "size": 2000
    },
-   "alt": "Zakje met 25 kabelclips voor een prikkabel",
+   "alt": "25 zwarte kabelclips met stalen spijker, voor een prikkabel",
    "alt_hint": null,
    "used_by": [
     {
@@ -13320,7 +13320,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {
@@ -13540,7 +13540,7 @@
      "variant": true
     }
    ],
-   "exists": false,
+   "exists": true,
    "draft": false
   },
   {

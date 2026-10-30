@@ -22750,7 +22750,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "haringen-en-bevestigingsmateriaal-partytent-haringtrekker-met-hefboom.webp",
      "metafields": []
     }
    ],
@@ -22799,6 +22799,12 @@
     {
      "src": "haringen-en-bevestigingsmateriaal-partytent-stertent-haring-60-cm-met-oog.webp",
      "alt": "Stertent-haring van 60 cm met oog, verzinkt",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "haringen-en-bevestigingsmateriaal-partytent-haringtrekker-met-hefboom.webp",
+     "alt": "Haringtrekker met hefboom om een lange haring",
      "width": 2000,
      "height": 2000
     }
@@ -138234,7 +138240,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-kabelclips.webp",
      "metafields": []
     },
     {
@@ -138253,7 +138259,7 @@
      "weight_unit": "kg",
      "requires_shipping": true,
      "taxable": true,
-     "image": null,
+     "image": "onderdelen-prikkabel-en-lichtslang-stekkerdoos-3-voudig-ip44.webp",
      "metafields": []
     },
     {
@@ -138408,6 +138414,18 @@
     {
      "src": "onderdelen-prikkabel-en-lichtslang-koppelstekker-voor-doorkoppelen.webp",
      "alt": "Koppelstekker en contrastekker voor het doorkoppelen van een prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-kabelclips.webp",
+     "alt": "25 zwarte kabelclips met stalen spijker, voor een prikkabel",
+     "width": 2000,
+     "height": 2000
+    },
+    {
+     "src": "onderdelen-prikkabel-en-lichtslang-stekkerdoos-3-voudig-ip44.webp",
+     "alt": "Zwarte stekkerdoos 3-voudig IP44 met klep",
      "width": 2000,
      "height": 2000
     },

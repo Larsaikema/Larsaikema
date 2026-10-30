@@ -558,7 +558,11 @@ export class Seeder {
       if (this.opts.handles && !this.opts.handles.has(handle)) continue;
       if (!want.images.length && !want.variants.size) continue;
       const pid = P.get(handle);
-      if (!pid) { this.err(S, `product ${handle} not in the store`); continue; }
+      if (!pid) {
+        if (this.in.giftCards.has(handle)) this.warn(S, `${handle}: gift card not in the store yet (step giftcard)`);
+        else this.err(S, `product ${handle} not in the store`);
+        continue;
+      }
       let prod = (await this.api.gql(Q.productMedia, { id: pid })).product;
       const haveStems = () => prod.media.nodes.filter((m) => m.image?.url).map((m) => [stem(m.image.url), m]);
       const missing = want.images.sort((a, b) => a.position - b.position)
@@ -586,14 +590,16 @@ export class Seeder {
         if (cur.length) detach.push({ variantId: v.id, mediaIds: cur });
         append.push({ variantId: v.id, mediaIds: [target[1].id] });
       }
-      if (detach.length) {
-        const r = (await this.api.gql(Q.variantDetachMedia, { productId: pid, variantMedia: detach })).productVariantDetachMedia;
+      // Shopify takes at most 100 variant-media pairs per mutation
+      for (let i = 0; i < detach.length; i += 100) {
+        const r = (await this.api.gql(Q.variantDetachMedia, { productId: pid, variantMedia: detach.slice(i, i + 100) })).productVariantDetachMedia;
         if (r.userErrors.length) this.err(S, `${handle} detach: ${firstError(r)}`);
       }
-      if (append.length) {
-        const r = (await this.api.gql(Q.variantAppendMedia, { productId: pid, variantMedia: append })).productVariantAppendMedia;
+      for (let i = 0; i < append.length; i += 100) {
+        const part = append.slice(i, i + 100);
+        const r = (await this.api.gql(Q.variantAppendMedia, { productId: pid, variantMedia: part })).productVariantAppendMedia;
         if (r.userErrors.length) this.err(S, `${handle} variant photos: ${firstError(r)}`);
-        else this.count(S, 'variant_photos_set', append.length);
+        else this.count(S, 'variant_photos_set', part.length);
       }
     }
   }

@@ -10,6 +10,13 @@
 //                  and the clear moulded connector (two copper pins inside) on the other
 //   draaiharing    screw peg: Ø 8 mm galvanised steel rod, a closed eye on top, a straight shank and a helix of
 //                  ~5 turns ending in a point; `count` pegs (default 4) lying side by side, a little fanned
+//   haringtrekker  lever peg puller in use: a long Ø 16 mm galvanised peg standing in the floor with a bent hook head,
+//                  the red powder-coated lever (25 mm square tube, black grip) slanting up from a notched claw under
+//                  the hook, propped on a fulcrum leg with a foot plate
+//   clips          25 black nail-in clips for flat cable (saddle 12 x 7 mm, steel nail through a side lug), knolled
+//                  in five rows of five, lying on their side
+//   stekkerdoos    black 3-way power strip, IP44: three sockets with closed hinged grey lids on top, the lead leaves
+//                  one end through a strain relief and lies in a loose loop to a rubber plug
 import * as THREE from 'three';
 import * as G from '../js/geom.js';
 import * as K from '../js/partsKit.js';
@@ -38,6 +45,25 @@ function coil(turns, r0, r1, h, { tail = 0.1, seed = 3, n = 260, hub = false } =
   // hub: the inner end turns into the middle of the coil (where a plug can lie without touching the turns)
   if (hub) ctrl.unshift(V3(ctrl[0].x * 0.25, h, ctrl[0].z * 0.25 - 0.02));
   return K.smoothPath(ctrl, n);
+}
+
+// matrix for a plug/coupler lying on the floor at the end q0 of a lead (q1 a point further along it): local -Y (body)
+// points outward, local +Y back along the lead, local Z up
+function placeEnd(q0, q1, lift) {
+  const d = q0.clone().sub(q1).setY(0).normalize();
+  const yAxis = d.clone().negate();
+  const zAxis = V3(0, 1, 0);
+  const xAxis = new THREE.Vector3().crossVectors(yAxis, zAxis).normalize();
+  return new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis).setPosition(q0.x, lift, q0.z);
+}
+
+// extruded plate in the XZ plane from a 2D outline (x, z), thickness t upwards from y0
+function plateXZ(outline, t, y0, holes = []) {
+  const sh = new THREE.Shape(outline.map(([x, z]) => new THREE.Vector2(x, -z)));
+  for (const h of holes) sh.holes.push(new THREE.Path(h.map(([x, z]) => new THREE.Vector2(x, -z))));
+  const geo = new THREE.ExtrudeGeometry(sh, { depth: t, bevelEnabled: true, bevelThickness: 0.0006, bevelSize: 0.0006, bevelSegments: 1, curveSegments: 16 });
+  geo.rotateX(-Math.PI / 2); geo.translate(0, y0, 0);
+  return geo;
 }
 
 // rubber coupler (contactdoos) with a hinged lid; local: lead enters at the origin from +Y, body to -Y
@@ -82,14 +108,6 @@ export function miscParts(p = {}) {
       : coil(2.2, 0.055, 0.075, r, { seed: 7, tail: 0.08, hub: true, n: 180 });
     add(rub, K.tubeAlong(pts, r, 14, { up: V3(0, 1, 0) }));
     // plug on the first end, lying on the floor pointing away from the cable
-    const placeEnd = (q0, q1, lift) => {
-      const d = q0.clone().sub(q1).setY(0).normalize();          // outward
-      // local -Y (body) -> outward, local +Y -> back along the cable, local Z -> up
-      const yAxis = d.clone().negate();
-      const zAxis = V3(0, 1, 0);
-      const xAxis = new THREE.Vector3().crossVectors(yAxis, zAxis).normalize();
-      return new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis).setPosition(q0.x, lift, q0.z);
-    };
     const T0 = placeEnd(pts[0], pts[4], 0.0189);
     L.rubberPlug((m, geo) => add(m, geo, T0), rub, pin);
     const n = pts.length - 1;
@@ -134,6 +152,96 @@ export function miscParts(p = {}) {
       add(galv, one, M4);
     }
     detail = { target: [0, 0.03, 0], size: 0.2, azimuth: 25, elevation: 35 };
+  } else if (part === 'haringtrekker') {
+    const galv = SG.galvSG ? SG.galvSG({ cell: 0.006, dull: 0.4 }) : SG.zincSG();
+    const paint = L.diecast('#A3241B', { rough: 0.5, coat: 0.35 });
+    const grip = L.cableRubber('#151515', 0.75);
+    // the peg: Ø 16 mm, 26 cm above the floor, the top bent over into a hook away from the lever (-X)
+    const rp = 0.008, top = 0.26, Rh = 0.026;
+    const pp = [V3(0, -0.02, 0), V3(0, top * 0.5, 0), V3(0, top, 0)];
+    for (let k = 1; k <= 14; k++) { const a = (k / 14) * Math.PI * 1.05; pp.push(V3(-Rh + Math.cos(a) * Rh, top + Math.sin(a) * Rh, 0)); }
+    add(galv, K.tubeAlong(K.smoothPath(pp, 120), rp, 16, { up: V3(0, 0, 1) }));
+    const end = pp[pp.length - 1];
+    add(galv, G.lathe([[0.0001, 0], [rp, 0], [rp * 0.96, 0.002], [0.0001, 0.0025]], 16).translate(end.x, end.y - 0.0025, end.z));
+    // claw: 6 mm plate under the hook with a U-notch round the peg
+    const cy = 0.2, ct = 0.006, w = 0.022, nr = rp + 0.0018;
+    const outline = [[0.07, -w], [0.07, w], [-0.028, w], [-0.028, nr]];
+    for (let k = 0; k <= 12; k++) { const a = Math.PI / 2 - (k / 12) * Math.PI; outline.push([Math.cos(a) * nr, Math.sin(a) * nr]); }
+    outline.push([-0.028, -nr], [-0.028, -w]);
+    add(paint, plateXZ(outline.map(([x, z]) => [x, z]), ct, cy));
+    // lever: 25 mm square tube from the claw up to the grip
+    const a = V3(0.05, cy + ct + 0.0125, 0), b = V3(0.64, 0.5, 0);
+    add(paint, G.prism(G.roundedRectProfile(0.025, 0.025, 0.003, 2), a, b, { side: V3(0, 0, 1) }));
+    const dir = b.clone().sub(a).normalize();
+    const g0 = b.clone().addScaledVector(dir, -0.13);
+    add(grip, G.prism(G.roundedRectProfile(0.034, 0.034, 0.012, 4), g0, b.clone().addScaledVector(dir, 0.006), { side: V3(0, 0, 1) }));
+    for (let k = 1; k < 9; k++) {                                    // grip ribs
+      const c = g0.clone().addScaledVector(dir, k * 0.0145);
+      add(grip, G.prism(G.roundedRectProfile(0.0365, 0.0365, 0.013, 4), c.clone().addScaledVector(dir, -0.002), c.clone().addScaledVector(dir, 0.002), { side: V3(0, 0, 1) }));
+    }
+    // fulcrum leg with a foot plate, a little behind the claw
+    const s = 0.11, top0 = a.clone().addScaledVector(dir, s / Math.cos(Math.atan2(dir.y, dir.x)) - 0.005);
+    const foot = V3(top0.x + 0.03, 0.005, 0);
+    add(paint, G.prism(G.roundedRectProfile(0.02, 0.02, 0.003, 2), top0.clone().setY(top0.y - 0.008), foot, { side: V3(0, 0, 1) }));
+    const fp = G.roundedBox(0.075, 0.006, 0.05, 0.0025, 2); fp.translate(foot.x + 0.01, 0.003, 0); add(paint, fp);
+    detail = { target: [0, 0.21, 0], size: 0.13, azimuth: 30, elevation: 22 };
+  } else if (part === 'clips') {
+    const clipMat = L.moulded('#1B1B1C', 0.48);
+    const nail = SG.zincSG({ rough: 0.3 });
+    // one clip, nail along local Y (head up): U-saddle over a 12 x 7 mm flat cable plus a lug with the nail
+    const oneClip = () => {
+      const o = [[-0.0085, 0], [-0.0085, 0.0095], [0.0085, 0.0095], [0.0085, 0], [0.0062, 0], [0.0062, 0.0071], [-0.0062, 0.0071], [-0.0062, 0]];
+      const sh = new THREE.Shape(o.map(([x, y]) => new THREE.Vector2(x, y)));
+      const saddle = new THREE.ExtrudeGeometry(sh, { depth: 0.007, bevelEnabled: true, bevelThickness: 0.0005, bevelSize: 0.0005, bevelSegments: 1 });
+      saddle.translate(0, 0, -0.0035);
+      const lug = G.roundedBox(0.006, 0.0095, 0.007, 0.0012, 2); lug.translate(0.0112, 0.00475, 0);
+      const plastic = K.mergeRaw([saddle.toNonIndexed(), lug.toNonIndexed()]);
+      const steel = K.mergeRaw([
+        G.lathe([[0.0001, 0.0095], [0.0019, 0.0095], [0.0019, 0.0103], [0.0001, 0.0106]], 14).translate(0.0112, 0, 0).toNonIndexed(),
+        G.lathe([[0.0001, -0.012], [0.0008, -0.0104], [0.0008, 0.0096], [0.0001, 0.0096]], 10).translate(0.0112, 0, 0).toNonIndexed(),
+      ]);
+      return { plastic, steel };
+    };
+    const R = rng(29);
+    const putClip = (x, z, yaw, side, lift) => {
+      const { plastic, steel } = oneClip();
+      const m = new THREE.Matrix4();
+      // lying on a side: nail horizontal (rotate about X), or upside down on the saddle top (nail up in the air)
+      const lie = side ? new THREE.Matrix4().makeRotationX(side * Math.PI / 2) : new THREE.Matrix4().makeRotationZ(Math.PI);
+      m.multiply(new THREE.Matrix4().makeTranslation(x, 0, z)).multiply(new THREE.Matrix4().makeRotationY(yaw)).multiply(lie);
+      for (const g2 of [plastic, steel]) g2.applyMatrix4(m);
+      const lo = Math.min(K.minY(plastic), K.minY(steel));
+      for (const g2 of [plastic, steel]) g2.translate(0, lift - lo, 0);
+      add(clipMat, plastic); add(nail, steel);
+    };
+    // the 25 clips knolled in five rows of five, lying on their side with the nails along the rows; the middle row turned
+    // over so both faces show
+    for (let row = 0; row < 5; row++) for (let col = 0; col < 5; col++) {
+      putClip((col - 2) * 0.03, (row - 2) * 0.031, 0.02 * (R() - 0.5), row === 2 ? -1 : 1, 0);
+    }
+    detail = { target: [0, 0.006, 0], size: 0.06, azimuth: 20, elevation: 40 };
+  } else if (part === 'stekkerdoos') {
+    const body = L.moulded('#19191A', 0.46);
+    const lidMat = L.moulded('#4A4D51', 0.42);
+    const BLn = 0.25, BH = 0.04, BD = 0.072;
+    const box = G.roundedBox(BLn, BH, BD, 0.012, 4); box.translate(0, BH / 2, 0); add(body, box);
+    for (const x of [-0.075, 0, 0.075]) {
+      add(body, G.lathe([[0.0001, BH - 0.002], [0.0255, BH - 0.002], [0.0255, BH + 0.004], [0.024, BH + 0.0052], [0.0001, BH + 0.0052]], 48).translate(x, 0, 0));
+      add(lidMat, G.lathe([[0.0001, BH + 0.0052], [0.0262, BH + 0.0052], [0.0268, BH + 0.0072], [0.0245, BH + 0.0098], [0.012, BH + 0.0108], [0.0001, BH + 0.011]], 48).translate(x, 0, 0));
+      const hinge = G.roundedBox(0.03, 0.009, 0.008, 0.003, 2); hinge.translate(x, BH + 0.0045, -0.028); add(lidMat, hinge);
+      const tab = G.roundedBox(0.014, 0.004, 0.007, 0.0015, 2); tab.translate(x, BH + 0.0085, 0.0285); add(lidMat, tab);
+    }
+    // strain relief at -X, the lead lies in a loose loop in front to the plug
+    const relief = G.lathe([[0.0001, 0], [0.011, 0], [0.0095, 0.012], [0.0068, 0.026], [0.0052, 0.034], [0.0001, 0.034]], 24);
+    relief.rotateZ(Math.PI / 2); relief.translate(-BLn / 2 + 0.002, 0.019, 0); add(body, relief);
+    const r = 0.0042;
+    const ctrl = [V3(-BLn / 2 - 0.03, 0.019, 0), V3(-BLn / 2 - 0.06, 0.012, 0.004), V3(-BLn / 2 - 0.1, r, 0.03), V3(-BLn / 2 - 0.11, r, 0.1),
+      V3(-0.12, r, 0.15), V3(-0.02, r, 0.155), V3(0.06, r, 0.14), V3(0.11, r, 0.125)];
+    const pts = K.smoothPath(ctrl, 160);
+    add(body, K.tubeAlong(pts, r, 14, { up: V3(0, 1, 0) }));
+    const n = pts.length - 1;
+    L.rubberPlug((m, geo) => add(m, geo, placeEnd(pts[n], pts[n - 4], 0.0189)), body, pin);
+    detail = { target: [0, BH, 0], size: 0.12, azimuth: 25, elevation: 38 };
   } else {
     throw new Error(`miscParts: unknown part ${part}`);
   }

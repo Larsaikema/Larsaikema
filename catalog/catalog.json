@@ -30786,7 +30786,7 @@
      "taxable": true,
      "image": "haringen-en-bevestigingsmateriaal-partytent-haringtrekker-met-hefboom.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "haringen-en-bevestigingsmateriaal-partytent-haringtrekker-met-hefboom.webp"
     }
    ],
    "images": [
@@ -30938,7 +30938,7 @@
      "model_status": "needs-param",
      "alt": "Haringtrekker met hefboom om een lange haring",
      "draft": false,
-     "exported": false
+     "exported": true
     }
    ],
    "variant_image_by": "Uitvoering",
@@ -223584,7 +223584,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-kabelclips.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-kabelclips.webp"
     },
     {
      "sku": "KK-LCHT-OND-SD3",
@@ -223601,7 +223601,7 @@
      "taxable": true,
      "image": "onderdelen-prikkabel-en-lichtslang-stekkerdoos-3-voudig-ip44.webp",
      "metafields": {},
-     "export_image": null
+     "export_image": "onderdelen-prikkabel-en-lichtslang-stekkerdoos-3-voudig-ip44.webp"
     },
     {
      "sku": "KK-LCHT-OND-VK5",
@@ -223922,9 +223922,9 @@
       "angle": "hero"
      },
      "model_status": "needs-param",
-     "alt": "Zakje met 25 kabelclips voor een prikkabel",
+     "alt": "25 zwarte kabelclips met stalen spijker, voor een prikkabel",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-stekkerdoos-3-voudig-ip44.webp",
@@ -223943,7 +223943,7 @@
      "model_status": "needs-param",
      "alt": "Zwarte stekkerdoos 3-voudig IP44 met klep",
      "draft": false,
-     "exported": false
+     "exported": true
     },
     {
      "file": "onderdelen-prikkabel-en-lichtslang-verlengkabel-5-m-zwart.webp",
@@ -394186,20 +394186,18 @@
    }
   ],
   "images": {
-   "real": 1261,
+   "real": 1264,
    "draft": 0,
-   "missing": 3,
+   "missing": 0,
    "products_without_image": [],
-   "variants_own": 5970,
+   "variants_own": 5973,
    "variants_same_kleur": 50,
    "variants_component": 4,
    "variants_hero": 339,
-   "variants_no_image": 28,
+   "variants_no_image": 25,
    "variants_no_image_by_product": {
-    "haringen-en-bevestigingsmateriaal-partytent": 1,
     "zijwand-partytent-buizenframe-lang": 13,
-    "biertafelset": 12,
-    "onderdelen-prikkabel-en-lichtslang": 2
+    "biertafelset": 12
    }
   }
  }
