@@ -29873,163 +29873,6 @@
      ]
     },
     {
-     "sku": "KK-STF-PRO-D70-GRT",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-TC-ZWA",
-        "KK-HOES-STR-D60-70-ZWA",
-        "KK-BPL-D68",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-TC-ZWA",
-        "KK-HOES-STR-D60-70-ZWA",
-        "KK-BPL-D68",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-OC",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-TC-ZWA",
-        "KK-HOES-STR-D60-70-ZWA",
-        "KK-BPL-D68",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-TC-ZWA",
-        "KK-HOES-STR-D60-70-ZWA",
-        "KK-BPL-D68",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-TC-ZWA",
-        "KK-HOES-STR-D60-70-ZWA",
-        "KK-BPL-D68",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D60-70-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
      "sku": "KK-STF-PRO-D70-ZWA",
      "metafields": [
       {
@@ -30332,6 +30175,163 @@
        "value_skus": [
         "KK-ROK-ST-D60-70-ZT-ANT",
         "KK-MEU-BKM-ANT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-TC-ZWA",
+        "KK-HOES-STR-D60-70-ZWA",
+        "KK-BPL-D68",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-TC-ZWA",
+        "KK-HOES-STR-D60-70-ZWA",
+        "KK-BPL-D68",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-OC",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-TC-ZWA",
+        "KK-HOES-STR-D60-70-ZWA",
+        "KK-BPL-D68",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-TC-ZWA",
+        "KK-HOES-STR-D60-70-ZWA",
+        "KK-BPL-D68",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-TC-ZWA",
+        "KK-HOES-STR-D60-70-ZWA",
+        "KK-BPL-D68",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D60-70-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
         "KK-MEU-TKS-K"
        ]
       },
@@ -31018,163 +31018,6 @@
      ]
     },
     {
-     "sku": "KK-STF-PRO-D80-GRT",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D78",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D78",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-OC",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D78",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D78",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D78",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
      "sku": "KK-STF-PRO-D80-ZWA",
      "metafields": [
       {
@@ -31477,6 +31320,163 @@
        "value_skus": [
         "KK-ROK-ST-D80-85-ZT-ANT",
         "KK-MEU-BKM-ANT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D78",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D78",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-OC",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D78",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D78",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D78",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
         "KK-MEU-TKS-K"
        ]
       },
@@ -32163,163 +32163,6 @@
      ]
     },
     {
-     "sku": "KK-STF-PRO-D85-GRT",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D83",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D83",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-OC",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D83",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D83",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL-OW",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-TC-ZWA",
-        "KK-HOES-STR-D80-85-ZWA",
-        "KK-BPL-D83",
-        "KK-MEU-BKM-WIT",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 1, 1, 4, 1]"
-      }
-     ]
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL-PG",
-     "metafields": [
-      {
-       "namespace": "custom",
-       "key": "addon_varianten",
-       "type": "list.variant_reference",
-       "value_skus": [
-        "KK-ROK-ST-D80-85-ZT-ZWA",
-        "KK-MEU-BKM-ZWA",
-        "KK-MEU-TKS-K"
-       ]
-      },
-      {
-       "namespace": "custom",
-       "key": "addon_aantallen",
-       "type": "list.number_integer",
-       "value": "[1, 4, 1]"
-      }
-     ]
-    },
-    {
      "sku": "KK-STF-PRO-D85-ZWA",
      "metafields": [
       {
@@ -32622,6 +32465,163 @@
        "value_skus": [
         "KK-ROK-ST-D80-85-ZT-ANT",
         "KK-MEU-BKM-ANT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D83",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D83",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-OC",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D83",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D83",
+        "KK-MEU-BKM-ZWA",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL-OW",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-TC-ZWA",
+        "KK-HOES-STR-D80-85-ZWA",
+        "KK-BPL-D83",
+        "KK-MEU-BKM-WIT",
+        "KK-MEU-TKS-K"
+       ]
+      },
+      {
+       "namespace": "custom",
+       "key": "addon_aantallen",
+       "type": "list.number_integer",
+       "value": "[1, 1, 1, 4, 1]"
+      }
+     ]
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL-PG",
+     "metafields": [
+      {
+       "namespace": "custom",
+       "key": "addon_varianten",
+       "type": "list.variant_reference",
+       "value_skus": [
+        "KK-ROK-ST-D80-85-ZT-ZWA",
+        "KK-MEU-BKM-ZWA",
         "KK-MEU-TKS-K"
        ]
       },

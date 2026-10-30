@@ -30,8 +30,8 @@
   "counts": {
    "products": 243,
    "variants": 6391,
-   "images": 1381,
-   "unique_images": 1196,
+   "images": 1371,
+   "unique_images": 1186,
    "collections": 44,
    "menus": 5,
    "pages": 15,
@@ -171123,9 +171123,9 @@
      "name": "Kleur",
      "values": [
       "Wit",
-      "Graniet",
       "Zwart",
       "Antraciet",
+      "Graniet",
       "Berken",
       "Leisteen",
       "Eiken",
@@ -171208,8 +171208,8 @@
        1
       ]
      },
-     "image": "statafel-inklapbaar-professional-70-wit-wit-onderstel-foto.webp",
-     "export_image": "statafel-inklapbaar-professional-70-wit-wit-onderstel-foto.webp"
+     "image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp",
+     "export_image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp"
     },
     {
      "sku": "KK-STF-PRO-D70-WIT-OC",
@@ -171362,222 +171362,6 @@
      },
      "image": "statafel-inklapbaar-professional-wit-hero.webp",
      "export_image": "statafel-inklapbaar-professional-wit-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel",
-     "price": 9995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 12000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-TC-ZWA",
-       "KK-HOES-STR-D60-70-ZWA",
-       "KK-BPL-D68",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-OW",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, wit onderstel",
-     "price": 9995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 12000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-TC-ZWA",
-       "KK-HOES-STR-D60-70-ZWA",
-       "KK-BPL-D68",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-OC",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, chroom onderstel",
-     "price": 11495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 12000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-TC-ZWA",
-       "KK-HOES-STR-D60-70-ZWA",
-       "KK-BPL-D68",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-PG",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel, met parasolgat",
-     "price": 10995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 12500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel",
-     "price": 12495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-TC-ZWA",
-       "KK-HOES-STR-D60-70-ZWA",
-       "KK-BPL-D68",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL-OW",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), wit onderstel",
-     "price": 12495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-TC-ZWA",
-       "KK-HOES-STR-D60-70-ZWA",
-       "KK-BPL-D68",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D70-GRT-HPL-PG",
-     "option1": "Ø70 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
-     "price": 13495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D60-70-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D70-ZWA",
@@ -172010,6 +171794,222 @@
      },
      "image": "statafel-inklapbaar-professional-antraciet-hero.webp",
      "export_image": "statafel-inklapbaar-professional-antraciet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel",
+     "price": 9995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 12000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-TC-ZWA",
+       "KK-HOES-STR-D60-70-ZWA",
+       "KK-BPL-D68",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-OW",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, wit onderstel",
+     "price": 9995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 12000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-TC-ZWA",
+       "KK-HOES-STR-D60-70-ZWA",
+       "KK-BPL-D68",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-OC",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, chroom onderstel",
+     "price": 11495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 12000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-TC-ZWA",
+       "KK-HOES-STR-D60-70-ZWA",
+       "KK-BPL-D68",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-PG",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel, met parasolgat",
+     "price": 10995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 12500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel",
+     "price": 12495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-TC-ZWA",
+       "KK-HOES-STR-D60-70-ZWA",
+       "KK-BPL-D68",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL-OW",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), wit onderstel",
+     "price": 12495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-TC-ZWA",
+       "KK-HOES-STR-D60-70-ZWA",
+       "KK-BPL-D68",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D70-GRT-HPL-PG",
+     "option1": "Ø70 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
+     "price": 13495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D60-70-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D70-BRK",
@@ -172784,8 +172784,8 @@
        1
       ]
      },
-     "image": "statafel-inklapbaar-professional-80-wit-wit-onderstel-foto.webp",
-     "export_image": "statafel-inklapbaar-professional-80-wit-wit-onderstel-foto.webp"
+     "image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp",
+     "export_image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp"
     },
     {
      "sku": "KK-STF-PRO-D80-WIT-OC",
@@ -172938,222 +172938,6 @@
      },
      "image": "statafel-inklapbaar-professional-wit-hero.webp",
      "export_image": "statafel-inklapbaar-professional-wit-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel",
-     "price": 10495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D78",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-OW",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, wit onderstel",
-     "price": 10495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D78",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-OC",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, chroom onderstel",
-     "price": 11995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D78",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-PG",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel, met parasolgat",
-     "price": 11495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 13500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel",
-     "price": 12995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D78",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL-OW",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), wit onderstel",
-     "price": 12995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D78",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D80-GRT-HPL-PG",
-     "option1": "Ø80 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
-     "price": 13995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 15000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D80-ZWA",
@@ -173586,6 +173370,222 @@
      },
      "image": "statafel-inklapbaar-professional-antraciet-hero.webp",
      "export_image": "statafel-inklapbaar-professional-antraciet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel",
+     "price": 10495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D78",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-OW",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, wit onderstel",
+     "price": 10495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D78",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-OC",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, chroom onderstel",
+     "price": 11995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D78",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-PG",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel, met parasolgat",
+     "price": 11495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 13500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel",
+     "price": 12995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D78",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL-OW",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), wit onderstel",
+     "price": 12995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D78",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D80-GRT-HPL-PG",
+     "option1": "Ø80 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
+     "price": 13995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 15000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D80-BRK",
@@ -174360,8 +174360,8 @@
        1
       ]
      },
-     "image": "statafel-inklapbaar-professional-85-wit-wit-onderstel-foto.webp",
-     "export_image": "statafel-inklapbaar-professional-85-wit-wit-onderstel-foto.webp"
+     "image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp",
+     "export_image": "statafel-inklapbaar-professional-wit-wit-onderstel.webp"
     },
     {
      "sku": "KK-STF-PRO-D85-WIT-OC",
@@ -174514,222 +174514,6 @@
      },
      "image": "statafel-inklapbaar-professional-wit-hero.webp",
      "export_image": "statafel-inklapbaar-professional-wit-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel",
-     "price": 10995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D83",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-85-graniet-zwart-onderstel-foto.webp",
-     "export_image": "statafel-inklapbaar-professional-85-graniet-zwart-onderstel-foto.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-OW",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, wit onderstel",
-     "price": 10995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D83",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-OC",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, chroom onderstel",
-     "price": 12495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D83",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-PG",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Binnen, zwart onderstel, met parasolgat",
-     "price": 11995,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 14500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel",
-     "price": 13495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 15500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D83",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL-OW",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), wit onderstel",
-     "price": 13495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 15500,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-TC-ZWA",
-       "KK-HOES-STR-D80-85-ZWA",
-       "KK-BPL-D83",
-       "KK-MEU-BKM-WIT",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       1,
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
-    },
-    {
-     "sku": "KK-STF-PRO-D85-GRT-HPL-PG",
-     "option1": "Ø85 cm",
-     "option2": "Graniet",
-     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
-     "price": 14495,
-     "compare_at_price": null,
-     "inventory_management": "shopify",
-     "inventory_policy": "continue",
-     "inventory_quantity": 0,
-     "grams": 16000,
-     "requires_shipping": true,
-     "taxable": true,
-     "metafields": {
-      "addon_varianten": [
-       "KK-ROK-ST-D80-85-ZT-ZWA",
-       "KK-MEU-BKM-ZWA",
-       "KK-MEU-TKS-K"
-      ],
-      "addon_aantallen": [
-       1,
-       4,
-       1
-      ]
-     },
-     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
-     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D85-ZWA",
@@ -175162,6 +174946,222 @@
      },
      "image": "statafel-inklapbaar-professional-antraciet-hero.webp",
      "export_image": "statafel-inklapbaar-professional-antraciet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel",
+     "price": 10995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D83",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-OW",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, wit onderstel",
+     "price": 10995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D83",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-OC",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, chroom onderstel",
+     "price": 12495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D83",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-PG",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Binnen, zwart onderstel, met parasolgat",
+     "price": 11995,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 14500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel",
+     "price": 13495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 15500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D83",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL-OW",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), wit onderstel",
+     "price": 13495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 15500,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-TC-ZWA",
+       "KK-HOES-STR-D80-85-ZWA",
+       "KK-BPL-D83",
+       "KK-MEU-BKM-WIT",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       1,
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
+    },
+    {
+     "sku": "KK-STF-PRO-D85-GRT-HPL-PG",
+     "option1": "Ø85 cm",
+     "option2": "Graniet",
+     "option3": "Buiten (compact HPL), zwart onderstel, met parasolgat",
+     "price": 14495,
+     "compare_at_price": null,
+     "inventory_management": "shopify",
+     "inventory_policy": "continue",
+     "inventory_quantity": 0,
+     "grams": 16000,
+     "requires_shipping": true,
+     "taxable": true,
+     "metafields": {
+      "addon_varianten": [
+       "KK-ROK-ST-D80-85-ZT-ZWA",
+       "KK-MEU-BKM-ZWA",
+       "KK-MEU-TKS-K"
+      ],
+      "addon_aantallen": [
+       1,
+       4,
+       1
+      ]
+     },
+     "image": "statafel-inklapbaar-professional-graniet-hero.webp",
+     "export_image": "statafel-inklapbaar-professional-graniet-hero.webp"
     },
     {
      "sku": "KK-STF-PRO-D85-BRK",
@@ -175877,50 +175877,6 @@
     }
    ],
    "images": [
-    {
-     "file": "statafel-inklapbaar-professional-70-wit-wit-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Wit",
-     "alt": "Inklapbare statafel met wit onderstel en rond wit blad van Ø 70 cm met witte rand",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-inklapbaar-professional-80-wit-wit-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Wit",
-     "alt": "Inklapbare statafel met wit onderstel en rond wit blad van Ø 80 cm met witte rand",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-inklapbaar-professional-85-wit-wit-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Wit",
-     "alt": "Inklapbare statafel met wit onderstel en rond wit blad van Ø 85 cm met witte rand",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-inklapbaar-professional-85-graniet-zwart-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Graniet",
-     "alt": "Inklapbare statafel met zwart onderstel en rond blad van Ø 85 cm in graniet-look met zwarte rand",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
     {
      "file": "statafel-inklapbaar-professional-wit-hero.webp",
      "role": "hero",
@@ -186791,8 +186747,8 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-wit-marmer-hoogglans-zwart-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-wit-marmer-hoogglans-zwart-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-wit-marmer-hero.webp",
+     "export_image": "statafel-design-marmerlook-wit-marmer-hero.webp"
     },
     {
      "sku": "KK-STF-DSM-D70-WMR-HG-GD",
@@ -186819,8 +186775,8 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-wit-marmer-hoogglans-goud-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-wit-marmer-hoogglans-goud-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-wit-marmer-hero.webp",
+     "export_image": "statafel-design-marmerlook-wit-marmer-hero.webp"
     },
     {
      "sku": "KK-STF-DSM-D70-WMR-HPL-ZW",
@@ -186903,8 +186859,8 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-zwart-marmer-hoogglans-zwart-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-zwart-marmer-hoogglans-zwart-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
+     "export_image": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp"
     },
     {
      "sku": "KK-STF-DSM-D70-ZMR-HG-GD",
@@ -186931,8 +186887,8 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-zwart-marmer-hoogglans-goud-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-zwart-marmer-hoogglans-goud-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-zwart-marmer-hero.webp",
+     "export_image": "statafel-design-marmerlook-zwart-marmer-hero.webp"
     },
     {
      "sku": "KK-STF-DSM-D70-ZMR-HPL-ZW",
@@ -186959,8 +186915,8 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-zwart-marmer-compact-hpl-zwart-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-zwart-marmer-compact-hpl-zwart-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
+     "export_image": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp"
     },
     {
      "sku": "KK-STF-DSM-D70-ZMR-HPL-GD",
@@ -186987,77 +186943,11 @@
        1
       ]
      },
-     "image": "statafel-design-marmerlook-zwart-marmer-compact-hpl-goud-onderstel-foto.webp",
-     "export_image": "statafel-design-marmerlook-zwart-marmer-compact-hpl-goud-onderstel-foto.webp"
+     "image": "statafel-design-marmerlook-zwart-marmer-hero.webp",
+     "export_image": "statafel-design-marmerlook-zwart-marmer-hero.webp"
     }
    ],
    "images": [
-    {
-     "file": "statafel-design-marmerlook-wit-marmer-hoogglans-zwart-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Wit marmer",
-     "alt": "Statafel met zwarte kolom, inklapbare poten en rond hoogglans blad van Ø 70 cm in wit marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-design-marmerlook-zwart-marmer-hoogglans-zwart-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Zwart marmer",
-     "alt": "Statafel met zwarte kolom, inklapbare poten en rond hoogglans blad van Ø 70 cm in zwart marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-design-marmerlook-wit-marmer-hoogglans-goud-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Wit marmer",
-     "alt": "Statafel met geborsteld goudkleurig onderstel en rond hoogglans blad van Ø 70 cm in wit marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-design-marmerlook-zwart-marmer-hoogglans-goud-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Zwart marmer",
-     "alt": "Statafel met geborsteld goudkleurig onderstel en rond hoogglans blad van Ø 70 cm in zwart marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-design-marmerlook-zwart-marmer-compact-hpl-zwart-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Zwart marmer",
-     "alt": "Statafel met zwarte kolom, inklapbare poten en rond mat blad van compact HPL, Ø 70 cm, in zwart marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
-    {
-     "file": "statafel-design-marmerlook-zwart-marmer-compact-hpl-goud-onderstel-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": "Zwart marmer",
-     "alt": "Statafel met geborsteld goudkleurig onderstel en rond mat blad van compact HPL, Ø 70 cm, in zwart marmerlook",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
     {
      "file": "statafel-design-marmerlook-wit-marmer-hero.webp",
      "role": "hero",
@@ -187076,6 +186966,49 @@
      },
      "model_status": "needs-param",
      "alt": "Design statafel met wit marmerlook blad op een geborsteld gouden onderstel, schuin vooraanzicht",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafel-design-marmerlook-zwart-marmer-hero.webp",
+     "role": "variant",
+     "priority": 2,
+     "kleur": "Zwart marmer",
+     "render": {
+      "model": "statafel",
+      "params": {
+       "diameter": 0.7,
+       "height": 1.1,
+       "top": "marmer-zwart",
+       "frame": "goud",
+       "base": "design-klap"
+      },
+      "angle": "hero"
+     },
+     "model_status": "needs-param",
+     "alt": "Design statafel met zwart marmerlook blad op een geborsteld gouden onderstel, schuin vooraanzicht",
+     "draft": false,
+     "exported": true
+    },
+    {
+     "file": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
+     "role": "variant",
+     "priority": 3,
+     "kleur": "Zwart marmer",
+     "render": {
+      "model": "statafel",
+      "params": {
+       "diameter": 0.7,
+       "height": 1.1,
+       "top": "marmer-zwart",
+       "frame": "zwart",
+       "base": "design-klap"
+      },
+      "angle": "hero"
+     },
+     "model_status": "needs-param",
+     "alt_hint": "zwart marmerlook op een zwart onderstel",
+     "alt": "Design statafel met zwart marmerlook blad op een zwart onderstel",
      "draft": false,
      "exported": true
     },
@@ -207040,8 +206973,8 @@
        1
       ]
      },
-     "image": "barkruk-chroom-stapelbaar-zwart-foto.webp",
-     "export_image": "barkruk-chroom-stapelbaar-zwart-foto.webp"
+     "image": "barkruk-chroom-stapelbaar-zwart-hero.webp",
+     "export_image": "barkruk-chroom-stapelbaar-zwart-hero.webp"
     },
     {
      "sku": "KK-MEU-BKC-WIT",
@@ -207064,8 +206997,8 @@
        1
       ]
      },
-     "image": "barkruk-chroom-stapelbaar-wit-foto.webp",
-     "export_image": "barkruk-chroom-stapelbaar-wit-foto.webp"
+     "image": "barkruk-chroom-stapelbaar-wit-hero.webp",
+     "export_image": "barkruk-chroom-stapelbaar-wit-hero.webp"
     },
     {
      "sku": "KK-MEU-BKC-ANT",
@@ -207094,24 +207027,40 @@
    ],
    "images": [
     {
-     "file": "barkruk-chroom-stapelbaar-zwart-foto.webp",
-     "role": "photo",
-     "priority": 0,
+     "file": "barkruk-chroom-stapelbaar-zwart-hero.webp",
+     "role": "hero",
+     "priority": 1,
      "kleur": "Zwart",
-     "alt": "Verchroomde barkruk met ronde zwarte zitting van kunstleer",
-     "photo": true,
-     "model_status": "photo",
+     "render": {
+      "model": "barStool",
+      "params": {
+       "style": "chroom",
+       "height": 0.76,
+       "color": "zwart"
+      },
+      "angle": "hero"
+     },
+     "model_status": "existing",
+     "alt": "Barkruk chroom met kunstleren zitting, Zwart, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
     {
-     "file": "barkruk-chroom-stapelbaar-wit-foto.webp",
-     "role": "photo",
-     "priority": 0,
+     "file": "barkruk-chroom-stapelbaar-wit-hero.webp",
+     "role": "variant",
+     "priority": 3,
      "kleur": "Wit",
-     "alt": "Verchroomde barkruk met ronde witte zitting van kunstleer",
-     "photo": true,
-     "model_status": "photo",
+     "render": {
+      "model": "barStool",
+      "params": {
+       "style": "chroom",
+       "height": 0.76,
+       "color": "wit"
+      },
+      "angle": "hero"
+     },
+     "model_status": "existing",
+     "alt": "Barkruk chroom met kunstleren zitting, Wit, schuin vooraanzicht",
      "draft": false,
      "exported": true
     },
@@ -211046,9 +210995,9 @@
      "grams": 8200,
      "requires_shipping": true,
      "taxable": true,
-     "image": "onderdelen-statafel-onderstel-compleet-foto.webp",
+     "image": null,
      "metafields": {},
-     "export_image": "onderdelen-statafel-onderstel-compleet-foto.webp"
+     "export_image": "onderdelen-statafel-hero.webp"
     },
     {
      "sku": "KK-MEU-OSTF-SR",
@@ -211065,7 +211014,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": "onderdelen-statafel-onderstel-compleet-foto.webp"
+     "export_image": "onderdelen-statafel-hero.webp"
     },
     {
      "sku": "KK-MEU-OSTF-BS",
@@ -211082,7 +211031,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": "onderdelen-statafel-onderstel-compleet-foto.webp"
+     "export_image": "onderdelen-statafel-hero.webp"
     },
     {
      "sku": "KK-MEU-OSTF-PGD",
@@ -211099,7 +211048,7 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": "onderdelen-statafel-onderstel-compleet-foto.webp"
+     "export_image": "onderdelen-statafel-hero.webp"
     },
     {
      "sku": "KK-MEU-OSTF-BLS",
@@ -211116,21 +211065,10 @@
      "taxable": true,
      "image": null,
      "metafields": {},
-     "export_image": "onderdelen-statafel-onderstel-compleet-foto.webp"
+     "export_image": "onderdelen-statafel-hero.webp"
     }
    ],
    "images": [
-    {
-     "file": "onderdelen-statafel-onderstel-compleet-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": null,
-     "alt": "Zwart onderstel van een inklapbare statafel, zonder blad",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
     {
      "file": "onderdelen-statafel-hero.webp",
      "role": "hero",
@@ -342693,8 +342631,8 @@
        1
       ]
      },
-     "image": "examentafel-inklapbaar-1-stuk-foto.webp",
-     "export_image": "examentafel-inklapbaar-1-stuk-foto.webp"
+     "image": null,
+     "export_image": "examentafel-inklapbaar-hero.webp"
     },
     {
      "sku": "KK-MEU-EXA-90X60-S10",
@@ -342718,21 +342656,10 @@
       ]
      },
      "image": null,
-     "export_image": "examentafel-inklapbaar-1-stuk-foto.webp"
+     "export_image": "examentafel-inklapbaar-hero.webp"
     }
    ],
    "images": [
-    {
-     "file": "examentafel-inklapbaar-1-stuk-foto.webp",
-     "role": "photo",
-     "priority": 0,
-     "kleur": null,
-     "alt": "Inklapbare examentafel 90 x 60 cm met blad in berkenlook en zwart onderstel",
-     "photo": true,
-     "model_status": "photo",
-     "draft": false,
-     "exported": true
-    },
     {
      "file": "examentafel-inklapbaar-hero.webp",
      "role": "hero",
@@ -394736,14 +394663,14 @@
    }
   ],
   "images": {
-   "real": 1377,
+   "real": 1367,
    "draft": 0,
    "missing": 0,
    "products_without_image": [],
-   "variants_own": 6008,
+   "variants_own": 6006,
    "variants_same_kleur": 50,
    "variants_component": 4,
-   "variants_hero": 310,
+   "variants_hero": 312,
    "variants_no_image": 19,
    "variants_no_image_by_product": {
     "zijwand-partytent-buizenframe-lang": 13,

@@ -1,26 +1,26 @@
 {
  "note": "One job per unique file. spec is a renders/render.mjs spec (model + params + angle; size 2000, article banners 1800 x 1100). out is repo-relative. model_status: existing | needs-param | needs-patch | needs-model (skeleton.render_models). used_by lists every product that shows the file.",
  "counts": {
-  "jobs": 1017,
+  "jobs": 1021,
   "by_priority": {
-   "1": 217,
-   "2": 282,
-   "3": 518
+   "1": 218,
+   "2": 283,
+   "3": 520
   },
   "by_model_status": {
    "copied": 3,
-   "existing": 592,
+   "existing": 594,
    "generated": 1,
    "needs-model": 40,
-   "needs-param": 381
+   "needs-param": 383
   },
   "by_kind": {
    "article-banner": 7,
    "brand-copy": 3,
    "collection": 2,
-   "product": 1005
+   "product": 1009
   },
-  "already_present": 1017
+  "already_present": 1021
  },
  "jobs": [
   {
@@ -274,6 +274,37 @@
      "handle": "barkoelkast-glazen-deur",
      "role": "hero",
      "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "barkruk-chroom-stapelbaar-zwart-hero.webp",
+   "out": "catalog/images/barkruk-chroom-stapelbaar-zwart-hero.webp",
+   "kind": "product",
+   "priority": 1,
+   "role": "hero",
+   "kleur": "Zwart",
+   "model": "barStool",
+   "model_status": "existing",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "chroom",
+     "height": 0.76,
+     "color": "zwart"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Barkruk chroom met kunstleren zitting, Zwart, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-chroom-stapelbaar",
+     "role": "hero",
+     "variant": true
     }
    ],
    "exists": true,
@@ -13410,6 +13441,39 @@
    "draft": false
   },
   {
+   "file": "statafel-design-marmerlook-zwart-marmer-hero.webp",
+   "out": "catalog/images/statafel-design-marmerlook-zwart-marmer-hero.webp",
+   "kind": "product",
+   "priority": 2,
+   "role": "variant",
+   "kleur": "Zwart marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 1.1,
+     "top": "marmer-zwart",
+     "frame": "goud",
+     "base": "design-klap"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Design statafel met zwart marmerlook blad op een geborsteld gouden onderstel, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "statafel-design-marmerlook",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
    "file": "statafel-design-zuilvoet-betonlook-hero.webp",
    "out": "catalog/images/statafel-design-zuilvoet-betonlook-hero.webp",
    "kind": "product",
@@ -17902,6 +17966,37 @@
     "size": 2000
    },
    "alt": "Barkruk chroom met kunstleren zitting, Antraciet, schuin vooraanzicht",
+   "alt_hint": null,
+   "used_by": [
+    {
+     "handle": "barkruk-chroom-stapelbaar",
+     "role": "variant",
+     "variant": true
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "barkruk-chroom-stapelbaar-wit-hero.webp",
+   "out": "catalog/images/barkruk-chroom-stapelbaar-wit-hero.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Wit",
+   "model": "barStool",
+   "model_status": "existing",
+   "spec": {
+    "model": "barStool",
+    "params": {
+     "style": "chroom",
+     "height": 0.76,
+     "color": "wit"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Barkruk chroom met kunstleren zitting, Wit, schuin vooraanzicht",
    "alt_hint": null,
    "used_by": [
     {
@@ -27951,6 +28046,39 @@
      "handle": "statafel-design-marmerlook",
      "role": "detail",
      "variant": false
+    }
+   ],
+   "exists": true,
+   "draft": false
+  },
+  {
+   "file": "statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
+   "out": "catalog/images/statafel-design-marmerlook-zwart-marmer-zwart-onderstel.webp",
+   "kind": "product",
+   "priority": 3,
+   "role": "variant",
+   "kleur": "Zwart marmer",
+   "model": "statafel",
+   "model_status": "needs-param",
+   "spec": {
+    "model": "statafel",
+    "params": {
+     "diameter": 0.7,
+     "height": 1.1,
+     "top": "marmer-zwart",
+     "frame": "zwart",
+     "base": "design-klap"
+    },
+    "angle": "hero",
+    "size": 2000
+   },
+   "alt": "Design statafel met zwart marmerlook blad op een zwart onderstel",
+   "alt_hint": "zwart marmerlook op een zwart onderstel",
+   "used_by": [
+    {
+     "handle": "statafel-design-marmerlook",
+     "role": "variant",
+     "variant": true
     }
    ],
    "exists": true,
