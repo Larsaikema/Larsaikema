@@ -224,6 +224,7 @@ export const Q = {
   articleUpdate: `mutation ArticleUpdate($id: ID!, $article: ArticleUpdateInput!) { articleUpdate(id: $id, article: $article) { article { id handle } userErrors { field message code } } }`,
   collectionCreate: `mutation CollectionCreate($input: CollectionInput!) { collectionCreate(input: $input) { collection { id handle } userErrors { field message } } }`,
   collectionUpdate: `mutation CollectionUpdate($input: CollectionInput!) { collectionUpdate(input: $input) { collection { id handle } userErrors { field message } } }`,
+  collectionImage: `query CollectionImage($id: ID!) { collection(id: $id) { image { url } } }`,
   collectionAddProducts: `mutation CollectionAddProducts($id: ID!, $productIds: [ID!]!) { collectionAddProducts(id: $id, productIds: $productIds) { collection { id } userErrors { field message } } }`,
   deliveryProfiles: `query DeliveryProfiles { deliveryProfiles(first: 50) { nodes { id name default } } }`,
   deliveryProfile: `query DeliveryProfile($id: ID!) { deliveryProfile(id: $id) { id name default profileLocationGroups { locationGroup { id }
@@ -527,6 +528,18 @@ export class Seeder {
       }
       const productIds = c.type === 'manual' ? await this.refList(c.products || [], 'product_reference', S, `collection ${c.handle}`) : [];
       const id = idx.get(c.handle);
+      if (id && input.image) {
+        // Shopify keeps an existing collection image when it gets a new src (only the alt text changes): an image with another
+        // file name is removed first; the same file is not uploaded again
+        const stem = (u) => decodeURIComponent(String(u || '').split('?')[0].split('/').pop()).replace(/\.[a-z0-9]+$/i, '').replace(/_[0-9a-f-]{36}$/, '');
+        const cur = (await this.api.gql(Q.collectionImage, { id })).collection?.image?.url;
+        if (cur && stem(cur) === stem(input.image.src)) delete input.image;
+        else if (cur) {
+          const r0 = (await this.api.gql(Q.collectionUpdate, { input: { id, image: null } })).collectionUpdate;
+          if (r0.userErrors.length) this.warn(S, `${c.handle}: old image not removed: ${firstError(r0)}`);
+          else this.count(S, 'images_replaced');
+        }
+      }
       const save = async (inp) => (id ? (await this.api.gql(Q.collectionUpdate, { input: { ...inp, id } })).collectionUpdate
         : (await this.api.gql(Q.collectionCreate, { input: { ...inp, handle: c.handle, ...(productIds.length ? { products: productIds } : {}) } })).collectionCreate);
       let r = await save(input);
