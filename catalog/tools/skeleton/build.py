@@ -70,6 +70,9 @@ HANDLES['marktkraam-2-m']['complementary'] = ['dakzeil-marktkraam', 'werkblad-ma
 HANDLES['tapijttegel-50x50']['complementary'] = ['tentvloer-kunststof', 'tape-voor-loper-en-vloer']
 for _h in ['terrastafel-rond-inklapbaar', 'terrastafel-inklapbaar']:
     HANDLES[_h]['complementary'] = ['stapelstoel-metaal', 'kruk-laag-stapelbaar', 'transportkar-terrastafels']
+# the statafel and furniture assortment from the supplier (owner 2026-10-31): kk_mebu.py replaces the old furniture products
+import kk_mebu
+MEBU_REMOVED, MEBU_SUCCESSOR = kk_mebu.apply(errors, site.REDIRECTS)
 # shipping per product (H11), packing data (M15) and the accessory discount with a tent (M1): kk_ship.py
 kk_ship.apply(PRODUCTS)
 kk_ship.verpakt(PRODUCTS)
