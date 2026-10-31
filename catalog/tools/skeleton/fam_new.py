@@ -406,7 +406,7 @@ def build():
     imgs, vmap = kleur_images('led-lamp-e27-gekleurd', LKK, 'ledBulb', lambda k: {'type': 'gekleurd', 'color': render_color(k), 'on': True}, 'Rood', status='needs-param', p2=3)
     simple('led-lamp-e27-gekleurd', 'LED-lamp E27 gekleurd of extra warm 2000 K', 'LED-lamp', ['zakelijk', 'gebruik:tuinfeest', 'gebruik:horeca', 'gebruik:evenement'],
            [opt('Kleur', LKK)], vs, imgs,
-           {'kenmerk_kort': 'Onbreekbaar · 1 W · 7 kleuren of warm wit 2000 K · per stuk', 'staffelkorting': ST_LAMP, 'past_op': ['prikkabel-e27', 'prikkabel-op-maat'], 'verzending': 'pakket',
+           {'kenmerk_kort': 'Onbreekbaar · 1 W · gekleurd licht · per stuk', 'staffelkorting': ST_LAMP, 'past_op': ['prikkabel-e27', 'prikkabel-op-maat'], 'verzending': 'pakket',
             'specificaties': [sp('Lamp', 'Vermogen', '1 W LED'), sp('Lamp', 'Kap', 'Polycarbonaat, onbreekbaar, gekleurd'), sp('Lamp', 'Warm wit', '2000 K, extra warm (kaarslicht)'),
                               sp('Lamp', 'Fitting', 'E27, IP44 in een IP44-fitting')]},
            ['verlichting.ledlampen'], 'verlichting', 'Losse gekleurde lampen per stuk (zelf mengen) of extra warm 2000 K; onbreekbaar; staffel vanaf 50.',

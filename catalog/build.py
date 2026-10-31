@@ -461,6 +461,7 @@ def set_vs_los_table(p) -> str:
 
 def prune_options(p):
     """After variants left a product: option values no variant uses go, and so do their shipping tiers."""
+    p.setdefault('option_counts_before', {o['name']: len(o['values']) for o in p['options']})
     for k, o in enumerate(p['options']):
         used = {v.get(f'option{k + 1}') for v in p['variants']}
         o['values'] = [x for x in o['values'] if x in used]
@@ -611,7 +612,7 @@ class Build:
     def relink(self, html, active_only=True):
         """Links in copy to a product that is gone go where its redirect goes (its successor, or the collection of its kind);
         on the storefront (active_only) a link to a draft product keeps its words without the link."""
-        if not html or '/products/' not in html:
+        if not html or ('/products/' not in html and '/collections/' not in html):
             return html
         draft = getattr(self, 'draft_handles', set())
         moved = {r['from'].split('/')[-1]: r['to'] for r in self.skeleton.get('redirects') or [] if r['from'].startswith('/products/')}
@@ -631,7 +632,16 @@ class Build:
                 return m.group(0)
             st['links_moved'] = st.get('links_moved', 0) + 1
             return m.group(0).replace(f'href="/products/{h}{rest}"', f'href="{to}"', 1)
-        return re.sub(r'<a href="/products/([a-z0-9\-]+)((?:[?#][^"]*)?)"[^>]*>(.*?)</a>', sub, html, flags=re.S)
+        html = re.sub(r'<a href="/products/([a-z0-9\-]+)((?:[?#][^"]*)?)"[^>]*>(.*?)</a>', sub, html, flags=re.S)
+        if active_only:
+            off = getattr(self, 'unpublished_collections', set())
+            def csub(m):
+                if m.group(1) in off:
+                    st['links_unwrapped'] = st.get('links_unwrapped', 0) + 1
+                    return m.group(2)
+                return m.group(0)
+            html = re.sub(r'<a href="/collections/([a-z0-9\-]+)(?:[?#][^"]*)?"[^>]*>(.*?)</a>', csub, html, flags=re.S)
+        return html
 
     def link_target(self, h, active_only=True):
         """Where a link to /products/<h> should go now: the path, or None when it should go (a draft product)."""
@@ -654,10 +664,17 @@ class Build:
             if m:
                 to = self.link_target(m.group(1))
                 return to if to is not None else '/collections/all'
+            m = re.fullmatch(r'(shopify:/)?/collections/([a-z0-9\-]+)', x)
+            if m and m.group(2) in getattr(self, 'unpublished_collections', set()):
+                return (m.group(1) or '') + '/collections/all'
             return self.relink(x)
         if isinstance(x, list):
             out = []
             for y in x:
+                cm = re.match(r'/collections/([a-z0-9\-]+)', str(y.get('url', ''))) if isinstance(y, dict) and y.get('type') == 'link' else None
+                if cm and cm.group(1) in getattr(self, 'unpublished_collections', set()):
+                    out += [self.relink_deep(c) for c in y.get('children') or []]
+                    continue
                 if isinstance(y, dict) and y.get('type') == 'link' and str(y.get('url', '')).startswith('/products/'):
                     h = re.match(r'/products/([a-z0-9\-]+)', y['url']).group(1)
                     to = self.link_target(h)
@@ -671,8 +688,45 @@ class Build:
             return {k: self.relink_deep(y) for k, y in x.items()}
         return x
 
+    def recount_colours(self, products):
+        """PHOTO_ONLY: copy that counts a product's own colours ('in 7 kleuren', the number of its Kleur values before the
+        variants without a photo left) counts the colours it now shows."""
+        n_fixed = 0
+        for p in products:
+            before = (p.get('option_counts_before') or {}).get('Kleur')
+            now = next((len(o['values']) for o in p['options'] if o['name'] == 'Kleur'), None)
+            if p['status'] != 'active' or not before or now is None or before == now:
+                continue
+            word = '1 kleur' if now == 1 else f'{now} kleuren'
+            def fix(x):
+                nonlocal n_fixed
+                if isinstance(x, str):
+                    y = re.sub(rf'\b{before} kleuren\b', word, x)
+                    n_fixed += y != x
+                    return y
+                if isinstance(x, list):
+                    return [fix(i) for i in x]
+                if isinstance(x, dict):
+                    return {k: fix(v) for k, v in x.items()}
+                return x
+            p['body_html'] = fix(p['body_html'])
+            p['seo'] = fix(p['seo'])
+            for k in ('kenmerk_kort', 'usps', 'faq', 'specificaties'):
+                if p['metafields'].get(k):
+                    p['metafields'][k] = fix(p['metafields'][k])
+        self.photo_stats['colour_counts_fixed'] = n_fixed
+
     def relink_all(self, products, collections, pages, blog):
         """PHOTO_ONLY: every link and product reference in the copy points at something the storefront shows."""
+        self.recount_colours(products)
+        self.unpublished_collections = {c['handle'] for c in collections if not c['published']}
+        # a redirect does not end on what the storefront does not show (a draft product, an offline collection)
+        for r in self.skeleton.get('redirects') or []:
+            to = r['to']
+            h = to.split('/')[-1].split('?')[0]
+            if (to.startswith('/products/') and h in getattr(self, 'draft_handles', set())) or \
+                    (to.startswith('/collections/') and h in self.unpublished_collections):
+                r['to'] = '/collections/all'
         draft = getattr(self, 'draft_handles', set())
         moved = {r['from'].split('/')[-1]: r['to'].split('/')[-1] for r in self.skeleton.get('redirects') or []
                  if r['from'].startswith('/products/') and r['to'].startswith('/products/')}

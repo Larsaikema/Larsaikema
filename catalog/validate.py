@@ -809,6 +809,8 @@ def run(verbose=False):
             rep.e('links', f'{area}: link to unknown product /products/{parts[1]}')
         elif kind == 'collections' and len(parts) >= 2 and parts[1] not in colls and parts[1] != 'all':
             rep.e('links', f'{area}: link to unknown collection /collections/{parts[1]}')
+        elif kind == 'collections' and len(parts) >= 2 and parts[1] in colls and not colls[parts[1]].get('published', True):
+            rep.e('links', f'{area}: link to unpublished collection /collections/{parts[1]}')
         elif kind == 'pages' and len(parts) == 2:
             if parts[1] not in pages:
                 rep.e('links', f'{area}: link to unknown page /pages/{parts[1]}')

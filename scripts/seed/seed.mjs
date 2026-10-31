@@ -32,7 +32,8 @@
 // products the CSV no longer has archived; use it instead of a CSV re-import) · giftcard (create gift card products the CSV
 // import skips) · images (photos newer than
 // the CSV import, from their public URL; with --prune also removes photos the CSV no longer lists and puts them in CSV
-// order) · options (option value order as in the CSV) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
+// order; with --prune the step references also removes catalog metafields an active product no longer has) · options
+// (option value order as in the CSV) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
 // and read_locations). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
@@ -197,6 +198,8 @@ export const Q = {
   variantAppendMedia: `mutation VariantAppendMedia($productId: ID!, $variantMedia: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
   products: `query Products($after: String) { products(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle status vendor isGiftCard } } }`,
   productSet: `mutation ProductSet($identifier: ProductSetIdentifiers, $input: ProductSetInput!) { productSet(identifier: $identifier, input: $input, synchronous: true) { product { id status variants(first: 250) { nodes { id sku } } } userErrors { field message code } } }`,
+  productMetafieldKeys: `query ProductMetafieldKeys($id: ID!) { product(id: $id) { metafields(namespace: "custom", first: 60) { nodes { key } } variants(first: 100) { nodes { id sku metafields(namespace: "custom", first: 15) { nodes { key } } } } } }`,
+  metafieldsDelete: `mutation MetafieldsDelete($metafields: [MetafieldIdentifierInput!]!) { metafieldsDelete(metafields: $metafields) { deletedMetafields { key } userErrors { field message } } }`,
   productStatus: `mutation ProductStatus($product: ProductUpdateInput!) { productUpdate(product: $product) { product { id status } userErrors { field message } } }`,
   unpublish: `mutation Unpublish($id: ID!, $input: [PublicationInput!]!) { publishableUnpublish(id: $id, input: $input) { userErrors { field message } } }`,
   variants: `query Variants($after: String) { productVariants(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id sku product { id handle } } } }`,
@@ -235,6 +238,7 @@ export const Q = {
   metafieldsSet: `mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) { metafieldsSet(metafields: $metafields) { metafields { id } userErrors { field message code } } }`,
   menuCreate: `mutation MenuCreate($title: String!, $handle: String!, $items: [MenuItemCreateInput!]!) { menuCreate(title: $title, handle: $handle, items: $items) { menu { id handle } userErrors { field message code } } }`,
   menuUpdate: `mutation MenuUpdate($id: ID!, $title: String!, $handle: String, $items: [MenuItemUpdateInput!]!) { menuUpdate(id: $id, title: $title, handle: $handle, items: $items) { menu { id handle } userErrors { field message code } } }`,
+  redirectUpdate: `mutation RedirectUpdate($id: ID!, $urlRedirect: UrlRedirectInput!) { urlRedirectUpdate(id: $id, urlRedirect: $urlRedirect) { urlRedirect { id } userErrors { field message code } } }`,
   redirectCreate: `mutation RedirectCreate($urlRedirect: UrlRedirectInput!) { urlRedirectCreate(urlRedirect: $urlRedirect) { urlRedirect { id } userErrors { field message code } } }`,
 };
 
@@ -924,6 +928,38 @@ export class Seeder {
       if (r.userErrors.length) this.err(S, `metafieldsSet batch ${i / 25 + 1}: ${firstError(r)}`);
       else this.count(S, 'metafields_set', batch.length);
     }
+    if (this.opts.prune) await this.pruneMetafields(S);
+  }
+
+  // --prune: on the active products of products.csv, the custom metafields this catalog manages (the definitions) that the
+  // catalog no longer gives are removed, so a product does not keep pointing at a product that became a draft or a variant
+  // that went (catalog/build.py PHOTO_ONLY). Metafields without a definition in the export are left alone.
+  async pruneMetafields(S) {
+    const P = await this.products();
+    const managed = (owner) => new Set(this.in.definitions.filter((d) => d.owner_type === owner && d.namespace === 'custom').map((d) => d.key));
+    const prodKeys = managed('PRODUCT'), varKeys = managed('PRODUCTVARIANT');
+    const refs = new Map(this.in.references.map((p) => [p.handle, p]));
+    const del = [];
+    for (const [handle, rows] of this.in.csvByHandle) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
+      if ((rows[0].Status || 'active') !== 'active' || rows[0]['Gift Card'] === 'TRUE') continue;
+      const pid = P.get(handle);
+      if (!pid) continue;
+      const ref = refs.get(handle);
+      const want = new Set([...(this.in.csvFields.get(handle) || []).map((f) => f.key), ...((ref?.metafields || []).map((m) => m.key))]);
+      const wantVar = new Map((ref?.variants || []).map((v) => [v.sku, new Set(v.metafields.map((m) => m.key))]));
+      const have = (await this.api.gql(Q.productMetafieldKeys, { id: pid })).product;
+      for (const m of have.metafields.nodes) if (prodKeys.has(m.key) && !want.has(m.key)) del.push({ ownerId: pid, namespace: 'custom', key: m.key });
+      for (const v of have.variants.nodes) {
+        const w = wantVar.get(v.sku) || new Set();
+        for (const m of v.metafields.nodes) if (varKeys.has(m.key) && !w.has(m.key)) del.push({ ownerId: v.id, namespace: 'custom', key: m.key });
+      }
+    }
+    for (let i = 0; i < del.length; i += 25) {
+      const r = (await this.api.gql(Q.metafieldsDelete, { metafields: del.slice(i, i + 25) })).metafieldsDelete;
+      if (r.userErrors.length) this.err(S, `metafieldsDelete: ${firstError(r)}`);
+      else this.count(S, 'stale_metafields_removed', del.slice(i, i + 25).length);
+    }
   }
 
   async menus() {
@@ -973,7 +1009,12 @@ export class Seeder {
     const S = 'redirects';
     for (const r of this.in.redirects) {
       const have = (await this.api.gql(Q.redirects, { query: `path:'${r.path}'` })).urlRedirects.nodes.find((x) => x.path === r.path);
-      if (have) { this.count(S, 'existing'); continue; }
+      if (have && have.target === r.target) { this.count(S, 'existing'); continue; }
+      if (have) {
+        const u = (await this.api.gql(Q.redirectUpdate, { id: have.id, urlRedirect: { path: r.path, target: r.target } })).urlRedirectUpdate;
+        if (u.urlRedirect) this.count(S, 'updated'); else this.err(S, `${r.path}: ${firstError(u)}`);
+        continue;
+      }
       const c = (await this.api.gql(Q.redirectCreate, { urlRedirect: { path: r.path, target: r.target } })).urlRedirectCreate;
       if (c.urlRedirect) this.count(S, 'created'); else this.err(S, `${r.path}: ${firstError(c)}`);
     }

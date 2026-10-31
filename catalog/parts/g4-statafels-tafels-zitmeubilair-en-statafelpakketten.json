@@ -3369,11 +3369,11 @@
  },
  "_collections": {
   "statafels": {
-   "intro": "Statafels van 105 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met vaste kruisvoet of stapelbaar. Rond in Ø 70, 80 of 85 cm, vierkant, rechthoekig of als wijnvat. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.",
+   "intro": "Statafels van 106 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met kantelblad, stapelbaar of design. Rond in Ø 70, 80 of 85 cm, vierkant of rechthoekig. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.",
    "kenmerken": [
     "110 cm: ellebooghoogte",
     "Ø 70, 80 of 85 cm",
-    "HPL-blad hittebestendig",
+    "Compact HPL voor buiten",
     "Staffelprijs vanaf 10"
    ],
    "seo_tekst": {
@@ -3394,7 +3394,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 105 tot 110 cm hoog, inklapbaar, vast of stapelbaar, en rond, vierkant, rechthoekig of als wijnvat. Met de vragen hieronder weet je snel welke je nodig hebt."
+        "value": "Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 106 tot 110 cm hoog, inklapbaar, met kantelblad, stapelbaar of design, en rond, vierkant of rechthoekig. Met de vragen hieronder weet je snel welke je nodig hebt."
        }
       ]
      },
@@ -3486,7 +3486,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Hoe hoog is 110 cm, en past er een barkruk bij?"
+        "value": "Hoe hoog, en past er een barkruk bij?"
        }
       ]
      },
@@ -3495,7 +3495,7 @@
       "children": [
        {
         "type": "text",
-        "value": "110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. Een barkruk met een zithoogte van 76 cm past erbij: tussen zitting en blad blijft 34 cm, genoeg voor je benen. Bij de vierkante statafel van 107 cm is dat 31 cm en bij het wijnvat van 105 cm 29 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag."
+        "value": "110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. De klassieke inklapbare statafel is 107 cm, de stapelbare industriële 106 tot 107 cm. Een barkruk met een zithoogte van 76 cm past erbij: aan 110 cm blijft 34 cm tussen zitting en blad, aan 107 cm 31 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag."
        }
       ]
      },
@@ -3505,7 +3505,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Inklapbaar, vast of stapelbaar?"
+        "value": "Inklapbaar, kantelblad, stapelbaar of design?"
        }
       ]
      },
@@ -3527,37 +3527,67 @@
          },
          {
           "type": "link",
-          "url": "/products/statafel-inklapbaar-professional",
+          "url": "/products/statafel-inklapbaar-klassiek",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "statafel inklapbaar Professional"
+            "value": "klassieke"
            }
           ]
          },
          {
           "type": "text",
-          "value": " (12–14 kg, HPL-blad, 3 maten, 4 kleuren) of de lichte "
+          "value": " blijft ingeklapt zelfstandig staan; de "
          },
          {
           "type": "link",
-          "url": "/products/statafel-inklapbaar-hdpe-80",
+          "url": "/products/statafel-inklapbaar-met-afneembaar-blad",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "HDPE-statafel Ø 80 cm"
+            "value": "statafel met afneembaar blad"
            }
           ]
          },
          {
           "type": "text",
-          "value": " (9 kg). Lang model: de "
+          "value": " heeft stelschroeven voor een ongelijke ondergrond. Met een zwaarder onderstel: de "
          },
          {
           "type": "link",
-          "url": "/products/statafel-rechthoekig-inklapbaar",
+          "url": "/products/statafel-inklapbaar-robuust",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "robuuste"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " van 32 mm buis, ook met voetsteun, en die met "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-inklapbaar-kokerprofiel",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "kokerprofiel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": ". Lang model: de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-inklapbaar-rechthoekig",
           "title": null,
           "children": [
            {
@@ -3568,7 +3598,7 @@
          },
          {
           "type": "text",
-          "value": " van 120 of 160 cm."
+          "value": " van 160 × 60 cm."
          }
         ]
        },
@@ -3577,27 +3607,27 @@
         "children": [
          {
           "type": "text",
-          "value": "Vast",
+          "value": "Kantelblad",
           "bold": true
          },
          {
           "type": "text",
-          "value": ": voor terras en bar waar de tafel blijft staan. De "
+          "value": ": bij de "
          },
          {
           "type": "link",
-          "url": "/products/statafel-met-kruisvoet",
+          "url": "/products/statafel-met-kantelblad",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "statafel met kruisvoet"
+            "value": "statafel met kantelblad"
            }
           ]
          },
          {
           "type": "text",
-          "value": " weegt ca. 22 kg en heeft stelvoetjes."
+          "value": " klapt het blad opzij en schuiven de onderstellen in elkaar; de voet is verzwaard met 4 kg."
          }
         ]
        },
@@ -3615,18 +3645,48 @@
          },
          {
           "type": "link",
-          "url": "/products/statafel-vierkant-stapelbaar",
+          "url": "/products/statafel-stapelbaar-modern",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "vierkante statafel"
+            "value": "moderne"
            }
           ]
          },
          {
           "type": "text",
-          "value": " stapel je tot 5 hoog, zonder scharnieren die kunnen slijten."
+          "value": " stapel je tot 10 hoog; bij de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-stapelbaar-industrieel",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "industriële"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " en de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-stapelbaar-industrieel-breed",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "brede industriële"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " zit het blad vast met twee vleugelbouten."
          }
         ]
        },
@@ -3635,7 +3695,7 @@
         "children": [
          {
           "type": "text",
-          "value": "Sfeer",
+          "value": "Design",
           "bold": true
          },
          {
@@ -3644,18 +3704,33 @@
          },
          {
           "type": "link",
-          "url": "/products/statafel-wijnvat-houtlook",
+          "url": "/products/statafel-design-marmer",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "wijnvat-statafel"
+            "value": "design statafel marmer"
            }
           ]
          },
          {
           "type": "text",
-          "value": " in houtlook, vulbaar met water of zand."
+          "value": " op een zwart of geborsteld gouden onderstel, en de "
+         },
+         {
+          "type": "link",
+          "url": "/products/statafel-design-nestbaar",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "nestbare design statafel"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " met een aluminium onderstel."
          }
         ]
        }
@@ -3680,12 +3755,26 @@
         "children": [
          {
           "type": "text",
-          "value": "HPL met kantenband",
+          "value": "Decorblad",
           "bold": true
          },
          {
           "type": "text",
-          "value": ": krasvast, hittebestendig tot ca. 180 °C, binnen en buiten."
+          "value": ": op de inklapbare statafels, onder meer in wit, antraciet, graniet, leisteen en wit gespikkeld, met een rand in een bijpassende kleur."
+         }
+        ]
+       },
+       {
+        "type": "list-item",
+        "children": [
+         {
+          "type": "text",
+          "value": "Hout, bamboe of melamine",
+          "bold": true
+         },
+         {
+          "type": "text",
+          "value": ": warm of strak, op de stapelbare statafels en de statafel met kantelblad."
          }
         ]
        },
@@ -3699,7 +3788,7 @@
          },
          {
           "type": "text",
-          "value": ": door en door massief, voor tafels die het hele jaar buiten staan."
+          "value": ": het blad voor buiten, effen of in decors als marmer en betonlook."
          }
         ]
        },
@@ -3708,26 +3797,12 @@
         "children": [
          {
           "type": "text",
-          "value": "HDPE",
+          "value": "Marmerlook hoogglans",
           "bold": true
          },
          {
           "type": "text",
-          "value": ": licht en waterbestendig, maar niet tegen hitte. Vaak onder een rok."
-         }
-        ]
-       },
-       {
-        "type": "list-item",
-        "children": [
-         {
-          "type": "text",
-          "value": "Berken multiplex",
-          "bold": true
-         },
-         {
-          "type": "text",
-          "value": ": warm en houtig, voor binnen en onder een tent."
+          "value": ": chic zonder rok, op de design statafel marmer."
          }
         ]
        }
@@ -3748,7 +3823,37 @@
       "children": [
        {
         "type": "text",
-        "value": "Een ronde statafel kleed je in één keer aan met een stretchrok. Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm, voor tafels van 105 tot 115 cm hoog. Met topcover is het blad ook bedekt. Twijfel je over de maat, kijk dan in het "
+        "value": "Een ronde statafel kleed je in één keer aan met een "
+       },
+       {
+        "type": "link",
+        "url": "/products/statafelrok-stretch-met-topcover",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "stretchrok met topcover"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ". Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm. Liever los: de "
+       },
+       {
+        "type": "link",
+        "url": "/products/statafelrok-met-strik",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "rok met strik"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": " past op bladen van Ø 70 tot 90 cm. Twijfel je over de maat, kijk dan in het "
        },
        {
         "type": "link",
@@ -3758,21 +3863,6 @@
          {
           "type": "text",
           "value": "maatadvies statafelrokken"
-         }
-        ]
-       },
-       {
-        "type": "text",
-        "value": ". Tafel en rok samen bestellen kan met de "
-       },
-       {
-        "type": "link",
-        "url": "/collections/actiepakketten",
-        "title": null,
-        "children": [
-         {
-          "type": "text",
-          "value": "pakketten"
          }
         ]
        },
@@ -3797,7 +3887,22 @@
       "children": [
        {
         "type": "text",
-        "value": "Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor verhuur en evenementen zijn er pakketten met 5, 10 of 15 statafels en een transportkar. Liever een prijs op maat? "
+        "value": "Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor elk model is er een "
+       },
+       {
+        "type": "link",
+        "url": "/collections/transportkarren",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "transportkar"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ", zoals de kar voor 7 of 15 inklapbare statafels. Liever een prijs op maat? "
        },
        {
         "type": "link",
@@ -3818,15 +3923,15 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Statafel kopen: zo kies je</h2><p>Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 105 tot 110 cm hoog, inklapbaar, vast of stapelbaar, en rond, vierkant, rechthoekig of als wijnvat. Met de vragen hieronder weet je snel welke je nodig hebt.</p><h3>Welke maat? Reken met personen per diameter</h3><ul><li><strong>Ø 70 cm</strong>: 4–5 personen staand. Voor smalle ruimtes en kleine groepjes.</li><li><strong>Ø 80 cm</strong>: 6 personen. Genoeg plek voor glazen en een schaaltje.</li><li><strong>Ø 85 cm</strong>: 6 personen, met meer blad voor bordjes en hapjes.</li></ul><p>Hoeveel tafels? Reken bij een borrel op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Voor 40 gasten zijn 4 à 5 statafels genoeg. Meer rekenvoorbeelden staan in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Hoe hoog is 110 cm, en past er een barkruk bij?</h3><p>110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. Een barkruk met een zithoogte van 76 cm past erbij: tussen zitting en blad blijft 34 cm, genoeg voor je benen. Bij de vierkante statafel van 107 cm is dat 31 cm en bij het wijnvat van 105 cm 29 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag.</p><h3>Inklapbaar, vast of stapelbaar?</h3><ul><li><strong>Inklapbaar</strong>: voor feesten, verhuur en alles wat na afloop weer weg moet. De <a href=\"/products/statafel-inklapbaar-professional\">statafel inklapbaar Professional</a> (12–14 kg, HPL-blad, 3 maten, 4 kleuren) of de lichte <a href=\"/products/statafel-inklapbaar-hdpe-80\">HDPE-statafel Ø 80 cm</a> (9 kg). Lang model: de <a href=\"/products/statafel-rechthoekig-inklapbaar\">rechthoekige statafel</a> van 120 of 160 cm.</li><li><strong>Vast</strong>: voor terras en bar waar de tafel blijft staan. De <a href=\"/products/statafel-met-kruisvoet\">statafel met kruisvoet</a> weegt ca. 22 kg en heeft stelvoetjes.</li><li><strong>Stapelbaar</strong>: de <a href=\"/products/statafel-vierkant-stapelbaar\">vierkante statafel</a> stapel je tot 5 hoog, zonder scharnieren die kunnen slijten.</li><li><strong>Sfeer</strong>: de <a href=\"/products/statafel-wijnvat-houtlook\">wijnvat-statafel</a> in houtlook, vulbaar met water of zand.</li></ul><h3>Welk blad?</h3><ul><li><strong>HPL met kantenband</strong>: krasvast, hittebestendig tot ca. 180 °C, binnen en buiten.</li><li><strong>Compact HPL</strong>: door en door massief, voor tafels die het hele jaar buiten staan.</li><li><strong>HDPE</strong>: licht en waterbestendig, maar niet tegen hitte. Vaak onder een rok.</li><li><strong>Berken multiplex</strong>: warm en houtig, voor binnen en onder een tent.</li></ul><h3>Aankleden met een statafelrok</h3><p>Een ronde statafel kleed je in één keer aan met een stretchrok. Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm, voor tafels van 105 tot 115 cm hoog. Met topcover is het blad ook bedekt. Twijfel je over de maat, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>. Tafel en rok samen bestellen kan met de <a href=\"/collections/actiepakketten\">pakketten</a>.</p><h3>Meer statafels nodig?</h3><p>Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor verhuur en evenementen zijn er pakketten met 5, 10 of 15 statafels en een transportkar. Liever een prijs op maat? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</p>",
-   "body_html": "<p>Statafels van 105 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met vaste kruisvoet of stapelbaar. Rond in Ø 70, 80 of 85 cm, vierkant, rechthoekig of als wijnvat. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.</p>",
+   "seo_tekst_html": "<h2>Statafel kopen: zo kies je</h2><p>Een statafel is een hoge tafel waar je aan staat: bij een borrel, receptie, beurs of in de horeca. Bij Klapklaar zijn ze 106 tot 110 cm hoog, inklapbaar, met kantelblad, stapelbaar of design, en rond, vierkant of rechthoekig. Met de vragen hieronder weet je snel welke je nodig hebt.</p><h3>Welke maat? Reken met personen per diameter</h3><ul><li><strong>Ø 70 cm</strong>: 4–5 personen staand. Voor smalle ruimtes en kleine groepjes.</li><li><strong>Ø 80 cm</strong>: 6 personen. Genoeg plek voor glazen en een schaaltje.</li><li><strong>Ø 85 cm</strong>: 6 personen, met meer blad voor bordjes en hapjes.</li></ul><p>Hoeveel tafels? Reken bij een borrel op 1 statafel per 8 à 10 gasten: niet iedereen staat tegelijk aan tafel. Voor 40 gasten zijn 4 à 5 statafels genoeg. Meer rekenvoorbeelden staan in <a href=\"/blogs/advies/hoeveel-statafels-per-gast\">hoeveel statafels heb je nodig per gast</a>.</p><h3>Hoe hoog, en past er een barkruk bij?</h3><p>110 cm is ongeveer ellebooghoogte als je staat: je zet je glas neer zonder te bukken. De klassieke inklapbare statafel is 107 cm, de stapelbare industriële 106 tot 107 cm. Een barkruk met een zithoogte van 76 cm past erbij: aan 110 cm blijft 34 cm tussen zitting en blad, aan 107 cm 31 cm. Een gewone stoel van 45 cm zit aan een statafel veel te laag.</p><h3>Inklapbaar, kantelblad, stapelbaar of design?</h3><ul><li><strong>Inklapbaar</strong>: voor feesten, verhuur en alles wat na afloop weer weg moet. De <a href=\"/products/statafel-inklapbaar-klassiek\">klassieke</a> blijft ingeklapt zelfstandig staan; de <a href=\"/products/statafel-inklapbaar-met-afneembaar-blad\">statafel met afneembaar blad</a> heeft stelschroeven voor een ongelijke ondergrond. Met een zwaarder onderstel: de <a href=\"/products/statafel-inklapbaar-robuust\">robuuste</a> van 32 mm buis, ook met voetsteun, en die met <a href=\"/products/statafel-inklapbaar-kokerprofiel\">kokerprofiel</a>. Lang model: de <a href=\"/products/statafel-inklapbaar-rechthoekig\">rechthoekige statafel</a> van 160 × 60 cm.</li><li><strong>Kantelblad</strong>: bij de <a href=\"/products/statafel-met-kantelblad\">statafel met kantelblad</a> klapt het blad opzij en schuiven de onderstellen in elkaar; de voet is verzwaard met 4 kg.</li><li><strong>Stapelbaar</strong>: de <a href=\"/products/statafel-stapelbaar-modern\">moderne</a> stapel je tot 10 hoog; bij de <a href=\"/products/statafel-stapelbaar-industrieel\">industriële</a> en de <a href=\"/products/statafel-stapelbaar-industrieel-breed\">brede industriële</a> zit het blad vast met twee vleugelbouten.</li><li><strong>Design</strong>: de <a href=\"/products/statafel-design-marmer\">design statafel marmer</a> op een zwart of geborsteld gouden onderstel, en de <a href=\"/products/statafel-design-nestbaar\">nestbare design statafel</a> met een aluminium onderstel.</li></ul><h3>Welk blad?</h3><ul><li><strong>Decorblad</strong>: op de inklapbare statafels, onder meer in wit, antraciet, graniet, leisteen en wit gespikkeld, met een rand in een bijpassende kleur.</li><li><strong>Hout, bamboe of melamine</strong>: warm of strak, op de stapelbare statafels en de statafel met kantelblad.</li><li><strong>Compact HPL</strong>: het blad voor buiten, effen of in decors als marmer en betonlook.</li><li><strong>Marmerlook hoogglans</strong>: chic zonder rok, op de design statafel marmer.</li></ul><h3>Aankleden met een statafelrok</h3><p>Een ronde statafel kleed je in één keer aan met een <a href=\"/products/statafelrok-stretch-met-topcover\">stretchrok met topcover</a>. Ø 70 cm past in een rok Ø 60–70 cm, Ø 80 en Ø 85 cm in een rok Ø 80–85 cm. Liever los: de <a href=\"/products/statafelrok-met-strik\">rok met strik</a> past op bladen van Ø 70 tot 90 cm. Twijfel je over de maat, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>.</p><h3>Meer statafels nodig?</h3><p>Vanaf 10 stuks zie je bij elke statafel een staffelprijs. Voor elk model is er een <a href=\"/collections/transportkarren\">transportkar</a>, zoals de kar voor 7 of 15 inklapbare statafels. Liever een prijs op maat? <a href=\"/pages/offerte\">Vraag een offerte aan</a>.</p>",
+   "body_html": "<p>Statafels van 106 tot 110 cm voor borrel, receptie, horeca en verhuur: inklapbaar, met kantelblad, stapelbaar of design. Rond in Ø 70, 80 of 85 cm, vierkant of rechthoekig. Aan Ø 70 cm staan 4–5 personen, aan Ø 80 cm 6.</p>",
    "seo": {
     "title": "Statafels kopen: Ø70, Ø80 of Ø85 cm, 110 cm | Klapklaar",
-    "description": "Statafels van 110 cm: inklapbaar, met kruisvoet of stapelbaar. Ø70 voor 4–5, Ø80 voor 6 personen. Met barkruk- en rokadvies. Staffelprijs vanaf 10 stuks."
+    "description": "Statafels van 106–110 cm: inklapbaar, met kantelblad, stapelbaar of design. Ø70 voor 4–5, Ø80 voor 6 personen. Barkruk- en rokadvies, staffel vanaf 10."
    }
   },
   "meubilair": {
-   "intro": "Barkrukken, stoelen, krukken, banken, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.",
+   "intro": "Barkrukken, stoelen, krukken, bankettafels, klaptafels, terrastafels, biertafels en transportkarren voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van ca. 45 cm bij een tafel van 73 tot 76 cm.",
    "kenmerken": [
     "Barkruk 76 cm bij statafel 110 cm",
     "Stapelbaar of inklapbaar",
@@ -3851,7 +3956,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen."
+        "value": "Barkrukken, stoelen, tafels en biertafels: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen."
        }
       ]
      },
@@ -3883,87 +3988,72 @@
         "children": [
          {
           "type": "text",
-          "value": "Statafel 107–110 cm",
+          "value": "Statafel 106–110 cm",
           "bold": true
          },
          {
           "type": "text",
-          "value": " met een barkruk van 76 cm zithoogte: de "
+          "value": " met een barkruk van 76 tot 80 cm zithoogte: de "
          },
          {
           "type": "link",
-          "url": "/products/barkruk-stapelbaar-metaal",
+          "url": "/products/barkruk-metaal-stapelbaar",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "stapelbare metalen barkruk"
+            "value": "metalen barkruk"
            }
           ]
          },
          {
           "type": "text",
-          "value": " , de "
+          "value": " (76 cm), de "
          },
          {
           "type": "link",
-          "url": "/products/barkruk-houten-zitting",
+          "url": "/products/barkruk-met-rugleuning-stapelbaar",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "barkruk met houten zitting"
+            "value": "barkruk met rugleuning"
            }
           ]
          },
          {
           "type": "text",
-          "value": ", de gestoffeerde "
+          "value": " (76 cm), de "
          },
          {
           "type": "link",
-          "url": "/products/barkruk-velours-stapelbaar",
+          "url": "/products/barkruk-vierkante-zitting-stapelbaar",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "velours barkruk"
+            "value": "barkruk met vierkante zitting"
            }
           ]
          },
          {
           "type": "text",
-          "value": " (binnen), de "
+          "value": " (79 cm) of de "
          },
          {
           "type": "link",
-          "url": "/products/barkruk-pe-rotan",
+          "url": "/products/barkruk-inklapbaar",
           "title": null,
           "children": [
            {
             "type": "text",
-            "value": "barkruk van PE-rotan"
+            "value": "inklapbare barkruk"
            }
           ]
          },
          {
           "type": "text",
-          "value": " (buiten) of de "
-         },
-         {
-          "type": "link",
-          "url": "/products/barkruk-draad-stapelbaar",
-          "title": null,
-          "children": [
-           {
-            "type": "text",
-            "value": "draadbarkruk"
-           }
-          ]
-         },
-         {
-          "type": "text",
-          "value": "."
+          "value": " (80 cm)."
          }
         ]
        },
@@ -3972,16 +4062,16 @@
         "children": [
          {
           "type": "text",
-          "value": "Klaptafel 74 cm of terrastafel 75 cm",
+          "value": "Bankettafel 76 cm, buffettafel 74 cm of terrastafel 73–75 cm",
           "bold": true
          },
          {
           "type": "text",
-          "value": " met een stoel van ca. 45 cm: de "
+          "value": " met een stoel van 43 tot 48 cm: de "
          },
          {
           "type": "link",
-          "url": "/products/klapstoel",
+          "url": "/products/klapstoel-kunststof",
           "title": null,
           "children": [
            {
@@ -4026,7 +4116,7 @@
          },
          {
           "type": "link",
-          "url": "/products/banquetstoel-gestoffeerd",
+          "url": "/products/stapelstoel-banquet",
           "title": null,
           "children": [
            {
@@ -4037,31 +4127,16 @@
          },
          {
           "type": "text",
-          "value": ", de "
+          "value": " of de "
          },
          {
           "type": "link",
-          "url": "/products/kruk-laag-stapelbaar",
+          "url": "/products/lage-kruk-metaal-stapelbaar",
           "title": null,
           "children": [
            {
             "type": "text",
             "value": "lage kruk"
-           }
-          ]
-         },
-         {
-          "type": "text",
-          "value": " of een "
-         },
-         {
-          "type": "link",
-          "url": "/products/bank-houten-frame",
-          "title": null,
-          "children": [
-           {
-            "type": "text",
-            "value": "bank met houten frame"
            }
           ]
          },
@@ -4076,16 +4151,31 @@
         "children": [
          {
           "type": "text",
-          "value": "Biertafel ca. 77 cm",
+          "value": "Biertafel van 220 cm",
           "bold": true
          },
          {
           "type": "text",
-          "value": " met de bank van ca. 47 cm uit de "
+          "value": " met de "
          },
          {
           "type": "link",
-          "url": "/products/biertafelset",
+          "url": "/products/bierbank-grenen",
+          "title": null,
+          "children": [
+           {
+            "type": "text",
+            "value": "bierbank"
+           }
+          ]
+         },
+         {
+          "type": "text",
+          "value": " van 220 cm, los of als "
+         },
+         {
+          "type": "link",
+          "url": "/products/biertafelset-grenen",
           "title": null,
           "children": [
            {
@@ -4121,7 +4211,7 @@
         "children": [
          {
           "type": "text",
-          "value": "Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10"
+          "value": "Ronde klaptafel HDPE Ø 150 cm: 8 · Ø 180 cm: 10"
          }
         ]
        },
@@ -4130,7 +4220,7 @@
         "children": [
          {
           "type": "text",
-          "value": "Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10"
+          "value": "Klaptafel met banken: 8"
          }
         ]
        },
@@ -4139,16 +4229,7 @@
         "children": [
          {
           "type": "text",
-          "value": "Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6"
-         }
-        ]
-       },
-       {
-        "type": "list-item",
-        "children": [
-         {
-          "type": "text",
-          "value": "Biertafelset 220 cm: 8 (10 met inschikken)"
+          "value": "Biertafelset 220 cm: 8, 4 per bank"
          }
         ]
        },
@@ -4178,7 +4259,7 @@
       "children": [
        {
         "type": "text",
-        "value": "Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen."
+        "value": "Gegalvaniseerd en gepoedercoat metaal (de metalen barkruk, lage kruk en stapelstoel), de kunststof stapelstoelen en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Bankettafels en conferentietafels zijn voor binnen. Zitkussens haal je bij regen naar binnen."
        }
       ]
      },
@@ -4197,52 +4278,22 @@
       "children": [
        {
         "type": "text",
-        "value": "Metalen barkrukken, stapelstoelen, banquetstoelen en lage krukken stapel je tot 10 hoog, draadbarkrukken en cross back stoelen tot 8 en velours barkrukken tot 5. Voor 24 barkrukken is er een "
+        "value": "De moderne stapelbare sta- en terrastafels stapel je tot 10 hoog, kunststof stapelstoelen met open rug tot 10 en banquetstoelen tot 12. Klapstoelen, klaptafels, bankettafels en biertafels klappen in. Voor grotere aantallen is er per model een "
        },
        {
         "type": "link",
-        "url": "/products/pakket-24-barkrukken-met-transportkar",
+        "url": "/collections/transportkarren",
         "title": null,
         "children": [
          {
           "type": "text",
-          "value": "pakket met transportkar"
+          "value": "transportkar"
          }
         ]
        },
        {
         "type": "text",
-        "value": ". Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor "
-       },
-       {
-        "type": "link",
-        "url": "/products/transportkar-statafels",
-        "title": null,
-        "children": [
-         {
-          "type": "text",
-          "value": "statafels"
-         }
-        ]
-       },
-       {
-        "type": "text",
-        "value": " en voor "
-       },
-       {
-        "type": "link",
-        "url": "/products/transportkar-klaptafels-en-stoelen",
-        "title": null,
-        "children": [
-         {
-          "type": "text",
-          "value": "klaptafels, barkrukken of klapstoelen"
-         }
-        ]
-       },
-       {
-        "type": "text",
-        "value": "."
+        "value": ", van de kar voor 24 metalen barkrukken tot die voor biertafels van 220 cm."
        }
       ]
      },
@@ -4261,16 +4312,16 @@
       "children": [
        {
         "type": "text",
-        "value": "Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn "
+        "value": "Versleten doppen, een beschadigd blad of rijen die recht moeten staan? Er zijn "
        },
        {
         "type": "link",
-        "url": "/products/voetdoppen-set-van-4",
+        "url": "/products/voetdoppen-statafel-stoel-en-barkruk",
         "title": null,
         "children": [
          {
           "type": "text",
-          "value": "voetdoppen per set van 4"
+          "value": "voetdoppen per stuk"
          }
         ]
        },
@@ -4280,12 +4331,27 @@
        },
        {
         "type": "link",
-        "url": "/products/los-statafelblad",
+        "url": "/products/statafelblad-los",
         "title": null,
         "children": [
          {
           "type": "text",
           "value": "los statafelblad"
+         }
+        ]
+       },
+       {
+        "type": "text",
+        "value": ", "
+       },
+       {
+        "type": "link",
+        "url": "/products/stoelverbinders",
+        "title": null,
+        "children": [
+         {
+          "type": "text",
+          "value": "stoelverbinders"
          }
         ]
        },
@@ -4306,7 +4372,7 @@
        },
        {
         "type": "text",
-        "value": ". Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je "
+        "value": ". Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels, bankettafels en biertafels al vanaf 5. Voor een hele zaal of terras kun je "
        },
        {
         "type": "link",
@@ -4327,11 +4393,11 @@
      }
     ]
    },
-   "seo_tekst_html": "<h2>Meubilair voor feest, horeca en verhuur</h2><p>Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen en hoeveel mensen er aan een tafel kunnen.</p><h3>Tafelhoogte en zithoogte die bij elkaar passen</h3><p>Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:</p><ul><li><strong>Statafel 107–110 cm</strong> met een barkruk van 76 cm zithoogte: de <a href=\"/products/barkruk-stapelbaar-metaal\">stapelbare metalen barkruk</a> , de <a href=\"/products/barkruk-houten-zitting\">barkruk met houten zitting</a>, de gestoffeerde <a href=\"/products/barkruk-velours-stapelbaar\">velours barkruk</a> (binnen), de <a href=\"/products/barkruk-pe-rotan\">barkruk van PE-rotan</a> (buiten) of de <a href=\"/products/barkruk-draad-stapelbaar\">draadbarkruk</a>.</li><li><strong>Klaptafel 74 cm of terrastafel 75 cm</strong> met een stoel van ca. 45 cm: de <a href=\"/products/klapstoel\">klapstoel</a>, de <a href=\"/products/stapelstoel-metaal\">metalen stapelstoel</a>, de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>, de <a href=\"/products/banquetstoel-gestoffeerd\">banquetstoel</a>, de <a href=\"/products/kruk-laag-stapelbaar\">lage kruk</a> of een <a href=\"/products/bank-houten-frame\">bank met houten frame</a>.</li><li><strong>Biertafel ca. 77 cm</strong> met de bank van ca. 47 cm uit de <a href=\"/products/biertafelset\">biertafelset</a>.</li></ul><h3>Hoeveel personen per tafel?</h3><ul><li>Klaptafel 122 × 61 cm: 4 · 183 × 76 cm: 6–8 · 244 × 76 cm: 8–10</li><li>Ronde klaptafel Ø 150 cm: 8 · Ø 180 cm: 10</li><li>Terrastafel 60 × 60 cm: 2 · 70 × 70 cm: 2–4 · 120 × 70 cm: 4–6</li><li>Biertafelset 220 cm: 8 (10 met inschikken)</li><li>Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm</li></ul><h3>Binnen of buiten</h3><p>Gepoedercoat staal, HDPE en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Hout (cross back stoel, houten zitting, gelakt vurenhout) is gemaakt voor binnen, onder een tent of overkapping, of een droge feestdag. Zitkussens haal je bij regen naar binnen.</p><h3>Opslaan en vervoeren</h3><p>Metalen barkrukken, stapelstoelen, banquetstoelen en lage krukken stapel je tot 10 hoog, draadbarkrukken en cross back stoelen tot 8 en velours barkrukken tot 5. Voor 24 barkrukken is er een <a href=\"/products/pakket-24-barkrukken-met-transportkar\">pakket met transportkar</a>. Klapstoelen zijn opgevouwen ca. 5 cm dik, klaptafels en biertafelsets klappen plat in. Voor grotere aantallen zijn er transportkarren: voor <a href=\"/products/transportkar-statafels\">statafels</a> en voor <a href=\"/products/transportkar-klaptafels-en-stoelen\">klaptafels, barkrukken of klapstoelen</a>.</p><h3>Onderdelen en staffels</h3><p>Versleten doppen, een beschadigd blad of zin in een kleuraccent? Er zijn <a href=\"/products/voetdoppen-set-van-4\">voetdoppen per set van 4</a>, een <a href=\"/products/los-statafelblad\">los statafelblad</a> en <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussens</a>. Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels en biertafelsets al vanaf 5. Voor een hele zaal of terras kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
-   "body_html": "<p>Barkrukken, stoelen, krukken, banken, klaptafels, terrastafels en biertafelsets voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van 45 cm bij een tafel van 74 of 75 cm.</p>",
+   "seo_tekst_html": "<h2>Meubilair voor feest, horeca en verhuur</h2><p>Barkrukken, stoelen, tafels en biertafels: alles wat je nodig hebt om mensen te laten zitten, eten en staan. Hieronder lees je welke maten bij elkaar passen.</p><h3>Tafelhoogte en zithoogte die bij elkaar passen</h3><p>Tussen zitting en blad hoort ongeveer 28 tot 34 cm te zitten. Dat geeft deze combinaties:</p><ul><li><strong>Statafel 106–110 cm</strong> met een barkruk van 76 tot 80 cm zithoogte: de <a href=\"/products/barkruk-metaal-stapelbaar\">metalen barkruk</a> (76 cm), de <a href=\"/products/barkruk-met-rugleuning-stapelbaar\">barkruk met rugleuning</a> (76 cm), de <a href=\"/products/barkruk-vierkante-zitting-stapelbaar\">barkruk met vierkante zitting</a> (79 cm) of de <a href=\"/products/barkruk-inklapbaar\">inklapbare barkruk</a> (80 cm).</li><li><strong>Bankettafel 76 cm, buffettafel 74 cm of terrastafel 73–75 cm</strong> met een stoel van 43 tot 48 cm: de <a href=\"/products/klapstoel-kunststof\">klapstoel</a>, de <a href=\"/products/stapelstoel-metaal\">metalen stapelstoel</a>, de <a href=\"/products/stapelstoel-cross-back\">stapelstoel cross back</a>, de <a href=\"/products/stapelstoel-banquet\">banquetstoel</a> of de <a href=\"/products/lage-kruk-metaal-stapelbaar\">lage kruk</a>.</li><li><strong>Biertafel van 220 cm</strong> met de <a href=\"/products/bierbank-grenen\">bierbank</a> van 220 cm, los of als <a href=\"/products/biertafelset-grenen\">biertafelset</a>.</li></ul><h3>Hoeveel personen per tafel?</h3><ul><li>Ronde klaptafel HDPE Ø 150 cm: 8 · Ø 180 cm: 10</li><li>Klaptafel met banken: 8</li><li>Biertafelset 220 cm: 8, 4 per bank<!-- claim: 8 personen per biertafelset van 220 cm (4 per bank) is een vuistregel; staat niet in de leveranciersdata --></li><li>Barkrukken: 4 aan een statafel Ø 80 cm, 2 à 3 aan Ø 70 cm</li></ul><h3>Binnen of buiten</h3><p>Gegalvaniseerd en gepoedercoat metaal (de metalen barkruk, lage kruk en stapelstoel), de kunststof stapelstoelen en compact HPL kunnen buiten staan; berg ze na het seizoen droog op. Bankettafels en conferentietafels zijn voor binnen. Zitkussens haal je bij regen naar binnen.</p><h3>Opslaan en vervoeren</h3><p>De moderne stapelbare sta- en terrastafels stapel je tot 10 hoog, kunststof stapelstoelen met open rug tot 10 en banquetstoelen tot 12. Klapstoelen, klaptafels, bankettafels en biertafels klappen in. Voor grotere aantallen is er per model een <a href=\"/collections/transportkarren\">transportkar</a>, van de kar voor 24 metalen barkrukken tot die voor biertafels van 220 cm.</p><h3>Onderdelen en staffels</h3><p>Versleten doppen, een beschadigd blad of rijen die recht moeten staan? Er zijn <a href=\"/products/voetdoppen-statafel-stoel-en-barkruk\">voetdoppen per stuk</a>, een <a href=\"/products/statafelblad-los\">los statafelblad</a>, <a href=\"/products/stoelverbinders\">stoelverbinders</a> en <a href=\"/products/zitkussen-stoel-en-barkruk\">zitkussens</a>. Bij barkrukken, stoelen en terrastafels zie je vanaf 10 stuks een staffelprijs, bij klaptafels, bankettafels en biertafels al vanaf 5. Voor een hele zaal of terras kun je <a href=\"/pages/offerte\">een offerte aanvragen</a>.</p>",
+   "body_html": "<p>Barkrukken, stoelen, krukken, bankettafels, klaptafels, terrastafels, biertafels en transportkarren voor feest, horeca en verhuur. Met maten die bij elkaar passen: een barkruk van 76 cm bij een statafel van 110 cm, een stoel van ca. 45 cm bij een tafel van 73 tot 76 cm.</p>",
    "seo": {
     "title": "Meubilair: barkrukken, stoelen, klaptafels | Klapklaar",
-    "description": "Barkrukken, stoelen, klaptafels, terrastafels en biertafelsets voor feest en horeca. Welke zithoogte bij welke tafel en hoeveel personen per tafel."
+    "description": "Barkrukken, stoelen, bankettafels, klaptafels, terrastafels en biertafels voor feest en horeca. Welke zithoogte bij welke tafel, met een kar per model."
    }
   },
   "actiepakketten": {

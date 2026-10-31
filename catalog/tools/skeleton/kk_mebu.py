@@ -139,7 +139,7 @@ def apply(errors, redirects):
     # every old URL goes to its successor, or to the collection of its kind
     kinds = {'Statafel': 'statafels', 'Terrastafel': 'terrastafels', 'Barkruk': 'barkrukken', 'Stoel': 'stoelen-en-banken',
              'Kruk': 'stoelen-en-banken', 'Bank': 'stoelen-en-banken', 'Klaptafel': 'tafels', 'Transportkar': 'transportkarren',
-             'Pakket': 'actiepakketten'}
+             'Pakket': 'meubilair'}
     def new_to(h):
         return f'/products/{successor[h]}' if h in successor else f"/collections/{kinds.get(removed_type.get(h), 'meubilair')}"
     for r in redirects:  # an older redirect that pointed at a product that is now gone points at its successor

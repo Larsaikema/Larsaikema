@@ -3135,11 +3135,11 @@
   },
   {
    "from": "/products/biertafelsets-10-stuks",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/buffetpakket-klaptafels-stretchhoezen",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/conferentietafel-inklapbaar",
@@ -3183,79 +3183,79 @@
   },
   {
    "from": "/products/pakket-10-biertafels-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-10-ronde-klaptafels-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-10-statafels-stretchrokken-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-15-of-30-barkrukken-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-15-statafels-stretchrokken-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-20-stapelstoelen-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-24-barkrukken-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-26-weddingstoelen-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-30-klapstoelen-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-4-statafels-met-stretchrokken",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-40-stapelstoelen-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-5-statafels-stretchrokken-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-50-klapstoelen-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-buffettafel-met-stretchhoes",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-klapstoelen-met-stoelhoezen",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-klaptafels-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-statafel-hdpe-met-stretchrok",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-statafel-met-stretchrok",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/pakket-statafels-met-transportkar",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/stapelstoel-kunststof",
@@ -3327,7 +3327,7 @@
   },
   {
    "from": "/products/terraspakket-statafel-barkrukken",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   },
   {
    "from": "/products/terrastafel-breed-stapelbaar",
@@ -3387,7 +3387,7 @@
   },
   {
    "from": "/products/wijnvat-set-statafel-barkrukken",
-   "to": "/collections/actiepakketten"
+   "to": "/collections/meubilair"
   }
  ],
  "copy_groups": [
@@ -190571,7 +190571,7 @@
     "Paars": "led-lamp-e27-gekleurd-paars-hero.webp"
    },
    "metafields": {
-    "kenmerk_kort": "Onbreekbaar · 1 W · 7 kleuren of warm wit 2000 K · per stuk",
+    "kenmerk_kort": "Onbreekbaar · 1 W · gekleurd licht · per stuk",
     "usps": null,
     "specificaties": [
      {
