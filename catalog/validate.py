@@ -106,7 +106,8 @@ MAAT_RE = re.compile(
     rf'^(?:{NUM} x {NUM}(?: x {NUM})? (?:m|cm)'      # 3 x 3 m · 3 x 3 x 3 m · 183 x 76 cm
     rf'|Ø{NUM}(?:-{NUM})? (?:cm|m)'                   # Ø80 cm · Ø80-85 cm · Ø8 m
     rf'|{NUM} m(?: breed)?)$')                        # 3 m · 2,5 m · 3 m breed
-KLEUR_RE = re.compile(r'^[A-ZÉ][a-zà-ÿ]+(?:-[a-zà-ÿ]+)?(?: [a-zà-ÿ]+)?$')   # 'Grijs-wit': a two-tone cloth (banen in grijs en wit)
+KLEUR_RE = re.compile(r'^[A-ZÉ][a-zà-ÿ]+(?:-[a-zà-ÿ]+)?(?: [a-zà-ÿ]+){0,3}(?: \([A-Za-zà-ÿ ]+\))?$')
+# 'Grijs-wit': a two-tone cloth (banen in grijs en wit); 'Zwart met gouden stippen'; a decor names its material: 'Wit (compact HPL)'
 
 FORBIDDEN = [
     (r'beste van nederland', 'superlative'), (r'\bnr\.?\s?1\b', 'nr. 1'), (r'\bnummer\s?(?:1|één|een)\b', 'nummer 1'),
@@ -510,7 +511,9 @@ def run(verbose=False):
         if opts and full != len(set(combos)):
             rep.i('variants', f'{a}: sparse variant matrix {len(set(combos))}/{full} (intentional combinations only)')
         # images
-        if not p['images']:
+        if not p['images'] and build.PHOTO_ONLY and p.get('status') != 'active':
+            rep.i('images', f'{a}: no photo yet, so a draft until it has one')
+        elif not p['images']:
             rep.e('images', f'{a}: no images')
         elif not any(i.get('exported') for i in p['images']):
             rep.i('images', f'{a}: no real render yet; the CSV and the fixture carry no image for it (never a draft card)')
@@ -593,11 +596,15 @@ def run(verbose=False):
                 rep.w('metafields', f'{a}: configurator min_afname {conf["min_afname"]} ≠ quantity_rule.min')
         if (mf.get('maatwerk') or (conf or {}).get('maatwerk')) and 'retour' not in body.lower():
             rep.w('copy', f'{a}: maatwerk product body does not mention retour')
+        # PHOTO_ONLY: a draft keeps its references for when it comes back with a photo; the build takes drafts out of the active ones
+        hidden_draft = build.PHOTO_ONLY and p['status'] != 'active'
         for k in ('addons', 'past_op', 'andere_maten', 'alternatieven'):
             for ref in mf.get(k) or []:
-                if ref in P and P[ref]['status'] != 'active':
+                if ref in P and P[ref]['status'] != 'active' and not hidden_draft:
                     rep.w('metafields', f'{a}: {k} → {ref} is not active')
         for ref in mf.get('andere_maten') or []:
+            if hidden_draft:
+                break
             if ref in P and h not in (P[ref]['metafields'].get('andere_maten') or []):
                 rep.w('metafields', f'{a}: andere_maten → {ref} is not reciprocal')
         if mf.get('availability_status') == 'permanent-uitverkocht' and not (mf.get('alternatieven') or mf.get('past_op')):
@@ -659,6 +666,8 @@ def run(verbose=False):
     except (OSError, ValueError, KeyError):
         subcats = []
     for sc in subcats:
+        if sc in (cat.get('coverage_dropped') or []):
+            continue  # a subcategory the shop no longer carries (owner's assortment decision; skeleton COVERAGE_DROPPED)
         if sc not in cov or not cov[sc]:
             rep.e('coverage', f'assortment subcategory {sc} has no product')
     for sc, hs in cov.items():
@@ -718,7 +727,9 @@ def run(verbose=False):
         if not (c.get('body_html') or mfc.get('intro')):
             rep.e('copy', f'{a}: no description or intro')
         cimg = c.get('image') or {}
-        if not cimg.get('src'):
+        if not cimg.get('src') and not c.get('published', True):
+            rep.i('images', f'{a}: unpublished (nothing in it with a photo yet), so no collection image')
+        elif not cimg.get('src'):
             rep.w('images', f'{a}: no collection image (no real render among its candidates and members yet)')
         elif build.is_draft(cimg['src']) or not (IMAGES / cimg['src']).exists():
             rep.e('images', f'{a}: collection image {cimg["src"]} is a draft or missing')
@@ -842,7 +853,7 @@ def run(verbose=False):
         vals = defaultdict(set)
         types = set()
         for m in c['members']:
-            if m not in P:
+            if m not in P or (build.PHOTO_ONLY and P[m].get('status') != 'active'):
                 continue
             types.add(P[m]['product_type'])
             for o in P[m]['options']:
@@ -860,6 +871,10 @@ def run(verbose=False):
                 rep.e('menus', f'{a}: unknown collection {hd}')
             elif t == 'product' and hd not in P:
                 rep.e('menus', f'{a}: unknown product {hd}')
+            elif t == 'product' and build.PHOTO_ONLY and P[hd].get('status') != 'active':
+                rep.e('menus', f'{a}: links to draft product {hd}')
+            elif t == 'collection' and not next((c for c in cat['collections'] if c['handle'] == hd), {}).get('published', True):
+                rep.e('menus', f'{a}: links to unpublished collection {hd}')
             elif t == 'page':
                 if hd not in pages:
                     rep.e('menus', f'{a}: unknown page {hd}')
@@ -918,6 +933,8 @@ def run(verbose=False):
         files = [i['file'] for i in p['images'] if not i.get('photo')]  # real photos (catalog/photos.json) have nothing to render
         if not files and any(i.get('photo') for i in p['images']):
             continue
+        if not files and build.PHOTO_ONLY and p.get('status') != 'active':
+            continue  # no photo yet: a draft, nothing to render either
         if not any(f in jobfiles for f in files):
             rep.e('images', f'product {p["handle"]}: no image job')
         for f in files:
@@ -931,7 +948,10 @@ def run(verbose=False):
     rep.i('images', f'{len(jobs)} image jobs, {present} files present in catalog/images; model_status {dict(st)}')
     for art in blog['articles']:
         src = (art.get('image') or {}).get('use') or (art.get('image') or {}).get('src')
-        if src and src not in jobfiles:
+        if (art.get('image') or {}).get('source') == 'photo':
+            if not (IMAGES / src).exists():
+                rep.e('images', f'article {art["handle"]}: photo {src} missing in catalog/images')
+        elif src and src not in jobfiles:
             rep.e('images', f'article {art["handle"]}: image {src} has no job')
 
     # ================================================================ CSV
@@ -1280,7 +1300,8 @@ def check_addon_fit(rep, products, P):
                 po = ap['metafields'].get('past_op')
                 # an accessory offered with another accessory of the same base (beschermplaat with a statafelrok: both go on the statafel)
                 same_base = set(po or []) & set(p['metafields'].get('past_op') or [])
-                if po and p['handle'] not in po and not same_base and ah not in ADDON_PAST_OP_EXEMPT and 'set' not in p['tags']:
+                if (po and p['handle'] not in po and not same_base and ah not in ADDON_PAST_OP_EXEMPT and 'set' not in p['tags']
+                        and not (build.PHOTO_ONLY and p.get('status') != 'active')):
                     rep.e('addons', f'product {p["handle"]}: add-on {ah} does not list it in custom.past_op (does it fit?)')
                     break
 
@@ -1294,9 +1315,10 @@ def check_round_fields(rep, products, P, cat):
             continue
         for h in p['metafields'].get('past_op') or []:
             rev[h].add(p['handle'])
+    draft = {p['handle'] for p in products if p.get('status') != 'active'} if build.PHOTO_ONLY else set()
     for p in products:
         got = set(p['metafields'].get('onderdelen') or [])
-        if got != rev.get(p['handle'], set()) - {p['handle']}:
+        if got != rev.get(p['handle'], set()) - {p['handle']} - (set() if p['handle'] in draft else draft):
             rep.e('metafields', f'product {p["handle"]}: custom.onderdelen is not the reverse of past_op')
         want = sorted(build.GEBRUIK_LABELS[t] for t in p['tags'] if t in build.GEBRUIK_LABELS)
         if sorted(p['metafields'].get('gebruik') or []) != want:
@@ -1521,7 +1543,10 @@ def check_round4(rep, products, P):
          behind 'prijs niet gevonden' (price_ref is refreshed from the live capture each round)."""
     for p in products:
         for o in p['options']:
-            if o['name'] in ('Kleur', 'Uitvoering', 'Samenstelling') and len(o['values']) == 1:
+            if o['name'] in ('Kleur', 'Uitvoering', 'Samenstelling') and len(o['values']) == 1 and p.get('variants_without_photo'):
+                # PHOTO_ONLY left one value: the others come back with their photos, so the option stays
+                rep.i('options', f'product {p["handle"]}: option {o["name"]} shows one value {o["values"][0]!r} until the others have a photo')
+            elif o['name'] in ('Kleur', 'Uitvoering', 'Samenstelling') and len(o['values']) == 1:
                 rep.e('options', f'product {p["handle"]}: option {o["name"]} has one value {o["values"][0]!r} (drop the option, put it in the specs)')
             for val in o['values']:
                 if re.search(r'op aanvraag|prijs op', val, re.I):

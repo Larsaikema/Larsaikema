@@ -5,269 +5,6 @@
    "title": "Hoofdmenu",
    "items": [
     {
-     "title": "Partytenten",
-     "type": "collection",
-     "url": "/collections/partytenten",
-     "handle": "partytenten",
-     "admin_type": "COLLECTION",
-     "items": [
-      {
-       "title": "Easy-up partytenten",
-       "type": "collection",
-       "url": "/collections/easy-up-partytenten",
-       "handle": "easy-up-partytenten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Premium (staal)",
-         "type": "collection",
-         "url": "/collections/easy-up-premium",
-         "handle": "easy-up-premium",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Professional (aluminium)",
-         "type": "collection",
-         "url": "/collections/easy-up-professional",
-         "handle": "easy-up-professional",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "2 × 2 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=2+x+2+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "3 × 3 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=3+x+3+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "3 × 4,5 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=3+x+4%2C5+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "3 × 6 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=3+x+6+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "4 × 4 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=4+x+4+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "4 × 6 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=4+x+6+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "4 × 8 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=4+x+8+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "5 × 5 m",
-         "type": "http",
-         "url": "/collections/easy-up-partytenten?filter.v.option.maat=5+x+5+m",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Premium of Professional?",
-         "type": "article",
-         "url": "/blogs/advies/easy-up-premium-of-professional",
-         "handle": "advies/easy-up-premium-of-professional",
-         "admin_type": "ARTICLE"
-        }
-       ]
-      },
-      {
-       "title": "Partytenten met buizenframe",
-       "type": "collection",
-       "url": "/collections/partytenten-buizenframe",
-       "handle": "partytenten-buizenframe",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "PE Basis",
-         "type": "product",
-         "url": "/products/partytent-pe-basis-buizenframe",
-         "handle": "partytent-pe-basis-buizenframe",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "PVC 500 Comfort",
-         "type": "product",
-         "url": "/products/partytent-pvc-500-comfort",
-         "handle": "partytent-pvc-500-comfort",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "PVC 550 Premium",
-         "type": "product",
-         "url": "/products/partytent-pvc-550-premium",
-         "handle": "partytent-pvc-550-premium",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "PVC 550 compleet",
-         "type": "product",
-         "url": "/products/partytent-pvc-550-compleet",
-         "handle": "partytent-pvc-550-compleet",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "PVC 620 Professional",
-         "type": "product",
-         "url": "/products/partytent-pvc-620-professional",
-         "handle": "partytent-pvc-620-professional",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opslagtenten",
-         "type": "collection",
-         "url": "/collections/opslagtenten",
-         "handle": "opslagtenten",
-         "admin_type": "COLLECTION"
-        }
-       ]
-      },
-      {
-       "title": "Stretchtenten",
-       "type": "collection",
-       "url": "/collections/stretchtenten",
-       "handle": "stretchtenten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Stretchtent compleet",
-         "type": "product",
-         "url": "/products/stretchtent-compleet",
-         "handle": "stretchtent-compleet",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Stretchdoek op maat",
-         "type": "product",
-         "url": "/products/stretchdoek-op-maat",
-         "handle": "stretchdoek-op-maat",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Hypar schaduwzeil",
-         "type": "product",
-         "url": "/products/hypar-schaduwzeil-stretch",
-         "handle": "hypar-schaduwzeil-stretch",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Zijwanden",
-         "type": "product",
-         "url": "/products/zijwand-stretchtent",
-         "handle": "zijwand-stretchtent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Palen en onderdelen",
-         "type": "product",
-         "url": "/products/onderdelen-stretchtent",
-         "handle": "onderdelen-stretchtent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Ster- en opblaasbare tenten",
-       "type": "collection",
-       "url": "/collections/ster-en-opblaasbare-tenten",
-       "handle": "ster-en-opblaasbare-tenten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Stertenten",
-         "type": "collection",
-         "url": "/collections/stertenten",
-         "handle": "stertenten",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Stertent enkele mast",
-         "type": "product",
-         "url": "/products/stertent-enkele-mast",
-         "handle": "stertent-enkele-mast",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Stertent dubbele mast",
-         "type": "product",
-         "url": "/products/stertent-dubbele-mast",
-         "handle": "stertent-dubbele-mast",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opblaasbare tenten",
-         "type": "collection",
-         "url": "/collections/opblaasbare-tenten",
-         "handle": "opblaasbare-tenten",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Opblaasbare promotietent",
-         "type": "product",
-         "url": "/products/opblaasbare-promotietent",
-         "handle": "opblaasbare-promotietent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opblaasbare zeshoektent",
-         "type": "product",
-         "url": "/products/opblaasbare-zeshoektent",
-         "handle": "opblaasbare-zeshoektent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Overkappingen en schaduwdoeken",
-       "type": "collection",
-       "url": "/collections/overkappingen-en-schaduwdoeken",
-       "handle": "overkappingen-en-schaduwdoeken",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Schaduwdoeken",
-         "type": "product",
-         "url": "/products/schaduwdoek",
-         "handle": "schaduwdoek",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Overkappingzeil op maat",
-         "type": "product",
-         "url": "/products/overkappingzeil-op-maat",
-         "handle": "overkappingzeil-op-maat",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tuinpaviljoen",
-         "type": "product",
-         "url": "/products/tuinpaviljoen-aluminium",
-         "handle": "tuinpaviljoen-aluminium",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      }
-     ]
-    },
-    {
      "title": "Statafels",
      "type": "collection",
      "url": "/collections/statafels",
@@ -282,66 +19,80 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Inklapbaar Professional",
+         "title": "Inklapbaar klassiek",
          "type": "product",
-         "url": "/products/statafel-inklapbaar-professional",
-         "handle": "statafel-inklapbaar-professional",
+         "url": "/products/statafel-inklapbaar-klassiek",
+         "handle": "statafel-inklapbaar-klassiek",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Inklapbaar HDPE",
+         "title": "Inklapbaar met afneembaar blad",
          "type": "product",
-         "url": "/products/statafel-inklapbaar-hdpe-80",
-         "handle": "statafel-inklapbaar-hdpe-80",
+         "url": "/products/statafel-inklapbaar-met-afneembaar-blad",
+         "handle": "statafel-inklapbaar-met-afneembaar-blad",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Met kruisvoet",
+         "title": "Inklapbaar robuust",
          "type": "product",
-         "url": "/products/statafel-met-kruisvoet",
-         "handle": "statafel-met-kruisvoet",
+         "url": "/products/statafel-inklapbaar-robuust",
+         "handle": "statafel-inklapbaar-robuust",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Vierkant stapelbaar",
+         "title": "Inklapbaar rechthoekig",
          "type": "product",
-         "url": "/products/statafel-vierkant-stapelbaar",
-         "handle": "statafel-vierkant-stapelbaar",
+         "url": "/products/statafel-inklapbaar-rechthoekig",
+         "handle": "statafel-inklapbaar-rechthoekig",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Rechthoekig",
+         "title": "Inklapbaar kokerprofiel",
          "type": "product",
-         "url": "/products/statafel-rechthoekig-inklapbaar",
-         "handle": "statafel-rechthoekig-inklapbaar",
+         "url": "/products/statafel-inklapbaar-kokerprofiel",
+         "handle": "statafel-inklapbaar-kokerprofiel",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Breed stapelbaar 180 × 70",
+         "title": "Met kantelblad",
          "type": "product",
-         "url": "/products/statafel-breed-stapelbaar",
-         "handle": "statafel-breed-stapelbaar",
+         "url": "/products/statafel-met-kantelblad",
+         "handle": "statafel-met-kantelblad",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Design marmerlook",
+         "title": "Stapelbaar industrieel",
          "type": "product",
-         "url": "/products/statafel-design-marmerlook",
-         "handle": "statafel-design-marmerlook",
+         "url": "/products/statafel-stapelbaar-industrieel",
+         "handle": "statafel-stapelbaar-industrieel",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Design met zuilvoet",
+         "title": "Stapelbaar industrieel breed",
          "type": "product",
-         "url": "/products/statafel-design-zuilvoet",
-         "handle": "statafel-design-zuilvoet",
+         "url": "/products/statafel-stapelbaar-industrieel-breed",
+         "handle": "statafel-stapelbaar-industrieel-breed",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Wijnvat",
+         "title": "Stapelbaar modern",
          "type": "product",
-         "url": "/products/statafel-wijnvat-houtlook",
-         "handle": "statafel-wijnvat-houtlook",
+         "url": "/products/statafel-stapelbaar-modern",
+         "handle": "statafel-stapelbaar-modern",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Design marmer",
+         "type": "product",
+         "url": "/products/statafel-design-marmer",
+         "handle": "statafel-design-marmer",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Design nestbaar",
+         "type": "product",
+         "url": "/products/statafel-design-nestbaar",
+         "handle": "statafel-design-nestbaar",
          "admin_type": "PRODUCT"
         }
        ]
@@ -402,60 +153,11 @@
          "admin_type": "HTTP"
         },
         {
-         "title": "160 × 60 cm",
-         "type": "http",
-         "url": "/collections/statafels?filter.v.option.maat=160+x+60+cm",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "180 × 70 cm",
-         "type": "http",
-         "url": "/collections/statafels?filter.v.option.maat=180+x+70+cm",
-         "admin_type": "HTTP"
-        },
-        {
          "title": "Hoeveel statafels heb ik nodig?",
          "type": "article",
          "url": "/blogs/advies/hoeveel-statafels-per-gast",
          "handle": "advies/hoeveel-statafels-per-gast",
          "admin_type": "ARTICLE"
-        }
-       ]
-      },
-      {
-       "title": "Transport en onderdelen",
-       "type": "collection",
-       "url": "/collections/statafel-onderdelen",
-       "handle": "statafel-onderdelen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Transportkar statafels",
-         "type": "product",
-         "url": "/products/transportkar-statafels",
-         "handle": "transportkar-statafels",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Onderstel, ring en scharnier",
-         "type": "product",
-         "url": "/products/onderdelen-statafel",
-         "handle": "onderdelen-statafel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Los statafelblad",
-         "type": "product",
-         "url": "/products/los-statafelblad",
-         "handle": "los-statafelblad",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voetdoppen",
-         "type": "product",
-         "url": "/products/voetdoppen-set-van-4",
-         "handle": "voetdoppen-set-van-4",
-         "admin_type": "PRODUCT"
         }
        ]
       },
@@ -467,96 +169,103 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Terrastafel rond",
+         "title": "Inklapbaar robuust",
          "type": "product",
-         "url": "/products/terrastafel-rond-inklapbaar",
-         "handle": "terrastafel-rond-inklapbaar",
+         "url": "/products/terrastafel-inklapbaar-robuust",
+         "handle": "terrastafel-inklapbaar-robuust",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Terrastafel met klapblad",
+         "title": "Inklapbaar met afneembaar blad",
          "type": "product",
-         "url": "/products/terrastafel-inklapbaar",
-         "handle": "terrastafel-inklapbaar",
+         "url": "/products/terrastafel-inklapbaar-met-afneembaar-blad",
+         "handle": "terrastafel-inklapbaar-met-afneembaar-blad",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Vierkant stapelbaar",
+         "title": "Met kantelblad",
          "type": "product",
-         "url": "/products/terrastafel-vierkant-stapelbaar",
-         "handle": "terrastafel-vierkant-stapelbaar",
+         "url": "/products/terrastafel-met-kantelblad",
+         "handle": "terrastafel-met-kantelblad",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Breed stapelbaar",
+         "title": "Stapelbaar industrieel",
          "type": "product",
-         "url": "/products/terrastafel-breed-stapelbaar",
-         "handle": "terrastafel-breed-stapelbaar",
+         "url": "/products/terrastafel-stapelbaar-industrieel",
+         "handle": "terrastafel-stapelbaar-industrieel",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "HPL met zuilvoet",
+         "title": "Stapelbaar industrieel breed",
          "type": "product",
-         "url": "/products/terrastafel-design-zuilvoet",
-         "handle": "terrastafel-design-zuilvoet",
+         "url": "/products/terrastafel-stapelbaar-industrieel-breed",
+         "handle": "terrastafel-stapelbaar-industrieel-breed",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Wiebelvrij",
+         "title": "Stapelbaar modern",
          "type": "product",
-         "url": "/products/terrastafel-wiebelvrij",
-         "handle": "terrastafel-wiebelvrij",
+         "url": "/products/terrastafel-stapelbaar-modern",
+         "handle": "terrastafel-stapelbaar-modern",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Transportkar terrastafels",
+         "title": "Stapelbaar modern breed",
          "type": "product",
-         "url": "/products/transportkar-terrastafels",
-         "handle": "transportkar-terrastafels",
+         "url": "/products/terrastafel-stapelbaar-modern-breed",
+         "handle": "terrastafel-stapelbaar-modern-breed",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Design nestbaar",
+         "type": "product",
+         "url": "/products/terrastafel-design-nestbaar",
+         "handle": "terrastafel-design-nestbaar",
          "admin_type": "PRODUCT"
         }
        ]
       },
       {
-       "title": "Statafelpakketten",
+       "title": "Transport en onderdelen",
        "type": "collection",
-       "url": "/collections/actiepakketten",
-       "handle": "actiepakketten",
+       "url": "/collections/statafel-onderdelen",
+       "handle": "statafel-onderdelen",
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Statafel HDPE met stretchrok",
+         "title": "Transportkarren voor statafels",
          "type": "product",
-         "url": "/products/pakket-statafel-hdpe-met-stretchrok",
-         "handle": "pakket-statafel-hdpe-met-stretchrok",
+         "url": "/products/transportkar-statafels-inklapbaar",
+         "handle": "transportkar-statafels-inklapbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Statafel met stretchrok",
+         "title": "Onderstel",
          "type": "product",
-         "url": "/products/pakket-statafel-met-stretchrok",
-         "handle": "pakket-statafel-met-stretchrok",
+         "url": "/products/onderstel-statafel-inklapbaar",
+         "handle": "onderstel-statafel-inklapbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "4 statafels met rokken",
+         "title": "Los statafelblad",
          "type": "product",
-         "url": "/products/pakket-4-statafels-met-stretchrokken",
-         "handle": "pakket-4-statafels-met-stretchrokken",
+         "url": "/products/statafelblad-los",
+         "handle": "statafelblad-los",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Statafels met transportkar",
+         "title": "Onderdelen",
          "type": "product",
-         "url": "/products/pakket-statafels-met-transportkar",
-         "handle": "pakket-statafels-met-transportkar",
+         "url": "/products/onderdelen-statafel-en-terrastafel",
+         "handle": "onderdelen-statafel-en-terrastafel",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "10 statafels met rokken en kar",
+         "title": "Voetdoppen",
          "type": "product",
-         "url": "/products/pakket-10-statafels-stretchrokken-transportkar",
-         "handle": "pakket-10-statafels-stretchrokken-transportkar",
+         "url": "/products/voetdoppen-statafel-stoel-en-barkruk",
+         "handle": "voetdoppen-statafel-stoel-en-barkruk",
          "admin_type": "PRODUCT"
         }
        ]
@@ -578,63 +287,26 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Statafelrok stretch",
+         "title": "Statafelrok stretch met topcover",
          "type": "product",
-         "url": "/products/statafelrok-stretch",
-         "handle": "statafelrok-stretch",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Losse topcover",
-         "type": "product",
-         "url": "/products/topcover-stretch-statafel",
-         "handle": "topcover-stretch-statafel",
+         "url": "/products/statafelrok-stretch-met-topcover",
+         "handle": "statafelrok-stretch-met-topcover",
          "admin_type": "PRODUCT"
         }
        ]
       },
       {
-       "title": "Hoezen met strik",
+       "title": "Rokken met strik",
        "type": "collection",
        "url": "/collections/statafelhoezen-met-strik",
        "handle": "statafelhoezen-met-strik",
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Statafelhoes met strik",
+         "title": "Statafelrok met strik",
          "type": "product",
-         "url": "/products/statafelhoes-met-strik",
-         "handle": "statafelhoes-met-strik",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Losse strik",
-         "type": "product",
-         "url": "/products/losse-strik-statafelhoes",
-         "handle": "losse-strik-statafelhoes",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Statafelkleden",
-       "type": "collection",
-       "url": "/collections/statafelkleden",
-       "handle": "statafelkleden",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Statafelkleed",
-         "type": "product",
-         "url": "/products/statafelkleed",
-         "handle": "statafelkleed",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Kleed tot de grond",
-         "type": "product",
-         "url": "/products/statafelkleed-rond-tot-de-grond",
-         "handle": "statafelkleed-rond-tot-de-grond",
+         "url": "/products/statafelrok-met-strik",
+         "handle": "statafelrok-met-strik",
          "admin_type": "PRODUCT"
         }
        ]
@@ -647,54 +319,26 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Losse topcover",
+         "title": "Beschermplaat transparant",
          "type": "product",
-         "url": "/products/topcover-stretch-statafel",
-         "handle": "topcover-stretch-statafel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Beschermplaat",
-         "type": "product",
-         "url": "/products/beschermplaat-statafel",
-         "handle": "beschermplaat-statafel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Beschermplaat met opdruk",
-         "type": "product",
-         "url": "/products/beschermplaat-met-opdruk",
-         "handle": "beschermplaat-met-opdruk",
+         "url": "/products/beschermplaat-transparant",
+         "handle": "beschermplaat-transparant",
          "admin_type": "PRODUCT"
         }
        ]
       },
       {
-       "title": "Tafelhoezen",
+       "title": "Tafel- en stoelhoezen",
        "type": "collection",
        "url": "/collections/tafelhoezen",
        "handle": "tafelhoezen",
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Stretchhoes klaptafel",
+         "title": "Stretchhoes buffettafel",
          "type": "product",
-         "url": "/products/stretchhoes-klaptafel",
-         "handle": "stretchhoes-klaptafel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Hoes biertafelset",
-         "type": "product",
-         "url": "/products/hoes-biertafelset",
-         "handle": "hoes-biertafelset",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tafelhoes met logo",
-         "type": "product",
-         "url": "/products/stretchhoes-klaptafel-met-logo",
-         "handle": "stretchhoes-klaptafel-met-logo",
+         "url": "/products/stretchhoes-buffettafel-183-x-76-cm",
+         "handle": "stretchhoes-buffettafel-183-x-76-cm",
          "admin_type": "PRODUCT"
         }
        ]
@@ -725,568 +369,12 @@
      ]
     },
     {
-     "title": "Met jouw logo",
-     "type": "page",
-     "url": "/pages/bedrukken",
-     "handle": "bedrukken",
-     "admin_type": "PAGE",
-     "items": [
-      {
-       "title": "Bedrukte partytenten",
-       "type": "collection",
-       "url": "/collections/bedrukte-partytenten",
-       "handle": "bedrukte-partytenten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Professional met logo",
-         "type": "product",
-         "url": "/products/easy-up-partytent-professional-met-logo-op-de-luifel",
-         "handle": "easy-up-partytent-professional-met-logo-op-de-luifel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Professional full colour",
-         "type": "product",
-         "url": "/products/easy-up-partytent-professional-full-colour-bedrukt",
-         "handle": "easy-up-partytent-professional-full-colour-bedrukt",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Premium met logo",
-         "type": "product",
-         "url": "/products/easy-up-partytent-premium-met-logo-op-de-luifel",
-         "handle": "easy-up-partytent-premium-met-logo-op-de-luifel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Premium full colour",
-         "type": "product",
-         "url": "/products/easy-up-partytent-premium-full-colour-bedrukt",
-         "handle": "easy-up-partytent-premium-full-colour-bedrukt",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Bedrukte zijwand",
-         "type": "product",
-         "url": "/products/bedrukte-zijwand-easy-up",
-         "handle": "bedrukte-zijwand-easy-up",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opblaasbare promotietent",
-         "type": "product",
-         "url": "/products/opblaasbare-promotietent",
-         "handle": "opblaasbare-promotietent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Bedrukte statafelhoezen",
-       "type": "collection",
-       "url": "/collections/bedrukte-statafelhoezen",
-       "handle": "bedrukte-statafelhoezen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Statafelhoes met logo",
-         "type": "product",
-         "url": "/products/statafelhoes-stretch-met-logo",
-         "handle": "statafelhoes-stretch-met-logo",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Beschermplaat met opdruk",
-         "type": "product",
-         "url": "/products/beschermplaat-met-opdruk",
-         "handle": "beschermplaat-met-opdruk",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tafelhoes met logo",
-         "type": "product",
-         "url": "/products/stretchhoes-klaptafel-met-logo",
-         "handle": "stretchhoes-klaptafel-met-logo",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Zo werkt bedrukken",
-       "type": "page",
-       "url": "/pages/bedrukken",
-       "handle": "bedrukken",
-       "admin_type": "PAGE",
-       "items": [
-        {
-         "title": "Bedrukken: stap voor stap",
-         "type": "page",
-         "url": "/pages/bedrukken",
-         "handle": "bedrukken",
-         "admin_type": "PAGE"
-        },
-        {
-         "title": "Zo lever je je logo aan",
-         "type": "article",
-         "url": "/blogs/advies/logo-aanleveren-voor-bedrukking",
-         "handle": "advies/logo-aanleveren-voor-bedrukking",
-         "admin_type": "ARTICLE"
-        },
-        {
-         "title": "Offerte vanaf 10 stuks",
-         "type": "page",
-         "url": "/pages/offerte",
-         "handle": "offerte",
-         "admin_type": "PAGE"
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "title": "Accessoires",
-     "type": "collection",
-     "url": "/collections/accessoires",
-     "handle": "accessoires",
-     "admin_type": "COLLECTION",
-     "items": [
-      {
-       "title": "Voor easy-up",
-       "type": "collection",
-       "url": "/collections/easy-up-onderdelen",
-       "handle": "easy-up-onderdelen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Zijwanden en sets",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Zijwand&filter.p.product_type=Zijwandenset",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Dakzeilen",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Dakzeil",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Gewichten en verankering",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Verzwaring&filter.p.product_type=Verankering",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Tassen en wielsets",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Tas+%26+wielset",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Regengoten en koppelingen",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Regengoot+%26+koppeling",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Frame-onderdelen",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Frame-onderdeel",
-         "admin_type": "HTTP"
-        },
-        {
-         "title": "Licht en warmte",
-         "type": "http",
-         "url": "/collections/easy-up-onderdelen?filter.p.product_type=Tentverlichting&filter.p.product_type=Verwarming",
-         "admin_type": "HTTP"
-        }
-       ]
-      },
-      {
-       "title": "Voor buizenframe-tenten",
-       "type": "collection",
-       "url": "/collections/buizenframe-onderdelen",
-       "handle": "buizenframe-onderdelen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Zijwand 2 m (200 of 220 cm)",
-         "type": "product",
-         "url": "/products/zijwand-partytent-2-m-pvc",
-         "handle": "zijwand-partytent-2-m-pvc",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Eind- en tussenwand",
-         "type": "product",
-         "url": "/products/eindwand-en-tussenwand-partytent",
-         "handle": "eindwand-en-tussenwand-partytent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Dakzeil",
-         "type": "product",
-         "url": "/products/dakzeil-partytent-buizenframe",
-         "handle": "dakzeil-partytent-buizenframe",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Koppelstukken en buizen",
-         "type": "product",
-         "url": "/products/koppelstukken-en-buizen-38-mm",
-         "handle": "koppelstukken-en-buizen-38-mm",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voetgewicht per staander",
-         "type": "product",
-         "url": "/products/voetgewicht-partytent-15-kg",
-         "handle": "voetgewicht-partytent-15-kg",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Stormbandenset",
-         "type": "product",
-         "url": "/products/stormbandenset-partytent",
-         "handle": "stormbandenset-partytent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opbergtassenset",
-         "type": "product",
-         "url": "/products/opbergtassenset-partytent",
-         "handle": "opbergtassenset-partytent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Regengoot",
-         "type": "product",
-         "url": "/products/regengoot-partytent",
-         "handle": "regengoot-partytent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Voor stretch-, ster- en opblaasbare tenten",
-       "type": "collection",
-       "url": "/collections/onderdelen-stretch-ster-en-opblaasbare-tenten",
-       "handle": "onderdelen-stretch-ster-en-opblaasbare-tenten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Zijwanden stretchtent",
-         "type": "product",
-         "url": "/products/zijwand-stretchtent",
-         "handle": "zijwand-stretchtent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Palen stretchtent",
-         "type": "product",
-         "url": "/products/palen-stretchtent",
-         "handle": "palen-stretchtent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Spanmateriaal stretchtent",
-         "type": "product",
-         "url": "/products/onderdelen-stretchtent",
-         "handle": "onderdelen-stretchtent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Koppelgoot stretchtent",
-         "type": "product",
-         "url": "/products/koppelgoot-stretchtent",
-         "handle": "koppelgoot-stretchtent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Zijwanden stertent",
-         "type": "product",
-         "url": "/products/zijwanden-stertent",
-         "handle": "zijwanden-stertent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Pomp opblaasbare tent",
-         "type": "product",
-         "url": "/products/pomp-opblaasbare-tent",
-         "handle": "pomp-opblaasbare-tent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Zijwand opblaasbare tent",
-         "type": "product",
-         "url": "/products/zijwand-opblaasbare-promotietent",
-         "handle": "zijwand-opblaasbare-promotietent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Zijwand tent met waterpoten",
-         "type": "product",
-         "url": "/products/zijwand-opblaasbare-partytent-met-waterpoten",
-         "handle": "zijwand-opblaasbare-partytent-met-waterpoten",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Luifel opblaasbare tent",
-         "type": "product",
-         "url": "/products/luifel-opblaasbare-promotietent",
-         "handle": "luifel-opblaasbare-promotietent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Verbindingstunnel",
-         "type": "product",
-         "url": "/products/verbindingstunnel-opblaasbare-tent",
-         "handle": "verbindingstunnel-opblaasbare-tent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Opbergtas met wielen",
-         "type": "product",
-         "url": "/products/opbergtas-opblaasbare-tent",
-         "handle": "opbergtas-opblaasbare-tent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Alle onderdelen",
-       "type": "collection",
-       "url": "/collections/partytent-onderdelen",
-       "handle": "partytent-onderdelen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Zijwanden",
-         "type": "collection",
-         "url": "/collections/zijwanden",
-         "handle": "zijwanden",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Gewichten en verankering",
-         "type": "collection",
-         "url": "/collections/gewichten-en-verankering",
-         "handle": "gewichten-en-verankering",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Tassen en wielsets",
-         "type": "collection",
-         "url": "/collections/tassen-en-wielsets",
-         "handle": "tassen-en-wielsets",
-         "admin_type": "COLLECTION"
-        }
-       ]
-      },
-      {
-       "title": "Bevestigingsmateriaal",
-       "type": "collection",
-       "url": "/collections/gewichten-en-verankering",
-       "handle": "gewichten-en-verankering",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Spanband met ratel",
-         "type": "product",
-         "url": "/products/spanband-met-ratel",
-         "handle": "spanband-met-ratel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tentelastieken",
-         "type": "product",
-         "url": "/products/tentelastieken-met-bal",
-         "handle": "tentelastieken-met-bal",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Oogbouten en schroefogen",
-         "type": "product",
-         "url": "/products/oogbouten-en-schroefogen",
-         "handle": "oogbouten-en-schroefogen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Klittenband",
-         "type": "product",
-         "url": "/products/klittenband-zelfklevend",
-         "handle": "klittenband-zelfklevend",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Zeilringen met gereedschap",
-         "type": "product",
-         "url": "/products/zeilringen-12-mm",
-         "handle": "zeilringen-12-mm",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Dakhaken",
-         "type": "product",
-         "url": "/products/dakhaken-partytent",
-         "handle": "dakhaken-partytent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Spanschroeven",
-         "type": "product",
-         "url": "/products/spanschroeven-set-van-5",
-         "handle": "spanschroeven-set-van-5",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Schroeven",
-         "type": "product",
-         "url": "/products/schroevenset-tent",
-         "handle": "schroevenset-tent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Haringen",
-         "type": "product",
-         "url": "/products/haringen-en-bevestigingsmateriaal-partytent",
-         "handle": "haringen-en-bevestigingsmateriaal-partytent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Verwarming",
-       "type": "collection",
-       "url": "/collections/verwarming",
-       "handle": "verwarming",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Elektrische heater",
-         "type": "product",
-         "url": "/products/elektrische-heater-partytent",
-         "handle": "elektrische-heater-partytent",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Terrasheater op gas",
-         "type": "product",
-         "url": "/products/terrasheater-gas-13-kw",
-         "handle": "terrasheater-gas-13-kw",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Loungeheater op gas",
-         "type": "product",
-         "url": "/products/loungeheater-gas",
-         "handle": "loungeheater-gas",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Flameheater op gas",
-         "type": "product",
-         "url": "/products/flameheater-gas-9-kw",
-         "handle": "flameheater-gas-9-kw",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Reservebrander",
-         "type": "product",
-         "url": "/products/infraroodbrander-elektrische-heater",
-         "handle": "infraroodbrander-elektrische-heater",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      }
-     ]
-    },
-    {
      "title": "Meubilair",
      "type": "collection",
      "url": "/collections/meubilair",
      "handle": "meubilair",
      "admin_type": "COLLECTION",
      "items": [
-      {
-       "title": "Tafels",
-       "type": "collection",
-       "url": "/collections/tafels",
-       "handle": "tafels",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Klaptafel rechthoekig",
-         "type": "product",
-         "url": "/products/klaptafel-hdpe-rechthoekig",
-         "handle": "klaptafel-hdpe-rechthoekig",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Klaptafel rond",
-         "type": "product",
-         "url": "/products/klaptafel-hdpe-rond",
-         "handle": "klaptafel-hdpe-rond",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Bankettafel recht",
-         "type": "product",
-         "url": "/products/bankettafel-hout-rechthoekig",
-         "handle": "bankettafel-hout-rechthoekig",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Bankettafel rond",
-         "type": "product",
-         "url": "/products/bankettafel-hout-rond",
-         "handle": "bankettafel-hout-rond",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Halfrond, kwartrond, ovaal",
-         "type": "product",
-         "url": "/products/klaptafel-hout-vormen",
-         "handle": "klaptafel-hout-vormen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Conferentietafel",
-         "type": "product",
-         "url": "/products/conferentietafel-inklapbaar",
-         "handle": "conferentietafel-inklapbaar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Examentafel",
-         "type": "product",
-         "url": "/products/examentafel-inklapbaar",
-         "handle": "examentafel-inklapbaar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Terrastafels",
-         "type": "collection",
-         "url": "/collections/terrastafels",
-         "handle": "terrastafels",
-         "admin_type": "COLLECTION"
-        },
-        {
-         "title": "Biertafelset",
-         "type": "product",
-         "url": "/products/biertafelset",
-         "handle": "biertafelset",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Klaptafel met banken",
-         "type": "product",
-         "url": "/products/klaptafel-met-banken-rolbaar",
-         "handle": "klaptafel-met-banken-rolbaar",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
       {
        "title": "Barkrukken",
        "type": "collection",
@@ -1295,91 +383,49 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Barkruk metaal",
+         "title": "Metaal stapelbaar",
          "type": "product",
-         "url": "/products/barkruk-stapelbaar-metaal",
-         "handle": "barkruk-stapelbaar-metaal",
+         "url": "/products/barkruk-metaal-stapelbaar",
+         "handle": "barkruk-metaal-stapelbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Barkruk hout",
+         "title": "Vierkante zitting stapelbaar",
          "type": "product",
-         "url": "/products/barkruk-houten-zitting",
-         "handle": "barkruk-houten-zitting",
+         "url": "/products/barkruk-vierkante-zitting-stapelbaar",
+         "handle": "barkruk-vierkante-zitting-stapelbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Barkruk velours",
+         "title": "Met rugleuning stapelbaar",
          "type": "product",
-         "url": "/products/barkruk-velours-stapelbaar",
-         "handle": "barkruk-velours-stapelbaar",
+         "url": "/products/barkruk-met-rugleuning-stapelbaar",
+         "handle": "barkruk-met-rugleuning-stapelbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Barkruk PE-rotan",
-         "type": "product",
-         "url": "/products/barkruk-pe-rotan",
-         "handle": "barkruk-pe-rotan",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Barkruk draad",
-         "type": "product",
-         "url": "/products/barkruk-draad-stapelbaar",
-         "handle": "barkruk-draad-stapelbaar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Barkruk chroom",
-         "type": "product",
-         "url": "/products/barkruk-chroom-stapelbaar",
-         "handle": "barkruk-chroom-stapelbaar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Barkruk wijnvat",
-         "type": "product",
-         "url": "/products/barkruk-wijnvat",
-         "handle": "barkruk-wijnvat",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Barkruk inklapbaar",
+         "title": "Inklapbaar",
          "type": "product",
          "url": "/products/barkruk-inklapbaar",
          "handle": "barkruk-inklapbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Lage kruk metaal stapelbaar",
+         "type": "product",
+         "url": "/products/lage-kruk-metaal-stapelbaar",
+         "handle": "lage-kruk-metaal-stapelbaar",
          "admin_type": "PRODUCT"
         }
        ]
       },
       {
-       "title": "Stoelen, krukken en banken",
+       "title": "Stoelen",
        "type": "collection",
        "url": "/collections/stoelen-en-banken",
        "handle": "stoelen-en-banken",
        "admin_type": "COLLECTION",
        "items": [
-        {
-         "title": "Klapstoel",
-         "type": "product",
-         "url": "/products/klapstoel",
-         "handle": "klapstoel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Weddingstoel",
-         "type": "product",
-         "url": "/products/klapstoel-wedding",
-         "handle": "klapstoel-wedding",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Stoelhoes stretch",
-         "type": "product",
-         "url": "/products/stoelhoes-stretch",
-         "handle": "stoelhoes-stretch",
-         "admin_type": "PRODUCT"
-        },
         {
          "title": "Stapelstoel metaal",
          "type": "product",
@@ -1388,73 +434,145 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Cross back stoel",
+         "title": "Stapelstoel velours",
+         "type": "product",
+         "url": "/products/stapelstoel-velours",
+         "handle": "stapelstoel-velours",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Stapelstoel cross back",
          "type": "product",
          "url": "/products/stapelstoel-cross-back",
          "handle": "stapelstoel-cross-back",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Banquetstoel",
+         "title": "Stapelstoel kunststof open rug",
          "type": "product",
-         "url": "/products/banquetstoel-gestoffeerd",
-         "handle": "banquetstoel-gestoffeerd",
+         "url": "/products/stapelstoel-kunststof-open-rug",
+         "handle": "stapelstoel-kunststof-open-rug",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Stapelstoel kunststof",
+         "title": "Stapelstoel kunststof rechte rug",
          "type": "product",
-         "url": "/products/stapelstoel-kunststof",
-         "handle": "stapelstoel-kunststof",
+         "url": "/products/stapelstoel-kunststof-rechte-rug",
+         "handle": "stapelstoel-kunststof-rechte-rug",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Transparante stoel",
+         "title": "Stapelstoel kunststof spijlenrug",
          "type": "product",
-         "url": "/products/stapelstoel-polycarbonaat",
-         "handle": "stapelstoel-polycarbonaat",
+         "url": "/products/stapelstoel-kunststof-spijlenrug",
+         "handle": "stapelstoel-kunststof-spijlenrug",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Houten klapstoel",
+         "title": "Stapelstoel kunststof boogframe",
          "type": "product",
-         "url": "/products/klapstoel-hout-bistro",
-         "handle": "klapstoel-hout-bistro",
+         "url": "/products/stapelstoel-kunststof-boogframe",
+         "handle": "stapelstoel-kunststof-boogframe",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Stoelverbinders",
+         "title": "Stapelstoel banquet",
          "type": "product",
-         "url": "/products/stoelverbinder",
-         "handle": "stoelverbinder",
+         "url": "/products/stapelstoel-banquet",
+         "handle": "stapelstoel-banquet",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Onderdelen stoelen en barkrukken",
+         "title": "Klapstoel kunststof",
          "type": "product",
-         "url": "/products/onderdelen-stoelen-en-barkrukken",
-         "handle": "onderdelen-stoelen-en-barkrukken",
+         "url": "/products/klapstoel-kunststof",
+         "handle": "klapstoel-kunststof",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Lage kruk",
+         "title": "Klapstoel wedding",
          "type": "product",
-         "url": "/products/kruk-laag-stapelbaar",
-         "handle": "kruk-laag-stapelbaar",
+         "url": "/products/klapstoel-wedding",
+         "handle": "klapstoel-wedding",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Bank met houten frame",
+         "title": "Klapstoel hout met rotan",
          "type": "product",
-         "url": "/products/bank-houten-frame",
-         "handle": "bank-houten-frame",
+         "url": "/products/klapstoel-hout-met-rotan",
+         "handle": "klapstoel-hout-met-rotan",
+         "admin_type": "PRODUCT"
+        }
+       ]
+      },
+      {
+       "title": "Tafels",
+       "type": "collection",
+       "url": "/collections/tafels",
+       "handle": "tafels",
+       "admin_type": "COLLECTION",
+       "items": [
+        {
+         "title": "Buffettafel hdpe inklapbaar",
+         "type": "product",
+         "url": "/products/buffettafel-hdpe-inklapbaar",
+         "handle": "buffettafel-hdpe-inklapbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Bierbank",
+         "title": "Bankettafel multiplex rechthoekig",
          "type": "product",
-         "url": "/products/bierbank",
-         "handle": "bierbank",
+         "url": "/products/bankettafel-multiplex-rechthoekig",
+         "handle": "bankettafel-multiplex-rechthoekig",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Bankettafel multiplex rond",
+         "type": "product",
+         "url": "/products/bankettafel-multiplex-rond",
+         "handle": "bankettafel-multiplex-rond",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Conferentietafel met klapframe",
+         "type": "product",
+         "url": "/products/conferentietafel-met-klapframe",
+         "handle": "conferentietafel-met-klapframe",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Examentafel inklapbaar berken",
+         "type": "product",
+         "url": "/products/examentafel-inklapbaar-berken",
+         "handle": "examentafel-inklapbaar-berken",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Klaptafel met banken verrijdbaar",
+         "type": "product",
+         "url": "/products/klaptafel-met-banken-verrijdbaar",
+         "handle": "klaptafel-met-banken-verrijdbaar",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Biertafel grenen",
+         "type": "product",
+         "url": "/products/biertafel-grenen",
+         "handle": "biertafel-grenen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Biertafelset grenen",
+         "type": "product",
+         "url": "/products/biertafelset-grenen",
+         "handle": "biertafelset-grenen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Bierbank grenen",
+         "type": "product",
+         "url": "/products/bierbank-grenen",
+         "handle": "bierbank-grenen",
          "admin_type": "PRODUCT"
         }
        ]
@@ -1469,86 +587,58 @@
         {
          "title": "Voor statafels",
          "type": "product",
-         "url": "/products/transportkar-statafels",
-         "handle": "transportkar-statafels",
+         "url": "/products/transportkar-statafels-inklapbaar",
+         "handle": "transportkar-statafels-inklapbaar",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Voor klaptafels, barkrukken en klapstoelen",
+         "title": "Voor barkrukken",
          "type": "product",
-         "url": "/products/transportkar-klaptafels-en-stoelen",
-         "handle": "transportkar-klaptafels-en-stoelen",
+         "url": "/products/transportkar-barkrukken-metaal-stapelbaar",
+         "handle": "transportkar-barkrukken-metaal-stapelbaar",
          "admin_type": "PRODUCT"
         },
         {
          "title": "Voor stapelstoelen",
          "type": "product",
-         "url": "/products/transportkar-stapelstoelen",
-         "handle": "transportkar-stapelstoelen",
+         "url": "/products/transportkar-stapelstoelen-kunststof",
+         "handle": "transportkar-stapelstoelen-kunststof",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Voor ronde klaptafels",
+         "title": "Voor klapstoelen",
          "type": "product",
-         "url": "/products/transportkar-ronde-klaptafels",
-         "handle": "transportkar-ronde-klaptafels",
+         "url": "/products/transportkar-klapstoelen-kunststof",
+         "handle": "transportkar-klapstoelen-kunststof",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor banquetstoelen",
+         "type": "product",
+         "url": "/products/transportkar-banquetstoelen",
+         "handle": "transportkar-banquetstoelen",
+         "admin_type": "PRODUCT"
+        },
+        {
+         "title": "Voor bankettafels",
+         "type": "product",
+         "url": "/products/transportkar-bankettafels-rechthoekig",
+         "handle": "transportkar-bankettafels-rechthoekig",
          "admin_type": "PRODUCT"
         },
         {
          "title": "Voor biertafelsets",
          "type": "product",
-         "url": "/products/transportkar-biertafelsets",
-         "handle": "transportkar-biertafelsets",
+         "url": "/products/transportkar-biertafelsets-220-cm",
+         "handle": "transportkar-biertafelsets-220-cm",
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Voor terrastafels",
-         "type": "product",
-         "url": "/products/transportkar-terrastafels",
-         "handle": "transportkar-terrastafels",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voor koelkasten",
-         "type": "product",
-         "url": "/products/transportkar-koelkasten",
-         "handle": "transportkar-koelkasten",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voor afzetpalen",
-         "type": "product",
-         "url": "/products/transportkar-afzetpalen",
-         "handle": "transportkar-afzetpalen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voor kapstokken",
-         "type": "product",
-         "url": "/products/transportkar-kapstokken",
-         "handle": "transportkar-kapstokken",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Voor marktkramen",
-         "type": "product",
-         "url": "/products/transportkar-marktkramen",
-         "handle": "transportkar-marktkramen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Steekwagen stapelstoelen",
-         "type": "product",
-         "url": "/products/steekwagen-stapelstoelen",
-         "handle": "steekwagen-stapelstoelen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Universeel voor stapels",
-         "type": "product",
-         "url": "/products/transportkar-universeel",
-         "handle": "transportkar-universeel",
-         "admin_type": "PRODUCT"
+         "title": "Alle transportkarren",
+         "type": "collection",
+         "url": "/collections/transportkarren",
+         "handle": "transportkarren",
+         "admin_type": "COLLECTION"
         }
        ]
       },
@@ -1560,10 +650,10 @@
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Afzetpaal met band",
+         "title": "Afzetpaal met trekband",
          "type": "product",
-         "url": "/products/afzetpaal-met-trekband",
-         "handle": "afzetpaal-met-trekband",
+         "url": "/products/afzetpaal-met-oprolbare-trekband",
+         "handle": "afzetpaal-met-oprolbare-trekband",
          "admin_type": "PRODUCT"
         },
         {
@@ -1574,31 +664,10 @@
          "admin_type": "PRODUCT"
         },
         {
-         "title": "Afzetpaal met logo",
+         "title": "Afzetkoord velours",
          "type": "product",
-         "url": "/products/afzetpaal-met-logo",
-         "handle": "afzetpaal-met-logo",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Luxe afzetpaal gala",
-         "type": "product",
-         "url": "/products/afzetpaal-gala",
-         "handle": "afzetpaal-gala",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Marktkraam",
-         "type": "product",
-         "url": "/products/marktkraam-2-m",
-         "handle": "marktkraam-2-m",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Dakzeil, rok en blad voor marktkraam",
-         "type": "product",
-         "url": "/products/dakzeil-marktkraam",
-         "handle": "dakzeil-marktkraam",
+         "url": "/products/afzetkoord-velours",
+         "handle": "afzetkoord-velours",
          "admin_type": "PRODUCT"
         },
         {
@@ -1606,27 +675,6 @@
          "type": "product",
          "url": "/products/loper-per-meter",
          "handle": "loper-per-meter",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Loper op rol, 50 m",
-         "type": "product",
-         "url": "/products/loper-rol-50-m",
-         "handle": "loper-rol-50-m",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Loperpennen",
-         "type": "product",
-         "url": "/products/loperpennen-set-van-25",
-         "handle": "loperpennen-set-van-25",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tentvloer",
-         "type": "product",
-         "url": "/products/tentvloer-kunststof",
-         "handle": "tentvloer-kunststof",
          "admin_type": "PRODUCT"
         },
         {
@@ -1642,339 +690,66 @@
          "url": "/collections/koelkasten-en-vriezers",
          "handle": "koelkasten-en-vriezers",
          "admin_type": "COLLECTION"
+        },
+        {
+         "title": "Verwarming",
+         "type": "collection",
+         "url": "/collections/verwarming",
+         "handle": "verwarming",
+         "admin_type": "COLLECTION"
+        },
+        {
+         "title": "Verlichting",
+         "type": "collection",
+         "url": "/collections/verlichting",
+         "handle": "verlichting",
+         "admin_type": "COLLECTION"
         }
        ]
       }
      ]
     },
     {
-     "title": "Verlichting",
+     "title": "Partytenten",
      "type": "collection",
-     "url": "/collections/verlichting",
-     "handle": "verlichting",
+     "url": "/collections/partytenten",
+     "handle": "partytenten",
      "admin_type": "COLLECTION",
      "items": [
       {
-       "title": "Prikkabels",
+       "title": "Partytenten",
        "type": "collection",
-       "url": "/collections/prikkabels",
-       "handle": "prikkabels",
+       "url": "/collections/partytenten",
+       "handle": "partytenten",
        "admin_type": "COLLECTION",
        "items": [
         {
-         "title": "Prikkabel E27",
-         "type": "product",
-         "url": "/products/prikkabel-e27",
-         "handle": "prikkabel-e27",
-         "admin_type": "PRODUCT"
+         "title": "Easy-up partytenten",
+         "type": "collection",
+         "url": "/collections/easy-up-partytenten",
+         "handle": "easy-up-partytenten",
+         "admin_type": "COLLECTION"
         },
         {
-         "title": "Prikkabel op maat",
-         "type": "product",
-         "url": "/products/prikkabel-op-maat",
-         "handle": "prikkabel-op-maat",
-         "admin_type": "PRODUCT"
+         "title": "Partytenten met buizenframe",
+         "type": "collection",
+         "url": "/collections/partytenten-buizenframe",
+         "handle": "partytenten-buizenframe",
+         "admin_type": "COLLECTION"
         },
         {
-         "title": "Set met lampen",
-         "type": "product",
-         "url": "/products/prikkabelset-led",
-         "handle": "prikkabelset-led",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Lampen en slangen",
-       "type": "collection",
-       "url": "/collections/lampen-en-lichtslangen",
-       "handle": "lampen-en-lichtslangen",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "LED-lampen",
-         "type": "product",
-         "url": "/products/led-lamp-e27",
-         "handle": "led-lamp-e27",
-         "admin_type": "PRODUCT"
+         "title": "Stretchtenten",
+         "type": "collection",
+         "url": "/collections/stretchtenten",
+         "handle": "stretchtenten",
+         "admin_type": "COLLECTION"
         },
         {
-         "title": "Gekleurde en 2000 K lampen",
-         "type": "product",
-         "url": "/products/led-lamp-e27-gekleurd",
-         "handle": "led-lamp-e27-gekleurd",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Dimbaar IP65",
-         "type": "product",
-         "url": "/products/led-lamp-e27-dimbaar-ip65",
-         "handle": "led-lamp-e27-dimbaar-ip65",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "LED-lichtslang per meter",
-         "type": "product",
-         "url": "/products/led-lichtslang",
-         "handle": "led-lichtslang",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Lichtslang 15 of 20 m",
-         "type": "product",
-         "url": "/products/led-lichtslang-set-warm-wit",
-         "handle": "led-lichtslang-set-warm-wit",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Kerstverlichting",
-         "type": "product",
-         "url": "/products/kerstverlichting-10-m",
-         "handle": "kerstverlichting-10-m",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "LED-vloedlicht voor easy-up",
-         "type": "product",
-         "url": "/products/led-vloedlicht-easy-up",
-         "handle": "led-vloedlicht-easy-up",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "LED voor opblaasbare tent",
-         "type": "product",
-         "url": "/products/led-verlichting-opblaasbare-tent",
-         "handle": "led-verlichting-opblaasbare-tent",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Onderdelen",
-       "type": "product",
-       "url": "/products/onderdelen-prikkabel-en-lichtslang",
-       "handle": "onderdelen-prikkabel-en-lichtslang",
-       "admin_type": "PRODUCT",
-       "items": [
-        {
-         "title": "Fittingen, eindkap en kabel per meter",
-         "type": "product",
-         "url": "/products/onderdelen-prikkabel-en-lichtslang",
-         "handle": "onderdelen-prikkabel-en-lichtslang",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Dimmer",
-         "type": "product",
-         "url": "/products/dimmer-voor-prikkabel",
-         "handle": "dimmer-voor-prikkabel",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Tijdschakelaar",
-         "type": "product",
-         "url": "/products/tijdschakelaar-voor-prikkabel",
-         "handle": "tijdschakelaar-voor-prikkabel",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      }
-     ]
-    },
-    {
-     "title": "Pakketten",
-     "type": "collection",
-     "url": "/collections/actiepakketten",
-     "handle": "actiepakketten",
-     "admin_type": "COLLECTION",
-     "items": [
-      {
-       "title": "Statafelpakketten",
-       "type": "collection",
-       "url": "/collections/actiepakketten",
-       "handle": "actiepakketten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Statafel HDPE met stretchrok",
-         "type": "product",
-         "url": "/products/pakket-statafel-hdpe-met-stretchrok",
-         "handle": "pakket-statafel-hdpe-met-stretchrok",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Statafel met stretchrok",
-         "type": "product",
-         "url": "/products/pakket-statafel-met-stretchrok",
-         "handle": "pakket-statafel-met-stretchrok",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Terraspakket",
-         "type": "product",
-         "url": "/products/terraspakket-statafel-barkrukken",
-         "handle": "terraspakket-statafel-barkrukken",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Statafels met rokken en kar",
-         "type": "product",
-         "url": "/products/pakket-10-statafels-stretchrokken-transportkar",
-         "handle": "pakket-10-statafels-stretchrokken-transportkar",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Tentpakketten",
-       "type": "collection",
-       "url": "/collections/actiepakketten",
-       "handle": "actiepakketten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Starterspakket Premium",
-         "type": "product",
-         "url": "/products/starterspakket-easy-up-premium",
-         "handle": "starterspakket-easy-up-premium",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Compleet pakket Professional",
-         "type": "product",
-         "url": "/products/compleet-pakket-easy-up-professional",
-         "handle": "compleet-pakket-easy-up-professional",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Tafels en stoelen met kar",
-       "type": "collection",
-       "url": "/collections/actiepakketten",
-       "handle": "actiepakketten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Klaptafels met kar",
-         "type": "product",
-         "url": "/products/pakket-klaptafels-met-transportkar",
-         "handle": "pakket-klaptafels-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "10 ronde klaptafels met kar",
-         "type": "product",
-         "url": "/products/pakket-10-ronde-klaptafels-met-transportkar",
-         "handle": "pakket-10-ronde-klaptafels-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "30 klapstoelen met kar",
-         "type": "product",
-         "url": "/products/pakket-30-klapstoelen-met-transportkar",
-         "handle": "pakket-30-klapstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "26 weddingstoelen met kar",
-         "type": "product",
-         "url": "/products/pakket-26-weddingstoelen-met-transportkar",
-         "handle": "pakket-26-weddingstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "20 stapelstoelen met kar",
-         "type": "product",
-         "url": "/products/pakket-20-stapelstoelen-met-transportkar",
-         "handle": "pakket-20-stapelstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "40 stapelstoelen met kar",
-         "type": "product",
-         "url": "/products/pakket-40-stapelstoelen-met-transportkar",
-         "handle": "pakket-40-stapelstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "50 klapstoelen met kar",
-         "type": "product",
-         "url": "/products/pakket-50-klapstoelen-met-transportkar",
-         "handle": "pakket-50-klapstoelen-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "15 of 30 barkrukken met kar",
-         "type": "product",
-         "url": "/products/pakket-15-of-30-barkrukken-met-transportkar",
-         "handle": "pakket-15-of-30-barkrukken-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "24 barkrukken met kar",
-         "type": "product",
-         "url": "/products/pakket-24-barkrukken-met-transportkar",
-         "handle": "pakket-24-barkrukken-met-transportkar",
-         "admin_type": "PRODUCT"
-        }
-       ]
-      },
-      {
-       "title": "Meer pakketten",
-       "type": "collection",
-       "url": "/collections/actiepakketten",
-       "handle": "actiepakketten",
-       "admin_type": "COLLECTION",
-       "items": [
-        {
-         "title": "Buffetpakket",
-         "type": "product",
-         "url": "/products/buffetpakket-klaptafels-stretchhoezen",
-         "handle": "buffetpakket-klaptafels-stretchhoezen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Buffettafel met hoes",
-         "type": "product",
-         "url": "/products/pakket-buffettafel-met-stretchhoes",
-         "handle": "pakket-buffettafel-met-stretchhoes",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Biertafelsets 10 stuks",
-         "type": "product",
-         "url": "/products/biertafelsets-10-stuks",
-         "handle": "biertafelsets-10-stuks",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "10 biertafels met kar",
-         "type": "product",
-         "url": "/products/pakket-10-biertafels-met-transportkar",
-         "handle": "pakket-10-biertafels-met-transportkar",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Klapstoelen met stoelhoezen",
-         "type": "product",
-         "url": "/products/pakket-klapstoelen-met-stoelhoezen",
-         "handle": "pakket-klapstoelen-met-stoelhoezen",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Prikkabelset met lampen",
-         "type": "product",
-         "url": "/products/prikkabelset-led",
-         "handle": "prikkabelset-led",
-         "admin_type": "PRODUCT"
-        },
-        {
-         "title": "Wijnvat-set",
-         "type": "product",
-         "url": "/products/wijnvat-set-statafel-barkrukken",
-         "handle": "wijnvat-set-statafel-barkrukken",
-         "admin_type": "PRODUCT"
+         "title": "Accessoires",
+         "type": "collection",
+         "url": "/collections/accessoires",
+         "handle": "accessoires",
+         "admin_type": "COLLECTION"
         }
        ]
       }
@@ -2033,24 +808,17 @@
    "title": "Winkel",
    "items": [
     {
-     "title": "Partytenten",
-     "type": "collection",
-     "url": "/collections/partytenten",
-     "handle": "partytenten",
-     "admin_type": "COLLECTION"
-    },
-    {
-     "title": "Easy-up partytenten",
-     "type": "collection",
-     "url": "/collections/easy-up-partytenten",
-     "handle": "easy-up-partytenten",
-     "admin_type": "COLLECTION"
-    },
-    {
      "title": "Statafels",
      "type": "collection",
      "url": "/collections/statafels",
      "handle": "statafels",
+     "admin_type": "COLLECTION"
+    },
+    {
+     "title": "Terrastafels",
+     "type": "collection",
+     "url": "/collections/terrastafels",
+     "handle": "terrastafels",
      "admin_type": "COLLECTION"
     },
     {
@@ -2061,31 +829,31 @@
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Met jouw logo",
+     "title": "Barkrukken",
      "type": "collection",
-     "url": "/collections/bedrukte-partytenten",
-     "handle": "bedrukte-partytenten",
+     "url": "/collections/barkrukken",
+     "handle": "barkrukken",
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Meubilair",
+     "title": "Stoelen",
      "type": "collection",
-     "url": "/collections/meubilair",
-     "handle": "meubilair",
+     "url": "/collections/stoelen-en-banken",
+     "handle": "stoelen-en-banken",
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Verlichting",
+     "title": "Tafels",
      "type": "collection",
-     "url": "/collections/verlichting",
-     "handle": "verlichting",
+     "url": "/collections/tafels",
+     "handle": "tafels",
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Accessoires",
+     "title": "Transportkarren",
      "type": "collection",
-     "url": "/collections/accessoires",
-     "handle": "accessoires",
+     "url": "/collections/transportkarren",
+     "handle": "transportkarren",
      "admin_type": "COLLECTION"
     },
     {
@@ -2096,10 +864,10 @@
      "admin_type": "COLLECTION"
     },
     {
-     "title": "Pakketten",
+     "title": "Partytenten",
      "type": "collection",
-     "url": "/collections/actiepakketten",
-     "handle": "actiepakketten",
+     "url": "/collections/partytenten",
+     "handle": "partytenten",
      "admin_type": "COLLECTION"
     },
     {

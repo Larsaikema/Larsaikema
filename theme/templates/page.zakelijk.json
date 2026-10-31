@@ -23,8 +23,8 @@
           "type": "benefit",
           "settings": {
             "icon": "proof",
-            "title": "Met je eigen logo",
-            "text": "Op tent of statafelrok. Eerst een drukproef, dan drukken we."
+            "title": "Staffelprijs",
+            "text": "Korting vanaf 10 stuks op statafels, stoelen, barkrukken en textiel; op klaptafels vanaf 5."
           }
         },
         "b4": {
@@ -54,13 +54,13 @@
           "settings": {
             "title": "Eventbureaus",
             "icon": "paint",
-            "text": "Beurs, festival of bedrijfsfeest: tent en statafels in je eigen huisstijl, met een drukproef vooraf.",
-            "collection_1": "bedrukte-partytenten",
-            "label_1": "Partytenten met logo",
-            "collection_2": "bedrukte-statafelhoezen",
-            "label_2": "Statafelhoezen met logo",
-            "collection_3": "verlichting",
-            "label_3": "Verlichting"
+            "text": "Beurs, festival of bedrijfsfeest: statafels met rokken in één kleur, afzetpalen en karren om alles snel op te bouwen.",
+            "collection_1": "statafels",
+            "label_1": "Statafels",
+            "collection_2": "statafelrokken",
+            "label_2": "Statafelrokken",
+            "collection_3": "evenement",
+            "label_3": "Afzetpalen en inrichting"
           }
         },
         "s3": {
@@ -68,12 +68,12 @@
           "settings": {
             "title": "Verhuurbedrijven",
             "icon": "pallet",
-            "text": "Materiaal dat elke week op- en afgaat: aluminium frames, karren om te stapelen en losse onderdelen.",
+            "text": "Materiaal dat elke week op- en afgaat: tafels en stoelen die stapelen of inklappen, karren per model en losse onderdelen.",
             "collection_1": "transportkarren",
             "label_1": "Transportkarren",
-            "collection_2": "easy-up-professional",
-            "label_2": "Easy-up Professional",
-            "collection_3": "partytent-onderdelen",
+            "collection_2": "statafels",
+            "label_2": "Statafels",
+            "collection_3": "statafel-onderdelen",
             "label_3": "Onderdelen"
           }
         },
@@ -82,13 +82,13 @@
           "settings": {
             "title": "Verenigingen",
             "icon": "flag",
-            "text": "Clubfeest, toernooi of carnaval: complete pakketten en tenten met je clublogo.",
-            "collection_1": "actiepakketten",
-            "label_1": "Pakketten",
-            "collection_2": "easy-up-partytenten",
-            "label_2": "Easy-up partytenten",
-            "collection_3": "statafelrokken",
-            "label_3": "Statafelrokken"
+            "text": "Clubfeest, toernooi of kantine: biertafels, statafels en stoelen voor veel mensen tegelijk.",
+            "collection_1": "tafels",
+            "label_1": "Tafels en biertafels",
+            "collection_2": "statafels",
+            "label_2": "Statafels",
+            "collection_3": "stoelen-en-banken",
+            "label_3": "Stoelen"
           }
         },
         "s5": {
@@ -96,13 +96,13 @@
           "settings": {
             "title": "Scholen",
             "icon": "tent",
-            "text": "Schoolfeest, open dag of markt op het plein: kramen, tafels en stoelen die snel staan.",
-            "collection_1": "evenement",
-            "label_1": "Marktkramen",
-            "collection_2": "tafels",
-            "label_2": "Klaptafels",
-            "collection_3": "stoelen-en-banken",
-            "label_3": "Stoelen en banken"
+            "text": "Schoolfeest, examen of open dag: tafels en stoelen die snel staan en weer opgeborgen zijn.",
+            "collection_1": "tafels",
+            "label_1": "Tafels",
+            "collection_2": "stoelen-en-banken",
+            "label_2": "Stoelen",
+            "collection_3": "transportkarren",
+            "label_3": "Transportkarren"
           }
         }
       },
@@ -118,19 +118,21 @@
         "s5"
       ],
       "settings": {
-        "image": "shopify://shop_images/scene-zakelijk.webp"
+        "image": "shopify://shop_images/statafel-stapelbaar-industrieel-70-x-70-cm-eiken-foto.webp",
+        "image_alt": "Stapelbare industriële statafel met een houten blad op een zwart metalen onderstel",
+        "fallback_image": "none"
       }
     },
     "products": {
       "type": "featured-collection",
       "settings": {
-        "eyebrow": "Pakketten",
+        "eyebrow": "Statafels",
         "heading": "Klaar voor je terras of evenement",
-        "text": "Statafels, rokken, krukken en karren in één keer, goedkoper dan los.",
-        "collection": "actiepakketten",
+        "text": "Inklapbaar, stapelbaar of met kantelblad. Staffelprijs vanaf 10 stuks.",
+        "collection": "statafels",
         "limit": 4,
         "columns": 4,
-        "link_label": "Alle pakketten"
+        "link_label": "Alle statafels"
       }
     },
     "faq": {

@@ -1,4 +1,5 @@
 # Collections, menus, pages, blog, filters.
+import re
 from urllib.parse import quote_plus
 
 ONDERDELEN_TYPES = ['Zijwand', 'Zijwandenset', 'Dakzeil', 'Verzwaring', 'Verankering', 'Tas & wielset', 'Regengoot & koppeling', 'Frame-onderdeel']
@@ -230,147 +231,67 @@ def P(title, h):
 
 def build_menus():
     maten = ['2 x 2 m', '3 x 3 m', '3 x 4,5 m', '3 x 6 m', '4 x 4 m', '4 x 6 m', '4 x 8 m', '5 x 5 m']
+    # owner 2026-10-31: the statafel and furniture assortment first, tents small (only what has a real photo shows; catalog/build.py
+    # drops menu links to products and collections the storefront does not show)
+    from kk_base import PRODUCTS
+    def maten(ptype):
+        vals = []
+        for p in PRODUCTS:
+            if p['product_type'] == ptype:
+                for o in p['options']:
+                    if o['name'] == 'Maat':
+                        vals += [v for v in o['values'] if v not in vals]
+        def key(v):
+            n = [float(x.replace(',', '.')) for x in re.findall(r'\d+(?:,\d+)?', v)]
+            return (0 if v.startswith('Ø') else 1, n)
+        return sorted(vals, key=key)
+    def of(ptype, drop):
+        return [P(p['title'].replace(drop, '', 1).strip().capitalize(), p['handle']) for p in PRODUCTS
+                if p['product_type'] == ptype and p.get('supplier') == 'mebu']
     main = [
-        L('Partytenten', 'collection', 'partytenten', items=[
-            L('Easy-up partytenten', 'collection', 'easy-up-partytenten', items=[
-                L('Premium (staal)', 'collection', 'easy-up-premium'), L('Professional (aluminium)', 'collection', 'easy-up-professional')] +
-                [L(m.replace(' x ', ' × '), 'http', url=f('easy-up-partytenten', 'maat', m)) for m in maten] +
-                [L('Premium of Professional?', 'article', 'advies/easy-up-premium-of-professional')]),
-            L('Partytenten met buizenframe', 'collection', 'partytenten-buizenframe', items=[
-                P('PE Basis', 'partytent-pe-basis-buizenframe'), P('PVC 500 Comfort', 'partytent-pvc-500-comfort'), P('PVC 550 Premium', 'partytent-pvc-550-premium'),
-                P('PVC 550 compleet', 'partytent-pvc-550-compleet'), P('PVC 620 Professional', 'partytent-pvc-620-professional'), L('Opslagtenten', 'collection', 'opslagtenten')]),
-            L('Stretchtenten', 'collection', 'stretchtenten', items=[
-                P('Stretchtent compleet', 'stretchtent-compleet'), P('Stretchdoek op maat', 'stretchdoek-op-maat'), P('Hypar schaduwzeil', 'hypar-schaduwzeil-stretch'),
-                P('Zijwanden', 'zijwand-stretchtent'), P('Palen en onderdelen', 'onderdelen-stretchtent')]),
-            L('Ster- en opblaasbare tenten', 'collection', 'ster-en-opblaasbare-tenten', items=[
-                L('Stertenten', 'collection', 'stertenten'), P('Stertent enkele mast', 'stertent-enkele-mast'), P('Stertent dubbele mast', 'stertent-dubbele-mast'),
-                L('Opblaasbare tenten', 'collection', 'opblaasbare-tenten'), P('Opblaasbare promotietent', 'opblaasbare-promotietent'),
-                P('Opblaasbare zeshoektent', 'opblaasbare-zeshoektent')]),
-            L('Overkappingen en schaduwdoeken', 'collection', 'overkappingen-en-schaduwdoeken', items=[
-                P('Schaduwdoeken', 'schaduwdoek'), P('Overkappingzeil op maat', 'overkappingzeil-op-maat'), P('Tuinpaviljoen', 'tuinpaviljoen-aluminium')]),
-        ]),
         L('Statafels', 'collection', 'statafels', items=[
-            L('Statafels', 'collection', 'statafels', items=[
-                P('Inklapbaar Professional', 'statafel-inklapbaar-professional'), P('Inklapbaar HDPE', 'statafel-inklapbaar-hdpe-80'), P('Met kruisvoet', 'statafel-met-kruisvoet'),
-                P('Vierkant stapelbaar', 'statafel-vierkant-stapelbaar'), P('Rechthoekig', 'statafel-rechthoekig-inklapbaar'), P('Breed stapelbaar 180 × 70', 'statafel-breed-stapelbaar'),
-                P('Design marmerlook', 'statafel-design-marmerlook'), P('Design met zuilvoet', 'statafel-design-zuilvoet'), P('Wijnvat', 'statafel-wijnvat-houtlook')]),
-            L('Per maat', 'collection', 'statafels', items=[L(m, 'http', url=f('statafels', 'maat', m)) for m in ['Ø70 cm', 'Ø80 cm', 'Ø85 cm']] +
-              [L(m.replace(' x ', ' × '), 'http', url=f('statafels', 'maat', m)) for m in ['60 x 60 cm', '70 x 70 cm', '80 x 80 cm', '120 x 60 cm', '120 x 70 cm', '160 x 60 cm', '180 x 70 cm']] +
+            L('Statafels', 'collection', 'statafels', items=of('Statafel', 'Statafel')),
+            L('Per maat', 'collection', 'statafels', items=[L(m.replace(' x ', ' × '), 'http', url=f('statafels', 'maat', m)) for m in maten('Statafel')] +
               [L('Hoeveel statafels heb ik nodig?', 'article', 'advies/hoeveel-statafels-per-gast')]),
+            L('Terrastafels', 'collection', 'terrastafels', items=of('Terrastafel', 'Terrastafel')),
             L('Transport en onderdelen', 'collection', 'statafel-onderdelen', items=[
-                P('Transportkar statafels', 'transportkar-statafels'), P('Onderstel, ring en scharnier', 'onderdelen-statafel'), P('Los statafelblad', 'los-statafelblad'),
-                P('Voetdoppen', 'voetdoppen-set-van-4')]),
-            L('Terrastafels', 'collection', 'terrastafels', items=[
-                P('Terrastafel rond', 'terrastafel-rond-inklapbaar'), P('Terrastafel met klapblad', 'terrastafel-inklapbaar'),
-                # catalog round 5: the terrace twins of the hoekige and design statafels and the wiebelvrije tafel
-                P('Vierkant stapelbaar', 'terrastafel-vierkant-stapelbaar'), P('Breed stapelbaar', 'terrastafel-breed-stapelbaar'),
-                P('HPL met zuilvoet', 'terrastafel-design-zuilvoet'), P('Wiebelvrij', 'terrastafel-wiebelvrij'), P('Transportkar terrastafels', 'transportkar-terrastafels')]),
-            L('Statafelpakketten', 'collection', 'actiepakketten', items=[
-                P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
-                P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('4 statafels met rokken', 'pakket-4-statafels-met-stretchrokken'),
-                P('Statafels met transportkar', 'pakket-statafels-met-transportkar'), P('10 statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
+                P('Transportkarren voor statafels', 'transportkar-statafels-inklapbaar'), P('Onderstel', 'onderstel-statafel-inklapbaar'),
+                P('Los statafelblad', 'statafelblad-los'), P('Onderdelen', 'onderdelen-statafel-en-terrastafel'),
+                P('Voetdoppen', 'voetdoppen-statafel-stoel-en-barkruk')]),
         ]),
         L('Rokken & hoezen', 'collection', 'statafelrokken', items=[
-            L('Stretchrokken', 'collection', 'stretch-statafelrokken', items=[P('Statafelrok stretch', 'statafelrok-stretch'), P('Losse topcover', 'topcover-stretch-statafel')]),
-            L('Hoezen met strik', 'collection', 'statafelhoezen-met-strik', items=[P('Statafelhoes met strik', 'statafelhoes-met-strik'), P('Losse strik', 'losse-strik-statafelhoes')]),
-            L('Statafelkleden', 'collection', 'statafelkleden', items=[P('Statafelkleed', 'statafelkleed'), P('Kleed tot de grond', 'statafelkleed-rond-tot-de-grond')]),
+            L('Stretchrokken', 'collection', 'stretch-statafelrokken', items=[
+                P('Statafelrok stretch met topcover', 'statafelrok-stretch-met-topcover'), P('Losse topcover', 'topcover-statafel-stretch'),
+                P('Nederland-thema', 'statafelrok-stretch-nederland-thema')]),
+            L('Rokken met strik', 'collection', 'statafelhoezen-met-strik', items=[P('Statafelrok met strik', 'statafelrok-met-strik')]),
+            L('Statafelkleden', 'collection', 'statafelkleden', items=[P('Statafelkleed', 'statafelkleed-polyester')]),
             L('Topcovers en beschermplaten', 'collection', 'topcovers-en-beschermplaten', items=[
-                P('Losse topcover', 'topcover-stretch-statafel'), P('Beschermplaat', 'beschermplaat-statafel'), P('Beschermplaat met opdruk', 'beschermplaat-met-opdruk')]),
-            L('Tafelhoezen', 'collection', 'tafelhoezen', items=[
-                P('Stretchhoes klaptafel', 'stretchhoes-klaptafel'), P('Hoes biertafelset', 'hoes-biertafelset'), P('Tafelhoes met logo', 'stretchhoes-klaptafel-met-logo')]),
-            L('Welke maat past?', 'page', 'maatadvies-statafelrokken', items=[L('Maatadvies', 'page', 'maatadvies-statafelrokken'), L('Welke statafelrok past?', 'article', 'advies/welke-statafelrok-past')]),
-        ]),
-        L('Met jouw logo', 'page', 'bedrukken', items=[
-            L('Bedrukte partytenten', 'collection', 'bedrukte-partytenten', items=[
-                P('Professional met logo', 'easy-up-partytent-professional-met-logo-op-de-luifel'), P('Professional full colour', 'easy-up-partytent-professional-full-colour-bedrukt'),
-                P('Premium met logo', 'easy-up-partytent-premium-met-logo-op-de-luifel'), P('Premium full colour', 'easy-up-partytent-premium-full-colour-bedrukt'),
-                P('Bedrukte zijwand', 'bedrukte-zijwand-easy-up'), P('Opblaasbare promotietent', 'opblaasbare-promotietent')]),
-            L('Bedrukte statafelhoezen', 'collection', 'bedrukte-statafelhoezen', items=[
-                P('Statafelhoes met logo', 'statafelhoes-stretch-met-logo'), P('Beschermplaat met opdruk', 'beschermplaat-met-opdruk'), P('Tafelhoes met logo', 'stretchhoes-klaptafel-met-logo')]),
-            L('Zo werkt bedrukken', 'page', 'bedrukken', items=[L('Bedrukken: stap voor stap', 'page', 'bedrukken'), L('Zo lever je je logo aan', 'article', 'advies/logo-aanleveren-voor-bedrukking'),
-                                                                 L('Offerte vanaf 10 stuks', 'page', 'offerte')]),
-        ]),
-        L('Accessoires', 'collection', 'accessoires', items=[
-            L('Voor easy-up', 'collection', 'easy-up-onderdelen', items=[
-                L('Zijwanden en sets', 'http', url=t('easy-up-onderdelen', 'Zijwand', 'Zijwandenset')), L('Dakzeilen', 'http', url=t('easy-up-onderdelen', 'Dakzeil')),
-                L('Gewichten en verankering', 'http', url=t('easy-up-onderdelen', 'Verzwaring', 'Verankering')), L('Tassen en wielsets', 'http', url=t('easy-up-onderdelen', 'Tas & wielset')),
-                L('Regengoten en koppelingen', 'http', url=t('easy-up-onderdelen', 'Regengoot & koppeling')), L('Frame-onderdelen', 'http', url=t('easy-up-onderdelen', 'Frame-onderdeel')),
-                L('Licht en warmte', 'http', url=t('easy-up-onderdelen', 'Tentverlichting', 'Verwarming'))]),
-            L('Voor buizenframe-tenten', 'collection', 'buizenframe-onderdelen', items=[
-                P('Zijwand 2 m (200 of 220 cm)', 'zijwand-partytent-2-m-pvc'), P('Eind- en tussenwand', 'eindwand-en-tussenwand-partytent'),
-                P('Dakzeil', 'dakzeil-partytent-buizenframe'), P('Koppelstukken en buizen', 'koppelstukken-en-buizen-38-mm'),
-                P('Voetgewicht per staander', 'voetgewicht-partytent-15-kg'), P('Stormbandenset', 'stormbandenset-partytent'),
-                P('Opbergtassenset', 'opbergtassenset-partytent'), P('Regengoot', 'regengoot-partytent')]),
-            L('Voor stretch-, ster- en opblaasbare tenten', 'collection', 'onderdelen-stretch-ster-en-opblaasbare-tenten', items=[
-                P('Zijwanden stretchtent', 'zijwand-stretchtent'), P('Palen stretchtent', 'palen-stretchtent'), P('Spanmateriaal stretchtent', 'onderdelen-stretchtent'),
-                P('Koppelgoot stretchtent', 'koppelgoot-stretchtent'),
-                P('Zijwanden stertent', 'zijwanden-stertent'), P('Pomp opblaasbare tent', 'pomp-opblaasbare-tent'),
-                P('Zijwand opblaasbare tent', 'zijwand-opblaasbare-promotietent'), P('Zijwand tent met waterpoten', 'zijwand-opblaasbare-partytent-met-waterpoten'),
-                P('Luifel opblaasbare tent', 'luifel-opblaasbare-promotietent'),
-                P('Verbindingstunnel', 'verbindingstunnel-opblaasbare-tent'), P('Opbergtas met wielen', 'opbergtas-opblaasbare-tent')]),
-            L('Alle onderdelen', 'collection', 'partytent-onderdelen', items=[
-                L('Zijwanden', 'collection', 'zijwanden'), L('Gewichten en verankering', 'collection', 'gewichten-en-verankering'), L('Tassen en wielsets', 'collection', 'tassen-en-wielsets')]),
-            # catalog round 3: the fixing materials (spanbanden, elastieken, ogen, klittenband, ringen, haken, spanschroeven, schroeven)
-            L('Bevestigingsmateriaal', 'collection', 'gewichten-en-verankering', items=[
-                P('Spanband met ratel', 'spanband-met-ratel'), P('Tentelastieken', 'tentelastieken-met-bal'), P('Oogbouten en schroefogen', 'oogbouten-en-schroefogen'),
-                P('Klittenband', 'klittenband-zelfklevend'), P('Zeilringen met gereedschap', 'zeilringen-12-mm'), P('Dakhaken', 'dakhaken-partytent'),
-                P('Spanschroeven', 'spanschroeven-set-van-5'), P('Schroeven', 'schroevenset-tent'), P('Haringen', 'haringen-en-bevestigingsmateriaal-partytent')]),
-            L('Verwarming', 'collection', 'verwarming', items=[P('Elektrische heater', 'elektrische-heater-partytent'), P('Terrasheater op gas', 'terrasheater-gas-13-kw'),
-                                                               P('Loungeheater op gas', 'loungeheater-gas'), P('Flameheater op gas', 'flameheater-gas-9-kw'),
-                                                               P('Reservebrander', 'infraroodbrander-elektrische-heater')]),
+                P('Losse topcover', 'topcover-statafel-stretch'), P('Beschermplaat transparant', 'beschermplaat-transparant'),
+                P('Beschermplaat bedrukt', 'beschermplaat-bedrukt')]),
+            L('Tafel- en stoelhoezen', 'collection', 'tafelhoezen', items=[
+                P('Stretchhoes buffettafel', 'stretchhoes-buffettafel-183-x-76-cm'), P('Stoelhoes banquetstoel', 'stoelhoes-stretch-banquetstoel')]),
+            L('Welke maat past?', 'page', 'maatadvies-statafelrokken', items=[L('Maatadvies', 'page', 'maatadvies-statafelrokken'),
+                                                                                L('Welke statafelrok past?', 'article', 'advies/welke-statafelrok-past')]),
         ]),
         L('Meubilair', 'collection', 'meubilair', items=[
-            L('Tafels', 'collection', 'tafels', items=[P('Klaptafel rechthoekig', 'klaptafel-hdpe-rechthoekig'), P('Klaptafel rond', 'klaptafel-hdpe-rond'),
-                                                                        P('Bankettafel recht', 'bankettafel-hout-rechthoekig'), P('Bankettafel rond', 'bankettafel-hout-rond'),
-                                                                        P('Halfrond, kwartrond, ovaal', 'klaptafel-hout-vormen'), P('Conferentietafel', 'conferentietafel-inklapbaar'),
-                                                                        P('Examentafel', 'examentafel-inklapbaar'), L('Terrastafels', 'collection', 'terrastafels'), P('Biertafelset', 'biertafelset'),
-                                                                        P('Klaptafel met banken', 'klaptafel-met-banken-rolbaar')]),
-            L('Barkrukken', 'collection', 'barkrukken', items=[P('Barkruk metaal', 'barkruk-stapelbaar-metaal'), P('Barkruk hout', 'barkruk-houten-zitting'),
-                                                                         P('Barkruk velours', 'barkruk-velours-stapelbaar'), P('Barkruk PE-rotan', 'barkruk-pe-rotan'),
-                                                                         P('Barkruk draad', 'barkruk-draad-stapelbaar'), P('Barkruk chroom', 'barkruk-chroom-stapelbaar'),
-                                                                         P('Barkruk wijnvat', 'barkruk-wijnvat'), P('Barkruk inklapbaar', 'barkruk-inklapbaar')]),
-            L('Stoelen, krukken en banken', 'collection', 'stoelen-en-banken', items=[
-                P('Klapstoel', 'klapstoel'), P('Weddingstoel', 'klapstoel-wedding'), P('Stoelhoes stretch', 'stoelhoes-stretch'), P('Stapelstoel metaal', 'stapelstoel-metaal'), P('Cross back stoel', 'stapelstoel-cross-back'),
-                P('Banquetstoel', 'banquetstoel-gestoffeerd'), P('Stapelstoel kunststof', 'stapelstoel-kunststof'), P('Transparante stoel', 'stapelstoel-polycarbonaat'),
-                P('Houten klapstoel', 'klapstoel-hout-bistro'), P('Stoelverbinders', 'stoelverbinder'), P('Onderdelen stoelen en barkrukken', 'onderdelen-stoelen-en-barkrukken'),
-                P('Lage kruk', 'kruk-laag-stapelbaar'), P('Bank met houten frame', 'bank-houten-frame'), P('Bierbank', 'bierbank')]),
-            L('Transportkarren', 'collection', 'transportkarren', items=[P('Voor statafels', 'transportkar-statafels'), P('Voor klaptafels, barkrukken en klapstoelen', 'transportkar-klaptafels-en-stoelen'),
-                                                                         P('Voor stapelstoelen', 'transportkar-stapelstoelen'), P('Voor ronde klaptafels', 'transportkar-ronde-klaptafels'),
-                                                                         P('Voor biertafelsets', 'transportkar-biertafelsets'), P('Voor terrastafels', 'transportkar-terrastafels'),
-                                                                         P('Voor koelkasten', 'transportkar-koelkasten'), P('Voor afzetpalen', 'transportkar-afzetpalen'),
-                                                                         P('Voor kapstokken', 'transportkar-kapstokken'), P('Voor marktkramen', 'transportkar-marktkramen'),
-                                                                         P('Steekwagen stapelstoelen', 'steekwagen-stapelstoelen'), P('Universeel voor stapels', 'transportkar-universeel')]),
-            L('Evenement en inrichting', 'collection', 'evenement', items=[P('Afzetpaal met band', 'afzetpaal-met-trekband'), P('Afzetpaal met koord', 'afzetpaal-met-koord'),
-                                                                        P('Afzetpaal met logo', 'afzetpaal-met-logo'), P('Luxe afzetpaal gala', 'afzetpaal-gala'), P('Marktkraam', 'marktkraam-2-m'), P('Dakzeil, rok en blad voor marktkraam', 'dakzeil-marktkraam'),
-                                                                        P('Loper per meter', 'loper-per-meter'), P('Loper op rol, 50 m', 'loper-rol-50-m'), P('Loperpennen', 'loperpennen-set-van-25'),
-                                                                        P('Tentvloer', 'tentvloer-kunststof'), P('Kapstok verrijdbaar', 'kapstok-verrijdbaar'),
-                                                                        L('Koelkasten en vriezers', 'collection', 'koelkasten-en-vriezers')]),
+            L('Barkrukken', 'collection', 'barkrukken', items=of('Barkruk', 'Barkruk') + of('Kruk', '')),
+            L('Stoelen', 'collection', 'stoelen-en-banken', items=of('Stoel', '')),
+            L('Tafels', 'collection', 'tafels', items=of('Klaptafel', '') + of('Biertafelset', '') + of('Bierbank', '')),
+            L('Transportkarren', 'collection', 'transportkarren', items=[
+                P('Voor statafels', 'transportkar-statafels-inklapbaar'), P('Voor barkrukken', 'transportkar-barkrukken-metaal-stapelbaar'),
+                P('Voor stapelstoelen', 'transportkar-stapelstoelen-kunststof'), P('Voor klapstoelen', 'transportkar-klapstoelen-kunststof'),
+                P('Voor banquetstoelen', 'transportkar-banquetstoelen'), P('Voor bankettafels', 'transportkar-bankettafels-rechthoekig'),
+                P('Voor biertafelsets', 'transportkar-biertafelsets-220-cm'), L('Alle transportkarren', 'collection', 'transportkarren')]),
+            L('Evenement en inrichting', 'collection', 'evenement', items=[
+                P('Afzetpaal met trekband', 'afzetpaal-met-oprolbare-trekband'), P('Afzetpaal met koord', 'afzetpaal-met-koord'),
+                P('Afzetkoord velours', 'afzetkoord-velours'), P('Loper per meter', 'loper-per-meter'), P('Kapstok verrijdbaar', 'kapstok-verrijdbaar'),
+                L('Koelkasten en vriezers', 'collection', 'koelkasten-en-vriezers'), L('Verwarming', 'collection', 'verwarming'),
+                L('Verlichting', 'collection', 'verlichting')]),
         ]),
-        L('Verlichting', 'collection', 'verlichting', items=[
-            L('Prikkabels', 'collection', 'prikkabels', items=[P('Prikkabel E27', 'prikkabel-e27'), P('Prikkabel op maat', 'prikkabel-op-maat'), P('Set met lampen', 'prikkabelset-led')]),
-            L('Lampen en slangen', 'collection', 'lampen-en-lichtslangen', items=[
-                P('LED-lampen', 'led-lamp-e27'), P('Gekleurde en 2000 K lampen', 'led-lamp-e27-gekleurd'), P('Dimbaar IP65', 'led-lamp-e27-dimbaar-ip65'), P('LED-lichtslang per meter', 'led-lichtslang'), P('Lichtslang 15 of 20 m', 'led-lichtslang-set-warm-wit'), P('Kerstverlichting', 'kerstverlichting-10-m'), P('LED-vloedlicht voor easy-up', 'led-vloedlicht-easy-up'),
-                P('LED voor opblaasbare tent', 'led-verlichting-opblaasbare-tent')]),
-            L('Onderdelen', 'product', 'onderdelen-prikkabel-en-lichtslang', items=[P('Fittingen, eindkap en kabel per meter', 'onderdelen-prikkabel-en-lichtslang'),
-                                                                                     P('Dimmer', 'dimmer-voor-prikkabel'), P('Tijdschakelaar', 'tijdschakelaar-voor-prikkabel')]),
-        ]),
-        # 'Pakketten', not 'Actie': there is no compare-at price or badge:actie anywhere, so the label must not suggest a temporary sale
-        L('Pakketten', 'collection', 'actiepakketten', items=[
-            L('Statafelpakketten', 'collection', 'actiepakketten', items=[P('Statafel HDPE met stretchrok', 'pakket-statafel-hdpe-met-stretchrok'),
-                                                                         P('Statafel met stretchrok', 'pakket-statafel-met-stretchrok'), P('Terraspakket', 'terraspakket-statafel-barkrukken'),
-                                                                         P('Statafels met rokken en kar', 'pakket-10-statafels-stretchrokken-transportkar')]),
-            L('Tentpakketten', 'collection', 'actiepakketten', items=[P('Starterspakket Premium', 'starterspakket-easy-up-premium'), P('Compleet pakket Professional', 'compleet-pakket-easy-up-professional')]),
-            # catalog round 3: every pakket is in the menu (the 6 packs of the 2026-10-18 round were missing)
-            L('Tafels en stoelen met kar', 'collection', 'actiepakketten', items=[
-                P('Klaptafels met kar', 'pakket-klaptafels-met-transportkar'), P('10 ronde klaptafels met kar', 'pakket-10-ronde-klaptafels-met-transportkar'),
-                P('30 klapstoelen met kar', 'pakket-30-klapstoelen-met-transportkar'), P('26 weddingstoelen met kar', 'pakket-26-weddingstoelen-met-transportkar'),
-                P('20 stapelstoelen met kar', 'pakket-20-stapelstoelen-met-transportkar'), P('40 stapelstoelen met kar', 'pakket-40-stapelstoelen-met-transportkar'),
-                P('50 klapstoelen met kar', 'pakket-50-klapstoelen-met-transportkar'), P('15 of 30 barkrukken met kar', 'pakket-15-of-30-barkrukken-met-transportkar'),
-                P('24 barkrukken met kar', 'pakket-24-barkrukken-met-transportkar')]),
-            L('Meer pakketten', 'collection', 'actiepakketten', items=[P('Buffetpakket', 'buffetpakket-klaptafels-stretchhoezen'), P('Buffettafel met hoes', 'pakket-buffettafel-met-stretchhoes'),
-                                                                       P('Biertafelsets 10 stuks', 'biertafelsets-10-stuks'), P('10 biertafels met kar', 'pakket-10-biertafels-met-transportkar'),
-                                                                      P('Klapstoelen met stoelhoezen', 'pakket-klapstoelen-met-stoelhoezen'), P('Prikkabelset met lampen', 'prikkabelset-led'),
-                                                                      P('Wijnvat-set', 'wijnvat-set-statafel-barkrukken')]),
+        L('Partytenten', 'collection', 'partytenten', items=[
+            L('Partytenten', 'collection', 'partytenten', items=[
+                L('Easy-up partytenten', 'collection', 'easy-up-partytenten'), L('Partytenten met buizenframe', 'collection', 'partytenten-buizenframe'),
+                L('Stretchtenten', 'collection', 'stretchtenten'), L('Accessoires', 'collection', 'accessoires')]),
         ]),
         L('Zakelijk', 'page', 'zakelijk', items=[
             L('Klapklaar Zakelijk', 'page', 'zakelijk', items=[L('Zo bestel je zakelijk', 'page', 'zakelijk'), L('Offerte aanvragen', 'page', 'offerte'),
@@ -380,10 +301,10 @@ def build_menus():
     return [
         {'handle': 'main-menu', 'title': 'Hoofdmenu', 'items': main},
         {'handle': 'footer-assortiment', 'title': 'Winkel', 'items': [
-            L('Partytenten', 'collection', 'partytenten'), L('Easy-up partytenten', 'collection', 'easy-up-partytenten'), L('Statafels', 'collection', 'statafels'),
-            L('Statafelrokken en -hoezen', 'collection', 'statafelrokken'), L('Met jouw logo', 'collection', 'bedrukte-partytenten'), L('Meubilair', 'collection', 'meubilair'),
-            L('Verlichting', 'collection', 'verlichting'), L('Accessoires', 'collection', 'accessoires'), L('Evenement en inrichting', 'collection', 'evenement'),
-            L('Pakketten', 'collection', 'actiepakketten'),
+            L('Statafels', 'collection', 'statafels'), L('Terrastafels', 'collection', 'terrastafels'),
+            L('Statafelrokken en -hoezen', 'collection', 'statafelrokken'), L('Barkrukken', 'collection', 'barkrukken'),
+            L('Stoelen', 'collection', 'stoelen-en-banken'), L('Tafels', 'collection', 'tafels'), L('Transportkarren', 'collection', 'transportkarren'),
+            L('Evenement en inrichting', 'collection', 'evenement'), L('Partytenten', 'collection', 'partytenten'), L('Pakketten', 'collection', 'actiepakketten'),
             L('Alle producten', 'collection', 'all')]},
         {'handle': 'footer-klantenservice', 'title': 'Hulp', 'items': [
             L('Contact', 'page', 'contact'), L('Veelgestelde vragen', 'page', 'veelgestelde-vragen'), L('Verzenden en bezorgen', 'page', 'verzenden-en-bezorgen'),

@@ -28,13 +28,15 @@
 //
 // Options: --dry-run · --store <x.myshopify.com> · --token <shpat_…> · --api-version 2026-07 · --files-from-url (fileCreate from
 // the public raw GitHub URL instead of uploading the local PDF) · --verbose
-// Extra steps, only when named: giftcard (create gift card products the CSV import skips) · images (photos newer than
+// Extra steps, only when named: catalog (the products of products.csv created or updated through productSet, drafts set to draft,
+// products the CSV no longer has archived; use it instead of a CSV re-import) · giftcard (create gift card products the CSV
+// import skips) · images (photos newer than
 // the CSV import, from their public URL; with --prune also removes photos the CSV no longer lists and puts them in CSV
 // order) · options (option value order as in the CSV) · shipping (shipping profiles from export/shipping-profiles.json; needs write_shipping
 // and read_locations). --handles a,b limits giftcard, images and csvfields to those products.
 // Admin API access scopes of the custom app: write_products, write_files, write_content, write_online_store_pages,
 // write_online_store_navigation, write_publications (docs/import-en-seed.md).
-import { readFileSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,7 +47,7 @@ const IMAGES = join(REPO, 'catalog', 'images');
 const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/Larsaikema/Larsaikema/claude/shopify-webshop/catalog/images/';
 export const STEPS = ['definitions', 'check', 'csvfields', 'files', 'pages', 'blog', 'collections', 'references', 'menus', 'redirects'];
 // Run only when named: top-ups for a store whose CSV import is older than the current catalog.
-export const EXTRA_STEPS = ['giftcard', 'images', 'options', 'shipping'];
+export const EXTRA_STEPS = ['catalog', 'giftcard', 'images', 'options', 'shipping'];
 const SORT_ORDER = {
   'best-selling': 'BEST_SELLING', manual: 'MANUAL', 'alpha-ascending': 'ALPHA_ASC', 'alpha-descending': 'ALPHA_DESC',
   'price-ascending': 'PRICE_ASC', 'price-descending': 'PRICE_DESC', 'created-descending': 'CREATED_DESC', created: 'CREATED',
@@ -92,7 +94,10 @@ export function loadInputs() {
   const csvImages = new Map();     // handle -> { images: [{src, alt, position}], variants: Map(sku -> src) }
   const giftCards = new Map();     // handle -> CSV rows of products with 'Gift Card' TRUE (Shopify's CSV import skips those)
   const csvOptions = new Map();    // handle -> [{name, values}] in CSV order (the first variant row is the default variant)
+  const csvByHandle = new Map();   // handle -> its CSV rows (the first one carries the product columns)
   for (const r of csvRows) {
+    if (!csvByHandle.has(r.Handle)) csvByHandle.set(r.Handle, []);
+    csvByHandle.get(r.Handle).push(r);
     if (!csvProducts.has(r.Handle)) csvProducts.set(r.Handle, new Set());
     if (r['Variant SKU']) csvProducts.get(r.Handle).add(r['Variant SKU']);
     if (!csvImages.has(r.Handle)) csvImages.set(r.Handle, { images: [], variants: new Map() });
@@ -127,6 +132,7 @@ export function loadInputs() {
     csvImages,
     giftCards,
     csvOptions,
+    csvByHandle,
   };
 }
 
@@ -189,7 +195,10 @@ export const Q = {
   fileDelete: `mutation FileDelete($ids: [ID!]!) { fileDelete(fileIds: $ids) { deletedFileIds userErrors { field message code } } }`,
   productReorderMedia: `mutation ReorderMedia($id: ID!, $moves: [MoveInput!]!) { productReorderMedia(id: $id, moves: $moves) { job { id } mediaUserErrors { field message } } }`,
   variantAppendMedia: `mutation VariantAppendMedia($productId: ID!, $variantMedia: [ProductVariantAppendMediaInput!]!) { productVariantAppendMedia(productId: $productId, variantMedia: $variantMedia) { product { id } userErrors { field message } } }`,
-  products: `query Products($after: String) { products(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
+  products: `query Products($after: String) { products(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle status vendor isGiftCard } } }`,
+  productSet: `mutation ProductSet($identifier: ProductSetIdentifiers, $input: ProductSetInput!) { productSet(identifier: $identifier, input: $input, synchronous: true) { product { id status variants(first: 250) { nodes { id sku } } } userErrors { field message code } } }`,
+  productStatus: `mutation ProductStatus($product: ProductUpdateInput!) { productUpdate(product: $product) { product { id status } userErrors { field message } } }`,
+  unpublish: `mutation Unpublish($id: ID!, $input: [PublicationInput!]!) { publishableUnpublish(id: $id, input: $input) { userErrors { field message } } }`,
   variants: `query Variants($after: String) { productVariants(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id sku product { id handle } } } }`,
   pages: `query Pages($after: String) { pages(first: 250, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
   blogs: `query Blogs($after: String) { blogs(first: 50, after: $after) { pageInfo { hasNextPage endCursor } nodes { id handle } } }`,
@@ -265,7 +274,11 @@ export class Seeder {
 
   // ---- indexes (handle / SKU / name -> GID), loaded once and kept up to date by the steps
   async products() {
-    if (!this.idx.products) this.idx.products = new Map((await paginate(this.api, Q.products, (d) => d.products)).map((n) => [n.handle, n.id]));
+    if (!this.idx.products) {
+      const nodes = await paginate(this.api, Q.products, (d) => d.products);
+      this.idx.products = new Map(nodes.map((n) => [n.handle, n.id]));
+      this.idx.productInfo = new Map(nodes.map((n) => [n.handle, n]));
+    }
     return this.idx.products;
   }
   async variants() {
@@ -364,6 +377,18 @@ export class Seeder {
       const path = srcs.map((x) => join(REPO, x)).find((x) => existsSync(x));
       if (path) want.set(n, { path, url: null, mime: 'image/webp', contentType: 'IMAGE' });
       else this.warn(S, `theme image ${n}: no source file, upload it by hand (docs/theme-setup.md)`);
+    }
+    // the photos the theme templates and section groups point at (shopify://shop_images/<name>), from catalog/images; a
+    // product photo that the store already has under that name is not uploaded again
+    for (const dir of ['templates', 'sections']) {
+      const d = join(REPO, 'theme', dir);
+      if (!existsSync(d)) continue;
+      for (const f of readdirSync(d).filter((x) => x.endsWith('.json'))) {
+        for (const m of readFileSync(join(d, f), 'utf8').matchAll(/shopify:\/\/shop_images\/([A-Za-z0-9._-]+)/g)) {
+          const path = join(IMAGES, m[1]);
+          if (!want.has(m[1]) && existsSync(path)) want.set(m[1], { path, url: IMAGE_BASE_URL + m[1], mime: 'image/webp', contentType: 'IMAGE' });
+        }
+      }
     }
     const pending = [];
     for (const [name, f] of want) {
@@ -522,9 +547,83 @@ export class Seeder {
       if (pub && c.published !== false) {
         const p = (await this.api.gql(Q.publish, { id: cid, input: [{ publicationId: pub }] })).publishablePublish;
         if (p.userErrors.length) this.warn(S, `${c.handle}: publish: ${firstError(p)}`);
+      } else if (pub && id) {
+        // nothing in it the storefront shows (catalog/build.py PHOTO_ONLY): off the Online Store until it has
+        const p = (await this.api.gql(Q.unpublish, { id: cid, input: [{ publicationId: pub }] })).publishableUnpublish;
+        if (p.userErrors.length) this.warn(S, `${c.handle}: unpublish: ${firstError(p)}`);
+        else this.count(S, 'unpublished');
       }
     }
     if (P.size === 0) this.warn(S, 'no products in the store yet: smart collections fill once products.csv is imported');
+  }
+
+  // The products of products.csv through productSet, for a store that already has an older catalog (a CSV re-import cannot
+  // remove what the catalog no longer has). Per product: title, text, type, tags, SEO, options and variants (price, SKU,
+  // weight, stock policy); a variant the CSV no longer lists goes, an existing variant keeps its id (matched on SKU). A product
+  // with Status draft that the store already has only gets the status draft (it keeps its variants and photos for when it
+  // comes back with a photo); a new one is created as a draft. A Klapklaar product of the store that the CSV no longer has is
+  // archived (its URL redirects, export/redirects.csv). Active products are published to the Online Store. Gift cards: step
+  // giftcard. Photos: step images (--prune); metafields: csvfields and references; option order: options.
+  async catalog() {
+    const S = 'catalog';
+    const P = await this.products();
+    const V = await this.variants();
+    const info = this.idx.productInfo || new Map();
+    const bySku = new Map();
+    for (const n of await paginate(this.api, Q.variants, (d) => d.productVariants)) if (n.sku) bySku.set(n.sku, { id: n.id, handle: n.product?.handle });
+    const pub = await this.onlineStore();
+    const setStatus = async (handle, id, status) => {
+      if (info.get(handle)?.status === status) return false;
+      const r = (await this.api.gql(Q.productStatus, { product: { id, status } })).productUpdate;
+      if (r.userErrors.length) { this.err(S, `${handle}: status ${status}: ${firstError(r)}`); return false; }
+      return true;
+    };
+    for (const [handle, rows] of this.in.csvByHandle) {
+      if (this.opts.handles && !this.opts.handles.has(handle)) continue;
+      const head = rows[0];
+      if (head['Gift Card'] === 'TRUE') continue;
+      const status = (head.Status || 'active').toUpperCase();
+      const pid = P.get(handle);
+      if (status !== 'ACTIVE' && pid) {
+        if (await setStatus(handle, pid, status)) this.count(S, `set_${status.toLowerCase()}`);
+        continue;
+      }
+      const opts = this.in.csvOptions.get(handle) || [];
+      const input = {
+        handle, title: head.Title, descriptionHtml: head['Body (HTML)'], vendor: head.Vendor, productType: head.Type, status,
+        tags: (head.Tags || '').split(',').map((t) => t.trim()).filter(Boolean),
+        seo: { title: head['SEO Title'] || null, description: head['SEO Description'] || null },
+        productOptions: opts.map((o) => ({ name: o.name, values: o.values.map((name) => ({ name })) })),
+        variants: rows.filter((r) => r['Option1 Value']).map((r) => {
+          const own = bySku.get(r['Variant SKU']);
+          return {
+            ...(own && own.handle === handle ? { id: own.id } : {}),
+            optionValues: opts.map((o, i) => ({ optionName: o.name, name: r[`Option${i + 1} Value`] })),
+            price: r['Variant Price'], compareAtPrice: r['Variant Compare At Price'] || null,
+            sku: r['Variant SKU'] || null, barcode: r['Variant Barcode'] || null,
+            inventoryPolicy: r['Variant Inventory Policy'] === 'continue' ? 'CONTINUE' : 'DENY', taxable: r['Variant Taxable'] === 'TRUE',
+            inventoryItem: {
+              tracked: r['Variant Inventory Tracker'] === 'shopify', requiresShipping: r['Variant Requires Shipping'] === 'TRUE',
+              measurement: { weight: { value: Number(r['Variant Grams'] || 0) / 1000, unit: 'KILOGRAMS' } },
+            },
+          };
+        }),
+      };
+      const r = (await this.api.gql(Q.productSet, { identifier: pid ? { id: pid } : null, input })).productSet;
+      if (!r.product) { this.err(S, `${handle}: ${firstError(r)}`); continue; }
+      P.set(handle, r.product.id);
+      for (const v of r.product.variants.nodes) if (v.sku) V.set(v.sku, v.id);
+      this.count(S, pid ? 'updated' : 'created');
+      if (status === 'ACTIVE' && pub) {
+        const p = (await this.api.gql(Q.publish, { id: r.product.id, input: [{ publicationId: pub }] })).publishablePublish;
+        if (p.userErrors.length) this.warn(S, `${handle}: publish: ${firstError(p)}`);
+      }
+    }
+    if (this.opts.handles) return;
+    for (const [handle, n] of info) {
+      if (this.in.csvByHandle.has(handle) || n.isGiftCard || n.vendor !== 'Klapklaar') continue;
+      if (await setStatus(handle, n.id, 'ARCHIVED')) this.count(S, 'archived');
+    }
   }
 
   // Gift card products ('Gift Card' TRUE in products.csv): Shopify's CSV import skips them, so they are created here with

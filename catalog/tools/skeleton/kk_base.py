@@ -40,6 +40,13 @@ SWATCH_HEX = {
     'Leisteen': '#4B4F52', 'Eiken': '#B8915F', 'Vintage hout': '#7A5C43', 'Wit gespikkeld': '#E6E3DC', 'Chroom': '#C9CCCF',
     'Betonlook': '#9A9893', 'Wit marmer': '#ECEAE6', 'Zwart marmer': '#26272A', 'Grijs eiken': '#8E8778', 'Teak': '#6B4A2E',
     'Olijf': '#6A6B3A', 'Donkergroen': '#1E3B2B', 'Terracotta': '#B5583A', 'Mosterd': '#C9952B',
+    # the supplier assortment (2026-10-31): tops in two materials keep one colour, the material is in the value
+    'Wit (compact HPL)': '#F3F3F0', 'Zwart (compact HPL)': '#1D1E20', 'Wit (melamine)': '#F3F3F0', 'Zwart (melamine)': '#1D1E20',
+    'Wit marmer (hoogglans)': '#ECEAE6', 'Zwart marmer (hoogglans)': '#26272A', 'Geborsteld metaal': '#A9ADB1', 'Zwart metaal': '#2A2B2D',
+    'Hout': '#B07A4A', 'Grenen': '#D2B48C', 'Bamboe': '#C8A86B', 'Beuken': '#D8B48A', 'Steen': '#8C8A85', 'Limewash': '#D9D4C7',
+    'Koningsblauw': '#1F3FA6', 'Mintgroen': '#98D7B5', 'Okergeel': '#C9952B', 'Olijfgroen': '#6A6B3A', 'Petrol': '#1F5560',
+    'Grijsgroen': '#7D8A7B', 'Ivoor': '#F2EBDA', 'Mokka': '#6F4E37', 'Parelwit bouclé': '#EFEBE3', 'Zwart kunstleer': '#1D1E20',
+    'Blauw met gouden stippen': '#1E4E9E', 'Rood met gouden stippen': '#B5161E', 'Zwart met gouden stippen': '#1D1E20',
 }
 # two-tone swatch for the theme setting swatch_colors (CSS background value, no colon inside)
 TWO_TONE = {k: v for k, v in SWATCH_HEX.items() if k.endswith('-wit')}

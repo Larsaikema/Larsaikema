@@ -213,6 +213,27 @@ SYS_REST = {'Stretchtent', 'Stertent', 'Opblaasbare tent'}
 systeem_onderdelen = [p['handle'] for p in PRODUCTS if p['product_type'] in ONDERDEEL_TYPES + site.SYSTEEM_ONDERDELEN_TYPES
                       and SYS_REST & set(p['metafields'].get('systeem') or [])]
 cols = site.build_collections(bedrukte_tenten, bedrukte_hoezen, easy_up_onderdelen, buizenframe_onderdelen, systeem_onderdelen)
+# manual collections and product menu links follow the supplier assortment (kk_mebu): successor, or out
+def _succ(h):
+    h2 = MEBU_SUCCESSOR.get(h, h) if h in MEBU_REMOVED else h
+    return h2 if h2 in HANDLES else None
+for c in cols:
+    if c['type'] != 'smart':
+        c['products'] = list(dict.fromkeys(x for x in (_succ(h) for h in c['products']) if x))
+def _menu(items):
+    out = []
+    for it in items:
+        if it.get('type') == 'product':
+            h = _succ(it.get('resource') or it.get('handle'))
+            if not h:
+                continue
+            it = dict(it, **({'resource': h} if 'resource' in it else {'handle': h}))
+        if it.get('items'):
+            it = dict(it, items=_menu(it['items']))
+        out.append(it)
+    return out
+_build_menus = site.build_menus
+site.build_menus = lambda: [dict(m, items=_menu(m['items'])) for m in _build_menus()]
 
 def match(p, rule):
     c, rel, cond = rule['column'], rule['relation'], rule['condition']
@@ -244,6 +265,9 @@ for c in cols:
         errors.append(f'collection {c["handle"]} empty')
 
 # ---------------------------------------------------------------- coverage
+# categories the owner left out when the furniture assortment moved to the supplier's (2026-10-31): no supplier product, or a
+# pakket that returns built on the new products
+COVERAGE_DROPPED = {'tafels-stoelen.barrels-sets', 'tafels-stoelen.bundels'}
 A = json.load(open(ASSORT))
 coverage, missing = {}, []
 for cat in A['categories']:
@@ -251,7 +275,7 @@ for cat in A['categories']:
         key = f'{cat["id"]}.{s["id"]}'
         hs = [p['handle'] for p in PRODUCTS if key in p['covers']]
         coverage[key] = hs
-        if not hs:
+        if not hs and key not in COVERAGE_DROPPED:
             missing.append(key)
 bad_cov = [f'{p["handle"]}: {k}' for p in PRODUCTS for k in p['covers'] if k not in coverage]
 errors += [f'uncovered {m}' for m in missing] + [f'bad cover key {b}' for b in bad_cov]
@@ -390,11 +414,14 @@ doc['filters'] = site.FILTERS
 # renamed product handles (merchandising review 3): catalog/build.py writes export/redirects.csv (Shopify URL redirect import)
 doc['redirects'] = [r for r in site.REDIRECTS]
 for _r in doc['redirects']:
-    if _r['to'].split('/')[-1] not in HANDLES or _r['from'].split('/')[-1] in HANDLES:
+    _to = _r['to'].split('/')[-1]
+    _ok = (_to in {c['handle'] for c in cols}) if _r['to'].startswith('/collections/') else (_to in HANDLES)
+    if not _ok or _r['from'].split('/')[-1] in HANDLES:
         errors.append(f'redirect {_r}: target missing or source still live')
 doc['copy_groups'] = [{'id': g, 'name': GROUPS[g][0], 'notes': GROUPS[g][1], 'handles': [p['handle'] for p in groups[g]],
                        'product_count': len(groups[g]), 'effort': round(sum(p['weight'] for p in groups[g]), 2)} for g in GROUPS]
 doc['coverage'] = coverage
+doc['coverage_dropped'] = sorted(COVERAGE_DROPPED)
 EXISTING_MODELS = ['easyUpTent', 'statafel', 'statafelCover', 'klaptafel', 'biertafelset', 'gewichten', 'haringen', 'spanbanden', 'wielset', 'draagtas',
                    'carpetRunner', 'seatCushion', 'sideWall',  # catalog fixes 2026-10-18
                    # parts / lighting groups (renders/models/index.js registry, 2026-10-18)

@@ -49,8 +49,16 @@ In een omgeving met een HTTP-proxy (zoals een Claude Code-cloudsessie) draai je 
 4. **Met de hand** (geen API): zet in Search & Discovery de filters aan die `docs/theme-setup.md` noemt (Gebruik, Past op,
    Met jouw logo met de labels Ja / Nee), en koppel de optie Kleur aan de categorie-metafield Kleur (swatches).
 
-Twee stappen draaien alleen als je ze noemt:
+Deze stappen draaien alleen als je ze noemt:
 
+- `catalog`: zet de producten van `products.csv` via de API in een winkel die al een oudere catalogus heeft (in plaats van een
+  nieuwe CSV-import, die oude producten en varianten laat staan). Per product: titel, tekst, type, tags, SEO, opties en
+  varianten (prijs, SKU, gewicht, doorverkopen); een variant die de CSV niet meer heeft verdwijnt. Een product met Status
+  `draft` (nog geen echte foto) wordt een concept en houdt zijn varianten en foto's; een Klapklaar-product dat niet meer in de
+  CSV staat wordt gearchiveerd (de oude link stuurt door via de redirects). Actieve producten worden in de Onlinewinkel
+  gepubliceerd. Daarna: `csvfields`, `images --prune`, `options`, `references`, `collections`, `menus`, `redirects`,
+  `shipping`. Alleen echte foto's: `catalog/build.py` (PHOTO_ONLY) zet een product zonder foto op concept, laat varianten
+  zonder eigen foto weg en haalt ze uit menu's, collecties en links.
 - `giftcard`: maakt de cadeaubon (het product met "Gift Card" TRUE in de CSV) aan, want Shopify's CSV-import slaat
   cadeaubonnen over. Zet eerst cadeaubonnen aan in Producten › Cadeaubonnen, anders weigert Shopify het. Draai daarna
   `images` en `csvfields` met `--handles cadeaubon`, en `menus` voor de footerlink.
@@ -67,7 +75,7 @@ Twee stappen draaien alleen als je ze noemt:
   Pallet en Betonblok (per blokgewicht) worden aangemaakt met hun varianten. Per land (Nederland, België) één zone met
   gewichtstarieven, precies de bedragen die de productpagina's tonen. Nodig: de scopes `write_shipping` en `read_locations`.
 
-Met `--handles a,b` beperk je `images`, `csvfields` en `giftcard` tot die producten.
+Met `--handles a,b` beperk je `catalog`, `images`, `csvfields` en `giftcard` tot die producten.
 
 Elke stap kun je los draaien (`node scripts/seed/seed.mjs references menus`) en opnieuw draaien na een wijziging in de catalogus:
 bestaande pagina's, collecties, artikelen en menu's worden bijgewerkt, niets wordt dubbel aangemaakt, en metafields worden

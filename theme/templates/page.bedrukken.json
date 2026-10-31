@@ -28,8 +28,8 @@
           "type": "step",
           "settings": {
             "icon": "tent",
-            "title": "Kies je product",
-            "text": "Tent, statafelrok of hoes. Kies maat, kleur en drukpositie."
+            "title": "Vertel wat je zoekt",
+            "text": "Product, maat, kleur, aantal en waar je logo moet komen. Via het offerteformulier of per mail."
           }
         },
         "s2": {
@@ -37,7 +37,7 @@
           "settings": {
             "icon": "upload",
             "title": "Upload je logo",
-            "text": "Bij het product, of later per mail. Geen vector? Wij maken hem drukklaar."
+            "text": "Mail je logo mee. Geen vector? Wij maken hem drukklaar."
           }
         },
         "s3": {
@@ -55,174 +55,6 @@
             "title": "Wij leveren",
             "text": "De levertijd gaat in na je akkoord: 10–15 werkdagen."
           }
-        },
-        "o1": {
-          "type": "option",
-          "settings": {
-            "product": "easy-up-partytent-premium-met-logo-op-de-luifel",
-            "image": "shopify://shop_images/easy-up-partytent-premium-met-logo-op-de-luifel-rood-hero.webp",
-            "title": "Easy-up Premium met logo op de luifel",
-            "text": "40 mm staal. Je logo rondom op de luifel of alleen op de voorkant.",
-            "link_label": "Ontwerp je tent",
-            "show_price": true,
-            "group": "Easy-up"
-          }
-        },
-        "o2": {
-          "type": "option",
-          "settings": {
-            "product": "easy-up-partytent-professional-met-logo-op-de-luifel",
-            "image": "shopify://shop_images/easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
-            "title": "Easy-up Professional met logo op de luifel",
-            "text": "50 mm aluminium, voor elke week of de verhuur. Logo rondom of voor.",
-            "link_label": "Ontwerp je tent",
-            "show_price": true,
-            "group": "Easy-up"
-          }
-        },
-        "o3": {
-          "type": "option",
-          "settings": {
-            "product": "easy-up-partytent-professional-full-colour-bedrukt",
-            "image": "shopify://shop_images/easy-up-partytent-professional-full-colour-bedrukt-hero.webp",
-            "title": "Full colour bedrukte easy-up",
-            "text": "Dak en luifel helemaal in jouw ontwerp, desnoods met drie zijwanden.",
-            "link_label": "Ontwerp je tent",
-            "show_price": true,
-            "group": "Easy-up"
-          }
-        },
-        "o4": {
-          "type": "option",
-          "settings": {
-            "product": "bedrukte-zijwand-easy-up",
-            "image": "shopify://shop_images/bedrukte-zijwand-easy-up-hero.webp",
-            "title": "Bedrukte zijwand",
-            "text": "Een wand van 2 tot 8 m als reclamevlak, bedrukt aan de buitenzijde of aan beide kanten.",
-            "link_label": "Ontwerp je wand",
-            "show_price": true,
-            "group": "Easy-up"
-          }
-        },
-        "o5": {
-          "type": "option",
-          "settings": {
-            "product": "statafelhoes-stretch-met-logo",
-            "image": "shopify://shop_images/statafelhoes-stretch-met-logo-zwart-hero.webp",
-            "title": "Statafelhoes met logo",
-            "text": "Stretch om je statafel, logo op één of twee kanten of full colour.",
-            "link_label": "Ontwerp je hoes",
-            "show_price": true,
-            "group": "Tafels en afzetten"
-          }
-        },
-        "o6": {
-          "type": "option",
-          "settings": {
-            "product": "stretchhoes-klaptafel-met-logo",
-            "image": "shopify://shop_images/stretchhoes-klaptafel-met-logo-hero.webp",
-            "title": "Klaptafelhoes met logo",
-            "text": "Stretch tot de grond, voor je stand of balie. 183 of 244 cm.",
-            "link_label": "Ontwerp je hoes",
-            "show_price": true,
-            "group": "Tafels en afzetten"
-          }
-        },
-        "o7": {
-          "type": "option",
-          "settings": {
-            "product": "bedrukt-dakzeil-easy-up",
-            "image": "shopify://shop_images/bedrukt-dakzeil-easy-up-hero.webp",
-            "title": "Bedrukt dakzeil",
-            "text": "Los dak met luifel in jouw ontwerp, voor je bestaande easy-up-frame.",
-            "link_label": "Ontwerp je dak",
-            "show_price": true,
-            "group": "Easy-up"
-          }
-        },
-        "o8": {
-          "type": "option",
-          "settings": {
-            "product": "afzetpaal-met-logo",
-            "image": "shopify://shop_images/afzetpaal-met-logo-hero.webp",
-            "title": "Afzetpaal met logo",
-            "text": "Je logo op de trekband, voor entree, rij of podium.",
-            "link_label": "Ontwerp je band",
-            "show_price": true,
-            "group": "Tafels en afzetten"
-          }
-        },
-        "o9": {
-          "type": "option",
-          "settings": {
-            "product": "stertent-enkele-mast",
-            "image": "shopify://shop_images/stertent-enkele-mast-full-colour.webp",
-            "title": "Stertent enkele mast, full colour",
-            "text": "Het hele dak in jouw ontwerp. Ø 8 tot 16 m, één aluminium mast.",
-            "link_label": "Ontwerp je stertent",
-            "group": "Grote tenten en markt",
-            "show_price": true
-          }
-        },
-        "o10": {
-          "type": "option",
-          "settings": {
-            "product": "stertent-dubbele-mast",
-            "image": "shopify://shop_images/stertent-dubbele-mast-full-colour.webp",
-            "title": "Stertent dubbele mast, full colour",
-            "text": "Twee masten, van 8 × 13 tot 13 × 21 m. Het hele dak bedrukt.",
-            "link_label": "Ontwerp je stertent",
-            "group": "Grote tenten en markt",
-            "show_price": true
-          }
-        },
-        "o11": {
-          "type": "option",
-          "settings": {
-            "product": "opblaasbare-promotietent",
-            "image": "shopify://shop_images/opblaasbare-promotietent-full-colour.webp",
-            "title": "Opblaasbare promotietent",
-            "text": "Luchtframe met een full colour dak. Van 3 × 3 tot 6 × 6 m.",
-            "link_label": "Ontwerp je tent",
-            "group": "Grote tenten en markt",
-            "show_price": true
-          }
-        },
-        "o12": {
-          "type": "option",
-          "settings": {
-            "product": "opblaasbare-promotietent-pro",
-            "image": "shopify://shop_images/opblaasbare-promotietent-pro-full-colour.webp",
-            "title": "Opblaasbare promotietent Pro",
-            "text": "Buizen van Ø 30 cm, doorloop 2,7 m. Dak in jouw ontwerp.",
-            "link_label": "Ontwerp je tent",
-            "group": "Grote tenten en markt",
-            "show_price": true
-          }
-        },
-        "o13": {
-          "type": "option",
-          "settings": {
-            "product": "marktkraam-2-m",
-            "image": "shopify://shop_images/marktkraam-2-m-bedrukte-kap.webp",
-            "title": "Marktkraam met bedrukte kap",
-            "text": "Dak en randen van de kap in full colour, op een gegalvaniseerd frame.",
-            "link_label": "Ontwerp je kap",
-            "group": "Grote tenten en markt",
-            "show_price": true
-          }
-        },
-        "o14": {
-          "type": "option",
-          "settings": {
-            "product": "beschermplaat-met-opdruk",
-            "image": "shopify://shop_images/beschermplaat-met-opdruk-hero.webp",
-            "title": "Beschermplaat met opdruk",
-            "text": "Je ontwerp onder transparant PVC, op een statafel van Ø 70, 80 of 85 cm.",
-            "link_label": "Ontwerp je plaat",
-            "group": "Tafels en afzetten",
-            "show_price": true
-          }
         }
       },
       "block_order": [
@@ -232,41 +64,30 @@
         "s1",
         "s2",
         "s3",
-        "s4",
-        "o1",
-        "o2",
-        "o3",
-        "o7",
-        "o4",
-        "o9",
-        "o10",
-        "o11",
-        "o12",
-        "o13",
-        "o5",
-        "o6",
-        "o14",
-        "o8"
+        "s4"
       ],
       "settings": {
-        "image": "shopify://shop_images/easy-up-partytent-professional-met-logo-op-de-luifel-rood-hero.webp",
-        "image_alt": "Easy-up partytent Professional in rood met voorbeeldopdruk Klapklaar op de luifel, schuin vooraanzicht",
+        "image": "shopify://shop_images/statafelrok-stretch-met-topcover-60-70-cm-zwart-foto.webp",
+        "image_alt": "Statafel met een zwarte stretchrok en topcover, zonder opdruk",
         "accent_word": "logo",
-        "cta_1_link": "shopify://collections/bedrukte-partytenten",
-        "cta_2_link": "shopify://collections/bedrukte-statafelhoezen",
-        "fallback_image": "tent-logo",
+        "cta_1_link": "shopify://pages/offerte",
+        "cta_2_link": "shopify://pages/contact",
+        "fallback_image": "none",
         "steps_text": "Van je logo tot de levering in vier stappen. Je zit nergens aan vast tot je de drukproef goedkeurt.",
-        "options_text": "Kies je product en upload je logo op de productpagina. Staat je product of maat er niet bij? Vraag een offerte aan.",
+        "options_text": "",
         "quote_heading": "Grote serie of eigen maat?",
         "quote_text": "Voor meer dan 10 stuks, een maat of vorm die niet in de winkel staat, of je hele stand in één huisstijl maken we een offerte op maat, met drukproef.",
         "quote_label": "Offerte aanvragen",
         "quote_link": "shopify://pages/offerte",
         "guide_link": "shopify://blogs/advies/logo-aanleveren-voor-bedrukking",
         "guide_label": "Lees alles over logo aanleveren",
-        "intro": "<p>Je logo op je partytent, stertent, statafelhoes of afzetpaal, of de hele tent in jouw ontwerp. Je ziet eerst een drukproef; we drukken pas na jouw akkoord.</p>",
+        "intro": "<p>Je logo op een statafelrok, een beschermplaat of een partytent: dat maken we op aanvraag. Je krijgt een voorstel met een drukproef, en we drukken pas na jouw akkoord.</p>",
         "quote_points": "Staffelprijs vanaf 10 stuks\nAfwijkende maat of vorm\nTent, wanden en statafels in één stijl",
         "quote_alt_label": "Of stel eerst je vraag",
-        "specs": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nZet tekst om naar contouren, of stuur het lettertype mee\nGeef je Pantone- of HEX-kleuren door als je die hebt"
+        "specs": "Liefst een vectorbestand: PDF, AI, EPS of SVG\nGeen vector? Een PNG van minimaal 2000 px breed\nZet tekst om naar contouren, of stuur het lettertype mee\nGeef je Pantone- of HEX-kleuren door als je die hebt",
+        "image_badge": "",
+        "cta_1_label": "Vraag een offerte aan",
+        "cta_2_label": "Stel je vraag"
       }
     },
     "faq": {

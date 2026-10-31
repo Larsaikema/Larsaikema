@@ -23,10 +23,10 @@ TAGS = {'Statafel': ['gebruik:evenement', 'gebruik:horeca', 'zakelijk'], 'Terras
         'Barkruk': ['gebruik:evenement', 'gebruik:horeca', 'zakelijk'], 'Kruk': ['gebruik:horeca', 'zakelijk'],
         'Stoel': ['gebruik:evenement', 'gebruik:horeca', 'zakelijk'], 'Bank': ['gebruik:horeca', 'zakelijk'],
         'Klaptafel': ['gebruik:evenement', 'gebruik:horeca', 'zakelijk'], 'Biertafelset': ['gebruik:evenement', 'gebruik:tuinfeest', 'zakelijk'],
-        'Bierbank': ['gebruik:evenement', 'gebruik:tuinfeest', 'zakelijk'], 'Statafelrok': ['gebruik:evenement', 'gebruik:bruiloft', 'zakelijk'],
-        'Topcover': ['gebruik:evenement', 'zakelijk'], 'Statafelhoes met strik': ['gebruik:bruiloft', 'gebruik:evenement', 'zakelijk'],
-        'Beschermplaat': ['gebruik:evenement', 'zakelijk'], 'Tafelhoes': ['gebruik:evenement', 'zakelijk'], 'Statafelkleed': ['gebruik:bruiloft'],
-        'Stoelhoes': ['gebruik:bruiloft', 'zakelijk'], 'Afzetpaal': ['gebruik:evenement', 'zakelijk'], 'Transportkar': ['zakelijk'],
+        'Bierbank': ['gebruik:evenement', 'gebruik:tuinfeest', 'zakelijk'], 'Statafelrok': ['gebruik:evenement', 'zakelijk'],
+        'Topcover': ['gebruik:evenement', 'zakelijk'], 'Statafelhoes met strik': ['gebruik:evenement', 'zakelijk'],
+        'Beschermplaat': ['gebruik:evenement', 'zakelijk'], 'Tafelhoes': ['gebruik:evenement', 'zakelijk'], 'Statafelkleed': ['gebruik:evenement'],
+        'Stoelhoes': ['gebruik:evenement', 'zakelijk'], 'Afzetpaal': ['gebruik:evenement', 'zakelijk'], 'Transportkar': ['zakelijk'],
         'Meubelonderdeel': ['zakelijk']}
 # weight per piece when the data gives none (kg, ex packaging); shipping classes follow from it (kk_ship). Owner claim.
 KG = {'Statafel': 13.0, 'Terrastafel': 11.0, 'Barkruk': 5.5, 'Kruk': 3.5, 'Stoel': 4.5, 'Bank': 9.0, 'Klaptafel': 15.0,
@@ -37,6 +37,11 @@ STAFFEL = {'Statafel': ST_MEUBEL, 'Terrastafel': ST_MEUBEL, 'Barkruk': ST_MEUBEL
            'Statafelhoes met strik': ST_TEXTIEL, 'Beschermplaat': ST_TEXTIEL, 'Tafelhoes': ST_TEXTIEL, 'Statafelkleed': ST_TEXTIEL,
            'Stoelhoes': ST_TEXTIEL, 'Afzetpaal': ST_GROOT, 'Transportkar': ST_GROOT, 'Meubelonderdeel': None}
 REF_KEYS = ('addons', 'past_op', 'andere_maten', 'addon_eenmalig')
+# the assortment bar (reference/assortment.json) categories each type covers
+COVERS = {'Statafel': ['tafels-stoelen.statafels'], 'Terrastafel': ['tafels-stoelen.terrastafels'], 'Barkruk': ['tafels-stoelen.barkrukken'],
+          'Kruk': ['tafels-stoelen.barkrukken'], 'Stoel': ['tafels-stoelen.stoelen'], 'Bank': ['tafels-stoelen.banken'],
+          'Biertafelset': ['tafels-stoelen.biertafels'], 'Bierbank': ['tafels-stoelen.biertafels', 'tafels-stoelen.banken'],
+          'Topcover': ['statafelrokken-hoezen.topcovers'], 'Beschermplaat': ['statafelrokken-hoezen.beschermplaten']}
 
 
 def _kg(p, ptype):
@@ -128,16 +133,21 @@ def apply(errors, redirects):
              'options': [opt(o['name'], o['values']) for o in np.get('options') or []], 'variants': variants, 'images': [],
              'metafields': {'specificaties': specs, 'staffelkorting': [dict(t) for t in STAFFEL[ptype]] if STAFFEL.get(ptype) else None,
                             'gewicht_kg': kg, 'garantie': None},
-             'covers': [], 'family': FAMILY.get(ptype, 'meubilair'), 'weight': 2, 'supplier': 'mebu',
+             'covers': list(COVERS.get(ptype, [])), 'family': FAMILY.get(ptype, 'meubilair'), 'weight': 2, 'supplier': 'mebu',
              'copy_brief': np.get('brief') or f"{np['title']}: supplier model, options and specs as in catalog/mebu/assortment.json.",
              'seo_keywords': np.get('seo_keywords') or [np['title'].lower()], 'price_ref': {'market': 'gelijk aan de markt (owner 2026-10-31)'}})
     # every old URL goes to its successor, or to the collection of its kind
     kinds = {'Statafel': 'statafels', 'Terrastafel': 'terrastafels', 'Barkruk': 'barkrukken', 'Stoel': 'stoelen-en-banken',
              'Kruk': 'stoelen-en-banken', 'Bank': 'stoelen-en-banken', 'Klaptafel': 'tafels', 'Transportkar': 'transportkarren',
              'Pakket': 'actiepakketten'}
+    def new_to(h):
+        return f'/products/{successor[h]}' if h in successor else f"/collections/{kinds.get(removed_type.get(h), 'meubilair')}"
+    for r in redirects:  # an older redirect that pointed at a product that is now gone points at its successor
+        t = r['to'].split('/')[-1]
+        if r['to'].startswith('/products/') and t in removed and t not in HANDLES:
+            r['to'] = new_to(t)
     for h in sorted(removed):
         if h in HANDLES:
             continue  # handle reused by its successor: the URL stays
-        to = f'/products/{successor[h]}' if h in successor else f"/collections/{kinds.get(removed_type.get(h), 'meubilair')}"
-        redirects.append({'from': f'/products/{h}', 'to': to})
+        redirects.append({'from': f'/products/{h}', 'to': new_to(h)})
     return removed, successor

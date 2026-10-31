@@ -649,3 +649,38 @@ bevestig ze met de leverancier vóór de lancering, of haal de kleur uit de keuz
 - **Stretchtenten** in wit en zwart (de referentie voert alleen taupe en zandkleur).
 - **Hypar schaduwzeil** in 6 kleuren.
 - Nieuw in deze ronde: stertent dubbele mast in zwart, verbindingsstrook in 7 kleuren, lopers in roze, bordeaux en zandkleur.
+
+## Statafels en meubilair van de leverancier, alleen echte foto's (31 oktober 2026)
+
+Het statafel-, meubel- en statafeltextielassortiment is opnieuw opgebouwd uit het assortiment van de leverancier
+(`catalog/mebu/assortment.json`, 82 producten, prijzen gelijk aan de markt incl. btw), met de foto's van de leverancier. In de winkel
+staat alleen wat een echte foto heeft (`PHOTO_ONLY` in `catalog/build.py`): een product zonder foto is een concept, een variant
+zonder eigen foto staat er (nog) niet in. Per product staan de punten om te controleren in `catalog/catalog.json` → `claims`.
+
+### Te controleren
+- **Stretchrok met topcover en losse topcover**: alle varianten staan op de vanaf-prijs (€ 33,82 en € 13,25); in de markt loopt de
+  prijs per kleur en maat op tot € 58,71. Geef de echte prijs per variant door.
+- **Afzetpaal met oprolbare trekband** (€ 146,35): de leverancier verkoopt hem per set van 2. Is de prijs per set? Dan moet
+  "set van 2" ook in de titel.
+- **Zithoogtes die de bronnen verschillend geven**: barkruk met rugleuning 76 of 80 cm, stapelstoel kunststof rechte rug 43 of
+  46 cm. Gebruikt: 76 en 43 cm.
+- **Statafelrok met strik**: past op Ø 70–90 cm (assortiment) of Ø 80–85 cm (artikel van de leverancier)?
+- **Binnen of buiten**: voor de barkrukken met kunstleer, de velours stoel, de cross back, de banquetstoel, de houten klapstoel
+  met rotan en de kunststof klapstoel zegt geen bron het; de tekst adviseert binnen of overdekt.
+- **Capaciteit van transportkarren**: onbekend voor de karren voor bankettafels (rond en rechthoekig) en voor biertafelsets
+  220 cm; de maten van de kar voor statafels met kantelblad (160 × 60 × 25 cm) lijken te laag.
+- **Klapstoelen met 22 mm buis**: de transportkar voor 33 klapstoelen, de voetdop 22 mm en de stoelverbinder 22 mm passen op een
+  klapstoel die Klapklaar niet verkoopt. Houden of weghalen?
+- **Prijs**: statafel stapelbaar industrieel in zwart metaal kost in 70 × 70 cm (€ 143,93) minder dan in 60 × 60 cm (€ 146,35).
+
+### Foto's die nog ontbreken
+- 145 producten staan als concept omdat er geen echte foto van is (o.a. de Easy-up Premium, de bedrukte producten, verlichting,
+  verwarming, de pakketten) en 445 varianten ontbreken omdat hun kleur of uitvoering geen eigen foto heeft. De lijst:
+  `catalog/catalog.json` (`status: draft`, en per product `variants_without_photo`).
+- Van de leverancier ontbreken o.a. de losse topcovers, de statafelrok in Nederland-thema, het statafelkleed en de stoelhoes.
+  Vraag de leverancier om toegang tot de beeldbank voor dealers; met een foto in `catalog/photos.json` komt het product of de
+  variant vanzelf terug.
+- **Bedrukken**: de bedrukte producten zijn concepten tot er echte foto's zijn; de pagina Bedrukken biedt het op aanvraag aan
+  (offerte).
+- **Adviesartikelen over wat de winkel nu niet toont** (opslagtent kiezen, schaduwdoek, prikkabel op maat): ze staan nog online,
+  de links naar die producten zijn tekst geworden. Laten staan of offline halen?

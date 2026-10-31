@@ -6,52 +6,12 @@
         "size-1": {
           "type": "size",
           "settings": {
-            "group": "Partytent",
-            "label": "3 × 3 m",
-            "link": "/collections/partytenten?filter.v.option.maat=3+x+3+m"
-          }
-        },
-        "size-2": {
-          "type": "size",
-          "settings": {
-            "group": "Partytent",
-            "label": "3 × 4,5 m",
-            "link": "/collections/partytenten?filter.v.option.maat=3+x+4%2C5+m"
-          }
-        },
-        "size-3": {
-          "type": "size",
-          "settings": {
-            "group": "Partytent",
-            "label": "3 × 6 m",
-            "link": "/collections/partytenten?filter.v.option.maat=3+x+6+m"
-          }
-        },
-        "size-4": {
-          "type": "size",
-          "settings": {
-            "group": "Partytent",
-            "label": "4 × 4 m",
-            "link": "/collections/partytenten?filter.v.option.maat=4+x+4+m"
-          }
-        },
-        "size-5": {
-          "type": "size",
-          "settings": {
-            "group": "Partytent",
-            "label": "4 × 8 m",
-            "link": "/collections/partytenten?filter.v.option.maat=4+x+8+m"
-          }
-        },
-        "size-6": {
-          "type": "size",
-          "settings": {
             "group": "Statafel",
             "label": "Ø 70 cm",
             "link": "/collections/statafels?filter.v.option.maat=%C3%9870+cm"
           }
         },
-        "size-7": {
+        "size-2": {
           "type": "size",
           "settings": {
             "group": "Statafel",
@@ -59,12 +19,52 @@
             "link": "/collections/statafels?filter.v.option.maat=%C3%9880+cm"
           }
         },
-        "size-8": {
+        "size-3": {
           "type": "size",
           "settings": {
             "group": "Statafel",
             "label": "Ø 85 cm",
             "link": "/collections/statafels?filter.v.option.maat=%C3%9885+cm"
+          }
+        },
+        "size-4": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "60 × 60 cm",
+            "link": "/collections/statafels?filter.v.option.maat=60+x+60+cm"
+          }
+        },
+        "size-5": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "80 × 80 cm",
+            "link": "/collections/statafels?filter.v.option.maat=80+x+80+cm"
+          }
+        },
+        "size-6": {
+          "type": "size",
+          "settings": {
+            "group": "Statafel",
+            "label": "120 × 70 cm",
+            "link": "/collections/statafels?filter.v.option.maat=120+x+70+cm"
+          }
+        },
+        "size-7": {
+          "type": "size",
+          "settings": {
+            "group": "Statafelrok",
+            "label": "Ø 60–70 cm",
+            "link": "/collections/statafelrokken?filter.v.option.maat=%C3%9860-70+cm"
+          }
+        },
+        "size-8": {
+          "type": "size",
+          "settings": {
+            "group": "Statafelrok",
+            "label": "Ø 80–85 cm",
+            "link": "/collections/statafelrokken?filter.v.option.maat=%C3%9880-85+cm"
           }
         }
       },
@@ -81,21 +81,22 @@
       "settings": {
         "color_scheme": "scheme-3",
         "layout": "image-right",
-        "image": "shopify://shop_images/scene-hero.webp",
-        "eyebrow": "Partytenten · Statafels · Met jouw logo",
+        "image": "shopify://shop_images/statafelrok-stretch-met-topcover-60-70-cm-zwart-foto.webp",
+        "eyebrow": "Statafels · Rokken & hoezen · Meubilair",
         "heading": "Uitklappen. Neerzetten. *Feest.*",
-        "text": "<p>Easy-up tenten, statafels met rokken, verlichting en meubilair. Voor je tuinfeest, je club of je evenement.</p>",
-        "button_1_label": "Bekijk partytenten",
-        "button_1_link": "shopify://collections/partytenten",
-        "button_2_label": "Naar statafels",
-        "button_2_link": "shopify://collections/statafels",
+        "text": "<p>Statafels, stretchrokken, barkrukken en stoelen voor je zaak, je evenement of je feest. Staffelprijs vanaf 10 stuks.</p>",
+        "button_1_label": "Bekijk statafels",
+        "button_1_link": "shopify://collections/statafels",
+        "button_2_label": "Rokken & hoezen",
+        "button_2_link": "shopify://collections/statafelrokken",
         "subline": "<p>Voor bedrijf, club of verhuur? <a href=\"/pages/offerte\">Vraag een offerte op maat aan.</a></p>",
         "product": "easy-up-partytent-premium-3x3",
         "product_collection": "easy-up-premium",
         "product_label": "Easy-up partytent Premium 3 × 3 m",
-        "image_alt": "Witte easy-up partytent met voorbeeldopdruk Klapklaar op de luifel, daaronder een statafel met een zwarte stretchrok en een met een witte hoes met strik",
+        "image_alt": "Statafel met een zwarte stretchrok en topcover",
         "sizes_heading": "Snel naar je maat",
-        "badge": "Voorbeeldopdruk"
+        "badge": "Voorbeeldopdruk",
+        "fallback_image": "none"
       }
     },
     "categories": {
@@ -104,83 +105,74 @@
         "c1": {
           "type": "collection",
           "settings": {
-            "collection": "easy-up-partytenten",
-            "benefit": "Staat in een paar minuten, met twee man",
-            "price_product": "easy-up-partytent-premium-3x3"
+            "collection": "statafels",
+            "benefit": "Rond en vierkant, inklapbaar of stapelbaar",
+            "price_product": "statafel-inklapbaar-klassiek"
           }
         },
         "c2": {
           "type": "collection",
           "settings": {
-            "collection": "statafels",
-            "benefit": "Rond Ø 70–85 cm, ook vierkant en rechthoekig",
-            "price_product": "statafel-inklapbaar-hdpe-80"
+            "collection": "statafelrokken",
+            "title": "Rokken & hoezen",
+            "benefit": "Stretch in 21 kleuren, of een rok met strik",
+            "price_product": "statafelrok-stretch-met-topcover"
           }
         },
         "c3": {
           "type": "collection",
           "settings": {
-            "collection": "statafelrokken",
-            "title": "Rokken & hoezen",
-            "benefit": "Stretch in 24 kleuren, of een hoes met strik",
-            "price_product": "statafelrok-stretch"
+            "collection": "barkrukken",
+            "benefit": "Stapelbaar, inklapbaar of met rugleuning",
+            "price_product": "barkruk-metaal-stapelbaar"
           }
         },
         "c4": {
           "type": "collection",
           "settings": {
-            "collection": "bedrukte-partytenten",
-            "title": "Met jouw logo",
-            "benefit": "Eerst een drukproef, dan drukken we",
-            "price_product": "easy-up-partytent-premium-met-logo-op-de-luifel"
+            "collection": "stoelen-en-banken",
+            "title": "Stoelen",
+            "benefit": "Stapelstoelen, klapstoelen en banquetstoelen",
+            "price_product": "klapstoel-kunststof"
           }
         },
         "p1": {
           "type": "link",
           "settings": {
-            "collection": "stretchtenten"
+            "collection": "terrastafels"
           }
         },
         "p2": {
           "type": "link",
           "settings": {
-            "collection": "overkappingen-en-schaduwdoeken",
-            "title": "Overkappingen"
+            "collection": "tafels"
           }
         },
         "p3": {
           "type": "link",
           "settings": {
-            "collection": "accessoires"
+            "collection": "transportkarren"
           }
         },
         "p4": {
           "type": "link",
           "settings": {
-            "collection": "meubilair"
+            "collection": "statafel-onderdelen"
           }
         },
         "p5": {
           "type": "link",
           "settings": {
-            "collection": "verlichting"
+            "collection": "evenement"
           }
         },
         "p6": {
           "type": "link",
           "settings": {
-            "collection": "actiepakketten"
+            "collection": "partytenten"
           }
         },
         "o1": {
-          "type": "occasion",
-          "settings": {
-            "label": "Tuinfeest",
-            "link": "/collections/all?filter.p.m.custom.gebruik=Tuinfeest",
-            "icon": "flag"
-          }
-        },
-        "o2": {
           "type": "occasion",
           "settings": {
             "label": "Horeca en terras",
@@ -188,20 +180,20 @@
             "icon": "table"
           }
         },
-        "o3": {
+        "o2": {
           "type": "occasion",
           "settings": {
             "label": "Evenement",
             "link": "/collections/all?filter.p.m.custom.gebruik=Evenement",
-            "icon": "tent"
+            "icon": "flag"
           }
         },
-        "o4": {
+        "o3": {
           "type": "occasion",
           "settings": {
-            "label": "Markt",
-            "link": "/collections/all?filter.p.m.custom.gebruik=Markt",
-            "icon": "pin"
+            "label": "Tuinfeest",
+            "link": "/collections/all?filter.p.m.custom.gebruik=Tuinfeest",
+            "icon": "tent"
           }
         }
       },
@@ -218,8 +210,7 @@
         "p6",
         "o1",
         "o2",
-        "o3",
-        "o4"
+        "o3"
       ],
       "settings": {
         "heading": "Wat zet jij neer?",
@@ -260,10 +251,10 @@
         "u3": {
           "type": "usp",
           "settings": {
-            "icon": "proof",
-            "title": "Eerst een drukproef",
-            "text": "Bij elk product met logo",
-            "link": "shopify://pages/bedrukken"
+            "icon": "table",
+            "title": "Staffelprijs vanaf 10 stuks",
+            "text": "Op statafels, stoelen, barkrukken en textiel",
+            "link": "shopify://pages/zakelijk"
           }
         },
         "u4": {
@@ -287,74 +278,6 @@
         "label": "Waarom Klapklaar",
         "mobile_list": true,
         "show_flags": true
-      }
-    },
-    "logo": {
-      "type": "image-with-text",
-      "blocks": {
-        "e": {
-          "type": "eyebrow",
-          "settings": {
-            "text": "Met jouw logo"
-          }
-        },
-        "h": {
-          "type": "heading",
-          "settings": {
-            "heading": "Je naam op de luifel. Eerst zien, dan drukken."
-          }
-        },
-        "t": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Voor je club, je zaak of je evenement: we drukken je logo op de luifel van een easy-up of op het voorpaneel van een statafelrok.</p>"
-          }
-        },
-        "s": {
-          "type": "steps",
-          "settings": {
-            "step_1": "Kies je product en upload je logo",
-            "step_2": "Je krijgt een drukproef ter akkoord",
-            "step_3": "Na je akkoord drukken en leveren we"
-          }
-        },
-        "b": {
-          "type": "buttons",
-          "settings": {
-            "label_1": "Ontwerp je tent",
-            "link_1": "shopify://collections/bedrukte-partytenten",
-            "label_2": "Zo werkt bedrukken",
-            "link_2": "shopify://pages/bedrukken"
-          }
-        },
-        "p": {
-          "type": "products",
-          "settings": {
-            "heading": "Wat we voor je bedrukken, bijvoorbeeld",
-            "products": [
-              "easy-up-partytent-premium-met-logo-op-de-luifel",
-              "statafelhoes-stretch-met-logo",
-              "bedrukte-zijwand-easy-up"
-            ]
-          }
-        }
-      },
-      "block_order": [
-        "e",
-        "h",
-        "t",
-        "s",
-        "p",
-        "b"
-      ],
-      "settings": {
-        "color_scheme": "scheme-2",
-        "image": "shopify://shop_images/tent-3x3-rood-logo-hero.webp",
-        "badge": "Voorbeeldopdruk",
-        "layout": "image-left",
-        "fallback_image": "tent-logo",
-        "image_fit": "contain",
-        "mobile_compact": true
       }
     },
     "zakelijk": {
@@ -383,7 +306,7 @@
           "settings": {
             "icon": "proof",
             "title": "Offerte op maat",
-            "text": "Voor grote aantallen, bedrukking en levering op locatie"
+            "text": "Voor grote aantallen en levering op locatie"
           }
         }
       },
@@ -394,9 +317,9 @@
       ],
       "settings": {
         "color_scheme": "scheme-4",
-        "image": "shopify://shop_images/scene-zakelijk.webp",
-        "fallback_image": "scene-zakelijk",
-        "image_alt": "Zwarte easy-up partytent 3 × 6 m met voorbeeldopdruk Klapklaar op de luifel, daaronder vier statafels met zwarte stretchrok en logo",
+        "image": "shopify://shop_images/statafel-stapelbaar-industrieel-70-x-70-cm-eiken-foto.webp",
+        "fallback_image": "none",
+        "image_alt": "Stapelbare industriële statafel met een houten blad op een zwart metalen onderstel",
         "heading": "Voor horeca, evenementen, verhuur en verenigingen",
         "text": "<p>Prijzen excl. btw, staffelprijzen bij grotere aantallen en een offerte op maat.</p>"
       }
@@ -413,38 +336,37 @@
     "promos": {
       "type": "promo-tiles",
       "blocks": {
-        "pakketten": {
+        "karren": {
           "type": "promo",
           "settings": {
-            "eyebrow": "Pakketten",
-            "heading": "Alles voor je feest in één pakket",
-            "text": "Statafels met rokken, een tent met zijwanden of een terrasset met barkrukken: in één keer besteld.",
-            "collection": "actiepakketten",
-            "button_label": "Bekijk de pakketten",
-            "price_product": "pakket-statafel-hdpe-met-stretchrok"
+            "eyebrow": "Transportkarren",
+            "heading": "Veel tafels of stoelen? Rij ze in één keer weg",
+            "text": "Karren voor statafels, barkrukken, stoelen en bankettafels, per model de kar die past.",
+            "collection": "transportkarren",
+            "button_label": "Bekijk de transportkarren",
+            "price_product": "steekwagen-banquetstoelen"
           }
         },
-        "maatwerk": {
+        "terras": {
           "type": "promo",
           "settings": {
-            "eyebrow": "Op maat",
-            "heading": "Een zeil dat precies past",
-            "text": "Voor je veranda, carport of terras. Vul breedte en hoogte in, tot 10 m breed: de configurator rekent de prijs uit.",
-            "product": "overkappingzeil-op-maat",
-            "unit": "m²",
-            "image": "shopify://shop_images/overkappingzeil-op-maat-antraciet-hero.webp",
-            "button_label": "Stel je zeil samen"
+            "eyebrow": "Terrastafels",
+            "heading": "Dezelfde modellen, op tafelhoogte",
+            "text": "Terrastafels in de series van onze statafels: inklapbaar, stapelbaar of met kantelblad.",
+            "collection": "terrastafels",
+            "button_label": "Bekijk de terrastafels",
+            "price_product": "terrastafel-inklapbaar-met-afneembaar-blad"
           }
         }
       },
       "block_order": [
-        "pakketten",
-        "maatwerk"
+        "karren",
+        "terras"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "heading": "",
-        "a11y_heading": "Pakketten en zeilen op maat"
+        "a11y_heading": "Transportkarren en terrastafels"
       }
     },
     "visit": {
@@ -464,64 +386,31 @@
             "label": "Easy-up",
             "link_label": "Alle easy-up partytenten",
             "products": [
-              "easy-up-partytent-premium-3x3",
-              "easy-up-partytent-premium-3x4-5",
-              "easy-up-partytent-premium-3x6",
-              "easy-up-partytent-professional-3x3"
+              "easy-up-partytent-professional-3x3",
+              "easy-up-partytent-professional-3x6",
+              "easy-up-partytent-professional-4x4",
+              "zijwandenset-easy-up"
             ]
           }
         },
         "t2": {
           "type": "tab",
           "settings": {
-            "collection": "partytenten-buizenframe",
-            "label": "Buizenframe",
-            "link_label": "Alle tenten met buizenframe"
-          }
-        },
-        "t3": {
-          "type": "tab",
-          "settings": {
-            "collection": "stretchtenten",
-            "label": "Stretchtenten",
-            "link_label": "Alles voor stretchtenten"
-          }
-        },
-        "t4": {
-          "type": "tab",
-          "settings": {
-            "collection": "ster-en-opblaasbare-tenten",
-            "label": "Ster & opblaasbaar",
-            "link_label": "Alle ster- en opblaasbare tenten"
-          }
-        },
-        "t5": {
-          "type": "tab",
-          "settings": {
-            "collection": "partytent-onderdelen",
-            "label": "Zijwanden & onderdelen",
-            "link_label": "Alle zijwanden en onderdelen",
-            "products": [
-              "zijwandenset-easy-up",
-              "zijwand-easy-up-met-raam",
-              "voetgewicht-partytent-15-kg",
-              "spanbanden-en-haringen-easy-up"
-            ]
+            "collection": "partytenten",
+            "label": "Alle tenten",
+            "link_label": "Alle partytenten"
           }
         }
       },
       "block_order": [
         "t1",
-        "t2",
-        "t3",
-        "t4",
-        "t5"
+        "t2"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Partytenten",
-        "heading": "Kies je partytent",
-        "text": "Easy-up in 8 maten, met een frame van staal of aluminium. Voor grotere feesten: buizenframe, stretch en ster. Zijwanden en gewichten erbij.",
+        "heading": "Ook een tent erbij?",
+        "text": "Easy-up partytenten met een aluminium frame, een tent met buizenframe en een complete stretchtent. Met zijwanden erbij.",
         "limit": 4,
         "columns": 4,
         "link_prefix": "Alle"
@@ -557,9 +446,9 @@
         "t4": {
           "type": "tab",
           "settings": {
-            "collection": "actiepakketten",
-            "label": "Pakketten",
-            "link_label": "Alle pakketten"
+            "collection": "stoelen-en-banken",
+            "label": "Stoelen",
+            "link_label": "Alle stoelen"
           }
         }
       },
@@ -572,8 +461,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Statafels",
-        "heading": "Statafels, rokken en barkrukken",
-        "text": "Statafel Ø 70, 80 of 85 cm, met een stretchrok of een hoes met strik. Meer nodig voor je zaak of evenement? Vraag een staffelprijs op offerte.",
+        "heading": "Statafels, rokken, barkrukken en stoelen",
+        "text": "Inklapbaar, stapelbaar of met kantelblad, rond en vierkant. Met een stretchrok of een rok met strik. Meer nodig voor je zaak of evenement? Vraag een offerte aan.",
         "limit": 4,
         "columns": 4,
         "link_prefix": "Alle"
@@ -585,16 +474,16 @@
         "g1": {
           "type": "guide",
           "settings": {
-            "icon": "ruler",
-            "title": "Welke maat partytent?",
-            "text": "Hoeveel gasten per maat, zittend en staand",
-            "link": "shopify://pages/maatadvies-partytenten"
+            "icon": "table",
+            "title": "Hoeveel statafels heb ik nodig?",
+            "text": "Per gast en per soort feest uitgerekend",
+            "link": "shopify://blogs/advies/hoeveel-statafels-per-gast"
           }
         },
         "g2": {
           "type": "guide",
           "settings": {
-            "icon": "table",
+            "icon": "ruler",
             "title": "Welke statafelrok past?",
             "text": "Meet je blad: Ø 60–70 of Ø 80–85 cm",
             "link": "shopify://pages/maatadvies-statafelrokken"
@@ -604,9 +493,9 @@
           "type": "guide",
           "settings": {
             "icon": "tent",
-            "title": "Premium of Professional?",
-            "text": "Staal of aluminium: de cijfers naast elkaar",
-            "link": "shopify://pages/verschil-partytenten"
+            "title": "Welke maat partytent?",
+            "text": "Hoeveel gasten per maat, zittend en staand",
+            "link": "shopify://pages/maatadvies-partytenten"
           }
         },
         "g4": {
@@ -628,8 +517,8 @@
         "q2": {
           "type": "question",
           "settings": {
-            "question": "Welke maat partytent heb ik nodig?",
-            "answer": "<p>Reken op ongeveer 1 gast per m² aan tafel en 1,5 staand. Een 3 × 3 m tent is genoeg voor ca. 9 gasten aan tafel of 13 staand, een 3 × 6 m voor ca. 18 aan tafel of 27 staand. Komt er een buffet of bar in, neem dan een maat groter. Alle maten staan in het <a href=\"/pages/maatadvies-partytenten\">maatadvies partytenten</a>.</p>"
+            "question": "Welke statafelrok past op mijn statafel?",
+            "answer": "<p>Meet het blad van rand tot rand, door het midden. Bij een blad van Ø 60 tot 70 cm kies je de rok in maat Ø60-70 cm, bij Ø 80 tot 85 cm de maat Ø80-85 cm. Twijfel je, kijk dan in het <a href=\"/pages/maatadvies-statafelrokken\">maatadvies statafelrokken</a>.</p>"
           }
         },
         "q3": {
@@ -642,8 +531,8 @@
         "q4": {
           "type": "question",
           "settings": {
-            "question": "Hoe werkt bedrukken met mijn logo?",
-            "answer": "<p>Je uploadt je logo bij het product. Wij sturen een drukproef en pas na jouw akkoord drukken we. De levertijd gaat in na je akkoord.</p>"
+            "question": "Is er een staffelprijs?",
+            "answer": "<p>Ja. Op statafels, stoelen, barkrukken en textiel krijg je korting vanaf 10 stuks, op klaptafels en biertafels vanaf 5. De staffel staat op elke productpagina. Voor grotere aantallen maken we een offerte op maat.</p>"
           }
         }
       },
@@ -661,7 +550,7 @@
         "color_scheme": "scheme-1",
         "eyebrow": "Hulp bij kiezen",
         "heading": "Twijfel je? We rekenen het voor je uit.",
-        "text": "Maatgidsen, de verschillen op een rij en antwoord op wat bijna iedereen vraagt.",
+        "text": "Maatgidsen en antwoord op wat bijna iedereen vraagt.",
         "ask_heading": "Staat je vraag er niet bij?",
         "faq_heading": "Veelgestelde vragen",
         "faq_link_label": "Alle veelgestelde vragen"
@@ -672,11 +561,10 @@
     "hero",
     "usps",
     "categories",
-    "tents",
-    "promos",
-    "logo",
     "tafels",
+    "promos",
     "zakelijk",
+    "tents",
     "visit",
     "help",
     "blog"
